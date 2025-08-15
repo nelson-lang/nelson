@@ -4,6 +4,8 @@ modules/sio_client/src/socket_io/lib
 modules/commons/src/include/nlohmann
 modules/stream_manager/tests/bench_fileread.json
 modules/json/tests/bench_jsonencode.json
+modules/json/src/cpp/simdjson.cpp
+modules/json/src/cpp/simdjson.h
 bin/
 **/CMakeFiles/
 tools/doxygen/nelson_doxygen

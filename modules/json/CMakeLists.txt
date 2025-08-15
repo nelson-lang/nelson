@@ -22,13 +22,11 @@ target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
-  PRIVATE ${EIGEN3_INCLUDE_DIR}
-          ${Boost_INCLUDE_DIRS}
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/c
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
@@ -41,6 +39,7 @@ target_include_directories(
 target_link_libraries(${module_library_name}
   PRIVATE
     nlsCharacters_encoding 
+    nlsNelson_manager
     nlsCommons
     nlsI18n 
     nlsTypes)

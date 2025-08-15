@@ -13,7 +13,12 @@
 #include "nlsJson_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 NLSJSON_IMPEXP ArrayOf
-jsonDecode(const std::wstring& stringToDecode, std::wstring& errorMessage);
+jsonDecode(const std::string& stringToDecode, std::string& errorMessage);
+//=============================================================================
+NLSJSON_IMPEXP ArrayOf
+jsonDecodeFile(const std::wstring& filename, std::string& errorMessage);
+//=============================================================================
 };
 //=============================================================================

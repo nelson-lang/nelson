@@ -22,14 +22,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - missing type support for increase compatibility.
 - `missing` function: Create missing values.
 - `renameStructField`: Rename field in a structure.
+- `jsondecode(filename, '-file')`: '-file' argument to read file directly.
 
 ### Changed
 
+- `jsondecode`: speed boost using [simdjson](https://simdjson.org/).
 - `fileread`: performance boost when reading large files.
 - i18nExtractor reworked (faster and modernized).
 - Browser variable reworked.
 - thirdparty on windows (hdf5, zlib, matio).
 - Qt 6.9.1 on Windows x64.
+- bench_jsonencode.json updated with bigger data.
 
 ### Fixed
 

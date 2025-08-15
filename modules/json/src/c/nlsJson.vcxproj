@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING;_DEBUG;_WINDOWS;_USRDLL;NLSJSON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/json/src/cpp;$(SolutionDir)modules/json/src/c;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/json/src/cpp;$(SolutionDir)modules/json/src/c;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/i18n/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -115,7 +115,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING;_DEBUG;_WINDOWS;_USRDLL;NLSJSON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/json/src/cpp;$(SolutionDir)modules/json/src/c;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/json/src/cpp;$(SolutionDir)modules/json/src/c;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/i18n/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -137,7 +137,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING;NDEBUG;_WINDOWS;_USRDLL;NLSJSON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/json/src/cpp;$(SolutionDir)modules/json/src/c;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/json/src/cpp;$(SolutionDir)modules/json/src/c;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/i18n/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -161,7 +161,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING;NDEBUG;_WINDOWS;_USRDLL;NLSJSON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/json/src/cpp;$(SolutionDir)modules/json/src/c;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/json/src/cpp;$(SolutionDir)modules/json/src/c;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/i18n/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -186,6 +186,9 @@
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
+      <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
     </ProjectReference>
@@ -205,15 +208,15 @@
     <ClCompile Include="..\cpp\JsonPrettyPrint.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\JsonVariable.cpp" />
-    <ClCompile Include="jsmn.c" />
+    <ClCompile Include="..\cpp\simdjson.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\simdjson.h" />
     <ClInclude Include="..\include\JsonEncode.hpp" />
     <ClInclude Include="..\include\JsonDecode.hpp" />
     <ClInclude Include="..\include\JsonPrettyPrint.hpp" />
     <ClInclude Include="..\include\JsonVariable.hpp" />
     <ClInclude Include="..\include\nlsJson_exports.h" />
-    <ClInclude Include="jsmn.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
