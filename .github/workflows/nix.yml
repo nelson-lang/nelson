@@ -7,7 +7,7 @@ jobs:
   nix_build:
     name: ${{ matrix.label }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 60
+    timeout-minutes: 90
     strategy:
       fail-fast: false
       matrix:
@@ -16,10 +16,15 @@ jobs:
             label: "Ubuntu Latest"
           - os: ubuntu-24.04-arm
             label: "Ubuntu ARM64 Latest"
-          - os: macos-latest
-            label: "macOS Latest"
+          - os: macos-14
+            label: "macOS 14"
 
     steps:
+      - name: Update Homebrew (macOS only)
+        if: runner.os == 'macOS'
+        run: |
+          brew update
+          brew upgrade
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Install Nix
