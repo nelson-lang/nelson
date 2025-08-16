@@ -2,9 +2,9 @@
  * rapidcsv.h
  *
  * URL:      https://github.com/d99kris/rapidcsv
- * Version:  8.84
+ * Version:  8.88
  *
- * Copyright (C) 2017-2024 Kristofer Berggren
+ * Copyright (C) 2017-2025 Kristofer Berggren
  * All rights reserved.
  *
  * rapidcsv is distributed under the BSD 3-Clause license, see LICENSE for details.
@@ -715,7 +715,13 @@ public:
         const size_t dataColumnIdx = GetDataColumnIndex(pColumnIdx);
         for (auto itRow = mData.begin(); itRow != mData.end(); ++itRow) {
             if (std::distance(mData.begin(), itRow) >= mLabelParams.mColumnNameIdx) {
-                itRow->erase(itRow->begin() + static_cast<int>(dataColumnIdx));
+                if (dataColumnIdx < itRow->size()) {
+                    itRow->erase(itRow->begin() + static_cast<int>(dataColumnIdx));
+                } else {
+                    const std::string errStr = "column out of range: " + std::to_string(pColumnIdx)
+                        + " (on row " + std::to_string(std::distance(mData.begin(), itRow)) + ")";
+                    throw std::out_of_range(errStr);
+                }
             }
         }
 
@@ -776,7 +782,14 @@ public:
         for (auto itRow = mData.begin(); itRow != mData.end(); ++itRow) {
             if (std::distance(mData.begin(), itRow) >= mLabelParams.mColumnNameIdx) {
                 const size_t rowIdx = static_cast<size_t>(std::distance(mData.begin(), itRow));
-                itRow->insert(itRow->begin() + static_cast<int>(dataColumnIdx), column.at(rowIdx));
+                if (dataColumnIdx <= itRow->size()) {
+                    itRow->insert(
+                        itRow->begin() + static_cast<int>(dataColumnIdx), column.at(rowIdx));
+                } else {
+                    const std::string errStr = "column out of range: " + std::to_string(pColumnIdx)
+                        + " (on row " + std::to_string(std::distance(mData.begin(), itRow)) + ")";
+                    throw std::out_of_range(errStr);
+                }
             }
         }
 
@@ -794,7 +807,10 @@ public:
     size_t
     GetColumnCount() const
     {
-        const int count = static_cast<int>((mData.size() > 0) ? mData.at(0).size() : 0)
+        const size_t firstRow = static_cast<size_t>(
+            (mLabelParams.mColumnNameIdx >= 0) ? mLabelParams.mColumnNameIdx : 0);
+        const int count
+            = static_cast<int>((mData.size() > firstRow) ? mData.at(firstRow).size() : 0)
             - (mLabelParams.mRowNameIdx + 1);
         return (count >= 0) ? static_cast<size_t>(count) : 0;
     }
@@ -1445,19 +1461,24 @@ private:
             mIsUtf16 = true;
             mIsLE = (bom2b == bomU16le);
 
-            std::wifstream wstream;
-            wstream.exceptions(std::wifstream::failbit | std::wifstream::badbit);
-            wstream.open(mPath, std::ios::binary);
-            if (mIsLE) {
-                wstream.imbue(std::locale(wstream.getloc(),
-                    new std::codecvt_utf16<wchar_t, 0x10ffff,
-                        static_cast<std::codecvt_mode>(std::consume_header | std::little_endian)>));
-            } else {
-                wstream.imbue(std::locale(wstream.getloc(),
-                    new std::codecvt_utf16<wchar_t, 0x10ffff, std::consume_header>));
-            }
-            std::wstringstream wss;
-            wss << wstream.rdbuf();
+            std::vector<char> buffer(static_cast<size_t>(length));
+            pStream.read(buffer.data(), length);
+
+            const std::wstring& utf16 = [&]() {
+                if (mIsLE) {
+                    const std::codecvt_mode mode
+                        = static_cast<std::codecvt_mode>(std::consume_header | std::little_endian);
+                    std::wstring_convert<std::codecvt_utf16<wchar_t, 0x10ffff, mode>> utf16conv;
+                    return utf16conv.from_bytes(buffer.data(), buffer.data() + length);
+                } else {
+                    const std::codecvt_mode mode
+                        = static_cast<std::codecvt_mode>(std::consume_header);
+                    std::wstring_convert<std::codecvt_utf16<wchar_t, 0x10ffff, mode>> utf16conv;
+                    return utf16conv.from_bytes(buffer.data(), buffer.data() + length);
+                }
+            }();
+
+            std::wstringstream wss(utf16);
             std::string utf8 = ToString(wss.str());
             std::stringstream ss(utf8);
             ParseCsv(ss, static_cast<std::streamsize>(utf8.size()));
@@ -1704,52 +1725,22 @@ private:
     std::string
     Trim(const std::string& pStr) const
     {
-        if (!mSeparatorParams.mTrim) {
+        if (mSeparatorParams.mTrim) {
+            std::string str = pStr;
+
+            // ltrim
+            str.erase(str.begin(),
+                std::find_if(str.begin(), str.end(), [](int ch) { return !isspace(ch); }));
+
+            // rtrim
+            str.erase(
+                std::find_if(str.rbegin(), str.rend(), [](int ch) { return !isspace(ch); }).base(),
+                str.end());
+
+            return str;
+        } else {
             return pStr;
         }
-
-        // Fast path for empty strings
-        if (pStr.empty()) {
-            return pStr;
-        }
-
-        // Get raw pointers for fastest access
-        const char* const start = pStr.data();
-        const char* const end = start + pStr.length();
-
-        // Fast path - check if trim is needed
-        if (!std::isspace(static_cast<unsigned char>(start[0]))
-            && !std::isspace(static_cast<unsigned char>(*(end - 1)))) {
-            return pStr;
-        }
-
-        // Find first non-space character
-        const char* first = start;
-        while (first != end && std::isspace(static_cast<unsigned char>(*first))) {
-            ++first;
-        }
-
-        // All spaces case
-        if (first == end) {
-            return std::string();
-        }
-
-        // Find last non-space character
-        const char* last = end - 1;
-        while (last > first && std::isspace(static_cast<unsigned char>(*last))) {
-            --last;
-        }
-
-        // Calculate the trimmed length
-        const size_t len = last - first + 1;
-
-        // If we didn't actually trim anything, return original
-        if (first == start && len == pStr.length()) {
-            return pStr;
-        }
-
-        // Create the trimmed string directly with proper size
-        return std::string(first, len);
     }
 
     std::string
