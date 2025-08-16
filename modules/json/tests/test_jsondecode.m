@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-msg = _('valid JSON Object expected.')
+msg = _('valid JSON Object expected.');
 assert_checkerror("r = jsondecode('');", msg);
 %=============================================================================
 r = jsondecode('NaN');
@@ -118,9 +118,9 @@ assert_isequal(r, ref);
 %=============================================================================
 r = jsondecode('{"a":1,"b":"NaN"}');
 assert_isequal(r.a, 1);
-assert_isequal(r.b, NaN);
+assert_isequal(r.b, 'NaN');
 %=============================================================================
-r = jsondecode('[{"toto":42, "tuto":44, "toto":45, "tuto":46, "tuto":47, , "toto":48}]');
+r = jsondecode('[{"toto":42, "tuto":44, "toto":45, "tuto":46, "tuto":47, "toto":48}]');
 assert_isequal(r.toto, 42);
 assert_isequal(r.tuto, 44);
 assert_isequal(r.toto_1, 45);
@@ -185,4 +185,17 @@ ref = struct();
 r = jsondecode('{"a":[1,null]}');
 ref.a = [1; NaN];
 assert_isequal(r, ref);
+%=============================================================================
+s = '[{"toto":42, "tuto":44, "toto":45, "tuto":46, "tuto":47, , "toto":48}]';
+msg = _('invalid structure: missing or superfluous commas, braces, missing keys, etc.');
+assert_checkerror("r = jsondecode(s)", msg);
+%=============================================================================
+s = jsondecode('"14.44.35207\\bin\\v"');
+ref = '14.44.35207\bin\v';
+assert_isequal(s, ref);
+%=============================================================================
+s = jsondecode('{"PATH":"14.44.35207\\bin\\v"}');
+ref = struct();
+ref.PATH = '14.44.35207\bin\v';
+assert_isequal(s, ref);
 %=============================================================================

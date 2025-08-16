@@ -20,7 +20,7 @@ JsonVariable::JsonVariable()
     // Initialize dims to empty vector
     dims.clear();
     // Initialize scalarString to empty string
-    scalarString.clear();
+    scalarString = {};
     // Initialize scalarMap to empty map
     scalarMap.clear();
     // Initialize vectorString, vectorDouble, vectorLogical to empty vectors

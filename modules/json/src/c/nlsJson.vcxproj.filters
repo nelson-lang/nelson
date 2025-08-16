@@ -26,9 +26,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="jsmn.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\JsonEncode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -44,11 +41,11 @@
     <ClCompile Include="..\cpp\JsonVariable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\simdjson.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="jsmn.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\nlsJson_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -62,6 +59,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\JsonPrettyPrint.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\simdjson.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

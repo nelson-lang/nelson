@@ -37,7 +37,7 @@ public:
     JSON_TO_NELSON_Type jsonVariableType;
     std::vector<size_t> dims;
 
-    std::string scalarString;
+    std::string_view scalarString;
     double scalarDouble;
     logical scalarLogical;
     std::unordered_map<std::string, JsonVariable*> scalarMap;

@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <memory>
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include "ArrayOf.hpp"
@@ -246,7 +247,62 @@ ArrayOf::getContentAsWideCharactersPointer() const
 std::string
 ArrayOf::getContentAsCString() const
 {
-    return wstring_to_utf8(getContentAsWideString());
+    if (isRowVectorCharacterArray()) {
+        indexType M = getElementCount();
+        const auto* qp = static_cast<const charType*>(dp->getData());
+        // Preallocate buffer for worst-case UTF-8 size (4 bytes per char)
+        size_t maxBytes = M * 4;
+        std::unique_ptr<char[]> buffer(new char[maxBytes]);
+        char* out = buffer.get();
+        size_t outLen = 0;
+
+        for (indexType i = 0; i < M; ++i) {
+            char32_t wc = qp[i];
+            if (wc <= 0x7F) {
+                *out++ = static_cast<char>(wc);
+                outLen += 1;
+            } else if (wc <= 0x7FF) {
+                *out++ = static_cast<char>(0xC0 | ((wc >> 6) & 0x1F));
+                *out++ = static_cast<char>(0x80 | (wc & 0x3F));
+                outLen += 2;
+            } else if (wc <= 0xFFFF) {
+                *out++ = static_cast<char>(0xE0 | ((wc >> 12) & 0x0F));
+                *out++ = static_cast<char>(0x80 | ((wc >> 6) & 0x3F));
+                *out++ = static_cast<char>(0x80 | (wc & 0x3F));
+                outLen += 3;
+            }
+#if WCHAR_MAX > 0xFFFF
+            else {
+                *out++ = static_cast<char>(0xF0 | ((wc >> 18) & 0x07));
+                *out++ = static_cast<char>(0x80 | ((wc >> 12) & 0x3F));
+                *out++ = static_cast<char>(0x80 | ((wc >> 6) & 0x3F));
+                *out++ = static_cast<char>(0x80 | (wc & 0x3F));
+                outLen += 4;
+            }
+#endif
+        }
+        // Construct std::string from buffer and actual length
+        return std::string(buffer.get(), outLen);
+    } else {
+        // Fallback: handle string arrays and error cases as before
+        if (isStringArray()) {
+            if (isScalar()) {
+                auto* element = (ArrayOf*)getDataPointer();
+                return element[0].getContentAsCString();
+            }
+            if (isEmpty()) {
+                return {};
+            }
+        } else {
+            if ((dp == nullptr) || dp->dataClass != NLS_CHAR) {
+                Error(_W("Unable to convert supplied object to a string."));
+            }
+            if (!isRowVector()) {
+                Error(_W("Unable to convert supplied object to a single string."));
+            }
+        }
+        return {};
+    }
 }
 //=============================================================================
 std::wstring

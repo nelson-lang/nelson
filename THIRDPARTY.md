@@ -176,11 +176,11 @@ The Diff Template Library written by C++
 
 > Public Domain
 
-- Jmsn
+- simdjson - Parsing gigabytes of JSON per second
 
-> <https://github.com/zserge/jsmn>
+> <https://github.com/simdjson/simdjson>
 
-> <https://github.com/zserge/jsmn/blob/master/LICENSE>
+> <https://github.com/simdjson/simdjson/blob/master/LICENSE-MIT>
 > MIT license
 
 - cpp-json-prettify

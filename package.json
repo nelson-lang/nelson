@@ -50,7 +50,9 @@
       "modules/core/src/include/picoSHA2/picosha2.h",
       "modules/parallel/src/include/BS_thread_pool.hpp",
       "modules/interpreter/src/grammar/NelSonParser.cpp",
-      "modules/characters_encoding/src/cpp/simdutf"
+      "modules/characters_encoding/src/cpp/simdutf",
+      "modules/json/src/cpp/simdjson.cpp",
+      "modules/json/src/cpp/simdjson.h"
     ]
   }
 }
