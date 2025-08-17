@@ -7,7 +7,7 @@ jobs:
   nix_build:
     name: ${{ matrix.label }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 60
+    timeout-minutes: 120
     strategy:
       fail-fast: false
       matrix:
@@ -20,6 +20,11 @@ jobs:
             label: "macOS Latest"
 
     steps:
+      - name: Update Homebrew (macOS only)
+        if: runner.os == 'macOS'
+        run: |
+          brew update
+          brew upgrade
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Install Nix
