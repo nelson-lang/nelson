@@ -18,8 +18,7 @@ function [status, compiler] = loadcompilerconf()
   arch = computer('arch');
   jsonfile = [prefdir(), '/compiler_', arch, '.json'];
   if isfile(jsonfile)
-    txt = fileread(jsonfile);
-    json = jsondecode(txt);
+    json = jsondecode(jsonfile, '-file');
     for f = fieldnames(json)(:)'
       if strcmp(f{1},'COMPILER_CHOICE')
         compiler = getfield(json,f{1});

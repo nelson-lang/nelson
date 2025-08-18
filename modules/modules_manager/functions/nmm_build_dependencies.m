@@ -12,8 +12,7 @@ function nmm_build_dependencies(MODULE_PATH)
   if ~isfile(module_json)
     error(_('module.json is missing.'));
   end
-  content = fileread(module_json);
-  data = jsondecode(content);
+  data = jsondecode(module_json, '-file');
   if any(contains(fieldnames(data), 'dependencies'))
     dependencies = data.dependencies;
     names = fieldnames(dependencies);

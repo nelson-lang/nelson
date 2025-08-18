@@ -11,8 +11,7 @@ function st = nmm_list()
   p = usermodulesdir();
   modules_json_path = [p, 'modules.json'];
   if isfile(modules_json_path)
-    txt = fileread(modules_json_path);
-    st = jsondecode(txt);
+    st = jsondecode(modules_json_path, '-file');
     if isempty(st) && isdouble(st)
       st = struct([]);
     end

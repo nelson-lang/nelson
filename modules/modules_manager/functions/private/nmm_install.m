@@ -53,7 +53,7 @@ function nmm_install_file(filename)
   if ~isfile(lockFile)
     error(_('module-lock.json is missing.'));
   end
-  info = readModuleLockJson(lockFile);
+  info = jsondecode(lockFile, '-file');
   if nmm_is_installed(info.module)
     warning(sprintf(_('%s already installed.'), info.module));
     [r, msg] = rmdir(destinationTempPath, 's');
@@ -74,11 +74,6 @@ function nmm_install_file(filename)
   saveInstalledModule(info.module, destination_dir, info.version);
   nmm_load(info.module);
   [r, msg] = rmdir(destinationTempPath, 's');
-end
-%=============================================================================
-function info = readModuleLockJson(lockfile)
-  txt = fileread(lockfile);
-  info = jsondecode(txt);
 end
 %=============================================================================
 function nmm_install_directory(directory)
@@ -220,7 +215,7 @@ function data = readModulesJson()
   p = usermodulesdir();
   modules_json_path = [p, 'modules.json'];
   if isfile(modules_json_path)
-    data = jsondecode(fileread(modules_json_path));
+    data = jsondecode(modules_json_path, '-file');
   else
     data = struct();
   end

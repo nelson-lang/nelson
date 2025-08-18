@@ -15,7 +15,7 @@ test_results = [DESTINATION_DIRECTORY ,'/tests-', MODULE_NAME, '-', arch_name, '
 % display results of .json
 try
   if isfile(test_results)
-    test_suites = jsondecode(fileread(test_results));
+    test_suites = jsondecode(test_results, '-file');
     fprintf(stdout, ['  %==========================================================================', newline]);
     fprintf(stdout, ['  ', _('Summary:'), newline]);
     fprintf(stdout, ['  ', _('Tests:'), ' ', int2str(test_suites.tests), newline]);

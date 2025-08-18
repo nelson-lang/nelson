@@ -83,8 +83,7 @@ end
 %=============================================================================
 function url = getDefaultUrl()
   defaultsConf = [modulepath('nelson','etc'), '/defaults.conf'];
-  content = fileread(defaultsConf);
-  defaults = jsondecode(content);
+  defaults = jsondecode(defaultsConf, '-file');
   url = defaults.update_url;
 end
 %=============================================================================
@@ -94,7 +93,7 @@ function [res, msg, html_url] = fetchLatestReleaseInfo(url, currentVersion)
   html_url = '';
   try
     if isfile(url)
-      content = jsondecode(fileread(url));
+      content = jsondecode(url, '-file');
     else
       content = webread(url);
     end

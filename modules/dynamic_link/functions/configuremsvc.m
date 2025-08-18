@@ -40,8 +40,7 @@ function varargout = configuremsvc()
     varargout{2} = message;
     return
   end
-  txt = fileread(vsconfig);
-  msvc201X = jsondecode(txt);
+  msvc201X = jsondecode(vsconfig, '-file');
   
   vsinfo_batch = [modulepath('dynamic_link'), '/resources/vcinfo.bat'];
   arch = computer('arch');

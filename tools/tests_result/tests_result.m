@@ -36,7 +36,7 @@ try
   end
   filedest = [TESTS_RESULT_DIR, filesep, 'tests_all-', mat2str(ver_number(1)), '.', mat2str(ver_number(2)), '.', mat2str(ver_number(3)), '.', mat2str(ver_number(4)), '-', platform, '.json'];
   if isfile(filedest)
-    test_suites = jsondecode(fileread(filedest));
+    test_suites = jsondecode(filedest, '-file');
     fprintf(stdout, ['  %==========================================================================', newline]);
     fprintf(stdout, ['  ', _('Summary:'), newline]);
     fprintf(stdout, ['  ', _('Tests:'), ' ', int2str(test_suites.tests), newline]);
