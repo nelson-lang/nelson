@@ -291,7 +291,7 @@ end
 %=============================================================================
 function test_case_res = post_run_test_case_mpi(test_case_res)
   if isfile(test_case_res.outputfile)
-    s = jsondecode(fileread(test_case_res.outputfile));
+    s = jsondecode(test_case_res.outputfile, '-file');
     test_case_res.time = s.timing;
     switch (s.r)
       case 0
@@ -320,7 +320,7 @@ end
 %=============================================================================
 function test_case_res = post_run_test_case_skip_or_fail(test_case_res)
   if isfile(test_case_res.outputfile)
-    s = jsondecode(fileread(test_case_res.outputfile));
+    s = jsondecode(test_case_res.outputfile, '-file');
     test_case_res.time = s.timing;
     switch (s.r)
       case 0
@@ -351,7 +351,7 @@ function test_case_res = post_run_test_case_skip_or_fail(test_case_res)
         error(_('Case not managed.'));       
     end
   elseif isfile(test_case_res.redirect_err)
-    s = jsondecode(fileread(test_case_res.redirect_err));
+    s = jsondecode(test_case_res.redirect_err, '-file');
     if ~isempty(s)
       test_case_res.msg = s.msg;
     else
@@ -368,7 +368,7 @@ function test_case_res = post_run_test_case_skip_or_pass(test_case_res)
   if ~isfile(test_case_res.outputfile)
     return
   end
-  s = jsondecode(fileread(test_case_res.outputfile));
+  s = jsondecode(test_case_res.outputfile, '-file');
   r = rmfile(test_case_res.outputfile);
   test_case_res.time = s.timing;
   switch (s.r)

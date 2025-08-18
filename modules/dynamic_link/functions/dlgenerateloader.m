@@ -77,7 +77,7 @@ function names = mexFunctionsJson(libraryname, destinationdir)
   mexFunctionsListFilename = [destinationdir, '/mexFunctionsList.json'];
   mexFunctionsList = struct();
   if isfile(mexFunctionsListFilename)
-    mexFunctionsList = jsondecode(fileread(mexFunctionsListFilename));
+    mexFunctionsList = jsondecode(mexFunctionsListFilename, '-file');
   end
   mexFunctionsList.(libraryname) = '';
   filewrite(mexFunctionsListFilename, jsonprettyprint(jsonencode(mexFunctionsList)));

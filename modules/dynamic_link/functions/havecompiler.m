@@ -17,8 +17,7 @@ function [status, compiler] = havecompiler()
       status = false;
       compiler = '';
       if isfile(jsonfile)
-        txt = fileread(jsonfile);
-        json = jsondecode(txt);
+        json = jsondecode(jsonfile, '-file');
         if isfield(json, 'COMPILER_CHOICE')
           status = true;
           compiler = json.COMPILER_CHOICE;

@@ -21,7 +21,7 @@ function dlgenerateunloader(destinationdir, libraryname, ismexfunction)
   mexFunctionsListFilename = [destinationdir, '/mexFunctionsList.json'];
   mexFunctionsList = struct();
   if isfile(mexFunctionsListFilename)
-    mexFunctionsList = jsondecode(fileread(mexFunctionsListFilename));
+    mexFunctionsList = jsondecode(mexFunctionsListFilename, '-file');
   end
   names = fieldnames(mexFunctionsList);
   txt = template(libraryname, ismexfunction, names);
