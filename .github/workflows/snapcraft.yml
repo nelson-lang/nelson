@@ -22,7 +22,7 @@ jobs:
           sudo snap install core --channel=stable
           sudo snap install snapcraft --classic
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version

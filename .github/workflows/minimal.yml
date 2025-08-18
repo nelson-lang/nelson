@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: install dependencies
         run: sudo $GITHUB_WORKSPACE/tools/install_dependencies/install-ubuntu-24.04-minimal.sh
