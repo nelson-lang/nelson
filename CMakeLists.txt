@@ -267,7 +267,6 @@ list(
   APPEND
   boost_components
   serialization
-  system
   filesystem
   thread
   chrono
