@@ -78,6 +78,7 @@ Source: {#RootPath}modules\modules.m; DestDir: {app}\modules\; AfterInstall: Aft
 #include "webtools/module.iss"
 #include "graphics/module.iss"
 #include "graphics_io/module.iss"
+#include "image_processing/module.iss"
 #include "mex/module.iss"
 #include "ipc/module.iss"
 #include "statistics/module.iss"

@@ -46,8 +46,6 @@
 #include "validatecolorBuiltin.hpp"
 #include "waitforbuttonpressBuiltin.hpp"
 #include "waitforBuiltin.hpp"
-#include "imrotateBuiltin.hpp"
-#include "imresizeBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -134,8 +132,6 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN },
     { "waitfor", (ptrBuiltin)Nelson::GraphicsGateway::waitforBuiltin, 0, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "imrotate", (ptrBuiltin)Nelson::GraphicsGateway::imrotateBuiltin, 1, 2, CPP_BUILTIN },
-    { "imresize", (ptrBuiltin)Nelson::GraphicsGateway::imresizeBuiltin, 1, 2, CPP_BUILTIN },
 };
 //=============================================================================
 static bool

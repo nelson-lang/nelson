@@ -23,6 +23,7 @@ french.MODULE_SKELETON=Modèle de boite à outils (pour étendre Nelson)
 french.MEX_MODULE=Bibliothéque MEX API Compatible
 french.DYNAMIC_LINK_MODULE=Module de création d'addon natif pour Nelson
 french.GRAPHICS_MODULE=Tracés - courbes 2D/3D module
+french.IMAGE_PROCESSING_MODULE=Traitement Image
 french.MPI_MODULE=Module de calcul distribué
 french.PARALLEL_MODULE=Module de calcul parallèle
 french.TEXT_EDITOR_MODULE=Editeur de texte intégré

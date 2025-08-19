@@ -10,7 +10,7 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsGraphics_exports.h"
+#include "nlsImage_processing_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,7 +27,7 @@ enum class BoundingBox
     Loose // Output image is enlarged to fit the entire rotated image
 };
 //=============================================================================
-NLSGRAPHICS_IMPEXP ArrayOf
+NLSIMAGE_PROCESSING_IMPEXP ArrayOf
 ImageRotation(
     const ArrayOf& image, double angle, InterpolationMethod method, BoundingBox boundingBox);
 //=============================================================================

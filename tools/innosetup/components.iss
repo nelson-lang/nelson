@@ -67,6 +67,9 @@ Name: {#COMPONENT_QML_ENGINE}; Description:{cm:QML_ENGINE_MODULE}; Types: full c
 #define COMPONENT_GRAPHICS 'GRAPHICS'
 Name: {#COMPONENT_GRAPHICS}; Description:{cm:GRAPHICS_MODULE}; Types: full custom;
 ;==============================================================================
+#define COMPONENT_IMAGE_PROCESSING 'IMAGE_PROCESSING'
+Name: {#COMPONENT_IMAGE_PROCESSING}; Description:{cm:IMAGE_PROCESSING_MODULE}; Types: full custom;
+;==============================================================================
 #define COMPONENT_TEXT_EDITOR 'TEXT_EDITOR'
 Name: {#COMPONENT_TEXT_EDITOR}; Description:{cm:TEXT_EDITOR_MODULE}; Types: full custom;
 ;==============================================================================

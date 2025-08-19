@@ -15,7 +15,7 @@
 #include <string>
 #include <algorithm>
 //=============================================================================
-namespace Nelson::GraphicsGateway {
+namespace Nelson::ImageProcessingGateway {
 //=============================================================================
 static ResizeInterpolationMethod
 parseInterpolationMethod(const std::wstring& method);

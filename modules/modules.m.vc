@@ -59,6 +59,7 @@ modules_list = {
 {'qml_engine', true};
 {'graphics', true};
 {'graphics_io', true};
+{'image_processing', true};
 {'help_browser', true};
 {'text_editor', true};
 {'tests_manager', true};

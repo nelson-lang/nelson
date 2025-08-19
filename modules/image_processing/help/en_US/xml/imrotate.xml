@@ -66,7 +66,7 @@
     <p><b
       >Data Type Preservation:</b> The output image maintains the same data type as the input. For floating-point inputs, pixel values may extend beyond the typical [0,1] range after interpolation.</p>
     <p><b
-      >Angle Convention:</b> Positive angles rotate counterclockwise, following standard mathematical convention. This is opposite to some graphics applications that use clockwise positive rotation.</p>
+      >Angle Convention:</b> Positive angles rotate counterclockwise, following standard mathematical convention. This is opposite to some image_processing applications that use clockwise positive rotation.</p>
     <p />
     <p>Limitations:</p>
     <p
@@ -163,10 +163,10 @@ end
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${graphics}imresize">imresize</link>
+      <link linkend="${image_processing}imresize">imresize</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${graphics}imshow">imshow</link>
+      <link linkend="${image_processing}imshow">imshow</link>
     </see_also_item>
   </see_also>
   <history>

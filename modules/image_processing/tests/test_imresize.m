@@ -52,6 +52,7 @@ for k = 1:numel(methods)
 end
 %=============================================================================
 images_path = [modulepath('graphics', 'tests'), '/images/'];
+%=============================================================================
 [img, map, alpha] = imread([images_path, 'winter-fox-64x64-indexed8.png']);
 [img2, map2] = imresize(img, map, 30);
 figure;
@@ -65,7 +66,6 @@ assert(size(R1, 1) == 8 && size(R1, 2) == 8);
 assert(size(R2, 1) == 8 && size(R2, 2) == 8);
 assert(~isequal(R1, R2));
 %=============================================================================
-images_path = [modulepath('graphics', 'tests'), '/images/'];
 [img, map] = imread([images_path, 'winter-fox-64x64-indexed8.png']);
 [img_opt, map_opt] = imresize(img, map, 32, 'Colormap', 'optimized');
 [img_orig, map_orig] = imresize(img, map, 32, 'Colormap', 'original');

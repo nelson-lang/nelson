@@ -13,7 +13,7 @@
 #include "Error.hpp"
 #include "ImageRotation.hpp"
 //=============================================================================
-namespace Nelson::GraphicsGateway {
+namespace Nelson::ImageProcessingGateway {
 //=============================================================================
 ArrayOfVector
 imrotateBuiltin(int nLhs, const ArrayOfVector& argIn)

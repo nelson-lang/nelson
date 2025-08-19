@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8265d6ca-d830-428c-821c-3bb719e4bee5}</ProjectGuid>
+    <ProjectGuid>{0E973E08-0509-4CF2-AF20-6A4111D7A213}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>nlsGraphics_builtin</RootNamespace>
+    <RootNamespace>nlsImage_processing_builtin</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -93,9 +93,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSIMAGE_PROCESSING_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/builtin/include;$(SolutionDir)modules/graphics/builtin/cpp;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include;$(QTDIR)/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/image_processing/builtin/include;$(SolutionDir)modules/image_processing/builtin/cpp;$(SolutionDir)modules/image_processing/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -115,9 +115,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSIMAGE_PROCESSING_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/builtin/include;$(SolutionDir)modules/graphics/builtin/cpp;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include;$(QTDIR)/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/image_processing/builtin/include;$(SolutionDir)modules/image_processing/builtin/cpp;$(SolutionDir)modules/image_processing/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -139,9 +139,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSIMAGE_PROCESSING_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/builtin/include;$(SolutionDir)modules/graphics/builtin/cpp;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include;$(QTDIR)/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/image_processing/builtin/include;$(SolutionDir)modules/image_processing/builtin/cpp;$(SolutionDir)modules/image_processing/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -165,9 +165,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSIMAGE_PROCESSING_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/builtin/include;$(SolutionDir)modules/graphics/builtin/cpp;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/display_format/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include;$(QTDIR)/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/image_processing/builtin/include;$(SolutionDir)modules/image_processing/builtin/cpp;$(SolutionDir)modules/image_processing/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -184,120 +184,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\axesBuiltin.cpp" />
-    <ClCompile Include="..\cpp\closeBuiltin.cpp" />
-    <ClCompile Include="..\cpp\drawnowBuiltin.cpp" />
-    <ClCompile Include="..\cpp\__getframe__Builtin.cpp" />
-    <ClCompile Include="..\cpp\GOConstructorHelpers.cpp" />
+    <ClCompile Include="..\cpp\imresizeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\imrotateBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
-    <ClCompile Include="..\cpp\figureBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
-    <ClCompile Include="..\cpp\gcaBuiltin.cpp" />
-    <ClCompile Include="..\cpp\gcfBuiltin.cpp" />
-    <ClCompile Include="..\cpp\graphics_object_deleteBuiltin.cpp" />
-    <ClCompile Include="..\cpp\graphics_object_displayBuiltin.cpp" />
-    <ClCompile Include="..\cpp\graphics_object_eqBuiltin.cpp" />
-    <ClCompile Include="..\cpp\graphics_object_getBuiltin.cpp" />
-    <ClCompile Include="..\cpp\graphics_object_isequalBuiltin.cpp" />
-    <ClCompile Include="..\cpp\graphics_object_ispropBuiltin.cpp" />
-    <ClCompile Include="..\cpp\graphics_object_propertiesBuiltin.cpp" />
-    <ClCompile Include="..\cpp\graphics_object_setBuiltin.cpp" />
-    <ClCompile Include="..\cpp\grootBuiltin.cpp" />
-    <ClCompile Include="..\cpp\is2DBuiltin.cpp" />
-    <ClCompile Include="..\cpp\isgraphicsBuiltin.cpp" />
-    <ClCompile Include="..\cpp\isValidGraphicsPropertyBuiltin.cpp" />
-    <ClCompile Include="..\cpp\refreshBuiltin.cpp" />
-    <ClCompile Include="..\cpp\validatecolorBuiltin.cpp" />
-    <ClCompile Include="..\cpp\waitforBuiltin.cpp" />
-    <ClCompile Include="..\cpp\waitforbuttonpressBuiltin.cpp" />
-    <ClCompile Include="..\cpp\__contour__Builtin.cpp" />
-    <ClCompile Include="..\cpp\__hggroup__Builtin.cpp" />
-    <ClCompile Include="..\cpp\__image__Builtin.cpp" />
-    <ClCompile Include="..\cpp\__line__Builtin.cpp" />
-    <ClCompile Include="..\cpp\__pan__Builtin.cpp" />
-    <ClCompile Include="..\cpp\__patch__Builtin.cpp" />
-    <ClCompile Include="..\cpp\__rotate3d__Builtin.cpp" />
-    <ClCompile Include="..\cpp\__scatter__Builtin.cpp" />
-    <ClCompile Include="..\cpp\__surf__Builtin.cpp" />
-    <ClCompile Include="..\cpp\__text__Builtin.cpp" />
-    <ClCompile Include="..\cpp\uicontrolBuiltin.cpp" />
-    <ClCompile Include="..\cpp\__view__Builtin.cpp" />
-    <ClCompile Include="..\cpp\__zoom__Builtin.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
-      <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">
-      <Project>{867f2f84-cc27-4bd8-b44b-5ef4f69c6e15}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\display_format\src\c\nlsDisplay_format.vcxproj">
-      <Project>{2469b77e-f2b0-4b0e-b814-bb57747e0865}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
-      <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\gui\src\c\nlsGui.vcxproj">
-      <Project>{075f60ad-38ba-4531-9d46-7453e3416e15}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
-      <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
-      <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
-      <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
-      <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\c\nlsGraphics.vcxproj">
-      <Project>{7ecbc5f0-ce99-4738-944c-e88c3ddf12bb}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\cpp\GOConstructorHelpers.hpp" />
-    <ClInclude Include="..\include\axesBuiltin.hpp" />
-    <ClInclude Include="..\include\closeBuiltin.hpp" />
-    <ClInclude Include="..\include\drawnowBuiltin.hpp" />
-    <ClInclude Include="..\include\figureBuiltin.hpp" />
-    <ClInclude Include="..\include\gcaBuiltin.hpp" />
-    <ClInclude Include="..\include\gcfBuiltin.hpp" />
-    <ClInclude Include="..\include\__getframe__Builtin.hpp" />
-    <ClInclude Include="..\include\graphics_object_deleteBuiltin.hpp" />
-    <ClInclude Include="..\include\graphics_object_displayBuiltin.hpp" />
-    <ClInclude Include="..\include\graphics_object_eqBuiltin.hpp" />
-    <ClInclude Include="..\include\graphics_object_getBuiltin.hpp" />
-    <ClInclude Include="..\include\graphics_object_isequalBuiltin.hpp" />
-    <ClInclude Include="..\include\graphics_object_ispropBuiltin.hpp" />
-    <ClInclude Include="..\include\graphics_object_propertiesBuiltin.hpp" />
-    <ClInclude Include="..\include\graphics_object_setBuiltin.hpp" />
-    <ClInclude Include="..\include\grootBuiltin.hpp" />
-    <ClInclude Include="..\include\is2DBuiltin.hpp" />
-    <ClInclude Include="..\include\isgraphicsBuiltin.hpp" />
-    <ClInclude Include="..\include\isValidGraphicsPropertyBuiltin.hpp" />
-    <ClInclude Include="..\include\refreshBuiltin.hpp" />
-    <ClInclude Include="..\include\validatecolorBuiltin.hpp" />
-    <ClInclude Include="..\include\waitforBuiltin.hpp" />
-    <ClInclude Include="..\include\waitforbuttonpressBuiltin.hpp" />
-    <ClInclude Include="..\include\__contour__Builtin.hpp" />
-    <ClInclude Include="..\include\__hggroup__Builtin.hpp" />
-    <ClInclude Include="..\include\__image__Builtin.hpp" />
-    <ClInclude Include="..\include\__line__Builtin.hpp" />
-    <ClInclude Include="..\include\nlsGraphics_builtin_exports.h" />
-    <ClInclude Include="..\include\__pan__Builtin.hpp" />
-    <ClInclude Include="..\include\__patch__Builtin.hpp" />
-    <ClInclude Include="..\include\__rotate3d__Builtin.hpp" />
-    <ClInclude Include="..\include\__scatter__Builtin.hpp" />
-    <ClInclude Include="..\include\__surf__Builtin.hpp" />
-    <ClInclude Include="..\include\__text__Builtin.hpp" />
-    <ClInclude Include="..\include\uicontrolBuiltin.hpp" />
-    <ClInclude Include="..\include\__view__Builtin.hpp" />
-    <ClInclude Include="..\include\__zoom__Builtin.hpp" />
+    <ClInclude Include="..\include\imresizeBuiltin.hpp" />
+    <ClInclude Include="..\include\imrotateBuiltin.hpp" />
+    <ClInclude Include="..\include\nlsImage_processing_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.m" />
@@ -307,6 +205,23 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
+      <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
+      <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
+      <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
+      <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\c\nlsImage_processing.vcxproj">
+      <Project>{73c21e64-a2ff-4534-88e6-0240c5f8c928}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

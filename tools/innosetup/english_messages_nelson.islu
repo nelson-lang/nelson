@@ -23,6 +23,7 @@ english.MODULE_SKELETON=Module template (to extend Nelson)
 english.DYNAMIC_LINK_MODULE=Nelson native addon build tools
 english.MEX_MODULE=MEX Library API Compatibility
 english.GRAPHICS_MODULE=Plotting 2D/3D module
+english.IMAGE_PROCESSING_MODULE=Image processing
 english.MPI_MODULE=Distributed Computing Module
 english.PARALLEL_MODULE=Parallel Computing Module
 english.TEXT_EDITOR_MODULE=Integrate Text editor
