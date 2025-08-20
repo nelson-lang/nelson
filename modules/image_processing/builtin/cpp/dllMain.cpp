@@ -1,20 +1,28 @@
 //=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
-// This file is part of the Nelson.
+// This file is part of Nelson.
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
 //=============================================================================
-#include "ArrayOf.hpp"
-//=============================================================================
-namespace Nelson::GraphicsGateway {
-//=============================================================================
-ArrayOfVector
-imresizeBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
+int WINAPI
+DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+{
+    switch (reason) {
+    case DLL_PROCESS_ATTACH:
+        break;
+    case DLL_PROCESS_DETACH:
+        break;
+    case DLL_THREAD_ATTACH:
+        break;
+    case DLL_THREAD_DETACH:
+        break;
+    }
+    return 1;
 }
 //=============================================================================

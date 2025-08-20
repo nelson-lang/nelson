@@ -58,7 +58,7 @@ IM2 = im2double(I, 'indexed')
       <link linkend="${double}double">double</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${imread}imread">imread</link>
+      <link linkend="${graphics_io}imread">imread</link>
     </see_also_item>
   </see_also>
 

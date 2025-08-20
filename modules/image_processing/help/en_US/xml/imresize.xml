@@ -133,10 +133,10 @@ title('Resized Image');]]>
 
   <see_also>
     <see_also_item>
-      <link linkend="${graphics}imrotate">imrotate</link>
+      <link linkend="${image_processing}imrotate">imrotate</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${graphics}imshow">imshow</link>
+      <link linkend="${image_processing}imshow">imshow</link>
     </see_also_item>
   </see_also>
   <history>

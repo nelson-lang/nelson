@@ -94,7 +94,8 @@ list(
   CONTROL_SYSTEM
   PYTHON_ENGINE
   SPREADSHEET
-  JULIA_ENGINE)
+  JULIA_ENGINE
+  IMAGE_PROCESSING)
 
   foreach(mod ${modules_fully_disabled})
   if(NOT WITHOUT_${mod}_MODULE)

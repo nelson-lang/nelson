@@ -313,8 +313,6 @@
     <ClInclude Include="..\include\GOToolBarProperty.hpp" />
     <ClInclude Include="..\include\GOTopBottomProperty.hpp" />
     <ClInclude Include="..\include\GOWindowStateProperty.hpp" />
-    <ClInclude Include="..\include\ImageResize.hpp" />
-    <ClInclude Include="..\include\ImageRotation.hpp" />
     <ClInclude Include="..\include\IsValidGraphicsProperty.hpp" />
     <ClInclude Include="..\include\RGBAColorData.hpp" />
     <ClInclude Include="..\include\UIControlBuilder.hpp" />
@@ -419,8 +417,6 @@
     <ClCompile Include="..\cpp\GOWindowStateProperty.cpp" />
     <ClCompile Include="..\cpp\GraphicsObject.cpp" />
     <ClCompile Include="..\cpp\GraphicsObjectDisplay.cpp" />
-    <ClCompile Include="..\cpp\ImageResize.cpp" />
-    <ClCompile Include="..\cpp\ImageRotation.cpp" />
     <ClCompile Include="..\cpp\IsValidGraphicsProperty.cpp" />
     <ClCompile Include="..\cpp\MinMaxHelpers.cpp" />
     <ClCompile Include="..\cpp\moc_GOUIControl.cpp" />

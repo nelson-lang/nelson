@@ -10,7 +10,7 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsGraphics_exports.h"
+#include "nlsImage_processing_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -43,18 +43,18 @@ struct ResizeOptions
     ResizeOptions() = default;
 };
 //=============================================================================
-NLSGRAPHICS_IMPEXP ArrayOf
+NLSIMAGE_PROCESSING_IMPEXP ArrayOf
 ImageResize(const ArrayOf& image, double scale, const ResizeOptions& options = ResizeOptions());
 //=============================================================================
-NLSGRAPHICS_IMPEXP ArrayOf
+NLSIMAGE_PROCESSING_IMPEXP ArrayOf
 ImageResize(const ArrayOf& image, size_t numrows, size_t numcols,
     const ResizeOptions& options = ResizeOptions());
 //=============================================================================
-NLSGRAPHICS_IMPEXP std::pair<ArrayOf, ArrayOf>
+NLSIMAGE_PROCESSING_IMPEXP std::pair<ArrayOf, ArrayOf>
 ImageResizeIndexed(const ArrayOf& X, const ArrayOf& map, double scale,
     const ResizeOptions& options = ResizeOptions());
 //=============================================================================
-NLSGRAPHICS_IMPEXP std::pair<ArrayOf, ArrayOf>
+NLSIMAGE_PROCESSING_IMPEXP std::pair<ArrayOf, ArrayOf>
 ImageResizeIndexed(const ArrayOf& X, const ArrayOf& map, size_t numrows, size_t numcols,
     const ResizeOptions& options = ResizeOptions());
 //=============================================================================

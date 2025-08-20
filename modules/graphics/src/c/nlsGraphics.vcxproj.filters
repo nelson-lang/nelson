@@ -311,13 +311,7 @@
     <ClInclude Include="..\include\GOWindowStateProperty.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\ImageRotation.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\cpp\UnitsConversionHelpers.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\ImageResize.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -670,9 +664,6 @@
     <ClCompile Include="..\cpp\GOWindowStateProperty.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\ImageRotation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\UnitsConversionHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -680,9 +671,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\GOScalarAlphaProperty.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\ImageResize.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
