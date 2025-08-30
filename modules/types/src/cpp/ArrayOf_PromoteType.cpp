@@ -1158,7 +1158,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
         } break;
         case NLS_DOUBLE: {
             double* sptr = (double*)ArrayOf::allocateArrayOf(dstClass, count);
-            sptr[0] = std::nan("NaN");
+            sptr[0] = std::nan("");
             dstPtr = sptr;
         } break;
         case NLS_SCOMPLEX: {
@@ -1169,7 +1169,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
         } break;
         case NLS_DCOMPLEX: {
             double* sptr = (double*)ArrayOf::allocateArrayOf(dstClass, count);
-            sptr[0] = std::nan("NaN");
+            sptr[0] = std::nan("");
             sptr[1] = 0;
             dstPtr = sptr;
         } break;

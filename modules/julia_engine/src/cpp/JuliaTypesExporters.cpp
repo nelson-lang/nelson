@@ -460,7 +460,7 @@ convertMatrixStringToArrayOf(jl_value_t* value, bool& wasConverted)
             const char* str = NLSjl_string_ptr(data[i]);
             ptr[i] = ArrayOf::characterArrayConstructor(std::string(str));
         } else {
-            ptr[i] = ArrayOf::doubleConstructor(std::nan("NaN"));
+            ptr[i] = ArrayOf::doubleConstructor(std::nan(""));
         }
     }
     wasConverted = true;

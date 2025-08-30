@@ -177,7 +177,7 @@ Whos(Evaluator* eval, const std::wstring& filename, bool onlyGlobal, const strin
             std::string className = ClassName(value);
             double sizeAsByte;
             if (value.isSparse()) {
-                sizeAsByte = std::nan("NaN");
+                sizeAsByte = std::nan("");
             } else {
                 sizeAsByte = (double)value.getByteSize();
             }

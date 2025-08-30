@@ -24,8 +24,8 @@ public:
     GOScalarProperty() : GOFixedVectorProperty(1)
     {
         haveLimits = false;
-        _minValue = std::nan("NaN");
-        _maxValue = std::nan("NaN");
+        _minValue = std::nan("");
+        _maxValue = std::nan("");
     }
     GOScalarProperty(double minValue, double maxValue) : GOFixedVectorProperty(1)
     {

@@ -42,7 +42,7 @@ namespace {
         auto funcPtr
             = reinterpret_cast<FuncPtr>(get_function(nlsGuiHandleDynamicLibrary, functionName));
         if (funcPtr == nullptr) {
-            logErrorAndExit("Gui Function not loaded.");
+            logErrorAndExit(_("Gui Function not loaded."));
         }
         return funcPtr;
     }

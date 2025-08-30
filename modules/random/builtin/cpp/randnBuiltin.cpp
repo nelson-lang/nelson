@@ -35,6 +35,12 @@ Nelson::RandomGateway::randnBuiltin(int nLhs, const ArrayOfVector& argIn)
                 if (paramstr == L"like") {
                     ArrayOf lastArg = argIn[argIn.size() - 1];
                     switch (lastArg.getDataClass()) {
+                    case NLS_DCOMPLEX:
+                        cl = NLS_DCOMPLEX;
+                        break;
+                    case NLS_SCOMPLEX:
+                        cl = NLS_SCOMPLEX;
+                        break;
                     case NLS_DOUBLE:
                         cl = NLS_DOUBLE;
                         break;

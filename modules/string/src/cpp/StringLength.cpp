@@ -32,7 +32,7 @@ StringLength(const ArrayOf& A)
                 std::wstring wstr = elements[k].getContentAsWideString();
                 ptrLength[k] = static_cast<double>(wstr.length());
             } else {
-                ptrLength[k] = std::nan("NaN");
+                ptrLength[k] = std::nan("");
             }
         }
     } else {

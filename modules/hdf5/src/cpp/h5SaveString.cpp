@@ -52,7 +52,7 @@ h5SaveStringArray(hid_t fid, const std::string& location, const std::string& var
             bSuccess = h5SaveCharacterArray(
                 fid, h5path + std::string("/"), name, element, useCompression);
         } else {
-            ArrayOf v = ArrayOf::doubleConstructor(std::nan("NaN"));
+            ArrayOf v = ArrayOf::doubleConstructor(std::nan(""));
             bSuccess = h5SaveVariable(fid, h5path + std::string("/"), name, v, useCompression);
         }
         if (!bSuccess) {

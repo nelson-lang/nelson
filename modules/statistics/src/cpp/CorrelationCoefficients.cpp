@@ -27,7 +27,7 @@ CorrelationCoefficients(const T* data, indexType R, indexType C, NelsonType dest
     if (R == 0 && C == 0) {
         Dimensions dimsOut(1, 1);
         T* outData = (T*)ArrayOf::allocateArrayOf(destination, 1);
-        outData[0] = (T)std::nan("NaN");
+        outData[0] = (T)std::nan("");
         return ArrayOf(destination, dimsOut, outData);
     }
     if (R == 1 && C != 1) {

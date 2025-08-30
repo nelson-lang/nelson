@@ -81,7 +81,7 @@ StringJustify(const ArrayOf& stringArrayOf, STRINGJUSTIFY style)
             if (ptr[k].isRowVectorCharacterArray()) {
                 elements[k] = StringJustify(ptr[k], style);
             } else {
-                elements[k] = ArrayOf::doubleConstructor(std::nan("NaN"));
+                elements[k] = ArrayOf::doubleConstructor(std::nan(""));
             }
         }
         return cell;

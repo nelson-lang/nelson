@@ -39,7 +39,7 @@ TMinLessReal(bool omitnan, const T* spx, const T* spy, T* dp, indexType count, i
             T x = spx[stridex * i];
             T y = spy[stridey * i];
             if (std::isnan(x) && std::isnan(y)) {
-                dp[i] = (T)std::nan("NaN");
+                dp[i] = (T)std::nan("");
             } else if (std::isnan(x) && !std::isnan(y)) {
                 dp[i] = y;
             } else if (std::isnan(y) && !std::isnan(x)) {
@@ -54,7 +54,7 @@ TMinLessReal(bool omitnan, const T* spx, const T* spy, T* dp, indexType count, i
             T x = spx[stridex * i];
             T y = spy[stridey * i];
             if (std::isnan(x) || std::isnan(y)) {
-                dp[i] = (T)std::nan("NaN");
+                dp[i] = (T)std::nan("");
             } else {
                 dp[i] = (x < y) ? x : y;
             }
@@ -194,7 +194,7 @@ TMinAllReal(bool omitnan, const T* sp, T* dp, indexType elementCount)
         if (init) {
             dp[0] = minval;
         } else {
-            dp[0] = (T)std::nan("NaN");
+            dp[0] = (T)std::nan("");
         }
     } else {
         T minval;
@@ -246,7 +246,7 @@ TMinReal(bool omitnan, const T* sp, T* dp, double* iptr, indexType planes, index
                         iptr[i * planesize + j] = mindex + 1;
                     }
                 } else {
-                    dp[i * planesize + j] = (T)std::nan("NaN");
+                    dp[i * planesize + j] = (T)std::nan("");
                     if (iptr != nullptr) {
                         iptr[i * planesize + j] = 0;
                     }
@@ -315,8 +315,8 @@ TMinAllComplex(bool omitnan, const T* sp, T* dp, indexType elementCount)
             dp[0] = minval_r;
             dp[1] = minval_i;
         } else {
-            dp[0] = (T)std::nan("nan");
-            dp[1] = (T)std::nan("nan");
+            dp[0] = (T)std::nan("");
+            dp[1] = (T)std::nan("");
         }
 
     } else {
@@ -390,8 +390,8 @@ TMinComplex(bool omitnan, const T* sp, T* dp, double* iptr, indexType planes, in
                         iptr[i * planesize + j] = mindex + 1;
                     }
                 } else {
-                    dp[2 * (i * planesize + j)] = (T)std::nan("NaN");
-                    dp[2 * (i * planesize + j) + 1] = (T)std::nan("NaN");
+                    dp[2 * (i * planesize + j)] = (T)std::nan("");
+                    dp[2 * (i * planesize + j) + 1] = (T)std::nan("");
                     if (iptr != nullptr) {
                         iptr[i * planesize + j] = 0;
                     }

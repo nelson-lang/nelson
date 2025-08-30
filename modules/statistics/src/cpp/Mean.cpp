@@ -168,7 +168,7 @@ TMeanAllComplex(const T* spx, bool omitNaN, indexType elementCount)
             }
         }
         if (nbNotNaN == 0) {
-            std::complex<double> m(std::nan("NaN"), 0);
+            std::complex<double> m(std::nan(""), 0);
             mean = m;
         } else {
             std::complex<double> m(sumReal / (double)nbNotNaN, sumImag / (double)nbNotNaN);
@@ -253,7 +253,7 @@ MeanAll(const ArrayOf& A, bool omitNaN, MEAN_OUT_TYPE outType, bool& needToOverl
         return res;
     }
     if (A.isEmpty(true)) {
-        res = ArrayOf::doubleConstructor(std::nan("NaN"));
+        res = ArrayOf::doubleConstructor(std::nan(""));
         res.promoteType(outClass);
         return res;
     }
@@ -383,7 +383,7 @@ Mean(const ArrayOf& A, indexType dim, bool omitNaN, MEAN_OUT_TYPE outType, bool&
         return res;
     }
     if (A.isEmpty(true)) {
-        res = ArrayOf::doubleConstructor(std::nan("NaN"));
+        res = ArrayOf::doubleConstructor(std::nan(""));
         res.promoteType(outClass);
         return res;
     }

@@ -159,8 +159,8 @@ LinearInterpolationComplex(
             yi[2 * k + 1]
                 = y1[2 * (left - 1) + 1] + frac * (y1[2 * left + 1] - y1[2 * (left - 1) + 1]);
         } else {
-            yi[2 * k] = (T)std::nan("NaN");
-            yi[2 * k + 1] = (T)std::nan("NaN");
+            yi[2 * k] = (T)std::nan("");
+            yi[2 * k + 1] = (T)std::nan("");
         }
     }
 }
@@ -178,7 +178,7 @@ LinearInterpolationReal(
             T frac = (xi[k] - x1[left - 1]) / (x1[left] - x1[left - 1]);
             yi[k] = y1[left - 1] + frac * (y1[left] - y1[left - 1]);
         } else {
-            yi[k] = (T)std::nan("NaN");
+            yi[k] = (T)std::nan("");
         }
     }
 }

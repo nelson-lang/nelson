@@ -12,7 +12,6 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 //=============================================================================
-#include <boost/random/seed_seq.hpp>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -31,7 +30,6 @@ RandomMersenneTwister64::RandomMersenneTwister64()
 RandomMersenneTwister64::~RandomMersenneTwister64()
 {
     uniform_real_generator(true);
-    uniform_int_generator(true);
     normal_real_generator(true);
 }
 //=============================================================================
@@ -39,6 +37,17 @@ std::wstring
 RandomMersenneTwister64::getGeneratorName()
 {
     return std::wstring(L"twister64");
+}
+//=============================================================================
+void
+RandomMersenneTwister64::setSeed(uint32 _seed)
+{
+    seed = _seed;
+    if (_seed == 0) {
+        random_engine().seed(MAGIC_SEED);
+    } else {
+        random_engine().seed(seed);
+    }
 }
 //=============================================================================
 void
@@ -53,27 +62,15 @@ RandomMersenneTwister64::setSeed(uint64 _seed)
 }
 //=============================================================================
 uint64
-RandomMersenneTwister64::getSeed()
+RandomMersenneTwister64::getSeedU64()
 {
     return seed;
 }
 //=============================================================================
-single
-RandomMersenneTwister64::getValueAsSingle(RNG_DISTRIBUTION_TYPE _type)
+uint32
+RandomMersenneTwister64::getSeed()
 {
-    if (generator == &uniform_real_generator()) {
-        return (single)(*uniform_real_generator())();
-    }
-    return static_cast<single>(nan(""));
-}
-//=============================================================================
-double
-RandomMersenneTwister64::getValueAsDouble(RNG_DISTRIBUTION_TYPE _type)
-{
-    if (generator == &uniform_real_generator()) {
-        return (*uniform_real_generator())();
-    }
-    return nan("");
+    return (uint32)seed;
 }
 //=============================================================================
 void
@@ -86,9 +83,7 @@ RandomMersenneTwister64::getValuesAsDouble(
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
             for (indexType l = 0; l < lastDim; l++) {
-                ar[k * lastDim + l] = (*uniform_real_generator())();
-                // We reject voluntary the next random value for simulate complex number array
-                (*uniform_real_generator())();
+                ar[k * lastDim + l] = uniform01();
             }
         }
     } break;
@@ -97,9 +92,9 @@ RandomMersenneTwister64::getValuesAsDouble(
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
             for (indexType l = 0; l < lastDim; l++) {
-                ar[k * lastDim + l] = (double)(*uniform_int_generator())();
-                // We reject voluntary the next random value for simulate complex number array
-                (*uniform_int_generator())();
+                // MATLAB compatible: floor(rand * N) + 1 where N = maxInt
+                ar[k * lastDim + l]
+                    = static_cast<double>(static_cast<int>(std::floor(uniform01() * maxInt)) + 1);
             }
         }
     } break;
@@ -108,9 +103,7 @@ RandomMersenneTwister64::getValuesAsDouble(
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
             for (indexType l = 0; l < lastDim; l++) {
-                ar[k * lastDim + l] = (double)(*normal_real_generator())();
-                // We reject voluntary the next random value for simulate complex number array
-                (*normal_real_generator())();
+                ar[k * lastDim + l] = normal();
             }
         }
     } break;
@@ -129,9 +122,7 @@ RandomMersenneTwister64::getValuesAsSingle(
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
             for (indexType l = 0; l < lastDim; l++) {
-                ar[k * lastDim + l] = (single)(*uniform_real_generator())();
-                // We reject voluntary the next random value for simulate complex number array
-                (*uniform_real_generator())();
+                ar[k * lastDim + l] = static_cast<single>(uniform01());
             }
         }
     } break;
@@ -140,9 +131,9 @@ RandomMersenneTwister64::getValuesAsSingle(
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
             for (indexType l = 0; l < lastDim; l++) {
-                ar[k * lastDim + l] = (single)(*uniform_int_generator())();
-                // We reject voluntary the next random value for simulate complex number array
-                (*uniform_int_generator())();
+                // MATLAB compatible: floor(rand * N) + 1 where N = maxInt
+                ar[k * lastDim + l]
+                    = static_cast<single>(static_cast<int>(std::floor(uniform01() * maxInt)) + 1);
             }
         }
     } break;
@@ -151,9 +142,7 @@ RandomMersenneTwister64::getValuesAsSingle(
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
             for (indexType l = 0; l < lastDim; l++) {
-                ar[k * lastDim + l] = (single)(*normal_real_generator())();
-                // We reject voluntary the next random value for simulate complex number array
-                (*normal_real_generator())();
+                ar[k * lastDim + l] = static_cast<single>(normal());
             }
         }
     } break;
@@ -165,7 +154,6 @@ RandomMersenneTwister64::getValuesAsSingle(
 std::vector<uint64>
 RandomMersenneTwister64::getState()
 {
-    // http://www.bnikolic.co.uk/nqm/random/mersenne-boost.html
     std::vector<uint64> state;
     std::stringstream line;
     line << random_engine();
@@ -177,20 +165,18 @@ RandomMersenneTwister64::getState()
 }
 //=============================================================================
 void
-RandomMersenneTwister64::setState(const std::vector<uint64>& _state)
+RandomMersenneTwister64::setState(const uint32* _state, size_t len)
 {
-    // http://www.bnikolic.co.uk/nqm/random/mersenne-boost.html
     std::stringstream line;
-    for (uint64 k : _state) {
-        line << ' ' << (unsigned long)k;
+    for (size_t k = 0; k < len; k++) {
+        line << ' ' << _state[k];
     }
     line >> random_engine();
 }
 //=============================================================================
 void
-RandomMersenneTwister64::setState(uint64* _state, size_t len)
+RandomMersenneTwister64::setState(const uint64* _state, size_t len)
 {
-    // http://www.bnikolic.co.uk/nqm/random/mersenne-boost.html
     std::stringstream line;
     for (size_t k = 0; k < len; k++) {
         line << ' ' << _state[k];
@@ -207,15 +193,15 @@ RandomMersenneTwister64::getStateSize()
 void
 RandomMersenneTwister64::setMinMaxUniformIntDistribution(int _min, int _max)
 {
-    uniform_int_generator(true);
-    uniform_int_generator(false, _min, _max);
+    minInt = _min;
+    maxInt = _max;
 }
 //=============================================================================
 void
 RandomMersenneTwister64::getMinMaxUniformIntDistribution(int& _min, int& _max)
 {
-    _max = uniform_int_generator()->distribution().max();
-    _min = uniform_int_generator()->distribution().min();
+    _min = minInt;
+    _max = maxInt;
 }
 //=============================================================================
 } // namespace Nelson

@@ -41,7 +41,7 @@ h5LoadMissing(hid_t fid, const std::string& location, const std::string& variabl
         H5Sclose(dspace_id);
         double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_MISSING_ARRAY, dims.getElementCount());
         for (size_t k = 0; k < dims.getElementCount(); ++k) {
-            ptr[k] = std::nan("NaN");
+            ptr[k] = std::nan("");
         }
         VariableValue = ArrayOf(NLS_MISSING_ARRAY, dims, ptr);
         bSuccess = true;

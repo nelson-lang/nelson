@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSRANDOM_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/random/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/random/src/c;$(SolutionDir)modules/random/src/c/dsfmt;$(SolutionDir)modules/random/src/c/philox;$(SolutionDir)modules/random/src/c/threefry;$(SolutionDir)modules/random/src/c/mt19937;$(SolutionDir)modules/random/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <OpenMP>None</OpenMP>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
@@ -117,7 +117,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSRANDOM_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/random/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/random/src/c;$(SolutionDir)modules/random/src/c/dsfmt;$(SolutionDir)modules/random/src/c/philox;$(SolutionDir)modules/random/src/c/threefry;$(SolutionDir)modules/random/src/c/mt19937;$(SolutionDir)modules/random/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <OpenMP>None</OpenMP>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
@@ -141,7 +141,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSRANDOM_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/random/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/random/src/c;$(SolutionDir)modules/random/src/c/dsfmt;$(SolutionDir)modules/random/src/c/philox;$(SolutionDir)modules/random/src/c/threefry;$(SolutionDir)modules/random/src/c/mt19937;$(SolutionDir)modules/random/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <OpenMP>None</OpenMP>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
@@ -167,7 +167,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSRANDOM_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/random/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/random/src/c;$(SolutionDir)modules/random/src/c/dsfmt;$(SolutionDir)modules/random/src/c/philox;$(SolutionDir)modules/random/src/c/threefry;$(SolutionDir)modules/random/src/c/mt19937;$(SolutionDir)modules/random/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <OpenMP>None</OpenMP>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
@@ -203,25 +203,48 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\dSFMT19937.cpp" />
     <ClCompile Include="..\cpp\Rand.cpp" />
+    <ClCompile Include="..\cpp\RandInteger.cpp" />
     <ClCompile Include="..\cpp\RandNormal.cpp" />
     <ClCompile Include="..\cpp\RandomInterface.cpp" />
     <ClCompile Include="..\cpp\RandomMersenneTwister.cpp" />
     <ClCompile Include="..\cpp\RandomMersenneTwister64.cpp" />
     <ClCompile Include="..\cpp\RandomLaggedFibonacci607.cpp" />
+    <ClCompile Include="..\cpp\RandomMRG32k3a.cpp" />
     <ClCompile Include="..\cpp\Rng.cpp" />
     <ClCompile Include="..\cpp\Rng_helpers.cpp" />
+    <ClCompile Include="dsfmt\dSFMT.c" />
+    <ClCompile Include="mt19937\distributions.c" />
+    <ClCompile Include="mt19937\mt19937-jump.c" />
+    <ClCompile Include="mt19937\mt19937.c" />
+    <ClCompile Include="mt19937\randomkit.c" />
+    <ClCompile Include="threefry\threefry.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\dSFMT19937.hpp" />
+    <ClInclude Include="..\cpp\LaggedFibonacci607Engine.hpp" />
     <ClInclude Include="..\cpp\RandomInterface.hpp" />
     <ClInclude Include="..\cpp\RandomLaggedFibonacci607.hpp" />
     <ClInclude Include="..\cpp\RandomMersenneTwister.hpp" />
     <ClInclude Include="..\cpp\RandomMersenneTwister64.hpp" />
+    <ClInclude Include="..\cpp\RandomMRG32k3a.hpp" />
+    <ClInclude Include="..\cpp\RandomPhilox.hpp" />
+    <ClInclude Include="..\cpp\RandomThreefry.hpp" />
     <ClInclude Include="..\include\nlsRandom_exports.h" />
     <ClInclude Include="..\include\Rand.hpp" />
+    <ClInclude Include="..\include\RandInteger.hpp" />
     <ClInclude Include="..\include\RandNormal.hpp" />
     <ClInclude Include="..\include\Rng.hpp" />
     <ClInclude Include="..\include\Rng_helpers.hpp" />
+    <ClInclude Include="dsfmt\dSFMT-params19937.h" />
+    <ClInclude Include="dsfmt\dSFMT.h" />
+    <ClInclude Include="mt19937\distributions.h" />
+    <ClInclude Include="mt19937\mt19937-jump.h" />
+    <ClInclude Include="mt19937\mt19937.h" />
+    <ClInclude Include="mt19937\randomkit.h" />
+    <ClInclude Include="philox\philox4x32_10.h" />
+    <ClInclude Include="threefry\threefry.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />

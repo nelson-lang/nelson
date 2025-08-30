@@ -183,6 +183,7 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\randBuiltin.cpp" />
+    <ClCompile Include="..\cpp\randiBuiltin.cpp" />
     <ClCompile Include="..\cpp\randnBuiltin.cpp" />
     <ClCompile Include="..\cpp\rngBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
@@ -216,6 +217,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\nlsRandom_builtin_exports.h" />
     <ClInclude Include="..\include\randBuiltin.hpp" />
+    <ClInclude Include="..\include\randiBuiltin.hpp" />
     <ClInclude Include="..\include\randnBuiltin.hpp" />
     <ClInclude Include="..\include\rngBuiltin.hpp" />
   </ItemGroup>

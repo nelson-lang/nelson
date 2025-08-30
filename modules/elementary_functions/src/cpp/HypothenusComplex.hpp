@@ -25,7 +25,7 @@ hypothenusComplexNelson(std::complex<T> a, std::complex<T> b)
     T _a = std::abs(a);
     T _b = std::abs(b);
     if (std::isnan(_a) || std::isnan(_b)) {
-        return (T)std::nan("NaN");
+        return (T)std::nan("");
     }
     return (T)std::hypot(_a, _b);
 }

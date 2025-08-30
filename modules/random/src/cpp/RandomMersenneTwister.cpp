@@ -7,31 +7,23 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#define _SCL_SECURE_NO_WARNINGS
-//=============================================================================
-#include <boost/random/seed_seq.hpp>
-#include <boost/random/uniform_int_distribution.hpp>
-#include <fstream>
-#include <iostream>
-#include <sstream>
+#include <cstring>
+#include <randomkit.h>
+#include <distributions.h>
 #include "RandomMersenneTwister.hpp"
 //=============================================================================
 #define MAGIC_SEED 5489
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-RandomMersenneTwister::RandomMersenneTwister()
+RandomMersenneTwister::RandomMersenneTwister() : pImpl(new Impl())
 {
-    seed = 0;
-    setSeed(seed);
+    uint32 initial_seed = 0;
+    rk_seed((initial_seed == 0 ? MAGIC_SEED : initial_seed), &pImpl->state);
+    seed = initial_seed;
 }
 //=============================================================================
-RandomMersenneTwister::~RandomMersenneTwister()
-{
-    uniform_real_generator(true);
-    uniform_int_generator(true);
-    normal_real_generator(true);
-}
+RandomMersenneTwister::~RandomMersenneTwister() { delete pImpl; }
 //=============================================================================
 std::wstring
 RandomMersenneTwister::getGeneratorName()
@@ -42,92 +34,55 @@ RandomMersenneTwister::getGeneratorName()
 void
 RandomMersenneTwister::setSeed(uint32 _seed)
 {
+    std::lock_guard<std::mutex> lock(mtx);
     seed = _seed;
-    if (_seed == 0) {
-        random_engine().seed(MAGIC_SEED);
-    } else {
-        random_engine().seed(seed);
-    }
+    rk_seed((seed == 0 ? MAGIC_SEED : seed), &pImpl->state);
 }
 //=============================================================================
 uint32
 RandomMersenneTwister::getSeed()
 {
+    std::lock_guard<std::mutex> lock(mtx);
     return seed;
-}
-//=============================================================================
-single
-RandomMersenneTwister::getValueAsSingle(RNG_DISTRIBUTION_TYPE _type)
-{
-    switch (_type) {
-    case RNG_DISTRIBUTION_UNIFORM_REAL:
-        return (single)(*uniform_real_generator())();
-    case RNG_DISTRIBUTION_UNIFORM_INT:
-        return (single)(*uniform_int_generator())();
-    case RNG_DISTRIBUTION_NORMAL:
-        return (single)(*normal_real_generator())();
-    default: {
-    } break;
-    }
-    return static_cast<single>(nan(""));
-}
-//=============================================================================
-double
-RandomMersenneTwister::getValueAsDouble(RNG_DISTRIBUTION_TYPE _type)
-{
-    switch (_type) {
-    case RNG_DISTRIBUTION_UNIFORM_REAL:
-        return (*uniform_real_generator())();
-    case RNG_DISTRIBUTION_UNIFORM_INT:
-        return (double)(*uniform_int_generator())();
-    case RNG_DISTRIBUTION_NORMAL:
-        return (*normal_real_generator())();
-    default: {
-    } break;
-    }
-    return nan("");
 }
 //=============================================================================
 void
 RandomMersenneTwister::getValuesAsDouble(
     double* ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type)
 {
-    switch (_type) {
-    case RNG_DISTRIBUTION_UNIFORM_REAL: {
-        // rows to columns order
-        size_t p = (nbElements / lastDim);
-        for (size_t k = 0; k < p; k++) {
-            for (indexType l = 0; l < lastDim; l++) {
-                ar[k * lastDim + l] = (*uniform_real_generator(false))();
-                // We reject voluntary the next random value for simulate complex number array
-                (*uniform_real_generator())();
+    int local_min, local_max;
+    rk_state local_state;
+
+    {
+        std::lock_guard<std::mutex> lock(mtx);
+        local_min = pImpl->int_min;
+        local_max = pImpl->int_max;
+        local_state = pImpl->state;
+    }
+
+    size_t p = (nbElements / lastDim);
+    for (size_t k = 0; k < p; k++) {
+        for (indexType l = 0; l < lastDim; l++) {
+            switch (_type) {
+            case RNG_DISTRIBUTION_UNIFORM_REAL:
+                ar[k * lastDim + l] = rk_double(&local_state);
+                break;
+            case RNG_DISTRIBUTION_UNIFORM_INT:
+                ar[k * lastDim + l] = static_cast<double>(local_min
+                    + static_cast<int>(rk_double(&local_state) * (local_max - local_min + 1)));
+                break;
+            case RNG_DISTRIBUTION_NORMAL:
+                ar[k * lastDim + l] = rk_normal(&local_state, 0.0, 1.0);
+                break;
+            default:
+                break;
             }
         }
-    } break;
-    case RNG_DISTRIBUTION_UNIFORM_INT: {
-        // rows to columns order
-        size_t p = (nbElements / lastDim);
-        for (size_t k = 0; k < p; k++) {
-            for (indexType l = 0; l < lastDim; l++) {
-                ar[k * lastDim + l] = (double)(*uniform_int_generator())();
-                // We reject voluntary the next random value for simulate complex number array
-                (*uniform_int_generator())();
-            }
-        }
-    } break;
-    case RNG_DISTRIBUTION_NORMAL: {
-        // rows to columns order
-        size_t p = (nbElements / lastDim);
-        for (size_t k = 0; k < p; k++) {
-            for (indexType l = 0; l < lastDim; l++) {
-                ar[k * lastDim + l] = (*normal_real_generator())();
-                // We reject voluntary the next random value for simulate complex number array
-                (*normal_real_generator())();
-            }
-        }
-    } break;
-    default: {
-    } break;
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(mtx);
+        pImpl->state = local_state;
     }
 }
 //=============================================================================
@@ -135,107 +90,82 @@ void
 RandomMersenneTwister::getValuesAsSingle(
     single* ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type)
 {
-    switch (_type) {
-    case RNG_DISTRIBUTION_UNIFORM_REAL: {
-        // rows to columns order
-        size_t p = (nbElements / lastDim);
-        for (size_t k = 0; k < p; k++) {
-            for (indexType l = 0; l < lastDim; l++) {
-                ar[k * lastDim + l] = (single)(*uniform_real_generator(false))();
-                // We reject voluntary the next random value for simulate complex number array
-                (*uniform_real_generator())();
+    int local_min, local_max;
+    rk_state local_state;
+
+    {
+        std::lock_guard<std::mutex> lock(mtx);
+        local_min = pImpl->int_min;
+        local_max = pImpl->int_max;
+        local_state = pImpl->state;
+    }
+
+    size_t p = (nbElements / lastDim);
+    for (size_t k = 0; k < p; k++) {
+        for (indexType l = 0; l < lastDim; l++) {
+            switch (_type) {
+            case RNG_DISTRIBUTION_UNIFORM_REAL:
+                ar[k * lastDim + l] = static_cast<single>(rk_double(&local_state));
+                break;
+            case RNG_DISTRIBUTION_UNIFORM_INT:
+                ar[k * lastDim + l] = static_cast<single>(local_min
+                    + static_cast<int>(rk_double(&local_state) * (local_max - local_min + 1)));
+                break;
+            case RNG_DISTRIBUTION_NORMAL:
+                ar[k * lastDim + l] = static_cast<single>(rk_normal(&local_state, 0.0, 1.0));
+                break;
+            default:
+                break;
             }
         }
-    } break;
-    case RNG_DISTRIBUTION_UNIFORM_INT: {
-        // rows to columns order
-        size_t p = (nbElements / lastDim);
-        for (size_t k = 0; k < p; k++) {
-            for (indexType l = 0; l < lastDim; l++) {
-                ar[k * lastDim + l] = (single)(*uniform_int_generator())();
-                // We reject voluntary the next random value for simulate complex number array
-                (*uniform_int_generator())();
-            }
-        }
-    } break;
-    case RNG_DISTRIBUTION_NORMAL: {
-        // rows to columns order
-        size_t p = (nbElements / lastDim);
-        for (size_t k = 0; k < p; k++) {
-            for (indexType l = 0; l < lastDim; l++) {
-                ar[k * lastDim + l] = (single)(*normal_real_generator())();
-                // We reject voluntary the next random value for simulate complex number array
-                (*normal_real_generator())();
-            }
-        }
-    } break;
-    default: {
-    } break;
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(mtx);
+        pImpl->state = local_state;
     }
 }
 //=============================================================================
 std::vector<uint32>
 RandomMersenneTwister::getState()
 {
-    // http://www.bnikolic.co.uk/nqm/random/mersenne-boost.html
-    std::vector<uint32> state;
-    std::stringstream line;
-    line << random_engine();
-    uint32 num = 0;
-    while (line >> num) {
-        state.push_back(num);
-    }
+    std::lock_guard<std::mutex> lock(mtx);
+    std::vector<uint32> state(RK_STATE_LEN + 1);
+    std::memcpy(state.data(), pImpl->state.key, RK_STATE_LEN * sizeof(uint32));
+    state[RK_STATE_LEN] = pImpl->state.pos;
     return state;
 }
 //=============================================================================
 void
-RandomMersenneTwister::setState(const std::vector<uint32>& _state)
+RandomMersenneTwister::setState(const uint32* _state, size_t len)
 {
-    // http://www.bnikolic.co.uk/nqm/random/mersenne-boost.html
-    std::stringstream line;
-    for (size_t k = 0; k < _state.size(); k++) {
-        if (k == 0) {
-            line << _state[k];
-        } else {
-            line << ' ' << _state[k];
-        }
+    std::lock_guard<std::mutex> lock(mtx);
+    if (len == RK_STATE_LEN + 1) {
+        std::memcpy(pImpl->state.key, _state, RK_STATE_LEN * sizeof(uint32));
+        pImpl->state.pos = _state[RK_STATE_LEN];
     }
-    line >> random_engine();
-}
-//=============================================================================
-void
-RandomMersenneTwister::setState(uint32* _state, size_t len)
-{
-    // http://www.bnikolic.co.uk/nqm/random/mersenne-boost.html
-    std::stringstream line;
-    for (size_t k = 0; k < len; k++) {
-        if (k == 0) {
-            line << _state[k];
-        } else {
-            line << ' ' << _state[k];
-        }
-    }
-    line >> random_engine();
 }
 //=============================================================================
 size_t
 RandomMersenneTwister::getStateSize()
 {
-    return getState().size();
+    return RK_STATE_LEN + 1;
 }
 //=============================================================================
 void
 RandomMersenneTwister::setMinMaxUniformIntDistribution(int _min, int _max)
 {
-    uniform_int_generator(true);
-    uniform_int_generator(false, _min, _max);
+    std::lock_guard<std::mutex> lock(mtx);
+    pImpl->int_min = _min;
+    pImpl->int_max = _max;
 }
 //=============================================================================
 void
 RandomMersenneTwister::getMinMaxUniformIntDistribution(int& _min, int& _max)
 {
-    _max = uniform_int_generator()->distribution().max();
-    _min = uniform_int_generator()->distribution().min();
+    std::lock_guard<std::mutex> lock(mtx);
+    _min = pImpl->int_min;
+    _max = pImpl->int_max;
 }
 //=============================================================================
 } // namespace Nelson

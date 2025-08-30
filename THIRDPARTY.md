@@ -413,3 +413,27 @@ a JPEG image codec that uses SIMD instructions
 > <https://github.com/libjpeg-turbo/libjpeg-turbo>
 
 > <https://github.com/libjpeg-turbo/libjpeg-turbo/blob/main/LICENSE.md> (BSD)
+
+- randomkit
+
+MT19937 - Jean-Sebastien Roy
+
+> <https://github.com/numpy/numpy/tree/main/numpy/random/src/mt19937>
+
+> <https://github.com/numpy/numpy/blob/main/numpy/random/src/mt19937/LICENSE.md> (BSD)
+
+- random123 (philox, threefry)
+
+Random123: a Library of Counter-Based Random Number Generators
+
+> <https://github.com/DEShawResearch/random123>
+
+> <https://github.com/DEShawResearch/random123/blob/main/LICENSE> (BSD)
+
+- dSFMT
+
+Double precision SIMD-oriented Fast Mersenne Twister
+
+> <https://github.com/MersenneTwister-Lab/dSFMT>
+
+> <https://github.com/MersenneTwister-Lab/dSFMT/blob/master/LICENSE.txt> (BSD)

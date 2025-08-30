@@ -25,7 +25,7 @@ T
 DeterminantRealMatrix(T* values, indexType rows, indexType columns)
 {
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(values, rows, columns);
-    return matA.hasNaN() ? (T)std::nan("NaN") : (T)matA.determinant();
+    return matA.hasNaN() ? (T)std::nan("") : (T)matA.determinant();
 }
 //=============================================================================
 template <class Tz, class Tr>
@@ -34,7 +34,7 @@ DeterminantComplexMatrix(Tr* values, indexType rows, indexType columns)
 {
     Tz* pzMat = reinterpret_cast<Tz*>(values);
     Eigen::Map<Eigen::Matrix<Tz, Eigen::Dynamic, Eigen::Dynamic>> matA(pzMat, rows, columns);
-    return matA.hasNaN() ? Tz((Tr)std::nan("NaN"), (Tr)std::nan("NaN")) : matA.determinant();
+    return matA.hasNaN() ? Tz((Tr)std::nan(""), (Tr)std::nan("")) : matA.determinant();
 }
 //=============================================================================
 static double
@@ -51,8 +51,7 @@ DeterminantSparseComplexMatrix(const void* ptrValues)
     Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMatA
         = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)ptrValues;
     Eigen::Matrix<doublecomplex, Eigen::Dynamic, Eigen::Dynamic> asDense = spMatA->toDense();
-    return asDense.hasNaN() ? doublecomplex(std::nan("NaN"), std::nan("NaN"))
-                            : asDense.determinant();
+    return asDense.hasNaN() ? doublecomplex(std::nan(""), std::nan("")) : asDense.determinant();
 }
 //=============================================================================
 ArrayOf

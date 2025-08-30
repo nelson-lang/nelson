@@ -27,7 +27,7 @@ hypothenusRealNelson(T a, T b)
     // hypot(Inf, NaN)
     // hypot(-Inf, NaN)
     if (std::isnan(a) || std::isnan(b)) {
-        return (T)std::nan("NaN");
+        return (T)std::nan("");
     }
     return (T)std::hypot(a, b);
 }

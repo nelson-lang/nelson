@@ -188,7 +188,7 @@ StringJoinStringArrayScalarDelimiter(const ArrayOf& A, const ArrayOf& delimiter,
                     joined += strs[r + c * nbRows].getContentAsWideString();
                 }
             }
-            elements[c] = isMissing ? ArrayOf::doubleConstructor(std::nan("NaN"))
+            elements[c] = isMissing ? ArrayOf::doubleConstructor(std::nan(""))
                                     : ArrayOf::characterArrayConstructor(joined);
         }
         return strArray;
@@ -217,7 +217,7 @@ StringJoinStringArrayScalarDelimiter(const ArrayOf& A, const ArrayOf& delimiter,
                     joined += strs[r + c * nbRows].getContentAsWideString();
                 }
             }
-            elements[r] = isMissing ? ArrayOf::doubleConstructor(std::nan("NaN"))
+            elements[r] = isMissing ? ArrayOf::doubleConstructor(std::nan(""))
                                     : ArrayOf::characterArrayConstructor(joined);
         }
         return strArray;
@@ -258,7 +258,7 @@ StringJoinStringArrayRowVectorDelimiter(
                     joined += strs[r + c * nbRows].getContentAsWideString();
                 }
             }
-            elements[c] = isMissing ? ArrayOf::doubleConstructor(std::nan("NaN"))
+            elements[c] = isMissing ? ArrayOf::doubleConstructor(std::nan(""))
                                     : ArrayOf::characterArrayConstructor(joined);
         }
         return strArray;
@@ -287,7 +287,7 @@ StringJoinStringArrayRowVectorDelimiter(
                     joined += strs[r + c * nbRows].getContentAsWideString();
                 }
             }
-            elements[r] = isMissing ? ArrayOf::doubleConstructor(std::nan("NaN"))
+            elements[r] = isMissing ? ArrayOf::doubleConstructor(std::nan(""))
                                     : ArrayOf::characterArrayConstructor(joined);
         }
         return strArray;
@@ -326,7 +326,7 @@ StringJoinStringArrayColumnVectorDelimiter(
                     joined += strs[r + c * nbRows].getContentAsWideString();
                 }
             }
-            elements[c] = isMissing ? ArrayOf::doubleConstructor(std::nan("NaN"))
+            elements[c] = isMissing ? ArrayOf::doubleConstructor(std::nan(""))
                                     : ArrayOf::characterArrayConstructor(joined);
         }
         return strArray;
@@ -353,7 +353,7 @@ StringJoinStringArrayColumnVectorDelimiter(
                     joined += strs[r + c * nbRows].getContentAsWideString();
                 }
             }
-            elements[r] = isMissing ? ArrayOf::doubleConstructor(std::nan("NaN"))
+            elements[r] = isMissing ? ArrayOf::doubleConstructor(std::nan(""))
                                     : ArrayOf::characterArrayConstructor(joined);
         }
         return strArray;
@@ -390,7 +390,7 @@ StringJoinStringArrayMatrixDelimiter(const ArrayOf& A, const ArrayOf& delimiters
                     joined += strs[r + c * nbRows].getContentAsWideString();
                 }
             }
-            elements[c] = isMissing ? ArrayOf::doubleConstructor(std::nan("NaN"))
+            elements[c] = isMissing ? ArrayOf::doubleConstructor(std::nan(""))
                                     : ArrayOf::characterArrayConstructor(joined);
         }
         return strArray;
@@ -418,7 +418,7 @@ StringJoinStringArrayMatrixDelimiter(const ArrayOf& A, const ArrayOf& delimiters
                     joined += strs[r + c * nbRows].getContentAsWideString();
                 }
             }
-            elements[r] = isMissing ? ArrayOf::doubleConstructor(std::nan("NaN"))
+            elements[r] = isMissing ? ArrayOf::doubleConstructor(std::nan(""))
                                     : ArrayOf::characterArrayConstructor(joined);
         }
         return strArray;

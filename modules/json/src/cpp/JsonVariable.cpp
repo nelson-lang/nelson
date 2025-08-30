@@ -13,7 +13,7 @@ namespace Nelson {
 //=============================================================================
 JsonVariable::JsonVariable()
     : jsonVariableType(JSON_TO_NELSON_UNDEFINED)
-    , scalarDouble(std::nan("NaN"))
+    , scalarDouble(std::nan(""))
     , scalarLogical(false)
     , reduced(false)
 {

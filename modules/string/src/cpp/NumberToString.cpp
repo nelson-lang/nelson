@@ -115,7 +115,7 @@ NumberToStringHelperComplex(
     size_t maxlen = 0;
 
     if (formatType == NUM2STR_ENUM::AUTO) {
-        long double maxAbsValue = std::nan("NaN");
+        long double maxAbsValue = std::nan("");
         for (indexType i = 0; i < dimsA.getElementCount(); i++) {
             long double value_real = fabsl((long double)dpz[i].real());
             long double value_imag = fabsl((long double)dpz[i].imag());
@@ -248,7 +248,7 @@ NumberToStringHelperReal(
     size_t maxlen = 0;
 
     if (formatType == NUM2STR_ENUM::AUTO) {
-        long double maxAbsValue = std::nan("NaN");
+        long double maxAbsValue = std::nan("");
         for (indexType i = 0; i < dimsA.getElementCount(); i++) {
             long double value_real = fabsl((long double)dp[i]);
             if (std::isfinite(value_real)) {

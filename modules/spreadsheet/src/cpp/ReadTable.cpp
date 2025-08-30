@@ -48,8 +48,8 @@ ConvertToArrayOfCharacter(const std::string& pStr, struct DoubleDoubleComplexStr
         structValue.asDoubleComplex = cvalue;
         return;
     }
-    structValue.asDouble = std::nan("NaN");
-    structValue.asDoubleComplex = std::complex<double>(std::nan("NaN"), std::nan("NaN"));
+    structValue.asDouble = std::nan("");
+    structValue.asDoubleComplex = std::complex<double>(std::nan(""), std::nan(""));
     structValue.nelsonType = NLS_CHAR;
 }
 //=============================================================================

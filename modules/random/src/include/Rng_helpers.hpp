@@ -20,7 +20,11 @@ enum RNG_TYPE
     RNG_ERROR = -1,
     RNG_TWISTER = 0,
     RNG_TWISTER64,
+    RNG_MRG32K3A,
+    RNG_DSFMT19937,
     RNG_LAGGED_FIBONACCI_607,
+    RNG_PHILOX,
+    RNG_THREEFRY
 };
 //=============================================================================
 NLSRANDOM_IMPEXP wstringVector
@@ -38,6 +42,5 @@ isRngType(const std::wstring& enginename);
 NLSRANDOM_IMPEXP bool
 haveRandomEngine();
 //=============================================================================
-
 } // namespace Nelson
 //=============================================================================

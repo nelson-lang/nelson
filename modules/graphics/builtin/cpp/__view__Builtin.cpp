@@ -56,8 +56,8 @@ __view__Builtin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 1, 4);
     nargoutcheck(nLhs, 0, 2);
 
-    double azimuth = std::nan("NaN");
-    double elevation = std::nan("NaN");
+    double azimuth = std::nan("");
+    double elevation = std::nan("");
 
     if (!argIn[0].isGraphicsObject()) {
         Error(_W("Expected graphics object(s)."));

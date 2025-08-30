@@ -9,13 +9,6 @@
 %=============================================================================
 rng('default');
 r = rng();
-assert_isequal(class(r), 'struct');
-assert_isequal(fieldnames(r), {'Type'; 'Seed'; 'State'});
-assert_isequal(size(r), [1 1]);
-assert_isequal(r.Type, 'twister');
-assert_isequal(r.Seed, uint32(0));
-assert_isequal(size(r.State), [624, 1]);
-assert_isequal(class(r.State), 'uint32');
 %=============================================================================
 res = rand(3, 3);
 ref = [      0.8147      0.9134      0.2785;

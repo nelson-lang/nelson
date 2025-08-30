@@ -43,7 +43,7 @@ ToDouble(const ArrayOf& A, bool& needToOverload)
             = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nbElements, stringVector(), false);
         ArrayOf R = ArrayOf(NLS_DOUBLE, dimsA, ptr);
         for (indexType k = 0; k < nbElements; k = k + 1) {
-            ptr[k] = std::nan("NaN");
+            ptr[k] = std::nan("");
         }
         return R;
     } break;
@@ -69,11 +69,11 @@ ToDouble(const ArrayOf& A, bool& needToOverload)
                     ptrComplex[q] = asComplex.real();
                     ptrComplex[q + 1] = asComplex.imag();
                 } else {
-                    ptrComplex[q] = std::nan("NaN");
+                    ptrComplex[q] = std::nan("");
                     ptrComplex[q + 1] = 0;
                 }
             } else {
-                ptrComplex[k] = std::nan("NaN");
+                ptrComplex[k] = std::nan("");
                 ptrComplex[k + 1] = 0;
             }
             q = q + 2;

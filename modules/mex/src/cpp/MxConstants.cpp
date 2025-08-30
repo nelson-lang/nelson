@@ -33,7 +33,7 @@ mxIsFinite(double value)
 double
 mxGetNaN(void)
 {
-    return std::nan("NaN");
+    return std::nan("");
 }
 //=============================================================================
 double

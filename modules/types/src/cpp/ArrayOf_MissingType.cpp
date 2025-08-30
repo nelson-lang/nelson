@@ -39,7 +39,7 @@ ArrayOf::missingScalarConstructor()
     dim.makeScalar();
     double* data
         = static_cast<double*>(allocateArrayOf(NLS_MISSING_ARRAY, 1, stringVector(), false));
-    *data = std::nan("NaN");
+    *data = std::nan("");
     return ArrayOf(NLS_MISSING_ARRAY, dim, data);
 }
 //=============================================================================

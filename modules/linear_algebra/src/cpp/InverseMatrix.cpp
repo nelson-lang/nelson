@@ -36,7 +36,7 @@ InverseDouble(const ArrayOf& A, double rcond)
         if (std::isnan(rcond)) {
             Eigen::Map<Eigen::MatrixXd> matR(
                 ptrD, (Eigen::Index)res.getRows(), (Eigen::Index)res.getColumns());
-            matR.setConstant(std::nan("NaN"));
+            matR.setConstant(std::nan(""));
             return res;
         }
         int N = (int)A.getColumns();
@@ -82,7 +82,7 @@ InverseDoubleComplex(ArrayOf A, double rcond)
         Rz, (Eigen::Index)res.getRows(), (Eigen::Index)res.getColumns());
     if (matA.isDiagonal()) {
         if (std::isnan(rcond)) {
-            doublecomplex cst(std::nan("NaN"), std::nan("NaN"));
+            doublecomplex cst(std::nan(""), std::nan(""));
             matR.setConstant(cst);
             return res;
         }

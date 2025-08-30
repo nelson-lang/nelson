@@ -60,7 +60,7 @@ SignReal(NelsonType outputClass, const T* ptrA, const Dimensions& dimsA)
     OMP_PARALLEL_FOR_LOOP(nbElements)
     for (ompIndexType k = 0; k < nbElements; ++k) {
         if (std::isnan(ptrA[k])) {
-            ptrB[k] = (T)std::nan("NaN");
+            ptrB[k] = (T)std::nan("");
         } else if (ptrA[k] < (T)0) {
             ptrB[k] = (T)(-1);
         } else if (ptrA[k] == (T)0) {
