@@ -127,7 +127,7 @@ convertToJsonVariable(ondemand::value& value, JsonVariable& jsVar)
                 std::string_view token = value.raw_json_token();
                 if (token == "null") {
                     jsVar.jsonVariableType = JSON_TO_NELSON_EMPTY_MATRIX;
-                    jsVar.scalarDouble = std::nan("NaN");
+                    jsVar.scalarDouble = std::nan("");
                     return true;
                 }
 

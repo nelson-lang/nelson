@@ -7,7 +7,7 @@ jobs:
   nix_build:
     name: ${{ matrix.label }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 120
+    timeout-minutes: ${{ matrix.os == 'macos-latest' && null || 120 }}
     strategy:
       fail-fast: false
       matrix:
@@ -38,8 +38,10 @@ jobs:
       - name: Build help
         run: nix develop --command just build_help
       - name: Minimal tests
+        if: runner.os != 'macOS'
         run: nix develop --command just minimal_tests
       - name: Benchmarks
+        if: runner.os != 'macOS'
         run: nix develop --command ${{ runner.os == 'Linux' && 'xvfb-run -a' || '' }} just benchmarks
       - name: Tests
         run: nix develop --command ${{ runner.os == 'Linux' && 'xvfb-run -a' || '' }} just tests

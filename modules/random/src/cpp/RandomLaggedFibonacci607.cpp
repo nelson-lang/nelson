@@ -12,7 +12,9 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <random>
 #include "RandomLaggedFibonacci607.hpp"
+#include "LaggedFibonacci607Engine.hpp"
 //=============================================================================
 namespace Nelson {
 RandomLaggedFibonacci607::RandomLaggedFibonacci607()
@@ -25,7 +27,6 @@ RandomLaggedFibonacci607::~RandomLaggedFibonacci607()
 {
 
     uniform_real_generator(true);
-    uniform_int_generator(true);
     normal_real_generator(true);
 }
 //=============================================================================
@@ -48,38 +49,6 @@ RandomLaggedFibonacci607::getSeed()
     return seed;
 }
 //=============================================================================
-double
-RandomLaggedFibonacci607::getValueAsDouble(RNG_DISTRIBUTION_TYPE _type)
-{
-    switch (_type) {
-    case RNG_DISTRIBUTION_UNIFORM_REAL:
-        return (*uniform_real_generator())();
-    case RNG_DISTRIBUTION_UNIFORM_INT:
-        return (double)(*uniform_int_generator())();
-    case RNG_DISTRIBUTION_NORMAL:
-        return (*normal_real_generator())();
-    default: {
-    } break;
-    }
-    return nan("");
-}
-//=============================================================================
-single
-RandomLaggedFibonacci607::getValueAsSingle(RNG_DISTRIBUTION_TYPE _type)
-{
-    switch (_type) {
-    case RNG_DISTRIBUTION_UNIFORM_REAL:
-        return (single)(*uniform_real_generator())();
-    case RNG_DISTRIBUTION_UNIFORM_INT:
-        return (single)(*uniform_int_generator())();
-    case RNG_DISTRIBUTION_NORMAL:
-        return (single)(*normal_real_generator())();
-    default: {
-    } break;
-    }
-    return static_cast<single>(nan(""));
-}
-//=============================================================================
 void
 RandomLaggedFibonacci607::getValuesAsDouble(
     double* ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type)
@@ -95,7 +64,7 @@ RandomLaggedFibonacci607::getValuesAsDouble(
     case RNG_DISTRIBUTION_UNIFORM_INT: {
         indexType k = 0;
         while (k < nbElements) {
-            ar[k] = (double)(*uniform_int_generator())();
+            ar[k] = static_cast<double>(static_cast<int>(std::floor(uniform01() * maxInt)) + 1);
             k++;
         }
     } break;
@@ -124,21 +93,21 @@ RandomLaggedFibonacci607::getValuesAsSingle(
     case RNG_DISTRIBUTION_UNIFORM_REAL: {
         indexType k = 0;
         while (k < nbElements) {
-            ar[k] = (single)(*uniform_real_generator())();
+            ar[k] = static_cast<single>((*uniform_real_generator())());
             k++;
         }
     } break;
     case RNG_DISTRIBUTION_UNIFORM_INT: {
         indexType k = 0;
         while (k < nbElements) {
-            ar[k] = (single)(*uniform_int_generator())();
+            ar[k] = static_cast<single>(static_cast<int>(std::floor(uniform01() * maxInt)) + 1);
             k++;
         }
     } break;
     case RNG_DISTRIBUTION_NORMAL: {
         indexType k = 0;
         while (k < nbElements) {
-            ar[k] = (single)(*normal_real_generator())();
+            ar[k] = static_cast<single>((*normal_real_generator())());
             k++;
         }
     } break;
@@ -167,18 +136,7 @@ RandomLaggedFibonacci607::getState()
 }
 //=============================================================================
 void
-RandomLaggedFibonacci607::setState(const std::vector<uint32>& _state)
-{
-    // http://www.bnikolic.co.uk/nqm/random/mersenne-boost.html
-    std::stringstream line;
-    for (unsigned int k : _state) {
-        line << ' ' << k;
-    }
-    line >> random_engine();
-}
-//=============================================================================
-void
-RandomLaggedFibonacci607::setState(uint32* _state, size_t len)
+RandomLaggedFibonacci607::setState(const uint32* _state, size_t len)
 {
     std::stringstream line;
     for (size_t k = 0; k < len; k++) {
@@ -196,16 +154,15 @@ RandomLaggedFibonacci607::getStateSize()
 void
 RandomLaggedFibonacci607::setMinMaxUniformIntDistribution(int _min, int _max)
 {
-
-    uniform_int_generator(true);
-    uniform_int_generator(false, _min, _max);
+    minInt = _min;
+    maxInt = _max;
 }
 //=============================================================================
 void
 RandomLaggedFibonacci607::getMinMaxUniformIntDistribution(int& _min, int& _max)
 {
-    _max = uniform_int_generator()->distribution().max();
-    _min = uniform_int_generator()->distribution().min();
+    _min = minInt;
+    _max = maxInt;
 }
 //=============================================================================
 } // namespace Nelson

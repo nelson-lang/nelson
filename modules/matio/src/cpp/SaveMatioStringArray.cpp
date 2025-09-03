@@ -41,7 +41,7 @@ SaveMatioStringArray(
         if (elements[i].getDataClass() == NLS_CHAR) {
             cellElements[i] = SaveMatioCharacterArray(variableName, elements[i], matVersion);
         } else {
-            ArrayOf NanAsArrayOf = ArrayOf::doubleConstructor(std::nan("NaN"));
+            ArrayOf NanAsArrayOf = ArrayOf::doubleConstructor(std::nan(""));
             cellElements[i] = SaveMatioDouble(variableName, NanAsArrayOf);
         }
         if (cellElements[i] == nullptr) {

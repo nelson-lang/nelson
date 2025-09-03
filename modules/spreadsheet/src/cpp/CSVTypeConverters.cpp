@@ -19,7 +19,7 @@ ConvertStringToDouble(const std::string& pStr, double& Val)
     if (ConvertToDouble(pStr, Val)) {
         return;
     }
-    Val = std::nan("NaN");
+    Val = std::nan("");
 }
 //=============================================================================
 void
@@ -30,7 +30,7 @@ ConvertStringToSingle(const std::string& pStr, single& Val)
         Val = (single)value;
         return;
     }
-    Val = (single)std::nan("NaN");
+    Val = (single)std::nan("");
 }
 //=============================================================================
 void
@@ -45,7 +45,7 @@ ConvertStringToDoubleComplex(const std::string& pStr, std::complex<double>& pVal
         pVal.imag(0.);
         return;
     }
-    pVal.real(std::nan("NaN"));
+    pVal.real(std::nan(""));
     pVal.imag(0.);
 }
 //=============================================================================

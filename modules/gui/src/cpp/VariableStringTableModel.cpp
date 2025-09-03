@@ -159,7 +159,7 @@ VariableStringTableModel::setData(const QModelIndex& index, const QVariant& valu
         Dimensions dims(1, 1);
         m_array.resize(dims);
         ArrayOf* ptr = (ArrayOf*)(m_array.getDataPointer());
-        ptr[0] = ArrayOf::doubleConstructor(std::nan("NaN"));
+        ptr[0] = ArrayOf::doubleConstructor(std::nan(""));
     }
 
     std::wstring item;
@@ -362,7 +362,7 @@ VariableStringTableModel::resizeArray(int row, int col)
         ArrayOf newArray = ArrayOf(NLS_STRING_ARRAY, newDims, ptr);
         ArrayOf* newData = (ArrayOf*)newArray.getDataPointer();
         for (size_t k = 0; k < newDims.getElementCount(); ++k) {
-            newData[k] = ArrayOf::doubleConstructor(std::nan("NaN"));
+            newData[k] = ArrayOf::doubleConstructor(std::nan(""));
         }
         // Copy existing data efficiently
         if (const ArrayOf* oldData = (const ArrayOf*)m_array.getDataPointer()) {
@@ -621,7 +621,7 @@ VariableStringTableModel::setArrayMissingValue(int row, int col)
     }
 
     const int idx = row + col * m_rows;
-    data[idx] = ArrayOf::doubleConstructor(std::nan("NaN"));
+    data[idx] = ArrayOf::doubleConstructor(std::nan(""));
     return true;
 }
 //=============================================================================
@@ -891,7 +891,7 @@ VariableStringTableModel::insertRowAt(int row)
             for (int r = 0; r < row; ++r)
                 dst[r + c * newRows] = src[r + c * m_rows];
 
-            dst[row + c * newRows] = ArrayOf::doubleConstructor(std::nan("NaN"));
+            dst[row + c * newRows] = ArrayOf::doubleConstructor(std::nan(""));
 
             for (int r = row; r < m_rows; ++r)
                 dst[r + 1 + c * newRows] = src[r + c * m_rows];
@@ -935,7 +935,7 @@ VariableStringTableModel::insertColumnAt(int col)
                 dst[r + c * rows] = src[r + c * rows];
 
         for (int r = 0; r < rows; ++r)
-            dst[r + col * rows] = ArrayOf::doubleConstructor(std::nan("NaN"));
+            dst[r + col * rows] = ArrayOf::doubleConstructor(std::nan(""));
 
         for (int c = col; c < m_cols; ++c)
             for (int r = 0; r < rows; ++r)
@@ -1167,7 +1167,7 @@ VariableStringTableModel::replaceSelectedWithMissing(const QModelIndexList& sele
 
             if (row >= 0 && row < m_rows && col >= 0 && col < m_cols) {
                 const int arrayIdx = row + col * m_rows;
-                arrayData[arrayIdx] = ArrayOf::doubleConstructor(std::nan("NaN"));
+                arrayData[arrayIdx] = ArrayOf::doubleConstructor(std::nan(""));
 
                 updateEditData(row, col, QVariant::fromValue(int(0)));
                 changedIndices.append(index);

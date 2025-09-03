@@ -31,12 +31,6 @@ public:
     virtual std::wstring
     getGeneratorName()
         = 0;
-    virtual double
-    getValueAsDouble(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL)
-        = 0;
-    virtual single
-    getValueAsSingle(RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL)
-        = 0;
 
     virtual void
     getValuesAsDouble(double* ar, indexType nbElements, indexType lastDim,
@@ -56,6 +50,18 @@ public:
 
     virtual size_t
     getStateSize()
+        = 0;
+
+    virtual void
+    setState(const uint32* _state, size_t len)
+        = 0;
+
+    virtual void
+    setSeed(uint32 _seed)
+        = 0;
+
+    virtual uint32
+    getSeed()
         = 0;
 };
 //=============================================================================

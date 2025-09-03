@@ -31,7 +31,7 @@ ConvertStringsToChars(const ArrayOf& A, bool missingAsNaN)
                 if (missingAsNaN) {
                     auto* elementsCell = new_with_exception<ArrayOf>(dims.getElementCount(), false);
                     res = ArrayOf(NLS_CELL_ARRAY, dims, elementsCell);
-                    elementsCell[0] = ArrayOf::doubleConstructor(std::nan("NaN"));
+                    elementsCell[0] = ArrayOf::doubleConstructor(std::nan(""));
                 } else {
                     res = ArrayOf::characterArrayConstructor("");
                 }
@@ -47,7 +47,7 @@ ConvertStringsToChars(const ArrayOf& A, bool missingAsNaN)
                     elementsCell[q] = elementsStr[q];
                 } else {
                     if (missingAsNaN) {
-                        elementsCell[q] = ArrayOf::doubleConstructor(std::nan("NaN"));
+                        elementsCell[q] = ArrayOf::doubleConstructor(std::nan(""));
                     } else {
                         elementsCell[q] = ArrayOf::characterArrayConstructor("");
                     }

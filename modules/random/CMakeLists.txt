@@ -11,7 +11,10 @@ set(module_name random)
 set(module_library_name nlsRandom)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-file(GLOB RANDOM_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+file(GLOB RANDOM_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp" 
+"${CMAKE_CURRENT_SOURCE_DIR}/src/c/mt19937/*.c"
+"${CMAKE_CURRENT_SOURCE_DIR}/src/c/dsfmt/*.c")
+# ==============================================================================
 list(FILTER RANDOM_SRC EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
@@ -22,6 +25,10 @@ target_include_directories(
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${Boost_INCLUDE_DIRS}
+          ${CMAKE_CURRENT_SOURCE_DIR}/src/c/mt19937
+          ${CMAKE_CURRENT_SOURCE_DIR}/src/c/dsfmt
+          ${CMAKE_CURRENT_SOURCE_DIR}/src/c/philox
+          ${CMAKE_CURRENT_SOURCE_DIR}/src/c/threefry
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include

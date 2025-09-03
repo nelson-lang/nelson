@@ -84,7 +84,7 @@ NormP2Matrix(const ArrayOf& arrayIn)
         (T*)arrayIn.getDataPointer(), (Eigen::Index)arrayIn.getRows(),
         (Eigen::Index)arrayIn.getColumns());
     bool allFinite = matArrayIn.allFinite();
-    T res = (T)std::nan("NaN");
+    T res = (T)std::nan("");
     if (!allFinite) {
         bool hasNaN = matArrayIn.hasNaN();
         if (!hasNaN) {

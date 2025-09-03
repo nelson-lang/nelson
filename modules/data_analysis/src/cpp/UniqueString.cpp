@@ -63,7 +63,7 @@ UniqueStringOneLhs(const ArrayOf& input)
 
     ompIndexType nbElements = values.size();
     ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbElements);
-    ArrayOf NaN = ArrayOf::doubleConstructor(std::nan("NaN"));
+    ArrayOf NaN = ArrayOf::doubleConstructor(std::nan(""));
     OMP_PARALLEL_FOR_LOOP(nbElements)
     for (ompIndexType k = 0; k < nbElements; ++k) {
         elements[k] = values[k].isNaN ? NaN : ArrayOf::characterArrayConstructor(values[k].x);
@@ -103,7 +103,7 @@ UniqueStringTwoLhs(const ArrayOf& input)
     ompIndexType nbElements = values.size();
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nbElements);
     ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbElements);
-    ArrayOf NaN = ArrayOf::doubleConstructor(std::nan("NaN"));
+    ArrayOf NaN = ArrayOf::doubleConstructor(std::nan(""));
 
     OMP_PARALLEL_FOR_LOOP(nbElements)
     for (ompIndexType k = 0; k < nbElements; ++k) {

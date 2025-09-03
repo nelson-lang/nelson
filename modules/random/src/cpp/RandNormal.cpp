@@ -33,11 +33,27 @@ RandNormal(Dimensions& dims, NelsonType cl)
         Error(_W("random engine not initialized."));
     }
     switch (cl) {
+    case NLS_SCOMPLEX: {
+        indexType nbElements = dims.getElementCount();
+        single* mat = static_cast<single*>(
+            ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
+        randEngine->getValuesAsSingle(
+            mat, nbElements * 2, dims.getColumns(), RNG_DISTRIBUTION_NORMAL);
+        return ArrayOf(cl, dims, mat, false);
+    } break;
     case NLS_SINGLE: {
         indexType nbElements = dims.getElementCount();
         single* mat = static_cast<single*>(
             ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
         randEngine->getValuesAsSingle(mat, nbElements, dims.getColumns(), RNG_DISTRIBUTION_NORMAL);
+        return ArrayOf(cl, dims, mat, false);
+    } break;
+    case NLS_DCOMPLEX: {
+        indexType nbElements = dims.getElementCount();
+        double* mat = static_cast<double*>(
+            ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
+        randEngine->getValuesAsDouble(
+            mat, nbElements * 2, dims.getColumns(), RNG_DISTRIBUTION_NORMAL);
         return ArrayOf(cl, dims, mat, false);
     } break;
     case NLS_DOUBLE: {

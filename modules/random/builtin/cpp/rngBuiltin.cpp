@@ -52,12 +52,22 @@ Nelson::RandomGateway::rngBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf arg1 = argIn[0];
         if (arg1.isRowVectorCharacterArray()) {
             std::wstring param = arg1.getContentAsWideString();
-            if (!((param == L"default") || (param == L"shuffle") || (param == L"enginelist"))) {
-                Error(_W("'default', 'shuffle' or 'enginelist' expected."));
-            }
+            wstringVector engineNames = getSupportedRngEngineName();
             ArrayOf backupCurrentRngStruct;
             if (nLhs == 1) {
                 backupCurrentRngStruct = backupCurrentRng();
+            }
+            for (auto name : engineNames) {
+                if (param == name) {
+                    RngSetEngine(0, name);
+                    if (nLhs == 1) {
+                        retval << backupCurrentRngStruct;
+                    }
+                    return retval;
+                }
+            }
+            if (!((param == L"default") || (param == L"shuffle") || (param == L"enginelist"))) {
+                Error(_W("'default', 'shuffle' or 'enginelist' expected."));
             }
             if (param == L"default") {
                 RngSetDefault();

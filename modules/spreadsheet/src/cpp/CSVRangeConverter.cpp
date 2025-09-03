@@ -43,7 +43,7 @@ CSVRangeConverter::extractRow(const std::string& cell, bool& failed)
 
     if (i == cell.length()) {
         failed = true;
-        return std::nan("NaN");
+        return std::nan("");
     }
 
     try {
@@ -51,7 +51,7 @@ CSVRangeConverter::extractRow(const std::string& cell, bool& failed)
         return std::stoi(cell.substr(i));
     } catch (...) {
         failed = true;
-        return std::nan("NaN");
+        return std::nan("");
     }
 }
 //=============================================================================

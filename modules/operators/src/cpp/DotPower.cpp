@@ -126,10 +126,10 @@ power_dd(double a, double b)
         return a;
     }
     if (std::isnan(a)) {
-        return std::nan("NaN");
+        return std::nan("");
     }
     if (std::isnan(b)) {
-        return std::nan("NaN");
+        return std::nan("");
     }
     if (a == 0) {
         if (std::isinf(b) && b < 0) {
@@ -178,7 +178,7 @@ power_dd(double a, double b)
         return pow(-0, -b);
     }
     if (a < 0 && std::trunc(b) == b) {
-        return std::nan("NaN");
+        return std::nan("");
     }
     return pow(a, b);
 }

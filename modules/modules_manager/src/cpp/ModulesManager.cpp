@@ -137,7 +137,7 @@ ModulesManager::readVersionFromJson(const std::wstring& path)
     }
     Warning(L"module_manager:modulejson", _W("Please check: ") + moduleJsonFilename);
 
-    return std::make_tuple(std::nan("NaN"), std::nan("NaN"), std::nan("NaN"));
+    return std::make_tuple(std::nan(""), std::nan(""), std::nan(""));
 }
 //=============================================================================
 std::vector<versionElement>

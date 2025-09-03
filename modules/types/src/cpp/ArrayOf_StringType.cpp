@@ -86,7 +86,7 @@ ArrayOf::stringArrayConstructorAllMissing(Dimensions& dims)
         Error(ERROR_MEMORY_ALLOCATION);
     }
     for (size_t k = 0; k < nbElements; k++) {
-        elements[k] = ArrayOf::doubleConstructor(std::nan("NaN"));
+        elements[k] = ArrayOf::doubleConstructor(std::nan(""));
     }
     return ArrayOf(NLS_STRING_ARRAY, dims, elements);
 }
@@ -398,7 +398,7 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
                     ArrayOf* p = (ArrayOf*)el.getDataPointer();
                     ArrayOf p0 = p[0];
                     if (p0.isEmpty() && !p0.isCharacterArray()) {
-                        elementsOutput[k] = ArrayOf::doubleConstructor(std::nan("NaN"));
+                        elementsOutput[k] = ArrayOf::doubleConstructor(std::nan(""));
                     } else {
                         elementsOutput[k]
                             = ArrayOf::characterArrayConstructor(p0.getContentAsWideString());

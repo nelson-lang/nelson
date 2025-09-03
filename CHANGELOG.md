@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `sprand`: Function for generating sparse matrices with uniformly distributed random values.
+- `sprandn`: Function for generating sparse matrices with normally distributed random values.
+- `randi`: Function for generating uniformly distributed random integers.
+- Enhanced random number generation engine with new algorithms: `simdTwister`, `combRecursive`, `philox`, and `threefry`.
+
 - `imresize`: Added a function to resize images by scale or to a specified output size, supporting both upscaling and downscaling for flexible image processing workflows.
 
 - Variable Editor: Major redesign, now accessible via `openvar` or the GUI. Supports structured variables, tables, arrays, and nested data. Features a dynamic table view, real-time updates from the execution context, and improved performance for large datasets. Copy-paste compatibility with Excel, LibreOffice, and OpenOffice in both directions.

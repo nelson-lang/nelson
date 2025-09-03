@@ -106,7 +106,7 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
             std::string className = ClassName(value);
             double sizeAsByte;
             if (value.isSparse()) {
-                sizeAsByte = std::nan("NaN");
+                sizeAsByte = std::nan("");
             } else {
                 sizeAsByte = (double)value.getByteSize();
             }

@@ -160,7 +160,7 @@ Nelson::StringGateway::strcatBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
         for (indexType k = 0; k < nbElements; ++k) {
             if (resultAsVector[k].compare(missing_str) == 0) {
-                elements[k] = ArrayOf::doubleConstructor(std::nan("NaN"));
+                elements[k] = ArrayOf::doubleConstructor(std::nan(""));
             } else {
                 elements[k] = ArrayOf::characterArrayConstructor(resultAsVector[k]);
             }

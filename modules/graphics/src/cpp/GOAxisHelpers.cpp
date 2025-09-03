@@ -370,8 +370,8 @@ formatAxisAuto(TEXT_INTERPRETER_FORMAT textFormat, double tMin, double tMax, int
 void
 minMaxVector(double* vals, int len, double& vmin, double& vmax)
 {
-    vmin = std::nan("NaN");
-    vmax = std::nan("NaN");
+    vmin = std::nan("");
+    vmax = std::nan("");
     if (vals && len > 0) {
         vmin = vals[0];
         vmax = vals[0];

@@ -45,6 +45,22 @@ Rand(Dimensions& dims, NelsonType cl)
         randEngine->getValuesAsSingle(mat, nbElements, dims.getColumns());
         return ArrayOf(cl, dims, mat, false);
     } break;
+    case NLS_SCOMPLEX: {
+        indexType nbElements = dims.getElementCount();
+        single* mat = static_cast<single*>(
+            ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
+        randEngine->getValuesAsSingle(mat, nbElements * 2, dims.getColumns());
+        return ArrayOf(cl, dims, mat, false);
+    } break;
+
+    case NLS_DCOMPLEX: {
+        indexType nbElements = dims.getElementCount();
+        double* mat = static_cast<double*>(
+            ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
+        randEngine->getValuesAsDouble(mat, nbElements * 2, dims.getColumns());
+        return ArrayOf(cl, dims, mat, false);
+
+    } break;
     case NLS_DOUBLE: {
         indexType nbElements = dims.getElementCount();
         double* mat = static_cast<double*>(

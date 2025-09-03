@@ -45,6 +45,33 @@
     <ClCompile Include="..\cpp\dllMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mt19937\mt19937.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mt19937\mt19937-jump.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mt19937\randomkit.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mt19937\distributions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\RandInteger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dsfmt\dSFMT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\dSFMT19937.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\RandomMRG32k3a.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="threefry\threefry.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsRandom_exports.h">
@@ -72,6 +99,48 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\cpp\RandomMersenneTwister64.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mt19937\mt19937.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mt19937\mt19937-jump.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mt19937\randomkit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mt19937\distributions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\RandInteger.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dsfmt\dSFMT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dsfmt\dSFMT-params19937.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\dSFMT19937.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\LaggedFibonacci607Engine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\RandomMRG32k3a.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="threefry\threefry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\RandomPhilox.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="philox\philox4x32_10.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\RandomThreefry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -610,24 +610,38 @@ QtTerminal::printMessage(QString msg, DISP_MODE mode)
 {
     mCommandLineReady = false;
     this->setUpdatesEnabled(false);
-    QTextCursor cur(document()->lastBlock());
-    QTextCharFormat format = cur.charFormat();
 
-    switch (mode) {
-    case WARNING_DISP: {
-        format.setForeground(getWarningColor());
-    } break;
-    case STDOUT_DISP: {
-        format.setForeground(getOutputColor());
-    } break;
-    case STDERR_DISP: {
-        format.setForeground(getErrorColor());
-    } break;
-    case STDIN_DISP: {
-        format.setForeground(getInputColor());
-    } break;
+    QTextBlock lastBlock = document()->lastBlock();
+    if (!lastBlock.isValid()) {
+        QTextCursor cursor(document());
+        cursor.movePosition(QTextCursor::End);
+        cursor.insertBlock();
+        lastBlock = document()->lastBlock();
     }
-    cur.movePosition(QTextCursor::EndOfBlock, QTextCursor::MoveAnchor, 1);
+
+    QTextCursor cur(lastBlock);
+    if (!cur.isNull()) {
+        cur.movePosition(QTextCursor::EndOfBlock, QTextCursor::MoveAnchor, 1);
+    } else {
+        cur = QTextCursor(document());
+        cur.movePosition(QTextCursor::End);
+    }
+
+    QTextCharFormat format = cur.charFormat();
+    switch (mode) {
+    case WARNING_DISP:
+        format.setForeground(getWarningColor());
+        break;
+    case STDOUT_DISP:
+        format.setForeground(getOutputColor());
+        break;
+    case STDERR_DISP:
+        format.setForeground(getErrorColor());
+        break;
+    case STDIN_DISP:
+        format.setForeground(getInputColor());
+        break;
+    }
 
     if (msg.contains("\b")) {
         for (auto c : msg) {

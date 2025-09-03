@@ -19,6 +19,7 @@
   <syntax_item>rng('shuffle', generator)</syntax_item>
   <syntax_item>s = rng('shuffle', generator)</syntax_item>
   <syntax_item>s = rng</syntax_item>
+  <syntax_item>s = rng(generator)</syntax_item>
   <syntax_item>rng(s)</syntax_item>
   </syntax>
 
@@ -31,7 +32,7 @@
     <param_input_item>
       <param_name>generator</param_name>
       <param_description
-      >a string: 'twister', 'twister64', 'laggedfibonacci607'</param_description>
+      >a string: 'twister', 'twister64', 'simdTwister', 'combRecursive', 'philox', 'laggedfibonacci607'</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>s</param_name>
@@ -82,8 +83,23 @@
   <p><b
       >rng(s)</b> restores the settings of the random number generator using a previous struct returned by <b
       >s = rng</b>.</p>
-  </description>
+  <p />
+  <p>Available generators are:</p>
 
+<table>
+  <tr><th>Value</th><th>Generator Name</th><th>Generator Keyword</th></tr>
+  <tr><td>"twister"</td><td>Mersenne Twister</td><td>mt19937ar</td></tr>
+  <tr><td>"simdTwister"</td><td>SIMD-Oriented Fast Mersenne Twister</td><td
+        >dsfmt19937</td></tr>
+  <tr><td>"combRecursive"</td><td>Combined Multiple Recursive</td><td
+        >mrg32k3a</td></tr>
+  <tr><td>"multFibonacci"</td><td>Multiplicative Lagged Fibonacci</td><td
+        >mlfg6331_64</td></tr>
+  <tr><td>"philox"</td><td>Philox 4x32 generator with 10 rounds</td><td
+        >philox4x32_10</td></tr>
+</table>
+  <p>Default generator is "twister".</p>
+  </description>
   <used_function />
   <bibliography />
 
@@ -108,6 +124,10 @@ lst = rng('enginelist')]]>
     <see_also_item>
       <link linkend="${random}randn">randn</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${random}randi">randi</link>
+    </see_also_item>
+
   </see_also>
 
 
@@ -116,6 +136,12 @@ lst = rng('enginelist')]]>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
+     <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description
+      >New random number generator: simdTwister, combRecursive, philox</history_description>
+    </history_item>
+   
   </history>
 
   <authors>

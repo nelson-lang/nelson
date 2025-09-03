@@ -49,10 +49,8 @@
   <description>
   <p><b
       >randn</b> returns a matrix with normally distributed random elements having zero mean and variance one.</p>
-  <p>By default, <b
-      >randn</b> uses the ziggurat algorithm implemented by Boost.</p>
+  <p>By default, <b>randn</b> uses the ziggurat algorithm.</p>
   <p>seed can be modified using <b>rng</b>.</p>
-
   </description>
 
   <used_function />
@@ -133,6 +131,11 @@ randn(3, 2, 'like', v)
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>Algo reworked </history_description>
+    </history_item>
+
   </history>
 
   <authors>
