@@ -137,69 +137,37 @@ Scope::inLoop()
 void
 Scope::addGlobalVariablePointer(const std::string& varName)
 {
-    if (!isVariableGlobal(varName)) {
-        globalVars.push_back(varName);
-    }
+    globalVars.insert(varName);
 }
 //=============================================================================
 void
 Scope::deleteGlobalVariablePointer(const std::string& varName)
 {
-    stringVector::iterator i = std::find(globalVars.begin(), globalVars.end(), varName);
-    if (*i == varName) {
-        globalVars.erase(i);
-    }
+    globalVars.erase(varName);
 }
 //=============================================================================
 bool
 Scope::isVariableGlobal(const std::string& varName)
 {
-    bool foundName = false;
-    size_t i = 0;
-    if (globalVars.empty()) {
-        return false;
-    }
-    while (i < globalVars.size() && !foundName) {
-        foundName = (globalVars[i] == varName);
-        if (!foundName) {
-            i++;
-        }
-    }
-    return foundName;
+    return globalVars.find(varName) != globalVars.end();
 }
 //=============================================================================
 void
 Scope::addPersistentVariablePointer(const std::string& varName)
 {
-    if (!isVariablePersistent(varName)) {
-        persistentVars.push_back(varName);
-    }
+    persistentVars.insert(varName);
 }
 //=============================================================================
 void
 Scope::deletePersistentVariablePointer(const std::string& varName)
 {
-    stringVector::iterator i = std::find(persistentVars.begin(), persistentVars.end(), varName);
-    if (i != persistentVars.end()) {
-        persistentVars.erase(i);
-    }
+    persistentVars.erase(varName);
 }
 //=============================================================================
 bool
 Scope::isVariablePersistent(const std::string& varName)
 {
-    bool foundName = false;
-    size_t i = 0;
-    if (persistentVars.empty()) {
-        return false;
-    }
-    while (i < persistentVars.size() && !foundName) {
-        foundName = (persistentVars[i] == varName);
-        if (!foundName) {
-            i++;
-        }
-    }
-    return foundName;
+    return persistentVars.find(varName) != persistentVars.end();
 }
 //=============================================================================
 std::string

@@ -10,6 +10,8 @@
 #pragma once
 //=============================================================================
 #include <string>
+#include <unordered_set>
+#include <mutex>
 #include "ArrayOf.hpp"
 #include "Types.hpp"
 #include "nlsInterpreter_exports.h"
@@ -22,9 +24,9 @@ class NLSINTERPRETER_IMPEXP VariablesTable
 private:
     using key_type = std::string;
     using value_type = ArrayOf;
-    stringVector lockedVariables;
+    std::unordered_set<std::string> lockedVariables;
     GenericTable<std::string, ArrayOf> variablesTable;
-    volatile bool lockedAccess = false;
+    std::mutex accessMutex;
     //=============================================================================
 public:
     VariablesTable();

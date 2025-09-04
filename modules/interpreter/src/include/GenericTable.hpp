@@ -50,15 +50,11 @@ public:
     ~GenericTable()
     {
         for (auto& i : hashTable) {
-            if (i != nullptr) {
-                Entry* ptr;
-                Entry* nxt;
-                ptr = i;
-                while (ptr) {
-                    nxt = ptr;
-                    ptr = ptr->next;
-                    delete nxt;
-                }
+            Entry* ptr = i;
+            while (ptr) {
+                Entry* nxt = ptr->next;
+                delete ptr;
+                ptr = nxt;
             }
         }
     }

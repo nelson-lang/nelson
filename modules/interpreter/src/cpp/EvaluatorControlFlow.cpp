@@ -76,25 +76,25 @@ void
 Evaluator::ifStatement(AbstractSyntaxTreePtr t)
 {
     callstack.pushID((size_t)t->getContext());
-    bool condStat = conditionedStatement(t);
-    if (!condStat) {
-        t = t->right;
-        // Check for additional conditions
-        if (t != nullptr) {
-            bool elseifMatched = false;
-            if (t->opNum == (OP_ELSEIFBLOCK)) {
-                AbstractSyntaxTreePtr s = t->down;
-                while (!elseifMatched && s != nullptr) {
-                    elseifMatched = conditionedStatement(s);
-                    s = s->right;
+    AbstractSyntaxTreePtr elseOrElseIf = t->right;
+
+    if (!conditionedStatement(t)) {
+        if (elseOrElseIf != nullptr && elseOrElseIf->opNum == OP_ELSEIFBLOCK) {
+            AbstractSyntaxTreePtr s = elseOrElseIf->down;
+            while (s != nullptr) {
+                if (conditionedStatement(s)) {
+                    callstack.popID();
+                    return;
                 }
-                t = t->right;
+                s = s->right;
             }
-            if (!(elseifMatched || t == nullptr)) {
-                block(t);
-            }
+            elseOrElseIf = elseOrElseIf->right;
+        }
+        if (elseOrElseIf != nullptr) {
+            block(elseOrElseIf);
         }
     }
+
     callstack.popID();
 }
 //=============================================================================
@@ -251,7 +251,7 @@ void
 ForStatementRowVectorHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass,
     ArrayOf& indexSet, indexType elementCount, const std::string& indexVarName, Evaluator* eval)
 {
-    const T* data = (const T*)indexSet.getDataPointer();
+    const T* data = static_cast<const T*>(indexSet.getDataPointer());
     Scope* scope = eval->getContext()->getCurrentScope();
     if (scope->isLockedVariable(indexVarName)) {
         Error(_W("Redefining permanent variable."));
@@ -266,15 +266,16 @@ ForStatementRowVectorHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexCla
         }
         ((T*)ptrVariable->getReadWriteDataPointer())[0] = data[elementNumber];
         eval->block(codeBlock);
-        if (eval->getState() == NLS_STATE_BREAK) {
+        int st = eval->getState();
+
+        if (st == NLS_STATE_BREAK) {
             eval->resetState();
             break;
         }
-        if (eval->getState() == NLS_STATE_RETURN || eval->getState() == NLS_STATE_ABORT
-            || eval->isQuitOrForceQuitState()) {
+        if (st == NLS_STATE_RETURN || st == NLS_STATE_ABORT || eval->isQuitOrForceQuitState()) {
             break;
         }
-        if (eval->getState() == NLS_STATE_CONTINUE) {
+        if (st == NLS_STATE_CONTINUE) {
             eval->resetState();
         }
     }
@@ -285,22 +286,20 @@ static void
 ForStatemenRowVectorGenericHelper(AbstractSyntaxTreePtr codeBlock, ArrayOf& indexSet,
     indexType elementCount, const std::string& indexVarName, Evaluator* eval)
 {
-    ArrayOf indexVar;
     Context* context = eval->getContext();
-    for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
+    ArrayOf indexVar;
+    for (indexType elementNumber = 0; elementNumber < elementCount; ++elementNumber) {
         indexVar = indexSet.getValueAtIndex(elementNumber);
         if (!context->insertVariable(indexVarName, indexVar)) {
             Error(_W("Valid variable name expected."));
         }
         eval->block(codeBlock);
-        if (eval->getState() == NLS_STATE_RETURN || eval->getState() == NLS_STATE_ABORT
-            || eval->isQuitOrForceQuitState()) {
+        int st = eval->getState();
+        if (st == NLS_STATE_RETURN || st == NLS_STATE_ABORT || eval->isQuitOrForceQuitState())
             break;
-        }
-        if (eval->getState() == NLS_STATE_CONTINUE) {
+        if (st == NLS_STATE_CONTINUE)
             eval->resetState();
-        }
-        if (eval->getState() == NLS_STATE_BREAK) {
+        if (st == NLS_STATE_BREAK) {
             eval->resetState();
             break;
         }
@@ -342,101 +341,96 @@ ForStatemenMatrixGenericHelper(AbstractSyntaxTreePtr codeBlock, ArrayOf& indexSe
 void
 Evaluator::forStatement(AbstractSyntaxTreePtr t)
 {
-    if (t == nullptr) {
+    if (!t) {
         resetState();
         context->exitLoop();
         return;
     }
     callstack.pushID((size_t)t->getContext());
 
-    /* Get the name of the indexing variable */
-    std::string indexVarName = t->text;
-    /* Evaluate the index set */
+    const std::string& indexVarName = t->text;
     ArrayOf indexSet = expression(t->down);
     if (indexSet.isEmpty()) {
+        callstack.popID();
         return;
     }
     if (!IsValidVariableName(indexVarName, true)) {
         Error(_W("Valid variable name expected."));
     }
-    /* Get the code block */
     AbstractSyntaxTreePtr codeBlock = t->right;
     bool isRowVector = indexSet.isRowVector();
-    indexType elementCount = 0;
-    if (isRowVector) {
-        elementCount = indexSet.getElementCount();
-    } else if (indexSet.isColumnVector()) {
-        elementCount = 1;
-    } else {
-        elementCount = indexSet.getColumns();
-    }
+    indexType elementCount = isRowVector ? indexSet.getElementCount()
+                                         : (indexSet.isColumnVector() ? 1 : indexSet.getColumns());
+
     context->enterLoop();
+
     if (isRowVector) {
         switch (indexSet.getDataClass()) {
-        case NLS_LOGICAL: {
+        case NLS_LOGICAL:
             ForStatementRowVectorHelper<logical>(
                 codeBlock, NLS_LOGICAL, indexSet, elementCount, indexVarName, this);
-        } break;
-        case NLS_UINT8: {
+            break;
+        case NLS_UINT8:
             ForStatementRowVectorHelper<uint8>(
                 codeBlock, NLS_UINT8, indexSet, elementCount, indexVarName, this);
-        } break;
-        case NLS_INT8: {
+            break;
+        case NLS_INT8:
             ForStatementRowVectorHelper<int8>(
                 codeBlock, NLS_INT8, indexSet, elementCount, indexVarName, this);
-        } break;
-        case NLS_UINT16: {
+            break;
+        case NLS_UINT16:
             ForStatementRowVectorHelper<uint16>(
                 codeBlock, NLS_UINT16, indexSet, elementCount, indexVarName, this);
-        } break;
-        case NLS_INT16: {
+            break;
+        case NLS_INT16:
             ForStatementRowVectorHelper<int16>(
                 codeBlock, NLS_INT16, indexSet, elementCount, indexVarName, this);
-        } break;
-        case NLS_UINT32: {
+            break;
+        case NLS_UINT32:
             ForStatementRowVectorHelper<uint32>(
                 codeBlock, NLS_UINT32, indexSet, elementCount, indexVarName, this);
-        } break;
-        case NLS_INT32: {
+            break;
+        case NLS_INT32:
             ForStatementRowVectorHelper<int32>(
                 codeBlock, NLS_INT32, indexSet, elementCount, indexVarName, this);
-        } break;
-        case NLS_UINT64: {
+            break;
+        case NLS_UINT64:
             ForStatementRowVectorHelper<uint64>(
                 codeBlock, NLS_UINT64, indexSet, elementCount, indexVarName, this);
-        } break;
-        case NLS_INT64: {
+            break;
+        case NLS_INT64:
             ForStatementRowVectorHelper<int64>(
                 codeBlock, NLS_INT64, indexSet, elementCount, indexVarName, this);
-        } break;
-        case NLS_SINGLE: {
+            break;
+        case NLS_SINGLE:
             ForStatementRowVectorHelper<single>(
                 codeBlock, NLS_SINGLE, indexSet, elementCount, indexVarName, this);
-        } break;
-        case NLS_DOUBLE: {
+            break;
+        case NLS_DOUBLE:
             ForStatementRowVectorHelper<double>(
                 codeBlock, NLS_DOUBLE, indexSet, elementCount, indexVarName, this);
-        } break;
-        case NLS_SCOMPLEX: {
+            break;
+        case NLS_SCOMPLEX:
             ForStatementRowVectorComplexHelper<single>(
                 codeBlock, NLS_SCOMPLEX, indexSet, elementCount, indexVarName, this);
-        } break;
-        case NLS_DCOMPLEX: {
+            break;
+        case NLS_DCOMPLEX:
             ForStatementRowVectorComplexHelper<double>(
                 codeBlock, NLS_DCOMPLEX, indexSet, elementCount, indexVarName, this);
-        } break;
-        case NLS_CHAR: {
+            break;
+        case NLS_CHAR:
             ForStatementRowVectorHelper<charType>(
                 codeBlock, NLS_CHAR, indexSet, elementCount, indexVarName, this);
-        } break;
-        default: {
+            break;
+        default:
             ForStatemenRowVectorGenericHelper(
                 codeBlock, indexSet, elementCount, indexVarName, this);
-        } break;
+            break;
         }
     } else {
         ForStatemenMatrixGenericHelper(codeBlock, indexSet, elementCount, indexVarName, this);
     }
+
     context->exitLoop();
     callstack.popID();
 }
@@ -534,24 +528,22 @@ Evaluator::testCaseStatement(AbstractSyntaxTreePtr t, const ArrayOf& s)
 void
 Evaluator::tryStatement(AbstractSyntaxTreePtr t)
 {
-    // Turn off autostop for this statement block
     bool autostop_save = autostop;
     autostop = false;
-    // Get the state of the IDnum stack and the
-    // contextStack and the cnameStack
     size_t stackdepth = callstack.size();
+
     try {
         block(t);
     } catch (const Exception& e) {
-        while (callstack.size() > stackdepth) {
-            callstack.pop_back();
+        // Optimize stack unwinding by using a single call to `resize` instead of a loop
+        if (callstack.size() > stackdepth) {
+            callstack.setSize(stackdepth);
         }
+
         t = t->right;
         if (t != nullptr) {
             if (t->type == id_node) {
-                std::string variableName = t->text;
-                ArrayOf mException = ExceptionToArrayOf(e);
-                this->context->insertVariable(variableName, mException);
+                this->context->insertVariable(t->text, ExceptionToArrayOf(e));
                 t = t->down;
             }
             if (t != nullptr) {
@@ -560,6 +552,7 @@ Evaluator::tryStatement(AbstractSyntaxTreePtr t)
             }
         }
     }
+
     autostop = autostop_save;
 }
 //=============================================================================
@@ -648,49 +641,35 @@ Evaluator::switchStatement(AbstractSyntaxTreePtr t)
 void
 Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
 {
-    // Process pending events if an event loop is active
-    if (haveEventsLoop()) {
-        ProcessEventsDynamicFunctionWithoutWait();
-    }
+    if (t == nullptr)
+        return;
 
-    // Execute any queued command before processing the statement
+    if (haveEventsLoop())
+        ProcessEventsDynamicFunctionWithoutWait();
     if (!commandQueue.isEmpty()) {
         std::wstring cmd;
         commandQueue.get(cmd);
         evaluateString(cmd);
     }
 
-    if (t == nullptr) {
-        return;
-    }
-
     callstack.pushID((size_t)t->getContext());
 
-    // Handle debugging (breakpoints, step mode, etc.)
     handleDebug(t->getContext());
-
-    // Handle empty statement
     if (t->isEmpty()) {
         callstack.popID();
         return;
     }
 
-    // Handle assignment statement
-    if (t->opNum == OP_ASSIGN) {
+    switch (t->opNum) {
+    case OP_ASSIGN:
         assignStatement(t->down, printIt);
         callstack.popID();
         return;
-    }
-
-    // Handle multi-function assignment (e.g. [a, b] = func(...))
-    if (t->opNum == OP_MULTICALL) {
+    case OP_MULTICALL:
         multiFunctionCall(t->down, printIt);
         callstack.popID();
         return;
-    }
-
-    // Handle special function call syntax
-    if (t->opNum == OP_SCALL) {
+    case OP_SCALL: {
         ArrayOfVector m = specialFunctionCall(t->down, printIt);
         if (!m.empty()) {
             context->insertVariable("ans", m[0]);
@@ -699,8 +678,66 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
         callstack.popID();
         return;
     }
+    case OP_RHS: {
+        ArrayOf b;
+        ArrayOfVector m;
+        bool bUpdateAns = false;
+        FunctionDef* fdef = nullptr;
+        if (!context->lookupVariable(t->down->text, b) && lookupFunction(t->down->text, fdef)) {
+            m = functionExpression(fdef, t->down, 0, true);
+            if (!m.empty()) {
+                b = m[0];
+                bUpdateAns = true;
+            }
+            if (printIt && !m.empty() && state < NLS_STATE_QUIT) {
+                display(b, "ans", false, true);
+            }
+        } else {
+            if (context->lookupVariable(t->down->text, b) && b.isFunctionHandle()) {
+                m = rhsExpression(t->down, 0);
+            } else {
+                if (b.isCell()) {
+                    try {
+                        m = rhsExpression(t->down);
+                    } catch (Exception& e) {
+                        if (!e.matches(ERROR_EMPTY_EXPRESSION))
+                            throw;
+                    }
+                } else {
+                    m = rhsExpression(t->down);
+                }
+            }
+            if (m.empty()) {
+                b = ArrayOf::emptyConstructor();
+            } else {
+                b = m[0];
+                if (printIt && state < NLS_STATE_QUIT) {
+                    if (b.name().empty())
+                        bUpdateAns = true;
+                    for (size_t j = 0; j < m.size(); j++) {
+                        if (m.size() > 1) {
+                            std::string message = fmt::format(_("\n{} of {}:\n"),
+                                static_cast<int>(j) + 1, static_cast<int>(m.size()));
+                            io->outputMessage(message);
+                        }
+                        display(m[j], m[j].name().empty() ? "ans" : m[j].name(), false, true);
+                    }
+                }
+            }
+        }
+        if (isQuitOrForceQuitState() || state == NLS_STATE_ABORT) {
+            callstack.popID();
+            return;
+        }
+        if (bUpdateAns)
+            context->insertVariable("ans", b);
+        callstack.popID();
+        return;
+    }
+    default:
+        break;
+    }
 
-    // Handle reserved statements (for, while, if, break, continue, etc.)
     if (t->type == reserved_node) {
         switch (t->tokenNumber) {
         case NLS_KEYWORD_FOR:
@@ -741,7 +778,6 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
             depth--;
             break;
         case NLS_KEYWORD_ENDFUNCTION:
-            // Only allowed inside a function scope
             if (context->getCurrentScope()->getName() == "base") {
                 Error(ERROR_ENDFUNCTION_WRONG_USE);
             }
@@ -754,78 +790,15 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
         return;
     }
 
-    // Handle function call or expression statement
-    ArrayOf b;
-    ArrayOfVector m;
-    bool bUpdateAns = true;
-    FunctionDef* fdef = nullptr;
-
-    // Function call as statement (no output required)
-    if (t->opNum == OP_RHS && !context->lookupVariable(t->down->text, b)
-        && lookupFunction(t->down->text, fdef)) {
-        m = functionExpression(fdef, t->down, 0, true);
-        if (!m.empty()) {
-            b = m[0];
-        } else {
-
-            bUpdateAns = false;
-        }
-        if (printIt && !m.empty() && state < NLS_STATE_QUIT) {
-            display(b, "ans", false, true);
-        }
+    ArrayOf b = expression(t);
+    if (printIt && state < NLS_STATE_QUIT) {
+        display(b, "ans", false, true);
     }
-    // Variable or function handle call
-    else if (t->opNum == OP_RHS) {
-        bUpdateAns = false;
-        if (context->lookupVariable(t->down->text, b) && b.isFunctionHandle()) {
-            m = rhsExpression(t->down, 0);
-        } else {
-            if (b.isCell()) {
-                try {
-                    m = rhsExpression(t->down);
-                } catch (Exception& e) {
-                    if (!e.matches(ERROR_EMPTY_EXPRESSION))
-                        throw;
-                }
-            } else {
-                m = rhsExpression(t->down);
-            }
-        }
-        if (m.empty()) {
-            b = ArrayOf::emptyConstructor();
-        } else {
-            b = m[0];
-            if (printIt && state < NLS_STATE_QUIT) {
-                if (b.name().empty()) {
-                    bUpdateAns = true;
-                }
-                for (size_t j = 0; j < m.size(); j++) {
-                    if (m.size() > 1) {
-                        std::string message = fmt::format(_("\n{} of {}:\n"),
-                            static_cast<int>(j) + 1, static_cast<int>(m.size()));
-                        io->outputMessage(message);
-                    }
-                    display(m[j], m[j].name().empty() ? "ans" : m[j].name(), false, true);
-                }
-            }
-        }
-    }
-    // General expression statement
-    else {
-        b = expression(t);
-        if (printIt && state < NLS_STATE_QUIT) {
-            display(b, "ans", false, true);
-        }
-    }
-
     if (isQuitOrForceQuitState() || state == NLS_STATE_ABORT) {
         callstack.popID();
         return;
     }
-    // Update "ans" variable if required
-    if (bUpdateAns) {
-        context->insertVariable("ans", b);
-    }
+    context->insertVariable("ans", b);
     callstack.popID();
 }
 //=============================================================================
@@ -846,33 +819,46 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
 void
 Evaluator::statement(AbstractSyntaxTreePtr t)
 {
+    bool popNeeded = false;
     try {
         callstack.pushID((size_t)t->getContext());
-        if (t->opNum == (OP_QSTATEMENT)) {
+        popNeeded = true;
+
+        switch (t->opNum) {
+        case OP_QSTATEMENT:
             statementType(t->down, false);
-        } else if (t->opNum == (OP_RSTATEMENT)) {
-            statementType(t->down, true && bEchoMode);
+            break;
+        case OP_RSTATEMENT:
+            statementType(t->down, bEchoMode);
+            break;
+        default:
+            break;
         }
-        callstack.popID();
     } catch (const Exception&) {
-        callstack.popID();
+        if (popNeeded)
+            callstack.popID();
         throw;
     }
+    if (popNeeded)
+        callstack.popID();
 }
 //=============================================================================
 // This function executes a block of code represented by an AbstractSyntaxTree.
 void
 Evaluator::block(AbstractSyntaxTreePtr t)
 {
-    if (t == nullptr) {
+    if (!t)
         return;
-    }
+
     try {
         AbstractSyntaxTreePtr s = t->down;
-        if (state < NLS_STATE_QUIT) {
+        if (state < NLS_STATE_QUIT)
             resetState();
-        }
-        while ((state < NLS_STATE_QUIT || state == NLS_STATE_CANCEL_QUIT) && s != nullptr) {
+
+        while (s != nullptr) {
+            if (state >= NLS_STATE_QUIT && state != NLS_STATE_CANCEL_QUIT)
+                break;
+
             if (NelsonConfiguration::getInstance()->getInterruptPending(ID)) {
                 if (ID == 0) {
                     NelsonConfiguration::getInstance()->setInterruptPending(false, ID);
@@ -883,8 +869,11 @@ Evaluator::block(AbstractSyntaxTreePtr t)
                     Error(_W("Execution of the future was cancelled."),
                         L"parallel:fevalqueue:ExecutionCancelled");
                 }
+                break;
             }
+
             statement(s);
+
             if (state == NLS_STATE_BREAK || state == NLS_STATE_CONTINUE || state == NLS_STATE_RETURN
                 || state == NLS_STATE_ABORT || isQuitOrForceQuitState()) {
                 break;

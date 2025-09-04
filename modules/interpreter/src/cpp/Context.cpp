@@ -26,7 +26,6 @@ namespace Nelson {
 //=============================================================================
 Context::Context()
 {
-    scopestack.reserve(1024);
     bypassstack.reserve(1024);
     currentrecursiondepth = DEFAULT_RECURSION_FUNCTION_CALL;
     scopestack.reserve(DEFAULT_RECURSION_FUNCTION_CALL);
@@ -45,13 +44,13 @@ Context::~Context()
 Scope*
 Context::getCurrentScope()
 {
-    return scopestack.back();
+    return scopestack.empty() ? nullptr : scopestack.back();
 }
 //=============================================================================
 Scope*
 Context::getGlobalScope()
 {
-    return scopestack.front();
+    return scopestack.empty() ? nullptr : scopestack.front();
 }
 //=============================================================================
 void
@@ -62,11 +61,10 @@ Context::pushScope(const std::string& name)
         Error(ERROR_STACK_DEPTH_EXCEEDED);
     }
     try {
-        sc = new Scope(name);
+        scopestack.emplace_back(new Scope(name));
     } catch (const std::bad_alloc&) {
         Error(ERROR_STACK_DEPTH_EXCEEDED);
     }
-    scopestack.push_back(sc);
 }
 //=============================================================================
 void
@@ -90,7 +88,7 @@ Context::pushScope(const std::string& name, const std::wstring& fullfilename)
     } catch (const std::bad_alloc&) {
         Error(ERROR_STACK_DEPTH_EXCEEDED);
     }
-    scopestack.push_back(sc);
+    scopestack.emplace_back(sc);
 }
 //=============================================================================
 void
@@ -354,8 +352,9 @@ Context::bypassScope(int count)
 void
 Context::restoreBypassedScopes()
 {
-    for (size_t i = 0; i < bypassstack.size(); i++) {
-        scopestack.push_back(bypassstack[bypassstack.size() - 1 - i]);
+    std::reverse(bypassstack.begin(), bypassstack.end());
+    for (auto* scope : bypassstack) {
+        scopestack.push_back(scope);
     }
     bypassstack.clear();
 }
@@ -375,9 +374,7 @@ Context::getCallerScope()
 Scope*
 Context::getBaseScope()
 {
-    Scope* baseScope;
-    baseScope = scopestack[1];
-    return baseScope;
+    return scopestack.size() > 1 ? scopestack[1] : nullptr;
 }
 //=============================================================================
 stringVector
