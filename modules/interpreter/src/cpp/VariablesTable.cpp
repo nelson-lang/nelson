@@ -13,7 +13,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-VariablesTable::VariablesTable() { lockedAccess = false; }
+VariablesTable::VariablesTable() { }
 //=============================================================================
 VariablesTable::~VariablesTable() { lockedVariables.clear(); }
 //=============================================================================
@@ -47,12 +47,10 @@ VariablesTable::isVariable(const key_type& key)
 bool
 VariablesTable::deleteVariable(const key_type& key)
 {
+    std::lock_guard<std::mutex> lock(accessMutex);
     if (!isLockedVariable(key)) {
         if (isVariable(key)) {
-            while (lockedAccess) { }
-            lockedAccess = true;
             variablesTable.deleteSymbol(key);
-            lockedAccess = false;
             return true;
         }
     }
@@ -62,18 +60,15 @@ VariablesTable::deleteVariable(const key_type& key)
 bool
 VariablesTable::insertVariable(const key_type& key, const value_type& val)
 {
-    // insert only in a not locked variable
     if (key.empty()) {
         return false;
     }
     if (!IsValidVariableName(key, true)) {
         return false;
     }
+    std::lock_guard<std::mutex> lock(accessMutex);
     if (!isLockedVariable(key) || lockedVariables.empty()) {
-        while (lockedAccess) { }
-        lockedAccess = true;
         variablesTable.insertSymbol(key, val);
-        lockedAccess = false;
         return true;
     }
     return false;
@@ -82,14 +77,9 @@ VariablesTable::insertVariable(const key_type& key, const value_type& val)
 stringVector
 VariablesTable::getVariablesList(bool withPersistent)
 {
-    stringVector list = variablesTable.getAllSymbols();
-    if (withPersistent) {
-        return list;
-    }
     stringVector retlist;
-
-    for (auto e : list) {
-        if (e.at(0) != '_') {
+    for (const auto& e : variablesTable.getAllSymbols()) {
+        if (withPersistent || (e.empty() || e.at(0) != '_')) {
             retlist.push_back(e);
         }
     }
@@ -99,20 +89,15 @@ VariablesTable::getVariablesList(bool withPersistent)
 bool
 VariablesTable::isLockedVariable(const std::string& key)
 {
-    if (!lockedVariables.empty()) {
-        return (std::find(lockedVariables.begin(), lockedVariables.end(), key)
-            != lockedVariables.end());
-    }
-    return false;
+    return lockedVariables.find(key) != lockedVariables.end();
 }
 //=============================================================================
 bool
 VariablesTable::lockVariable(const std::string& key)
 {
     if (!isLockedVariable(key)) {
-        // ans cannot be locked
         if (key != "ans") {
-            lockedVariables.push_back(key);
+            lockedVariables.insert(key);
         }
         return true;
     }
@@ -123,7 +108,7 @@ bool
 VariablesTable::unlockVariable(const std::string& key)
 {
     if (isLockedVariable(key)) {
-        lockedVariables.erase(std::find(lockedVariables.begin(), lockedVariables.end(), key));
+        lockedVariables.erase(key);
         return true;
     }
     return false;
@@ -132,7 +117,7 @@ VariablesTable::unlockVariable(const std::string& key)
 stringVector
 VariablesTable::getLockedVariables()
 {
-    return lockedVariables;
+    return stringVector(lockedVariables.begin(), lockedVariables.end());
 }
 //=============================================================================
 } // namespace Nelson

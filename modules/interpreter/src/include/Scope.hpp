@@ -16,6 +16,7 @@
 //=============================================================================
 #include <string>
 #include <vector>
+#include <unordered_set>
 #include "ArrayOf.hpp"
 #include "FunctionDef.hpp"
 #include "VariablesTable.hpp"
@@ -69,7 +70,7 @@ private:
      * scope.  Global variables are not stored in this Scope, but
      * are deferred to the top scope in the Context.
      */
-    stringVector globalVars;
+    std::unordered_set<std::string> globalVars;
     /**
      * Persistent variables are similar to global variables in that
      * they are deferred to the top scope in the Context.  However,
@@ -77,11 +78,11 @@ private:
      * with the name of the scope before being indexed into the global
      * scope.
      */
-    stringVector persistentVars;
-    /**
-     * The location ID stack - stores information on where in the source
-     * file the current token resides.
-     */
+    std::unordered_set<std::string>
+        persistentVars; /**
+                         * The location ID stack - stores information on where in the source
+                         * file the current token resides.
+                         */
     std::vector<int> IDstack;
 
     std::wstring filename;
