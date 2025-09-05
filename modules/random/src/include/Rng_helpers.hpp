@@ -17,8 +17,8 @@ namespace Nelson {
 //=============================================================================
 enum RNG_TYPE
 {
-    RNG_ERROR = -1,
-    RNG_TWISTER = 0,
+    RNG_ERROR,
+    RNG_TWISTER,
     RNG_TWISTER64,
     RNG_MRG32K3A,
     RNG_DSFMT19937,
