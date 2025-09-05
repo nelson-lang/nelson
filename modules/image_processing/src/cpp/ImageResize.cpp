@@ -346,7 +346,6 @@ ImageResize(const ArrayOf& image, double scale, const ResizeOptions& options)
     Dimensions dims = image.getDimensions();
     size_t height = dims.getRows();
     size_t width = dims.getColumns();
-    size_t channels = (dims.getLength() > 2) ? dims.getDimensionLength(2) : 1;
 
     size_t new_height = static_cast<size_t>(std::round(height * scale));
     size_t new_width = static_cast<size_t>(std::round(width * scale));
