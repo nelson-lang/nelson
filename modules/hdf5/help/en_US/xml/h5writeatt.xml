@@ -1,81 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>h5writeatt</keyword>
-	<short_description>Writes HDF5 attribute.</short_description>
-
-	<syntax>
-		<syntax_item>h5writeatt(filename, location, attname, attvalue)</syntax_item>
-		<syntax_item
-    >h5writeatt(filename, location, attname, attvalue, 'TextEncoding', encoding)</syntax_item>	
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>filename</param_name>
-			<param_description>a string: hdf5 filename.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>location</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>h5writeatt</keyword>
+    <short_description>Writes HDF5 attribute.</short_description>
+    <syntax>
+        <syntax_item
+    >h5writeatt(filename, location, attname, attvalue)</syntax_item>
+        <syntax_item
+    >h5writeatt(filename, location, attname, attvalue, 'TextEncoding', encoding)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>filename</param_name>
+            <param_description>a string: hdf5 filename.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>location</param_name>
+            <param_description
       >a string: full path identifying a group or variable.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>attname</param_name>
-			<param_description>a string: name of an attribute.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>attvalue</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>attname</param_name>
+            <param_description
+      >a string: name of an attribute.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>attvalue</param_name>
+            <param_description
       >a value: supported types: double, uint64, uint32, uint16, uint8
 single, int64, int32, int16, or int8.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>encoding</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>encoding</param_name>
+            <param_description
       >a string: 'system' or 'UTF-8' ('UTF-8' default).</param_description>
-		</param_input_item>
-
-	</param_input>
-
-	<description>
-		<p><b>h5writeatt</b> writes attribute named <b>attname</b> with the value <b
-      >attvalue</b> to the HDF5 file.</p>
-	</description>
-
-
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b>h5writeatt</b> writes attribute named <b
+      >attname</b> with the value <b>attvalue</b> to the HDF5 file.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[h5create([tempdir(), 'myfile.h5'],'/myDataset1',[10 20]);
-h5writeatt([tempdir(), 'myfile.h5'],'/','creation_date', '26-Dec-2018 16:55:32')]]>
-		</example_item_data>
-	</example_item>
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${hdf5}h5readatt">h5readatt</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+h5writeatt([tempdir(), 'myfile.h5'],'/','creation_date', '26-Dec-2018 16:55:32')]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${hdf5}h5readatt">h5readatt</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

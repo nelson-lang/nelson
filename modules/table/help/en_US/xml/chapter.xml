@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<module_name>table</module_name>
-	<chapter>Tables</chapter>
-	<chapter_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>table</module_name>
+    <chapter>Tables</chapter>
+    <chapter_description
   >Tables of arrays with named columns, each potentially containing different data types.</chapter_description>
+    <auto_toc />
 </xmldoc>

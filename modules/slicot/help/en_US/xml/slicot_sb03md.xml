@@ -1,135 +1,108 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>slicot_sb03md</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>slicot_sb03md</keyword>
+    <short_description
   >Solution of continuous- or discrete-time Lyapunov equations and separation estimation.</short_description>
-
-  <syntax>
-    <syntax_item
+    <syntax>
+        <syntax_item
     >[U_OUT, C_OUT, SCALE, SEP, FERR, WR, WI, INFO] = slicot_sb03md(DICO, JOB, FACT, TRANA, A, U_IN, C_IN)</syntax_item>
-  </syntax>
-  
-  <param_input>
-  
-    <param_input_item>
-      <param_name>DICO</param_name>
-      <param_description
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>DICO</param_name>
+            <param_description
       >Specifies the type of Lyapunov equation to be solved as follows: = 'C': continuous-time case; 'D': discrete-time case.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>JOB</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>JOB</param_name>
+            <param_description
       >Specifies the computation to be performed:  'X':  Compute the solution only;= 'S':  Compute the separation only; = 'B':  Compute both the solution and the separation.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>FACT</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>FACT</param_name>
+            <param_description
       >Specifies whether or not the real Schur factorization of the matrix A is supplied on entry. = 'F':  On entry, A and Q contain the factors from the real Schur factorization of the matrix A; = 'N':  The Schur factorization of A will be computed and the factors will be stored in A and Q.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>TRANA</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>TRANA</param_name>
+            <param_description
       >Specifies the form of op(A) to be used: = 'N':  op(A) = A    (No transpose); = 'T':  op(A) = A**T (Transpose); = 'C':  op(A) = A**T (Conjugate transpose = Transpose).</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>A</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
       >the leading N-by-N part of this array must contain the matrix A. If FACT = 'F', then A contains an upper quasi-triangular matrix in Schur canonical form; the elements below the upper Hessenberg part of the array A are not referenced.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>U_IN</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>U_IN</param_name>
+            <param_description
       >If FACT = 'N', zeros(N, N); If FACT = 'F', then U is an input argument and on entry the leading N-by-N part of this array must contain the orthogonal matrix U of the real Schur factorization of A.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>C_IN</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>C_IN</param_name>
+            <param_description
       >With JOB = 'X' or 'B', the leading N-by-N part of this array must contain the symmetric matrix C.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>U_OUT</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>U_OUT</param_name>
+            <param_description
       >if INFO = 0 or INFO = N+1, it contains the orthogonal N-by-N matrix from the real Schur factorization of A.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>C_OUT</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>C_OUT</param_name>
+            <param_description
       >With JOB = 'X' or 'B', if INFO = 0 or INFO = N+1, the leading N-by-N part of C has been overwritten by the symmetric solution matrix X.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>SCALE</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>SCALE</param_name>
+            <param_description
       >The scale factor, scale, set less than or equal to 1 to prevent the solution overflowing.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>SEP</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>SEP</param_name>
+            <param_description
       >If JOB = 'S' or JOB = 'B', and INFO = 0 or INFO = N+1, SEP contains the estimated separation of the matrices op(A) and -op(A)', if DICO = 'C' or of op(A) and op(A)', if DICO = 'D'.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>FERR</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>FERR</param_name>
+            <param_description
       >If JOB = 'B', and INFO = 0 or INFO = N+1, FERR contains an estimated forward error bound for the solution X.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>WR</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>WR</param_name>
+            <param_description
       >If FACT = 'N', and INFO = 0 or INFO = N+1, WR contains the real parts of the eigenvalues of A.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>WI</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>WI</param_name>
+            <param_description
       >If FACT = 'N', and INFO = 0 or INFO = N+1, WI contains the imaginary parts of the eigenvalues of A.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>INFO</param_name>
-      <param_description> = 0:  successful exit;</param_description>
-    </param_output_item>
-
-
-  </param_output>
-
-
-
-  <description>
-  <p>To solve for X either the real continuous-time Lyapunov equation</p>
-  <p>op(A)'*X + X*op(A) = scale*C</p>
-  <p>or the real discrete-time Lyapunov equation</p>
-  <p>op(A)'*X*op(A) - X = scale*C</p>
-  <p
+        </param_output_item>
+        <param_output_item>
+            <param_name>INFO</param_name>
+            <param_description> = 0:  successful exit;</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>To solve for X either the real continuous-time Lyapunov equation</p>
+        <p>op(A)'*X + X*op(A) = scale*C</p>
+        <p>or the real discrete-time Lyapunov equation</p>
+        <p>op(A)'*X*op(A) - X = scale*C</p>
+        <p
     >and/or estimate an associated condition number, called separation, where op(A) = A or A' (A**T) and C is symmetric (C = C').</p>
-  </description>
-
-  <used_function>SB03MD</used_function>
-  <bibliography
+    </description>
+    <used_function>SB03MD</used_function>
+    <bibliography
   >http://slicot.org/objects/software/shared/doc/SB03MD.html</bibliography>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
       ><![CDATA[N = 3;
 DICO = 'D';
 FACT = 'N';
@@ -146,20 +119,16 @@ C_IN = [25.0  24.0  15.0;
   24.0  32.0   8.0;
   15.0   8.0  40.0];
 
-[U_OUT, C_OUT, SCALE, SEP, FERR, WR, WI, INFO] = slicot_sb03md(DICO, JOB, FACT, TRANA, A, U_IN, C_IN)]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>SLICOT Documentation</author_item>
-  </authors>
+[U_OUT, C_OUT, SCALE, SEP, FERR, WR, WI, INFO] = slicot_sb03md(DICO, JOB, FACT, TRANA, A, U_IN, C_IN)]]></example_item_data>
+        </example_item>
+    </examples>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>SLICOT Documentation</author_item>
+    </authors>
 </xmldoc>

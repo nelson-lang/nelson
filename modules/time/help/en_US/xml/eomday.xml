@@ -1,73 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>eomday</keyword>
-  <short_description>Returns last day of month.</short_description>
-
-  <syntax>
-    <syntax_item>E = eomday(Y, M)</syntax_item>
-  </syntax>
-  
-
-  <param_input>
-    
-    <param_input_item>
-      <param_name>Y</param_name>
-      <param_description>year: real.</param_description>
-    </param_input_item>
-    
-    <param_input_item>
-      <param_name>M</param_name>
-      <param_description>month: real.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>E</param_name>
-      <param_description>last day of month: real.</param_description>
-    </param_output_item>
-
-  </param_output>
-
-  <description>
-    <p><b>E = eomday(Y, M)</b> returns the last day of the month <b
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>eomday</keyword>
+    <short_description>Returns last day of month.</short_description>
+    <syntax>
+        <syntax_item>E = eomday(Y, M)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>Y</param_name>
+            <param_description>year: real.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>M</param_name>
+            <param_description>month: real.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>E</param_name>
+            <param_description>last day of month: real.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>E = eomday(Y, M)</b> returns the last day of the month <b
       >M</b> for the year <b>Y</b>.</p>
-  </description>
-  <used_function />
-  <bibliography />
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data><![CDATA[eomday(1900, 1:12)]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${time}datenum">datenum</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${time}weekday">weekday</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[eomday(1900, 1:12)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${time}datenum">datenum</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${time}weekday">weekday</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

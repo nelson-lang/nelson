@@ -1,71 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>set</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>set</keyword>
+    <short_description
   >Set a property value of an handle object.</short_description>
-
-  <syntax>
-    <syntax_item>R = set(h, property_name, value)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>h</param_name>
-      <param_description>an handle object.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>property_name</param_name>
-      <param_description>a string: property name.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>value</param_name>
-      <param_description>a variable.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>R</param_name>
-      <param_description
+    <syntax>
+        <syntax_item>R = set(h, property_name, value)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>h</param_name>
+            <param_description>an handle object.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>property_name</param_name>
+            <param_description>a string: property name.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>value</param_name>
+            <param_description>a variable.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>R</param_name>
+            <param_description
       >user-settable properties and possible values for the object identified by h.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-    <p
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
     >This routine can be used to modify the value of a specified property from an handle object.</p>
-</description>
-
-  <used_function />
-  <bibliography />
-
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${qml_engine}QObject_set">QObject_set (set)</link>
-    </see_also_item>
-
-    <see_also_item>
-      <link linkend="${handle}get">get</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${handle}invoke">invoke</link>
-    </see_also_item>
-
-  </see_also>
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
+    </description>
+    <used_function />
+    <bibliography />
+    <see_also>
+        <see_also_item>
+            <link linkend="${qml_engine}QObject_set">QObject_set (set)</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${handle}get">get</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${handle}invoke">invoke</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
 </xmldoc>

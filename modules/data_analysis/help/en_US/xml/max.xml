@@ -1,108 +1,96 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>max</keyword>
-	<short_description>Maximum elements of an array.</short_description>
-
-	<syntax>
-		<syntax_item>M = max(A)</syntax_item>
-		<syntax_item>[M, I] = max(A)</syntax_item>
-		<syntax_item>M = max(A, [], dim)</syntax_item>
-		<syntax_item>[M, I] = max(A, [], dim)</syntax_item>
-		<syntax_item>M = max(A, [], dim, 'omitnan')</syntax_item>
-		<syntax_item>[M, I] = max(A, [], dim, 'includenan')</syntax_item>
-		<syntax_item>[M, I] = max(A, [], 'all')</syntax_item>
-		<syntax_item>[M, I] = max(A, [], 'all', 'omitnan')</syntax_item>
-		<syntax_item>[M, I] = max(A, [], 'all', 'includenan')</syntax_item>
-		<syntax_item>C = max(A, B)</syntax_item>
-		<syntax_item>C = max(A, B, 'omitnan')</syntax_item>
-		<syntax_item>C = max(A, B, 'includenan')</syntax_item>
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>A</param_name>
-			<param_description>a variable</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>dim</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>max</keyword>
+    <short_description>Maximum elements of an array.</short_description>
+    <syntax>
+        <syntax_item>M = max(A)</syntax_item>
+        <syntax_item>[M, I] = max(A)</syntax_item>
+        <syntax_item>M = max(A, [], dim)</syntax_item>
+        <syntax_item>[M, I] = max(A, [], dim)</syntax_item>
+        <syntax_item>M = max(A, [], dim, 'omitnan')</syntax_item>
+        <syntax_item>[M, I] = max(A, [], dim, 'includenan')</syntax_item>
+        <syntax_item>[M, I] = max(A, [], 'all')</syntax_item>
+        <syntax_item>[M, I] = max(A, [], 'all', 'omitnan')</syntax_item>
+        <syntax_item>[M, I] = max(A, [], 'all', 'includenan')</syntax_item>
+        <syntax_item>C = max(A, B)</syntax_item>
+        <syntax_item>C = max(A, B, 'omitnan')</syntax_item>
+        <syntax_item>C = max(A, B, 'includenan')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description>a variable</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>dim</param_name>
+            <param_description
       >a positive integer scalar (Dimension to operate along)</param_description>
-		</param_input_item>
-			<param_input_item>
-			<param_name>'omitnan'</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>'omitnan'</param_name>
+            <param_description
       >ignore all NaN values. default behaviour. max will return the first element, if all elements are NaN.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>'includenan'</param_name>
-			<param_description>include the NaN values.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>'all'</param_name>
-			<param_description>it finds the maximum over all elements.</param_description>
-		</param_input_item>
-	</param_input>
-
-	<param_output>
-		<param_output_item>
-			<param_name>M</param_name>
-			<param_description>Maximum values of A.</param_description>
-		</param_output_item>
-			<param_output_item>
-			<param_name>I</param_name>
-			<param_description>Index to maximum values of A.</param_description>
-		</param_output_item>
-		<param_output_item>
-			<param_name>C</param_name>
-			<param_description>Maximum elements from A or B.</param_description>
-		</param_output_item>
-	
-	</param_output>
-
-	<description>
-		<p><b>max</b> find maximum values in an array.</p>
-		<p>If <b>A</b> is a matrix then <b
+        </param_input_item>
+        <param_input_item>
+            <param_name>'includenan'</param_name>
+            <param_description>include the NaN values.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>'all'</param_name>
+            <param_description
+      >it finds the maximum over all elements.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>M</param_name>
+            <param_description>Maximum values of A.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>I</param_name>
+            <param_description>Index to maximum values of A.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>C</param_name>
+            <param_description>Maximum elements from A or B.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>max</b> find maximum values in an array.</p>
+            <p>If <b>A</b> is a matrix then <b
       >M = max(A)</b> is a row vector containing the maximum value of each column.</p>
-		<p>If <b>A</b> is a vector then <b>M = max(A)</b> will return the maximum of <b
-      >A</b>.</p>
-		<p>If <b>A</b> If A is complex number then <b
+            <p>If <b>A</b> is a vector then <b
+      >M = max(A)</b> will return the maximum of <b>A</b>.</p>
+            <p>If <b>A</b> If A is complex number then <b
       >M = max(A)</b> will return founded complex number with the largest magnitude.</p>
-	</description>
-
-	<used_function />
-	<bibliography />
-	
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[A = [1 2 3; 4 5 6];
 M = max(A)
-M = max(A, [], 'all')]]>
-		</example_item_data>
-	</example_item>
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${data_analysis}min">min</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+M = max(A, [], 'all')]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${data_analysis}min">min</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

@@ -1,68 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>int2str</keyword>
-	<short_description>Convert an integer array to a string</short_description>
-
-	<syntax>
-		<syntax_item>res = int2str(var)</syntax_item>
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>var</param_name>
-			<param_description>an numeric array.</param_description>
-		</param_input_item>
-
-	</param_input>
-
-	<param_output>
-		<param_output_item>
-			<param_name>res</param_name>
-			<param_description>a string</param_description>
-		</param_output_item>
-	</param_output>
-
-	<description><b
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>int2str</keyword>
+    <short_description>Convert an integer array to a string</short_description>
+    <syntax>
+        <syntax_item>res = int2str(var)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>var</param_name>
+            <param_description>an numeric array.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>res</param_name>
+            <param_description>a string</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <b
     >int2str</b> converts an numeric array to a string with integer format. Inputs are rounded before conversion.</description>
-	<used_function />
-	<bibliography />
-
-<examples>
-
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[R = int2str ([-Inf, 2, NaN; 4, Inf, 6])]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[R = int2str(uint64(intmax('uint64')))]]>
-		</example_item_data>
-	</example_item>
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${string}char">char</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[R = int2str ([-Inf, 2, NaN; 4, Inf, 6])]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[R = int2str(uint64(intmax('uint64')))]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${string}char">char</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

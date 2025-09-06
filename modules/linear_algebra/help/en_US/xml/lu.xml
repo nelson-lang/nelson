@@ -1,77 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>lu</keyword>
-  <short_description>LU matrix factorization.</short_description>
-
-  <syntax>
-    <syntax_item>[L, U] = lu(A)</syntax_item>
-    <syntax_item>[L, U, P] = lu(A)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>A</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>lu</keyword>
+    <short_description>LU matrix factorization.</short_description>
+    <syntax>
+        <syntax_item>[L, U] = lu(A)</syntax_item>
+        <syntax_item>[L, U, P] = lu(A)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
       >a matrix: square, finite single or double.</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>L</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>L</param_name>
+            <param_description
       >Lower triangular factor: matrix (same type A)</param_description>
-    </param_output_item>
-    <param_output_item>
-      <param_name>U</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>U</param_name>
+            <param_description
       >Upper triangular factor: matrix (same type A).</param_description>
-    </param_output_item>
-    <param_output_item>
-      <param_name>P</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>P</param_name>
+            <param_description
       >Row permutation: matrix (same type A).</param_description>
-    </param_output_item>
-
-  </param_output>
-
-  <description>
-  
-    <p><b>[L, U] = lu(A)</b> function decomposes a full matrix <b
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>[L, U] = lu(A)</b> function decomposes a full matrix <b
       >A</b> into two matrices: an upper triangular matrix <b
       >U</b> and a permuted lower triangular matrix <b>L</b>.</p>
-    <p>This factorization satisfies the equation <b>A = L * U</b>.</p>
-    <p><b
+            <p>This factorization satisfies the equation <b>A = L * U</b>.</p>
+            <p>
+                <b
       >[L, U, P] = lu(A)</b> function, when used with three output arguments, provides a permutation matrix <b
       >P</b> in addition to the unit lower triangular matrix <b
       >L</b> and the upper triangular matrix <b>U</b>.</p>
-    <p>This factorization is expressed as <b>A = P'LU</b>, where <b
+                <p>This factorization is expressed as <b>A = P'LU</b>, where <b
       >L</b> is unit lower triangular, and <b>U</b> is upper triangular.</p>
-
-  </description>
-
-  <used_function
+            </description>
+            <used_function
   >LAPACKE_dgetrf, LAPACKE_sgetrf, LAPACKE_zgetrf, LAPACKE_cgetrf</used_function>
-  <bibliography />
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data><![CDATA[A = magic(5)
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+      ><![CDATA[A = magic(5)
 [L, U] = lu(A)
 L * U
-]]>
-    </example_item_data>
-  </example_item>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+]]></example_item_data>
+                </example_item>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
       ><![CDATA[A = magic(5)
 [L, U, P] = lu(A);
 subplot(1, 2, 1)
@@ -80,28 +71,22 @@ title(_('L factor'))
 subplot(1, 2, 2)
 spy(U)
 title(_('U factor'))
-]]>
-    </example_item_data>
-        <example_item_img src="../images/lu.svg" align="middle" />
-  </example_item>
-
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${linear_algebra}cond">cond</link>
-		</see_also_item>
-	</see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.1.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+]]></example_item_data>
+                    <example_item_img src="../images/lu.svg" align="middle" />
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${linear_algebra}cond">cond</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.1.0</history_version>
+                    <history_description>initial version</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

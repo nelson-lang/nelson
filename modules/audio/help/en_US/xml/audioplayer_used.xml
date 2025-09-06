@@ -26,17 +26,6 @@
   <used_function />
   <bibliography />
 
-  <see_also>
-    <see_also_item>
-      <link linkend="${audio}audioplayer_set">audioplayer_set (set)</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${audio}audioplayer_get">audioplayer_get (get)</link>
-    </see_also_item>
-
-  </see_also>
-
-
 <examples>
 
   <example_item>
@@ -48,6 +37,16 @@
 
 </examples>
 
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${audio}audioplayer_set">audioplayer_set (set)</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}audioplayer_get">audioplayer_get (get)</link>
+    </see_also_item>
+
+  </see_also>
 
   <history>
     <history_item>

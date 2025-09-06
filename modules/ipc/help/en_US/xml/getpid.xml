@@ -1,54 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>getpid</keyword>
-	<short_description>Get nelson(s) Process IDentificator.</short_description>
-
-	<syntax>
-		<syntax_item>p = getpid()</syntax_item>
-		<syntax_item>v = getpid('available')</syntax_item>
-	</syntax>
-
-  <param_input>
-    <param_input_item>
-      <param_name>'available'</param_name>
-      <param_description>a string.</param_description>
-    </param_input_item>
-  </param_input>
-
-	<param_output>
-		<param_output_item>
-			<param_name>p</param_name>
-			<param_description>a double: current Process Identificator.</param_description>
-		</param_output_item>
-		<param_output_item>
-			<param_name>v</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>getpid</keyword>
+    <short_description>Get nelson(s) Process IDentificator.</short_description>
+    <syntax>
+        <syntax_item>p = getpid()</syntax_item>
+        <syntax_item>v = getpid('available')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>'available'</param_name>
+            <param_description>a string.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>p</param_name>
+            <param_description
+      >a double: current Process Identificator.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>v</param_name>
+            <param_description
       >a vector of double: list of nelson Processes Identification (with same arch) currently running for current user.</param_description>
-		</param_output_item>
-
-	</param_output>
-
-	<description>
-		<p><b
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >p = getpid()</b> returns current nelson process identificator currently running on computer.</p>
-		<p><b
+            <p>
+                <b
       >v = getpid('available')</b> returns list of nelson processes identificators (with same arch) running for current user.</p>
-		<p
+                <p
     >win64 and win32 are two differents architecture but they can run in same time.</p>
-	</description>
-
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
       ><![CDATA[p = getpid()
 getpid('available')
 unix('nelson-gui &')
@@ -59,30 +53,24 @@ sleep(5) % detached process need to wait to see available
 getpid('available')
 unix('nelson-gui &')
 sleep(5) % detached process need to wait to see available
-getpid('available')]]>
-		</example_item_data>
-	</example_item>
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${os_functions}unix">unix</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${ipc}ipc">ipc</link>
-		</see_also_item>
-
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+getpid('available')]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${os_functions}unix">unix</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${ipc}ipc">ipc</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>initial version</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

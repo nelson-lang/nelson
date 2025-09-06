@@ -1,88 +1,77 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>userpath</keyword>
-	<short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>userpath</keyword>
+    <short_description
   >Displays or modify default user functions directory.</short_description>
-
-	<syntax>
-		<syntax_item>p = userpath()</syntax_item>
-		<syntax_item>userpath(dirname)</syntax_item>
-		<syntax_item>userpath('reset')</syntax_item>
-		<syntax_item>userpath('clear')</syntax_item>
-
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>dirname</param_name>
-			<param_description>an existing directory name</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>'clear'</param_name>
-			<param_description
+    <syntax>
+        <syntax_item>p = userpath()</syntax_item>
+        <syntax_item>userpath(dirname)</syntax_item>
+        <syntax_item>userpath('reset')</syntax_item>
+        <syntax_item>userpath('clear')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>dirname</param_name>
+            <param_description>an existing directory name</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>'clear'</param_name>
+            <param_description
       >removes the first directory for current and next sessions of Nelson.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>'reset'</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>'reset'</param_name>
+            <param_description
       >resets the first directory to the default for your platform.</param_description>
-		</param_input_item>
-
-	</param_input>
-
-	<param_output>
-		<param_output_item>
-			<param_name>p</param_name>
-			<param_description> string: the specified user path</param_description>
-		</param_output_item>
-	</param_output>
-
-	<description><p><b>userpath</b> modifies or displays user’s load path.</p>
-<p>By default, <b>userpath</b> directory is platform-dependant:</p>
-<p>Windows platforms: %USERPROFILE%/Documents/Nelson</p>
-<p>Others platforms: $home/Documents/Nelson</p>
-<p
-    >It is possible to force userpath by define an environment variable: NELSON_USERPATH with an existing path.</p></description>
-
-	<used_function />
-	<bibliography />
-
-<examples>
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[path
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>p</param_name>
+            <param_description
+      > string: the specified user path</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>userpath</b> modifies or displays user’s load path.</p>
+            <p>By default, <b>userpath</b> directory is platform-dependant:</p>
+            <p>Windows platforms: %USERPROFILE%/Documents/Nelson</p>
+            <p>Others platforms: $home/Documents/Nelson</p>
+            <p
+    >It is possible to force userpath by define an environment variable: NELSON_USERPATH with an existing path.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data><![CDATA[path
 userpath
-]]>
-		</example_item_data>
-	</example_item>
-
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${functions_manager}path">path</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${functions_manager}addpath">addpath</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${functions_manager}rehash">rehash</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${functions_manager}path">path</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${functions_manager}addpath">addpath</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${functions_manager}rehash">rehash</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

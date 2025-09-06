@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<module_name>constructors_functions</module_name>
-	<chapter>Constructors functions</chapter>
-	<chapter_description>Create scalars, vectors, or matrices</chapter_description>
-	
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>constructors_functions</module_name>
+    <chapter>Constructors functions</chapter>
+    <chapter_description
+  >Create scalars, vectors, or matrices</chapter_description>
+    <auto_toc />
 </xmldoc>

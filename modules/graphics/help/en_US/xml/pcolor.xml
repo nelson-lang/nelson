@@ -1,81 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>pcolor</keyword>
-  <short_description>Pseudocolor plot.</short_description>
-
-  <syntax>
-    <syntax_item>pcolor(C)</syntax_item>
-    <syntax_item>pcolor(X, Y, C)</syntax_item>
-    <syntax_item>pcolor(parent, ...)</syntax_item>
-    <syntax_item>go = pcolor(...)</syntax_item>
-  </syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>X</param_name>
-			<param_description>x-coordinates: vector or matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>Y</param_name>
-			<param_description>y-coordinates: vector or matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>C</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>pcolor</keyword>
+    <short_description>Pseudocolor plot.</short_description>
+    <syntax>
+        <syntax_item>pcolor(C)</syntax_item>
+        <syntax_item>pcolor(X, Y, C)</syntax_item>
+        <syntax_item>pcolor(parent, ...)</syntax_item>
+        <syntax_item>go = pcolor(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>X</param_name>
+            <param_description
+      >x-coordinates: vector or matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Y</param_name>
+            <param_description
+      >y-coordinates: vector or matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description
       >Color array: m-by-n-by-3 array of RGB triplets.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>parent</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>parent</param_name>
+            <param_description
       >a scalar graphics object value: parent container, specified as a axes.</param_description>
-		</param_input_item>
-	</param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>go</param_name>
-      <param_description>a graphics object: surface type.</param_description>
-    </param_output_item>
-  </param_output>
-
-<description>
-  <p><b>pcolor(C)</b> creates a pseudocolor plot of the data in the matrix <b
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>go</param_name>
+            <param_description
+      >a graphics object: surface type.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >pcolor(C)</b> creates a pseudocolor plot of the data in the matrix <b
       >C</b>, where each cell or 'face' in the plot is colored according to the corresponding value in the matrix.</p>
-  <p
-    >The color of each face is determined by a colormap, which maps data values to colors.</p> 
-</description>
-
-  <used_function />
-  <bibliography />
-  
-<examples>
-
-  <example_item>
-
-    <example_item_type>nelson</example_item_type>
-    <example_item_description> 
-
-    </example_item_description>
-    <example_item_data
+            <p
+    >The color of each face is determined by a colormap, which maps data values to colors.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[X = linspace(0, 2*pi, 100);
 Y = linspace(0, 2*pi, 100);
 Z = sin(X' * Y);
 f = figure()
-pcolor(X, Y, Z)]]>
-    </example_item_data>
-    <example_item_img src="../images/pcolor_1.svg" align="middle" />
-  </example_item>
- 
-  <example_item>
-
-    <example_item_type>nelson</example_item_type>
-    <example_item_description> 
-
-    </example_item_description>
-    <example_item_data
+pcolor(X, Y, Z)]]></example_item_data>
+                <example_item_img src="../images/pcolor_1.svg" align="middle" />
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[f = figure();
 rng('default');
 ax1 = subplot(1, 2, 1);
@@ -83,31 +72,25 @@ C1 = rand(20, 10);
 pcolor(ax1, C1)
 ax2 = subplot(1, 2, 2);
 C2 = rand(50, 10);
-pcolor(ax2, C2)]]>
-    </example_item_data>
-    <example_item_img src="../images/pcolor_2.svg" align="middle" />
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${graphics}surf">surf</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${elementary_functions}meshgrid">meshgrid</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+pcolor(ax2, C2)]]></example_item_data>
+                <example_item_img src="../images/pcolor_2.svg" align="middle" />
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${graphics}surf">surf</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${elementary_functions}meshgrid">meshgrid</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

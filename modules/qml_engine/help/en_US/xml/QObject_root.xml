@@ -1,64 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>QObject_root</keyword>
-  <short_description>QObject root object.</short_description>
-
-  <syntax>
-    <syntax_item>r = QObject_root()</syntax_item>
-  </syntax>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>h</param_name>
-      <param_description>QObject handle of Nelson gui.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-    <p>Returns QObject handle of Nelson gui.</p>
-</description>
-
-  <used_function />
-  <bibliography />
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${qml_engine}QObject_set">QObject_set (set)</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${qml_engine}QObject_get">QObject_get (get)</link>
-    </see_also_item>
-
-  </see_also>
-
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>QObject_root</keyword>
+    <short_description>QObject root object.</short_description>
+    <syntax>
+        <syntax_item>r = QObject_root()</syntax_item>
+    </syntax>
+    <param_output>
+        <param_output_item>
+            <param_name>h</param_name>
+            <param_description>QObject handle of Nelson gui.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>Returns QObject handle of Nelson gui.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
       ><![CDATA[h1 = QObject_root()
 h1.windowTitle
-h1.windowTitle = 'Your title']]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
+h1.windowTitle = 'Your title']]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${qml_engine}QObject_set">QObject_set (set)</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${qml_engine}QObject_get">QObject_get (get)</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
 </xmldoc>

@@ -1,65 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>colon</keyword>
-	<short_description>colon operator ':'.</short_description>
-
-	<syntax>
-		<syntax_item>R = colon(base, limit)</syntax_item>
-		<syntax_item>R = colon(base, increment, limit</syntax_item>
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>base</param_name>
-			<param_description>a variable</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>limit</param_name>
-			<param_description>a variable</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>increment</param_name>
-			<param_description>a variable (optional)</param_description>
-		</param_input_item>
-
-	</param_input>
-
-	<param_output>
-
-		<param_output_item>
-			<param_name>C</param_name>
-			<param_description>result</param_description>
-		</param_output_item>
-	</param_output>
-
-	<description>
-		<p><b
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>colon</keyword>
+    <short_description>colon operator ':'.</short_description>
+    <syntax>
+        <syntax_item>R = colon(base, limit)</syntax_item>
+        <syntax_item>R = colon(base, increment, limit</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>base</param_name>
+            <param_description>a variable</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>limit</param_name>
+            <param_description>a variable</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>increment</param_name>
+            <param_description>a variable (optional)</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>C</param_name>
+            <param_description>result</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >colon</b> creates vectors. It is an usefull function for loop, extraction and insertion.</p>
-		<p><b>colon(base, limit)</b> is equivalent to <b>base:limit</b></p>
-		<p><b>colon(base, increment, limit)</b> is equivalent to <b
-      >base:increment:limit</b></p>
-	</description>
-
-
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[1:0.5:4]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+            <p>
+                <b>colon(base, limit)</b> is equivalent to <b>base:limit</b>
+            </p>
+            <p>
+                <b>colon(base, increment, limit)</b> is equivalent to <b
+      >base:increment:limit</b>
+            </p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data><![CDATA[1:0.5:4]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[A = 1:6
 B = 1:4:12
 C = rand(3, 4)
@@ -68,20 +60,16 @@ C(:, 3)
 C(2, :)
 C(:, 1, 1)
 C(:) = rand(3, 4)
-]]>
-		</example_item_data>
-	</example_item>
-
-</examples>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

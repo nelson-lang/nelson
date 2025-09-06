@@ -1,51 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>Read/Write table to files</keyword>
-
-  <description>
-    <p
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>Read/Write table to files</keyword>
+    <description>
+        <p
     >Nelson provides extensive capabilities for reading and writing tables to files, supporting both text-based and binary storage formats to meet different data management needs.</p>
-	<p>Text files (.csv, .txt, etc.):</p>
-  	<ul>
-    	<li
+        <p>Text files (.csv, .txt, etc.):</p>
+        <ul>
+            <li
       >writetable() exports tables to delimited text files with customizable separators</li>
-    	<li
+            <li
       >readtable() imports tables from delimited text files with automatic format detection</li>
-    	<li
+            <li
       >Text files preserve variable names and data in human-readable format</li>
-  	</ul>
-
-  	<p>Binary file:</p>
-  	<ul>
-    	<li>Nelson HDF5 format (.nh5):
+        </ul>
+        <p>Binary file:</p>
+        <ul>
+            <li>Nelson HDF5 format (.nh5):
       	<ul>
-        	<li>Efficient binary storage using HDF5 format</li>
-        	<li>Preserves all table metadata and data types</li>
-        	<li>Use save -nh5 and load commands</li>
-      	</ul>
-    	</li>
-  	</ul>
-
-  	<p
+                <li>Efficient binary storage using HDF5 format</li>
+                <li>Preserves all table metadata and data types</li>
+                <li>Use save -nh5 and load commands</li>
+            </ul>
+        </li>
+    </ul>
+    <p
     >Binary format is recommended for preserving exact numeric precision and working with large datasets.</p>
-
-  </description>
-
-
-  <used_function />
-  <bibliography />
-
-
+</description>
+<used_function />
+<bibliography />
 <examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description
+    <example_item>
+        <example_item_type>nelson</example_item_type>
+        <example_item_description
       >Read/Write table to .nh5 file</example_item_description>
-    <example_item_data
+        <example_item_data
       ><![CDATA[% Create a sample table with sensor data
 T = table([1.5; -2.3; 4.7], [0.5; 1.1; -0.7], [-1; 2; 3], 'VariableNames', {'Voltage', 'Current', 'Resistance'});
 R = T;
@@ -55,52 +45,42 @@ clear T
 load(filename, 'T');
 assert(isequal(T, R));
 T
-]]>
-    </example_item_data>
-  </example_item>
-
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description
+]]></example_item_data>
+    </example_item>
+    <example_item>
+        <example_item_type>nelson</example_item_type>
+        <example_item_description
       >Read/Write table to text file</example_item_description>
-    <example_item_data
+        <example_item_data
       ><![CDATA[% Create a sample table with sensor data
 T = table([1.5; -2.3; 4.7], [0.5; 1.1; -0.7], [-1; 2; 3], 'VariableNames', {'Voltage', 'Current', 'Resistance'});
 filename = [tempdir(), 'table_example.csv'];
 writetable(T, filename);
 T2 = readtable(filename);
-]]>
-    </example_item_data>
-  </example_item>
-
-
+]]></example_item_data>
+    </example_item>
 </examples>
-
- <see_also>
-     <see_also_item>
-      <link linkend="${spreadsheet}writetable">writetable</link>
-    </see_also_item>
-     <see_also_item>
-      <link linkend="${spreadsheet}readtable">readtable</link>
+<see_also>
+    <see_also_item>
+        <link linkend="${spreadsheet}writetable">writetable</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${stream_manager}load">load</link>
+        <link linkend="${spreadsheet}readtable">readtable</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${stream_manager}save">save</link>
+        <link linkend="${stream_manager}load">load</link>
     </see_also_item>
-
-  </see_also>
-
-  <history>
+    <see_also_item>
+        <link linkend="${stream_manager}save">save</link>
+    </see_also_item>
+</see_also>
+<history>
     <history_item>
-      <history_version>1.10.0</history_version>
-      <history_description>initial version</history_description>
+        <history_version>1.10.0</history_version>
+        <history_description>initial version</history_description>
     </history_item>
-  </history>
-
-  <authors>
+</history>
+<authors>
     <author_item>Allan CORNET</author_item>
-  </authors>
+</authors>
 </xmldoc>

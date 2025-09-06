@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<module_name>tests_manager</module_name>
-	<chapter>Tests manager</chapter>
-	<chapter_description>Tests framework for Nelson</chapter_description>
-	
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>tests_manager</module_name>
+    <chapter>Tests manager</chapter>
+    <chapter_description>Tests framework for Nelson</chapter_description>
+    <auto_toc />
 </xmldoc>

@@ -1,42 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>workspace</keyword>
-  <short_description>Workspace Browser</short_description>
-
-  <syntax>
-  <syntax_item>workspace</syntax_item>
-   </syntax>
-  
-  <description>
-    <p
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>workspace</keyword>
+    <short_description>Workspace Browser</short_description>
+    <syntax>
+        <syntax_item>workspace</syntax_item>
+    </syntax>
+    <description>
+        <p
     >The Workspace browser allows you to observe and actively oversee the contents of the workspace within Nelson, providing access and control over each variable or object present.</p>
-    <p><img src="../images/workspace.png" align="middle" /></p>
-  </description>
-
-
-  <used_function />
-  <bibliography />
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${gui}commandhistory">commandhistory</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${gui}filebrowser">filebrowser</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.1.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
+        <p>
+            <img src="../images/workspace.png" align="middle" />
+        </p>
+    </description>
+    <used_function />
+    <bibliography />
+    <see_also>
+        <see_also_item>
+            <link linkend="${gui}commandhistory">commandhistory</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${gui}filebrowser">filebrowser</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.1.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
 </xmldoc>

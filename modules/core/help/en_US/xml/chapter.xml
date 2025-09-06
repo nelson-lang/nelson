@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<module_name>core</module_name>
-	<chapter>Core</chapter>
-	<chapter_description>core functions</chapter_description>
-	
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>core</module_name>
+    <chapter>Core</chapter>
+    <chapter_description>core functions</chapter_description>
+    <auto_toc />
 </xmldoc>

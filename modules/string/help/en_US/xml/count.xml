@@ -1,51 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>count</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>count</keyword>
+    <short_description
   >Computes the number of occurrences of an pattern.</short_description>
-
-  <syntax>
-    <syntax_item>nbocc = count(str, pattern)</syntax_item>
-    <syntax_item>nbocc = count(str, pattern,'IgnoreCase', true)</syntax_item>
-    <syntax_item>nbocc = count(str, pattern,'IgnoreCase', false)</syntax_item>
-
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>str</param_name>
-      <param_description
+    <syntax>
+        <syntax_item>nbocc = count(str, pattern)</syntax_item>
+        <syntax_item
+    >nbocc = count(str, pattern,'IgnoreCase', true)</syntax_item>
+        <syntax_item
+    >nbocc = count(str, pattern,'IgnoreCase', false)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>str</param_name>
+            <param_description
       >a string, string array or cell of strings.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>pattern</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>pattern</param_name>
+            <param_description
       >a string or string array or cell of strings to find.</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>nbocc</param_name>
-      <param_description>a matrix of integer values.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description><b
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>nbocc</param_name>
+            <param_description>a matrix of integer values.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <b
     >count</b> computes the number of occurrences of an pattern.</description>
-  <used_function />
-  <bibliography />
-
-<examples>
-
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[
 str = 'To make a mountain out of a molehill';
 k = count(str, 'hill')
@@ -58,32 +52,27 @@ k = count(A, 'son')
 A = ["Nel", "son"; "Nelson", "Modules"]
 k = count(A, 'son')
 
-]]>
-    </example_item_data>
-  </example_item>
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${string}startsWith">startsWith</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${string}endsWith">endsWith</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${string}contains">contains</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${string}startsWith">startsWith</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${string}endsWith">endsWith</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${string}contains">contains</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

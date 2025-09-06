@@ -1,93 +1,85 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<keyword>minreal</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>minreal</keyword>
+    <short_description
   >Minimal realization or pole-zero cancellation.</short_description>
-
-  <syntax>
-    <syntax_item>[Am, Bm, Cm, Dm] = minreal(A, B, C, D)</syntax_item>
-    <syntax_item>[Am, Bm, Cm, Dm] = minreal(A, B, C, D, tol)</syntax_item>
-    <syntax_item>sysOut = minreal(sysIn)</syntax_item>
-    <syntax_item>sysOut = minreal(sysIn, tol)</syntax_item>
-  </syntax>
-
-  <param_input>
-    <param_input_item>
-      <param_name>A (n x n)</param_name>
-      <param_description
+    <syntax>
+        <syntax_item>[Am, Bm, Cm, Dm] = minreal(A, B, C, D)</syntax_item>
+        <syntax_item>[Am, Bm, Cm, Dm] = minreal(A, B, C, D, tol)</syntax_item>
+        <syntax_item>sysOut = minreal(sysIn)</syntax_item>
+        <syntax_item>sysOut = minreal(sysIn, tol)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A (n x n)</param_name>
+            <param_description
       >Represents the system's state-transition matrix. It describes how the system's internal state evolves over time.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>B (n x m)</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>B (n x m)</param_name>
+            <param_description
       >Describes the input-to-state mapping. It shows how control inputs affect the change in the system's state.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>C (p x n)</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>C (p x n)</param_name>
+            <param_description
       >Represents the state-to-output mapping. It shows how the system's state variables are related to the system's outputs.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>D (p x m)</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>D (p x m)</param_name>
+            <param_description
       >Describes the direct feedthrough from inputs to outputs. In many systems, this matrix is zero because there is no direct feedthrough.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>tol</param_name>
-      <param_description>scalar real (tolerance).</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>sysIn</param_name>
-      <param_description>LTI model.</param_description>
-    </param_input_item>    
-  </param_input>
-
-  <param_output>
-     <param_output_item>
-      <param_name>Am, Bm, Cm, Dm</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>tol</param_name>
+            <param_description>scalar real (tolerance).</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>sysIn</param_name>
+            <param_description>LTI model.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>Am, Bm, Cm, Dm</param_name>
+            <param_description
       >a minimal realization of the state-space system A, B, C, D.</param_description>
-    </param_output_item>
- 
-    <param_output_item>
-      <param_name>sysOut</param_name>
-      <param_description>a minimal realization of LTI input.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-
-  <p><b
+        </param_output_item>
+        <param_output_item>
+            <param_name>sysOut</param_name>
+            <param_description
+      >a minimal realization of LTI input.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >minreal</b> function reduces state-space models by eliminating uncontrollable or unobservable states.</p>
-  <p
+            <p
     >In transfer functions or zero-pole-gain models, it cancels pole-zero pairs. The resulting model maintains the same response characteristics as the original model but with minimal order.</p>
-  <p> When using <b
+            <p> When using <b
       >sysOut = minreal(sysIn, tol)</b>, you can customize the tolerance for state elimination or pole-zero cancellation.</p>
-  <p
+            <p
     >The default tolerance is set to sqrt(eps), and increasing this value prompts more aggressive cancellations, potentially further simplifying the model.</p>
-  </description>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </description>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[sysIn = ss([1 0;0 -2], [-1;0], [2 1], 0, 3.2); 
-sysOut = minreal(sysIn)]]>
-    </example_item_data>
-  </example_item>
-</examples>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+sysOut = minreal(sysIn)]]></example_item_data>
+            </example_item>
+        </examples>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

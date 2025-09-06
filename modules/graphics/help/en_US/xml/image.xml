@@ -1,104 +1,119 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>image</keyword>
-  <short_description>Display image from array.</short_description>
-
-  <syntax>
-      <syntax_item>image()</syntax_item>
-      <syntax_item>image(C)</syntax_item>
-      <syntax_item>image(X, Y, C)</syntax_item>
-      <syntax_item>image('CData', C)</syntax_item>
-      <syntax_item>image('XData', X, 'YData', Y,'CData', C)</syntax_item>
-      <syntax_item>image(..., propertyName, propertyValue)</syntax_item>
-      <syntax_item>image(parent, ...)</syntax_item>
-      <syntax_item>go = image(...)</syntax_item>
-  </syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>X</param_name>
-			<param_description>x-coordinates: vector or matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>Y</param_name>
-			<param_description>y-coordinates: vector or matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>C</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>image</keyword>
+    <short_description>Display image from array.</short_description>
+    <syntax>
+        <syntax_item>image()</syntax_item>
+        <syntax_item>image(C)</syntax_item>
+        <syntax_item>image(X, Y, C)</syntax_item>
+        <syntax_item>image('CData', C)</syntax_item>
+        <syntax_item>image('XData', X, 'YData', Y,'CData', C)</syntax_item>
+        <syntax_item>image(..., propertyName, propertyValue)</syntax_item>
+        <syntax_item>image(parent, ...)</syntax_item>
+        <syntax_item>go = image(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>X</param_name>
+            <param_description
+      >x-coordinates: vector or matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Y</param_name>
+            <param_description
+      >y-coordinates: vector or matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description
       >Color array: m-by-n-by-3 array of RGB triplets.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>parent</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>parent</param_name>
+            <param_description
       >a scalar graphics object value: parent container, specified as a axes.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>propertyName</param_name>
-			<param_description>a scalar string or row vector character.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>propertyValue</param_name>
-			<param_description>a value.</param_description>
-		</param_input_item>
-
-	</param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>go</param_name>
-      <param_description>a graphics object: image type.</param_description>
-    </param_output_item>
-  </param_output>
-
-<description>
-<p><b>image</b> displays C data as an image.</p>
-
-
-<p>Properties:</p>
-<p />
-<p><b
-      >AlphaData</b> Transparency data: scalar, array the same size as CData, or 1 (default).</p> 
-<p><b>AlphaDataMapping</b> </p>
-<p><b
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyName</param_name>
+            <param_description
+      >a scalar string or row vector character.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyValue</param_name>
+            <param_description>a value.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>go</param_name>
+            <param_description
+      >a graphics object: image type.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>image</b> displays C data as an image.</p>
+            <p>Properties:</p>
+            <p />
+            <p>
+                <b
+      >AlphaData</b> Transparency data: scalar, array the same size as CData, or 1 (default).</p>
+                <p>
+                    <b>AlphaDataMapping</b>
+                </p>
+                <p>
+                    <b
       >CData</b> Image color data: vector or matrix, 3-D array of RGB triplets.</p>
-<p><b
+                    <p>
+                        <b
       >CDataMapping</b> Color data mapping method: 'scaled' or 'direct' (default).</p>
-<p><b>Children</b> [].</p>
-<p><b>Parent</b> Parent: axes object.</p>
-<p><b
+                        <p>
+                            <b>Children</b> [].</p>
+                            <p>
+                                <b>Parent</b> Parent: axes object.</p>
+                                <p>
+                                    <b
       >Tag</b> Object identifier: string scalar, character vector, '' (default).</p>
-<p><b>Type</b> Type of graphics object: 'surface'.</p>
-<p><b>UserData</b>: User data: array or [] (default).</p>
-<p><b>Visible</b> State of visibility: 'off' or 'on' (default).</p>
-<p><b
+                                    <p>
+                                        <b
+      >Type</b> Type of graphics object: 'surface'.</p>
+                                        <p>
+                                            <b
+      >UserData</b>: User data: array or [] (default).</p>
+                                            <p>
+                                                <b
+      >Visible</b> State of visibility: 'off' or 'on' (default).</p>
+                                                <p>
+                                                    <b
       >XData</b> Placement along x-axis: two-element vector, scalar, [1 size(CData, 1)] (default).</p>
-<p><b
+                                                    <p>
+                                                        <b
       >YData</b> Placement along y-axis: two-element vector, scalar, [1 size(CData, 2)] (default).</p>
-<p />
-<p><b
+                                                        <p />
+                                                        <p>
+                                                            <b
       >CreateFcn</b>Callback (function handle, string or cell) called when object is created.
 Set this property on an existing component has no effect.</p>
-<p><b
+                                                            <p>
+                                                                <b
       >DeleteFcn</b>Callback (function handle, string or cell) called when object is deleted.</p>
-<p><b>BeingDeleted</b> Flag indicating that the object is being deleted.</p>
-</description>
-
-  <used_function />
-  <bibliography />
-  
-<examples>
-
-  <example_item>
-
-    <example_item_type>nelson</example_item_type>
-    <example_item_description> 
-
-    </example_item_description>
-    <example_item_data
+                                                                <p>
+                                                                    <b
+      >BeingDeleted</b> Flag indicating that the object is being deleted.</p>
+                                                                </description>
+                                                                <used_function
+  />
+                                                                <bibliography />
+                                                                <examples>
+                                                                    <example_item
+    >
+                                                                        <example_item_type
+      >nelson</example_item_type>
+                                                                        <example_item_description
+      />
+                                                                        <example_item_data
       ><![CDATA[f = figure();
 L = linspace(0, 1);
 R = L' * L;
@@ -109,40 +124,52 @@ C(:, :, 2) = G;
 C(:, :, 3) = B;
 im = image(C)
 figure();
-image();]]>
-    </example_item_data>
-    <example_item_img src="../images/image_1.svg" align="middle" />
-  </example_item>
- 
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${graphics}imagesc">imagesc</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${graphics}colormap">colormap</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-     <history_item>
-      <history_version>1.7.0</history_version>
-      <history_description
+image();]]></example_item_data>
+                                                                        <example_item_img
+        src="../images/image_1.svg"
+        align="middle"
+      />
+                                                                    </example_item>
+                                                                </examples>
+                                                                <see_also>
+                                                                    <see_also_item
+    >
+                                                                        <link
+        linkend="${graphics}imagesc"
+      >imagesc</link>
+                                                                    </see_also_item>
+                                                                    <see_also_item
+    >
+                                                                        <link
+        linkend="${graphics}colormap"
+      >colormap</link>
+                                                                    </see_also_item>
+                                                                </see_also>
+                                                                <history>
+                                                                    <history_item
+    >
+                                                                        <history_version
+      >1.0.0</history_version>
+                                                                        <history_description
+      >initial version</history_description>
+                                                                    </history_item>
+                                                                    <history_item
+    >
+                                                                        <history_version
+      >1.7.0</history_version>
+                                                                        <history_description
       >CreateFcn, DeleteFcn callback added.</history_description>
-    </history_item>
-  <history_item>
-      <history_version>--</history_version>
-      <history_description>BeingDeleted property added.</history_description>
-    </history_item>
-   
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+                                                                    </history_item>
+                                                                    <history_item
+    >
+                                                                        <history_version
+      >--</history_version>
+                                                                        <history_description
+      >BeingDeleted property added.</history_description>
+                                                                    </history_item>
+                                                                </history>
+                                                                <authors>
+                                                                    <author_item
+    >Allan CORNET</author_item>
+                                                                </authors>
+                                                            </xmldoc>

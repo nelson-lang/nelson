@@ -1,73 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>i</keyword>
-	<short_description>Pure Imaginary number.</short_description>
-
-	<syntax>
-		<syntax_item>i</syntax_item>
-		<syntax_item>0i</syntax_item>
-		<syntax_item>3*i</syntax_item>
-	</syntax>
-	
-
-	<description>
-		<p><b>i</b>, or <b
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>i</keyword>
+    <short_description>Pure Imaginary number.</short_description>
+    <syntax>
+        <syntax_item>i</syntax_item>
+        <syntax_item>0i</syntax_item>
+        <syntax_item>3*i</syntax_item>
+    </syntax>
+    <description>
+        <p>
+            <b>i</b>, or <b
       >j</b> returns a pure imaginary number equivalent to sqrt(-1).</p>
-		<p
+            <p
     >Beware, i and j can be redefined and used as ordinary variables, in this case, you must use clear to restore default behavior.</p>
-</description>
-
-
-	<used_function />
-	<bibliography />
-	
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[A = 3i]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[A = single(3i)]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[i = 33;
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data><![CDATA[A = 3i]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[A = single(3i)]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[i = 33;
 disp(i);
 clear('i');
-disp(i);]]>
-		</example_item_data>
-	</example_item>
-
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${elementary_functions}complex">complex</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+disp(i);]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${elementary_functions}complex">complex</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

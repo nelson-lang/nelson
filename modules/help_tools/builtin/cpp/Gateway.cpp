@@ -23,7 +23,7 @@ static const nlsGateway gateway[] = {
     { "headcomments", (ptrBuiltin)Nelson::HelpToolsGateway::headcommentsBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "xmldocchecker", (ptrBuiltin)Nelson::HelpToolsGateway::xmldoccheckerBuiltin, 2, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        CPP_BUILTIN },
     { "htmltopdf", (ptrBuiltin)Nelson::HelpToolsGateway::htmltopdfBuiltin, 0, 2, CPP_BUILTIN },
     { "markdown", (ptrBuiltin)Nelson::HelpToolsGateway::markdownBuiltin, 1, 2 },
     { "xmldocbuild", (ptrBuiltin)Nelson::HelpToolsGateway::xmldocbuildBuiltin, 1, 5 },

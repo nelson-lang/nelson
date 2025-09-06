@@ -1,42 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>filebrowser</keyword>
-  <short_description>Current Folder Browser</short_description>
-
-  <syntax>
-  <syntax_item>filebrowser</syntax_item>
-   </syntax>
-  
-  <description>
-    <p
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>filebrowser</keyword>
+    <short_description>Current Folder Browser</short_description>
+    <syntax>
+        <syntax_item>filebrowser</syntax_item>
+    </syntax>
+    <description>
+        <p
     >The Current Folder browser in Nelson facilitates interactive file and folder management. Utilize it to navigate, create, access, relocate, and rename files and folders within the current directory.</p>
-    <p><img src="../images/filebrowser.png" align="middle" /></p>
-  </description>
-
-
-  <used_function />
-  <bibliography />
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${gui}historybrowser">historybrowser</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${gui}workspace">workspace</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.1.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
+        <p>
+            <img src="../images/filebrowser.png" align="middle" />
+        </p>
+    </description>
+    <used_function />
+    <bibliography />
+    <see_also>
+        <see_also_item>
+            <link linkend="${gui}historybrowser">historybrowser</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${gui}workspace">workspace</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.1.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
 </xmldoc>

@@ -1,98 +1,87 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>unique</keyword>
-  <short_description>Unique values.</short_description>
-
-  <syntax>
-   <syntax_item>C = unique(A)</syntax_item>
-   <syntax_item>C = unique(A, 'rows')</syntax_item>
-   <syntax_item>[C, ia, ic] = unique(...)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>A</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>unique</keyword>
+    <short_description>Unique values.</short_description>
+    <syntax>
+        <syntax_item>C = unique(A)</syntax_item>
+        <syntax_item>C = unique(A, 'rows')</syntax_item>
+        <syntax_item>[C, ia, ic] = unique(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
       >an nelson's variable (double, single, int8, int16, int32, int64, uint8, uint16, uint32, uint64, logical, char, string, cell).</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>C</param_name>
-      <param_description>Unique data of A.</param_description>
-    </param_output_item>
-    <param_output_item>
-      <param_name>ia</param_name>
-      <param_description>Index to A: column vector.</param_description>
-    </param_output_item>
-    <param_output_item>
-      <param_name>ic</param_name>
-      <param_description>Index to C: column vector.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-  <p><b>C = unique(A)</b> returns the unique elements of array <b
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>C</param_name>
+            <param_description>Unique data of A.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>ia</param_name>
+            <param_description>Index to A: column vector.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>ic</param_name>
+            <param_description>Index to C: column vector.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>C = unique(A)</b> returns the unique elements of array <b
       >A</b> in sorted order.</p>
-  <p><b>C = unique(A, 'rows')</b> considers each row of <b
+            <p>
+                <b>C = unique(A, 'rows')</b> considers each row of <b
       >A</b> as a unique entity and returns the unique rows in sorted order.</p>
-  <p>Note that the 'rows' option does not support cell arrays.</p>
-  <p><b
+                <p>Note that the 'rows' option does not support cell arrays.</p>
+                <p>
+                    <b
       >[C, ia, ic] = unique(...)</b> extends any of the previous syntaxes to also return index vectors <b
       >ia</b> and <b>ic</b>.</p>
-  <p>For a vector <b>A</b>, the relationships are <b>C = A(ia)</b> and <b
-      >A = C(ic)</b>.</p>
-  <p>For a matrix or array <b>A</b>, the relationships are <b
+                    <p>For a vector <b>A</b>, the relationships are <b
+      >C = A(ia)</b> and <b>A = C(ic)</b>.</p>
+                    <p>For a matrix or array <b>A</b>, the relationships are <b
       >C = A(ia)</b> and <b>A(:) = C(ic)</b>.</p>
-  <p>If the 'rows' option is used, the relationships are <b
-      >C = A(ia, :)</b> and <b>A = C(ic, :)</b>.</p> 
-  </description>
-
-  <used_function>std::sort, std::unique (stl)</used_function>
-  <bibliography />
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data>
-      <![CDATA[A = [10+20i 30+i 10i 0 -10i];
+                    <p>If the 'rows' option is used, the relationships are <b
+      >C = A(ia, :)</b> and <b>A = C(ic, :)</b>.</p>
+                </description>
+                <used_function>std::sort, std::unique (stl)</used_function>
+                <bibliography />
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+      ><![CDATA[A = [10+20i 30+i 10i 0 -10i];
 [C, ia, ic] = unique(A)
-]]>
-    </example_item_data>
-  </example_item>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data>
-      <![CDATA[A = {'hi', 'good'; 'good', 'tell'; 'hi', 'bye'}
+]]></example_item_data>
+                    </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+      ><![CDATA[A = {'hi', 'good'; 'good', 'tell'; 'hi', 'bye'}
 [C, ia, ic] = unique(A)
-]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${data_analysis}sort">sort</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.6.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link linkend="${data_analysis}sort">sort</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.6.0</history_version>
+                        <history_description
+      >initial version</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

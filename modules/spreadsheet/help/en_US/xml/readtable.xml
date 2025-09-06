@@ -1,56 +1,48 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>readtable</keyword>
-  <short_description>Create table from file.</short_description>
-
-  <syntax>
-    <syntax_item>T = readtable(filename)</syntax_item>
-    <syntax_item>T = readtable(filename, opts)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>filename</param_name>
-      <param_description>a string: filename source.</param_description>
-    </param_input_item>
-    
-    <param_input_item>
-      <param_name>opts</param_name>
-      <param_description>DelimitedTextImportOptions object</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>T</param_name>
-      <param_description>a table.</param_description>
-    </param_output_item>
-  </param_output>
-
-
-<description>
-  <p><b
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>readtable</keyword>
+    <short_description>Create table from file.</short_description>
+    <syntax>
+        <syntax_item>T = readtable(filename)</syntax_item>
+        <syntax_item>T = readtable(filename, opts)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>filename</param_name>
+            <param_description>a string: filename source.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>opts</param_name>
+            <param_description
+      >DelimitedTextImportOptions object</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>T</param_name>
+            <param_description>a table.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >T = readtable(filename)</b> creates a table by importing column-oriented data from a text or spreadsheet file.</p>
-  <p><b
+            <p>
+                <b
       >T = readtable(filename, opts)</b> creates a table using the settings defined in the <b
       >opts</b> import options object. The import <b
       >options</b> object allows you to customize how <b
       >readtable</b> interprets the file, offering greater control, improved performance, and the ability to reuse the configuration compared to the default syntax.</p>
-</description>
-
-  <used_function />
-  <bibliography />
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data>
 Names = {'John'; 'Alice'; 'Bob'; 'Diana'};
 Age = [28; 34; 22; 30];
 Height = [175; 160; 180; 165];
@@ -59,13 +51,11 @@ T1 = table(Names, Age, Height, Weight);
 writetable(T1, [tempdir,'readtable_1.csv'])
 T2 = readtable([tempdir,'readtable_1.csv'])
 </example_item_data>
-  
-  </example_item>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data>
+                </example_item>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data>
 Names = {'John'; 'Alice'; 'Bob'; 'Diana'};
 Age = [28; 34; 22; 30];
 Height = [175; 160; 180; 165];
@@ -77,35 +67,31 @@ T1 = readtable([tempdir,'readtable_1.csv'], options)
 options.DataLines = [1 Inf]
 T2 = readtable([tempdir,'readtable_1.csv'], options)
 </example_item_data>
-  
-  </example_item>
-
-</examples>
-  <see_also>
-    <see_also_item>
-      <link linkend="${spreadsheet}writetable">writetable</link>
-    </see_also_item>
-    <see_also_item>
-      <link
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${spreadsheet}writetable">writetable</link>
+                </see_also_item>
+                <see_also_item>
+                    <link
         linkend="${spreadsheet}detectImportOptions"
       >detectImportOptions</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${spreadsheet}readcell">readcell</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${stream_manager}fileread">fileread</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.10.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${spreadsheet}readcell">readcell</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${stream_manager}fileread">fileread</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.10.0</history_version>
+                    <history_description>initial version</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

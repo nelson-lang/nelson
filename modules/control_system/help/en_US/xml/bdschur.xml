@@ -1,63 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>bdschur</keyword>
-  <short_description>Block-diagonal Schur factorization.</short_description>
-
-  <syntax>
-    <syntax_item>[T, B] = bdschur(A)</syntax_item>
-    <syntax_item>[T, B] = bdschur(A, CONDMAX)</syntax_item>
-
-  </syntax>
-  
-  <param_input>
-  
-    <param_input_item>
-      <param_name>A</param_name>
-      <param_description>Square real matrix.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>CONDMAX</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>bdschur</keyword>
+    <short_description>Block-diagonal Schur factorization.</short_description>
+    <syntax>
+        <syntax_item>[T, B] = bdschur(A)</syntax_item>
+        <syntax_item>[T, B] = bdschur(A, CONDMAX)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description>Square real matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>CONDMAX</param_name>
+            <param_description
       >upper bound on the condition number of T. By default, CONDMAX = 1e4.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>T</param_name>
-      <param_description>Transformation matrix.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>B</param_name>
-      <param_description>B = T \ A * T</param_description>
-    </param_output_item>
-
-  </param_output>
-
-
-
-  <description>
-<p><b>[T, B] = bdschur(A, CONDMAX)</b> calculates a transformation matrix <b
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>T</param_name>
+            <param_description>Transformation matrix.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>B</param_name>
+            <param_description>B = T \ A * T</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >[T, B] = bdschur(A, CONDMAX)</b> calculates a transformation matrix <b
       >T</b>, where <b
       >B = T \ A * T</b> results in a block diagonal matrix with each block being a quasi upper-triangular Schur matrix, ensuring the diagonalization of matrix A while preserving certain structural properties.</p>
-  </description>
-
-  <used_function>MB03RD</used_function>
-  <bibliography
+        </description>
+        <used_function>MB03RD</used_function>
+        <bibliography
   >http://slicot.org/objects/software/shared/doc/MB03RD.html</bibliography>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[
 A = [1.   -1.    1.    2.    3.    1.    2.    3.;
    1.    1.    3.    4.    2.    3.    4.    2.;
@@ -68,27 +54,21 @@ A = [1.   -1.    1.    2.    3.    1.    2.    3.;
    0.    0.    0.    0.    0.    0.    0.99999999   -0.99999999;
    0.    0.    0.    0.    0.    0.    0.99999999    0.99999999];
 [T, B] = bdschur(A)
-]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
- <see_also>
-    <see_also_item>
-      <link linkend="${slicot}slicot_mb03rd">slicot_mb03rd</link>
-    </see_also_item>
-  </see_also>
-
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>SLICOT Documentation</author_item>
-  </authors>
-</xmldoc>
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${slicot}slicot_mb03rd">slicot_mb03rd</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>SLICOT Documentation</author_item>
+        </authors>
+    </xmldoc>

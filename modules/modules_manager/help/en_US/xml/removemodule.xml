@@ -1,69 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>removemodule</keyword>
-  <short_description>remove a module from Nelson.</short_description>
-
-  <syntax>
-    <syntax_item>removemodule(module_short_name)</syntax_item>
-  </syntax>
-  
-
-  <param_input>
-    <param_input_item>
-      <param_name>module_short_name</param_name>
-      <param_description>a string: short module's name.</param_description>
-    </param_input_item>
-  </param_input>
-
-  <description>
-  <p><b>removemodule</b> remove a module designed by his short name.</p>
-  <p
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>removemodule</keyword>
+    <short_description>remove a module from Nelson.</short_description>
+    <syntax>
+        <syntax_item>removemodule(module_short_name)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>module_short_name</param_name>
+            <param_description
+      >a string: short module's name.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b>removemodule</b> remove a module designed by his short name.</p>
+            <p
     >all core's modules are protected and cannot removed during an nelson's session.</p>
-  </description>
-
-  <used_function />
-  <bibliography />
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description
       >See module skeleton for example</example_item_description>
-    <example_item_data
+                <example_item_data
       ><![CDATA[ismodule('module_skeleton')
 addmodule([nelsonroot(), '/module_skeleton'], 'module_skeleton')
 ismodule('module_skeleton')
 removemodule('module_skeleton')
-ismodule('module_skeleton')]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${modules_manager}ismodule">ismodule</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${modules_manager}removemodule">addmodule</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${modules_manager}getmodules">getmodules</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+ismodule('module_skeleton')]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${modules_manager}ismodule">ismodule</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${modules_manager}removemodule">addmodule</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${modules_manager}getmodules">getmodules</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

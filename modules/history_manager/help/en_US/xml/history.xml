@@ -1,160 +1,186 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>history</keyword>
-  <short_description>history manager.</short_description>
-
-  <syntax>
-    <syntax_item>history()</syntax_item>
-    <syntax_item>c = history()</syntax_item>
-    <syntax_item>s = history('size')</syntax_item>
-    <syntax_item>f = history('filename')</syntax_item>
-    <syntax_item>l = history('enable_save')</syntax_item>
-    <syntax_item>c = history('get')</syntax_item>
-    <syntax_item>history('display')</syntax_item>
-    <syntax_item>history('save')</syntax_item>
-    <syntax_item>history('load')</syntax_item>
-    <syntax_item>history('clear')</syntax_item>
-    <syntax_item>history('duplicated')</syntax_item>
-    <syntax_item>history('saveafter')</syntax_item>
-    <syntax_item>history('removeexit')</syntax_item>
-    <syntax_item>history('size', new_size)</syntax_item>
-    <syntax_item>history('enable_save', true_false)</syntax_item>
-    <syntax_item>history('delete', lines)</syntax_item>
-    <syntax_item>history('append', str)</syntax_item>
-    <syntax_item>history('filename', name)</syntax_item>
-    <syntax_item>history('load', filename_history)</syntax_item>
-    <syntax_item>history('save', filename_history)</syntax_item>
-    <syntax_item>history('duplicated', true_false)</syntax_item>
-    <syntax_item>history('removeexit', true_false)</syntax_item>
-    <syntax_item>history('get', lines)</syntax_item>
-    <syntax_item>history('saveafter', nb_commands)</syntax_item>
-
-
-  </syntax>
-  
-  <param_input>
-    
-    <param_input_item>
-      <param_name>new_size</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>history</keyword>
+    <short_description>history manager.</short_description>
+    <syntax>
+        <syntax_item>history()</syntax_item>
+        <syntax_item>c = history()</syntax_item>
+        <syntax_item>s = history('size')</syntax_item>
+        <syntax_item>f = history('filename')</syntax_item>
+        <syntax_item>l = history('enable_save')</syntax_item>
+        <syntax_item>c = history('get')</syntax_item>
+        <syntax_item>history('display')</syntax_item>
+        <syntax_item>history('save')</syntax_item>
+        <syntax_item>history('load')</syntax_item>
+        <syntax_item>history('clear')</syntax_item>
+        <syntax_item>history('duplicated')</syntax_item>
+        <syntax_item>history('saveafter')</syntax_item>
+        <syntax_item>history('removeexit')</syntax_item>
+        <syntax_item>history('size', new_size)</syntax_item>
+        <syntax_item>history('enable_save', true_false)</syntax_item>
+        <syntax_item>history('delete', lines)</syntax_item>
+        <syntax_item>history('append', str)</syntax_item>
+        <syntax_item>history('filename', name)</syntax_item>
+        <syntax_item>history('load', filename_history)</syntax_item>
+        <syntax_item>history('save', filename_history)</syntax_item>
+        <syntax_item>history('duplicated', true_false)</syntax_item>
+        <syntax_item>history('removeexit', true_false)</syntax_item>
+        <syntax_item>history('get', lines)</syntax_item>
+        <syntax_item>history('saveafter', nb_commands)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>new_size</param_name>
+            <param_description
       >a integer value: new size max of history.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>true_false</param_name>
-      <param_description>a logical.</param_description>
-    </param_input_item>
-   
-    <param_input_item>
-      <param_name>lines</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>true_false</param_name>
+            <param_description>a logical.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>lines</param_name>
+            <param_description
       >a integer value or a vector of size 1x2.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>str</param_name>
-      <param_description>a string.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>name</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>str</param_name>
+            <param_description>a string.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>name</param_name>
+            <param_description
       >a string: new default history filename</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>filename_history</param_name>
-      <param_description>a string: filename</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>nb_commands</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>filename_history</param_name>
+            <param_description>a string: filename</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>nb_commands</param_name>
+            <param_description
       >a integer value: number of commands.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-
-  <param_output>
-    <param_output_item>
-      <param_name>c</param_name>
-      <param_description>a cell of strings.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>l</param_name>
-      <param_description>a logical.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>s</param_name>
-      <param_description>a integer value.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>f</param_name>
-      <param_description>a string.</param_description>
-    </param_output_item>
-    
-  </param_output>
-
-  <description>
-
-    <p><b>history()</b> displays the current Nelson history.</p>
-    <p><b
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>c</param_name>
+            <param_description>a cell of strings.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>l</param_name>
+            <param_description>a logical.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>s</param_name>
+            <param_description>a integer value.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>f</param_name>
+            <param_description>a string.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>history()</b> displays the current Nelson history.</p>
+            <p>
+                <b
       >c = history()</b> returns the current Nelson history in a cell of strings.</p>
-    <p><b>s = history('size')</b> returns history size max.</p>
-    <p><b>f = history('filename')</b> returns the history filename.</p>
-    <p><b>l = history('enable_save')</b> returns the history manager state.</p>
-    <p><b
+                <p>
+                    <b>s = history('size')</b> returns history size max.</p>
+                    <p>
+                        <b
+      >f = history('filename')</b> returns the history filename.</p>
+                        <p>
+                            <b
+      >l = history('enable_save')</b> returns the history manager state.</p>
+                            <p>
+                                <b
       >c = history('get')</b> returns the current Nelson history in a cell of strings.</p>
-    <p><b>history('display')</b> displays the current Nelson history.</p>
-    <p><b>history('save')</b> saves current history file.</p>
-    <p><b>history('load')</b> load current history file.</p>
-    <p><b>history('clear')</b> clears history.</p>
-    <p><b
+                                <p>
+                                    <b
+      >history('display')</b> displays the current Nelson history.</p>
+                                    <p>
+                                        <b
+      >history('save')</b> saves current history file.</p>
+                                        <p>
+                                            <b
+      >history('load')</b> load current history file.</p>
+                                            <p>
+                                                <b
+      >history('clear')</b> clears history.</p>
+                                                <p>
+                                                    <b
       >history('duplicated')</b> get state about save of consecutive duplicated commands.</p>
-    <p><b
+                                                    <p>
+                                                        <b
       >history('saveafter')</b> get state about save the history after nth commands.</p>
-    <p><b
+                                                        <p>
+                                                            <b
       >history('removeexit')</b> get state about do not save exit in history file.</p>
-    <p><b>history('size', new_size)</b> set history size max with <b
+                                                            <p>
+                                                                <b
+      >history('size', new_size)</b> set history size max with <b
       >new_size</b>.</p>
-    <p><b
+                                                                <p>
+                                                                    <b
       >history('enable_save', true_false)</b> set the history manager state: false for 'off', true for 'on'.</p>
-    <p><b
+                                                                    <p>
+                                                                        <b
       >history('delete', lines)</b> deletes lines by index: a scalar value or a vector 1x2.</p>
-    <p><b>history('append', str)</b> append command to history.</p>
-    <p><b>history('filename', name)</b> set the history filename.</p>
-    <p><b>history('load', filename_history)</b> load history file.</p>
-    <p><b>history('save', filename_history)</b> save history file</p>
-    <p><b
+                                                                        <p>
+                                                                            <b
+      >history('append', str)</b> append command to history.</p>
+                                                                            <p>
+                                                                                <b
+      >history('filename', name)</b> set the history filename.</p>
+                                                                                <p
+    >
+                                                                                    <b
+      >history('load', filename_history)</b> load history file.</p>
+                                                                                    <p
+    >
+                                                                                        <b
+      >history('save', filename_history)</b> save history file</p>
+                                                                                        <p
+    >
+                                                                                            <b
       >history('duplicated', true_false)</b> set state about consecutive duplicated commands. true remove duplicated.</p>
-    <p><b
+                                                                                            <p
+    >
+                                                                                                <b
       >history('removeexit', true_false)</b> set state about do not save exit in history file.</p>
-    <p><b
+                                                                                                <p
+    >
+                                                                                                    <b
       >history('get', lines)</b>returns the current Nelson history in a cell of strings by index: a scalar value or a vector 1x2.</p>
-    <p><b>history('saveafter', nb_commands)</b> saves the history file after <b
+                                                                                                    <p
+    >
+                                                                                                        <b
+      >history('saveafter', nb_commands)</b> saves the history file after <b
       >nb_commands</b> statements are added to the file.</p>
-    <p><b
+                                                                                                        <p
+    >
+                                                                                                            <b
       >Tips</b>: You can easily share your history file in the cloud by adding few lines code in your user startup file.</p>
-    <p
+                                                                                                            <p
     >If nelson launched with '--nouserstartup' option, history file will be not loaded at startup and not saved at exit.</p>
-  </description>
-  <used_function />
-  <bibliography />
-
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description
+                                                                                                        </description>
+                                                                                                        <used_function
+  />
+                                                                                                        <bibliography
+  />
+                                                                                                        <examples
+  >
+                                                                                                            <example_item
+    >
+                                                                                                                <example_item_type
+      >nelson</example_item_type>
+                                                                                                                <example_item_description
       >Example to share your history file in OneDrive cloud</example_item_description>
-    <example_item_data
+                                                                                                                <example_item_data
       ><![CDATA[OneDrivePath = getenv('OneDrive');
 if (strcmp(OneDrivePath, '') == false)
   NelsonOneDrivePath = [OneDrivePath, '/Nelson'];
@@ -162,33 +188,41 @@ if (strcmp(OneDrivePath, '') == false)
   NelsonOneDrivePathFilename = [NelsonOneDrivePath, '/', 'Nelson.history'];
  history('filename', NelsonOneDrivePathFilename);
   history('load', NelsonOneDrivePathFilename);
-end]]>
-    </example_item_data>
-  </example_item>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data><![CDATA[history()
-c = history()]]>
-    </example_item_data>
-  </example_item>
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${stream_manager}diary">diary</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+end]]></example_item_data>
+                                                                                                            </example_item>
+                                                                                                            <example_item
+    >
+                                                                                                                <example_item_type
+      >nelson</example_item_type>
+                                                                                                                <example_item_description
+      />
+                                                                                                                <example_item_data
+      ><![CDATA[history()
+c = history()]]></example_item_data>
+                                                                                                            </example_item>
+                                                                                                        </examples>
+                                                                                                        <see_also
+  >
+                                                                                                            <see_also_item
+    >
+                                                                                                                <link
+        linkend="${stream_manager}diary"
+      >diary</link>
+                                                                                                            </see_also_item>
+                                                                                                        </see_also>
+                                                                                                        <history
+  >
+                                                                                                            <history_item
+    >
+                                                                                                                <history_version
+      >1.0.0</history_version>
+                                                                                                                <history_description
+      >initial version</history_description>
+                                                                                                            </history_item>
+                                                                                                        </history>
+                                                                                                        <authors
+  >
+                                                                                                            <author_item
+    >Allan CORNET</author_item>
+                                                                                                        </authors>
+                                                                                                    </xmldoc>

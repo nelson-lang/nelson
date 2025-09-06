@@ -1,62 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>memory</keyword>
-	<short_description>Get memory information.</short_description>
-
-	<syntax>
-		<syntax_item>memory</syntax_item>
-		<syntax_item>usermem = memory()</syntax_item>
-		<syntax_item>[usermem, systemmem] = memory()</syntax_item>
-
-	</syntax>
-	
-
-	<param_output>
-		<param_output_item>
-			<param_name>usermem</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>memory</keyword>
+    <short_description>Get memory information.</short_description>
+    <syntax>
+        <syntax_item>memory</syntax_item>
+        <syntax_item>usermem = memory()</syntax_item>
+        <syntax_item>[usermem, systemmem] = memory()</syntax_item>
+    </syntax>
+    <param_output>
+        <param_output_item>
+            <param_name>usermem</param_name>
+            <param_description
       >Get information about user memory (an struct).</param_description>
-		</param_output_item>
-		
-		<param_output_item>
-			<param_name>systemmem</param_name>
-			<param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>systemmem</param_name>
+            <param_description
       >Get information about system memory (an struct)</param_description>
-		</param_output_item>
-		
-	</param_output>
-
-	<description><p><b>memory</b> get memory information.</p>
-	<p><b
-      >User Memory</b>: returns Maximum Possible Array (MaxPossibleArrayBytes), Memory Available for All Arrays (MemAvailableAllArrays), Memory Used By Nelson (MemUsedNelson).</p> 
-	<p><b>System Memory</b>:</p>
-  <p>VirtualAddressSpace.Available: available swap file space</p>
-  <p>VirtualAddressSpace.Total: total swap file space</p>
-  <p>SystemMemory.Available: available system memory</p>
-  <p>PhysicalMemory.Available: available physical memory</p>
-  <p>PhysicalMemory.Total: total physical memory</p>
-	</description>
-
-	<used_function />
-	<bibliography />
-
-<examples>
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[memory()
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>memory</b> get memory information.</p>
+            <p>
+                <b
+      >User Memory</b>: returns Maximum Possible Array (MaxPossibleArrayBytes), Memory Available for All Arrays (MemAvailableAllArrays), Memory Used By Nelson (MemUsedNelson).</p>
+                <p>
+                    <b>System Memory</b>:</p>
+                    <p
+    >VirtualAddressSpace.Available: available swap file space</p>
+                    <p>VirtualAddressSpace.Total: total swap file space</p>
+                    <p>SystemMemory.Available: available system memory</p>
+                    <p>PhysicalMemory.Available: available physical memory</p>
+                    <p>PhysicalMemory.Total: total physical memory</p>
+                </description>
+                <used_function />
+                <bibliography />
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+      ><![CDATA[memory()
 A = ones(1000);
-memory()]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+memory()]]></example_item_data>
+                    </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
       ><![CDATA[clear('A');
 [u1, s1] = memory();
 A = ones(1000);
@@ -64,36 +58,31 @@ A = ones(1000);
 disp(u2.MemUsedNelson - u1.MemUsedNelson);
 clear('A');
 [u3, s3] = memory();
-disp(u3.MemUsedNelson - u2.MemUsedNelson);]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[[u1, s1] = memory()]]>
-		</example_item_data>
-	</example_item>	
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${memory_manager}clear">clear</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${memory_manager}who">who</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+disp(u3.MemUsedNelson - u2.MemUsedNelson);]]></example_item_data>
+                    </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+      ><![CDATA[[u1, s1] = memory()]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link linkend="${memory_manager}clear">clear</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link linkend="${memory_manager}who">who</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.0.0</history_version>
+                        <history_description
+      >initial version</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

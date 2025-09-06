@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-  <language>en_US</language>
-  <module_name>signal_processing</module_name>
-  <chapter>Signal Processing</chapter>
-  <chapter_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>signal_processing</module_name>
+    <chapter>Signal Processing</chapter>
+    <chapter_description
   >Functions to analyze sampled signals.</chapter_description>
+    <auto_toc />
 </xmldoc>

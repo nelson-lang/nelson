@@ -1,99 +1,82 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>cell</keyword>
-	<short_description>Create cell array of empty matrices.</short_description>
-
-	<syntax>
-		<syntax_item>C = cell()</syntax_item>
-		<syntax_item>C = cell(m)</syntax_item>
-		<syntax_item>C = cell(m, n)</syntax_item>
-		<syntax_item>C = cell(m, n, ... , p)</syntax_item>
-		<syntax_item>C = cell(sz)</syntax_item>
-		<syntax_item>C = cell(A)</syntax_item>
-
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>m, n, ... , p</param_name>
-			<param_description>dimensions of the cell to create.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>sz</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>cell</keyword>
+    <short_description>Create cell array of empty matrices.</short_description>
+    <syntax>
+        <syntax_item>C = cell()</syntax_item>
+        <syntax_item>C = cell(m)</syntax_item>
+        <syntax_item>C = cell(m, n)</syntax_item>
+        <syntax_item>C = cell(m, n, ... , p)</syntax_item>
+        <syntax_item>C = cell(sz)</syntax_item>
+        <syntax_item>C = cell(A)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>m, n, ... , p</param_name>
+            <param_description
+      >dimensions of the cell to create.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>sz</param_name>
+            <param_description
       >a vector of integer values (dimensions of the cell to create).</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>A</param_name>
-			<param_description>a string array.</param_description>
-		</param_input_item>
-	
-	</param_input>
-
-	<param_output>
-
-		<param_output_item>
-			<param_name>C</param_name>
-			<param_description>a cell</param_description>
-		</param_output_item>
-	</param_output>
-
-	<description>
-		<p><b>cell</b> returns a cell array of empty matrices.</p>
-		<p><b>cell()</b> is equivalent to <b>cell(0)</b></p>
-		<p><b>cell(A)</b> with A a string array converts to cell.</p>
-	
-	</description>
-
-
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[A = eye(2, 4);
+        </param_input_item>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description>a string array.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>C</param_name>
+            <param_description>a cell</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>cell</b> returns a cell array of empty matrices.</p>
+            <p>
+                <b>cell()</b> is equivalent to <b>cell(0)</b>
+            </p>
+            <p>
+                <b>cell(A)</b> with A a string array converts to cell.</p>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+      ><![CDATA[A = eye(2, 4);
 sz = size(A)
-C = cell(sz)]]>
-		</example_item_data>
-	
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[A = ["Nel", "son"; "open", "source"];
-C = cell(A)]]>
-		</example_item_data>
-	
-	</example_item>
-
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${data_structures}struct">struct</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${types}iscell">iscell</link>
-		</see_also_item>
-
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+C = cell(sz)]]></example_item_data>
+                </example_item>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+      ><![CDATA[A = ["Nel", "son"; "open", "source"];
+C = cell(A)]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${data_structures}struct">struct</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${types}iscell">iscell</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>initial version</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

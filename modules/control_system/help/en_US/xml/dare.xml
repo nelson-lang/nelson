@@ -1,118 +1,96 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>dare</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>dare</keyword>
+    <short_description
   >Discret-time algebraic Riccati equation solution.</short_description>
-
-  <syntax>
-    <syntax_item>[X, L, G] = dare(A, B, Q)</syntax_item>
-    <syntax_item>[X, L, G] = dare(A, B, Q, R, S, E)</syntax_item>
-  </syntax>
-  
-  <param_input>
-  
-    <param_input_item>
-      <param_name>A</param_name>
-      <param_description
+    <syntax>
+        <syntax_item>[X, L, G] = dare(A, B, Q)</syntax_item>
+        <syntax_item>[X, L, G] = dare(A, B, Q, R, S, E)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
       >Matrix representing the state with dimensions n x n, where n corresponds to the number of states.</param_description>
-    </param_input_item>
-
-   <param_input_item>
-      <param_name>B</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>B</param_name>
+            <param_description
       >Matrix representing control with dimensions n x p, where p is the number of inputs.</param_description>
-    </param_input_item>
-
-   <param_input_item>
-      <param_name>Q</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>Q</param_name>
+            <param_description
       >Matrix describing the cost associated with the state, having dimensions n x n, where n is the number of states.</param_description>
-    </param_input_item>
-
-   <param_input_item>
-      <param_name>R</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>R</param_name>
+            <param_description
       >Matrix representing the cost associated with control, with dimensions p x p, where p is the number of inputs.</param_description>
-    </param_input_item>
-
-   <param_input_item>
-      <param_name>S</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>S</param_name>
+            <param_description
       >Matrix that is optionally real-valued with dimensions n x p.</param_description>
-    </param_input_item>
-
-   <param_input_item>
-      <param_name>E</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>E</param_name>
+            <param_description
       >Matrix with dimensions n x n that serves as a descriptor matrix.</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>X</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>X</param_name>
+            <param_description
       >stabilized solution for the discret-time Riccati equation of dimension n x n.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>L</param_name>
-      <param_description>Closed-loop pole vector.</param_description>
-    </param_output_item>
-    <param_output_item>
-      <param_name>G</param_name>
-      <param_description>Gain matrix.</param_description>
-    </param_output_item>
-  </param_output>
-
-
-  <description>
-  <p>The function <b
+        </param_output_item>
+        <param_output_item>
+            <param_name>L</param_name>
+            <param_description>Closed-loop pole vector.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>G</param_name>
+            <param_description>Gain matrix.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>The function <b
       >dare(A, B, Q)</b> calculates the exclusive solution, denoted as <b
       >X</b>, for the discret-time algebraic Riccati equation with matrices <b
       >A</b>, <b>B</b>, and <b>Q</b>, and also provides additional matrices <b
       >L</b> and <b>G</b>.</p>
-  </description>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+    </description>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
       ><![CDATA[a = [-3 2;1 1];
 b = [0 ; 1];
 c = [1 -1];
 r = 3;
 [x, l, g] = dare(a, b, c'*c, r)
-]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
- <see_also>
-    <see_also_item>
-      <link linkend="${slicot}slicot_sb02od">slicot_sb02od</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${slicot}slicot_sg02ad">slicot_sg02ad</link>
-    </see_also_item>
-
-  </see_also>
-
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>SLICOT Documentation</author_item>
-  </authors>
+]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${slicot}slicot_sb02od">slicot_sb02od</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${slicot}slicot_sg02ad">slicot_sg02ad</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>SLICOT Documentation</author_item>
+    </authors>
 </xmldoc>

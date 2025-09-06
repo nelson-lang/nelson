@@ -1,162 +1,130 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>slicot_ab08nd</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>slicot_ab08nd</keyword>
+    <short_description
   >Construction of a regular pencil for a given system such that its generalized eigenvalues are invariant zeros of the system.</short_description>
-
-  <syntax>
-    <syntax_item
+    <syntax>
+        <syntax_item
     >[NU, RANK, DINFZ, NKROR, NKROL, INFZ, KRONR, KRONL, AF, BF, INFO] = slicot_ab08nd(EQUIL, N, M, P, A, B, C, D, TOL)</syntax_item>
-  </syntax>
-
-  <param_input>
-
-    <param_input_item>
-      <param_name>EQUIL</param_name>
-      <param_description
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>EQUIL</param_name>
+            <param_description
       >'S':  Perform balancing (scaling) or 'N':  Do not perform balancing.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>N</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>N</param_name>
+            <param_description
       >The number of state variables, i.e., the order of the matrix A.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>M</param_name>
-      <param_description>The number of system inputs.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>P</param_name>
-      <param_description>The number of system outputs.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>A</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>M</param_name>
+            <param_description>The number of system inputs.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>P</param_name>
+            <param_description>The number of system outputs.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
       >The leading N-by-N part of this array must contain the state dynamics matrix A of the system.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>B</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>B</param_name>
+            <param_description
       >The leading N-by-M part of this array must contain the input/state matrix B of the system.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>C</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description
       >The leading P-by-N part of this array must contain the state/output matrix C of the system.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>D</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>D</param_name>
+            <param_description
       >The leading P-by-M part of this array must contain the direct transmission matrix D of the system.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>TOL</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>TOL</param_name>
+            <param_description
       > A tolerance used in rank decisions.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>NU</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>NU</param_name>
+            <param_description
       >The number of (finite) invariant zeros.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>RANK</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>RANK</param_name>
+            <param_description
       >The normal rank of the transfer function matrix.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>DINFZ</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>DINFZ</param_name>
+            <param_description
       >The maximum degree of infinite elementary divisors.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>NKROR</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>NKROR</param_name>
+            <param_description
       >The number of right Kronecker indices.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>NKROL</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>NKROL</param_name>
+            <param_description
       >The number of left Kronecker indices.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>INFZ</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>INFZ</param_name>
+            <param_description
       >The leading DINFZ elements of INFZ contain information on the infinite elementary divisors as follows: the system has INFZ(i) infinite elementary divisors of degree i, where i = 1,2,...,DINFZ.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>KRONR</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>KRONR</param_name>
+            <param_description
       >The leading NKROR elements of this array contain the right Kronecker (column) indices.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>KRONL</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>KRONL</param_name>
+            <param_description
       >The leading NKROL elements of this array contain the left Kronecker (row) indices.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>AF</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>AF</param_name>
+            <param_description
       >The leading NU-by-NU part of this array contains the coefficient matrix A  of the reduced pencil.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>BF</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>BF</param_name>
+            <param_description
       >The leading NU-by-NU part of this array contains the coefficient matrix B  of the reduced pencil.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>INFO</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>INFO</param_name>
+            <param_description
       >0:  successful exit; if INFO = -i, the i-th argument had an illegal value.</param_description>
-    </param_output_item>
-
-
-  </param_output>
-
-
-
-  <description>
-  <p
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
     >To construct for a linear multivariable system described by a state-space model (A,B,C,D) a regular pencil (A - lambda*B ) which has the invariant zeros of the system as generalized eigenvalues.</p>
-  <p
+        <p
     >The routine also computes the orders of the infinite zeros and the right and left Kronecker indices of the system (A,B,C,D).</p>
-  </description>
-
-  <used_function>AB08ND</used_function>
-  <bibliography
+    </description>
+    <used_function>AB08ND</used_function>
+    <bibliography
   >http://slicot.org/objects/software/shared/doc/AB08ND.html</bibliography>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
       ><![CDATA[N = 6;
 M = 2;
 P = 3;
@@ -192,20 +160,16 @@ D = [0.0   0.0;
 
 % Compute the structural invariants of the given system.
 [NU, RANK, DINFZ, NKROR, NKROL, INFZ, KRONR, KRONL, AF, BF, INFO] = slicot_ab08nd(EQUIL, N, M, P, A, B, C, D, TOL)
-]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>SLICOT Documentation</author_item>
-  </authors>
+]]></example_item_data>
+        </example_item>
+    </examples>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>SLICOT Documentation</author_item>
+    </authors>
 </xmldoc>

@@ -1,92 +1,74 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>horzcat</keyword>
-	<short_description>Horizontal concatenation.</short_description>
-
-	<syntax>
-		<syntax_item>R = horzcat(M1, M2, ... , MN)</syntax_item>
-		<syntax_item>R = [M1, M2, ... , MN]</syntax_item>
-	</syntax>
-
-	<param_input>
-		<param_input_item>
-			<param_name>M1</param_name>
-			<param_description>a variable</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>M2</param_name>
-			<param_description>a variable</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>MN</param_name>
-			<param_description>a variable</param_description>
-		</param_input_item>
-
-	</param_input>
-
-	<param_output>
-
-		<param_output_item>
-			<param_name>R</param_name>
-			<param_description>result of [M1, M2, ... , MN]</param_description>
-		</param_output_item>
-
-	</param_output>
-
-	<description>
-		<p><b
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>horzcat</keyword>
+    <short_description>Horizontal concatenation.</short_description>
+    <syntax>
+        <syntax_item>R = horzcat(M1, M2, ... , MN)</syntax_item>
+        <syntax_item>R = [M1, M2, ... , MN]</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>M1</param_name>
+            <param_description>a variable</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>M2</param_name>
+            <param_description>a variable</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>MN</param_name>
+            <param_description>a variable</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>R</param_name>
+            <param_description>result of [M1, M2, ... , MN]</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >R = horzcat(M1, M2, ... , MN)</b> returns the horizontal concatenation of M1, M2, ... , MN along the dimension 2.</p>
-	</description>
-
-
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[A = eye(2, 2);
 B = ones(2, 2);
 C = horzcat(A, B)
-D = [A, B]]]>
-		</example_item_data>
-	</example_item>
-
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[A = 'nel';
+D = [A, B]]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[A = 'nel';
 B = 'son';
-C = horzcat(A, B)]]>
-		</example_item_data>
-	</example_item>
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${operators}vertcat">vertcat</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${operators}cat">cat</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+C = horzcat(A, B)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${operators}vertcat">vertcat</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${operators}cat">cat</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

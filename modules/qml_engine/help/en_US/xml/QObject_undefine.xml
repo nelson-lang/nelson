@@ -1,80 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>QObject_undefine</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>QObject_undefine</keyword>
+    <short_description
   >Undefine a dynamic property of a QObject handle.</short_description>
-
-  <syntax>
-    <syntax_item>QObject_undefine(h, property_name)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>h</param_name>
-      <param_description>an QObject handle.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>property_name</param_name>
-      <param_description>a string : dynamic property name.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>R</param_name>
-      <param_description>a string: method signature.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-    <p>Undefine a dynamic property of a QObject handle.</p>
-</description>
-
-  <used_function />
-  <bibliography />
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${qml_engine}QObject_set">QObject_set (set)</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${qml_engine}QObject_get">QObject_get (get)</link>
-    </see_also_item>
-
-  </see_also>
-
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+    <syntax>
+        <syntax_item>QObject_undefine(h, property_name)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>h</param_name>
+            <param_description>an QObject handle.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>property_name</param_name>
+            <param_description
+      >a string : dynamic property name.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>R</param_name>
+            <param_description>a string: method signature.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>Undefine a dynamic property of a QObject handle.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
       ><![CDATA[h = errordlg()
 set(h, 'myProp', 33)
 h
 get(h, 'myProp')
 QObject_undefine(h, 'myProp')
-get(h, 'myProp')]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
+get(h, 'myProp')]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${qml_engine}QObject_set">QObject_set (set)</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${qml_engine}QObject_get">QObject_get (get)</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
 </xmldoc>

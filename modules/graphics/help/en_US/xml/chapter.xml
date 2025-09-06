@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<module_name>graphics</module_name>
-	<chapter>Graphics functions</chapter>
-	<chapter_description>graphics functions</chapter_description>
-	
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>graphics</module_name>
+    <chapter>Graphics functions</chapter>
+    <chapter_description>graphics functions</chapter_description>
+    <auto_toc />
 </xmldoc>

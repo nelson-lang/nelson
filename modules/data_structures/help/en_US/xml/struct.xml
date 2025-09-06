@@ -1,114 +1,93 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>struct</keyword>
-	<short_description>Creates a struct.</short_description>
-
-	<syntax>
-		<syntax_item>st = struct()</syntax_item>
-		<syntax_item>st = struct([])</syntax_item>
-		<syntax_item>st = struct(object)</syntax_item>
-		<syntax_item>st = struct(field, value)</syntax_item>
-		<syntax_item
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>struct</keyword>
+    <short_description>Creates a struct.</short_description>
+    <syntax>
+        <syntax_item>st = struct()</syntax_item>
+        <syntax_item>st = struct([])</syntax_item>
+        <syntax_item>st = struct(object)</syntax_item>
+        <syntax_item>st = struct(field, value)</syntax_item>
+        <syntax_item
     >st = struct(field, value, field2, value2, ..., fieldn, valuen)</syntax_item>
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>field, field2, ... , fieldn</param_name>
-			<param_description
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>field, field2, ... , fieldn</param_name>
+            <param_description
       >strings : field names, valid names are same than variable identifiers.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>value, value2, ..., valuen</param_name>
-			<param_description>all data types supported by Nelson.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>object</param_name>
-			<param_description>an object created with 'class' builtin.</param_description>
-		</param_input_item>
-
-	</param_input>
-
-	<param_output>
-
-		<param_output_item>
-			<param_name>st</param_name>
-			<param_description>a struct</param_description>
-		</param_output_item>
-	</param_output>
-
-	<description>
-		<p><b>struct</b> returns a structure.</p>
-    </description>
-
-
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[struct()]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[struct([])]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
-      ><![CDATA[date_st = struct('day', 15, 'month' ,'August','year', 1974)]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>value, value2, ..., valuen</param_name>
+            <param_description
+      >all data types supported by Nelson.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>object</param_name>
+            <param_description
+      >an object created with 'class' builtin.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>st</param_name>
+            <param_description>a struct</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>struct</b> returns a structure.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data><![CDATA[struct()]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data><![CDATA[struct([])]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[date_st = struct('day', 15, 'month' ,'August','year', 1974)]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description
       >Other way to create a struct:</example_item_description>
-		<example_item_data
+                <example_item_data
       ><![CDATA[date_st.day = 15
 date_st.month = 'August'
-date_st.year = 1974]]>
-		</example_item_data>
-	</example_item>
-
-	
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${data_structures}cell">cell</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${types}isstruct">istruct</link>
-		</see_also_item>
-
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-		<history_item>
-			<history_version>1.3.0</history_version>
-			<history_description>Scalar String allowed as field name.</history_description>
-		</history_item>
-
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+date_st.year = 1974]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${data_structures}cell">cell</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${types}isstruct">istruct</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+            <history_item>
+                <history_version>1.3.0</history_version>
+                <history_description
+      >Scalar String allowed as field name.</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

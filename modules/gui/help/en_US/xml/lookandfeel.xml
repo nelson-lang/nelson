@@ -1,81 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>lookandfeel</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>lookandfeel</keyword>
+    <short_description
   >default current application look and feel.</short_description>
-
-  <syntax>
-  <syntax_item>r = lookandfeel()</syntax_item>
-  <syntax_item>ce = lookandfeel('available')</syntax_item>
-  <syntax_item>p = lookandfeel(lf)</syntax_item>
-  <syntax_item>ss = lookandfeel('stylesheet')</syntax_item>
-  <syntax_item>pp = lookandfeel('stylesheet', ss)</syntax_item>
-  </syntax>
-  
-  <param_input>
-
-    <param_input_item>
-      <param_name>lf</param_name>
-      <param_description>a string: look and feel to apply.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>ss</param_name>
-      <param_description>a string: style sheet to apply.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>r</param_name>
-      <param_description>a string: current look and feel.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>ce</param_name>
-      <param_description
+    <syntax>
+        <syntax_item>r = lookandfeel()</syntax_item>
+        <syntax_item>ce = lookandfeel('available')</syntax_item>
+        <syntax_item>p = lookandfeel(lf)</syntax_item>
+        <syntax_item>ss = lookandfeel('stylesheet')</syntax_item>
+        <syntax_item>pp = lookandfeel('stylesheet', ss)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>lf</param_name>
+            <param_description
+      >a string: look and feel to apply.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>ss</param_name>
+            <param_description
+      >a string: style sheet to apply.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>r</param_name>
+            <param_description
+      >a string: current look and feel.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>ce</param_name>
+            <param_description
       >a cell of strings: list of look and feel available.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>ss</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>ss</param_name>
+            <param_description
       >a string: current style sheet applied.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>p</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>p</param_name>
+            <param_description
       >a string: previous look and feel applied.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>pp</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>pp</param_name>
+            <param_description
       >a string: previous style sheet applied.</param_description>
-    </param_output_item>
-
-  </param_output>
-
-  <description><p><b
-      >lookandfeel</b> manages look and feel Nelson application.</p>
-</description>
-
-
-  <used_function />
-  <bibliography />
-  
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>lookandfeel</b> manages look and feel Nelson application.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[
 currentlf = lookandfeel();
 lfs = lookandfeel('available')
@@ -84,14 +70,12 @@ for lf = lfs'
   sleep(10);
 end
 lookandfeel(currentlf)
-]]>
-    </example_item_data>
-  </example_item>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[
 currentstylesheet = lookandfeel('stylesheet')
 stylefilename = [modulepath('gui'), '/resources/darkstyle.qss'];
@@ -100,21 +84,16 @@ newstyle = fileread(stylefilename);
 previousstylesheet = lookandfeel('stylesheet', newstyle)
 sleep(10);
 lookandfeel('stylesheet', previousstylesheet)
-]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

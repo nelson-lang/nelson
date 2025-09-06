@@ -58,6 +58,8 @@ namespace Nelson {
 #define CHAPTER_REF_DESCRIPTION_TAG "chapter_ref_description"
 #define MODULE_NAME_TAG "module_name"
 #define IMAGE_TAG "img"
+#define AUTO_TOC_TAG "auto_toc"
+#define KEYWORD_ALIAS_TAG "keyword_alias"
 
 enum XMLDOC_ITEMS_ID
 {
@@ -83,7 +85,9 @@ enum XMLDOC_ITEMS_ID
     CHAPTER_DESCRIPTION_TAG_ID,
     CHAPTER_INDEX_TAG_ID,
     MODULE_NAME_TAG_ID,
-    IMAGE_TAG_ID
+    IMAGE_TAG_ID,
+    AUTO_TOC_TAG_ID,
+    KEYWORD_ALIAS_TAG_ID,
 };
 
 } // namespace Nelson

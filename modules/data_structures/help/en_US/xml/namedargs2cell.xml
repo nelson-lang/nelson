@@ -1,77 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>namedargs2cell</keyword>
-	<short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>namedargs2cell</keyword>
+    <short_description
   >Converts a struct containing name-value pairs to a cell.</short_description>
-
-	<syntax>
-		<syntax_item>ce = namedargs2cell(st)</syntax_item>
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>st</param_name>
-			<param_description>a scalar structure.</param_description>
-		</param_input_item>
-	</param_input>
-
-	<param_output>
-
-		<param_output_item>
-			<param_name>ce</param_name>
-			<param_description>a cell.</param_description>
-		</param_output_item>
-	</param_output>
-
-	<description>
-		<p><b
+    <syntax>
+        <syntax_item>ce = namedargs2cell(st)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>st</param_name>
+            <param_description>a scalar structure.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>ce</param_name>
+            <param_description>a cell.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >ce = namedargs2cell(st)</b> returns an cell containing name-value pairs.</p>
-</description>
-
-
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[S = struct();
 S.CharacterEncoding = 'auto';
 S.Timeout = 5;
 S.Username = "";
 S.logical = false;
-R = namedargs2cell(S)]]>
-		</example_item_data>
-	</example_item>
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${data_structures}struct2cell">struct2cell</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${data_structures}struct">struct</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${data_structures}fieldnames">fieldnames</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+R = namedargs2cell(S)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${data_structures}struct2cell">struct2cell</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${data_structures}struct">struct</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${data_structures}fieldnames">fieldnames</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

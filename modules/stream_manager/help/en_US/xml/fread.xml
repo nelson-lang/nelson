@@ -1,87 +1,74 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>fread</keyword>
-	<short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>fread</keyword>
+    <short_description
   >Read data in binary form to the file specified by the file descriptor fid.</short_description>
-
-	<syntax>
-		<syntax_item>res = fread(fid)</syntax_item>
-		<syntax_item>res = fread(fid, sz, precision)</syntax_item>
-		<syntax_item>res = fread(fid, sz, precision, skip)</syntax_item>
-		<syntax_item>res = fread(fid, sz, precision, arch)</syntax_item>
-		<syntax_item>res = fread(fid, sz, precision, skip, arch)</syntax_item>
-		<syntax_item>[res, count] = fread(fid, sz, precision, skip, arch)</syntax_item>
-	</syntax>
-	
-	<param_input>
-		
-		<param_input_item>
-			<param_name>fid</param_name>
-			<param_description>a file descriptor</param_description>
-		</param_input_item>
-		
-		<param_input_item>
-			<param_name>sz</param_name>
-			<param_description
+    <syntax>
+        <syntax_item>res = fread(fid)</syntax_item>
+        <syntax_item>res = fread(fid, sz, precision)</syntax_item>
+        <syntax_item>res = fread(fid, sz, precision, skip)</syntax_item>
+        <syntax_item>res = fread(fid, sz, precision, arch)</syntax_item>
+        <syntax_item>res = fread(fid, sz, precision, skip, arch)</syntax_item>
+        <syntax_item
+    >[res, count] = fread(fid, sz, precision, skip, arch)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>fid</param_name>
+            <param_description>a file descriptor</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>sz</param_name>
+            <param_description
       >Dimensions of output array: scalar, [m,n] or [m, Inf]</param_description>
-		</param_input_item>
-
-		<param_input_item>
-			<param_name>precision</param_name>
-			<param_description>class of values to read</param_description>
-		</param_input_item>
-
-		<param_input_item>
-			<param_name>skip</param_name>
-			<param_description>number of bytes to skip</param_description>
-		</param_input_item>
-
-		<param_input_item>
-			<param_name>arch</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>precision</param_name>
+            <param_description>class of values to read</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>skip</param_name>
+            <param_description>number of bytes to skip</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>arch</param_name>
+            <param_description
       >a string specifying the data format for the file.</param_description>
-		</param_input_item>
-
-	</param_input>
-
-	<param_output>
-
-		<param_output_item>
-			<param_name>res</param_name>
-			<param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>res</param_name>
+            <param_description
       >a vector of floating point or integer type numbers</param_description>
-		</param_output_item>
-		
-		<param_output_item>
-			<param_name>count</param_name>
-			<param_description>number of characters reads into res</param_description>
-		</param_output_item>
-
-	</param_output>
-
-	<description>
-<p
+        </param_output_item>
+        <param_output_item>
+            <param_name>count</param_name>
+            <param_description
+      >number of characters reads into res</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
     >Read data in binary form to the file specified by the file descriptor fid.</p>
-<p>supported architecture:</p>
-<p><b>native</b> , <b>n</b>: format of the current machine.</p>
-<p><b>ieee-be</b>, <b>b</b>: IEEE big endian.</p>
-<p><b>ieee-le</b>, <b>l</b>: IEEE little endian.</p>
-<p>characters encoding uses <b>fopen</b> parameter.</p>
-</description>
-
-
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+        <p>supported architecture:</p>
+        <p>
+            <b>native</b> , <b>n</b>: format of the current machine.</p>
+            <p>
+                <b>ieee-be</b>, <b>b</b>: IEEE big endian.</p>
+                <p>
+                    <b>ieee-le</b>, <b>l</b>: IEEE little endian.</p>
+                    <p>characters encoding uses <b>fopen</b> parameter.</p>
+                </description>
+                <used_function />
+                <bibliography />
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
       ><![CDATA[
 A = rand(3,1)
 fileID = fopen([tempdir(), 'doubledata.bin'],'w');
@@ -91,14 +78,12 @@ fclose(fileID);
 fileID = fopen([tempdir(), 'doubledata.bin'],'r');
 R = fread(fileID, 'double')
 fclose(fileID);
-]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+]]></example_item_data>
+                    </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
       ><![CDATA[
 fileID = fopen([tempdir(), 'uint16nine.bin'],'w');
 fwrite(fileID,[1:9],'uint16');
@@ -107,36 +92,28 @@ fclose(fileID);
 fileID = fopen([tempdir(), 'uint16nine.bin'],'r');
 A = fread(fileID,[4,Inf],'uint16')
 fclose(fileID);
-]]>
-		</example_item_data>
-	</example_item>
-
-</examples>
-
-	<see_also>
-		
-		<see_also_item>
-			<link linkend="${stream_manager}fopen">fopen</link>
-		</see_also_item>
-		
-		<see_also_item>
-			<link linkend="${stream_manager}fclose">fclose</link>
-		</see_also_item>
-		
-		<see_also_item>
-			<link linkend="${stream_manager}fwrite">fwrite</link>
-		</see_also_item>
-
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link linkend="${stream_manager}fopen">fopen</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link linkend="${stream_manager}fclose">fclose</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link linkend="${stream_manager}fwrite">fwrite</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.0.0</history_version>
+                        <history_description
+      >initial version</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

@@ -1,95 +1,95 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>pan</keyword>
-  <short_description>Enable pan mode.</short_description>
-
-  <syntax>
-    <syntax_item>pan</syntax_item>
-    <syntax_item>pan option</syntax_item>
-    <syntax_item>pan(fig, ...)</syntax_item>
-    <syntax_item>pan(ax, ...)</syntax_item>
-  </syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>option</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>pan</keyword>
+    <short_description>Enable pan mode.</short_description>
+    <syntax>
+        <syntax_item>pan</syntax_item>
+        <syntax_item>pan option</syntax_item>
+        <syntax_item>pan(fig, ...)</syntax_item>
+        <syntax_item>pan(ax, ...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>option</param_name>
+            <param_description
       >string: 'on', 'off', 'out', 'xon', 'yon' or 'toggle'.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>fig</param_name>
-			<param_description>Figure object: Target figure</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>ax</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>fig</param_name>
+            <param_description>Figure object: Target figure</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>ax</param_name>
+            <param_description
       >a scalar graphics object value: parent container, specified as a axes.</param_description>
-		</param_input_item>
-	</param_input>
-
-
-<description>
-  <p
+        </param_input_item>
+    </param_input>
+    <description>
+        <p
     >Utilize the pan mode to dynamically adjust axis limits for interactive data exploration.</p>
-  <p
+        <p
     >Enable or disable the pan mode and configure additional basic settings using the pan function.</p>
-  <p
+        <p
     >Pan mode is compatible with various charts like line, bar, histogram, and surface charts. These charts typically feature pan icon on the toolbar to facilitate pan functionality.</p>
-  <p><b
+        <p>
+            <b
       >pan option</b> configures the pan mode for all axes within the current figure.</p>
-  <p
+            <p
     >Once pan mode is active, you can adjust the view of axes using the cursor, or keyboard:</p>
-  <p>Cursor:  Click and drag the cursor in the axes.</p>
-  <p
+            <p>Cursor:  Click and drag the cursor in the axes.</p>
+            <p
     >Keyboard: To pan horizontally, press the left arrow (←) or the right arrow (→) key. To pan vertically, press the up arrow (↑) or the down arrow (↓) key.</p>
-  <p />
-  <p>The pan mode option can be specified using one of the following values:</p>
-  <p><b
+            <p />
+            <p
+    >The pan mode option can be specified using one of the following values:</p>
+            <p>
+                <b
       >'toggle'</b>: Toggles the pan mode. If pan mode is disabled, 'toggle' reverts to the most recently used pan option of 'on', 'xon', or 'yon'. This option behaves the same as calling pan without any arguments.</p>
-  <p><b>'xon'</b>: Enables pan mode for the x-dimension exclusively.</p>
-  <p><b>'yon'</b>: Activates pan mode for the y-dimension exclusively.</p>
-  <p><b>'on'</b>: Activates pan mode.</p>
-  <p><b
+                <p>
+                    <b
+      >'xon'</b>: Enables pan mode for the x-dimension exclusively.</p>
+                    <p>
+                        <b
+      >'yon'</b>: Activates pan mode for the y-dimension exclusively.</p>
+                        <p>
+                            <b>'on'</b>: Activates pan mode.</p>
+                            <p>
+                                <b
       >'off'</b>: Deactivates pan mode. Note that certain default interactions may persist regardless of the interaction mode.</p>
- </description>
-
-  <used_function />
-  <bibliography />
-  
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description> 
-    </example_item_description>
-    <example_item_data><![CDATA[surf(peaks)
+                            </description>
+                            <used_function />
+                            <bibliography />
+                            <examples>
+                                <example_item>
+                                    <example_item_type
+      >nelson</example_item_type>
+                                    <example_item_description />
+                                    <example_item_data
+      ><![CDATA[surf(peaks)
 pan on
-]]>
-    </example_item_data>
-</example_item>
- 
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${graphics}rotate3d">rotate3d</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${graphics}zoom">zoom</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.2.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+]]></example_item_data>
+                                </example_item>
+                            </examples>
+                            <see_also>
+                                <see_also_item>
+                                    <link
+        linkend="${graphics}rotate3d"
+      >rotate3d</link>
+                                </see_also_item>
+                                <see_also_item>
+                                    <link linkend="${graphics}zoom">zoom</link>
+                                </see_also_item>
+                            </see_also>
+                            <history>
+                                <history_item>
+                                    <history_version>1.2.0</history_version>
+                                    <history_description
+      >initial version</history_description>
+                                </history_item>
+                            </history>
+                            <authors>
+                                <author_item>Allan CORNET</author_item>
+                            </authors>
+                        </xmldoc>

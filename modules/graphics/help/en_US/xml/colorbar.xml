@@ -1,102 +1,91 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>colorbar</keyword>
-  <short_description>Colorbar showing color scale.</short_description>
-
- <syntax>
-    <syntax_item>colorbar()</syntax_item>
-    <syntax_item>colorbar('off')</syntax_item>
-    <syntax_item>colorbar(..., propertyName, propertyValue)</syntax_item>
-    <syntax_item>colorbar(target, ...)</syntax_item>
-    <syntax_item>colorbar(target, 'off')</syntax_item>
-    <syntax_item>c = colorbar(...)</syntax_item>
- </syntax>
-	
-	<param_input>
-
-		<param_input_item>
-			<param_name>propertyName</param_name>
-			<param_description>a scalar string or row vector character.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>propertyValue</param_name>
-			<param_description>a value.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>target</param_name>
-			<param_description>Target: axes.</param_description>
-		</param_input_item>
-    <param_input_item>
-			<param_name>'off'</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>colorbar</keyword>
+    <short_description>Colorbar showing color scale.</short_description>
+    <syntax>
+        <syntax_item>colorbar()</syntax_item>
+        <syntax_item>colorbar('off')</syntax_item>
+        <syntax_item>colorbar(..., propertyName, propertyValue)</syntax_item>
+        <syntax_item>colorbar(target, ...)</syntax_item>
+        <syntax_item>colorbar(target, 'off')</syntax_item>
+        <syntax_item>c = colorbar(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>propertyName</param_name>
+            <param_description
+      >a scalar string or row vector character.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyValue</param_name>
+            <param_description>a value.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>target</param_name>
+            <param_description>Target: axes.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>'off'</param_name>
+            <param_description
       >deletes colorbar associated with the current axes.</param_description>
-		</param_input_item>
-    
-	</param_input>
-
- 
-  <param_output>
-    <param_output_item>
-      <param_name>c</param_name>
-      <param_description>graphics object: axes on color bar.</param_description>
-    </param_output_item>
-  </param_output>
-
-<description>
-  <p><b>colorbar</b>adds a color bar into a plot.</p>
-</description>
-
-  <used_function />
-  <bibliography />
-  
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>c</param_name>
+            <param_description
+      >graphics object: axes on color bar.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>colorbar</b>adds a color bar into a plot.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[f = figure();
 surf(peaks);
 colormap('summer');
 colorbar()
-]]>
-    </example_item_data>
-    <example_item_img src="../images/colorbar_1.svg" align="middle" />
-
-  </example_item>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+]]></example_item_data>
+                <example_item_img
+        src="../images/colorbar_1.svg"
+        align="middle"
+      />
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[f = figure();
 surf(peaks);
 colormap('gray');
-cb = colorbar(gca);]]>
-    </example_item_data>
-    <example_item_img src="../images/colorbar_2.svg" align="middle" />
-
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${graphics}colormap">colormap</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+cb = colorbar(gca);]]></example_item_data>
+                <example_item_img
+        src="../images/colorbar_2.svg"
+        align="middle"
+      />
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${graphics}colormap">colormap</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

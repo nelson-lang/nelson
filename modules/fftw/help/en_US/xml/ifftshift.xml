@@ -1,78 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>ifftshift</keyword>
-  <short_description>inverse of fftshift</short_description>
-
-  <syntax>
-    <syntax_item>Y = ifftshift(X)</syntax_item>
-    <syntax_item>Y = ifftshift(X, DIM)</syntax_item>
-  </syntax>
-  
-  <param_input>
-  
-    <param_input_item>
-      <param_name>X</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>ifftshift</keyword>
+    <short_description>inverse of fftshift</short_description>
+    <syntax>
+        <syntax_item>Y = ifftshift(X)</syntax_item>
+        <syntax_item>Y = ifftshift(X, DIM)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>X</param_name>
+            <param_description
       >a vector, matrix or N-D array (double, single, integer).</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>DIM</param_name>
-      <param_description>axes over which to shift.</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>Y</param_name>
-      <param_description>shifted array.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-    <p><b>fftshift(X)</b> computes the inverse <b>fftshift</b>.</p>
-</description>
-
-
-  <used_function />
-  <bibliography />
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </param_input_item>
+        <param_input_item>
+            <param_name>DIM</param_name>
+            <param_description>axes over which to shift.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>Y</param_name>
+            <param_description>shifted array.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>fftshift(X)</b> computes the inverse <b>fftshift</b>.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[M = [ 0.,  10.,  20.; 30.,  40., -40.; -30., -20., -10.]
 ifftshift(M)
-ifftshift(M, 1)]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${fftw}ifft">ifft</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${fftw}fftshift">fftshift</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+ifftshift(M, 1)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${fftw}ifft">ifft</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${fftw}fftshift">fftshift</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

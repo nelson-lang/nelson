@@ -34,13 +34,6 @@
   <used_function />
   <bibliography />
 
-  <see_also>
-    <see_also_item>
-      <link linkend="${mpi}MPI_Comm_rank">MPI_Comm_rank</link>
-    </see_also_item>
-  </see_also>
-
-
 <examples>
 
   <example_item>
@@ -75,6 +68,13 @@ end]]>
   </example_item>
 
 </examples>
+
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${mpi}MPI_Comm_rank">MPI_Comm_rank</link>
+    </see_also_item>
+  </see_also>
 
 
   <history>

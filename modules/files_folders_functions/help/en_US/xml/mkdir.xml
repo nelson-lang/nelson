@@ -1,96 +1,79 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>mkdir</keyword>
-	<short_description>Creates a new directory.</short_description>
-
-	<syntax>
-		<syntax_item>mkdir(dirname)</syntax_item>
-		<syntax_item>mkdir(parentdir, dirname)</syntax_item>
-		<syntax_item>status = mkdir(dirname)</syntax_item>
-		<syntax_item>status = mkdir(parentdir, dirname)</syntax_item>
-		<syntax_item>[status, msg] = mkdir(dirname)</syntax_item>
-		<syntax_item>[status, msg] = mkdir(parentdir, dirname)</syntax_item>
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>dirname</param_name>
-			<param_description>a string: directory name to create</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>parentdir</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>mkdir</keyword>
+    <short_description>Creates a new directory.</short_description>
+    <syntax>
+        <syntax_item>mkdir(dirname)</syntax_item>
+        <syntax_item>mkdir(parentdir, dirname)</syntax_item>
+        <syntax_item>status = mkdir(dirname)</syntax_item>
+        <syntax_item>status = mkdir(parentdir, dirname)</syntax_item>
+        <syntax_item>[status, msg] = mkdir(dirname)</syntax_item>
+        <syntax_item>[status, msg] = mkdir(parentdir, dirname)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>dirname</param_name>
+            <param_description
+      >a string: directory name to create</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>parentdir</param_name>
+            <param_description
       >a string: a directory in which the dirname directory will be created</param_description>
-		</param_input_item>
-	</param_input>
-
-	<param_output>
-
-		<param_output_item>
-			<param_name>status</param_name>
-			<param_description>a logical true or false</param_description>
-		</param_output_item>
-
-		<param_output_item>
-			<param_name>msg</param_name>
-			<param_description>a string: error message</param_description>
-		</param_output_item>
-
-	</param_output>
-
-	<description>
-<p>Creates a directory named dirname in the directory parent.</p>
-<p
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>status</param_name>
+            <param_description>a logical true or false</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>msg</param_name>
+            <param_description>a string: error message</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>Creates a directory named dirname in the directory parent.</p>
+        <p
     >If no parent directory is specified the present working directory is used.</p>
-<p
+        <p
     >If directory is created or already existing, status is true, otherwise it will be false.</p>
-</description>
-
-
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
       ><![CDATA[mkdir(tempdir(), 'subdir_example')
 if isdir([tempdir(), 'subdir_example'])
 	disp('OK')
 else
 	disp('NOT OK')
 end
-]]>
-		</example_item_data>
-	
-	</example_item>
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${files_folders_functions}isdir">isdir</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-		<history_item>
-			<history_version>1.4.0</history_version>
-			<history_description
+]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${files_folders_functions}isdir">isdir</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+        <history_item>
+            <history_version>1.4.0</history_version>
+            <history_description
       >input arguments support scalar string array type</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
 </xmldoc>

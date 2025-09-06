@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<module_name>mpi</module_name>
-	<chapter>Message Passing Interface</chapter>
-	<chapter_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>mpi</module_name>
+    <chapter>Message Passing Interface</chapter>
+    <chapter_description
   >In the world of parallel computing the Message Passing Interface (MPI) is the de facto standard for implementing programs on multiple processors.</chapter_description>
-	
+    <auto_toc />
 </xmldoc>

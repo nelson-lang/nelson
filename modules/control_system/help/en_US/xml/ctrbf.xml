@@ -1,120 +1,104 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<keyword>ctrbf</keyword>
-  <short_description>Compute controllability staircase form.</short_description>
-
-  <syntax>
-    <syntax_item>[Abar, Bbar, Cbar, T, k] = ctrbf(A, B, C)</syntax_item>
-    <syntax_item>[Abar, Bbar, Cbar, T, k] = ctrbf(A, B, C, tol)</syntax_item>
-  </syntax>
-
-  <param_input>
-    <param_input_item>
-      <param_name>A</param_name>
-      <param_description>State matrix: Nx-by-Nx matrix</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>B</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>ctrbf</keyword>
+    <short_description
+  >Compute controllability staircase form.</short_description>
+    <syntax>
+        <syntax_item>[Abar, Bbar, Cbar, T, k] = ctrbf(A, B, C)</syntax_item>
+        <syntax_item
+    >[Abar, Bbar, Cbar, T, k] = ctrbf(A, B, C, tol)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description>State matrix: Nx-by-Nx matrix</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>B</param_name>
+            <param_description
       >Input-to-state matrix: Nx-by-Nu matrix</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>C</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description
       >Output-to-state matrix: Ny-by-Nx matrix</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>tol</param_name>
-      <param_description>scalar real (tolerance).</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-     <param_output_item>
-      <param_name>Abar</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>tol</param_name>
+            <param_description>scalar real (tolerance).</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>Abar</param_name>
+            <param_description
       >Observability staircase state matrix.</param_description>
-    </param_output_item>
-
-     <param_output_item>
-      <param_name>Bbar</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>Bbar</param_name>
+            <param_description
       >Observability staircase input matrix.</param_description>
-    </param_output_item>
-
-     <param_output_item>
-      <param_name>Cbar</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>Cbar</param_name>
+            <param_description
       >Observability staircase output matrix.</param_description>
-    </param_output_item>
-
-     <param_output_item>
-      <param_name>T</param_name>
-      <param_description>Similarity transform matrix.</param_description>
-    </param_output_item>
-
-     <param_output_item>
-      <param_name>k</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>T</param_name>
+            <param_description>Similarity transform matrix.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>k</param_name>
+            <param_description
       >Vector: number of observable states.</param_description>
-    </param_output_item>
-
-  </param_output>
-
-  <description>
-
-    <p><b
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >ctrbf(A, B, C)</b> decomposes the given state-space system, defined by matrices <b
       >A</b>, <b>B</b>, and <b
       >C</b>, into the controllability staircase form.</p>
-    <p>This results in transformed matrices <b>Abar</b>, <b>Bbar</b>, and <b
+            <p>This results in transformed matrices <b>Abar</b>, <b
+      >Bbar</b>, and <b
       >Cbar</b>, along with a similarity transformation matrix <b
       >T</b> and a vector <b>k</b>.</p>
-    <p>The length of vector <b
+            <p>The length of vector <b
       >k</b> is equal to the order of the system represented by <b
       >A</b>, and each entry in <b
       >k</b> denotes the number of controllable states factored out at each step of the transformation matrix computation.</p>
-    <p>The non-zero elements in <b
+            <p>The non-zero elements in <b
       >k</b> indicate the number of iterations required for <b
       >T</b> calculation, and the sum of <b
       >k</b> corresponds to the number of states in <b
       >Ac</b>, the controllable portion of <b>Abar</b>.</p>
-
-  </description>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </description>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[A = [-1.5  -0.5; 1     0];
 B = [0.5; 0];
 C = [0   1];
-[Abar, Bbar, Cbar, T, k] = ctrbf(A, B, C)]]>
-    </example_item_data>
-  </example_item>
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${control_system}ctrb">ctrb</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+[Abar, Bbar, Cbar, T, k] = ctrbf(A, B, C)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${control_system}ctrb">ctrb</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

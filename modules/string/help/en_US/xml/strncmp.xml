@@ -1,54 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>strncmp</keyword>
-  <short_description>Compares first n characters of strings.</short_description>
-
-  <syntax>
-    <syntax_item>res = strncmp(s1, s2, n)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>s1</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>strncmp</keyword>
+    <short_description
+  >Compares first n characters of strings.</short_description>
+    <syntax>
+        <syntax_item>res = strncmp(s1, s2, n)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>s1</param_name>
+            <param_description
       >a string, string array or cell of strings.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>s2</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>s2</param_name>
+            <param_description
       >a string, string array or cell of strings.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>n</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>n</param_name>
+            <param_description
       >an integer value: numbers of characters to compare.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>res</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>res</param_name>
+            <param_description
       >a logical: true if the two are identical and false otherwise. </param_description>
-    </param_output_item>
-  </param_output>
-
-  <description><b
+        </param_output_item>
+    </param_output>
+    <description>
+        <b
     >strncmp</b> compares the first n characters of two strings (case sensitive).</description>
-  <used_function />
-  <bibliography />
-
-<examples>
-
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[strncmp('Nelson', 'nelSon', 3)
 strncmp('Nelson', 'Nelson', 3)
 
@@ -58,25 +51,21 @@ C = {'C', 'Contents'; 'Nel', 'son'}
 strncmp(A, B, 2)
 strncmp(A, C, 2)
 strncmp(C, 'C', 4)
-]]>
-    </example_item_data>
-  </example_item>
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${string}strcmp">strcmp</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${string}strcmp">strcmp</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

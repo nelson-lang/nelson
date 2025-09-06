@@ -1,32 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>SLICOT License</keyword>
-  <short_description>About SLICOT license.</short_description>
-
-  <description>
-    <p>Nelson uses SLICOT v5.9 under BSD-3-Clause license.</p>
-  </description>
-
-
-  <used_function />
-  <bibliography />
- 
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-    <history_item>
-      <history_version>1.13.0</history_version>
-      <history_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>SLICOT License</keyword>
+    <short_description>About SLICOT license.</short_description>
+    <description>
+        <p>Nelson uses SLICOT v5.9 under BSD-3-Clause license.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+        <history_item>
+            <history_version>1.13.0</history_version>
+            <history_description
       >SLICOT BSD-3-Clause license used</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
 </xmldoc>

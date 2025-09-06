@@ -1,97 +1,86 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>mesh</keyword>
-  <short_description>Mesh surface plot.</short_description>
-
-  <syntax>
-      <syntax_item>mesh(X, Y, Z)</syntax_item>
-      <syntax_item>mesh(Z)</syntax_item>
-      <syntax_item>mesh(Z, C)</syntax_item>
-      <syntax_item>mesh(X, Y, Z, C)</syntax_item>
-      <syntax_item>mesh(parent, ...)</syntax_item>
-      <syntax_item>mesh(..., propertyName, propertyValue)</syntax_item>
-      <syntax_item>go = mesh(...)</syntax_item>
-  </syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>X</param_name>
-			<param_description>x-coordinates: vector or matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>Y</param_name>
-			<param_description>y-coordinates: vector or matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>Z</param_name>
-			<param_description>z-coordinates: vector or matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>C</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>mesh</keyword>
+    <short_description>Mesh surface plot.</short_description>
+    <syntax>
+        <syntax_item>mesh(X, Y, Z)</syntax_item>
+        <syntax_item>mesh(Z)</syntax_item>
+        <syntax_item>mesh(Z, C)</syntax_item>
+        <syntax_item>mesh(X, Y, Z, C)</syntax_item>
+        <syntax_item>mesh(parent, ...)</syntax_item>
+        <syntax_item>mesh(..., propertyName, propertyValue)</syntax_item>
+        <syntax_item>go = mesh(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>X</param_name>
+            <param_description
+      >x-coordinates: vector or matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Y</param_name>
+            <param_description
+      >y-coordinates: vector or matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Z</param_name>
+            <param_description
+      >z-coordinates: vector or matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description
       >Color array: m-by-n-by-3 array of RGB triplets.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>parent</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>parent</param_name>
+            <param_description
       >a scalar graphics object value: parent container, specified as a axes.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>propertyName</param_name>
-			<param_description>a scalar string or row vector character.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>propertyValue</param_name>
-			<param_description>a value.</param_description>
-		</param_input_item>
-
-	</param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>go</param_name>
-      <param_description>a graphics object: surface type.</param_description>
-    </param_output_item>
-  </param_output>
-
-<description>
-<p><b>mesh</b> creates a 3-D wireframe mesh.</p>
-<p
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyName</param_name>
+            <param_description
+      >a scalar string or row vector character.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyValue</param_name>
+            <param_description>a value.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>go</param_name>
+            <param_description
+      >a graphics object: surface type.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>mesh</b> creates a 3-D wireframe mesh.</p>
+            <p
     >You can customize the appearance of the plot using various options such as color, lighting, and shading.</p>
-</description>
-
-  <used_function />
-  <bibliography />
-  
-<examples>
-
-  <example_item>
-
-    <example_item_type>nelson</example_item_type>
-    <example_item_description> 
-
-    </example_item_description>
-    <example_item_data
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[f = figure();
 [X, Y] = meshgrid(-8:.5:8);
 R = sqrt(X.^2 + Y.^2) + eps;
 Z = sin(R) ./ R;
 mesh(X, Y, Z)
-axis square]]>
-    </example_item_data>
-    <example_item_img src="../images/mesh_1.svg" align="middle" />
-  </example_item>
- 
-  <example_item>
-
-    <example_item_type>nelson</example_item_type>
-    <example_item_description> 
-
-    </example_item_description>
-    <example_item_data
+axis square]]></example_item_data>
+                <example_item_img src="../images/mesh_1.svg" align="middle" />
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[f = figure();
 F = str2func('@(z) z .^ 3 - 1');
 x = linspace(-2, 2, 100);
@@ -102,31 +91,25 @@ W = F(Z);
 mesh(real(W), imag(W), abs(W))
 xlabel('Real')
 ylabel('Imaginary')
-zlabel('Magnitude')]]>
-    </example_item_data>
-    <example_item_img src="../images/mesh_2.svg" align="middle" />
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${graphics}surf">surf</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${elementary_functions}meshgrid">meshgrid</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+zlabel('Magnitude')]]></example_item_data>
+                <example_item_img src="../images/mesh_2.svg" align="middle" />
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${graphics}surf">surf</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${elementary_functions}meshgrid">meshgrid</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

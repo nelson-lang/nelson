@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<module_name>files_folders_functions</module_name>
-	<chapter>Files and folders functions</chapter>
-	<chapter_description>files, folders and paths functions</chapter_description>
-	
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>files_folders_functions</module_name>
+    <chapter>Files and folders functions</chapter>
+    <chapter_description
+  >files, folders and paths functions</chapter_description>
+    <auto_toc />
 </xmldoc>

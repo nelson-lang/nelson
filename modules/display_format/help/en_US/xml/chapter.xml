@@ -5,4 +5,6 @@
 	<module_name>display_format</module_name>
 	<chapter>Display format</chapter>
 	<chapter_description>output display format functions</chapter_description>
+	    <auto_toc />
+
 </xmldoc>

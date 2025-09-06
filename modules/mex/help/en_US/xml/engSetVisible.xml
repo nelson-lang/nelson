@@ -1,70 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>engSetVisible</keyword>
-	<short_description>Show or hide Nelson engine session</short_description>
-	<syntax>
-		<syntax_item>#include "engine.h"</syntax_item>
-		<syntax_item>int engSetVisible(Engine *ep, bool value);</syntax_item>
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>Engine *ep</param_name>
-			<param_description>handle to Nelson engine.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>bool value</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>engSetVisible</keyword>
+    <short_description>Show or hide Nelson engine session</short_description>
+    <syntax>
+        <syntax_item>#include "engine.h"</syntax_item>
+        <syntax_item>int engSetVisible(Engine *ep, bool value);</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>Engine *ep</param_name>
+            <param_description>handle to Nelson engine.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>bool value</param_name>
+            <param_description
       >set value to 1 to make the engine window visible, or to 0 to make it invisible.</param_description>
-		</param_input_item>
-	</param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>int</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>int</param_name>
+            <param_description
       >0 if successful or 1 if an error occurs.</param_description>
-    </param_output_item>
-  </param_output>
-
-	<description>
-		<p>Show or hide Nelson engine session</p>
-	</description>
-
-	<used_function />
-	<bibliography />
-
-<examples>
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
-      ><![CDATA[edit([modulepath('mex', 'tests'), '/test_engine.c'])]]>
-		</example_item_data>
-	</example_item>
-
-</examples>
-	<see_also>
-		<see_also_item>
-			<link linkend="${mex}mex">mex</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${mex}engGetVisible">engGetVisible</link>
-		</see_also_item>
-
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>Show or hide Nelson engine session</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+      ><![CDATA[edit([modulepath('mex', 'tests'), '/test_engine.c'])]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${mex}mex">mex</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${mex}engGetVisible">engGetVisible</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
 </xmldoc>

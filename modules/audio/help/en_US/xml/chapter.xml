@@ -5,4 +5,6 @@
 	<module_name>audio</module_name>
 	<chapter>Audio playback</chapter>
 	<chapter_description>Audio playback functions.</chapter_description>
+	    <auto_toc />
+
 </xmldoc>

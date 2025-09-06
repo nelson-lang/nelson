@@ -1,56 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>savenh5</keyword>
-	<short_description>save workspace variables to .nh5 file</short_description>
-
-	<syntax>
-		<syntax_item>savenh5(filename)</syntax_item>
-		<syntax_item>savenh5(filename, var1, ..., varN)</syntax_item>
-		<syntax_item>savenh5(filename, '-append', ...)</syntax_item>
-		<syntax_item>savenh5(filename, '-nocompression', ...)</syntax_item>
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>filename</param_name>
-			<param_description>a string: .nh5 filename.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>var1, ..., varN</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>savenh5</keyword>
+    <short_description>save workspace variables to .nh5 file</short_description>
+    <syntax>
+        <syntax_item>savenh5(filename)</syntax_item>
+        <syntax_item>savenh5(filename, var1, ..., varN)</syntax_item>
+        <syntax_item>savenh5(filename, '-append', ...)</syntax_item>
+        <syntax_item>savenh5(filename, '-nocompression', ...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>filename</param_name>
+            <param_description>a string: .nh5 filename.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>var1, ..., varN</param_name>
+            <param_description
       >string: Names of variables to save from Nelson's workspace.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>'-append'</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-append'</param_name>
+            <param_description
       >append variables to an existing .nh5 file.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>'-nocompression'</param_name>
-			<param_description>disable .nh5 file compression.</param_description>
-		</param_input_item>
-
-	</param_input>
-
-
-	<description>
-		<p><b>savenh5</b> save workspace variables to .nh5 file.</p>
-		<p>.nh5 file uses hdf5 file as container.</p>
-	</description>
-
-
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-nocompression'</param_name>
+            <param_description
+      >disable .nh5 file compression.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b>savenh5</b> save workspace variables to .nh5 file.</p>
+            <p>.nh5 file uses hdf5 file as container.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[A = ones(3, 4);
 B = 'hello for open mat users';
 savenh5([tempdir(), 'example_h5load.nh5'], 'A', 'B')
@@ -64,14 +56,13 @@ who
 loadnh5([tempdir(), 'example_h5load.nh5']);
 who
 A
-B]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description>append variables</example_item_description>
-		<example_item_data
+B]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description
+      >append variables</example_item_description>
+                <example_item_data
       ><![CDATA[C = eye(3, 4);
 savenh5([tempdir(), 'example_h5load.nh5'], 'C', '-append')
 clear;
@@ -86,42 +77,34 @@ loadnh5([tempdir(), 'example_h5load.nh5']);
 who
 A
 B
-C]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description>compression</example_item_description>
-		<example_item_data
+C]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description>compression</example_item_description>
+                <example_item_data
       ><![CDATA[C = eye(1000, 1000);
 savenh5([tempdir(), 'example_h5save_with_compression.nh5'], 'C')
 savenh5([tempdir(), 'example_h5save_no_compression.nh5'], 'C', '-nocompression')
 with_compression = dir([tempdir(), 'example_h5save_with_compression.nh5'])
-no_compression = dir([tempdir(), 'example_h5save_no_compression.nh5'])]]>
-		</example_item_data>
-	</example_item>
-
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${hdf5}loadnh5">loadnh5</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${hdf5}h5write">h5write</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+no_compression = dir([tempdir(), 'example_h5save_no_compression.nh5'])]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${hdf5}loadnh5">loadnh5</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${hdf5}h5write">h5write</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

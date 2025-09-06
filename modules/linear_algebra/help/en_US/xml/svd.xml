@@ -1,92 +1,78 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>svd</keyword>
-  <short_description>Singular Value Decomposition.</short_description>
-
-  <syntax>
-    <syntax_item>s = svd(M)</syntax_item>
-    <syntax_item>[U, S, V] = svd(M)</syntax_item>
-    <syntax_item>[U, S, V] = svd(M, 0)</syntax_item>
-    <syntax_item>[U, S, V] = svd(M, 'econ')</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>M</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>svd</keyword>
+    <short_description>Singular Value Decomposition.</short_description>
+    <syntax>
+        <syntax_item>s = svd(M)</syntax_item>
+        <syntax_item>[U, S, V] = svd(M)</syntax_item>
+        <syntax_item>[U, S, V] = svd(M, 0)</syntax_item>
+        <syntax_item>[U, S, V] = svd(M, 'econ')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>M</param_name>
+            <param_description
       >a numeric value: matrix (double or single)</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>s</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>s</param_name>
+            <param_description
       >real vector (singular values) by descending order.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>U</param_name>
-      <param_description>left singular values.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>S</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>U</param_name>
+            <param_description>left singular values.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>S</param_name>
+            <param_description
       >real diagonal matrix (singular values)</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>V</param_name>
-      <param_description>right singular values.</param_description>
-    </param_output_item>
-
-  </param_output>
-
-
-  <description>
-    <p><b
+        </param_output_item>
+        <param_output_item>
+            <param_name>V</param_name>
+            <param_description>right singular values.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >[U, S, V] = svd(M)</b> produces a diagonal matrix S of the same dimension as M and with nonnegative diagonal elements in decreasing order, and unitary matrices U and V so that X = U*S*V'.</p>
-    <p><b
+            <p>
+                <b
       >[U, S, V] = svd(M, 0)</b> produces the 'economy size' decomposition. If M is m-by-n with m &gt; n then only the first n columns of U are computed and S is n-by-n.</p>
-    <p><b
+                <p>
+                    <b
       >[U, S, V] = svd(M,0)</b> produces a different economy-size decomposition of m-by-n matrix M. If m &gt; n  then svd(M, 0) is equivalent to svd(M,'econ'). If m  &lt;= n then svd(M, 0) is equivalent to svd(M).</p>
-  </description>
-
-  <used_function />
-  <bibliography />
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data><![CDATA[X = eye(3, 3);
+                </description>
+                <used_function />
+                <bibliography />
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+      ><![CDATA[X = eye(3, 3);
 s = svd(X)
-[U, S, V] = svd(X)]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${linear_algebra}eig">eig</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+[U, S, V] = svd(X)]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link linkend="${linear_algebra}eig">eig</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.0.0</history_version>
+                        <history_description
+      >initial version</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

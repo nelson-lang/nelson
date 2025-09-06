@@ -1,80 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>which</keyword>
-	<short_description>Locates functions and built-in.</short_description>
-
-	<syntax>
-		<syntax_item>which(function_name)</syntax_item>
-		<syntax_item>p = which(function_name)</syntax_item>
-		<syntax_item>c = which(function_name, '-all')</syntax_item>
-		<syntax_item>m = which(function_name, '-module')</syntax_item>
-
-	</syntax>
-
-	<param_input>
-		<param_input_item>
-			<param_name>function_name</param_name>
-			<param_description>a string: function name.</param_description>
-		</param_input_item>
-	</param_input>
-	
-	<param_output>
-		<param_output_item>
-			<param_name>p</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>which</keyword>
+    <short_description>Locates functions and built-in.</short_description>
+    <syntax>
+        <syntax_item>which(function_name)</syntax_item>
+        <syntax_item>p = which(function_name)</syntax_item>
+        <syntax_item>c = which(function_name, '-all')</syntax_item>
+        <syntax_item>m = which(function_name, '-module')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>function_name</param_name>
+            <param_description>a string: function name.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>p</param_name>
+            <param_description
       >a string: path of the function or built-in</param_description>
-		</param_output_item>
-		<param_output_item>
-			<param_name>c</param_name>
-			<param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>c</param_name>
+            <param_description
       >a cell of strings: paths of the function or built-in.</param_description>
-		</param_output_item>
-		<param_output_item>
-			<param_name>m</param_name>
-			<param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>m</param_name>
+            <param_description
       >a cell of strings: name of the modules where function or built-in is available.</param_description>
-		</param_output_item>
-
-	</param_output>
-
-	<description><p><b>which</b> returns the path of a function or a built-in.</p>
-</description>
-	<used_function />
-	<bibliography />
-
-<examples>
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>which</b> returns the path of a function or a built-in.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[which('cos')
 p = which('cos')
 c = which('cos', '-all')
 m = which('cos', '-module')
-]]>
-		</example_item_data>
-	</example_item>
-
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${functions_manager}what">what</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${functions_manager}what">what</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

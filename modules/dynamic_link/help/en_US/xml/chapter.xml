@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<module_name>dynamic_link</module_name>
-	<chapter>Dynamic link</chapter>
-	<chapter_description>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>dynamic_link</module_name>
+    <chapter>Dynamic link</chapter>
+    <chapter_description>
 By default, Nelson does not try to detect a C/C++ compiler on Windows. Do not forget to run 'configuremsvc' or 'configuremingw' once.
   	</chapter_description>
-	
 </xmldoc>

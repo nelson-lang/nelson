@@ -1,159 +1,137 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>slicot_ag08bd</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>slicot_ag08bd</keyword>
+    <short_description
   >Zeros and Kronecker structure of a descriptor system pencil.</short_description>
-
-  <syntax>
-    <syntax_item
+    <syntax>
+        <syntax_item
     >[A_OUT, E_OUT, NFZ, NRANK, NIZ, DINFZ, NKROR, NINFE, NKROL, INFZ, KRONR, INFE, KRONL, INFO] = slicot_ag08bd(EQUIL, M, P, A_IN, E_IN, B, C, D, TOL)</syntax_item>
-  </syntax>
-
-  <param_input>
-    <param_input_item>
-      <param_name>EQUIL</param_name>
-      <param_description
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>EQUIL</param_name>
+            <param_description
       > = 'S':  Perform balancing (scaling); = 'N':  Do not perform balancing.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>M</param_name>
-      <param_description>The number of columns of matrix B.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>P</param_name>
-      <param_description>The number of rows of matrix C.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>A_IN</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>M</param_name>
+            <param_description
+      >The number of columns of matrix B.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>P</param_name>
+            <param_description
+      >The number of rows of matrix C.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>A_IN</param_name>
+            <param_description
       >The leading L-by-N part of this array must contain the state dynamics matrix A of the system.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>E_IN</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>E_IN</param_name>
+            <param_description
       >The leading L-by-N part of this array must contain the descriptor matrix E of the system.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>B</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>B</param_name>
+            <param_description
       >The leading L-by-M part of this array must contain the input/state matrix B of the system.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>C</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description
       >The leading P-by-N part of this array must contain the state/output matrix C of the system.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>D</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>D</param_name>
+            <param_description
       >The leading P-by-M part of this array must contain the direct transmission matrix D of the system.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>TOL</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>TOL</param_name>
+            <param_description
       >A tolerance used in rank decisions to determine the effective rank, which is defined as the order of the largest leading (or trailing) triangular submatrix in the QR (or RQ) factorization with column (or row) pivoting whose estimated condition number is less than 1/TOL.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>A_OUT</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>A_OUT</param_name>
+            <param_description
       >The leading NFZ-by-NFZ part of this array contains the matrix Af of the reduced pencil.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>E_OUT</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>E_OUT</param_name>
+            <param_description
       >The leading NFZ-by-NFZ part of this array contains the matrix Ef of the reduced pencil.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>NFZ</param_name>
-      <param_description>The number of finite zeros.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>NRANK</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>NFZ</param_name>
+            <param_description>The number of finite zeros.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>NRANK</param_name>
+            <param_description
       >The normal rank of the system pencil.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>NIZ</param_name>
-      <param_description>The number of infinite zeros.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>DINFZ</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>NIZ</param_name>
+            <param_description>The number of infinite zeros.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>DINFZ</param_name>
+            <param_description
       >The maximal multiplicity of infinite Smith zeros.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>NKROR</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>NKROR</param_name>
+            <param_description
       >The number of right Kronecker indices.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>NINFE</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>NINFE</param_name>
+            <param_description
       >The number of elementary infinite blocks.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>NKROL</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>NKROL</param_name>
+            <param_description
       >The number of left Kronecker indices.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>INFZ</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>INFZ</param_name>
+            <param_description
       >The leading DINFZ elements of INFZ contain information on the infinite elementary divisors</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>KRONR</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>KRONR</param_name>
+            <param_description
       >The leading NKROR elements of this array contain the right Kronecker (column) indices.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>KRONL</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>KRONL</param_name>
+            <param_description
       >The leading NKROL elements of this array contain the left Kronecker (row) indices.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>INFO</param_name>
-      <param_description>= 0:  successful exit;</param_description>
-    </param_output_item>
-
-
-  </param_output>
-
-
-
-  <description>
-  <p
+        </param_output_item>
+        <param_output_item>
+            <param_name>INFO</param_name>
+            <param_description>= 0:  successful exit;</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
     > To extract from the system pencil a regular pencil Af-lambda*Ef which has the finite Smith zeros of S(lambda) as generalized eigenvalues. The routine also computes the orders of the infinite Smith zeros and determines the singular and infinite Kronecker structure of system pencil, i.e., the right and left Kronecker indices, and the multiplicities of infinite eigenvalues.</p>
-  </description>
-
-  <used_function>AG08BD</used_function>
-  <bibliography
+    </description>
+    <used_function>AG08BD</used_function>
+    <bibliography
   >http://slicot.org/objects/software/shared/doc/AG08BD.html</bibliography>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
       ><![CDATA[L = 9;
 N = 9;
 M = 3;
@@ -216,20 +194,16 @@ M = 3; P = 0;
 %=============================================================================
 
 
-]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>SLICOT Documentation</author_item>
-  </authors>
+]]></example_item_data>
+        </example_item>
+    </examples>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>SLICOT Documentation</author_item>
+    </authors>
 </xmldoc>

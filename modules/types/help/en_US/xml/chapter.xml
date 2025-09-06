@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<module_name>types</module_name>
-	<chapter>Types module</chapter>
-	<chapter_description>module about types management.</chapter_description>
-	
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>types</module_name>
+    <chapter>Types module</chapter>
+    <chapter_description>module about types management.</chapter_description>
+    <auto_toc />
 </xmldoc>

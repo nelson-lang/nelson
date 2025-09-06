@@ -1,91 +1,72 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>fftw</keyword>
-  <short_description>function for determining FFT algorithm.</short_description>
-
-  <syntax>
-    <syntax_item>m = fftw('planner')</syntax_item>
-    <syntax_item>fftw('planner', m)</syntax_item>
-    <syntax_item>w = fftw('dwisdom')</syntax_item>
-    <syntax_item>fftw('dwisdom', w)</syntax_item>
-    <syntax_item>w = fftw('swisdom')</syntax_item>
-    <syntax_item>fftw('swisdom', w)</syntax_item>
-  </syntax>
-  
-  <param_input>
-  
-    <param_input_item>
-      <param_name>m</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>fftw</keyword>
+    <short_description
+  >function for determining FFT algorithm.</short_description>
+    <syntax>
+        <syntax_item>m = fftw('planner')</syntax_item>
+        <syntax_item>fftw('planner', m)</syntax_item>
+        <syntax_item>w = fftw('dwisdom')</syntax_item>
+        <syntax_item>fftw('dwisdom', w)</syntax_item>
+        <syntax_item>w = fftw('swisdom')</syntax_item>
+        <syntax_item>fftw('swisdom', w)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>m</param_name>
+            <param_description
       >method for setting transform parameters: 'estimate', 'measure', 'patient', 'exhaustive', or 'hybrid'.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>w</param_name>
-      <param_description>a string: wisdom data.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>m</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>w</param_name>
+            <param_description>a string: wisdom data.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>m</param_name>
+            <param_description
       >method: 'estimate', 'measure', 'patient', 'exhaustive', or 'hybrid'.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>w</param_name>
-      <param_description>a string: wisdom data.</param_description>
-    </param_output_item>
-
-  </param_output>
-
-  <description>
-    <p>The default method is 'estimate'.</p>
-</description>
-
-
-  <used_function />
-  <bibliography />
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </param_output_item>
+        <param_output_item>
+            <param_name>w</param_name>
+            <param_description>a string: wisdom data.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>The default method is 'estimate'.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
       ><![CDATA[w = fftw('dwisdom')
 M = rand(1000);
 tic; fft(M); toc
 fftw('dwisdom', w)
-tic; fft(M); toc]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${fftw}fft">fft</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${fftw}ifft">ifft</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
+tic; fft(M); toc]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${fftw}fft">fft</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${fftw}ifft">ifft</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
 </xmldoc>

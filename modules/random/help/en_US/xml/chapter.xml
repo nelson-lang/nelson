@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<module_name>random</module_name>
-	<chapter>Random</chapter>
-	<chapter_description>random functions</chapter_description>
-	
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>random</module_name>
+    <chapter>Random</chapter>
+    <chapter_description>random functions</chapter_description>
+    <auto_toc />
 </xmldoc>

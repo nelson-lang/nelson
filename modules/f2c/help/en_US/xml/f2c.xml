@@ -1,74 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>f2c</keyword>
-  <short_description>Fortran to C converter.</short_description>
-
-  <syntax>
-    <syntax_item>f2c(src, dest)</syntax_item>
-    <syntax_item> r = f2c(src, dest)</syntax_item>
-    <syntax_item> [r, msg] = f2c(src, dest)</syntax_item>
-
-  </syntax>
-  
-  <param_input>
-  
-    <param_input_item>
-      <param_name>src</param_name>
-      <param_description>a string: fortran source file.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>dest</param_name>
-      <param_description>a string: destination directory.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>r</param_name>
-      <param_description>a logical: true if success.</param_description>
-    </param_output_item>
-    <param_output_item>
-      <param_name>msg</param_name>
-      <param_description>a string: error message or ''.</param_description>
-    </param_output_item>
-
-  </param_output>
-
-  <description>
-    <p><b>f2c</b> converts fortran 66, and fortran 77 files to C.</p>
-</description>
-
-
-  <used_function />
-  <bibliography />
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>f2c</keyword>
+    <short_description>Fortran to C converter.</short_description>
+    <syntax>
+        <syntax_item>f2c(src, dest)</syntax_item>
+        <syntax_item> r = f2c(src, dest)</syntax_item>
+        <syntax_item> [r, msg] = f2c(src, dest)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>src</param_name>
+            <param_description
+      >a string: fortran source file.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>dest</param_name>
+            <param_description
+      >a string: destination directory.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>r</param_name>
+            <param_description>a logical: true if success.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>msg</param_name>
+            <param_description
+      >a string: error message or ''.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>f2c</b> converts fortran 66, and fortran 77 files to C.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[f2c([modulepath(nelsonroot(),'f2c','root'), '/tests/dgemm.f'], tempdir());
-fileread([tempdir(), 'dgemm.c'])]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+fileread([tempdir(), 'dgemm.c'])]]></example_item_data>
+            </example_item>
+        </examples>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

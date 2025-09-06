@@ -1,98 +1,98 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>diary</keyword>
-	<short_description>Diary of a session.</short_description>
-
-	<syntax>
-		<syntax_item>diary()</syntax_item>
-		<syntax_item>diary(filename)</syntax_item>
-		<syntax_item>diary('off')</syntax_item>
-		<syntax_item>diary('on')</syntax_item>
-		<syntax_item>onoff = diary('get', 'Diary')</syntax_item>
-		<syntax_item>filename = diary('get', 'DiaryFile')</syntax_item>
-		<syntax_item>diary('set', 'DiaryFile', filename)</syntax_item>
-		<syntax_item>diary('set', 'Diary', onoff)</syntax_item>
-	</syntax>
-	
-	<param_input>
-
-		<param_input_item>
-			<param_name>onoff</param_name>
-			<param_description>a string: 'on' or 'off'.</param_description>
-		</param_input_item>
-		
-		<param_input_item>
-			<param_name>filename</param_name>
-			<param_description>a string: filename of the current diary.</param_description>
-		</param_input_item>
-
-	</param_input>
-	
-	<param_output>
-
-		<param_output_item>
-			<param_name>onoff</param_name>
-			<param_description>a string: 'on' or 'off'.</param_description>
-		</param_output_item>
-
-		<param_output_item>
-			<param_name>filename</param_name>
-			<param_description>a string: filename to use for the diary.</param_description>
-		</param_output_item>
-
-	</param_output>
-
-	<description>
-		<p><b
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>diary</keyword>
+    <short_description>Diary of a session.</short_description>
+    <syntax>
+        <syntax_item>diary()</syntax_item>
+        <syntax_item>diary(filename)</syntax_item>
+        <syntax_item>diary('off')</syntax_item>
+        <syntax_item>diary('on')</syntax_item>
+        <syntax_item>onoff = diary('get', 'Diary')</syntax_item>
+        <syntax_item>filename = diary('get', 'DiaryFile')</syntax_item>
+        <syntax_item>diary('set', 'DiaryFile', filename)</syntax_item>
+        <syntax_item>diary('set', 'Diary', onoff)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>onoff</param_name>
+            <param_description>a string: 'on' or 'off'.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>filename</param_name>
+            <param_description
+      >a string: filename of the current diary.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>onoff</param_name>
+            <param_description>a string: 'on' or 'off'.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>filename</param_name>
+            <param_description
+      >a string: filename to use for the diary.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >diary</b> creates a log of keyboard input and the resulting text output.</p>
-		<p><b>diary</b> toggles diary mode on and off.</p>
-		<p><b>diary('off')</b> stops recording the session in the diary file.</p>
-		<p><b
+            <p>
+                <b>diary</b> toggles diary mode on and off.</p>
+                <p>
+                    <b
+      >diary('off')</b> stops recording the session in the diary file.</p>
+                    <p>
+                        <b
       >diary('on')</b> starts recording a session in a file called 'diary' in the current working directory.</p>
-		<p><b>diary('set', 'Diary', onoff)</b> allows to start or stop the diary.</p>
-		<p><b
+                        <p>
+                            <b
+      >diary('set', 'Diary', onoff)</b> allows to start or stop the diary.</p>
+                            <p>
+                                <b
       >onoff = diary('get', 'Diary')</b> returns the state 'on' or 'off' of the diary.</p>
-		<p><b>diary(filename)</b> records the session in the file named filename.</p>
-		<p><b
+                                <p>
+                                    <b
+      >diary(filename)</b> records the session in the file named filename.</p>
+                                    <p>
+                                        <b
       >filename = diary('get', 'DiaryFile')</b> returns filename used as diary.</p>
-		<p><b
+                                        <p>
+                                            <b
       >diary('set', 'DiaryFile', filename))</b> set the filename for the diary.</p>
-	</description>
-
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+                                        </description>
+                                        <used_function />
+                                        <bibliography />
+                                        <examples>
+                                            <example_item>
+                                                <example_item_type
+      >nelson</example_item_type>
+                                                <example_item_description />
+                                                <example_item_data
       ><![CDATA[filename = diary('get', 'DiaryFile')
-onoff = diary('get', 'Diary')]]>
-		</example_item_data>
-	
-	</example_item>
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${history_manager}history">history</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+onoff = diary('get', 'Diary')]]></example_item_data>
+                                            </example_item>
+                                        </examples>
+                                        <see_also>
+                                            <see_also_item>
+                                                <link
+        linkend="${history_manager}history"
+      >history</link>
+                                            </see_also_item>
+                                        </see_also>
+                                        <history>
+                                            <history_item>
+                                                <history_version
+      >1.0.0</history_version>
+                                                <history_description
+      >initial version</history_description>
+                                            </history_item>
+                                        </history>
+                                        <authors>
+                                            <author_item
+    >Allan CORNET</author_item>
+                                        </authors>
+                                    </xmldoc>

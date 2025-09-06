@@ -1,126 +1,145 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>patch</keyword>
-  <short_description>Create patches of colored polygons</short_description>
-
-  <syntax>
-    <syntax_item>patch(X, Y, C)</syntax_item>
-    <syntax_item>patch(X, Y, Z, C)</syntax_item>
-    <syntax_item>patch('XData', X, 'YData', Y)</syntax_item>
-    <syntax_item>patch('XData', X, 'YData', Y, 'ZData', Z)</syntax_item>
-    <syntax_item>patch('Faces', F, 'Vertices', V)</syntax_item>
-    <syntax_item>patch(S)</syntax_item>
-    <syntax_item>patch(..., propertyName, propertyValue)</syntax_item>
-    <syntax_item>patch(ax, ...)</syntax_item>
-    <syntax_item>go = patch(...)</syntax_item>
-  </syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>X</param_name>
-			<param_description>x-coordinates: vector or matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>Y</param_name>
-			<param_description>y-coordinates: vector or matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>Z</param_name>
-			<param_description>z-coordinates: vector or matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>C</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>patch</keyword>
+    <short_description>Create patches of colored polygons</short_description>
+    <syntax>
+        <syntax_item>patch(X, Y, C)</syntax_item>
+        <syntax_item>patch(X, Y, Z, C)</syntax_item>
+        <syntax_item>patch('XData', X, 'YData', Y)</syntax_item>
+        <syntax_item>patch('XData', X, 'YData', Y, 'ZData', Z)</syntax_item>
+        <syntax_item>patch('Faces', F, 'Vertices', V)</syntax_item>
+        <syntax_item>patch(S)</syntax_item>
+        <syntax_item>patch(..., propertyName, propertyValue)</syntax_item>
+        <syntax_item>patch(ax, ...)</syntax_item>
+        <syntax_item>go = patch(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>X</param_name>
+            <param_description
+      >x-coordinates: vector or matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Y</param_name>
+            <param_description
+      >y-coordinates: vector or matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Z</param_name>
+            <param_description
+      >z-coordinates: vector or matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description
       >Color array: scalar, vector, m-by-n-by-3 array of RGB triplets.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>ax</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>ax</param_name>
+            <param_description
       >a scalar graphics object value: parent container, specified as a axes.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>propertyName</param_name>
-			<param_description>a scalar string or row vector character.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>propertyValue</param_name>
-			<param_description>a value.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>S</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyName</param_name>
+            <param_description
+      >a scalar string or row vector character.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyValue</param_name>
+            <param_description>a value.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>S</param_name>
+            <param_description
       >a structure with fields that correspond patch property names and field values.</param_description>
-		</param_input_item>
-
-	</param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>go</param_name>
-      <param_description>a graphics object: patch type.</param_description>
-    </param_output_item>
-  </param_output>
-
-<description>
-  <p><b
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>go</param_name>
+            <param_description
+      >a graphics object: patch type.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >patch(X, Y, C)</b> creates a 2D polygonal shape with vertices defined by <b
       >X</b> and <b>Y</b> coordinates, and fills the shape with color <b
       >C</b>.</p>
-  <p><b
+            <p>
+                <b
       >patch(X, Y, Z, C)</b> creates a 3D polygonal shape with vertices defined by <b
       >X</b>, <b>Y</b>, and <b
       >Z</b> coordinates, and fills the shape with color <b>C</b>.</p>
-  <p><b
+                <p>
+                    <b
       >patch(..., PropertyName, PropertyValue, ...)</b> sets optional properties for the patch object using name-value pairs.</p>
-  <p><b>patch('Faces', F, 'Vertices', V)</b> creates one or more polygons .</p>
-  <p><b>go = patch(...)</b> returns the handle <b
+                    <p>
+                        <b
+      >patch('Faces', F, 'Vertices', V)</b> creates one or more polygons .</p>
+                        <p>
+                            <b>go = patch(...)</b> returns the handle <b
       >go</b> to the created patch object.</p>
-
-<p>Property Name-Value Pairs:</p>
-<p />
-<p><b
+                            <p>Property Name-Value Pairs:</p>
+                            <p />
+                            <p>
+                                <b
       >'FaceColor'</b>: color of the filled shape. FaceColor can be a character vector or a 3-element RGB vector. Default: <b
       >'flat'</b>.</p>
-<p><b
+                                <p>
+                                    <b
       >'EdgeColor'</b>: color of the edges of the polygonal shape. EdgeColor can be a character vector or a 3-element RGB vector. Default: <b
       >'none'</b>.</p>
-<p><b>'LineWidth'</b>: width of the edges of the polygonal shape. Default: <b
+                                    <p>
+                                        <b
+      >'LineWidth'</b>: width of the edges of the polygonal shape. Default: <b
       >0.5</b>.</p>
-<p><b
+                                        <p>
+                                            <b
       >'LineStyle'</b>: style of the edges of the polygonal shape. LineStyle can be a character vector or a line style code. Default: <b
       >'-'</b>.</p>
-<p><b
+                                            <p>
+                                                <b
       >'FaceAlpha'</b>: transparency of the filled shape. FaceAlpha can be a scalar between 0 and 1. Default: <b
       >1</b>.</p>
-<p><b
+                                                <p>
+                                                    <b
       >'EdgeAlpha'</b>: transparency of the edges of the polygonal shape. EdgeAlpha can be a scalar between 0 and 1. Default: <b
       >1</b>.</p>
-<p><b>'Parent'</b>: handle of the parent object for the patch. Default: <b
+                                                    <p>
+                                                        <b
+      >'Parent'</b>: handle of the parent object for the patch. Default: <b
       >gca()</b>.</p>
-<p><b
+                                                        <p>
+                                                            <b
       >'Vertices'</b>: matrix of vertex coordinates. The matrix must have size N-by-2 or N-by-3, where N is the number of vertices. Default: the vertex coordinates are specified by the <b
       >X</b>, <b>Y</b>, and <b>Z</b> input arguments.</p>
-<p><b
+                                                            <p>
+                                                                <b
       >CreateFcn</b>Callback (function handle, string or cell) called when object is created.
 Set this property on an existing component has no effect.</p>
-<p><b
+                                                                <p>
+                                                                    <b
       >DeleteFcn</b>Callback (function handle, string or cell) called when object is deleted.</p>
-<p><b>BeingDeleted</b> Flag indicating that the object is being deleted.</p>
-</description>
-
-  <used_function />
-  <bibliography />
-  
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description> 
-    </example_item_description>
-    <example_item_data
+                                                                    <p>
+                                                                        <b
+      >BeingDeleted</b> Flag indicating that the object is being deleted.</p>
+                                                                    </description>
+                                                                    <used_function
+  />
+                                                                    <bibliography
+  />
+                                                                    <examples>
+                                                                        <example_item
+    >
+                                                                            <example_item_type
+      >nelson</example_item_type>
+                                                                            <example_item_description
+      />
+                                                                            <example_item_data
       ><![CDATA[fig = figure('Color', 'k');
 ax.Color = 'k';  
 f=0.1;
@@ -134,16 +153,19 @@ for a=2:2:6
   patch(a +f*cos(t)'+r./[1,0.65], f*(2+sin(t)').*[1,1], 'k', 'EdgeColor', 'w', 'LineWidth', pi)
 end
 axis equal
-axis off]]>
-    </example_item_data>
-    <example_item_img src="../images/patch_1.svg" align="middle" />
-</example_item>
- 
-<example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description> 
-    </example_item_description>
-    <example_item_data
+axis off]]></example_item_data>
+                                                                            <example_item_img
+        src="../images/patch_1.svg"
+        align="middle"
+      />
+                                                                        </example_item>
+                                                                        <example_item
+    >
+                                                                            <example_item_type
+      >nelson</example_item_type>
+                                                                            <example_item_description
+      />
+                                                                            <example_item_data
       ><![CDATA[f =figure('Color', 'w');
 x = [-1 1 0 -1];
 y = [-1/sqrt(3) -1/sqrt(3) 2*sqrt(3)/3 -1/sqrt(3)];
@@ -156,15 +178,19 @@ for i = 1:3
 end
 patch(x,-y,'w','EdgeColor','w');
 axis('equal')
-axis('off')]]>
-    </example_item_data>
-    <example_item_img src="../images/patch_2.svg" align="middle" />
-</example_item>
-
-<example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description>Nerfertiti 3D mask</example_item_description>
-    <example_item_data
+axis('off')]]></example_item_data>
+                                                                            <example_item_img
+        src="../images/patch_2.svg"
+        align="middle"
+      />
+                                                                        </example_item>
+                                                                        <example_item
+    >
+                                                                            <example_item_type
+      >nelson</example_item_type>
+                                                                            <example_item_description
+      >Nerfertiti 3D mask</example_item_description>
+                                                                            <example_item_data
       ><![CDATA[nefertiti_directory = [modulepath('graphics', 'root'), '/examples/nefertiti-mask/'];
 load([nefertiti_directory, 'nefertiti-mask.nh5']);
 figure('Color', [1, 1, 1]);
@@ -173,15 +199,19 @@ patch('Faces', Faces, 'Vertices', Vertices, 'FaceVertexCData', Colors, ...
       'FaceColor', 'interp', 'FaceAlpha', 1);
 axis equal
 axis off 
-view([0, 0, 1]);]]>
-    </example_item_data>
-    <example_item_img src="../images/patch_3.svg" align="middle" />
-</example_item>
-
-<example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description>Alpha channel</example_item_description>
-    <example_item_data
+view([0, 0, 1]);]]></example_item_data>
+                                                                            <example_item_img
+        src="../images/patch_3.svg"
+        align="middle"
+      />
+                                                                        </example_item>
+                                                                        <example_item
+    >
+                                                                            <example_item_type
+      >nelson</example_item_type>
+                                                                            <example_item_description
+      >Alpha channel</example_item_description>
+                                                                            <example_item_data
       ><![CDATA[x = [1 3 4 3 1 0];
 y = [0 0 2 4 4 2];
 z = [0 0 0 0 0 0];
@@ -189,42 +219,52 @@ figure();
 hold on
 patch(x,y,z,'cyan','FaceAlpha',0.3)
 patch(x+2,y,z,'magenta','FaceAlpha',0.3)
-patch(x+1,y+2,z,'yellow','FaceAlpha',0.3)]]>
-    </example_item_data>
-    <example_item_img src="../images/patch_4.svg" align="middle" />
-</example_item>
-
-  
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${graphics}surf">surf</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${graphics}colormap">colormap</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-    <history_item>
-      <history_version>1.7.0</history_version>
-      <history_description
+patch(x+1,y+2,z,'yellow','FaceAlpha',0.3)]]></example_item_data>
+                                                                            <example_item_img
+        src="../images/patch_4.svg"
+        align="middle"
+      />
+                                                                        </example_item>
+                                                                    </examples>
+                                                                    <see_also>
+                                                                        <see_also_item
+    >
+                                                                            <link
+        linkend="${graphics}surf"
+      >surf</link>
+                                                                        </see_also_item>
+                                                                        <see_also_item
+    >
+                                                                            <link
+        linkend="${graphics}colormap"
+      >colormap</link>
+                                                                        </see_also_item>
+                                                                    </see_also>
+                                                                    <history>
+                                                                        <history_item
+    >
+                                                                            <history_version
+      >1.0.0</history_version>
+                                                                            <history_description
+      >initial version</history_description>
+                                                                        </history_item>
+                                                                        <history_item
+    >
+                                                                            <history_version
+      >1.7.0</history_version>
+                                                                            <history_description
       >CreateFcn, DeleteFcn callback added.</history_description>
-    </history_item>
-  <history_item>
-      <history_version>--</history_version>
-      <history_description>BeingDeleted property added.</history_description>
-    </history_item>
-   
-
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+                                                                        </history_item>
+                                                                        <history_item
+    >
+                                                                            <history_version
+      >--</history_version>
+                                                                            <history_description
+      >BeingDeleted property added.</history_description>
+                                                                        </history_item>
+                                                                    </history>
+                                                                    <authors>
+                                                                        <author_item
+    >Allan CORNET</author_item>
+                                                                    </authors>
+                                                                </xmldoc>

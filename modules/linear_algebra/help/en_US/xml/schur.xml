@@ -1,83 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>schur</keyword>
-  <short_description>Schur decomposition.</short_description>
-
-  <syntax>
-    <syntax_item>T = schur(M)</syntax_item>
-    <syntax_item>T = schur(M, 'real')</syntax_item>
-    <syntax_item>T = schur(M, 'complex')</syntax_item>
-    <syntax_item>[U, T] = schur(M)</syntax_item>
-    <syntax_item>[U, T] = schur(M, 'complex')</syntax_item>
-    <syntax_item>[U, T] = schur(M, 'real')</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>M</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>schur</keyword>
+    <short_description>Schur decomposition.</short_description>
+    <syntax>
+        <syntax_item>T = schur(M)</syntax_item>
+        <syntax_item>T = schur(M, 'real')</syntax_item>
+        <syntax_item>T = schur(M, 'complex')</syntax_item>
+        <syntax_item>[U, T] = schur(M)</syntax_item>
+        <syntax_item>[U, T] = schur(M, 'complex')</syntax_item>
+        <syntax_item>[U, T] = schur(M, 'real')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>M</param_name>
+            <param_description
       >a numeric value: scalar or square matrix (double or single)</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>U</param_name>
-      <param_description>unitary matrix</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>T</param_name>
-      <param_description>upper triangular matrix</param_description>
-    </param_output_item>
-
-  </param_output>
-
-
-  <description>
-  <p><b>schur(M)</b> computes the schur decomposition.</p>
-  <p
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>U</param_name>
+            <param_description>unitary matrix</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>T</param_name>
+            <param_description>upper triangular matrix</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>schur(M)</b> computes the schur decomposition.</p>
+            <p
     >With the flag 'complex', the complex schur form is upper triangular with the eigenvalues of M on the diagonal.</p>
-  <p>If A is real, the real schur form is returned.</p>
-  <p
+            <p>If A is real, the real schur form is returned.</p>
+            <p
     >With the flag 'real', the real schur form has the real eigenvalues on the diagonal and the complex eigenvalues in 2-by-2 blocks on the diagonal.</p>
-  </description>
-
-  <used_function />
-  <bibliography />
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[X = [1 2; 3 4];
 [U, T] = schur(X)
 [U, T] = schur(X * i, 'complex')
-[U, T] = schur(X * i, 'real')]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${linear_algebra}eig">eig</link>
-		</see_also_item>
-	</see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+[U, T] = schur(X * i, 'real')]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${linear_algebra}eig">eig</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

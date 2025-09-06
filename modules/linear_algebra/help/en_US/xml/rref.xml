@@ -1,76 +1,71 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>rref</keyword>
-  <short_description>Gauss-Jordan elimination.</short_description>
-
-  <syntax>
-    <syntax_item>R = rref(A)</syntax_item>
-    <syntax_item>R = rref(A, tol)</syntax_item>
-    <syntax_item>[R, p] = rref(A)</syntax_item>
-    <syntax_item>[R, p] = rref(A, tol)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>A</param_name>
-      <param_description>input matrix (double or single)</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>tol</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>rref</keyword>
+    <short_description>Gauss-Jordan elimination.</short_description>
+    <syntax>
+        <syntax_item>R = rref(A)</syntax_item>
+        <syntax_item>R = rref(A, tol)</syntax_item>
+        <syntax_item>[R, p] = rref(A)</syntax_item>
+        <syntax_item>[R, p] = rref(A, tol)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
+      >input matrix (double or single)</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>tol</param_name>
+            <param_description
       >tolerance: scalar or max(rows, cols) * eps(class(A)) * norm(A, inf) (default)</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>R</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>R</param_name>
+            <param_description
       >a matrix: reduced row echelon form of A.</param_description>
-    </param_output_item>
-    <param_output_item>
-      <param_name>p</param_name>
-      <param_description>a vector: nonzero pivot columns.</param_description>
-    </param_output_item>
-
-  </param_output>
-
-  <description>
-    <p><b>R = rref(A)</b> returns the reduced row echelon form of <b>A</b>.</p>
-    <p><b>[R, p] = rref(A)</b> returns also the nonzero pivots <b>p</b>.</p> 
-  </description>
-
-  <used_function />
-  <bibliography
+        </param_output_item>
+        <param_output_item>
+            <param_name>p</param_name>
+            <param_description
+      >a vector: nonzero pivot columns.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>R = rref(A)</b> returns the reduced row echelon form of <b
+      >A</b>.</p>
+            <p>
+                <b>[R, p] = rref(A)</b> returns also the nonzero pivots <b
+      >p</b>.</p>
+            </description>
+            <used_function />
+            <bibliography
   >https://en.wikipedia.org/wiki/Gaussian_elimination</bibliography>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data><![CDATA[A = [magic(4), eye(4)]
-[R, p] = rref(A)]]>
-    </example_item_data>
-  </example_item>
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${linear_algebra}rank">rank</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+      ><![CDATA[A = [magic(4), eye(4)]
+[R, p] = rref(A)]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${linear_algebra}rank">rank</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>initial version</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>
