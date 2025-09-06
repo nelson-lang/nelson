@@ -1,76 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>fwrite</keyword>
-	<short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>fwrite</keyword>
+    <short_description
   >Write data in binary form to the file specified by the file descriptor fid.</short_description>
-
-	<syntax>
-		<syntax_item>count = fwrite(fid, data)</syntax_item>
-		<syntax_item>count = fwrite(fid, data, precision)</syntax_item>
-		<syntax_item>count = fwrite(fid, data, precision, skip)</syntax_item>
-		<syntax_item>count = fwrite(fid, data, precision, skip, arch)</syntax_item>
-		<syntax_item>count = fwrite(fid, data, precision, arch)</syntax_item>
-	</syntax>
-	
-	<param_input>
-
-		<param_input_item>
-			<param_name>fid</param_name>
-			<param_description>a file descriptor</param_description>
-		</param_input_item>
-		
-		<param_input_item>
-			<param_name>data</param_name>
-			<param_description>data to write</param_description>
-		</param_input_item>
-
-		<param_input_item>
-			<param_name>precision</param_name>
-			<param_description>class of values to read</param_description>
-		</param_input_item>
-
-		<param_input_item>
-			<param_name>skip</param_name>
-			<param_description>number of bytes to skip</param_description>
-		</param_input_item>
-
-		<param_input_item>
-			<param_name>arch</param_name>
-			<param_description
+    <syntax>
+        <syntax_item>count = fwrite(fid, data)</syntax_item>
+        <syntax_item>count = fwrite(fid, data, precision)</syntax_item>
+        <syntax_item>count = fwrite(fid, data, precision, skip)</syntax_item>
+        <syntax_item
+    >count = fwrite(fid, data, precision, skip, arch)</syntax_item>
+        <syntax_item>count = fwrite(fid, data, precision, arch)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>fid</param_name>
+            <param_description>a file descriptor</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>data</param_name>
+            <param_description>data to write</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>precision</param_name>
+            <param_description>class of values to read</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>skip</param_name>
+            <param_description>number of bytes to skip</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>arch</param_name>
+            <param_description
       >a string specifying the data format for the file.</param_description>
-		</param_input_item>
-
-	</param_input>
-	
-	<param_output>
-
-		<param_output_item>
-			<param_name>count</param_name>
-			<param_description>-1 or number of elements written</param_description>
-		</param_output_item>
-	</param_output>
-
-	<description><p
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>count</param_name>
+            <param_description
+      >-1 or number of elements written</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
     >Write data in binary form to the file specified by the file descriptor fid.</p>
-<p>characters encoding uses <b>fopen</b> parameter.</p>
-<p>supported architecture:</p>
-<p><b>native</b> , <b>n</b>: format of the current machine.</p>
-<p><b>ieee-be</b>, <b>b</b>: IEEE big endian.</p>
-<p><b>ieee-le</b>, <b>l</b>: IEEE little endian.</p>
-</description>
-
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+        <p>characters encoding uses <b>fopen</b> parameter.</p>
+        <p>supported architecture:</p>
+        <p>
+            <b>native</b> , <b>n</b>: format of the current machine.</p>
+            <p>
+                <b>ieee-be</b>, <b>b</b>: IEEE big endian.</p>
+                <p>
+                    <b>ieee-le</b>, <b>l</b>: IEEE little endian.</p>
+                </description>
+                <used_function />
+                <bibliography />
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
       ><![CDATA[
 A = rand(3,1)
 
@@ -81,35 +72,28 @@ fclose(fileID);
 fileID = fopen([tempdir(), 'doubledata.bin'],'r');
 R = fread(fileID, 'double')
 fclose(fileID);
-]]>
-		</example_item_data>
-	
-	</example_item>
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${stream_manager}fopen">fopen</link>
-		</see_also_item>
-		
-		<see_also_item>
-			<link linkend="${stream_manager}fclose">fclose</link>
-		</see_also_item>
-		
-		<see_also_item>
-			<link linkend="${stream_manager}fread">fread</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link linkend="${stream_manager}fopen">fopen</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link linkend="${stream_manager}fclose">fclose</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link linkend="${stream_manager}fread">fread</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.0.0</history_version>
+                        <history_description
+      >initial version</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

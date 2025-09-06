@@ -1,123 +1,113 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>Python operators</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>Python operators</keyword>
+    <short_description
   >The representation of Python operators in Nelson.</short_description>
-
-  <description>
-    <p
+    <description>
+        <p
     >Nelson facilitates the utilization of the subsequent overloaded operators:</p>
-<table>
-
-  <tr>
-    <th>Python Operator Symbol</th>
-    <th>Python Methods</th>
-    <th>Nelson Methods</th>
-  </tr>
-  <tr>
-    <td>- (unary operator)</td>
-    <td>__neg__</td>
-    <td>uminus, -a</td>
-  </tr>
-  <tr>
-    <td>+ (unary operator)</td>
-    <td>__pos__</td>
-    <td>uplus, +a</td>
-  </tr>  
-  <tr>
-    <td>+ (binary operator)</td>
-    <td>__add__, __radd__</td>
-    <td>plus, +</td>
-  </tr>
-  <tr>
-    <td>- (binary operator)</td>
-    <td>__sub__, __rsub__</td>
-    <td>minus, -</td>
-  </tr>
-  <tr>
-    <td>* (binary operator)</td>
-    <td>__mul__, __rmul__</td>
-    <td>mtimes, *</td>
-  </tr>
-  <tr>
-    <td>/ (binary operator)</td>
-    <td>__truediv__, __rtruediv__</td>
-    <td>mrdivide, /</td>
-  </tr>
-  <tr>
-    <td>== (binary operator)</td>
-    <td>__eq__</td>
-    <td>eq, ==</td>
-  </tr>
-  <tr>
-    <td>> (binary operator)</td>
-    <td>__gt__</td>
-    <td>gt, ></td>
-  </tr>
-  <tr>
-    <td>&lt; (binary operator)</td>
-    <td>__lt__</td>
-    <td>lt, &lt;</td>
-  </tr>
-  <tr>
-    <td>!= (binary operator)</td>
-    <td>__ne__</td>
-    <td>ne, ~=</td>
-  </tr>
-  <tr>
-    <td>>= (binary operator)</td>
-    <td>__ge__</td>
-    <td>ge, >=</td>
-  </tr>
-  <tr>
-    <td>&lt;= (binary operator)</td>
-    <td>__le__</td>
-    <td>le, &lt;=</td>
-  </tr>
-</table>
-<p />
-<p><b>isequal</b> builtin is also overloaded to manage python type.</p>
-<p>For numpy types, <b>isequal</b> call <b
+        <table>
+            <tr>
+                <th>Python Operator Symbol</th>
+                <th>Python Methods</th>
+                <th>Nelson Methods</th>
+            </tr>
+            <tr>
+                <td>- (unary operator)</td>
+                <td>__neg__</td>
+                <td>uminus, -a</td>
+            </tr>
+            <tr>
+                <td>+ (unary operator)</td>
+                <td>__pos__</td>
+                <td>uplus, +a</td>
+            </tr>
+            <tr>
+                <td>+ (binary operator)</td>
+                <td>__add__, __radd__</td>
+                <td>plus, +</td>
+            </tr>
+            <tr>
+                <td>- (binary operator)</td>
+                <td>__sub__, __rsub__</td>
+                <td>minus, -</td>
+            </tr>
+            <tr>
+                <td>* (binary operator)</td>
+                <td>__mul__, __rmul__</td>
+                <td>mtimes, *</td>
+            </tr>
+            <tr>
+                <td>/ (binary operator)</td>
+                <td>__truediv__, __rtruediv__</td>
+                <td>mrdivide, /</td>
+            </tr>
+            <tr>
+                <td>== (binary operator)</td>
+                <td>__eq__</td>
+                <td>eq, ==</td>
+            </tr>
+            <tr>
+                <td>&gt; (binary operator)</td>
+                <td>__gt__</td>
+                <td>gt, &gt;</td>
+            </tr>
+            <tr>
+                <td>&lt; (binary operator)</td>
+                <td>__lt__</td>
+                <td>lt, &lt;</td>
+            </tr>
+            <tr>
+                <td>!= (binary operator)</td>
+                <td>__ne__</td>
+                <td>ne, ~=</td>
+            </tr>
+            <tr>
+                <td>&gt;= (binary operator)</td>
+                <td>__ge__</td>
+                <td>ge, &gt;=</td>
+            </tr>
+            <tr>
+                <td>&lt;= (binary operator)</td>
+                <td>__le__</td>
+                <td>le, &lt;=</td>
+            </tr>
+        </table>
+        <p />
+        <p>
+            <b>isequal</b> builtin is also overloaded to manage python type.</p>
+            <p>For numpy types, <b>isequal</b> call <b
       >numpy.array_equal</b> from python.</p>
-<p>Others python operators are currently not supported.</p>
-
-  </description>
-
-  <used_function />
-  <bibliography />
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+            <p>Others python operators are currently not supported.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[pyrun('import numpy as np')    
 R = pyrun('R = np.asarray(A)', "R", 'A', magic(3))
 R_A = R + R
 R_B = R * 2
-isequal(R_A, R_B)]]>
-    </example_item_data>
-  </example_item>
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${python_engine}pyrun">pyrun</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.5.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+isequal(R_A, R_B)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${python_engine}pyrun">pyrun</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.5.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

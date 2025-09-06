@@ -1,104 +1,90 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>assert_isapprox</keyword>
-	<short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>assert_isapprox</keyword>
+    <short_description
   >Check that computed and expected values are approximately equal.</short_description>
-
-	<syntax>
-		<syntax_item>assert_isapprox(computed, expected)</syntax_item>
-		<syntax_item>assert_isapprox(computed, expected, precision)</syntax_item>
-		<syntax_item>res = assert_isapprox(computed, expected, precision)</syntax_item>
-		<syntax_item
+    <syntax>
+        <syntax_item>assert_isapprox(computed, expected)</syntax_item>
+        <syntax_item
+    >assert_isapprox(computed, expected, precision)</syntax_item>
+        <syntax_item
+    >res = assert_isapprox(computed, expected, precision)</syntax_item>
+        <syntax_item
     >[res, msg] = assert_isapprox(computed, expected, precision)</syntax_item>
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>computed</param_name>
-			<param_description
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>computed</param_name>
+            <param_description
       >a value: numeric matrix, sparse double, a multidimensional matrix</param_description>
-		</param_input_item>
-
-		<param_input_item>
-			<param_name>expected</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>expected</param_name>
+            <param_description
       >a value: numeric matrix, sparse double, a multidimensional matrix</param_description>
-		</param_input_item>
-
-		<param_input_item>
-			<param_name>expected</param_name>
-			<param_description>a double value. default precision is 0.</param_description>
-		</param_input_item>
-
-
-	</param_input>
-
-	<param_output>
-		<param_output_item>
-			<param_name>res</param_name>
-			<param_description>a logical value</param_description>
-		</param_output_item>
-
-		<param_output_item>
-			<param_name>msg</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>expected</param_name>
+            <param_description
+      >a double value. default precision is 0.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>res</param_name>
+            <param_description>a logical value</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>msg</param_name>
+            <param_description
       >a string value, the error message. If res == true, then errormsg == ''. If res == false, then msg contains the error message.</param_description>
-		</param_output_item>
-	</param_output>
-
-	<description><p><b
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >assert_isapprox</b> raises an error if computed value is not approximately equal to expected value.</p>
-<p
-    >This function compares two floating point numbers, which allows to check that two numbers are "approximately" equal, i.e. that the relative error is small.</p></description>
-		
-
-	<used_function>isapprox</used_function>
-	<bibliography />
-
-<examples>
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[assert_isapprox(1.23456, 1.23457, 1e-5)]]>
-		</example_item_data>
-	</example_item>
-	
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[assert_isapprox(1.23456, 1.23457, 1e-6)]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+            <p
+    >This function compares two floating point numbers, which allows to check that two numbers are "approximately" equal, i.e. that the relative error is small.</p>
+        </description>
+        <used_function>isapprox</used_function>
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[assert_isapprox(1.23456, 1.23457, 1e-5)]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[assert_isapprox(1.23456, 1.23457, 1e-6)]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[[r, msg] =assert_isapprox(1.23456, 1.23457, 1e-6)
 assert_isfalse(r);
-assert_isequal(msg, _('Assertion failed: expected and computed values are too different.'));]]>
-		</example_item_data>
-	</example_item>
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${elementary_functions}isapprox">isapprox</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+assert_isequal(msg, _('Assertion failed: expected and computed values are too different.'));]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${elementary_functions}isapprox">isapprox</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

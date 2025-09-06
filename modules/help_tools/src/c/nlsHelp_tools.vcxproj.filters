@@ -177,6 +177,9 @@
     <ClCompile Include="..\cpp\dllMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\XmlDocXsdChecker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsHelp_tools_exports.h">
@@ -342,6 +345,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\XmlTarget.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\XmlDocXsdChecker.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

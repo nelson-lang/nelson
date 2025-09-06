@@ -1,81 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>toc</keyword>
-  <short_description>Read the stopwatch timer.</short_description>
-
-  <syntax>
-    <syntax_item>toc()</syntax_item>
-    <syntax_item>t = toc()</syntax_item>
-    <syntax_item>toc(timer_value)</syntax_item>
-    <syntax_item>t = toc(timer_value)</syntax_item>
-
-  </syntax>
-
-  <param_input>
-    <param_input_item>
-      <param_name>timer_value</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>toc</keyword>
+    <short_description>Read the stopwatch timer.</short_description>
+    <syntax>
+        <syntax_item>toc()</syntax_item>
+        <syntax_item>t = toc()</syntax_item>
+        <syntax_item>toc(timer_value)</syntax_item>
+        <syntax_item>t = toc(timer_value)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>timer_value</param_name>
+            <param_description
       >a unsigned integer 64 bit: value of internal timer of the tic function.</param_description>
-    </param_input_item>
-  </param_input>
-
-
-  <param_output>
-    <param_output_item>
-      <param_name>t</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>t</param_name>
+            <param_description
       >a double: number of seconds since last call to tic function (Precision in order of millisecond).</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-   <p>The sequence of commands <b
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>The sequence of commands <b
       >tic(); commands ; t = toc() </b>returns the number of seconds required for the commands.</p>
-     <p
+        <p
     >Consecutive calls to the toc function with no input return the elapsed since the most recent tic.</p>
-     <p
+        <p
     >Consecutive calls to the toc function with the same timerVal input return the elapsed time since the tic function call that corresponds to that input.</p>
-   </description>
-  <used_function />
-  <bibliography />
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data><![CDATA[tic()
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+      ><![CDATA[tic()
 sleep(10)
 toc()
 sleep(10)
 toc()
 
-]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${time}datenum">tic</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${time}datevec">clock</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
+]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${time}datenum">tic</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${time}datevec">clock</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
 </xmldoc>

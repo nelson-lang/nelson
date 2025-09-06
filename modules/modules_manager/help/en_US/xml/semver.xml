@@ -1,64 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>semver</keyword>
-  <short_description>semantic versioner.</short_description>
-
-  <syntax>
-    <syntax_item>r = semver(version_str, version_range)</syntax_item>
-  </syntax>
-  
-
-  <param_input>
-    <param_input_item>
-      <param_name>version_str</param_name>
-      <param_description>a string: current version.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>version_range</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>semver</keyword>
+    <short_description>semantic versioner.</short_description>
+    <syntax>
+        <syntax_item>r = semver(version_str, version_range)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>version_str</param_name>
+            <param_description>a string: current version.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>version_range</param_name>
+            <param_description
       >a string: version to compare or range.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-   <param_output>
-    <param_output_item>
-      <param_name>r</param_name>
-      <param_description>a double: -1, 0 or 1.</param_description>
-    </param_output_item>
-  </param_output>
-
-
-  <description>
-  <p><b
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>r</param_name>
+            <param_description>a double: -1, 0 or 1.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >semver</b> compares a version string to an version or an range version.</p>
-  <p>if an range version is used, <b
+            <p>if an range version is used, <b
       >r</b> return 0 (not satisfied) or 1 (satisfied).</p>
-  <p>if an simple version is used, an comparaison value <b
+            <p>if an simple version is used, an comparaison value <b
       >r</b> is returned -1 (inferior), 0 (equal) or 1 (superior).</p>
-
-  <p>supported range operators:</p>
-  <p><b>=</b> - Equality</p>
-  <p><b>&gt;=</b> - Higher or equal to</p>
-  <p><b>&lt;=</b> - Lower or equal to</p>
-  <p><b>&lt;</b> - Lower than</p>
-  <p><b>&gt;</b> - Higher than</p>
-  <p><b>^</b> - Caret operator comparison</p>
-  <p><b>~</b> - Tilde operator comparison</p>
-
-  </description>
-
-  <used_function>semver.c</used_function>
-  <bibliography>https://semver.org/</bibliography>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+            <p>supported range operators:</p>
+            <p>
+                <b>=</b> - Equality</p>
+                <p>
+                    <b>&gt;=</b> - Higher or equal to</p>
+                    <p>
+                        <b>&lt;=</b> - Lower or equal to</p>
+                        <p>
+                            <b>&lt;</b> - Lower than</p>
+                            <p>
+                                <b>&gt;</b> - Higher than</p>
+                                <p>
+                                    <b>^</b> - Caret operator comparison</p>
+                                    <p>
+                                        <b>~</b> - Tilde operator comparison</p>
+                                    </description>
+                                    <used_function>semver.c</used_function>
+                                    <bibliography
+  >https://semver.org/</bibliography>
+                                    <examples>
+                                        <example_item>
+                                            <example_item_type
+      >nelson</example_item_type>
+                                            <example_item_description />
+                                            <example_item_data
       ><![CDATA[
 semver('1.5.10', '2.3.0')
 semver('2.3.0', '1.5.10');
@@ -72,30 +70,30 @@ semver('1.2.3-alpha', '<1.2.3-beta')
 semver('1.2.3', '^1.2.3')
 semver('1.2.2', '^1.2.3')
 semver('1.9.9', '^1.2.3')
-semver('2.0.1', '^1.2.3')]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${core}version">version</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${modules_manager}getmodules">getmodules</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+semver('2.0.1', '^1.2.3')]]></example_item_data>
+                                        </example_item>
+                                    </examples>
+                                    <see_also>
+                                        <see_also_item>
+                                            <link
+        linkend="${core}version"
+      >version</link>
+                                        </see_also_item>
+                                        <see_also_item>
+                                            <link
+        linkend="${modules_manager}getmodules"
+      >getmodules</link>
+                                        </see_also_item>
+                                    </see_also>
+                                    <history>
+                                        <history_item>
+                                            <history_version
+      >1.0.0</history_version>
+                                            <history_description
+      >initial version</history_description>
+                                        </history_item>
+                                    </history>
+                                    <authors>
+                                        <author_item>Allan CORNET</author_item>
+                                    </authors>
+                                </xmldoc>

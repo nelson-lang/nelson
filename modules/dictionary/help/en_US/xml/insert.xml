@@ -1,93 +1,86 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>insert</keyword>
-	<short_description>Add entries to a dictionary.</short_description>
-
-	<syntax>
-	<syntax_item>db = insert(da, key, value)</syntax_item>
-	<syntax_item>db = insert(da, key, value, 'Overwrite', tf)</syntax_item>
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>da</param_name>
-			<param_description>scalar: a dictionary object.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>key</param_name>
-			<param_description>scalar or array: key</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>value</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>insert</keyword>
+    <short_description>Add entries to a dictionary.</short_description>
+    <syntax>
+        <syntax_item>db = insert(da, key, value)</syntax_item>
+        <syntax_item>db = insert(da, key, value, 'Overwrite', tf)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>da</param_name>
+            <param_description>scalar: a dictionary object.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>key</param_name>
+            <param_description>scalar or array: key</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>value</param_name>
+            <param_description
       >scalar or array: value. size of key must be compatible with the size of value.</param_description>
-		</param_input_item>
-
-		<param_input_item>
-			<param_name>tf</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>tf</param_name>
+            <param_description
       >true force to Overwrite, false do not overwrite and ignore change</param_description>
-		</param_input_item>
-
-	</param_input>
-
-	<param_output>
-		<param_output_item>
-			<param_name>db</param_name>
-			<param_description>scalar: a dictionary object.</param_description>
-		</param_output_item>
-	</param_output>
-
-	<description>
-	<p><b
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>db</param_name>
+            <param_description>scalar: a dictionary object.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >db = insert(da, key, value)</b> adds the key-value pair to the dictionary <b
       >da</b>.</p>
-	<p>If the key already exists, its value is updated.</p>
-	<p><b>d = insert(d, key, value)</b> is equivalent to <b>d[key] = value</b>.</p>
-	<p><b
+            <p>If the key already exists, its value is updated.</p>
+            <p>
+                <b>d = insert(d, key, value)</b> is equivalent to <b
+      >d[key] = value</b>.</p>
+                <p>
+                    <b
       >db = insert(da, key, value, 'overwrite', tf)</b> specifies whether to overwrite an existing value for the key based on the boolean parameter Overwrite.</p>
-	</description>
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+                </description>
+                <used_function />
+                <bibliography />
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
       ><![CDATA[names = ["Apple" "Banana" "Kiwi"];
 wheels = [1 2 3];
 d = dictionary(wheels, names)
-d = insert(d, [2 4] ,["Orange" "Citra"], 'Overwrite', false)]]>
-		</example_item_data>
-	</example_item>
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${dictionary}dictionary">dictionary</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${dictionary}remove">remove</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${dictionary}lookup">lookup</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.5.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+d = insert(d, [2 4] ,["Orange" "Citra"], 'Overwrite', false)]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link
+        linkend="${dictionary}dictionary"
+      >dictionary</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link linkend="${dictionary}remove">remove</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link linkend="${dictionary}lookup">lookup</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.5.0</history_version>
+                        <history_description
+      >initial version</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

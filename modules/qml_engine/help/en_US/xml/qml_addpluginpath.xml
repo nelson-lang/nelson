@@ -1,68 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>qml_addpluginpath</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>qml_addpluginpath</keyword>
+    <short_description
   >Adds path as directory where the qml engine searches for native plugins.</short_description>
-
-  <syntax>
-  <syntax_item>qml_addpluginpath(path)</syntax_item>
-  </syntax>
-
-  <param_input>
-    <param_input_item>
-      <param_name>path</param_name>
-      <param_description>a string : valid path.</param_description>
-    </param_input_item>
-  </param_input>
-
-
-  <description>
-  <p><b>qml_addpluginpath</b> adds <b
+    <syntax>
+        <syntax_item>qml_addpluginpath(path)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>path</param_name>
+            <param_description>a string : valid path.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b>qml_addpluginpath</b> adds <b
       >path</b> as a directory where the engine searches for native plugins.</p>
-  <p>By default, the list contains only <b
+            <p>By default, the list contains only <b
       >.</b>. The newly added path will be first in the <b
       >qml_pluginpathlist</b>.</p>
-  </description>
-
-  <used_function />
-  <bibliography />
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[qml_pluginpathlist()
 qml_addpluginpath(tempdir)
 qml_pluginpathlist()
-]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${qml_engine}qml_pluginpathlist">qml_pluginpathlist</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${qml_engine}qml_addimportpath">qml_addimportpath</link>
-    </see_also_item>
-
-  </see_also>
-
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link
+        linkend="${qml_engine}qml_pluginpathlist"
+      >qml_pluginpathlist</link>
+            </see_also_item>
+            <see_also_item>
+                <link
+        linkend="${qml_engine}qml_addimportpath"
+      >qml_addimportpath</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

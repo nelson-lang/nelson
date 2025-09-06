@@ -1,74 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>save</keyword>
-	<short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>save</keyword>
+    <short_description
   >save workspace variables to .nh5 or .mat file</short_description>
-
-	<syntax>
-		<syntax_item>save(filename)</syntax_item>
-		<syntax_item>save(filename, version, var1, ..., varN)</syntax_item>
-		<syntax_item>save(filename, '-append', ...)</syntax_item>
-		<syntax_item>save(filename, '-mat', ...)</syntax_item>
-		<syntax_item>save(filename, '-nh5', ...)</syntax_item>
-		<syntax_item>save(filename, '-nocompression', ...)</syntax_item>
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>filename</param_name>
-			<param_description
+    <syntax>
+        <syntax_item>save(filename)</syntax_item>
+        <syntax_item>save(filename, version, var1, ..., varN)</syntax_item>
+        <syntax_item>save(filename, '-append', ...)</syntax_item>
+        <syntax_item>save(filename, '-mat', ...)</syntax_item>
+        <syntax_item>save(filename, '-nh5', ...)</syntax_item>
+        <syntax_item>save(filename, '-nocompression', ...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>filename</param_name>
+            <param_description
       >a string: .nh5  or .mat filename. extension defines format used .mat or .nh5 (default)</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>var1, ..., varN</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>var1, ..., varN</param_name>
+            <param_description
       >string: Names of variables to save from Nelson's workspace.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>version: '-v7.3', '-v7', '-v6', '-v4'</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>version: '-v7.3', '-v7', '-v6', '-v4'</param_name>
+            <param_description
       >mat file version used ('-v7.3'). This option will force '-mat'.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>'-mat'</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-mat'</param_name>
+            <param_description
       >forces to save as mat file (default '-nh5').</param_description>
-		</param_input_item>	
-		<param_input_item>
-			<param_name>'-nh5'</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-nh5'</param_name>
+            <param_description
       >forces to save as nh5 file (default '-nh5').</param_description>
-		</param_input_item>	
-		<param_input_item>
-			<param_name>'-append'</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-append'</param_name>
+            <param_description
       >append variables to an existing .nh5/.mat file (-v7.3 only).</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>'-nocompression'</param_name>
-			<param_description>disable .nh5/.mat file compression.</param_description>
-		</param_input_item>
-
-	</param_input>
-
-
-	<description>
-		<p><b>save</b> save workspace variables to .nh5 or .mat file.</p>
-	</description>
-
-
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-nocompression'</param_name>
+            <param_description
+      >disable .nh5/.mat file compression.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b>save</b> save workspace variables to .nh5 or .mat file.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[A = ones(3, 4);
 B = 'hello for open mat users';
 save([tempdir(), 'example_load.mat'], 'A', 'B')
@@ -83,14 +75,13 @@ load([tempdir(), 'example_load.mat']);
 who
 A
 B
-]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description>append variables</example_item_description>
-		<example_item_data
+]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description
+      >append variables</example_item_description>
+                <example_item_data
       ><![CDATA[C = eye(3, 4);
 save([tempdir(), 'example_load.mat'], 'C', '-append')
 clear;
@@ -106,45 +97,37 @@ who
 A
 B
 C
-]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description>compression</example_item_description>
-		<example_item_data
+]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description>compression</example_item_description>
+                <example_item_data
       ><![CDATA[C = eye(1000, 1000);
 save([tempdir(), 'example_save_with_compression.mat'], 'C')
 save([tempdir(), 'example_save_no_compression.mat'], 'C', '-nocompression')
 with_compression = dir([tempdir(), 'example_save_with_compression.mat'])
-no_compression = dir([tempdir(), 'example_save_no_compression.mat'])]]>
-		</example_item_data>
-	</example_item>
-
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${stream_manager}load">load</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${hdf5}savenh5">savenh5</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${matio}savemat">savemat</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+no_compression = dir([tempdir(), 'example_save_no_compression.mat'])]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${stream_manager}load">load</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${hdf5}savenh5">savenh5</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${matio}savemat">savemat</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

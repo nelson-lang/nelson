@@ -6,4 +6,5 @@
 	<chapter>JavaScript Object Notation</chapter>
 	<chapter_description
   >Functions to transmit data objects consisting of attribute–value pairs and array data types (or any other serializable value).</chapter_description>
+    <auto_toc />
 </xmldoc>

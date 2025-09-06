@@ -1,67 +1,54 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>license</keyword>
-	<short_description>Get license information for Nelson.</short_description>
-
-	<syntax>
-		<syntax_item>license</syntax_item>
-		<syntax_item>r = license</syntax_item>
-		<syntax_item>[r, txt] = license</syntax_item>
-	</syntax>
-
-	<param_output>
-		<param_output_item>
-			<param_name>r</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>license</keyword>
+    <short_description>Get license information for Nelson.</short_description>
+    <syntax>
+        <syntax_item>license</syntax_item>
+        <syntax_item>r = license</syntax_item>
+        <syntax_item>[r, txt] = license</syntax_item>
+    </syntax>
+    <param_output>
+        <param_output_item>
+            <param_name>r</param_name>
+            <param_description
       >a string: minimal string description about license</param_description>
-		</param_output_item>
-		<param_output_item>
-			<param_name>txt</param_name>
-			<param_description>a string: complete license text.</param_description>
-		</param_output_item>
-
-	</param_output>
-
-
-	<description>
-		<p><b>license</b> get license information for Nelson.</p>
-	</description>
-
-	<used_function />
-	<bibliography />
-	
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[license()
+        </param_output_item>
+        <param_output_item>
+            <param_name>txt</param_name>
+            <param_description
+      >a string: complete license text.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>license</b> get license information for Nelson.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[license()
 r = license()
-[r,txt] = license()]]>
-		</example_item_data>
-	</example_item>
-
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${core}banner">banner</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+[r,txt] = license()]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${core}banner">banner</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

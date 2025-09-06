@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<module_name>history_manager</module_name>
-	<chapter>History manager</chapter>
-	<chapter_description>history functions</chapter_description>
-	
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>history_manager</module_name>
+    <chapter>History manager</chapter>
+    <chapter_description>history functions</chapter_description>
+    <auto_toc />
 </xmldoc>

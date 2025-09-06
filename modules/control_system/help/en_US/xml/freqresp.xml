@@ -1,61 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<keyword>freqresp</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>freqresp</keyword>
+    <short_description
   >Evaluate system response over a grid of frequencies.</short_description>
-
-  <syntax>
-    <syntax_item>[H, wout] = freqresp(sys, w)</syntax_item>
-    <syntax_item>H = freqresp(sys, w)</syntax_item>
-  </syntax>
-
-  <param_input>
-    <param_input_item>
-      <param_name>sys</param_name>
-      <param_description>LTI model</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>w</param_name>
-      <param_description>Frequencies: vector</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-     <param_output_item>
-      <param_name>H</param_name>
-      <param_description>Frequency response values</param_description>
-    </param_output_item>
-     <param_output_item>
-      <param_name>wout</param_name>
-      <param_description
+    <syntax>
+        <syntax_item>[H, wout] = freqresp(sys, w)</syntax_item>
+        <syntax_item>H = freqresp(sys, w)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>sys</param_name>
+            <param_description>LTI model</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>w</param_name>
+            <param_description>Frequencies: vector</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>H</param_name>
+            <param_description>Frequency response values</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>wout</param_name>
+            <param_description
       >Output frequencies corresponding to the frequency response: vector.</param_description>
-    </param_output_item>
-
-  </param_output>
-
-  <description>
-    <p><b>freqresp</b> computes the frequency response of a dynamic system <b
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >freqresp</b> computes the frequency response of a dynamic system <b
       >sys</b> at specified frequencies <b>w</b>.</p>
-    <p
+            <p
     >To acquire magnitude and phase data, along with visual representations of the frequency response, utilize the <b
       >bode</b> function.</p>
-  </description>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data><![CDATA[G = tf(1,[1 1]);
-h1 = freqresp(G, 3)]]>
-    </example_item_data>
-  </example_item>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </description>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[G = tf(1,[1 1]);
+h1 = freqresp(G, 3)]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[num = [1 2];
 den = [1 3 2];
 sys = tf(num,den);
@@ -70,31 +65,25 @@ subplot(2, 1, 2);
 plot(freq, angle(squeeze(resp)) * 180/pi);
 ylabel(_('Phase (degrees)'));
 xlabel(_('Frequency (Hz)'));
-]]>
-    </example_item_data>
-    <example_item_img src="../images/freqresp.svg" align="middle" />
-  </example_item>
-
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${control_system}bode">bode</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${control_system}evalfr">evalfr</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+]]></example_item_data>
+                <example_item_img src="../images/freqresp.svg" align="middle" />
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${control_system}bode">bode</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${control_system}evalfr">evalfr</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

@@ -1,117 +1,94 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>slicot_mb02md</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>slicot_mb02md</keyword>
+    <short_description
   >Solution of Total Least-Squares problem using a SVD approach.</short_description>
-
-  <syntax>
-    <syntax_item
+    <syntax>
+        <syntax_item
     >[RANK_OUT, C_OUT, S, X, IWARN, INFO] = slicot_mb02md(JOB, M, N, L, RANK_IN, C_IN, TOL)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>JOB</param_name>
-      <param_description
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>JOB</param_name>
+            <param_description
       >Determines whether the values of the parameters RANK and TOL are to be specified by the user or computed by the routine as follows: = 'R':  Compute RANK only;  = 'T':  Compute TOL only; = 'B':  Compute both RANK and TOL; = 'N':  Compute neither RANK nor TOL.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>M</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>M</param_name>
+            <param_description
       >The number of rows in the data matrix A and the observation matrix B.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>N</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>N</param_name>
+            <param_description
       >The number of columns in the data matrix A.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>L</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>L</param_name>
+            <param_description
       >The number of columns in the observation matrix B.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>RANK_IN</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>RANK_IN</param_name>
+            <param_description
       >if JOB = 'T' or JOB = 'N', then RANK must specify r, the rank of the TLS approximation [A + DA | B + DB].</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>C_IN</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>C_IN</param_name>
+            <param_description
       >the leading M-by-(N+L) part of this array must contain the matrices A and B.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>TOL</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>TOL</param_name>
+            <param_description
       >A tolerance used to determine the rank of the TLS approximation [A+DA|B+DB] and to check the multiplicity of the singular values of matrix C.</param_description>
-    </param_input_item>
-    
-  </param_input>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>RANK_OUT</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>RANK_OUT</param_name>
+            <param_description
       >if JOB = 'R' or JOB = 'B', and INFO = 0, then RANK contains the computed (effective) rank of the TLS approximation [A + DA | B + DB].</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>C_OUT</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>C_OUT</param_name>
+            <param_description
       >the leading (N+L)-by-(N+L) part of this array contains the (transformed) right singular vectors, including null space vectors, if any, of C = [A | B].</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>S</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>S</param_name>
+            <param_description
       >If INFO = 0, the singular values of matrix C</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>X</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>X</param_name>
+            <param_description
       >If INFO = 0, the leading N-by-L part of this array contains the solution X to the TLS problem specified by A and B.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>IWARN</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>IWARN</param_name>
+            <param_description
       >= 0:  no warnings; = 1:  if the rank of matrix C has been lowered because a singular value of multiplicity greater than 1 was found; = 2:  if the rank of matrix C has been lowered because the upper triangular matrix F is (numerically) singular.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>INFO</param_name>
-      <param_description>= 0:  successful exit;</param_description>
-    </param_output_item>
-
-  </param_output>
-
-
-
-  <description>
-    <p
+        </param_output_item>
+        <param_output_item>
+            <param_name>INFO</param_name>
+            <param_description>= 0:  successful exit;</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
     >To solve the Total Least Squares (TLS) problem using a Singular Value Decomposition (SVD) approach. The TLS problem assumes an overdetermined set of linear equations AX = B, where both the data matrix A as well as the observation matrix B are inaccurate. The routine also solves determined and underdetermined sets of equations by computing the minimum norm solution. It is assumed that all preprocessing measures (scaling, coordinate transformations, whitening, ... ) of the data have been performed in advance.</p>
-  </description>
-
-  <used_function>MB02MD</used_function>
-  <bibliography
+    </description>
+    <used_function>MB02MD</used_function>
+    <bibliography
   >http://slicot.org/objects/software/shared/doc/MB02MD.html</bibliography>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
       ><![CDATA[M = 6;
 N = 3;
 L = 1;
@@ -124,20 +101,16 @@ C_IN = [0.80010  0.39985  0.60005  0.89999;
    0.90013  0.20016  0.79995  0.85002;
    0.39998  0.80006  0.49985  0.99016;
    0.20002  0.90007  0.70009  1.02994];
-[RANK_OUT, C_OUT, S, X, IWARN, INFO] = slicot_mb02md(JOB, M, N, L, RANK_IN, C_IN, TOL)]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>SLICOT Documentation</author_item>
-  </authors>
+[RANK_OUT, C_OUT, S, X, IWARN, INFO] = slicot_mb02md(JOB, M, N, L, RANK_IN, C_IN, TOL)]]></example_item_data>
+        </example_item>
+    </examples>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>SLICOT Documentation</author_item>
+    </authors>
 </xmldoc>

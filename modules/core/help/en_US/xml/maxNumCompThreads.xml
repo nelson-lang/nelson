@@ -1,75 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>maxNumCompThreads</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>maxNumCompThreads</keyword>
+    <short_description
   >Set/Get maximum number of computional threads.</short_description>
-
-  <syntax>
-    <syntax_item>T = maxNumCompThreads()</syntax_item>
-    <syntax_item>PREVIOUS_T = maxNumCompThreads(T)</syntax_item>
-    <syntax_item>PREVIOUS_T = maxNumCompThreads('automatic')</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>T</param_name>
-      <param_description
+    <syntax>
+        <syntax_item>T = maxNumCompThreads()</syntax_item>
+        <syntax_item>PREVIOUS_T = maxNumCompThreads(T)</syntax_item>
+        <syntax_item>PREVIOUS_T = maxNumCompThreads('automatic')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>T</param_name>
+            <param_description
       >an integer value: number of threads used by Nelson for computations.</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>T</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>T</param_name>
+            <param_description
       >an integer value: number of threads used by Nelson for computations.</param_description>
-    </param_output_item>
-    <param_output_item>
-      <param_name>PREVIOUS_T</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>PREVIOUS_T</param_name>
+            <param_description
       >an integer value: previous number of threads used by Nelson for computations.</param_description>
-    </param_output_item>
-    
-  </param_output>
-
-  <description>
-    <p><b
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >maxNumCompThreads</b> returns the number of threads used by Nelson for computations.</p>
-    <p><b
+            <p>
+                <b
       >maxNumCompThreads(T)</b> sets the maximum number of computational threads. This modification is only available for current session.</p>
-    <p
+                <p
     >By default, maxNumCompThreads uses OMP_NUM_THREADS environment variable or numbers of detected physical cores on Windows and logical cores on others platforms.</p>
-    <p>Limitation: On Windows 32 bits, due to MKL and OpenMP, <b
+                <p>Limitation: On Windows 32 bits, due to MKL and OpenMP, <b
       >maxNumCompThreads</b> returns 4 max even if there is more core.</p>
-  </description>
-
-
-  <used_function />
-  <bibliography />
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data><![CDATA[maxNumCompThreads]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+      ><![CDATA[maxNumCompThreads]]></example_item_data>
+                </example_item>
+            </examples>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>initial version</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

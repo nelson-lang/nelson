@@ -1,49 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>startsWith</keyword>
-  <short_description>checks if string starts with pattern.</short_description>
-
-  <syntax>
-    <syntax_item>tf = startsWith(str, pattern)</syntax_item>
-    <syntax_item>tf = startsWith(str, pattern,'IgnoreCase', true)</syntax_item>
-    <syntax_item>tf = startsWith(str, pattern,'IgnoreCase', false)</syntax_item>
-
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>str</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>startsWith</keyword>
+    <short_description>checks if string starts with pattern.</short_description>
+    <syntax>
+        <syntax_item>tf = startsWith(str, pattern)</syntax_item>
+        <syntax_item
+    >tf = startsWith(str, pattern,'IgnoreCase', true)</syntax_item>
+        <syntax_item
+    >tf = startsWith(str, pattern,'IgnoreCase', false)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>str</param_name>
+            <param_description
       >a string, string array or cell of strings.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>pattern</param_name>
-      <param_description>a string to find.</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>tf</param_name>
-      <param_description>a matrix of logical.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description><b>startsWith</b> returns <b>true</b> if <b
-    >str</b> starts with <b>pattern</b>.</description>
-  <used_function />
-  <bibliography />
-
-<examples>
-
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </param_input_item>
+        <param_input_item>
+            <param_name>pattern</param_name>
+            <param_description>a string to find.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>tf</param_name>
+            <param_description>a matrix of logical.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <b>startsWith</b> returns <b>true</b> if <b>str</b> starts with <b
+    >pattern</b>.</description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[
 str = 'To make a mountain out of a molehill';
 k = startsWith (str, 'in')
@@ -56,29 +50,24 @@ k = startsWith(A, 'Nel')
 A = ["Nel", "son"; "Nelson", "Modules"];
 k = startsWith(A, "Nel")
 
-]]>
-    </example_item_data>
-  </example_item>
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${string}endsWith">endsWith</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${string}contains">contains</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${string}endsWith">endsWith</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${string}contains">contains</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

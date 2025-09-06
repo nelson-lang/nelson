@@ -1,84 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>ferror</keyword>
-  <short_description>Test for i/o read/write errors.</short_description>
-
-  <syntax>
-    <syntax_item>msg = ferror(fid)</syntax_item>
-    <syntax_item>[msg, code] = ferror(fid)</syntax_item>
-    <syntax_item>ferror(fid, 'clear')</syntax_item>
-  </syntax>
-  
-  <param_input>
-
-    <param_input_item>
-      <param_name>fid</param_name>
-      <param_description>a file descriptor</param_description>
-    </param_input_item>
-  </param_input>
-  
-  <param_output>
-
-    <param_output_item>
-      <param_name>code</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>ferror</keyword>
+    <short_description>Test for i/o read/write errors.</short_description>
+    <syntax>
+        <syntax_item>msg = ferror(fid)</syntax_item>
+        <syntax_item>[msg, code] = ferror(fid)</syntax_item>
+        <syntax_item>ferror(fid, 'clear')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>fid</param_name>
+            <param_description>a file descriptor</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>code</param_name>
+            <param_description
       >an integer value: 0 if no error. negative value if an error is detected.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>msg</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>msg</param_name>
+            <param_description
       >an character vector: error message equivalent to error code.</param_description>
-    </param_output_item>
-
-  </param_output>
-
-  <description>
-    <p><b>ferror</b> inquires about file error status.</p>
-    <p><b
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>ferror</b> inquires about file error status.</p>
+            <p>
+                <b
       >ferror(fid, 'clear')</b> clears the error indicator for the specified file.</p>
-    <p
+                <p
     >For more help about returned message, consult C run-time library manual for further details.</p>
-</description>
-
-  <used_function />
-  <bibliography />
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
       ><![CDATA[filename = [tempdir(), 'test_ferror.csv'];
 fid = fopen(filename, 'w');
 res = fgets(fid);
 [msg, code] = ferror(fid)
-]]>
-    </example_item_data>
-  
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${stream_manager}fopen">fopen</link>
-    </see_also_item>
-    
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${stream_manager}fopen">fopen</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>initial version</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

@@ -44,6 +44,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Benchmarks: `bench_jsonencode.json` updated to include larger datasets for more robust and realistic performance testing.
 
+- Improved `xmldocchecker` with XSD schema validation for XML files.
+
 ### Fixed
 
 - `ans` variable: Fixed issue to ensure 'ans' is only created for expressions, preventing unintended variable creation in the workspace.

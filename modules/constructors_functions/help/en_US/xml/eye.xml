@@ -1,92 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>eye</keyword>
-	<short_description>Creates an identity matrix.</short_description>
-
-	<syntax>
-		<syntax_item>R = eye</syntax_item>
-		<syntax_item>R = eye(n)</syntax_item>
-		<syntax_item>R = eye(n, m)</syntax_item>
-		<syntax_item>R = eye(n, m, ..., z)</syntax_item>
-		<syntax_item>R = eye(n, m, ..., z, 'like', V)</syntax_item>
-		<syntax_item>R = eye(n, m, ..., z, classname)</syntax_item>
-
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>n</param_name>
-			<param_description>a variable: n-by-n matrix</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>m</param_name>
-			<param_description>a variable: n-by-m matrix</param_description>
-		</param_input_item>
-	</param_input>
-
-
-	<description><p><b>eye</b> returns an identity matrix.</p>
-</description>
-
-	<used_function />
-	<bibliography />
-	
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[eye(3)]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[eye(3,1,3,'single')]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[A = single([3 3])
-B = eye(2,4,'like', A)]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[A = eye(0, 4)]]>
-		</example_item_data>
-	</example_item>
-
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${constructors_functions}ones">ones</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${constructors_functions}zeros">zeros</link>
-		</see_also_item>
-
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>eye</keyword>
+    <short_description>Creates an identity matrix.</short_description>
+    <syntax>
+        <syntax_item>R = eye</syntax_item>
+        <syntax_item>R = eye(n)</syntax_item>
+        <syntax_item>R = eye(n, m)</syntax_item>
+        <syntax_item>R = eye(n, m, ..., z)</syntax_item>
+        <syntax_item>R = eye(n, m, ..., z, 'like', V)</syntax_item>
+        <syntax_item>R = eye(n, m, ..., z, classname)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>n</param_name>
+            <param_description>a variable: n-by-n matrix</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>m</param_name>
+            <param_description>a variable: n-by-m matrix</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b>eye</b> returns an identity matrix.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data><![CDATA[eye(3)]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[eye(3,1,3,'single')]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[A = single([3 3])
+B = eye(2,4,'like', A)]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data><![CDATA[A = eye(0, 4)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${constructors_functions}ones">ones</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${constructors_functions}zeros">zeros</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

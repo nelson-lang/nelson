@@ -1,59 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<keyword>obsv</keyword>
-  <short_description>Observability of state-space model.</short_description>
-
-  <syntax>
-    <syntax_item>Ob = obsv(A, C)</syntax_item>
-    <syntax_item>Ob = obsv(sys)</syntax_item>
-  </syntax>
-
-  <param_input>
-    <param_input_item>
-      <param_name>sys</param_name>
-      <param_description>State-space model</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>A</param_name>
-      <param_description>State matrix: Nx-by-Nx matrix</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>C</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>obsv</keyword>
+    <short_description>Observability of state-space model.</short_description>
+    <syntax>
+        <syntax_item>Ob = obsv(A, C)</syntax_item>
+        <syntax_item>Ob = obsv(sys)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>sys</param_name>
+            <param_description>State-space model</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description>State matrix: Nx-by-Nx matrix</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description
       >State-to-output matrix: Ny-by-Nx matrix</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-     <param_output_item>
-      <param_name>Ob</param_name>
-      <param_description>Observability matrix.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-  <p>The <b
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>Ob</param_name>
+            <param_description>Observability matrix.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>The <b
       >obsv</b> functionis designed to calculate the observability matrix for state-space systems.</p>
-  <p>Given an Nx-by-Nx matrix <b
+        <p>Given an Nx-by-Nx matrix <b
       >A</b> representing the system dynamics and a Ny-by-Nx matrix C specifying the output, the function call <b
       >obsv(A, C)</b> generates the observability matrix.</p>
-  <p />
-  <p
+        <p />
+        <p
     >It is advised against using the rank of the observability matrix for testing observability due to numerical instability.</p>
-   <p>The observability matrix <b
+        <p>The observability matrix <b
       >Ob</b> tends to be numerically singular for systems with more than a few states, making the rank-based approach unreliable for such cases.</p>
-  </description>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+    </description>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
       ><![CDATA[% Define the system matrices
 A = [1 2; 3 4];
 C = [7 8];
@@ -70,25 +62,21 @@ if rank(O) == size(A, 1)
     disp('The system is observable.');
 else
     disp('The system is not observable.');
-end]]>
-    </example_item_data>
-  </example_item>
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${control_system}obsvf">obsvf</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
+end]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${control_system}obsvf">obsvf</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
 </xmldoc>

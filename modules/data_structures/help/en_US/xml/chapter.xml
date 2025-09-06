@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<module_name>data_structures</module_name>
-	<chapter>Data structures</chapter>
-	<chapter_description>data structures functions</chapter_description>
-	
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>data_structures</module_name>
+    <chapter>Data structures</chapter>
+    <chapter_description>data structures functions</chapter_description>
+    <auto_toc />
 </xmldoc>

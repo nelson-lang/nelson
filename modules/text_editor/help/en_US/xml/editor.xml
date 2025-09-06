@@ -1,54 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>editor</keyword>
-  <short_description>call the embedded text editor.</short_description>
-
-  <syntax>
-    <syntax_item>editor()</syntax_item>
-    <syntax_item>editor(filename)</syntax_item>
-    <syntax_item>editor('editor_command', cmd)</syntax_item>
-
-  </syntax>
-  
-  <param_input>
-
-    <param_input_item>
-      <param_name>filename</param_name>
-      <param_description>a string: filename to open.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>cmd</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>editor</keyword>
+    <short_description>call the embedded text editor.</short_description>
+    <syntax>
+        <syntax_item>editor()</syntax_item>
+        <syntax_item>editor(filename)</syntax_item>
+        <syntax_item>editor('editor_command', cmd)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>filename</param_name>
+            <param_description>a string: filename to open.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>cmd</param_name>
+            <param_description
       >a string representing the command to launch your preferred code editor.</param_description>
-    </param_input_item>
-
-
-  </param_input>
-
-  <description>
-    <p><b>editor</b> opens an existing file in the nelson's editor.</p>
-    <p><b>editor</b> must be considered as internal and <b
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b>editor</b> opens an existing file in the nelson's editor.</p>
+            <p>
+                <b>editor</b> must be considered as internal and <b
       >edit</b> must be preferred.</p>
-    <p>Set another text editor as default: (example with VS code)</p>
-    <p><code>editor('editor_command', 'code')</code></p>
-    <p>To restore the default editor, use:</p>
-    <p><code>editor('editor_command', '')</code></p>
-    <p
+                <p
+    >Set another text editor as default: (example with VS code)</p>
+                <p>
+                    <code>editor('editor_command', 'code')</code>
+                </p>
+                <p>To restore the default editor, use:</p>
+                <p>
+                    <code>editor('editor_command', '')</code>
+                </p>
+                <p
     >Change text editor is persistent and will be saved in a configuration file.</p>
-  </description>
-  
-  <used_function />
-  <bibliography />
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
       ><![CDATA[edit('edit')
 if ispc()
   editor('editor_command ', 'notepad')
@@ -58,33 +54,26 @@ end
 edit('edit')
 % restore default editor
 editor('editor_command ', '')
-]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${text_editor}edit">edit</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-    <history_item>
-      <history_version>1.10.0</history_version>
-      <history_description
+]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${text_editor}edit">edit</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>initial version</history_description>
+                </history_item>
+                <history_item>
+                    <history_version>1.10.0</history_version>
+                    <history_description
       >Option to change default text editor</history_description>
-    </history_item>
-
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

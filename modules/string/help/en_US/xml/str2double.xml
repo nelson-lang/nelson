@@ -1,69 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>str2double</keyword>
-  <short_description>Converts a string to double.</short_description>
-
-  <syntax>
-    <syntax_item>res = str2double(str)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>str</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>str2double</keyword>
+    <short_description>Converts a string to double.</short_description>
+    <syntax>
+        <syntax_item>res = str2double(str)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>str</param_name>
+            <param_description
       >a cell of strings, string array or a string.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>res</param_name>
-      <param_description>a double</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-  <p><b
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>res</param_name>
+            <param_description>a double</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >str2double</b> converts any complex number as a whole into a complex numeric field, converting the real and imaginary parts to the specified numeric type.</p>
-  <p>If <b
-      >str2double</b> cannot convert string to a number, then it returns a Not An Number value.</p></description>
-  <used_function />
-  <bibliography />
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+            <p>If <b
+      >str2double</b> cannot convert string to a number, then it returns a Not An Number value.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[R = str2double('2.6 + 3j')
 R = str2double('+NaNi')
 R = str2double({'2.71' '3.1415'})
 R = str2double(["2.71" "3.1415"])
-]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${double}double">double</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${double}double">double</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

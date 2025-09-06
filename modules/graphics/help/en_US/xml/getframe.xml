@@ -1,70 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>getframe</keyword>
-  <short_description>Capture figure or axes as movie frame.</short_description>
-
-  <syntax>
-    <syntax_item>F = getframe</syntax_item>
-    <syntax_item>F = getframe(ax)</syntax_item>
-    <syntax_item>F = getframe(fig)</syntax_item>
-  </syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>ax</param_name>
-			<param_description>axes object: Axes to capture.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>fig</param_name>
-			<param_description>figure object: Figure to capture.</param_description>
-		</param_input_item>
-	</param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>F</param_name>
-      <param_description>struct: Movie frame.</param_description>
-    </param_output_item>
-  </param_output>
-
-<description>
-  <p><b
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>getframe</keyword>
+    <short_description
+  >Capture figure or axes as movie frame.</short_description>
+    <syntax>
+        <syntax_item>F = getframe</syntax_item>
+        <syntax_item>F = getframe(ax)</syntax_item>
+        <syntax_item>F = getframe(fig)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>ax</param_name>
+            <param_description>axes object: Axes to capture.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>fig</param_name>
+            <param_description
+      >figure object: Figure to capture.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>F</param_name>
+            <param_description>struct: Movie frame.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >F = getframe</b> captures the current axes as displayed on the screen as a movie frame. F is a structure containing the image data. The capture preserves the on-screen size of the axes but does not include tick labels or any content outside the axes boundaries.</p>
-  <p><b
+            <p>
+                <b
       >F = getframe(ax)</b> captures the specified axes ax instead of the current axes.</p>
-  <p><b
+                <p>
+                    <b
       >F = getframe(fig)</b> captures the entire figure window specified by fig, including the axes title, labels, and tick marks. However, the captured frame does not include the figure’s menu or toolbars.</p>
-</description>
-
-  <used_function />
-  <bibliography />
-  
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description> 
-
-    </example_item_description>
-    <example_item_data
+                </description>
+                <used_function />
+                <bibliography />
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
       ><![CDATA[f = figure();
 surf(peaks);
 F = getframe(f);
 figure('Color',[0.5 0.5 0.5]);
 imshow(F.cdata)
-]]>
-    </example_item_data>
-  </example_item>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description> 
-
-    </example_item_description>
-    <example_item_data
+]]></example_item_data>
+                    </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
       ><![CDATA[f = figure();
 ax1 = subplot(2,1,1);
 surf(peaks);
@@ -76,33 +67,28 @@ figure('Color',[0.5 0.5 0.5]);
 imshow(F1.cdata)
 figure('Color',[0.5 0.5 0.5]);
 imshow(F2.cdata)
-]]>
-    </example_item_data>
-  </example_item>
-
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${graphics}image">image</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${graphics}imshow">imshow</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${graphics}imwrite">imwrite</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.13.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link linkend="${graphics}image">image</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link linkend="${graphics}imshow">imshow</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link linkend="${graphics}imwrite">imwrite</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.13.0</history_version>
+                        <history_description
+      >initial version</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

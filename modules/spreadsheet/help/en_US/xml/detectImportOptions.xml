@@ -1,66 +1,73 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>detectImportOptions</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>detectImportOptions</keyword>
+    <short_description
   >Create import options based on file content.</short_description>
-
-  <syntax>
-    <syntax_item>options = detectImportOptions(filename)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>filename</param_name>
-      <param_description>a string: filename source.</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>options</param_name>
-      <param_description>DelimitedTextImportOptions object.</param_description>
-    </param_output_item>
-  </param_output>
-
-
-<description>
-  <p><b
+    <syntax>
+        <syntax_item>options = detectImportOptions(filename)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>filename</param_name>
+            <param_description>a string: filename source.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>options</param_name>
+            <param_description
+      >DelimitedTextImportOptions object.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >options = detectImportOptions(filename)</b> identifies a table in a file and returns an import <b
       >options</b> object.</p>
-  <p>You can customize this object and use it with <b>readtable</b>, <b
-      >readcell</b> or <b
+            <p>You can customize this object and use it with <b
+      >readtable</b>, <b>readcell</b> or <b
       >readmatrix</b> to control how Nelson imports data as a table, cell array, or matrix.</p>
-  <p
+            <p
     >The type of the returned options object depends on the file's extension.</p>
-
-    <p />
-  <p>Properties:</p>
-  <p><b>Delimiter</b>: Field delimiter characters. example: {','} </p>
-  <p><b>LineEnding</b>: End-of-line characters. example: {'\r\n'}</p>
-  <p><b>CommentStyle</b>: Style of comments. example: {'#'}</p>
-  <p><b>EmptyLineRule</b>: Procedure to handle empty lines. example: 'skip'</p>
-  <p><b>VariableNamesLine</b>: Variable names location. example: 1</p>
-  <p><b
+            <p />
+            <p>Properties:</p>
+            <p>
+                <b
+      >Delimiter</b>: Field delimiter characters. example: {','} </p>
+                <p>
+                    <b
+      >LineEnding</b>: End-of-line characters. example: {'\r\n'}</p>
+                    <p>
+                        <b
+      >CommentStyle</b>: Style of comments. example: {'#'}</p>
+                        <p>
+                            <b
+      >EmptyLineRule</b>: Procedure to handle empty lines. example: 'skip'</p>
+                            <p>
+                                <b
+      >VariableNamesLine</b>: Variable names location. example: 1</p>
+                                <p>
+                                    <b
       >VariableNames</b>: Variable names. example: {'Names'  'Age'  'Height'  'Weight'}</p>
-  <p><b>RowNamesColumn</b>:  Row names location. example: 0</p>
-  <p><b>DataLines</b>: Data location, <b
+                                    <p>
+                                        <b
+      >RowNamesColumn</b>:  Row names location. example: 0</p>
+                                        <p>
+                                            <b>DataLines</b>: Data location, <b
       >[l1 l2]</b> Indicate the range of lines containing the data. <b
       >l1</b> refers to the first line with data, while <b
       >l2</b> refers to the last line. example: [2  Inf]</p>
-
-</description>
-
-  <used_function />
-  <bibliography />
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data>
+                                        </description>
+                                        <used_function />
+                                        <bibliography />
+                                        <examples>
+                                            <example_item>
+                                                <example_item_type
+      >nelson</example_item_type>
+                                                <example_item_description />
+                                                <example_item_data>
 Names = {'John'; 'Alice'; 'Bob'; 'Diana'};
 Age = [28; 34; 22; 30];
 Height = [175; 160; 180; 165];
@@ -72,31 +79,35 @@ C1 = readcell([tempdir,'readcell_1.csv'], options)
 options.DataLines = [1 Inf]
 C2 = readcell([tempdir,'readcell_1.csv'], options)
 </example_item_data>
-  
-  </example_item>
-
-
-</examples>
-  <see_also>
-    <see_also_item>
-      <link linkend="${spreadsheet}readcell">readcell</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${spreadsheet}readtable">readtable</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${spreadsheet}readmatrix">readmatrix</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.10.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+                                            </example_item>
+                                        </examples>
+                                        <see_also>
+                                            <see_also_item>
+                                                <link
+        linkend="${spreadsheet}readcell"
+      >readcell</link>
+                                            </see_also_item>
+                                            <see_also_item>
+                                                <link
+        linkend="${spreadsheet}readtable"
+      >readtable</link>
+                                            </see_also_item>
+                                            <see_also_item>
+                                                <link
+        linkend="${spreadsheet}readmatrix"
+      >readmatrix</link>
+                                            </see_also_item>
+                                        </see_also>
+                                        <history>
+                                            <history_item>
+                                                <history_version
+      >1.10.0</history_version>
+                                                <history_description
+      >initial version</history_description>
+                                            </history_item>
+                                        </history>
+                                        <authors>
+                                            <author_item
+    >Allan CORNET</author_item>
+                                        </authors>
+                                    </xmldoc>

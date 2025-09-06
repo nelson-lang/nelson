@@ -192,6 +192,7 @@ XmlDocDocument::clearItems()
                 ptr = nullptr;
             }
         } break;
+        case XMLDOC_ITEMS_ID::KEYWORD_ALIAS_TAG_ID:
         case XMLDOC_ITEMS_ID::KEYWORD_TAG_ID: {
             if (item) {
                 XmlDocKeywordItem* ptr = (XmlDocKeywordItem*)item;
@@ -318,6 +319,7 @@ XmlDocDocument::clearItems()
                 ptr = nullptr;
             }
         } break;
+        case XMLDOC_ITEMS_ID::AUTO_TOC_TAG_ID:
         default: {
         } break;
         }
@@ -453,6 +455,7 @@ XmlDocDocument::readFile()
             case XMLDOC_ITEMS_ID::TITLE_TAG_ID: {
                 res = readFileCaseTitle(doc, currentNode);
             } break;
+            case XMLDOC_ITEMS_ID::KEYWORD_ALIAS_TAG_ID:
             case XMLDOC_ITEMS_ID::KEYWORD_TAG_ID: {
                 res = readFileCaseKeyword(doc, currentNode);
             } break;
@@ -506,6 +509,10 @@ XmlDocDocument::readFile()
             } break;
             case XMLDOC_ITEMS_ID::MODULE_NAME_TAG_ID: {
                 res = readFileCaseModuleName(doc, currentNode);
+            } break;
+            case XMLDOC_ITEMS_ID::AUTO_TOC_TAG_ID: {
+                // not implemented yet
+                res = true;
             } break;
             default: {
                 xmlFreeDoc(doc);
@@ -715,6 +722,12 @@ XmlDocDocument::stringTagToId(const std::string& tag)
     }
     if (tag == IMAGE_TAG) {
         return XMLDOC_ITEMS_ID::IMAGE_TAG_ID;
+    }
+    if (tag == AUTO_TOC_TAG) {
+        return XMLDOC_ITEMS_ID::AUTO_TOC_TAG_ID;
+    }
+    if (tag == KEYWORD_ALIAS_TAG) {
+        return XMLDOC_ITEMS_ID::KEYWORD_ALIAS_TAG_ID;
     }
     if (tag == CHAPTER_DESCRIPTION_TAG) {
         return XMLDOC_ITEMS_ID::CHAPTER_DESCRIPTION_TAG_ID;

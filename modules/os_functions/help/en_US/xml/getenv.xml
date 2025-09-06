@@ -1,88 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>getenv</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>getenv</keyword>
+    <short_description
   >Get the value of an environment variable.</short_description>
-
-  <syntax>
-    <syntax_item>s = getenv(env_name)</syntax_item>
-  </syntax>
-
-  <param_input>
-    <param_input_item>
-      <param_name>env_name</param_name>
-      <param_description
+    <syntax>
+        <syntax_item>s = getenv(env_name)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>env_name</param_name>
+            <param_description
       >string scalar, character vector, string array, cell array of character vectors: environment variable name.</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-  	
-    <param_output_item>
-      <param_name>s</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>s</param_name>
+            <param_description
       >string scalar, character vector, string array, cell array of character vectors: the environment variable value.</param_description>
-    </param_output_item>
-
-  </param_output>
-
-
-  <description>
-    <p><b
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >getenv</b> returns the value of an environment variable if it exists.</p>
-    <p>If the environment variable does not exist, it will return ''.</p>
-    <p>If <b
+            <p
+    >If the environment variable does not exist, it will return ''.</p>
+            <p>If <b
       >env_name</b> is a nonscalar cell array of character vectors or string array, then val has the same dimensions and type as <b
       >env_name</b>.</p>
-    <p>If <b>env_name</b> is a string scalar, then <b
+            <p>If <b>env_name</b> is a string scalar, then <b
       >s</b> is a character vector.</p>
-  </description>
-
-  <used_function />
-  <bibliography />
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[getenv('OS')
 getenv('myenvvar')
 getenv(["PATH"; "OS"])
 getenv({'PATH'; 'OS'})
-]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${os_functions}setenv">setenv</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${os_functions}searchenv">searchenv</link>
-    </see_also_item>
-  </see_also>
-
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-    <history_item>
-      <history_version>1.4.0</history_version>
-      <history_description
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${os_functions}setenv">setenv</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${os_functions}searchenv">searchenv</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+            <history_item>
+                <history_version>1.4.0</history_version>
+                <history_description
       >Retrieve the values of several environment variables.</history_description>
-    </history_item>
-
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

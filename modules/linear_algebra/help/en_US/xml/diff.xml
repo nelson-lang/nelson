@@ -1,83 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>diff</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>diff</keyword>
+    <short_description
   >Differences and approximate derivatives.</short_description>
-
-  <syntax>
-    <syntax_item>Y = diff(X)</syntax_item>
-    <syntax_item>Y = diff(X, n)</syntax_item>
-    <syntax_item>Y = diff(X, n, dim)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>X</param_name>
-      <param_description>vector or matrix (real or single)</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>n</param_name>
-      <param_description
+    <syntax>
+        <syntax_item>Y = diff(X)</syntax_item>
+        <syntax_item>Y = diff(X, n)</syntax_item>
+        <syntax_item>Y = diff(X, n, dim)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>X</param_name>
+            <param_description
+      >vector or matrix (real or single)</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>n</param_name>
+            <param_description
       >difference order: positive integer scalar or []</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>dim</param_name>
-      <param_description>dimension: positive integer scalar</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>Y</param_name>
-      <param_description>difference array: vector or matrix.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-    <p>If <b>X</b> is a vector of length <b>n</b>, result of <b
+        </param_input_item>
+        <param_input_item>
+            <param_name>dim</param_name>
+            <param_description
+      >dimension: positive integer scalar</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>Y</param_name>
+            <param_description
+      >difference array: vector or matrix.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>If <b>X</b> is a vector of length <b>n</b>, result of <b
       >diff(X)</b> is a vector of first differences <b
       >X(2) - X(1), ..., X(n) - X(n-1)</b>.</p>
-    <p>If <b>X</b> is a matrix, result of <b
+        <p>If <b>X</b> is a matrix, result of <b
       >diff(X)</b> is a matrix of column differences along the first non-singleton dimension.</p>
-  </description>
-
-  <used_function />
-  <bibliography />
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data><![CDATA[h = .01; x = 0:h:pi;
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+      ><![CDATA[h = .01; x = 0:h:pi;
 X = sin(x.^2);
-R = diff(X)]]>
-    </example_item_data>
-  </example_item>
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${linear_algebra}sum">sum</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${linear_algebra}prod">prod</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
+R = diff(X)]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${linear_algebra}sum">sum</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${linear_algebra}prod">prod</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
 </xmldoc>
