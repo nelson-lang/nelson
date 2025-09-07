@@ -9,76 +9,101 @@
 //=============================================================================
 #include "xmldoccheckerBuiltin.hpp"
 #include "Error.hpp"
+#include "Warning.hpp"
 #include "i18n.hpp"
-#include "XmlDocDocument.hpp"
 #include "FileSystemWrapper.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "XmlDocXsdChecker.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
+static std::wstring
+getDefaultXsd()
+{
+    std::wstring path = NelsonConfiguration::getInstance()->getNelsonRootDirectory()
+        + L"/modules/help_tools/resources/nelson_help.xsd";
+    return path;
+}
+//=============================================================================
 ArrayOfVector
-Nelson::HelpToolsGateway::xmldoccheckerBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::HelpToolsGateway::xmldoccheckerBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 1, 1);
-    nargoutcheck(nLhs, 0, 2);
-    ArrayOf arg1 = argIn[0];
-    if (arg1.isRowVectorCharacterArray()) {
-        std::wstring fileOrDirName = arg1.getContentAsWideString();
-        FileSystemWrapper::Path pathIn(fileOrDirName);
+    nargincheck(argIn, 1, 2);
+    nargoutcheck(nLhs, 0, 3);
+
+    std::wstring dtdFilename = L"";
+
+    if (argIn.size() == 2) {
+        dtdFilename = argIn[1].getContentAsWideString();
+    } else {
+        dtdFilename = getDefaultXsd();
+    }
+    if (!dtdFilename.empty()) {
+        FileSystemWrapper::Path pathIn(dtdFilename);
         bool permissionDenied;
         bool IsFileIn = FileSystemWrapper::Path::is_regular_file(pathIn, permissionDenied);
         if (permissionDenied) {
             Error(_W("Permission denied."));
         }
-        if (IsFileIn) {
-            wstringVector errorRes;
-            wstringVector warningRes;
-            XmlDocDocument* xmlDoc = new XmlDocDocument(fileOrDirName, L"", L"", true);
-            xmlDoc->readFile();
-            errorRes = xmlDoc->getError();
-            warningRes = xmlDoc->getWarning();
-            delete xmlDoc;
-            if (nLhs == 0) {
-                Interface* io = eval->getInterface();
-                io->outputMessage(std::wstring(L"\n"));
-                if (errorRes.size() > 1) {
-                    io->outputMessage(_W("Errors:") + L"\n");
-                } else {
-                    io->outputMessage(_W("Error:") + L"\n");
-                }
-                if (!errorRes.empty()) {
-                    for (auto& errorRe : errorRes) {
-                        io->errorMessage(std::wstring(L"\t") + errorRe);
-                    }
-                } else {
-                    io->outputMessage(std::wstring(L"\t") + _W("No error.") + L"\n");
-                }
-                io->outputMessage(std::wstring(L"\n"));
-                if (warningRes.size() > 1) {
-                    io->outputMessage(_W("Warnings:") + L"\n");
-                } else {
-                    io->outputMessage(_W("Warning:") + L"\n");
-                }
-                if (!warningRes.empty()) {
-                    for (auto& warningRe : warningRes) {
-                        io->warningMessage(std::wstring(L"\t") + warningRe);
-                    }
-                } else {
-                    io->warningMessage(std::wstring(L"\t") + _W("No warning.") + L"\n");
-                }
-            } else {
-                retval << ArrayOf::toCellArrayOfCharacterColumnVectors(errorRes);
-                if (nLhs > 1) {
-                    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(warningRes);
-                }
-            }
-        } else {
-            Error(_W("Wrong value for argument #1: An existing .xml documentation file expected."));
+        if (!IsFileIn) {
+            Error(_W("Wrong value for argument #2: An existing .dtd file expected."));
         }
-    } else {
-        Error(_W("Wrong type for argument #1: .xml documentation file expected."));
+    }
+    std::wstring xmlFilename = argIn[0].getContentAsWideString();
+    FileSystemWrapper::Path pathIn(xmlFilename);
+    bool permissionDenied;
+    bool IsFileIn = FileSystemWrapper::Path::is_regular_file(pathIn, permissionDenied);
+    if (permissionDenied) {
+        Error(_W("Permission denied."));
+    }
+    if (!IsFileIn) {
+        Error(_W("Wrong value for argument #1: An existing .xml documentation file expected."));
+    }
+    wstringVector errorMessage;
+    wstringVector warningMessage;
+    bool res = xmlDocXsdChecker(xmlFilename, dtdFilename, errorMessage, warningMessage);
+    switch (nLhs) {
+    case 0: {
+        if (!res) {
+            if (!errorMessage.empty()) {
+                std::wstring message;
+                for (auto it = errorMessage.begin(); it != errorMessage.end(); ++it) {
+                    message = message + std::wstring(L"\t") + *it;
+                    if (std::next(it) != errorMessage.end()) {
+                        message += L"\n";
+                    }
+                }
+                Error(message);
+            }
+            if (!warningMessage.empty()) {
+                std::wstring message;
+                for (auto it = warningMessage.begin(); it != warningMessage.end(); ++it) {
+                    message = message + std::wstring(L"\t") + *it;
+                    if (std::next(it) != warningMessage.end()) {
+                        message += L"\n";
+                    }
+                }
+                Warning(message);
+            }
+        }
+    } break;
+    case 1: {
+        retval << ArrayOf::logicalConstructor(res);
+    } break;
+    case 2: {
+        retval << ArrayOf::logicalConstructor(res);
+        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(errorMessage);
+    } break;
+    case 3: {
+        retval << ArrayOf::logicalConstructor(res);
+        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(errorMessage);
+        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(warningMessage);
+    } break;
+    default:
+        // Never reached
+        break;
     }
     return retval;
 }

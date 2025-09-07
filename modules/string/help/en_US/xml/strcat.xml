@@ -1,79 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>strcat</keyword>
-  <short_description>concatenate strings horizontally.</short_description>
-
-  <syntax>
-    <syntax_item>res = strcat(s1, s2, ..., sN)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>s1, s2, ..., sN</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>strcat</keyword>
+    <short_description>concatenate strings horizontally.</short_description>
+    <syntax>
+        <syntax_item>res = strcat(s1, s2, ..., sN)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>s1, s2, ..., sN</param_name>
+            <param_description
       >a string, string array or cell of strings.</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>res</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>res</param_name>
+            <param_description
       >a string, string array or cell of strings.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-    <p><b>strcat</b> concatenate strings horizontally.</p>
-    <p>If all inputs are character arrays, then <b
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>strcat</b> concatenate strings horizontally.</p>
+            <p>If all inputs are character arrays, then <b
       >res</b> is a character array.</p>
-    <p>If any input is a string array, then the <b
+            <p>If any input is a string array, then the <b
       >res</b> is a string array.</p>
-    <p>If any input is a cell array, and none are string arrays, then <b
+            <p>If any input is a cell array, and none are string arrays, then <b
       >res</b> is a cell array of character vectors.</p>
-    <p>For cell and string array inputs, <b
+            <p>For cell and string array inputs, <b
       >strcat</b> does not remove trailing white space.</p>
-    <p>For character array inputs, <b
+            <p>For character array inputs, <b
       >strcat</b> removes trailing ASCII white-space characters.</p>
-  </description>
-  <used_function />
-  <bibliography />
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[strcat("Nelson", 'nelSon')
 A = {'abcde','fghi'};
 B = {'jkl','mn'};
-C = strcat(A, B)]]>
-    </example_item_data>
-  </example_item>
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${string}append">append</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${string}join">join</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+C = strcat(A, B)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${string}append">append</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${string}join">join</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

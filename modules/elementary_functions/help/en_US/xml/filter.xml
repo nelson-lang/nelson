@@ -1,66 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>filter</keyword>
-  <short_description>1-D digital filter</short_description>
-
-  <syntax>
-    <syntax_item>y = filter(b, a, x)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>b</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>filter</keyword>
+    <short_description>1-D digital filter</short_description>
+    <syntax>
+        <syntax_item>y = filter(b, a, x)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>b</param_name>
+            <param_description
       >Numerator coefficients of rational transfer function: vector.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>a</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>a</param_name>
+            <param_description
       >Denominator coefficients of rational transfer function: vector.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>x</param_name>
-      <param_description>Input data: matrix.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>y</param_name>
-      <param_description>Filtered data: matrix.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-    <p>The function <b
+        </param_input_item>
+        <param_input_item>
+            <param_name>x</param_name>
+            <param_description>Input data: matrix.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>y</param_name>
+            <param_description>Filtered data: matrix.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>The function <b
       >filter(b, a, x)</b> applies a rational transfer function to filter the input data array <b
       >x</b>.</p>
-    <p
+        <p
     >This transfer function is defined by the coefficients of the numerator (<b
       >b</b>) and denominator (<b>a</b>).</p>
-    <p>If the first coefficient of <b
+        <p>If the first coefficient of <b
       >a</b> (a(1)) is not equal to 1, the filter normalizes the coefficients by a(1). It is crucial for a(1) to be nonzero.</p>
-    <p>When <b
+        <p>When <b
       >x</b> is a vector, the function returns a vector of the same size as <b
       >x</b> containing the filtered data.</p>
-  </description>
-
-
-  <used_function />
-  <bibliography />
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data>
-      <![CDATA[f = figure();
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+      ><![CDATA[f = figure();
 rng default
 t = linspace(-pi,pi,100);
 X = sin(t) + (0.33 * rand(size(t)));
@@ -72,26 +61,21 @@ plot(t, X)
 hold on
 plot(t, y)
 legend(_('Input Data'), _('Filtered Data'));
-]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${data_analysis}conv">conv</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
+]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${data_analysis}conv">conv</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
 </xmldoc>

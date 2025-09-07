@@ -1,69 +1,84 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>groot</keyword>
-  <short_description>graphic root object.</short_description>
-
-  <syntax>
-  <syntax_item>g = groot()</syntax_item>
-  </syntax>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>g</param_name>
-      <param_description>a graphics object: root object.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description><p><b>groot</b> returns graphic root object.</p>
-<p>Properties:</p>
-<p><b>Children</b>: Array of available figure objects.</p>
-<p><b>CurrentFigure</b>: Current figure graphics object.</p>
-<p><b>Parent</b>: empty array (No parent)</p>
-<p><b>PointerLocation</b>: Current location of pointer.</p>
-<p><b>ScreenDepth</b>: Number of bits that define each pixel color.</p>
-<p><b>ScreenSize</b>: Size of primary display (vector).</p>
-<p><b
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>groot</keyword>
+    <short_description>graphic root object.</short_description>
+    <syntax>
+        <syntax_item>g = groot()</syntax_item>
+    </syntax>
+    <param_output>
+        <param_output_item>
+            <param_name>g</param_name>
+            <param_description
+      >a graphics object: root object.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>groot</b> returns graphic root object.</p>
+            <p>Properties:</p>
+            <p>
+                <b>Children</b>: Array of available figure objects.</p>
+                <p>
+                    <b>CurrentFigure</b>: Current figure graphics object.</p>
+                    <p>
+                        <b>Parent</b>: empty array (No parent)</p>
+                        <p>
+                            <b
+      >PointerLocation</b>: Current location of pointer.</p>
+                            <p>
+                                <b
+      >ScreenDepth</b>: Number of bits that define each pixel color.</p>
+                                <p>
+                                    <b
+      >ScreenSize</b>: Size of primary display (vector).</p>
+                                    <p>
+                                        <b
       >Tag</b>: Object identifier: string scalar, character vector, '' (default).</p>
-<p><b>Type</b>: Type 'root'.</p>
-<p><b>Units</b>: 'pixels'.</p>
-<p><b>UserData</b>: User data: array or [] (default).</p>
-</description>
-
-  <used_function />
-  <bibliography />
-  
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data><![CDATA[g = groot()
-g.ScreenDepth]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-  <see_also>
-    <see_also_item>
-      <link linkend="${graphics}figure">figure</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${graphics}gcf">gcf</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+                                        <p>
+                                            <b>Type</b>: Type 'root'.</p>
+                                            <p>
+                                                <b>Units</b>: 'pixels'.</p>
+                                                <p>
+                                                    <b
+      >UserData</b>: User data: array or [] (default).</p>
+                                                </description>
+                                                <used_function />
+                                                <bibliography />
+                                                <examples>
+                                                    <example_item>
+                                                        <example_item_type
+      >nelson</example_item_type>
+                                                        <example_item_description
+      />
+                                                        <example_item_data
+      ><![CDATA[g = groot()
+g.ScreenDepth]]></example_item_data>
+                                                    </example_item>
+                                                </examples>
+                                                <see_also>
+                                                    <see_also_item>
+                                                        <link
+        linkend="${graphics}figure"
+      >figure</link>
+                                                    </see_also_item>
+                                                    <see_also_item>
+                                                        <link
+        linkend="${graphics}gcf"
+      >gcf</link>
+                                                    </see_also_item>
+                                                </see_also>
+                                                <history>
+                                                    <history_item>
+                                                        <history_version
+      >1.0.0</history_version>
+                                                        <history_description
+      >initial version</history_description>
+                                                    </history_item>
+                                                </history>
+                                                <authors>
+                                                    <author_item
+    >Allan CORNET</author_item>
+                                                </authors>
+                                            </xmldoc>

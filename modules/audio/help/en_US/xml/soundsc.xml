@@ -1,88 +1,74 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>soundsc</keyword>
-	<short_description>Scale data and play as sound.</short_description>
-
-	<syntax>
-		<syntax_item>soundsc(y)</syntax_item>
-		<syntax_item>soundsc(y, Fs)</syntax_item>
-		<syntax_item>soundsc(y, Fs, nBits)</syntax_item>
-		<syntax_item>soundsc(y, Fs, nBits, yRange)</syntax_item>
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>y</param_name>
-			<param_description>column vector or m-by-2 matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>Fs</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>soundsc</keyword>
+    <short_description>Scale data and play as sound.</short_description>
+    <syntax>
+        <syntax_item>soundsc(y)</syntax_item>
+        <syntax_item>soundsc(y, Fs)</syntax_item>
+        <syntax_item>soundsc(y, Fs, nBits)</syntax_item>
+        <syntax_item>soundsc(y, Fs, nBits, yRange)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>y</param_name>
+            <param_description
+      >column vector or m-by-2 matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Fs</param_name>
+            <param_description
       >sample rate, a positive number, 8192 by default.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>nBits</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>nBits</param_name>
+            <param_description
       >bit depth of sample values: 8, 16 (default), 24.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>yRange</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>yRange</param_name>
+            <param_description
       >range of audio data to scale: | two-element vector or [-max(abs(y)),max(abs(y))] default.</param_description>
-		</param_input_item>
-
-	</param_input>
-
-	<description>
-	<p>
-	<b>soundsc</b> scales the values of audio signal <b
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b>soundsc</b> scales the values of audio signal <b
       >y </b>to fit in the range from <b>–1.0</b> to <b
       >1.0</b> and play as sound.
 	</p>
-	</description>
-	<used_function />
-	<bibliography />
-
-<examples>
-
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[signal = rand(2, 44100) - 0.5;
 soundsc(signal, 44110, 16)	  
-]]>
-		</example_item_data>
-	</example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${audio}audioplayer">audioplayer</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${audio}playblocking">playblocking</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${audio}sound">sound</link>
-    </see_also_item>
-  </see_also>
-
-
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${audio}audioplayer">audioplayer</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${audio}playblocking">playblocking</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${audio}sound">sound</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

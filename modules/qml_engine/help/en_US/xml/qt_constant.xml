@@ -1,72 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>qt_constant</keyword>
-  <short_description>Returns Qt constant value.</short_description>
-
-  <syntax>
-  <syntax_item>v = qt_constant(constant_name)</syntax_item>
-  <syntax_item>ce = qt_constant()</syntax_item>
-  </syntax>
-
-  <param_input>
-    <param_input_item>
-      <param_name>constant_name</param_name>
-      <param_description>a string: desired Qt constant.</param_description>
-    </param_input_item>
-  </param_input>
-  <param_output>
-    <param_output_item>
-      <param_name>v</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>qt_constant</keyword>
+    <short_description>Returns Qt constant value.</short_description>
+    <syntax>
+        <syntax_item>v = qt_constant(constant_name)</syntax_item>
+        <syntax_item>ce = qt_constant()</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>constant_name</param_name>
+            <param_description
+      >a string: desired Qt constant.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>v</param_name>
+            <param_description
       >a scalar integer value (Qt constant value).</param_description>
-    </param_output_item>
-    <param_output_item>
-      <param_name>ce</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>ce</param_name>
+            <param_description
       >a cell with all constant name available.</param_description>
-    </param_output_item>
-
-  </param_output>
-
-
-  <description>
-  <p><b>v = qt_version(constant_name)</b> returns Qt constant value.</p>
-  <p
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>v = qt_version(constant_name)</b> returns Qt constant value.</p>
+            <p
     >Qt 5 family allows to get constant easily with qml_evaluatestring(constant_name), but it is no more available with Qt 6</p>
-  </description>
-
-  <used_function />
-  <bibliography />
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[qt_constant('Qt.WindowModal')
-c = qt_constant()]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${qml_engine}qt_version">qt_version</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+c = qt_constant()]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${qml_engine}qt_version">qt_version</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

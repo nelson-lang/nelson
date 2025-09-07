@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<module_name>validators</module_name>
-	<chapter>Validators</chapter>
-	<chapter_description>validators functions</chapter_description>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>validators</module_name>
+    <chapter>Validators</chapter>
+    <chapter_description>validators functions</chapter_description>
+    <auto_toc />
 </xmldoc>

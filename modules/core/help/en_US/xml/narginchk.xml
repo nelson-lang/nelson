@@ -1,75 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>narginchk</keyword>
-	<short_description>Checks the number of input arguments.</short_description>
-
-	<syntax>
-		<syntax_item>narginchk(minArgs, maxArgs)</syntax_item>
-	</syntax>
-
-	<param_input>
-		<param_input_item>
-			<param_name>minArgs</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>narginchk</keyword>
+    <short_description>Checks the number of input arguments.</short_description>
+    <syntax>
+        <syntax_item>narginchk(minArgs, maxArgs)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>minArgs</param_name>
+            <param_description
       >minimum number of accepted inputs (scalar integer value).</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>maxArgs</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>maxArgs</param_name>
+            <param_description
       >maximum number of accepted inputs (scalar integer value).</param_description>
-		</param_input_item>
-	</param_input>
-
-
-	<description>
-		<p><b>narginchk</b> checks the number of input arguments of an function.</p>
-		<p
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b
+      >narginchk</b> checks the number of input arguments of an function.</p>
+            <p
     >To ensure that a minimum number of arguments is provided, while allowing an unlimited maximum number by setting <b
       >maxArgs</b> to <b>inf</b>. For instance, use <b
       >narginchk(2, inf)</b> to throw an error if fewer than two inputs are supplied.</p>
-	</description>
-
-
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description>With an macro function:</example_item_description>
-		<example_item_data><![CDATA[narginchk(1, 2)]]>
-		</example_item_data>
-	</example_item>
-
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${core}nargin">nargin</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${core}nargoutchk">nargoutchk</link>
-		</see_also_item>
-
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-		<history_item>
-			<history_version>1.10.0</history_version>
-			<history_description>narginchk(3, Inf) managed</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description
+      >With an macro function:</example_item_description>
+                <example_item_data
+      ><![CDATA[narginchk(1, 2)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${core}nargin">nargin</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${core}nargoutchk">nargoutchk</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+            <history_item>
+                <history_version>1.10.0</history_version>
+                <history_description
+      >narginchk(3, Inf) managed</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

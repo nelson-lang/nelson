@@ -1,100 +1,93 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>ipc</keyword>
-	<short_description>Inter process communicator.</short_description>
-
-	<syntax>
-   		<syntax_item>O = ipc(pid, 'eval', cmd)</syntax_item>
-		<syntax_item>B = ipc(pid, 'isvar', name, scope)</syntax_item>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>ipc</keyword>
+    <short_description>Inter process communicator.</short_description>
+    <syntax>
+        <syntax_item>O = ipc(pid, 'eval', cmd)</syntax_item>
+        <syntax_item>B = ipc(pid, 'isvar', name, scope)</syntax_item>
         <syntax_item>V = ipc(pid, 'get', name)</syntax_item>
-		<syntax_item>V = ipc(pid, 'get', name, scope)</syntax_item>
-		<syntax_item>TF = ipc(pid, 'minimize')</syntax_item>
-   		<syntax_item>ipc(pid, 'post', cmd)</syntax_item>
-   		<syntax_item>ipc(pid, 'post', cmd, scope)</syntax_item>
-    	<syntax_item>ipc(pid, 'put', var, name)</syntax_item>
-		<syntax_item>ipc(pid, 'put', var, name, scope)</syntax_item>
-		<syntax_item>ipc(pid, 'minimize', tf)</syntax_item>
-	</syntax>
-
-  <param_input>
-    <param_input_item>
-      <param_name>'post'</param_name>
-      <param_description
+        <syntax_item>V = ipc(pid, 'get', name, scope)</syntax_item>
+        <syntax_item>TF = ipc(pid, 'minimize')</syntax_item>
+        <syntax_item>ipc(pid, 'post', cmd)</syntax_item>
+        <syntax_item>ipc(pid, 'post', cmd, scope)</syntax_item>
+        <syntax_item>ipc(pid, 'put', var, name)</syntax_item>
+        <syntax_item>ipc(pid, 'put', var, name, scope)</syntax_item>
+        <syntax_item>ipc(pid, 'minimize', tf)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>'post'</param_name>
+            <param_description
       >a string: post a command to evaluate to another nelson's process in base scope (not blocking).</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>'eval'</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>'eval'</param_name>
+            <param_description
       >a string: post a command to evaluate to another nelson's process in base scope (blocking).</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>'isvar'</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>'isvar'</param_name>
+            <param_description
       >a string: check if a variable exists into another nelson's process.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>'put'</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>'put'</param_name>
+            <param_description
       >a string: send a variable into another nelson's process.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>'get'</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>'get'</param_name>
+            <param_description
       >a string: get a variable from another nelson's process.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>'minimize'</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>'minimize'</param_name>
+            <param_description
       >a string: minimize main window from another nelson's process.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-	<param_output>
-		<param_output_item>
-			<param_name>B</param_name>
-			<param_description>a logical: true if variable exists.</param_description>
-		</param_output_item>
-		<param_output_item>
-			<param_name>V</param_name>
-			<param_description>a variable from another nelson.</param_description>
-		</param_output_item>
-		<param_output_item>
-			<param_name>TF</param_name>
-			<param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>B</param_name>
+            <param_description
+      >a logical: true if variable exists.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>V</param_name>
+            <param_description
+      >a variable from another nelson.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>TF</param_name>
+            <param_description
       >a logical: true if destination process is minimized.</param_description>
-		</param_output_item>
-		<param_output_item>
-			<param_name>O</param_name>
-			<param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>O</param_name>
+            <param_description
       >a character array: output of evaluate string.</param_description>
-		</param_output_item>
-
-	</param_output>
-
-	<description>
-		<p><b
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >ipc</b> allows to execute, get, put variables between multiple nelson's process.</p>
-		<p
+            <p
     >All serializable nelson's types are supported. Unsupported types will be replaced by an empty matrix and a warning.</p>
-		<p>LIMITATION:</p>
-		<p
+            <p>LIMITATION:</p>
+            <p
     >The limit for the size of data transferred is 5000x5000 double. On 32 bits architecture, 1024x1024 double.</p>
-		<p>Current limitation to limit memory usage.</p>
-	</description>
-
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+            <p>Current limitation to limit memory usage.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[master_pid = getpid()
 initial_pids = getpid('available')
 
@@ -139,49 +132,40 @@ for p = current_pids
     if p ~= master_pid
         ipc(p, 'post', 'exit')
     end
-end]]>
-		</example_item_data>
-	</example_item>
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[ipc(getpid(), 'eval', 'dir')]]>
-		</example_item_data>
-	</example_item>
-
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+end]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[ipc(getpid(), 'eval', 'dir')]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[ipc(getpid(), 'minimize', true)
-ipc(getpid(), 'minimize')]]>
-		</example_item_data>
-	</example_item>
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${ipc}getpid">getpid</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${os_functions}unix">unix</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${core}eval">eval</link>
-		</see_also_item>
-
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+ipc(getpid(), 'minimize')]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${ipc}getpid">getpid</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${os_functions}unix">unix</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${core}eval">eval</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

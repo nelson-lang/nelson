@@ -1,42 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>varlock</keyword>
-	<short_description>Locks a variable.</short_description>
-
-	<syntax>
-		<syntax_item>varlock(scope, variable_name)</syntax_item>
-	</syntax>
-	
-
-	<param_input>
-		<param_input_item>
-			<param_name>scope</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>varlock</keyword>
+    <short_description>Locks a variable.</short_description>
+    <syntax>
+        <syntax_item>varlock(scope, variable_name)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>scope</param_name>
+            <param_description
       >a string: 'global', 'base', 'caller', 'local'.</param_description>
-		</param_input_item>
-
-		<param_input_item>
-			<param_name>variable_name</param_name>
-			<param_description>a string: variable name.</param_description>
-		</param_input_item>
-	</param_input>
-
-	<description><p><b>varlock</b> locks a variable.</p>
-	<p>Locked variables cannot be killed.</p>
-	<p><b>ans</b> variable cannot be locked.</p>
-	</description>
-
-	<used_function />
-	<bibliography />
-
-<examples>
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+        </param_input_item>
+        <param_input_item>
+            <param_name>variable_name</param_name>
+            <param_description>a string: variable name.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b>varlock</b> locks a variable.</p>
+            <p>Locked variables cannot be killed.</p>
+            <p>
+                <b>ans</b> variable cannot be locked.</p>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
       ><![CDATA[y = 3;
 varislock('local', 'y')
 varlock('local', 'y')
@@ -48,29 +43,24 @@ y = 4
 varlock('local', 'ans')
 varislock('local', 'ans')
 
-]]>
-		</example_item_data>
-	</example_item>
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${memory_manager}varislock">varislock</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${memory_manager}varunlock">varunlock</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${memory_manager}varislock">varislock</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${memory_manager}varunlock">varunlock</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>initial version</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

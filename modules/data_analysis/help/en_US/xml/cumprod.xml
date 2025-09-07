@@ -1,98 +1,79 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>cumprod</keyword>
-  <short_description>Cumulative product of array elements.</short_description>
-
-  <syntax>
-    <syntax_item>R = cumprod(M)</syntax_item>
-    <syntax_item>R = cumprod(M, d)</syntax_item>
-    <syntax_item>R = cumprod(M, d, direction)</syntax_item>
-    <syntax_item>R = cumprod(M, d, direction, nanflag)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>M</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>cumprod</keyword>
+    <short_description>Cumulative product of array elements.</short_description>
+    <syntax>
+        <syntax_item>R = cumprod(M)</syntax_item>
+        <syntax_item>R = cumprod(M, d)</syntax_item>
+        <syntax_item>R = cumprod(M, d, direction)</syntax_item>
+        <syntax_item>R = cumprod(M, d, direction, nanflag)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>M</param_name>
+            <param_description
       >an array of double, single, integers, ...</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>d</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>d</param_name>
+            <param_description
       >dimension to operate along: positive integer scalar.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>direction</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>direction</param_name>
+            <param_description
       >a string: 'reverse', 'forward' (default).</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>nanflag</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>nanflag</param_name>
+            <param_description
       >a string: 'includenan' (default) or 'omitnan'.</param_description>
-    </param_input_item>
-    
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>R</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>R</param_name>
+            <param_description
       >Cumulative Product of array elements.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-    <p><b
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >R = cumprod(M)</b> returns the cumulative product of the array elements of M.</p>
-  </description>
-
-
-  <used_function />
-  <bibliography />
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data>
-      <![CDATA[M = uint8([10:30:70;20:30:80;30:30:90]);
-R = cumprid(M)
-R = cumprod(M, 'reverse')]]>
-    </example_item_data>
-  </example_item>
-
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${data_analysis}ndims">ndims</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${data_analysis}prod">prod</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${data_analysis}cumsum">cumsum</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[M = uint8([10:30:70;20:30:80;30:30:90]);
+R = cumprod(M)
+R = cumprod(M, 'reverse')]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${data_analysis}ndims">ndims</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${data_analysis}prod">prod</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${data_analysis}cumsum">cumsum</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

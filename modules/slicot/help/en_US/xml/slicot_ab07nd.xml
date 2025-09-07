@@ -1,99 +1,78 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>slicot_ab07nd</keyword>
-  <short_description>Inverse of a given linear system.</short_description>
-
-  <syntax>
-    <syntax_item
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>slicot_ab07nd</keyword>
+    <short_description>Inverse of a given linear system.</short_description>
+    <syntax>
+        <syntax_item
     >[A_OUT, B_OUT, C_OUT, D_OUT, RCOND, INFO] = slicot_ab07nd(A_IN, B_IN, C_IN, D_IN)</syntax_item>
-  </syntax>
-  
-  <param_input>
-  
-    <param_input_item>
-      <param_name>A_IN</param_name>
-      <param_description
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A_IN</param_name>
+            <param_description
       >The leading N-by-N part of this array must contain the state matrix A of the original system.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>B_IN</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>B_IN</param_name>
+            <param_description
       >The leading N-by-M part of this array must contain the input matrix B of the original system.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>C_IN</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>C_IN</param_name>
+            <param_description
       >The leading M-by-N part of this array must contain the output matrix C of the original system.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>D_IN</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>D_IN</param_name>
+            <param_description
       >The leading M-by-M part of this array must contain the feedthrough matrix D of the original system.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>A_OUT</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>A_OUT</param_name>
+            <param_description
       >The leading N-by-N part of this array contains the state matrix Ai of the inverse system.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>B_OUT</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>B_OUT</param_name>
+            <param_description
       >The leading N-by-M part of this array contains the input matrix Bi of the inverse system.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>C_OUT</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>C_OUT</param_name>
+            <param_description
       >The leading M-by-N part of this array contains the output matrix Ci of the inverse system.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>D_OUT</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>D_OUT</param_name>
+            <param_description
       >The leading M-by-M part of this array contains the feedthrough matrix Di of the inverse system.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>RCOND</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>RCOND</param_name>
+            <param_description
       >The estimated reciprocal condition number of the feedthrough matrix D of the original system.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>INFO</param_name>
-      <param_description>= 0:  successful exit;</param_description>
-    </param_output_item>
-
-
-  </param_output>
-
-
-
-  <description>
-  <p>To compute the inverse (Ai, Bi, Ci, Di) of a given system (A, B, C, D).</p>
-  </description>
-
-  <used_function>AB07ND</used_function>
-  <bibliography
+        </param_output_item>
+        <param_output_item>
+            <param_name>INFO</param_name>
+            <param_description>= 0:  successful exit;</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >To compute the inverse (Ai, Bi, Ci, Di) of a given system (A, B, C, D).</p>
+    </description>
+    <used_function>AB07ND</used_function>
+    <bibliography
   >http://slicot.org/objects/software/shared/doc/AB07ND.html</bibliography>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
       ><![CDATA[A_IN = [1.0   2.0   0.0;
    4.0  -1.0   0.0;
    0.0   0.0   1.0];
@@ -108,20 +87,16 @@ C_IN = [0.0   1.0  -1.0;
 D_IN = [4.0   0.0;
    0.0   1.0];
 
-[A_OUT, B_OUT, C_OUT, D_OUT, RCOND, INFO] = slicot_ab07nd(A_IN, B_IN, C_IN, D_IN)]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>SLICOT Documentation</author_item>
-  </authors>
+[A_OUT, B_OUT, C_OUT, D_OUT, RCOND, INFO] = slicot_ab07nd(A_IN, B_IN, C_IN, D_IN)]]></example_item_data>
+        </example_item>
+    </examples>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>SLICOT Documentation</author_item>
+    </authors>
 </xmldoc>

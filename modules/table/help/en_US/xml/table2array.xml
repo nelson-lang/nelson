@@ -1,77 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>table2array</keyword>
-  <short_description>Convert table to homogeneous array.</short_description>
-
-  <syntax>
-    <syntax_item>A = table2array(T)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    
-    <param_input_item>
-      <param_name>T</param_name>
-      <param_description>table object.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>A</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>table2array</keyword>
+    <short_description>Convert table to homogeneous array.</short_description>
+    <syntax>
+        <syntax_item>A = table2array(T)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>T</param_name>
+            <param_description>table object.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>A</param_name>
+            <param_description
       >matrix: single, double, integer types, logical, char, string, struct, cell.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-    <p><b>A = table2array(T)</b> converts the input table <b
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>A = table2array(T)</b> converts the input table <b
       >T</b> into a homogeneous array <b>A</b>, where the variables in <b
       >T</b> become the columns of <b>A</b>.</p>
-    <p>The output <b>A</b> does not retain the table properties from <b
+            <p>The output <b>A</b> does not retain the table properties from <b
       >T.Properties</b>.</p>
-    <p>If <b
+            <p>If <b
       >T</b> is a table with row names, these row names will not be included in <b
       >A</b>.</p>
-  </description>
-  <used_function />
-  <bibliography />
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[A = magic(6);
 T = array2table(A);
-A = table2array(T)]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${table}array2table">array2table</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${table}table">table</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.8.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+A = table2array(T)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${table}array2table">array2table</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${table}table">table</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.8.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

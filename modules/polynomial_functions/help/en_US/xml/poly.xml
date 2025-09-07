@@ -1,78 +1,65 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>poly</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>poly</keyword>
+    <short_description
   >Polynomial with specified roots or characteristic polynomial.</short_description>
-
-  <syntax>
-    <syntax_item>p = poly(r)</syntax_item>
-    <syntax_item>p = poly(A)</syntax_item>
-  </syntax>
-
-  <param_input>
-    <param_input_item>
-      <param_name>r</param_name>
-      <param_description>vector: polynomial roots</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>A</param_name>
-      <param_description>matrix: input matrix</param_description>
-    </param_input_item>
-  </param_input>
-
- <param_output>
-    <param_output_item>
-      <param_name>p</param_name>
-      <param_description>row vector: polynomial coefficients</param_description>
-    </param_output_item>
-  </param_output>
-
-
-
-  <description>
-    <p>If <b>A</b> is a square matrix, <b
+    <syntax>
+        <syntax_item>p = poly(r)</syntax_item>
+        <syntax_item>p = poly(A)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>r</param_name>
+            <param_description>vector: polynomial roots</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description>matrix: input matrix</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>p</param_name>
+            <param_description
+      >row vector: polynomial coefficients</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>If <b>A</b> is a square matrix, <b
       >p = poly(A)</b> computes an n+1 element row vector. This result is composed the coefficients of the characteristic polynomial.</p>
-    <p>If <b>r</b> is a vector, <b
+        <p>If <b>r</b> is a vector, <b
       >p = poly(r)</b> computes a row vector. This result is composed the coefficients of the polynomial roots of which are the elements of <b
       >r</b>.</p>
-  </description>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+    </description>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
       ><![CDATA[
 A = [1    2    3;
 4    5    6;
 7    8    1];
-p = poly(A)]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${data_analysis}conv">conv</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${polynomial_functions}roots">roots</link>
-    </see_also_item>
-  </see_also>
-
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
+p = poly(A)]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${data_analysis}conv">conv</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${polynomial_functions}roots">roots</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
 </xmldoc>

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-  <language>en_US</language>
-  <module_name>linear_algebra</module_name>
-  <chapter>Linear algebra</chapter>
-  <chapter_description>linear algebra functions</chapter_description>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>linear_algebra</module_name>
+    <chapter>Linear algebra</chapter>
+    <chapter_description>linear algebra functions</chapter_description>
+    <auto_toc />
 </xmldoc>

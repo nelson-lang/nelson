@@ -1,62 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>COM_delete</keyword>
-  <short_description>Removes COM control or server.</short_description>
-
-  <syntax>
-    <syntax_item>COM_delete(h)</syntax_item>
-    <syntax_item>delete(h)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>h</param_name>
-      <param_description>a handle: a COM object.</param_description>
-    </param_input_item>
-  </param_input>
-
-  <description>
-  <p><b
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>COM_delete</keyword>
+    <short_description>Removes COM control or server.</short_description>
+    <syntax>
+        <syntax_item>COM_delete(h)</syntax_item>
+        <syntax_item>delete(h)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>h</param_name>
+            <param_description>a handle: a COM object.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b
       >delete(h)</b> releases all the interfaces derived from the specified COM server or control, and then deletes the server or control itself.</p>
-  <p
+            <p
     > This is different from releasing an interface, which releases and invalidates only the particular interface.</p>
-  <p>Do not forget to clear h afterward.</p> 
- </description>
-
-  <used_function />
-  <bibliography />
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+            <p>Do not forget to clear h afterward.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[pTextToSpeech = actxserver('Sapi.SpVoice')
 delete(pTextToSpeech)
-clear pTextToSpeech]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${com_engine}actxserver">actxserver</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+clear pTextToSpeech]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${com_engine}actxserver">actxserver</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<module_name>MEX</module_name>
-	<chapter>MEX functions</chapter>
-	<chapter_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>MEX</module_name>
+    <chapter>MEX functions</chapter>
+    <chapter_description
   >MEX C API is allow to access Nelson, GNU Octave and commercial software functions and extend it's functionality.
 </chapter_description>
+    <auto_toc />
 </xmldoc>

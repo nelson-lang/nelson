@@ -1,72 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>assignin</keyword>
-	<short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>assignin</keyword>
+    <short_description
   >Assignin value to a variable in a specified variables scope.</short_description>
-
-	<syntax>
-		<syntax_item>assignin(scope, variable_name, variable_value)</syntax_item>
-
-	</syntax>
-	
-
-	<param_input>
-		<param_input_item>
-			<param_name>scope</param_name>
-			<param_description
+    <syntax>
+        <syntax_item
+    >assignin(scope, variable_name, variable_value)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>scope</param_name>
+            <param_description
       >a string: 'global', 'base', 'caller', 'local'.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>variable_name</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>variable_name</param_name>
+            <param_description
       >a string: the name of variable destination.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>variable_value</param_name>
-			<param_description>a variable to assign.</param_description>
-		</param_input_item>
-
-	</param_input>
-
-	<description><p><b
+        </param_input_item>
+        <param_input_item>
+            <param_name>variable_value</param_name>
+            <param_description>a variable to assign.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b
       >assignin</b> assign value to a variable in a specified variables scope.</p>
-	</description>
-
-	<used_function />
-	<bibliography />
-
-<examples>
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[assignin('base', 'X', 33);
-Y = acquirevar('base', 'X');]]>
-		</example_item_data>
-	</example_item>
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${memory_manager}assignin">assignin</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${memory_manager}who">who</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+Y = acquirevar('base', 'X');]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${memory_manager}assignin">assignin</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${memory_manager}who">who</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

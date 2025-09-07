@@ -1,85 +1,74 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>balance</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>balance</keyword>
+    <short_description
   >Diagonal scaling to improve eigenvalue accuracy.</short_description>
-
-  <syntax>
-<syntax_item>B = balance(A)</syntax_item>
-<syntax_item>B = balance(A,'noperm')</syntax_item>
-<syntax_item>[T, B] = balance(A)</syntax_item>
-<syntax_item>[S, P, B] = balance(A)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>A</param_name>
-      <param_description
+    <syntax>
+        <syntax_item>B = balance(A)</syntax_item>
+        <syntax_item>B = balance(A,'noperm')</syntax_item>
+        <syntax_item>[T, B] = balance(A)</syntax_item>
+        <syntax_item>[S, P, B] = balance(A)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
       >a matrix: square, finite single or double.</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>B</param_name>
-      <param_description>balanced matrix.</param_description>
-    </param_output_item>
-    <param_output_item>
-      <param_name>T</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>B</param_name>
+            <param_description>balanced matrix.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>T</param_name>
+            <param_description
       >similarity transformation: Rearrange the elements of a diagonal matrix containing integer powers of two in order to minimize the impact of roundoff errors.</param_description>
-    </param_output_item>
-    <param_output_item>
-      <param_name>S</param_name>
-      <param_description>scaling vector</param_description>
-    </param_output_item>
-    <param_output_item>
-      <param_name>P</param_name>
-      <param_description>permutation vector</param_description>
-    </param_output_item>
-
-  </param_output>
-
-  <description>
-    <p><b>B = balance(A)</b> returns the balanced matrix <b>B</b>.</p>
-    <p><b>B = balance(A, 'noperm')</b> scales <b
+        </param_output_item>
+        <param_output_item>
+            <param_name>S</param_name>
+            <param_description>scaling vector</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>P</param_name>
+            <param_description>permutation vector</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>B = balance(A)</b> returns the balanced matrix <b>B</b>.</p>
+            <p>
+                <b>B = balance(A, 'noperm')</b> scales <b
       >A</b> without permuting its rows and columns.</p>
-  </description>
-
-  <used_function
+            </description>
+            <used_function
   >LAPACKE_dgebal, LAPACKE_sgebal, LAPACKE_zgebal, LAPACKE_cgebal</used_function>
-  <bibliography />
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
       ><![CDATA[A = [10  1000  100000; .1  10  1000; .001  .1  10]
 F = balance(A)
-]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${linear_algebra}eig">eig</link>
-		</see_also_item>
-	</see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${linear_algebra}eig">eig</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>initial version</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

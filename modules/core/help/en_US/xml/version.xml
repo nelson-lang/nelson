@@ -1,189 +1,158 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>version</keyword>
-	<short_description>Return the version of Nelson.</short_description>
-
-	<syntax>
-		<syntax_item>ver_str = version</syntax_item>
-		<syntax_item>ver_date = version('-date')</syntax_item>
-		<syntax_item>ver_desc = version('-description')</syntax_item>
-		<syntax_item>ver_comp = version('-compiler')</syntax_item>
-		<syntax_item>ver_hash = version('-commit_hash')</syntax_item>
-		<syntax_item>ver_number = version('-number')</syntax_item>
-		<syntax_item>ver_release = version('-release')</syntax_item>
-		<syntax_item>[ver_str, ver_release] = version()</syntax_item>
-
-	</syntax>
-	
-	<param_input>
-
-		<param_input_item>
-			<param_name>'-date'</param_name>
-			<param_description>a string to get release date</param_description>
-		</param_input_item>
-
-		<param_input_item>
-			<param_name>'-description'</param_name>
-			<param_description>a string to get release description</param_description>
-		</param_input_item>
-
-		<param_input_item>
-			<param_name>'-semantic'</param_name>
-			<param_description>a string to get semantic version</param_description>
-		</param_input_item>
-
-		<param_input_item>
-			<param_name>'-release'</param_name>
-			<param_description>a string to get release number</param_description>
-		</param_input_item>
-
-		<param_input_item>
-			<param_name>'-compiler'</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>version</keyword>
+    <short_description>Return the version of Nelson.</short_description>
+    <syntax>
+        <syntax_item>ver_str = version</syntax_item>
+        <syntax_item>ver_date = version('-date')</syntax_item>
+        <syntax_item>ver_desc = version('-description')</syntax_item>
+        <syntax_item>ver_comp = version('-compiler')</syntax_item>
+        <syntax_item>ver_hash = version('-commit_hash')</syntax_item>
+        <syntax_item>ver_number = version('-number')</syntax_item>
+        <syntax_item>ver_release = version('-release')</syntax_item>
+        <syntax_item>[ver_str, ver_release] = version()</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>'-date'</param_name>
+            <param_description>a string to get release date</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-description'</param_name>
+            <param_description
+      >a string to get release description</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-semantic'</param_name>
+            <param_description
+      >a string to get semantic version</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-release'</param_name>
+            <param_description
+      >a string to get release number</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-compiler'</param_name>
+            <param_description
       >a string to get compiler used to build Nelson</param_description>
-		</param_input_item>
-
-		<param_input_item>
-			<param_name>'-number'</param_name>
-			<param_description>a string to get semantic version</param_description>
-		</param_input_item>
-
-		<param_input_item>
-			<param_name>'-commit_hash'</param_name>
-			<param_description>a string to get commit hash</param_description>
-		</param_input_item>
-
-	</param_input>
-
-	<param_output>
-
-		<param_output_item>
-			<param_name>ver_str</param_name>
-			<param_description>a string : version</param_description>
-		</param_output_item>
-
-		<param_output_item>
-			<param_name>ver_date</param_name>
-			<param_description>a string: version date</param_description>
-		</param_output_item>
-
-		<param_output_item>
-			<param_name>ver_desc</param_name>
-			<param_description>a string: version description</param_description>
-		</param_output_item>
-
-		<param_output_item>
-			<param_name>ver_release</param_name>
-			<param_description>a string: release info</param_description>
-		</param_output_item>
-
-		<param_output_item>
-			<param_name>ver_commit</param_name>
-			<param_description>a string: commit hash</param_description>
-		</param_output_item>
-
-		<param_output_item>
-			<param_name>ver_compiler</param_name>
-			<param_description>a cell of string: {compiler used, arch}</param_description>
-		</param_output_item>
-
-		<param_output_item>
-			<param_name>ver_number</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-number'</param_name>
+            <param_description
+      >a string to get semantic version</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-commit_hash'</param_name>
+            <param_description>a string to get commit hash</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>ver_str</param_name>
+            <param_description>a string : version</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>ver_date</param_name>
+            <param_description>a string: version date</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>ver_desc</param_name>
+            <param_description>a string: version description</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>ver_release</param_name>
+            <param_description>a string: release info</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>ver_commit</param_name>
+            <param_description>a string: commit hash</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>ver_compiler</param_name>
+            <param_description
+      >a cell of string: {compiler used, arch}</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>ver_number</param_name>
+            <param_description
       >a matrix of integer values: [MAJOR, MINOR, MAINTENANCE, BUILD]</param_description>
-		</param_output_item>
-		
-	</param_output>
-
-	<description>
-		<p><b>version</b> the version of Nelson.</p>
-</description>
-
-
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[ver = version]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[ver_date = version('-date')]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[ver_date = version('-description')]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[ver_date = version('-release')]]>
-		</example_item_data>
-	</example_item>
-
-<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[ver_version_vector] = version('-semantic')]]>
-		</example_item_data>
-	</example_item>
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[ver_version_vector = version('-number')]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[compiler_info = version('-compiler')]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[[ver, release] = version()]]>
-		</example_item_data>
-	</example_item>
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${os_functions}computer">computer</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-		<history_item>
-			<history_version>1.2.0</history_version>
-			<history_description>`-semantic` option added.</history_description>
-		</history_item>
-
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>version</b> the version of Nelson.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data><![CDATA[ver = version]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[ver_date = version('-date')]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[ver_date = version('-description')]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[ver_date = version('-release')]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[ver_version_vector] = version('-semantic')]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[ver_version_vector = version('-number')]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[compiler_info = version('-compiler')]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[[ver, release] = version()]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${os_functions}computer">computer</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+            <history_item>
+                <history_version>1.2.0</history_version>
+                <history_description
+      >`-semantic` option added.</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

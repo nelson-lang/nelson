@@ -27,6 +27,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\resources\highlight.pack.js; DestDir: 
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\mono-blue.css; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_help_collection.qhc; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\style.css; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_help.xsd; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_HELP_TOOLS};
 ;==============================================================================

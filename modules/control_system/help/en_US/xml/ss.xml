@@ -1,103 +1,91 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<keyword>ss</keyword>
-  <short_description>State-space model.</short_description>
-
-  <syntax>
-    <syntax_item>sys = ss(A, B, C, D)</syntax_item>
-    <syntax_item>sys = ss(A, B, C, D, TS)</syntax_item>
-    <syntax_item>sys = ss(D)</syntax_item>
-    <syntax_item>sys = ss(sysIn)</syntax_item>
-  </syntax>
-
-  <param_input>
-    <param_input_item>
-      <param_name>A</param_name>
-      <param_description>State matrix: Nx-by-Nx matrix.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>B</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>ss</keyword>
+    <short_description>State-space model.</short_description>
+    <syntax>
+        <syntax_item>sys = ss(A, B, C, D)</syntax_item>
+        <syntax_item>sys = ss(A, B, C, D, TS)</syntax_item>
+        <syntax_item>sys = ss(D)</syntax_item>
+        <syntax_item>sys = ss(sysIn)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
+      >State matrix: Nx-by-Nx matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>B</param_name>
+            <param_description
       >Input-to-state matrix: Nx-by-Nu matrix.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>C</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description
       >State-to-output matrix: Ny-by-Nx matrix.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>D</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>D</param_name>
+            <param_description
       >Feedthrough matrix: Ny-by-Nu matrix.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>TS</param_name>
-      <param_description>Sample time: scalar.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>sysIn</param_name>
-      <param_description>SISO LTI model.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-     <param_output_item>
-      <param_name>sys</param_name>
-      <param_description>Output state space system model.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-    <p
+        </param_input_item>
+        <param_input_item>
+            <param_name>TS</param_name>
+            <param_description>Sample time: scalar.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>sysIn</param_name>
+            <param_description>SISO LTI model.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>sys</param_name>
+            <param_description
+      >Output state space system model.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
     >Creates a continuous-time state-space model using matrices A, B, C, and D, allowing for either real or complex-valued matrices.</p>
-    <p>This model is represented as <b>sys = ss(A, B, C, D)</b>.</p>
-  </description>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        <p>This model is represented as <b>sys = ss(A, B, C, D)</b>.</p>
+    </description>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
       ><![CDATA[A = [-15,-20; 10, 0];
 B = [5; 0];
 C = [0, 1];
 D = 0;
-sys = ss(A, B, C, D)]]>
-    </example_item_data>
-  </example_item>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+sys = ss(A, B, C, D)]]></example_item_data>
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
       ><![CDATA[num = [3 4];
 den = [3 1 5];
 Ts = 0.2;
 sysIn = tf(num, den, Ts)
-sys = ss(sysIn)]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${control_system}tf">tf</link>
-    </see_also_item>
-  </see_also>
-
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
+sys = ss(sysIn)]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${control_system}tf">tf</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
 </xmldoc>

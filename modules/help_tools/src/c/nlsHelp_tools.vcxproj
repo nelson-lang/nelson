@@ -234,6 +234,7 @@
     <ClCompile Include="..\cpp\XmlDocCopyrightItem.cpp" />
     <ClCompile Include="..\cpp\XmlDocDescriptionItem.cpp" />
     <ClCompile Include="..\cpp\XmlDocDirectory.cpp" />
+    <ClCompile Include="..\cpp\XmlDocXsdChecker.cpp" />
     <ClCompile Include="..\cpp\XmlDocExampleItem.cpp" />
     <ClCompile Include="..\cpp\XmlDocExamples.cpp" />
     <ClCompile Include="..\cpp\XmlDocHistory.cpp" />
@@ -291,6 +292,7 @@
     <ClInclude Include="..\include\XmlDocCopyrightItem.hpp" />
     <ClInclude Include="..\include\XmlDocDescriptionItem.hpp" />
     <ClInclude Include="..\include\XmlDocDirectory.hpp" />
+    <ClInclude Include="..\include\XmlDocXsdChecker.hpp" />
     <ClInclude Include="..\include\XmlDocExampleItem.hpp" />
     <ClInclude Include="..\include\XmlDocExamples.hpp" />
     <ClInclude Include="..\include\XmlDocGenericItem.hpp" />

@@ -1,132 +1,125 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>surface</keyword>
-  <short_description>Primitive surface plot.</short_description>
-
-  <syntax>
-      <syntax_item>surface(X, Y, Z)</syntax_item>
-      <syntax_item>surface(X, Y, Z, C)</syntax_item>
-      <syntax_item>surface(Z)</syntax_item>
-      <syntax_item>surface(Z, C)</syntax_item>
-      <syntax_item>surface(parent, ...)</syntax_item>
-      <syntax_item>surface(..., propertyName, propertyValue)</syntax_item>
-      <syntax_item>go = surface(...)</syntax_item>
-  </syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>X</param_name>
-			<param_description>x-coordinates: vector or matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>Y</param_name>
-			<param_description>y-coordinates: vector or matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>Z</param_name>
-			<param_description>z-coordinates: vector or matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>C</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>surface</keyword>
+    <short_description>Primitive surface plot.</short_description>
+    <syntax>
+        <syntax_item>surface(X, Y, Z)</syntax_item>
+        <syntax_item>surface(X, Y, Z, C)</syntax_item>
+        <syntax_item>surface(Z)</syntax_item>
+        <syntax_item>surface(Z, C)</syntax_item>
+        <syntax_item>surface(parent, ...)</syntax_item>
+        <syntax_item>surface(..., propertyName, propertyValue)</syntax_item>
+        <syntax_item>go = surface(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>X</param_name>
+            <param_description
+      >x-coordinates: vector or matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Y</param_name>
+            <param_description
+      >y-coordinates: vector or matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Z</param_name>
+            <param_description
+      >z-coordinates: vector or matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description
       >Color array: m-by-n-by-3 array of RGB triplets.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>parent</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>parent</param_name>
+            <param_description
       >a scalar graphics object value: parent container, specified as a axes.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>propertyName</param_name>
-			<param_description>a scalar string or row vector character.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>propertyValue</param_name>
-			<param_description>a value.</param_description>
-		</param_input_item>
-
-	</param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>go</param_name>
-      <param_description>a graphics object: surface type.</param_description>
-    </param_output_item>
-  </param_output>
-
-<description>
-
-<p><b>surf</b> and <b
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyName</param_name>
+            <param_description
+      >a scalar string or row vector character.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyValue</param_name>
+            <param_description>a value.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>go</param_name>
+            <param_description
+      >a graphics object: surface type.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>surf</b> and <b
       >surface</b> functions are both used to create 3D surface plots, but there are some slight differences between the two.</p>
-
-<p><b
+            <p>
+                <b
       >surf</b> function is used to plot a surface defined by a function of two variables, or by a set of scattered data points.</p>
-<p
+                <p
     >It requires three input arguments: X, Y, and Z. X and Y define the coordinates of the data points, and Z defines the height of the surface at each point.</p>
-<p><b
+                <p>
+                    <b
       >surf</b> function also provides additional options for customizing the appearance of the plot, such as lighting and color.</p>
-<p />
-<p><b
+                    <p />
+                    <p>
+                        <b
       >surface</b> function is used to plot a surface defined by a matrix of data. It requires three input arguments: X, Y, and Z. X and Y define the coordinates of the data points, and Z is a matrix that defines the height of the surface at each point.</p>
-<p
+                        <p
     >The size of Z must match the size of X and Y. The surface function also provides additional options for customizing the appearance of the plot, such as lighting and color.</p>
-
-<p>In summary, both <b>surf</b> and <b
+                        <p>In summary, both <b>surf</b> and <b
       >surface</b> functions are used for 3D surface plots but <b
       >surf</b> is used for a surface defined by a function of two variables or by a set of scattered data points, while <b
       >surface</b> is used for a surface defined by a matrix of data, and the size of Z must match the size of X and Y.</p>
-
-</description>
-
-  <used_function />
-  <bibliography />
-  
-<examples>
-
-  <example_item>
-
-    <example_item_type>nelson</example_item_type>
-    <example_item_description> 
-
-    </example_item_description>
-    <example_item_data
+                    </description>
+                    <used_function />
+                    <bibliography />
+                    <examples>
+                        <example_item>
+                            <example_item_type>nelson</example_item_type>
+                            <example_item_description />
+                            <example_item_data
       ><![CDATA[f = figure();
 data = peaks(50);
 ax1 = subplot(1, 2, 1);
 s1 = surface(ax1, data);
 ax2 = subplot(1, 2, 2);
 s2 = surf(ax2, data);
-]]>
-    </example_item_data>
-    <example_item_img src="../images/surface_1.svg" align="middle" />
-  </example_item>
- 
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${graphics}surf">surf</link>
-    </see_also_item>
-     <see_also_item>
-      <link linkend="${graphics}view">view</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${elementary_functions}meshgrid">meshgrid</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+]]></example_item_data>
+                            <example_item_img
+        src="../images/surface_1.svg"
+        align="middle"
+      />
+                        </example_item>
+                    </examples>
+                    <see_also>
+                        <see_also_item>
+                            <link linkend="${graphics}surf">surf</link>
+                        </see_also_item>
+                        <see_also_item>
+                            <link linkend="${graphics}view">view</link>
+                        </see_also_item>
+                        <see_also_item>
+                            <link
+        linkend="${elementary_functions}meshgrid"
+      >meshgrid</link>
+                        </see_also_item>
+                    </see_also>
+                    <history>
+                        <history_item>
+                            <history_version>1.0.0</history_version>
+                            <history_description
+      >initial version</history_description>
+                        </history_item>
+                    </history>
+                    <authors>
+                        <author_item>Allan CORNET</author_item>
+                    </authors>
+                </xmldoc>

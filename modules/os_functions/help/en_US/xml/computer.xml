@@ -1,98 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>computer</keyword>
-  <short_description>System information.</short_description>
-
-  <syntax>
-    <syntax_item>c = computer()</syntax_item>
-    <syntax_item>[c, maxsize] = computer()</syntax_item>
-    <syntax_item>[c, maxsize, endian] = computer()</syntax_item>
-    <syntax_item>arch = computer('arch')</syntax_item>
-
-  </syntax>
-
-  <param_input>
-    <param_input_item>
-      <param_name>'arch'</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>computer</keyword>
+    <short_description>System information.</short_description>
+    <syntax>
+        <syntax_item>c = computer()</syntax_item>
+        <syntax_item>[c, maxsize] = computer()</syntax_item>
+        <syntax_item>[c, maxsize, endian] = computer()</syntax_item>
+        <syntax_item>arch = computer('arch')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>'arch'</param_name>
+            <param_description
       >a string: returns the architecture of the computer.</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-  	
-    <param_output_item>
-      <param_name>c</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>c</param_name>
+            <param_description
       >a string: computer type: 'PCWIN', 'PCWIN64', 'GLNXA64', 'GLNXA32', 'MACI32', 'MACI64'</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>maxsize</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>maxsize</param_name>
+            <param_description
       >a integer value: maximum number of elements allowed in an array.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>endian</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>endian</param_name>
+            <param_description
       >a string: 'L' for little-endian, 'B' for big-endian.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>arch</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>arch</param_name>
+            <param_description
       >a string: architecture type: 'win64', 'win32', 'glnxa64', 'glnxa32', 'maci64', 'maci32'.</param_description>
-    </param_output_item>
-    
-  </param_output>
-
-
-  <description><p><b
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >computers</b> identifies the type of computer that Nelson is running on.</p>
-  </description>
-
-  <used_function />
-  <bibliography />
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[c = computer()
 [c, maxsize] = computer()
 [c, maxsize, endian] = computer()
-arch = computer('arch')]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${os_functions}ispc">ispc</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${os_functions}ismac">ismac</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${os_functions}isunix">isunix</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+arch = computer('arch')]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${os_functions}ispc">ispc</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${os_functions}ismac">ismac</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${os_functions}isunix">isunix</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

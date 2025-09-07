@@ -1,113 +1,118 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>orderfields</keyword>
-	<short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>orderfields</keyword>
+    <short_description
   >Reorganize the fields of a structured array.</short_description>
-
-	<syntax>
-		<syntax_item>S = orderfields(S1)</syntax_item>
-		<syntax_item>S = orderfields(S1, S2)</syntax_item>
-		<syntax_item>S = orderfields(S1, C)</syntax_item>
-		<syntax_item>S = orderfields(S1, P)</syntax_item>
-		<syntax_item>[S, Pout] = orderfields(...)</syntax_item>
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>S1</param_name>
-			<param_description>structure array: Input structure.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>S2</param_name>
-			<param_description
+    <syntax>
+        <syntax_item>S = orderfields(S1)</syntax_item>
+        <syntax_item>S = orderfields(S1, S2)</syntax_item>
+        <syntax_item>S = orderfields(S1, C)</syntax_item>
+        <syntax_item>S = orderfields(S1, P)</syntax_item>
+        <syntax_item>[S, Pout] = orderfields(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>S1</param_name>
+            <param_description
+      >structure array: Input structure.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>S2</param_name>
+            <param_description
       >structure array: Field order by structure.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>C</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description
       >cell array of character vectors or string array: Field order by name</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>P</param_name>
-			<param_description>numeric vector: Field order by number.</param_description>
-		</param_input_item>
-	
-	</param_input>
-
-	<param_output>
-		<param_output_item>
-			<param_name>S</param_name>
-			<param_description>structure array: Reordered structure.</param_description>
-		</param_output_item>
-		<param_output_item>
-			<param_name>Pout</param_name>
-			<param_description>numeric vector: Output field order.</param_description>
-		</param_output_item>
-	</param_output>
-
-	<description>
-		<p><b>S = orderfields(S1)</b> sorts the fields in <b
+        </param_input_item>
+        <param_input_item>
+            <param_name>P</param_name>
+            <param_description
+      >numeric vector: Field order by number.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>S</param_name>
+            <param_description
+      >structure array: Reordered structure.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>Pout</param_name>
+            <param_description
+      >numeric vector: Output field order.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>S = orderfields(S1)</b> sorts the fields in <b
       >S1</b> alphabetically by their names, considering uppercase letters before lowercase ones, and digits and underscores are also accounted for.</p>
-		<p><b>S = orderfields(S1,S2)</b> returns a copy of <b
+            <p>
+                <b>S = orderfields(S1,S2)</b> returns a copy of <b
       >S1</b> with its fields rearranged to match the order of fields in <b
       >S2</b>.Both <b>S1</b> and <b>S2</b> must share the same field names.</p>
-		<p><b
+                <p>
+                    <b
       >S = orderfields(S1, C)</b> matches the order specified in the input array <b
       >C</b>. Each field name from <b>S1</b> must appear once in <b>C</b>.</p>
-		<p><b
+                    <p>
+                        <b
       >S = orderfields(S1, P)</b> reorders fields based on the permutation vector <b
       >P</b>. <b
       >P</b> contains integers from 1 to n, where n is the number of fields in <b
       >S1</b>. This syntax is useful for maintaining consistent ordering across multiple structure arrays.</p>
-		<p><b>[S, Pout] = orderfields(...)</b> also returns a permutation vector <b
+                        <p>
+                            <b
+      >[S, Pout] = orderfields(...)</b> also returns a permutation vector <b
       >Pout</b>, indicating the changes in field order. <b
-      >Pout</b> consists of integers from 1 to n, reflecting the rearranged field positions. This syntax is compatible with any of the previously mentioned arguments.</p>	
-		<p><b
+      >Pout</b> consists of integers from 1 to n, reflecting the rearranged field positions. This syntax is compatible with any of the previously mentioned arguments.</p>
+                            <p>
+                                <b
       >orderfields</b> function exclusively arranges the top-level fields and doesn't operate recursively.</p>
-	</description>
-
-	<used_function />
-	<bibliography />
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data
+                            </description>
+                            <used_function />
+                            <bibliography />
+                            <examples>
+                                <example_item>
+                                    <example_item_type
+      >nelson</example_item_type>
+                                    <example_item_description />
+                                    <example_item_data
       ><![CDATA[s = struct ("d", 4, "b", 2, "a", 1, "c", 3);
 tA = orderfields (s)
 t = struct ("d", {}, "c", {}, "b", {}, "a", {});
 tB = orderfields (s, tA)
-]]>
-		</example_item_data>
-	
-	</example_item>
-
-</examples>
-	<see_also>
-		<see_also_item>
-			<link linkend="${data_structures}struct">struct</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${data_structures}fieldnames">fieldnames</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${data_structures}isfield">isfield</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.5.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+]]></example_item_data>
+                                </example_item>
+                            </examples>
+                            <see_also>
+                                <see_also_item>
+                                    <link
+        linkend="${data_structures}struct"
+      >struct</link>
+                                </see_also_item>
+                                <see_also_item>
+                                    <link
+        linkend="${data_structures}fieldnames"
+      >fieldnames</link>
+                                </see_also_item>
+                                <see_also_item>
+                                    <link
+        linkend="${data_structures}isfield"
+      >isfield</link>
+                                </see_also_item>
+                            </see_also>
+                            <history>
+                                <history_item>
+                                    <history_version>1.5.0</history_version>
+                                    <history_description
+      >initial version</history_description>
+                                </history_item>
+                            </history>
+                            <authors>
+                                <author_item>Allan CORNET</author_item>
+                            </authors>
+                        </xmldoc>

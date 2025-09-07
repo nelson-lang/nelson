@@ -1,94 +1,82 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>i18nHelpers</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>i18nHelpers</keyword>
+    <short_description
   >Internationalization (i18n) utility functions</short_description>
-
-  <syntax>
-    <syntax_item>i18nHelpers('convert', potFile, jsonFile)</syntax_item>
-    <syntax_item>i18nHelpers('merge', jsonFile1, jsonFile2)</syntax_item>
-    <syntax_item>i18nHelpers('sort', jsonFileA, jsonFileB)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>potFile</param_name>
-      <param_description
+    <syntax>
+        <syntax_item>i18nHelpers('convert', potFile, jsonFile)</syntax_item>
+        <syntax_item>i18nHelpers('merge', jsonFile1, jsonFile2)</syntax_item>
+        <syntax_item>i18nHelpers('sort', jsonFileA, jsonFileB)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>potFile</param_name>
+            <param_description
       >String: Path to the source .po/.pot translation template file</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>jsonFile</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>jsonFile</param_name>
+            <param_description
       >String: Path to JSON translation file destination</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>jsonFile1</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>jsonFile1</param_name>
+            <param_description
       >String: Path to the source JSON translation file</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>jsonFile2</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>jsonFile2</param_name>
+            <param_description
       >String: Path to the destination JSON translation file</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>jsonFileA</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>jsonFileA</param_name>
+            <param_description
       >String: Path to the source JSON file to sort</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>jsonFileB</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>jsonFileB</param_name>
+            <param_description
       >String: Path to the sorted JSON file</param_description>
-    </param_input_item>
-  </param_input>
-
-  <description>
-    <p><b
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b
       >i18nHelpers</b> provides essential utility functions for managing internationalization files. The main functions include:</p>
-    <p>- <b
+            <p>- <b
       >'convert'</b>: Converts a .po/.pot translation template file into JSON format for easier manipulation.</p>
-    <p>- <b
+            <p>- <b
       >'merge'</b>: Merges two JSON translation files. The entries from <code
       >jsonFile1</code> are added to <code
       >jsonFile2</code>, and entries exclusive to <code
       >jsonFile2</code> are removed.</p>
-    <p>- <b
+            <p>- <b
       >'sort'</b>: Sorts and organizes entries in a JSON translation file. <code
       >jsonFileA</code> and <code
       >jsonFileB</code> may refer to the same file if in-place sorting is desired.</p>
-    <p
+            <p
     >This utility is intended for internal use and may be updated over time.</p>
-  </description>
-
-  <used_function />
-  <bibliography />
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${localization}setlanguage">setlanguage</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${localization}getlanguage">getlanguage</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.10.0</history_version>
-      <history_description>Initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+        </description>
+        <used_function />
+        <bibliography />
+        <see_also>
+            <see_also_item>
+                <link linkend="${localization}setlanguage">setlanguage</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${localization}getlanguage">getlanguage</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.10.0</history_version>
+                <history_description>Initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

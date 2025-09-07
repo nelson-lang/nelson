@@ -1,97 +1,81 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>timeit</keyword>
-  <short_description>Measure time required to run function.</short_description>
-
-  <syntax>
-    <syntax_item>t = timeit(f)</syntax_item>
-    <syntax_item>t = timeit(f, nLhs)</syntax_item>
-    <syntax_item>t = timeit(f, nLhs, x1, ..., xm)</syntax_item>
-
-  </syntax>
-  
-
-  <param_input>
-    
-    <param_input_item>
-      <param_name>f</param_name>
-      <param_description>Function handle: Function to run.</param_description>
-    </param_input_item>
-    
-    <param_input_item>
-      <param_name>nLhs</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>timeit</keyword>
+    <short_description
+  >Measure time required to run function.</short_description>
+    <syntax>
+        <syntax_item>t = timeit(f)</syntax_item>
+        <syntax_item>t = timeit(f, nLhs)</syntax_item>
+        <syntax_item>t = timeit(f, nLhs, x1, ..., xm)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>f</param_name>
+            <param_description
+      >Function handle: Function to run.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>nLhs</param_name>
+            <param_description
       >integer value: number of output arguments. (1: default)</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>x1, ..., xm</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>x1, ..., xm</param_name>
+            <param_description
       >Input arguments, specified as a comma-separated list of variables or expressions.</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>t</param_name>
-      <param_description>time (in seconds).</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-   <p><b
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>t</param_name>
+            <param_description>time (in seconds).</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >t = timeit(f)</b> measures the time elapsed required to run the function specified by the function handle <b
       >f</b>.</p>
-   <p>To perform a robust measurement, <b
+            <p>To perform a robust measurement, <b
       >timeit</b> calls function multiple times and returns the median of the measurements.</p>
-   <p>If the function runs fast, <b
+            <p>If the function runs fast, <b
       >timeit</b> might call the function many times.</p>
-  </description>
-  <used_function />
-  <bibliography />
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[
 f = str2func('@()sleep(6)');
-tic();t = timeit(f), toc()]]>
-    </example_item_data>
-  </example_item>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+tic();t = timeit(f), toc()]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[X = rand(100);
 f = str2func('@(X) svd(X);');
 tic(), t1 = timeit(f, 1, X), toc()
-tic(), t2 = timeit(f, 3, X), toc()]]>
-    </example_item_data>
-  </example_item>
-
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${time}tic">tic</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+tic(), t2 = timeit(f, 3, X), toc()]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${time}tic">tic</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

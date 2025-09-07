@@ -1,47 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<keyword>hsvd</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>hsvd</keyword>
+    <short_description
   >Hankel singular values of dynamic system.</short_description>
-
-  <syntax>
-    <syntax_item>hsv = hsvd(sys)</syntax_item>
-  </syntax>
-
-  <param_input>
-    <param_input_item>
-      <param_name>sys</param_name>
-      <param_description>State-space model</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-     <param_output_item>
-      <param_name>hsv</param_name>
-      <param_description>Hankel singular values.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-    <p><b
+    <syntax>
+        <syntax_item>hsv = hsvd(sys)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>sys</param_name>
+            <param_description>State-space model</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>hsv</param_name>
+            <param_description>Hankel singular values.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >hsv = hsvd(sys)</b> calculates the Hankel singular values (hsv) for the dynamic system <b
       >sys</b>.</p>
-    <p
+            <p
     >These singular values are computed in state coordinates that balance the energy transfers from input to state and from state to output.</p>
-    <p
+            <p
     >The Hankel singular values serve as a measure of the impact of each state on the input/output characteristics of the system.</p>
-    <p
-    >Analogous to how singular values relate to matrix rank, small Hankel singular values indicate states that may be omitted to streamline the model and simplify its representation.</p>  
-</description>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+            <p
+    >Analogous to how singular values relate to matrix rank, small Hankel singular values indicate states that may be omitted to streamline the model and simplify its representation.</p>
+        </description>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[A = [ -0.04165  0.0000  4.9200  -4.9200  0.0000  0.0000  0.0000;
 -5.2100  -12.500  0.0000   0.0000  0.0000  0.0000  0.0000;
 0.0000   3.3300 -3.3300   0.0000  0.0000  0.0000  0.0000;
@@ -65,25 +60,21 @@ C = [  1.0000   0.0000  0.0000   0.0000  0.0000  0.0000  0.0000
 D = [];
 
 sys = ss(A, B, C, D);
-hsv = hsvd(sys)]]>
-    </example_item_data>
-  </example_item>
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${control_system}balreal">balreal</link>
-    </see_also_item>
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+hsv = hsvd(sys)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${control_system}balreal">balreal</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

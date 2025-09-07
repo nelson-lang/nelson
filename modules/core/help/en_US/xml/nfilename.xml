@@ -1,63 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>nfilename</keyword>
-	<keyword>mfilename</keyword>
-
-	<short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>nfilename</keyword>
+    <keyword_alias>mfilename</keyword_alias>
+    <short_description
   >Returns the name of the currently executing file.</short_description>
-
-	<syntax>
-		<syntax_item>R = nfilename()</syntax_item>
-		<syntax_item>R = nfilename('fullpath')</syntax_item>
-		<syntax_item>R = nfilename('fullpathext')</syntax_item>
-
-	</syntax>
-
-	<param_output>
-
-		<param_output_item>
-			<param_name>R</param_name>
-			<param_description>a string: the path of current function</param_description>
-		</param_output_item>
-	</param_output>
-
-	<description>
-		<p><b>R = nfilename()</b> returns the name of the currently executing file.</p>
-		<p><b
+    <syntax>
+        <syntax_item>R = nfilename()</syntax_item>
+        <syntax_item>R = nfilename('fullpath')</syntax_item>
+        <syntax_item>R = nfilename('fullpathext')</syntax_item>
+    </syntax>
+    <param_output>
+        <param_output_item>
+            <param_name>R</param_name>
+            <param_description
+      >a string: the path of current function</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >R = nfilename()</b> returns the name of the currently executing file.</p>
+            <p>
+                <b
       >nfilename()</b> called from outside an nlf file returns an empty string.</p>
-		<p
+                <p
     >With the input argument 'fullpathext', the string includes the directory part of the macro filename, and the filename extension.</p>
-		<p
+                <p
     >With the input argument 'fullpath', the string includes the directory part of the macro filename, but not the extension.</p>
-		<p><b>mfilename</b> is an alias on <b
-      >nfilename</b> added for basic script compatibility.</p> 
-	</description>
-
-
-	<used_function />
-	<bibliography />
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${core}nargin">nargin</link>
-		</see_also_item>
-		<see_also_item>
-			<link linkend="${core}nargout">nargout</link>
-		</see_also_item>
-
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+                <p>
+                    <b>mfilename</b> is an alias on <b
+      >nfilename</b> added for basic script compatibility.</p>
+                </description>
+                <used_function />
+                <bibliography />
+                <see_also>
+                    <see_also_item>
+                        <link linkend="${core}nargin">nargin</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link linkend="${core}nargout">nargout</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.0.0</history_version>
+                        <history_description
+      >initial version</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

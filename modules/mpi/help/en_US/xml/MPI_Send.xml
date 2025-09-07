@@ -1,66 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>MPI_Send</keyword>
-  <short_description>Performs a blocking send.</short_description>
-
-  <syntax>
-    <syntax_item>MPI_Send(A, destination, tag)</syntax_item>
-    <syntax_item>MPI_Send(A, destination, tag, comm)</syntax_item>
-
-  </syntax>
-
-  <param_input>
-    <param_input_item>
-      <param_name>A</param_name>
-      <param_description>an nelson array to send.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>destination</param_name>
-      <param_description>an integer value: rank of source.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>tag</param_name>
-      <param_description>an integer value: message tag.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>comm</param_name>
-      <param_description>a MPI_Comm object.</param_description>
-    </param_input_item>
-    
-  </param_input>
-
-
-  <description>
-  <p
-    >This function sends an array to a destination node on a given communicator with a specific message tag.</p> 
-  <p
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>MPI_Send</keyword>
+    <short_description>Performs a blocking send.</short_description>
+    <syntax>
+        <syntax_item>MPI_Send(A, destination, tag)</syntax_item>
+        <syntax_item>MPI_Send(A, destination, tag, comm)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description>an nelson array to send.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>destination</param_name>
+            <param_description
+      >an integer value: rank of source.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>tag</param_name>
+            <param_description
+      >an integer value: message tag.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>comm</param_name>
+            <param_description>a MPI_Comm object.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p
+    >This function sends an array to a destination node on a given communicator with a specific message tag.</p>
+        <p
     >Note that there has to be a matching receive issued by the destination node.</p>
-  <p>Throws an exception if there is an error.</p>
-</description>
-
-  <used_function />
-  <bibliography />
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${mpi}MPI_Recv">MPI_Recv</link>
-    </see_also_item>
-  </see_also>
-
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description
+        <p>Throws an exception if there is an error.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description
       >mpiexec([modulepath('mpi'), '/examples/MPI_helloworld.m'], 4)</example_item_description>
-    <example_item_data
+            <example_item_data
       ><![CDATA[if ~MPI_Initialized()
   MPI_Init();
 end
@@ -83,21 +65,21 @@ end
 
 if MPI_Initialized()
   MPI_Finalize();
-end]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
+end]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${mpi}MPI_Recv">MPI_Recv</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
 </xmldoc>

@@ -1,94 +1,84 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>close</keyword>
-  <short_description>Close one or more figures</short_description>
-
-  <syntax>
-    <syntax_item>close()</syntax_item>
-    <syntax_item>close('all')</syntax_item>
-    <syntax_item>close(name)</syntax_item>
-    <syntax_item>close(ID)</syntax_item>
-    <syntax_item>close(GO)</syntax_item>
-    <syntax_item>tf = close(...)</syntax_item>
-   </syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>ID</param_name>
-			<param_description>a scalar integer value: figure ID.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>GO</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>close</keyword>
+    <short_description>Close one or more figures</short_description>
+    <syntax>
+        <syntax_item>close()</syntax_item>
+        <syntax_item>close('all')</syntax_item>
+        <syntax_item>close(name)</syntax_item>
+        <syntax_item>close(ID)</syntax_item>
+        <syntax_item>close(GO)</syntax_item>
+        <syntax_item>tf = close(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>ID</param_name>
+            <param_description
+      >a scalar integer value: figure ID.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>GO</param_name>
+            <param_description
       >a scalar graphics object on an existing figure.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>GO</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>GO</param_name>
+            <param_description
       >a scalar graphics object on an existing figure.</param_description>
-		</param_input_item>
-
-	</param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>tf</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>tf</param_name>
+            <param_description
       >a scalar logical: true if figure was closed.</param_description>
-    </param_output_item>
-  </param_output>
-
-<description>
-  <p><b>close</b> closes the current figure.</p>
-  <p><b>close(ID)</b> closes the figure specified by figure ID.</p>
-  <p><b>close(GO)</b> closes the figure specified by figure graphics object.</p>
-  <p><b>close('all')</b> closes all figures.</p>
-
-</description>
-
-
-  <used_function />
-  <bibliography />
-  
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>close</b> closes the current figure.</p>
+            <p>
+                <b>close(ID)</b> closes the figure specified by figure ID.</p>
+                <p>
+                    <b
+      >close(GO)</b> closes the figure specified by figure graphics object.</p>
+                    <p>
+                        <b>close('all')</b> closes all figures.</p>
+                    </description>
+                    <used_function />
+                    <bibliography />
+                    <examples>
+                        <example_item>
+                            <example_item_type>nelson</example_item_type>
+                            <example_item_description />
+                            <example_item_data
       ><![CDATA[f = figure(1)
 close();
 h = figure(3)
 close(h)
 f1 = figure()
 f2 = figure()
-close('all')]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${graphics}gcf">gcf</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${graphics}figure">figure</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+close('all')]]></example_item_data>
+                        </example_item>
+                    </examples>
+                    <see_also>
+                        <see_also_item>
+                            <link linkend="${graphics}gcf">gcf</link>
+                        </see_also_item>
+                        <see_also_item>
+                            <link linkend="${graphics}figure">figure</link>
+                        </see_also_item>
+                    </see_also>
+                    <history>
+                        <history_item>
+                            <history_version>1.0.0</history_version>
+                            <history_description
+      >initial version</history_description>
+                        </history_item>
+                    </history>
+                    <authors>
+                        <author_item>Allan CORNET</author_item>
+                    </authors>
+                </xmldoc>

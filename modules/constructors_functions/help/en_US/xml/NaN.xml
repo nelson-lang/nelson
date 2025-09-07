@@ -1,84 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-
-	<language>en_US</language>
-	<keyword>NaN</keyword>
-	<short_description>Creates an Not-a-Number</short_description>
-
-	<syntax>
-		<syntax_item>NaN</syntax_item>
-		<syntax_item>nan</syntax_item>
-		<syntax_item>NaN(n)</syntax_item>
-		<syntax_item>NaN(n, m)</syntax_item>
-	</syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>n</param_name>
-			<param_description>a variable: n-by-n matrix</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>m</param_name>
-			<param_description>a variable: n-by-m matrix</param_description>
-		</param_input_item>
-	</param_input>
-
-
-	<description><p><b>NaN</b> returns the IEEE symbol NaN (Not a Number).</p>
-		<p><b
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>NaN</keyword>
+    <short_description>Creates an Not-a-Number</short_description>
+    <syntax>
+        <syntax_item>NaN</syntax_item>
+        <syntax_item>nan</syntax_item>
+        <syntax_item>NaN(n)</syntax_item>
+        <syntax_item>NaN(n, m)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>n</param_name>
+            <param_description>a variable: n-by-n matrix</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>m</param_name>
+            <param_description>a variable: n-by-m matrix</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b>NaN</b> returns the IEEE symbol NaN (Not a Number).</p>
+            <p>
+                <b
       >NaN</b> is the result of operations which do not produce a well defined numerical result.</p>
-		<p>Beware, you must never compare <b>NaN</b> with <b
+                <p>Beware, you must never compare <b>NaN</b> with <b
       >NaN</b>, in this case, please use <b>isnan</b>.</p>
-
-</description>
-
-
-	<used_function />
-	<bibliography />
-	
-
-<examples>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[NaN]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[3 + NaN]]>
-		</example_item_data>
-	</example_item>
-
-	<example_item>
-		<example_item_type>nelson</example_item_type>
-		<example_item_description />
-		<example_item_data><![CDATA[NaN != NaN
-isnan(NaN)]]>
-		</example_item_data>
-	</example_item>
-
-
-</examples>
-
-	<see_also>
-		<see_also_item>
-			<link linkend="${types}isnan">isnan</link>
-		</see_also_item>
-	</see_also>
-
-	<history>
-		<history_item>
-			<history_version>1.0.0</history_version>
-			<history_description>initial version</history_description>
-		</history_item>
-	</history>
-
-	<authors>
-		<author_item>Allan CORNET</author_item>
-	</authors>
-</xmldoc>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data><![CDATA[NaN]]></example_item_data>
+                </example_item>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data><![CDATA[3 + NaN]]></example_item_data>
+                </example_item>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+      ><![CDATA[NaN != NaN
+isnan(NaN)]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${types}isnan">isnan</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>initial version</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

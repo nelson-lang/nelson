@@ -1,93 +1,83 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<keyword>tf2ss</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>tf2ss</keyword>
+    <short_description
   >Convert transfer function filter parameters to state-space form.</short_description>
-
-  <syntax>
-  <syntax_item>[A, B, C, D] = tf2ss(b, a)</syntax_item>
-  </syntax>
-
-  <param_input>
-    <param_input_item>
-      <param_name>b</param_name>
-      <param_description
+    <syntax>
+        <syntax_item>[A, B, C, D] = tf2ss(b, a)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>b</param_name>
+            <param_description
       >Transfer function numerator coefficients: vector or matrix.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>a</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>a</param_name>
+            <param_description
       >Transfer function denominator coefficients: vector.</param_description>
-    </param_input_item>
-  </param_input>
-
-  <param_output>
-     <param_output_item>
-      <param_name>A (n x n)</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>A (n x n)</param_name>
+            <param_description
       >Represents the system's state-transition matrix. It describes how the system's internal state evolves over time.</param_description>
-    </param_output_item>
-    <param_output_item>
-      <param_name>B (n x m)</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>B (n x m)</param_name>
+            <param_description
       >Describes the input-to-state mapping. It shows how control inputs affect the change in the system's state.</param_description>
-    </param_output_item>
-    <param_output_item>
-      <param_name>C (p x n)</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>C (p x n)</param_name>
+            <param_description
       >Represents the state-to-output mapping. It shows how the system's state variables are related to the system's outputs.</param_description>
-    </param_output_item>
-    <param_output_item>
-      <param_name>D (p x m)</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>D (p x m)</param_name>
+            <param_description
       >Describes the direct feedthrough from inputs to outputs. In many systems, this matrix is zero because there is no direct feedthrough.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-    <p><b
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >[A, B, C, D] = tf2ss(b, a)</b> transforms a single-input transfer function, either continuous-time or discrete-time, into an equivalent state-space representation.</p>
-  </description>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+        </description>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[Fs = 6;
 dt = 1/Fs;
 b = [1 -(1+cos(dt)) cos(dt)];
 a = [1 -3*cos(dt) 1];
 [A, B, C, D] = tf2ss(b, a)
-]]>
-    </example_item_data>
-  </example_item>
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${control_system}ss2tf">ss2tf</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${control_system}ss">ss</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${control_system}tf">tf</link>
-    </see_also_item>
-
-  </see_also>
-
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${control_system}ss2tf">ss2tf</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${control_system}ss">ss</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${control_system}tf">tf</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

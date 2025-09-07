@@ -5,5 +5,6 @@
 	<module_name>double</module_name>
 	<chapter>Double</chapter>
 	<chapter_description>double type functions</chapter_description>
-	
+	    <auto_toc />
+
 </xmldoc>

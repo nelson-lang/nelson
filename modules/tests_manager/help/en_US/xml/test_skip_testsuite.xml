@@ -1,72 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>skip_testsuite</keyword>
-  <short_description>Skip test suite on condition</short_description>
-
-  <syntax>
-    <syntax_item>skip_testsuite()</syntax_item>
-    <syntax_item>skip_testsuite(reason)</syntax_item>
-    <syntax_item>skip_testsuite(condition)</syntax_item>
-    <syntax_item>skip_testsuite(condition, reason)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>condition</param_name>
-      <param_description>logical: true (default) or false</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>reason</param_name>
-      <param_description>a string: reason to skip test suite</param_description>
-    </param_input_item>
-  </param_input>
-
-
-  <description>
-  <p>The <b
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>skip_testsuite</keyword>
+    <short_description>Skip test suite on condition</short_description>
+    <syntax>
+        <syntax_item>skip_testsuite()</syntax_item>
+        <syntax_item>skip_testsuite(reason)</syntax_item>
+        <syntax_item>skip_testsuite(condition)</syntax_item>
+        <syntax_item>skip_testsuite(condition, reason)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>condition</param_name>
+            <param_description
+      >logical: true (default) or false</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>reason</param_name>
+            <param_description
+      >a string: reason to skip test suite</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>The <b
       >skip_testsuite</b> function allows you to skip a test suite based on a specified condition.</p>
-  <p><b
+        <p>
+            <b
       >condition</b>: A boolean expression that determines whether to skip the test suite. If <b
       >condition</b> evaluates to <b
       >true</b>, the test suite will be skipped.</p>
-  <p><b
+            <p>
+                <b
       >reason</b>: A string explaining the reason for skipping the test suite. This parameter is useful for providing context to other developers or yourself in case the test suite is skipped.</p>
-  </description>
-
-  <used_function />
-  <bibliography />
-
-<examples>
-
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data><![CDATA[skip_testsuite(true, 'Test skipped')]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${tests_manager}test_run">test_run</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.4.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+      ><![CDATA[skip_testsuite(true, 'Test skipped')]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${tests_manager}test_run">test_run</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.4.0</history_version>
+                    <history_description>initial version</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

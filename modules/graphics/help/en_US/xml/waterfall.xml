@@ -1,123 +1,116 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>waterfall</keyword>
-  <short_description>waterfall plot.</short_description>
-
-  <syntax>
-      <syntax_item>waterfall(X, Y, Z)</syntax_item>
-      <syntax_item>waterfall(Z)</syntax_item>
-      <syntax_item>waterfall(Z, C)</syntax_item>
-      <syntax_item>waterfall(X, Y, Z, C)</syntax_item>
-      <syntax_item>waterfall(parent, ...)</syntax_item>
-      <syntax_item>waterfall(..., propertyName, propertyValue)</syntax_item>
-      <syntax_item>go = waterfall(...)</syntax_item>
-  </syntax>
-	
-	<param_input>
-		<param_input_item>
-			<param_name>X</param_name>
-			<param_description>x-coordinates: vector or matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>Y</param_name>
-			<param_description>y-coordinates: vector or matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>Z</param_name>
-			<param_description>z-coordinates: vector or matrix.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>C</param_name>
-			<param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>waterfall</keyword>
+    <short_description>waterfall plot.</short_description>
+    <syntax>
+        <syntax_item>waterfall(X, Y, Z)</syntax_item>
+        <syntax_item>waterfall(Z)</syntax_item>
+        <syntax_item>waterfall(Z, C)</syntax_item>
+        <syntax_item>waterfall(X, Y, Z, C)</syntax_item>
+        <syntax_item>waterfall(parent, ...)</syntax_item>
+        <syntax_item>waterfall(..., propertyName, propertyValue)</syntax_item>
+        <syntax_item>go = waterfall(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>X</param_name>
+            <param_description
+      >x-coordinates: vector or matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Y</param_name>
+            <param_description
+      >y-coordinates: vector or matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Z</param_name>
+            <param_description
+      >z-coordinates: vector or matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description
       >Color array: m-by-n-by-3 array of RGB triplets.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>parent</param_name>
-			<param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>parent</param_name>
+            <param_description
       >a scalar graphics object value: parent container, specified as a axes.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>propertyName</param_name>
-			<param_description>a scalar string or row vector character.</param_description>
-		</param_input_item>
-		<param_input_item>
-			<param_name>propertyValue</param_name>
-			<param_description>a value.</param_description>
-		</param_input_item>
-
-	</param_input>
-
-  <param_output>
-    <param_output_item>
-      <param_name>go</param_name>
-      <param_description>a graphics object: surface type.</param_description>
-    </param_output_item>
-  </param_output>
-
-<description>
-<p><b
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyName</param_name>
+            <param_description
+      >a scalar string or row vector character.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyValue</param_name>
+            <param_description>a value.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>go</param_name>
+            <param_description
+      >a graphics object: surface type.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
       >waterfall</b>  creates a waterfall plot, which is a mesh plot with a partial curtain along the y dimension.</p>
-<p>This results in a 'waterfall' effect.</p>
-<p>The function takes the same input arguments as the <b>mesh</b> function.</p>
-</description>
-
-  <used_function />
-  <bibliography />
-  
-<examples>
-
-  <example_item>
-
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+            <p>This results in a 'waterfall' effect.</p>
+            <p>The function takes the same input arguments as the <b
+      >mesh</b> function.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[f = figure();
 Z = peaks();
 waterfall(Z);
 title ("waterfall function");
-]]>
-    </example_item_data>
-    <example_item_img src="../images/waterfall_1.svg" align="middle" />
-  </example_item>
-
-  <example_item>
-
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+]]></example_item_data>
+                <example_item_img
+        src="../images/waterfall_1.svg"
+        align="middle"
+      />
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
       ><![CDATA[f = figure();
 [X,Y] = meshgrid(-5:.5:5);
 Z = Y.*sin(X) - X.*cos(Y);
 p = waterfall(X, Y, Z);
-]]>
-    </example_item_data>
-    <example_item_img src="../images/waterfall_2.svg" align="middle" />
-  </example_item>
-
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${graphics}mesh">mesh</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${elementary_functions}meshgrid">meshgrid</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+]]></example_item_data>
+                <example_item_img
+        src="../images/waterfall_2.svg"
+        align="middle"
+      />
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${graphics}mesh">mesh</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${elementary_functions}meshgrid">meshgrid</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

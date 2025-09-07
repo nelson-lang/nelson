@@ -10,10 +10,11 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::HelpToolsGateway {
+//=============================================================================
 ArrayOfVector
-xmldoccheckerBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+xmldoccheckerBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

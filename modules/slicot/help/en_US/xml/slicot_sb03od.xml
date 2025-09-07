@@ -1,113 +1,89 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>slicot_sb03od</keyword>
-  <short_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>slicot_sb03od</keyword>
+    <short_description
   >Solution of stable continuous- or discrete-time Lyapunov equations (Cholesky factor).</short_description>
-
-  <syntax>
-    <syntax_item
+    <syntax>
+        <syntax_item
     >[Q_OUT, B_OUT, SCALE, WR, WI, INFO] = slicot_sb03od(DICO, FACT, TRANS, A, Q_IN, B_IN)</syntax_item>
-  </syntax>
-  
-  <param_input>
-  
-    <param_input_item>
-      <param_name>DICO</param_name>
-      <param_description
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>DICO</param_name>
+            <param_description
       >Specifies the type of Lyapunov equation to be solved as follows: = 'C': continuous-time case; 'D': discrete-time case.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>FACT</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>FACT</param_name>
+            <param_description
       >Specifies whether or not the real Schur factorization of the matrix A is supplied on entry. = 'F':  On entry, A and Q contain the factors from the real Schur factorization of the matrix A; = 'N':  The Schur factorization of A will be computed and the factors will be stored in A and Q.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>TRANS</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>TRANS</param_name>
+            <param_description
       >Specifies the form of op(K) to be used. = 'N':  op(K) = K    (No transpose); = 'T':  op(K) = K**T (Transpose).</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>A</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
       > the leading N-by-N part of this array must contain the matrix A. If FACT = 'F', then A contains an upper quasi-triangular matrix S in Schur canonical form; the elements below the upper Hessenberg part of the array A are not referenced.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>Q_IN</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>Q_IN</param_name>
+            <param_description
       >if FACT = 'F', then the leading N-by-N part of this array must contain the orthogonal matrix Q of the Schur factorization of A. Otherwise, Q need not be set on entry.</param_description>
-    </param_input_item>
-
-    <param_input_item>
-      <param_name>B_IN</param_name>
-      <param_description
+        </param_input_item>
+        <param_input_item>
+            <param_name>B_IN</param_name>
+            <param_description
       >if TRANS = 'N', and dimension (LDB,max(M,N)), if TRANS = 'T'. On entry, if TRANS = 'N', the leading M-by-N part of this array must contain the coefficient matrix B of the equation. On entry, if TRANS = 'T', the leading N-by-M part of this array must contain the coefficient matrix B of the equation.</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>Q_OUT</param_name>
-      <param_description
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>Q_OUT</param_name>
+            <param_description
       >the leading N-by-N part of this array contains the orthogonal matrix Q of the Schur factorization of A. The contents of array Q is not modified if FACT = 'F'.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>B_OUT</param_name>
-      <param_description
-      >the leading N-by-N part of this array contains the upper triangular Cholesky factor U of the solution matrix X of the problem, X = op(U)'*op(U). If M = 0 and N > 0, then U is set to zero.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>SCALE</param_name>
-      <param_description
+        </param_output_item>
+        <param_output_item>
+            <param_name>B_OUT</param_name>
+            <param_description
+      >the leading N-by-N part of this array contains the upper triangular Cholesky factor U of the solution matrix X of the problem, X = op(U)'*op(U). If M = 0 and N &gt; 0, then U is set to zero.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>SCALE</param_name>
+            <param_description
       >The scale factor, scale, set less than or equal to 1 to prevent the solution overflowing.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>WR</param_name>
-      <param_description
-      >If FACT = 'N', and INFO >= 0 and INFO less than 2, WR contains the real parts of the eigenvalues of A.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>WI</param_name>
-      <param_description
-      >If FACT = 'N', and INFO >= 0 and INFO less than 2, WI contains the imaginary parts of the eigenvalues of A.</param_description>
-    </param_output_item>
-
-    <param_output_item>
-      <param_name>INFO</param_name>
-      <param_description>= 0:  successful exit.</param_description>
-    </param_output_item>
-
-
-  </param_output>
-
-
-
-  <description>
-  <p
+        </param_output_item>
+        <param_output_item>
+            <param_name>WR</param_name>
+            <param_description
+      >If FACT = 'N', and INFO &gt;= 0 and INFO less than 2, WR contains the real parts of the eigenvalues of A.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>WI</param_name>
+            <param_description
+      >If FACT = 'N', and INFO &gt;= 0 and INFO less than 2, WI contains the imaginary parts of the eigenvalues of A.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>INFO</param_name>
+            <param_description>= 0:  successful exit.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
     >To solve for X = op(U)'*op(U) either the stable non-negative definite continuous-time Lyapunov equation or the convergent non-negative definite discrete-time Lyapunov equation.</p>
-  </description>
-
-  <used_function>SB03OD</used_function>
-  <bibliography
+    </description>
+    <used_function>SB03OD</used_function>
+    <bibliography
   >http://slicot.org/objects/software/shared/doc/SB03OD.html</bibliography>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
       ><![CDATA[A = [-0.5000    0.5000         0;
          0         0         0;
    -0.5000         0    0.5000];
@@ -117,20 +93,16 @@ B_IN = [0.5000    1.5000    1.0000;
 DICO = 'D';
 FACT = 'N';
 Q_IN = zeros(3, 3);
-[Q_OUT, B_OUT, SCALE, WR, WI, INFO] = slicot_sb03od(DICO, FACT, TRANS, A, Q_IN, B_IN)]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>SLICOT Documentation</author_item>
-  </authors>
+[Q_OUT, B_OUT, SCALE, WR, WI, INFO] = slicot_sb03od(DICO, FACT, TRANS, A, Q_IN, B_IN)]]></example_item_data>
+        </example_item>
+    </examples>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>SLICOT Documentation</author_item>
+    </authors>
 </xmldoc>

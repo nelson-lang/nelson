@@ -1,75 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-
-  <language>en_US</language>
-  <keyword>hadamard</keyword>
-  <short_description>Hadamard matrix</short_description>
-
-  <syntax>
-    <syntax_item>H = hadamard(n)</syntax_item>
-    <syntax_item>H = hadamard(n, classname)</syntax_item>
-  </syntax>
-  
-  <param_input>
-    <param_input_item>
-      <param_name>n</param_name>
-      <param_description>scalar integer value: order.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>classname</param_name>
-      <param_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>hadamard</keyword>
+    <short_description>Hadamard matrix</short_description>
+    <syntax>
+        <syntax_item>H = hadamard(n)</syntax_item>
+        <syntax_item>H = hadamard(n, classname)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>n</param_name>
+            <param_description>scalar integer value: order.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>classname</param_name>
+            <param_description
       >row character vector or scalar string: class name desired ('double' by default).</param_description>
-    </param_input_item>
-
-  </param_input>
-
-  <param_output>
-
-    <param_output_item>
-      <param_name>H</param_name>
-      <param_description>Hadamard Matrix.</param_description>
-    </param_output_item>
-  </param_output>
-
-  <description>
-    <p><b>H = hadamard(n)</b> returns the Hadamard Matrix of order <b>n</b>.</p>
-  </description>
-
-  <used_function />
-  <bibliography
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>H</param_name>
+            <param_description>Hadamard Matrix.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>H = hadamard(n)</b> returns the Hadamard Matrix of order <b
+      >n</b>.</p>
+        </description>
+        <used_function />
+        <bibliography
   >https://en.wikipedia.org/wiki/Hadamard_matrix , https://mathworld.wolfram.com/HadamardMatrix.html</bibliography>
-
-<examples>
-
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data>
-      <![CDATA[H = hadamard(4)]]>
-    </example_item_data>
-  </example_item>
-
-</examples>
-
-  <see_also>
-    <see_also_item>
-      <link linkend="${elementary_functions}hankel">hankel</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${elementary_functions}toeplitz">toeplitz</link>
-    </see_also_item>
-
-  </see_also>
-
-  <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
-  </history>
-
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
-</xmldoc>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[H = hadamard(4)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${elementary_functions}hankel">hankel</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${elementary_functions}toeplitz">toeplitz</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

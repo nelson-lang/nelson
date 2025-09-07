@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-  <language>en_US</language>
-  <module_name>qml_engine</module_name>
-  <chapter>QML engine</chapter>
-  <chapter_description
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>qml_engine</module_name>
+    <chapter>QML engine</chapter>
+    <chapter_description
   >The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.</chapter_description>
-  
+    <auto_toc />
 </xmldoc>

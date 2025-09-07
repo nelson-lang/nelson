@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-  <copyright>SAME AS NELSON SOFTWARE</copyright>
-  <language>en_US</language>
-  <module_name>f2c</module_name>
-  <chapter>Fortran to C</chapter>
-  <chapter_description> Converts Fortran 77 to C code</chapter_description>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <module_name>f2c</module_name>
+    <chapter>Fortran to C</chapter>
+    <chapter_description> Converts Fortran 77 to C code</chapter_description>
+    <auto_toc />
 </xmldoc>
