@@ -56,7 +56,6 @@ Context::getGlobalScope()
 void
 Context::pushScope(const std::string& name)
 {
-    Scope* sc = nullptr;
     if (scopestack.size() > getRecursionDepth()) {
         Error(ERROR_STACK_DEPTH_EXCEEDED);
     }
