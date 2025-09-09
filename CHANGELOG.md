@@ -28,6 +28,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `jsondecode(filename, '-file')`: Added '-file' argument to allow direct reading and decoding of JSON files from disk.
 
+- `tdigest`: Introduced t-digest algorithm data structure for accurate quantile estimation with configurable compression parameters.
+
 ### Changed
 
 - `jsondecode`: Significantly improved performance by integrating [simdjson](https://simdjson.org/), enabling faster and more efficient JSON parsing.
