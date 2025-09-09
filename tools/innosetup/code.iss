@@ -218,9 +218,9 @@ const
   INSTALLSTATE_ABSENT = 2;       // The product is installed for a different user.
   INSTALLSTATE_DEFAULT = 5;      // The product is installed for the current user.
 
-  // Visual C++ 2022 Redistributable v14.40.33810.00
+  // Visual C++ 2022 Redistributable v14.44.35211.00
   VC_2022_REDIST_X86_MIN = '{582EA838-9199-3518-A05C-DB09462F68EC}';
-  VC_2022_REDIST_X64_MIN = '{0C3457A0-3DCE-4A33-BEF0-9B528C557771}';
+  VC_2022_REDIST_X64_MIN = '{d8bbe9f9-7c5b-42c6-b715-9ee898a2e515}';
   VC_2022_REDIST_ARM64_MIN = '{B062C604-B930-483A-874E-301A4E0310C4}';
 //=============================================================================
 function MsiQueryProductState(szProduct: string): INSTALLSTATE; 
