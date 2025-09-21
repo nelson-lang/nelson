@@ -24,7 +24,7 @@ Nelson::OsFunctionsGateway::winopenBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
     std::wstring cmd;
-    if (argIn[0].isRowVectorCharacterArray()) {
+    if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
         cmd = argIn[0].getContentAsWideString();
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);

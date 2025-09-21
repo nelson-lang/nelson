@@ -54,7 +54,7 @@ def edit_homepage_md(version_str):
             if os.path.exists(path):
                 if path.endswith('homepage.md'):
                     lines_out = []
-                    with open(path) as f:
+                    with open(path, 'r', encoding='utf-8') as f:
                         lines_in = f.readlines()
                         for line in lines_in:
                             line = line.replace('\r\n', '')
@@ -63,7 +63,7 @@ def edit_homepage_md(version_str):
                                 lines_out.append('### Nelson ' + version_str)
                             else:
                                 lines_out.append(line)
-                    with open(path, 'w') as f:
+                    with open(path, 'w', encoding='utf-8') as f:
                         for l in lines_out:
                             f.write(l + '\n')
 

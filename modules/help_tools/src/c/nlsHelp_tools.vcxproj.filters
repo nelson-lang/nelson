@@ -13,165 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\cmark">
+      <UniqueIdentifier>{a2fa4455-f82c-4fc6-acd6-e5a72c0eb423}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cmark">
+      <UniqueIdentifier>{8706d4fd-1d20-4959-9e67-21128eafec41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="hoedown\autolink.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hoedown\buffer.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hoedown\document.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hoedown\escape.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hoedown\html.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hoedown\html_blocks.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hoedown\html_smartypants.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hoedown\stack.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hoedown\version.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\Markdown.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\HeadComments.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocExampleItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocHistoryItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocParamInputItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocParamOutputItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocCopyrightItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocLanguageItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocKeywordItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocShortDescriptionItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocSyntaxItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocDescriptionItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocUsedFunctionItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocBibliographyItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocAuthorItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocLinkItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocSeeAlsoItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocTitleItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocChapterDescriptionItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocChapterItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlHelpers.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocSyntax.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocAuthors.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocHistory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocParamInput.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocParamOutput.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocExamples.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocSeeAlso.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocCheckIfLinkExists.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocDocument.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\HtmlToPdf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocChapterIndexItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocChapterRefItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocDirectory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocResolveLink.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocListOfFiles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocListOfDirectories.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocChapterNamer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocModuleNameItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocMainIndex.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\QtHelpProject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocImageItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\ImageTagHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\dllMain.cpp">
@@ -180,174 +39,177 @@
     <ClCompile Include="..\cpp\XmlDocXsdChecker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\XmlTransform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\XmlDocToc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\XmlDocMakeSummary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\XmlDocPrettify.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\blocks.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\buffer.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\cmark.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\cmark_ctype.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\commonmark.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\houdini_href_e.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\houdini_html_e.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\houdini_html_u.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\html.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\inlines.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\iterator.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\latex.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\man.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\node.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\references.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\render.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\scanners.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\utf8.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="cmark\xml.c">
+      <Filter>Source Files\cmark</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\XmlDocBuild.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\XmlDocListOfFiles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\XmlDocSummary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\CleanupHelptools.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\XmlDocMergeSummary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\nlsHelp_tools_exports.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="cmark\buffer.h">
+      <Filter>Header Files\cmark</Filter>
     </ClInclude>
-    <ClInclude Include="hoedown\autolink.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="cmark\chunk.h">
+      <Filter>Header Files\cmark</Filter>
     </ClInclude>
-    <ClInclude Include="hoedown\buffer.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="cmark\cmark.h">
+      <Filter>Header Files\cmark</Filter>
     </ClInclude>
-    <ClInclude Include="hoedown\document.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="cmark\cmark_ctype.h">
+      <Filter>Header Files\cmark</Filter>
     </ClInclude>
-    <ClInclude Include="hoedown\escape.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="cmark\houdini.h">
+      <Filter>Header Files\cmark</Filter>
     </ClInclude>
-    <ClInclude Include="hoedown\html.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="cmark\inlines.h">
+      <Filter>Header Files\cmark</Filter>
     </ClInclude>
-    <ClInclude Include="hoedown\stack.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="cmark\iterator.h">
+      <Filter>Header Files\cmark</Filter>
     </ClInclude>
-    <ClInclude Include="hoedown\version.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="cmark\node.h">
+      <Filter>Header Files\cmark</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Markdown.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="cmark\parser.h">
+      <Filter>Header Files\cmark</Filter>
+    </ClInclude>
+    <ClInclude Include="cmark\references.h">
+      <Filter>Header Files\cmark</Filter>
+    </ClInclude>
+    <ClInclude Include="cmark\render.h">
+      <Filter>Header Files\cmark</Filter>
+    </ClInclude>
+    <ClInclude Include="cmark\scanners.h">
+      <Filter>Header Files\cmark</Filter>
+    </ClInclude>
+    <ClInclude Include="cmark\utf8.h">
+      <Filter>Header Files\cmark</Filter>
+    </ClInclude>
+    <ClInclude Include="cmark\cmark_version.h">
+      <Filter>Header Files\cmark</Filter>
+    </ClInclude>
+    <ClInclude Include="cmark\cmark_export.h">
+      <Filter>Header Files\cmark</Filter>
     </ClInclude>
     <ClInclude Include="..\include\HeadComments.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocExampleItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocHistoryItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocGenericItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocParamInputItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocParamOutputItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocCopyrightItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocLanguageItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocKeywordItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocShortDescriptionItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocSyntaxItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocDescriptionItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocUsedFunctionItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocBibliographyItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocAuthorItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocLinkItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocumentTags.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocSeeAlsoItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocTitleItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocChapterDescriptionItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocChapterItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlHelpers.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocSyntax.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocAuthors.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocHistory.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocParamInput.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocParamOutput.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocExamples.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocSeeAlso.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocCheckIfLinkExists.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocDocument.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\HtmlToPdf.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\HtmlTags.hpp">
+    <ClInclude Include="..\include\Markdown.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\XmlDocChapterIndexItem.hpp">
+    <ClInclude Include="..\include\nlsHelp_tools_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\XmlDocChapterRefItem.hpp">
+    <ClInclude Include="..\include\XmlDocMakeSummary.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\XmlDocDirectory.hpp">
+    <ClInclude Include="..\include\XmlDocPrettify.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\XmlDocResolveLink.hpp">
+    <ClInclude Include="..\include\XmlDocToc.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\XmlDocXsdChecker.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\XmlTransform.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\XmlDocBuild.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\XmlDocListOfFiles.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\XmlDocListOfDirectories.hpp">
+    <ClInclude Include="..\include\XmlDocSummary.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\XmlDocChapterNamer.hpp">
+    <ClInclude Include="..\include\CleanupHelptools.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\XmlDocModuleNameItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocMainIndex.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\QtHelpProject.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocImageItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\ImageTagHelpers.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlTarget.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\XmlDocXsdChecker.hpp">
+    <ClInclude Include="..\include\XmlDocMergeSummary.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

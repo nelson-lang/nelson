@@ -4,6 +4,12 @@
     <language>en_US</language>
     <module_name>data_structures</module_name>
     <chapter>Data structures</chapter>
-    <chapter_description>data structures functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Data Structures module provides tools for creating, manipulating, and inspecting arrays, cells, and structures in Nelson.</p>
+        <p
+    >It enables conversion between different data formats, access and modification of fields, application of functions to array elements, and organization of structured data.</p>
+        <p
+    >This module facilitates flexible handling of complex data, supporting both programmatic operations and dynamic data management.</p>
+    </chapter_description>
 </xmldoc>

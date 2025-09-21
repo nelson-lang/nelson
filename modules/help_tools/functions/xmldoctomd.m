@@ -20,7 +20,7 @@ function tf = xmldoctomd(varargin)
     overwrite = true;
   end
   mkdir(dir_output);
-  module_name = xmldocbuild(dirs_input, dir_output, main_title, 'md', overwrite);
-  tf = true;
+   xmldocbuild(dirs_input, dir_output, main_title, 'md', overwrite);
+   tf = true;
 end
 %=============================================================================

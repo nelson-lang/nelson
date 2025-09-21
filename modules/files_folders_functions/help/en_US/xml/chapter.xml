@@ -4,7 +4,12 @@
     <language>en_US</language>
     <module_name>files_folders_functions</module_name>
     <chapter>Files and folders functions</chapter>
-    <chapter_description
-  >files, folders and paths functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+      <p
+    >The File and Folder Functions module provides tools for managing files, directories, and paths in Nelson.</p>
+      <p
+    >This module supports navigation of the file system, creation and removal of files and directories, querying file and folder properties, building and resolving paths, and handling platform-specific separators.</p>
+      <p
+    >This module enables efficient and cross-platform file system operations within Nelson scripts and applications.</p>
+    </chapter_description>
 </xmldoc>

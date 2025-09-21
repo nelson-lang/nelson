@@ -4,7 +4,12 @@
     <language>en_US</language>
     <module_name>dictionary</module_name>
     <chapter>Dictionaries</chapter>
-    <chapter_description
-  >Map data with keys that index values.</chapter_description>
-    <auto_toc />
+    <chapter_description>
+      <p
+    >The Dictionary module provides tools for working with key-value mappings in Nelson.</p>
+      <p
+    >It supports creation and configuration of dictionaries with defined key and value types, querying and modifying entries, and managing the overall structure.</p>
+      <p
+    >This module enables efficient storage, retrieval, and manipulation of data indexed by unique keys, making it ideal for associative arrays, lookups, and dynamic data management.</p>
+    </chapter_description>
 </xmldoc>

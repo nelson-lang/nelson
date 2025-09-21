@@ -4,6 +4,12 @@
     <language>en_US</language>
     <module_name>history_manager</module_name>
     <chapter>History manager</chapter>
-    <chapter_description>history functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The History Manager module in Nelson provides tools to access and manage the command
+            history of your session.</p>
+        <p
+    >It allows users to review previously executed commands, recall them for reuse, and
+            maintain an organized workflow.</p>
+    </chapter_description>
 </xmldoc>

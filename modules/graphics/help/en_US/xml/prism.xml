@@ -35,7 +35,11 @@
       ><![CDATA[f = figure();
 surf(peaks);
 colormap('prism');]]></example_item_data>
-                <example_item_img src="../images/prism.svg" align="middle" />
+                <example_item_img
+        src="../images/prism.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

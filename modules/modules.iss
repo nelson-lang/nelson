@@ -54,7 +54,6 @@ Source: {#RootPath}modules\modules.m; DestDir: {app}\modules\; AfterInstall: Aft
 #include "history_manager/module.iss"
 #include "help_tools/module.iss"
 #include "gui/module.iss"
-#include "help_browser/module.iss"
 #include "assert_functions/module.iss"
 #include "tests_manager/module.iss"
 #include "linear_algebra/module.iss"

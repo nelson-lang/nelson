@@ -4,7 +4,14 @@
     <language>en_US</language>
     <module_name>control_system</module_name>
     <chapter>Control System functions</chapter>
-    <chapter_description
-  >Algorithms for designing, analyzing and tuning linear control systems.</chapter_description>
-    <auto_toc />
+    <chapter_description>
+      <p
+    >The Control System module provides algorithms and tools for designing, analyzing, and tuning linear control systems in Nelson.</p>
+      <p
+    >It supports state-space and transfer function models, system transformations between continuous and discrete time, and computation of poles, zeros, and frequency responses.</p>
+      <p
+    >The module also includes functionality for system balancing, controllability and observability analysis, regulator and estimator design, and simulation of dynamic system responses.</p>
+      <p
+    >These tools enable robust modeling, analysis, and control of linear dynamic systems for engineering and research applications.</p>
+    </chapter_description>
 </xmldoc>

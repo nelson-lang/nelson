@@ -28,6 +28,79 @@ namespace Nelson {
 static QPalette nelsonPalette;
 static bool isQtDarkMode = false;
 //===================================================================================
+#if _MSC_VER
+static bool
+isWindowsDarkMode()
+{
+    QSettings settings(
+        "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+        QSettings::NativeFormat);
+    QVariant value = settings.value("AppsUseLightTheme");
+    return value.isValid() && (value.toInt() == 0);
+}
+#endif
+//===================================================================================
+#ifdef __APPLE__
+static bool
+isMacDarkMode(const QPalette& palette)
+{
+    QColor baseActiveColor = palette.color(QPalette::Active, QPalette::Base);
+    QColor defaultDarkColorMacos(30, 30, 30, 255);
+    return baseActiveColor == defaultDarkColorMacos;
+}
+#endif
+//===================================================================================
+#if !defined(_MSC_VER) && !defined(__APPLE__)
+static bool
+isLinuxDarkMode()
+{
+    QProcess process;
+    process.start("gsettings get org.gnome.desktop.interface gtk-theme");
+    if (process.waitForFinished(500)) {
+        QString output = process.readAllStandardOutput();
+        return output.contains("dark", Qt::CaseInsensitive);
+    }
+    return false;
+}
+#endif
+//===================================================================================
+static bool
+detectDarkMode()
+{
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0) && (defined(Q_OS_WIN) || defined(Q_OS_LINUX)))
+    // Qt 6.5+
+    if (QGuiApplication::instance()) {
+        QStyleHints* styleHints = QGuiApplication::styleHints();
+        if (styleHints && styleHints->colorScheme() == Qt::ColorScheme::Dark) {
+            return true;
+        }
+    }
+// Fallback Windows
+#if _MSC_VER
+    return isWindowsDarkMode();
+#else
+    return false;
+#endif
+#else
+    QPalette palette = qApp ? qApp->palette() : QPalette();
+    QColor windowTextColor = palette.color(QPalette::WindowText);
+    QColor windowColor = palette.color(QPalette::Window);
+    bool dark = windowTextColor.toHsl().value() > windowColor.toHsl().value();
+
+    if (dark)
+        return true;
+
+// Fallbacks
+#if _MSC_VER
+    return isWindowsDarkMode();
+#elif defined(__APPLE__)
+    return isMacDarkMode(palette);
+#else
+    return isLinuxDarkMode();
+#endif
+#endif
+}
+//===================================================================================
 static void
 changeToDarkTheme()
 {
@@ -45,38 +118,7 @@ changeToDarkTheme()
 void
 createNelsonPalette()
 {
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0) && (defined(Q_OS_WIN) || defined(Q_OS_LINUX)))
-    QStyleHints* currentStyle = QGuiApplication::styleHints();
-    if (currentStyle) {
-        isQtDarkMode = currentStyle->colorScheme() == Qt::ColorScheme::Dark;
-    }
-#else
-    nelsonPalette = qApp->palette();
-    QColor windowTextColor = nelsonPalette.color(QPalette::WindowText);
-    QColor windowColor = nelsonPalette.color(QPalette::Window);
-    isQtDarkMode = windowTextColor.toHsl().value() > windowColor.toHsl().value();
-    // Qt 5 and Qt6.4 currently does not manage natevily dark theme on Windows ...
-    if (!isQtDarkMode) {
-#if _MSC_VER
-        QSettings settings(
-            "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
-            QSettings::NativeFormat);
-        isQtDarkMode = (settings.value("AppsUseLightTheme") == 0);
-#else
-#ifdef __APPLE__
-        QColor baseActiveColor = nelsonPalette.color(QPalette::Active, QPalette::Base);
-        QColor defaultDarkColorMacos(30, 30, 30, 255);
-        isQtDarkMode = baseActiveColor == defaultDarkColorMacos;
-#else
-        QProcess process;
-        process.start("gsettings get org.gnome.desktop.interface gtk-theme");
-        process.waitForFinished();
-        QString output = process.readAllStandardOutput();
-        isQtDarkMode = output.contains("dark", Qt::CaseInsensitive);
-#endif
-#endif
-    }
-#endif
+    isQtDarkMode = detectDarkMode();
     if (isQtDarkMode) {
         changeToDarkTheme();
     } else {

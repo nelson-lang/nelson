@@ -45,7 +45,7 @@ res = acos(A)]]>
 
 	<see_also>
 		<see_also_item>
-			<link linkend="${trigonometric}cos">cos</link>
+			<link linkend="${trigonometric_functions}cos">cos</link>
 		</see_also_item>
 	</see_also>
 

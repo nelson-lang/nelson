@@ -27,7 +27,8 @@
         </param_input_item>
         <param_input_item>
             <param_name>export_format</param_name>
-            <param_description>a string: 'qt' or 'html'.</param_description>
+            <param_description
+      >a string: 'qt', 'html', 'web', 'md'.</param_description>
         </param_input_item>
         <param_input_item>
             <param_name>overwrite</param_name>
@@ -62,6 +63,12 @@
                 <history_version>1.0.0</history_version>
                 <history_description>initial version</history_description>
             </history_item>
+            <history_item>
+                <history_version>1.15.0</history_version>
+                <history_description
+      >'web' input parameter added.</history_description>
+            </history_item>
+
         </history>
         <authors>
             <author_item>Allan CORNET</author_item>

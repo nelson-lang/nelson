@@ -51,6 +51,7 @@ plot3(bezierCurve(:,1), bezierCurve(:,2), bezierCurve(:,3))
                 <example_item_img
         src="../images/bernsteinMatrix.svg"
         align="middle"
+        generate="true"
       />
             </example_item>
         </examples>

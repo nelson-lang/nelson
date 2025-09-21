@@ -59,7 +59,11 @@ Y = linspace(0, 2*pi, 100);
 Z = sin(X' * Y);
 f = figure()
 pcolor(X, Y, Z)]]></example_item_data>
-                <example_item_img src="../images/pcolor_1.svg" align="middle" />
+                <example_item_img
+        src="../images/pcolor_1.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
@@ -73,7 +77,11 @@ pcolor(ax1, C1)
 ax2 = subplot(1, 2, 2);
 C2 = rand(50, 10);
 pcolor(ax2, C2)]]></example_item_data>
-                <example_item_img src="../images/pcolor_2.svg" align="middle" />
+                <example_item_img
+        src="../images/pcolor_2.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

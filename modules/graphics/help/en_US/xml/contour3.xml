@@ -78,6 +78,7 @@ C.LineWidth = 3;]]></example_item_data>
                 <example_item_img
         src="../images/contour3_1.svg"
         align="middle"
+        generate="true"
       />
             </example_item>
         </examples>

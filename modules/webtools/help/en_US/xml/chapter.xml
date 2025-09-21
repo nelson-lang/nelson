@@ -4,6 +4,9 @@
     <language>en_US</language>
     <module_name>webtools</module_name>
     <chapter>Web tools</chapter>
-    <chapter_description>Transferring data with URLs</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The WebTools module provides functions to interact with web resources, transfer data via
+            URLs, and work with RESTful web services.</p>
+    </chapter_description>
 </xmldoc>

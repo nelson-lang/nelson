@@ -36,6 +36,7 @@ listbox.Callback = @(src, void) colormap(ax, cmaps(src.Value));
                 <example_item_img
         src="../images/colormaplist.svg"
         align="middle"
+        generate="true"
       />
             </example_item>
         </examples>

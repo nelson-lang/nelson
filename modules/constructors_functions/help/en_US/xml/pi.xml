@@ -10,8 +10,8 @@
     </syntax>
     <description>
         <p>
-            <b>pi</b> eturns the floating-point number nearest the value of <b
-      >π </b>.</p>
+            <b>pi</b> returns the floating-point number nearest the value of <b
+      >π</b>.</p>
         </description>
         <used_function />
         <bibliography />

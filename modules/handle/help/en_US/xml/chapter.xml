@@ -4,6 +4,12 @@
     <language>en_US</language>
     <module_name>handle</module_name>
     <chapter>Handle</chapter>
-    <chapter_description>handle object functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Handle module provides tools for creating and manipulating handle objects in Nelson.</p>
+        <p
+    >Handle objects are lightweight references to larger data structures, enabling efficient memory management and data sharing between different parts of a program.</p>
+        <p
+    >This module includes functions for creating, copying, and destroying handle objects, as well as for managing their lifetimes and ensuring proper cleanup.</p>
+    </chapter_description>
 </xmldoc>

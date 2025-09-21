@@ -132,6 +132,7 @@ end
                                     <example_item_img
         src="../images/imrotate_1.svg"
         align="middle"
+        generate="true"
       />
                                 </example_item>
                                 <example_item>
@@ -168,6 +169,7 @@ end
                                     <example_item_img
         src="../images/imrotate_2.svg"
         align="middle"
+        generate="true"
       />
                                 </example_item>
                             </examples>

@@ -24,7 +24,7 @@
 
 ## Bug Fixes:
 
-- [#260](http://github.com/nelson-lang/nelson/issues/260): disable files watch for internal modules.
+- [#260](https://github.com/nelson-lang/nelson/issues/260): disable files watch for internal modules.
 
 # 0.3.11 (2019-11-26)
 
@@ -69,13 +69,13 @@
 
 ## Bug Fixes:
 
-- [#261](http://github.com/nelson-lang/nelson/issues/261): add a detailed documentation about module.json used in external modules.
+- [#261](https://github.com/nelson-lang/nelson/issues/261): add a detailed documentation about module.json used in external modules.
 
-- [#259](http://github.com/nelson-lang/nelson/issues/259): extraction decomplexify values.
+- [#259](https://github.com/nelson-lang/nelson/issues/259): extraction decomplexify values.
 
-- [#257](http://github.com/nelson-lang/nelson/issues/257): dllibisloaded optimized.
+- [#257](https://github.com/nelson-lang/nelson/issues/257): dllibisloaded optimized.
 
-- [#49](http://github.com/nelson-lang/nelson/issues/49): Some qml demos crashed on Windows 32 bits.
+- [#49](https://github.com/nelson-lang/nelson/issues/49): Some qml demos crashed on Windows 32 bits.
 
 ## Compilation:
 
@@ -113,13 +113,13 @@
 
 ## Bug Fixes:
 
-- [#254](http://github.com/nelson-lang/nelson/issues/254): fix Innosetup 6 warnings.
+- [#254](https://github.com/nelson-lang/nelson/issues/254): fix Innosetup 6 warnings.
 
-- [#252](http://github.com/nelson-lang/nelson/issues/252): help files of external modules were not loaded.
+- [#252](https://github.com/nelson-lang/nelson/issues/252): help files of external modules were not loaded.
 
-- [#245](http://github.com/nelson-lang/nelson/issues/245): Update MKL 2019 dependencies.
+- [#245](https://github.com/nelson-lang/nelson/issues/245): Update MKL 2019 dependencies.
 
-- [#202](http://github.com/nelson-lang/nelson/issues/202): Migrate to VS 2019.
+- [#202](https://github.com/nelson-lang/nelson/issues/202): Migrate to VS 2019.
 
 # 0.3.9 (2019-09-25)
 
@@ -141,17 +141,17 @@
 
 ## Bug Fixes:
 
-- [#249](http://github.com/nelson-lang/nelson/issues/249): refactor code.
+- [#249](https://github.com/nelson-lang/nelson/issues/249): refactor code.
 
-- [#236](http://github.com/nelson-lang/nelson/issues/236): mpiexec returned warning on docker as root user.
+- [#236](https://github.com/nelson-lang/nelson/issues/236): mpiexec returned warning on docker as root user.
 
-- [#235](http://github.com/nelson-lang/nelson/issues/235): add example about function_handle with webread.
+- [#235](https://github.com/nelson-lang/nelson/issues/235): add example about function_handle with webread.
 
-- [#233](http://github.com/nelson-lang/nelson/issues/233): fix typo in native2unicode help file.
+- [#233](https://github.com/nelson-lang/nelson/issues/233): fix typo in native2unicode help file.
 
-- [#227](http://github.com/nelson-lang/nelson/issues/227): Qt 5.13 support.
+- [#227](https://github.com/nelson-lang/nelson/issues/227): Qt 5.13 support.
 
-- [#220](http://github.com/nelson-lang/nelson/issues/220): setfield function added.
+- [#220](https://github.com/nelson-lang/nelson/issues/220): setfield function added.
 
 - revert b22ae88a6536cd614f555af7fbd865cc607bea7f due to HDFFV-10579.
 
@@ -163,7 +163,7 @@
 
 - GitHub Actions CI (Ubuntu 18.04)
 
-- [#244](http://github.com/nelson-lang/nelson/issues/244): Remove semaphore CI 2.0 build.
+- [#244](https://github.com/nelson-lang/nelson/issues/244): Remove semaphore CI 2.0 build.
 
 # 0.3.8 (2019-08-24)
 
@@ -194,9 +194,9 @@
 
 ## Bug Fixes:
 
-- [#226](http://github.com/nelson-lang/nelson/issues/226): tempdir() did not include a final slash.
+- [#226](https://github.com/nelson-lang/nelson/issues/226): tempdir() did not include a final slash.
 
-- [#224](http://github.com/nelson-lang/nelson/issues/224): cd 當第一個按讚的人 crashed Nelson.
+- [#224](https://github.com/nelson-lang/nelson/issues/224): cd 當第一個按讚的人 crashed Nelson.
 
 ## Compilation:
 
@@ -232,15 +232,15 @@
 
 ## Bug Fixes:
 
-- [#214](http://github.com/nelson-lang/nelson/issues/214): nargin, nargin were slower than 0.3.5.
+- [#214](https://github.com/nelson-lang/nelson/issues/214): nargin, nargin were slower than 0.3.5.
 
-- [#213](http://github.com/nelson-lang/nelson/issues/213): fix typo in banner help.
+- [#213](https://github.com/nelson-lang/nelson/issues/213): fix typo in banner help.
 
 ## Compilation:
 
-- [#212](http://github.com/nelson-lang/nelson/issues/212): MATIO 1.5.16 used all platforms.
+- [#212](https://github.com/nelson-lang/nelson/issues/212): MATIO 1.5.16 used all platforms.
 
-- [#211](http://github.com/nelson-lang/nelson/issues/211): BOOST 1.70 on Windows platforms.
+- [#211](https://github.com/nelson-lang/nelson/issues/211): BOOST 1.70 on Windows platforms.
 
 - allocateArrayOf and new_with_exception no more set memory to zero by default. This speed up array constructors.
 
@@ -288,9 +288,9 @@
 
 ## Bug Fixes:
 
-- [#198](http://github.com/nelson-lang/nelson/issues/198): history load and save will be disable if nelson is started with '--nouserstartup'.
+- [#198](https://github.com/nelson-lang/nelson/issues/198): history load and save will be disable if nelson is started with '--nouserstartup'.
 
-- [#196](http://github.com/nelson-lang/nelson/issues/196): call cmake 3.11 from Nelson fails on linux.
+- [#196](https://github.com/nelson-lang/nelson/issues/196): call cmake 3.11 from Nelson fails on linux.
 
 ## Compilation:
 
@@ -302,7 +302,7 @@
 
 - add Dockerfile for Arch, Debian, Fedora images used for CI.
 
-- SLICOT library removed from Nelson's source and moved [here](http://github.com/nelson-lang/slicot_f2c).
+- SLICOT library removed from Nelson's source and moved [here](https://github.com/nelson-lang/slicot_f2c).
 
 # 0.3.4 (2019-04-27)
 
@@ -321,7 +321,7 @@
 
 ## Bug Fixes:
 
-- [#193](http://github.com/nelson-lang/nelson/issues/193): func2str help was wrong.
+- [#193](https://github.com/nelson-lang/nelson/issues/193): func2str help was wrong.
 
 ## Compilation:
 
@@ -399,21 +399,21 @@
 
 ## Features:
 
-- [#173](http://github.com/nelson-lang/nelson/issues/173): convertStringsToChars and convertCharsToStrings builtin.
+- [#173](https://github.com/nelson-lang/nelson/issues/173): convertStringsToChars and convertCharsToStrings builtin.
 
 ## Bug Fixes:
 
-- [#182](http://github.com/nelson-lang/nelson/issues/182): Nelson did not start without hdf5 dependency.
+- [#182](https://github.com/nelson-lang/nelson/issues/182): Nelson did not start without hdf5 dependency.
 
-- [#179](http://github.com/nelson-lang/nelson/issues/179): isfolder alias on isdir.
+- [#179](https://github.com/nelson-lang/nelson/issues/179): isfolder alias on isdir.
 
-- [#177](http://github.com/nelson-lang/nelson/issues/177): some tests failed when it executed from a binary version on windows.
+- [#177](https://github.com/nelson-lang/nelson/issues/177): some tests failed when it executed from a binary version on windows.
 
-- [#176](http://github.com/nelson-lang/nelson/issues/176): nfilename did not return canonical path name in some cases.
+- [#176](https://github.com/nelson-lang/nelson/issues/176): nfilename did not return canonical path name in some cases.
 
-- [#9](http://github.com/nelson-lang/nelson/issues/9): tests were not embedded in linux & macos binaries (make package).
+- [#9](https://github.com/nelson-lang/nelson/issues/9): tests were not embedded in linux & macos binaries (make package).
 
-- [#4](http://github.com/nelson-lang/nelson/issues/4): nelson.pot generated from sources.
+- [#4](https://github.com/nelson-lang/nelson/issues/4): nelson.pot generated from sources.
 
 ## Compilation:
 

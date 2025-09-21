@@ -3,8 +3,13 @@
     <copyright>SAME AS NELSON SOFTWARE</copyright>
     <language>en_US</language>
     <module_name>com_engine</module_name>
-    <chapter>COM engine</chapter>
-    <chapter_description
-  >Component Object Model (COM) client interface: binary-interface standard for software components on Windows.</chapter_description>
-    <auto_toc />
+    <chapter>Component Object Model (COM) Client Interface</chapter>
+    <chapter_description>
+      <p
+    >The COM Engine module allows Nelson to interact with Windows COM (Component Object Model) and ActiveX components.</p>
+      <p
+    >It enables automation of software applications, access to their methods and properties, and manipulation of COM objects directly from Nelson scripts.</p>
+      <p
+    >This provides a way to integrate Nelson with a wide range of Windows software, including Microsoft Office applications.</p>
+    </chapter_description>
 </xmldoc>

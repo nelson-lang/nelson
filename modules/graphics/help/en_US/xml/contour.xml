@@ -202,6 +202,7 @@ contour (X, Y, abs (Z), 10);
                                                                                                                         <example_item_img
         src="../images/contour_1.svg"
         align="middle"
+        generate="true"
       />
                                                                                                                     </example_item>
                                                                                                                     <example_item
@@ -220,6 +221,7 @@ contour(1:N, 1:N, rand(N), 5)
                                                                                                                         <example_item_img
         src="../images/contour_2.svg"
         align="middle"
+        generate="true"
       />
                                                                                                                     </example_item>
                                                                                                                     <example_item
@@ -238,6 +240,7 @@ contour(Z)
                                                                                                                         <example_item_img
         src="../images/contour_nan.png"
         align="middle"
+        generate="true"
       />
                                                                                                                     </example_item>
                                                                                                                 </examples>

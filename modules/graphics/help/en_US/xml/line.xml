@@ -137,6 +137,7 @@ line(x, y2, 'Color', [1 0 0])
                                                                                                     <example_item_img
         src="../images/line_xy.svg"
         align="middle"
+        generate="true"
       />
                                                                                                 </example_item>
                                                                                                 <example_item
@@ -153,6 +154,7 @@ line(x,y,'Color','red','LineStyle','--')]]></example_item_data>
                                                                                                     <example_item_img
         src="../images/line_linestyle.svg"
         align="middle"
+        generate="true"
       />
                                                                                                 </example_item>
                                                                                                 <example_item
@@ -172,6 +174,7 @@ view(3)]]></example_item_data>
                                                                                                     <example_item_img
         src="../images/line_xyz.svg"
         align="middle"
+        generate="true"
       />
                                                                                                 </example_item>
                                                                                             </examples>

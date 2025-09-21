@@ -4,6 +4,12 @@
     <language>en_US</language>
     <module_name>memory_manager</module_name>
     <chapter>Memory manager functions</chapter>
-    <chapter_description>memory manager functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Memory Manager module provides tools for managing variables and memory in Nelson.</p>
+        <p
+    >It supports variable creation, assignment, querying, and removal across different scopes, as well as handling global and persistent variables.</p>
+        <p
+    >The module also enables memory inspection, variable locking, and listing of workspace contents, facilitating efficient and controlled memory usage in scripts and applications.</p>
+    </chapter_description>
 </xmldoc>

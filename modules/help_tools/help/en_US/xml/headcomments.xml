@@ -39,12 +39,13 @@
                 <example_item_img
         src="../images/headcomments.png"
         align="middle"
+        generate="false"
       />
             </example_item>
         </examples>
         <see_also>
             <see_also_item>
-                <link linkend="${help_browser}doc">doc</link>
+                <link linkend="${help_tools}doc">doc</link>
             </see_also_item>
             <see_also_item>
                 <link linkend="${help_tools}markdown">markdown</link>

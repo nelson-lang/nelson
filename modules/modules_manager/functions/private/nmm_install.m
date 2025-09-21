@@ -174,6 +174,7 @@ function destination_dir = copyModule(source, module_name, module_version)
     mkdir(destination_dir);
   end
   copyfile(source, destination_dir, 'f');
+  deployhelp('add', module_name, destination_dir);
 end
 %=============================================================================
 function saveInstalledModule(module_name, module_path, version)
