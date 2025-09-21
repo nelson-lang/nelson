@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<help_summary>
+  <main_summary link="./homepage.html" />
+  <toc>
+    <module>main</module>
+    <section name="Nelson Documentation" toc_visibility="false">
+      <chapter_description>
+        <p
+        >Nelson est un environnement de calcul scientifique open-source conçu pour l'analyse numérique, la visualisation de données et le développement d'algorithmes.</p>
+        <p
+        >Conçu pour la performance et la facilité d'utilisation, Nelson fournit une suite complète de fonctions mathématiques, de structures de données avancées et d'outils de visualisation puissants.</p>
+        <p
+        >Cette documentation sert de guide de référence complet sur les fonctions intégrées de Nelson, son système de modules et ses capacités de programmation — des opérations mathématiques de base aux tâches de calcul avancées.</p>
+     </chapter_description>
+    </section>
+    <section name="Aperçu" link="homepage.html" />
+    <section name="Résumé" link="summary.html" />
+    <section name="Licence" link="license.html" />
+  </toc>
+</help_summary>

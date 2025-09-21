@@ -25,6 +25,7 @@
   qt6, # Qt for GUI support
   giflib, # GIF support
   libtiff, # TIFF support
+  libxslt, # XSLT support
 }:
 
 stdenv.mkDerivation {
@@ -51,6 +52,7 @@ stdenv.mkDerivation {
     qt6.qtbase # Qt base required
     giflib # GIF support
     libtiff # TIFF support
+    libxslt # XSLT support
   ];
 
   nativeBuildInputs = [

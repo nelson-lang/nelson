@@ -72,7 +72,11 @@ subplot(1, 2, 2)
 spy(U)
 title(_('U factor'))
 ]]></example_item_data>
-                    <example_item_img src="../images/lu.svg" align="middle" />
+                    <example_item_img
+        src="../images/lu.svg"
+        align="middle"
+        generate="true"
+      />
                 </example_item>
             </examples>
             <see_also>

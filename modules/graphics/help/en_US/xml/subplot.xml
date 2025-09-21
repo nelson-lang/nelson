@@ -69,6 +69,7 @@ plot(X, Y4, 'k');]]></example_item_data>
                 <example_item_img
         src="../images/subplot_1.svg"
         align="middle"
+        generate="true"
       />
             </example_item>
             <example_item>
@@ -93,6 +94,7 @@ plot(t, Z);]]></example_item_data>
                 <example_item_img
         src="../images/subplot_2.svg"
         align="middle"
+        generate="true"
       />
             </example_item>
         </examples>

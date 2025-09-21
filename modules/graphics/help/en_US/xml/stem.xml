@@ -90,6 +90,7 @@ title('stem plot modified with property/value pair');]]></example_item_data>
                         <example_item_img
         src="../images/stem_1.svg"
         align="middle"
+        generate="true"
       />
                     </example_item>
                     <example_item>
@@ -106,6 +107,7 @@ stem(X,Y)]]></example_item_data>
                         <example_item_img
         src="../images/stem_2.svg"
         align="middle"
+        generate="true"
       />
                     </example_item>
                 </examples>

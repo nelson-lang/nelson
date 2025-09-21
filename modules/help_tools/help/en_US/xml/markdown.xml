@@ -6,7 +6,10 @@
     <short_description>Converts markdown to html.</short_description>
     <syntax>
         <syntax_item>html_txt = markdown(md_txt)</syntax_item>
+        <syntax_item>html_txt = markdown(md_txt, options)</syntax_item>
         <syntax_item>status = markdown(md_filename, html_filename)</syntax_item>
+        <syntax_item
+    >status = markdown(md_filename, html_filename, options)</syntax_item>
     </syntax>
     <param_input>
         <param_input_item>
@@ -24,6 +27,11 @@
             <param_description
       >a string: html filename (destination).</param_description>
         </param_input_item>
+        <param_input_item>
+            <param_name>options</param_name>
+            <param_description
+      >a string: options for the conversion. 'secure' (default), or 'advanced'.</param_description>
+        </param_input_item>
     </param_input>
     <param_output>
         <param_output_item>
@@ -35,6 +43,13 @@
     <description>
         <p>
             <b>markdown</b> converts Markdown text-to-HTML.</p>
+        <p>options:</p>
+        <ul>
+            <li><b
+        >secure</b> (default): only a subset of markdown is supported (no raw HTML, no tables, no images, no links).</li>
+            <li><b
+        >advanced</b>: full markdown supported (including raw HTML, tables, images, links).</li>
+        </ul>
         </description>
         <used_function />
         <bibliography />
@@ -52,6 +67,17 @@ if ispc()
   winopen([tempdir(), 'markdown_example.html']);
 end]]></example_item_data>
             </example_item>
+
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[txt = 'Hello <script>alert("XSS")</script> World';
+advanced_html = markdown(txt, 'advanced')
+secure_html = markdown(txt, 'secure')
+]]></example_item_data>
+            </example_item>
+
         </examples>
         <see_also>
             <see_also_item>
@@ -62,6 +88,11 @@ end]]></example_item_data>
             <history_item>
                 <history_version>1.0.0</history_version>
                 <history_description>initial version</history_description>
+            </history_item>
+            <history_item>
+                <history_version>1.15.0</history_version>
+                <history_description
+      >'secure', 'advanced' modes added</history_description>
             </history_item>
         </history>
         <authors>

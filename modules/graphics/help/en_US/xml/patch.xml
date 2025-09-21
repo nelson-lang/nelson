@@ -157,6 +157,7 @@ axis off]]></example_item_data>
                                                                             <example_item_img
         src="../images/patch_1.svg"
         align="middle"
+        generate="true"
       />
                                                                         </example_item>
                                                                         <example_item
@@ -182,6 +183,7 @@ axis('off')]]></example_item_data>
                                                                             <example_item_img
         src="../images/patch_2.svg"
         align="middle"
+        generate="true"
       />
                                                                         </example_item>
                                                                         <example_item
@@ -203,6 +205,7 @@ view([0, 0, 1]);]]></example_item_data>
                                                                             <example_item_img
         src="../images/patch_3.svg"
         align="middle"
+        generate="true"
       />
                                                                         </example_item>
                                                                         <example_item
@@ -223,6 +226,7 @@ patch(x+1,y+2,z,'yellow','FaceAlpha',0.3)]]></example_item_data>
                                                                             <example_item_img
         src="../images/patch_4.svg"
         align="middle"
+        generate="true"
       />
                                                                         </example_item>
                                                                     </examples>

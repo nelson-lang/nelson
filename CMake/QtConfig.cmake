@@ -46,14 +46,8 @@ list(
   PrintSupport
 )
 # ==============================================================================
-if (NOT WITHOUT_HELP_BROWSER_MODULE)
-list(APPEND QtPackagesRequired Help)
-endif()
 if (NOT WITHOUT_TEXT_EDITOR_MODULE)
 list(APPEND QtPackagesRequired PrintSupport)
-endif()
-if (NOT WITHOUT_GRAPHICS_MODULE)
-list(APPEND QtPackagesRequired Help)
 endif()
 if (NOT WITHOUT_QML_ENGINE_MODULE)
 list(APPEND QtPackagesRequired Qml)

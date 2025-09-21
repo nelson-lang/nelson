@@ -122,6 +122,7 @@ imagesc(C)]]></example_item_data>
                                                                         <example_item_img
         src="../images/imagesc_1.svg"
         align="middle"
+        generate="true"
       />
                                                                     </example_item>
                                                                     <example_item
@@ -138,6 +139,7 @@ colormap(gray)]]></example_item_data>
                                                                         <example_item_img
         src="../images/imagesc_2.svg"
         align="middle"
+        generate="true"
       />
                                                                     </example_item>
                                                                 </examples>

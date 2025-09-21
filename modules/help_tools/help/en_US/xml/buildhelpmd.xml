@@ -40,7 +40,7 @@ buildhelpmd(tempdir(), 'core');]]></example_item_data>
                 <link linkend="${help_tools}buildhelp">buildhelp</link>
             </see_also_item>
             <see_also_item>
-                <link linkend="${help_browser}doc">doc</link>
+                <link linkend="${help_tools}doc">doc</link>
             </see_also_item>
         </see_also>
         <history>

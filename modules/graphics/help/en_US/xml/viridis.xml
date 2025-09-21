@@ -37,7 +37,11 @@
 surf(peaks);
 view(2);
 colormap('viridis');]]></example_item_data>
-                <example_item_img src="../images/viridis.svg" align="middle" />
+                <example_item_img
+        src="../images/viridis.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

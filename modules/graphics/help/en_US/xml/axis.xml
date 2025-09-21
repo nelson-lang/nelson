@@ -90,7 +90,11 @@ subplot(2, 2, 4);
 plot (t, x);
 title('normal plot again');
 axis('normal');]]></example_item_data>
-                <example_item_img src="../images/axis.svg" align="middle" />
+                <example_item_img
+        src="../images/axis.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

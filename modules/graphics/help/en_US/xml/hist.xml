@@ -68,7 +68,11 @@ for i = 1:4
   hist(randn(1000, 1), 50)
 end
 ]]></example_item_data>
-                <example_item_img src="../images/hist_1.svg" align="middle" />
+                <example_item_img
+        src="../images/hist_1.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

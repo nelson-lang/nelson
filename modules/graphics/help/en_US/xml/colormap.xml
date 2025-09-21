@@ -50,6 +50,7 @@ colormap('summer')
                 <example_item_img
         src="../images/colormap_1.svg"
         align="middle"
+        generate="true"
       />
             </example_item>
             <example_item>
@@ -65,6 +66,7 @@ colormap('gray')]]></example_item_data>
                 <example_item_img
         src="../images/colormap_2.svg"
         align="middle"
+        generate="true"
       />
             </example_item>
             <example_item>
@@ -87,6 +89,7 @@ colormap(map)]]></example_item_data>
                 <example_item_img
         src="../images/colormap_3.svg"
         align="middle"
+        generate="true"
       />
             </example_item>
         </examples>

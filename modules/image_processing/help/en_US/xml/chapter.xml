@@ -4,6 +4,9 @@
     <language>en_US</language>
     <module_name>image_processing</module_name>
     <chapter>Image Processing functions</chapter>
-    <chapter_description>image processing functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Image Processing module provides basic operations for manipulating images, including
+            format conversion, resizing, and rotation.</p>
+    </chapter_description>
 </xmldoc>

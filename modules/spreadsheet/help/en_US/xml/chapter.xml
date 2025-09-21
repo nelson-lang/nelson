@@ -4,6 +4,12 @@
     <language>en_US</language>
     <module_name>SPREADSHEET</module_name>
     <chapter>Spreadsheet</chapter>
-    <chapter_description />
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Spreadsheet module provides functions for reading and writing tabular data from and to text-based spreadsheet formats, such as CSV and delimiter-separated files.</p>
+        <p
+    >It supports importing into various data types like numeric arrays, cell arrays, and tables, as well as exporting them back to files.</p>
+        <p
+    >This enables smooth interaction with spreadsheet software (Excel, LibreOffice Calc, etc.) and data exchange between applications.</p>
+    </chapter_description>
 </xmldoc>

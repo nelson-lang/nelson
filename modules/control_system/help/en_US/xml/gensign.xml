@@ -102,7 +102,11 @@ subplot(3, 2, 5)
 plot(t, u)
 title('tan')
 ]]></example_item_data>
-            <example_item_img src="../images/gensig.svg" align="middle" />
+            <example_item_img
+        src="../images/gensig.svg"
+        align="middle"
+        generate="true"
+      />
         </example_item>
     </examples>
     <see_also>

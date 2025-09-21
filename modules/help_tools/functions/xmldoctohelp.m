@@ -8,11 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function file_generated = xmldoctohelp(varargin)
-  % narginchk(3, 4);
-  if nargin() < 3 || nargin() > 4
-    error(_('Wrong number of input arguments.'));
-  end
-  dirs_input = varargin{1};
+  narginchk(3, 4);
+  dirs_input = varargin{1}
   dir_output = varargin{2};
   main_title = varargin{3};
   if nargin() == 4
@@ -20,17 +17,14 @@ function file_generated = xmldoctohelp(varargin)
   else
     overwrite = true;
   end
-  if ismodule('help_browser')
-    helpbrowser('-close');
-  end
   dir_output_tmp = [dir_output, 'nelson_help'];
   mkdir(dir_output_tmp);
   module_name = xmldocbuild(dirs_input, dir_output_tmp, main_title, 'help', overwrite);
   destination_file = '';
   if strcmp(module_name, '')
-    destination_file = [nelsonappid(), '.modules.', 'manual', '.help', '.qch'];
+    destination_file = [nelsonappid(), '.modules.', 'manual', '.help', '.nhz'];
   else
-    destination_file = [nelsonappid(), '.modules.', module_name, '.help', '.qch'];
+    destination_file = [nelsonappid(), '.modules.', module_name, '.help', '.nhz'];
   end
   file_generated =  [dir_output, destination_file];
   

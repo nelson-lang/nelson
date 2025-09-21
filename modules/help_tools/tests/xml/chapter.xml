@@ -5,6 +5,4 @@
 	<module_name>gpuArray</module_name>
 	<chapter>GPU Computing Module</chapter>
 	<chapter_description>GPU Computing in Nelson.</chapter_description>
-	<auto_toc/>
 </xmldoc>
-

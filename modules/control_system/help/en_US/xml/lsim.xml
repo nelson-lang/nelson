@@ -77,7 +77,11 @@ X0 = [0.1 0.1 0.1];
 sys = ss(A, B, C, D);    
 lsim(sys, U, T, X0);
 ]]></example_item_data>
-            <example_item_img src="../images/lsim1.svg" align="middle" />
+            <example_item_img
+        src="../images/lsim1.svg"
+        align="middle"
+        generate="true"
+      />
         </example_item>
         <example_item>
             <example_item_type>nelson</example_item_type>
@@ -103,7 +107,11 @@ uP = gensig("pulse",3,Tf,Ts);
 u = [uSq uP];
 lsim(sys,u,t)
 ]]></example_item_data>
-            <example_item_img src="../images/lsim2.svg" align="middle" />
+            <example_item_img
+        src="../images/lsim2.svg"
+        align="middle"
+        generate="true"
+      />
         </example_item>
     </examples>
     <see_also>

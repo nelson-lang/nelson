@@ -56,7 +56,11 @@ y2 = sin(x);
 plot(x, y2)
 hold off
 ]]></example_item_data>
-                <example_item_img src="../images/hold.svg" align="middle" />
+                <example_item_img
+        src="../images/hold.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

@@ -79,6 +79,7 @@ title ("waterfall function");
                 <example_item_img
         src="../images/waterfall_1.svg"
         align="middle"
+        generate="true"
       />
             </example_item>
             <example_item>
@@ -93,6 +94,7 @@ p = waterfall(X, Y, Z);
                 <example_item_img
         src="../images/waterfall_2.svg"
         align="middle"
+        generate="true"
       />
             </example_item>
         </examples>

@@ -114,6 +114,7 @@ fill(innerX, innerY, 'r');]]></example_item_data>
                                                         <example_item_img
         src="../images/fill_1.svg"
         align="middle"
+        generate="true"
       />
                                                     </example_item>
                                                     <example_item>
@@ -153,6 +154,7 @@ title('Colorful Geometric Pattern');
                                                         <example_item_img
         src="../images/fill_2.svg"
         align="middle"
+        generate="true"
       />
                                                     </example_item>
                                                     <example_item>
@@ -171,6 +173,7 @@ fill(x + 1, y + 2, 'yellow', 'FaceAlpha', 0.3);]]></example_item_data>
                                                         <example_item_img
         src="../images/fill_3.svg"
         align="middle"
+        generate="true"
       />
                                                     </example_item>
                                                 </examples>

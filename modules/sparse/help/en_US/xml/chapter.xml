@@ -4,6 +4,12 @@
     <language>en_US</language>
     <module_name>sparse</module_name>
     <chapter>Sparse type</chapter>
-    <chapter_description>sparse type functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Sparse Type module provides tools for creating and manipulating sparse matrices in Nelson.</p>
+        <p
+    >It supports efficient storage and computation for matrices with a large number of zero elements, including conversion between sparse and full representations, generation of special sparse matrices, and access to nonzero elements.</p>
+        <p
+    >This module enables memory-efficient handling of large datasets and optimized numerical operations on sparse structures.</p>
+    </chapter_description>
 </xmldoc>

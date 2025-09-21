@@ -35,7 +35,11 @@
       ><![CDATA[f = figure();
 surf(peaks);
 colormap('summer');]]></example_item_data>
-                <example_item_img src="../images/summer.svg" align="middle" />
+                <example_item_img
+        src="../images/summer.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

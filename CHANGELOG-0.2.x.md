@@ -14,9 +14,9 @@ HDF5 high-level functions:
 
 ## Bug Fixes:
 
-- [#170](http://github.com/nelson-lang/nelson/issues/170): Travis CI Macos X (mojave) build failed.
+- [#170](https://github.com/nelson-lang/nelson/issues/170): Travis CI Macos X (mojave) build failed.
 
-- [#168](http://github.com/nelson-lang/nelson/issues/168): integer display was not interruptable.
+- [#168](https://github.com/nelson-lang/nelson/issues/168): integer display was not interruptable.
 
 ## Compilation:
 
@@ -90,13 +90,13 @@ HDF5 high-level functions:
   - "isString" --> "isCharacterArray"
   - "isSingleString" --> "isRowVectorCharacterArray"
 
-- [#164](http://github.com/nelson-lang/nelson/issues/164): operators ==, ~=, <, >, >=, <= code factorized.
+- [#164](https://github.com/nelson-lang/nelson/issues/164): operators ==, ~=, <, >, >=, <= code factorized.
 
-- [#159](http://github.com/nelson-lang/nelson/issues/159): addpath must return an warning and not an error for an non existing path.
+- [#159](https://github.com/nelson-lang/nelson/issues/159): addpath must return an warning and not an error for an non existing path.
 
-- [#157](http://github.com/nelson-lang/nelson/issues/157): fix warnings detected by LGTM.com.
+- [#157](https://github.com/nelson-lang/nelson/issues/157): fix warnings detected by LGTM.com.
 
-- [#156](http://github.com/nelson-lang/nelson/issues/156): Moves dbstack in 'debugger' module.
+- [#156](https://github.com/nelson-lang/nelson/issues/156): Moves dbstack in 'debugger' module.
 
 ## 0.2.9 (2018-09-23)
 
@@ -137,13 +137,13 @@ HDF5 high-level functions:
 
 ## Bug Fixes:
 
-- [#133](http://github.com/nelson-lang/nelson/issues/133): Replaced uncommon term "trinary" by "ternary".
+- [#133](https://github.com/nelson-lang/nelson/issues/133): Replaced uncommon term "trinary" by "ternary".
 
-- [#119](http://github.com/nelson-lang/nelson/issues/119): Execution of simple expression "1+2+3" was rather slow.
+- [#119](https://github.com/nelson-lang/nelson/issues/119): Execution of simple expression "1+2+3" was rather slow.
 
-- [#115](http://github.com/nelson-lang/nelson/issues/115):code about single & double operators was factorized
+- [#115](https://github.com/nelson-lang/nelson/issues/115):code about single & double operators was factorized
 
-- [#114](http://github.com/nelson-lang/nelson/issues/114): Move gamma function in a dedicated module "special_functions".
+- [#114](https://github.com/nelson-lang/nelson/issues/114): Move gamma function in a dedicated module "special_functions".
 
 ## Compilation:
 
@@ -160,15 +160,15 @@ HDF5 high-level functions:
 
 - 'dbstack' builtin get current instruction calling tree.
 
-- [#16](http://github.com/nelson-lang/nelson/issues/16): lastwarn builtin (Last recorded warning message).
+- [#16](https://github.com/nelson-lang/nelson/issues/16): lastwarn builtin (Last recorded warning message).
 
-- [#15](http://github.com/nelson-lang/nelson/issues/15): warning builtin was extended (state and identifier added).
+- [#15](https://github.com/nelson-lang/nelson/issues/15): warning builtin was extended (state and identifier added).
 
 ## Bug Fixes:
 
-- [#152](http://github.com/nelson-lang/nelson/issues/152): insertion did not return expected result for empty matrix.
+- [#152](https://github.com/nelson-lang/nelson/issues/152): insertion did not return expected result for empty matrix.
 
-- [#138](http://github.com/nelson-lang/nelson/issues/138): colon operator did not return expected for non scalar element.
+- [#138](https://github.com/nelson-lang/nelson/issues/138): colon operator did not return expected for non scalar element.
 
 ## Compilation:
 
@@ -188,7 +188,7 @@ HDF5 high-level functions:
 
 - exp builtin (exponential)
 
-- [#142](http://github.com/nelson-lang/nelson/issues/142): clear('functionName') clears all persistent variables of functionName function.
+- [#142](https://github.com/nelson-lang/nelson/issues/142): clear('functionName') clears all persistent variables of functionName function.
 
 - addition, substraction reworked (Compatiblity Array Sizes increased, code factorized).
 
@@ -198,9 +198,9 @@ HDF5 high-level functions:
 
 ## Bug Fixes:
 
-- [#145](http://github.com/nelson-lang/nelson/issues/145): int32(NaN) did not return 0.
+- [#145](https://github.com/nelson-lang/nelson/issues/145): int32(NaN) did not return 0.
 
-- [#131](http://github.com/nelson-lang/nelson/issues/131): for, parfor, switch, try keywords were not documented.
+- [#131](https://github.com/nelson-lang/nelson/issues/131): for, parfor, switch, try keywords were not documented.
 
 ## 0.2.6 (2018-06-26)
 
@@ -252,17 +252,17 @@ HDF5 high-level functions:
 
 - norm function: matrix and vectors norms.
 
-- [#128](http://github.com/nelson-lang/nelson/issues/128): code indented with clang-format (webkit coding style)
+- [#128](https://github.com/nelson-lang/nelson/issues/128): code indented with clang-format (webkit coding style)
 
 ## Bug Fixes:
 
-- [#139](http://github.com/nelson-lang/nelson/issues/139): fix(1e10) returned a wrong value.
+- [#139](https://github.com/nelson-lang/nelson/issues/139): fix(1e10) returned a wrong value.
 
-- [#136](http://github.com/nelson-lang/nelson/issues/136): Corrected predecence of Colon ":" operator.
+- [#136](https://github.com/nelson-lang/nelson/issues/136): Corrected predecence of Colon ":" operator.
 
-- [#134](http://github.com/nelson-lang/nelson/issues/134): Evaluation of Non-Scalar If-Condition Expression was not managed.
+- [#134](https://github.com/nelson-lang/nelson/issues/134): Evaluation of Non-Scalar If-Condition Expression was not managed.
 
-- [#116](http://github.com/nelson-lang/nelson/issues/116): fix display size of big sparse matrix.
+- [#116](https://github.com/nelson-lang/nelson/issues/116): fix display size of big sparse matrix.
 
 ## Compilation:
 
@@ -284,22 +284,22 @@ HDF5 high-level functions:
 - le, ne, ge, gt, lt, eq for mixed single & double types.
 - add generic overload mechanism for all integers: integer keyword.
 - vertcat and horzcat: mixed concatenations logical with integers, single and double added.
-- [#110](http://github.com/nelson-lang/nelson/issues/110): add isproperty & ismethod to all handle types.
+- [#110](https://github.com/nelson-lang/nelson/issues/110): add isproperty & ismethod to all handle types.
 - add "isHandleProperty", "isHandleMethod", "getHandleCategory" C++ API Methods.
-- [#108](http://github.com/nelson-lang/nelson/issues/108): cast function: converts variable to a different data type.
+- [#108](https://github.com/nelson-lang/nelson/issues/108): cast function: converts variable to a different data type.
 - MPI Module loaded if MPI dependency is available.
 
 ## Bug Fixes:
 
-- [#125](http://github.com/nelson-lang/nelson/issues/125): cosm function was slow.
+- [#125](https://github.com/nelson-lang/nelson/issues/125): cosm function was slow.
 
-- [#123](http://github.com/nelson-lang/nelson/issues/123): addpath stopped to work after repeatedly call to the same path.
+- [#123](https://github.com/nelson-lang/nelson/issues/123): addpath stopped to work after repeatedly call to the same path.
 
-- [#121](http://github.com/nelson-lang/nelson/issues/121): home key did not work in GUI terminal on prompt.
+- [#121](https://github.com/nelson-lang/nelson/issues/121): home key did not work in GUI terminal on prompt.
 
-- [#118](http://github.com/nelson-lang/nelson/issues/118): add information in DEVELOPMENT.md about how to buid Boost on old Ubuntu versions.
+- [#118](https://github.com/nelson-lang/nelson/issues/118): add information in DEVELOPMENT.md about how to buid Boost on old Ubuntu versions.
 
-- [#109](http://github.com/nelson-lang/nelson/issues/109): add missing horzcat, vertcat for all handle types.
+- [#109](https://github.com/nelson-lang/nelson/issues/109): add missing horzcat, vertcat for all handle types.
 
 ## Compilation:
 
@@ -322,13 +322,13 @@ HDF5 high-level functions:
   - libpointer: creates an C pointer object usuable in Nelson.
   - getdynlibext : returns the extension of dynamic libraries.
 
-- [#101](http://github.com/nelson-lang/nelson/issues/101): allows cell_vertcat_generic & cell_horzcat_generic.
+- [#101](https://github.com/nelson-lang/nelson/issues/101): allows cell_vertcat_generic & cell_horzcat_generic.
 
 ## Bug Fixes:
 
-[#106](http://github.com/nelson-lang/nelson/issues/106): update slicot url references.
+[#106](https://github.com/nelson-lang/nelson/issues/106): update slicot url references.
 
-[#104](http://github.com/nelson-lang/nelson/issues/104): mpiexec did not work on some linux.
+[#104](https://github.com/nelson-lang/nelson/issues/104): mpiexec did not work on some linux.
 
 ## 0.2.3 (2018-03-22)
 
@@ -355,15 +355,15 @@ HDF5 high-level functions:
 
 ## Bug Fixes:
 
-[#98](http://github.com/nelson-lang/nelson/issues/98): jsonencode was slow with a big file (> 60 Mo).
+[#98](https://github.com/nelson-lang/nelson/issues/98): jsonencode was slow with a big file (> 60 Mo).
 
-[#97](http://github.com/nelson-lang/nelson/issues/97): fileread was slow with a big file (> 60 Mo).
+[#97](https://github.com/nelson-lang/nelson/issues/97): fileread was slow with a big file (> 60 Mo).
 
-[#93](http://github.com/nelson-lang/nelson/issues/93): playblocking updated to manage range.
+[#93](https://github.com/nelson-lang/nelson/issues/93): playblocking updated to manage range.
 
-[#92](http://github.com/nelson-lang/nelson/issues/92): play updated to manage range.
+[#92](https://github.com/nelson-lang/nelson/issues/92): play updated to manage range.
 
-[#90](http://github.com/nelson-lang/nelson/issues/90): factorize handle objects methods.
+[#90](https://github.com/nelson-lang/nelson/issues/90): factorize handle objects methods.
 
 ## 0.2.1 (2018-01-30)
 
@@ -394,7 +394,7 @@ HDF5 high-level functions:
   - jsondecode: decodes a JSON string into a Nelson object.
   - jsonprettyprint: JSON pretty printer.
 
-- [#89](http://github.com/nelson-lang/nelson/issues/89): extends fileread behavior.
+- [#89](https://github.com/nelson-lang/nelson/issues/89): extends fileread behavior.
 
 - 'filewrite' builtin allows to easily write to file a string array or a cell of strings.
 
@@ -408,7 +408,7 @@ HDF5 high-level functions:
 
 Regenerates help files index if database is empty or wrong (>= Qt 5.9)
 
-[#87](http://github.com/nelson-lang/nelson/issues/87): struct did not support sparse matrix.
+[#87](https://github.com/nelson-lang/nelson/issues/87): struct did not support sparse matrix.
 
 ## Compilation:
 

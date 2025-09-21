@@ -8,12 +8,16 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "CleanupHelptools.hpp"
 #include "headcommentsBuiltin.hpp"
 #include "htmltopdfBuiltin.hpp"
 #include "markdownBuiltin.hpp"
 #include "xmldocbuildBuiltin.hpp"
 #include "xmldoccheckerBuiltin.hpp"
 #include "docrootBuiltin.hpp"
+#include "helptransformBuiltin.hpp"
+#include "xmldocprettifyBuiltin.hpp"
+#include "xmldocmergesummaryBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -25,16 +29,28 @@ static const nlsGateway gateway[] = {
     { "xmldocchecker", (ptrBuiltin)Nelson::HelpToolsGateway::xmldoccheckerBuiltin, 2, 1,
         CPP_BUILTIN },
     { "htmltopdf", (ptrBuiltin)Nelson::HelpToolsGateway::htmltopdfBuiltin, 0, 2, CPP_BUILTIN },
-    { "markdown", (ptrBuiltin)Nelson::HelpToolsGateway::markdownBuiltin, 1, 2 },
-    { "xmldocbuild", (ptrBuiltin)Nelson::HelpToolsGateway::xmldocbuildBuiltin, 1, 5 },
+    { "markdown", (ptrBuiltin)Nelson::HelpToolsGateway::markdownBuiltin, 1, -2 },
+    { "xmldocbuild", (ptrBuiltin)Nelson::HelpToolsGateway::xmldocbuildBuiltin, -1, 5 },
+    { "xmldocbuild2", (ptrBuiltin)Nelson::HelpToolsGateway::helptransformBuiltin, 1, 5 },
     { "docroot", (ptrBuiltin)Nelson::HelpToolsGateway::docrootBuiltin, 1, 1 },
+    { "xmldocprettify", (ptrBuiltin)Nelson::HelpToolsGateway::xmldocprettifyBuiltin, 1, -1 },
+    { "xmldocmergesummary", (ptrBuiltin)Nelson::HelpToolsGateway::xmldocmergesummaryBuiltin, -1,
+        2 },
+    { "xmltransform", (ptrBuiltin)Nelson::HelpToolsGateway::helptransformBuiltin, -1, 2 },
+
 };
+//=============================================================================
+static bool
+finishHelpToolsModule(Nelson::Evaluator* eval)
+{
+    return cleanupHelptools();
+}
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================
 NLSGATEWAYINFO(gateway)
 //=============================================================================
-NLSGATEWAYREMOVE(gateway)
+NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishHelpToolsModule)
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================

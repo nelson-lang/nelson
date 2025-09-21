@@ -126,13 +126,13 @@ Fork of the popular zip manipulation library found in the zlib distribution.
 
 > <https://github.com/nmoinvaz/minizip/blob/master/LICENSE>
 
-- Hoedown
+- Cmark
 
-Standards compliant, fast, secure markdown processing library in C
+`cmark` is the C reference implementation of CommonMark
 
-> <https://github.com/hoedown/hoedown>
+> <https://github.com/commonmark/cmark/>
 
-> <https://github.com/hoedown/hoedown/blob/master/LICENSE>
+> <https://github.com/commonmark/cmark//blob/master/COPYING> (BSD)
 
 - Linenoise
 

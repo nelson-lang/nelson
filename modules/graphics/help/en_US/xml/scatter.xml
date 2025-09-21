@@ -270,6 +270,7 @@ s = scatter(x,y ,'filled');]]></example_item_data>
                                                                                                                                                                                             <example_item_img
         src="../images/scatter_1.svg"
         align="middle"
+        generate="true"
       />
                                                                                                                                                                                         </example_item>
                                                                                                                                                                                         <example_item
@@ -290,6 +291,7 @@ scatter(x, y, sz, c, 'd', 'filled')
                                                                                                                                                                                             <example_item_img
         src="../images/scatter_2.svg"
         align="middle"
+        generate="true"
       />
                                                                                                                                                                                         </example_item>
                                                                                                                                                                                         <example_item
@@ -309,6 +311,7 @@ scatter(x, y, [], c, 'filled')
                                                                                                                                                                                             <example_item_img
         src="../images/scatter_3.svg"
         align="middle"
+        generate="true"
       />
                                                                                                                                                                                         </example_item>
                                                                                                                                                                                         <example_item
@@ -329,6 +332,7 @@ scatter(x,y,sz,'MarkerEdgeColor',[0 .6 .5], 'MarkerFaceColor',[0 .6 .7],  'LineW
                                                                                                                                                                                             <example_item_img
         src="../images/scatter_4.svg"
         align="middle"
+        generate="true"
       />
                                                                                                                                                                                         </example_item>
                                                                                                                                                                                         <example_item
@@ -352,6 +356,7 @@ scatter(ax2,x,y,'filled','d')
                                                                                                                                                                                             <example_item_img
         src="../images/scatter_5.svg"
         align="middle"
+        generate="true"
       />
                                                                                                                                                                                         </example_item>
                                                                                                                                                                                         <example_item
@@ -370,6 +375,7 @@ s = scatter(x,y, 'filled');
                                                                                                                                                                                             <example_item_img
         src="../images/scatter_6.svg"
         align="middle"
+        generate="true"
       />
                                                                                                                                                                                         </example_item>
                                                                                                                                                                                         <example_item
@@ -412,6 +418,7 @@ hold off;
                                                                                                                                                                                             <example_item_img
         src="../images/scatter_7.svg"
         align="middle"
+        generate="true"
       />
                                                                                                                                                                                         </example_item>
                                                                                                                                                                                     </examples>

@@ -43,7 +43,6 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../text_editor/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../help_browser/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include)
 # ==============================================================================
 target_link_libraries(
@@ -58,7 +57,6 @@ target_link_libraries(
     nlsElementary_functions
     nlsNelson_manager
     nlsText_editor
-    nlsHelp_browser
     nlsInterpreter
     nlsTypes
     Qt${QT_VERSION_MAJOR}::Core
@@ -142,7 +140,7 @@ install(
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/help
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
-  PATTERN "*.qch"
+  PATTERN "*.nhz"
   PATTERN "xml" EXCLUDE
   PATTERN "md" EXCLUDE)
 install(

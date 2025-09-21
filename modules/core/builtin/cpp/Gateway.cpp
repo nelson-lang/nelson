@@ -31,6 +31,7 @@
 #include "runBuiltin.hpp"
 #include "versionBuiltin.hpp"
 #include "sha256Builtin.hpp"
+#include "crc32Builtin.hpp"
 #include "inputnameBuiltin.hpp"
 #include "featureBuiltin.hpp"
 #include "nelsonappidBuiltin.hpp"
@@ -67,6 +68,7 @@ static const nlsGateway gateway[] = {
     { "maxNumCompThreads", (ptrBuiltin)Nelson::CoreGateway::maxNumCompThreadsBuiltin, 1, -1 },
     { "banner", (ptrBuiltin)Nelson::CoreGateway::bannerBuiltin, 0, 0 },
     { "sha256", (ptrBuiltin)Nelson::CoreGateway::sha256Builtin, 1, 2 },
+    { "crc32", (ptrBuiltin)Nelson::CoreGateway::crc32Builtin, 1, 2 },
     { "inputname", (ptrBuiltin)Nelson::CoreGateway::inputnameBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "feature", (ptrBuiltin)Nelson::CoreGateway::featureBuiltin, 1, 2, CPP_BUILTIN },

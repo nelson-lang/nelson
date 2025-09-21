@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+-->
+<xsl:stylesheet version="1.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:ext="http://io.github.nelson_lang/ext">
+
+  <xsl:output method="text" encoding="UTF-8"/>
+
+  <!-- Root template -->
+  <xsl:template match="/xmldoc">
+# <xsl:value-of select="keyword"/>
+    <xsl:text>&#10;&#10;</xsl:text>
+    <xsl:value-of select="short_description"/>
+    <xsl:text>&#10;</xsl:text>
+
+    <!-- Only display syntax section if it has content -->
+    <xsl:if test="syntax/syntax_item[normalize-space(.)]">
+    <xsl:text>&#10;## Syntax&#10;&#10;</xsl:text>
+    <xsl:for-each select="syntax/syntax_item">
+    <xsl:text>- </xsl:text><xsl:value-of select="normalize-space(.)"/>
+    <xsl:text>&#10;</xsl:text>
+    </xsl:for-each>
+    </xsl:if>
+
+    <!-- Only show input arguments section if it has items -->
+    <xsl:if test="param_input/param_input_item">
+    <xsl:text>&#10;## Input argument&#10;&#10;</xsl:text>
+    <xsl:for-each select="param_input/param_input_item">
+    <xsl:text>- </xsl:text><xsl:value-of select="param_name"/><xsl:text> - </xsl:text><xsl:value-of select="normalize-space(param_description)"/>
+    <xsl:text>&#10;</xsl:text>
+    </xsl:for-each>
+    </xsl:if>
+
+    <!-- Only show output arguments section if it has items -->
+    <xsl:if test="param_output/param_output_item">
+    <xsl:text>&#10;## Output argument&#10;&#10;</xsl:text>
+    <xsl:for-each select="param_output/param_output_item">
+    <xsl:text>- </xsl:text><xsl:value-of select="param_name"/><xsl:text> - </xsl:text><xsl:value-of select="normalize-space(param_description)"/>
+    <xsl:text>&#10;</xsl:text>
+    </xsl:for-each>
+    </xsl:if>
+
+    <!-- Only show description section if it's not empty -->
+    <xsl:if test="description">
+    <xsl:text>&#10;## Description&#10;</xsl:text>
+    <xsl:for-each select="description/node()">
+      <xsl:choose>
+        <xsl:when test="name() = 'p'">
+          <xsl:text>&lt;p&gt;</xsl:text>
+          <xsl:apply-templates select="node()"/>
+          <xsl:text>&lt;/p&gt;&#10;</xsl:text>
+        </xsl:when>
+        <xsl:when test="name() = 'b'">
+          <xsl:text>&lt;b&gt;</xsl:text>
+          <xsl:apply-templates select="node()"/>
+          <xsl:text>&lt;/b&gt;</xsl:text>
+        </xsl:when>
+        <xsl:when test="name() = 'i'">
+          <xsl:text>&lt;i&gt;</xsl:text>
+          <xsl:apply-templates select="node()"/>
+          <xsl:text>&lt;/i&gt;</xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:for-each>
+    <xsl:text>&#10;</xsl:text>
+    </xsl:if>
+
+    <!-- Bibliography section if present and non-empty -->
+    <xsl:if test="normalize-space(bibliography)">
+      <xsl:text>&#10;## Bibliography&#10;&#10;</xsl:text>
+      <xsl:value-of select="bibliography"/>
+      <xsl:text>&#10;</xsl:text>
+    </xsl:if>
+
+    <!-- Used function(s) section if present and non-empty -->
+    <xsl:if test="normalize-space(used_function)">
+      <xsl:text>&#10;## Used function(s)&#10;&#10;</xsl:text>
+      <xsl:value-of select="used_function"/>
+      <xsl:text>&#10;</xsl:text>
+    </xsl:if>
+
+    <!-- Only show examples section if there are examples -->
+    <xsl:if test="examples/example_item">
+    <xsl:text>&#10;## Example</xsl:text>
+    <xsl:if test="count(examples/example_item) > 1">
+      <xsl:text>s</xsl:text>
+    </xsl:if>
+    <xsl:text>&#10;&#10;</xsl:text>
+    <xsl:for-each select="examples/example_item">
+      <xsl:apply-templates select="example_item_description"/>
+      <xsl:text>&#10;</xsl:text>
+      <xsl:if test="example_item_data">
+        <xsl:text>```matlab&#10;</xsl:text>
+        <xsl:call-template name="process-example-data">
+          <xsl:with-param name="text" select="example_item_data"/>
+        </xsl:call-template>
+        <xsl:text>&#10;```&#10;</xsl:text>
+      </xsl:if>
+      <xsl:if test="example_item_img">
+        <xsl:variable name="imgsrc" select="ext:copy_img(example_item_img/@src)"/>
+        <xsl:text>&lt;img src="</xsl:text>
+        <xsl:value-of select="substring-after($imgsrc, './')"/>
+        <xsl:text>"</xsl:text>
+        <xsl:if test="example_item_img/@align">
+          <xsl:text> align="</xsl:text>
+          <xsl:value-of select="example_item_img/@align"/>
+          <xsl:text>"</xsl:text>
+        </xsl:if>
+        <xsl:text>/&gt;&#10;</xsl:text>
+      </xsl:if>
+    </xsl:for-each>
+    </xsl:if>
+
+    <!-- Only show "See also" section if it has items -->
+    <xsl:if test="see_also/see_also_item/link">
+    <xsl:text>&#10;&#10;## See also&#10;&#10;</xsl:text>
+    <xsl:for-each select="see_also/see_also_item/link">
+      <xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text>](</xsl:text>
+      <!-- Extract module and function name from linkend -->
+      <xsl:variable name="linkend" select="@linkend"/>
+      <xsl:variable name="module">
+        <xsl:if test="contains($linkend, '{') and contains($linkend, '}')">
+          <xsl:value-of select="substring-before(substring-after($linkend, '{'), '}')"/>
+        </xsl:if>
+      </xsl:variable>
+      <xsl:variable name="function">
+        <xsl:choose>
+          <xsl:when test="contains($linkend, '}')">
+            <xsl:value-of select="substring-after($linkend, '}')"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$linkend"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+      
+      <!-- Create the proper relative path with module reference -->
+      <xsl:choose>
+        <xsl:when test="string-length($module) > 0">
+          <xsl:text>../</xsl:text><xsl:value-of select="$module"/><xsl:text>/</xsl:text><xsl:value-of select="$function"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$function"/>
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:text>.md)</xsl:text>
+      <xsl:if test="position() != last()"><xsl:text>, </xsl:text></xsl:if>
+    </xsl:for-each>
+    <xsl:text>.</xsl:text>
+    </xsl:if>
+
+    <!-- Only show history section if it has items -->
+    <xsl:if test="history/history_item">
+    <xsl:text>&#10;&#10;## History&#10;&#10;</xsl:text>
+    <xsl:text>| Version | Description     |&#10;</xsl:text>
+    <xsl:text>| ------- | --------------- |&#10;</xsl:text>
+    <xsl:for-each select="history/history_item">
+    <xsl:text>| </xsl:text><xsl:value-of select="history_version"/><xsl:text>   | </xsl:text><xsl:value-of select="history_description"/><xsl:text> |&#10;</xsl:text>
+    </xsl:for-each>
+    </xsl:if>
+
+    <!-- Only show author section if there are authors -->
+    <xsl:if test="authors/author_item">
+    <xsl:text>&#10;## Author&#10;&#10;</xsl:text>
+    <xsl:for-each select="authors/author_item">
+    <xsl:value-of select="."/>
+    <xsl:text>&#10;</xsl:text>
+    </xsl:for-each>
+    </xsl:if>
+  </xsl:template>
+
+  <!-- Helper template to properly process example data including CDATA -->
+  <xsl:template name="process-example-data">
+    <xsl:param name="text"/>
+    <xsl:variable name="raw">
+      <xsl:choose>
+        <xsl:when test="contains($text, '[CDATA[')">
+          <xsl:value-of select="substring-before(substring-after($text, '[CDATA['), ']]')"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$text"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:value-of select="$raw"/>
+  </xsl:template>
+
+  <!-- By default, output the content -->
+  <xsl:template match="text()">
+    <xsl:value-of select="."/>
+  </xsl:template>
+
+  <xsl:template match="example_item">
+    <!-- ...existing code... -->
+    <xsl:apply-templates select="example_item_description"/>
+    <!-- ...existing code... -->
+  </xsl:template>
+
+  <xsl:template match="example_item_description">
+    <xsl:value-of select="."/>
+    <xsl:text>&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- Template for <b> and <i> tags in description -->
+  <xsl:template match="b">
+    <xsl:text>&lt;b&gt;</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>&lt;/b&gt;</xsl:text>
+  </xsl:template>
+  <xsl:template match="i">
+    <xsl:text>&lt;i&gt;</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>&lt;/i&gt;</xsl:text>
+  </xsl:template>
+  <xsl:template match="p">
+    <xsl:text>&#10;</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>&#10;</xsl:text>
+  </xsl:template>
+</xsl:stylesheet>

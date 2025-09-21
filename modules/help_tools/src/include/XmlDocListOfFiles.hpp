@@ -9,57 +9,25 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "Types.hpp"
-#include "XmlDocDocument.hpp"
-#include "XmlTarget.hpp"
-#include "nlsHelp_tools_exports.h"
-#include <vector>
 #include <string>
+#include <vector>
+#include <tuple>
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class NLSHELP_TOOLS_IMPEXP XmlDocListOfFiles
-{
-
-private:
-    std::wstring chapterTitle;
-    std::wstring chapterDescription;
-    std::wstring moduleName;
-    std::wstring lastError;
-    wstringVector srcFiles;
-    std::wstring dstDirectory;
-    bool bOverwriteExistingFiles;
-    std::vector<XmlDocDocument*> xmlItems;
-    void
-    clearItems();
-    std::wstring chapterResultFilename;
-    DOCUMENT_OUTPUT outputTarget;
-    std::wstring sectionUpName;
-    std::wstring sectionUpUrl;
-
-public:
-    std::wstring
-    getGeneratedChapterFilename();
-    std::wstring
-    getChapterTitle();
-    std::wstring
-    getModuleName();
-    XmlDocListOfFiles(wstringVector srcFiles, const std::wstring& dstDirectory,
-        bool bOverwriteExistingFiles = false, DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HMTL);
-    ~XmlDocListOfFiles();
-    bool
-    read();
-    bool
-    writeAsHtml();
-    bool
-    writeAsMarkdown();
-    std::wstring
-    getLastError();
-    void
-    getIndex(wstringVector& names, wstringVector& urls, wstringVector& descriptions);
-    void
-    setUpSection(const std::wstring& sectionName, const std::wstring& sectionUrl);
-};
+// keywordAndAlias, short description, xml file
+using XMLDOCFILE = std::tuple<std::vector<std::string>, std::string, std::wstring>;
+// directory, module name, chapter title, vector of XMLDOCFILE
+using XMLDOCFILES = std::tuple<std::wstring, // directory
+    std::wstring, // module name
+    std::wstring, // chapter title
+    std::string, // chapter description
+    std::vector<XMLDOCFILE>>;
 //=============================================================================
-} // namespace Nelson
+bool
+xmlDocListOfFiles(const wstringVector& xmlDirectories, std::vector<XMLDOCFILES>& xmlDocFiles,
+    std::string& language, std::wstring& errorMessage);
+//=============================================================================
+}
 //=============================================================================
