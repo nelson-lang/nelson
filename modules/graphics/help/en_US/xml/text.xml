@@ -913,6 +913,7 @@ t.Color = 'red';
                                                                                                                                 <example_item_img
         src="../images/text_1.svg"
         align="middle"
+        generate="true"
       />
                                                                                                                             </example_item>
                                                                                                                             <example_item
@@ -946,6 +947,7 @@ ylabel (_('Vertical alignment'));]]></example_item_data>
                                                                                                                                 <example_item_img
         src="../images/text_2.svg"
         align="middle"
+        generate="true"
       />
                                                                                                                             </example_item>
                                                                                                                             <example_item

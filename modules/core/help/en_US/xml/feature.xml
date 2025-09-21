@@ -32,7 +32,7 @@
             <p>It is a helper function for debugging Nelson.</p>
             <p>
                 <b
-      >feature</b>can change without prior notice between Nelson releases, so be very careful when using this function in your code.</p>
+      >feature</b> can change without prior notice between Nelson releases, so be very careful when using this function in your code.</p>
             </description>
             <used_function />
             <bibliography />

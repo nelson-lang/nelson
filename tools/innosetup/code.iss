@@ -120,7 +120,6 @@ var
     ModulesList.Add(ExpandConstant('{#COMPONENT_CONTROL_SYSTEM}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_FFTW}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_GUI}'));
-    ModulesList.Add(ExpandConstant('{#COMPONENT_HELP_BROWSER}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_QML_ENGINE}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_GRAPHICS}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_TEXT_EDITOR}'));
@@ -338,7 +337,6 @@ function NextButtonClick(CurPageID: Integer): Boolean;
           (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_GUI}') ) = false) and 
           ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_QML_ENGINE}')) = true) or
           (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_TEXT_EDITOR}')) = true) or 
-          (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_HELP_BROWSER}')) = true) or  
           (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_GRAPHICS}')) = true) )) then
           begin
               SuppressibleMsgBox( CustomMessage('MESSAGEBOX_GUI_REQUIRED'),
@@ -351,15 +349,6 @@ function NextButtonClick(CurPageID: Integer): Boolean;
           ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_UNIT_TESTS}')) = true))) then
           begin
               SuppressibleMsgBox( CustomMessage('MESSAGEBOX_TESTS_MANAGER_REQUIRED'),
-                mbError, MB_OK, MB_OK );
-            Result := false;
-          end;
-
-        if ( 
-          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_HELP_BROWSER}') ) = false) and 
-          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_HELP_FILES}')) = true))) then
-          begin
-              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_HELP_BROWSER_REQUIRED'),
                 mbError, MB_OK, MB_OK );
             Result := false;
           end;

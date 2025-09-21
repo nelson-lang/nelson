@@ -78,6 +78,11 @@
       ><![CDATA[R = sha256([modulepath('matio', 'tests'), '/mat/test_char_array_unicode_7.4_GLNX86.mat'], '-string')]]></example_item_data>
             </example_item>
         </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${core}crc32">crc32</link>
+            </see_also_item>
+        </see_also>
         <history>
             <history_item>
                 <history_version>1.0.0</history_version>

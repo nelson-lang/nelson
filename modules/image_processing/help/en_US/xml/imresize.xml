@@ -126,7 +126,11 @@ title('Original Image');
 subplot(1,2,2);          % second subplot
 image(im1);
 title('Resized Image');]]></example_item_data>
-            <example_item_img src="../images/imresize_1.png" align="middle" />
+            <example_item_img
+        src="../images/imresize_1.png"
+        align="middle"
+        generate="true"
+      />
         </example_item>
     </examples>
     <see_also>

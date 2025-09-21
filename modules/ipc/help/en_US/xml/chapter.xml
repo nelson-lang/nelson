@@ -4,7 +4,10 @@
     <language>en_US</language>
     <module_name>ipc</module_name>
     <chapter>Inter Process Communication</chapter>
-    <chapter_description
-  >Inter Process Communication functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+      <p
+    >The ipc module provides basic tools for interacting with processes and enabling communication between them.</p>
+      <p
+    >It allows retrieving process identifiers and using a communicator object for exchanging information across Nelson processes.</p> 
+    </chapter_description>
 </xmldoc>

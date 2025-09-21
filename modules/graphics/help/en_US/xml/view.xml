@@ -47,7 +47,11 @@
 [X,Y] = meshgrid(-6:.5:6);
 Z = Y .* sin(X) - X .* cos(Y);
 surf(X, Y, Z)]]></example_item_data>
-                <example_item_img src="../images/view_1.svg" align="middle" />
+                <example_item_img
+        src="../images/view_1.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
@@ -58,7 +62,11 @@ surf(X, Y, Z)]]></example_item_data>
 Z = Y .* sin(X) - X .* cos(Y);
 surf(X, Y, Z)
 view(90, 0)]]></example_item_data>
-                <example_item_img src="../images/view_2.svg" align="middle" />
+                <example_item_img
+        src="../images/view_2.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
@@ -69,7 +77,11 @@ view(90, 0)]]></example_item_data>
 Z = Y .* sin(X) - X .* cos(Y);
 surf(X, Y, Z)
 view(2)]]></example_item_data>
-                <example_item_img src="../images/view_3.svg" align="middle" />
+                <example_item_img
+        src="../images/view_3.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

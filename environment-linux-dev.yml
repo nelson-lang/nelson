@@ -27,6 +27,7 @@ dependencies:
   - gettext
   - icu
   - libxml2
+  - libxslt
   - libsndfile
   - libffi
   - libzlib

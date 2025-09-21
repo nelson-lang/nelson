@@ -47,7 +47,11 @@ x = linspace(0, 20);
 y = cos(x);
 plot(x, y)
 grid on]]></example_item_data>
-                <example_item_img src="../images/grid.svg" align="middle" />
+                <example_item_img
+        src="../images/grid.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

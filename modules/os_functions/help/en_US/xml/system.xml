@@ -92,7 +92,7 @@
     >Nelson will convert characters to the encoding that your operating system shell accepts (ANSI on Windows by default, UTF-8 on others systems).</p>
                 <p>command can be interrupted with <b
       >CTRL-C</b> key, in this case status code returned will be 258 (WAIT_TIMEOUT) on Windows and 134 on others platforms (128 + SIGABRT)<b
-      >output </b> contains 'ABORTED'.</p>
+      > output </b> contains 'ABORTED'.</p>
                 <p>if timeout value is 0. timeout disabled.</p>
             </description>
             <used_function />

@@ -36,8 +36,9 @@
                     <b
       >str = native2unicode(bytes, charset)</b> converts an uint8 vector to unicode characters (character set <b
       >charset</b> instead of the native character set).</p>
-                    <p
-    >List of characters set: http://www.iana.org/assignments/character-sets/character-sets.xhtml</p>
+                    <p>List of characters set: <a
+        href="https://www.iana.org/assignments/character-sets/character-sets.xhtml"
+      >https://www.iana.org/assignments/character-sets/character-sets.xhtml</a></p>
                 </description>
                 <used_function />
                 <bibliography>ICU library</bibliography>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>MEX</module_name>
-    <chapter>MEX functions</chapter>
-    <chapter_description
-  >MEX C API is allow to access Nelson, GNU Octave and commercial software functions and extend it's functionality.
-</chapter_description>
-    <auto_toc />
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>mex</module_name>
+  <chapter>MEX functions</chapter>
+  <chapter_description>
+    <p
+    >The MEX (MATLAB Executable) module allows C/C++ code to interface with Nelson, extending its
+      functionality and enabling access to Nelson’s engine, variables, and functions.</p>
+  </chapter_description>
 </xmldoc>

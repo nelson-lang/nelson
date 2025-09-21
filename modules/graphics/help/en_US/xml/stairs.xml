@@ -92,7 +92,11 @@ Y = [sin(5*x1),exp(x2).*sin(5*x2)];
 ax = gca();
 stairs(ax, X,Y)
 ]]></example_item_data>
-                <example_item_img src="../images/stairs_1.svg" align="middle" />
+                <example_item_img
+        src="../images/stairs_1.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
@@ -106,7 +110,11 @@ h(1).MarkerSize = 5;
 h(2).Marker = '+';
 h(2).MarkerFaceColor = 'm';
 ]]></example_item_data>
-                <example_item_img src="../images/stairs_2.svg" align="middle" />
+                <example_item_img
+        src="../images/stairs_2.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

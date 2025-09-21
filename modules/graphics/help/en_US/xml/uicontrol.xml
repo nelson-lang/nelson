@@ -208,6 +208,7 @@ b = uicontrol(f,'Style','pushbutton', 'String', 'Click Me', 'Position', [100 100
                                                                                                                                                                             <example_item_img
         src="../images/uicontrol_1.png"
         align="middle"
+        generate="true"
       />
                                                                                                                                                                         </example_item>
                                                                                                                                                                         <example_item
@@ -224,6 +225,7 @@ h = uicontrol('Style', 'checkbox', 'String', 'Click Me!', 'Position', [100, 100,
                                                                                                                                                                             <example_item_img
         src="../images/uicontrol_2.png"
         align="middle"
+        generate="true"
       />
                                                                                                                                                                         </example_item>
                                                                                                                                                                         <example_item
@@ -240,6 +242,7 @@ h = uicontrol('Style', 'edit', 'String', 'Click Me!', 'Position', [100, 100, 100
                                                                                                                                                                             <example_item_img
         src="../images/uicontrol_3.png"
         align="middle"
+        generate="true"
       />
                                                                                                                                                                         </example_item>
                                                                                                                                                                         <example_item
@@ -260,6 +263,7 @@ hButton = uicontrol('Style', 'pushbutton',  'Position', [100, 100, 100, 100], 'C
                                                                                                                                                                             <example_item_img
         src="../images/uicontrol_4.png"
         align="middle"
+        generate="true"
       />
                                                                                                                                                                         </example_item>
                                                                                                                                                                         <example_item
@@ -277,6 +281,7 @@ uicontrol_demo
                                                                                                                                                                             <example_item_img
         src="../images/uicontrol_5.png"
         align="middle"
+        generate="true"
       />
                                                                                                                                                                         </example_item>
                                                                                                                                                                         <example_item
@@ -294,6 +299,7 @@ uicontrol_demo_interruptible
                                                                                                                                                                             <example_item_img
         src="../images/uicontrol_6.png"
         align="middle"
+        generate="true"
       />
                                                                                                                                                                         </example_item>
                                                                                                                                                                     </examples>

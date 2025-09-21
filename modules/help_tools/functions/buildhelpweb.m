@@ -10,7 +10,7 @@
 function buildhelpweb(varargin)
   % buildhelpweb(destdir, [currentlang])
   narginchk(1, 2);
-  
+
   if nargin() == 2
     lang = varargin{2};
   else
@@ -21,20 +21,28 @@ function buildhelpweb(varargin)
   if ~isdir(dirdest)
     error(_('Existing directory expected.'));
   end
-  
-  srclist = {};
-  run([nelsonroot() '/modules/' 'modules.m']);
-  funcList = str2func('@(x) x{1}');
-  modules_help_list = string(cellfun(funcList, modules_list, 'UniformOutput', false));
-  for module = modules_help_list(:)'
-    src = [nelsonroot(), '/modules/', module{1}, '/help/', lang, '/xml'];
-    if isdir(src)
-      srclist{end + 1} = src;
+ 
+  modules_help_list = get_modules_help_list();
+  for m = modules_help_list'
+    help_file = [nelsonroot() '/modules/' m{1} '/help/' nelsonappid() '.modules.' m{1} '.help.' lang '.nhz'];
+    if ~isfile(help_file)
+      help_file = [nelsonroot() '/modules/' m{1} '/help/' nelsonappid() '.modules.' m{1} '.help.' getdefaultlanguage() '.nhz'];
+    end
+    unzip(help_file, dirdest);
+  end
+  lang_used = lang;
+  main_help_file = [nelsonroot() '/modules/main/help/' nelsonappid() '.modules.main.help.' lang_used '.nhz'];
+  if ~isfile(main_help_file)
+    lang_used = getdefaultlanguage();
+    main_help_file = [nelsonroot() '/modules/main/help/' nelsonappid() '.modules.main.help.' lang_used '.nhz'];
+  end
+  unzip(main_help_file, dirdest);
+  d = dir([dirdest, '/main/*.*']);
+  for k = 1:length(d)
+    if ~d(k).isdir
+      copyfile([dirdest, '/main/' , d(k).name], dirdest);
     end
   end
-  vervec = version('-number');
-  title = ['Nelson', ' ', int2str(vervec(1)), '.', int2str(vervec(2)), '.', int2str(vervec(3)), '.', int2str(vervec(4))];
-  xmldoctohtml(srclist, dirdest, title);
-  
+  rmdir([dirdest, '/main'], 's');
 end
 %=============================================================================

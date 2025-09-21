@@ -67,6 +67,7 @@
             giflib
             libtiff
             python313
+            libxslt
           ] ++ lib.optionals isDarwin [
             llvmPackages.libcxx
             llvmPackages.openmp
@@ -81,7 +82,7 @@
           ];
 
           shellHook = ''
-            export ${if isDarwin then "DYLD_LIBRARY_PATH" else "LD_LIBRARY_PATH"}="${
+            export ${if isDarwin then "DYLD_LIBRARY_PATH" else "LD_LIBRARY_PATH"}"${
               pkgs.lib.makeLibraryPath (
                 [
                   zlib
@@ -104,6 +105,7 @@
                   giflib
                   libtiff
                   python313
+                  libxslt
                 ]
                 ++ lib.optionals isDarwin [
                   llvmPackages.openmp

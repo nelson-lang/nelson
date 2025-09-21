@@ -18,7 +18,7 @@ ArrayOfVector
 Nelson::FileArchiverGateway::zipBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 1, 3);
+    nargincheck(argIn, 2, 3);
     nargoutcheck(nLhs, 0, 1);
     std::wstring rootPath = L".";
     std::wstring zipFilename = argIn[0].getContentAsWideString();

@@ -70,47 +70,45 @@
         >totalWeight</b>: The total weight of all the centroids in the t-digest.</li>
         </ul>
     </description>
-        <used_function>tdigest algorithm</used_function>
-        <bibliography
+    <used_function>tdigest algorithm</used_function>
+    <bibliography
   >https://www.sciencedirect.com/science/article/pii/S2665963820300403</bibliography>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
       ><![CDATA[M = rand(1, 15000);
 td = tdigest(100, M);
 td = td + [1:15000];
 td.percentile([5, 50, 95])
 td.quantile([0.05 0.5 0.95])]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description
       >streaming updates</example_item_description>
-                <example_item_data
+            <example_item_data
       ><![CDATA[
 td = tdigest(100);
 while(1)
   td = td + randn();
   td.percentile([5, 50, 95])
 end]]></example_item_data>
-            </example_item>
-
-
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${statistics}mean">mean</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.15.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${statistics}mean">mean</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.15.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

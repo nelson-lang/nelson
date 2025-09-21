@@ -4,6 +4,14 @@
     <language>en_US</language>
     <module_name>error_manager</module_name>
     <chapter>Error manager</chapter>
-    <chapter_description>error handling functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Error Manager module provides the mechanisms for handling errors and warnings in Nelson.</p>
+        <p
+    >It defines how exceptions are created, raised, and rethrown, as well as how diagnostic information can be retrieved after an error or warning occurs.</p>
+        <p
+    >This module ensures that users can manage execution flow in the presence of failures, capture meaningful error reports, and display warnings without interrupting program execution.</p>
+        <p
+    >It forms the foundation for robust error handling and debugging in Nelson applications.</p>
+    </chapter_description>
 </xmldoc>

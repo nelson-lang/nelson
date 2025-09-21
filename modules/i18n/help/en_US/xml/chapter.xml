@@ -4,6 +4,12 @@
     <language>en_US</language>
     <module_name>i18n</module_name>
     <chapter>I18n functions</chapter>
-    <chapter_description>internalization functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The i18n module provides tools for internationalization and localization of text within Nelson.</p>
+        <p
+    >It enables retrieval of translated strings for the current locale, supports utilities for managing translation workflows, and facilitates the generation of translation file headers.</p>
+        <p
+    >This module helps developers create software that can adapt dynamically to multiple languages and cultural contexts.</p>
+    </chapter_description>
 </xmldoc>

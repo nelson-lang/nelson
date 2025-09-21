@@ -57,7 +57,11 @@ ax3 = gca();
 sphere(ax3,100);
 axis equal
 title(_('100-by-100 faces'));]]></example_item_data>
-                <example_item_img src="../images/sphere.svg" align="middle" />
+                <example_item_img
+        src="../images/sphere.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

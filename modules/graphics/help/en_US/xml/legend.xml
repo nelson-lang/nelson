@@ -110,7 +110,11 @@ ax = gca();
 plot(ax, x, y1);
 plot(ax, x, y2);
 legend('sin(x)', 'cos(x)', 'Location', 'N')]]></example_item_data>
-                <example_item_img src="../images/legend.svg" align="middle" />
+                <example_item_img
+        src="../images/legend.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

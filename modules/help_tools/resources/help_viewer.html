@@ -1,0 +1,167 @@
+<!-- 
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Nelson Documentation</title>
+  <link rel="icon" type="image/png" href="banner_nelson_small.png">
+  <link rel="stylesheet" href="nelson_common.css">
+</head>
+<body class="help-viewer">
+  <aside id="left-frame" class="help-viewer__sidebar">
+    <iframe id="tocFrame" src="toc.html"></iframe>
+  </aside>
+  <main id="main-frame" class="help-viewer__main">
+    <header class="help-viewer__toolbar">
+      <button id="collapse-btn" type="button" class="help-viewer__toggle" aria-controls="left-frame" aria-expanded="true" title="Collapse/Expand Menu">&#9776;</button>
+      <form class="help-viewer__search" onsubmit="searchHelp(document.getElementById('search-input').value); return false;">
+        <input type="text" id="search-input" class="help-viewer__search-input" placeholder="Search help..." aria-label="Search help">
+        <button type="submit" title="Search" class="help-viewer__search-btn">Search</button>
+      </form>
+    </header>
+    <iframe id="contentFrame" name="contentFrame" class="help-viewer__content" src="homepage.html"></iframe>
+  </main>
+  <script>
+    // Collapsible left frame logic, button always visible on main frame
+    const leftFrame = document.getElementById('left-frame');
+    const collapseBtn = document.getElementById('collapse-btn');
+    let collapsed = false;
+    const setNavigationState = (isCollapsed) => {
+      leftFrame.classList.toggle('collapsed', isCollapsed);
+      collapseBtn.innerHTML = '&#9776;';
+      collapseBtn.title = isCollapsed ? 'Expand Menu' : 'Collapse Menu';
+      collapseBtn.setAttribute('aria-expanded', String(!isCollapsed));
+      leftFrame.setAttribute('aria-hidden', String(isCollapsed));
+    };
+    collapseBtn.addEventListener('click', () => {
+      collapsed = !collapsed;
+      setNavigationState(collapsed);
+    });
+    setNavigationState(collapsed);
+  </script>
+  <script>
+    const contentFrame = document.getElementById('contentFrame');
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const searchTerm = params.get('search');
+      const openPage = params.get('open');
+      const searchInput = document.getElementById('search-input');
+      if (searchTerm) {
+        searchInput.value = searchTerm.trim();
+      }
+      if (openPage) {
+        navigateToPage(openPage);
+      } else if (searchTerm) {
+        searchHelp(searchTerm);
+      }
+      window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+          e.preventDefault();
+          searchInput.focus();
+        }
+      });
+    });
+    function searchHelp(term) {
+      const normalizedTerm = (term || '').trim();
+      if (!normalizedTerm) {
+        alert('Please enter a search term');
+        return;
+      }
+      if (!contentFrame) {
+        alert('Error: Content frame not found');
+        return;
+      }
+      const searchUrl = `search_results.html?query=${encodeURIComponent(normalizedTerm)}`;
+      contentFrame.src = searchUrl;
+      const url = new URL(window.location);
+      if (url.searchParams.get('search') !== normalizedTerm) {
+        url.searchParams.set('search', normalizedTerm);
+        window.history.replaceState({}, '', url);
+      }
+    }
+    function navigateToPage(pagePath) {
+      if (contentFrame) {
+        contentFrame.src = pagePath;
+      }
+    }
+  </script>
+</body>
+</html>
+    </div>
+  </div>
+  <script>
+    // Collapsible left frame logic, button always visible on main frame
+    const leftFrame = document.getElementById('left-frame');
+    const collapseBtn = document.getElementById('collapse-btn');
+    let collapsed = false;
+    const setNavigationState = (isCollapsed) => {
+      leftFrame.classList.toggle('collapsed', isCollapsed);
+      collapseBtn.innerHTML = '&#9776;';
+      collapseBtn.title = isCollapsed ? 'Expand Menu' : 'Collapse Menu';
+      collapseBtn.setAttribute('aria-expanded', String(!isCollapsed));
+      leftFrame.setAttribute('aria-hidden', String(isCollapsed));
+    };
+    collapseBtn.addEventListener('click', () => {
+      collapsed = !collapsed;
+      setNavigationState(collapsed);
+    });
+    setNavigationState(collapsed);
+  </script>
+  <script>
+    const contentFrame = document.getElementById('contentFrame');
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const searchTerm = params.get('search');
+      const openPage = params.get('open');
+      const searchInput = document.getElementById('search-input');
+      if (searchTerm) {
+        searchInput.value = searchTerm.trim();
+      }
+      if (openPage) {
+        navigateToPage(openPage);
+      } else if (searchTerm) {
+        searchHelp(searchTerm);
+      }
+      window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+          e.preventDefault();
+          searchInput.focus();
+        }
+      });
+    });
+    function searchHelp(term) {
+      const normalizedTerm = (term || '').trim();
+      if (!normalizedTerm) {
+        alert('Please enter a search term');
+        return;
+      }
+      if (!contentFrame) {
+        alert('Error: Content frame not found');
+        return;
+      }
+      const searchUrl = `search_results.html?query=${encodeURIComponent(normalizedTerm)}`;
+      contentFrame.src = searchUrl;
+      const url = new URL(window.location);
+      if (url.searchParams.get('search') !== normalizedTerm) {
+        url.searchParams.set('search', normalizedTerm);
+        window.history.replaceState({}, '', url);
+      }
+    }
+    function navigateToPage(pagePath) {
+      if (contentFrame) {
+        contentFrame.src = pagePath;
+      }
+    }
+  </script>
+</body>
+</html>

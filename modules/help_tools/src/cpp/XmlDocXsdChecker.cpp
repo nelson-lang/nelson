@@ -62,9 +62,9 @@ xmlDocXsdChecker(const std::wstring& xmlFilename, const std::wstring& xsdFilenam
     // Read XML file into string
 
 #ifdef _MSC_VER
-    std::ifstream xmlFileStream(xmlFilename.c_str(), std::ios::binary);
+    std::ifstream xmlFileStream(xmlFilename, std::ios::binary);
 #else
-    std::ifstream xmlFileStream(wstring_to_utf8(xmlFilename).c_str(), std::ios::binary);
+    std::ifstream xmlFileStream(xmlFileUtf8, std::ios::binary);
 #endif
     if (!xmlFileStream) {
         errorMessage.push_back(_W("Failed to open XML file: ") + xmlFilename);
@@ -129,7 +129,6 @@ xmlDocXsdChecker(const std::wstring& xmlFilename, const std::wstring& xsdFilenam
     xmlSchemaFree(schema);
     xmlSchemaFreeParserCtxt(parserCtxt);
     xmlFreeDoc(doc);
-    xmlCleanupParser();
     xmlSetStructuredErrorFunc(NULL, NULL);
 
     return valid;

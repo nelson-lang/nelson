@@ -11,16 +11,33 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "Exception.hpp"
-#include "FileSystemWrapper.hpp"
-#include "XmlDocDirectory.hpp"
-#include "XmlDocDocument.hpp"
-#include "XmlDocListOfDirectories.hpp"
 #include "XmlTarget.hpp"
 #include "characters_encoding.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "FileSystemWrapper.hpp"
+#include "XmlDocBuild.hpp"
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
+// Helper function to handle return values based on nLhs, result, and error message
+static ArrayOfVector
+returnValueOrError(int nLhs, bool res, const std::wstring& errorMessage)
+{
+    ArrayOfVector retval;
+    if (nLhs == 0) {
+        if (!errorMessage.empty()) {
+            Error(errorMessage);
+        }
+        retval << ArrayOf::logicalConstructor(res);
+    } else {
+        retval << ArrayOf::logicalConstructor(res);
+        if (nLhs == 2) {
+            retval << ArrayOf::characterArrayConstructor(errorMessage);
+        }
+    }
+    return retval;
+}
 //=============================================================================
 // xmldocbuild(source_dirs, destination_dir, main_title, export_format, overwrite)
 ArrayOfVector
@@ -28,7 +45,7 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
 {
     ArrayOfVector retval;
     nargincheck(argIn, 5, 5);
-    nargoutcheck(nLhs, 0, 1);
+    nargoutcheck(nLhs, 0, 2);
     ArrayOf argSourceDirs = argIn[0];
     wstringVector listOfDirectories;
     if (argSourceDirs.isRowVectorCharacterArray()) {
@@ -37,61 +54,54 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
     } else if (argSourceDirs.isCell()) {
         listOfDirectories = argSourceDirs.getContentAsWideStringVector(true);
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_CELL_OF_STRINGS_EXPECTED);
+        return returnValueOrError(
+            nLhs, false, ERROR_WRONG_ARGUMENT_1_TYPE_CELL_OF_STRINGS_EXPECTED);
     }
     bool permissionDenied;
     for (const auto& listOfDirectorie : listOfDirectories) {
         if (!FileSystemWrapper::Path::is_directory(listOfDirectorie, permissionDenied)) {
             if (permissionDenied) {
-                Error(_W("Permission denied."));
+                return returnValueOrError(nLhs, false, _W("Permission denied."));
             }
-            Error(_W("Existing directory expected."));
+            return returnValueOrError(nLhs, false, _W("Existing directory expected."));
         }
     }
     ArrayOf argDestinationDir = argIn[1];
     std::wstring dstDirectory = argDestinationDir.getContentAsWideString();
     if (!FileSystemWrapper::Path::is_directory(dstDirectory, permissionDenied)) {
         if (permissionDenied) {
-            Error(_W("Permission denied."));
+            return returnValueOrError(nLhs, false, _W("Permission denied."));
         }
-        Error(_W("Existing directory expected."));
+        return returnValueOrError(nLhs, false, _W("Existing directory expected."));
     }
     ArrayOf argMainTitle = argIn[2];
     std::wstring mainTitle = argMainTitle.getContentAsWideString();
     ArrayOf argExportFormat = argIn[3];
     std::wstring exportFormat = argExportFormat.getContentAsWideString();
-    if ((exportFormat != L"help") && (exportFormat != L"html") && (exportFormat != L"md")) {
-        Error(_W("format not supported: 'help', 'html' or 'md' expected."));
+    if ((exportFormat != L"help") && (exportFormat != L"html") && (exportFormat != L"web")
+        && (exportFormat != L"md")) {
+        Error(_W("format not supported: 'help', 'html', 'web' or 'md' expected."));
     }
-    DOCUMENT_OUTPUT outputTarget;
+    DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HTML_WEB;
     if (exportFormat == L"help") {
         outputTarget = DOCUMENT_OUTPUT::QT_HELP;
     }
     if (exportFormat == L"html") {
-        outputTarget = DOCUMENT_OUTPUT::HMTL;
+        outputTarget = DOCUMENT_OUTPUT::HTML_LOCAL;
+    }
+    if (exportFormat == L"web") {
+        outputTarget = DOCUMENT_OUTPUT::HTML_WEB;
     }
     if (exportFormat == L"md") {
         outputTarget = DOCUMENT_OUTPUT::MARKDOWN;
     }
     ArrayOf argOverwrite = argIn[4];
     logical forceOverwrite = argOverwrite.getContentAsLogicalScalar();
-    XmlDocListOfDirectories xmlDirs(
-        listOfDirectories, dstDirectory, mainTitle, forceOverwrite ? true : false, outputTarget);
-    if (xmlDirs.read()) {
-        std::wstring outputModuleName = xmlDirs.getOutputHelpBasename();
-        try {
-            if (outputTarget == DOCUMENT_OUTPUT::MARKDOWN) {
-                xmlDirs.writeAsMarkdown();
-            } else {
-                xmlDirs.writeAsHtml();
-            }
-        } catch (Exception& e) {
-            Error(e.getMessage());
-        }
-        retval << ArrayOf::characterArrayConstructor(outputModuleName);
-    } else {
-        Error(xmlDirs.getLastError());
-    }
-    return retval;
+
+    std::wstring errorMessage;
+    bool res = xmldocbuild(listOfDirectories, dstDirectory, mainTitle, outputTarget,
+        forceOverwrite ? true : false, errorMessage);
+
+    return returnValueOrError(nLhs, res, errorMessage);
 }
 //=============================================================================

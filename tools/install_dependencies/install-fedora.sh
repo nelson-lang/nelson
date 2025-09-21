@@ -65,7 +65,7 @@ python_libs=(
 
 # --- Other Libraries ---
 other_libs=(
-    libffi-devel libicu-devel libxml2-devel
+    libffi-devel libicu-devel libxml2-devel libxslt-devel
     boost-devel zlib-devel curl-devel libgit2-devel
 )
 

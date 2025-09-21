@@ -66,7 +66,11 @@ plot(freq, angle(squeeze(resp)) * 180/pi);
 ylabel(_('Phase (degrees)'));
 xlabel(_('Frequency (Hz)'));
 ]]></example_item_data>
-                <example_item_img src="../images/freqresp.svg" align="middle" />
+                <example_item_img
+        src="../images/freqresp.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

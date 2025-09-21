@@ -184,11 +184,14 @@
     <ClCompile Include="..\cpp\docrootBuitlin.cpp" />
     <ClCompile Include="..\cpp\headcommentsBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\helptransformBuiltin.cpp" />
     <ClCompile Include="..\cpp\htmltopdfBuiltin.cpp" />
     <ClCompile Include="..\cpp\markdownBuiltin.cpp" />
     <ClCompile Include="..\cpp\xmldocbuildBuiltin.cpp" />
     <ClCompile Include="..\cpp\xmldoccheckerBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\xmldocmergesummaryBuiltin.cpp" />
+    <ClCompile Include="..\cpp\xmldocprettifyBuiltin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
@@ -226,13 +229,17 @@
     <None Include="..\..\module.iss" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\include\XmlDocMakeSummary.hpp" />
     <ClInclude Include="..\include\docrootBuiltin.hpp" />
     <ClInclude Include="..\include\headcommentsBuiltin.hpp" />
+    <ClInclude Include="..\include\helptransformBuiltin.hpp" />
     <ClInclude Include="..\include\htmltopdfBuiltin.hpp" />
     <ClInclude Include="..\include\nlsHelp_tools_builtin_exports.h" />
     <ClInclude Include="..\include\markdownBuiltin.hpp" />
     <ClInclude Include="..\include\xmldoccheckerBuiltin.hpp" />
     <ClInclude Include="..\include\xmldocbuildBuiltin.hpp" />
+    <ClInclude Include="..\include\xmldocmergesummaryBuiltin.hpp" />
+    <ClInclude Include="..\include\xmldocprettifyBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />

@@ -4,6 +4,12 @@
     <language>en_US</language>
     <module_name>characters_encoding</module_name>
     <chapter>Characters encoding</chapter>
-    <chapter_description>characters encoding functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+       <p
+    >The Characters Encoding module provides tools for converting between native byte representations and Unicode characters.</p>
+       <p
+    >It enables scripts to correctly interpret and manipulate text in various encodings, ensuring compatibility across different platforms and locales.</p>
+       <p
+    >The module also includes functionality for detecting character sets that match a given input, facilitating reliable text processing and internationalization.</p>
+    </chapter_description>
 </xmldoc>

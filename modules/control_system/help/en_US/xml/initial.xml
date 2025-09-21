@@ -82,7 +82,11 @@ X0 = [0.1 0.1 0.1];
 sys = ss(A, B, C, D);    
 initial(sys, X0);
 ]]></example_item_data>
-                <example_item_img src="../images/initial.svg" align="middle" />
+                <example_item_img
+        src="../images/initial.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

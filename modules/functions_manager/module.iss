@@ -18,7 +18,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{
 ;==============================================================================
 ;Source: {#RootPath}modules\functions_manager\functions\*.m; DestDir: {app}\modules\functions_manager\functions\;
 ;==============================================================================
-Source: {#RootPath}modules\functions_manager\help\*.qch; DestDir: {app}\modules\functions_manager\help\; Flags: recursesubdirs;Components: {#COMPONENT_HELP_BROWSER} and {#COMPONENT_HELP_FILES};
+Source: {#RootPath}modules\functions_manager\help\*.nhz; DestDir: {app}\modules\functions_manager\help\; Flags: recursesubdirs;Components: {#COMPONENT_HELP_FILES};
 ;==============================================================================
 Source: {#RootPath}modules\functions_manager\tests\*.m; DestDir: {app}\modules\functions_manager\tests\; Flags: recursesubdirs;Components: {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
 ;==============================================================================

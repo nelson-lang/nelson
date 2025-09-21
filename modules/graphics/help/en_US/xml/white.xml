@@ -34,9 +34,12 @@
                 <example_item_data
       ><![CDATA[f = figure();
 surf(peaks);
-view(2);
 colormap('white');]]></example_item_data>
-                <example_item_img src="../images/white.svg" align="middle" />
+                <example_item_img
+        src="../images/white.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

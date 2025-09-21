@@ -73,9 +73,6 @@ Name: {#COMPONENT_IMAGE_PROCESSING}; Description:{cm:IMAGE_PROCESSING_MODULE}; T
 #define COMPONENT_TEXT_EDITOR 'TEXT_EDITOR'
 Name: {#COMPONENT_TEXT_EDITOR}; Description:{cm:TEXT_EDITOR_MODULE}; Types: full custom;
 ;==============================================================================
-#define COMPONENT_HELP_BROWSER 'HELP_BROWSER'
-Name: {#COMPONENT_HELP_BROWSER}; Description:{cm:HELP_BROWSER_MODULE}; Types: full custom;
-;==============================================================================
 #define COMPONENT_HELP_TOOLS 'HELP_TOOLS'
 Name: {#COMPONENT_HELP_TOOLS}; Description:{cm:HELP_TOOLS_MODULE}; Types: full custom;
 ;==============================================================================

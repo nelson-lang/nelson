@@ -4,6 +4,14 @@
     <language>en_US</language>
     <module_name>interpreter</module_name>
     <chapter>Interpreter functions</chapter>
-    <chapter_description>interpreter functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+     <p
+    >The Interpreter Functions module provides the core language constructs and control mechanisms that define the execution flow in Nelson.</p>
+     <p
+    >It includes essential elements such as loops, conditional branching, error handling, and function declarations.</p>
+     <p
+    >The module also offers tools for parsing code, working with keywords, and managing recursion limits.</p>
+     <p
+    >Together, these features establish the fundamental syntax and semantics of the Nelson language, enabling users to write structured, dynamic, and reliable programs.</p>
+    </chapter_description>
 </xmldoc>

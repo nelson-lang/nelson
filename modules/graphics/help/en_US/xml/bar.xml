@@ -73,7 +73,11 @@
 y = [ 91 75 123.5 105 150 131 203 179 249 226 281.5];
 bar(y);
 ]]></example_item_data>
-                <example_item_img src="../images/bar_1.svg" align="middle" />
+                <example_item_img
+        src="../images/bar_1.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
@@ -83,7 +87,11 @@ bar(y);
 y = [ 91 75 123.5 105 150 131 203 179 249 226 281.5];
 bar(y, 0.5);
 ]]></example_item_data>
-                <example_item_img src="../images/bar_2.svg" align="middle" />
+                <example_item_img
+        src="../images/bar_2.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
@@ -94,7 +102,11 @@ x = 1900:10:2000;
 y = [75 91 105 123.5 131 150 179 203 226 249 281.5];
 bar(x, y, 'r');
 ]]></example_item_data>
-                <example_item_img src="../images/bar_3.svg" align="middle" />
+                <example_item_img
+        src="../images/bar_3.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
@@ -105,7 +117,11 @@ x = [ "Summer", "Spring", "Winter", "Autumn"];
 y = [ 2 1 4 3];
 bar(x, y);
 ]]></example_item_data>
-                <example_item_img src="../images/bar_4.svg" align="middle" />
+                <example_item_img
+        src="../images/bar_4.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
@@ -115,7 +131,11 @@ bar(x, y);
 y = [91 75 123.5 105 150 131 203 179 249 226 281.5];
 bar(y, 'FaceColor', [0 .5 .5], 'EdgeColor', [0 .9 .9], 'LineWidth', 1.5)
 ]]></example_item_data>
-                <example_item_img src="../images/bar_5.svg" align="middle" />
+                <example_item_img
+        src="../images/bar_5.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

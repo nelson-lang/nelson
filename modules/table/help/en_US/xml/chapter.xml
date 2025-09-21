@@ -4,7 +4,10 @@
     <language>en_US</language>
     <module_name>table</module_name>
     <chapter>Tables</chapter>
-    <chapter_description
-  >Tables of arrays with named columns, each potentially containing different data types.</chapter_description>
-    <auto_toc />
+    <chapter_description>
+      <p
+    >The Tables module provides tools for creating, accessing, and manipulating tabular data in Nelson.</p>
+      <p
+    >Tables are array-like structures with named variables (columns), each capable of holding different data types.</p>
+    </chapter_description>
 </xmldoc>

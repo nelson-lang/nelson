@@ -75,7 +75,11 @@ R = sqrt(X.^2 + Y.^2) + eps;
 Z = sin(R) ./ R;
 mesh(X, Y, Z)
 axis square]]></example_item_data>
-                <example_item_img src="../images/mesh_1.svg" align="middle" />
+                <example_item_img
+        src="../images/mesh_1.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
@@ -92,7 +96,11 @@ mesh(real(W), imag(W), abs(W))
 xlabel('Real')
 ylabel('Imaginary')
 zlabel('Magnitude')]]></example_item_data>
-                <example_item_img src="../images/mesh_2.svg" align="middle" />
+                <example_item_img
+        src="../images/mesh_2.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

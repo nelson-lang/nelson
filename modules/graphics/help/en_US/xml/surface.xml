@@ -96,6 +96,7 @@ s2 = surf(ax2, data);
                             <example_item_img
         src="../images/surface_1.svg"
         align="middle"
+        generate="true"
       />
                         </example_item>
                     </examples>

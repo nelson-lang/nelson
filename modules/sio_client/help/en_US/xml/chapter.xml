@@ -3,7 +3,9 @@
     <copyright>SAME AS NELSON SOFTWARE</copyright>
     <language>en_US</language>
     <module_name>sio_client</module_name>
-    <chapter>SIO client</chapter>
-    <chapter_description>Nelson in the cloud</chapter_description>
-    <auto_toc />
+    <chapter>Nelson in the cloud</chapter>
+    <chapter_description>
+        <p
+    >It provides functions for managing connections, sending and receiving data, and handling events in a cloud environment.</p>
+    </chapter_description>
 </xmldoc>
