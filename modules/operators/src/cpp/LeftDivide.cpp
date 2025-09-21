@@ -19,41 +19,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// static bool
-// promoteCommonType(ArrayOf& A, ArrayOf& B)
-//{
-//    bool wasPromoted = true;
-//    if (A.getDataClass() != B.getDataClass()) {
-//        if (A.isComplex() || B.isComplex()) {
-//            if (A.isComplex()) {
-//                if (B.getDataClass() == NLS_DOUBLE) {
-//                    B.promoteType(NLS_DCOMPLEX);
-//                } else if (B.getDataClass() == NLS_SINGLE) {
-//                    B.promoteType(NLS_SCOMPLEX);
-//                } else {
-//                    wasPromoted = false;
-//                }
-//            } else {
-//                if (A.getDataClass() == NLS_DOUBLE) {
-//                    A.promoteType(NLS_DCOMPLEX);
-//                } else if (A.getDataClass() == NLS_SINGLE) {
-//                    A.promoteType(NLS_SCOMPLEX);
-//                } else {
-//                    wasPromoted = false;
-//                }
-//            }
-//        } else {
-//            if (A.getDataClass() == NLS_SINGLE || B.getDataClass() == NLS_SINGLE) {
-//                A.promoteType(NLS_SINGLE);
-//                B.promoteType(NLS_SINGLE);
-//            } else {
-//                wasPromoted = false;
-//            }
-//        }
-//    }
-//    return wasPromoted;
-//}
-////=============================================================================
 ArrayOf
 LeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
 {
