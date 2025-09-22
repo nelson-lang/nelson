@@ -48,6 +48,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Improved `xmldocchecker` with XSD schema validation for XML files.
 
+- [#1458](http://github.com/nelson-lang/nelson/issues/1458): Eigen 5.0.0 used if detected.
+
 ### Fixed
 
 - `ans` variable: Fixed issue to ensure 'ans' is only created for expressions, preventing unintended variable creation in the workspace.
