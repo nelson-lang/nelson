@@ -30,6 +30,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `tdigest`: Introduced t-digest algorithm data structure for accurate quantile estimation with configurable compression parameters.
 
+- macOS Tahoe 26: CI setup and platform support.
+
 ### Changed
 
 - `jsondecode`: Significantly improved performance by integrating [simdjson](https://simdjson.org/), enabling faster and more efficient JSON parsing.
@@ -49,6 +51,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved `xmldocchecker` with XSD schema validation for XML files.
 
 - [#1458](http://github.com/nelson-lang/nelson/issues/1458): Eigen 5.0.0 used if detected.
+
+- GitHub CI MacOS Ventura removed and replaced by MacOS 15 intel ([#1457](http://github.com/nelson-lang/nelson/issues/1457))
 
 ### Fixed
 

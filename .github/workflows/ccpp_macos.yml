@@ -9,28 +9,34 @@ jobs:
       fail-fast: false
       matrix:
         config:
+          - name: Tahoe (26)
+            runner: macos-26
+            qt: false
+            script: install-macOS.sh
+            extra_config: ""
+            arch: arm64
           - name: Sequoia (15)
             runner: macos-15
             qt: false
             script: install-macOS.sh
             extra_config: ""
             arch: arm64
+          - name: Sequoia (15) intel
+            runner: macos-15-intel
+            qt: false
+            script: install-macOS.sh
+            extra_config: ""
+            arch: x86_64
           - name: Sonoma (14)
             runner: macos-14
             qt: false
             script: install-macOS.sh
             extra_config: ""
             arch: arm64
-          - name: Ventura (13)
-            runner: macos-13
-            qt: true
-            script: install-macOS-ventura.sh
-            extra_config: "-DWITHOUT_GIF=ON -DWITHOUT_TIFF=ON -DWITHOUT_FFTW_MODULE=ON"
-            arch: amd64
 
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.runner }}
-    timeout-minutes: 90
+    timeout-minutes: 120
 
     steps:
       - name: Checkout
@@ -81,6 +87,7 @@ jobs:
         run: just setup_julia
 
       - name: Benchmarks
+        if: ${{ matrix.config.arch == 'arm64' }}
         run: just benchmarks
 
       - name: Tests
@@ -90,7 +97,9 @@ jobs:
         run: |
           mkdir artifacts
           mv tests_all*.* artifacts
-          mv benchmark_all*.* artifacts
+          if [ "${{ matrix.config.arch }}" == "arm64" ]; then
+            mv benchmark_all*.* artifacts
+          fi
           mv nelson-*.tar.gz artifacts
 
       - uses: actions/upload-artifact@v4
