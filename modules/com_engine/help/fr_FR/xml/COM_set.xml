@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>COM_set</keyword>
+    <short_description
+  >Définir la propriété d'un objet ou interface à la valeur spécifiée.</short_description>
+    <syntax>
+        <syntax_item>set(h, propertyname, value)</syntax_item>
+        <syntax_item>COM_set(h, propertyname, value)</syntax_item>
+        <syntax_item>h.propertyname = value</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>h</param_name>
+            <param_description>un objet COM.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyname</param_name>
+            <param_description
+      >une chaîne : le nom de la propriété de l'objet COM.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>value</param_name>
+            <param_description
+      >une chaîne, un booléen, un double ...</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p
+    >La fonction définit la propriété spécifiée dans la chaîne propertyname à la valeur donnée.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[pWord = actxserver('Word.Application')
+pWord.Visible = true
+invoke(pWord, 'Quit')
+delete(pWord)
+clear pWord]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${com_engine}COM_get">COM_get</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${com_engine}COM_invoke">COM_invoke</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+                            <history_description
+      >version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

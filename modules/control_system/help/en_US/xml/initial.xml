@@ -72,6 +72,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[A = [-10 -20 -30;1  0  0; 0  1  0];
 B = [1;   0;   0];
 C = [0   0   1];

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>functions_manager</module_name>
+    <chapter>Gestionnaire de fonctions</chapter>
+    <chapter_description>
+        <p
+    >Le gestionnaire de fonctions fournit des outils pour gérer et interagir avec le chemin de recherche des fonctions de Nelson et les types de fonctions.</p> 
+        <p
+    >Il comprend des commandes pour ajouter ou supprimer des répertoires du chemin de recherche, exécuter des fonctions intégrées, effacer des fonctions intégrées, évaluer des fonctions, et plus encore.</p> 
+        <p
+    >Des utilitaires sont disponibles pour vérifier l'existence de fonctions intégrées, macro ou mex.</p>
+    </chapter_description>
+</xmldoc>

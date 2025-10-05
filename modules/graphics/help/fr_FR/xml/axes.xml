@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>axes</keyword>
+  <short_description>Créer des axes cartésiens.</short_description>
+  <syntax>
+    <syntax_item>ax = axes()</syntax_item>
+    <syntax_item>ax = axes(parent)</syntax_item>
+    <syntax_item>ax = axes(propertyName, propertyValue)</syntax_item>
+    <syntax_item>ax = axes(parent, propertyName, propertyValue)</syntax_item>
+    <syntax_item>axes(cax)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+  <param_name>parent</param_name>
+  <param_description
+      >une valeur scalaire d'objet graphique : conteneur parent, spécifié comme une figure.</param_description>
+    </param_input_item>
+    <param_input_item>
+  <param_name>cax</param_name>
+  <param_description>axes à rendre courant.</param_description>
+    </param_input_item>
+    <param_input_item>
+  <param_name>propertyName</param_name>
+  <param_description
+      >une chaîne scalaire ou un vecteur ligne de caractères.</param_description>
+    </param_input_item>
+    <param_input_item>
+  <param_name>propertyValue</param_name>
+  <param_description>une valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+  <param_name>ax</param_name>
+  <param_description>un objet graphique : type axes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >axes</b> crée des axes dans la figure courante et les définit comme axes courants.</p>
+    <p><b>axes(cax)</b> rend les axes courants.</p>
+    <p>Un clic sur un axe le rend automatiquement courant.</p>
+    <p>Propriétés :</p>
+    <table>
+        <tr><th>Propriété</th><th>Description</th></tr>
+        <tr><td><b>ALim</b></td><td
+        >Limites alpha : vecteur à deux éléments de la forme [amin, amax].</td></tr>
+        <tr><td><b>ALimMode</b></td><td
+        >Mode de sélection pour ALim : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>AmbientLightColor</b></td><td
+        >Couleur de la lumière d'arrière-plan : triplet RGB ou nom de couleur.</td></tr>
+        <tr><td><b>Box</b></td><td>Boîte : 'on' ou 'off'.</td></tr>
+        <tr><td><b>CLim</b></td><td
+        >Limites de couleur : vecteur à deux éléments [cmin, cmax] ou [0 1] (par défaut).</td></tr>
+        <tr><td><b>CLimMode</b></td><td
+        >Mode de sélection pour CLim : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>CameraPosition</b></td><td
+        >Position de la caméra : vecteur [x, y, z].</td></tr>
+        <tr><td><b>CameraPositionMode</b></td><td
+        >Mode de sélection pour CameraPosition : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>CameraTarget</b></td><td
+        >Cible de la caméra : vecteur [x, y, z].</td></tr>
+        <tr><td><b>CameraTargetMode</b></td><td
+        >Mode de sélection pour CameraTarget : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>CameraUpVector</b></td><td
+        >Vecteur définissant la direction vers le haut : [x, y, z].</td></tr>
+        <tr><td><b>CameraUpVectorMode</b></td><td
+        >Mode de sélection pour CameraUpVector : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>CameraViewAngle</b></td><td
+        >Champ de vision : 0 (par défaut) | angle scalaire dans [0,180]</td></tr>
+        <tr><td><b>CameraViewAngleMode</b></td><td
+        >Mode de sélection pour CameraViewAngle : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>Children</b></td><td
+        >Tableau d'objets graphiques : vecteur contenant les enfants de l'axe courant.</td></tr>
+        <tr><td><b>Clipping</b></td><td
+        >Rognage des objets aux limites des axes : 'on' (par défaut) ou 'off'.</td></tr>
+        <tr><td><b>Color</b></td><td
+        >Couleur de fond des axes : triplet RGB, nom de couleur ou code hexadécimal.</td></tr>
+        <tr><td><b>ColorOrder</b></td><td
+        >Ordre des couleurs : matrice à trois colonnes de triplets RGB.</td></tr>
+        <tr><td><b>ColorOrderIndex</b></td><td
+        >Indice d'ordre des couleurs : entier positif, spécifie la prochaine couleur utilisée.</td></tr>
+        <tr><td><b>DataAspectRatio</b></td><td
+        >Rapport d'aspect des données : vecteur [x, y, z].</td></tr>
+        <tr><td><b>DataAspectRatioMode</b></td><td
+        >Mode du rapport d'aspect des données : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>FontAngle</b></td><td
+        >Inclinaison des caractères : 'italic' ou 'normal' (par défaut).</td></tr>
+        <tr><td><b>FontName</b></td><td>Nom de la police</td></tr>
+        <tr><td><b>FontSize</b></td><td
+        >Taille de la police : valeur numérique scalaire</td></tr>
+        <tr><td><b>FontUnits</b></td><td
+        >Unités de taille de police : 'inches', 'centimeters', 'normalized', 'pixels' ou 'points' (par défaut).</td></tr>
+        <tr><td><b>FontWeight</b></td><td
+        >Épaisseur des caractères : 'bold' ou 'normal' (par défaut).</td></tr>
+        <tr><td><b>GridAlpha</b></td><td
+        >Transparence des lignes de grille (0.15 (par défaut) ou valeur dans [0, 1]).</td></tr>
+        <tr><td><b>GridColor</b></td><td
+        >Couleur des lignes de grille ([0.15, 0.15, 0.15] (par défaut) ou triplet RGB).</td></tr>
+        <tr><td><b>GridLineStyle</b></td><td
+        >Style de ligne pour la grille : '--', ':', '-.', 'none' ou '-' (par défaut).</td></tr>
+        <tr><td><b>HandleVisibility</b></td><td
+        >Visibilité du handle de l'objet : 'on' (par défaut) ou 'off'.</td></tr>
+        <tr><td><b>HitTest</b></td><td
+        >Réponse aux clics souris capturés : 'on' (par défaut) ou 'off'.</td></tr>
+        <tr><td><b>BeingDeleted</b></td><td
+        >Indique que l'objet est en cours de suppression.</td></tr>
+        <tr><td><b>Interruptible</b></td><td
+        >Interruption de callback :</td></tr>
+        <tr><td><b>Layer</b></td><td
+        >Placement des lignes de grille et des graduations : 'top' ou 'bottom' (par défaut).</td></tr>
+        <tr><td><b>LineStyleOrder</b></td><td
+        >Ordre des styles de ligne : vecteur de caractères, cellule de vecteurs de caractères, tableau de chaînes ou '-' ligne continue (par défaut).</td></tr>
+        <tr><td><b>LineStyleOrderIndex</b></td><td
+        >Indice d'ordre des couleurs : entier positif, spécifie le prochain style de ligne utilisé.</td></tr>
+        <tr><td><b>LineWidth</b></td><td
+        >Largeur de ligne : valeur numérique positive.</td></tr>
+        <tr><td><b>MinorGridLineStyle</b></td><td
+        >Style de ligne pour la grille mineure : '-', '--', '-.', 'none' ou ':' (par défaut).</td></tr>
+        <tr><td><b>NextPlot</b></td><td
+        >Propriétés à réinitialiser : 'add', 'replacechildren', 'replaceall' ou 'replace' (par défaut).</td></tr>
+        <tr><td><b>OuterPosition</b></td><td
+        >Taille et position, y compris labels et marges : vecteur à quatre éléments.</td></tr>
+        <tr><td><b>Parent</b></td><td
+        >Conteneur parent : objet figure graphique.</td></tr>
+        <tr><td><b>PlotBoxAspectRatio</b></td><td
+        >Rapport d'aspect de chaque axe : vecteur [x, y, z].</td></tr>
+        <tr><td><b>PlotBoxAspectRatioMode</b></td><td
+        >Mode de sélection pour PlotBoxAspectRatio : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>Position</b></td><td
+        >Taille et position, sans marges pour les labels : vecteur à quatre éléments</td></tr>
+        <tr><td><b>PositionMode</b></td><td
+        >'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>Projection</b></td><td
+        >Type de projection sur l'écran 2D : 'perspective' ou 'orthographic' (par défaut).</td></tr>
+        <tr><td><b>Selected</b></td><td
+        >État de sélection : 'on' ou 'off' (par défaut).</td></tr>
+        <tr><td><b>SelectionHighlight</b></td><td
+        >Affichage des objets graphiques sélectionnés : 'on' (par défaut) ou 'off'.</td></tr>
+        <tr><td><b>Tag</b></td><td
+        >Identifiant de l'objet : vecteur de caractères, chaîne scalaire ou '' (par défaut).</td></tr>
+        <tr><td><b>TickDir</b></td><td
+        >Direction des graduations : 'out', 'both', 'none' ou 'in' (par défaut).</td></tr>
+        <tr><td><b>TickDirMode</b></td><td
+        >Mode de sélection pour TickDir : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>TickLength</b></td><td
+        >Longueur des graduations : vecteur à deux éléments.</td></tr>
+        <tr><td><b>TightInset</b></td><td
+        >Marges pour les labels de texte : vecteur à quatre éléments [gauche bas droite haut].</td></tr>
+        <tr><td><b>Title</b></td><td
+        >Objet texte pour le titre : objet texte</td></tr>
+        <tr><td><b>Type</b></td><td>Type d'objet graphique : 'axes'.</td></tr>
+        <tr><td><b>Units</b></td><td
+        >Unités de position : 'inches', 'centimeters', 'points', 'pixels', 'characters' ou 'normalized' (par défaut).</td></tr>
+        <tr><td><b>UserData</b></td><td
+        >Données utilisateur : tableau ou []</td></tr>
+        <tr><td><b>View</b></td><td
+        >Azimut et élévation de la vue (par défaut : [0 90])</td></tr>
+        <tr><td><b>Visible</b></td><td
+        >État de visibilité : 'on' (par défaut) ou 'off'.</td></tr>
+        <tr><td><b>XAxisLocation</b></td><td
+        >Position de l'axe x : 'top', 'origin' ou 'bottom' (par défaut).</td></tr>
+        <tr><td><b>XColor</b></td><td
+        >Couleur de l'axe, des graduations et des labels x : triplet RGB.</td></tr>
+        <tr><td><b>XDir</b></td><td
+        >Direction de l'axe x : 'reverse' ou 'normal' (par défaut).</td></tr>
+        <tr><td><b>XGrid</b></td><td
+        >Lignes de grille : 'on' ou 'off' (par défaut).</td></tr>
+        <tr><td><b>XLabel</b></td><td
+        >Objet texte pour le label de l'axe x : objet texte</td></tr>
+        <tr><td><b>XLim</b></td><td
+        >Limites minimales et maximales de l'axe x : vecteur [min max].</td></tr>
+        <tr><td><b>XLimMode</b></td><td
+        >Mode de sélection des limites de l'axe x : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>XMinorGrid</b></td><td
+        >Lignes de grille mineure : 'on' ou 'off' (par défaut).</td></tr>
+        <tr><td><b>XScale</b></td><td
+        >Échelle des valeurs sur l'axe x : 'log' ou 'linear' (par défaut).</td></tr>
+        <tr><td><b>XTick</b></td><td
+        >Valeurs des graduations : vecteur de valeurs croissantes ou [] (par défaut).</td></tr>
+        <tr><td><b>XTickLabel</b></td><td
+        >Labels des graduations : cellule de vecteurs de caractères ou '' (par défaut).</td></tr>
+        <tr><td><b>XTickLabelMode</b></td><td
+        >Mode de sélection des labels : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>XTickMode</b></td><td
+        >Mode de sélection des valeurs de graduation : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>YAxisLocation</b></td><td
+        >Position de l'axe y : 'top', 'origin' ou 'bottom' (par défaut).</td></tr>
+        <tr><td><b>YColor</b></td><td
+        >Couleur de l'axe, des graduations et des labels y : triplet RGB.</td></tr>
+        <tr><td><b>YDir</b></td><td
+        >Direction de l'axe y : 'reverse' ou 'normal' (par défaut).</td></tr>
+        <tr><td><b>YGrid</b></td><td
+        >Lignes de grille : 'on' ou 'off' (par défaut).</td></tr>
+        <tr><td><b>YLabel</b></td><td
+        >Objet texte pour le label de l'axe y : objet texte</td></tr>
+        <tr><td><b>YLim</b></td><td
+        >Limites minimales et maximales de l'axe y : vecteur [min max].</td></tr>
+        <tr><td><b>YLimMode</b></td><td
+        >Mode de sélection des limites de l'axe y : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>YMinorGrid</b></td><td
+        >Lignes de grille mineure : 'on' ou 'off' (par défaut).</td></tr>
+        <tr><td><b>YScale</b></td><td
+        >Échelle des valeurs sur l'axe y : 'log' ou 'linear' (par défaut).</td></tr>
+        <tr><td><b>YTick</b></td><td
+        >Valeurs des graduations : vecteur de valeurs croissantes ou [] (par défaut).</td></tr>
+        <tr><td><b>YTickLabel</b></td><td
+        >Labels des graduations : cellule de vecteurs de caractères ou '' (par défaut).</td></tr>
+        <tr><td><b>YTickLabelMode</b></td><td
+        >Mode de sélection des labels : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>YTickMode</b></td><td
+        >Mode de sélection des valeurs de graduation : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>ZColor</b></td><td
+        >Couleur de l'axe, des graduations et des labels z : triplet RGB.</td></tr>
+        <tr><td><b>ZDir</b></td><td
+        >Direction de l'axe z : 'reverse' ou 'normal' (par défaut).</td></tr>
+        <tr><td><b>ZGrid</b></td><td
+        >Lignes de grille : 'on' ou 'off' (par défaut).</td></tr>
+        <tr><td><b>ZLabel</b></td><td
+        >Objet texte pour le label de l'axe z : objet texte</td></tr>
+        <tr><td><b>ZLim</b></td><td
+        >Limites minimales et maximales de l'axe z : vecteur [min max].</td></tr>
+        <tr><td><b>ZLimMode</b></td><td
+        >Mode de sélection des limites de l'axe z : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>ZMinorGrid</b></td><td
+        >Lignes de grille mineure : 'on' ou 'off' (par défaut).</td></tr>
+        <tr><td><b>ZScale</b></td><td
+        >Échelle des valeurs sur l'axe z : 'log' ou 'linear' (par défaut).</td></tr>
+        <tr><td><b>ZTick</b></td><td
+        >Valeurs des graduations : vecteur de valeurs croissantes ou [] (par défaut).</td></tr>
+        <tr><td><b>ZTickLabel</b></td><td
+        >Labels des graduations : cellule de vecteurs de caractères ou '' (par défaut).</td></tr>
+        <tr><td><b>ZTickLabelMode</b></td><td
+        >Mode de sélection des labels : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>ZTickMode</b></td><td
+        >Mode de sélection des valeurs de graduation : 'manual' ou 'auto' (par défaut).</td></tr>
+        <tr><td><b>CreateFcn</b></td><td
+        >Callback (fonction, chaîne ou cellule) appelée lors de la création de l'objet. Définir cette propriété sur un composant existant n'a aucun effet.</td></tr>
+        <tr><td><b>DeleteFcn</b></td><td
+        >Callback (fonction, chaîne ou cellule) appelée lors de la suppression de l'objet.</td></tr>
+    </table>
+    <p
+    >Certaines propriétés sont disponibles uniquement pour compatibilité et n'ont actuellement aucun effet sur les axes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+ax1 = axes('Position', [0.1 0.1 0.7 0.7]);
+ax2 = axes('Position', [0.65 0.65 0.28 0.28]);
+x = linspace(0,10);
+y1 = sin(x);
+y2 = cos(x);
+plot(ax1, x, y1);
+plot(ax2, x, y2);]]></example_item_data>
+      <example_item_img
+        src="../../images/axes.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}gcf">gcf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}close">close</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.2.0</history_version>
+      <history_description
+      >Un clic sur un axe le rend automatiquement courant.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description
+      >Propriétés GridAlpha, GridColor pour Axes.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description
+      >Ajout des callbacks CreateFcn, DeleteFcn.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description
+      >Ajout de la propriété BeingDeleted.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

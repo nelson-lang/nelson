@@ -57,6 +57,7 @@
                 <example_item_description
       >jlrunfile_example_1.jl</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[content = "hello Nelson"
 display(content)]]></example_item_data>
             </example_item>

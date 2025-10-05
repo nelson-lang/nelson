@@ -35,6 +35,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[plus(3, 4)
 3 + 4]]></example_item_data>
             </example_item>
@@ -42,6 +43,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[[1, 2] + 1
 plus([1, 2], 1)]]></example_item_data>
             </example_item>
@@ -49,6 +51,7 @@ plus([1, 2], 1)]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[ones(0, 0) + 1]]></example_item_data>
             </example_item>
         </examples>

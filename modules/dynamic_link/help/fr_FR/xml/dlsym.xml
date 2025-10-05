@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>dlsym</keyword>
+        <short_description
+  >Charge un symbole C/Fortran depuis une bibliothèque dynamique</short_description>
+    <syntax>
+        <syntax_item
+    >f = dlsym(lib, symbol_name, return_type, params_types)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>lib</param_name>
+            <param_description>a dllib handle.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>symbolname</param_name>
+            <param_description>a string: symbol to load.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>return_type</param_name>
+            <param_description
+      >a string: return type of the C/Fortran function.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>params_types</param_name>
+            <param_description
+      >a cell of strings: arguments using a special syntax with differents data types.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>f</param_name>
+            <param_description>a dlsym handle.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+      <p>
+        <b
+      >dlsym</b> récupère l'adresse d'une fonction exportée en tant que handle dlsym.</p>
+        <p>Si le <b
+      >symbolname</b> n'est pas trouvé, Nelson tente de trouver des variantes du nom selon ces règles (dans cet ordre) :</p>
+            <p>
+                <b>_symbolname</b>
+            </p>
+            <p>
+                <b>symbolname</b>
+            </p>
+            <p>
+                <b>symbolname_</b>
+            </p>
+            <p>
+                <b>_symbolname_</b>
+            </p>
+            <p>
+                <b>_SYMBOLNAME</b>
+            </p>
+            <p>
+                <b>SYMBOLNAME</b>
+            </p>
+            <p>
+                <b>SYMBOLNAME_</b>
+            </p>
+            <p>
+                <b>_SYMBOLNAME_</b>
+            </p>
+        <p
+    >Le nom de symbole utilisé est disponible dans le champ prototype du handle retourné.</p>
+        <p
+    >Si plusieurs noms de symboles sont trouvés, une erreur est levée avec les noms possibles.</p>
+        <p />
+        <p
+    >Attention : si les types sont mal définis, l'appel d'une fonction étrangère peut provoquer des comportements imprévus (plantage).</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[lib = dlopen(modulepath('dynamic_link', 'builtin'));
+V = double([1 2;3 4]);
+% C prototype:
+% int dynlibTestMultiplyDoubleArrayWithReturn(double *x, int size)
+f = dlsym(lib, 'dynlibTestMultiplyDoubleArrayWithReturn', 'int32', {'doublePtr', 'int32'});
+[r1, r2] = dlcall(f, V, int32(numel(V)))
+delete(f);
+delete(lib);
+]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description
+      >Call C getpid function</example_item_description>
+                <example_item_data
+      ><![CDATA[run([modulepath('dynamic_link'), '/examples/call_c.m']);
+]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description
+      >Call fortran DASUM (blas) function</example_item_description>
+                <example_item_data
+      ><![CDATA[run([modulepath('dynamic_link'), '/examples/call_fortran.m']);]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${dynamic_link}dlcall">dlcall</link>
+            </see_also_item>
+            <see_also_item>
+                <link
+        linkend="${dynamic_link}C_datatype"
+      >C/Nelson equivalent data types</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

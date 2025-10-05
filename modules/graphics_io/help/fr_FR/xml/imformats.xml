@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>imformats</keyword>
+    <short_description
+  >Gère les formats d'image pris en charge.</short_description>
+    <syntax>
+        <syntax_item>imformats ()</syntax_item>
+        <syntax_item>formats = imformats()</syntax_item>
+        <syntax_item>format = imformats(ext)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>ext</param_name>
+            <param_description
+      >extension du format de fichier : vecteur de caractères ou chaîne scalaire.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>formats</param_name>
+            <param_description
+      >tableau de structures : formats d'image pris en charge.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>format</param_name>
+            <param_description
+      >structure : format d'image pris en charge.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p><b
+      >imformats</b> renvoie la liste des formats d'image pris en charge.</p>
+        <p><b
+      >formats = imformats()</b> renvoie la liste des formats d'image pris en charge sous la forme d'un tableau de structures.</p>
+        <p><b
+      >format = imformats(ext)</b> renvoie la structure du format d'image correspondant à l'extension <b
+      >ext</b>.</p>
+        <p>Chaque élément du tableau de structures contient les champs :</p>
+        <ul>
+            <li><b>ext</b> : extension du format de fichier</li>
+            <li><b
+        >isa</b> : function handle pour tester si le format est pris en charge</li>
+            <li><b
+        >info</b> : function handle pour obtenir des informations sur le format</li>
+            <li><b>description</b> : description du format</li>
+            <li><b>read</b> : function handle pour lire le format</li>
+            <li><b>write</b> : function handle pour écrire le format</li>
+            <li><b
+        >alpha</b> : scalaire booléen indiquant si le format supporte la transparence</li>
+            <li><b
+        >multipage</b> : scalaire booléen indiquant si le format supporte les images multipages</li>
+        </ul>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[imformats()]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${graphics_io}imwrite">imwrite</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${graphics_io}imread">imread</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.13.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

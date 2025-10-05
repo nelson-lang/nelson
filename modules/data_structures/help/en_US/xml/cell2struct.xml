@@ -41,6 +41,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[ce = {85, 50, 68; 'Pierre', 'Anna', 'Roberto'}
 fields = {'Height','Name'}
 A = cell2struct (ce, fields, 1)]]></example_item_data>

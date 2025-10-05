@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>helpdlg</keyword>
+    <short_description>Crée une boîte de dialogue d'aide.</short_description>
+    <syntax>
+        <syntax_item>h = helpdlg()</syntax_item>
+        <syntax_item>h = helpdlg(text_help)</syntax_item>
+        <syntax_item>h = helpdlg(text_help, title)</syntax_item>
+        <syntax_item>h = helpdlg(text_help, title, 'on')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>text_help</param_name>
+            <param_description
+      >a string or a cell of string: the help message.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>title</param_name>
+            <param_description
+      >a string: the title of the dialog box.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>h</param_name>
+            <param_description>a QObject handle.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p><b>helpdlg</b> crée une boîte de dialogue d'aide.</p>
+        <p><b
+      >h = helpdlg(text_help, title, 'on')</b> indique si une boîte de dialogue existante portant le même nom doit être remplacée.</p>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[h = helpdlg()]]></example_item_data>
+                </example_item>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[h = helpdlg('help string')]]></example_item_data>
+                </example_item>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[h = helpdlg('help string', 'dialog title')]]></example_item_data>
+                </example_item>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[h = helpdlg('help string', 'dialog title')
+h = helpdlg('help string', 'dialog title', 'on')]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${gui}warndlg">warndlg</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${gui}errordlg">errordlg</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${gui}questdlg">questdlg</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${gui}msgbox">msgbox</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>version initiale</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

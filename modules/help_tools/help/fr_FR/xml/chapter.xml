@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>help_tools</module_name>
+    <chapter>Documentation et gestion de l'aide</chapter>
+    <chapter_description>
+        <p
+    >Le module Help Tools fournit des fonctions pour créer, convertir et gérer la documentation pour Nelson.</p>
+        <p
+    >Il prend en charge la génération de contenu d'aide dans plusieurs formats, y compris HTML, Markdown, PDF et formats prêts pour le web, permettant aux développeurs de maintenir et de distribuer efficacement une documentation complète.</p>
+    </chapter_description>
+</xmldoc>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>min</keyword>
+    <short_description>Valeurs minimales d'un tableau.</short_description>
+    <syntax>
+        <syntax_item>M = min(A)</syntax_item>
+        <syntax_item>[M, I] = min(A)</syntax_item>
+        <syntax_item>M = min(A, [], dim)</syntax_item>
+        <syntax_item>[M, I] = min(A, [], dim)</syntax_item>
+        <syntax_item>M = min(A, [], dim, 'omitnan')</syntax_item>
+        <syntax_item>[M, I] = min(A, [], dim, 'includenan')</syntax_item>
+        <syntax_item>[M, I] = min(A, [], 'all')</syntax_item>
+        <syntax_item>[M, I] = min(A, [], 'all', 'omitnan')</syntax_item>
+        <syntax_item>[M, I] = min(A, [], 'all', 'includenan')</syntax_item>
+        <syntax_item>C = min(A, B)</syntax_item>
+        <syntax_item>C = min(A, B, 'omitnan')</syntax_item>
+        <syntax_item>C = min(A, B, 'includenan')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description>une variable</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>dim</param_name>
+        <param_description
+      >entier positif scalaire (dimension le long de laquelle opérer)</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>'omitnan'</param_name>
+        <param_description
+      >ignore toutes les valeurs NaN. comportement par défaut. min renverra le premier élément si tous les éléments sont NaN.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>'includenan'</param_name>
+            <param_description>inclut les valeurs NaN.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>'all'</param_name>
+        <param_description
+      >trouve le minimum sur tous les éléments.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>M</param_name>
+            <param_description>Valeurs minimales de A.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>I</param_name>
+            <param_description
+      >Indices des valeurs minimales de A.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>C</param_name>
+            <param_description>Éléments minimaux de A ou B.</param_description>
+        </param_output_item>
+    </param_output>
+      <description>
+      <p>
+        <b>min</b> trouve les valeurs minimales dans un tableau.</p>
+        <p>Si <b>A</b> est une matrice alors <b
+      >M = min(A)</b> est un vecteur ligne contenant la valeur minimale de chaque colonne.</p>
+        <p>Si <b>A</b> est un vecteur alors <b
+      >M = min(A)</b> renverra le minimum de <b>A</b>.</p>
+        <p>Si <b>A</b> est un nombre complexe alors <b
+      >M = min(A)</b> renverra le nombre complexe ayant la plus grande magnitude.</p>
+      </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [1 2 3; 4 5 6];
+M = min(A)
+M = min(A, [], 'all')]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${data_analysis}max">max</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

@@ -45,17 +45,22 @@
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
-                <example_item_data><![CDATA[struct()]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data><![CDATA[struct([])]]></example_item_data>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[struct()]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
+      ><![CDATA[struct([])]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
       ><![CDATA[date_st = struct('day', 15, 'month' ,'August','year', 1974)]]></example_item_data>
             </example_item>
             <example_item>
@@ -63,6 +68,7 @@
                 <example_item_description
       >Other way to create a struct:</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[date_st.day = 15
 date_st.month = 'August'
 date_st.year = 1974]]></example_item_data>

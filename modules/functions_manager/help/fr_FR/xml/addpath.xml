@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>addpath</keyword>
+    <short_description
+  >Ajouter des répertoires au chemin de recherche des fonctions.</short_description>
+    <syntax>
+        <syntax_item>addpath(dirname)</syntax_item>
+        <syntax_item>addpath(dirname, ..., dirname)</syntax_item>
+        <syntax_item>addpath(dirname, ..., dirname, '-begin')</syntax_item>
+        <syntax_item>addpath(dirname, ..., dirname, '-end')</syntax_item>
+        <syntax_item>addpath(dirname, ..., dirname, '-frozen')</syntax_item>
+        <syntax_item>previous = addpath(dirname)</syntax_item>
+        <syntax_item>previous = addpath(dirname, ..., dirname)</syntax_item>
+        <syntax_item
+    >previous = addpath(dirname, ..., dirname, '-begin')</syntax_item>
+        <syntax_item
+    >previous = addpath(dirname, ..., dirname, '-end')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>dirname</param_name>
+            <param_description>une chaîne : un répertoire</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-end' or '-begin'</param_name>
+            <param_description
+      >ajouter dirname à la fin ou au début de la liste.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-frozen'</param_name>
+            <param_description
+      >désactive la détection de changement de dossier pour les dossiers ajoutés ou modifiés.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>previous</param_name>
+            <param_description
+      >retourne le chemin précédent avant ajout</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>addpath</b> ajoute des répertoires au chemin de recherche.</p>
+            <p
+    >Il est également possible d'ajouter des listes de noms de répertoires séparés par pathsep.</p>
+            <p
+    >Les chemins inexistants ne seront pas ajoutés et un avertissement sera émis.</p>
+            <p
+    >Les observateurs de fichiers sont désactivés pour les modules internes.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[path()
+addpath(tempdir())
+path
+rmpath(tempdir())
+path]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${functions_manager}path">path</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${functions_manager}rmpath">rmpath</link>
+            </see_also_item>
+            <see_also_item>
+                <link
+        linkend="${functions_manager}restoredefaultpath"
+      >restoredefaultpath</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

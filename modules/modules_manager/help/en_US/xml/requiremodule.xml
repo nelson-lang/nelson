@@ -30,6 +30,7 @@
                 <example_item_description
       >See module skeleton for example</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[ismodule('module_skeleton')
 requiremodule('module_skeleton')
 addmodule([nelsonroot(), '/module_skeleton'], 'module_skeleton')

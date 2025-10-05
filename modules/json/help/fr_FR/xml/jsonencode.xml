@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>jsonencode</keyword>
+        <short_description
+  >encode un objet Nelson en une chaîne JSON.</short_description>
+    <syntax>
+        <syntax_item>res = jsonencode(obj)</syntax_item>
+        <syntax_item
+    >res = jsonencode(obj, 'ConvertInfAndNaN', true_or_false)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>obj</param_name>
+        <param_description
+      >un objet Nelson : struct, cell, matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>true_or_false</param_name>
+        <param_description
+      >un booléen : si vrai, Inf et NaN sont convertis en 'Inf' ou 'Nan'.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>res</param_name>
+            <param_description>une chaîne : texte JSON.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>jsonencode</b> convertit une variable Nelson en texte JSON.</p>
+            <p>
+                <b
+      >jsonencode</b> ne supporte pas les nombres complexes, les tableaux creux (sparse), les handles de fonction et d'autres handles.</p>
+                <p>
+                    <b
+      >jsonencode</b> peut être surchargé pour gérer vos propres types.</p>
+                    <p>Par défaut, <b
+      >jsonencode</b> convertit les valeurs Inf en la chaîne "Inf" et les valeurs NaN en 'null'.</p>
+                    <p
+    >Attention : la forme d'une matrice et le type de données ne sont pas toujours préservés.</p>
+                </description>
+                <used_function />
+                <bibliography
+  >http://www.rfc-editor.org/rfc/rfc7159.txt</bibliography>
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[field1 = 'f1';  value1 = zeros(1,10);
+field2 = 'f2';  value2 = {'a', 'b'};
+field3 = 'f3';  value3 = {pi, pi*pi};
+field4 = 'f4';  value4 = {'fourth'};
+s = struct(field1,value1,field2,value2,field3,value3,field4,value4);
+r = jsonencode(s)
+filewrite([tempdir(), 'example.json'], r);
+]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link linkend="${json}jsondecode">jsondecode</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.0.0</history_version>
+                        <history_description
+      >version initiale</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

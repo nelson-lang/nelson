@@ -53,6 +53,7 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[copyfile([nelsonroot(), '/etc/startup.m'], [tempdir(), 'startup.m'])
 [status, msg] = copyfile([nelsonroot(), '/etc/startup.m'], [tempdir(), 'startup.m'])]]></example_item_data>
                 </example_item>

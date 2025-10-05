@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>imwrite</keyword>
+    <short_description
+  >Écrit une image dans un fichier graphique.</short_description>
+    <syntax>
+        <syntax_item>imwrite(A, filename)</syntax_item>
+        <syntax_item>imwrite(A, map, filename)</syntax_item>
+        <syntax_item>imwrite(..., fmt)</syntax_item>
+        <syntax_item>imwrite(..., , propertyName, propertyValue)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>A</param_name>
+        <param_description
+      >matrice : 3D pour image couleur, 2D pour image en niveaux de gris ou indexée.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>map</param_name>
+        <param_description
+      >Colormap d'une image indexée : matrice m-by-3.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>fmt</param_name>
+        <param_description
+      >Format du fichier de sortie : 'bmp', 'png', 'jpg', 'gif', ...</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>filename</param_name>
+        <param_description
+      >vecteur ligne de caractères ou chaîne scalaire : nom du fichier graphique.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>propertyName</param_name>
+        <param_description
+      >chaîne scalaire ou vecteur ligne de caractères.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyValue</param_name>
+            <param_description>une valeur.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p><b>imwrite(A, filename)</b> écrit les données d'image <b
+      >A</b> dans le fichier spécifié par <b>filename</b>.</p>
+        <p />
+        <p>Noms de propriétés :</p>
+        <p />
+        <p><b
+      >Quality</b> : qualité du fichier de sortie : scalaire dans [0, 100] (75 par défaut).</p>
+        <p><b
+      >Alpha</b> : matrice de valeurs dans [0, 1] : transparence par pixel.</p>
+        <p><b
+      >Comment</b> : vecteur de caractères, chaîne scalaire, cellule de vecteurs de caractères ou tableau de chaînes : commentaire ajouté à l'image.</p>
+        <p><b
+      >Author</b> : vecteur de caractères ou chaîne scalaire : information d'auteur.</p>
+        <p />
+        <p>Propriétés pour le format <b>gif</b> :</p>
+        <p />
+        <p><b>WriteMode</b> :</p>
+        <p><b>LoopCount</b> :</p>
+        <p><b>DelayTime</b> :</p>
+    </description>
+    <used_function />
+                                <bibliography />
+                                <examples>
+                                    <example_item>
+                                        <example_item_type
+      >nelson</example_item_type>
+                                        <example_item_description />
+                                        <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+A = rand(69, 69);
+A(:,:,2) = rand(69,69);
+A(:,:,3) = rand(69,69);
+imshow(A);
+imwrite(A, [tempdir, '69x69-RGB.png']);]]></example_item_data>
+                                    </example_item>
+                                    <example_item>
+                                        <example_item_type
+      >nelson</example_item_type>
+                                        <example_item_description
+      >gif animation</example_item_description>
+                                        <example_item_img
+        src="../../images/imwrite_gif.gif"
+        align="middle"
+        generate="false"
+      />
+                                        <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[movie_directory = [modulepath('graphics'), '/examples/', 'movie/'];
+sequences = {'dance', 8; 'leap', 9};
+frameIdx = 0;
+filename_gif = [tempdir, 'gif_animation.gif'];
+for s = 1:size(sequences, 1)
+    action = sequences{s, 1};
+    nb_frames_action = sequences{s, 2};
+    
+    for i = 1:nb_frames_action
+        % Construct the filename for the current frame
+        filename = fullfile(movie_directory, sprintf('%s_%d.png', action, i));
+        
+        % Read the image and store it in the movie structure
+        [image, map] = imread(filename);
+        % Read the image
+        [A, map] = imread(filename);
+        if frameIdx == 1
+            imwrite(A,map,filename_gif,"gif", 'LoopCount', Inf, 'DelayTime', 1);
+        else
+            imwrite(A,map,filename_gif,"gif", 'WriteMode', "append", 'DelayTime', 1)
+        end
+        frameIdx = frameIdx + 1;
+    end
+end
+if ispc()
+  unix(filename_gif);
+else
+  unix(['xdg-open ', filename_gif]);
+end
+]]></example_item_data>
+                                    </example_item>
+                                </examples>
+                                <see_also>
+                                    <see_also_item>
+                                        <link
+        linkend="${graphics_io}imread"
+      >imread</link>
+                                    </see_also_item>
+                                    <see_also_item>
+                                        <link
+        linkend="${graphics}imshow"
+      >imshow</link>
+                                    </see_also_item>
+                                    <see_also_item>
+                                        <link
+        linkend="${graphics_io}imformats"
+      >imformats</link>
+                                    </see_also_item>
+                                </see_also>
+                                <history>
+                                    <history_item>
+                                        <history_version>1.0.0</history_version>
+                                        <history_description
+      >version initiale</history_description>
+                                    </history_item>
+                                    <history_item>
+                                        <history_version
+      >1.13.0</history_version>
+                                        <history_description
+      >gif animation, pcx format added</history_description>
+                                    </history_item>
+                                </history>
+                                <authors>
+                                    <author_item>Allan CORNET</author_item>
+                                </authors>
+                            </xmldoc>

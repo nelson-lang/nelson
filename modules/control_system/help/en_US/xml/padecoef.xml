@@ -45,6 +45,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[T = 2; N = 4;
 [numerator, denominator] = padecoef(T, N)]]></example_item_data>
             </example_item>

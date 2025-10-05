@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>balreal</keyword>
+    <short_description
+  >Équilibrage basé sur le Gramien des réalisations d'espace d'état.</short_description>
+    <syntax>
+        <syntax_item>[sysb, g] = balreal(sys)</syntax_item>
+        <syntax_item>[sysb, g, T, Ti] = balreal(sys)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>sys</param_name>
+            <param_description>Modèle LTI.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>sysb</param_name>
+            <param_description>Modèle LTI.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>g</param_name>
+            <param_description
+      >Vecteur diagonal de la matrice de Gramien équilibrée.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>T</param_name>
+            <param_description
+      >Matrice de transformation de similarité d'état.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>Ti</param_name>
+            <param_description
+      >State similarity transform inverse matrix.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>balreal(sys)</b> calculates a balanced realization, denoted as <b
+      >sysb</b>, for the stable segment of the linear time-invariant (LTI) model <b
+      >sys</b>.</p>
+            <p
+    >Ce processus s'applique aussi bien aux systèmes continus que discrets. Si <b
+      >sys</b> n'est pas initialement sous forme d'espace d'état, la fonction le convertit automatiquement en espace d'état à l'aide de <b
+      >ss</b> avant de procéder à l'équilibrage.</p>
+        </description>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[sys = ss([-1, 0; 0.1, -3], [1, 0]', [0, 1], 0);
+[sysb, g, T, Ti] = balreal(sys)
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${control_system}gram">gram</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

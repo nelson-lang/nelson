@@ -50,6 +50,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[
 f = str2func('@()sleep(6)');
 tic();t = timeit(f), toc()]]></example_item_data>
@@ -58,6 +59,7 @@ tic();t = timeit(f), toc()]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[X = rand(100);
 f = str2func('@(X) svd(X);');
 tic(), t1 = timeit(f, 1, X), toc()

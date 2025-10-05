@@ -152,6 +152,7 @@
                                                                 <example_item_description
       />
                                                                 <example_item_data
+        runnable="cli"
       ><![CDATA[rng('default');
 r = rng()
 lst = rng('enginelist')]]></example_item_data>

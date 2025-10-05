@@ -70,12 +70,13 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 [X,Y] = meshgrid(-5:.5:5);
 Z = Y.*sin(X) - X.*cos(Y);
 s = meshz(X,Y,Z)]]></example_item_data>
                 <example_item_img
-        src="../images/meshz_1.svg"
+        src="../../images/meshz_1.svg"
         align="middle"
         generate="true"
       />

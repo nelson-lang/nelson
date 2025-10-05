@@ -32,6 +32,7 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="adv-cli"
       ><![CDATA[test_file = [tempdir() , '/example_qml_evaluatefile.js'];
 f = fopen(test_file, 'wt');
 fwrite(f, 'a = 2 + 4');

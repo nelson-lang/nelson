@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>exp</keyword>
+    <short_description>Exponentielle</short_description>
+    <syntax>
+        <syntax_item>R = exp(M)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>M</param_name>
+            <param_description>une variable</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>R</param_name>
+            <param_description
+      >résultat de exp : exponentielle.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>exp</b> calcule la fonction exponentielle.</p>
+            <p>Si l'argument est un nombre complexe, <b
+      >exp</b> calcule exp(x) * (cos(y) + i * sin(y)) pour z = x + i * y.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[x = [1+i,-i;i,2i];
+r = exp(x)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${elementary_functions}conj">conj</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

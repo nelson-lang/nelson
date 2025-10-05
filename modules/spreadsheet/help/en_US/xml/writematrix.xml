@@ -147,6 +147,7 @@
       >nelson</example_item_type>
                                     <example_item_description />
                                     <example_item_data
+        runnable="cli"
       ><![CDATA[A = [Inf, -Inf, NaN, 3];
 filename = [tempdir(), 'writematrix_example.csv'];
 writematrix(A, filename);

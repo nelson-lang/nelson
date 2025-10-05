@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>lqry</keyword>
+    <short_description
+  >Forme un régulateur LQ (rétroaction d'état) avec pondération sur la sortie.</short_description>
+    <syntax>
+        <syntax_item>[K, S, e] = lqry(sys, Q, R, N)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>sys</param_name>
+            <param_description>Modèle LTI</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Q</param_name>
+            <param_description>Matrice de pondération d'état</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>R</param_name>
+            <param_description
+      >Matrice de pondération d'entrée</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>N</param_name>
+            <param_description
+      >Matrice de terme croisé optionnelle : 0 par défaut.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>K</param_name>
+            <param_description>Gain optimal : vecteur ligne.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>S</param_name>
+            <param_description
+      >Solution de l'équation de Riccati algébrique.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>e</param_name>
+            <param_description
+      >Pôles du système en boucle fermée : vecteur colonne.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >Construit le régulateur LQ en tenant compte d'une pondération sur les sorties et renvoie le gain K, la matrice de coût S et les valeurs propres correspondantes.</p>
+    </description>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [0.6, 0.25; 0, 0.9];
+B = [0; 10];
+C = [11, 0];
+D = 0;
+Q = 2;
+R = 1;
+[K, S, e] = lqry(A, B, C, D, Q, R)]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${control_system}lqr">lqr</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

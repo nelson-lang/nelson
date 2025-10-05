@@ -30,6 +30,7 @@
                 <example_item_description
       >See module skeleton for example</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[dlgetnelsonlibraries()]]></example_item_data>
             </example_item>
         </examples>

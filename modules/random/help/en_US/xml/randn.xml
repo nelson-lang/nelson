@@ -52,6 +52,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[rng('default');
 randn
 rng('default');
@@ -62,6 +63,7 @@ randn
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[rng('default');
 randn(6)
 ]]></example_item_data>
@@ -70,6 +72,7 @@ randn(6)
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[rng('default');
 randn(3, 2, 3)
 ]]></example_item_data>
@@ -78,6 +81,7 @@ randn(3, 2, 3)
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[rng('default');
 randn(3, 2, 'single')
 ]]></example_item_data>
@@ -86,6 +90,7 @@ randn(3, 2, 'single')
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[rng('default');
 v = single([3, 3]);
 randn(3, 2, 'like', v)

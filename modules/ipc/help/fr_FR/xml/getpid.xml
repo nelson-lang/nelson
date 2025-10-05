@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>getpid</keyword>
+    <short_description
+  >Obtenir l'identifiant de processus Nelson.</short_description>
+    <syntax>
+        <syntax_item>p = getpid()</syntax_item>
+        <syntax_item>v = getpid('available')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>'available'</param_name>
+            <param_description>une chaîne.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>p</param_name>
+            <param_description
+      >un double : identifiant de processus courant.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>v</param_name>
+            <param_description
+      >un vecteur de double : liste des identifiants des processus Nelson (même architecture) en cours d'exécution pour l'utilisateur courant.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >p = getpid()</b> renvoie l'identifiant du processus Nelson courant en cours d'exécution sur l'ordinateur.</p>
+            <p>
+                <b
+      >v = getpid('available')</b> renvoie la liste des identifiants des processus Nelson (même architecture) en cours d'exécution pour l'utilisateur courant.</p>
+                <p
+    >win64 et win32 sont deux architectures différentes mais elles peuvent s'exécuter en même temps.</p>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[p = getpid()
+getpid('available')
+unix('nelson-gui &')
+sleep(5) % detached process need to wait to see available
+getpid('available')
+unix('nelson-gui &')
+sleep(5) % detached process need to wait to see available
+getpid('available')
+unix('nelson-gui &')
+sleep(5) % detached process need to wait to see available
+getpid('available')]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${os_functions}unix">unix</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${ipc}ipc">ipc</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>version initiale</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

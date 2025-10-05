@@ -45,6 +45,7 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[r = replace('This is a string.', 'is', 'is not')
 r = replace({'cccc','ccbbcca'},{'cc','bb'},{'cc'})]]></example_item_data>
                 </example_item>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>mustBeRow</keyword>
+        <short_description
+  >Vérifie que la valeur est un vecteur ligne ou renvoie une erreur.</short_description>
+    <syntax>
+        <syntax_item>mustBeRow(var)</syntax_item>
+        <syntax_item>mustBeRow(var, argPosition)</syntax_item>
+        <syntax_item
+    >C++: void mustBeRow(const ArrayOfVector&amp; args, int argPosition)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>var</param_name>
+            <param_description
+      >a variable: all supported types and classes that implement isrow method.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>argPosition</param_name>
+            <param_description
+      >a positive integer value: Position of input argument.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p><b
+      >mustBeRow</b> vérifie que la valeur est un vecteur ligne ou renvoie une erreur.</p>
+    </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[mustBeRow([1, 1])
+mustBeRow([])
+mustBeRow([1; 1])]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${types}isrow">isrow</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.10.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

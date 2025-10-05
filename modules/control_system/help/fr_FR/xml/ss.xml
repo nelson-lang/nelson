@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>ss</keyword>
+    <short_description>Modèle en espace d'état.</short_description>
+    <syntax>
+        <syntax_item>sys = ss(A, B, C, D)</syntax_item>
+        <syntax_item>sys = ss(A, B, C, D, TS)</syntax_item>
+        <syntax_item>sys = ss(D)</syntax_item>
+        <syntax_item>sys = ss(sysIn)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
+      >Matrice d'état : matrice Nx par Nx.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>B</param_name>
+            <param_description
+      >Matrice d'entrée vers l'état : matrice Nx par Nu.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description
+      >Matrice d'état vers sortie : matrice Ny par Nx.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>D</param_name>
+            <param_description
+      >Matrice de passage direct : matrice Ny par Nu.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>TS</param_name>
+            <param_description
+      >Temps d'échantillonnage : scalaire.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>sysIn</param_name>
+            <param_description>Modèle SISO LTI.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>sys</param_name>
+            <param_description
+      >Modèle de système en espace d'état en sortie.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >Crée un modèle d'état continu à partir des matrices A, B, C et D, acceptant des matrices réelles ou complexes.</p>
+    </description>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [-15,-20; 10, 0];
+B = [5; 0];
+C = [0, 1];
+D = 0;
+sys = ss(A, B, C, D)]]></example_item_data>
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+      ><![CDATA[num = [3 4];
+den = [3 1 5];
+Ts = 0.2;
+sysIn = tf(num, den, Ts)
+sys = ss(sysIn)]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${control_system}tf">tf</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

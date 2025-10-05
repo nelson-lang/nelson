@@ -31,6 +31,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[fptr = str2func('pause');
 for i = 1:100
  f(i) = parfeval(backgroundPool, fptr, 0, 5);

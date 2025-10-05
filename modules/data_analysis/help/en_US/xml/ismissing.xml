@@ -42,6 +42,7 @@
                                 <example_item_type>nelson</example_item_type>
                                 <example_item_description />
                                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = ["Nel", NaN, "son"];
 ismissing(A)
 B = [1 2 NaN Inf];

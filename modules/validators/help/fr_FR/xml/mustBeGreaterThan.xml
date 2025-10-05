@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>mustBeGreaterThan</keyword>
+        <short_description
+  >Vérifie que la valeur est supérieure à une autre valeur ou signale une erreur.</short_description>
+    <syntax>
+        <syntax_item>mustBeGreaterThan(var, c)</syntax_item>
+        <syntax_item>mustBeGreaterThan(var, c, argPosition)</syntax_item>
+        <syntax_item
+    >C++: void mustBeGreaterThan(const ArrayOfVector&amp; args, const ArrayOf &amp;c, int argPosition)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>var</param_name>
+            <param_description
+      >une variable : tableau logique ou numérique.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>c</param_name>
+            <param_description
+      >une variable : valeur numérique scalaire.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>argPosition</param_name>
+            <param_description
+      >un entier positif : position de l'argument d'entrée.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p><b
+      >mustBeGreaterThan</b> vérifie que la valeur est supérieure à une autre valeur ou signale une erreur.</p>
+    </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[mustBeGreaterThan(1, 0)
+mustBeGreaterThan([2 3 4],2)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${validators}mustBeNumeric">mustBeNumeric</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

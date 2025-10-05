@@ -49,6 +49,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[m = 1000;
 b = 50;
 u = 500;
@@ -66,7 +67,7 @@ R = cloop(sys, OUTPUTS, INPUTS)
         </examples>
         <see_also>
             <see_also_item>
-                <link linkend="${control_system}cloop">cloop</link>
+                <link linkend="${control_system}feedback">feedback</link>
             </see_also_item>
             <see_also_item>
                 <link linkend="${control_system}append">append</link>

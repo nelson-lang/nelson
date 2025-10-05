@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>mexAtExit</keyword>
+        <short_description
+  >Enregistre une fonction à appeler lorsque le fichier MEX est libéré ou lorsque Nelson se termine</short_description>
+    <syntax>
+        <syntax_item>#include "mex.h"</syntax_item>
+        <syntax_item>int mexAtExit(void (*ExitFcn)(void));</syntax_item>
+    </syntax>
+    <param_input>
+                <param_input_item>
+                        <param_name>ExitFcn</param_name>
+                        <param_description
+      >Pointeur vers la fonction que vous souhaitez exécuter à la sortie.</param_description>
+                </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>valeur retournée</param_name>
+            <param_description>renvoie 0.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >Chaque MEX ne peut enregistrer qu'une seule sous-routine de sortie active à la fois.</p>
+        <p>
+            <b
+      >mexAtExit</b> enregistre une sous-routine qui sera appelée juste avant la fin de Nelson ou lorsque la commande <b
+      >clear</b> est exécutée.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="false"
+      ><![CDATA[edit([modulepath('mex', 'tests'), '/test_mexAtExit.m'])]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${core}exit">exit</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${memory_manager}clear">clear</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

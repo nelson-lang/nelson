@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>delete</keyword>
+    <short_description>supprime des objets handle.</short_description>
+    <syntax>
+        <syntax_item>delete(h)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>h</param_name>
+            <param_description
+      >un objet handle : scalaire ou matrice.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+    <p><b
+      >delete(h)</b> supprime de la mémoire les objets handle référencés par h.</p>
+    <p
+    >Une fois supprimées, toutes les références aux objets contenus dans h deviennent invalides.</p>
+    <p>Pour supprimer les variables handle, utilisez la fonction <link
+        linkend="${memory_manager}clear"
+      >clear</link>.</p>
+    <p>Voir la fonction clear pour savoir comment forcer la suppression.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+ax = gca();
+img = image();
+hold on
+P = plot(magic(5));
+children1 = ax.Children;
+delete(img);
+size(children1)
+children2 = ax.Children;
+size(children2)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${memory_manager}clear">clear</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

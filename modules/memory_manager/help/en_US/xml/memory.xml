@@ -43,6 +43,7 @@
                         <example_item_type>nelson</example_item_type>
                         <example_item_description />
                         <example_item_data
+        runnable="cli"
       ><![CDATA[memory()
 A = ones(1000);
 memory()]]></example_item_data>
@@ -51,6 +52,7 @@ memory()]]></example_item_data>
                         <example_item_type>nelson</example_item_type>
                         <example_item_description />
                         <example_item_data
+        runnable="cli"
       ><![CDATA[clear('A');
 [u1, s1] = memory();
 A = ones(1000);
@@ -64,6 +66,7 @@ disp(u3.MemUsedNelson - u2.MemUsedNelson);]]></example_item_data>
                         <example_item_type>nelson</example_item_type>
                         <example_item_description />
                         <example_item_data
+        runnable="cli"
       ><![CDATA[[u1, s1] = memory()]]></example_item_data>
                     </example_item>
                 </examples>

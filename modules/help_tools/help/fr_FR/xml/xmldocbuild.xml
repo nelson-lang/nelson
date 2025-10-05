@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>xmldocbuild</keyword>
+        <short_description
+  >Fonction interne pour convertir des fichiers XML en HTML.</short_description>
+    <syntax>
+        <syntax_item
+    >status = xmldocbuild(source_dirs, destination_dir, main_title, export_format, overwrite)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>source_dirs</param_name>
+            <param_description
+      >a cell of string: list of xml filenames.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>destination_dir</param_name>
+            <param_description
+      >a string: directory destination.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>main_title</param_name>
+            <param_description
+      >a string: title of main index.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>export_format</param_name>
+            <param_description
+      >a string: 'qt', 'html', 'web', 'md'.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>overwrite</param_name>
+            <param_description
+      >a logical: force overwrite if file destination already exists</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>status</param_name>
+            <param_description
+      >a logical: files generated or not.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p><b
+      >xmldocbuild</b> convertit des fichiers de documentation XML en HTML.</p>
+        <p>fonction interne</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <see_also>
+            <see_also_item>
+                <link linkend="${help_tools}buildhelp">buildhelp</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${help_tools}buildhelpweb">buildhelpweb</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+            <history_item>
+                <history_version>1.15.0</history_version>
+                <history_description
+      >'web' input parameter added.</history_description>
+            </history_item>
+
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

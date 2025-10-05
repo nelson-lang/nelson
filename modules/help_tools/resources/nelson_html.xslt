@@ -88,7 +88,10 @@
             <!-- Author section always LAST -->
             <xsl:if test="xmldoc/authors/author_item">
                 <div class="section" style="margin-top:30px;">
-                    <div class="section-title"><span class="syntax-icon">👤</span> Author<xsl:if test="count(xmldoc/authors/author_item) &gt; 1">s</xsl:if></div>
+                    <div class="section-title"><span class="syntax-icon">👤</span> <xsl:choose>
+                        <xsl:when test="xmldoc/language = 'fr_FR'">Auteur</xsl:when>
+                        <xsl:otherwise>Author</xsl:otherwise>
+                    </xsl:choose><xsl:if test="count(xmldoc/authors/author_item) &gt; 1">s</xsl:if></div>
                     <div>
                         <xsl:for-each select="xmldoc/authors/author_item">
                             <xsl:value-of select="."/>
@@ -102,6 +105,90 @@
     </xsl:template>
 
     <xsl:template match="xmldoc">
+
+        <xsl:variable name="syntax-text">
+            <xsl:choose>
+                <xsl:when test="language = 'fr_FR'">Syntaxe</xsl:when>
+                <xsl:otherwise>Syntax</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <xsl:variable name="contents-text">
+            <xsl:choose>
+                <xsl:when test="language = 'fr_FR'">Sommaire</xsl:when>
+                <xsl:otherwise>Contents</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <xsl:variable name="input-arguments-text">
+            <xsl:choose>
+                <xsl:when test="language = 'fr_FR'">Arguments d'entrée</xsl:when>
+                <xsl:otherwise>Input Arguments</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <xsl:variable name="output-arguments-text">
+            <xsl:choose>
+                <xsl:when test="language = 'fr_FR'">Arguments de sortie</xsl:when>
+                <xsl:otherwise>Output Arguments</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <xsl:variable name="description-text">
+            <xsl:choose>
+                <xsl:when test="language = 'fr_FR'">Description</xsl:when>
+                <xsl:otherwise>Description</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <xsl:variable name="examples-text">
+            <xsl:choose>
+                <xsl:when test="language = 'fr_FR'">Exemples</xsl:when>
+                <xsl:otherwise>Examples</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <xsl:variable name="see-also-text">
+            <xsl:choose>
+                <xsl:when test="language = 'fr_FR'">Voir aussi</xsl:when>
+                <xsl:otherwise>See Also</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <xsl:variable name="bibliography-text">
+            <xsl:choose>
+                <xsl:when test="language = 'fr_FR'">Bibliographie</xsl:when>
+                <xsl:otherwise>Bibliography</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <xsl:variable name="version-history-text">
+            <xsl:choose>
+                <xsl:when test="language = 'fr_FR'">Historique des versions</xsl:when>
+                <xsl:otherwise>Version History</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <xsl:variable name="author-text">
+            <xsl:choose>
+                <xsl:when test="language = 'fr_FR'">Auteur</xsl:when>
+                <xsl:otherwise>Author</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <xsl:variable name="parameter-text">
+            <xsl:choose>
+                <xsl:when test="language = 'fr_FR'">Paramètre</xsl:when>
+                <xsl:otherwise>Parameter</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <xsl:variable name="version-text">
+            <xsl:choose>
+                <xsl:when test="language = 'fr_FR'">Version</xsl:when>
+                <xsl:otherwise>Version</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
 
         <!-- Render all children of xmldoc in order, with custom templates for known elements -->
         <xsl:for-each select="*">
@@ -151,7 +238,7 @@
                 </xsl:when>
                 <xsl:when test="name() = 'ul'">
                     <div class="section">
-                        <div class="section-title"><span class="syntax-icon">📖</span> Contents</div>
+                        <div class="section-title"><span class="syntax-icon">📖</span> <xsl:value-of select="$contents-text"/></div>
                         <ul style="list-style-type:none; padding-left:0;">
                             <xsl:for-each select="li">
                                 <li style="margin-bottom:8px;">
@@ -176,7 +263,7 @@
         <xsl:if test="syntax">
             <div class="section syntax-section">
                 <div class="section-title">
-                    <span class="syntax-icon">📝</span> Syntax
+                    <span class="syntax-icon">📝</span> <xsl:value-of select="$syntax-text"/>
                 </div>
                 <pre class="syntax-block">
 <xsl:for-each select="syntax/syntax_item">
@@ -190,11 +277,11 @@
         <!-- Input Parameters Section -->
         <xsl:if test="param_input">
             <div class="section">
-                <div class="section-title"><span class="syntax-icon">📥</span> Input Arguments</div>
+                <div class="section-title"><span class="syntax-icon">📥</span> <xsl:value-of select="$input-arguments-text"/></div>
                 <table class="param-table">
                     <tr>
-                        <th>Parameter</th>
-                        <th>Description</th>
+                        <th><xsl:value-of select="$parameter-text"/></th>
+                        <th><xsl:value-of select="$description-text"/></th>
                     </tr>
                     <xsl:for-each select="param_input/param_input_item">
                         <tr>
@@ -209,11 +296,11 @@
         <!-- Output Parameters Section -->
         <xsl:if test="param_output">
             <div class="section">
-                <div class="section-title"><span class="syntax-icon">📤</span> Output Arguments</div>
+                <div class="section-title"><span class="syntax-icon">📤</span> <xsl:value-of select="$output-arguments-text"/></div>
                 <table class="param-table">
                     <tr>
-                        <th>Parameter</th>
-                        <th>Description</th>
+                        <th><xsl:value-of select="$parameter-text"/></th>
+                        <th><xsl:value-of select="$description-text"/></th>
                     </tr>
                     <xsl:for-each select="param_output/param_output_item">
                         <tr>
@@ -228,7 +315,7 @@
         <!-- Description Section -->
         <xsl:if test="description">
             <div class="section">
-                <div class="section-title"><span class="syntax-icon">📄</span> Description</div>
+                <div class="section-title"><span class="syntax-icon">📄</span> <xsl:value-of select="$description-text"/></div>
                 <div>
                     <xsl:apply-templates select="description/node()"/>
                 </div>
@@ -238,7 +325,7 @@
         <!-- Examples Section with Copy Button and MATLAB syntax highlighting -->
         <xsl:if test="examples">
             <div class="section">
-                <div class="section-title"><span class="syntax-icon">💡</span> Examples</div>
+                <div class="section-title"><span class="syntax-icon">💡</span> <xsl:value-of select="$examples-text"/></div>
                 <xsl:for-each select="examples/example_item">
                     <div class="example">
                         <xsl:if test="normalize-space(example_item_description)">
@@ -259,7 +346,7 @@
                             <xsl:variable name="imgsrc" select="ext:copy_img(example_item_img/@src)"/>
                             <xsl:choose>
                                 <xsl:when test="substring($imgsrc, string-length($imgsrc) - 3) = '.svg'">
-                                    <img src="{$imgsrc}" align="{example_item_img/@align}" alt="Example illustration" style="width:100%;height:auto;display:block;margin:12px 0;background:#fff;border:1px solid #e2e8f0;border-radius:4px;box-shadow:0 1px 4px rgba(44,82,130,0.07);object-fit:contain;"/>
+                                    <img src="{$imgsrc}" align="{example_item_img/@align}" alt="Example illustration" style="width:960px;height:580px;display:block;margin:12px auto;background:#fff;border:1px solid #e2e8f0;border-radius:4px;box-shadow:0 1px 4px rgba(44,82,130,0.07);object-fit:contain;"/>
                                 </xsl:when>
                                 <xsl:otherwise>
                                     <img src="{$imgsrc}" align="{example_item_img/@align}" alt="Example illustration" style="width:100%;height:auto;display:block;margin:12px 0;background:#f9fafb;border:1px solid #e2e8f0;border-radius:4px;box-shadow:0 1px 4px rgba(44,82,130,0.07);object-fit:contain;"/>
@@ -274,7 +361,7 @@
         <!-- See Also Section -->
         <xsl:if test="see_also">
             <div class="section">
-                <div class="section-title"><span class="syntax-icon">🔗</span> See Also</div>
+                <div class="section-title"><span class="syntax-icon">🔗</span> <xsl:value-of select="$see-also-text"/></div>
                 <div>
                     <xsl:for-each select="see_also/see_also_item">
                         <a class="see-also-link">
@@ -299,7 +386,7 @@
         <!-- Bibliography Section: URL detection -->
         <xsl:if test="bibliography and normalize-space(bibliography)">
             <div class="section">
-                <div class="section-title"><span class="syntax-icon">📚</span> Bibliography</div>
+                <div class="section-title"><span class="syntax-icon">📚</span> <xsl:value-of select="$bibliography-text"/></div>
                 <div>
                     <xsl:choose>
                         <xsl:when test="starts-with(bibliography, 'http://') or starts-with(bibliography, 'https://')">
@@ -318,11 +405,11 @@
         <!-- History Section -->
         <xsl:if test="history">
             <div class="section">
-                <div class="section-title"><span class="syntax-icon">🕔</span> Version History</div>
+                <div class="section-title"><span class="syntax-icon">🕔</span> <xsl:value-of select="$version-history-text"/></div>
                 <table class="param-table">
                     <tr>
-                        <th>Version</th>
-                        <th>Description</th>
+                        <th><xsl:value-of select="$version-text"/></th>
+                        <th><xsl:value-of select="$description-text"/></th>
                     </tr>
                     <xsl:for-each select="history/history_item">
                         <tr>
@@ -364,6 +451,38 @@
     <li>
         <xsl:apply-templates/>
     </li>
+</xsl:template>
+
+<!-- Render <table> as HTML table -->
+<xsl:template match="table">
+    <table>
+        <xsl:copy-of select="@*"/>
+        <xsl:apply-templates/>
+    </table>
+</xsl:template>
+
+<!-- Render <tr> as HTML table row -->
+<xsl:template match="tr">
+    <tr>
+        <xsl:copy-of select="@*"/>
+        <xsl:apply-templates/>
+    </tr>
+</xsl:template>
+
+<!-- Render <th> as HTML table header -->
+<xsl:template match="th">
+    <th>
+        <xsl:copy-of select="@*"/>
+        <xsl:apply-templates/>
+    </th>
+</xsl:template>
+
+<!-- Render <td> as HTML table data -->
+<xsl:template match="td">
+    <td>
+        <xsl:copy-of select="@*"/>
+        <xsl:apply-templates/>
+    </td>
 </xsl:template>
 
 <xsl:template name="trim-example-lines">

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>d2c</keyword>
+    <short_description
+  >Convertit un modèle du temps discret au temps continu.</short_description>
+    <syntax>
+        <syntax_item>sysc = d2c(sysd)</syntax_item>
+        <syntax_item>sysc = d2c(sysd, method)</syntax_item>
+        <syntax_item>sysc = d2c(sysd, 'prewarp', w0)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>sysd</param_name>
+            <param_description
+      >Système dynamique en temps discret : modèle LTI.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>method</param_name>
+            <param_description
+      >Méthode de discrétisation : 'zoh', 'tustin', 'prewarp'</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>w0</param_name>
+            <param_description>fréquence de pré-distorsion.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>sysc</param_name>
+            <param_description>modèle en temps continu</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>La fonction <b
+      >sysc = d2c(sysd)</b> transforme un modèle de système dynamique en temps discret <b
+      >sysd</b> en un modèle en temps continu, en utilisant un maintien d'ordre zéro sur les entrées.</p>
+        <p>Par exemple, vous pouvez utiliser <b
+      >sysc = d2c(sysd, method)</b> pour définir explicitement la méthode de conversion.</p>
+    </description>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [0.25, 0.5; 0, 0.1];
+B = [1; 0];
+C = [-1, 0];
+sys = ss(A, B, C, 0, 0.2);
+sysc = d2c(sys, 'zoh')
+]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${control_system}c2d">c2d</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${control_system}ss">ss</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

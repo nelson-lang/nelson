@@ -41,6 +41,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[M = [10 -20 40; -50 20 0; 10 0 30]
 [lower, upper] = bandwidth(M)
 ]]></example_item_data>

@@ -30,6 +30,7 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="cli"
       ><![CDATA[x = [1 2 3 4 5];
 xPtr = libpointer('doublePtr', x);
 y = xPtr + 2;

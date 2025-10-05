@@ -45,6 +45,7 @@
 		<example_item_type>nelson</example_item_type>
 		<example_item_description />
 		<example_item_data
+        runnable="cli"
       ><![CDATA[
 		path_1 = modulepath('dynamic_link', 'builtin');
 r = dllibisloaded(path_1)

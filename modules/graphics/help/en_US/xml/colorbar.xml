@@ -50,13 +50,15 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 surf(peaks);
+axis('square');
 colormap('summer');
 colorbar()
 ]]></example_item_data>
                 <example_item_img
-        src="../images/colorbar_1.svg"
+        src="../../images/colorbar_1.svg"
         align="middle"
         generate="true"
       />
@@ -65,12 +67,14 @@ colorbar()
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 surf(peaks);
+axis('square');
 colormap('gray');
 cb = colorbar(gca);]]></example_item_data>
                 <example_item_img
-        src="../images/colorbar_2.svg"
+        src="../../images/colorbar_2.svg"
         align="middle"
         generate="true"
       />

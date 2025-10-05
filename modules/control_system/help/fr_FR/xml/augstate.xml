@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>augstate</keyword>
+    <short_description
+  >Ajoute le vecteur d'état au vecteur de sortie.</short_description>
+    <syntax>
+        <syntax_item>sysa = augstate(sys)</syntax_item>
+        <syntax_item>[Aa, Ba, Ca, Da] = augstate(A, B, C, D)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>sys</param_name>
+            <param_description>Modèle LTI.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>sysa</param_name>
+            <param_description
+      >Modèle d'espace d'état avec états ajoutés aux sorties.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>La fonction <b
+      >sysa = augstate(sys)</b> ajoute le vecteur d'état aux sorties d'un modèle d'espace d'état.</p>
+    </description>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[sys = ss(10, 10, 20, 0);
+sysa = augstate(sys)]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${control_system}feedback">feedback</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${control_system}series">series</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

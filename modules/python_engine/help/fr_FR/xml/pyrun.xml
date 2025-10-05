@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>pyrun</keyword>
+    <short_description
+  >Exécuter des instructions Python depuis Nelson.</short_description>
+    <syntax>
+        <syntax_item>pyrun(code)</syntax_item>
+        <syntax_item>outvars = pyrun(code, outputs)</syntax_item>
+        <syntax_item
+    >outvars = pyrun(code, outputs, pyName, pyValue)</syntax_item>
+    </syntax>
+    <param_input>
+                <param_input_item>
+                        <param_name>code</param_name>
+                        <param_description
+      >un scalaire string, tableau de chaînes, vecteur de caractères, tableau de caractères ou objet code Python.</param_description>
+                </param_input_item>
+                <param_input_item>
+                        <param_name>pyName, pyValue</param_name>
+                        <param_description
+      >noms et valeurs des arguments d'entrée</param_description>
+                </param_input_item>
+                <param_input_item>
+                        <param_name>outputs</param_name>
+                        <param_description
+      >tableau de chaînes : noms de variables Python.</param_description>
+                </param_input_item>
+    </param_input>
+    <param_output>
+                <param_output_item>
+                        <param_name>outvars</param_name>
+                        <param_description
+      >Une ou plusieurs variables de l'espace de travail Nelson renvoyées sous des types Python valides.</param_description>
+                </param_output_item>
+    </param_output>
+    <description>
+      <p>
+        <b
+      >pyrun(code)</b> exécute les instructions Python contenues dans la chaîne code au sein de l'interpréteur Python.</p>
+        <p>Les variables générées par <b
+      >pyrun</b> restent persistantes, permettant leur réutilisation dans des appels <b
+      >pyrun</b> ultérieurs.</p>
+        <p>
+            <b
+      >outvars = pyrun(code, outputs)</b> : les variables Python spécifiées dans outputs sont renvoyées à Nelson.</p>
+            <p>Les valeurs de ces variables sont capturées dans <b
+      >outvars</b>.</p>
+            <p>
+              <b>outvars = pyrun(code, outputs, pyName, pyValue)</b> : le <b
+      >code</b> est exécuté avec des noms/valeurs d'entrée et de sortie fournis depuis Nelson via des paires nom-valeur.</p>
+            </description>
+                <used_function />
+                <bibliography />
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[pyrun('a = b * c', 'b', 5, 'c', 10)
+r = pyrun('d = a + c', 'd')]]></example_item_data>
+                    </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[pyrun(["a = 3","print(a)"])]]></example_item_data>
+                    </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[[R1, R2] = pyrun("a=b*c",["a","b"], 'b', 5, 'c', 10)]]></example_item_data>
+                    </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description
+      >Python code object representing a script generated through the built-in compile function in Python</example_item_description>
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[PYCODE = pyrun('X = compile(''Y = 3'', ''test'', ''exec'')', 'X')
+y = pyrun(PYCODE, 'Y')]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link
+        linkend="${python_engine}pyrunfile"
+      >pyrunfile</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link linkend="${python_engine}pyenv">pyenv</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link
+        linkend="${python_engine}3_python_types"
+      >Python types supported</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.3.0</history_version>
+                        <history_description
+      >version initiale</history_description>
+                    </history_item>
+                    <history_item>
+                        <history_version>1.4.0</history_version>
+                        <history_description
+      >Python code object allowed as first input argument</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

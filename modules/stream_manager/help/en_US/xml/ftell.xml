@@ -33,6 +33,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[TXT = 'example about ftell.';
 fileID = fopen([tempdir(), 'ftell.txt'],'wt');
 fprintf(fileID, TXT);

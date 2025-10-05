@@ -37,6 +37,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[keyHash({'a', 'b', 1})
 keyHash({1, 'a', 'b'})]]></example_item_data>
             </example_item>

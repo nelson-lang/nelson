@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>mex</keyword>
+    <short_description>Construire une fonction MEX</short_description>
+    <syntax>
+        <syntax_item>mex(filenames)</syntax_item>
+        <syntax_item>mex(filenames, option1, ..., optionN)</syntax_item>
+        <syntax_item>mex(api, filenames)</syntax_item>
+        <syntax_item>mex(api, filenames, option1, ..., optionN)</syntax_item>
+        <syntax_item>mex('-output', mexName, filenames)</syntax_item>
+        <syntax_item>mex(api, '-output', mexName, filenames)</syntax_item>
+        <syntax_item
+    >mex(api, '-output', mexName, filenames, option1, ..., optionN)</syntax_item>
+        <syntax_item>mex('-client, 'engine', filenames)</syntax_item>
+        <syntax_item
+    >mex('-client', 'engine', 'filenames', api, option1, ..., optionN)</syntax_item>
+    </syntax>
+    <param_input>
+                <param_input_item>
+                        <param_name>'-client', 'engine'</param_name>
+                        <param_description
+      >Permet de construire des fichiers source C/C++ en une application moteur autonome.</param_description>
+                </param_input_item>
+                <param_input_item>
+                        <param_name>api</param_name>
+                        <param_description
+      >une chaîne : '-R2017b' (représentation complexe séparée) ou '-R2018a' (représentation complexe entrelacée).</param_description>
+                </param_input_item>
+                <param_input_item>
+                        <param_name>filenames</param_name>
+                        <param_description
+      >une chaîne ou une cellule de caractères : liste de fichiers à utiliser. Le premier nom de fichier est utilisé comme nom du MEX.</param_description>
+                </param_input_item>
+                <param_input_item>
+                        <param_name>mexName</param_name>
+                        <param_description
+      >une chaîne : remplace la convention de nommage.</param_description>
+                </param_input_item>
+                <param_input_item>
+                        <param_name>option1, ..., optionN</param_name>
+                        <param_description
+      >chaîne : option de compilation ou d'édition de liens.</param_description>
+                </param_input_item>
+    </param_input>
+    <description>
+        <p
+    >Pour utiliser mex, un compilateur C/C++ doit être disponible et configuré. Voir la section « Supported C/C++ compilers » pour plus d'informations.</p>
+        <p
+    >Nelson inclut une interface permettant de compiler et d'éditer des fichiers mex hérités avec Nelson.</p>
+        <p
+    >Un fichier mex est un type de fichier qui fournit une interface entre Octave ou le logiciel commercial de référence et des fonctions écrites en C, C++.</p>
+        <p
+    >Nelson dispose également de sa propre API C++ pour gérer plus facilement les objets internes de Nelson.</p>
+        <p />
+        <p>MACRO C PRÉDÉFINIE :</p>
+        <p>
+            <b
+      >MX_IS_NELSON</b> : la macro est définie pour détecter facilement si Nelson est utilisé dans le code C.</p>
+            <p>
+                <b
+      >MX_HAS_INTERLEAVED_COMPLEX</b> : la macro est définie si l'API C MEX utilisée est '-R2018a'.</p>
+                <p />
+                <p
+    >Options prises en charge : compilation ou édition de liens.</p>
+                <p>
+                    <b>CFLAGS=</b>
+                </p>
+                <p>
+                    <b
+      >-D</b> L'option -D définit une macro du préprocesseur C.</p>
+                    <p>
+                        <b
+      >-U</b> L'option -U annule la définition d'une macro du préprocesseur C</p>
+                        <p>
+                            <b
+      >-I</b> Ajoute un chemin à la liste des dossiers recherchés pour les fichiers #include.</p>
+                            <p>
+                                <b
+      >-l</b> Lie avec une bibliothèque dynamique .lib, .so ou .dylib.</p>
+                                <p>
+                                    <b
+      >-g</b> Utilisé pour le débogage (configuration Debug).</p>
+                                </description>
+                                <used_function />
+                                <bibliography />
+                                <examples>
+                                    <example_item>
+                                        <example_item_type
+      >nelson</example_item_type>
+                                        <example_item_description />
+                                        <example_item_data
+        runnable="false"
+      ><![CDATA[
+		edit([modulepath('mex', 'tests'), '/test_engine.m'])
+]]></example_item_data>
+                                    </example_item>
+                                </examples>
+                                <see_also>
+                                    <see_also_item>
+                                        <link
+        linkend="${dynamic_link}2_supported_compilers"
+      >Supported C/C++ compilers</link>
+                                    </see_also_item>
+                                    <see_also_item>
+                                        <link
+        linkend="${dynamic_link}dlgenerategateway"
+      >dlgenerategateway</link>
+                                    </see_also_item>
+                                </see_also>
+                                <history>
+                                    <history_item>
+                                        <history_version>1.0.0</history_version>
+                                        <history_description
+      >version initiale</history_description>
+                                    </history_item>
+                                </history>
+                                <authors>
+                                    <author_item>Allan CORNET</author_item>
+                                </authors>
+                            </xmldoc>

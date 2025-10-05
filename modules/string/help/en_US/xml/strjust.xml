@@ -39,6 +39,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[S = ["a"; "ab"; "abc"; "abcd"];
 J = strjust (S)
 J = strjust (S, 'left')
@@ -49,6 +50,7 @@ J = strjust (S, 'right')]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[J = strjust('                 text', 'center')]]></example_item_data>
             </example_item>
         </examples>

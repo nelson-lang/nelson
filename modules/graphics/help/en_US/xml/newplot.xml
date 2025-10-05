@@ -31,7 +31,9 @@
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
-                <example_item_data><![CDATA[h = newplot()]]></example_item_data>
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[h = newplot()]]></example_item_data>
             </example_item>
         </examples>
         <see_also>

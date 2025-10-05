@@ -46,6 +46,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[signal = rand(2, 44100) - 0.5;
 soundsc(signal, 44110, 16)	  
 ]]></example_item_data>

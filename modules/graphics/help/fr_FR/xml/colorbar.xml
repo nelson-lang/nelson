@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>colorbar</keyword>
+    <short_description
+  >Barre de couleur affichant l'échelle des couleurs.</short_description>
+    <syntax>
+        <syntax_item>colorbar()</syntax_item>
+        <syntax_item>colorbar('off')</syntax_item>
+        <syntax_item>colorbar(..., propertyName, propertyValue)</syntax_item>
+        <syntax_item>colorbar(target, ...)</syntax_item>
+        <syntax_item>colorbar(target, 'off')</syntax_item>
+        <syntax_item>c = colorbar(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>propertyName</param_name>
+        <param_description
+      >une chaîne scalaire ou un vecteur ligne de caractères.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyValue</param_name>
+            <param_description>une valeur.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>target</param_name>
+            <param_description>Cible : axes.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>'off'</param_name>
+        <param_description
+      >supprime la barre de couleur associée aux axes courants.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+                <param_output_item>
+                        <param_name>c</param_name>
+                        <param_description
+      >objet graphique : axes de la barre de couleur.</param_description>
+                </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>colorbar</b> ajoute une barre de couleur à un graphique.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+surf(peaks);
+axis('square');
+colormap('summer');
+colorbar()
+]]></example_item_data>
+                <example_item_img
+        src="../../images/colorbar_1.svg"
+        align="middle"
+        generate="true"
+      />
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+surf(peaks);
+axis('square');
+colormap('gray');
+cb = colorbar(gca);]]></example_item_data>
+                <example_item_img
+        src="../../images/colorbar_2.svg"
+        align="middle"
+        generate="true"
+      />
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${graphics}colormap">colormap</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

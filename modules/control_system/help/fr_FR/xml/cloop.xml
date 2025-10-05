@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>cloop</keyword>
+    <short_description
+  >Connexion en boucle fermée de plusieurs modèles.</short_description>
+    <syntax>
+        <syntax_item>model = cloop(sys)</syntax_item>
+        <syntax_item>model = cloop(sys, sign)</syntax_item>
+        <syntax_item> model = cloop(sys, outputs, inputs)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>sys</param_name>
+            <param_description>Modèle LTI.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>sign</param_name>
+            <param_description
+      >Type de rétroaction : -1 (par défaut) ou +1.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>outputs</param_name>
+            <param_description
+      >indices vectoriels dans les sorties.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>inputs</param_name>
+            <param_description
+      >indices vectoriels dans les entrées.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>sys</param_name>
+            <param_description> Système en boucle fermée.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >cloop</b> forme le système en boucle fermée lorsque la rétroaction unitaire est utilisée.</p>
+            <p
+    >Cette fonction est obsolète et a des limitations, veuillez voir <b
+      >feedback</b>. Elle n'est applicable que lorsque le bloc dans le chemin de rétroaction est unitaire. De plus, son utilisation est limitée aux modèles de système exprimés uniquement sous forme de fonction de transfert, et non sous la forme plus générale "system".</p>
+        </description>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[m = 1000;
+b = 50;
+u = 500;
+A = [0 1; 0 -b/m];
+B = [0; 1/m];
+C = [0 1];
+D = 0;
+OUTPUTS = -1;
+INPUTS = 1;
+sys = ss(A, B, C, D);
+
+R = cloop(sys, OUTPUTS, INPUTS)
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${control_system}feedback">feedback</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${control_system}append">append</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${control_system}ssselect">ssselect</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

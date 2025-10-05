@@ -36,6 +36,7 @@ single, int64, int32, int16, int8 or character array.</param_description>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[h5filename = [tempdir(), 'doc_h5write.h5'];
 R = rand(3, 4)
 h5write(h5filename,'/rand', R);

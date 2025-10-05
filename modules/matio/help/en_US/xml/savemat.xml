@@ -59,6 +59,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = ones(3, 4);
 B = 'hello for open mat users';
 savemat([tempdir(), 'example_loadmat.mat'], 'A', 'B')
@@ -80,6 +81,7 @@ B
                 <example_item_description
       >append variables</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[C = eye(3, 4);
 savemat([tempdir(), 'example_loadmat.mat'], 'C', '-append')
 clear;
@@ -101,6 +103,7 @@ C
                 <example_item_type>nelson</example_item_type>
                 <example_item_description>compression</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[C = eye(1000, 1000);
 savemat([tempdir(), 'example_savemat_with_compression.mat'], 'C')
 savemat([tempdir(), 'example_savemat_no_compression.mat'], 'C', '-nocompression')

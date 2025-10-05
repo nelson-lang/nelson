@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>localization</module_name>
+    <chapter>Fonctions de localisation</chapter>
+    <chapter_description>
+    <p
+    >Le module de localisation gère les paramètres de langue et l'internationalisation dans Nelson.</p>
+    <p
+    >Il fournit des mécanismes pour interroger les langues disponibles, déterminer la langue actuelle et par défaut, et changer dynamiquement la langue de l'interface.</p>
+    <p
+    >Ce module garantit que Nelson peut être adapté à différentes préférences linguistiques et régionales, en prenant en charge une expérience utilisateur multilingue.</p>
+    </chapter_description>
+</xmldoc>

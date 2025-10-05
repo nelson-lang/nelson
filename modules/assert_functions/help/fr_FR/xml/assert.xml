@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>assert</keyword>
+    <short_description>Vérifie que la condition est vraie.</short_description>
+    <syntax>
+        <syntax_item>assert(x)</syntax_item>
+        <syntax_item>r = assert(x)</syntax_item>
+        <syntax_item>[r, msg] = assert(x)</syntax_item>
+        <syntax_item>assert(x, err_msg)</syntax_item>
+        <syntax_item>r = assert(x, err_msg)</syntax_item>
+        <syntax_item>[r, msg] = assert(x, err_msg)</syntax_item>
+    </syntax>
+    <param_input>
+                <param_input_item>
+                        <param_name>x</param_name>
+                        <param_description
+      >une valeur logique à tester pour la véracité.</param_description>
+                </param_input_item>
+                <param_input_item>
+                        <param_name>err_msg</param_name>
+                        <param_description
+      >une chaîne contenant le message d'erreur personnalisé à afficher en cas d'échec de l'assertion (optionnel).</param_description>
+                </param_input_item>
+    </param_input>
+    <param_output>
+                <param_output_item>
+                        <param_name>r</param_name>
+                        <param_description
+      >une valeur logique : true si l'assertion réussit, false sinon.</param_description>
+                </param_output_item>
+                <param_output_item>
+                        <param_name>msg</param_name>
+                        <param_description
+      >une chaîne contenant le message d'erreur. Si x == true, alors msg == ''. Si x == false, alors msg contient le message d'échec de l'assertion.</param_description>
+                </param_output_item>
+    </param_output>
+    <description>
+        <p><b>assert</b> lève une erreur si la valeur d'entrée est fausse.</p>
+        <p
+    >Cette fonction lève également une erreur si l'entrée n'est pas une valeur logique, garantissant la sécurité de type.</p>
+        <p>Lorsque le paramètre optionnel <b
+      >err_msg</b> est fourni, il sera utilisé comme message d'erreur à la place du message par défaut en cas d'échec de l'assertion.</p>
+        <p
+    >C'est la fonction d'assertion fondamentale qui sert de base pour tester des conditions dans les programmes et les tests unitaires.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+        <example_item_description
+      >Test d'échec d'assertion avec un message d'erreur personnalisé :</example_item_description>
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[try
+    assert(4 == 3, _('error for comparison.'))
+catch ME
+    disp(['Error: ' ME.message])
+end]]></example_item_data>
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+        <example_item_description
+      >Test d'assertion réussie :</example_item_description>
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[assert(5 > 3);
+disp('Assertion passed: 5 is greater than 3')]]></example_item_data>
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+        <example_item_description
+      >Utilisation des valeurs de retour pour gérer les résultats d'assertion :</example_item_description>
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[[r, msg] = assert(false, 'This condition is false');
+if ~r
+    disp(['Assertion failed: ' msg])
+end]]></example_item_data>
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+        <example_item_description
+      >Assertion basique sans message personnalisé :</example_item_description>
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[x = 10;
+assert(x > 0)  % Will pass
+assert(x < 0)  % Will fail with default message]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link
+        linkend="${assert_functions}assert_istrue"
+      >assert_istrue</link>
+        </see_also_item>
+        <see_also_item>
+            <link
+        linkend="${assert_functions}assert_isfalse"
+      >assert_isfalse</link>
+        </see_also_item>
+        <see_also_item>
+            <link
+        linkend="${assert_functions}assert_isequal"
+      >assert_isequal</link>
+        </see_also_item>
+        <see_also_item>
+            <link
+        linkend="${assert_functions}assert_checkerror"
+      >assert_checkerror</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>fftw</keyword>
+        <short_description
+  >fonction pour déterminer l'algorithme FFT.</short_description>
+    <syntax>
+        <syntax_item>m = fftw('planner')</syntax_item>
+        <syntax_item>fftw('planner', m)</syntax_item>
+        <syntax_item>w = fftw('dwisdom')</syntax_item>
+        <syntax_item>fftw('dwisdom', w)</syntax_item>
+        <syntax_item>w = fftw('swisdom')</syntax_item>
+        <syntax_item>fftw('swisdom', w)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>m</param_name>
+            <param_description
+      >méthode pour définir les paramètres de la transformée : 'estimate', 'measure', 'patient', 'exhaustive' ou 'hybrid'.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>w</param_name>
+            <param_description
+      >une chaîne : données de wisdom.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>m</param_name>
+            <param_description
+      >méthode : 'estimate', 'measure', 'patient', 'exhaustive' ou 'hybrid'.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>w</param_name>
+            <param_description
+      >une chaîne : données de wisdom.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>La méthode par défaut est 'estimate'.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[w = fftw('dwisdom')
+M = rand(1000);
+tic; fft(M); toc
+fftw('dwisdom', w)
+tic; fft(M); toc]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${fftw}fft">fft</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${fftw}ifft">ifft</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

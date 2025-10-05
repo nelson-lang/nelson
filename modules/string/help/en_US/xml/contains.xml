@@ -39,6 +39,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[
 str = 'To make a mountain out of a molehill';
 k = contains (str, 'hill')

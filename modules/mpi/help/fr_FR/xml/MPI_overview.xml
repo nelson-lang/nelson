@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <title>Vue d'ensemble MPI</title>
+    <language>fr_FR</language>
+    <short_description
+  >Accès aux fonctionnalités MPI depuis Nelson.</short_description>
+    <description>
+        <p
+    >Comme beaucoup d'applications MPI, MPI/Nelson doit être lancée via la commande mpiexec/mpirun.</p>
+        <p
+    >Les fonctionnalités MPI sont uniquement disponibles en mode CLI. Toutefois, vous pouvez les invoquer depuis d'autres modes en utilisant le builtin mpiexec.</p>
+    </description>
+    <see_also>
+        <see_also_item>
+            <link linkend="${mpi}mpiexec">mpiexec</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

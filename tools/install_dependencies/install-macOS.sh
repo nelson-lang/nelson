@@ -14,14 +14,6 @@ print_status() {
 
 print_status "Nelson - Installation script for macOS Tahoe/Sequoia/Sonoma dependencies"
 
-# sudo rm -r /Library/Developer/CommandLineTools
-
-# # Reset xcode-select
-# sudo xcode-select -r
-
-# # Then install. You will be asked to click a button 
-# sudo xcode-select --install
-
 # Check if Homebrew is installed
 if ! command -v brew &>/dev/null; then
     print_status "Homebrew not found. Installing Homebrew..."
@@ -92,3 +84,10 @@ if ! grep -q '/usr/local/opt/gettext/bin' ~/.zshrc; then
 fi
 
 print_status "All dependencies have been installed successfully!"
+
+# Install Xcode Command Line Tools
+sudo rm -r /Library/Developer/CommandLineTools
+# Reset xcode-select
+sudo xcode-select -r
+# Then install. You will be asked to click a button 
+sudo xcode-select --install

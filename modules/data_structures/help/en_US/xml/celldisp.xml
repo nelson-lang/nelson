@@ -30,6 +30,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[C = {2, 22, 'ff', {331, 332}};
 celldisp(C)
 celldisp(C, 'var_name')]]></example_item_data>

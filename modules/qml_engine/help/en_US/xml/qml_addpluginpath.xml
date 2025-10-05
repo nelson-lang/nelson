@@ -29,6 +29,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[qml_pluginpathlist()
 qml_addpluginpath(tempdir)
 qml_pluginpathlist()

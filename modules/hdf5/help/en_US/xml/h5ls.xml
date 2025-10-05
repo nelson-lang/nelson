@@ -39,6 +39,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[h5create([tempdir(), 'myfile.h5'],'/myDataset2',[10 20]);
 h5ls([tempdir(), 'myfile.h5'])
 R = h5ls([tempdir(), 'myfile.h5'])]]></example_item_data>
