@@ -40,7 +40,7 @@
         </param_input_item>
         <param_input_item>
             <param_name>E</param_name>
-            <param_description>Nx-by-Nx matrix.</param_description>
+            <param_description>Matrice Nx par Nx.</param_description>
         </param_input_item>
     </param_input>
     <param_output>
