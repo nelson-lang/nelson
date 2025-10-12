@@ -17,5 +17,8 @@ namespace Nelson {
 jl_value_t*
 ArrayOfTojl_value_t(const ArrayOf& value);
 //=============================================================================
+bool
+jl_create_main_global_variable(const std::wstring& name_w, const ArrayOf& value);
+//=============================================================================
 }
 //=============================================================================

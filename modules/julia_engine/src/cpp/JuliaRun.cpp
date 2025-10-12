@@ -38,15 +38,33 @@ JuliaRun(Interface* io, bool haveEventsLoop, const void* voidJuliaObjectHandle,
     NLSjl_exception_clear();
 
     for (size_t i = 0; i < names.size(); ++i) {
-        std::string name = wstring_to_utf8(names[i]);
-        ArrayOf value = values[i];
-        jl_value_t* x_value = ArrayOfTojl_value_t(value);
-        if (!x_value) {
-            Error(_W("Error converting value to Julia type: ") + names[i]);
+        if (!jl_create_main_global_variable(names[i], values[i])) {
+            jl_value_t* exception = NLSjl_exception_occurred();
+            if (exception) {
+                jl_module_t* jl_base_module_local = (jl_module_t*)NLSjl_eval_string("Base");
+                jl_function_t* sprint_func_local
+                    = NLSjl_get_function(jl_base_module_local, "sprint");
+                jl_function_t* showerror_func
+                    = NLSjl_get_function(jl_base_module_local, "showerror");
+
+                jl_value_t* error_string
+                    = NLSjl_call2(sprint_func_local, showerror_func, exception);
+                std::string error_msg = NLSjl_string_ptr(error_string);
+
+                jl_value_t* err = NLSjl_eval_string("get_stderr()");
+                if (err) {
+                    std::string txt = std::string(NLSjl_string_ptr(err));
+                    if (!txt.empty()) {
+                        error_msg += "\n" + txt;
+                    }
+                }
+                error_msg = _("Error in Julia: ") + "\n" + error_msg;
+                Error(error_msg);
+                return {};
+            }
+            Error(_W("Cannot convert Nelson variable to Julia."));
+            return {};
         }
-        std::string createVar = "global " + name;
-        NLSjl_eval_string(createVar.c_str());
-        NLSjl_set_global(jl_main_module, NLSjl_symbol(name.c_str()), x_value);
     }
 
     std::string lines;
@@ -58,11 +76,11 @@ JuliaRun(Interface* io, bool haveEventsLoop, const void* voidJuliaObjectHandle,
     if (!result) {
         jl_value_t* exception = NLSjl_exception_occurred();
         if (exception) {
-            jl_module_t* jl_base_module = (jl_module_t*)NLSjl_eval_string("Base");
-            jl_function_t* sprint_func = NLSjl_get_function(jl_base_module, "sprint");
-            jl_function_t* showerror_func = NLSjl_get_function(jl_base_module, "showerror");
+            jl_module_t* jl_base_module_local = (jl_module_t*)NLSjl_eval_string("Base");
+            jl_function_t* sprint_func_local = NLSjl_get_function(jl_base_module_local, "sprint");
+            jl_function_t* showerror_func = NLSjl_get_function(jl_base_module_local, "showerror");
 
-            jl_value_t* error_string = NLSjl_call2(sprint_func, showerror_func, exception);
+            jl_value_t* error_string = NLSjl_call2(sprint_func_local, showerror_func, exception);
             std::string error_msg = NLSjl_string_ptr(error_string);
 
             jl_value_t* err = NLSjl_eval_string("get_stderr()");
