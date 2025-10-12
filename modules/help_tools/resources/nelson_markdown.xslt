@@ -321,35 +321,46 @@
   </xsl:template>
 
   <xsl:template match="tr" mode="header">
-    <xsl:text>| </xsl:text>
+    <!-- Render header row: compact single-line cells -->
+    <xsl:text>|</xsl:text>
     <xsl:for-each select="th">
-      <xsl:apply-templates/>
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="normalize-space(string(.))"/>
       <xsl:text> |</xsl:text>
-      <xsl:if test="position() != last()"><xsl:text> </xsl:text></xsl:if>
     </xsl:for-each>
-    <xsl:text>&#10;| </xsl:text>
+    <xsl:text>&#10;|</xsl:text>
     <xsl:for-each select="th">
-      <xsl:text>--- |</xsl:text>
-      <xsl:if test="position() != last()"><xsl:text> </xsl:text></xsl:if>
+      <xsl:text> --- |</xsl:text>
     </xsl:for-each>
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template match="tr">
-    <xsl:text>| </xsl:text>
+    <!-- Render data row with normalized, single-line cell content -->
+    <xsl:text>|</xsl:text>
     <xsl:for-each select="td">
-      <xsl:apply-templates/>
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="normalize-space(string(.))"/>
       <xsl:text> |</xsl:text>
-      <xsl:if test="position() != last()"><xsl:text> </xsl:text></xsl:if>
     </xsl:for-each>
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template match="th">
-    <xsl:apply-templates/>
+    <!-- Output header cell text trimmed to avoid embedded newlines/indentation -->
+    <xsl:value-of select="normalize-space(.)"/>
   </xsl:template>
 
   <xsl:template match="td">
-    <xsl:apply-templates/>
+    <!-- Output data cell text trimmed to a single line to produce valid Markdown table cells -->
+    <xsl:value-of select="normalize-space(.)"/>
+  </xsl:template>
+
+  <!-- Render inline bold/italic content as plain text (normalized) to avoid raw HTML tags in Markdown tables -->
+  <xsl:template match="b">
+    <xsl:value-of select="normalize-space(.)"/>
+  </xsl:template>
+  <xsl:template match="i">
+    <xsl:value-of select="normalize-space(.)"/>
   </xsl:template>
 </xsl:stylesheet>

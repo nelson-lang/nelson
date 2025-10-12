@@ -3,8 +3,8 @@
     <copyright>SAME AS NELSON SOFTWARE</copyright>
     <language>fr_FR</language>
     <keyword>cputime</keyword>
-    <short_description
-  >Return the CPU time used by your Nelon session.</short_description>
+        <short_description
+  >Renvoie le temps CPU utilisé par votre session Nelson.</short_description>
     <syntax>
         <syntax_item>t = cputime()</syntax_item>
     </syntax>
@@ -17,9 +17,10 @@
     </param_output>
     <description>
         <p>
-            <b>cputime()</b> returns the CPU time used by Nelson session.</p>
+            <b
+      >cputime()</b> renvoie le temps CPU utilisé par la session Nelson.</p>
             <p
-    >To measure performance, it is better to use tic and toc functions.</p>
+    >Pour mesurer les performances, il est préférable d'utiliser les fonctions tic et toc.</p>
         </description>
         <used_function />
         <bibliography />

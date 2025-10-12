@@ -3,8 +3,8 @@
     <copyright>SAME AS NELSON SOFTWARE</copyright>
         <language>fr_FR</language>
     <keyword>time</keyword>
-    <short_description
-  >Return the current time as the number of seconds or nanoseconds since the epoch.</short_description>
+        <short_description
+  >Renvoie l'heure actuelle en secondes ou en nanosecondes depuis l'époque (epoch).</short_description>
     <syntax>
         <syntax_item>t_s = time()</syntax_item>
         <syntax_item>t_s = time('s')</syntax_item>

@@ -17,8 +17,8 @@
     <description>
         <p>
             <b
-      >sleep</b> stops Nelson processing any instruction for a speficied number of seconds.</p>
-            <p> CTRL-C interruption stops <b>sleep</b>.</p>
+      >sleep</b> met en pause l'exécution de Nelson pendant un nombre spécifié de secondes.</p>
+            <p>Une interruption CTRL-C arrête la fonction <b>sleep</b>.</p>
         </description>
         <used_function />
         <bibliography />

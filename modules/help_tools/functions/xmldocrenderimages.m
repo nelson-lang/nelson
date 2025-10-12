@@ -10,8 +10,8 @@
 function xmldocrenderimages(varargin)
   % xmldocrenderimages() build images for Nelson help files
   % xmldocrenderimages(module_name) build images for a module loaded in Nelson
-  %
-  narginchk(0, 1);
+  % xmldocrenderimages(module_name, language) build images for a module in a specific language
+  narginchk(0, 2);
    currentLang = getlanguage();
 
    if (nargin() == 0)
@@ -22,6 +22,19 @@ function xmldocrenderimages(varargin)
         xmldocrenderimages_module(m{1}, lang{1});
       end
     end
+    setlanguage(currentLang);
+    return;
+  end
+  if (nargin() == 2)
+    module = varargin{1};
+    language = varargin{2};
+    if ~ismodule(module)
+      error('Invalid module name');
+    end
+    if ~ischar(language) || isempty(language) || ~contains(language, getavailablelanguages())
+      error('Invalid language');
+    end
+    xmldocrenderimages_module(module, language);
     setlanguage(currentLang);
     return;
   end
