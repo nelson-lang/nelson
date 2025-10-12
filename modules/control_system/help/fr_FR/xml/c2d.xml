@@ -34,7 +34,7 @@
         <param_input_item>
             <param_name>method</param_name>
             <param_description
-      >Discretization method: 'zoh', 'tustin', 'prewarp'</param_description>
+      >Méthode de discrétisation : 'zoh', 'tustin', 'prewarp'</param_description>
         </param_input_item>
         <param_input_item>
             <param_name>w0</param_name>
