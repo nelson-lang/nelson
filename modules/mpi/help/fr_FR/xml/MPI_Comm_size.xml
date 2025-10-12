@@ -2,7 +2,7 @@
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
 
-  <language>en_US</language>
+  <language>fr_FR</language>
   <keyword>MPI_Comm_size</keyword>
   <short_description
   >Determines the size of the group associated with a communicator.</short_description>

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
     <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
+    <language>fr_FR</language>
     <keyword>atan2d</keyword>
-    <short_description
-  >Four-quadrant inverse tangent in degrees.</short_description>
+        <short_description
+  >Tangente inverse à quatre quadrants en degrés.</short_description>
     <syntax>
         <syntax_item>d = atan2d(y, x)</syntax_item>
     </syntax>
     <param_input>
         <param_input_item>
             <param_name>y</param_name>
-            <param_description>a numeric value</param_description>
+            <param_description>une valeur numérique</param_description>
         </param_input_item>
         <param_input_item>
             <param_name>x</param_name>
-            <param_description>a numeric value</param_description>
+            <param_description>une valeur numérique</param_description>
         </param_input_item>
     </param_input>
     <param_output>
@@ -27,8 +27,8 @@
     <description>
         <p>
             <b
-      >d = atan2d(y, x)</b> returns the four-quadrant inverse tangent (tan-1) of <b
-      >y</b> and <b>x</b>, which must be real.</p>
+      >d = atan2d(y, x)</b> retourne la tangente inverse à quatre quadrants (tan-1) de <b
+      >y</b> et <b>x</b>, qui doivent être réels.</p>
         </description>
         <used_function />
         <bibliography />

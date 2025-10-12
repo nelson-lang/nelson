@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
     <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
+    <language>fr_FR</language>
     <keyword>acosh</keyword>
-    <short_description>Inverse hyperbolic cosine.</short_description>
+    <short_description>Cosinus hyperbolique inverse.</short_description>
     <syntax>
         <syntax_item>res = acosh(x)</syntax_item>
     </syntax>
     <param_input>
         <param_input_item>
             <param_name>x</param_name>
-            <param_description>a numeric value</param_description>
+            <param_description>une valeur numérique</param_description>
         </param_input_item>
     </param_input>
     <param_output>
         <param_output_item>
             <param_name>res</param_name>
-            <param_description>a numeric value</param_description>
+            <param_description>une valeur numérique</param_description>
         </param_output_item>
     </param_output>
     <description>
-        <b>acos</b> computes the inverse hyperbolic cosine.</description>
+        <b>acosh</b> calcule le cosinus hyperbolique inverse.</description>
         <used_function />
         <bibliography />
         <examples>

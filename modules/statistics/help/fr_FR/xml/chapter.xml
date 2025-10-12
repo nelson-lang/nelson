@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>statistics</module_name>
+    <chapter>Statistiques</chapter>
+    <chapter_description>
+        <p
+    >Le module Statistiques fournit des outils pour analyser et résumer des données dans Nelson.</p>
+        <p
+    >Il comprend des fonctions pour calculer des mesures de tendance centrale, de variabilité, de corrélation et des distributions de probabilités.</p>
+        <p
+    >Le module prend également en charge des structures avancées de synthèse de données pour une estimation précise des quantiles, permettant une analyse statistique robuste et l'interprétation des jeux de données.</p>
+    </chapter_description>
+</xmldoc>

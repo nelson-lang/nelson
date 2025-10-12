@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>signal_processing</module_name>
+    <chapter>Traitement du signal</chapter>
+    <chapter_description>
+        <p
+    >Le module Traitement du signal fournit des outils pour analyser et manipuler des signaux échantillonnés dans Nelson.</p>
+        <p
+    >Il inclut des fonctions de fenêtrage, filtrage numérique, corrélation croisée, et des conversions entre représentations en magnitude, puissance et décibels.</p>
+        <p
+    >Le module prend également en charge la transformation entre représentations pôles-zéros et fonctions de transfert, permettant une conception et une analyse efficaces des systèmes de traitement du signal en temps discret.</p>
+    </chapter_description>
+</xmldoc>

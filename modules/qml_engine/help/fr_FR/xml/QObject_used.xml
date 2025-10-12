@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>QObject_used</keyword>
+        <short_description
+  >Renvoie la liste des poignées (handles) QObject actuellement utilisées.</short_description>
+    <syntax>
+        <syntax_item>r = QObject_used()</syntax_item>
+    </syntax>
+    <param_output>
+        <param_output_item>
+            <param_name>h</param_name>
+            <param_description
+      >un vecteur de poignées (handles) QObject.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >Renvoie la liste des poignées (handles) QObject actuellement utilisées.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[h1 = errordlg()
+h2 = errordlg()
+h3 = errordlg()
+used = QObject_used()delete(used)
+used = QObject_used()
+delete(used)
+used = QObject_used()]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${qml_engine}QObject_set">QObject_set (set)</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${qml_engine}QObject_get">QObject_get (get)</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
     <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
+    <language>fr_FR</language>
     <keyword>slicot_sg02ad</keyword>
     <short_description
   >Solution of continuous- or discrete-time algebraic Riccati equations for descriptor systems.</short_description>

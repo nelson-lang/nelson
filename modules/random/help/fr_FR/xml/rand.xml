@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>rand</keyword>
+    <short_description>Nombre aléatoire.</short_description>
+    <syntax>
+        <syntax_item>M = rand</syntax_item>
+        <syntax_item>M = rand(n)</syntax_item>
+        <syntax_item>M = rand(x1, x2, ... , xN)</syntax_item>
+        <syntax_item>M = rand(sz)</syntax_item>
+        <syntax_item>M = rand(x1, x2, ... , xN, classname)</syntax_item>
+        <syntax_item>M = rand(x1, x2, ... , xN, 'like', var)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>n</param_name>
+        <param_description
+      >une variable : une matrice n-par-n sera générée.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>x1, x2, ... , xN</param_name>
+            <param_description> valeurs x1-par-...-par-xN </param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>classname</param_name>
+        <param_description>une chaîne : 'single' ou 'double'</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>var</param_name>
+            <param_description
+      >une variable : single ou double</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>M</param_name>
+            <param_description
+      >une matrice de nombres aléatoires.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+        <b
+      >rand</b> renvoie une matrice dont les éléments sont distribués uniformément sur l'intervalle [0, 1].</p>
+        <p>La graine (seed) peut être modifiée en utilisant <b>rng</b>.</p>
+        <p
+    >Les concepteurs du Mersenne Twister considèrent 5489 comme graine par défaut. Nelson utilise 5489 comme graine par défaut.</p>
+        </description>
+        <used_function />
+      <bibliography
+  >M. Matsumoto et T. Nishimura, Mersenne Twister: A 623-dimensionally equidistributed uniform pseudorandom number generator, ACM Trans. on Modeling and Computer Simulation Vol. 8, No. 1, pp. 3–30, January 1998</bibliography>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[rng('default');
+rand
+rng('default');
+rand
+]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[rng('default');
+rand(6)
+]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[rng('default');
+rand(3, 2, 3)
+]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[rng('default');
+rand(3, 2, 'single')
+]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[rng('default');
+v = single([3, 3]);
+rand(3, 2, 'like', v)
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${random}rng">rng</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${random}randn">randn</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${constructors_functions}eye">eye</link>
+            </see_also_item>
+        </see_also>
+        <history>
+                <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

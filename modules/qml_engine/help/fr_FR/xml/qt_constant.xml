@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>qt_constant</keyword>
+    <short_description>Renvoie la valeur d'une constante Qt.</short_description>
+    <syntax>
+        <syntax_item>v = qt_constant(constant_name)</syntax_item>
+        <syntax_item>ce = qt_constant()</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>constant_name</param_name>
+            <param_description
+      >une chaîne : constante Qt souhaitée.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>v</param_name>
+            <param_description
+      >un entier scalaire (valeur de la constante Qt).</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>ce</param_name>
+            <param_description
+      >une cellule contenant tous les noms de constantes disponibles.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+    <p><b
+      >v = qt_constant(constant_name)</b> renvoie la valeur d'une constante Qt.</p>
+    <p
+    >La famille Qt 5 permet d'obtenir facilement une constante avec qml_evaluatestring(constant_name), mais ce mécanisme n'est plus disponible avec Qt 6.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[qt_constant('Qt.WindowModal')
+c = qt_constant()]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${qml_engine}qt_version">qt_version</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

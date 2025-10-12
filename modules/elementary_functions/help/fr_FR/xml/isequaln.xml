@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
     <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
+    <language>fr_FR</language>
     <keyword>isequaln</keyword>
     <short_description
   >Return true if all arguments x1, x2, ... , xn are equal (same dimensions, same values or NaNs).</short_description>

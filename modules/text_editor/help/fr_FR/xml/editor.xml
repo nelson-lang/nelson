@@ -34,7 +34,7 @@
                 <p>
                     <code>editor('editor_command', 'code')</code>
                 </p>
-                <p>Pour restaurer l'éditeur par défaut, utilisez :</p>
+                <p>Pour restaurer l'éditeur par défaut, utilisez :</p>
                 <p>
                     <code>editor('editor_command', '')</code>
                 </p>

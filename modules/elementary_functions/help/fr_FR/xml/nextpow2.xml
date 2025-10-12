@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
     <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
+    <language>fr_FR</language>
     <keyword>nextpow2</keyword>
     <short_description>Exponent of next higher power of 2</short_description>
     <syntax>

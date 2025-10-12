@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>fprintf</keyword>
+    <short_description>Écrit des données dans un fichier.</short_description>
+    <syntax>
+        <syntax_item>fprintf(format, v1, ... , vn)</syntax_item>
+        <syntax_item>fprintf(fid, format, v1, ... , vn)</syntax_item>
+        <syntax_item>R = fprintf(fid, format, v1, ... , vn)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>fid</param_name>
+            <param_description>a file descriptor</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>format</param_name>
+            <param_description
+      >a string describing the format to used_function.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>v1, ... , vn</param_name>
+            <param_description
+      >data to convert and print according to the previous format parameter.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>R</param_name>
+            <param_description
+      >an integer value: number of bytes that fprintf write.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >Écrit des données au format texte dans le fichier spécifié par le descripteur de fichier fid.</p>
+        <p>L'encodage des caractères utilise le paramètre <b>fopen</b>.</p>
+        <p>Si fid vaut 1, la sortie est redirigée vers stdout.</p>
+        <p>Si fid vaut 2, la sortie est redirigée vers stderr.</p>
+        <p>Le paramètre <b>format</b> suit la syntaxe C de <b>fprintf</b>.</p>
+        <table style="width:100%">
+            <tr>
+                <th>Value type</th>
+                <th>format</th>
+                <th>comment</th>
+            </tr>
+            <tr>
+                <td>Integer</td>
+                <td>%i</td>
+                <td>base 10</td>
+            </tr>
+            <tr>
+                <td>Integer signed</td>
+                <td>%d</td>
+                <td>base 10</td>
+            </tr>
+            <tr>
+                <td>Integer unsigned</td>
+                <td>%u</td>
+                <td>base 10</td>
+            </tr>
+            <tr>
+                <td>Integer</td>
+                <td>%o</td>
+                <td>Octal (base 8)</td>
+            </tr>
+            <tr>
+                <td>Integer</td>
+                <td>%x</td>
+                <td>Hexadecimal (lowercase)</td>
+            </tr>
+            <tr>
+                <td>Integer</td>
+                <td>%X</td>
+                <td>Hexadecimal (uppercase)</td>
+            </tr>
+            <tr>
+                <td>Floating-point number</td>
+                <td>%f</td>
+                <td>Fixed-point notation</td>
+            </tr>
+            <tr>
+                <td>Floating-point number</td>
+                <td>%e</td>
+                <td>Exponential notation (lowercase)</td>
+            </tr>
+            <tr>
+                <td>Floating-point number</td>
+                <td>%E</td>
+                <td>Exponential notation (uppercase)</td>
+            </tr>
+            <tr>
+                <td>Floating-point number</td>
+                <td>%g</td>
+                <td>Exponential notation (compact format, lowercase)</td>
+            </tr>
+            <tr>
+                <td>Floating-point number</td>
+                <td>%G</td>
+                <td>Exponential notation (compact format, uppercase)</td>
+            </tr>
+            <tr>
+                <td>Character</td>
+                <td>%c</td>
+                <td>Single character</td>
+            </tr>
+            <tr>
+                <td>String</td>
+                <td>%s</td>
+                <td>Character vector.</td>
+            </tr>
+        </table>
+        <p
+    >Pour afficher un signe pourcent, utilisez deux signes pourcent (%%) dans la chaîne de format.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[
+fileID = fopen([tempdir(), 'fprintf.txt'],'wt');
+fprintf(fileID, 'an example of %s.', 'text');
+fclose(fileID);
+
+R = fileread([tempdir(), 'fprintf.txt'])]]></example_item_data>
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[fprintf(1, 'an value %g.', pi);
+fprintf(2, "an value %g.", pi);]]></example_item_data>
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description
+      >How to use backspace</example_item_description>
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[reverseStr = '';
+for idx = 1 : 100
+ percentDone = idx;
+ msg = sprintf('Percent done: %3.1f', percentDone);
+ fprintf([reverseStr, msg]);
+ reverseStr = repmat(sprintf('\b'), 1, length(msg));
+end
+]]></example_item_data>
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description
+      >Display a percent sign</example_item_description>
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[fprintf(1, '%d%%.', 95)]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${stream_manager}fopen">fopen</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${stream_manager}fclose">fclose</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${stream_manager}fread">fread</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

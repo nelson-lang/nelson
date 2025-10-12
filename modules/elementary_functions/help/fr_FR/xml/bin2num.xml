@@ -25,7 +25,7 @@
         <p>
             <b
       >bin2num</b> convertit un tableau de caractères binaires en tableau numérique.</p>
-            <p>Remarques :</p>
+            <p>Remarques :</p>
             <p> - <b
       >num2bin</b> renvoie toujours les représentations binaires en colonne.</p>
             <p> - <b>bin2num</b> et <b

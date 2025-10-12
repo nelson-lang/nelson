@@ -12,7 +12,7 @@
         <param_output_item>
             <param_name>lang</param_name>
             <param_description
-      >une chaîne : 'en_US' par défaut.</param_description>
+      >une chaîne : 'fr_FR' par défaut.</param_description>
         </param_output_item>
     </param_output>
     <description>

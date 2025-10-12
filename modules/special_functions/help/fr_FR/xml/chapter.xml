@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>special_functions</module_name>
+    <chapter>Fonctions spéciales</chapter>
+    <chapter_description>
+        <p
+    >Le module Fonctions Spéciales fournit des outils pour effectuer des opérations mathématiques avancées dans Nelson.</p>
+        <p
+    >Il inclut des fonctions pour les distributions statistiques, les calculs combinatoires, et d'autres calculs mathématiques spécialisés qui sont essentiels dans diverses applications scientifiques et d'ingénierie.</p>  
+        <p
+    >Ce module améliore les capacités de Nelson en offrant une gamme de fonctions qui supportent des analyses complexes et des tâches de modélisation.</p>
+    </chapter_description>
+</xmldoc>

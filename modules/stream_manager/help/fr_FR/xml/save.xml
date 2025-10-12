@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>save</keyword>
+        <short_description
+  >enregistrer des variables de l'espace de travail dans un fichier .nh5 ou .mat</short_description>
+    <syntax>
+        <syntax_item>save(filename)</syntax_item>
+        <syntax_item>save(filename, version, var1, ..., varN)</syntax_item>
+        <syntax_item>save(filename, '-append', ...)</syntax_item>
+        <syntax_item>save(filename, '-mat', ...)</syntax_item>
+        <syntax_item>save(filename, '-nh5', ...)</syntax_item>
+        <syntax_item>save(filename, '-nocompression', ...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>filename</param_name>
+        <param_description
+      >une chaîne : nom de fichier .nh5 ou .mat. L'extension définit le format utilisé (.mat ou .nh5 par défaut).</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>var1, ..., varN</param_name>
+            <param_description
+      >chaîne : noms des variables à enregistrer depuis l'espace de travail de Nelson.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>version: '-v7.3', '-v7', '-v6', '-v4'</param_name>
+            <param_description
+      >version de fichier mat utilisée ('-v7.3'). Cette option forcera '-mat'.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-mat'</param_name>
+            <param_description
+      >force l'enregistrement au format mat (par défaut '-nh5').</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-nh5'</param_name>
+            <param_description
+      >force l'enregistrement au format nh5 (par défaut '-nh5').</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-append'</param_name>
+            <param_description
+      >ajoute des variables à un fichier .nh5/.mat existant (uniquement -v7.3).</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>'-nocompression'</param_name>
+            <param_description
+      >désactive la compression du fichier .nh5/.mat.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p><b
+      >save</b> sauvegarde les variables de l'espace de travail dans un fichier .nh5 ou .mat.</p>
+        </description>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = ones(3, 4);
+B = 'hello for open mat users';
+save([tempdir(), 'example_load.mat'], 'A', 'B')
+clear;
+st = load([tempdir(), 'example_load.mat']);
+who
+st.A
+st.B
+clear
+who
+load([tempdir(), 'example_load.mat']);
+who
+A
+B
+]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description
+      >append variables</example_item_description>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[C = eye(3, 4);
+save([tempdir(), 'example_load.mat'], 'C', '-append')
+clear;
+st = load([tempdir(), 'example_load.mat']);
+who
+st.A
+st.B
+st.C
+clear
+who
+load([tempdir(), 'example_load.mat']);
+who
+A
+B
+C
+]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description>compression</example_item_description>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[C = eye(1000, 1000);
+save([tempdir(), 'example_save_with_compression.mat'], 'C')
+save([tempdir(), 'example_save_no_compression.mat'], 'C', '-nocompression')
+with_compression = dir([tempdir(), 'example_save_with_compression.mat'])
+no_compression = dir([tempdir(), 'example_save_no_compression.mat'])]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${stream_manager}load">load</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${hdf5}savenh5">savenh5</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${matio}savemat">savemat</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

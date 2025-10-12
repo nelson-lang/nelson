@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>sparse</module_name>
+    <chapter>Type sparse</chapter>
+    <chapter_description>
+        <p
+    >Le module Type Sparse fournit des outils pour créer et manipuler des matrices creuses dans Nelson.</p>
+        <p
+    >Il prend en charge le stockage et le calcul efficaces pour les matrices avec un grand nombre d'éléments zéro, y compris la conversion entre les représentations creuses et pleines, la génération de matrices creuses spéciales, et l'accès aux éléments non nuls.</p>
+        <p
+    >Ce module permet une gestion efficace en mémoire de grands ensembles de données et des opérations numériques optimisées sur des structures creuses.</p>
+    </chapter_description>
+</xmldoc>
