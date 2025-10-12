@@ -55,7 +55,7 @@
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description
-      >Cet exemple ne échouera pas et renverra faux.</example_item_description>
+      >Cet exemple n'échouera pas et renverra faux.</example_item_description>
                 <example_item_data
         runnable="cli"
       ><![CDATA[eval('error(''blabla'')', 'l = lasterror(); disp([''lasterror message: '', l.message])')]]></example_item_data>
