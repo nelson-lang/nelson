@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>feof</keyword>
+    <short_description>Teste la fin de fichier.</short_description>
+    <syntax>
+        <syntax_item>status = feof(fid)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>fid</param_name>
+            <param_description>un descripteur de fichier</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+        <param_name>status</param_name>
+        <param_description
+      >une valeur entière : 1 si la fin de fichier est atteinte, 0 sinon.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>feof</b> vérifie si la fin du fichier a été atteinte.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[fid = fopen([nelsonroot(), '/etc/startup.m'], 'rt');
+feof(fid)
+while ~feof(fid)
+  tline = fgetl(fid);
+  disp(tline);
+end
+feof(fid)
+fclose(fid);]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${stream_manager}fopen">fopen</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${stream_manager}fgetl">fgetl</link>
+            </see_also_item>
+        </see_also>
+        <history>
+                <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

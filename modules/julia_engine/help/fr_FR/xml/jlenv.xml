@@ -46,7 +46,7 @@
       >ExecutionMode</b>: Execution mode: "InProcess" (default) or "OutOfProcess"</p>
                                 <p />
                                 <p
-    >Utilisez des variables d'environnement pour forcer l'environnement Julia au démarrage (utile pour les distributions snapcraft ou docker) :</p>
+    >Utilisez des variables d'environnement pour forcer l'environnement Julia au démarrage (utile pour les distributions snapcraft ou docker) :</p>
                                 <p />
                                 <p>
                                     <b

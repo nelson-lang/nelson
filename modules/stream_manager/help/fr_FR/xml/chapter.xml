@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>stream_manager</module_name>
+    <chapter>Gestion des flux</chapter>
+    <chapter_description>
+        <p
+    >Le module Stream Manager fournit des outils pour gérer les flux d'entrée et de sortie dans Nelson.</p>
+        <p
+    >Il prend en charge la lecture et l'écriture de données texte et binaires dans des fichiers, la gestion des positions dans les fichiers, la détection de la fin de fichier et la gestion des erreurs de fichier.</p>
+        <p
+    >Le module permet également la journalisation de l'activité de session ainsi que le chargement et la sauvegarde des données de l'espace de travail, facilitant des opérations d'E/S robustes et flexibles dans les scripts et applications.</p>
+   </chapter_description>
+</xmldoc>

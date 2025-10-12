@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>csvread</keyword>
+        <short_description
+  >Lire un fichier de valeurs séparées par des virgules (CSV).</short_description>
+    <syntax>
+        <syntax_item>M = csvread(filename)</syntax_item>
+        <syntax_item>M = csvread(filename, R1, C1)</syntax_item>
+        <syntax_item>M = csvread(filename, R1, C1, [R1 C1 R2 C2])</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>filename</param_name>
+            <param_description
+      >une chaîne : nom de fichier source.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>R1, C1</param_name>
+        <param_description
+      >entier non négatif : décalage. par défaut : 0, 0</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>[R1 C1 R2 C2]</param_name>
+        <param_description
+      >entiers non négatifs : décalage de la ligne de départ, décalage de la colonne de départ, décalage de la ligne de fin et décalage de la colonne de fin.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>M</param_name>
+            <param_description>une matrice double.</param_description>
+        </param_output_item>
+    </param_output>
+        <description>
+        <p>
+            <b
+      >M = csvread(filename, R1, C1, [R1 C1 R2 C2])</b> lit uniquement les données dans la plage spécifiée par les décalages de lignes <b
+      >R1</b> à <b>R2</b> et de colonnes <b>C1</b> à <b>C2</b>.</p>
+            <p>
+                <b
+      >M = csvread(filename, R1, C1)</b> commence la lecture des données aux décalages de ligne et de colonne spécifiés par <b
+      >R1</b> et <b
+      >C1</b>. Par exemple, R1=0, C1=0 correspond à la première valeur du fichier.</p>
+                <p
+    >Pour définir des décalages de ligne et de colonne sans définir un délimiteur, utilisez un caractère vide comme espace réservé, par exemple <b
+      >M = csvread(filename, 3, 1)</b>.</p>
+                <p>
+                    <b
+      >M = csvread(filename)</b> lit un fichier au format CSV (valeurs séparées par des virgules) dans la matrice <b
+      >M</b>.</p>
+                    <p>Importation de nombres complexes : <b
+      >csvread</b> lit chaque nombre complexe comme une unité unique et le stocke dans un champ numérique complexe.</p>
+                    <p>Formes valides pour les nombres complexes :</p>
+                    <p />
+                    <table style="width:100%">
+                        <tr>
+                            <th>Forme :</th>
+                            <th>Exemple :</th>
+                        </tr>
+                        <tr>
+                            <td>±b1&lt;real&gt;±b1&lt;imag&gt;i|j</td>
+                            <td>3.1347-2.1i</td>
+                        </tr>
+                        <tr>
+                            <td>±b1&lt;imag&gt;i|j</td>
+                            <td>-2.1j</td>
+                        </tr>
+                    </table>
+                    <p>
+                        <b
+      >Remarque</b> : les espaces à l'intérieur d'un nombre complexe ne sont pas autorisés ; <b
+      >csvread</b> interprète tout espace comme un délimiteur de champ.</p>
+                    </description>
+                    <used_function />
+                    <bibliography />
+                    <examples>
+                        <example_item>
+                            <example_item_type>nelson</example_item_type>
+                            <example_item_description />
+                            <example_item_data
+        runnable="cli"
+      >A = [Inf, -Inf, NaN, 3];
+filename = [tempdir(), 'csvread_example.csv'];
+csvwrite(filename, A);
+R = csvread(filename)</example_item_data>
+                        </example_item>
+                    </examples>
+                    <see_also>
+                        <see_also_item>
+                            <link
+        linkend="${spreadsheet}csvwrite"
+      >csvwrite</link>
+                        </see_also_item>
+                        <see_also_item>
+                            <link linkend="${spreadsheet}dlmread">dlmread</link>
+                        </see_also_item>
+                        <see_also_item>
+                            <link
+        linkend="${stream_manager}fileread"
+      >fileread</link>
+                        </see_also_item>
+                    </see_also>
+                    <history>
+                        <history_item>
+                            <history_version>1.10.0</history_version>
+                            <history_description
+      >version initiale</history_description>
+                        </history_item>
+                    </history>
+                    <authors>
+                        <author_item>Allan CORNET</author_item>
+                    </authors>
+                </xmldoc>

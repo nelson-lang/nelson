@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>qml_addpluginpath</keyword>
+        <short_description
+  >Ajoute un chemin comme répertoire où le moteur QML recherche les plugins natifs.</short_description>
+    <syntax>
+        <syntax_item>qml_addpluginpath(path)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>path</param_name>
+            <param_description>une chaîne : chemin valide.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+      <p>
+        <b>qml_addpluginpath</b> ajoute <b
+      >path</b> comme répertoire où le moteur recherche les plugins natifs.</p>
+        <p>Par défaut, la liste ne contient que <b
+      >.</b>. Le chemin nouvellement ajouté sera placé en tête de <b
+      >qml_pluginpathlist</b>.</p>
+    </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[qml_pluginpathlist()
+qml_addpluginpath(tempdir)
+qml_pluginpathlist()
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link
+        linkend="${qml_engine}qml_pluginpathlist"
+      >qml_pluginpathlist</link>
+            </see_also_item>
+            <see_also_item>
+                <link
+        linkend="${qml_engine}qml_addimportpath"
+      >qml_addimportpath</link>
+            </see_also_item>
+        </see_also>
+        <history>
+                <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

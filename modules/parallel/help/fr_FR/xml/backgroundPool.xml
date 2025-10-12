@@ -19,7 +19,7 @@
         <p
     >Ceci permet d'exécuter d'autres codes dans votre session Nelson en parallèle.</p>
         <p />
-        <p>Propriétés de l'objet backgroundPool :</p>
+        <p>Propriétés de l'objet backgroundPool :</p>
         <p
     >'FevalQueue' : file d'attente d'objets FevalFuture à exécuter dans le pool (lecture seule).</p>
         <p>'NumWorkers' : nombre de workers (lecture seule).</p>

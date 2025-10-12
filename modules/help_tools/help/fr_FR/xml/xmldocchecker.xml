@@ -54,7 +54,7 @@
                 <example_item_description />
                 <example_item_data
         runnable="cli"
-      ><![CDATA[xmldocchecker([nelsonroot(),'/module_skeleton/help/en_US/xml/nelson_sum.xml'])]]></example_item_data>
+      ><![CDATA[xmldocchecker([nelsonroot(),'/module_skeleton/help/fr_FR/xml/nelson_sum.xml'])]]></example_item_data>
             </example_item>
         </examples>
         <see_also>

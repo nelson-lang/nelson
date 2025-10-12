@@ -16,7 +16,7 @@
         <param_input_item>
             <param_name>language</param_name>
             <param_description
-      >une chaîne : langue, ex. 'en_US' ou 'fr_FR'.</param_description>
+      >une chaîne : langue, ex. 'fr_FR' ou 'fr_FR'.</param_description>
         </param_input_item>
     </param_input>
     <param_output>
@@ -38,7 +38,7 @@
                 <example_item_description />
                 <example_item_data
         runnable="cli"
-      ><![CDATA[poheader('nelson', 'en_US')]]></example_item_data>
+      ><![CDATA[poheader('nelson', 'fr_FR')]]></example_item_data>
             </example_item>
         </examples>
         <see_also>

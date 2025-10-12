@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
     <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
+    <language>fr_FR</language>
     <module_name>trigonometric_functions</module_name>
-    <chapter>Trigonometric functions</chapter>
+    <chapter>Fonctions trigonométriques</chapter>
     <chapter_description>
         <p
-    >The Trigonometric Functions module provides a comprehensive set of functions for performing trigonometric calculations in Nelson.</p>
+    >Le module Fonctions Trigonométriques fournit un ensemble complet de fonctions pour effectuer des calculs trigonométriques dans Nelson.</p>
         <p
-    >It includes standard trigonometric functions such as sine, cosine, and tangent, as well as their inverses and hyperbolic counterparts. The module supports angle measurements in both degrees and radians, allowing for flexible computations based on user preferences.</p>
+    >Il inclut les fonctions trigonométriques standards telles que sinus, cosinus et tangente, ainsi que leurs inverses et leurs homologues hyperboliques. Le module prend en charge les mesures d'angle en degrés et en radians, permettant des calculs flexibles selon les préférences de l'utilisateur.</p>
         <p
-    >Additionally, the module offers utility functions for converting between degrees and radians, facilitating seamless integration of trigonometric calculations into various mathematical and engineering applications.</p>
+    >De plus, le module propose des fonctions utilitaires pour convertir entre degrés et radians, facilitant l'intégration des calculs trigonométriques dans diverses applications mathématiques et d'ingénierie.</p>
     </chapter_description>
 </xmldoc>

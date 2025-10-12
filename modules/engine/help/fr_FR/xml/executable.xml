@@ -109,7 +109,7 @@
         <param_input_item>
             <param_name>--language lang</param_name>
             <param_description
-      >Si cette option est présente, elle fixe la langue de l'utilisateur. Actuellement, lang peut être : fr_FR en_US.</param_description>
+      >Si cette option est présente, elle fixe la langue de l'utilisateur. Actuellement, lang peut être : fr_FR fr_FR.</param_description>
         </param_input_item>
         <param_input_item>
             <param_name>--quiet</param_name>

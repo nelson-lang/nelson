@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>sio_client</module_name>
+    <chapter>Nelson dans le cloud</chapter>
+    <chapter_description>
+        <p
+    >Ce module fournit des fonctions pour gérer les connexions, envoyer et recevoir des données, et gérer les événements dans un environnement cloud.</p>
+    </chapter_description>
+</xmldoc>

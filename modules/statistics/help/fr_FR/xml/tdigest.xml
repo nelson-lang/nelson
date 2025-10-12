@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>tdigest</keyword>
+        <short_description
+  >Structure de données t-digest pour une estimation précise des quantiles avec paramètres de compression configurables</short_description>
+    <syntax>
+        <syntax_item>td = tdigest()</syntax_item>
+        <syntax_item>td = tdigest(compression)</syntax_item>
+        <syntax_item>td = tdigest(X)</syntax_item>
+        <syntax_item>td = tdigest(compression, X)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>compression</param_name>
+            <param_description
+      >facteur de compression : scalaire entier positif.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>X</param_name>
+            <param_description
+      >un tableau de double, single, entiers, ...</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>td</param_name>
+            <param_description
+      >représentation t-digest des éléments du tableau.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p><b
+      >td = tdigest(compression, X)</b> renvoie une représentation t-digest des éléments du tableau X.</p>
+        <p
+    >TDigest est une structure de données pour l'accumulation en ligne précise de statistiques basées sur les rangs telles que les quantiles et les fonctions de distribution cumulées. Elle est particulièrement efficace pour les grands jeux de données et pour estimer des quantiles extrêmes. L'algorithme est décrit en détail dans l'article "Computing Extremely Accurate Quantiles Using t-Digests" de Ted Dunning et Otmar Ertl.</p>
+        <p>Le t-digest est particulièrement utile pour :</p>
+        <ul>
+            <li
+      >Grands jeux de données où une estimation des quantiles efficace en mémoire est nécessaire</li>
+            <li>Données en flux où les données arrivent en continu</li>
+            <li
+      >Quantiles extrêmes précis (comme le 99e centile) même avec une mémoire limitée</li>
+            <li
+      >Algorithmes en ligne où vous ne pouvez pas stocker toutes les données</li>
+        </ul>
+        <p
+    >Le facteur de compression (100 dans les exemples) contrôle le compromis entre précision et utilisation de la mémoire - des valeurs plus élevées donnent plus de précision mais utilisent plus de mémoire.</p>
+        <p
+    >Une fois que vous avez un objet t-digest, vous pouvez ajouter de nouveaux points de données en utilisant l'opérateur <code
+      >+</code>, et calculer des percentiles ou des quantiles en utilisant les méthodes <code
+      >percentile</code> ou <code>quantile</code>.</p>
+        <p
+    >Pour plus de détails, consultez l'article original référencé dans la bibliographie.</p>
+        <p>Méthodes disponibles :</p>
+        <ul>
+            <li><b
+        >percentile(p)</b> : Retourne la/les valeur(s) au(x) percentile(s) donné(s) <code
+        >p</code> (dans [0, 100]).</li>
+            <li><b
+        >quantile(q)</b> : Retourne la/les valeur(s) au(x) quantile(s) donné(s) <code
+        >q</code> (dans [0, 1]).</li>
+            <li><b
+        >+</b> : Ajoute de nouveaux points de données à l'objet t-digest.</li>
+        </ul>
+        <p>Propriétés :</p>
+        <ul>
+            <li><b
+        >compression</b> : Le facteur de compression utilisé pour créer le t-digest.</li>
+            <li><b
+        >totalWeight</b> : Le poids total de tous les centroïdes dans le t-digest.</li>
+        </ul>
+    </description>
+        <used_function>algorithme tdigest</used_function>
+        <bibliography
+  >https://www.sciencedirect.com/science/article/pii/S2665963820300403</bibliography>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[M = rand(1, 15000);
+td = tdigest(100, M);
+td = td + [1:15000];
+td.percentile([5, 50, 95])
+td.quantile([0.05 0.5 0.95])]]></example_item_data>
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description
+      >streaming updates</example_item_description>
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[
+td = tdigest(100);
+while(1)
+  td = td + randn();
+  td.percentile([5, 50, 95])
+end]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${statistics}mean">mean</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.15.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

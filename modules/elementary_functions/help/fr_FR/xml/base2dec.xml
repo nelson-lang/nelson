@@ -29,7 +29,7 @@
         <p>
             <b
       >base2dec</b> convertit un nombre d'une base donnée en décimal.</p>
-            <p>Remarques :</p>
+            <p>Remarques :</p>
             <p> - <b>dec2base</b> et <b
       >base2dec</b> sont mutuellement inverses.</p>
             <p

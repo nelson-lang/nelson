@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>qml_pluginpathlist</keyword>
+        <short_description
+  >Renvoie la liste des répertoires où le moteur recherche les plugins natifs pour les modules importés.</short_description>
+    <syntax>
+        <syntax_item>p = qml_pluginpathlist()</syntax_item>
+    </syntax>
+    <param_output>
+        <param_output_item>
+            <param_name>p</param_name>
+            <param_description
+      >un tableau de chaînes : chemins.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >Renvoie la liste des répertoires où le moteur recherche les plugins natifs pour les modules importés.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[qml_pluginpathlist()]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link
+        linkend="${qml_engine}qml_addpluginpath"
+      >qml_addpluginpath</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

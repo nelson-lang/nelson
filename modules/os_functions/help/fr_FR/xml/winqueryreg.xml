@@ -45,7 +45,7 @@
       >winqueryreg</b> renvoie la valeur en int32. Si la valeur est une chaîne, elle est renvoyée en tant que chaîne.</p>
         <p><b
       >v = winqueryreg (rootkey, subkey)</b> renvoie la valeur dans rootkey\subkey qui n'a pas de propriété value name.</p>
-        <p>Clés racines supportées :</p>
+        <p>Clés racines supportées :</p>
         <p>'HKEY_CLASSES_ROOT', 'HKCR',</p>
         <p>'HKEY_CURRENT_USER', 'HKCU',</p>
         <p>'HKEY_LOCAL_MACHINE', 'HKLM',</p>
