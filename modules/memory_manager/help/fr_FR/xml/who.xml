@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>who</keyword>
+        <short_description
+  >Liste les variables en mémoire ou dans un fichier .nh5 ou .mat.</short_description>
+    <syntax>
+        <syntax_item>who</syntax_item>
+        <syntax_item>s = who()</syntax_item>
+        <syntax_item>who(scope)</syntax_item>
+        <syntax_item>s = who(scope)</syntax_item>
+        <syntax_item>who('-file', filename)</syntax_item>
+        <syntax_item>s = who('-file', filename)</syntax_item>
+        <syntax_item>who(... , var1, ..., varN)</syntax_item>
+        <syntax_item>s = who(... , var1, ..., varN)</syntax_item>
+    </syntax>
+    <param_input>
+                <param_input_item>
+                        <param_name>scope</param_name>
+                        <param_description
+      >une chaîne : 'global', 'base', 'caller', 'local' ou '-file'.</param_description>
+                </param_input_item>
+                <param_input_item>
+                        <param_name>filename</param_name>
+                        <param_description
+      >chaîne : nom d'un fichier existant .nh5 ou .mat.</param_description>
+                </param_input_item>
+        <param_input_item>
+            <param_name>var1, ..., varN</param_name>
+            <param_description>chaîne : nom de la variable.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>s</param_name>
+            <param_description
+      >un tableau de chaînes : liste des noms de variables.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>who</b> affiche les noms des variables courantes.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[clear
+who
+A = 3
+b= 3
+who
+s = who()]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${functions_manager}what">what</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${memory_manager}clear">clear</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${memory_manager}whos">whos</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

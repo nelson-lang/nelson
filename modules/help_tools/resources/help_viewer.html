@@ -24,144 +24,266 @@
   <main id="main-frame" class="help-viewer__main">
     <header class="help-viewer__toolbar">
       <button id="collapse-btn" type="button" class="help-viewer__toggle" aria-controls="left-frame" aria-expanded="true" title="Collapse/Expand Menu">&#9776;</button>
-      <form class="help-viewer__search" onsubmit="searchHelp(document.getElementById('search-input').value); return false;">
+      <button id="website-btn" type="button" class="help-viewer__nav-btn" title="Open Nelson Website">🌐 Website</button>
+      <button id="github-btn" type="button" class="help-viewer__nav-btn" title="Open GitHub Project">📁 GitHub</button>
+      <form id="search-form" class="help-viewer__search" onsubmit="searchHelp(document.getElementById('search-input').value); return false;">
         <input type="text" id="search-input" class="help-viewer__search-input" placeholder="Search help..." aria-label="Search help">
-        <button type="submit" title="Search" class="help-viewer__search-btn">Search</button>
+        <button type="submit" id="search-btn" title="Search" class="help-viewer__search-btn">Search</button>
       </form>
+      <!-- language is detected from URL or contentFrame (no manual selector) -->
     </header>
     <iframe id="contentFrame" name="contentFrame" class="help-viewer__content" src="homepage.html"></iframe>
   </main>
+  <!-- Consolidated script: collapsing, language management, search/navigation -->
   <script>
-    // Collapsible left frame logic, button always visible on main frame
-    const leftFrame = document.getElementById('left-frame');
-    const collapseBtn = document.getElementById('collapse-btn');
-    let collapsed = false;
-    const setNavigationState = (isCollapsed) => {
-      leftFrame.classList.toggle('collapsed', isCollapsed);
-      collapseBtn.innerHTML = '&#9776;';
-      collapseBtn.title = isCollapsed ? 'Expand Menu' : 'Collapse Menu';
-      collapseBtn.setAttribute('aria-expanded', String(!isCollapsed));
-      leftFrame.setAttribute('aria-hidden', String(isCollapsed));
-    };
-    collapseBtn.addEventListener('click', () => {
-      collapsed = !collapsed;
-      setNavigationState(collapsed);
-    });
-    setNavigationState(collapsed);
-  </script>
-  <script>
-    const contentFrame = document.getElementById('contentFrame');
-    window.addEventListener('DOMContentLoaded', () => {
-      const params = new URLSearchParams(window.location.search);
-      const searchTerm = params.get('search');
-      const openPage = params.get('open');
+    (function() {
+      // Translations
+      const messages = {
+        en: {
+          search_placeholder: 'Search help...',
+          search_button: 'Search',
+          collapse_title: 'Collapse Menu',
+          expand_title: 'Expand Menu',
+          enter_search: 'Please enter a search term',
+          content_frame_not_found: 'Error: Content frame not found',
+          website_title: 'Open Nelson Website',
+          github_title: 'Open GitHub Project',
+          website_text: 'Website',
+          github_text: 'GitHub'
+        },
+        fr: {
+          search_placeholder: 'Rechercher...',
+          search_button: 'Rechercher',
+          collapse_title: 'Réduire le menu',
+          expand_title: 'Ouvrir le menu',
+          enter_search: 'Veuillez entrer un terme de recherche',
+          content_frame_not_found: 'Erreur : cadre de contenu introuvable',
+          website_title: 'Ouvrir le site web Nelson',
+          github_title: 'Ouvrir le projet GitHub',
+          website_text: 'Site web',
+          github_text: 'GitHub'
+        }
+      };
+
+      // Elements
+      const leftFrame = document.getElementById('left-frame');
+      const collapseBtn = document.getElementById('collapse-btn');
+      const contentFrame = document.getElementById('contentFrame');
       const searchInput = document.getElementById('search-input');
-      if (searchTerm) {
-        searchInput.value = searchTerm.trim();
+      const searchBtn = document.getElementById('search-btn');
+      const websiteBtn = document.getElementById('website-btn');
+      const githubBtn = document.getElementById('github-btn');
+      // no manual language selector: language derived from URL/content
+
+      // State
+      let collapsed = false;
+      let lang = 'en';
+
+      // Normalize various lang tokens to 'en' or 'fr'
+      function normalizeLangToken(raw) {
+        if (!raw) return null;
+        const v = String(raw).toLowerCase();
+        if (v.indexOf('fr') === 0 || v.indexOf('fr_') === 0 || v.indexOf('fr-') === 0) return 'fr';
+        return 'en';
       }
-      if (openPage) {
-        navigateToPage(openPage);
-      } else if (searchTerm) {
-        searchHelp(searchTerm);
+
+      // Try to extract lang param from an URL string (returns normalized token or null)
+      function extractLangFromUrlString(urlStr) {
+        if (!urlStr) return null;
+        // Try to parse as URL first (works for file:/// and http(s)://)
+        try {
+          const u = new URL(urlStr, window.location);
+          // 1) check explicit query param ?lang=
+          const p = u.searchParams.get('lang');
+          const normalizedParam = normalizeLangToken(p);
+          if (normalizedParam) return normalizedParam;
+          // 2) check pathname segments for en/en_US/fr/fr_FR
+          const path = (u.pathname || '').toLowerCase();
+          const pathMatch = path.match(/(?:\/|\\)(fr(?:[_-]fr)?|en(?:[_-]us)?)(?:\/|\\|$)/i);
+          if (pathMatch && pathMatch[1]) {
+            return normalizeLangToken(pathMatch[1]);
+          }
+        } catch (e) {
+          // fallthrough to manual checks below
+        }
+
+        // fallback: inspect raw string for ?lang= or path segment like /en_US/
+        try {
+          const qIndex = urlStr.indexOf('?');
+          if (qIndex !== -1) {
+            const qs = urlStr.substring(qIndex + 1);
+            const params = new URLSearchParams(qs);
+            const p = params.get('lang');
+            const normalized = normalizeLangToken(p);
+            if (normalized) return normalized;
+          }
+        } catch (e) {
+          // ignore
+        }
+
+        // raw path segment search (covers relative paths and file:// strings)
+        const rawMatch = urlStr.toLowerCase().match(/(?:\/|\\)(fr(?:[_-]fr)?|en(?:[_-]us)?)(?:\/|\\|$)/i);
+        if (rawMatch && rawMatch[1]) return normalizeLangToken(rawMatch[1]);
+
+        return null;
       }
+
+      // Helpers
+      function setNavigationState(isCollapsed) {
+        leftFrame.classList.toggle('collapsed', isCollapsed);
+        // keep icon unchanged but update title/aria
+        collapseBtn.setAttribute('aria-expanded', String(!isCollapsed));
+        leftFrame.setAttribute('aria-hidden', String(isCollapsed));
+        collapseBtn.title = isCollapsed ? messages[lang].expand_title : messages[lang].collapse_title;
+      }
+
+      function applyTranslations() {
+        const msg = messages[lang] || messages.en;
+        searchInput.placeholder = msg.search_placeholder;
+        searchBtn.textContent = msg.search_button;
+        collapseBtn.title = leftFrame.classList.contains('collapsed') ? msg.expand_title : msg.collapse_title;
+        collapseBtn.setAttribute('aria-label', msg.collapse_title);
+        searchInput.setAttribute('aria-label', msg.search_placeholder);
+        websiteBtn.title = msg.website_title;
+        githubBtn.title = msg.github_title;
+        websiteBtn.innerHTML = '🌐 ' + msg.website_text;
+        githubBtn.innerHTML = '📁 ' + msg.github_text;
+      }
+
+      // Read language from window URL, then contentFrame src, then localStorage, then default
+      function readInitialLanguage() {
+        const params = new URLSearchParams(window.location.search);
+        const p = params.get('lang');
+        const normalizedFromWindow = normalizeLangToken(p);
+        if (normalizedFromWindow) return normalizedFromWindow;
+
+        // try contentFrame src attribute
+        if (contentFrame) {
+          const fromSrc = extractLangFromUrlString(contentFrame.getAttribute('src') || '');
+          if (fromSrc) return fromSrc;
+        }
+
+        const stored = localStorage.getItem('nelson_lang');
+        const normalizedStored = normalizeLangToken(stored);
+        if (normalizedStored) return normalizedStored;
+        return 'en';
+      }
+
+      function persistLanguage(l) {
+        localStorage.setItem('nelson_lang', l);
+        // update URL without reloading
+        const url = new URL(window.location);
+        url.searchParams.set('lang', l === 'fr' ? 'fr_FR' : 'en_US');
+        window.history.replaceState({}, '', url);
+      }
+
+      function appendLangToUrl(urlStr) {
+        try {
+          const u = new URL(urlStr, window.location);
+          u.searchParams.set('lang', lang === 'fr' ? 'fr_FR' : 'en_US');
+          return u.toString();
+        } catch (e) {
+          // fallback for simple relative paths
+          return urlStr + (urlStr.includes('?') ? '&' : '?') + 'lang=' + encodeURIComponent(lang === 'fr' ? 'fr_FR' : 'en_US');
+        }
+      }
+
+      // Public actions
+      function searchHelp(term) {
+        const normalizedTerm = (term || '').trim();
+        if (!normalizedTerm) {
+          alert(messages[lang].enter_search);
+          return;
+        }
+        if (!contentFrame) {
+          alert(messages[lang].content_frame_not_found);
+          return;
+        }
+        const searchUrl = appendLangToUrl(`search_results.html?query=${encodeURIComponent(normalizedTerm)}`);
+        contentFrame.src = searchUrl;
+        const url = new URL(window.location);
+        if (url.searchParams.get('search') !== normalizedTerm) {
+          url.searchParams.set('search', normalizedTerm);
+          url.searchParams.set('lang', lang === 'fr' ? 'fr_FR' : 'en_US');
+          window.history.replaceState({}, '', url);
+        }
+      }
+
+      function navigateToPage(pagePath) {
+        if (contentFrame) {
+          contentFrame.src = appendLangToUrl(pagePath);
+        }
+      }
+
+      // Event bindings
+      collapseBtn.addEventListener('click', () => {
+        collapsed = !collapsed;
+        setNavigationState(collapsed);
+      });
+
+      websiteBtn.addEventListener('click', () => {
+        window.open('https://nelson-lang.github.io/nelson-website/', '_blank');
+      });
+
+      githubBtn.addEventListener('click', () => {
+        window.open('https://github.com/nelson-lang/nelson', '_blank');
+      });
+
+      // update language when contentFrame navigates to a page that includes lang param
+      if (contentFrame) {
+        contentFrame.addEventListener('load', () => {
+          try {
+            // attempt to read the loaded document's URL (may be relative)
+            const loadedHref = contentFrame.contentWindow && contentFrame.contentWindow.location && contentFrame.contentWindow.location.href;
+            const derived = extractLangFromUrlString(loadedHref || contentFrame.getAttribute('src') || '');
+            if (derived && derived !== lang) {
+              lang = derived;
+              applyTranslations();
+              persistLanguage(lang);
+            }
+          } catch (e) {
+            // cross-origin or other issue: fallback to checking src attribute
+            const derived = extractLangFromUrlString(contentFrame.getAttribute('src') || '');
+            if (derived && derived !== lang) {
+              lang = derived;
+              applyTranslations();
+              persistLanguage(lang);
+            }
+          }
+        });
+      }
+
       window.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
           e.preventDefault();
           searchInput.focus();
         }
       });
-    });
-    function searchHelp(term) {
-      const normalizedTerm = (term || '').trim();
-      if (!normalizedTerm) {
-        alert('Please enter a search term');
-        return;
-      }
-      if (!contentFrame) {
-        alert('Error: Content frame not found');
-        return;
-      }
-      const searchUrl = `search_results.html?query=${encodeURIComponent(normalizedTerm)}`;
-      contentFrame.src = searchUrl;
-      const url = new URL(window.location);
-      if (url.searchParams.get('search') !== normalizedTerm) {
-        url.searchParams.set('search', normalizedTerm);
-        window.history.replaceState({}, '', url);
-      }
-    }
-    function navigateToPage(pagePath) {
-      if (contentFrame) {
-        contentFrame.src = pagePath;
-      }
-    }
-  </script>
-</body>
-</html>
-    </div>
-  </div>
-  <script>
-    // Collapsible left frame logic, button always visible on main frame
-    const leftFrame = document.getElementById('left-frame');
-    const collapseBtn = document.getElementById('collapse-btn');
-    let collapsed = false;
-    const setNavigationState = (isCollapsed) => {
-      leftFrame.classList.toggle('collapsed', isCollapsed);
-      collapseBtn.innerHTML = '&#9776;';
-      collapseBtn.title = isCollapsed ? 'Expand Menu' : 'Collapse Menu';
-      collapseBtn.setAttribute('aria-expanded', String(!isCollapsed));
-      leftFrame.setAttribute('aria-hidden', String(isCollapsed));
-    };
-    collapseBtn.addEventListener('click', () => {
-      collapsed = !collapsed;
-      setNavigationState(collapsed);
-    });
-    setNavigationState(collapsed);
-  </script>
-  <script>
-    const contentFrame = document.getElementById('contentFrame');
-    window.addEventListener('DOMContentLoaded', () => {
-      const params = new URLSearchParams(window.location.search);
-      const searchTerm = params.get('search');
-      const openPage = params.get('open');
-      const searchInput = document.getElementById('search-input');
-      if (searchTerm) {
-        searchInput.value = searchTerm.trim();
-      }
-      if (openPage) {
-        navigateToPage(openPage);
-      } else if (searchTerm) {
-        searchHelp(searchTerm);
-      }
-      window.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
-          e.preventDefault();
-          searchInput.focus();
+
+      // Initialization on DOMContentLoaded
+      window.addEventListener('DOMContentLoaded', () => {
+        lang = readInitialLanguage();
+        applyTranslations();
+        setNavigationState(collapsed);
+
+        // populate search input from url if present
+        const params = new URLSearchParams(window.location.search);
+        const searchTerm = params.get('search');
+        const openPage = params.get('open');
+        if (searchTerm) {
+          searchInput.value = searchTerm.trim();
+        }
+        if (openPage) {
+          navigateToPage(openPage);
+        } else if (searchTerm) {
+          searchHelp(searchTerm);
         }
       });
-    });
-    function searchHelp(term) {
-      const normalizedTerm = (term || '').trim();
-      if (!normalizedTerm) {
-        alert('Please enter a search term');
-        return;
-      }
-      if (!contentFrame) {
-        alert('Error: Content frame not found');
-        return;
-      }
-      const searchUrl = `search_results.html?query=${encodeURIComponent(normalizedTerm)}`;
-      contentFrame.src = searchUrl;
-      const url = new URL(window.location);
-      if (url.searchParams.get('search') !== normalizedTerm) {
-        url.searchParams.set('search', normalizedTerm);
-        window.history.replaceState({}, '', url);
-      }
-    }
-    function navigateToPage(pagePath) {
-      if (contentFrame) {
-        contentFrame.src = pagePath;
-      }
-    }
+
+      // Expose for inline onsubmit handlers
+      window.searchHelp = searchHelp;
+      window.navigateToPage = navigateToPage;
+    })();
   </script>
 </body>
 </html>

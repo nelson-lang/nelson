@@ -30,6 +30,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[X = [3*pi, 2*pi, pi, 0];
 R = acsch(X)]]></example_item_data>
             </example_item>

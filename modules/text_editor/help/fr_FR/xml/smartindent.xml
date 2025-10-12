@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>smartindent</keyword>
+    <short_description
+  >Indentation intelligente d'un fichier Nelson</short_description>
+    <syntax>
+        <syntax_item>smartindent(filename)</syntax_item>
+        <syntax_item>smartindent(filename, indentsize)</syntax_item>
+        <syntax_item>smartindent(filename, indentsize, dobackup)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>filename</param_name>
+            <param_description
+      >une chaîne : nom du fichier à indenter.</param_description>
+        </param_input_item>
+                <param_input_item>
+                        <param_name>indentsize</param_name>
+                        <param_description
+      >un entier &gt; 0. par défaut : 2</param_description>
+                </param_input_item>
+        <param_input_item>
+            <param_name>dobackup</param_name>
+            <param_description>un booléen : false par défaut</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <b
+    >smartindent</b> indente le code pour faciliter la lecture d'instructions telles que les boucles while.</description>
+        <used_function />
+        <bibliography />
+        <see_also>
+            <see_also_item>
+                <link linkend="${text_editor}edit">edit</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

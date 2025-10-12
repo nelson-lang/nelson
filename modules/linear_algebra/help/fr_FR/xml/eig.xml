@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>eig</keyword>
+    <short_description>Valeurs propres et vecteurs propres.</short_description>
+    <syntax>
+        <syntax_item>e = eig(A)</syntax_item>
+        <syntax_item>[V, D] = eig(A)</syntax_item>
+        <syntax_item>e = eig(A, balanceOption)</syntax_item>
+        <syntax_item>[V, D] = eig(A, balanceOption)</syntax_item>
+        <syntax_item>e = eig(A, B)</syntax_item>
+        <syntax_item>[V, D] = eig(A, B)</syntax_item>
+        <syntax_item>e = eig(A, B, balanceOption)</syntax_item>
+        <syntax_item>[V, D] = eig(A, B, balanceOption)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
+      >a numeric value: scalar or square matrix (double or single, complex or real)</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>B</param_name>
+            <param_description
+      >a numeric value: scalar or square matrix (double or single, complex or real)</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>balanceOption</param_name>
+            <param_description
+      >a string: 'nobalance' (disable preliminary balancing) or 'balance' (default).</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>e</param_name>
+            <param_description
+      >real or complex number (double or single), Eigenvalues (returned as column vector).</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>V</param_name>
+            <param_description
+      >real or complex number (double or single), square right eigenvectors.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>D</param_name>
+            <param_description
+      >real or complex number (double or single), Eigenvalues (returned as diagonal matrix).</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>eig(A)</b> retourne les valeurs propres et vecteurs propres.</p>
+            <p>
+                <b
+      >eig(A, B)</b> retourne les valeurs propres généralisées et vecteurs propres.</p>
+            </description>
+            <used_function />
+            <bibliography
+  >[1]  Anderson, E., Z. Bai, C. Bischof, S. Blackford, J. Demmel, J. Dongarra, J. Du Croz, A. Greenbaum, S. Hammarling, A. McKenney, and D. Sorensen, LAPACK User's Guide (http://www.netlib.org/lapack/lug/ lapack_lug.html), Third Edition, SIAM, Philadelphia, 1999.</bibliography>
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [10 -20 40; -50 20 0; 10 0 30]
+e = eig(A)
+[V, D] = eig(A)
+]]></example_item_data>
+                </example_item>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [1/sqrt(2) 0; 0 1];
+B = [0 1; -1/sqrt(2) 0];
+[V, D] = eig(A, B)
+]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${linear_algebra}svd">svd</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${linear_algebra}schur">schur</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>version initiale</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

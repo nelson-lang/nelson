@@ -41,6 +41,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[s = second(738427.656845093)
 s = second("2021/09/28 15:45:51", 'YYYY/M/DD HH:MM:SS')
 ]]></example_item_data>

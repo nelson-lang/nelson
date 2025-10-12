@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>ls</keyword>
+    <short_description>Liste le contenu d'un répertoire.</short_description>
+    <syntax>
+        <syntax_item>ls</syntax_item>
+        <syntax_item>ls(name)</syntax_item>
+        <syntax_item>res = ls()</syntax_item>
+        <syntax_item>res = ls(options)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>name</param_name>
+        <param_description
+      >a string: nom de fichier ou de répertoire.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>options</param_name>
+            <param_description>varie selon le système.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+        <param_name>res</param_name>
+        <param_description
+      >Sur Windows, res est un tableau m-by-n de caractères. Sur Unix, c'est un vecteur de noms séparés par des tabulations et espaces.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p><b
+      >ls</b> appelle la commande de liste de répertoire native du système d'exploitation - les options disponibles varient selon le système.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[res = ls(nelsonroot())
+if ~ispc()
+  res = ls(nelsonroot(), '-l')
+end]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${files_folders_functions}dir">dir</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${files_folders_functions}isdir">isdir</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${files_folders_functions}isfile">isfile</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

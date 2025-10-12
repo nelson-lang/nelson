@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>hist</keyword>
+    <short_description>Tracé d'histogramme.</short_description>
+    <syntax>
+        <syntax_item>hist(x)</syntax_item>
+        <syntax_item>hist(x, nbins)</syntax_item>
+        <syntax_item>hist(ax, ...)</syntax_item>
+        <syntax_item>counts = hist(...)</syntax_item>
+        <syntax_item>[counts, centers] = hist(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>x</param_name>
+            <param_description>vecteur ou matrice</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>nbins</param_name>
+            <param_description>vecteur.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>ax</param_name>
+            <param_description>Objet axes.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>counts</param_name>
+            <param_description
+      >Nombre d'éléments dans chaque intervalle : vecteur ligne.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>centers</param_name>
+            <param_description
+      >Centres des intervalles : vecteur.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >Un histogramme est une représentation graphique qui illustre la distribution des valeurs d'un ensemble de données.</p>
+        <p>Lorsque vous utilisez la fonction <b
+      >hist</b>, elle organise les éléments du vecteur <b
+      >Y</b> en 10 intervalles également espacés et fournit le nombre d'éléments dans chaque intervalle sous forme de vecteur ligne.</p>
+        <p>
+            <b>hist(Y, x)</b> avec un vecteur <b
+      >x</b>, la fonction retourne la distribution des valeurs de <b
+      >Y</b> parmi des intervalles déterminés par la longueur de <b
+      >x</b>, avec des centres spécifiés par les valeurs de <b>x</b>.</p>
+        <p>Par exemple, si <b>x</b> est un vecteur de 5 éléments, <b
+      >hist</b> classera les éléments de <b
+      >Y</b> dans cinq intervalles, chacun centré sur l'axe des x aux valeurs spécifiées dans <b
+      >x</b>.</p>
+        <p>Lorsque vous utilisez <b
+      >hist(...)</b> sans spécifier d'argument de sortie, cela génère un tracé d'histogramme. Les intervalles sont répartis le long de l'axe des x entre les valeurs minimale et maximale trouvées dans le vecteur d'entrée <b
+      >Y</b>.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+for i = 1:4
+  subplot(2, 2, i)
+  hist(randn(1000, 1), 50)
+end
+]]></example_item_data>
+            <example_item_img
+        src="../../images/hist_1.svg"
+        align="middle"
+        generate="true"
+      />
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${graphics}bar">bar</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${graphics}patch">patch</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

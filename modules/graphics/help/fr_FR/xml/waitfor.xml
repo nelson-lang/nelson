@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>waitfor</keyword>
+    <short_description>Attendre une condition.</short_description>
+    <syntax>
+        <syntax_item>waitfor(obj)</syntax_item>
+        <syntax_item>waitfor(obj, propertyName)</syntax_item>
+        <syntax_item>waitfor(obj, propertyName, propertyValue)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>obj</param_name>
+            <param_description
+      >Tout objet graphique scalaire.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyName</param_name>
+            <param_description
+      >Nom de la propriété : vecteur de caractères ou chaîne scalaire.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyValue</param_name>
+            <param_description
+      >Valeur de la propriété : valeur valide associée au nom de la propriété.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b
+      >waitfor(obj)</b> met en pause l'exécution des instructions jusqu'à ce que l'objet spécifié soit fermé (ou supprimé). Une fois que l'objet n'est plus présent, <b
+      >waitfor</b> retourne, permettant à l'exécution de continuer. Si l'objet n'existe pas au moment de l'appel, <b
+      >waitfor</b> retourne immédiatement.</p>
+            <p>
+                <b
+      >waitfor(obj, propertyName)</b> interrompt l'exécution jusqu'à ce que la propriété spécifiée de l'objet change ou que l'objet soit fermé. Par exemple, <b
+      >waitfor(hFig, 'UserData')</b> met en pause l'exécution jusqu'à ce que la propriété 'UserData' de <b
+      >hFig</b> change. Si le nom de la propriété spécifiée est invalide, une erreur interrompt l'exécution.</p>
+                <p>
+                    <b
+      >waitfor(obj, propertyName, propertyValue)</b> met en pause l'exécution jusqu'à ce que la propriété spécifiée de l'objet change pour prendre la valeur donnée. Si la propriété est déjà égale à propertyValue lorsque <b
+      >waitfor</b> est appelé, il retourne immédiatement, permettant à l'exécution de reprendre.</p>
+                </description>
+                <used_function />
+                <bibliography />
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+      ><![CDATA[h = figure()
+waitfor(h);
+% fermer la figure pour continuer
+]]></example_item_data>
+                    </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+      ><![CDATA[hFig = figure('Position', [300, 300, 300, 150]);
+hButton = uicontrol('Style', 'togglebutton', 'String', 'Toggle Me', 'Position', [100, 50, 100, 40], 'Value', 0);
+hButton.Callback = @(src, event) set(src, 'Value', 1);
+waitfor(hButton, 'Value');
+% appuyer sur le bouton bascule
+]]></example_item_data>
+                    </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[hFig = figure('Position', [300, 300, 300, 150]);
+hButton = uicontrol('Style', 'togglebutton', 'String', 'Toggle Me', 'Position', [100, 50, 100, 40], 'Value', 0);
+hButton.Callback = @(src, event) set(src, 'Value', 1);
+waitfor(hButton, 'Value', 1);
+% appuyer sur le bouton bascule
+]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link linkend="${graphics}figure">figure</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link
+        linkend="${graphics}waitforbuttonpress"
+      >waitforbuttonpress</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link linkend="${core}pause">pause</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.7.0</history_version>
+                        <history_description
+      >Version initiale</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

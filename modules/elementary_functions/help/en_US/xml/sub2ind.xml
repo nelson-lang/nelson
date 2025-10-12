@@ -45,6 +45,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[row = [2 3 4 2];
 col = [2 2 2 3];
 sz = [3 3];

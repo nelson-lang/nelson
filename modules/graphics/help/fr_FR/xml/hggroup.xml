@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>hggroup</keyword>
+    <short_description>Créer un objet groupe.</short_description>
+    <syntax>
+        <syntax_item>h = hggroup()</syntax_item>
+        <syntax_item
+    >h = hggroup(..., propertyName, propertyValue, ...)</syntax_item>
+        <syntax_item>h = hggroup(ax, ...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>ax</param_name>
+            <param_description
+      >Objet graphique : axes ou hggroup.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyName</param_name>
+            <param_description
+      >Une chaîne scalaire ou un vecteur ligne de caractères.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyValue</param_name>
+            <param_description>Une valeur.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>p</param_name>
+            <param_description
+      >Un objet graphique de type : hggroup</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >hggroup</b> crée un objet hggroup comme enfant des axes courants et retourne son handle, h.</p>
+        <p>L'objet <b
+      >hggroup</b> est utilisé pour regrouper des objets graphiques, tels que des lignes, des patches et du texte, afin qu'ils puissent être manipulés ensemble.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[figure();
+ax = gca();
+g = hggroup();
+h = text(0.1, 0.1, 'tttt', 'Parent', g);
+h.Parent
+h.Visible
+h.Visible = 'off';
+]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${graphics}gca">gca</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

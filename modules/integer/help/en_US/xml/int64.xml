@@ -41,6 +41,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = [1 12 -120 127 -9e24 9e23]
 B = int64(A)
 R1 = int64([72057594035891654 81997179153022975])

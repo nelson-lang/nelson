@@ -42,6 +42,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[t = 0:1/100:1;
 B = bernsteinMatrix(3, t);
 P = [0 0 0; 1 2 1; 1 -2 3; 5 2 4];
@@ -49,7 +50,7 @@ bezierCurve = B * P;
 plot3(bezierCurve(:,1), bezierCurve(:,2), bezierCurve(:,3))
 ]]></example_item_data>
                 <example_item_img
-        src="../images/bernsteinMatrix.svg"
+        src="../../images/bernsteinMatrix.svg"
         align="middle"
         generate="true"
       />

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>history</keyword>
+    <short_description>gestionnaire d'historique.</short_description>
+    <syntax>
+        <syntax_item>history()</syntax_item>
+        <syntax_item>c = history()</syntax_item>
+        <syntax_item>s = history('size')</syntax_item>
+        <syntax_item>f = history('filename')</syntax_item>
+        <syntax_item>l = history('enable_save')</syntax_item>
+        <syntax_item>c = history('get')</syntax_item>
+        <syntax_item>history('display')</syntax_item>
+        <syntax_item>history('save')</syntax_item>
+        <syntax_item>history('load')</syntax_item>
+        <syntax_item>history('clear')</syntax_item>
+        <syntax_item>history('duplicated')</syntax_item>
+        <syntax_item>history('saveafter')</syntax_item>
+        <syntax_item>history('removeexit')</syntax_item>
+        <syntax_item>history('size', new_size)</syntax_item>
+        <syntax_item>history('enable_save', true_false)</syntax_item>
+        <syntax_item>history('delete', lines)</syntax_item>
+        <syntax_item>history('append', str)</syntax_item>
+        <syntax_item>history('filename', name)</syntax_item>
+        <syntax_item>history('load', filename_history)</syntax_item>
+        <syntax_item>history('save', filename_history)</syntax_item>
+        <syntax_item>history('duplicated', true_false)</syntax_item>
+        <syntax_item>history('removeexit', true_false)</syntax_item>
+        <syntax_item>history('get', lines)</syntax_item>
+        <syntax_item>history('saveafter', nb_commands)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>new_size</param_name>
+            <param_description
+      >un entier : nouvelle taille maximale de l'historique.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>true_false</param_name>
+            <param_description>un booléen.</param_description>
+        </param_input_item>
+        <param_input_item>
+                        <param_name>lines</param_name>
+                        <param_description
+      >un entier ou un vecteur de taille 1x2.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>str</param_name>
+            <param_description>une chaîne.</param_description>
+        </param_input_item>
+        <param_input_item>
+                        <param_name>name</param_name>
+                        <param_description
+      >une chaîne : nouveau nom de fichier par défaut pour l'historique</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>filename_history</param_name>
+            <param_description>une chaîne : nom de fichier</param_description>
+        </param_input_item>
+        <param_input_item>
+                        <param_name>nb_commands</param_name>
+                        <param_description
+      >un entier : nombre de commandes.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>c</param_name>
+            <param_description>un tableau (cell) de chaînes.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>l</param_name>
+            <param_description>un booléen.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>s</param_name>
+            <param_description>un entier.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>f</param_name>
+            <param_description>une chaîne.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p><b>history()</b> affiche l'historique actuel de Nelson.</p>
+        <p><b
+      >c = history()</b> renvoie l'historique actuel de Nelson sous forme d'un tableau (cell) de chaînes.</p>
+        <p><b
+      >s = history('size')</b> renvoie la taille maximale de l'historique.</p>
+        <p><b
+      >f = history('filename')</b> renvoie le nom de fichier de l'historique.</p>
+        <p><b
+      >l = history('enable_save')</b> renvoie l'état du gestionnaire d'historique.</p>
+        <p><b
+      >c = history('get')</b> renvoie l'historique actuel de Nelson sous forme d'un tableau (cell) de chaînes.</p>
+        <p><b>history('display')</b> affiche l'historique actuel de Nelson.</p>
+        <p><b
+      >history('save')</b> enregistre le fichier d'historique courant.</p>
+        <p><b>history('load')</b> charge le fichier d'historique courant.</p>
+        <p><b>history('clear')</b> efface l'historique.</p>
+        <p><b
+      >history('duplicated')</b> obtient l'état concernant la sauvegarde des commandes consécutives dupliquées.</p>
+        <p><b
+      >history('saveafter')</b> obtient l'état concernant la sauvegarde de l'historique après N commandes.</p>
+        <p><b
+      >history('removeexit')</b> obtient l'état concernant la non-enregistrement des sorties dans le fichier d'historique.</p>
+        <p><b
+      >history('size', new_size)</b> définit la taille maximale de l'historique avec <b
+      >new_size</b>.</p>
+        <p><b
+      >history('enable_save', true_false)</b> définit l'état du gestionnaire d'historique : false pour 'off', true pour 'on'.</p>
+        <p><b
+      >history('delete', lines)</b> supprime des lignes par index : un scalaire ou un vecteur 1x2.</p>
+        <p><b>history('append', str)</b> ajoute une commande à l'historique.</p>
+        <p><b
+      >history('filename', name)</b> définit le nom de fichier de l'historique.</p>
+        <p><b
+      >history('load', filename_history)</b> charge un fichier d'historique.</p>
+        <p><b
+      >history('save', filename_history)</b> enregistre un fichier d'historique.</p>
+        <p><b
+      >history('duplicated', true_false)</b> définit l'état concernant les commandes consécutives dupliquées : true supprime les doublons.</p>
+        <p><b
+      >history('removeexit', true_false)</b> définit l'état concernant la non-enregistrement des sorties dans le fichier d'historique.</p>
+        <p><b
+      >history('get', lines)</b> renvoie l'historique actuel de Nelson sous forme d'un tableau (cell) de chaînes par index : un scalaire ou un vecteur 1x2.</p>
+        <p><b
+      >history('saveafter', nb_commands)</b> enregistre le fichier d'historique après que <b
+      >nb_commands</b> instructions aient été ajoutées au fichier.</p>
+        <p><b
+      >Astuces</b> : vous pouvez facilement partager votre fichier d'historique dans le cloud en ajoutant quelques lignes de code dans votre fichier de démarrage utilisateur.</p>
+        <p
+    >Si Nelson est lancé avec l'option '--nouserstartup', le fichier d'historique ne sera pas chargé au démarrage et ne sera pas enregistré à la fermeture.</p>
+                                                                                                        </description>
+                                                                                                        <used_function
+  />
+                                                                                                        <bibliography
+  />
+                                                                                                        <examples
+  >
+                                                                                                            <example_item
+    >
+                                                                                                                <example_item_type
+      >nelson</example_item_type>
+                                                                                                                <example_item_description
+      >Example to share your history file in OneDrive cloud</example_item_description>
+                                                                                                                <example_item_data
+        runnable="cli"
+      ><![CDATA[OneDrivePath = getenv('OneDrive');
+if (strcmp(OneDrivePath, '') == false)
+  NelsonOneDrivePath = [OneDrivePath, '/Nelson'];
+  mkdir(NelsonOneDrivePath);
+  NelsonOneDrivePathFilename = [NelsonOneDrivePath, '/', 'Nelson.history'];
+ history('filename', NelsonOneDrivePathFilename);
+  history('load', NelsonOneDrivePathFilename);
+end]]></example_item_data>
+                                                                                                            </example_item>
+                                                                                                            <example_item
+    >
+                                                                                                                <example_item_type
+      >nelson</example_item_type>
+                                                                                                                <example_item_description
+      />
+                                                                                                                <example_item_data
+        runnable="cli"
+      ><![CDATA[history()
+c = history()]]></example_item_data>
+                                                                                                            </example_item>
+                                                                                                        </examples>
+                                                                                                        <see_also
+  >
+                                                                                                            <see_also_item
+    >
+                                                                                                                <link
+        linkend="${stream_manager}diary"
+      >diary</link>
+                                                                                                            </see_also_item>
+                                                                                                        </see_also>
+                                                                                                        <history
+  >
+                                                                                                            <history_item
+    >
+                                                                                                                <history_version
+      >1.0.0</history_version>
+                                                                                                                <history_description
+      >version initiale</history_description>
+                                                                                                            </history_item>
+                                                                                                        </history>
+                                                                                                        <authors
+  >
+                                                                                                            <author_item
+    >Allan CORNET</author_item>
+                                                                                                        </authors>
+                                                                                                    </xmldoc>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>sphere</keyword>
+    <short_description>Créer une sphère.</short_description>
+    <syntax>
+        <syntax_item>[X, Y, Z] = sphere()</syntax_item>
+        <syntax_item>[X, Y, Z] = sphere(n)</syntax_item>
+        <syntax_item>sphere()</syntax_item>
+        <syntax_item>sphere(n)</syntax_item>
+        <syntax_item>sphere(ax, n)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>n</param_name>
+        <param_description
+      >Nombre de points : entier positif.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>ax</param_name>
+            <param_description>Axes cibles : objet 'axes'.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+        <param_name>X, Y, Z</param_name>
+        <param_description
+      >Coordonnées x, y et z d'une sphère sans l'afficher.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>sphere</b> crée une sphère et l'affiche.</p>
+    </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+colormap(gray);
+subplot(1, 3, 1);
+ax1 = gca();
+sphere(ax1);
+axis equal
+title(_('20-by-20 faces (Default)'));
+subplot(1, 3, 2);
+ax2 = gca();
+sphere(ax2, 50);
+axis equal
+title(_('50-by-50 faces'));
+subplot(1, 3, 3);
+ax3 = gca();
+sphere(ax3,100);
+axis equal
+title(_('100-by-100 faces'));]]></example_item_data>
+                <example_item_img
+        src="../images/sphere.svg"
+        align="middle"
+        generate="true"
+      />
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${graphics}cylinder">cylinder</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${graphics}surf">surf</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

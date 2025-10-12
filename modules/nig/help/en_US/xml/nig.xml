@@ -30,6 +30,7 @@
             <example_item_description
       >NIG_FUNCTION description</example_item_description>
             <example_item_data
+        runnable="cli"
       ><![CDATA[% Nelson Interface Generator (NIG) example
 
 NIG_FUNCTION = struct();

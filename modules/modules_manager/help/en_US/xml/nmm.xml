@@ -109,6 +109,7 @@
                                                 <example_item_description
       >Deploy module_skeleton_basic template</example_item_description>
                                                 <example_item_data
+        runnable="cli"
       ><![CDATA[if ~ismodule('module_skeleton_basic')
     nmm('install', 'https://github.com/nelson-lang/module_skeleton_basic.git#v1.0.0');
     macro_sum(3, 4)
@@ -121,6 +122,7 @@ end]]></example_item_data>
                                                 <example_item_description
       >Package easily a module</example_item_description>
                                                 <example_item_data
+        runnable="cli"
       ><![CDATA[if ~ismodule('module_skeleton_basic')
     nmm('install', 'https://github.com/nelson-lang/module_skeleton_basic.git#v1.0.0');
 end

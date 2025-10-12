@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>cd</keyword>
+    <short_description
+  >Change le répertoire courant de Nelson.</short_description>
+    <syntax>
+        <syntax_item>cd(dirname)</syntax_item>
+        <syntax_item>cd dirname</syntax_item>
+        <syntax_item>previous_path = cd(dirname)</syntax_item>
+        <syntax_item>cd ..</syntax_item>
+        <syntax_item>cd</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>dirname</param_name>
+        <param_description
+      >a string: nom du répertoire où se déplacer.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>previous_path</param_name>
+            <param_description
+      >a string: répertoire précédent.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>Change le répertoire de travail courant vers <b>dirname</b>.</p>
+        <p><b
+      >a = cd()</b> sans argument renvoie le répertoire de travail courant.</p>
+        <p><b
+      >cd()</b> sans argument affiche le répertoire de travail courant.</p>
+                <p />
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[previous = cd(tempdir())
+cd
+cd ..
+]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${files_folders_functions}mkdir">mkdir</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${files_folders_functions}pwd">pwd</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>initial version</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

@@ -69,6 +69,7 @@ waitfor(hButton, 'Value');
                         <example_item_type>nelson</example_item_type>
                         <example_item_description />
                         <example_item_data
+        runnable="adv-cli"
       ><![CDATA[hFig = figure('Position', [300, 300, 300, 150]);
 hButton = uicontrol('Style', 'togglebutton', 'String', 'Toggle Me', 'Position', [100, 50, 100, 40], 'Value', 0);
 hButton.Callback = @(src, event) set(src, 'Value', 1);

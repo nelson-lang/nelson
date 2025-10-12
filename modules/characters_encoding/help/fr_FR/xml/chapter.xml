@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>characters_encoding</module_name>
+    <chapter>Encodage des caractères</chapter>
+    <chapter_description>
+       <p
+    >Le module d'encodage des caractères fournit des outils pour convertir entre les représentations d'octets natifs et les caractères Unicode.</p>
+       <p
+    >Il permet aux scripts d'interpréter et de manipuler correctement le texte dans divers encodages, assurant la compatibilité entre différentes plateformes et locales.</p>
+       <p
+    >Le module inclut également des fonctionnalités pour détecter les jeux de caractères qui correspondent à une entrée donnée, facilitant le traitement fiable du texte et l'internationalisation.</p>
+    </chapter_description>
+</xmldoc>

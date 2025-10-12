@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>padecoef</keyword>
+    <short_description
+  >Calcule l'approximation de Padé des délais temporels.</short_description>
+    <syntax>
+        <syntax_item>[numerator, denominator] = padecoef(T, N)</syntax_item>
+        <syntax_item>[numerator, denominator] = padecoef(T)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>T</param_name>
+            <param_description
+      > Délai temporel : un scalaire réel positif.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>N</param_name>
+            <param_description
+      >Ordre de l'approximation : un scalaire réel positif (par défaut N = 1).</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>numerator</param_name>
+            <param_description
+      >polynômes d'ordre N : vecteur ligne.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>denominator</param_name>
+            <param_description
+      >polynômes d'ordre N : vecteur ligne.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+  <p>
+            <b
+      >padecoef(T, N)</b> calcule l'approximation de Padé d'ordre N pour le système à retard en temps continu représenté par le terme exponentiel exp(-T*s) et le renvoie sous la forme d'une fonction de transfert.</p>
+  <p
+    >Voir http://en.wikipedia.org/wiki/Pad%C3%A9_approximant et Golub &amp; Van Loan, Matrix Computations pour les détails.</p>
+    </description>
+        <bibliography
+  >http://en.wikipedia.org/wiki/Pad%C3%A9_approximant et  Golub and Van Loan, Matrix Computations, Johns Hopkins University Press (Third edition, page 562). </bibliography>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[T = 2; N = 4;
+[numerator, denominator] = padecoef(T, N)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${control_system}tf">tf</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

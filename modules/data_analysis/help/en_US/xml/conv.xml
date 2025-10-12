@@ -45,6 +45,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[U = [-1 2 3 -2 0 1 2];
 V = [2 4 -1 1];
 R = conv(U, V, 'same')]]></example_item_data>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>audiowrite</keyword>
+    <short_description>Écrit un fichier audio.</short_description>
+    <syntax>
+        <syntax_item>audiowrite(filename, y, fs)</syntax_item>
+        <syntax_item
+    >audiowrite(filename, y, fs, fieldname, fieldvalue, ...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>filename</param_name>
+            <param_description
+      >une chaîne : nom de fichier à créer.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>y</param_name>
+            <param_description>une matrice : données audio.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>fs</param_name>
+            <param_description
+      >une valeur entière : taux d'échantillonnage.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>fieldname</param_name>
+            <param_description
+      >une chaîne : 'BitsPerSample', 'BitRate', 'Quality', 'Title', 'Artist' ou 'Comment' .</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>fieldvalue</param_name>
+            <param_description
+      >valeur associée au champ spécifié.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b>audiowrite</b> écrit un fichier audio.</p>
+            <p
+    >Plus de 26 formats de fichiers pris en charge. Voir la fonction <b
+      >audiosupportedformats</b> pour avoir tous les formats pris en charge.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[wav_audio = [modulepath('audio'), '/examples/haha.wav'];
+[y, fs] = audioread(wav_audio);
+dest_ogg = [tempdir(), 'haha.ogg'];
+audiowrite(dest_ogg, y, fs);
+dest_flac = [tempdir(), 'haha.flac'];
+audiowrite(dest_flac, y, fs);
+dest_mp3 = [tempdir(), 'haha.mp3'];
+audiowrite(dest_mp3, y, fs);
+dest_caf = [tempdir(), 'haha.caf'];
+audiowrite(dest_caf, y, fs);
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${audio}audioplayer">audioplayer</link>
+            </see_also_item>
+            <see_also_item>
+                <link
+        linkend="${audio}audiosupportedformats"
+      >audiosupportedformats</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

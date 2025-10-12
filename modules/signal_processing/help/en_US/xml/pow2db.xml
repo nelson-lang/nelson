@@ -31,6 +31,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[DB = pow2db([1, 0.01])]]></example_item_data>
             </example_item>
         </examples>

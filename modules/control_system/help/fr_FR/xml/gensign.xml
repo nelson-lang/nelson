@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>gensig</keyword>
+    <short_description
+  >Génère des signaux de test (carré, impulsion, bruit, ...).</short_description>
+    <syntax>
+        <syntax_item>[u, t] = gensig(type, tau)</syntax_item>
+        <syntax_item>[u, t] = gensig(type, tau, Tf)</syntax_item>
+        <syntax_item>[u, t] = gensig(type, tau, Tf, Ts)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>type</param_name>
+            <param_description
+      >Type de signal périodique : 'cos', 'tan', 'sin', 'pulse', 'square'</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>tau</param_name>
+            <param_description>Periode : scalaire positif</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Tf</param_name>
+            <param_description
+      >Durée : scalaire positif ou 5*tau (par défaut)</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Ts</param_name>
+            <param_description
+      >scalaire positif ou tau/64 (par défaut)</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>u</param_name>
+            <param_description
+      >Signal généré : vecteur colonne.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>t</param_name>
+            <param_description
+      >Vecteur temps : vecteur colonne.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >Génère des signaux de test périodiques ou non (par ex. carré, impulsion, bruit) pour la simulation de réponses temporelles.</p>
+    </description>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+tau = 3;
+Tf = 6;
+Ts = 0.1;
+
+subplot(3, 2, 1)
+[u,t] = gensig("sine",tau,Tf,Ts);
+plot(t, u)
+title('sine')
+
+subplot(3, 2, 2)
+[u,t] = gensig("square",tau,Tf,Ts);
+plot(t, u)
+title('square')
+
+subplot(3, 2, 3)
+[u,t] = gensig("cos",tau,Tf,Ts);
+plot(t, u)
+title('cosine')
+
+subplot(3, 2, 4)
+[u,t] = gensig("sin",tau,Tf,Ts);
+plot(t, u)
+title('sine')
+
+subplot(3, 2, 5)
+[u,t] = gensig("tan",tau,Tf,Ts);
+plot(t, u)
+title('tan')
+]]></example_item_data>
+            <example_item_img
+        src="../images/gensig.svg"
+        align="middle"
+        generate="true"
+      />
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${control_system}lsim">lsim</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

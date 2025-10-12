@@ -46,6 +46,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[a = builtin('cos', 0)
 b = builtin(str2func('cos'), 0)]]></example_item_data>
             </example_item>

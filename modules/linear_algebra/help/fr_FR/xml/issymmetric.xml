@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>issymmetric</keyword>
+    <short_description>Teste si une matrice est symétrique.</short_description>
+    <syntax>
+        <syntax_item>res = issymmetric(x)</syntax_item>
+        <syntax_item>res = issymmetric(x, 'skew')</syntax_item>
+        <syntax_item>res = issymmetric(x, 'nonskew')</syntax_item>
+        <syntax_item>res = issymmetric(x, tol)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>x</param_name>
+        <param_description
+      >une valeur numérique : scalaire ou matrice (double ou simple précision, entiers, logique).</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>tol</param_name>
+        <param_description
+      >une valeur numérique : finie et &gt;= 0.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>res</param_name>
+            <param_description>un booléen.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+    <p>
+        <b>issymmetric(x)</b> teste si la matrice est symétrique.</p>
+        <p
+    >Avec l'argument 'nonskew', pour une matrice carrée x, x est symétrique si elle est égale à sa transposée non conjuguée, x = x.'</p>
+        <p
+    >Avec l'argument 'skew', pour une matrice carrée x, x est symétrique si elle est égale à l'opposé de sa transposée non conjuguée, x = -x.'</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[issymmetric([1, 2; 2, 1])
+issymmetric([1, 2.1; 2, 1.1], 0.2)
+A = [0 1 -2 5; -1 0 3 -4; 2 -3 0 6; -5 4 -6 0];
+issymmetric(A, 'skew')
+issymmetric(A, 'nonskew')]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${linear_algebra}ishermitian">ishermitian</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

@@ -48,6 +48,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 x = linspace(-1, 1);
 y = sin(2*pi*x);

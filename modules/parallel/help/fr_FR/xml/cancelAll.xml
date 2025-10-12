@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>cancelAll</keyword>
+        <short_description
+  >Arrêter toutes les fonctions s'exécutant en arrière-plan.</short_description>
+    <syntax>
+    <syntax_item>cancelAll(fevalQueue)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>fevalQueue</param_name>
+            <param_description>objet FevalQueue : scalaire.</param_description>
+        </param_input_item>
+    </param_input>
+                <description>
+                <p><b
+      >cancelAll(fevalQueue)</b> arrête tous les éléments en cours d'exécution ou en file d'attente du pool d'arrière-plan.</p>
+                </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[fptr = str2func('pause');
+pool = backgroundPool;
+pool.FevalQueue
+f = parfeval(pool, fptr, 0, Inf);
+f
+pool.FevalQueue
+cancelAll(pool.FevalQueue)
+pool.FevalQueue
+f]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${core}pause">pause</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${parallel}cancel">cancel</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${parallel}parfeval">parfeval</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

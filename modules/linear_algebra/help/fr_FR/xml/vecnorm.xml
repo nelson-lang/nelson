@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>vecnorm</keyword>
+    <short_description>Norme par vecteur.</short_description>
+    <syntax>
+        <syntax_item>N = vecnorm(A)</syntax_item>
+        <syntax_item>N = vecnorm(A, p)</syntax_item>
+        <syntax_item>N = vecnorm(A, p, dim)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
+      >vector, matrix or multidimensional array</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>p</param_name>
+            <param_description
+      >Norm type: 2 (default), a positive scalar, or Inf.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>dim</param_name>
+            <param_description>positive integer scalar</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>n</param_name>
+            <param_description>norm: scalar or vector</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+                <p>
+                        <b
+      >vecnorm</b> calcule la norme 2 ou norme Euclidienne du tableau d'entrée <b
+      >A</b>
+                </p>
+                <p>Si <b>A</b> est un vecteur, <b
+      >vecnorm</b> retourne la norme du vecteur.</p>
+                <p>Si <b>A</b> est une matrice, <b
+      >vecnorm</b> retourne la norme de chaque colonne.</p>
+                <p>Pour les tableaux multidimensionnels, <b
+      >vecnorm</b> retourne la norme le long de la première dimension du tableau dont la taille n'est pas égale à 1.</p>
+                <p
+    >Pour calculer la norme p généralisée du vecteur, utilisez la syntaxe <b
+      >N = vecnorm(A, p)</b>.</p>
+                <p
+    >Pour opérer le long d'une dimension spécifique dim, la fonction peut être appelée comme <b
+      >N = vecnorm(A, p, dim)</b>.</p>
+                <p
+    >Dans ce cas, la taille de la dimension spécifiée devient 1, tandis que les tailles des autres dimensions restent inchangées.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [1, 2, 3; 4, 5, 6; 7, 8, 9];
+n = vecnorm(A)
+n = vecnorm(A, 2, 2)
+n = vecnorm(A, 1)
+]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${elementary_functions}norm">norm</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.3.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

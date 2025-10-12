@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>pyargs</keyword>
+    <short_description
+  >Générer des arguments nommés pour les fonctions Python.</short_description>
+    <syntax>
+        <syntax_item>pyargs</syntax_item>
+        <syntax_item>pa = pyargs(Name, Value)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>Name</param_name>
+            <param_description
+      >une chaîne ou un vecteur de caractères</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Value</param_name>
+            <param_description>valeur de la variable</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>pa</param_name>
+            <param_description>objet pyargs.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >pyargs(Name, Value, ...)</b> génère un ou plusieurs arguments nommés pour les fonctions Python.</p>
+            <p
+    >En Python, un argument nommé (keyword argument) est une valeur associée à un identifiant.</p>
+            <p>Veillez à positionner <b
+      >pyargs</b> comme dernier argument lors de l'appel d'une fonction Python.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[pa = pyargs('A', 1)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${python_engine}pyrun">pyrun</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.3.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

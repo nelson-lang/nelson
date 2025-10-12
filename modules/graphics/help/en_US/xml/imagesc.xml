@@ -58,53 +58,38 @@
             <b
       >imagessc</b> displays C data as an image. This image is colormapped using the colormap for the current figure.</p>
             <p>Properties:</p>
-            <p />
-            <p>
-                <b
-      >AlphaData</b> Transparency data: scalar, array the same size as CData, or 1 (default).</p>
-                <p>
-                    <b>AlphaDataMapping</b>
-                </p>
-                <p>
-                    <b
-      >CData</b> Image color data: vector or matrix, 3-D array of RGB triplets.</p>
-                    <p>
-                        <b
-      >CDataMapping</b> Color data mapping method: 'direct' or 'scaled' (default).</p>
-                        <p>
-                            <b>Children</b> [].</p>
-                            <p>
-                                <b>Parent</b> Parent: axes object.</p>
-                                <p>
-                                    <b
-      >Tag</b> Object identifier: string scalar, character vector, '' (default).</p>
-                                    <p>
-                                        <b
-      >Type</b> Type of graphics object: 'surface'.</p>
-                                        <p>
-                                            <b
-      >UserData</b>: User data: array or [] (default).</p>
-                                            <p>
-                                                <b
-      >Visible</b> State of visibility: 'off' or 'on' (default).</p>
-                                                <p>
-                                                    <b
-      >XData</b> Placement along x-axis: two-element vector, scalar, [1 size(CData, 1)] (default).</p>
-                                                    <p>
-                                                        <b
-      >YData</b> Placement along y-axis: two-element vector, scalar, [1 size(CData, 2)] (default).</p>
-                                                        <p />
-                                                        <p>
-                                                            <b
-      >CreateFcn</b>Callback (function handle, string or cell) called when object is created.
-Set this property on an existing component has no effect.</p>
-                                                            <p>
-                                                                <b
-      >DeleteFcn</b>Callback (function handle, string or cell) called when object is deleted.</p>
-                                                                <p>
-                                                                    <b
-      >BeingDeleted</b> Flag indicating that the object is being deleted.</p>
-                                                                </description>
+            <table>
+                <tr><th>Property</th><th>Description</th></tr>
+                <tr><td><b>AlphaData</b></td><td
+        >Transparency data: scalar, array the same size as CData, or 1 (default).</td></tr>
+                <tr><td><b>AlphaDataMapping</b></td><td
+        >Alpha data mapping method.</td></tr>
+                <tr><td><b>CData</b></td><td
+        >Image color data: vector or matrix, 3-D array of RGB triplets.</td></tr>
+                <tr><td><b>CDataMapping</b></td><td
+        >Color data mapping method: 'direct' or 'scaled' (default).</td></tr>
+                <tr><td><b>Children</b></td><td>[].</td></tr>
+                <tr><td><b>Parent</b></td><td>Parent: axes object.</td></tr>
+                <tr><td><b>Tag</b></td><td
+        >Object identifier: string scalar, character vector, '' (default).</td></tr>
+                <tr><td><b>Type</b></td><td
+        >Type of graphics object: 'surface'.</td></tr>
+                <tr><td><b>UserData</b></td><td
+        >User data: array or [] (default).</td></tr>
+                <tr><td><b>Visible</b></td><td
+        >State of visibility: 'off' or 'on' (default).</td></tr>
+                <tr><td><b>XData</b></td><td
+        >Placement along x-axis: two-element vector, scalar, [1 size(CData, 1)] (default).</td></tr>
+                <tr><td><b>YData</b></td><td
+        >Placement along y-axis: two-element vector, scalar, [1 size(CData, 2)] (default).</td></tr>
+                <tr><td><b>CreateFcn</b></td><td
+        >Callback (function handle, string or cell) called when object is created. Set this property on an existing component has no effect.</td></tr>
+                <tr><td><b>DeleteFcn</b></td><td
+        >Callback (function handle, string or cell) called when object is deleted.</td></tr>
+                <tr><td><b>BeingDeleted</b></td><td
+        >Flag indicating that the object is being deleted.</td></tr>
+            </table>
+        </description>
                                                                 <used_function
   />
                                                                 <bibliography />
@@ -116,11 +101,12 @@ Set this property on an existing component has no effect.</p>
                                                                         <example_item_description
       />
                                                                         <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f1 = figure();
 C = [0 2 4 6; 8 10 12 14; 16 18 20 22];
 imagesc(C)]]></example_item_data>
                                                                         <example_item_img
-        src="../images/imagesc_1.svg"
+        src="../../images/imagesc_1.png"
         align="middle"
         generate="true"
       />
@@ -132,12 +118,13 @@ imagesc(C)]]></example_item_data>
                                                                         <example_item_description
       />
                                                                         <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f2 = figure();
 C = [0 2 4 6; 8 10 12 14; 16 18 20 22];
 imagesc(C)
 colormap(gray)]]></example_item_data>
                                                                         <example_item_img
-        src="../images/imagesc_2.svg"
+        src="../../images/imagesc_2.png"
         align="middle"
         generate="true"
       />

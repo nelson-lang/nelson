@@ -69,6 +69,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 [X, Y] = meshgrid(-8:.5:8);
 R = sqrt(X.^2 + Y.^2) + eps;
@@ -76,7 +77,7 @@ Z = sin(R) ./ R;
 mesh(X, Y, Z)
 axis square]]></example_item_data>
                 <example_item_img
-        src="../images/mesh_1.svg"
+        src="../../images/mesh_1.svg"
         align="middle"
         generate="true"
       />
@@ -85,6 +86,7 @@ axis square]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 F = str2func('@(z) z .^ 3 - 1');
 x = linspace(-2, 2, 100);

@@ -10,11 +10,12 @@
         <p
         >Conçu pour la performance et la facilité d'utilisation, Nelson fournit une suite complète de fonctions mathématiques, de structures de données avancées et d'outils de visualisation puissants.</p>
         <p
-        >Cette documentation sert de guide de référence complet sur les fonctions intégrées de Nelson, son système de modules et ses capacités de programmation — des opérations mathématiques de base aux tâches de calcul avancées.</p>
+        >Cette documentation sert de guide de référence complet sur les fonctions intégrées de Nelson, son système de modules et ses capacités de programmation - des opérations mathématiques de base aux tâches de calcul avancées.</p>
      </chapter_description>
     </section>
     <section name="Aperçu" link="homepage.html" />
     <section name="Résumé" link="summary.html" />
+    <section name="Prise en main" link="getting_started.html" />
     <section name="Licence" link="license.html" />
   </toc>
 </help_summary>

@@ -83,6 +83,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 f = figure();
 x1 = linspace(0,2*pi)';
@@ -93,7 +94,7 @@ ax = gca();
 stairs(ax, X,Y)
 ]]></example_item_data>
                 <example_item_img
-        src="../images/stairs_1.svg"
+        src="../../images/stairs_1.svg"
         align="middle"
         generate="true"
       />
@@ -102,6 +103,7 @@ stairs(ax, X,Y)
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[X = linspace(0,1,45)';
 Y = [cos(3*X), exp(X).*sin(9*X)];
 h = stairs(X,Y);
@@ -111,7 +113,7 @@ h(2).Marker = '+';
 h(2).MarkerFaceColor = 'm';
 ]]></example_item_data>
                 <example_item_img
-        src="../images/stairs_2.svg"
+        src="../../images/stairs_2.svg"
         align="middle"
         generate="true"
       />

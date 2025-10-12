@@ -36,6 +36,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[sys = tf([4.2,0.25,-0.004],[1,9.6,17]);
 [Z, gain] = zero(sys)]]></example_item_data>
             </example_item>

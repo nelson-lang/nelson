@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>wait</keyword>
+    <short_description>Attendre la complétion des futures.</short_description>
+    <syntax>
+        <syntax_item>wait(f)</syntax_item>
+        <syntax_item>wait(f, state)</syntax_item>
+        <syntax_item>TF = wait(f, state, timeout)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>f</param_name>
+        <param_description
+      >objet FevalFuture : scalaire ou tableau.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>state</param_name>
+        <param_description
+      >état d'attente : 'finished' (par défaut) ou 'running'</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>timeout</param_name>
+        <param_description
+      >secondes d'attente : scalaire numérique réel.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+        <param_name>TF</param_name>
+        <param_description
+      >logique : si chaque élément du tableau Future f se termine avant l'expiration du timeout, TF est true. Sinon, TF est false.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p><b
+      >wait(f)</b> suspend l'exécution jusqu'à ce que chaque élément du tableau Future <b
+      >f</b> soit terminé.</p>
+        <p><b
+      >wait(f, state)</b> suspend l'exécution jusqu'à ce que chaque élément du tableau Future <b
+      >f</b> ait sa propriété 'State' définie sur <i>state</i>.</p>
+        <p><b
+      >tf = wait(f, state, timeout)</b> suspend l'exécution pour un maximum de <i
+      >timeout</i> secondes.</p>
+    </description>
+                <used_function />
+                <bibliography />
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[fptr = str2func('pause');
+for i = 1:15
+ f(i) = parfeval(backgroundPool, fptr, 0, 5);
+end
+tic()
+R = wait(f, 'finished');
+toc()]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link linkend="${core}pause">pause</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link
+        linkend="${parallel}fetchOutputs"
+      >fetchOutputs</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.0.0</history_version>
+                        <history_description
+      >version initiale</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

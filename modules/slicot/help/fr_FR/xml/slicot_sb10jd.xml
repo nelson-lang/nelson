@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+    <keyword>slicot_sb10jd</keyword>
+    <short_description
+  >Conversion d'un système d'espace d'état descripteur en forme d'espace d'état régulière.</short_description>
+    <syntax>
+        <syntax_item
+    >[A_OUT, B_OUT, C_OUT, D_OUT, E_OUT, NSYS, INFO] = slicot_sb10jd(A_IN, B_IN, C_IN, D_IN, E_IN)</syntax_item>
+    </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A_IN</param_name>
+      <param_description
+      >La partie principale N×N de ce tableau doit contenir la matrice d'état A du système descripteur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B_IN</param_name>
+      <param_description
+      >La partie principale N×M de ce tableau doit contenir la matrice d'entrée B du système descripteur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>C_IN</param_name>
+      <param_description
+      >La partie principale NP×N de ce tableau doit contenir la matrice de sortie C du système descripteur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>D_IN</param_name>
+      <param_description
+      >La partie principale NP×M de ce tableau doit contenir la matrice D du système descripteur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>E_IN</param_name>
+      <param_description
+      >La partie principale N×N de ce tableau doit contenir la matrice E du système descripteur.</param_description>
+    </param_input_item>
+  </param_input>
+    <param_output>
+    <param_output_item>
+      <param_name>A_OUT</param_name>
+      <param_description
+      >La partie principale NSYS×NSYS de ce tableau contient la matrice d'état Ad du système converti.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>B_OUT</param_name>
+      <param_description
+      >La partie principale NSYS×M de ce tableau contient la matrice d'entrée Bd du système converti.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>C_OUT</param_name>
+      <param_description
+      >La partie principale NP×NSYS de ce tableau contient la matrice de sortie Cd du système converti.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>D_OUT</param_name>
+      <param_description
+      >La partie principale NP×M de ce tableau contient la matrice Dd du système converti.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>E_OUT</param_name>
+      <param_description
+      >Ce tableau ne contient aucune information utile.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>NSYS</param_name>
+      <param_description
+      >L'ordre du système d'espace d'état converti.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>INFO</param_name>
+      <param_description
+      >0 : sortie réussie ; 1 : l'itération pour calculer la décomposition en valeurs singulières n'a pas convergé.</param_description>
+    </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >convertir le système d'espace d'état descripteur en forme d'espace d'état régulier.</p>
+    </description>
+    <used_function>SB10JD</used_function>
+    <bibliography
+  >http://slicot.org/objects/software/shared/doc/SB10JD.html</bibliography>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[A_IN = [2 -4; 4 2];
+B_IN = [0 -1; 0 0.5];
+C_IN = [0 -0.5; 0 -2];
+D_IN = [0 0; 0 -1];
+E_IN = [1 0; -3 0.5];
+[A_OUT, B_OUT, C_OUT, D_OUT, E_OUT, NSYS, INFO] = slicot_sb10jd(A_IN, B_IN, C_IN, D_IN, E_IN)]]></example_item_data>
+        </example_item>
+    </examples>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>SLICOT Documentation</author_item>
+    </authors>
+</xmldoc>

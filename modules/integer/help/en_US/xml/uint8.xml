@@ -34,6 +34,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = [1 256 -120 127 -1 215]
 B = uint8(A)]]></example_item_data>
             </example_item>

@@ -193,6 +193,7 @@
             <example_item_description
       >Overload minus operator with double</example_item_description>
             <example_item_data
+        runnable="false"
       ><![CDATA[% save in @double directory, as minus.m
 function r = minus(A, B)
   disp('minus was called')

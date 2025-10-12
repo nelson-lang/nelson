@@ -55,6 +55,7 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[[X, Y] = meshgrid(-2:0.2:2);
 Z = X .* exp(-X.^2 - Y.^2);
 [U, V] = gradient(Z, 0.2, 0.2);

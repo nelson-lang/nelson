@@ -41,6 +41,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = eye(2, 4);
 sz = size(A)
 C = strings(sz)]]></example_item_data>

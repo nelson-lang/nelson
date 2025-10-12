@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>Exigences système</keyword>
+    <short_description>Exigences système par plateforme.</short_description>
+    <description>
+        <p><b>Linux</b> :</p>
+        <p><b
+      >Système d'exploitation</b> : Ubuntu 24.04 LTS, Ubuntu 22.04 LTS, Ubuntu 20.04 LTS, Fedora, ArchLinux, NixOs</p>
+        <p><b>Processeur</b> : tout processeur Intel ou AMD x86-64.</p>
+        <p><b
+      >Mémoire (RAM)</b> : voir les exigences du système d'exploitation (16 Go recommandés ou plus).</p>
+        <p><b
+      >Stockage</b> : 1 Go pour l'installation de tous les produits ; un SSD/NVMe est recommandé.</p>
+        <p><b
+      >Graphisme</b> : un GPU avec accélération matérielle et support OpenGL et au moins 1 Go de mémoire est recommandé.</p>
+        <p />
+        <p><b>Windows</b> :</p>
+        <p><b
+      >Système d'exploitation</b> : Windows 10, 11 ou Windows Server 2022.</p>
+        <p><b
+      >Processeur</b> : tout processeur Intel ou AMD x86-64 avec jeu d'instructions AVX2 (CPU publié à partir de 2015).</p>
+        <p><b
+      >Mémoire (RAM)</b> : voir les exigences du système d'exploitation (16 Go recommandés ou plus).</p>
+        <p><b
+      >Stockage</b> : 1 Go pour l'installation de tous les produits ; un SSD/NVMe est recommandé.</p>
+        <p><b
+      >Graphisme</b> : un GPU avec accélération matérielle et support OpenGL et au moins 1 Go de mémoire est recommandé.</p>
+        <p />
+        <p><b>MacOs</b> :</p>
+        <p><b
+      >Système d'exploitation</b> : macOS Tahoe, macOS Sequoia, macOS Sonoma, macOS Ventura.</p>
+        <p><b
+      >Processeur</b> : tout processeur Intel supporté par Apple et tout processeur de la série M.</p>
+        <p><b
+      >Stockage</b> : 1 Go pour l'installation de tous les produits ; un SSD/NVMe est recommandé.</p>
+        <p><b
+      >Graphisme</b> : tout Mac capable d'exécuter macOS Ventura dispose d'un GPU pouvant exécuter Nelson.</p>
+        <p />
+    </description>
+    <used_function />
+    <bibliography />
+    <see_also>
+        <see_also_item>
+            <link
+        linkend="${dynamic_link}2_supported_compilers"
+      >Supported C/C++ compilers</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${engine}executable">executable</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.13.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

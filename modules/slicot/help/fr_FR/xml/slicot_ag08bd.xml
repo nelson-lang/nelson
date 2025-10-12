@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>slicot_ag08bd</keyword>
+    <short_description
+  >Zéros et structure de Kronecker d'un pencil de système descripteur.</short_description>
+    <syntax>
+        <syntax_item
+    >[A_OUT, E_OUT, NFZ, NRANK, NIZ, DINFZ, NKROR, NINFE, NKROL, INFZ, KRONR, INFE, KRONL, INFO] = slicot_ag08bd(EQUIL, M, P, A_IN, E_IN, B, C, D, TOL)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+    <param_name>EQUIL</param_name>
+    <param_description
+      > = 'S' : effectuer un équilibrage (mise à l'échelle) ; = 'N' : ne pas effectuer d'équilibrage.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>M</param_name>
+    <param_description
+      >Le nombre de colonnes de la matrice B.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>P</param_name>
+    <param_description>Le nombre de lignes de la matrice C.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>A_IN</param_name>
+    <param_description
+      >La partie principale L-by-N de ce tableau doit contenir la matrice de dynamique d'état A du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>E_IN</param_name>
+    <param_description
+      >La partie principale L-by-N de ce tableau doit contenir la matrice descripteur E du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>B</param_name>
+    <param_description
+      >La partie principale L-by-M de ce tableau doit contenir la matrice d'entrée/état B du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>C</param_name>
+    <param_description
+      >La partie principale P-by-N de ce tableau doit contenir la matrice état/sortie C du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>D</param_name>
+    <param_description
+      >La partie principale P-by-M de ce tableau doit contenir la matrice de transmission directe D du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>TOL</param_name>
+    <param_description
+      >Une tolérance utilisée dans les décisions de rang pour déterminer le rang effectif, défini comme l'ordre de la plus grande sous-matrice triangulaire principale (ou terminale) dans la factorisation QR (ou RQ) avec permutation de colonnes (ou lignes) dont le nombre condition estimé est inférieur à 1/TOL.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+    <param_name>A_OUT</param_name>
+    <param_description
+      >La partie principale NFZ-by-NFZ de ce tableau contient la matrice Af du pencil réduit.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>E_OUT</param_name>
+    <param_description
+      >La partie principale NFZ-by-NFZ de ce tableau contient la matrice Ef du pencil réduit.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>NFZ</param_name>
+            <param_description>Le nombre de zéros finis.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>NRANK</param_name>
+    <param_description>Le rang normal du pencil du système.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>NIZ</param_name>
+            <param_description>Le nombre de zéros infinis.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>DINFZ</param_name>
+    <param_description
+      >La multiplicité maximale des zéros de Smith infinis.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>NKROR</param_name>
+    <param_description
+      >Le nombre d'indices de Kronecker droits.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>NINFE</param_name>
+    <param_description
+      >Le nombre de blocs élémentaires infinis.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>NKROL</param_name>
+    <param_description
+      >Le nombre d'indices de Kronecker gauches.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>INFZ</param_name>
+    <param_description
+      >Les DINFZ premiers éléments de INFZ contiennent des informations sur les diviseurs élémentaires infinis.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>KRONR</param_name>
+    <param_description
+      >Les NKROR premiers éléments de ce tableau contiennent les indices de Kronecker droits (colonnes).</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>KRONL</param_name>
+    <param_description
+      >Les NKROL premiers éléments de ce tableau contiennent les indices de Kronecker gauches (lignes).</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>INFO</param_name>
+            <param_description>= 0 : sortie réussie ;</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    > To extract from the system pencil a regular pencil Af-lambda*Ef which has the finite Smith zeros of S(lambda) as generalized eigenvalues. The routine also computes the orders of the infinite Smith zeros and determines the singular and infinite Kronecker structure of system pencil, i.e., the right and left Kronecker indices, and the multiplicities of infinite eigenvalues.</p>
+    </description>
+    <used_function>AG08BD</used_function>
+    <bibliography
+  >http://slicot.org/objects/software/shared/doc/AG08BD.html</bibliography>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[L = 9;
+N = 9;
+M = 3;
+P = 3;
+TOL= 1.e-7;
+EQUIL='N';
+A_IN = [1     0     0     0     0     0     0     0     0;
+     0     1     0     0     0     0     0     0     0;
+     0     0     1     0     0     0     0     0     0;
+     0     0     0     1     0     0     0     0     0;
+     0     0     0     0     1     0     0     0     0;
+     0     0     0     0     0     1     0     0     0;
+     0     0     0     0     0     0     1     0     0;
+     0     0     0     0     0     0     0     1     0;
+     0     0     0     0     0     0     0     0     1];
+
+E_IN = [0     0     0     0     0     0     0     0     0;
+     1     0     0     0     0     0     0     0     0;
+     0     1     0     0     0     0     0     0     0;
+     0     0     0     0     0     0     0     0     0;
+     0     0     0     1     0     0     0     0     0;
+     0     0     0     0     1     0     0     0     0;
+     0     0     0     0     0     0     0     0     0;
+     0     0     0     0     0     0     1     0     0;
+     0     0     0     0     0     0     0     1     0];
+
+B =[-1     0     0;
+     0     0     0;
+     0     0     0;
+     0    -1     0;
+     0     0     0;
+     0     0     0;
+     0     0    -1;
+     0     0     0;
+     0     0     0];
+
+C = [ 0     1     1     0     3     4     0     0     2;
+      0     1     0     0     4     0     0     2     0;
+      0     0     1     0    -1     4     0    -2     2];
+
+D = [ 1     2    -2;
+      0    -1    -2;
+      0     0     0];
+%=============================================================================
+% default call for the fortran routine
+M = 3; P = 3;
+[A_OUT, E_OUT, NFZ, NRANK, NIZ, DINFZ, NKROR, NINFE, NKROL, INFZ, KRONR, INFE, KRONL, INFO] = slicot_ag08bd(EQUIL, M, P, A_IN, E_IN, B, C, D, TOL)
+%=============================================================================
+% Compute poles (we need tp call fortran routine with M = 0, P = 0)
+M = 0; P = 0;
+[A_OUT, E_OUT, NFZ, NRANK, NIZ, DINFZ, NKROR, NINFE, NKROL, INFZ, KRONR, INFE, KRONL, INFO] = slicot_ag08bd(EQUIL, M, P, A_IN, E_IN, B, C, D, TOL)
+%=============================================================================
+%  Check the observability and compute the ordered set of the observability indices (call the routine with M = 0).
+M = 0; P = 3;
+[A_OUT, E_OUT, NFZ, NRANK, NIZ, DINFZ, NKROR, NINFE, NKROL, INFZ, KRONR, INFE, KRONL, INFO] = slicot_ag08bd(EQUIL, M, P, A_IN, E_IN, B, C, D, TOL)
+%=============================================================================
+% Check the controllability and compute the ordered set of the controllability indices (call the routine with P = 0)
+M = 3; P = 0;
+[A_OUT, E_OUT, NFZ, NRANK, NIZ, DINFZ, NKROR, NINFE, NKROL, INFZ, KRONR, INFE, KRONL, INFO] = slicot_ag08bd(EQUIL, M, P, A_IN, E_IN, B, C, D, TOL)
+%=============================================================================
+
+
+]]></example_item_data>
+        </example_item>
+    </examples>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>SLICOT Documentation</author_item>
+    </authors>
+</xmldoc>

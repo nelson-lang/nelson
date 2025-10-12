@@ -62,10 +62,11 @@
             <xsl:choose>
               <xsl:when test="keyword">
                 <div class="section-title clickable" style="font-size: 1em;" onclick="toggleTocList(this)">
-                  <span class="arrow">&#x25BE;</span>
+                  <!-- start collapsed: arrow shows collapsed glyph, list hidden -->
+                  <span class="arrow">▸</span>
                   <xsl:value-of select="@name"/>
                 </div>
-                <ul class="toc-list" style="display:block;">
+                <ul class="toc-list" style="display:none;">
                   <xsl:apply-templates select="keyword"/>
                 </ul>
               </xsl:when>

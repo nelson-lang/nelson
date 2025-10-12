@@ -124,8 +124,8 @@ function buildSummary(destinationdir, locales, modules_help_list, is_nelson_help
 end
 %=============================================================================
 function helpForNelsonOnly(destinationdir)
-  src_files = {'homepage.md', 'banner_homepage.png'};
-  dst_files = {'README.md', 'banner_homepage.png'};
+  src_files = {'homepage.md', 'banner_homepage.png','getting_started.md'};
+  dst_files = {'README.md', 'banner_homepage.png','getting_started.md'};
   for k = getavailablelanguages()(:)'
     locale = k{1}(1:2);
     dir_dst = [destinationdir, '/', locale];

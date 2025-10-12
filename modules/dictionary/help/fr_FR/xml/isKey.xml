@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>isKey</keyword>
+    <short_description
+  >Vérifie si le dictionnaire contient la clé</short_description>
+    <syntax>
+        <syntax_item>tf = isKey(d)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>d</param_name>
+            <param_description
+      >scalaire : objet dictionnaire.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+                <param_output_item>
+                        <param_name>tf</param_name>
+                        <param_description
+      >scalaire logique : true si la clé existe, false sinon.</param_description>
+                </param_output_item>
+    </param_output>
+    <description>
+      <p>
+        <b
+      >tf = isKey(d, key)</b> renvoie true logique si la clé spécifiée existe dans le dictionnaire configuré, et false logique si elle n'existe pas.</p>
+        <p>Si <b>d</b> est un dictionnaire non configuré, <b
+      >isKey</b> lève une erreur.</p>
+        <p>Si <b
+      >key</b> est un tableau de plusieurs clés, alors tf est un tableau logique de la même taille.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[names = ["Biil" "John" "Yann"];
+wheels = [1 2 3];
+d = dictionary(wheels, names)
+tf = isKey(d, "John")
+tf = isKey(d, ["biil" , "Yannis")]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${dictionary}dictionary">dictionary</link>
+            </see_also_item>
+            <see_also_item>
+                <link
+        linkend="${dictionary}configureDictionary"
+      >configureDictionary</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${dictionary}keys">keys</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.5.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

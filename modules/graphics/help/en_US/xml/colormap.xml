@@ -40,6 +40,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure()
 x = linspace(-1, 1, 1024)' * ones(1, 1024);
 y = x';
@@ -48,7 +49,7 @@ imagesc(Z);
 colormap('summer')
 ]]></example_item_data>
                 <example_item_img
-        src="../images/colormap_1.svg"
+        src="../../images/colormap_1.svg"
         align="middle"
         generate="true"
       />
@@ -57,6 +58,7 @@ colormap('summer')
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure()
 x = linspace(-1, 1, 1024)' * ones(1, 1024);
 y = x';
@@ -64,7 +66,7 @@ Z = exp(-(x .^ 2 + y .^ 2) / 0.4);
 imagesc(Z);
 colormap('gray')]]></example_item_data>
                 <example_item_img
-        src="../images/colormap_2.svg"
+        src="../../images/colormap_2.svg"
         align="middle"
         generate="true"
       />
@@ -73,6 +75,7 @@ colormap('gray')]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure()
 x = linspace(-1, 1, 1024)' * ones(1, 1024);
 y = x';
@@ -87,7 +90,7 @@ map = [0 0 0.3;
     0 0 1.0];
 colormap(map)]]></example_item_data>
                 <example_item_img
-        src="../images/colormap_3.svg"
+        src="../../images/colormap_3.svg"
         align="middle"
         generate="true"
       />

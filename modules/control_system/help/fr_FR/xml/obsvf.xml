@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>obsvf</keyword>
+    <short_description
+  >Calcul de la forme en escalier d'observabilité.</short_description>
+    <syntax>
+        <syntax_item>[Abar, Bbar, Cbar, T, k] = obsvf(A, B, C)</syntax_item>
+        <syntax_item
+    >[Abar, Bbar, Cbar, T, k] = obsvf(A, B, C, tol)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
+      >État matrice : Nx-par-Nx matrice</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>B</param_name>
+            <param_description
+      >Matrice entrée-état : Nx-par-Nu matrice</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description
+      >Matrice sortie-état : Ny-par-Nx matrice</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>tol</param_name>
+            <param_description>scalaire réel (tolérance).</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>Abar</param_name>
+            <param_description
+      >Matrice d'état en escalier d'observabilité.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>Bbar</param_name>
+            <param_description
+      >Matrice d'entrée en escalier d'observabilité.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>Cbar</param_name>
+            <param_description
+      >Matrice de sortie en escalier d'observabilité.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>T</param_name>
+            <param_description
+      >Matrice de transformation de similarité.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>k</param_name>
+            <param_description
+      >Vecteur : nombre d'états observables.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >Calcule la transformation en forme en escalier d'observabilité du système et renvoie les matrices transformées ainsi que la transformation T.</p>
+    </description>
+    <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [-1.5  -0.5; 1     0];
+B = [0.5; 0];
+C = [0   1];
+[Abar, Bbar, Cbar, T, k] = obsvf(A, B, C)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${control_system}obsv">obsv</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${control_system}ctrbf">ctrbf</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

@@ -41,29 +41,35 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[eye(2,2) >= ones(2, 2)]]></example_item_data>
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
-                    <example_item_data><![CDATA[0 >= i]]></example_item_data>
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[0 >= i]]></example_item_data>
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA['Nelson' >= 'Noslen']]></example_item_data>
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA['Nelson' >= 'l']]></example_item_data>
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[ge(0.8-0.6-0.2, 0)]]></example_item_data>
                 </example_item>
             </examples>

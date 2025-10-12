@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>getframe</keyword>
+    <short_description
+  >Capture une figure ou des axes comme image vidéo.</short_description>
+    <syntax>
+        <syntax_item>F = getframe</syntax_item>
+        <syntax_item>F = getframe(ax)</syntax_item>
+        <syntax_item>F = getframe(fig)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>ax</param_name>
+            <param_description>Objet axes : axes à capturer.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>fig</param_name>
+            <param_description
+      >Objet figure : figure à capturer.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>F</param_name>
+            <param_description>Structure : image vidéo.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >F = getframe</b> capture les axes courants affichés à l'écran comme une image vidéo. F est une structure contenant les données de l'image. La capture préserve la taille à l'écran des axes mais n'inclut pas les étiquettes de graduations ni tout contenu en dehors des limites des axes.</p>
+        <p>
+            <b
+      >F = getframe(ax)</b> capture les axes spécifiés par ax au lieu des axes courants.</p>
+        <p>
+            <b
+      >F = getframe(fig)</b> capture la fenêtre de figure entière spécifiée par fig, y compris le titre des axes, les étiquettes et les graduations. Cependant, l'image capturée n'inclut pas le menu ou les barres d'outils de la figure.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+surf(peaks);
+F = getframe(f);
+figure('Color',[0.5 0.5 0.5]);
+imshow(F.cdata)
+]]></example_item_data>
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+      ><![CDATA[f = figure();
+ax1 = subplot(2,1,1);
+surf(peaks);
+ax2 = subplot(2,1,2);
+plot(rand(30))
+F1 = getframe(ax1);
+F2 = getframe(ax2);
+figure('Color',[0.5 0.5 0.5]);
+imshow(F1.cdata)
+figure('Color',[0.5 0.5 0.5]);
+imshow(F2.cdata)
+]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${graphics}image">image</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${graphics}imshow">imshow</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${graphics}imwrite">imwrite</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.13.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

@@ -50,6 +50,7 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[A = [magic(4), eye(4)]
 [R, p] = rref(A)]]></example_item_data>
                 </example_item>

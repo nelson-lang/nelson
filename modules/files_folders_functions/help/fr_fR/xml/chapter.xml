@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+    <module_name>files_folders_functions</module_name>
+    <chapter>Fonctions de fichiers et dossiers</chapter>
+    <chapter_description>
+      <p
+    >Le module Fichiers et Dossiers fournit des outils pour gérer les fichiers, répertoires et chemins dans Nelson.</p>
+      <p
+    >Ce module prend en charge la navigation du système de fichiers, la création et la suppression de fichiers et répertoires, l'interrogation des propriétés, la construction et la résolution de chemins, ainsi que la gestion des séparateurs spécifiques à la plateforme.</p>
+      <p
+    >Ce module permet des opérations sur le système de fichiers efficaces et multi-plateformes dans les scripts et applications Nelson.</p>
+    </chapter_description>
+</xmldoc>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>lqed</keyword>
+    <short_description
+  >Calcule l'estimateur de Kalman discret basé sur un critère de coût continu.</short_description>
+    <syntax>
+        <syntax_item>[L, P, Z, E] = LQED(A, G, C, Q, R, Ts)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description>État matrice : matrice n x n.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>G</param_name>
+            <param_description
+      >Définit une matrice reliant le bruit de processus aux états.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description
+      >La matrice de sortie, avec des dimensions (q x n), où q est le nombre de sorties.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Q</param_name>
+            <param_description
+      >Matrice de pondération des coûts d'état</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>R</param_name>
+            <param_description
+      >Matrice de pondération des coûts d'entrée</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>N</param_name>
+            <param_description
+      >Matrice de terme croisé en option : 0 par défaut.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Ts</param_name>
+            <param_description
+      >temps d'échantillonnage : scalaire.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>L</param_name>
+            <param_description>Matrice de gain de Kalman.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>P</param_name>
+            <param_description
+      >Solution de l'équation de Riccati algébrique discrète.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>E</param_name>
+            <param_description
+      >Emplacements des pôles en boucle fermée</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>Z</param_name>
+            <param_description>Pôles de l'estimateur discret</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >La fonction détermine la configuration discrète de l'estimateur de Kalman à partir d'un coût quadratique continu pour le bruit de processus et de mesure.</p>
+    </description>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [10     1.2;  3.3     4];
+B = [5     0;   0     6];
+C = B;
+D = [0,0;0,0];
+R = [2,0;0,3];
+Q = [5,0;0,4];
+G = [6,0;0,7];
+Ts = 0.004;
+
+[L, P, Z, E] = lqed(A, G, C, Q, R, Ts)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${control_system}lqr">lqr</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${control_system}lqe">lqe</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

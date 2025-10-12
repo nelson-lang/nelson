@@ -36,6 +36,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[h5_directory = [modulepath('hdf5','tests'), '/h5'];
 double_data = [h5_directory, '/h5ex_t_float.h5'];
 R = h5read(double_data,'/DS1')]]></example_item_data>
