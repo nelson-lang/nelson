@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>os_functions</module_name>
+    <chapter>Fonctions du système d'exploitation</chapter>
+    <chapter_description>
+        <p
+    >Le module Fonctions OS fournit des outils pour interagir avec le système d'exploitation dans Nelson.</p>
+        <p
+    >Il inclut des fonctions pour interroger les informations système, gérer les variables d'environnement, exécuter des commandes shell, générer des GUID et effectuer des opérations spécifiques à la plateforme.</p>
+        <p
+    >Ce module permet une intégration fluide des scripts Nelson avec le système d'exploitation sous-jacent sur Windows, macOS et Linux/Unix.</p>
+    </chapter_description>
+</xmldoc>

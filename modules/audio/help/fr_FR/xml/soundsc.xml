@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>soundsc</keyword>
+    <short_description
+  >Met à l'échelle les données et joue comme son.</short_description>
+    <syntax>
+        <syntax_item>soundsc(y)</syntax_item>
+        <syntax_item>soundsc(y, Fs)</syntax_item>
+        <syntax_item>soundsc(y, Fs, nBits)</syntax_item>
+        <syntax_item>soundsc(y, Fs, nBits, yRange)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>y</param_name>
+            <param_description
+      >vecteur colonne ou matrice m-par-2.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Fs</param_name>
+            <param_description
+      >fréquence d'échantillonnage, un nombre positif, 8192 par défaut.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>nBits</param_name>
+            <param_description
+      >profondeur de bits des valeurs d'échantillon : 8, 16 (par défaut), 24.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>yRange</param_name>
+            <param_description
+      >plage des données audio à mettre à l'échelle : | vecteur à deux éléments ou [-max(abs(y)),max(abs(y))] par défaut.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b>soundsc</b> met à l'échelle les valeurs du signal audio <b
+      >y </b>pour s'adapter à la plage de <b>–1.0</b> à <b
+      >1.0</b> et joue comme son.
+	</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[signal = rand(2, 44100) - 0.5;
+soundsc(signal, 44110, 16)	  
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${audio}audioplayer">audioplayer</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${audio}playblocking">playblocking</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${audio}sound">sound</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

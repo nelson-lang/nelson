@@ -89,6 +89,7 @@
       >nelson</example_item_type>
                                         <example_item_description />
                                         <example_item_data
+        runnable="false"
       ><![CDATA[
 		edit([modulepath('mex', 'tests'), '/test_engine.m'])
 ]]></example_item_data>

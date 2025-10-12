@@ -57,6 +57,7 @@
                         <example_item_description
       >Apply mean to structure field</example_item_description>
                         <example_item_data
+        runnable="cli"
       ><![CDATA[
 S(1).f1 = rand(1, 5);
 S(2).f1 = rand(1, 10);
@@ -69,6 +70,7 @@ means = arrayfun(@(x) mean(x.f1), S);
                         <example_item_description
       >Return multiple outputs from function</example_item_description>
                         <example_item_data
+        runnable="cli"
       ><![CDATA[
 f = @(x) deal(x, x^2);
 [A, B] = arrayfun(f, 1:4);
@@ -79,6 +81,7 @@ f = @(x) deal(x, x^2);
                         <example_item_description
       >Return variable-sized outputs in a cell array</example_item_description>
                         <example_item_data
+        runnable="cli"
       ><![CDATA[
 S(1).f1 = rand(3,5);
 S(2).f1 = rand(2,6);

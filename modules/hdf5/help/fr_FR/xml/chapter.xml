@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>hdf5</module_name>
+    <chapter>HDF5</chapter>
+    <chapter_description>
+        <p
+    >Le module HDF5 fournit un support pour travailler avec des fichiers au format Hierarchical Data Format (HDF5) dans Nelson.</p>
+        <p
+    >Il permet de créer des jeux de données, de lire et d'écrire des données et attributs, et d'explorer le contenu des fichiers.</p>
+        <p
+    >En plus du support HDF5 standard, il inclut des utilitaires pour le format natif de Nelson .nh5, permettant d'enregistrer, charger et inspecter efficacement les variables de l'espace de travail.</p>
+        <p
+    >Ce module est essentiel pour gérer des données scientifiques volumineuses, structurées et portables.</p>
+    </chapter_description>
+</xmldoc>

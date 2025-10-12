@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>time</module_name>
+    <chapter>Time functions</chapter>
+    <chapter_description>
+        <p
+    >Le module Time fournit des outils pour travailler avec les dates, les heures et les durées dans Nelson.</p>
+        <p
+    >Il permet d'interroger l'heure courante, de mesurer le temps écoulé, d'effectuer des calculs sur les dates et heures, de convertir entre différentes représentations temporelles et de gérer des opérations liées au calendrier telles que les années bissextiles et la fin de mois.</p>
+        <p
+    >Ce module permet une gestion précise du temps, la planification et la mesure de performance dans les scripts et applications.</p>
+    </chapter_description>
+</xmldoc>

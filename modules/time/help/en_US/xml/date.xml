@@ -28,6 +28,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[d = date()
 fix(c)]]></example_item_data>
             </example_item>

@@ -33,6 +33,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[lib = dlopen(modulepath('dynamic_link', 'builtin'))
 c = dllibinfo(lib)]]></example_item_data>
             </example_item>

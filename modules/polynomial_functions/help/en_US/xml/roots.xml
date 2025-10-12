@@ -32,6 +32,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[
 p = [1 0 0 0 -1];
 r = roots(p)]]></example_item_data>

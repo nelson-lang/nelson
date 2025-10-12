@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>isnumeric</keyword>
+        <short_description
+  >Renvoie vrai si la variable var est un tableau numérique.</short_description>
+    <syntax>
+        <syntax_item>res = isnumeric(var)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>var</param_name>
+            <param_description>une variable</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>res</param_name>
+            <param_description>un logique : vrai ou faux</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <b
+    >isnumeric</b> renvoie 1 logique si l'argument est un tableau numérique et 0 logique sinon.
+        <p>Liste des types numériques :</p>
+        <p><b>single</b> : simple précision</p>
+        <p><b>double</b> : double précision</p>
+        <p><b>int8</b> : entier signé 8 bits</p>
+        <p><b>int16</b> : entier signé 16 bits</p>
+        <p><b>int32</b> : entier signé 32 bits</p>
+        <p><b>int64</b> : entier signé 64 bits</p>
+        <p><b>uint8</b> : entier non signé 8 bits</p>
+        <p><b>uint16</b> : entier non signé 16 bits</p>
+        <p><b>uint32</b> : entier non signé 32 bits</p>
+        <p><b>uint64</b> : entier non signé 64 bits</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[A = 1;
+res = isnumeric(A)]]></example_item_data>
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[B = single(1+i);
+res = isnumeric(B)]]></example_item_data>
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[C = logical(1);
+res = isnumeric(C)]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${types}islogical">islogical</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${types}isinteger">isinteger</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${types}isdouble">isdouble</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${types}issingle">issingle</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

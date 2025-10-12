@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>cell2table</keyword>
+    <short_description
+  >Convertir un tableau de cellules en table.</short_description>
+    <syntax>
+        <syntax_item>T = cell2table(C)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description>Tableau de cellules 2-D.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>T</param_name>
+            <param_description>Objet Table.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p><b
+      >T = cell2table(C)</b> convertit le contenu d'un tableau de cellules m-by-n <b
+      >C</b> en une table m-by-n.</p>
+            <p
+    >Chaque colonne du tableau de cellules d'entrée devient les données d'une variable correspondante dans la table de sortie.</p>
+            <p>Pour générer des noms de variables dans la table de sortie, <b
+      >cell2table</b> ajoute les numéros de colonne au nom du tableau d'entrée.</p>
+            <p>Si le tableau d'entrée n'a pas de nom, <b
+      >cell2table</b> attribue des noms de variables par défaut au format <b
+      >"Var1", "Var2", ... , "VarN"</b>, où <b
+      >N</b> est le nombre de colonnes dans le tableau de cellules.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[C = {'John', 28, true; 'Alice', 35, false; 'Bob', 42, true};
+% Convert the cell array to a table
+T = cell2table(C)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${table}table2cell">table2cell</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${table}table">table</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.8.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

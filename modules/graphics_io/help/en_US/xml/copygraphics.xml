@@ -24,6 +24,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[x = -2:0.25:2;
 y = x;
 [X,Y] = meshgrid(x);

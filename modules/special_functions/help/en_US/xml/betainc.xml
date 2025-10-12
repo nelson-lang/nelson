@@ -49,6 +49,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[R = betainc(0.5, 1:10, 3)]]></example_item_data>
             </example_item>
         </examples>

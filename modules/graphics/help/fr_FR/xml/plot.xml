@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>plot</keyword>
+    <short_description>Tracé linéaire 2D.</short_description>
+    <syntax>
+        <syntax_item>plot(Y)</syntax_item>
+        <syntax_item>plot(X1, Y1, ...)</syntax_item>
+        <syntax_item>plot(X1, Y1, LineSpec, ...)</syntax_item>
+        <syntax_item>plot(..., propertyName, propertyValue, ...)</syntax_item>
+        <syntax_item>plot(ax, ...)</syntax_item>
+        <syntax_item>go = plot(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>X1</param_name>
+            <param_description
+      >Coordonnées x : vecteur ou matrice.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Y1</param_name>
+            <param_description
+      >Coordonnées y : vecteur ou matrice.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>LineSpec</param_name>
+            <param_description
+      >Style de ligne, marqueur et/ou couleur : vecteur de caractères ou
+                chaîne scalaire.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>ax</param_name>
+            <param_description
+      >Valeur scalaire d'objet graphique : conteneur parent, spécifié comme
+                axes.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyName</param_name>
+            <param_description
+      >Chaîne scalaire ou vecteur ligne de caractères. Voir l'aide de 'line'
+                pour la liste des propriétés.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyValue</param_name>
+            <param_description>Une valeur.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>go</param_name>
+            <param_description>Objet graphique : type ligne.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>plot(Y)</b> trace les colonnes de <b
+      >Y</b> en fonction de leur indice. </p>
+        <p>
+            <b>plot(X, Y)</b> trace la courbe définie par la paire <b
+      >X</b> et <b>Y</b>. </p>
+        <p>
+            <b
+      >go = plot(...)</b> retourne un vecteur colonne d'objets graphiques de type ligne. </p>
+        <p />
+        <p>
+            <b
+      >LineSpec</b> est une chaîne utilisée pour modifier les caractéristiques de la ligne
+            et se compose de trois parties optionnelles dans n'importe quel ordre : </p>
+        <p />
+        <p
+    >Le SymbolSpec spécifie le symbole à dessiner à chaque point de données :</p>
+        <table>
+            <tr>
+                <th>Symbole</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>
+                    <b>'o'</b>
+                </td>
+                <td>Symbole cercle</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'x'</b>
+                </td>
+                <td>Symbole croix</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'+'</b>
+                </td>
+                <td>Symbole plus</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'*'</b>
+                </td>
+                <td>Symbole astérisque</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'.'</b>
+                </td>
+                <td>Symbole point</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'s'</b>
+                </td>
+                <td>Symbole carré</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'d'</b>
+                </td>
+                <td>Symbole losange</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'v'</b>
+                </td>
+                <td>Triangle pointe vers le bas</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'^'</b>
+                </td>
+                <td>Triangle pointe vers le haut</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'&lt;'</b>
+                </td>
+                <td>Triangle pointe vers la droite</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'&gt;'</b>
+                </td>
+                <td>Triangle pointe vers la gauche</td>
+            </tr>
+        </table>
+        <p />
+        <p
+    >Le LineStyleSpec spécifie le style de ligne à utiliser pour chaque série de données :</p>
+        <table>
+            <tr>
+                <th>Style</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>
+                    <b>'-'</b>
+                </td>
+                <td>Ligne continue</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'--'</b>
+                </td>
+                <td>Ligne pointillée</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'-.'</b>
+                </td>
+                <td>Ligne tiret-point</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>':'</b>
+                </td>
+                <td>Ligne en pointillés</td>
+            </tr>
+        </table>
+        <p />
+        <p
+    >Le ColorSpec spécifie la couleur de ligne à utiliser pour chaque série de données :</p>
+        <table>
+            <tr>
+                <th>Couleur</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>
+                    <b>'k'</b>
+                </td>
+                <td>Noir</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'y'</b>
+                </td>
+                <td>Jaune</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'m'</b>
+                </td>
+                <td>Magenta</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'c'</b>
+                </td>
+                <td>Cyan</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'r'</b>
+                </td>
+                <td>Rouge</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'b'</b>
+                </td>
+                <td>Bleu</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>'g'</b>
+                </td>
+                <td>Vert</td>
+            </tr>
+        </table>
+        <p />
+        <p>Voir <b>line</b> pour plus d'informations sur les propriétés.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description
+      >Default abscissae using indices:</example_item_description>
+            <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure()
+plot(sin(0:0.1:2*pi))]]></example_item_data>
+            <example_item_img
+        src="../../images/plot_y.svg"
+        align="middle"
+        generate="true"
+      />
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description
+      >Using explicit abscissae:</example_item_description>
+            <example_item_data
+      ><![CDATA[f = figure()
+x = [0:0.1:2*pi]';
+plot(x, sin(x))]]></example_item_data>
+            <example_item_img
+        src="../../images/plot_xy.svg"
+        align="middle"
+        generate="true"
+      />
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description
+      >Multiple curves with shared abscissae:</example_item_description>
+            <example_item_data
+      ><![CDATA[f = figure()
+x = [0:0.1:2*pi]';
+plot(x, [cos(x), cos(2*x), cos(3*x)])]]></example_item_data>
+            <example_item_img
+        src="../../images/plot_multiple.svg"
+        align="middle"
+        generate="true"
+      />
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description
+      >Color and Size of Markers:</example_item_description>
+            <example_item_data
+      ><![CDATA[f = figure();
+x = -pi:pi/10:pi;
+y = tan(sin(x)) - sin(tan(x));
+plot(x ,y, '--rs','LineWidth', 2, 'MarkerEdgeColor','k', 'MarkerFaceColor','g', 'MarkerSize', 11)]]></example_item_data>
+            <example_item_img
+        src="../../images/plot_markers.svg"
+        align="middle"
+        generate="true"
+      />
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description
+      >Adding Title and Axis Labels:</example_item_description>
+            <example_item_data
+      ><![CDATA[f = figure();
+x = linspace(0, 10, 150);
+y = sin(5*x);
+plot(x,y,'Color',[0,0.7,0.9])
+title(_('2-D Line Plot'))
+xlabel('x')
+ylabel('sin(5x)')]]></example_item_data>
+            <example_item_img
+        src="../images/plot_title.svg"
+        align="middle"
+        generate="true"
+      />
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${graphics}line">line</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${graphics}plot3">plot3</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

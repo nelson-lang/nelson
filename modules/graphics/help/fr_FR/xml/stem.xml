@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>stem</keyword>
+    <short_description>Tracer des données discrètes.</short_description>
+    <syntax>
+        <syntax_item>stem(Y)</syntax_item>
+        <syntax_item>stem(X, Y)</syntax_item>
+        <syntax_item>stem(..., 'filled')</syntax_item>
+        <syntax_item>stem(..., LineSpec)</syntax_item>
+        <syntax_item>stem(..., propertyName, propertyValue)</syntax_item>
+        <syntax_item>stem(ax, ...)</syntax_item>
+        <syntax_item>go = stem(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>X</param_name>
+        <param_description
+      >Emplacements pour tracer les valeurs de Y.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Y</param_name>
+            <param_description
+      >Séquence de données à afficher.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>LineSpec</param_name>
+        <param_description
+      >Style de ligne, marqueur et/ou couleur : vecteur de caractères ou chaîne scalaire.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>propertyName</param_name>
+        <param_description
+      >Une chaîne scalaire ou un vecteur ligne de caractères.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyValue</param_name>
+            <param_description>Une valeur.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>ax</param_name>
+            <param_description>Objet axes.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>gr</param_name>
+            <param_description>Groupe d'objets graphiques.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>Un graphique <b
+      >stem</b> en deux dimensions permet de visualiser des données en les représentant par des lignes partant d'une ligne de base horizontale le long de l'axe x.</p>
+        <p
+    >À l'extrémité de chaque ligne se trouve un cercle (marqueur par défaut), et la position verticale de ce cercle correspond à la valeur de la donnée représentée.</p>
+        <p>
+            <b
+      >stem(Y)</b> crée un graphique stem en prenant la séquence de données <b
+      >Y</b> et en traçant des tiges partant de points régulièrement espacés et automatiquement déterminés le long de l'axe x.</p>
+        <p>Si <b
+      >Y</b> est une matrice, la fonction stem trace tous les éléments d'une ligne pour la même valeur de x.</p>
+        <p>
+            <b>stem(X, Y)</b> crée un graphique stem qui montre comment <b
+      >X</b> est relié aux colonnes de <b>Y</b>.</p>
+        <p><b>X</b> et <b
+      >Y</b> peuvent être des vecteurs ou des matrices de même taille.</p>
+        <p><b>X</b> peut être un vecteur ligne ou colonne, et <b
+      >Y</b> doit être une matrice ayant le même nombre de lignes que la longueur de <b
+      >X</b>.</p>
+        <p
+    >Si vous souhaitez spécifier si le cercle à l'extrémité de chaque tige doit être rempli, vous pouvez utiliser <b
+      >stem(...,'fill')</b>.</p>
+        <p>De plus, en utilisant <b
+      >stem(..., LineSpec)</b>, vous pouvez définir le style de ligne, le symbole du marqueur et la couleur des tiges et du marqueur supérieur.</p>
+        <p>Consultez <b
+      >LineSpec</b> pour plus de détails sur la personnalisation de l'apparence du graphique stem.</p>
+    </description>
+                <used_function />
+                <bibliography />
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+x = 1:10;
+y = 2*x;
+h = stem (x, y, 'MarkerFaceColor', [1 0 1]);
+title('stem plot modified with property/value pair');]]></example_item_data>
+                        <example_item_img
+        src="../images/stem_1.svg"
+        align="middle"
+        generate="true"
+      />
+                    </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f =figure();
+% Defining base line - X input vector ranging from 0 to 2*pi
+X = 0 : pi/100 : 2*pi;
+% Defining the Y input vector as function of X
+Y = exp(-3*X/4) .* cos(2*X);
+% Third, we use the 'stem' function to plot discrete values
+stem(X,Y)]]></example_item_data>
+                        <example_item_img
+        src="../../images/stem_2.svg"
+        align="middle"
+        generate="true"
+      />
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link linkend="${graphics}plot">plot</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.0.0</history_version>
+                        <history_description
+      >version initiale</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

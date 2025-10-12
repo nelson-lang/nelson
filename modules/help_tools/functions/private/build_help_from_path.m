@@ -62,14 +62,16 @@ function main_help(module_path, lang, dirdest, package)
       copyfile([modulepath('help_tools'), '/resources/help_viewer.html' ], [destination_path, '/index.html']);
       copyfile([modulepath('help_tools'), '/resources/search_results.html' ], [destination_path, '/search_results.html']);
       copyfile([modulepath('help_tools'), '/resources/nelson_common.css' ], [destination_path, '/nelson_common.css']);
-
+      copyfile([modulepath('help_tools'), '/resources/highlight.pack.js' ], [destination_path, '/highlight.pack.js']);
+      copyfile([modulepath('help_tools'), '/resources/highlight.css' ], [destination_path, '/highlight.css']);
+      
       if ~isfile([dir_src, '/gpl-3.0.md'])
         copyfile([nelsonroot(), '/gpl-3.0.md'], [dir_src, '/gpl-3.0.md']);
       end
       if ~isfile([dir_src, '/lgpl-3.0.md'])
         copyfile([nelsonroot(), '/lgpl-3.0.md'], [dir_src, '/lgpl-3.0.md']);
       end
-      md_files = {'homepage.md', 'license.md', 'gpl-3.0.md', 'lgpl-3.0.md'};
+      md_files = {'getting_started.md', 'homepage.md', 'license.md', 'gpl-3.0.md', 'lgpl-3.0.md'};
       for md_filename = md_files(:)'
         html_filename = strrep(md_filename{1}, '.md', '.html');
         if need_to_be_generated([dir_src, '/', md_filename{1}], [destination_path, html_filename])

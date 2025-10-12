@@ -47,6 +47,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = pi
 B = single(pi)
 res = isapprox(A, B)]]></example_item_data>
@@ -55,6 +56,7 @@ res = isapprox(A, B)]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = pi
 B = single(pi)
 res = isapprox(A, B, 1e-4)]]></example_item_data>
@@ -63,6 +65,7 @@ res = isapprox(A, B, 1e-4)]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = [pi NaN]
 res = isapprox(A, A)]]></example_item_data>
             </example_item>
@@ -70,6 +73,7 @@ res = isapprox(A, A)]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = [pi NaN]
 B = [pi + 2*eps, NaN]
 res = isapprox(A, B)

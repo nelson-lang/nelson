@@ -27,24 +27,30 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[disp('Hello Nelson')]]></example_item_data>
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
-                    <example_item_data><![CDATA[disp(pi)]]></example_item_data>
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[disp(pi)]]></example_item_data>
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[disp(eye(3, 3))]]></example_item_data>
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description
       >disp always ends with a newline.</example_item_description>
-                    <example_item_data><![CDATA[disp('')]]></example_item_data>
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[disp('')]]></example_item_data>
                 </example_item>
             </examples>
             <see_also>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>geometry</module_name>
+    <chapter>Géométrie</chapter>
+    <chapter_description>
+        <p
+    >Le module Géométrie fournit des outils pour effectuer des transformations et calculs géométriques dans Nelson.</p>
+        <p
+    >Il prend en charge les opérations de rotation en espace tridimensionnel, permettant la construction de matrices de transformation pour manipuler objets et systèmes de coordonnées.</p>
+        <p
+    >Ce module est utile pour des applications en infographie, robotique et analyse spatiale.</p>
+    </chapter_description>
+</xmldoc>

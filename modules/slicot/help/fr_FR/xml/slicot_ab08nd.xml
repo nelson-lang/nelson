@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>slicot_ab08nd</keyword>
+    <short_description
+  >Construction d'un pencil régulier pour un système donné dont les valeurs propres généralisées sont les zéros invariants du système.</short_description>
+    <syntax>
+        <syntax_item
+    >[NU, RANK, DINFZ, NKROR, NKROL, INFZ, KRONR, KRONL, AF, BF, INFO] = slicot_ab08nd(EQUIL, N, M, P, A, B, C, D, TOL)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>EQUIL</param_name>
+            <param_description
+      >'S' : effectuer un équilibrage (mise à l'échelle) ; 'N' : ne pas effectuer d'équilibrage.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>N</param_name>
+    <param_description
+      >Le nombre de variables d'état, c'est-à-dire l'ordre de la matrice A.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>M</param_name>
+            <param_description
+      >Le nombre d'entrées du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>P</param_name>
+            <param_description
+      >Le nombre de sorties du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>A</param_name>
+    <param_description
+      >La partie principale N-by-N de ce tableau doit contenir la matrice de dynamique d'état A du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>B</param_name>
+    <param_description
+      >La partie principale N-by-M de ce tableau doit contenir la matrice d'entrée/état B du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>C</param_name>
+    <param_description
+      >La partie principale P-by-N de ce tableau doit contenir la matrice état/sortie C du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>D</param_name>
+    <param_description
+      >La partie principale P-by-M de ce tableau doit contenir la matrice de transmission directe D du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>TOL</param_name>
+    <param_description
+      >Une tolérance utilisée dans les décisions de rang.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+    <param_name>NU</param_name>
+    <param_description
+      >Le nombre de zéros invariants (finis).</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>RANK</param_name>
+    <param_description
+      >Le rang normal de la matrice de fonction de transfert.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>DINFZ</param_name>
+    <param_description
+      >Le degré maximal des diviseurs élémentaires à l'infini.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>NKROR</param_name>
+    <param_description
+      >Le nombre d'indices de Kronecker droits.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>NKROL</param_name>
+    <param_description
+      >Le nombre d'indices de Kronecker gauches.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>INFZ</param_name>
+    <param_description
+      >Les DINFZ premiers éléments de INFZ contiennent des informations sur les diviseurs élémentaires infinis : le système a INFZ(i) diviseurs élémentaires infinis de degré i, où i = 1,2,...,DINFZ.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>KRONR</param_name>
+    <param_description
+      >Les NKROR premiers éléments de ce tableau contiennent les indices de Kronecker droits (colonnes).</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>KRONL</param_name>
+    <param_description
+      >Les NKROL premiers éléments de ce tableau contiennent les indices de Kronecker gauches (lignes).</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>AF</param_name>
+    <param_description
+      >La partie principale NU-by-NU de ce tableau contient la matrice de coefficients A du pencil réduit.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>BF</param_name>
+    <param_description
+      >La partie principale NU-by-NU de ce tableau contient la matrice de coefficients B du pencil réduit.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>INFO</param_name>
+    <param_description
+      >0 : sortie réussie ; si INFO = -i, le i-ème argument avait une valeur illégale.</param_description>
+        </param_output_item>
+    </param_output>
+  <description>
+    <p
+    >Construire, pour un système multivariable linéaire décrit par un modèle d'espace d'état (A,B,C,D), un pencil régulier (A - lambda*B) dont les zéros invariants du système sont les valeurs propres généralisées.</p>
+    <p
+    >La routine calcule également les ordres des zéros infinis et les indices de Kronecker droits et gauches du système (A,B,C,D).</p>
+  </description>
+    <used_function>AB08ND</used_function>
+    <bibliography
+  >http://slicot.org/objects/software/shared/doc/AB08ND.html</bibliography>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[N = 6;
+M = 2;
+P = 3;
+TOL = 0.0;
+EQUIL = 'N';
+%=============================================================================
+A  = [1.0   0.0   0.0   0.0   0.0   0.0;
+   0.0   1.0   0.0   0.0   0.0   0.0;
+   0.0   0.0   3.0   0.0   0.0   0.0;
+   0.0   0.0   0.0  -4.0   0.0   0.0;
+   0.0   0.0   0.0   0.0  -1.0   0.0;
+   0.0   0.0   0.0   0.0   0.0   3.0];
+%=============================================================================
+B = [0.0  -1.0;
+  -1.0   0.0;
+   1.0  -1.0;
+   0.0   0.0;
+   0.0   1.0;
+  -1.0  -1.0];
+%=============================================================================
+C = [1.0   0.0   0.0   1.0   0.0   0.0;
+   0.0   1.0   0.0   1.0   0.0   1.0;
+   0.0   0.0   1.0   0.0   0.0   1.0];
+D = [0.0   0.0;
+   0.0   0.0;
+   0.0   0.0];
+%=============================================================================
+% Check the observability and compute the ordered set of the observability indices (call the routine with M = 0).
+[NU, RANK, DINFZ, NKROR, NKROL, INFZ, KRONR, KRONL, AF, BF, INFO] = slicot_ab08nd(EQUIL, N, 0, P, A, B, C, D, TOL)
+
+% Check the controllability and compute the ordered set of the controllability indices (call the routine with P = 0)
+[NU, RANK, DINFZ, NKROR, NKROL, INFZ, KRONR, KRONL, AF, BF, INFO] = slicot_ab08nd(EQUIL, N, M, 0, A, B, C, D, TOL)
+
+% Compute the structural invariants of the given system.
+[NU, RANK, DINFZ, NKROR, NKROL, INFZ, KRONR, KRONL, AF, BF, INFO] = slicot_ab08nd(EQUIL, N, M, P, A, B, C, D, TOL)
+]]></example_item_data>
+        </example_item>
+    </examples>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>SLICOT Documentation</author_item>
+    </authors>
+</xmldoc>

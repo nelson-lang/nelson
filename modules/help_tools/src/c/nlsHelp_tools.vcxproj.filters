@@ -123,6 +123,9 @@
     <ClCompile Include="..\cpp\XmlDocMergeSummary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\XmdDocGeneratesImages.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cmark\buffer.h">
@@ -210,6 +213,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\XmlDocMergeSummary.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\XmlDocGenerateImages.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

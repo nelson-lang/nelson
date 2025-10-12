@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>missing</keyword>
+    <short_description>Return a missing value.</short_description>
+    <syntax>
+        <syntax_item>m = missing()</syntax_item>
+    </syntax>
+    <param_output>
+        <param_output_item>
+            <param_name>m</param_name>
+            <param_description
+      >une valeur manquante utilisable dans les tableaux et les tables</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <b
+    >missing</b> renvoie une valeur spéciale représentant une donnée manquante (non définie). Lorsqu'elle est assignée dans un tableau ou une table, la valeur <b
+    >missing</b> est automatiquement convertie en la valeur manquante standard utilisée par le type de données du tableau.
+    </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[
+A = missing()
+A = double([1, 2, missing()])
+B = string(["foo", missing()])
+C = struct("Name", "Alice", "Age", missing())
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${data_analysis}ismissing">ismissing</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${types}missing">missing</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${constructors_functions}NaN">NaN</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${string}string">string</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.15.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

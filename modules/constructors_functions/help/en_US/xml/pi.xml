@@ -19,17 +19,22 @@
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
-                <example_item_data><![CDATA[cos(pi)]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data><![CDATA[sin(pi)]]></example_item_data>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[cos(pi)]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
+      ><![CDATA[sin(pi)]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
       ><![CDATA[4*atan(1) == pi]]></example_item_data>
             </example_item>
         </examples>

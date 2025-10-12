@@ -65,13 +65,14 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 x = logspace(-1,2);
 y = 2 .^ x;
 loglog(x,y)
 grid on]]></example_item_data>
                     <example_item_img
-        src="../images/loglog_1.svg"
+        src="../../images/loglog_1.svg"
         align="middle"
         generate="true"
       />
@@ -80,13 +81,14 @@ grid on]]></example_item_data>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 x = logspace(-1,2,20);
 y = 10 .^ x;
 loglog(x,y,'s','MarkerFaceColor',[0 0.447 0.741])
 grid on]]></example_item_data>
                     <example_item_img
-        src="../images/loglog_2.svg"
+        src="../../images/loglog_2.svg"
         align="middle"
         generate="true"
       />

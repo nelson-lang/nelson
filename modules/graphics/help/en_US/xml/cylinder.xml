@@ -46,11 +46,12 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f1 = figure();
 colormap(spring)
 cylinder()]]></example_item_data>
                 <example_item_img
-        src="../images/cylinder_1.svg"
+        src="../../images/cylinder_1.svg"
         align="middle"
         generate="true"
       />
@@ -59,12 +60,13 @@ cylinder()]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f2 = figure();
 colormap(summer)
 r = 4;
 cylinder(r);]]></example_item_data>
                 <example_item_img
-        src="../images/cylinder_2.svg"
+        src="../../images/cylinder_2.svg"
         align="middle"
         generate="true"
       />

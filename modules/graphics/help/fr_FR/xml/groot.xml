@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>groot</keyword>
+    <short_description>Objet racine graphique.</short_description>
+    <syntax>
+        <syntax_item>g = groot()</syntax_item>
+    </syntax>
+    <param_output>
+        <param_output_item>
+            <param_name>g</param_name>
+            <param_description
+      >Un objet graphique : objet racine.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>groot</b> retourne l'objet racine graphique.</p>
+        <p>Propriétés :</p>
+        <p>
+            <b>Children</b> : Tableau des objets figure disponibles.</p>
+        <p>
+            <b>CurrentFigure</b> : Objet graphique figure courant.</p>
+        <p>
+            <b>Parent</b> : tableau vide (pas de parent)</p>
+        <p>
+            <b>PointerLocation</b> : Position actuelle du pointeur.</p>
+        <p>
+            <b
+      >ScreenDepth</b> : Nombre de bits définissant chaque couleur de pixel.</p>
+        <p>
+            <b>ScreenSize</b> : Taille de l'écran principal (vecteur).</p>
+        <p>
+            <b
+      >Tag</b> : Identifiant de l'objet : chaîne, vecteur de caractères, '' (par défaut).</p>
+        <p>
+            <b>Type</b> : Type 'root'.</p>
+        <p>
+            <b>Units</b> : 'pixels'.</p>
+        <p>
+            <b
+      >UserData</b> : Données utilisateur : tableau ou [] (par défaut).</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[g = groot()
+g.ScreenDepth]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${graphics}figure">figure</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${graphics}gcf">gcf</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

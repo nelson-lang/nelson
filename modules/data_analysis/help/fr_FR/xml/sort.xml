@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>sort</keyword>
+        <short_description
+  >Trier les éléments d'un tableau (algorithme de tri rapide).</short_description>
+    <syntax>
+        <syntax_item>B = sort(A)</syntax_item>
+        <syntax_item>B = sort(A, dim)</syntax_item>
+        <syntax_item>B = sort(..., direction)</syntax_item>
+        <syntax_item>B = sort(..., name, value)</syntax_item>
+        <syntax_item>[B, I] = sort(...) </syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>A</param_name>
+        <param_description
+      >une variable Nelson (double, single, int8, int16, int32, int64, uint8, uint16, uint32, uint64, logical, char, string, cell).</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>dim</param_name>
+        <param_description
+      >Dimension le long de laquelle opérer : entier positif scalaire.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>direction</param_name>
+        <param_description
+      >Direction du tri : 'ascend' (par défaut) ou 'descend'.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>name, value</param_name>
+            <param_description
+      >paires nom-valeur en argument.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>B</param_name>
+            <param_description>tableau trié.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>I</param_name>
+            <param_description>indices du tri.</param_description>
+        </param_output_item>
+    </param_output>
+        <description>
+        <p>
+            <b>sort</b> implémente l'algorithme de tri rapide.</p>
+            <p>Arguments paires nom-valeur :</p>
+            <p>
+                <b
+      >'MissingPlacement'</b> - Placement des valeurs manquantes : <b
+      >'auto'</b> (par défaut), <b>'first'</b>, <b>'last'</b>.</p>
+                <p>
+                    <b
+      >'ComparisonMethod'</b> - Méthode de comparaison des éléments : <b
+      >'auto'</b> (par défaut), <b>'real'</b>, <b>'abs'</b>.</p>
+                </description>
+                <used_function>qsort (stl)</used_function>
+                <bibliography
+  >Quick sort algorithm from Bentley and McIlroy's "Engineering a Sort Function". Software - Practice and Experience</bibliography>
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description
+      >ComparisonMethod</example_item_description>
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [10+20i 30+i 10i 0 -10i];
+B = sort(A,'ComparisonMethod', 'auto')
+B = sort(A, 'ComparisonMethod', 'real')
+B = sort(A, 'ComparisonMethod', 'abs')
+]]></example_item_data>
+                    </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description
+      >MissingPlacement</example_item_description>
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [NaN 3 6 0 NaN];
+[B, I] = sort(A, 'MissingPlacement', 'auto')
+[B, I] = sort(A, 'MissingPlacement', 'first')
+[B, I] = sort(A, 'MissingPlacement', 'last')
+]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link linkend="${data_analysis}issorted">issorted</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link linkend="${data_analysis}unique">unique</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.0.0</history_version>
+                        <history_description
+      >version initiale</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

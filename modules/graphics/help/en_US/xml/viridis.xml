@@ -33,12 +33,13 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 surf(peaks);
 view(2);
 colormap('viridis');]]></example_item_data>
                 <example_item_img
-        src="../images/viridis.svg"
+        src="../../images/viridis.svg"
         align="middle"
         generate="true"
       />

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>log2</keyword>
+    <short_description
+  >dissect floating-point numbers into base 2 exponent and mantissa.</short_description>
+    <syntax>
+        <syntax_item>R = log2(M)</syntax_item>
+        <syntax_item>[F, E] = log2(M)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>M</param_name>
+            <param_description>a variable: a matrix</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>R</param_name>
+            <param_description
+      >result of log2: computes the base 2 logarithm of the elements of X.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>F</param_name>
+            <param_description
+      >Mantissa values that satisfy this equation: M= F.*2.^E</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>E</param_name>
+            <param_description
+      >Exponent values that satisfy this equation: M= F.*2.^E</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >log2</b> dissects several numbers into the exponent and mantissa.</p>
+            <p>[F, E] = log2(M), any zeros in M produce F = 0 and E = 0.</p>
+            <p
+    >Input values of Inf, -Inf, or NaN are returned unchanged in F with a corresponding exponent of E = 0.</p>
+        </description>
+        <used_function>std::frexp and std::logb C++ functions</used_function>
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[x = [1+i,-i;i,2i];
+R = log2(x)
+[F, E] = log2(x)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${elementary_functions}log">log</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${elementary_functions}log10">log10</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

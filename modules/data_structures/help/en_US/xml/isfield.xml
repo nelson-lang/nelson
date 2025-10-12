@@ -41,6 +41,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[S.Nelson = 1;
 isfield(S, 'Nel')
 isfield(S, 'Nelson')]]></example_item_data>
@@ -49,6 +50,7 @@ isfield(S, 'Nelson')]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[S.nel = 1;
 S.son = 2;
 isfield(S,{ 1, 'nel'; 2, 'son'})]]></example_item_data>

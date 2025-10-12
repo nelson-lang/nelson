@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>shortcutand</keyword>
+        <short_description
+  >Opérateur AND à court-circuit, &amp;&amp;</short_description>
+    <syntax>
+        <syntax_item>C = A &amp;&amp; B</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description>a variable</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>B</param_name>
+            <param_description>a variable</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>C</param_name>
+            <param_description>result of A &amp;&amp; B</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>C = A &amp;&amp; B</b> performs a logical <b
+      >AND</b> operation, the second operand is evaluated only when the result is not fully determined by the first operand.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [6 8 0; 0 3 89; 15 0 0]
+B = [66 56 0; 11 33 55; -11 0 0]
+C = A && B]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${operators}and">and</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${operators}shortcutor">||</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

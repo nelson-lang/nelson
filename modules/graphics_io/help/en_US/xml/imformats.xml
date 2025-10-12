@@ -75,6 +75,7 @@
                                                         <example_item_description
       />
                                                         <example_item_data
+        runnable="adv-cli"
       ><![CDATA[imformats()]]></example_item_data>
                                                     </example_item>
                                                 </examples>

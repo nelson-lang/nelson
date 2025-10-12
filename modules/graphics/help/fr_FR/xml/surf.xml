@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+	<language>fr_FR</language>
+	<keyword>surf</keyword>
+	<short_description>tracé de surface.</short_description>
+	<syntax>
+		<syntax_item>surf(X, Y, Z)</syntax_item>
+		<syntax_item>surf(X, Y, Z, C)</syntax_item>
+		<syntax_item>surf(Z)</syntax_item>
+		<syntax_item>surf(Z, C)</syntax_item>
+		<syntax_item>surf(parent, ...)</syntax_item>
+		<syntax_item>surf(..., propertyName, propertyValue)</syntax_item>
+		<syntax_item>go = surf(...)</syntax_item>
+	</syntax>
+	<param_input>
+		<param_input_item>
+			<param_name>X</param_name>
+			<param_description>Coordonnées x : vecteur ou matrice.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>Y</param_name>
+			<param_description>Coordonnées y : vecteur ou matrice.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>Z</param_name>
+			<param_description>Coordonnées z : vecteur ou matrice.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>C</param_name>
+			<param_description
+      >Tableau de couleurs : tableau m-par-n-par-3 de triplets RGB.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>parent</param_name>
+			<param_description
+      >Un objet graphique scalaire : conteneur parent, spécifié comme axes.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>propertyName</param_name>
+			<param_description
+      >Une chaîne scalaire ou un vecteur ligne de caractères.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>propertyValue</param_name>
+			<param_description>Une valeur.</param_description>
+		</param_input_item>
+	</param_input>
+	<param_output>
+		<param_output_item>
+			<param_name>go</param_name>
+			<param_description>Un objet graphique : type surface.</param_description>
+		</param_output_item>
+	</param_output>
+	<description
+  > Définir cette propriété sur un composant existant n'a aucun effet. <p>
+            <b
+      >surf</b> crée un tracé de surface 3D. Il peut être utilisé pour tracer des données sous forme de
+        matrice ou de fonction de deux variables. </p>
+        <p>Vous pouvez personnaliser l'apparence du tracé
+        en utilisant diverses options telles que la couleur, l'éclairage et l'ombrage.</p>
+        <p>Par exemple, vous pouvez utiliser
+        l'option colormap pour changer la couleur de la surface, et l'option FaceLighting pour
+        modifier l'éclairage de la surface.</p>
+        <p>Propriétés :</p>
+        <table>
+            <tr>
+                <th>Propriété</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>
+                    <b>AlphaData</b>
+                </td>
+                <td
+        >Données de transparence : tableau de même taille que ZData ou 1 (par défaut).</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>AlphaDataMapping</b>
+                </td>
+                <td
+        >Interprétation des valeurs AlphaData : 'direct', 'none' ou 'scaled' (par défaut).</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>AmbientStrength</b>
+                </td>
+                <td
+        >Intensité de la lumière ambiante : scalaire dans [0, 1].</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>BackFaceLighting</b>
+                </td>
+                <td
+        >Éclairage des faces lorsque les normales pointent à l'opposé de la caméra : 'unlit', 'lit' ou
+        'reverselit' (par défaut).</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>CData</b>
+                </td>
+                <td>Couleurs des sommets : tableau 2D ou 3D.</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>CDataMapping</b>
+                </td>
+                <td
+        >Méthode de mappage des couleurs : 'direct', 'scaled' (par défaut).</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>CDataMode</b>
+                </td>
+                <td
+        >Mode de sélection pour CData : 'manual', 'auto' (par défaut).</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Children</b>
+                </td>
+                <td>actuellement non utilisé : []</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>DiffuseStrength</b>
+                </td>
+                <td>Intensité de la lumière diffuse : scalaire dans [0, 1].</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>EdgeAlpha</b>
+                </td>
+                <td>Transparence des arêtes : valeur scalaire dans [0, 1].</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>EdgeColor</b>
+                </td>
+                <td>Couleur des arêtes : triplets RGB.</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>EdgeLighting</b>
+                </td>
+                <td
+        >Effet des objets lumineux sur les arêtes : 'flat', 'gouraud' ou 'none' (par défaut).</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>FaceAlpha</b>
+                </td>
+                <td>Transparence de la face : scalaire dans [0, 1].</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>FaceColor</b>
+                </td>
+                <td>Couleur de la face : triplet RGB.</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>FaceLighting</b>
+                </td>
+                <td
+        >Effet des objets lumineux sur les faces : 'gouraud', 'none' ou 'flat' (par défaut).</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>LineStyle</b>
+                </td>
+                <td
+        >Style de ligne : '--', ':', '-.', 'none' ou '-' (par défaut).</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>LineWidth</b>
+                </td>
+                <td>Épaisseur de ligne : valeur positive, 0.5 (par défaut).</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Marker</b>
+                </td>
+		<td
+        >Symbole du marqueur : 'o' (cercle), '+' (plus), '*' (astérisque), '.' (point), 'x' (croix), '_' (ligne horizontale), '|' (ligne verticale), 'square', 'diamond', '^' (triangle vers le haut), 'v' (triangle vers le bas), '' (triangle vers la droite), '' (triangle vers la gauche), 'pentagram', 'hexagram', 'none' (par défaut).</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>MarkerEdgeColor</b>
+                </td>
+                <td>Couleur du contour du marqueur : triplet RGB.</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>MarkerFaceColor</b>
+                </td>
+                <td>Couleur de remplissage du marqueur : triplet RGB.</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>MarkerSize</b>
+                </td>
+                <td>Taille du marqueur : valeur scalaire positive.</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>MeshStyle</b>
+                </td>
+                <td
+        >Arêtes à afficher : 'row', 'column' ou 'both' (par défaut).</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Parent</b>
+                </td>
+                <td>Parent : objet axes.</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>SpecularColorReflectance</b>
+                </td>
+                <td>Couleur des reflets spéculaires : scalaire dans [0, 1].</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>SpecularExponent</b>
+                </td>
+                <td
+        >Taille de la tache spéculaire : scalaire supérieur ou égal à 1.</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>SpecularStrength</b>
+                </td>
+                <td>Intensité du reflet spéculaire : scalaire dans [0, 1].</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Tag</b>
+                </td>
+                <td
+        >Identifiant de l'objet : vecteur de caractères, chaîne ou '' (par défaut).</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Type</b>
+                </td>
+                <td>Type d'objet graphique : 'surface'.</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>UserData</b>
+                </td>
+                <td>Données utilisateur : tableau ou [] (par défaut).</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>VertexNormals</b>
+                </td>
+                <td
+        >Vecteurs normaux pour chaque sommet de la surface : tableau m-par-n-par-3 ou [] (par défaut).</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Visible</b>
+                </td>
+                <td>État de visibilité : 'off' ou 'on' (par défaut).</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>XData</b>
+                </td>
+                <td>Données des coordonnées x : vecteur ou matrice.</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>XDataMode</b>
+                </td>
+                <td>Mode de sélection pour XData : 'manual' ou 'auto'.</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>YData</b>
+                </td>
+                <td>Données des coordonnées y : vecteur ou matrice.</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>YDataMode</b>
+                </td>
+                <td>Mode de sélection pour YData : 'manual' ou 'auto'.</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>ZData</b>
+                </td>
+                <td>Données des coordonnées z : vecteur ou matrice.</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>CreateFcn</b>
+                </td>
+		<td
+        >Callback (fonction, chaîne ou cellule) appelée lors de la création de l'objet. Définir cette propriété sur un composant existant n'a aucun effet.</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>DeleteFcn</b>
+                </td>
+                <td
+        >Callback (fonction, chaîne ou cellule) appelée lors de la suppression de l'objet.</td>
+            </tr>
+            <tr>
+                <td>
+                    <b>BeingDeleted</b>
+                </td>
+                <td>Indique que l'objet est en cours de suppression.</td>
+            </tr>
+        </table>
+    <p
+    >Certaines propriétés sont disponibles uniquement pour compatibilité et n'ont actuellement aucun effet sur la surface.</p>
+	</description>
+	<used_function />
+	<bibliography />
+	<examples>
+		<example_item>
+			<example_item_type>nelson</example_item_type>
+			<example_item_description />
+			<example_item_data runnable="adv-cli">
+<![CDATA[f = figure();
+[X, Y, Z] = peaks(35);
+C(:, :, 1) = zeros(35);
+C(:, :, 2) = ones(35) .* linspace(0.5, 0.6, 35);
+C(:, :, 3) = ones(35) .* linspace(0, 1, 35);
+S = surf(X, Y, Z, C)]]>
+			</example_item_data>
+			<example_item_img
+        src="../../images/surf_1.svg"
+        align="middle"
+        generate="true"
+      />
+		</example_item>
+		<example_item>
+			<example_item_type>nelson</example_item_type>
+			<example_item_description />
+			<example_item_data runnable="adv-cli">
+<![CDATA[f = figure();
+[X,Y] = meshgrid(-8:.5:8);
+R = sqrt(X.^2 + Y.^2) + eps;
+Z = sin(R)./R;
+h = surf(X, Y, Z);
+axis square]]>
+			</example_item_data>
+			<example_item_img
+        src="../../images/surf_2.svg"
+        align="middle"
+        generate="true"
+      />
+		</example_item>
+	</examples>
+	<see_also>
+		<see_also_item>
+			<link linkend="${graphics}view">view</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${graphics}surface">surface</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${elementary_functions}meshgrid">meshgrid</link>
+		</see_also_item>
+	</see_also>
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>version initiale</history_description>
+		</history_item>
+		<history_item>
+			<history_version>1.7.0</history_version>
+			<history_description>CreateFcn, DeleteFcn callback added.</history_description>
+		</history_item>
+		<history_item>
+			<history_version>--</history_version>
+			<history_description>BeingDeleted property added.</history_description>
+		</history_item>
+	</history>
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>

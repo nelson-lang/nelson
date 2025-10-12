@@ -30,6 +30,7 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="adv-cli"
       ><![CDATA[h1 = QObject_root()
 h1.className
 QObject_classname(h1)]]></example_item_data>

@@ -72,8 +72,19 @@
       >nelson</example_item_type>
                                                     <example_item_description />
                                                     <example_item_data
+        runnable="cli"
       ><![CDATA[je = jlenv]]></example_item_data>
                                                 </example_item>
+                                                <example_item>
+                                                    <example_item_type
+      >nelson</example_item_type>
+                                                    <example_item_description
+      >Set the Julia executable path</example_item_description>
+                                                    <example_item_data
+        runnable="false"
+      ><![CDATA[jlenv('Version', ''C:\WindowsTools\Julia-1.11.6\bin\julia.exe'')]]></example_item_data>
+                                                </example_item>
+
                                             </examples>
                                             <see_also>
                                                 <see_also_item>

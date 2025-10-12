@@ -42,13 +42,16 @@
                 <example_item_description
       >With an macro function:</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[nargin('getfield')]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description
       >With an builtin function:</example_item_description>
-                <example_item_data><![CDATA[nargin('cos')]]></example_item_data>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[nargin('cos')]]></example_item_data>
             </example_item>
         </examples>
         <see_also>

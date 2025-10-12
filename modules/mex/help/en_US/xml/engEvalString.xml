@@ -37,6 +37,7 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="false"
       ><![CDATA[edit([modulepath('mex'), '/examples/mex_engine_demo_2.c'])]]></example_item_data>
         </example_item>
     </examples>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>rotz</keyword>
+        <short_description
+  >Matrice de transformation 3x3 pour rotation autour de l'axe z</short_description>
+    <syntax>
+        <syntax_item>rm = rotz(angle)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>angle</param_name>
+        <param_description
+      >angle en degrés : valeur scalaire.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+        <param_name>rm</param_name>
+        <param_description
+      >matrice de transformation 3x3 : matrice orthogonale à valeurs réelles.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p><b
+      >rotz</b> renvoie la matrice de transformation 3x3 correspondant à une rotation autour de l'axe z.</p>
+        </description>
+        <used_function />
+        <bibliography
+  >Goldstein, H., C. Poole and J. Safko, Classical Mechanics, 3rd Edition, San Francisco: Addison Wesley, 2002, pp. 142–144.</bibliography>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[r = rotz(90)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${geometry}rotx">rotx</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${geometry}roty">roty</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

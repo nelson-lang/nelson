@@ -28,17 +28,118 @@
     </button>
   </a>
   
-  <h1 class="search-results-title">Search Results</h1>
+  <h1 class="search-results-title"></h1>
   <div id="results" class="search-results-panel">
   </div>
   <script src="index.js"></script>
   
+  <!-- localized behavior: detect lang, apply messages, append lang to links -->
   <script>
     function getQueryParam(name) {
       const params = new URLSearchParams(window.location.search);
       return params.get(name);
     }
     
+    // normalize variants to en_US / fr_FR
+    function normalizeLang(raw) {
+      if (!raw) return null;
+      const v = raw.toString().toLowerCase();
+      // handle tokens and full path fragments like "en", "en_us", "en-us", "/help/en_US/"
+      if (v.indexOf('fr') === 0 || v.indexOf('fr_') !== -1 || v.indexOf('fr-') !== -1 || v.indexOf('/fr') !== -1) return 'fr_FR';
+      if (v.indexOf('en') === 0 || v.indexOf('en_') !== -1 || v.indexOf('en-') !== -1 || v.indexOf('/en') !== -1) return 'en_US';
+      return null;
+    }
+
+    const messages = {
+      en_US: {
+        title: 'Search Results',
+        loading: 'Loading search index...',
+        index_empty: 'Warning: Search index is empty or could not be loaded.',
+        no_query: 'No search term provided.',
+        found_results: (n, q) => `Found ${n} results for <strong>${q}</strong>:`,
+        no_results_for: q => `No results found for <strong>${q}</strong>.`,
+        popular_topics: 'Popular topics:',
+        home_aria: 'Back to help homepage'
+      },
+      fr_FR: {
+        title: 'Résultats de recherche',
+        loading: "Chargement de l'index de recherche...",
+        index_empty: "Attention : l'index de recherche est vide ou n'a pas pu être chargé.",
+        no_query: "Aucun terme de recherche fourni.",
+        found_results: (n, q) => `Trouvé ${n} résultat(s) pour <strong>${q}</strong> :`,
+        no_results_for: q => `Aucun résultat pour <strong>${q}</strong>.`,
+        popular_topics: 'Sujets populaires :',
+        home_aria: "Retour à la page d'accueil de l'aide"
+      }
+    };
+
+    // read initial lang from URL or localStorage, fallback to en_US
+    function readInitialLanguage() {
+      // 1) check explicit lang query param
+      const params = new URLSearchParams(window.location.search);
+      const p = params.get('lang');
+      const fromParam = normalizeLang(p);
+      if (fromParam) {
+        localStorage.setItem('nelson_lang', fromParam);
+        return fromParam;
+      }
+
+      // 2) check pathname for en_US / fr_FR segments (works for file:/// paths)
+      try {
+        const path = (window.location.pathname || '').toLowerCase();
+        const pathMatch = path.match(/(?:\/|\\)(fr(?:[_-]fr)?|en(?:[_-]us)?)(?:\/|\\|$)/i);
+        if (pathMatch && pathMatch[1]) {
+          const normalizedPath = normalizeLang(pathMatch[1]);
+          if (normalizedPath) {
+            localStorage.setItem('nelson_lang', normalizedPath);
+            return normalizedPath;
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
+
+      // 3) localStorage or navigator.language fallback
+      const stored = localStorage.getItem('nelson_lang') || navigator.language || 'en';
+      const normalized = normalizeLang(stored) || 'en_US';
+      localStorage.setItem('nelson_lang', normalized);
+      return normalized;
+    }
+
+    const lang = readInitialLanguage();
+    const msg = messages[lang] || messages.en_US;
+
+    // set document lang attribute for accessibility / correct rendering
+    document.documentElement.lang = (lang === 'fr_FR') ? 'fr-FR' : 'en-US';
+    // set page title and aria on home button
+    document.title = msg.title;
+    const homeButton = document.querySelector('.home-summary-link > .home-summary-btn');
+    if (homeButton) {
+      homeButton.setAttribute('aria-label', msg.home_aria);
+    }
+
+    // set the visible H1 to localized title
+    const pageTitle = document.querySelector('.search-results-title');
+    if (pageTitle) pageTitle.textContent = msg.title;
+    
+    // ensure URL we build includes lang param
+    function appendLangToUrl(urlStr) {
+      try {
+        const u = new URL(urlStr, window.location);
+        u.searchParams.set('lang', lang);
+        return u.toString();
+      } catch (e) {
+        // fallback for relative paths
+        return urlStr + (urlStr.includes('?') ? '&' : '?') + 'lang=' + encodeURIComponent(lang);
+      }
+    }
+
+    // update home link to include lang
+    const homeLink = document.querySelector('.home-summary-link');
+    if (homeLink) {
+      homeLink.setAttribute('href', appendLangToUrl('./homepage.html'));
+    }
+
     let helpIndex = window.searchIndex || [];
     
     function search(query) {
@@ -93,6 +194,8 @@
           helpIndex = window.searchIndex;
           return resolve(helpIndex);
         }
+        // if not present, resolve with empty array (existing behavior)
+        resolve([]);
       });
     }
     
@@ -100,15 +203,15 @@
       const query = getQueryParam('query');
       const resultsDiv = document.getElementById('results');
       
-      resultsDiv.innerHTML = '<p>Loading search index...</p>';
+      resultsDiv.innerHTML = `<p>${msg.loading}</p>`;
       
       try {
         await loadHelpIndex();
         
         if (helpIndex.length === 0) {
-          resultsDiv.innerHTML = '<p>Warning: Search index is empty or could not be loaded.</p>';
+          resultsDiv.innerHTML = `<p>${msg.index_empty}</p>`;
           if (query) {
-            resultsDiv.innerHTML += `<p>Cannot perform search for: <strong>${query}</strong></p>`;
+            resultsDiv.innerHTML += `<p>${msg.no_results_for(query)}</p>`;
           }
           return;
         }
@@ -117,16 +220,17 @@
           const results = search(query);
           
           if (results.length === 0) {
-            resultsDiv.innerHTML = `<p>No results found for <strong>${query}</strong>.</p>`;
+            resultsDiv.innerHTML = `<p>${msg.no_results_for(query)}</p>`;
           } else {
-            let html = `<p>Found ${results.length} results for <strong>${query}</strong>:</p>`;
+            let html = `<p>${msg.found_results(results.length, query)}</p>`;
             
             results.forEach(result => {
+              const href = appendLangToUrl(result.url || result.path || './homepage.html');
               html += `
                 <div class="result-item">
-                  <h3><a href="${result.url}" target="contentFrame">${result.title}</a></h3>
+                  <h3><a href="${href}" target="contentFrame">${result.title}</a></h3>
                   <p>${result.snippet}</p>
-                  <small>${result.path}</small>
+                  <small>${result.path || ''}</small>
                 </div>
               `;
             });
@@ -134,15 +238,16 @@
             resultsDiv.innerHTML = html;
           }
         } else {
-          resultsDiv.innerHTML = '<p>No search term provided.</p>';
+          resultsDiv.innerHTML = `<p>${msg.no_query}</p>`;
           
           const topResults = helpIndex.slice(0, 5); // First 5 entries
           if (topResults.length > 0) {
-            let html = '<p>Popular topics:</p>';
+            let html = `<p>${msg.popular_topics}</p>`;
             topResults.forEach(result => {
+              const href = appendLangToUrl(result.url || result.path || './homepage.html');
               html += `
                 <div class="result-item">
-                  <h3><a href="${result.url}" target="contentFrame">${result.title}</a></h3>
+                  <h3><a href="${href}" target="contentFrame">${result.title}</a></h3>
                 </div>
               `;
             });
@@ -150,7 +255,7 @@
           }
         }
       } catch (error) {
-        resultsDiv.innerHTML = `<p>Error loading search index: ${error.message}</p>`;
+        resultsDiv.innerHTML = `<p>Error loading search index: ${error && error.message ? error.message : error}</p>`;
       }
     }
     

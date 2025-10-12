@@ -137,12 +137,32 @@ ExportGraphics(GOWindow* f, const std::wstring& filename, IMAGE_FORMAT exportFor
     } break;
     case SVG_EXPORT: {
         QSvgGenerator gen;
+        int width = f->width();
+        int height = f->height();
         gen.setDescription(QString(""));
         gen.setTitle(QString(""));
         gen.setFileName(wstringToQString(filename));
-        gen.setSize(QSize(f->width(), f->height()));
+        gen.setSize(QSize(width, height));
+        qreal dpi = 96.0;
+        QScreen* screen = nullptr;
+        QWidget* mainWidget = f->getMainQWigdet();
+        if (mainWidget) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+            screen = mainWidget->screen();
+#else
+            screen = QGuiApplication::screenAt(mainWidget->mapToGlobal(QPoint(0, 0)));
+#endif
+        }
+        if (!screen) {
+            screen = QGuiApplication::primaryScreen();
+        }
+        if (screen) {
+            dpi = screen->logicalDotsPerInch();
+        }
+        gen.setResolution(dpi);
+        gen.setViewBox(QRect(0, 0, width, height));
         QPainter pnt(&gen);
-        RenderQt gc(&pnt, 0, 0, f->width(), f->height(), L"SVG");
+        RenderQt gc(&pnt, 0, 0, width, height, L"SVG");
         hf->paintMe(gc);
         result = true;
     } break;

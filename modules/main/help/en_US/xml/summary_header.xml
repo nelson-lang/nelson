@@ -16,6 +16,7 @@
     </section>
     <section name="Overview" link="homepage.html" />
     <section name="Summary" link="summary.html" />
+    <section name="Getting Started" link="getting_started.html" />
     <section name="License" link="license.html" />
   </toc>
 </help_summary>

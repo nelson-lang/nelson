@@ -33,6 +33,7 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="cli"
       ><![CDATA[R = nextpow2([10, Inf, 30, -Inf, 90, NaN])
 M = uint32([1020 4000 32700]);
 R = nextpow2(M)]]></example_item_data>

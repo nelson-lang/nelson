@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>ctrbf</keyword>
+    <short_description
+  >Calcule la forme escalier de contrôlabilité.</short_description>
+    <syntax>
+        <syntax_item>[Abar, Bbar, Cbar, T, k] = ctrbf(A, B, C)</syntax_item>
+        <syntax_item
+    >[Abar, Bbar, Cbar, T, k] = ctrbf(A, B, C, tol)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
+      >Matrice d'état : matrice Nx-par-Nx</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>B</param_name>
+            <param_description
+      >Matrice entrée-état : matrice Nx-par-Nu</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description
+      >Matrice sortie-état : matrice Ny-par-Nx</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>tol</param_name>
+            <param_description>scalaire réel (tolérance).</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+                <param_output_item>
+                        <param_name>Abar</param_name>
+                        <param_description
+      >Matrice d'état de la forme escalier de contrôlabilité.</param_description>
+                </param_output_item>
+                <param_output_item>
+                        <param_name>Bbar</param_name>
+                        <param_description
+      >Matrice d'entrée de la forme escalier de contrôlabilité.</param_description>
+                </param_output_item>
+                <param_output_item>
+                        <param_name>Cbar</param_name>
+                        <param_description
+      >Matrice de sortie de la forme escalier de contrôlabilité.</param_description>
+                </param_output_item>
+        <param_output_item>
+            <param_name>T</param_name>
+            <param_description
+      >Matrice de transformation de similarité.</param_description>
+        </param_output_item>
+                <param_output_item>
+                        <param_name>k</param_name>
+                        <param_description
+      >Vecteur : nombre d'états contrôlables.</param_description>
+                </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >ctrbf(A, B, C)</b> décompose le système d'espace d'état donné, défini par les matrices <b
+      >A</b>, <b>B</b> et <b>C</b>, en forme escalier de contrôlabilité.</p>
+            <p>Cela produit les matrices transformées <b>Abar</b>, <b
+      >Bbar</b> et <b
+      >Cbar</b>, ainsi qu'une matrice de transformation de similarité <b
+      >T</b> et un vecteur <b>k</b>.</p>
+            <p>La longueur du vecteur <b
+      >k</b> est égale à l'ordre du système représenté par <b
+      >A</b>, et chaque entrée dans <b
+      >k</b> désigne le nombre d'états contrôlables factorisés à chaque étape du calcul de la matrice de transformation.</p>
+            <p>Les éléments non nuls dans <b
+      >k</b> indiquent le nombre d'itérations requises pour le calcul de <b
+      >T</b> , et la somme de <b>k</b> correspond au nombre d'états dans <b
+      >Ac</b>, la portion contrôlable de <b>Abar</b>.</p>
+        </description>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [-1.5  -0.5; 1     0];
+B = [0.5; 0];
+C = [0   1];
+[Abar, Bbar, Cbar, T, k] = ctrbf(A, B, C)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${control_system}ctrb">ctrb</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

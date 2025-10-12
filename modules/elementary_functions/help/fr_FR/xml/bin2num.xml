@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>bin2num</keyword>
+        <short_description
+  >Convertit une chaîne binaire en complément à deux en nombre.</short_description>
+    <syntax>
+        <syntax_item>R = bin2num(M)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>M</param_name>
+            <param_description>un tableau de caractères.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+        <param_name>R</param_name>
+        <param_description
+      >résultat de bin2num : logical, single ou double.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >bin2num</b> convertit un tableau de caractères binaires en tableau numérique.</p>
+            <p>Remarques :</p>
+            <p> - <b
+      >num2bin</b> renvoie toujours les représentations binaires en colonne.</p>
+            <p> - <b>bin2num</b> et <b
+      >num2bin</b> sont mutuellement inverses.</p>
+    </description>
+        <used_function>C++ std::bitset</used_function>
+        <bibliography
+  >http://www.oxfordmathcenter.com/drupal7/node/43</bibliography>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [65535 128; 1 0]
+Y = num2bin(X)
+bin2num(Y)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${elementary_functions}num2bin">num2bin</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

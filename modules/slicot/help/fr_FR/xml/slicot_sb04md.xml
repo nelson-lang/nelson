@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+        <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>slicot_sb04md</keyword>
+        <short_description
+  >Résolution des équations de Sylvester temps continu (méthode Hessenberg-Schur).</short_description>
+    <syntax>
+        <syntax_item
+    >[A_OUT, B_OUT, C_OUT, Z, INFO] = slicot_sb04md(A_IN, B_IN, C_IN)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>A_IN</param_name>
+        <param_description
+      >La partie principale N-by-N de ce tableau doit contenir la matrice de coefficient A de l'équation.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>B_IN</param_name>
+        <param_description
+      >La partie principale M-by-M de ce tableau doit contenir la matrice de coefficient B de l'équation.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>C_IN</param_name>
+        <param_description
+      >La partie principale N-by-M de ce tableau doit contenir la matrice de coefficient C de l'équation.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+        <param_name>A_OUT</param_name>
+        <param_description
+      >La partie principale N-by-N de ce tableau, en Hessenberg supérieur, contient la matrice H, et le reste de la partie principale N-by-N, ainsi que les éléments 2,3,...,N du tableau DWORK, contiennent la matrice de transformation orthogonale U (stockée en forme factorisée).</param_description>
+        </param_output_item>
+        <param_output_item>
+        <param_name>B_OUT</param_name>
+        <param_description
+      >La partie principale M-by-M de ce tableau contient le facteur de Schur quasi-triangulaire S de la matrice B'.</param_description>
+        </param_output_item>
+        <param_output_item>
+        <param_name>C_OUT</param_name>
+        <param_description
+      >La partie principale N-by-M de ce tableau contient la matrice solution X du problème.</param_description>
+        </param_output_item>
+        <param_output_item>
+        <param_name>Z</param_name>
+        <param_description
+      >La partie principale M-by-M de ce tableau contient la matrice orthogonale Z utilisée pour transformer B' en forme de Schur réelle supérieure.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>INFO</param_name>
+            <param_description> = 0 : sortie réussie ;</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >Résoudre pour X l'équation de Sylvester continue AX + XB = C où A, B, C et X sont respectivement des matrices N-by-N, M-by-M, N-by-M et N-by-M générales.</p>
+    </description>
+    <used_function>SB04MD</used_function>
+    <bibliography
+  >http://slicot.org/objects/software/shared/doc/SB04MD.html</bibliography>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[N = 3;
+M = 2;
+A_IN = [2.0   1.0   3.0;
+   0.0   2.0   1.0;
+   6.0   1.0   2.0];
+B_IN = [2.0   1.0;
+   1.0   6.0];
+C_IN = [2.0   1.0;
+   1.0   4.0;
+   0.0   5.0];
+[A_OUT, B_OUT, C_OUT, Z, INFO] = slicot_sb04md(A_IN, B_IN, C_IN)]]></example_item_data>
+        </example_item>
+    </examples>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>SLICOT Documentation</author_item>
+    </authors>
+</xmldoc>

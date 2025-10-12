@@ -155,6 +155,7 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="cli"
       ><![CDATA[N = 2;
 M = 1;
 P = 3;

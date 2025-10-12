@@ -30,6 +30,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[x = [-50 -20 0 20 50];
 y = atand(x)]]></example_item_data>
             </example_item>

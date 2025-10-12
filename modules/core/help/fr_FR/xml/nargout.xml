@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>nargout</keyword>
+    <short_description
+  >Nombre d'arguments de sortie d'une fonction.</short_description>
+    <syntax>
+        <syntax_item>R = nargout()</syntax_item>
+        <syntax_item>R = nargout(function_name)</syntax_item>
+        <syntax_item>R = nargout(function_handle)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+                <param_name>function_name</param_name>
+                <param_description
+      >une chaîne : nom de la fonction</param_description>
+            </param_input_item>
+        <param_input_item>
+            <param_name>function_handle</param_name>
+            <param_description>un handle de fonction</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>R</param_name>
+            <param_description
+      >une valeur entière : nombre d'arguments de sortie</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+  <p
+    >Retourne le nombre d'arguments de sortie demandés par l'appelant d'une fonction.</p>
+</description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description
+      >With an macro function:</example_item_description>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[nargout('cellstr')]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description
+      >With an builtin function:</example_item_description>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[nargout('cos')]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${core}nargin">nargin</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

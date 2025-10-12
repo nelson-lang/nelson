@@ -32,18 +32,22 @@
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
-                <example_item_data><![CDATA[ones(3,2)]]></example_item_data>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[ones(3,2)]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[ones(3,1,3,'single')]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = single([3 3])
 B = ones(2,4,'like', A)]]></example_item_data>
             </example_item>
@@ -51,6 +55,7 @@ B = ones(2,4,'like', A)]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[tic(); single(1) * ones(1000); toc()
 tic();ones(1000,'single'); toc()]]></example_item_data>
             </example_item>

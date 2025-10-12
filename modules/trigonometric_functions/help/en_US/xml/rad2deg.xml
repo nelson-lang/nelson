@@ -32,6 +32,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[dist = 7194;
 radEarth = 6371;
 D = rad2deg(dist / radEarth)]]></example_item_data>

@@ -102,6 +102,7 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[[s,w] = system('dir');
 [s,w] = system('dir','-echo');]]></example_item_data>
                 </example_item>
@@ -109,18 +110,21 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[[s,w] = system(["echo hello", "dir", "echo world"])]]></example_item_data>
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[tic();[s, w, d] = system(["PING -n 5 127.0.0.1>nul", "PING -n 7 127.0.0.1>nul", "PING -n 10 127.0.0.1>nul"]), toc()]]></example_item_data>
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[tic();[s, w, d] = system(["PING -n 5 127.0.0.1>nul", "PING -n 7 127.0.0.1>nul", "PING -n 10 127.0.0.1>nul"], [1, 5, 3]), toc()]]></example_item_data>
                 </example_item>
                 <example_item>
@@ -128,6 +132,7 @@
                     <example_item_description
       >To detach an system command, include the trailing character, &amp;, in the command argument.</example_item_description>
                     <example_item_data
+        runnable="cli"
       ><![CDATA[[s,w] = system('notepad &');]]></example_item_data>
                 </example_item>
             </examples>

@@ -97,6 +97,7 @@
       >nelson</example_item_type>
                                             <example_item_description />
                                             <example_item_data
+        runnable="cli"
       ><![CDATA[d = dictionary()
 d('apple') = 1
 d('banana') = 2
@@ -109,6 +110,7 @@ d('banana') = []
       >nelson</example_item_type>
                                             <example_item_description />
                                             <example_item_data
+        runnable="cli"
       ><![CDATA[Values = {{'a','b'},["ff", "cc"],struct,[1 2 3 4]}
 Keys = ["letters" "words" "a structure" "numeric array"]
 d = dictionary(Keys, Values)
@@ -121,6 +123,7 @@ d{"a new entry"} = 'table']]></example_item_data>
                                             <example_item_description
       >dictionary conversion nelson -- python</example_item_description>
                                             <example_item_data
+        runnable="cli"
       ><![CDATA[wheels = [1 2 3];
 names = ["Monocycle" "Bicycle" "Tricycle"];
 d = dictionary(wheels, names)

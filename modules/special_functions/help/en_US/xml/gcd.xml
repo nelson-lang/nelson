@@ -39,6 +39,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = [-5 7; 10 0];
 B = [-15 3; 50 0];
 G = gcd(A, B)]]></example_item_data>

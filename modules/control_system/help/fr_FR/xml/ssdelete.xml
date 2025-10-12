@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>ssdelete</keyword>
+    <short_description
+  >Supprime des entrées, sorties et états d'un système en espace d'état.</short_description>
+    <syntax>
+        <syntax_item>sysOut = ssselect(sysIn, INPUTS, OUTPUTS)</syntax_item>
+        <syntax_item
+    >sysOut = ssselect(sysIn, INPUTS, OUTPUTS, STATES)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>sysIn</param_name>
+            <param_description>modèle en espace d'état</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>INPUTS</param_name>
+            <param_description>index des entrées du système</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>OUTPUTS</param_name>
+            <param_description>index des sorties du système</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>STATES</param_name>
+            <param_description>états supprimés du système.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>sysOut</param_name>
+            <param_description
+      >modèle en espace d'état : sous-système avec entrées, sorties et états supprimés.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >Permet de retirer des entrées, sorties ou états d'un système d'état pour obtenir un sous-système.</p>
+    </description>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [33,2,5; 23,200,2; 9,2,45];
+B = [4,5; 12,5; 82,1];
+C = [34,56,2; 6,2,112];
+D = [2,0; 0,19];
+sys1 = ss(A, B, C, D);
+inputs = 1;
+outputs = 1;
+
+R = ssdelete(sys1, inputs, outputs)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${control_system}ssselect">ssselect</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

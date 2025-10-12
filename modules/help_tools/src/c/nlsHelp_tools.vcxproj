@@ -224,6 +224,7 @@
     <ClCompile Include="..\cpp\HeadComments.cpp" />
     <ClCompile Include="..\cpp\HtmlToPdf.cpp" />
     <ClCompile Include="..\cpp\Markdown.cpp" />
+    <ClCompile Include="..\cpp\XmdDocGeneratesImages.cpp" />
     <ClCompile Include="..\cpp\XmlDocBuild.cpp" />
     <ClCompile Include="..\cpp\XmlDocListOfFiles.cpp" />
     <ClCompile Include="..\cpp\XmlDocMakeSummary.cpp" />
@@ -261,6 +262,7 @@
     <ClInclude Include="..\include\Markdown.hpp" />
     <ClInclude Include="..\include\nlsHelp_tools_exports.h" />
     <ClInclude Include="..\include\XmlDocBuild.hpp" />
+    <ClInclude Include="..\include\XmlDocGenerateImages.hpp" />
     <ClInclude Include="..\include\XmlDocListOfFiles.hpp" />
     <ClInclude Include="..\include\XmlDocMakeSummary.hpp" />
     <ClInclude Include="..\include\XmlDocMergeSummary.hpp" />

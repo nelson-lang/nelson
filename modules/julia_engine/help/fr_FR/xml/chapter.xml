@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>julia_engine</module_name>
+    <chapter>Moteur Julia</chapter>
+    <chapter_description>
+        <p
+    >Le module Julia Engine permet aux utilisateurs de Nelson d'interfacer de manière transparente le langage de programmation Julia, combinant les capacités numériques haute-performance de Julia avec l'environnement Nelson.</p>
+        <p
+    >Il fournit des fonctions pour exécuter du code Julia, gérer les environnements d'interpréteur et échanger des données entre Nelson et Julia.</p>
+    </chapter_description>
+</xmldoc>

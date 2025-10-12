@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>computer</keyword>
+    <short_description>Informations sur le système.</short_description>
+    <syntax>
+        <syntax_item>c = computer()</syntax_item>
+        <syntax_item>[c, maxsize] = computer()</syntax_item>
+        <syntax_item>[c, maxsize, endian] = computer()</syntax_item>
+        <syntax_item>arch = computer('arch')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>'arch'</param_name>
+            <param_description
+      >une chaîne : retourne l'architecture de l'ordinateur.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>c</param_name>
+            <param_description
+      >une chaîne : type d'ordinateur : 'PCWIN', 'PCWIN64', 'GLNXA64', 'GLNXA32', 'MACI32', 'MACI64'</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>maxsize</param_name>
+            <param_description
+      >un entier : nombre maximal d'éléments autorisés dans un tableau.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>endian</param_name>
+            <param_description
+      >une chaîne : 'L' pour little-endian, 'B' pour big-endian.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>arch</param_name>
+            <param_description
+      >une chaîne : type d'architecture : 'win64', 'win32', 'glnxa64', 'glnxa32', 'maci64', 'maci32'.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p><b
+      >computer</b> identifie le type d'ordinateur sur lequel Nelson s'exécute.</p>
+    </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[c = computer()
+[c, maxsize] = computer()
+[c, maxsize, endian] = computer()
+arch = computer('arch')]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${os_functions}ispc">ispc</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${os_functions}ismac">ismac</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${os_functions}isunix">isunix</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

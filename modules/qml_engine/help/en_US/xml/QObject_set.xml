@@ -51,6 +51,7 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description />
     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[h = errordlg()
 h.visible = false; % or set(h, 'visible', false)
 h.windowTitle = 'new title' % or set(h, 'windowTitle', 'new title')

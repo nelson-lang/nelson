@@ -63,6 +63,7 @@
                         <example_item_description
       >ComparisonMethod</example_item_description>
                         <example_item_data
+        runnable="cli"
       ><![CDATA[A = [10+20i 30+i 10i 0 -10i];
 B = sort(A,'ComparisonMethod', 'auto')
 B = sort(A, 'ComparisonMethod', 'real')
@@ -74,6 +75,7 @@ B = sort(A, 'ComparisonMethod', 'abs')
                         <example_item_description
       >MissingPlacement</example_item_description>
                         <example_item_data
+        runnable="cli"
       ><![CDATA[A = [NaN 3 6 0 NaN];
 [B, I] = sort(A, 'MissingPlacement', 'auto')
 [B, I] = sort(A, 'MissingPlacement', 'first')

@@ -68,18 +68,21 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[sp = sparse(eye(3,3))]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[sp = sparse(3, 3)]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[I = [1 2 3];
 J = [3 1 2];
 V = [32 42 53];
@@ -90,6 +93,7 @@ size(sp)]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[I = [1 2 3];
 J = [3 1 2];
 V = [32 42 53];
@@ -102,6 +106,7 @@ nzmax(sp)]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[I = [1 2 3];
 J = [3 1 2];
 V = [32 42 53];

@@ -140,6 +140,7 @@ Set this property on an existing component has no effect.</p>
                                                                             <example_item_description
       />
                                                                             <example_item_data
+        runnable="adv-cli"
       ><![CDATA[fig = figure('Color', 'k');
 ax.Color = 'k';  
 f=0.1;
@@ -155,7 +156,7 @@ end
 axis equal
 axis off]]></example_item_data>
                                                                             <example_item_img
-        src="../images/patch_1.svg"
+        src="../../images/patch_1.svg"
         align="middle"
         generate="true"
       />
@@ -167,6 +168,7 @@ axis off]]></example_item_data>
                                                                             <example_item_description
       />
                                                                             <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f =figure('Color', 'w');
 x = [-1 1 0 -1];
 y = [-1/sqrt(3) -1/sqrt(3) 2*sqrt(3)/3 -1/sqrt(3)];
@@ -181,7 +183,7 @@ patch(x,-y,'w','EdgeColor','w');
 axis('equal')
 axis('off')]]></example_item_data>
                                                                             <example_item_img
-        src="../images/patch_2.svg"
+        src="../../images/patch_2.svg"
         align="middle"
         generate="true"
       />
@@ -193,6 +195,7 @@ axis('off')]]></example_item_data>
                                                                             <example_item_description
       >Nerfertiti 3D mask</example_item_description>
                                                                             <example_item_data
+        runnable="adv-cli"
       ><![CDATA[nefertiti_directory = [modulepath('graphics', 'root'), '/examples/nefertiti-mask/'];
 load([nefertiti_directory, 'nefertiti-mask.nh5']);
 figure('Color', [1, 1, 1]);
@@ -203,7 +206,7 @@ axis equal
 axis off 
 view([0, 0, 1]);]]></example_item_data>
                                                                             <example_item_img
-        src="../images/patch_3.svg"
+        src="../../images/patch_3.svg"
         align="middle"
         generate="true"
       />
@@ -215,6 +218,7 @@ view([0, 0, 1]);]]></example_item_data>
                                                                             <example_item_description
       >Alpha channel</example_item_description>
                                                                             <example_item_data
+        runnable="adv-cli"
       ><![CDATA[x = [1 3 4 3 1 0];
 y = [0 0 2 4 4 2];
 z = [0 0 0 0 0 0];
@@ -224,7 +228,7 @@ patch(x,y,z,'cyan','FaceAlpha',0.3)
 patch(x+2,y,z,'magenta','FaceAlpha',0.3)
 patch(x+1,y+2,z,'yellow','FaceAlpha',0.3)]]></example_item_data>
                                                                             <example_item_img
-        src="../images/patch_4.svg"
+        src="../../images/patch_4.svg"
         align="middle"
         generate="true"
       />

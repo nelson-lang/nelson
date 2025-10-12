@@ -79,6 +79,7 @@
       >nelson</example_item_type>
                                         <example_item_description />
                                         <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 A = rand(69, 69);
 A(:,:,2) = rand(69,69);
@@ -92,11 +93,12 @@ imwrite(A, [tempdir, '69x69-RGB.png']);]]></example_item_data>
                                         <example_item_description
       >gif animation</example_item_description>
                                         <example_item_img
-        src="../images/imwrite_gif.gif"
+        src="../../images/imwrite_gif.gif"
         align="middle"
-        generate="true"
+        generate="false"
       />
                                         <example_item_data
+        runnable="adv-cli"
       ><![CDATA[movie_directory = [modulepath('graphics'), '/examples/', 'movie/'];
 sequences = {'dance', 8; 'leap', 9};
 frameIdx = 0;

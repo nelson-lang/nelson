@@ -41,6 +41,7 @@
                 <example_item_description
       >basic example to call dlmake</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[
 dest = [tempdir(), 'dlmake_help']; 
 mkdir(dest);		

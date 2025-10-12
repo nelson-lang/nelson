@@ -35,17 +35,23 @@
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
-                <example_item_data><![CDATA[eps]]></example_item_data>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[eps]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
-                <example_item_data><![CDATA[eps('double')]]></example_item_data>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[eps('double')]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
-                <example_item_data><![CDATA[eps('single')]]></example_item_data>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[eps('single')]]></example_item_data>
             </example_item>
         </examples>
         <see_also>

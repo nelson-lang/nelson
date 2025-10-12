@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>mpi</module_name>
+  <chapter>Interface de passage de messages (MPI)</chapter>
+  <chapter_description>
+    <p
+    >Dans le domaine du calcul parallèle, le Message Passing Interface (MPI) est la norme de facto
+      pour implémenter des programmes sur plusieurs processeurs.</p>
+    <p
+    >Ce module fournit des fonctions pour initialiser, gérer et finaliser des environnements MPI,
+      ainsi que pour effectuer la communication entre processus, à la fois point à point et collective.</p>
+    <p
+    >Il permet aux programmes Nelson de s'exécuter efficacement sur des systèmes à mémoire distribuée et des clusters.</p>
+  </chapter_description>
+</xmldoc>

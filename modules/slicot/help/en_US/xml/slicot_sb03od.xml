@@ -84,6 +84,7 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="cli"
       ><![CDATA[A = [-0.5000    0.5000         0;
          0         0         0;
    -0.5000         0    0.5000];

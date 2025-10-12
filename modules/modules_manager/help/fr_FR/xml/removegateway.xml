@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>removegateway</keyword>
+        <short_description
+  >Supprime dynamiquement un builtin au moment de l'exécution.</short_description>
+    <syntax>
+        <syntax_item>removegateway(dyn_lib_path)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>dyn_lib_path</param_name>
+        <param_description
+      >chaîne : chemin d'une bibliothèque dynamique préparée pour Nelson.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b
+      >removegateway(dyn_lib_path)</b> supprime dynamiquement un builtin au moment de l'exécution.</p>
+            <p
+    >La bibliothèque dynamique doit fournir au minimum un point d'entrée C nommé <b
+      >RemoveGateway</b>.</p>
+            <p
+    >Si la gateway n'était pas chargée, aucune erreur ni avertissement ne sera levé. Si le fichier n'existe pas, une erreur est levée.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description
+      >removes time builtin</example_item_description>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[calendar
+removegateway(modulepath('time', 'builtin'))
+calendar]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${dynamic_link}addgateway">addgateway</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${dynamic_link}gatewayinfo">gatewayinfo</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

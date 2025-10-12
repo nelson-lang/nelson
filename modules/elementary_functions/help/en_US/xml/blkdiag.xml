@@ -32,6 +32,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[blkdiag(magic(2), magic(3), magic(4))]]></example_item_data>
             </example_item>
         </examples>

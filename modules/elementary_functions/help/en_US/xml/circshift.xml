@@ -39,6 +39,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[x = [10, 20, 30; 40, 50, 60; 70, 80, 90];
 circshift (x, 1
 circshift (x, -2))]]></example_item_data>

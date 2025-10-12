@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>try</keyword>
+    <keyword_alias>catch</keyword_alias>
+    <short_description>instruction try/catch.</short_description>
+    <syntax>
+        <syntax_item>try, statements_1, catch, statements_2, end</syntax_item>
+        <syntax_item
+    >try, statements_1, catch exception, statements_2, end</syntax_item>
+    </syntax>
+    <description>
+        <p>
+            Les instructions <b>try</b> et <b
+      >catch</b> sont utilisées pour la gestion des erreurs et le contrôle dans les fichiers.</p>
+            <p>
+                <b>exception</b> est un objet <b
+      >MException</b> qui permet d'identifier l'erreur.</p>
+                <p
+    >Le bloc catch assigne l'objet exception courant à la variable dans exception.</p>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description
+      >try/catch dans un script</example_item_description>
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[try 
+error('an error')
+catch
+  disp('error catched')
+end]]></example_item_data>
+                </example_item>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description
+      >try/catch dans un script</example_item_description>
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[try 
+error('an error')
+catch ME
+  ME
+end]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${core}run">run</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${core}execstr">execstr</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${error_manager}MException">MException</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>version initiale</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

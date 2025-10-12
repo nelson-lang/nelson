@@ -72,6 +72,7 @@
       >nelson</example_item_type>
                                                 <example_item_description />
                                                 <example_item_data
+        runnable="cli"
       ><![CDATA[filename = diary('get', 'DiaryFile')
 onoff = diary('get', 'Diary')]]></example_item_data>
                                             </example_item>

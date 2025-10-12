@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>history_manager</module_name>
+    <chapter>Gestionnaire d'historique</chapter>
+    <chapter_description>
+        <p
+    >Le module History Manager de Nelson fournit des outils pour accéder et gérer l'historique des commandes de votre session.</p>
+        <p
+    >Il permet aux utilisateurs de revoir les commandes exécutées précédemment, de les rappeler pour les réutiliser et de maintenir un flux de travail organisé.</p>
+    </chapter_description>
+</xmldoc>

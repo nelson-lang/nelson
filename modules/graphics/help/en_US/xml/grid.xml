@@ -42,13 +42,14 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 x = linspace(0, 20);
 y = cos(x);
 plot(x, y)
 grid on]]></example_item_data>
                 <example_item_img
-        src="../images/grid.svg"
+        src="../../images/grid.svg"
         align="middle"
         generate="true"
       />

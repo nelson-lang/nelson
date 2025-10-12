@@ -52,6 +52,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[
 [DayNumber, DayName] = weekday(datenum('12-21-2012'), 'long', 'en_US')
 [DayNumber, DayName] = weekday(datenum('12-21-2012'), 'long', 'local')

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>zip</keyword>
+    <short_description
+  >Compresser des fichiers dans une archive zip.</short_description>
+    <syntax>
+        <syntax_item>res = zip(zipname, files)</syntax_item>
+        <syntax_item>res = zip(zipname, files, rootdir)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>zipname</param_name>
+            <param_description
+      >une chaîne : fichier de destination de l'archive zip.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>files</param_name>
+            <param_description
+      >un vecteur de caractères, un tableau de cellules de vecteurs de caractères, ou un tableau de chaînes : noms des fichiers ou dossiers à compresser.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>rootdir</param_name>
+            <param_description
+      >un vecteur de caractères ou une chaîne : chemin racine pour les fichiers à compresser.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>res</param_name>
+            <param_description
+      >un tableau de cellules de vecteurs de caractères contenant les noms des fichiers inclus dans l'archive zip.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p><b
+      >zip</b> compresse des fichiers et des répertoires dans une archive zip.</p>
+        <p>Chaque fichier individuel doit être inférieur à 4 Go.</p>
+        <p>Le nombre de fichiers spécifiés doit être inférieur à 65535.</p>
+    </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[zip([tempdir(), 'test.zip'], [nelsonroot(), '/module_skeleton'])
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${file_archiver}unzip">unzip</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

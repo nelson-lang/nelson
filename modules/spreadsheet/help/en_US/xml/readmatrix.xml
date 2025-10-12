@@ -50,7 +50,7 @@
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
-                    <example_item_data>
+                    <example_item_data runnable="cli">
 filename = [tempdir,'readmatrix_1.csv'];
 Names = {'John'; 'Alice'; 'Bob'; 'Diana'};
 Age = [28; 34; 22; 30];
@@ -64,7 +64,7 @@ M = readmatrix(filename)
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
-                    <example_item_data>
+                    <example_item_data runnable="cli">
 filename = [tempdir,'readmatrix_2.csv'];
 M = magic(6);
 writematrix(M, filename)

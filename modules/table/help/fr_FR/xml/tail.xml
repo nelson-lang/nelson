@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>tail</keyword>
+    <short_description
+  >Obtenir les dernières lignes d'une table ou d'un tableau.</short_description>
+    <syntax>
+        <syntax_item>tail(A)</syntax_item>
+        <syntax_item>tail(A, k)</syntax_item>
+        <syntax_item>B = tail(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
+      >Tableau d'entrée (table ou autre).</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>k</param_name>
+        <param_description
+      >un entier : nombre de lignes à extraire (k = 8 par défaut).</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p><b
+      >tail(A)</b> affiche les huit dernières lignes d'un tableau, ou de la table <b
+      >A</b> dans la fenêtre de commande sans l'assigner à une variable.</p>
+            <p><b>tail(A, k)</b> affiche les k dernières lignes de A.</p>
+                <p><b>B = tail(...)</b> renvoie les lignes spécifiées de <b
+      >A</b> pour n'importe laquelle des syntaxes précédentes, avec <b
+      >B</b> ayant le même type de données que <b>A</b>.</p>
+                </description>
+                <used_function />
+                <bibliography />
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[LastName = {'Sanchez';'Johnson';'Li';'Diaz';'Brown'};
+Age = [38;43;38;40;49];
+Smoker = logical([1;0;1;0;1]);
+Height = [71;69;64;67;64];
+Weight = [176;163;131;133;119];
+BloodPressure = [124 93; 109 77; 125 83; 117 75; 122 80];
+T = table(LastName, Age, Smoker, Height, Weight, BloodPressure)
+tail(T, 2)]]></example_item_data>
+                    </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[A = repmat((1:50)',1, 3);
+tail(A)]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link linkend="${table}head">head</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link linkend="${table}table">table</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.9.0</history_version>
+                        <history_description
+      >version initiale</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

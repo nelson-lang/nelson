@@ -43,6 +43,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[all([33, 22; 11, 0])
 all([33, 22; 11, 0], 2)]]></example_item_data>
             </example_item>

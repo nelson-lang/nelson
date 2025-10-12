@@ -108,6 +108,7 @@
             <example_item_description
       >imresize example</example_item_description>
             <example_item_data
+        runnable="adv-cli"
       ><![CDATA[filename = [tempdir, 'apollo_8_earthrise_1968_as08-14-2383.jpg'];
 websave(filename, 'https://www.nasa.gov/wp-content/uploads/2025/05/3dmodels-casa-2025-astro.jpg');
 

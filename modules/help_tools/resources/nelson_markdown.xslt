@@ -18,6 +18,84 @@
 
   <!-- Root template -->
   <xsl:template match="/xmldoc">
+
+    <xsl:variable name="syntax-text">
+      <xsl:choose>
+        <xsl:when test="language = 'fr_FR'">Syntaxe</xsl:when>
+        <xsl:otherwise>Syntax</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="input-argument-text">
+      <xsl:choose>
+        <xsl:when test="language = 'fr_FR'">Argument d'entrée</xsl:when>
+        <xsl:otherwise>Input argument</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="output-argument-text">
+      <xsl:choose>
+        <xsl:when test="language = 'fr_FR'">Argument de sortie</xsl:when>
+        <xsl:otherwise>Output argument</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="description-text">
+      <xsl:choose>
+        <xsl:when test="language = 'fr_FR'">Description</xsl:when>
+        <xsl:otherwise>Description</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="bibliography-text">
+      <xsl:choose>
+        <xsl:when test="language = 'fr_FR'">Bibliographie</xsl:when>
+        <xsl:otherwise>Bibliography</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="used-functions-text">
+      <xsl:choose>
+        <xsl:when test="language = 'fr_FR'">Fonction(s) utilisée(s)</xsl:when>
+        <xsl:otherwise>Used function(s)</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="example-text">
+      <xsl:choose>
+        <xsl:when test="language = 'fr_FR'">Exemple</xsl:when>
+        <xsl:otherwise>Example</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="see-also-text">
+      <xsl:choose>
+        <xsl:when test="language = 'fr_FR'">Voir aussi</xsl:when>
+        <xsl:otherwise>See also</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="history-text">
+      <xsl:choose>
+        <xsl:when test="language = 'fr_FR'">Historique</xsl:when>
+        <xsl:otherwise>History</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="author-text">
+      <xsl:choose>
+        <xsl:when test="language = 'fr_FR'">Auteur</xsl:when>
+        <xsl:otherwise>Author</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="version-text">
+      <xsl:choose>
+        <xsl:when test="language = 'fr_FR'">Version</xsl:when>
+        <xsl:otherwise>Version</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
 # <xsl:value-of select="keyword"/>
     <xsl:text>&#10;&#10;</xsl:text>
     <xsl:value-of select="short_description"/>
@@ -25,7 +103,7 @@
 
     <!-- Only display syntax section if it has content -->
     <xsl:if test="syntax/syntax_item[normalize-space(.)]">
-    <xsl:text>&#10;## Syntax&#10;&#10;</xsl:text>
+    <xsl:text>&#10;## </xsl:text><xsl:value-of select="$syntax-text"/><xsl:text>&#10;&#10;</xsl:text>
     <xsl:for-each select="syntax/syntax_item">
     <xsl:text>- </xsl:text><xsl:value-of select="normalize-space(.)"/>
     <xsl:text>&#10;</xsl:text>
@@ -34,7 +112,7 @@
 
     <!-- Only show input arguments section if it has items -->
     <xsl:if test="param_input/param_input_item">
-    <xsl:text>&#10;## Input argument&#10;&#10;</xsl:text>
+    <xsl:text>&#10;## </xsl:text><xsl:value-of select="$input-argument-text"/><xsl:text>&#10;&#10;</xsl:text>
     <xsl:for-each select="param_input/param_input_item">
     <xsl:text>- </xsl:text><xsl:value-of select="param_name"/><xsl:text> - </xsl:text><xsl:value-of select="normalize-space(param_description)"/>
     <xsl:text>&#10;</xsl:text>
@@ -43,7 +121,7 @@
 
     <!-- Only show output arguments section if it has items -->
     <xsl:if test="param_output/param_output_item">
-    <xsl:text>&#10;## Output argument&#10;&#10;</xsl:text>
+    <xsl:text>&#10;## </xsl:text><xsl:value-of select="$output-argument-text"/><xsl:text>&#10;&#10;</xsl:text>
     <xsl:for-each select="param_output/param_output_item">
     <xsl:text>- </xsl:text><xsl:value-of select="param_name"/><xsl:text> - </xsl:text><xsl:value-of select="normalize-space(param_description)"/>
     <xsl:text>&#10;</xsl:text>
@@ -52,13 +130,16 @@
 
     <!-- Only show description section if it's not empty -->
     <xsl:if test="description">
-    <xsl:text>&#10;## Description&#10;</xsl:text>
+    <xsl:text>&#10;## </xsl:text><xsl:value-of select="$description-text"/><xsl:text>&#10;</xsl:text>
     <xsl:for-each select="description/node()">
       <xsl:choose>
         <xsl:when test="name() = 'p'">
           <xsl:text>&lt;p&gt;</xsl:text>
           <xsl:apply-templates select="node()"/>
           <xsl:text>&lt;/p&gt;&#10;</xsl:text>
+        </xsl:when>
+        <xsl:when test="name() = 'table'">
+          <xsl:apply-templates select="."/>
         </xsl:when>
         <xsl:when test="name() = 'b'">
           <xsl:text>&lt;b&gt;</xsl:text>
@@ -80,21 +161,21 @@
 
     <!-- Bibliography section if present and non-empty -->
     <xsl:if test="normalize-space(bibliography)">
-      <xsl:text>&#10;## Bibliography&#10;&#10;</xsl:text>
+      <xsl:text>&#10;## </xsl:text><xsl:value-of select="$bibliography-text"/><xsl:text>&#10;&#10;</xsl:text>
       <xsl:value-of select="bibliography"/>
       <xsl:text>&#10;</xsl:text>
     </xsl:if>
 
     <!-- Used function(s) section if present and non-empty -->
     <xsl:if test="normalize-space(used_function)">
-      <xsl:text>&#10;## Used function(s)&#10;&#10;</xsl:text>
+      <xsl:text>&#10;## </xsl:text><xsl:value-of select="$used-functions-text"/><xsl:text>&#10;&#10;</xsl:text>
       <xsl:value-of select="used_function"/>
       <xsl:text>&#10;</xsl:text>
     </xsl:if>
 
     <!-- Only show examples section if there are examples -->
     <xsl:if test="examples/example_item">
-    <xsl:text>&#10;## Example</xsl:text>
+    <xsl:text>&#10;## </xsl:text><xsl:value-of select="$example-text"/>
     <xsl:if test="count(examples/example_item) > 1">
       <xsl:text>s</xsl:text>
     </xsl:if>
@@ -126,7 +207,7 @@
 
     <!-- Only show "See also" section if it has items -->
     <xsl:if test="see_also/see_also_item/link">
-    <xsl:text>&#10;&#10;## See also&#10;&#10;</xsl:text>
+    <xsl:text>&#10;&#10;## </xsl:text><xsl:value-of select="$see-also-text"/><xsl:text>&#10;&#10;</xsl:text>
     <xsl:for-each select="see_also/see_also_item/link">
       <xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text>](</xsl:text>
       <!-- Extract module and function name from linkend -->
@@ -164,8 +245,8 @@
 
     <!-- Only show history section if it has items -->
     <xsl:if test="history/history_item">
-    <xsl:text>&#10;&#10;## History&#10;&#10;</xsl:text>
-    <xsl:text>| Version | Description     |&#10;</xsl:text>
+    <xsl:text>&#10;&#10;## </xsl:text><xsl:value-of select="$history-text"/><xsl:text>&#10;&#10;</xsl:text>
+    <xsl:text>| </xsl:text><xsl:value-of select="$version-text"/><xsl:text> | </xsl:text><xsl:value-of select="$description-text"/><xsl:text>     |&#10;</xsl:text>
     <xsl:text>| ------- | --------------- |&#10;</xsl:text>
     <xsl:for-each select="history/history_item">
     <xsl:text>| </xsl:text><xsl:value-of select="history_version"/><xsl:text>   | </xsl:text><xsl:value-of select="history_description"/><xsl:text> |&#10;</xsl:text>
@@ -174,7 +255,7 @@
 
     <!-- Only show author section if there are authors -->
     <xsl:if test="authors/author_item">
-    <xsl:text>&#10;## Author&#10;&#10;</xsl:text>
+    <xsl:text>&#10;## </xsl:text><xsl:value-of select="$author-text"/><xsl:text>&#10;&#10;</xsl:text>
     <xsl:for-each select="authors/author_item">
     <xsl:value-of select="."/>
     <xsl:text>&#10;</xsl:text>
@@ -229,5 +310,46 @@
     <xsl:text>&#10;</xsl:text>
     <xsl:apply-templates/>
     <xsl:text>&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- Table rendering templates -->
+  <xsl:template match="table">
+    <xsl:text>&#10;</xsl:text>
+    <xsl:apply-templates select="tr[1]" mode="header"/>
+    <xsl:apply-templates select="tr[position() > 1]"/>
+    <xsl:text>&#10;</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="tr" mode="header">
+    <xsl:text>| </xsl:text>
+    <xsl:for-each select="th">
+      <xsl:apply-templates/>
+      <xsl:text> |</xsl:text>
+      <xsl:if test="position() != last()"><xsl:text> </xsl:text></xsl:if>
+    </xsl:for-each>
+    <xsl:text>&#10;| </xsl:text>
+    <xsl:for-each select="th">
+      <xsl:text>--- |</xsl:text>
+      <xsl:if test="position() != last()"><xsl:text> </xsl:text></xsl:if>
+    </xsl:for-each>
+    <xsl:text>&#10;</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="tr">
+    <xsl:text>| </xsl:text>
+    <xsl:for-each select="td">
+      <xsl:apply-templates/>
+      <xsl:text> |</xsl:text>
+      <xsl:if test="position() != last()"><xsl:text> </xsl:text></xsl:if>
+    </xsl:for-each>
+    <xsl:text>&#10;</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="th">
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="td">
+    <xsl:apply-templates/>
   </xsl:template>
 </xsl:stylesheet>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>meshz</keyword>
+    <short_description
+  >Tracé de surface en maillage (mesh) avec rideau.</short_description>
+    <syntax>
+        <syntax_item>meshz(X, Y, Z)</syntax_item>
+        <syntax_item>meshz(Z)</syntax_item>
+        <syntax_item>meshz(Z, C)</syntax_item>
+        <syntax_item>meshz(X, Y, Z, C)</syntax_item>
+        <syntax_item>meshz(parent, ...)</syntax_item>
+        <syntax_item>meshz(..., propertyName, propertyValue)</syntax_item>
+        <syntax_item>go = meshz(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>X</param_name>
+            <param_description
+      >Coordonnées x : vecteur ou matrice.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Y</param_name>
+            <param_description
+      >Coordonnées y : vecteur ou matrice.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Z</param_name>
+            <param_description
+      >Coordonnées z : vecteur ou matrice.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>C</param_name>
+            <param_description
+      >Tableau de couleurs : tableau m-par-n-par-3 de triplets RGB.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>parent</param_name>
+            <param_description
+      >Un objet graphique scalaire : conteneur parent, spécifié comme axes.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyName</param_name>
+            <param_description
+      >Une chaîne scalaire ou un vecteur ligne de caractères.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyValue</param_name>
+            <param_description>Une valeur.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>go</param_name>
+            <param_description
+      >Un objet graphique : type surface.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >meshz</b> crée un tracé de surface 3D avec un maillage (wireframe) au-dessus.
+        </p>
+        <p>La fonction prend les mêmes arguments d'entrée que la fonction <b
+      >mesh</b>.</p>
+    </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+[X,Y] = meshgrid(-5:.5:5);
+Z = Y.*sin(X) - X.*cos(Y);
+s = meshz(X,Y,Z)]]></example_item_data>
+                <example_item_img
+        src="../../images/meshz_1.svg"
+        align="middle"
+        generate="true"
+      />
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${graphics}mesh">mesh</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${elementary_functions}meshgrid">meshgrid</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

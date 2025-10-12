@@ -69,6 +69,7 @@
                         <example_item_type>nelson</example_item_type>
                         <example_item_description />
                         <example_item_data
+        runnable="cli"
       ><![CDATA[
 A = rand(3,1)
 fileID = fopen([tempdir(), 'doubledata.bin'],'w');
@@ -84,6 +85,7 @@ fclose(fileID);
                         <example_item_type>nelson</example_item_type>
                         <example_item_description />
                         <example_item_data
+        runnable="cli"
       ><![CDATA[
 fileID = fopen([tempdir(), 'uint16nine.bin'],'w');
 fwrite(fileID,[1:9],'uint16');

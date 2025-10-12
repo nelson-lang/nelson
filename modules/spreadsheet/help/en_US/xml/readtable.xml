@@ -42,7 +42,7 @@
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
-                    <example_item_data>
+                    <example_item_data runnable="cli">
 Names = {'John'; 'Alice'; 'Bob'; 'Diana'};
 Age = [28; 34; 22; 30];
 Height = [175; 160; 180; 165];
@@ -55,7 +55,7 @@ T2 = readtable([tempdir,'readtable_1.csv'])
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
-                    <example_item_data>
+                    <example_item_data runnable="cli">
 Names = {'John'; 'Alice'; 'Bob'; 'Diana'};
 Age = [28; 34; 22; 30];
 Height = [175; 160; 180; 165];

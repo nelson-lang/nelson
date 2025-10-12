@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+   <copyright>SAME AS NELSON SOFTWARE</copyright>
+   <language>fr_FR</language>
+    <module_name>matio</module_name>
+    <chapter>MATIO</chapter>
+    <chapter_description>
+        <p
+    >Le module MATIO fournit un support pour la lecture et l'écriture de fichiers MAT, un format largement utilisé pour stocker des données numériques dans MATLAB© et des environnements compatibles.</p>
+        <p
+    >Il permet à Nelson de vérifier la validité d'un fichier MAT, de charger et sauvegarder des variables d'espace de travail, et d'inspecter le contenu des fichiers.</p>
+        <p
+    >Grâce à ce module, les utilisateurs peuvent échanger des données entre Nelson et MATLAB©, ce qui en fait un composant clé pour l'interopérabilité dans les flux de travail scientifiques et d'ingénierie.</p>
+</chapter_description>
+</xmldoc>

@@ -54,6 +54,7 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[A = magic(5)
 [L, U] = lu(A)
 L * U
@@ -63,6 +64,7 @@ L * U
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[A = magic(5)
 [L, U, P] = lu(A);
 subplot(1, 2, 1)

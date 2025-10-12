@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>substruct</keyword>
+    <short_description
+  >Create structure argument for subsasgn or subsref</short_description>
+    <syntax>
+        <syntax_item
+    >S = substruct(type1, subs1, type2, subs2, ...)</syntax_item>
+    </syntax>
+    <description>
+        <p>
+            <b
+      >S = substruct(type1, subs1, type2, subs2, ...)</b> generates a structure containing fields necessary for an overloaded <b
+      >subsref</b> or <b>subsasgn</b> method.</p>
+            <p>Each type char vector is limited to '.', '()', or '{}'.</p>
+            <p
+    >The associated subs argument should be a field name (for the '.' type) or a cell array containing index vectors (for the '()' or '{}' types).</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[S = struct('field1', 10, 'field2', 'Hello', 'field3', [1, 2, 3]);
+% Create a substruct for accessing the 'field2'
+s = substruct('.', 'field2');
+% Use subsref to get the value of 'field2'
+value = subsref(S, s);]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${operators}subsref">subsref</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${operators}subsasgn">subsasgn</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

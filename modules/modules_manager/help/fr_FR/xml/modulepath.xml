@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>modulepath</keyword>
+    <short_description>Renvoie le chemin d'un module.</short_description>
+    <syntax>
+        <syntax_item>p = modulepath(module_short_name)</syntax_item>
+        <syntax_item>p = modulepath(module_short_name, option)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>module_short_name or 'nelson'</param_name>
+        <param_description
+      >chaîne : nom court du module. Le module doit exister dans la session Nelson.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>option</param_name>
+        <param_description
+      >chaîne : 'etc', 'bin', 'root', 'builtin', 'tests'.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>p</param_name>
+        <param_description
+      >chaîne : chemin ou sous-chemin du module.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >modulepath</b> est une fonction d'aide qui renvoie le chemin racine d'un module ou un sous-répertoire.</p>
+            <p>
+                <b>modulepath('nelson')</b> est équivalent à <b
+      >modulepath('nelson', 'root')</b>
+            </p>
+            <p>
+                <b
+      >modulepath('nelson', 'bin')</b> renvoie le chemin des exécutables de Nelson.</p>
+                <p>
+                    <b
+      >modulepath('nelson', 'builtin')</b> renvoie le chemin des bibliothèques dynamiques de Nelson.</p>
+                </description>
+                <used_function />
+                <bibliography />
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[modulepath('core')
+modulepath('core', 'root')
+modulepath('core', 'etc')
+modulepath('core', 'bin')
+modulepath('core', 'builtin')
+modulepath('core', 'tests')
+modulepath('nelson', 'root')
+modulepath('nelson', 'bin')
+modulepath('nelson', 'builtin')
+]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link
+        linkend="${modules_manager}requiremodule"
+      >requiremodule</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link
+        linkend="${modules_manager}getmodules"
+      >getmodules</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.0.0</history_version>
+                        <history_description
+      >version initiale</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

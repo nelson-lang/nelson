@@ -66,24 +66,28 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="false"
       ><![CDATA[res = questdlg('What is the answer to the ultimate question of life, the universe and everything ?', 'A question for geeks', '41', '42', '43', '42')]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="false"
       ><![CDATA[res = questdlg ('Easy ?', 'Jeff', 'No', 'Okay', 'Okay')]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="false"
       ><![CDATA[res = questdlg('How are you ?', 'Health', 'Fine', 'Good', 'sick', 'Fine')]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="false"
       ><![CDATA[res = questdlg({'Is', 'this', 'a', 'multi line', 'test ?'}, 'Test :)')]]></example_item_data>
             </example_item>
         </examples>

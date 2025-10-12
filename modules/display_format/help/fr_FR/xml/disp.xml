@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>disp</keyword>
+    <short_description>Afficher une variable.</short_description>
+    <syntax>
+        <syntax_item>disp(V)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>V</param_name>
+            <param_description>une variable</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b>disp(V)</b> affiche la valeur de la variable <b>V</b>.</p>
+            <p>
+                <b>disp</b> utilise le réglage courant de <b
+      >format</b> pour afficher les valeurs numériques.</p>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[disp('Hello Nelson')]]></example_item_data>
+                </example_item>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[disp(pi)]]></example_item_data>
+                </example_item>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[disp(eye(3, 3))]]></example_item_data>
+                </example_item>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description
+      >disp always ends with a newline.</example_item_description>
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[disp('')]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${display_format}display">display</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${stream_manager}fprintf">fprintf</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${display_format}format">format</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>version initiale</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

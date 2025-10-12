@@ -37,6 +37,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[C = uint8([194   232   240   242   243   224   235   252   237   224   255]);
 nativecharset(R)]]></example_item_data>
             </example_item>

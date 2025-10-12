@@ -33,6 +33,7 @@
                 <example_item_description
       >See module skeleton for example</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[
 dlgenerateloader(tempdir(), {'c_dynamic_library_1',  'c_dynamic_library_2'});
 text = fileread([tempdir(), 'loader.m'])]]></example_item_data>

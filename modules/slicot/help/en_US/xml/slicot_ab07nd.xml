@@ -73,6 +73,7 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="cli"
       ><![CDATA[A_IN = [1.0   2.0   0.0;
    4.0  -1.0   0.0;
    0.0   0.0   1.0];

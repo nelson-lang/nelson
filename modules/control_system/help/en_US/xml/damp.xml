@@ -47,6 +47,7 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="cli"
       ><![CDATA[sys = tf([2, 5, 1], [1, 0, 2, -6]);
 [wn, zeta, p, T] = damp(sys)
 ]]></example_item_data>

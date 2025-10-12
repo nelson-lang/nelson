@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>logical</module_name>
+    <chapter>Fonctions de type logique</chapter>
+    <chapter_description>
+        <p
+    >Le module de type logique fournit des outils pour travailler avec les valeurs booléennes et les opérations logiques dans Nelson.</p>
+        <p
+    >Il permet la création, la conversion et la manipulation de données logiques, en prenant en charge des opérations logiques fondamentales essentielles pour le contrôle de flux, l'évaluation conditionnelle et la prise de décision dans les scripts et programmes.</p>
+    </chapter_description>
+</xmldoc>

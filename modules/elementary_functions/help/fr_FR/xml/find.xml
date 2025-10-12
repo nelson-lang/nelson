@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>find</keyword>
+    <short_description>Trouver les éléments non nuls</short_description>
+    <syntax>
+    <syntax_item>K = find(M)</syntax_item>
+        <syntax_item>[R, C] = find(M)</syntax_item>
+        <syntax_item>[R, C, V] = find(M)</syntax_item>
+        <syntax_item>K = find(M, N)</syntax_item>
+        <syntax_item>[R, C] = find(M, N)</syntax_item>
+        <syntax_item>[R, C, V] = find(M, N)</syntax_item>
+        <syntax_item>K = find(M, N, D)</syntax_item>
+        <syntax_item>[R, C] = find(M, N, D)</syntax_item>
+        <syntax_item>[R, C, V] = find(M, N, D)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>M</param_name>
+        <param_description
+      >un scalaire, vecteur, matrice ou tableau multidimensionnel.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>N</param_name>
+        <param_description
+      >entier positif : nombre de non-zéros à trouver.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>D</param_name>
+        <param_description
+      >direction : 'first' (par défaut) ou 'last'.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+        <param_name>K</param_name>
+        <param_description
+      >indices des éléments non nuls (vecteur).</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>R</param_name>
+            <param_description>indices de lignes (vecteur).</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>C</param_name>
+            <param_description
+      >indices de colonnes (vecteur).</param_description>
+        </param_output_item>
+        <param_output_item>
+        <param_name>V</param_name>
+        <param_description>éléments non nuls de M (vecteur).</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >K = find(M)</b> renvoie un vecteur contenant les indices linéaires de chaque élément non nul de <b
+      >M</b>.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[M = rand(4, 3, 5);
+[R, C, V] = find(M > 0.9)
+M(R(1),C(1),V(1))]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${string}strfind">strfind</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

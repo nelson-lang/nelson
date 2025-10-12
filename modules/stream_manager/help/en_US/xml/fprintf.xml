@@ -121,6 +121,7 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="cli"
       ><![CDATA[
 fileID = fopen([tempdir(), 'fprintf.txt'],'wt');
 fprintf(fileID, 'an example of %s.', 'text');
@@ -132,6 +133,7 @@ R = fileread([tempdir(), 'fprintf.txt'])]]></example_item_data>
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="cli"
       ><![CDATA[fprintf(1, 'an value %g.', pi);
 fprintf(2, "an value %g.", pi);]]></example_item_data>
         </example_item>
@@ -140,6 +142,7 @@ fprintf(2, "an value %g.", pi);]]></example_item_data>
             <example_item_description
       >How to use backspace</example_item_description>
             <example_item_data
+        runnable="cli"
       ><![CDATA[reverseStr = '';
 for idx = 1 : 100
  percentDone = idx;
@@ -154,6 +157,7 @@ end
             <example_item_description
       >Display a percent sign</example_item_description>
             <example_item_data
+        runnable="cli"
       ><![CDATA[fprintf(1, '%d%%.', 95)]]></example_item_data>
         </example_item>
     </examples>

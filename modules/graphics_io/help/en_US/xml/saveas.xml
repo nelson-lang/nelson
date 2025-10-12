@@ -74,12 +74,13 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[x = -2:0.25:2;
 y = x;
 [X,Y] = meshgrid(x);
 F = X.*exp(-X.^2-Y.^2);
 surf(X,Y,F);
-saveas(gcf(), 'svg-file.svg');
+saveas(gcf(), [tempdir, 'svg-file.svg']);
 ]]></example_item_data>
                 </example_item>
             </examples>

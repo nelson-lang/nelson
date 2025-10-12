@@ -32,6 +32,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[x = [0, 1/2, 1, 3/2, 2];
 r = cos(x * pi)
 res = cospi(x)]]></example_item_data>

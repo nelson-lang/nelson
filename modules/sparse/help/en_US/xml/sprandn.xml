@@ -46,6 +46,7 @@
                     <example_item_description
       >sprandn with matrix pattern</example_item_description>
                     <example_item_data
+        runnable="cli"
       ><![CDATA[S = [1 0 0; 0 1 0; 0 0 1]; R = sprandn(S)]]></example_item_data>
                 </example_item>
                 <example_item>
@@ -53,6 +54,7 @@
                     <example_item_description
       >sprandn with size and density</example_item_description>
                     <example_item_data
+        runnable="cli"
       ><![CDATA[R = sprandn(5, 5, 0.2)]]></example_item_data>
                 </example_item>
             </examples>

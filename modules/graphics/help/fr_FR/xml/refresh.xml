@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>refresh</keyword>
+    <short_description>Rafraîchir la figure courante.</short_description>
+    <syntax>
+        <syntax_item>refresh()</syntax_item>
+        <syntax_item>refresh(F)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>F</param_name>
+            <param_description>Objet graphique figure.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b>refresh</b> efface et redessine la figure courante.
+        </p>
+        <p>
+            <b>refresh(F)</b> redessine la figure identifiée par <b>F</b>.
+        </p>
+    </description>
+            <used_function />
+            <bibliography />
+            <see_also>
+                <see_also_item>
+                    <link linkend="${graphics}clf">clf</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>version initiale</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

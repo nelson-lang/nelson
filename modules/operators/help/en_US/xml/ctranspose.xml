@@ -33,19 +33,24 @@
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
-                <example_item_data><![CDATA[A = 3
-B = A']]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data><![CDATA[A = -i
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = 3
 B = A']]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
+      ><![CDATA[A = -i
+B = A']]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
       ><![CDATA[ A = sparse(eye(3, 4) * i)
 B = A']]></example_item_data>
             </example_item>

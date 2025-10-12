@@ -28,17 +28,23 @@
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
-                    <example_item_data><![CDATA[doc()]]></example_item_data>
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[doc()]]></example_item_data>
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
-                    <example_item_data><![CDATA[doc sin]]></example_item_data>
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[doc sin]]></example_item_data>
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
-                    <example_item_data><![CDATA[doc is]]></example_item_data>
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[doc is]]></example_item_data>
                 </example_item>
             </examples>
             <history>

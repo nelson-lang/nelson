@@ -32,11 +32,12 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 surf(peaks);
 colormap('pink');]]></example_item_data>
                 <example_item_img
-        src="../images/turbo.svg"
+        src="../../images/turbo.svg"
         align="middle"
         generate="true"
       />

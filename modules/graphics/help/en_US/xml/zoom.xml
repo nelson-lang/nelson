@@ -85,6 +85,7 @@
       >nelson</example_item_type>
                                             <example_item_description />
                                             <example_item_data
+        runnable="adv-cli"
       ><![CDATA[surf(peaks)
 zoom on
 zoom reset

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>namelengthmax</keyword>
+    <short_description
+  >Longueur maximale des noms de variables.</short_description>
+    <syntax>
+        <syntax_item>R = namelengthmax</syntax_item>
+    </syntax>
+    <param_output>
+        <param_output_item>
+            <param_name>R</param_name>
+            <param_description
+      >a double: the maximum variable name length</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+  <p
+    >Renvoie la longueur maximale autorisée pour les noms de variables dans l'environnement.</p>
+</description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description
+      >Working: identifier length 4096 characters</example_item_description>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[ID = ['A', char(double('0') * ones(1, namelengthmax -1 ))];
+length(ID)
+STR = [ID, ' = 3'];
+execstr(STR)
+]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description
+      >Not Working: identifier length 4097 characters</example_item_description>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[ID = ['A', char(double('0') * ones(1, namelengthmax))];
+length(ID)
+STR = [ID, ' = 3'];
+execstr(STR)
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${core}execstr">execstr</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

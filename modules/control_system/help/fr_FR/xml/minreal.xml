@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>minreal</keyword>
+    <short_description
+  >Réalisation minimale ou annulation pôle‑zéro.</short_description>
+    <syntax>
+        <syntax_item>[Am, Bm, Cm, Dm] = minreal(A, B, C, D)</syntax_item>
+        <syntax_item>[Am, Bm, Cm, Dm] = minreal(A, B, C, D, tol)</syntax_item>
+        <syntax_item>sysOut = minreal(sysIn)</syntax_item>
+        <syntax_item>sysOut = minreal(sysIn, tol)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A (n x n)</param_name>
+            <param_description
+      >Représente la matrice de transition d'état du système. Elle décrit comment l'état interne du système évolue dans le temps.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>B (n x m)</param_name>
+            <param_description
+      >Décrit la correspondance entrée-état. Elle montre comment les entrées de contrôle affectent le changement de l'état du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>C (p x n)</param_name>
+            <param_description
+      >Représente la correspondance état-sortie. Elle montre comment les variables d'état du système sont liées aux sorties du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>D (p x m)</param_name>
+            <param_description
+      >Décrit le passage direct des entrées aux sorties. Dans de nombreux systèmes, cette matrice est nulle car il n'y a pas de passage direct.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>tol</param_name>
+            <param_description>scalaire réel (tolérance).</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>sysIn</param_name>
+            <param_description>Modèle LTI.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>Am, Bm, Cm, Dm</param_name>
+            <param_description
+      >une réalisation minimale du système d'état A, B, C, D.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>sysOut</param_name>
+            <param_description
+      >une réalisation minimale de l'entrée LTI.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >minreal</b> réduit les modèles d'état en éliminant les états non contrôlables ou non observables.</p>
+            <p
+    >Dans les fonctions de transfert ou modèles zéro‑pôle‑gain, il annule les paires pôles‑zéros. Le modèle résultant maintient les mêmes caractéristiques de réponse que le modèle original mais avec un ordre minimal.</p>
+            <p> Lorsque vous utilisez <b
+      >sysOut = minreal(sysIn, tol)</b>, vous pouvez personnaliser la tolérance pour l'élimination des états ou l'annulation des pôles-zéros.</p>
+            <p
+    >La tolérance par défaut est fixée à sqrt(eps), et l'augmentation de cette valeur entraîne des annulations plus agressives, simplifiant potentiellement davantage le modèle.</p>
+            <p
+    >Annule les paires pôles‑zéros dans les fonctions de transfert ou modèles zéro‑pôle‑gain pour obtenir une réalisation minimale équivalente.</p>
+    </description>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[sysIn = ss([1 0;0 -2], [-1;0], [2 1], 0, 3.2); 
+sysOut = minreal(sysIn)]]></example_item_data>
+            </example_item>
+        </examples>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

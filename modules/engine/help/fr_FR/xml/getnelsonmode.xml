@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>getnelsonmode</keyword>
+    <short_description>Retourne le mode courant de Nelson.</short_description>
+    <syntax>
+        <syntax_item>m = getnelsonmode()</syntax_item>
+    </syntax>
+    <param_output>
+        <param_output_item>
+            <param_name>m</param_name>
+            <param_description>une chaîne de caractères.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >getnelsonmode()</b> renvoie le mode courant utilisé par Nelson.</p>
+        <p>Les modes possibles sont :</p>
+        <p><b>BASIC_ENGINE</b> : Nelson utilisé comme moteur sans graphisme.</p>
+        <p><b
+      >ADVANCED_ENGINE</b> : Nelson utilisé comme moteur avec graphisme/GUI.</p>
+        <p><b>BASIC_TERMINAL</b> : Nelson lancé en terminal sans graphisme.</p>
+        <p><b
+      >ADVANCED_TERMINAL</b> : Nelson lancé en terminal avec graphisme/GUI.</p>
+        <p><b>BASIC_SIO_CLIENT</b> : Nelson lancé comme client socket IO.</p>
+        <p><b
+      >ADVANCED_SIO_CLIENT</b> : Nelson lancé comme client socket IO avec graphisme/GUI.</p>
+        <p><b
+      >GUI</b> : Nelson lancé comme application graphique (par défaut).</p>
+    </description>
+                                    <used_function />
+                                    <bibliography />
+                                    <examples>
+                                        <example_item>
+                                            <example_item_type
+      >nelson</example_item_type>
+                                            <example_item_description />
+                                            <example_item_data
+        runnable="cli"
+      ><![CDATA[getnelsonmode()]]></example_item_data>
+                                        </example_item>
+                                    </examples>
+                                    <see_also>
+                                        <see_also_item>
+                                            <link
+        linkend="${engine}executable"
+      >executable</link>
+                                        </see_also_item>
+                                    </see_also>
+                                    <history>
+                                        <history_item>
+                                            <history_version
+      >1.0.0</history_version>
+                                            <history_description
+      >version initiale</history_description>
+                                        </history_item>
+                                    </history>
+                                    <authors>
+                                        <author_item>Allan CORNET</author_item>
+                                    </authors>
+                                </xmldoc>

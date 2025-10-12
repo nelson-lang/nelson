@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>colormaplist</keyword>
+    <short_description
+  >Fournit la liste des palettes de couleurs.</short_description>
+    <syntax>
+        <syntax_item>colormaps = colormaplist()</syntax_item>
+    </syntax>
+    <param_output>
+        <param_output_item>
+        <param_name>colormaps</param_name>
+        <param_description
+      >Vecteur de chaînes des palettes de couleurs triées par ordre croissant.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >colormaplist</b> retourne les palettes de couleurs disponibles sous forme de tableau de chaînes <b
+      >m</b>-par-<b>1</b>.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure('Position', [100, 100, 600, 400], 'Resize', 'off');
+ax = axes('Position', [0.1, 0.2, 0.6, 0.7]);
+surf(ax, peaks);
+cmaps = colormaplist;
+listbox = uicontrol('Style', 'listbox', 'Position', [450, 100, 100, 200], 'String', cmaps);
+listbox.Callback = @(src, void) colormap(ax, cmaps(src.Value));
+]]></example_item_data>
+                <example_item_img
+        src="../images/colormaplist.svg"
+        align="middle"
+        generate="true"
+      />
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${graphics}colormap">colormap</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.14.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

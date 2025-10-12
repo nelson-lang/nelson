@@ -43,6 +43,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = eye(3, 3);
 res = isequaln(A, A)]]></example_item_data>
             </example_item>
@@ -50,6 +51,7 @@ res = isequaln(A, A)]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = eye(3, 3);
 B = single(A)			
 res = isequaln(A, B)
@@ -59,12 +61,14 @@ res = isequalto(A, B)]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[res = isequaln('nel', 'son')]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[res = isequaln(NaN, NaN)]]></example_item_data>
             </example_item>
         </examples>

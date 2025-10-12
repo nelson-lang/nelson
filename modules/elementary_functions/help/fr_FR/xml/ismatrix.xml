@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>ismatrix</keyword>
+    <short_description
+  >determines whether input is matrix or not</short_description>
+    <syntax>
+        <syntax_item>TF = ismatrix(A)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
+      >input array as a scalar, vector, matrix, or multidimensional array.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>TF</param_name>
+            <param_description
+      >a logical: true if it is a matrix.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>TF = ismatrix(A)</b> returns true if A is a matrix.</p>
+            <p
+    >A matrix is a two-dimensional array that has a size of m-by-n, where m and n are nonnegative integers.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[x = [1+i,-i;i,2i];
+ismatrix(x)
+ismatrix(ones(3,1,2))]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${elementary_functions}isvector">isvector</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>
