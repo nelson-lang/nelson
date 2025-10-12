@@ -16,9 +16,10 @@
                 </param_output_item>
     </param_output>
     <description>
-        <p>The sequence of commands <b
-      >tic(); commands ; t = toc() </b>returns the number of seconds required for the commands.</p>
-        <p>Consecutive <b>tic</b> commands overwrite the tic timer.</p>
+        <p>La séquence de commandes <b
+      >tic(); commands ; t = toc()</b> renvoie le nombre de secondes nécessaires à l'exécution des commandes.</p>
+        <p>Les appels consécutifs à <b
+      >tic</b> écrasent le minuteur interne de tic.</p>
     </description>
     <used_function />
     <bibliography />

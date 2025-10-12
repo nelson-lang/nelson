@@ -64,7 +64,7 @@
         runnable="adv-cli"
       ><![CDATA[H = tf([1 0.1 7.5],[1 0.12 9 0 0]);
 bode(H,{1 10}, '-.')]]></example_item_data>
-            <example_item_img src="../images/bode1.svg" align="middle" />
+            <example_item_img src="../images/bode1.svg" align="middle" generate="true" />
         </example_item>
     </examples>
     <see_also>

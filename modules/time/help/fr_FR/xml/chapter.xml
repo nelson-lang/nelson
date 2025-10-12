@@ -3,7 +3,7 @@
     <copyright>SAME AS NELSON SOFTWARE</copyright>
     <language>fr_FR</language>
     <module_name>time</module_name>
-    <chapter>Time functions</chapter>
+    <chapter>Date et Heure</chapter>
     <chapter_description>
         <p
     >Le module Time fournit des outils pour travailler avec les dates, les heures et les durées dans Nelson.</p>

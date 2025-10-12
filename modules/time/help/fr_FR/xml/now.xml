@@ -17,7 +17,7 @@
     <description>
         <p>
             <b
-      >now()</b> returns the current date and time as a serial date number.</p>
+      >now()</b> renvoie la date et l'heure courantes sous forme d'un numéro de date série.</p>
         </description>
         <used_function />
         <bibliography />

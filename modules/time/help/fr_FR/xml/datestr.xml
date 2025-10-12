@@ -53,48 +53,38 @@
                 </param_output_item>
     </param_output>
     <description>
-        <p>
-            <b
-      >dateAsString = datestr(dateVector)</b> converts date vectors into text that
-            represents the corresponding dates and times. It returns a character array with <b
-      >m</b>
-            rows, where <b>m</b> is the number of date vectors in <b
+      <p>
+        <b
+      >dateAsString = datestr(dateVector)</b> convertit des vecteurs date en texte représentant les dates et heures correspondantes. Elle renvoie un tableau de caractères avec <b
+      >m</b> lignes, où <b>m</b> est le nombre de vecteurs date dans <b
       >dateVector</b>.</p>
-        <p>
-            <b
-      >dateAsString = datestr(dateNumber)</b> converts serial date numbers into text
-            representing dates and times. The output is a character array with <b
-      >m</b> rows, where <b>
-            m</b> is the number of date numbers in <b>dateNumber</b>.</p>
-        <p>
-            <b
-      >dateAsString = datestr(..., formatOut)</b> allows you to specify the format of the
-            output text using <b
-      >formatOut</b>. You can apply this option with any of the previous
-            input types.</p>
-        <p>
-            <b
-      >dateAsString = datestr(dateAsStringIn)</b> converts the input string <b>
-            dateAsStringIn</b> into a text format of day-month-year hour:minute:second. All dates in <b
-      >
-            dateAsStringIn</b> must follow the same format.</p>
-        <p>
-            <b
-      >dateAsString = datestr(dateAsStringIn, formatOut, pivotYear)</b> converts <b
-      >
-            dateAsStringIn</b> into the format specified by <b
-      >formatOut</b>, while using an
-            optional <b>pivotYear</b> to interpret two-digit years.</p>
-        <p>
-            <b
-      >dateAsString = datestr(..., 'local')</b> returns the date in the language of the
-            system's current locale. If <b
-      >'local'</b> is omitted, the default language is US
-            English. The <b
-      >'local'</b> option can be used with any of the previous syntaxes, and
-            must be the last argument in the sequence.</p>
+      <p>
+        <b
+      >dateAsString = datestr(dateNumber)</b> convertit des numéros de date série en texte représentant des dates et heures. La sortie est un tableau de caractères avec <b
+      >m</b> lignes, où <b>m</b> est le nombre de numéros de date dans <b
+      >dateNumber</b>.</p>
+      <p>
+        <b
+      >dateAsString = datestr(..., formatOut)</b> permet de spécifier le format du texte de sortie via <b
+      >formatOut</b>. Vous pouvez utiliser cette option avec n'importe quel des types d'entrée précédents.</p>
+      <p>
+        <b
+      >dateAsString = datestr(dateAsStringIn)</b> convertit la chaîne d'entrée <b
+      >dateAsStringIn</b> en un texte au format jour-mois-année heure:minute:seconde. Toutes les dates dans <b
+      >dateAsStringIn</b> doivent suivre le même format.</p>
+      <p>
+        <b
+      >dateAsString = datestr(dateAsStringIn, formatOut, pivotYear)</b> convertit <b
+      >dateAsStringIn</b> au format spécifié par <b
+      >formatOut</b>, en utilisant éventuellement <b
+      >pivotYear</b> pour interpréter les années sur deux chiffres.</p>
+      <p>
+        <b
+      >dateAsString = datestr(..., 'local')</b> renvoie la date dans la langue du paramètre régional système courant. Si <b
+      >'local'</b> est omis, la langue par défaut est l'anglais américain. L'option <b
+      >'local'</b> peut être utilisée avec toutes les syntaxes précédentes et doit être le dernier argument.</p>
         <p />
-        <p>Supported format conversion:</p>
+    <p>Formats de conversion pris en charge :</p>
         <p>
             <b>dd-mmm-yyyy HH:MM:SS</b> 10-Mar-2010 16:48:17</p>
         <p>
@@ -124,102 +114,100 @@
         <p>
             <b>HH:MM PM</b> 3:35 PM</p>
         <p />
-        <p>If format is not specified, the default format is <b
+                <p>Si le format n'est pas spécifié, le format par défaut est <b
       >dd-mmm-yyyy</b>.</p>
         <p />
         <p
-    >If format is specified and not using predefined format, the format must be specified as a
-            character vector or string scalar composed of symbolic identifiers.</p>
+    >Si un format est spécifié et qu'il n'utilise pas un format prédéfini, le format doit être indiqué comme un vecteur de caractères ou un scalaire string composé d'identifiants symboliques.</p>
         <p
-    >The format of the input text for representing dates and times, expressed as a character
-            vector or string scalar composed of symbolic identifiers.</p>
+    >Le format du texte d'entrée pour représenter les dates et heures, exprimé comme vecteur de caractères ou scalaire string composé d'identifiants symboliques.</p>
         <p />
         <table border="1">
             <tr>
-                <th>Symbolic Identifier</th>
+                <th>Identifiant symbolique</th>
                 <th>Description</th>
-                <th>Example</th>
+                <th>Exemple</th>
             </tr>
             <tr>
                 <td>yyyy</td>
-                <td>Year in full</td>
+                <td>Année complète</td>
                 <td>1995, 2012</td>
             </tr>
             <tr>
                 <td>yy</td>
-                <td>Year in two digits</td>
+                <td>Année sur deux chiffres</td>
                 <td>89, 01</td>
             </tr>
             <tr>
                 <td>QQ</td>
-                <td>Quarter year using letter Q and one digit</td>
+                <td>Trimestre (lettre Q suivie d'un chiffre)</td>
                 <td>Q1</td>
             </tr>
             <tr>
                 <td>mmmm</td>
-                <td>Month using full name</td>
-                <td>March, December</td>
+                <td>Mois en nom complet</td>
+                <td>mars, décembre</td>
             </tr>
             <tr>
                 <td>mmm</td>
-                <td>Month using first three letters</td>
-                <td>Mar, Dec</td>
+                <td>Mois en trois premières lettres</td>
+                <td>mar, déc</td>
             </tr>
             <tr>
                 <td>mm</td>
-                <td>Month in two digits</td>
+                <td>Mois sur deux chiffres</td>
                 <td>04, 12</td>
             </tr>
             <tr>
                 <td>m</td>
-                <td>Month using capitalized first letter</td>
+                <td>Mois (première lettre en majuscule)</td>
                 <td>M, D</td>
             </tr>
             <tr>
                 <td>dddd</td>
-                <td>Day using full name</td>
-                <td>Monday, Tuesday</td>
+                <td>Jour en nom complet</td>
+                <td>lundi, mardi</td>
             </tr>
             <tr>
                 <td>ddd</td>
-                <td>Day using first three letters</td>
-                <td>Mon, Tue</td>
+                <td>Jour en trois premières lettres</td>
+                <td>lun, mar</td>
             </tr>
             <tr>
                 <td>dd</td>
-                <td>Day in two digits</td>
+                <td>Jour sur deux chiffres</td>
                 <td>06, 21</td>
             </tr>
             <tr>
                 <td>d</td>
-                <td>Day using capitalized first letter</td>
-                <td>M, T</td>
+                <td>Jour (première lettre en majuscule)</td>
+                <td>L, M</td>
             </tr>
             <tr>
                 <td>HH</td>
-                <td
-        >Hour in two digits (no leading zeros when symbolic identifier AM or PM is used)</td>
-                <td>06, 6 AM</td>
+        <td
+        >Heure sur deux chiffres (pas de zéro initial lorsque l'identifiant AM ou PM est utilisé)</td>
+        <td>06, 6 AM</td>
             </tr>
             <tr>
                 <td>MM</td>
-                <td>Minute in two digits</td>
+                <td>Minute sur deux chiffres</td>
                 <td>11, 01</td>
             </tr>
             <tr>
                 <td>SS</td>
-                <td>Second in two digits</td>
+                <td>Seconde sur deux chiffres</td>
                 <td>06, 59</td>
             </tr>
             <tr>
                 <td>FFF</td>
-                <td>Millisecond in three digits</td>
+                <td>Milliseconde sur trois chiffres</td>
                 <td>056</td>
             </tr>
             <tr>
                 <td>AM or PM</td>
-                <td>AM or PM inserted in text representing time</td>
-                <td>5:46:02 PM</td>
+                <td>AM ou PM inséré dans le texte représentant l'heure</td>
+                <td>17:46:02 PM</td>
             </tr>
         </table>
     </description>
