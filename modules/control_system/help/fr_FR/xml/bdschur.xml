@@ -27,7 +27,7 @@
         </param_output_item>
         <param_output_item>
             <param_name>B</param_name>
-            <param_description>B = T \ A * T</param_description>
+            <param_description>Matrice diagonale par blocs obtenue par la transformation B = T \ A * T.</param_description>
         </param_output_item>
     </param_output>
     <description>
