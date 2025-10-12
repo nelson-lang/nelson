@@ -33,7 +33,7 @@
         <param_output_item>
             <param_name>Ti</param_name>
             <param_description
-      >State similarity transform inverse matrix.</param_description>
+      >Matrice inverse de la transformation de similarité d'état.</param_description>
         </param_output_item>
     </param_output>
     <description>
