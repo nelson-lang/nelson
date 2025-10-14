@@ -148,7 +148,11 @@ fwriteBuiltinTwoRhs(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector modifiedArgIn;
     modifiedArgIn.push_back(argIn[0]);
     modifiedArgIn.push_back(argIn[1]);
-    modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"uint8"));
+    if (argIn[1].isCharacterArray()) {
+        modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"char"));
+    } else {
+        modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"uint8"));
+    }
     modifiedArgIn.push_back(ArrayOf::doubleConstructor(0.));
     modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"n"));
     return fwriteBuiltinFiveRhs(nLhs, modifiedArgIn);
