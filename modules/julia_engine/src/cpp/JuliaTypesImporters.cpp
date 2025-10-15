@@ -15,6 +15,8 @@
 #include <Eigen/Sparse>
 #include "JuliaTypesHelpers.hpp"
 #include "JuliaObjectHandle.hpp"
+#include "JuliaTypesImporters.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -534,6 +536,34 @@ ArrayOfTojl_value_t(const ArrayOf& value)
     } break;
     }
     return valuePtr;
+}
+//=============================================================================
+bool
+jl_create_main_global_variable(const std::wstring& name_w, const ArrayOf& value)
+{
+    jl_module_t* jl_main_module = (jl_module_t*)NLSjl_eval_string("Main");
+    if (!jl_main_module) {
+        return false;
+    }
+
+    NLSjl_eval_string("function __nelson_setvar__(name, v)\n"
+                      "    eval(Expr(:(=), name, v))\n"
+                      "end");
+    jl_function_t* setvar_func = NLSjl_get_function(jl_main_module, "__nelson_setvar__");
+    if (!setvar_func) {
+        return false;
+    }
+
+    std::string name = wstring_to_utf8(name_w);
+    jl_value_t* x_value = ArrayOfTojl_value_t(value);
+    if (!x_value) {
+        return false;
+    }
+
+    jl_value_t* sym = (jl_value_t*)NLSjl_symbol(name.c_str());
+    jl_value_t* res = NLSjl_call2(setvar_func, sym, x_value);
+
+    return (!res) ? false : true;
 }
 //=============================================================================
 }

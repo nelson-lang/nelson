@@ -78,7 +78,7 @@ R = jlrun('mutable struct MyType; x::Int; end; A = MyType(10)', 'A');
 assert_isequal(R.typeof(), 'MyType');
 %=============================================================================
 R = jlrun('A = x -> x^2', 'A');
-assert_isequal(R.typeof(), 'var"#1#2"');
+assert_istrue(startsWith(R.typeof(), 'var"#'));
 %=============================================================================
 R = jlrun('A = nothing', 'A');
 assert_isequal(R.typeof(), 'Nothing');

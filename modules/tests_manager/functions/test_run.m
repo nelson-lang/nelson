@@ -366,6 +366,8 @@ end
 %=============================================================================
 function test_case_res = post_run_test_case_skip_or_pass(test_case_res)
   if ~isfile(test_case_res.outputfile)
+    test_case_res.status = 'Fail';
+    test_case_res.skip = false;      
     return
   end
   s = jsondecode(test_case_res.outputfile, '-file');

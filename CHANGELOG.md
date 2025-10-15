@@ -60,6 +60,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `jsondecode`: Corrected parsing of arrays containing empty arrays, improving reliability and correctness of JSON decoding.
 
+- Julia engine works also with Julia 1.12.0
+
 ## 1.14.0 - (2025-05-30)
 
 ### Added
