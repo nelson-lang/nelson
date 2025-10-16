@@ -25,7 +25,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>permute</b> permutes the dimensions of an array.</description>
+        <p><b>permute</b> permutes the dimensions of an array.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

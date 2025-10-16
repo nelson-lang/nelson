@@ -131,31 +131,7 @@
     <!-- Only show description section if it's not empty -->
     <xsl:if test="description">
     <xsl:text>&#10;## </xsl:text><xsl:value-of select="$description-text"/><xsl:text>&#10;</xsl:text>
-    <xsl:for-each select="description/node()">
-      <xsl:choose>
-        <xsl:when test="name() = 'p'">
-          <xsl:text>&lt;p&gt;</xsl:text>
-          <xsl:apply-templates select="node()"/>
-          <xsl:text>&lt;/p&gt;&#10;</xsl:text>
-        </xsl:when>
-        <xsl:when test="name() = 'table'">
-          <xsl:apply-templates select="."/>
-        </xsl:when>
-        <xsl:when test="name() = 'b'">
-          <xsl:text>&lt;b&gt;</xsl:text>
-          <xsl:apply-templates select="node()"/>
-          <xsl:text>&lt;/b&gt;</xsl:text>
-        </xsl:when>
-        <xsl:when test="name() = 'i'">
-          <xsl:text>&lt;i&gt;</xsl:text>
-          <xsl:apply-templates select="node()"/>
-          <xsl:text>&lt;/i&gt;</xsl:text>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="normalize-space(.)"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:for-each>
+    <xsl:apply-templates select="description"/>
     <xsl:text>&#10;</xsl:text>
     </xsl:if>
 
@@ -279,9 +255,33 @@
     <xsl:value-of select="$raw"/>
   </xsl:template>
 
-  <!-- By default, output the content -->
+  <!-- By default, output the content with proper whitespace handling -->
   <xsl:template match="text()">
-    <xsl:value-of select="."/>
+    <xsl:choose>
+      <xsl:when test="normalize-space(.) = ''">
+        <!-- If text is only whitespace, output single space if between elements -->
+        <xsl:if test="preceding-sibling::node() and following-sibling::node()">
+          <xsl:text> </xsl:text>
+        </xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- Preserve leading space if text starts with whitespace and has preceding sibling -->
+        <xsl:if test="starts-with(., ' ') or starts-with(., '&#10;') or starts-with(., '&#13;') or starts-with(., '&#9;')">
+          <xsl:if test="preceding-sibling::node()">
+            <xsl:text> </xsl:text>
+          </xsl:if>
+        </xsl:if>
+        <!-- Output normalized text content -->
+        <xsl:value-of select="normalize-space(.)"/>
+        <!-- Preserve trailing space if text ends with whitespace and has following sibling -->
+        <xsl:variable name="last-char" select="substring(., string-length(.))"/>
+        <xsl:if test="$last-char = ' ' or $last-char = '&#10;' or $last-char = '&#13;' or $last-char = '&#9;'">
+          <xsl:if test="following-sibling::node()">
+            <xsl:text> </xsl:text>
+          </xsl:if>
+        </xsl:if>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="example_item">
@@ -295,21 +295,71 @@
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
 
-  <!-- Template for <b> and <i> tags in description -->
-  <xsl:template match="b">
-    <xsl:text>&lt;b&gt;</xsl:text>
+  <!-- Template for <description> -->
+  <xsl:template match="description">
     <xsl:apply-templates/>
-    <xsl:text>&lt;/b&gt;</xsl:text>
   </xsl:template>
-  <xsl:template match="i">
-    <xsl:text>&lt;i&gt;</xsl:text>
-    <xsl:apply-templates/>
-    <xsl:text>&lt;/i&gt;</xsl:text>
-  </xsl:template>
+
+  <!-- Template for <p> tag -->
   <xsl:template match="p">
     <xsl:text>&#10;</xsl:text>
     <xsl:apply-templates/>
     <xsl:text>&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- Template for <img> tag -->
+  <xsl:template match="img">
+    <xsl:variable name="imgsrc" select="ext:copy_img(@src)"/>
+    <xsl:text>&#10;</xsl:text>
+    <xsl:text>&lt;img src="</xsl:text>
+    <xsl:value-of select="substring-after($imgsrc, './')"/>
+    <xsl:text>"</xsl:text>
+    <xsl:if test="@align">
+      <xsl:text> align="</xsl:text><xsl:value-of select="@align"/><xsl:text>"</xsl:text>
+    </xsl:if>
+    <xsl:if test="@alt">
+      <xsl:text> alt="</xsl:text><xsl:value-of select="@alt"/><xsl:text>"</xsl:text>
+    </xsl:if>
+    <xsl:if test="@width">
+      <xsl:text> width="</xsl:text><xsl:value-of select="@width"/><xsl:text>"</xsl:text>
+    </xsl:if>
+    <xsl:if test="@height">
+      <xsl:text> height="</xsl:text><xsl:value-of select="@height"/><xsl:text>"</xsl:text>
+    </xsl:if>
+    <xsl:text>/&gt;&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- Template for <latex> tag -->
+  <xsl:template match="latex">
+    <xsl:text>&#10;$$</xsl:text>
+    <xsl:value-of select="normalize-space(.)"/>
+    <xsl:text>$$&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- Template for <ul> (unordered list) -->
+  <xsl:template match="ul">
+    <xsl:text>&#10;</xsl:text>
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <!-- Template for <li> (list item) -->
+  <xsl:template match="li">
+    <xsl:text>&#10;- </xsl:text>
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <!-- Template for <ol> (ordered list) -->
+  <xsl:template match="ol">
+    <xsl:apply-templates/>
+    <xsl:text>&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- Template for <li> in ordered lists -->
+  <xsl:template match="ol/li">
+    <xsl:text>&#10;</xsl:text>
+    <xsl:value-of select="position()"/>
+    <xsl:text>. </xsl:text>
+    <xsl:apply-templates/>
   </xsl:template>
 
   <!-- Table rendering templates -->
@@ -322,45 +372,67 @@
 
   <xsl:template match="tr" mode="header">
     <!-- Render header row: compact single-line cells -->
-    <xsl:text>|</xsl:text>
+    <xsl:text>| </xsl:text>
     <xsl:for-each select="th">
-      <xsl:text> </xsl:text>
-      <xsl:value-of select="normalize-space(string(.))"/>
-      <xsl:text> |</xsl:text>
+      <xsl:apply-templates/>
+      <xsl:text> | </xsl:text>
     </xsl:for-each>
-    <xsl:text>&#10;|</xsl:text>
+    <xsl:text>&#10;| </xsl:text>
     <xsl:for-each select="th">
-      <xsl:text> --- |</xsl:text>
+      <xsl:text>--- | </xsl:text>
     </xsl:for-each>
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template match="tr">
     <!-- Render data row with normalized, single-line cell content -->
-    <xsl:text>|</xsl:text>
+    <xsl:text>| </xsl:text>
     <xsl:for-each select="td">
-      <xsl:text> </xsl:text>
-      <xsl:value-of select="normalize-space(string(.))"/>
-      <xsl:text> |</xsl:text>
+      <xsl:apply-templates/>
+      <xsl:text> | </xsl:text>
     </xsl:for-each>
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
 
   <xsl:template match="th">
-    <!-- Output header cell text trimmed to avoid embedded newlines/indentation -->
-    <xsl:value-of select="normalize-space(.)"/>
+    <!-- Output header cell text -->
+    <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template match="td">
-    <!-- Output data cell text trimmed to a single line to produce valid Markdown table cells -->
-    <xsl:value-of select="normalize-space(.)"/>
+    <!-- Output data cell text -->
+    <xsl:apply-templates/>
   </xsl:template>
 
-  <!-- Render inline bold/italic content as plain text (normalized) to avoid raw HTML tags in Markdown tables -->
-  <xsl:template match="b">
+  <!-- Render inline bold/italic content as Markdown inside tables -->
+  <xsl:template match="table//b">
+    <xsl:text>**</xsl:text>
     <xsl:value-of select="normalize-space(.)"/>
+    <xsl:text>**</xsl:text>
   </xsl:template>
-  <xsl:template match="i">
+  
+  <xsl:template match="table//i">
+    <xsl:text>*</xsl:text>
     <xsl:value-of select="normalize-space(.)"/>
+    <xsl:text>*</xsl:text>
+  </xsl:template>
+
+  <!-- General templates for inline formatting (outside tables) -->
+  <xsl:template match="b">
+    <xsl:text>&lt;b&gt;</xsl:text>
+    <xsl:value-of select="."/>
+    <xsl:text>&lt;/b&gt;</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="i">
+    <xsl:text>&lt;i&gt;</xsl:text>
+    <xsl:value-of select="."/>
+    <xsl:text>&lt;/i&gt;</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="code">
+    <xsl:text>&lt;code&gt;</xsl:text>
+    <xsl:value-of select="."/>
+    <xsl:text>&lt;/code&gt;</xsl:text>
   </xsl:template>
 </xsl:stylesheet>

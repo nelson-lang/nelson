@@ -30,10 +30,28 @@
         <p>
             <b
       >K = kron(A, B)</b> computes the Kronecker tensor product of matrices <b
-      >A</b> and <b>B</b>.</p>
-        </description>
-        <bibliography
-  >https://en.wikipedia.org/wiki/Kronecker_product</bibliography>
+      >A</b> and <b>B</b>.
+        </p>
+        <p>For matrices</p>
+        <latex>A</latex>
+        <p>of size</p>
+        <latex>m \times n</latex>
+        <p>and</p>
+        <latex>B</latex>
+        <p>of size</p>
+        <latex>p \times q</latex>
+        <p>, the Kronecker product is:</p>
+        <latex>A \otimes B = \begin{pmatrix} 
+        a_{11}B &amp; a_{12}B &amp; \cdots &amp; a_{1n}B \\
+        a_{21}B &amp; a_{22}B &amp; \cdots &amp; a_{2n}B \\
+        \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+        a_{m1}B &amp; a_{m2}B &amp; \cdots &amp; a_{mn}B 
+        \end{pmatrix}</latex>
+        <p>The result is an</p>
+        <latex>mp \times nq</latex>
+        <p>matrix.</p>
+    </description>
+    <bibliography>https://en.wikipedia.org/wiki/Kronecker_product</bibliography>
         <examples>
             <example_item>
                 <example_item_type>nelson</example_item_type>

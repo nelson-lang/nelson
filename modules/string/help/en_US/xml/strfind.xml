@@ -31,7 +31,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>strfind</b> find a string in another.</description>
+        <p><b>strfind</b> finds a string in another.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

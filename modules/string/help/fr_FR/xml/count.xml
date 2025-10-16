@@ -31,7 +31,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>count</b> calcule le nombre d'occurrences d'un motif.</description>
+        <p><b>count</b> calcule le nombre d'occurrences d'un motif.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

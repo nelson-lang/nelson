@@ -20,7 +20,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>acos</b> computes the inverse hyperbolic cosine.</description>
+        <p><b>acosh</b> computes the inverse hyperbolic cosine.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

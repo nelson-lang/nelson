@@ -14,7 +14,8 @@
         </param_input_item>
     </param_input>
     <description>
-        <b>resume</b> reprend un objet audioplayer.</description>
+        <p><b>resume</b> reprend un objet audioplayer.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

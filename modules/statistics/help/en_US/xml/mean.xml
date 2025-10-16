@@ -43,8 +43,17 @@
     </param_output>
     <description>
         <p>
-            <b>R = mean(M)</b> returns the mean of the array elements of M.</p>
-        </description>
+            <b
+      >R = mean(M)</b> returns the mean (average) of the array elements of M.
+        </p>
+        <p>The arithmetic mean of a set of values</p>
+        <latex>x_1, x_2, \ldots, x_n</latex>
+        <p>is defined as:</p>
+        <latex>\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i</latex>
+        <p>where</p>
+        <latex>n</latex>
+        <p>is the number of elements.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

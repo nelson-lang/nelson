@@ -23,8 +23,21 @@
     </param_output>
     <description>
         <p>
-            <b>res = det(x)</b> returns the determinant of square matrix x.</p>
-        </description>
+            <b>res = det(x)</b> returns the determinant of square matrix x.
+        </p>
+        <p>For a</p>
+        <latex>2 \times 2</latex>
+        <p>matrix:</p>
+        <latex
+    >\det\begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix} = ad - bc</latex>
+        <p
+    >For larger matrices, the determinant can be computed using cofactor expansion:</p>
+        <latex>\det(A) = \sum_{j=1}^{n} (-1)^{i+j} a_{ij} M_{ij}</latex>
+        <p>where</p>
+        <latex>M_{ij}</latex>
+        <p>is the minor of element</p>
+        <latex>a_{ij}</latex>
+    </description>
         <used_function />
         <bibliography />
         <examples>

@@ -32,7 +32,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>strfind</b> trouve une chaîne dans une autre.</description>
+        <p><b>strfind</b> trouve une chaîne dans une autre.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

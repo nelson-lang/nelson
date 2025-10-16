@@ -23,7 +23,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>strlength</b> renvoie la longueur des chaînes.</description>
+        <p><b>strlength</b> renvoie la longueur des chaînes.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

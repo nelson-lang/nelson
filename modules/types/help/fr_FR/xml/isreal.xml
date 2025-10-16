@@ -21,8 +21,9 @@
         </param_output_item>
     </param_output>
     <description>
-        <b
-    >isreal</b> returns a logical true if var is a non-complex matrix or scalar and a logical false otherwise.</description>
+        <p><b
+      >isreal</b> returns a logical true if all imaginary part is a zero array.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

@@ -15,7 +15,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>newline</b> returns a newline character.</description>
+        <p><b>newline</b> returns a newline character.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

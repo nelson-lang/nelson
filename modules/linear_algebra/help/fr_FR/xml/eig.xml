@@ -50,11 +50,22 @@
     </param_output>
     <description>
         <p>
-            <b>eig(A)</b> retourne les valeurs propres et vecteurs propres.</p>
-            <p>
-                <b
-      >eig(A, B)</b> retourne les valeurs propres généralisées et vecteurs propres.</p>
-            </description>
+            <b>eig(A)</b> retourne les valeurs propres et vecteurs propres.
+        </p>
+        <p>Pour une matrice carrée <b>A</b>, les valeurs propres</p>
+        <latex>\lambda</latex>
+        <p>et vecteurs propres</p>
+        <latex>\mathbf{v}</latex>
+        <p>satisfont :</p>
+        <latex>A\mathbf{v} = \lambda\mathbf{v}</latex>
+        <p>L'équation caractéristique est :</p>
+        <latex>\det(A - \lambda I) = 0</latex>
+        <p>
+            <b
+      >eig(A, B)</b> retourne les valeurs propres généralisées et vecteurs propres où :
+        </p>
+        <latex>A\mathbf{v} = \lambda B\mathbf{v}</latex>
+    </description>
             <used_function />
             <bibliography
   >[1]  Anderson, E., Z. Bai, C. Bischof, S. Blackford, J. Demmel, J. Dongarra, J. Du Croz, A. Greenbaum, S. Hammarling, A. McKenney, and D. Sorensen, LAPACK User's Guide (http://www.netlib.org/lapack/lug/ lapack_lug.html), Third Edition, SIAM, Philadelphia, 1999.</bibliography>

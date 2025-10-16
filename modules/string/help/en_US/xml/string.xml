@@ -21,7 +21,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>string</b> converts input into string array.</description>
+        <p><b>string</b> converts input into string array.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

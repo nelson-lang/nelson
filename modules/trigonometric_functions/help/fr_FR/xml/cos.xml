@@ -21,8 +21,13 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>cos</b> calcule le cosinus en radians pour chaque élément de <b
-    >x</b>.</description>
+        <p><b>cos</b> calcule le cosinus en radians pour chaque élément de <b
+      >x</b>.</p>
+        <p>La fonction cosinus est définie comme :</p>
+        <latex>\cos(x) = \frac{e^{ix} + e^{-ix}}{2}</latex>
+        <p
+    >Pour les arguments réels, elle représente la coordonnée x sur le cercle unité.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

@@ -36,18 +36,21 @@
         <description>
         <p>
             <b
-      >y = normpdf(x)</b> calcule la fonction de densité de probabilité (pdf) de la loi normale centrée-réduite aux valeurs données dans <b
-      >x</b>.</p>
-            <p>
-                <b
-      >y = normpdf(x, mu)</b> calcule la pdf de la loi normale de moyenne <b
-      >mu</b> et d'écart-type 1, évaluée aux valeurs données dans <b>x</b>.</p>
-                <p>
-                    <b
-      >y = normpdf(x, mu, sigma)</b> détermine la pdf de la loi normale de moyenne <b
-      >mu</b> et d'écart-type <b
-      >sigma</b>, évaluée aux valeurs spécifiées dans <b>x</b>.</p>
-                </description>
+      >normpdf</b> calcule la fonction de densité de probabilité de la loi normale (gaussienne).
+        </p>
+        <p>La formule générale pour la densité de la loi normale est :</p>
+        <latex
+    >f(x|\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}</latex>
+        <p>où</p>
+        <latex>\mu</latex>
+        <p>est la moyenne et</p>
+        <latex>\sigma^2</latex>
+        <p>est la variance.</p>
+        <p>Pour la loi normale centrée-réduite (</p>
+        <latex>\mu = 0, \sigma = 1</latex>
+        <p>) :</p>
+        <latex>\phi(x) = \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}}</latex>
+    </description>
                 <used_function />
                 <bibliography
   >Evans, M., N. Hastings, and B. Peacock. Statistical Distributions. 2nd ed. Hoboken, NJ: John Wiley and Sons, Inc., 1993.</bibliography>

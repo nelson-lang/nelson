@@ -22,7 +22,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>blanks</b> crée une chaîne composée d'espaces.</description>
+        <p><b>blanks</b> crée une chaîne composée d'espaces.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

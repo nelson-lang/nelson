@@ -21,7 +21,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>atanh</b> calcule la tangente hyperbolique inverse.</description>
+        <p><b>atanh</b> calcule la tangente hyperbolique inverse.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

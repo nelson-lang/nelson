@@ -21,9 +21,9 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>isuint32</b> returns a logical <b>1</b>if the argument is an <b
-    >unsigned 32-bit</b> integer array and a logical <b
-    >0</b> otherwise.</description>
+        <p><b>isuint32</b> returns a logical <b>1</b>if the argument is an <b
+      >unsigned 32-bit</b> integer array and a logical <b>0</b> otherwise.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

@@ -27,7 +27,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>strcmp</b> compares two strings.</description>
+        <p><b>strcmp</b> compares two strings.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

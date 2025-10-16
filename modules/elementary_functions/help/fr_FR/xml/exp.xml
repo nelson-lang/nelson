@@ -23,8 +23,10 @@
     <description>
         <p>
             <b>exp</b> calcule la fonction exponentielle.</p>
-            <p>Si l'argument est un nombre complexe, <b
-      >exp</b> calcule exp(x) * (cos(y) + i * sin(y)) pour z = x + i * y.</p>
+            <p>Pour les nombres réels :</p>
+            <latex>e^x</latex>
+            <p>Pour les nombres complexes <b>z = x + iy</b> :</p>
+            <latex>e^z = e^x(\cos y + i\sin y)</latex>
         </description>
         <used_function />
         <bibliography />

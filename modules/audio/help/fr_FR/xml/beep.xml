@@ -22,7 +22,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>beep</b> produit un son de bip système.</description>
+        <p><b>beep</b> produit un son de bip système.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

@@ -22,10 +22,18 @@
     </param_output>
     <description>
         <p>
-            <b>log</b> computes the natural logarithm.</p>
-            <p>If input argument is a complex number or negative, <b
-      >log(z)</b> computes log(abs(z)) + angle(z) * i.</p>
-        </description>
+            <b>log</b> calcule le logarithme naturel.
+        </p>
+        <p>Pour les nombres réels positifs :</p>
+        <latex>\ln(x)</latex>
+        <p>Pour les nombres complexes <b>z</b> :</p>
+        <latex>\ln(z) = \ln|z| + i\arg(z)</latex>
+        <p>où</p>
+        <latex>|z|</latex>
+        <p>est le module et</p>
+        <latex>\arg(z)</latex>
+        <p>est l'argument de <b>z</b>.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

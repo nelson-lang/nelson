@@ -14,7 +14,8 @@
         </param_input_item>
     </param_input>
     <description>
-        <b>pause</b> met en pause un objet audioplayer.</description>
+        <p><b>pause</b> met en pause un objet audioplayer.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

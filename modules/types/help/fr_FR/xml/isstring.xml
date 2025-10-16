@@ -21,8 +21,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b
-    >isstring</b> renvoie 1 logique (vrai) si l'argument est un tableau de chaînes et 0 logique (faux) sinon.
+        <p><b
+      >isstring</b> renvoie 1 logique (vrai) si l'argument est un tableau de chaînes et 0 logique (faux) sinon.</p>
     </description>
         <used_function />
         <bibliography />

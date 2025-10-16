@@ -23,14 +23,21 @@
     <description>
         <p>
             <b>c = sinc(m)</b> returns an array <b
-      >c</b> whose elements are the sinc of the elements of the input: <b
-      >m</b>.</p>
-        </description>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+      >c</b> whose elements are the sinc of the elements of the input: <b>m</b>.
+        </p>
+        <p>The sinc function (normalized) is defined as:</p>
+        <latex>\text{sinc}(x) = \begin{cases} 
+        \frac{\sin(\pi x)}{\pi x} &amp; \text{if } x \neq 0 \\
+        1 &amp; \text{if } x = 0
+        \end{cases}</latex>
+        <p
+    >The sinc function is the Fourier transform of the rectangular pulse function and appears frequently in signal processing and communications.</p>
+    </description>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
         runnable="cli"
       ><![CDATA[c = sinc(pi)]]></example_item_data>
             </example_item>

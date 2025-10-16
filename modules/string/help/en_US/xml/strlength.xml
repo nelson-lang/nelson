@@ -23,7 +23,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>strlength</b> returns length of strings.</description>
+        <p><b>strlength</b> returns length of strings.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>
