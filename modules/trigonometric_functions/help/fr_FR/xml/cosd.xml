@@ -21,8 +21,9 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>cosd</b> calcule le cosinus en degrés pour chaque élément de <b
-    >x</b>.</description>
+        <p><b>cosd</b> calcule le cosinus en degrés pour chaque élément de <b
+      >x</b>.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

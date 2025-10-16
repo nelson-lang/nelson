@@ -29,8 +29,9 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>endsWith</b> renvoie <b>vrai</b> si <b>str</b> se termine par <b
-    >pattern</b>.</description>
+        <p><b>endsWith</b> renvoie <b>vrai</b> si <b>str</b> se termine par <b
+      >pattern</b>.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

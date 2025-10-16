@@ -20,7 +20,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>acoth</b> computes the inverse hyperbolic cotangent.</description>
+        <p><b>acoth</b> computes the inverse hyperbolic cotangent.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

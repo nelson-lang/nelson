@@ -22,8 +22,10 @@
     <description>
         <p>
             <b>exp</b> computes the exponential value.</p>
-            <p>If input argument is a complex number, <b
-      >exp</b> computes exp(x) * (cos(y) + i * sin(y)) with z = x + i * y.</p>
+            <p>For real numbers:</p>
+            <latex>e^x</latex>
+            <p>For complex numbers <b>z = x + iy</b>:</p>
+            <latex>e^z = e^x(\cos y + i\sin y)</latex>
         </description>
         <used_function />
         <bibliography />

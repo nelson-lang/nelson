@@ -21,8 +21,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b
-    >isnumeric</b> renvoie 1 logique si l'argument est un tableau numérique et 0 logique sinon.
+        <p><b
+      >isnumeric</b> renvoie 1 logique si l'argument est un tableau numérique et 0 logique sinon.</p>
         <p>Liste des types numériques :</p>
         <p><b>single</b> : simple précision</p>
         <p><b>double</b> : double précision</p>

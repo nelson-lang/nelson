@@ -21,7 +21,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>toupper</b> converts a string to upper case.</description>
+        <p><b>toupper</b> converts a string to upper case.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

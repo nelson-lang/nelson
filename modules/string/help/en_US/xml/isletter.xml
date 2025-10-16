@@ -22,7 +22,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>isletter</b> determines which characters are letters.</description>
+       <p><b>isletter</b> determines which characters are letters.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

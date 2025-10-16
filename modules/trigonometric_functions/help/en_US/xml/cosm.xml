@@ -23,7 +23,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>cosm(x)</b> computes the matrix cosine of <b>x</b>.</description>
+        <p><b>cosm(x)</b> computes the matrix cosine of <b>x</b>.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

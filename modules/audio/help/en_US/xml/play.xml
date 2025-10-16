@@ -26,7 +26,8 @@
         </param_input_item>
     </param_input>
     <description>
-        <b>play</b> plays an audioplayer object.</description>
+        <p><b>play</b> plays an audioplayer object.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

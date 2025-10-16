@@ -27,7 +27,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>atan2</b> computes the four-quadrant inverse tangent.</description>
+        <p><b>atan2</b> computes the four-quadrant inverse tangent.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

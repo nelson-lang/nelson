@@ -16,7 +16,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>newline</b> renvoie un caractère de nouvelle ligne.</description>
+        <p><b>newline</b> renvoie un caractère de nouvelle ligne.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

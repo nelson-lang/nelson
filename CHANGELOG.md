@@ -10,32 +10,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Enhanced random number generation engine with new algorithms: `simdTwister`, `combRecursive`, `philox`, and `threefry`.
-- `sprand`: Function for generating sparse matrices with uniformly distributed random values.
-- `sprandn`: Function for generating sparse matrices with normally distributed random values.
-- `randi`: Function for generating uniformly distributed random integers.
 
-- `imresize`: Added a function to resize images by scale or to a specified output size, supporting both upscaling and downscaling for flexible image processing workflows.
+- `randi`: Generate uniformly distributed random integers.
 
-- Variable Editor: Major redesign, now accessible via `openvar` or the GUI. Supports structured variables, tables, arrays, and nested data. Features a dynamic table view, real-time updates from the execution context, and improved performance for large datasets. Copy-paste compatibility with Excel, LibreOffice, and OpenOffice in both directions.
+- New functions for sparse matrix generation:
 
-- Continuation prompt: Introduced context-aware continuation prompts to enhance interactive command workflows.
+  - `sprand`: Generate sparse matrices with uniformly distributed random values.
+
+  - `sprandn`: Generate sparse matrices with normally distributed random values.
 
 - Search Text in Console and Text Editor.
 
 - Type support: Expanded support for missing types, increasing compatibility across functions and data structures.
 
-- `missing` function: Added to create missing values for arrays and tables, improving data handling and interoperability.
+- `imresize`: Resize images by scale or to a specified output size, supporting both upscaling and downscaling.
 
-- `renameStructField`: New function to rename fields in structures, simplifying data manipulation and refactoring.
+- Variable Editor: Redesigned for improved usability and performance. Accessible via `openvar` or the GUI, it supports structured variables, tables, arrays, and nested data. Features include:
 
-- `jsondecode(filename, '-file')`: Added '-file' argument to allow direct reading and decoding of JSON files from disk.
+  - Dynamic table view.
 
-- `tdigest`: Introduced t-digest algorithm data structure for accurate quantile estimation
-  with configurable compression parameters.
+  - Real-time updates from the execution context.
 
-- `crc32` builtin: get crc32 checksum of a file or a string.
+  - Enhanced performance for large datasets.
 
-- `markdown`: option to select output generated format ('secure' or 'advanced').
+  - Copy-paste compatibility with Excel, LibreOffice, and OpenOffice.
+
+- Continuation prompt: Context-aware prompts to enhance interactive command workflows.
+
+- Expanded type support for missing types, increasing compatibility across functions and data structures.
+
+- `missing` function: Create missing values for arrays and tables, improving data handling and interoperability.
+
+- `renameStructField`: Rename fields in structures, simplifying data manipulation and refactoring.
+
+- `jsondecode(filename, '-file')`: Added `-file` argument for direct reading and decoding of JSON files from disk.
+
+- `tdigest`: Introduced t-digest algorithm for accurate quantile estimation with configurable compression parameters.
+
+- `crc32` builtin: Compute CRC32 checksum of a file or string.
+
+- `markdown`: Added option to select output format (`secure` or `advanced`).
 
 - `fwrite`: return also bytes count as second output argument.
 
@@ -45,19 +59,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- help framework fully reworked:
+- Help framework reworked for improved performance and usability:
 
-  - faster build (on multithread)
-  - faster and extended search
-  - easier to maintain and evolve (based on Extensible Stylesheet Language Transformations)
-  - stylesheet reworked (same online and offline)
-  - qt help support used internally removed
-  - `http://` replaced by `https://`
-  - `help_browser` module removed
+  - Multithreaded builds for faster performance.
 
-- `jsondecode`: Significantly improved performance by integrating [simdjson](https://simdjson.org/), enabling faster and more efficient JSON parsing.
+  - Enhanced search capabilities with extended functionality.
 
-- `fileread`: Enhanced performance for reading large files, reducing memory usage and increasing speed for file operations.
+  - Improved maintainability using Extensible Stylesheet Language Transformations (XSLT).
+
+  - Unified stylesheet for consistent appearance online and offline.
+
+  - Removed internal usage of Qt help support.
+
+  - Replaced `http://` links with `https://` for secure connections.
+
+  - Removed the `help_browser` module.
+
+  - Added French language support for Help.
+  - Introduced support for LaTeX formulas.
+
+- `jsondecode`: Integrated [simdjson](https://simdjson.org/) for significantly improved performance and efficiency.
+
+- `fileread`: Enhanced performance for reading large files, reducing memory usage and increasing speed.
 
 - `fwrite`: returns the number of characters written for character data.
 
@@ -65,31 +88,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Browser variable: Refactored for improved usability, reliability, and consistency in variable inspection.
 
-- Third-party libraries on Windows: Updated support for HDF5, zlib, and matio, improving compatibility and stability for Windows users.
+- Third-party libraries on Windows: Updated support for HDF5, zlib, and matio, improving compatibility and stability.
 
 - Qt: Upgraded to version 6.9.1 on Windows x64, providing better UI performance and compatibility with modern systems.
 
-- Benchmarks: `bench_jsonencode.json` updated to include larger datasets for more robust and realistic performance testing.
+- Benchmarks: Updated `bench_jsonencode.json` to include larger datasets for more robust performance testing.
 
-- Improved `xmldocchecker` with XSD schema validation for XML files.
+- `xmldocchecker`: Improved with XSD schema validation for XML files.
 
-- [#1458](https://github.com/nelson-lang/nelson/issues/1458): Eigen 5.0.0 used if detected.
+- [#1458](https://github.com/nelson-lang/nelson/issues/1458): Added support for Eigen 5.0.0 if detected.
 
-- GitHub CI MacOS Ventura removed and replaced by MacOS 15 intel ([#1457](https://github.com/nelson-lang/nelson/issues/1457))
+- GitHub CI: Replaced MacOS Ventura with MacOS 15 Intel ([#1457](https://github.com/nelson-lang/nelson/issues/1457)).
 
-- markdown renderer changed to use cmark library.
+- Markdown renderer: Switched to the cmark library.
 
-- Install a nelson's external package will switch to local embedded help.
+- External packages:
 
-- External packages required to be rebuild with this version to use new help format.
+  - Installing a Nelson external package now switches to local embedded help.
+  - External packages must be rebuilt with this version to use the new help format.
 
 - Removed several dependencies on Boost to reduce build complexity and improve portability.
 
 ### Fixed
 
-- `ans` variable: Fixed issue to ensure 'ans' is only created for expressions, preventing unintended variable creation in the workspace.
+- `ans` variable: Ensured `ans` is only created for expressions, preventing unintended variable creation in the workspace.
 
-- `jsondecode`: Corrected parsing of arrays containing empty arrays, improving reliability and correctness of JSON decoding.
+- `jsondecode`: Corrected parsing of arrays containing empty arrays, improving reliability and correctness.
 
 - Julia engine works also with Julia 1.12.0
 

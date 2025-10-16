@@ -21,7 +21,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>string</b> convertit l'entrée en tableau de chaînes.</description>
+        <p><b>string</b> convertit l'entrée en tableau de chaînes.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

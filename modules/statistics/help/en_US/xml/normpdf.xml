@@ -36,19 +36,21 @@
     <description>
         <p>
             <b
-      >y = normpdf(x)</b> calculates the probability density function (pdf) of the standard normal distribution at the given values in <b
-      >x</b>.</p>
-            <p>
-                <b
-      >y = normpdf(x, mu)</b> computes the pdf of the normal distribution with a mean of <b
-      >mu</b> and a standard deviation of 1, evaluated at the provided values in <b
-      >x</b>.</p>
-                <p>
-                    <b
-      >y = normpdf(x, mu, sigma)</b> determines the pdf of the normal distribution with a mean of <b
-      >mu</b> and a standard deviation of <b
-      >sigma</b>, evaluated at the specified values in <b>x</b>.</p>
-                </description>
+      >normpdf</b> computes the probability density function of the normal (Gaussian) distribution.
+        </p>
+        <p>The general formula for the normal distribution PDF is:</p>
+        <latex
+    >f(x|\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}</latex>
+        <p>where</p>
+        <latex>\mu</latex>
+        <p>is the mean and</p>
+        <latex>\sigma^2</latex>
+        <p>is the variance.</p>
+        <p>For the standard normal distribution (</p>
+        <latex>\mu = 0, \sigma = 1</latex>
+        <p>):</p>
+        <latex>\phi(x) = \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}}</latex>
+    </description>
                 <used_function />
                 <bibliography
   >Evans, M., N. Hastings, and B. Peacock. Statistical Distributions. 2nd ed. Hoboken, NJ: John Wiley and Sons, Inc., 1993.</bibliography>

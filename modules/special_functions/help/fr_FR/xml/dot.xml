@@ -28,8 +28,25 @@
     <description>
         <p>
             <b>R = dot(A, B)</b> retourne le produit scalaire de <b>A</b> et <b
-      >B</b>.</p>
-        </description>
+      >B</b>.
+        </p>
+        <p>Pour les vecteurs réels</p>
+        <latex>\mathbf{a}</latex>
+        <p>et</p>
+        <latex>\mathbf{b}</latex>
+        <p>de longueur</p>
+        <latex>n</latex>
+        <p>:</p>
+        <latex
+    >\mathbf{a} \cdot \mathbf{b} = \sum_{i=1}^{n} a_i b_i = a_1 b_1 + a_2 b_2 + \cdots + a_n b_n</latex>
+        <p>Pour les vecteurs complexes, le produit scalaire est :</p>
+        <latex
+    >\mathbf{a} \cdot \mathbf{b} = \sum_{i=1}^{n} \overline{a_i} b_i</latex>
+        <p>où</p>
+        <latex>\overline{a_i}</latex>
+        <p>dénote le conjugué complexe de</p>
+        <latex>a_i</latex>
+    </description>
         <used_function />
         <bibliography>https://en.wikipedia.org/wiki/Dot_product</bibliography>
         <examples>

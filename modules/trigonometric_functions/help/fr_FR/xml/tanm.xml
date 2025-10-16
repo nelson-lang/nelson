@@ -23,8 +23,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>tanm(x)</b> calcule la tangente matricielle de <b
-    >x</b>.</description>
+        <p><b>tanm(x)</b> calcule la tangente matricielle de <b>x</b>.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

@@ -23,7 +23,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>tanm(x)</b> computes the matrix tangent of <b>x</b>.</description>
+        <p><b>tanm(x)</b> computes the matrix tangent of <b>x</b>.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

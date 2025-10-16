@@ -30,6 +30,26 @@
             </title>
             <link rel="stylesheet" href="highlight.css"/>
             <link rel="stylesheet" href="nelson_common.css"/>
+            <!-- MathJax configuration -->
+            <script type="text/x-mathjax-config">
+                MathJax.Hub.Config({
+                    tex2jax: {
+                        inlineMath: [['$','$'], ['\\(','\\)']],
+                        displayMath: [['$$','$$'], ['\\[','\\]']],
+                        processEscapes: true,
+                        processEnvironments: true
+                    },
+                    "HTML-CSS": {
+                        availableFonts: ["TeX"],
+                        preferredFont: "TeX",
+                        webFont: "TeX",
+                        imageFont: null
+                    },
+                    showMathMenu: false
+                });
+            </script>
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
                      <script type="text/javascript">
                 document.addEventListener('click', function(e) {
                   var a = (typeof e.target.closest === 'function') ? e.target.closest('a[href]') : null;
@@ -439,6 +459,33 @@
 <xsl:template match="p">
     <p><xsl:apply-templates/></p>
 </xsl:template>
+
+<xsl:template match="img">
+  <xsl:variable name="imgsrc" select="ext:copy_img(@src)"/>
+  <xsl:choose>
+    <!-- Special styling for SVG (keeps large fixed view) -->
+    <xsl:when test="substring($imgsrc, string-length($imgsrc) - 3) = '.svg'">
+      <img>
+        <xsl:attribute name="src"><xsl:value-of select="$imgsrc"/></xsl:attribute>
+        <xsl:if test="@align"><xsl:attribute name="align"><xsl:value-of select="@align"/></xsl:attribute></xsl:if>
+        <xsl:if test="@alt"><xsl:attribute name="alt"><xsl:value-of select="@alt"/></xsl:attribute></xsl:if>
+        <xsl:if test="@width"><xsl:attribute name="width"><xsl:value-of select="@width"/></xsl:attribute></xsl:if>
+        <xsl:if test="@height"><xsl:attribute name="height"><xsl:value-of select="@height"/></xsl:attribute></xsl:if>
+        <xsl:attribute name="style">width:960px;height:580px;display:block;margin:12px auto;background:#fff;border:1px solid #e2e8f0;border-radius:4px;box-shadow:0 1px 4px rgba(44,82,130,0.07);object-fit:contain;</xsl:attribute>
+      </img>
+    </xsl:when>
+    <xsl:otherwise>
+      <img>
+        <xsl:attribute name="src"><xsl:value-of select="$imgsrc"/></xsl:attribute>
+        <xsl:if test="@align"><xsl:attribute name="align"><xsl:value-of select="@align"/></xsl:attribute></xsl:if>
+        <xsl:if test="@alt"><xsl:attribute name="alt"><xsl:value-of select="@alt"/></xsl:attribute></xsl:if>
+        <xsl:if test="@width"><xsl:attribute name="width"><xsl:value-of select="@width"/></xsl:attribute></xsl:if>
+        <xsl:if test="@height"><xsl:attribute name="height"><xsl:value-of select="@height"/></xsl:attribute></xsl:if>
+        <xsl:attribute name="style">width:100%;height:auto;display:block;margin:12px 0;background:#f9fafb;border:1px solid #e2e8f0;border-radius:4px;box-shadow:0 1px 4px rgba(44,82,130,0.07);object-fit:contain;</xsl:attribute>
+      </img>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
 <!-- Render <ul> as HTML unordered list -->
 <xsl:template match="ul">
     <ul>
@@ -483,6 +530,11 @@
         <xsl:copy-of select="@*"/>
         <xsl:apply-templates/>
     </td>
+</xsl:template>
+
+<!-- Render <latex> as MathJax display math -->
+<xsl:template match="latex">
+    <span class="latex-math">$$<xsl:value-of select="normalize-space(.)"/>$$</span>
 </xsl:template>
 
 <xsl:template name="trim-example-lines">

@@ -23,7 +23,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>blanks</b> creates an string of blank characters.</description>
+        <p><b>blanks</b> creates an string of blank characters.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

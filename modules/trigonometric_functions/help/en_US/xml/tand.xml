@@ -21,8 +21,9 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>tand</b> computes the tangent in degree for each element of <b
-    >x</b>.</description>
+        <p><b>tand</b> computes the tangent in degree for each element of <b
+      >x</b>.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

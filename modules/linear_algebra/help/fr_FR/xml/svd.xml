@@ -41,14 +41,32 @@
     <description>
         <p>
             <b
-      >[U, S, V] = svd(M)</b> produit une matrice diagonale S de la même dimension que M avec des éléments diagonaux non négatifs en ordre décroissant, et des matrices unitaires U et V telles que X = U*S*V'.</p>
-            <p>
-                <b
-      >[U, S, V] = svd(M, 0)</b> produit la décomposition de taille 'économie'. Si M est m-par-n avec m &gt; n alors seules les n premières colonnes de U sont calculées et S est n-par-n.</p>
-                <p>
-                    <b
-      >[U, S, V] = svd(M,0)</b> produit une décomposition de taille économie différente pour une matrice m-par-n M. Si m &gt; n alors svd(M, 0) est équivalent à svd(M,'econ'). Si m &lt;= n alors svd(M, 0) est équivalent à svd(M).</p>
-                </description>
+      >svd</b> calcule la décomposition en valeurs singulières d'une matrice.
+        </p>
+        <p>Pour une matrice</p>
+        <latex>M</latex>
+        <p>de taille</p>
+        <latex>m \times n</latex>
+        <p>, la SVD est :</p>
+        <latex>M = U\Sigma V^T</latex>
+        <p>où :
+        <ul>
+        <li><latex>U</latex> est une matrice unitaire</li>
+        <latex>m \times m</latex>
+        <p>(vecteurs singuliers gauches)</p>
+        <li><latex>\Sigma</latex> est une matrice diagonale</li>
+        <latex>m \times n</latex>
+        <p>avec des nombres réels non négatifs (valeurs singulières)</p>
+        <li><latex>V^T</latex> est une matrice unitaire</li>
+        <latex>n \times n</latex>
+        <p>(vecteurs singuliers droits)</p>
+        </ul>
+        </p>
+        <p>Les valeurs singulières</p>
+        <latex>\sigma_i</latex>
+        <p>sont arrangées en ordre décroissant :</p>
+        <latex>\sigma_1 \geq \sigma_2 \geq \ldots \geq 0</latex>
+    </description>
                 <used_function />
                 <bibliography />
                 <examples>

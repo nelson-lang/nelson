@@ -21,8 +21,15 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>tan</b> calcule la tangente en radians pour chaque élément de <b
-    >x</b>.</description>
+        <p><b>tan</b> calcule la tangente en radians pour chaque élément de <b
+      >x</b>.</p>
+        <p>La fonction tangente est définie comme :</p>
+        <latex
+    >\tan(x) = \frac{\sin(x)}{\cos(x)} = \frac{e^{ix} - e^{-ix}}{i(e^{ix} + e^{-ix})}</latex>
+        <p>Elle a des asymptotes verticales à</p>
+        <latex>x = \frac{\pi}{2} + n\pi</latex>
+        <p>pour les entiers <b>n</b>.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

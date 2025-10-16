@@ -28,7 +28,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>strcmpi</b> compares two strings (case insensitive).</description>
+        <p><b>strcmpi</b> compares two strings (case insensitive).</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

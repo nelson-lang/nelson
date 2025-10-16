@@ -20,8 +20,10 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>asind</b> computes the inverse sine in degrees for each element of <b
-    >x</b>.</description>
+        <p><b
+      >asind</b> computes the inverse sine in degrees for each element of <b
+      >x</b>.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

@@ -20,7 +20,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>acosh</b> calcule le cosinus hyperbolique inverse.</description>
+        <p><b>acosh</b> calcule le cosinus hyperbolique inverse.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

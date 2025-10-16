@@ -27,11 +27,30 @@
         </param_output_item>
     </param_output>
     <description>
-                <p>
-                        <b
+        <p>
+            <b
       >K = kron(A, B)</b> calcule le produit tensoriel de Kronecker des matrices <b
-      >A</b> et <b>B</b>.</p>
-        </description>
+      >A</b> et <b>B</b>.
+        </p>
+        <p>Pour des matrices</p>
+        <latex>A</latex>
+        <p>de taille</p>
+        <latex>m \times n</latex>
+        <p>et</p>
+        <latex>B</latex>
+        <p>de taille</p>
+        <latex>p \times q</latex>
+        <p>, le produit de Kronecker est :</p>
+        <latex>A \otimes B = \begin{pmatrix} 
+        a_{11}B &amp; a_{12}B &amp; \cdots &amp; a_{1n}B \\
+        a_{21}B &amp; a_{22}B &amp; \cdots &amp; a_{2n}B \\
+        \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+        a_{m1}B &amp; a_{m2}B &amp; \cdots &amp; a_{mn}B 
+        \end{pmatrix}</latex>
+        <p>Le résultat est une matrice</p>
+        <latex>mp \times nq</latex>
+        <p>.</p>
+    </description>
         <bibliography
   >https://en.wikipedia.org/wiki/Kronecker_product</bibliography>
         <examples>

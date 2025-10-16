@@ -25,8 +25,27 @@
             <b
       >R = corrcoef(M)</b> returns the matrix of correlation coefficients for <b
       >M</b>, where the columns of <b
-      >M</b> represent random variables and the rows represent observations.</p>
-        </description>
+      >M</b> represent random variables and the rows represent observations.
+        </p>
+        <p>The Pearson correlation coefficient between variables</p>
+        <latex>X</latex>
+        <p>and</p>
+        <latex>Y</latex>
+        <p>is:</p>
+        <latex
+    >r_{XY} = \frac{\text{cov}(X,Y)}{\sigma_X \sigma_Y} = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^n (x_i - \bar{x})^2 \sum_{i=1}^n (y_i - \bar{y})^2}}</latex>
+        <p>where</p>
+        <latex>\bar{x}</latex>
+        <p>and</p>
+        <latex>\bar{y}</latex>
+        <p>are the sample means, and</p>
+        <latex>\sigma_X</latex>
+        <p>,</p>
+        <latex>\sigma_Y</latex>
+        <p>are the standard deviations.</p>
+        <p
+    >The correlation coefficient ranges from -1 to +1, where -1 indicates perfect negative correlation, +1 indicates perfect positive correlation, and 0 indicates no linear correlation.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

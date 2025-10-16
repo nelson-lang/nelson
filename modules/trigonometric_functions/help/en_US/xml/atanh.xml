@@ -21,7 +21,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>acos</b> computes the inverse hyperbolic tangent.</description>
+        <p><b>atanh</b> computes the inverse hyperbolic tangent.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

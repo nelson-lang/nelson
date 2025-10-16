@@ -23,11 +23,24 @@
     </param_output>
     <description>
         <p>
-            <b>gamma</b> calcule la fonction gamma.</p>
-            <p>
-                <b>gamma</b> est une extension de la fonction <b
-      >factorielle</b>.</p>
-            </description>
+            <b>gamma</b> calcule la fonction gamma.
+        </p>
+        <p>La fonction gamma est définie par l'intégrale :</p>
+        <latex>\Gamma(z) = \int_0^{\infty} t^{z-1} e^{-t} \, dt</latex>
+        <p>pour</p>
+        <latex>\text{Re}(z) > 0</latex>
+        <p
+    >La fonction gamma étend la fonction factorielle aux nombres réels et complexes :</p>
+        <latex>\Gamma(n) = (n-1)!</latex>
+        <p>pour les entiers positifs</p>
+        <latex>n</latex>
+        <p>Propriétés importantes :</p>
+        <ul>
+        <li><latex
+        >\Gamma(z+1) = z\Gamma(z)</latex> (relation de récurrence)</li>
+        <li><latex>\Gamma(1/2) = \sqrt{\pi}</latex></li>
+        </ul>
+    </description>
             <used_function />
             <bibliography />
             <examples>
