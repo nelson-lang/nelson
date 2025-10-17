@@ -50,48 +50,10 @@
             </script>
             <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
             <script id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-                     <script type="text/javascript">
-                document.addEventListener('click', function(e) {
-                  var a = (typeof e.target.closest === 'function') ? e.target.closest('a[href]') : null;
-                  if (!a) return;
-                  var href = a.getAttribute('href');
-                  if (/^https?:\/\//i.test(href)) {
-                    e.preventDefault();
-                    window.open(href, '_blank', 'noopener');
-                  }
-                }, true);
-            </script>
+                                <!-- external JS consolidated into nelson_help.js -->
    
             <script src="highlight.pack.js"></script>
-            <script>hljs.highlightAll();</script>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    document.querySelectorAll('code.matlab').forEach(function(block) {
-                        if (window.hljs) hljs.highlightElement(block);
-                    });
-                });
-            </script>
-            <script type="text/javascript">
-                function copyExample(btn) {
-                    var codeBlock = btn.parentNode.parentNode.querySelector('code');
-                    if (codeBlock) {
-                        var text = codeBlock.textContent;
-                        navigator.clipboard.writeText(text).then(function() {
-                            btn.setAttribute('data-copied', 'true');
-                            btn.setAttribute('aria-label', 'Copied!');
-                            btn.title = 'Copied!';
-                            setTimeout(function(){ 
-                                btn.removeAttribute('data-copied');
-                                btn.setAttribute('aria-label', 'Copy');
-                                btn.title = 'Copy';
-                            }, 1200);
-                        }, function() {
-                            btn.setAttribute('aria-label', 'Error');
-                            btn.title = 'Error';
-                        });
-                    }
-                }
-            </script>
+            <!-- nelson_help.js initializes highlighting, external links, copyExample and sets github edit link -->
         </head>
         <body>
             <!-- Help Summary Button at top left -->
@@ -105,6 +67,7 @@
                 </button>
             </a>
             <xsl:apply-templates select="xmldoc"/>
+
             <!-- Author section always LAST -->
             <xsl:if test="xmldoc/authors/author_item">
                 <div class="section" style="margin-top:30px;">
@@ -120,6 +83,62 @@
                     </div>
                 </div>
             </xsl:if>
+
+            <!-- GitHub Edit Button: placed as the last element on the page -->
+            <div class="section" style="margin-top:40px; text-align:center;">
+                <a id="github-edit-link" class="github-edit-btn" target="_blank" rel="noopener noreferrer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9"></path>
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                    </svg>
+                    <span id="github-edit-text"><xsl:choose>
+                        <xsl:when test="xmldoc/language = 'fr_FR'">Modifier cette page sur GitHub</xsl:when>
+                        <xsl:otherwise>Edit this page on GitHub</xsl:otherwise>
+                    </xsl:choose></span>
+                </a>
+                <script type="text/javascript"><![CDATA[
+                    function buildGitHubEditUrl(href) {
+                        try {
+                            var m = href.match(/\/help\/(v[^\/]+)\/([^\/]+)\/([^\/]+)\/([^\/]+)\.html$/);
+                            var version, lang, moduleName, basename;
+                            if (m) {
+                                version = m[1]; lang = m[2]; moduleName = m[3]; basename = m[4];
+                            } else {
+                                var url = href.split('?')[0].split('#')[0];
+                                var parts = url.split('/').filter(function(p){ return p.length > 0; });
+                                version = 'master';
+                                for (var i=0;i<parts.length;i++){
+                                    if (/^v\d+/i.test(parts[i])) { version = parts[i]; break; }
+                                }
+                                if (parts.length >= 2) {
+                                    moduleName = parts[parts.length - 2];
+                                    basename = parts[parts.length - 1].replace(/\.html?$/i, '').replace(/\.md$/i, '');
+                                } else if (parts.length === 1) { moduleName = parts[0]; basename = parts[0]; }
+                                else { moduleName = 'unknown_module'; basename = 'index'; }
+                                lang = 'en';
+                                for (var j=0;j<parts.length;j++){
+                                    if (/^fr(_|$)/i.test(parts[j]) || /^fr-/i.test(parts[j])) { lang = 'fr'; break; }
+                                    if (/^en(_|$)/i.test(parts[j]) || /^en-/i.test(parts[j])) { lang = 'en'; break; }
+                                }
+                            }
+                            var mdLang = /^fr/i.test(lang) ? 'fr' : 'en';
+                            if (!version) version = 'master';
+                            return 'https://github.com/nelson-lang/nelson-gitbook/blob/' + encodeURIComponent(version) + '/markdown/' + mdLang + '/' + encodeURIComponent(moduleName) + '/' + encodeURIComponent(basename) + '.md';
+                        } catch (e) { return 'https://github.com/nelson-lang/nelson-gitbook'; }
+                    }
+                    document.addEventListener('DOMContentLoaded', function() {
+                        var link = document.getElementById('github-edit-link');
+                        if (link) link.href = buildGitHubEditUrl(window.location.href);
+                    });
+                ]]></script>
+                <style>
+                    .github-edit-btn { display:inline-flex; align-items:center; gap:6px; font-size:14px; padding:6px 12px; border:1px solid #ddd; border-radius:4px; background:#f5f5f5; color:#333; text-decoration:none; transition:all 0.2s ease; }
+                    .github-edit-btn:hover { background:#e9e9e9; border-color:#ccc; color:#000; }
+                </style>
+            </div>
+
+            <!-- Include consolidated help JS -->
+            <script src="nelson_help.js"></script>
         </body>
     </html>
     </xsl:template>

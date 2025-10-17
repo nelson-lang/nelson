@@ -64,6 +64,8 @@ function main_help(module_path, lang, dirdest, package)
       copyfile([modulepath('help_tools'), '/resources/nelson_common.css' ], [destination_path, '/nelson_common.css']);
       copyfile([modulepath('help_tools'), '/resources/highlight.pack.js' ], [destination_path, '/highlight.pack.js']);
       copyfile([modulepath('help_tools'), '/resources/highlight.css' ], [destination_path, '/highlight.css']);
+      copyfile([modulepath('help_tools'), '/resources/nelson_help.js'], [destination_path, '/nelson_help.js']);
+
       
       if ~isfile([dir_src, '/gpl-3.0.md'])
         copyfile([nelsonroot(), '/gpl-3.0.md'], [dir_src, '/gpl-3.0.md']);
