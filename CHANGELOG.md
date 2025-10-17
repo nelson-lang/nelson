@@ -30,6 +30,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `tdigest`: Introduced t-digest algorithm data structure for accurate quantile estimation with configurable compression parameters.
 
+- `fwrite`: return also bytes count as second output argument.
+
 - macOS Tahoe 26: CI setup and platform support.
 
 ### Changed

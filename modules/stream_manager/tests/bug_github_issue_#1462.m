@@ -22,3 +22,11 @@ assert_isequal(count, 11);
 R = fileread([tempdir(), 'bug_#1462.txt']);
 assert_isequal(R, test_string);
 %=============================================================================
+test_string =  'é ö ä ü è ê';
+fid = fopen([tempdir(), 'bug_#1462.txt'],'wt','n', 'UTF-8');
+[count, bytes] = fwrite(fid, test_string);
+fclose(fid);
+%=============================================================================
+assert_isequal(count, 11);
+assert_isequal(bytes, 17);
+%=============================================================================

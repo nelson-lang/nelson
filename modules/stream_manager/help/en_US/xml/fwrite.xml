@@ -12,6 +12,7 @@
         <syntax_item
     >count = fwrite(fid, data, precision, skip, arch)</syntax_item>
         <syntax_item>count = fwrite(fid, data, precision, arch)</syntax_item>
+        <syntax_item>[count, bytes] = fwrite(fid, ...)</syntax_item>
     </syntax>
     <param_input>
         <param_input_item>
@@ -42,7 +43,12 @@
             <param_description
       >-1 or number of elements written</param_description>
         </param_output_item>
+        <param_output_item>
+            <param_name>bytes</param_name>
+            <param_description>number of bytes written</param_description>
+        </param_output_item>
     </param_output>
+
     <description>
         <p
     >Write data in binary form to the file specified by the file descriptor fid.</p>
@@ -157,7 +163,7 @@ fclose(fileID);
       ><![CDATA[
 test_string =  'é ö ä ü è ê';
 fid = fopen([tempdir(), 'fwrite_example_char.txt'], 'w','n', 'UTF-8');
-count = fwrite(fid, test_string) % returns 11
+[count, bytes] = fwrite(fid, test_string) % returns 11 and 17
 fclose(fid);
 
 % This is the number of characters written
