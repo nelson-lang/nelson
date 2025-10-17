@@ -3,7 +3,7 @@
     <copyright>SAME AS NELSON SOFTWARE</copyright>
     <language>fr_FR</language>
     <keyword>fwrite</keyword>
-        <short_description
+    <short_description
   >Écrire des données en binaire dans le fichier spécifié par le descripteur fid.</short_description>
     <syntax>
         <syntax_item>count = fwrite(fid, data)</syntax_item>
@@ -12,6 +12,7 @@
         <syntax_item
     >count = fwrite(fid, data, precision, skip, arch)</syntax_item>
         <syntax_item>count = fwrite(fid, data, precision, arch)</syntax_item>
+        <syntax_item>[count, bytes] = fwrite(fid, ...)</syntax_item>
     </syntax>
     <param_input>
         <param_input_item>
@@ -32,17 +33,22 @@
         </param_input_item>
         <param_input_item>
             <param_name>arch</param_name>
-        <param_description
+            <param_description
       >une chaîne spécifiant le format des données pour le fichier.</param_description>
         </param_input_item>
     </param_input>
     <param_output>
         <param_output_item>
             <param_name>count</param_name>
-        <param_description>-1 ou nombre d'éléments écrits</param_description>
+            <param_description
+      >-1 ou nombre d'éléments écrits</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>bytes</param_name>
+            <param_description>nombre d'octets écrits</param_description>
         </param_output_item>
     </param_output>
-        <description>
+    <description>
         <p
     >Écrit des données en format binaire dans le fichier spécifié par le descripteur fid.</p>
         <p>L'encodage des caractères utilise le paramètre <b>fopen</b>.</p>
@@ -53,6 +59,83 @@
                 <b>ieee-be</b>, <b>b</b> : IEEE big endian.</p>
                 <p>
                     <b>ieee-le</b>, <b>l</b> : IEEE little endian.</p>
+                    <p>précision supportée :</p>
+                    <p>
+                        <table border="1" cellpadding="4" cellspacing="0">
+                            <tr>
+                                <th>Type valeur</th>
+                                <th>Précision</th>
+                                <th>Bits (Octets)</th>
+                            </tr>
+                            <tr>
+                                <td>Logical</td>
+                                <td>'logical'</td>
+                                <td>platform-dependent</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">nombre à virgule flottante</td>
+                                <td>'double', 'real*8', 'float64'</td>
+                                <td>64 (8)</td>
+                            </tr>
+                            <tr>
+                                <td>'single', 'real*4', 'float32'</td>
+                                <td>32 (4)</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="5">Integers, signed</td>
+                                <td>'int'</td>
+                                <td>32 (4)</td>
+                            </tr>
+                            <tr>
+                                <td>'int8', 'integer*1', 'schar'</td>
+                                <td>8 (1)</td>
+                            </tr>
+                            <tr>
+                                <td>'int16', 'integer*2'</td>
+                                <td>16 (2)</td>
+                            </tr>
+                            <tr>
+                                <td>'int32', 'integer*4'</td>
+                                <td>32 (4)</td>
+                            </tr>
+                            <tr>
+                                <td>'int64', 'integer*8'</td>
+                                <td>64 (8)</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4">Entiers, non signés</td>
+                                <td>'uint8', 'uchar'</td>
+                                <td>8 (1)</td>
+                            </tr>
+                            <tr>
+                                <td>'uint16'</td>
+                                <td>16 (2)</td>
+                            </tr>
+                            <tr>
+                                <td>'uint32'</td>
+                                <td>32 (4)</td>
+                            </tr>
+                            <tr>
+                                <td>'uint64'</td>
+                                <td>64 (8)</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">Caractères</td>
+                                <td>'char', '*char'</td>
+                                <td>dépend de l'encodage avec fopen.</td>
+                            </tr>
+                            <tr>
+                                <td>'char*1'</td>
+                                <td>dépend de l'encodage avec fopen.</td>
+                            </tr>
+                        </table>
+                    </p>
+                    <p>if <b
+      >fwrite</b> échoue, il renvoie une valeur négative.</p>
+                    <p>if <b
+      >fwrite</b> réussit, il renvoie le nombre d'éléments écrits avec succès.</p>
+                    <p>if <b
+      >fwrite</b> écrit des caractères, il renvoie le nombre de caractères écrits avec succès et non le nombre d'éléments.</p>
                 </description>
                 <used_function />
                 <bibliography />
@@ -72,6 +155,22 @@ fclose(fileID);
 fileID = fopen([tempdir(), 'doubledata.bin'],'r');
 R = fread(fileID, 'double')
 fclose(fileID);
+]]></example_item_data>
+                    </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+      ><![CDATA[
+test_string =  'é ö ä ü è ê';
+fid = fopen([tempdir(), 'fwrite_example_char.txt'], 'w','n', 'UTF-8');
+[count, bytes] = fwrite(fid, test_string) % returns 11 and 17
+fclose(fid);
+
+% Il s'agit du nombre de caractères écrits et non du nombre d'octets. 
+% Chaque caractère accentué (é, ö, ä, ü, è, ê) = 2 octets chacun
+% Chaque espace = 1 octet
+% Total octets = 6*2 + 5*1 = 17 octets
 ]]></example_item_data>
                     </example_item>
                 </examples>

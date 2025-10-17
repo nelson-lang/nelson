@@ -28,6 +28,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_help.xsd; DestDir: {a
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\highlight.pack.js; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\highlight.css; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_common.css; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_help.js; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_html.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_markdown.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_summary2html.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
