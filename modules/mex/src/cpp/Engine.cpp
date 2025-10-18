@@ -15,19 +15,18 @@
 #include <string>
 #include <cstdlib>
 #include <algorithm>
-#include <boost/version.hpp>
-#if BOOST_VERSION >= 108800
-#include <boost/process/v1/child.hpp>
-#include <boost/process/v1/search_path.hpp>
-#include <boost/process/v1/io.hpp>
-#else
-#include <boost/process.hpp>
-#include <boost/process/async.hpp>
-#endif
-#include <boost/thread/thread.hpp>
-#include <boost/filesystem.hpp>
-#include <algorithm>
 #include <map>
+#include <filesystem>
+#include <thread>
+#include <chrono>
+#ifdef _MSC_VER
+#include <windows.h>
+#else
+#include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#endif
 #include "engine.h"
 #include "characters_encoding.hpp"
 #include "NelsonPIDs.hpp"
@@ -37,16 +36,6 @@
 #include "NelsonReadyNamedMutex.hpp"
 #include "SystemCommand.hpp"
 //=============================================================================
-#if BOOST_VERSION >= 108800
-#define BOOST_PROCESS boost::process::v1
-#define PROCESS_PID_T boost::process::v1::pid_t
-#define PROCESS_CHILD boost::process::v1::child
-#else
-#define BOOST_PROCESS boost::process
-#define PROCESS_PID_T boost::process::pid_t
-#define PROCESS_CHILD boost::process::child
-#endif
-//=============================================================================
 #define NELSON_EXECUTABLE L"nelson-gui"
 #define TIMEOUT_SECONDS 20
 //=============================================================================
@@ -55,13 +44,62 @@ static std::map<int, int> mapoutputBufferLength;
 //=============================================================================
 static int countEngine = 0;
 //=============================================================================
+#ifdef _MSC_VER
+using PROCESS_PID_T = unsigned long;
+struct PROCESS_CHILD
+{
+    PROCESS_CHILD() = default;
+    explicit PROCESS_CHILD(PROCESS_PID_T pid) { attach(pid); }
+    PROCESS_CHILD(HANDLE processHandle, PROCESS_PID_T pid) : processHandle(processHandle), pid(pid)
+    {
+    }
+    bool
+    valid() const
+    {
+        return (pid != 0);
+    }
+    PROCESS_PID_T
+    id() const { return pid; }
+    void
+    attach(PROCESS_PID_T p)
+    {
+        pid = p;
+        // try to open process handle with limited rights
+        processHandle = OpenProcess(SYNCHRONIZE | PROCESS_QUERY_LIMITED_INFORMATION, FALSE, pid);
+    }
+    ~PROCESS_CHILD()
+    {
+        if (processHandle) {
+            CloseHandle(processHandle);
+            processHandle = nullptr;
+        }
+    }
+    HANDLE processHandle = nullptr;
+    PROCESS_PID_T pid = 0;
+};
+#else
+using PROCESS_PID_T = pid_t;
+struct PROCESS_CHILD
+{
+    PROCESS_CHILD() = default;
+    explicit PROCESS_CHILD(PROCESS_PID_T p) : pid(p) { }
+    bool
+    valid() const
+    {
+        return pid > 0;
+    }
+    PROCESS_PID_T
+    id() const { return pid; }
+    PROCESS_PID_T pid = -1;
+};
+#endif
+//=============================================================================
 static PROCESS_CHILD*
 attach_child(int pid)
 {
     PROCESS_CHILD* child = nullptr;
     try {
-        PROCESS_PID_T _pid = (PROCESS_PID_T)pid;
-        child = new PROCESS_CHILD(_pid);
+        child = new PROCESS_CHILD((PROCESS_PID_T)pid);
     } catch (const std::bad_alloc&) {
         child = nullptr;
     }
@@ -73,22 +111,34 @@ start_child(const std::wstring& executable_name, const std::wstring& arguments)
 {
     PROCESS_CHILD* child = nullptr;
 #ifdef _MSC_VER
-    try {
-        child = new PROCESS_CHILD(BOOST_PROCESS::search_path(executable_name), arguments,
-            BOOST_PROCESS::std_out > stdout, BOOST_PROCESS::std_err > stderr,
-            BOOST_PROCESS::std_in < stdin);
-        child->detach();
-    } catch (const std::bad_alloc&) {
-        child = nullptr;
+    // On Windows, create process directly
+    std::wstring cmdline = L"\"" + executable_name + L"\"";
+    if (!arguments.empty()) {
+        cmdline += L" ";
+        cmdline += arguments;
     }
+    // Create process
+    STARTUPINFOW si {};
+    PROCESS_INFORMATION pi {};
+    si.cb = sizeof(si);
+    // Use CREATE_NO_WINDOW for background GUI-less, or CREATE_NEW_CONSOLE for console apps
+    BOOL ok = CreateProcessW(nullptr, &cmdline[0], nullptr, nullptr, FALSE, CREATE_NEW_CONSOLE,
+        nullptr, nullptr, &si, &pi);
+    if (!ok) {
+        return nullptr;
+    }
+    // Close thread handle, keep process handle for possible attach behavior
+    CloseHandle(pi.hThread);
+    child = new PROCESS_CHILD(pi.hProcess, (PROCESS_PID_T)pi.dwProcessId);
+    // Close our copy of process handle in destructor will close it; we keep it now inside struct
+    return child;
 #else
 #if defined(__APPLE__) || defined(__MACH__)
-    std::wstring command = L"open -a \""
-        + BOOST_PROCESS::search_path(executable_name).generic_wstring() + L"\"" + L" --args "
-        + arguments;
+    std::filesystem::path p = std::filesystem::path((std::wstring)executable_name);
+    std::wstring command = L"open -a \"" + p.generic_wstring() + L"\" --args " + arguments;
 #else
-    std::wstring command
-        = BOOST_PROCESS::search_path(executable_name).generic_wstring() + L" " + arguments + L" &";
+    std::filesystem::path p = std::filesystem::path((std::wstring)executable_name);
+    std::wstring command = p.generic_wstring() + L" " + arguments + L" &";
 #endif
     size_t mainEvaluatorID = 0;
     std::tuple<int, std::wstring, Nelson::uint64> res
@@ -106,16 +156,15 @@ start_child(const std::wstring& executable_name, const std::wstring& arguments)
             if (l >= TIMEOUT_SECONDS) {
                 break;
             }
-            try {
-                boost::this_thread::sleep(boost::posix_time::seconds(1));
-                l++;
-            } catch (boost::thread_interrupted&) {
-            }
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            l++;
         }
-        child = attach_child(latestNelsonPID);
+        if (latestNelsonPID > 0) {
+            child = attach_child(latestNelsonPID);
+        }
     }
-#endif
     return child;
+#endif
 }
 //=============================================================================
 static bool
@@ -129,11 +178,8 @@ waitUntilNelsonIsReady(int pid, int n)
         if (l >= n || !Nelson::isPIDRunning(pid)) {
             return false;
         }
-        try {
-            boost::this_thread::sleep(boost::posix_time::seconds(1));
-            l++;
-        } catch (boost::thread_interrupted&) {
-        }
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        l++;
     }
     return false;
 }
@@ -149,11 +195,8 @@ waitUntilIpcReceiverIsReady(int pid, int n)
         if (l >= n || !Nelson::isPIDRunning(pid)) {
             return false;
         }
-        try {
-            boost::this_thread::sleep(boost::posix_time::seconds(1));
-            l++;
-        } catch (boost::thread_interrupted&) {
-        }
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        l++;
     }
     return false;
 }
@@ -179,7 +222,7 @@ engOpen(const char* startcmd)
         child = start_child(NELSON_EXECUTABLE, args);
         createChild = true;
     } else {
-        child = attach_child(latestNelsonPID);
+        child = attach_child((int)latestNelsonPID);
         createChild = false;
     }
     if (child == nullptr) {
@@ -288,7 +331,7 @@ engEvalString(Engine* ep, const char* string)
         return 1;
     }
     PROCESS_CHILD* child = (PROCESS_CHILD*)(ep->child);
-    int childPID = child->id();
+    int childPID = (int)child->id();
     if (!child->valid()) {
         return 1;
     }

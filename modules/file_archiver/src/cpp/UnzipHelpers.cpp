@@ -46,7 +46,7 @@ changeFileDate(const std::wstring& filename, struct tm dateFile, uint32_t dosDat
 
     ut.actime = ut.modtime = mktime(&newdate);
 
-#ifdef _WIN32
+#ifdef _MSC_VER
     _wutime(filename.c_str(), &ut);
 #else
     utime(wstring_to_utf8(filename).c_str(), &ut);

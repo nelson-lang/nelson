@@ -16,7 +16,11 @@
 #pragma clang diagnostic ignored "-Wmissing-template-arg-list-after-template-kw"
 #endif
 #include <regex>
-#include <boost/interprocess/managed_shared_memory.hpp>
+#ifdef _MSC_VER
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
 #include "Evaluator.hpp"
 #include "NelsonConfiguration.hpp"
 #include "Error.hpp"
@@ -360,20 +364,6 @@ Evaluator::popEvaluateFilenameList()
 }
 //=============================================================================
 // Returns the current debug depth of the evaluator.
-void
-Evaluator::setCLI(bool bCLI)
-{
-    InCLI = bCLI;
-}
-//=============================================================================
-// Returns whether the evaluator is currently in CLI mode.
-bool
-Evaluator::getCLI()
-{
-    return InCLI;
-}
-//=============================================================================
-// Returns the current debug depth of the evaluator.
 std::wstring
 Evaluator::buildPrompt()
 {
@@ -394,11 +384,15 @@ Evaluator::buildPrompt()
     return prompt;
 }
 //=============================================================================
-// Sets a named mutex to indicate that Nelson is ready.
 void
 setNamedMutexNelsonReady()
 {
-    openIsReadyNelsonMutex((int)boost::interprocess::ipcdetail::get_current_process_id());
+    // Use portable process id retrieval
+#ifdef _MSC_VER
+    openIsReadyNelsonMutex(static_cast<int>(GetCurrentProcessId()));
+#else
+    openIsReadyNelsonMutex(static_cast<int>(getpid()));
+#endif
 }
 //=============================================================================
 static bool doOnce = true;

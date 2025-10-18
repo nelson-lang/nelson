@@ -24,8 +24,7 @@ target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
-  PRIVATE ${Boost_INCLUDE_DIRS}
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/c/mt19937
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/c/mt19937
           ${CMAKE_CURRENT_SOURCE_DIR}/src/c/dsfmt
           ${CMAKE_CURRENT_SOURCE_DIR}/src/c/philox
           ${CMAKE_CURRENT_SOURCE_DIR}/src/c/threefry

@@ -9,15 +9,21 @@
 //=============================================================================
 #include "Now.hpp"
 #include "DateNumber.hpp"
-#include "boost/date_time/posix_time/posix_time.hpp"
+#include <chrono>
+#include <ctime>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 double
 Now()
 {
-    boost::posix_time::ptime pt = boost::posix_time::microsec_clock::local_time();
-    tm pt_tm = to_tm(pt);
+    std::time_t t = std::time(nullptr);
+    std::tm pt_tm {};
+#ifdef _MSC_VER
+    localtime_s(&pt_tm, &t);
+#else
+    localtime_r(&t, &pt_tm);
+#endif
     int year = (1900 + pt_tm.tm_year);
     int month = pt_tm.tm_mon + 1;
     int day = pt_tm.tm_mday;

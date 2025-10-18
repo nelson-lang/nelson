@@ -7,13 +7,25 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/interprocess/shared_memory_object.hpp>
-#include <boost/interprocess/sync/named_mutex.hpp>
 #include "IpcReadyReceiverNamedMutex.hpp"
+#include <string>
+#ifdef _MSC_VER
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#else
+#include <semaphore.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <string.h>
+#endif
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static boost::interprocess::named_mutex* ipc_receiver_ready_mutex = nullptr;
+#ifdef _MSC_VER
+static HANDLE ipc_receiver_ready_mutex = nullptr;
+#else
+static sem_t* ipc_receiver_ready_sem = nullptr;
+#endif
 //=============================================================================
 static std::string
 getNamedMutex(int pid)
@@ -25,16 +37,43 @@ bool
 openIpcReceiverIsReadyMutex(int pid)
 {
     bool res = false;
-    if (ipc_receiver_ready_mutex == nullptr) {
+    if (
+#ifdef _MSC_VER
+        ipc_receiver_ready_mutex == nullptr
+#else
+        ipc_receiver_ready_sem == nullptr
+#endif
+    ) {
         std::string name = getNamedMutex(pid);
-        try {
-            boost::interprocess::named_mutex::remove(name.c_str());
-            ipc_receiver_ready_mutex = new boost::interprocess::named_mutex(
-                boost::interprocess::open_or_create, name.c_str());
+#ifdef _MSC_VER
+        // Create or open named mutex (unowned)
+        HANDLE h = CreateMutexA(nullptr, FALSE, name.c_str());
+        if (h != nullptr) {
+            ipc_receiver_ready_mutex = h;
             res = true;
-        } catch (boost::interprocess::interprocess_exception&) {
+        } else {
             res = false;
         }
+#else
+        // POSIX named semaphore: name must start with '/'
+        std::string sname = std::string("/") + name;
+        // Remove any existing semaphore with that name then create
+        sem_unlink(sname.c_str());
+        sem_t* s = sem_open(sname.c_str(), O_CREAT | O_EXCL, 0600, 1);
+        if (s == SEM_FAILED) {
+            // Try open without O_EXCL if already exists
+            s = sem_open(sname.c_str(), O_CREAT, 0600, 1);
+            if (s == SEM_FAILED) {
+                res = false;
+            } else {
+                ipc_receiver_ready_sem = s;
+                res = true;
+            }
+        } else {
+            ipc_receiver_ready_sem = s;
+            res = true;
+        }
+#endif
     }
     return res;
 }
@@ -43,12 +82,22 @@ bool
 closeIpcReceiverIsReadyMutex(int pid)
 {
     bool res = false;
+    std::string name = getNamedMutex(pid);
+#ifdef _MSC_VER
     if (ipc_receiver_ready_mutex) {
-        std::string name = getNamedMutex(pid);
-        ipc_receiver_ready_mutex->remove(name.c_str());
-        delete ipc_receiver_ready_mutex;
+        CloseHandle(ipc_receiver_ready_mutex);
         ipc_receiver_ready_mutex = nullptr;
+        res = true;
     }
+#else
+    if (ipc_receiver_ready_sem) {
+        std::string sname = std::string("/") + name;
+        sem_unlink(sname.c_str());
+        sem_close(ipc_receiver_ready_sem);
+        ipc_receiver_ready_sem = nullptr;
+        res = true;
+    }
+#endif
     return res;
 }
 //=============================================================================
@@ -57,15 +106,26 @@ haveIpcReceiverIsReadyMutex(int pid)
 {
     bool res = false;
     std::string name = getNamedMutex(pid);
-    try {
-        boost::interprocess::named_mutex other_nelson_mutex(
-            boost::interprocess::open_only, name.c_str());
+#ifdef _MSC_VER
+    HANDLE h = OpenMutexA(SYNCHRONIZE, FALSE, name.c_str());
+    if (h) {
+        CloseHandle(h);
         res = true;
-    } catch (const boost::interprocess::interprocess_exception&) {
+    } else {
         res = false;
     }
+#else
+    std::string sname = std::string("/") + name;
+    sem_t* s = sem_open(sname.c_str(), 0);
+    if (s != SEM_FAILED) {
+        sem_close(s);
+        res = true;
+    } else {
+        res = false;
+    }
+#endif
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

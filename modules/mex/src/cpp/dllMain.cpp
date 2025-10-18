@@ -9,11 +9,6 @@
 //=============================================================================
 #include <Windows.h>
 //=============================================================================
-#include "boost_libraries_helpers.hpp"
-//=============================================================================
-#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
-#pragma comment(lib, CAT_3_STRINGS("boost_thread-", BOOST_TARGET, ".lib"))
-//=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
 {

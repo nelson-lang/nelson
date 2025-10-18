@@ -15,7 +15,6 @@
 #include <sstream>
 #include <fstream>
 #include "FileSystemWrapper.hpp"
-#include "StringHelpers.hpp"
 #include "ImageTagHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
