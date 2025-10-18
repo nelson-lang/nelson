@@ -284,6 +284,6 @@ install(
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
   PATTERN "*.nhz"
-  PATTERN "xml"
+  PATTERN "*.xml"
   PATTERN "md" EXCLUDE)
 # ==============================================================================
