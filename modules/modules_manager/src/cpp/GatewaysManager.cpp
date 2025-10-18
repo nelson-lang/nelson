@@ -9,7 +9,6 @@
 //=============================================================================
 #include <map>
 #include <utility>
-#include <boost/dll/library_info.hpp>
 #define FMT_HEADER_ONLY
 #include <fmt/printf.h>
 #include <fmt/format.h>

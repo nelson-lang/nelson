@@ -9,7 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/dll/shared_library.hpp>
+#include "DynamicLibrary.hpp"
 #include "ArrayOf.hpp"
 #include "Interface.hpp"
 #include "HandleGenericObject.hpp"
@@ -50,7 +50,7 @@ public:
 
 private:
     wstringVector _propertiesNames;
-    boost::dll::shared_library _shared_library;
+    Nelson::library_handle _shared_library {};
     std::wstring _libraryPath;
     bool
     searchLibrary(const std::wstring& libraryPath, std::wstring& fullLibraryPath);
