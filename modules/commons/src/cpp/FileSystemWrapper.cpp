@@ -735,34 +735,30 @@ Path::file_size(const Path& p)
     return file_size(p, errorMessage);
 }
 //=============================================================================
-#ifndef _WITH_BOOST_FILESYSTEM_
-template <typename TP>
-static std::time_t
-to_time_t(TP tp)
-{
-    using namespace std::chrono;
-    auto sctp
-        = time_point_cast<system_clock::duration>(tp - TP::clock::now() + system_clock::now());
-    return system_clock::to_time_t(sctp);
-}
-#endif
-//=============================================================================
 std::time_t
 Path::last_write_time(const Path& p, std::string& errorMessage)
 {
-    nfs::file_time_type file_time;
     errorMessage.clear();
     if (p.native().empty()) {
-        return (time_t)0;
+        return std::time_t { 0 };
     }
+
     try {
-        file_time = nfs::last_write_time(nfs::path(p.nativePath));
+        nfs::file_time_type ftime = nfs::last_write_time(nfs::path(p.nativePath));
+
+        // Convert file_time_type -> system_clock::time_point -> time_t
+        using file_clock = decltype(ftime)::clock;
+        using namespace std::chrono;
+
+        system_clock::time_point sctp = system_clock::now()
+            + duration_cast<system_clock::duration>(ftime - file_clock::now());
+
+        return system_clock::to_time_t(sctp);
     } catch (const nfs::filesystem_error& e) {
         std::error_code error_code = e.code();
         errorMessage = error_code.message();
-        return (time_t)0;
+        return std::time_t { 0 };
     }
-    return (time_t)to_time_t(file_time);
 }
 //=============================================================================
 std::time_t

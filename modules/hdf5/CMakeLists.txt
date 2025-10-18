@@ -33,7 +33,6 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
-          ${Boost_INCLUDE_DIRS}
           ${HDF5_INCLUDE_DIRS}
           ${EIGEN3_INCLUDE_DIR})
 # ==============================================================================

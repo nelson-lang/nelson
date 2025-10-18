@@ -7,8 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/integer/common_factor_ct.hpp>
-#include <boost/integer/common_factor_rt.hpp>
+#include <numeric>
+#include <type_traits>
+#include <cstdint>
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 #include "GCD.hpp"
@@ -30,6 +31,32 @@ basic_gcd(double a, double b)
         _b = _t;
     }
     return _a;
+}
+//=============================================================================
+// wrapper to compute gcd for various integer types using std::gcd
+// signed version
+template <class T, typename std::enable_if_t<std::is_signed<T>::value, int> = 0>
+inline T
+gcd_wrapper(T a, T b) noexcept
+{
+    long long aa = static_cast<long long>(a);
+    long long bb = static_cast<long long>(b);
+    if (aa < 0)
+        aa = -aa;
+    if (bb < 0)
+        bb = -bb;
+    long long g = std::gcd(aa, bb);
+    return static_cast<T>(g);
+}
+// unsigned version
+template <class T, typename std::enable_if_t<!std::is_signed<T>::value, int> = 0>
+inline T
+gcd_wrapper(T a, T b) noexcept
+{
+    unsigned long long aa = static_cast<unsigned long long>(a);
+    unsigned long long bb = static_cast<unsigned long long>(b);
+    unsigned long long g = std::gcd(aa, bb);
+    return static_cast<T>(g);
 }
 //=============================================================================
 template <class T>
@@ -83,7 +110,7 @@ integerGCD(NelsonType destinationClass, T* ptrA, T* ptrB, const Dimensions& comm
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
     OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType k = 0; k < (ompIndexType)N; ++k) {
-        ptrRes[k] = boost::integer::gcd(ptrA[k], ptrB[k]);
+        ptrRes[k] = gcd_wrapper(ptrA[k], ptrB[k]);
     }
     return res;
 }
@@ -97,7 +124,7 @@ integerGCD(NelsonType destinationClass, T* ptrA, T b, const Dimensions& commonDi
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
     OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType k = 0; k < (ompIndexType)N; ++k) {
-        ptrRes[k] = boost::integer::gcd(ptrA[k], b);
+        ptrRes[k] = gcd_wrapper(ptrA[k], b);
     }
     return res;
 }
@@ -111,7 +138,7 @@ integerGCD(NelsonType destinationClass, T a, T* ptrB, const Dimensions& commonDi
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
     OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType k = 0; k < (ompIndexType)N; ++k) {
-        ptrRes[k] = boost::integer::gcd(a, ptrB[k]);
+        ptrRes[k] = gcd_wrapper(a, ptrB[k]);
     }
     return res;
 }

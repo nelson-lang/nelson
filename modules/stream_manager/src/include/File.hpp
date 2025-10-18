@@ -18,8 +18,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// Think to update with <boost/endian/conversion.hpp>
-// http://www.boost.org/doc/libs/develop/libs/endian/doc/conversion.html
 class NLSSTREAM_MANAGER_IMPEXP File
 {
 private:

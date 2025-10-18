@@ -17,8 +17,9 @@
 #endif
 #ifdef _MSC_VER
 #include <Windows.h>
+#else
+#include <unistd.h>
 #endif
-#include <boost/interprocess/managed_shared_memory.hpp>
 #include <clocale>
 #include <sstream>
 #include "FileSystemWrapper.hpp"
@@ -257,7 +258,14 @@ FINISH:
             }
             eval->resetState();
         }
-        closeIsReadyNelsonMutex((int)boost::interprocess::ipcdetail::get_current_process_id());
+        auto get_current_process_id = []() -> int {
+#ifdef _MSC_VER
+            return static_cast<int>(GetCurrentProcessId());
+#else
+            return static_cast<int>(getpid());
+#endif
+        };
+        closeIsReadyNelsonMutex(get_current_process_id());
         FinishNelsonMainScript(eval);
         if (eval->isQuitOrForceQuitState()) {
             goto EXIT;

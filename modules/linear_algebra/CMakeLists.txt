@@ -22,7 +22,6 @@ target_include_directories(
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${EIGEN3_INCLUDE_DIR}
-          ${Boost_INCLUDE_DIRS}
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../constructors_functions/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include

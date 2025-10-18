@@ -31,7 +31,6 @@ target_include_directories(
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${EIGEN3_INCLUDE_DIR}
-          ${Boost_INCLUDE_DIRS}
           ${CMAKE_CURRENT_SOURCE_DIR}/src/
           ${CMAKE_CURRENT_SOURCE_DIR}/src/grammar
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include

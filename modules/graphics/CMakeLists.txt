@@ -26,7 +26,6 @@ target_include_directories(
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
-          ${Boost_INCLUDE_DIRS}
           ${EIGEN3_INCLUDE_DIR}
           ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include

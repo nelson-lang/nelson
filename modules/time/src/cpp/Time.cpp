@@ -11,9 +11,7 @@
 #pragma warning(disable : 4244)
 #endif
 //=============================================================================
-#include <boost/date_time/local_time/local_time.hpp>
-#include <boost/date_time/posix_time/ptime.hpp>
-#include <boost/chrono/chrono.hpp>
+#include <chrono>
 #include "Time.hpp"
 //=============================================================================
 namespace Nelson {
@@ -21,10 +19,10 @@ namespace Nelson {
 uint64
 TimeAsNanoSeconds()
 {
-    boost::posix_time::ptime now(boost::posix_time::microsec_clock::universal_time());
-    boost::posix_time::ptime const EPOCH(boost::gregorian::date(1970, 1, 1));
-    boost::posix_time::time_duration delta(now - EPOCH);
-    return uint64(static_cast<boost::uint64_t>(delta.total_nanoseconds()));
+    using namespace std::chrono;
+    auto now = system_clock::now(); // system_clock is wall-clock time (typically UTC)
+    auto ns = duration_cast<nanoseconds>(now.time_since_epoch()).count();
+    return static_cast<uint64>(ns);
 }
 //=============================================================================
 double
