@@ -70,8 +70,6 @@ Source: {#RootPath}bin\{#BinPath}\Qt6QuickControls2WindowsStyleImpl.dll; DestDir
 Source: {#RootPath}bin\{#BinPath}\Qt6QuickEffects.dll; DestDir: {app}\bin\{#BinPath}\;Flags: skipifsourcedoesntexist;Components: {#COMPONENT_GUI};
 #endif
 ;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\qhelpgenerator.exe; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
-;==============================================================================
 #ifdef QT5_USED
 Source: {#RootPath}bin\{#BinPath}\Qt?CLucene.dll; DestDir: {app}\bin\{#BinPath}\; Flags: skipifsourcedoesntexist;Components: {#COMPONENT_GUI};
 #endif
