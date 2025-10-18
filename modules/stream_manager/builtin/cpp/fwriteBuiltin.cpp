@@ -73,12 +73,16 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
         if (fm->isOpened(iValue)) {
             File* f = fm->getFile(iValue);
             int written = -1;
+            int writtenBytes = -1;
             FWRITE_ERROR_TYPE fwriteError
-                = FileWrite(f, param2, classDest, skipSize, bIsLittleEndian, written);
+                = FileWrite(f, param2, classDest, skipSize, bIsLittleEndian, written, writtenBytes);
             switch (fwriteError) {
             case FWRITE_NO_ERROR: {
                 if (nLhs > 0) {
                     retval << ArrayOf::doubleConstructor((double)written);
+                }
+                if (nLhs > 1) {
+                    retval << ArrayOf::doubleConstructor((double)writtenBytes);
                 }
             } break;
             case FWRITE_DATA_TYPE_NOT_SUPPORTED: {
@@ -148,7 +152,11 @@ fwriteBuiltinTwoRhs(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector modifiedArgIn;
     modifiedArgIn.push_back(argIn[0]);
     modifiedArgIn.push_back(argIn[1]);
-    modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"uint8"));
+    if (argIn[1].isCharacterArray()) {
+        modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"char"));
+    } else {
+        modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"uint8"));
+    }
     modifiedArgIn.push_back(ArrayOf::doubleConstructor(0.));
     modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"n"));
     return fwriteBuiltinFiveRhs(nLhs, modifiedArgIn);
@@ -157,7 +165,7 @@ fwriteBuiltinTwoRhs(int nLhs, const ArrayOfVector& argIn)
 ArrayOfVector
 Nelson::StreamGateway::fwriteBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    nargoutcheck(nLhs, 0, 1);
+    nargoutcheck(nLhs, 0, 2);
     switch (argIn.size()) {
     case 2:
         return fwriteBuiltinTwoRhs(nLhs, argIn);

@@ -30,6 +30,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `tdigest`: Introduced t-digest algorithm data structure for accurate quantile estimation with configurable compression parameters.
 
+- `fwrite`: return also bytes count as second output argument.
+
 - macOS Tahoe 26: CI setup and platform support.
 
 ### Changed
@@ -37,6 +39,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `jsondecode`: Significantly improved performance by integrating [simdjson](https://simdjson.org/), enabling faster and more efficient JSON parsing.
 
 - `fileread`: Enhanced performance for reading large files, reducing memory usage and increasing speed for file operations.
+
+- `fwrite`: returns the number of characters written for character data.
 
 - i18nExtractor: Reworked for greater speed and modernized codebase, improving internationalization extraction reliability.
 
@@ -61,6 +65,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `jsondecode`: Corrected parsing of arrays containing empty arrays, improving reliability and correctness of JSON decoding.
 
 - Julia engine works also with Julia 1.12.0
+
+- [#1462](http://github.com/nelson-lang/nelson/issues/1462): fwrite without specifying precision did not work as expected.
 
 ## 1.14.0 - (2025-05-30)
 

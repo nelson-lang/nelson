@@ -33,6 +33,7 @@ writeFile(const std::wstring& filename, const wstringVector& lines, const std::w
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP FWRITE_ERROR_TYPE
 FileWrite(File* fp, ArrayOf src, NelsonType destClass, size_t skip, bool bIsLittleEndian,
-    int& sizeWritten);
+    int& sizeWritten, int& sizeByteWritten);
+//=============================================================================
 }; // namespace Nelson
 //=============================================================================

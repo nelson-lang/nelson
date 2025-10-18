@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 assert_isequal(nargin('fwrite'), 3);
-assert_isequal(nargout('fwrite'), 1);
+assert_isequal(nargout('fwrite'), -1);
 %=============================================================================
 TEXT_REF = 'Виртуальная';
 filename = [tempdir(), 'fwrite_Windows-1251.txt'];
@@ -21,4 +21,8 @@ F = fopen(filename, 'rt', 'n', 'windows-1251');
 [R, S] = fread(F, '*char');
 fclose(F);
 assert_isequal(R, TEXT_REF);
+%=============================================================================
+[R1, R2] = fwrite(stdout(), '和製漢字');
+assert_isequal(R1, 4);
+assert_isequal(R2, 12);
 %=============================================================================

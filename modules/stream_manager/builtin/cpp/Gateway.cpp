@@ -48,7 +48,7 @@ static const nlsGateway gateway[] = {
     { "save", (ptrBuiltin)Nelson::StreamGateway::saveBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "fopen", (ptrBuiltin)Nelson::StreamGateway::fopenBuiltin, 4, 4, CPP_BUILTIN },
     { "fclose", (ptrBuiltin)Nelson::StreamGateway::fcloseBuiltin, 1, 1, CPP_BUILTIN },
-    { "fwrite", (ptrBuiltin)Nelson::StreamGateway::fwriteBuiltin, 1, 3, CPP_BUILTIN },
+    { "fwrite", (ptrBuiltin)Nelson::StreamGateway::fwriteBuiltin, -1, 3, CPP_BUILTIN },
     { "fread", (ptrBuiltin)Nelson::StreamGateway::freadBuiltin, 1, 3, CPP_BUILTIN },
     { "fgetl", (ptrBuiltin)Nelson::StreamGateway::fgetlBuiltin, 1, 1, CPP_BUILTIN },
     { "fgets", (ptrBuiltin)Nelson::StreamGateway::fgetsBuiltin, 1, 2, CPP_BUILTIN },

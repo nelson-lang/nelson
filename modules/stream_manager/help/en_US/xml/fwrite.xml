@@ -12,6 +12,7 @@
         <syntax_item
     >count = fwrite(fid, data, precision, skip, arch)</syntax_item>
         <syntax_item>count = fwrite(fid, data, precision, arch)</syntax_item>
+        <syntax_item>[count, bytes] = fwrite(fid, ...)</syntax_item>
     </syntax>
     <param_input>
         <param_input_item>
@@ -42,7 +43,12 @@
             <param_description
       >-1 or number of elements written</param_description>
         </param_output_item>
+        <param_output_item>
+            <param_name>bytes</param_name>
+            <param_description>number of bytes written</param_description>
+        </param_output_item>
     </param_output>
+
     <description>
         <p
     >Write data in binary form to the file specified by the file descriptor fid.</p>
@@ -54,6 +60,82 @@
                 <b>ieee-be</b>, <b>b</b>: IEEE big endian.</p>
                 <p>
                     <b>ieee-le</b>, <b>l</b>: IEEE little endian.</p>
+                    <p>supported precision:</p>
+                    <p>
+                        <table border="1" cellpadding="4" cellspacing="0">
+                            <tr>
+                                <th>Value Type</th>
+                                <th>Precision</th>
+                                <th>Bits (Bytes)</th>
+                            </tr>
+                            <tr>
+                                <td>Logical</td>
+                                <td>'logical'</td>
+                                <td>platform-dependent</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">Floating-point numbers</td>
+                                <td>'double', 'real*8', 'float64'</td>
+                                <td>64 (8)</td>
+                            </tr>
+                            <tr>
+                                <td>'single', 'real*4', 'float32'</td>
+                                <td>32 (4)</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="5">Integers, signed</td>
+                                <td>'int'</td>
+                                <td>32 (4)</td>
+                            </tr>
+                            <tr>
+                                <td>'int8', 'integer*1', 'schar'</td>
+                                <td>8 (1)</td>
+                            </tr>
+                            <tr>
+                                <td>'int16', 'integer*2'</td>
+                                <td>16 (2)</td>
+                            </tr>
+                            <tr>
+                                <td>'int32', 'integer*4'</td>
+                                <td>32 (4)</td>
+                            </tr>
+                            <tr>
+                                <td>'int64', 'integer*8'</td>
+                                <td>64 (8)</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4">Integers, unsigned</td>
+                                <td>'uint8', 'uchar'</td>
+                                <td>8 (1)</td>
+                            </tr>
+                            <tr>
+                                <td>'uint16'</td>
+                                <td>16 (2)</td>
+                            </tr>
+                            <tr>
+                                <td>'uint32'</td>
+                                <td>32 (4)</td>
+                            </tr>
+                            <tr>
+                                <td>'uint64'</td>
+                                <td>64 (8)</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">Characters</td>
+                                <td>'char', '*char'</td>
+                                <td>depends encoding with fopen.</td>
+                            </tr>
+                            <tr>
+                                <td>'char*1'</td>
+                                <td>depends encoding with fopen.</td>
+                            </tr>
+                        </table>
+                    </p>
+                    <p>if <b>fwrite</b> fails, it returns a negative value.</p>
+                    <p>if <b
+      >fwrite</b> succeeds, it returns the number of elements written successfully.</p>
+                    <p>if <b
+      >fwrite</b> writes characters, it returns the number of characters written successfully and not the number of elements.</p>
                 </description>
                 <used_function />
                 <bibliography />
@@ -74,6 +156,23 @@ R = fread(fileID, 'double')
 fclose(fileID);
 ]]></example_item_data>
                     </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+      ><![CDATA[
+test_string =  'é ö ä ü è ê';
+fid = fopen([tempdir(), 'fwrite_example_char.txt'], 'w','n', 'UTF-8');
+[count, bytes] = fwrite(fid, test_string) % returns 11 and 17
+fclose(fid);
+
+% This is the number of characters written
+% not the number of bytes. 
+% Each accented character (é, ö, ä, ü, è, ê) = 2 bytes each 
+% Each space = 1 byte
+% Total bytes = 6*2 + 5*1 = 17 bytes
+]]></example_item_data>
+                    </example_item>
                 </examples>
                 <see_also>
                     <see_also_item>
@@ -92,6 +191,11 @@ fclose(fileID);
                         <history_description
       >initial version</history_description>
                     </history_item>
+                 <history_item>
+                        <history_version>1.15.0</history_version>
+                        <history_description
+      >fwrite returns the number of characters written for character data.</history_description>
+                    </history_item>   
                 </history>
                 <authors>
                     <author_item>Allan CORNET</author_item>
