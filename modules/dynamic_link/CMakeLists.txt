@@ -21,8 +21,7 @@ target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
-  PRIVATE ${Boost_INCLUDE_DIRS}
-          ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/include
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -48,8 +47,7 @@ target_link_libraries(
     nlsI18n
     nlsOs_functions
     nlsTypes
-    ${LIBFFI_LIBRARY}
-    ${Boost_LIBRARIES})
+    ${LIBFFI_LIBRARY})
 # ==============================================================================
 file(GLOB DYNAMIC_LINK_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
 list(FILTER DYNAMIC_LINK_BUILTIN EXCLUDE REGEX
@@ -72,8 +70,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
-          ${LIBFFI_INCLUDE_DIR}
-          ${Boost_INCLUDE_DIRS})
+          ${LIBFFI_INCLUDE_DIR})
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}

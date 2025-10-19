@@ -7,7 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <boost/endian/conversion.hpp>
+#include <cstdint>
+#include <type_traits>
 #include "SwapBytes.hpp"
 #include "Error.hpp"
 #include "nlsBuildConfig.h"
@@ -21,6 +22,65 @@ namespace Nelson {
         (b) ^= (a);                                                                                \
         (a) ^= (b);                                                                                \
     } while (0)
+//=============================================================================
+inline uint16_t
+bswap16(uint16_t x) noexcept
+{
+    return static_cast<uint16_t>((x >> 8) | (x << 8));
+}
+//=============================================================================
+inline uint32_t
+bswap32(uint32_t x) noexcept
+{
+    return ((x >> 24) & 0x000000FFu) | ((x >> 8) & 0x0000FF00u) | ((x << 8) & 0x00FF0000u)
+        | ((x << 24) & 0xFF000000u);
+}
+//=============================================================================
+inline uint64_t
+bswap64(uint64_t x) noexcept
+{
+    return ((x >> 56) & 0x00000000000000FFULL) | ((x >> 40) & 0x000000000000FF00ULL)
+        | ((x >> 24) & 0x0000000000FF0000ULL) | ((x >> 8) & 0x00000000FF000000ULL)
+        | ((x << 8) & 0x000000FF00000000ULL) | ((x << 24) & 0x0000FF0000000000ULL)
+        | ((x << 40) & 0x00FF000000000000ULL) | ((x << 56) & 0xFF00000000000000ULL);
+}
+//=============================================================================
+template <typename T>
+inline std::enable_if_t<sizeof(T) == 1, void>
+endian_reverse_inplace(T&)
+{
+    // no-op for 1-byte types
+}
+//=============================================================================
+template <typename T>
+inline std::enable_if_t<sizeof(T) == 2, void>
+endian_reverse_inplace(T& v)
+{
+    using U = std::make_unsigned_t<T>;
+    U uv = static_cast<U>(v);
+    uv = bswap16(static_cast<uint16_t>(uv));
+    v = static_cast<T>(uv);
+}
+//=============================================================================
+template <typename T>
+inline std::enable_if_t<sizeof(T) == 4, void>
+endian_reverse_inplace(T& v)
+{
+    using U = std::make_unsigned_t<T>;
+    U uv = static_cast<U>(v);
+    uv = bswap32(static_cast<uint32_t>(uv));
+    v = static_cast<T>(uv);
+}
+//=============================================================================
+template <typename T>
+inline std::enable_if_t<sizeof(T) == 8, void>
+endian_reverse_inplace(T& v)
+{
+    using U = std::make_unsigned_t<T>;
+    U uv = static_cast<U>(v);
+    uv = bswap64(static_cast<uint64_t>(uv));
+    v = static_cast<T>(uv);
+}
 //=============================================================================
 static double
 swapDouble(double a)
@@ -56,7 +116,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         ompIndexType elementCount = dimsA.getElementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
-            boost::endian::endian_reverse_inplace(ptr[k]);
+            endian_reverse_inplace(ptr[k]);
         }
     } break;
     case NLS_INT8: {
@@ -66,7 +126,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         ompIndexType elementCount = dimsA.getElementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
-            boost::endian::endian_reverse_inplace(ptr[k]);
+            endian_reverse_inplace(ptr[k]);
         }
     } break;
     case NLS_UINT16: {
@@ -76,7 +136,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         ompIndexType elementCount = dimsA.getElementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
-            boost::endian::endian_reverse_inplace(ptr[k]);
+            endian_reverse_inplace(ptr[k]);
         }
     } break;
     case NLS_INT16: {
@@ -86,7 +146,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         ompIndexType elementCount = dimsA.getElementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
-            boost::endian::endian_reverse_inplace(ptr[k]);
+            endian_reverse_inplace(ptr[k]);
         }
     } break;
     case NLS_UINT32: {
@@ -96,7 +156,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         ompIndexType elementCount = dimsA.getElementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
-            boost::endian::endian_reverse_inplace(ptr[k]);
+            endian_reverse_inplace(ptr[k]);
         }
     } break;
     case NLS_INT32: {
@@ -106,7 +166,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         ompIndexType elementCount = dimsA.getElementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
-            boost::endian::endian_reverse_inplace(ptr[k]);
+            endian_reverse_inplace(ptr[k]);
         }
     } break;
     case NLS_UINT64: {
@@ -116,7 +176,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         ompIndexType elementCount = dimsA.getElementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
-            boost::endian::endian_reverse_inplace(ptr[k]);
+            endian_reverse_inplace(ptr[k]);
         }
     } break;
     case NLS_INT64: {
@@ -126,7 +186,7 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         ompIndexType elementCount = dimsA.getElementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
-            boost::endian::endian_reverse_inplace(ptr[k]);
+            endian_reverse_inplace(ptr[k]);
         }
     } break;
     case NLS_SINGLE: {

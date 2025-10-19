@@ -15,7 +15,6 @@
 #include <utime.h>
 #endif
 #include <ctime>
-#include <boost/regex.hpp>
 #include "Zipper.hpp"
 #include <mz_os.h>
 #include <fstream>

@@ -27,7 +27,6 @@ target_include_directories(
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${EIGEN3_INCLUDE_DIR}
-          ${Boost_INCLUDE_DIRS}
           ${PORTAUDIO_INCLUDE_DIRS}
           ${SNDFILE_INCLUDE_DIRS}
           ${TAGLIB_INCLUDES}

@@ -32,7 +32,6 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
-          ${Boost_INCLUDE_DIRS}
           ${MATIO_INCLUDE_DIRS}
           ${EIGEN3_INCLUDE_DIR})
 # ==============================================================================

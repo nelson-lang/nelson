@@ -31,7 +31,6 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-          ${Boost_INCLUDE_DIRS}
           ${EIGEN3_INCLUDE_DIR})
 # ==============================================================================
 target_link_libraries(
@@ -43,8 +42,7 @@ target_link_libraries(
     nlsNelson_manager
     nlsI18n
     nlsTypes
-    nlsHistory_manager
-    ${Boost_LIBRARIES})
+    nlsHistory_manager)
 # ==============================================================================
 file(GLOB STREAM_MANAGER_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")

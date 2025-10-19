@@ -8,10 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <Windows.h>
-#include "boost_libraries_helpers.hpp"
 //=============================================================================
-#pragma comment(lib, CAT_3_STRINGS("boost_system-", BOOST_TARGET, ".lib"))
-#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
 #pragma comment(lib, "ffi.lib")
 //=============================================================================
 int WINAPI

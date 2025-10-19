@@ -7,30 +7,57 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
-//=============================================================================
+
 #include <chrono>
 #include <string>
 #include <atomic>
 #include <tuple>
-#include <boost/version.hpp>
-#include <boost/asio.hpp>
-#if BOOST_VERSION >= 108800
-#include <boost/process/v1/child.hpp>
-#else
-#include <boost/process.hpp>
-#include <boost/process/shell.hpp>
-#endif
+#include <thread>
+#include <future>
+#include <vector>
+#include <cstdio>
+#include <cstdlib>
+
 #include "Types.hpp"
 #include "FileSystemWrapper.hpp"
-//=============================================================================
-#if BOOST_VERSION >= 108800
-#define BOOST_PROCESS boost::process::v1
-#define PROCESS_CHILD BOOST_PROCESS::child
-#else
-#define BOOST_PROCESS boost::process
-#define PROCESS_CHILD boost::process::child
+
+#ifdef _MSC_VER
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
 #endif
+#include <windows.h>
+#else
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <signal.h>
+#endif
+
+//=============================================================================
+// Define PROCESS_CHILD as a small wrapper around platform-specific process handle
+#ifdef _MSC_VER
+struct PROCESS_CHILD
+{
+    HANDLE processHandle = nullptr;
+    DWORD processId = 0;
+    bool
+    valid() const
+    {
+        return processHandle != nullptr;
+    }
+};
+#else
+struct PROCESS_CHILD
+{
+    pid_t pid = -1;
+    bool
+    valid() const
+    {
+        return pid > 0;
+    }
+};
+#endif
+
 //=============================================================================
 namespace Nelson {
 //=============================================================================

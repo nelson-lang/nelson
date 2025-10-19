@@ -8,15 +8,21 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Clock.hpp"
-#include "boost/date_time/posix_time/posix_time.hpp"
+#include <chrono>
+#include <ctime>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
 Clock()
 {
-    boost::posix_time::ptime pt = boost::posix_time::microsec_clock::local_time();
-    tm pt_tm = to_tm(pt);
+    std::time_t now = std::time(nullptr);
+    std::tm pt_tm {};
+#ifdef _MSC_VER
+    localtime_s(&pt_tm, &now);
+#else
+    localtime_r(&now, &pt_tm);
+#endif
     double* vect
         = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, 6, stringVector(), false));
     vect[0] = 1900 + pt_tm.tm_year;

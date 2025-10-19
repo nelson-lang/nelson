@@ -60,6 +60,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - GitHub CI MacOS Ventura removed and replaced by MacOS 15 intel ([#1457](http://github.com/nelson-lang/nelson/issues/1457))
 
+- Removed several dependencies on Boost to reduce build complexity and improve portability.
+
 ### Fixed
 
 - `ans` variable: Fixed issue to ensure 'ans' is only created for expressions, preventing unintended variable creation in the workspace.

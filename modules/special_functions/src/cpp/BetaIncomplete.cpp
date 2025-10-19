@@ -11,10 +11,9 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpsabi"
 #endif
-#include <boost/math/special_functions/beta.hpp>
-#if defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
+#include <cmath>
+#include <algorithm>
+#include <limits>
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
@@ -35,6 +34,98 @@ maxDimensions(Dimensions& a, Dimensions& b)
     return ret;
 }
 //=============================================================================
+// Implementation of the regularized incomplete beta function I_x(a,b)
+// using continued fraction
+template <typename T>
+static T
+betacf(T a, T b, T x)
+{
+    const int MAXIT = 200;
+    const T EPS = std::numeric_limits<T>::epsilon();
+    const T FPMIN = std::numeric_limits<T>::min() / EPS;
+
+    T qab = a + b;
+    T qap = a + (T)1.0;
+    T qam = a - (T)1.0;
+    T c = (T)1.0;
+    T d = (T)1.0 - qab * x / qap;
+    if (std::fabs(d) < FPMIN)
+        d = FPMIN;
+    d = (T)1.0 / d;
+    T h = d;
+
+    for (int m = 1; m <= MAXIT; ++m) {
+        int m2 = 2 * m;
+        // even step
+        T aa = (T)m * (b - (T)m) * x / ((qam + (T)m2) * (a + (T)m2));
+        d = (T)1.0 + aa * d;
+        if (std::fabs(d) < FPMIN)
+            d = FPMIN;
+        c = (T)1.0 + aa / c;
+        if (std::fabs(c) < FPMIN)
+            c = FPMIN;
+        d = (T)1.0 / d;
+        h *= d * c;
+
+        // odd step
+        aa = -(a + (T)m) * (qab + (T)m) * x / ((a + (T)m2) * (qap + (T)m2));
+        d = (T)1.0 + aa * d;
+        if (std::fabs(d) < FPMIN)
+            d = FPMIN;
+        c = (T)1.0 + aa / c;
+        if (std::fabs(c) < FPMIN)
+            c = FPMIN;
+        d = (T)1.0 / d;
+        T del = d * c;
+        h *= del;
+
+        if (std::fabs(del - (T)1.0) < (T)10 * EPS) {
+            return h;
+        }
+    }
+    // if we reach here, the continued fraction failed to converge
+    return h;
+}
+//=============================================================================
+template <typename T>
+static T
+ibeta(T a, T b, T x)
+{
+    // Regularized incomplete beta function I_x(a,b)
+    if (x <= (T)0.0)
+        return (T)0.0;
+    if (x >= (T)1.0)
+        return (T)1.0;
+
+    // Handle infinite parameters to avoid NaN from lgamma(inf)-lgamma(inf)
+    if (std::isinf(a) && a > 0) {
+        // a -> +inf: distribution concentrates near x=1, so I_x -> 0 for x in [0,1)
+        return (x < (T)1.0) ? (T)0.0 : (T)1.0;
+    }
+    if (std::isinf(b) && b > 0) {
+        // b -> +inf: distribution concentrates near x=0, so I_x -> 1 for x in (0,1]
+        return (x > (T)0.0) ? (T)1.0 : (T)0.0;
+    }
+
+    // Compute ln(beta(a,b)) via lgamma
+    T ln_beta = std::lgamma(a) + std::lgamma(b) - std::lgamma(a + b);
+
+    // Use symmetry transformation if necessary for better convergence
+    T front;
+    if (x < (a + (T)1.0) / (a + b + (T)2.0)) {
+        // use continued fraction directly
+        front = std::exp(a * std::log(x) + b * std::log((T)1.0 - x) - ln_beta) / a;
+        T cf = betacf<T>(a, b, x);
+        return front * cf;
+    } else {
+        // Use symmetry relation I_x(a,b) = 1 - I_{1-x}(b,a)
+        front = std::exp(b * std::log((T)1.0 - x) + a * std::log(x) - ln_beta) / b;
+        T cf = betacf<T>(b, a, (T)1.0 - x);
+        T result = front * cf;
+        return (T)1.0 - result;
+    }
+}
+//=============================================================================
 template <class T>
 ArrayOf
 BetaIncomplete(const Dimensions& retDims, NelsonType destinationType, indexType maxLen,
@@ -53,9 +144,9 @@ BetaIncomplete(const Dimensions& retDims, NelsonType destinationType, indexType 
             T y = (Y.isScalar()) ? ptrY[0] : ptrY[i];
             T z = (Z.isScalar()) ? ptrZ[0] : ptrZ[i];
             try {
-                result[i] = boost::math::ibeta(y, z, x);
+                result[i] = ibeta<T>(y, z, x);
             } catch (...) {
-                result[i] = 1.0;
+                result[i] = (T)1.0;
             }
         }
     } else {
@@ -65,9 +156,9 @@ BetaIncomplete(const Dimensions& retDims, NelsonType destinationType, indexType 
             T y = (Y.isScalar()) ? ptrY[0] : ptrY[i];
             T z = (Z.isScalar()) ? ptrZ[0] : ptrZ[i];
             try {
-                result[i] = 1 - boost::math::ibeta(y, z, x);
+                result[i] = (T)1.0 - ibeta<T>(y, z, x);
             } catch (...) {
-                result[i] = 0.;
+                result[i] = (T)0.0;
             }
         }
     }
@@ -153,3 +244,7 @@ BetaIncomplete(
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
+
+#if defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif

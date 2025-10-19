@@ -45,8 +45,7 @@ target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
-  PRIVATE ${Boost_INCLUDE_DIRS}
-          $<$<BOOL:${WITH_LIBCURL}>:${CURL_INCLUDE_DIRS}>
+  PRIVATE $<$<BOOL:${WITH_LIBCURL}>:${CURL_INCLUDE_DIRS}>
           $<$<BOOL:${WITH_LIBGIT2}>:${LIBGIT2_INCLUDE_DIRS}>
           ${CMAKE_CURRENT_SOURCE_DIR}/src/c
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include

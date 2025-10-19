@@ -9,14 +9,6 @@
 //=============================================================================
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-#include <boost/version.hpp>
-//=============================================================================
-#include "boost_libraries_helpers.hpp"
-//=============================================================================
-#pragma comment(lib, CAT_3_STRINGS("boost_filesystem-", BOOST_TARGET, ".lib"))
-#if BOOST_VERSION >= 108800
-#pragma comment(lib, CAT_3_STRINGS("boost_process-", BOOST_TARGET, ".lib"))
-#endif
 //=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)

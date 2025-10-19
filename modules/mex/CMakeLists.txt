@@ -38,7 +38,6 @@ else()
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
            $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
     PRIVATE ${EIGEN3_INCLUDE_DIR}
-            ${Boost_INCLUDE_DIRS}
             ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -64,8 +63,7 @@ else()
       nlsSparse
       nlsStream_manager
       nlsTypes
-      nlsOs_functions
-      ${Boost_LIBRARIES})
+      nlsOs_functions)
 endif()
 # ==============================================================================
 if(WITHOUT_MEX_MODULE)

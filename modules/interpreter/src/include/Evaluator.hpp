@@ -104,11 +104,6 @@ public:
 
     bool withOverload = true;
 
-    void
-    setCLI(bool bCLI);
-    bool
-    getCLI();
-
     std::wstring
     buildPrompt();
 
