@@ -24,7 +24,6 @@ function varargout = xmldoctohtml(varargin)
   copyfile([modulepath('help_tools'), '/resources/highlight.css'], dir_output);
   copyfile([modulepath('help_tools'), '/resources/nelson_common.css'], dir_output);
   copyfile([modulepath('help_tools'), '/resources/nelson_help.js'], dir_output);
-  copyfile([modulepath('help_tools'), '/resources/tex-mml-chtml.js'], dir_output);
 
   varargout{1} = status;
   if nargout > 1

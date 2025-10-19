@@ -30,7 +30,6 @@
             </title>
             <link rel="stylesheet" href="highlight.css"/>
             <link rel="stylesheet" href="nelson_common.css"/>
-            <!-- MathJax configuration and loaders moved to nelson_help.js -->
             <script src="nelson_help.js"></script>
         </head>
         <body>

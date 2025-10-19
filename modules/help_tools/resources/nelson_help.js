@@ -19,7 +19,8 @@
       s.async = true;
       if (attrs) {
         for (var k in attrs) {
-          if (Object.prototype.hasOwnProperty.call(attrs, k)) s.setAttribute(k, attrs[k]);
+          if (Object.prototype.hasOwnProperty.call(attrs, k))
+            s.setAttribute(k, attrs[k]);
         }
       }
       if (onload) s.onload = onload;
@@ -37,20 +38,23 @@
     try {
       var cfg = document.createElement("script");
       cfg.type = "text/x-mathjax-config";
-      cfg.text = "MathJax.Hub.Config({"
-        + "tex2jax: {"
-        + "inlineMath: [['$','$'], ['\\\\(','\\\\)']],"
-        + "displayMath: [['$$','$$'], ['\\\\[','\\\\]']],"
-        + "processEscapes: true,"
-        + "processEnvironments: true"
-        + "},"
-        + "\"HTML-CSS\": {"
-        + "availableFonts: [\"TeX\"], preferredFont: \"TeX\", webFont: \"TeX\", imageFont: null"
-        + "},"
-        + "showMathMenu: false"
-        + "});";
+      cfg.text =
+        "MathJax.Hub.Config({" +
+        "tex2jax: {" +
+        "inlineMath: [['$','$'], ['\\\\(','\\\\)']]," +
+        "displayMath: [['$$','$$'], ['\\\\[','\\\\]']]," +
+        "processEscapes: true," +
+        "processEnvironments: true" +
+        "}," +
+        '"HTML-CSS": {' +
+        'availableFonts: ["TeX"], preferredFont: "TeX", webFont: "TeX", imageFont: null' +
+        "}," +
+        "showMathMenu: false" +
+        "});";
       document.head.appendChild(cfg);
-    } catch (e) { /* ignore */ }
+    } catch (e) {
+      /* ignore */
+    }
   }
 
   // Try to load local MathJax (tex-mml-chtml.js), fallback to CDN v2
@@ -58,13 +62,16 @@
     try {
       if (window.MathJax) return; // already loaded
       injectMathJaxConfig();
-      var local = "tex-mml-chtml.js";
-      var cdn = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS_HTML";
+      var local = "../tex-mml-chtml.js";
+      var cdn =
+        "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS_HTML";
       createAndAppendScript(local, null, null, function () {
         // on error -> load CDN
         createAndAppendScript(cdn);
       });
-    } catch (e) { /* ignore */ }
+    } catch (e) {
+      /* ignore */
+    }
   }
 
   // Try to load local highlight.js, fallback to CDN. When loaded, run highlight and also attach DOMContentLoaded safeguard.
@@ -75,14 +82,17 @@
         return;
       }
       var local = "highlight.pack.js";
-      var cdn = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js";
+      var cdn =
+        "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js";
       function onLoad() {
         runHighlight();
       }
       createAndAppendScript(local, null, onLoad, function () {
         createAndAppendScript(cdn, null, onLoad);
       });
-    } catch (e) { /* ignore */ }
+    } catch (e) {
+      /* ignore */
+    }
   }
 
   function runHighlight() {
@@ -96,7 +106,9 @@
               if (window.hljs && typeof hljs.highlightAll === "function") {
                 hljs.highlightAll();
               }
-            } catch (e) { /* ignore */ }
+            } catch (e) {
+              /* ignore */
+            }
           });
         } else {
           // DOM already ready, highlight immediately
@@ -106,10 +118,14 @@
             } else if (typeof hljs.initHighlightingOnLoad === "function") {
               hljs.initHighlightingOnLoad();
             }
-          } catch (e) { /* ignore */ }
+          } catch (e) {
+            /* ignore */
+          }
         }
       }
-    } catch (e) { /* ignore */ }
+    } catch (e) {
+      /* ignore */
+    }
   }
 
   // --- existing helpers (external links, copyExample, highlight init, buildGitHubEditUrl, etc.) ---
@@ -243,7 +259,9 @@
       var mdLang = /^fr/i.test(lang) ? "fr" : "en";
       if (!version) version = "master";
       // keep previous behavior (prefixing with v may have been used before)
-      var verSegment = /^v/i.test(String(version)) ? encodeURIComponent(version) : "v" + encodeURIComponent(version);
+      var verSegment = /^v/i.test(String(version))
+        ? encodeURIComponent(version)
+        : "v" + encodeURIComponent(version);
       return (
         "https://github.com/nelson-lang/nelson-gitbook/blob/" +
         verSegment +
