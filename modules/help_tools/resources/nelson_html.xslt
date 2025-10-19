@@ -245,12 +245,12 @@
                 <div class="section-title">
                     <span class="syntax-icon">📝</span> <xsl:value-of select="$syntax-text"/>
                 </div>
-                <pre class="syntax-block">
+                <pre class="syntax-block"><code class="language-matlab">
 <xsl:for-each select="syntax/syntax_item">
 <xsl:value-of select="."/><xsl:text>
 </xsl:text>
 </xsl:for-each>
-                </pre>
+</code></pre>
             </div>
         </xsl:if>
 
