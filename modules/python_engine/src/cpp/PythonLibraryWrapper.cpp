@@ -27,6 +27,7 @@ PyObject* _Py_NoneStructPtr = nullptr;
 //=============================================================================
 static bool pythonLibraryLoaded = false;
 static Nelson::library_handle python3XX_handle = nullptr;
+static std::string NLSPy_fopen_obj_symbol_name = "_Py_fopen_obj";
 //=============================================================================
 static bool
 loadPythonSymbols();
@@ -108,7 +109,7 @@ using PROC_PyList_SetItem = int (*)(PyObject* ob1, Py_ssize_t sz, PyObject* ob2)
 using PROC_PyUnicode_DecodeFSDefault = PyObject* (*)(const char* s);
 using PROC_PyRun_SimpleFileExFlags
     = int (*)(FILE* fp, const char* filename, int closeit, PyCompilerFlags* flags);
-using PROC_Py_fopen_obj = FILE* (*)(PyObject* path, const char* mode);
+using PROC_Py_fopen = FILE* (*)(PyObject* path, const char* mode);
 using PROC_PyDict_Copy = PyObject* (*)(PyObject* mp);
 using PROC_PyDict_Clear = void (*)(PyObject* mp);
 using PROC_PyDict_Update = int (*)(PyObject* mp, PyObject* other);
@@ -245,7 +246,15 @@ loadPythonSymbols()
     LOAD_PYTHON_SYMBOL(PyList_SetItem);
     LOAD_PYTHON_SYMBOL(PyUnicode_DecodeFSDefault);
     LOAD_PYTHON_SYMBOL(PyRun_SimpleFileExFlags);
-    LOAD_PYTHON_SYMBOL(_Py_fopen_obj);
+    //=============================================================================
+    // Python 3.14 and later: _Py_fopen
+    pythonSymbols[NLSPy_fopen_obj_symbol_name] = reinterpret_cast<void*>(
+        Nelson::get_function(python3XX_handle, NLSPy_fopen_obj_symbol_name));
+    if (!pythonSymbols[NLSPy_fopen_obj_symbol_name]) {
+        NLSPy_fopen_obj_symbol_name = "Py_fopen";
+        LOAD_PYTHON_SYMBOL(Py_fopen);
+    }
+    //=============================================================================
     LOAD_PYTHON_SYMBOL(PyDict_Copy);
     LOAD_PYTHON_SYMBOL(PyDict_Clear);
     LOAD_PYTHON_SYMBOL(PyDict_Update);
@@ -788,9 +797,9 @@ NLSPyRun_SimpleFileExFlags(FILE* fp, const char* filename, int closeit, PyCompil
 }
 //=============================================================================
 FILE*
-NLS_Py_fopen_obj(PyObject* path, const char* mode)
+NLS_Py_fopen(PyObject* path, const char* mode)
 {
-    return reinterpret_cast<PROC_Py_fopen_obj>(pythonSymbols["_Py_fopen_obj"])(path, mode);
+    return reinterpret_cast<PROC_Py_fopen>(pythonSymbols[NLSPy_fopen_obj_symbol_name])(path, mode);
 }
 //=============================================================================
 PyObject*
