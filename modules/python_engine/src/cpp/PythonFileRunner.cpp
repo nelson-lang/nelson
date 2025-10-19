@@ -30,7 +30,7 @@ PythonFileRunner::runFile(const std::wstring& filename, const wstringVector& arg
     PyGILState_STATE gstate = NLSPyGILState_Ensure();
 
     PyObject* obj = NLSPy_BuildValue("s", wstring_to_utf8(filename).c_str());
-    FILE* file = NLS_Py_fopen_obj(obj, "r");
+    FILE* file = NLS_Py_fopen(obj, "r");
     NLSPy_DECREF(obj);
     if (file == NULL) {
         errorMessage = _W("Impossible to open file: ") + filename;

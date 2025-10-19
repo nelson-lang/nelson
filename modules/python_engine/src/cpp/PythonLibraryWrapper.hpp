@@ -275,7 +275,7 @@ int
 NLSPyRun_SimpleFileExFlags(FILE* fp, const char* filename, int closeit, PyCompilerFlags* flags);
 //=============================================================================
 FILE*
-NLS_Py_fopen_obj(PyObject* path, const char* mode);
+NLS_Py_fopen(PyObject* path, const char* mode);
 //=============================================================================
 PyObject*
 NLSPyDict_Copy(PyObject* mp);
