@@ -30,26 +30,8 @@
             </title>
             <link rel="stylesheet" href="highlight.css"/>
             <link rel="stylesheet" href="nelson_common.css"/>
-            <!-- MathJax configuration -->
-            <script type="text/x-mathjax-config">
-                MathJax.Hub.Config({
-                    tex2jax: {
-                        inlineMath: [['$','$'], ['\\(','\\)']],
-                        displayMath: [['$$','$$'], ['\\[','\\]']],
-                        processEscapes: true,
-                        processEnvironments: true
-                    },
-                    "HTML-CSS": {
-                        availableFonts: ["TeX"],
-                        preferredFont: "TeX",
-                        webFont: "TeX",
-                        imageFont: null
-                    },
-                    showMathMenu: false
-                });
-            </script>
-            <script id="MathJax-script" async="async" src="tex-mml-chtml.js"></script>
-            <script src="highlight.pack.js"></script>
+            <!-- MathJax configuration and loaders moved to nelson_help.js -->
+            <script src="nelson_help.js"></script>
         </head>
         <body>
             <!-- Help Summary Button at top left -->
@@ -92,41 +74,6 @@
                         <xsl:otherwise>Edit this page on GitHub</xsl:otherwise>
                     </xsl:choose></span>
                 </a>
-                <script type="text/javascript"><![CDATA[
-                    function buildGitHubEditUrl(href) {
-                        try {
-                            var m = href.match(/\/help\/(v[^\/]+)\/([^\/]+)\/([^\/]+)\/([^\/]+)\.html$/);
-                            var version, lang, moduleName, basename;
-                            if (m) {
-                                version = m[1]; lang = m[2]; moduleName = m[3]; basename = m[4];
-                            } else {
-                                var url = href.split('?')[0].split('#')[0];
-                                var parts = url.split('/').filter(function(p){ return p.length > 0; });
-                                version = 'master';
-                                for (var i=0;i<parts.length;i++){
-                                    if (/^v\d+/i.test(parts[i])) { version = parts[i]; break; }
-                                }
-                                if (parts.length >= 2) {
-                                    moduleName = parts[parts.length - 2];
-                                    basename = parts[parts.length - 1].replace(/\.html?$/i, '').replace(/\.md$/i, '');
-                                } else if (parts.length === 1) { moduleName = parts[0]; basename = parts[0]; }
-                                else { moduleName = 'unknown_module'; basename = 'index'; }
-                                lang = 'en';
-                                for (var j=0;j<parts.length;j++){
-                                    if (/^fr(_|$)/i.test(parts[j]) || /^fr-/i.test(parts[j])) { lang = 'fr'; break; }
-                                    if (/^en(_|$)/i.test(parts[j]) || /^en-/i.test(parts[j])) { lang = 'en'; break; }
-                                }
-                            }
-                            var mdLang = /^fr/i.test(lang) ? 'fr' : 'en';
-                            if (!version) version = 'master';
-                            return 'https://github.com/nelson-lang/nelson-gitbook/blob/' + encodeURIComponent(version) + '/markdown/' + mdLang + '/' + encodeURIComponent(moduleName) + '/' + encodeURIComponent(basename) + '.md';
-                        } catch (e) { return 'https://github.com/nelson-lang/nelson-gitbook'; }
-                    }
-                    document.addEventListener('DOMContentLoaded', function() {
-                        var link = document.getElementById('github-edit-link');
-                        if (link) link.href = buildGitHubEditUrl(window.location.href);
-                    });
-                ]]></script>
                 <style>
                     .github-edit-btn { display:inline-flex; align-items:center; gap:6px; font-size:14px; padding:6px 12px; border:1px solid #ddd; border-radius:4px; background:#f5f5f5; color:#333; text-decoration:none; transition:all 0.2s ease; }
                     .github-edit-btn:hover { background:#e9e9e9; border-color:#ccc; color:#000; }
@@ -134,7 +81,6 @@
             </div>
 
             <!-- Include consolidated help JS -->
-            <script src="nelson_help.js"></script>
         </body>
     </html>
     </xsl:template>
@@ -368,7 +314,7 @@
                         </xsl:if>
                         <xsl:if test="example_item_data">
                             <div style="display:flex;align-items:flex-start;gap:8px;">
-                                <code class="matlab syntax-block" style="flex:1 1 auto;"><xsl:call-template name="trim-example-lines"><xsl:with-param name="text" select="example_item_data"/></xsl:call-template></code>
+                                <pre class="syntax-block" style="flex:1 1 auto;margin:0;"><code class="language-matlab"><xsl:call-template name="trim-example-lines"><xsl:with-param name="text" select="example_item_data"/></xsl:call-template></code></pre>
                                 <button class="copy-btn" type="button" onclick="copyExample(this)" title="Copy">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" style="display:block;">
                                         <rect x="7" y="3" width="10" height="14" rx="2" fill="white" fill-opacity="0.15" stroke="white" stroke-width="1.2"/>
