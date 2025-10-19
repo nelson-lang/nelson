@@ -48,12 +48,8 @@
                     showMathMenu: false
                 });
             </script>
-            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-            <script id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-                                <!-- external JS consolidated into nelson_help.js -->
-   
+            <script id="MathJax-script" async="async" src="tex-mml-chtml.js"></script>
             <script src="highlight.pack.js"></script>
-            <!-- nelson_help.js initializes highlighting, external links, copyExample and sets github edit link -->
         </head>
         <body>
             <!-- Help Summary Button at top left -->

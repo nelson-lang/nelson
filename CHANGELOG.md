@@ -76,6 +76,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Removed the `help_browser` module.
 
   - Added French language support for Help.
+
   - Introduced support for LaTeX formulas.
 
 - `jsondecode`: Integrated [simdjson](https://simdjson.org/) for significantly improved performance and efficiency.

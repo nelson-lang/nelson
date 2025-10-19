@@ -437,3 +437,11 @@ Double precision SIMD-oriented Fast Mersenne Twister
 > <https://github.com/MersenneTwister-Lab/dSFMT>
 
 > <https://github.com/MersenneTwister-Lab/dSFMT/blob/master/LICENSE.txt> (BSD)
+
+- MathJax
+
+Beautiful and accessible math in all browsers
+
+> <https://github.com/mathjax/MathJax>
+
+> <https://github.com/mathjax/MathJax/blob/master/LICENSE> (Apache 2.0)

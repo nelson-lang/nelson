@@ -65,6 +65,7 @@ function main_help(module_path, lang, dirdest, package)
       copyfile([modulepath('help_tools'), '/resources/highlight.pack.js' ], [destination_path, '/highlight.pack.js']);
       copyfile([modulepath('help_tools'), '/resources/highlight.css' ], [destination_path, '/highlight.css']);
       copyfile([modulepath('help_tools'), '/resources/nelson_help.js'], [destination_path, '/nelson_help.js']);
+      copyfile([modulepath('help_tools'), '/resources/tex-mml-chtml.js'], [destination_path, '/tex-mml-chtml.js']);
 
       
       if ~isfile([dir_src, '/gpl-3.0.md'])
