@@ -60,7 +60,8 @@ function locales = buildHelpFromPath(destinationdir, module, module_path)
       end
       p = xmldoctomd(src, dstbuild, module);
       if p
-        disp(['help ''', module, ''' (', k{1}, ') generated.']);
+        msg = sprintf(_("help '%s' (%s) generated."), module, k{1});
+        disp(msg);
       else
         disp([module, _(' file was not generated.')]);
       end

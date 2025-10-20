@@ -26,11 +26,10 @@
         </param_output_item>
     </param_output>
     <description>
-        <b
-    >ipermute</b> permutes the dimensions of an array (in inverse order of <b
-    >permute</b>).</description>
-        <p>
-            <b>ipermute</b> est l'inverse de <b>permute</b>.</p>
+        <p><b
+      >ipermute</b> permute les dimensions d'un tableau (dans l'ordre inverse de <b
+      >permute</b>).</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>

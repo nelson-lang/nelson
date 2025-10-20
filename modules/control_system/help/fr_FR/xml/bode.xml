@@ -21,19 +21,19 @@
         <param_input_item>
             <param_name>wIn</param_name>
             <param_description
-      >a cell {wmin, wmax} or a vector [wmin:wmax].</param_description>
+      >une cellule {wmin, wmax} ou un vecteur [wmin:wmax].</param_description>
         </param_input_item>
         <param_input_item>
             <param_name>lineSpec</param_name>
             <param_description
-      >Line style, marker, and color.</param_description>
+      >Style de ligne, marqueur et couleur.</param_description>
         </param_input_item>
     </param_input>
     <param_output>
         <param_output_item>
             <param_name>magnitude</param_name>
             <param_description
-      >Magnitude: size 1 x 1 x k (SISO).</param_description>
+      >Amplitude : taille 1 x 1 x k (SISO).</param_description>
         </param_output_item>
         <param_output_item>
             <param_name>phase</param_name>

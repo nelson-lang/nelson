@@ -21,7 +21,7 @@
         </param_output_item>
     </param_output>
     <description>
-        <p><b>isint16</b> returns a logical <b>1</b>if the argument is a <b
+        <p><b>isint16</b> returns a logical <b>1</b> if the argument is a <b
       >signed 16-bit</b> integer array and a logical <b>0</b> otherwise.</p>
     </description>
         <used_function />

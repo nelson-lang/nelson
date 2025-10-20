@@ -119,11 +119,11 @@
       >X</b>, <b>Y</b>, and <b>Z</b> input arguments.</p>
                                                             <p>
                                                                 <b
-      >CreateFcn</b>Callback (function handle, string or cell) called when object is created.
+      >CreateFcn</b> Callback (function handle, string or cell) called when object is created.
 Set this property on an existing component has no effect.</p>
                                                                 <p>
                                                                     <b
-      >DeleteFcn</b>Callback (function handle, string or cell) called when object is deleted.</p>
+      >DeleteFcn</b> Callback (function handle, string or cell) called when object is deleted.</p>
                                                                     <p>
                                                                         <b
       >BeingDeleted</b> Flag indicating that the object is being deleted.</p>

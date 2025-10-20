@@ -11,7 +11,8 @@
     <param_input>
         <param_input_item>
             <param_name>A</param_name>
-            <param_description>État matrice : matrice n x n.</param_description>
+            <param_description
+      >Matrice d'état : matrice n x n.</param_description>
         </param_input_item>
         <param_input_item>
             <param_name>G</param_name>

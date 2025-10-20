@@ -26,7 +26,7 @@
     </param_output>
     <description>
                 <p>La séquence de commandes <b
-      >tic(); commands ; t = toc() </b>renvoie le nombre de secondes nécessaires à l'exécution des commandes.</p>
+      >tic(); commands ; t = toc() </b> renvoie le nombre de secondes nécessaires à l'exécution des commandes.</p>
                 <p
     >Les appels consécutifs à la fonction toc sans argument renvoient le temps écoulé depuis le tic le plus récent.</p>
                 <p

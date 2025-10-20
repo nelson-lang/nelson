@@ -266,7 +266,7 @@
                     <xsl:for-each select="param_input/param_input_item">
                         <tr>
                             <td class="param-name"><xsl:value-of select="param_name"/></td>
-                            <td><xsl:value-of select="param_description"/></td>
+                            <td><xsl:apply-templates select="param_description/node()"/></td>
                         </tr>
                     </xsl:for-each>
                 </table>
@@ -285,7 +285,7 @@
                     <xsl:for-each select="param_output/param_output_item">
                         <tr>
                             <td class="param-name"><xsl:value-of select="param_name"/></td>
-                            <td><xsl:value-of select="param_description"/></td>
+                            <td><xsl:apply-templates select="param_description/node()"/></td>
                         </tr>
                     </xsl:for-each>
                 </table>
@@ -415,6 +415,38 @@
         <xsl:apply-templates/>
     </a>
 </xsl:template>
+<!-- Render inline <link> as an HTML anchor using linkend -->
+<xsl:template match="link">
+    <xsl:variable name="linkend" select="@linkend"/>
+    <xsl:variable name="module">
+        <xsl:if test="contains($linkend, '{') and contains($linkend, '}')">
+            <xsl:value-of select="substring-before(substring-after($linkend, '{'), '}')"/>
+        </xsl:if>
+    </xsl:variable>
+    <xsl:variable name="function">
+        <xsl:choose>
+            <xsl:when test="contains($linkend, '}')">
+                <xsl:value-of select="substring-after($linkend, '}')"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$linkend"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
+    <a>
+        <xsl:attribute name="href">
+            <xsl:choose>
+                <xsl:when test="string-length($module) &gt; 0">
+                    <xsl:text>../</xsl:text><xsl:value-of select="$module"/><xsl:text>/</xsl:text><xsl:value-of select="$function"/><xsl:text>.html</xsl:text>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$function"/><xsl:text>.html</xsl:text>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:attribute>
+        <xsl:apply-templates/>
+    </a>
+</xsl:template>
 <!-- Render <p> as HTML paragraph -->
 <xsl:template match="p">
     <p><xsl:apply-templates/></p>
@@ -492,9 +524,9 @@
     </td>
 </xsl:template>
 
-<!-- Render <latex> as MathJax display math -->
+<!-- Render <latex> as display math: emit visible $$...$$ inside a span so browsers show it before MathJax runs -->
 <xsl:template match="latex">
-    <span class="latex-math">$$<xsl:value-of select="normalize-space(.)"/>$$</span>
+    <span class="math display">$$<xsl:value-of select="normalize-space(.)"/>$$</span>
 </xsl:template>
 
 <xsl:template name="trim-example-lines">

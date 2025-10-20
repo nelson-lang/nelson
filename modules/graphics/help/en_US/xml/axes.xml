@@ -39,8 +39,8 @@
   </param_output>
   <description>
     <p><b
-      >axes</b>creates axes in the current figure and set it as the current axes.</p>
-    <p><b>axes(cax)</b>set current axes.</p>
+      >axes</b> creates axes in the current figure and set it as the current axes.</p>
+    <p><b>axes(cax)</b> set current axes.</p>
     <p>Clicking on an axis automatically sets it as the current axes object.</p>
     <p>Properties:</p>
     <table>

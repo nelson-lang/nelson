@@ -16,8 +16,10 @@
         <examples>
             <example_item>
                 <example_item_type>nelson</example_item_type>
-                <example_item_description runnable="adv-cli" />
-                <example_item_data><![CDATA[qml_demos()]]></example_item_data>
+                <example_item_description />
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[qml_demos()]]></example_item_data>
             </example_item>
         </examples>
         <history>

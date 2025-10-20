@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>deployhelp</keyword>
+    <short_description
+  >Install, uninstall and manage the local Nelson help system and module help files.</short_description>
+    <syntax>
+        <syntax_item>deployhelp('install')</syntax_item>
+        <syntax_item>deployhelp('install', verbose)</syntax_item>
+        <syntax_item
+    >deployhelp('add', module_name, module_help_dir)</syntax_item>
+        <syntax_item>deployhelp('remove', module_name)</syntax_item>
+        <syntax_item>[status, message] = deployhelp('uninstall')</syntax_item>
+        <syntax_item>status = deployhelp('status')</syntax_item>
+        <syntax_item>[status, message] = deployhelp('refresh')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>'install'</param_name>
+            <param_description
+      >Install the local help system (all modules, all languages). Optional second argument verbose (logical) controls verbosity; default is true.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>module_name</param_name>
+            <param_description
+      >Name of the module to add or remove from the local help tree.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>module_help_dir</param_name>
+            <param_description
+      >Directory containing the module's help archive(s).</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>verbose</param_name>
+            <param_description
+      >logical scalar (true/false). When provided to 'install' it controls whether install steps show verbose output.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p
+    >The function manages a local, versioned help directory under userdir()/Nelson/&lt;version&gt;/help/.</p> 
+        <p>Actions:</p>
+        <p><b
+      >install</b>: creates and installs the local help system (calls docroot('.') and install locally). Use the optional verbose boolean to toggle output.</p>
+        <p><b
+      >add</b>: extracts per-language .nhz help archives found in module_help_dir/help/ into the versioned help/lang/&lt;module_name&gt; directories.</p>
+        <p><b
+      >remove</b>: removes the module help directory for each language.</p>
+        <p><b>refresh</b>, <b>uninstall</b>, <b
+      >status</b>: respectively refresh the help database, uninstall the local help system, or return whether the local help folder exists. Actions that can fail return [status, message].</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <see_also>
+        <see_also_item>
+            <link linkend="${help_tools}doc">doc</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${help_tools}docroot">docroot</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.15.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

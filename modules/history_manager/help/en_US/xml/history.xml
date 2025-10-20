@@ -155,7 +155,7 @@
                                                                                                 <p
     >
                                                                                                     <b
-      >history('get', lines)</b>returns the current Nelson history in a cell of strings by index: a scalar value or a vector 1x2.</p>
+      >history('get', lines)</b> returns the current Nelson history in a cell of strings by index: a scalar value or a vector 1x2.</p>
                                                                                                     <p
     >
                                                                                                         <b

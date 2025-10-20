@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  nelson_help_reference.xml
+  Objectif : référence lisible par l'utilisateur et ensemble d'exemples faisant autorité décrivant
+  le format de fichier d'aide XML accepté par `nelson_help.xsd` et la manière dont
+  `nelson_html.xslt` rend les éléments en HTML.
+
+  Emplacement : modules/help_tools/resources/
+  Auteur : Équipe de documentation
+  Remarque : maintenez ce fichier à jour avec les fichiers XSD et XSLT. Utilisez-le comme modèle
+  lorsque vous créez de nouvelles pages d'aide.
+-->
+<xmldoc>
+  <title>Aide Nelson XML - Guide de référence et de création</title>
+  <language>fr_FR</language>
+  <module_name>help_tools</module_name>
+  <chapter_description>
+    <p
+    >Ce document est la référence canonique pour la création de fichiers XML d'aide utilisés par Nelson. Il explique la structure requise par <code
+      >nelson_help.xsd</code> et comment <code
+      >nelson_html.xslt</code> transforme chaque élément en HTML. Utilisez ce fichier comme modèle et liste de contrôle lors de la création ou de la révision de pages de documentation.</p>
+  </chapter_description>
+
+  <keyword>Aide Nelson</keyword>
+  <short_description
+  >Comment rédiger des fichiers XML d'aide pour Nelson (éléments, attributs, exemples, conseils).</short_description>
+
+  <!-- Syntax overview (renders as pre block) -->
+  <syntax>
+    <syntax_item
+    >&lt;xmldoc&gt; (root) - Enfant OBLIGATOIRE : &lt;language&gt;</syntax_item>
+    <syntax_item
+    >Header: &lt;title&gt;, &lt;language&gt;, &lt;module_name&gt;, &lt;chapter&gt;, &lt;short_description&gt;</syntax_item>
+    <syntax_item
+    >Sections: &lt;syntax&gt;, &lt;param_input&gt;, &lt;param_output&gt;, &lt;description&gt;, &lt;examples&gt;, &lt;see_also&gt;, &lt;history&gt;, &lt;authors&gt;, &lt;bibliography&gt;</syntax_item>
+  </syntax>
+
+  <!-- Parameter examples -->
+  <param_input>
+    <param_input_item>
+      <param_name>language</param_name>
+      <param_description>
+        <p
+        >Localisation utilisée par le XSLT pour sélectionner les étiquettes et le texte localisé. Exemples : <code
+          >en_US</code>, <code
+          >fr_FR</code>. Cet élément est obligatoire dans la racine <code
+          >&lt;xmldoc&gt;</code>.</p>
+      </param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>keyword</param_name>
+      <param_description>
+        <p
+        >Identifiant principal affiché comme titre de la page par le XSLT. En cas d'absence, le XSLT revient à <code
+          >&lt;chapter&gt;</code> ou "Documentation".</p>
+      </param_description>
+    </param_input_item>
+  </param_input>
+
+  <param_output>
+    <param_output_item>
+      <param_name>html</param_name>
+      <param_description>
+        <p
+        >Le XSLT génère un fichier HTML en utilisant des ressources locales : <code
+          >highlight.css</code>, <code>nelson_common.css</code> et <code
+          >nelson_help.js</code>. Les images sont copiées via l'extension <code
+          >ext:copy_img</code>.</p>
+      </param_description>
+    </param_output_item>
+  </param_output>
+
+  <!-- Long description with allowed inline/block markup -->
+  <description>
+    <p
+    >Une référence lisible par l'homme et un ensemble d'exemples définitifs décrivant le format de fichier XML d'aide défini par <code
+      >nelson_help.xsd</code>, et comment <code
+      >nelson_html.xslt</code> transforme ses éléments en HTML.</p>
+    <p>Utilisez <code
+      >&lt;description&gt;</code> pour fournir le corps principal de la documentation. Il accepte des paragraphes (<code
+      >&lt;p&gt;</code>), des listes (<code>&lt;ul&gt;</code>, <code
+      >&lt;ol&gt;</code>), des tableaux (<code
+      >&lt;table&gt;</code>), des balisages en ligne (<code
+      >&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code
+      >&lt;code&gt;</code>), des images (<code
+      >&lt;img src="..."/&gt;</code>) et LaTeX (<code>&lt;latex&gt;</code>).</p>
+
+    <p>Les éléments en ligne et leur rendu XSLT :</p>
+    <ul>
+      <li><b>&lt;b&gt;</b> - texte en gras.</li>
+      <li><b>&lt;i&gt;</b> - texte en italique.</li>
+      <li><b>&lt;code&gt;</b> - rendu de code en ligne.</li>
+      <li><b
+        >&lt;a href="..."&gt;</b> - liens externes (rendus en tant qu'ancres HTML).</li>
+      <li><b
+        >&lt;link linkend="..."&gt;</b> - référence croisée interne. Si linkend contient un module entre accolades <code
+        >{module}name</code>, il devient <code
+        >../module/name.html</code>, sinon <code>name.html</code>.</li>
+      <li><b
+        >&lt;latex&gt;</b> - expressions mathématiques ; rendues en tant que mathématiques d'affichage MathJax par le modèle XSLT (enveloppées avec <code
+        >$$...$$</code>).</li>
+      <li><b>&lt;img src="..."/&gt;</b> - images. XSLT calls <code
+        >ext:copy_img(@src)</code>; SVGs are rendered with a large fixed frame and other formats are responsive.</li>
+    </ul>
+
+    <p>Éléments de bloc :</p>
+    <ul>
+      <li><code>&lt;ul&gt;</code> et <code
+        >&lt;ol&gt;</code> - listes. Utilisez <code
+        >&lt;li&gt;</code> avec un balisage en ligne/de bloc imbriqué selon les besoins.</li>
+      <li><code>&lt;table&gt;</code> - utilisez <code
+        >&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code>, <code
+        >&lt;tr&gt;</code>, <code>&lt;th&gt;</code> et <code
+        >&lt;td&gt;</code>. Le XSD autorise les attributs communs <code
+        >border</code>, <code>cellpadding</code> et <code
+        >cellspacing</code>.</li>
+    </ul>
+
+    <p>Conseils pour la rédaction :</p>
+    <ol>
+      <li>Préférez des lignes de résumé courtes pour <code
+        >&lt;short_description&gt;</code>.</li>
+      <li>Placez les exemples exécutables à l'intérieur de <code
+        >&lt;examples&gt;</code> en utilisant <code
+        >&lt;example_item_data&gt;</code> et définissez <code
+        >runnable="cli"</code> si applicable ou <code
+        >runnable="false"</code> (par défaut).</li>
+      <li
+      >Enveloppez le code source de l'exemple dans CDATA pour éviter l'échappement (voir les exemples ci-dessous).</li>
+      <li>Utilisez <code
+        >&lt;link linkend="{module}name"&gt;</code> pour les références qualifiées par module ; sinon, utilisez des noms simples.</li>
+    </ol>
+  </description>
+
+  <!-- Exemples : montrer des exemples exécutables, non exécutables, avec image -->
+  <examples>
+    <example_item>
+      <example_item_description
+      >Exemple minimal exécutable</example_item_description>
+      <example_item_data
+        language="matlab"
+        runnable="cli"
+      ><![CDATA[
+% Exemple simple
+x = rand(1,10);
+[y, info] = myfunc(x);
+disp(info);
+      ]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_description
+      >Exemple avec sortie d'image</example_item_description>
+      <example_item_data
+        language="matlab"
+      ><![CDATA[
+% Générer un graphique et l'enregistrer au format SVG
+x = 0:0.1:2*pi;
+y = sin(x);
+plot(x,y);
+saveas(gcf(), [tempdir(),'example_plot.svg']);
+      ]]></example_item_data>
+      <example_item_img
+        src="../../images/example_plot.svg"
+        align="center"
+        alt="Example plot"
+      />
+    </example_item> 
+  </examples>
+
+  <!-- Bibliographie : l'URL devient un lien cliquable en HTML -->
+  <bibliography
+  >https://github.com/nelson-lang/nelson/blob/master/modules/help_tools/help/fr_FR/xml/1_nelson_help_reference.xml</bibliography>
+
+  <!-- Voir aussi : liens internes (attribut linkend) -->
+  <see_also>
+    <see_also_item>
+      <link linkend="${help_tools}doc">doc</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}plot">plot (module graphique)</link>
+    </see_also_item>
+  </see_also>
+
+  <!-- Historique : notes versionnées -->
+  <history>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+
+  <!-- Auteurs : rendu en dernier par XSLT -->
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+
+</xmldoc>

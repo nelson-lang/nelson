@@ -1,3 +1,5 @@
+// Apache License 2.0
+// MathJax 3.2.2
 (function () {
   "use strict";
   var __webpack_modules__ = {

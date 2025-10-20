@@ -1,3 +1,13 @@
+// %=============================================================================
+// % Copyright (c) 2016-present Allan CORNET (Nelson)
+// %=============================================================================
+// % This file is part of Nelson.
+// %=============================================================================
+// % LICENCE_BLOCK_BEGIN
+// % SPDX-License-Identifier: LGPL-3.0-or-later
+// % LICENCE_BLOCK_END
+// %=============================================================================
+
 /* nelson_help.js
    Combined client-side helper used by generated help pages.
    - Loads MathJax (try local tex-mml-chtml.js, fallback to CDN)
@@ -33,45 +43,113 @@
     }
   }
 
-  // Inject MathJax v2 config block (same content as previously in XSLT)
-  function injectMathJaxConfig() {
+  // Inject MathJax v3 config via window.MathJax before loading the script
+  function prepareMathJaxV3Config() {
     try {
-      var cfg = document.createElement("script");
-      cfg.type = "text/x-mathjax-config";
-      cfg.text =
-        "MathJax.Hub.Config({" +
-        "tex2jax: {" +
-        "inlineMath: [['$','$'], ['\\\\(','\\\\)']]," +
-        "displayMath: [['$$','$$'], ['\\\\[','\\\\]']]," +
-        "processEscapes: true," +
-        "processEnvironments: true" +
-        "}," +
-        '"HTML-CSS": {' +
-        'availableFonts: ["TeX"], preferredFont: "TeX", webFont: "TeX", imageFont: null' +
-        "}," +
-        "showMathMenu: false" +
-        "});";
-      document.head.appendChild(cfg);
+      // If a MathJax v3 config is already present, do not override
+      if (window.MathJax && window.MathJax.tex) return;
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$','$'], ['\\(','\\)']],
+          displayMath: [['$$','$$'], ['\\[','\\]']],
+          processEscapes: true,
+          processEnvironments: true
+        },
+        options: {
+          // avoid processing inside <pre> / <code> etc.
+          skipHtmlTags: ['script','noscript','style','textarea','pre']
+        }
+      };
     } catch (e) {
       /* ignore */
     }
   }
 
-  // Try to load local MathJax (tex-mml-chtml.js), fallback to CDN v2
+  // Try to load local MathJax v3 (tex-mml-chtml.js), fallback to CDN v3
   function loadMathJax() {
     try {
-      if (window.MathJax) return; // already loaded
-      injectMathJaxConfig();
+      // If MathJax v3 already present, typeset now
+      if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+        window.MathJax.typesetPromise().catch(function(){/*ignore*/});
+        // ensure math rendered (fallback if needed)
+        ensureMathRendered();
+        return;
+      }
+      // If MathJax v2 present, request a typeset using v2 API and return
+      if (window.MathJax && window.MathJax.Hub && typeof window.MathJax.Hub.Queue === 'function') {
+        window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+        // ensure math rendered (fallback if needed)
+        ensureMathRendered();
+        return;
+      }
+
+      prepareMathJaxV3Config();
       var local = "../tex-mml-chtml.js";
-      var cdn =
-        "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS_HTML";
-      createAndAppendScript(local, null, null, function () {
-        // on error -> load CDN
-        createAndAppendScript(cdn);
+      var cdn = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js";
+
+      function onLoad() {
+        try {
+          if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
+            window.MathJax.typesetPromise().catch(function(){/*ignore*/}).then(function(){ ensureMathRendered(); });
+          } else if (window.MathJax && window.MathJax.Hub && typeof window.MathJax.Hub.Queue === "function") {
+            window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+            // small delay then check
+            setTimeout(ensureMathRendered, 50);
+          } else {
+            // in case MathJax not available, still try fallback after short delay
+            setTimeout(ensureMathRendered, 50);
+          }
+        } catch (_) { /* ignore */ }
+      }
+
+      // Try CDN first (avoids file:/// resolution of sub-resources), fall back to local if CDN fails.
+      createAndAppendScript(cdn, { crossorigin: "anonymous" }, onLoad, function () {
+        // CDN failed -> try local copy
+        createAndAppendScript(local, null, onLoad);
       });
     } catch (e) {
       /* ignore */
     }
+  }
+
+  // Fallback: if MathJax did not render <script type="math/tex"> blocks,
+  // replace them with $$...$$ text nodes so MathJax will typeset them.
+  function ensureMathRendered() {
+    try {
+      // If MathJax v3 present, typeset now and return
+      if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
+        // typesetPromise will render math in the page; call it anyway
+        window.MathJax.typesetPromise().catch(function(){/*ignore*/});
+        return;
+      }
+      // If MathJax v2 present, queue a typeset
+      if (window.MathJax && window.MathJax.Hub && typeof window.MathJax.Hub.Queue === "function") {
+        window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+        return;
+      }
+
+      // No MathJax available yet: still attempt to convert <script type="math/tex"> to $$...$$
+      var scripts = Array.prototype.slice.call(document.querySelectorAll('script[type^="math/tex"]'));
+      if (!scripts || scripts.length === 0) return;
+      var replaced = false;
+      scripts.forEach(function (s) {
+        try {
+          // skip if already replaced
+          if (s.getAttribute && s.getAttribute("data-math-processed") === "1") return;
+          var tex = s.textContent || s.innerText || "";
+          if (!tex) return;
+          var span = document.createElement("span");
+          // display-mode math: use $$...$$
+          span.textContent = "$$" + tex + "$$";
+          s.parentNode.replaceChild(span, s);
+          replaced = true;
+        } catch (_) { /* ignore */ }
+      });
+      // If we replaced content and MathJax loads later it will find $$...$$; try to typeset now too
+      if (replaced && window.MathJax && typeof window.MathJax.typesetPromise === "function") {
+        window.MathJax.typesetPromise().catch(function(){/*ignore*/});
+      }
+    } catch (_) { /* ignore */ }
   }
 
   // Try to load local highlight.js, fallback to CDN. When loaded, run highlight and also attach DOMContentLoaded safeguard.
@@ -127,8 +205,6 @@
       /* ignore */
     }
   }
-
-  // --- existing helpers (external links, copyExample, highlight init, buildGitHubEditUrl, etc.) ---
 
   // Delegate click to open external links in a new window
   function onDocClick(e) {
@@ -231,7 +307,10 @@
             break;
           }
         }
-
+        if (version.startsWith("v")) {
+          // remove 'v' prefix for further processing
+          version = version.substring(1);
+        }
         if (parts.length >= 2) {
           moduleName = parts[parts.length - 2];
           basename = parts[parts.length - 1]
@@ -286,15 +365,18 @@
       var link = document.getElementById("github-edit-link");
       if (link) link.href = buildGitHubEditUrl(window.location.href);
     } catch (_) {}
+    // run a short delayed ensure to handle math rendering fallback if needed
+    setTimeout(ensureMathRendered, 100);
   });
 
   // Initialize loaders now (script is included in head)
   try {
     loadMathJax();
   } catch (_) {}
+
   try {
     loadHighlightJS();
   } catch (_) {}
 
-  // End IIFE
+// End IIFE
 })();

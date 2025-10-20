@@ -140,7 +140,7 @@
                         <b
       >'minimal'</b> (par défaut) : cite uniquement les textes contenant des délimiteurs, des fins de ligne ou des guillemets.</p>
                         <p>
-                            <b>'all'</b> : cite toutes les variables texte.</p>
+                            <b>'all'</b> : cite toutes les variables texte.</p>
                             <p>
                                 <b>'none'</b> : n'utilise pas de guillemets.</p>
                             </description>

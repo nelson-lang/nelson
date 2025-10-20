@@ -3,11 +3,12 @@
     <copyright>SAME AS NELSON SOFTWARE</copyright>
     <language>fr_FR</language>
     <keyword>clear</keyword>
-    <short_description>Remove variable from workspace.</short_description>
+    <short_description
+  >Efface une variable de l'espace de travail.</short_description>
     <syntax>
-            <line>clear</line>
-            <line>clear variable_name</line>
-            <line>clear -scope scope_name</line>
+            <syntax_item>clear</syntax_item>
+            <syntax_item>clear variable_name</syntax_item>
+            <syntax_item>clear -scope scope_name</syntax_item>
     </syntax>
     <param_input>
         <param_input_item>

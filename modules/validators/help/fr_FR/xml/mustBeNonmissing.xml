@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
     <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>mustBeNonmissing</keyword>
-        <short_description
+    <language>fr_FR</language>
+    <keyword>mustBeNonmissing</keyword>
+    <short_description
   >Vérifie que la valeur n'est pas manquante ou renvoie une erreur.</short_description>
     <syntax>
         <syntax_item>mustBeNonmissing(var)</syntax_item>
@@ -15,7 +15,8 @@
         <param_input_item>
             <param_name>var</param_name>
             <param_description
-      >une variable : tous les types et classes pris en charge qui implémentent la méthode ismissing.</param_description>
+      >une variable : tous les types et classes pris en charge qui
+                implémentent la méthode ismissing.</param_description>
         </param_input_item>
         <param_input_item>
             <param_name>argPosition</param_name>
@@ -24,40 +25,35 @@
         </param_input_item>
     </param_input>
     <description>
-        <p>
-            <b
-      >mustBeNonmissing</b> checks that value is not missing or raise an error.</p>
-        </description>
-            <p><b
-    >mustBeNonmissing</b> vérifie que la valeur n'est pas manquante ou renvoie une erreur.</p>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+        <p><b>mustBeNonmissing(var)</b> vérifie que la valeur de <i
+      >var</i> n'est pas manquante </p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
         runnable="cli"
       ><![CDATA[mustBeNonmissing(1)
 mustBeNonmissing([])
 mustBeNonmissing(["hello" string(NaN)])
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link
-        linkend="${elementary_functions}ismissing"
-      >ismissing</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                    <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${elementary_functions}ismissing">ismissing</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

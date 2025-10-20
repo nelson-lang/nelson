@@ -63,7 +63,7 @@
       >LineWidth</b> Line width: scalar positive value.</p>
                                     <p>
                                         <b
-      >Marker</b>Marker symbol: 'o' (circle), '+' (Plus sign), '*' (asterik), '.' (point), 'x' (cross), '_' (horizontal line) , '|' (vertical line), 'square', 'diamond', '^' (Upward-pointing triangle), 'v' (Downward-pointing triangle), '&gt;' (Right-pointing triangle), '&lt;' (Left-pointing triangle), 'pentagram', 'hexagram', 'none'(default). </p>
+      >Marker</b> Marker symbol: 'o' (circle), '+' (Plus sign), '*' (asterik), '.' (point), 'x' (cross), '_' (horizontal line) , '|' (vertical line), 'square', 'diamond', '^' (Upward-pointing triangle), 'v' (Downward-pointing triangle), '&gt;' (Right-pointing triangle), '&lt;' (Left-pointing triangle), 'pentagram', 'hexagram', 'none'(default). </p>
                                         <p>
                                             <b
       >MarkerEdgeColor</b> Marker outline color: RGB triplet.</p>
@@ -101,12 +101,12 @@
                                                                                     <p
     >
                                                                                         <b
-      >CreateFcn</b>Callback (function handle, string or cell) called when object is created.
+      >CreateFcn</b> Callback (function handle, string or cell) called when object is created.
 Set this property on an existing component has no effect.</p>
                                                                                         <p
     >
                                                                                             <b
-      >DeleteFcn</b>Callback (function handle, string or cell) called when object is deleted.</p>
+      >DeleteFcn</b> Callback (function handle, string or cell) called when object is deleted.</p>
                                                                                             <p
     />
                                                                                             <p

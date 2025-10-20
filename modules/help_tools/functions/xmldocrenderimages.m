@@ -8,6 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function xmldocrenderimages(varargin)
+  % currently internal function only (not documented)
   % xmldocrenderimages() build images for Nelson help files
   % xmldocrenderimages(module_name) build images for a module loaded in Nelson
   % xmldocrenderimages(module_name, language) build images for a module in a specific language

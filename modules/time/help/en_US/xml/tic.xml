@@ -17,7 +17,7 @@
     </param_output>
     <description>
         <p>The sequence of commands <b
-      >tic(); commands ; t = toc() </b>returns the number of seconds required for the commands.</p>
+      >tic(); commands ; t = toc() </b> returns the number of seconds required for the commands.</p>
         <p>Consecutive <b>tic</b> commands overwrite the tic timer.</p>
     </description>
     <used_function />

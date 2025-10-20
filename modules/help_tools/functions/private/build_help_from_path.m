@@ -133,7 +133,8 @@ function main_help(module_path, lang, dirdest, package)
           end
         end
       end
-      disp(['help "', 'homepage', '" (', lang, ') generated.']);
+      msg = sprintf(_('help "%s" (%s) generated.'), 'homepage', lang);
+      disp(msg);
     end
     if package
       help_archive_name = [nelsonappid(), '.modules.main.help', '.', lang, '.nhz'];

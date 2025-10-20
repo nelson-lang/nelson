@@ -4,15 +4,9 @@
     <language>fr_FR</language>
     <module_name>core</module_name>
     <chapter>Core</chapter>
-    <short_description
-  >Définit un chapitre dans la documentation d'aide.</short_description>
-    <description>
-        <p
-    >Représente un chapitre ou une section dans la structure de la documentation d'aide.</p>
-    </description>
     <chapter_description>
         <p
-    >Le module de base fournit les éléments fondamentaux de l'environnement Nelson.</p>
+    >Le module core fournit les éléments fondamentaux de l'environnement Nelson.</p>
         <p
     >Il comprend des services essentiels pour l'exécution de programmes, la gestion de l'environnement et l'interaction avec le système.</p>
         <p

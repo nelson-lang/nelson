@@ -38,8 +38,8 @@
     </param_output>
     <description>
         <p>
-            <b>balreal(sys)</b> calculates a balanced realization, denoted as <b
-      >sysb</b>, for the stable segment of the linear time-invariant (LTI) model <b
+            <b>balreal(sys)</b> calcule une réalisation équilibrée, notée <b
+      >sysb</b>, pour la partie stable du modèle linéaire invariant dans le temps (LTI) <b
       >sys</b>.</p>
             <p
     >Ce processus s'applique aussi bien aux systèmes continus que discrets. Si <b

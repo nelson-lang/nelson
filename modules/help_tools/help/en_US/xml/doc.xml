@@ -17,10 +17,10 @@
     </param_input>
     <description>
         <p>
-            <b>doc</b>launches help browser.</p>
+            <b>doc</b> launches help browser.</p>
             <p>
                 <b
-      >doc('function_name')</b>displays the help about function designed by 'function_name'.</p>
+      >doc('function_name')</b> displays the help about function designed by 'function_name'.</p>
             </description>
             <used_function />
             <bibliography />

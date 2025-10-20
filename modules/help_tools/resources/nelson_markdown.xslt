@@ -21,36 +21,36 @@
 
     <xsl:variable name="syntax-text">
       <xsl:choose>
-        <xsl:when test="language = 'fr_FR'">Syntaxe</xsl:when>
-        <xsl:otherwise>Syntax</xsl:otherwise>
+        <xsl:when test="language = 'fr_FR'">📝 Syntaxe</xsl:when>
+        <xsl:otherwise>📝 Syntax</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
 
     <xsl:variable name="input-argument-text">
       <xsl:choose>
-        <xsl:when test="language = 'fr_FR'">Argument d'entrée</xsl:when>
-        <xsl:otherwise>Input argument</xsl:otherwise>
+        <xsl:when test="language = 'fr_FR'">📥 Argument d'entrée</xsl:when>
+        <xsl:otherwise>📥 Input argument</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
 
     <xsl:variable name="output-argument-text">
       <xsl:choose>
-        <xsl:when test="language = 'fr_FR'">Argument de sortie</xsl:when>
-        <xsl:otherwise>Output argument</xsl:otherwise>
+        <xsl:when test="language = 'fr_FR'">📤 Argument de sortie</xsl:when>
+        <xsl:otherwise>📤 Output argument</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
 
     <xsl:variable name="description-text">
       <xsl:choose>
-        <xsl:when test="language = 'fr_FR'">Description</xsl:when>
-        <xsl:otherwise>Description</xsl:otherwise>
+        <xsl:when test="language = 'fr_FR'">📄 Description</xsl:when>
+        <xsl:otherwise>📄 Description</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
 
     <xsl:variable name="bibliography-text">
       <xsl:choose>
-        <xsl:when test="language = 'fr_FR'">Bibliographie</xsl:when>
-        <xsl:otherwise>Bibliography</xsl:otherwise>
+        <xsl:when test="language = 'fr_FR'">📚 Bibliographie</xsl:when>
+        <xsl:otherwise>📚 Bibliography</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
 
@@ -63,29 +63,29 @@
 
     <xsl:variable name="example-text">
       <xsl:choose>
-        <xsl:when test="language = 'fr_FR'">Exemple</xsl:when>
-        <xsl:otherwise>Example</xsl:otherwise>
+        <xsl:when test="language = 'fr_FR'">💡 Exemple</xsl:when>
+        <xsl:otherwise>💡 Example</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
 
     <xsl:variable name="see-also-text">
       <xsl:choose>
-        <xsl:when test="language = 'fr_FR'">Voir aussi</xsl:when>
-        <xsl:otherwise>See also</xsl:otherwise>
+        <xsl:when test="language = 'fr_FR'">🔗 Voir aussi</xsl:when>
+        <xsl:otherwise>🔗 See also</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
 
     <xsl:variable name="history-text">
       <xsl:choose>
-        <xsl:when test="language = 'fr_FR'">Historique</xsl:when>
-        <xsl:otherwise>History</xsl:otherwise>
+        <xsl:when test="language = 'fr_FR'">🕔 Historique</xsl:when>
+        <xsl:otherwise>🕔 History</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
 
     <xsl:variable name="author-text">
       <xsl:choose>
-        <xsl:when test="language = 'fr_FR'">Auteur</xsl:when>
-        <xsl:otherwise>Author</xsl:otherwise>
+        <xsl:when test="language = 'fr_FR'">👤 Auteur</xsl:when>
+        <xsl:otherwise>👤 Author</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
 
@@ -114,7 +114,8 @@
     <xsl:if test="param_input/param_input_item">
     <xsl:text>&#10;## </xsl:text><xsl:value-of select="$input-argument-text"/><xsl:text>&#10;&#10;</xsl:text>
     <xsl:for-each select="param_input/param_input_item">
-    <xsl:text>- </xsl:text><xsl:value-of select="param_name"/><xsl:text> - </xsl:text><xsl:value-of select="normalize-space(param_description)"/>
+  <xsl:text>- </xsl:text><xsl:value-of select="param_name"/><xsl:text> - </xsl:text>
+  <xsl:apply-templates select="param_description"/>
     <xsl:text>&#10;</xsl:text>
     </xsl:for-each>
     </xsl:if>
@@ -123,7 +124,8 @@
     <xsl:if test="param_output/param_output_item">
     <xsl:text>&#10;## </xsl:text><xsl:value-of select="$output-argument-text"/><xsl:text>&#10;&#10;</xsl:text>
     <xsl:for-each select="param_output/param_output_item">
-    <xsl:text>- </xsl:text><xsl:value-of select="param_name"/><xsl:text> - </xsl:text><xsl:value-of select="normalize-space(param_description)"/>
+  <xsl:text>- </xsl:text><xsl:value-of select="param_name"/><xsl:text> - </xsl:text>
+  <xsl:apply-templates select="param_description"/>
     <xsl:text>&#10;</xsl:text>
     </xsl:for-each>
     </xsl:if>
@@ -284,10 +286,38 @@
     </xsl:choose>
   </xsl:template>
 
+  <!-- Render inline <link> elements in markdown -->
+  <xsl:template match="link">
+    <xsl:variable name="linkend" select="@linkend"/>
+    <xsl:variable name="module">
+      <xsl:if test="contains($linkend, '{') and contains($linkend, '}')">
+        <xsl:value-of select="substring-before(substring-after($linkend, '{'), '}')"/>
+      </xsl:if>
+    </xsl:variable>
+    <xsl:variable name="function">
+      <xsl:choose>
+        <xsl:when test="contains($linkend, '}')">
+          <xsl:value-of select="substring-after($linkend, '}')"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$linkend"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text>](&#10;</xsl:text>
+    <xsl:choose>
+      <xsl:when test="string-length($module) &gt; 0">
+        <xsl:text>../</xsl:text><xsl:value-of select="$module"/><xsl:text>/</xsl:text><xsl:value-of select="$function"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$function"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:text>.md)</xsl:text>
+  </xsl:template>
+
   <xsl:template match="example_item">
-    <!-- ...existing code... -->
     <xsl:apply-templates select="example_item_description"/>
-    <!-- ...existing code... -->
   </xsl:template>
 
   <xsl:template match="example_item_description">
