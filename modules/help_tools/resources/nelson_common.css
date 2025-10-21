@@ -460,6 +460,7 @@ p {
     .example {
         background: #23272e;
         border: 1px solid #333;
+        color: #e0e0e0;
     }
     .example-title {
         color: #fff;
@@ -571,5 +572,50 @@ p {
     }
     .help-viewer__content {
         background: #1f2123;
+    }
+
+    /* Ensure syntax sections and examples follow dark theme and override highlight.css if needed */
+    .syntax-section .section-title {
+        color: #ffffff;
+        border-bottom: 1px solid #333;
+        background: none;
+    }
+
+    .syntax-section .subtitle {
+        color: #b0b0b0;
+    }
+
+    /* Force code/pre blocks used for syntax and examples to dark background and light text */
+    .syntax-block,
+    .syntax-section .syntax-block,
+    .example .syntax-block,
+    pre.syntax-block,
+    pre.syntax-block code,
+    code.language-matlab {
+        background-color: #1b1f23 !important;
+        border: 1px solid #333 !important;
+        color: #e6edf3 !important;
+    }
+
+    /* Make inline code inside syntax blocks readable */
+    .syntax-block code,
+    .example .syntax-block code {
+        color: #e6edf3 !important;
+    }
+
+    /* Copy button contrast on dark background */
+    .copy-btn {
+        background: #1565c0;
+        color: #fff;
+    }
+    .copy-btn:hover {
+        background: #0d47a1;
+    }
+
+    /* Small tweak for example container contrast */
+    .example {
+        background: #23272e;
+        border: 1px solid #333;
+        color: #e0e0e0;
     }
 }
