@@ -18,7 +18,25 @@
   <xsl:template match="main_title|subtitle|version|brief_description"/>
 
   <xsl:template match="/help_summary">
-    <html lang="en">
+        <html>
+        <xsl:attribute name="lang">
+            <xsl:choose>
+                <!-- en_US or zh_CN style -->
+                <xsl:when test="contains(xmldoc/language, '_')">
+                    <xsl:value-of select="substring-before(xmldoc/language, '_')"/>
+                </xsl:when>
+                <!-- en-US style -->
+                <xsl:when test="contains(xmldoc/language, '-')">
+                    <xsl:value-of select="substring-before(xmldoc/language, '-')"/>
+                </xsl:when>
+                <!-- bare language code like "en" or "fr" -->
+                <xsl:when test="normalize-space(xmldoc/language)">
+                    <xsl:value-of select="xmldoc/language"/>
+                </xsl:when>
+                <!-- default -->
+                <xsl:otherwise>en</xsl:otherwise>
+            </xsl:choose>
+        </xsl:attribute>
       <head>
         <title>Nelson Table of Contents</title>
         <link rel="stylesheet" href="nelson_common.css"/>

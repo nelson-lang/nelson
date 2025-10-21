@@ -114,5 +114,115 @@ code.hljs {
 .hljs-punctuation,
 .hljs-tag {
   /* purposely ignored */
-  
+  /* keep rule non-empty so linters don't flag it; inherit default color */
+  color: inherit;
+}
+
+/* Dark theme overrides: ensure readable colors when user prefers dark color scheme */
+@media (prefers-color-scheme: dark) {
+  /* background and default text */
+  .hljs {
+    color: #cbd5e1; /* light gray-blue */
+    background: #0b1220; /* near black-blue */
+  }
+
+  /* keywords, types, and important tokens */
+  .hljs-doctag,
+  .hljs-keyword,
+  .hljs-meta .hljs-keyword,
+  .hljs-template-tag,
+  .hljs-template-variable,
+  .hljs-type,
+  .hljs-variable.language_ {
+    color: #ff7b72; /* warm red for contrast */
+  }
+
+  .hljs-title,
+  .hljs-title.class_,
+  .hljs-title.class_.inherited__,
+  .hljs-title.function_ {
+    color: #c4b5fd; /* soft purple */
+  }
+
+  .hljs-attr,
+  .hljs-attribute,
+  .hljs-literal,
+  .hljs-meta,
+  .hljs-number,
+  .hljs-operator,
+  .hljs-variable,
+  .hljs-selector-attr,
+  .hljs-selector-class,
+  .hljs-selector-id {
+    color: #93c5fd; /* light blue */
+  }
+
+  .hljs-regexp,
+  .hljs-string,
+  .hljs-meta .hljs-string {
+    color: #9ae6b4; /* greenish for strings */
+  }
+
+  .hljs-built_in,
+  .hljs-symbol {
+    color: #f6bd61; /* amber-ish */
+  }
+
+  .hljs-comment,
+  .hljs-code,
+  .hljs-formula {
+    color: #7c8798; /* muted comment color */
+  }
+
+  .hljs-name,
+  .hljs-quote,
+  .hljs-selector-tag,
+  .hljs-selector-pseudo {
+    color: #86efac; /* mint-ish */
+  }
+
+  .hljs-subst {
+    color: #cbd5e1;
+  }
+
+  .hljs-section {
+    color: #93c5fd;
+    font-weight: bold;
+  }
+
+  .hljs-bullet {
+    color: #fbbf24;
+  }
+
+  .hljs-emphasis {
+    color: #cbd5e1;
+    font-style: italic;
+  }
+
+  .hljs-strong {
+    color: #cbd5e1;
+    font-weight: bold;
+  }
+
+  .hljs-addition {
+    color: #a7f3d0;
+    background-color: rgba(16,185,129,0.06);
+  }
+
+  .hljs-deletion {
+    color: #fecaca;
+    background-color: rgba(239,68,68,0.06);
+  }
+
+  /* Ensure code blocks and inline code have adequate contrast and padding */
+  pre code.hljs {
+    background: transparent;
+    color: inherit;
+  }
+
+  code.hljs {
+    background: rgba(255,255,255,0.02);
+    padding: 3px 6px;
+    border-radius: 4px;
+  }
 }

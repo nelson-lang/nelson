@@ -40505,6 +40505,23 @@
             );
           })(a.ContextMenu);
         e.MJContextMenu = c;
+        // Prevent bundled contextmenu handlers (e.g. MathJax) from running on right-click.
+        // This stops other listeners in capture/bubble from executing while still
+        // allowing the browser's native menu to open.
+        if (typeof window !== "undefined" && window.addEventListener) {
+          // Use capture and stopImmediatePropagation to ensure bundled handlers don't run.
+          window.addEventListener(
+            "contextmenu",
+            function (evt) {
+              try {
+                evt.stopImmediatePropagation();
+              } catch (e) {
+                /* ignore */
+              }
+            },
+            { capture: true, passive: true },
+          );
+        }
       },
       8310: function (t, e, r) {
         var n =

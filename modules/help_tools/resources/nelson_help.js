@@ -50,15 +50,21 @@
       if (window.MathJax && window.MathJax.tex) return;
       window.MathJax = {
         tex: {
-          inlineMath: [['$','$'], ['\\(','\\)']],
-          displayMath: [['$$','$$'], ['\\[','\\]']],
+          inlineMath: [
+            ["$", "$"],
+            ["\\(", "\\)"],
+          ],
+          displayMath: [
+            ["$$", "$$"],
+            ["\\[", "\\]"],
+          ],
           processEscapes: true,
-          processEnvironments: true
+          processEnvironments: true,
         },
         options: {
           // avoid processing inside <pre> / <code> etc.
-          skipHtmlTags: ['script','noscript','style','textarea','pre']
-        }
+          skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
       };
     } catch (e) {
       /* ignore */
@@ -69,14 +75,23 @@
   function loadMathJax() {
     try {
       // If MathJax v3 already present, typeset now
-      if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
-        window.MathJax.typesetPromise().catch(function(){/*ignore*/});
+      if (
+        window.MathJax &&
+        typeof window.MathJax.typesetPromise === "function"
+      ) {
+        window.MathJax.typesetPromise().catch(function () {
+          /*ignore*/
+        });
         // ensure math rendered (fallback if needed)
         ensureMathRendered();
         return;
       }
       // If MathJax v2 present, request a typeset using v2 API and return
-      if (window.MathJax && window.MathJax.Hub && typeof window.MathJax.Hub.Queue === 'function') {
+      if (
+        window.MathJax &&
+        window.MathJax.Hub &&
+        typeof window.MathJax.Hub.Queue === "function"
+      ) {
         window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
         // ensure math rendered (fallback if needed)
         ensureMathRendered();
@@ -90,9 +105,22 @@
 
       function onLoad() {
         try {
-          if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
-            window.MathJax.typesetPromise().catch(function(){/*ignore*/}).then(function(){ ensureMathRendered(); });
-          } else if (window.MathJax && window.MathJax.Hub && typeof window.MathJax.Hub.Queue === "function") {
+          if (
+            window.MathJax &&
+            typeof window.MathJax.typesetPromise === "function"
+          ) {
+            window.MathJax.typesetPromise()
+              .catch(function () {
+                /*ignore*/
+              })
+              .then(function () {
+                ensureMathRendered();
+              });
+          } else if (
+            window.MathJax &&
+            window.MathJax.Hub &&
+            typeof window.MathJax.Hub.Queue === "function"
+          ) {
             window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
             // small delay then check
             setTimeout(ensureMathRendered, 50);
@@ -100,14 +128,21 @@
             // in case MathJax not available, still try fallback after short delay
             setTimeout(ensureMathRendered, 50);
           }
-        } catch (_) { /* ignore */ }
+        } catch (_) {
+          /* ignore */
+        }
       }
 
       // Try CDN first (avoids file:/// resolution of sub-resources), fall back to local if CDN fails.
-      createAndAppendScript(cdn, { crossorigin: "anonymous" }, onLoad, function () {
-        // CDN failed -> try local copy
-        createAndAppendScript(local, null, onLoad);
-      });
+      createAndAppendScript(
+        cdn,
+        { crossorigin: "anonymous" },
+        onLoad,
+        function () {
+          // CDN failed -> try local copy
+          createAndAppendScript(local, null, onLoad);
+        },
+      );
     } catch (e) {
       /* ignore */
     }
@@ -118,25 +153,37 @@
   function ensureMathRendered() {
     try {
       // If MathJax v3 present, typeset now and return
-      if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
+      if (
+        window.MathJax &&
+        typeof window.MathJax.typesetPromise === "function"
+      ) {
         // typesetPromise will render math in the page; call it anyway
-        window.MathJax.typesetPromise().catch(function(){/*ignore*/});
+        window.MathJax.typesetPromise().catch(function () {
+          /*ignore*/
+        });
         return;
       }
       // If MathJax v2 present, queue a typeset
-      if (window.MathJax && window.MathJax.Hub && typeof window.MathJax.Hub.Queue === "function") {
+      if (
+        window.MathJax &&
+        window.MathJax.Hub &&
+        typeof window.MathJax.Hub.Queue === "function"
+      ) {
         window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
         return;
       }
 
       // No MathJax available yet: still attempt to convert <script type="math/tex"> to $$...$$
-      var scripts = Array.prototype.slice.call(document.querySelectorAll('script[type^="math/tex"]'));
+      var scripts = Array.prototype.slice.call(
+        document.querySelectorAll('script[type^="math/tex"]'),
+      );
       if (!scripts || scripts.length === 0) return;
       var replaced = false;
       scripts.forEach(function (s) {
         try {
           // skip if already replaced
-          if (s.getAttribute && s.getAttribute("data-math-processed") === "1") return;
+          if (s.getAttribute && s.getAttribute("data-math-processed") === "1")
+            return;
           var tex = s.textContent || s.innerText || "";
           if (!tex) return;
           var span = document.createElement("span");
@@ -144,13 +191,23 @@
           span.textContent = "$$" + tex + "$$";
           s.parentNode.replaceChild(span, s);
           replaced = true;
-        } catch (_) { /* ignore */ }
+        } catch (_) {
+          /* ignore */
+        }
       });
       // If we replaced content and MathJax loads later it will find $$...$$; try to typeset now too
-      if (replaced && window.MathJax && typeof window.MathJax.typesetPromise === "function") {
-        window.MathJax.typesetPromise().catch(function(){/*ignore*/});
+      if (
+        replaced &&
+        window.MathJax &&
+        typeof window.MathJax.typesetPromise === "function"
+      ) {
+        window.MathJax.typesetPromise().catch(function () {
+          /*ignore*/
+        });
       }
-    } catch (_) { /* ignore */ }
+    } catch (_) {
+      /* ignore */
+    }
   }
 
   // Try to load local highlight.js, fallback to CDN. When loaded, run highlight and also attach DOMContentLoaded safeguard.
@@ -379,5 +436,5 @@
     loadHighlightJS();
   } catch (_) {}
 
-// End IIFE
+  // End IIFE
 })();

@@ -5,7 +5,7 @@
     <keyword>isstatic</keyword>
     <short_description>Checks if model is static or dynamic.</short_description>
     <syntax>
-        <syntax_item>res = isdt(sys)</syntax_item>
+        <syntax_item>res = isstatic(sys)</syntax_item>
     </syntax>
     <param_input>
         <param_input_item>

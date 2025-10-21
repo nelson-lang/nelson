@@ -6,7 +6,7 @@
     <short_description
   >Vérifie si le modèle est statique ou dynamique.</short_description>
     <syntax>
-        <syntax_item>res = isdt(sys)</syntax_item>
+        <syntax_item>res = isstatic(sys)</syntax_item>
     </syntax>
     <param_input>
         <param_input_item>

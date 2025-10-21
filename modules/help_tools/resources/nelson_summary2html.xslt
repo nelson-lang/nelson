@@ -15,9 +15,38 @@
   <xsl:output method="html" encoding="UTF-8" indent="yes" doctype-public="-//W3C//DTD HTML 4.01//EN"/>
 
   <xsl:template match="/">
-    <html lang="en">
+        <html>
+        <xsl:attribute name="lang">
+            <xsl:choose>
+                <!-- en_US or zh_CN style -->
+                <xsl:when test="contains(xmldoc/language, '_')">
+                    <xsl:value-of select="substring-before(xmldoc/language, '_')"/>
+                </xsl:when>
+                <!-- en-US style -->
+                <xsl:when test="contains(xmldoc/language, '-')">
+                    <xsl:value-of select="substring-before(xmldoc/language, '-')"/>
+                </xsl:when>
+                <!-- bare language code like "en" or "fr" -->
+                <xsl:when test="normalize-space(xmldoc/language)">
+                    <xsl:value-of select="xmldoc/language"/>
+                </xsl:when>
+                <!-- default -->
+                <xsl:otherwise>en</xsl:otherwise>
+            </xsl:choose>
+        </xsl:attribute>
       <head>
         <link rel="stylesheet" href="nelson_common.css"/>
+        <!-- prefers-color-scheme rules for summary output -->
+        <style>
+          @media (prefers-color-scheme: dark) {
+            .chapter-desc { color: #FFF !important; }
+            .chapter-desc p { color: inherit !important; }
+          }
+          @media (prefers-color-scheme: light) {
+            .chapter-desc { color: #444 !important; }
+            .chapter-desc p { color: inherit !important; }
+          }
+        </style>
       </head>
       <body>
         <img src="banner_nelson_small.png" alt="Nelson banner" style="display:block;margin:16px auto;max-width:50%;height:auto;" onerror="this.style.display='none';"/>
@@ -67,7 +96,8 @@
           </div>
         </xsl:if>
         <xsl:if test="chapter_description">
-          <div class="chapter-desc" style="font-size:0.97em;color:#444;margin-bottom:10px;margin-left:24px;">
+          <!-- rely on CSS (.chapter-desc) for color via prefers-color-scheme -->
+          <div class="chapter-desc" style="font-size:0.97em;margin-bottom:10px;margin-left:24px;">
             <xsl:apply-templates select="chapter_description"/>
           </div>
         </xsl:if>

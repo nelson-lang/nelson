@@ -15,7 +15,25 @@
 
     <xsl:template match="/">
     <!-- Nelson Documentation XSLT Stylesheet -->
-    <html lang="en">
+    <html>
+        <xsl:attribute name="lang">
+            <xsl:choose>
+                <!-- en_US or zh_CN style -->
+                <xsl:when test="contains(xmldoc/language, '_')">
+                    <xsl:value-of select="substring-before(xmldoc/language, '_')"/>
+                </xsl:when>
+                <!-- en-US style -->
+                <xsl:when test="contains(xmldoc/language, '-')">
+                    <xsl:value-of select="substring-before(xmldoc/language, '-')"/>
+                </xsl:when>
+                <!-- bare language code like "en" or "fr" -->
+                <xsl:when test="normalize-space(xmldoc/language)">
+                    <xsl:value-of select="xmldoc/language"/>
+                </xsl:when>
+                <!-- default -->
+                <xsl:otherwise>en</xsl:otherwise>
+            </xsl:choose>
+        </xsl:attribute>
         <head>
             <title>
                 <xsl:choose>
@@ -31,6 +49,19 @@
             <link rel="stylesheet" href="highlight.css"/>
             <link rel="stylesheet" href="nelson_common.css"/>
             <script src="nelson_help.js"></script>
+
+            <!-- Add dark/light prefers-color-scheme rules to make chapter descriptions readable on both themes -->
+            <style>
+                @media (prefers-color-scheme: dark) {
+                    /* target both class names used in different XSLT outputs */
+                    .chapter-description, .chapter-desc { color: #e6eef8 !important; }
+                    .chapter-description p, .chapter-desc p { color: inherit !important; }
+                }
+                @media (prefers-color-scheme: light) {
+                    .chapter-description, .chapter-desc { color: #444 !important; }
+                    .chapter-description p, .chapter-desc p { color: inherit !important; }
+                }
+            </style>
         </head>
         <body>
             <!-- Help Summary Button at top left -->
@@ -201,7 +232,8 @@
                     </div>
                 </xsl:when>
                 <xsl:when test="name() = 'chapter_description'">
-                    <div class="subtitle" style="padding-left:32px;">
+                    <!-- add specific class for targeted styling -->
+                    <div class="subtitle chapter-description" style="padding-left:32px;">
                         <xsl:choose>
                             <xsl:when test="p">
                                 <xsl:for-each select="p">
