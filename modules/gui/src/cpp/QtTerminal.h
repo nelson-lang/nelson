@@ -11,6 +11,8 @@
 //=============================================================================
 #include "nlsGui_exports.h"
 #include <QtGui/QTextBlock>
+#include <QtGui/QTextCursor>
+#include <QtGui/QColor>
 #include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QCompleter>
 #include <string>
@@ -62,6 +64,14 @@ public slots:
 private slots:
     void
     insertCompletion(const QString& completion);
+
+    // Find feature slots
+    void
+    showFindDialog();
+    void
+    findNext();
+    void
+    findPrevious();
 
 private:
     enum DISP_MODE
@@ -116,6 +126,20 @@ private:
     void
     ensureInputColor();
 
+    // Helper to apply a foreground color to a cursor/selection and optionally
+    // merge with existing formats and make the format current for subsequent typing.
+    void
+    applyForegroundToCursor(
+        QTextCursor& cursor, const QColor& color, bool merge = false, bool makeCurrent = false);
+
+    // Create/modify a char format to set foreground color
+    QTextCharFormat
+    createCharFormatWithForeground(const QColor& color);
+
+    // Map DISP_MODE to QColor
+    QColor
+    colorForMode(DISP_MODE mode);
+
     QMenu* contextMenu;
     QAction* helpOnSelectionAction;
     QAction* cutAction;
@@ -150,6 +174,13 @@ private:
     exportToPdf(const QString& filename);
     void
     exportToHtml(const QString& filename);
+
+    // Find feature members
+    QAction* findAction;
+    QAction* findNextAction;
+    QAction* findPreviousAction;
+    QString lastSearch;
+    bool lastSearchCaseSensitive;
 
 public Q_SLOTS:
     void
