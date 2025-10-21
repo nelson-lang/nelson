@@ -35,6 +35,20 @@
   
   <!-- localized behavior: detect lang, apply messages, append lang to links -->
   <script>
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/[&<>"']/g, function (m) {
+        switch (m) {
+          case '&': return '&amp;';
+          case '<': return '&lt;';
+          case '>': return '&gt;';
+          case '"': return '&quot;';
+          case "'": return '&#39;';
+          default: return m;
+        }
+      });
+    }
+    
     function getQueryParam(name) {
       const params = new URLSearchParams(window.location.search);
       return params.get(name);
@@ -56,8 +70,8 @@
         loading: 'Loading search index...',
         index_empty: 'Warning: Search index is empty or could not be loaded.',
         no_query: 'No search term provided.',
-        found_results: (n, q) => `Found ${n} results for <strong>${q}</strong>:`,
-        no_results_for: q => `No results found for <strong>${q}</strong>.`,
+        found_results: (n, q) => `Found ${n} results for <strong>${escapeHTML(q)}</strong>:`,
+        no_results_for: q => `No results found for <strong>${escapeHTML(q)}</strong>.`,
         popular_topics: 'Popular topics:',
         home_aria: 'Back to help homepage'
       },
@@ -66,8 +80,8 @@
         loading: "Chargement de l'index de recherche...",
         index_empty: "Attention : l'index de recherche est vide ou n'a pas pu être chargé.",
         no_query: "Aucun terme de recherche fourni.",
-        found_results: (n, q) => `Trouvé ${n} résultat(s) pour <strong>${q}</strong> :`,
-        no_results_for: q => `Aucun résultat pour <strong>${q}</strong>.`,
+        found_results: (n, q) => `Trouvé ${n} résultat(s) pour <strong>${escapeHTML(q)}</strong> :`,
+        no_results_for: q => `Aucun résultat pour <strong>${escapeHTML(q)}</strong>.`,
         popular_topics: 'Sujets populaires :',
         home_aria: "Retour à la page d'accueil de l'aide"
       }
@@ -211,7 +225,7 @@
         if (helpIndex.length === 0) {
           resultsDiv.innerHTML = `<p>${msg.index_empty}</p>`;
           if (query) {
-            resultsDiv.innerHTML += `<p>${msg.no_results_for(query)}</p>`;
+            resultsDiv.innerHTML += `<p>${msg.no_results_for(escapeHTML(query))}</p>`;
           }
           return;
         }
@@ -226,13 +240,16 @@
             
             results.forEach(result => {
               const href = appendLangToUrl(result.url || result.path || './homepage.html');
-              html += `
-                <div class="result-item">
-                  <h3><a href="${href}" target="contentFrame">${result.title}</a></h3>
-                  <p>${result.snippet}</p>
-                  <small>${result.path || ''}</small>
-                </div>
-              `;
+              const safeTitle = escapeHTML(result.title || '');
+              const safeSnippet = escapeHTML(result.snippet || '');
+              const safePath = escapeHTML(result.path || '');
+               html += `
+                 <div class="result-item">
+                   <h3><a href="${href}" target="contentFrame">${safeTitle}</a></h3>
+                   <p>${safeSnippet}</p>
+                   <small>${safePath}</small>
+                 </div>
+               `;
             });
             
             resultsDiv.innerHTML = html;
@@ -245,17 +262,18 @@
             let html = `<p>${msg.popular_topics}</p>`;
             topResults.forEach(result => {
               const href = appendLangToUrl(result.url || result.path || './homepage.html');
-              html += `
-                <div class="result-item">
-                  <h3><a href="${href}" target="contentFrame">${result.title}</a></h3>
-                </div>
-              `;
-            });
+              const safeTitle = escapeHTML(result.title || '');
+               html += `
+                 <div class="result-item">
+                   <h3><a href="${href}" target="contentFrame">${safeTitle}</a></h3>
+                 </div>
+               `;
+             });
             resultsDiv.innerHTML += html;
           }
         }
       } catch (error) {
-        resultsDiv.innerHTML = `<p>Error loading search index: ${error && error.message ? error.message : error}</p>`;
+        resultsDiv.innerHTML = `<p>Error loading search index: ${escapeHTML(error && error.message ? error.message : error)}</p>`;
       }
     }
     

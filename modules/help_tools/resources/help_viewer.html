@@ -189,7 +189,7 @@
       }
 
       // Public actions
-      function searchHelp(term) {
+      function searchHelp(term = '') {
         const normalizedTerm = (term || '').trim();
         if (!normalizedTerm) {
           alert(messages[lang].enter_search);
@@ -273,8 +273,22 @@
         if (searchTerm) {
           searchInput.value = searchTerm.trim();
         }
-        if (openPage) {
+        // Only allow openPage to be a safe relative path (no absolute URLs or protocol handlers)
+        function isSafeRelativePath(p) {
+          // No protocol, not starting with //, only allowed chars, no javascript: etc.
+          if (!p || typeof p !== "string") return false;
+          if (/^\s*$/.test(p)) return false;
+          if (/^[a-z][a-z0-9+\-.]*:/i.test(p)) return false; // Disallow any protocol like http: or javascript:
+          if (/^\/\//.test(p)) return false; // Disallow protocol-relative URLs
+          if (/[<>:"|?*\\]/.test(p)) return false; // Disallow special chars
+          // Allow only paths like foo/bar.html, /foo/bar or ./foo
+          return /^[\w\-\/\.\@]+$/.test(p);
+        }
+        if (openPage && isSafeRelativePath(openPage)) {
           navigateToPage(openPage);
+        } else if (openPage) {
+          // Optionally log/ignore invalid path
+          console.warn("Blocked potentially unsafe openPage value:", openPage);
         } else if (searchTerm) {
           searchHelp(searchTerm);
         }

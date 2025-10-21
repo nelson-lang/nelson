@@ -85,6 +85,7 @@
 
       prepareMathJaxV3Config();
       var local = "../tex-mml-chtml.js";
+
       var cdn = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js";
 
       function onLoad() {
