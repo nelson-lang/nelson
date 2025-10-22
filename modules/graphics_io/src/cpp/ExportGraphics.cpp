@@ -92,6 +92,95 @@ getExportImageFormatFromString(const std::wstring& extension)
     return ERROR_EXPORT;
 }
 //=============================================================================
+static bool
+exportToPDF(GOWindow* f, const std::wstring& filename, GOFigure* hf)
+{
+    QPrinter printer(QPrinter::ScreenResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFileName(wstringToQString(filename));
+    QPainter painter;
+    painter.begin(&printer);
+    const auto pageLayout = printer.pageLayout();
+    const auto pageRect = pageLayout.paintRectPixels(printer.resolution());
+    const auto paperRect = pageLayout.fullRectPixels(printer.resolution());
+    double xscale = pageRect.width() / double(f->width());
+    double yscale = pageRect.height() / double(f->height());
+    double scale = qMin(xscale, yscale);
+    painter.translate(
+        pageRect.x() + paperRect.width() / 2., pageRect.y() + paperRect.height() / 2.);
+    painter.scale(scale, scale);
+    painter.translate(-f->width() / 2., -f->height() / 2.);
+    RenderQt gc(&painter, 0, 0, f->width(), f->height(), L"PDF");
+    hf->paintMe(gc);
+    return true;
+}
+//=============================================================================
+static bool
+exportToImage(GOWindow* f, const std::wstring& filename, IMAGE_FORMAT exportFormat)
+{
+    QPixmap pxmap(f->getMainQWigdet()->grab());
+    QImage img(pxmap.toImage());
+    return img.save(wstringToQString(filename),
+        wstring_to_utf8(getExportImageFormatAsString(exportFormat)).c_str());
+}
+//=============================================================================
+static bool
+exportToSVG(GOWindow* f, const std::wstring& filename, GOFigure* hf)
+{
+    QSvgGenerator gen;
+    int width = f->width();
+    int height = f->height();
+    gen.setDescription(QString(""));
+    gen.setTitle(QString(""));
+    gen.setFileName(wstringToQString(filename));
+    gen.setSize(QSize(width, height));
+    qreal dpi = 96.0;
+    QScreen* screen = nullptr;
+    QWidget* mainWidget = f->getMainQWigdet();
+    if (mainWidget) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+        screen = mainWidget->screen();
+#else
+        screen = QGuiApplication::screenAt(mainWidget->mapToGlobal(QPoint(0, 0)));
+#endif
+    }
+    if (!screen) {
+        screen = QGuiApplication::primaryScreen();
+    }
+    if (screen) {
+        dpi = screen->logicalDotsPerInch();
+    }
+    gen.setResolution(dpi);
+    gen.setViewBox(QRect(0, 0, width, height));
+    QPainter pnt(&gen);
+    RenderQt gc(&pnt, 0, 0, width, height, L"SVG");
+    hf->paintMe(gc);
+    return true;
+}
+//=============================================================================
+#if WITH_TIFF
+static bool
+exportToTIFF(GOWindow* f, const std::wstring& filename)
+{
+    QPixmap pxmap(f->getMainQWigdet()->grab());
+    QImage img(pxmap.toImage());
+    QString errorMessage;
+    return TiffFileHandler::writeTiff(wstringToQString(filename), img, errorMessage);
+}
+#endif
+//=============================================================================
+#if WITH_GIF
+static bool
+exportToGIF(GOWindow* f, const std::wstring& filename)
+{
+    QPixmap pxmap(f->getMainQWigdet()->grab());
+    QImage img(pxmap.toImage());
+    QGifImage gif(QSize(img.width(), img.height()));
+    gif.addFrame(img);
+    return gif.save(wstringToQString(filename));
+}
+#endif
+//=============================================================================
 bool
 ExportGraphics(GOWindow* f, const std::wstring& filename, IMAGE_FORMAT exportFormat)
 {
@@ -107,87 +196,34 @@ ExportGraphics(GOWindow* f, const std::wstring& filename, IMAGE_FORMAT exportFor
     double cb = color->at(2);
     hf->setThreeVectorDefault(GO_COLOR_PROPERTY_NAME_STR, 1, 1, 1);
     hf->updateState();
+
     switch (exportFormat) {
-    case PDF_EXPORT: {
-        QPrinter printer(QPrinter::ScreenResolution);
-        printer.setOutputFormat(QPrinter::PdfFormat);
-        printer.setOutputFileName(wstringToQString(filename));
-        QPainter painter;
-        painter.begin(&printer);
-        const auto pageLayout = printer.pageLayout();
-        const auto pageRect = pageLayout.paintRectPixels(printer.resolution());
-        const auto paperRect = pageLayout.fullRectPixels(printer.resolution());
-        double xscale = pageRect.width() / double(f->width());
-        double yscale = pageRect.height() / double(f->height());
-        double scale = qMin(xscale, yscale);
-        painter.translate(
-            pageRect.x() + paperRect.width() / 2., pageRect.y() + paperRect.height() / 2.);
-        painter.scale(scale, scale);
-        painter.translate(-f->width() / 2., -f->height() / 2.);
-        RenderQt gc(&painter, 0, 0, f->width(), f->height(), L"PDF");
-        hf->paintMe(gc);
-        result = true;
-    } break;
+    case PDF_EXPORT:
+        result = exportToPDF(f, filename, hf);
+        break;
     case PNG_EXPORT:
-    case JPG_EXPORT: {
-        QPixmap pxmap(f->getMainQWigdet()->grab());
-        QImage img(pxmap.toImage());
-        result = img.save(wstringToQString(filename),
-            wstring_to_utf8(getExportImageFormatAsString(exportFormat)).c_str());
-    } break;
-    case SVG_EXPORT: {
-        QSvgGenerator gen;
-        int width = f->width();
-        int height = f->height();
-        gen.setDescription(QString(""));
-        gen.setTitle(QString(""));
-        gen.setFileName(wstringToQString(filename));
-        gen.setSize(QSize(width, height));
-        qreal dpi = 96.0;
-        QScreen* screen = nullptr;
-        QWidget* mainWidget = f->getMainQWigdet();
-        if (mainWidget) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-            screen = mainWidget->screen();
-#else
-            screen = QGuiApplication::screenAt(mainWidget->mapToGlobal(QPoint(0, 0)));
-#endif
-        }
-        if (!screen) {
-            screen = QGuiApplication::primaryScreen();
-        }
-        if (screen) {
-            dpi = screen->logicalDotsPerInch();
-        }
-        gen.setResolution(dpi);
-        gen.setViewBox(QRect(0, 0, width, height));
-        QPainter pnt(&gen);
-        RenderQt gc(&pnt, 0, 0, width, height, L"SVG");
-        hf->paintMe(gc);
-        result = true;
-    } break;
+    case JPG_EXPORT:
+        result = exportToImage(f, filename, exportFormat);
+        break;
+    case SVG_EXPORT:
+        result = exportToSVG(f, filename, hf);
+        break;
 #if WITH_TIFF
-    case TIF_EXPORT: {
-        QPixmap pxmap(f->getMainQWigdet()->grab());
-        QImage img(pxmap.toImage());
-        QString errorMessage;
-        result = TiffFileHandler::writeTiff(wstringToQString(filename), img, errorMessage);
-    } break;
+    case TIF_EXPORT:
+        result = exportToTIFF(f, filename);
+        break;
 #endif
 #if WITH_GIF
-    case GIF_EXPORT: {
-        QPixmap pxmap(f->getMainQWigdet()->grab());
-        QImage img(pxmap.toImage());
-        QGifImage gif(QSize(img.width(), img.height()));
-        gif.addFrame(img);
-        result = gif.save(wstringToQString(filename));
-    } break;
+    case GIF_EXPORT:
+        result = exportToGIF(f, filename);
+        break;
 #endif
     case ERROR_EXPORT:
-    default: {
+    default:
         result = false;
-    } break;
+        break;
     }
+
     hf->setThreeVectorDefault(GO_COLOR_PROPERTY_NAME_STR, cr, cg, cb);
     hf->updateState();
     return result;

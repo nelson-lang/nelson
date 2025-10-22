@@ -241,7 +241,7 @@
             results.forEach(result => {
               const href = appendLangToUrl(result.url || result.path || './homepage.html');
               const safeTitle = escapeHTML(result.title || '');
-              const safeSnippet = escapeHTML(result.snippet || '');
+              const safeSnippet = result.snippet || '';
               const safePath = escapeHTML(result.path || '');
                html += `
                  <div class="result-item">

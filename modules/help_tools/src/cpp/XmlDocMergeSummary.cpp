@@ -229,7 +229,7 @@ ProcessXmlFile(const std::wstring& filename, std::string& moduleValue,
 static void
 addRawXml(xmlNodePtr parent, const std::string& rawxml)
 {
-    xmlDocPtr doc = parent->doc;
+
     xmlNodePtr list = nullptr;
 
     int ret = xmlParseInNodeContext(parent, rawxml.c_str(), (int)rawxml.size(), 0, &list);
@@ -390,6 +390,24 @@ escapeJsonString(const std::string& input)
     return output;
 }
 //=============================================================================
+static std::string
+removeTags(const std::string& input)
+{
+    std::string output;
+    output.reserve(input.size());
+    bool inTag = false;
+    for (char c : input) {
+        if (c == '<') {
+            inTag = true;
+        } else if (c == '>') {
+            inTag = false;
+        } else if (!inTag) {
+            output += c;
+        }
+    }
+    return output;
+}
+//=============================================================================
 static bool
 CreateIndexJson(const std::vector<SectionInfo>& sections, const std::filesystem::path& outputDir,
     std::wstring& errorMessage)
@@ -423,8 +441,8 @@ CreateIndexJson(const std::vector<SectionInfo>& sections, const std::filesystem:
         firstEntry = false;
 
         // Process section name and description with proper JSON escaping
-        std::string escapedSectionName = escapeJsonString(sectionName);
-        std::string escapedChapterDesc = escapeJsonString(chapterDesc);
+        std::string escapedSectionName = escapeJsonString(removeTags(sectionName));
+        std::string escapedChapterDesc = escapeJsonString(removeTags(chapterDesc));
 
         outFile << "  {\n"
                 << "    \"title\": \"" << escapedSectionName << "\",\n"
@@ -498,8 +516,8 @@ CreateIndexJs(const std::vector<SectionInfo>& sections, const std::filesystem::p
         firstEntry = false;
 
         // Process section name and description with proper JSON escaping
-        std::string escapedSectionName = escapeJsonString(sectionName);
-        std::string escapedChapterDesc = escapeJsonString(chapterDesc);
+        std::string escapedSectionName = escapeJsonString(removeTags(sectionName));
+        std::string escapedChapterDesc = escapeJsonString(removeTags(chapterDesc));
 
         outFile << "  {\n"
                 << "    \"title\": \"" << escapedSectionName << "\",\n"

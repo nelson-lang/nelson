@@ -142,13 +142,13 @@ readChapter(const std::wstring& directory, std::string& moduleName, std::string&
                     count++;
                 }
             } else if (xmlStrcmp(node->name, BAD_CAST "chapter_description") == 0) {
-                xmlBufferPtr buffer = xmlBufferCreate();
-                if (buffer) {
+                xmlBufferPtr xmlBuffer = xmlBufferCreate();
+                if (xmlBuffer) {
                     for (xmlNodePtr child = node->children; child; child = child->next) {
-                        xmlNodeDump(buffer, node->doc, child, 0, 0);
+                        xmlNodeDump(xmlBuffer, node->doc, child, 0, 0);
                     }
-                    chapter_description = (const char*)xmlBufferContent(buffer);
-                    xmlBufferFree(buffer);
+                    chapter_description = (const char*)xmlBufferContent(xmlBuffer);
+                    xmlBufferFree(xmlBuffer);
                     count++;
                 }
             }

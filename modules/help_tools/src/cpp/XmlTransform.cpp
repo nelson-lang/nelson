@@ -42,43 +42,6 @@ xsltErrorCapture(void* /*ctx*/, const char* msg, ...)
     va_end(args);
     lastXSLTError += buffer;
 }
-
-static void
-ext_replace(xmlXPathParserContextPtr ctxt, int nargs)
-{
-    if (nargs != 1) {
-        xmlXPathSetArityError(ctxt);
-        return;
-    }
-
-    xmlChar* str = xmlXPathPopString(ctxt);
-    if (str == nullptr) {
-        xmlXPathReturnEmptyString(ctxt);
-        return;
-    }
-
-    // const char* input = reinterpret_cast<const char*>(str);
-
-    //// Look for matching prefix in the mapping table
-    // for (int i = 0; replace_table[i].placeholder != nullptr; ++i) {
-    //     const char* ph = replace_table[i].placeholder;
-    //     size_t ph_len = strlen(ph);
-
-    //    if (strncmp(input, ph, ph_len) == 0) {
-    //        const char* suffix = input + ph_len;
-    //        xmlFree(str);
-
-    //        xmlChar* out = xmlStrdup(reinterpret_cast<const xmlChar*>(replace_table[i].base_url));
-    //        out = xmlStrcat(out, reinterpret_cast<const xmlChar*>(suffix));
-
-    //        xmlXPathReturnString(ctxt, out);
-    //        return;
-    //    }
-    //}
-
-    // No match -> return unchanged
-    xmlXPathReturnString(ctxt, str);
-}
 //=============================================================================
 static void
 ext_remove_module_prefix(xmlXPathParserContextPtr ctxt, int nargs)
@@ -167,78 +130,6 @@ ext_copy_img(xmlXPathParserContextPtr ctxt, int nargs)
     std::string newSrc = "./" + newFileName;
     xmlXPathReturnString(ctxt, xmlStrdup(reinterpret_cast<const xmlChar*>(newSrc.c_str())));
     xmlFree(srcAttr);
-}
-//=============================================================================
-static xmlNodePtr
-xmlNextNode(xmlNodePtr node)
-{
-    if (node->children)
-        return node->children;
-    while (node) {
-        if (node->next)
-            return node->next;
-        node = node->parent;
-    }
-    return nullptr;
-}
-//=============================================================================
-static std::vector<std::tuple<std::string, std::string, std::string>>
-list_xml_keywords(const std::filesystem::path& srcDir)
-{
-    std::vector<std::tuple<std::string, std::string, std::string>> result;
-
-    for (auto& entry : std::filesystem::recursive_directory_iterator(srcDir)) {
-        if (!entry.is_regular_file())
-            continue;
-        if (entry.path().extension() != ".xml")
-            continue;
-
-        xmlDocPtr doc = xmlParseFile(entry.path().string().c_str());
-        if (!doc)
-            continue;
-
-        xmlNodePtr root = xmlDocGetRootElement(doc);
-        if (!root) {
-            xmlFreeDoc(doc);
-            continue;
-        }
-
-        std::string keyword, short_description;
-
-        // Recherche <keyword>
-        for (xmlNodePtr cur = root->children; cur; cur = cur->next) {
-            if (cur->type == XML_ELEMENT_NODE && xmlStrEqual(cur->name, BAD_CAST "keyword")) {
-                xmlChar* content = xmlNodeGetContent(cur);
-                if (content) {
-                    keyword = reinterpret_cast<const char*>(content);
-                    xmlFree(content);
-                }
-                break;
-            }
-        }
-
-        // Recherche <short_description>
-        for (xmlNodePtr cur = root->children; cur; cur = cur->next) {
-            if (cur->type == XML_ELEMENT_NODE
-                && xmlStrEqual(cur->name, BAD_CAST "short_description")) {
-                xmlChar* content = xmlNodeGetContent(cur);
-                if (content) {
-                    short_description = reinterpret_cast<const char*>(content);
-                    xmlFree(content);
-                }
-                break;
-            }
-        }
-
-        if (!keyword.empty()) {
-            std::string relPath = std::filesystem::relative(entry.path(), srcDir).string();
-            result.emplace_back(keyword, short_description, relPath);
-        }
-
-        xmlFreeDoc(doc);
-    }
-
-    return result;
 }
 //=============================================================================
 bool

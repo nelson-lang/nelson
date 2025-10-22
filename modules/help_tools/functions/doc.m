@@ -146,9 +146,10 @@ end
 %=============================================================================
 function urlfound = searchAny(stSearchResults, query)
   urlfound = '';
+  preparedQuery = [' ', strtrim(query), ' '];
   for i = 1:length(stSearchResults)
     entry = stSearchResults(i);
-    if contains(entry.title, query, 'IgnoreCase', true) || contains(entry.content, query, 'IgnoreCase', true)
+    if contains(entry.title, preparedQuery, 'IgnoreCase', true) || contains(entry.content, preparedQuery, 'IgnoreCase', true)
       urlfound = entry.url;
       if strcmp(urlfound,  '/./index.html') && startsWith(entry.path, 'sections/')
         urlfound = ['./', entry.path(strlength('sections/'):end), '/index.html'];
