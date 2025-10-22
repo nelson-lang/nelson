@@ -19,6 +19,7 @@
 #include <QtPrintSupport/QPrinter>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QTabWidget>
+#include <QtWidgets/QLabel>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -55,6 +56,13 @@ class QtTextEditor : public QMainWindow
     QAction* smartIndentAction;
 
     QAction* printAction;
+
+    // Find feature members
+    QAction* findAction;
+    QAction* findNextAction;
+    QAction* findPreviousAction;
+    QString lastSearch;
+    bool lastSearchCaseSensitive;
 
 public:
     QtTextEditor(Evaluator* eval);
@@ -130,6 +138,9 @@ private:
     void
     exportToPdf(const QString& filename);
 
+    // status label to show cursor position / encoding
+    QLabel* statusLabel;
+
 private Q_SLOTS:
     bool
     save();
@@ -203,6 +214,18 @@ private Q_SLOTS:
     bool
     saveFileWithEncoding(
         const QString& filename, const QString& data, const QString& sourceEncoding);
+
+    // Find feature slots
+    void
+    showFindDialog();
+    void
+    findNext();
+    void
+    findPrevious();
+
+    // update status bar (cursor position / encoding)
+    void
+    updateCursorPosition();
 
 public:
     void

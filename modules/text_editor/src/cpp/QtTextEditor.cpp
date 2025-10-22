@@ -10,6 +10,7 @@
 #include <QtCore/QtGlobal>
 #include <QtCore/QFileInfo>
 #include <QtCore/QMimeData>
+#include <QtCore/QUrl>
 #include <QtCore/QTextStream>
 #include <QtCore/QSettings>
 #include <QtGui/QClipboard>
@@ -149,7 +150,8 @@ QtTextEditor::createActions()
     fileNameIcon = Nelson::wstringToQString(
         textEditorRootPath + std::wstring(L"/resources/document-exit.svg"));
     quitAction = new QAction(QIcon(fileNameIcon), TR("&Quit Editor"), this);
-    saveAllAction->setShortcut(Qt::Key_F4 | Qt::ALT);
+    // Set shortcut for quit action (previously mistakenly set on saveAllAction)
+    quitAction->setShortcut(Qt::Key_F4 | Qt::ALT);
     connect(quitAction, SIGNAL(triggered()), this, SLOT(close()));
     fileNameIcon
         = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-copy.svg"));
@@ -212,7 +214,23 @@ QtTextEditor::createActions()
         = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/export-to.svg"));
     exportToAction = new QAction(QIcon(fileNameIcon), TR("Export to PDF ..."), this);
     connect(exportToAction, SIGNAL(triggered()), this, SLOT(onExportToAction()));
+
+    // Find actions
+    findAction = new QAction(TR("Find..."), this);
+    findAction->setShortcut(QKeySequence::Find);
+    connect(findAction, SIGNAL(triggered()), this, SLOT(showFindDialog()));
+
+    findNextAction = new QAction(TR("Find Next"), this);
+    findNextAction->setShortcut(QKeySequence::FindNext);
+    connect(findNextAction, SIGNAL(triggered()), this, SLOT(findNext()));
+    findNextAction->setEnabled(!lastSearch.isEmpty());
+
+    findPreviousAction = new QAction(TR("Find Previous"), this);
+    findPreviousAction->setShortcut(QKeySequence::FindPrevious);
+    connect(findPreviousAction, SIGNAL(triggered()), this, SLOT(findPrevious()));
+    findPreviousAction->setEnabled(!lastSearch.isEmpty());
 }
+
 //=============================================================================
 void
 QtTextEditor::createMenus()
@@ -252,12 +270,36 @@ QtTextEditor::createMenus()
     editMenu->addAction(smartIndentAction);
     editMenu->addSeparator();
     editMenu->addAction(fontAction);
+
+    // Add find actions to Edit menu
+    if (findAction != nullptr) {
+        editMenu->addAction(findAction);
+    }
+    if (findNextAction != nullptr) {
+        editMenu->addAction(findNextAction);
+    }
+    if (findPreviousAction != nullptr) {
+        editMenu->addAction(findPreviousAction);
+    }
+
     contextMenu = new QMenu();
     contextMenu->addAction(copyFullPathAction);
     contextMenu->addSeparator();
     contextMenu->addAction(evaluateSelectionAction);
     contextMenu->addAction(helpOnSelectionAction);
     contextMenu->addSeparator();
+
+    // Add find actions to context menu
+    if (findAction != nullptr) {
+        contextMenu->addAction(findAction);
+    }
+    if (findNextAction != nullptr) {
+        contextMenu->addAction(findNextAction);
+    }
+    if (findPreviousAction != nullptr) {
+        contextMenu->addAction(findPreviousAction);
+    }
+
     contextMenu->addAction(copyAction);
     contextMenu->addAction(cutAction);
     contextMenu->addAction(pasteAction);
@@ -298,6 +340,9 @@ QtTextEditor::createToolBars()
 void
 QtTextEditor::createStatusBar()
 {
+    statusLabel = new QLabel(this);
+    statusLabel->setText(TR("Ready"));
+    statusBar()->addPermanentWidget(statusLabel);
     statusBar()->showMessage(TR("Ready"));
 }
 //=============================================================================
@@ -484,6 +529,7 @@ QtTextEditor::loadFile(const QString& filename)
         runFileAction->setEnabled(false);
     }
     currentEditor()->setFocus();
+    updateCursorPosition();
 }
 //=============================================================================
 void
@@ -602,6 +648,7 @@ QtTextEditor::updateTitles()
         setWindowTitle(QString("%1[*]").arg(currentFilename()) + " - " + TR("Nelson Editor"));
     }
     documentWasModified();
+    updateCursorPosition();
 }
 //=============================================================================
 void
@@ -810,6 +857,8 @@ QtTextEditor::tabChanged(int indexTab)
     }
     connect(
         currentEditor()->document(), SIGNAL(contentsChanged()), this, SLOT(documentWasModified()));
+    // connect cursor position change to update status
+    connect(currentEditor(), SIGNAL(cursorPositionChanged()), this, SLOT(updateCursorPosition()));
     updateTitles();
     prevEdit = currentEditor();
     QString filename = currentFilename();
@@ -835,6 +884,21 @@ QtTextEditor::documentWasModified()
         tab->setTabIcon(tab->currentIndex(), QIcon(fileNameIcon));
         tab->setTabText(tab->currentIndex(), shownName());
     }
+}
+
+//=============================================================================
+void
+QtTextEditor::updateCursorPosition()
+{
+    if (!statusLabel)
+        return;
+    int line = getCurrentLineNumber();
+    QTextCursor cursor = currentEditor()->textCursor();
+    int col = cursor.positionInBlock() + 1;
+    QString enc = currentEncoding();
+    if (enc.isEmpty())
+        enc = "UTF-8";
+    statusLabel->setText(QString("Ln %1, Col %2 | %3").arg(line).arg(col).arg(enc));
 }
 //=============================================================================
 void
@@ -867,6 +931,45 @@ QtTextEditor::contextMenuEvent(QContextMenuEvent* event)
     selectedText = selectedText.trimmed();
     helpOnSelectionAction->setVisible(!selectedText.isEmpty());
     evaluateSelectionAction->setVisible(!selectedText.isEmpty());
+
+    // Update enabled state of actions based on current context
+    QTextCursor cur = currentEditor()->textCursor();
+    bool hasSelection = cur.hasSelection();
+
+    if (helpOnSelectionAction) {
+        helpOnSelectionAction->setEnabled(hasSelection);
+    }
+    if (evaluateSelectionAction) {
+        evaluateSelectionAction->setEnabled(hasSelection);
+    }
+
+    // Enable/disable cut/copy depending on selection
+    if (cutAction) {
+        cutAction->setEnabled(hasSelection);
+    }
+    if (copyAction) {
+        copyAction->setEnabled(hasSelection);
+    }
+
+    // Enable/disable paste depending on clipboard content
+    QClipboard* Clipboard = QApplication::clipboard();
+    QString clipboardText = Clipboard->text();
+    if (pasteAction) {
+        pasteAction->setEnabled(!clipboardText.isEmpty());
+    }
+
+    // Update Find actions state
+    if (findAction != nullptr) {
+        // findAction opens the find dialog - enable it when an editor is present
+        findAction->setEnabled(currentEditor() != nullptr);
+    }
+    if (findNextAction != nullptr) {
+        findNextAction->setEnabled(!lastSearch.isEmpty());
+    }
+    if (findPreviousAction != nullptr) {
+        findPreviousAction->setEnabled(!lastSearch.isEmpty());
+    }
+
     contextMenu->exec(event->globalPos());
 }
 //=============================================================================
@@ -1083,24 +1186,59 @@ QtTextEditor::evaluateSelection()
 void
 QtTextEditor::dragEnterEvent(QDragEnterEvent* event)
 {
-    event->mimeData()->hasFormat("text/uri-list") ? event->accept() : event->ignore();
+    // Accept drags that contain URLs or plain text (file paths)
+    if (event->mimeData()->hasUrls() || event->mimeData()->hasText()) {
+        event->acceptProposedAction();
+    } else {
+        event->ignore();
+    }
 }
 //=============================================================================
 void
 QtTextEditor::dropEvent(QDropEvent* event)
 {
-    if (event->mimeData()->hasFormat("text/uri-list")) {
+    // If URLs are provided, treat them as files to open
+    if (event->mimeData()->hasUrls()) {
         QList<QUrl> urls = event->mimeData()->urls();
-        for (int k = 0; k < urls.size(); k++) {
-            QFileInfo qmake(QString(urls[k].toLocalFile()));
-            if (!urls.isEmpty()) {
-                loadOrCreateFile(urls[k].toLocalFile());
+        for (const QUrl& url : urls) {
+            if (!url.isLocalFile())
+                continue;
+            QString local = url.toLocalFile();
+            if (!local.isEmpty()) {
+                loadOrCreateFile(local);
             }
         }
-        event->accept();
-    } else {
-        event->ignore();
+        event->acceptProposedAction();
+        return;
     }
+
+    // Fallback: if plain text is dropped, try to interpret it as a filename
+    if (event->mimeData()->hasText()) {
+        QString text = event->mimeData()->text().trimmed();
+        if (!text.isEmpty()) {
+            // handle multiple lines (take each non-empty line)
+            // Normalize line endings and split on '\n' to avoid overload/regex issues
+            QString normalized = text;
+            normalized.replace("\r\n", "\n");
+            normalized.replace('\r', '\n');
+            const QStringList parts = normalized.split('\n', Qt::SkipEmptyParts);
+            for (const QString& part : parts) {
+                QString candidate = part.trimmed();
+                // Remove file:// prefix if present
+                if (candidate.startsWith("file://")) {
+                    QUrl u(candidate);
+                    candidate = u.toLocalFile();
+                }
+                if (!candidate.isEmpty()) {
+                    loadOrCreateFile(candidate);
+                }
+            }
+            event->acceptProposedAction();
+            return;
+        }
+    }
+
+    event->ignore();
 }
 //=============================================================================
 void
@@ -1134,6 +1272,66 @@ QtTextEditor::reloadFile(const QString filenameModified)
                 loadFile(filenameModified);
                 return;
             }
+        }
+    }
+}
+//=============================================================================
+void
+QtTextEditor::showFindDialog()
+{
+    bool ok = false;
+    QString text
+        = QInputDialog::getText(this, TR("Find"), TR("Find:"), QLineEdit::Normal, lastSearch, &ok);
+    if (ok) {
+        lastSearch = text;
+        lastSearchCaseSensitive = false; // default
+        findNext();
+    }
+}
+//=============================================================================
+void
+QtTextEditor::findPrevious()
+{
+    if (lastSearch.isEmpty()) {
+        return;
+    }
+
+    QTextDocument::FindFlags flags = QTextDocument::FindBackward;
+    if (lastSearchCaseSensitive) {
+        flags |= QTextDocument::FindCaseSensitively;
+    }
+
+    bool found = currentEditor()->find(lastSearch, flags);
+    if (!found) {
+        QTextCursor c = currentEditor()->textCursor();
+        c.movePosition(QTextCursor::End);
+        currentEditor()->setTextCursor(c);
+        found = currentEditor()->find(lastSearch, flags);
+        if (!found) {
+            QApplication::beep();
+        }
+    }
+}
+//=============================================================================
+void
+QtTextEditor::findNext()
+{
+    if (lastSearch.isEmpty()) {
+        return;
+    }
+    QTextDocument::FindFlags flags;
+    if (lastSearchCaseSensitive) {
+        flags |= QTextDocument::FindCaseSensitively;
+    }
+    bool found = currentEditor()->find(lastSearch, flags);
+    if (!found) {
+        // wrap around
+        QTextCursor c = currentEditor()->textCursor();
+        c.movePosition(QTextCursor::Start);
+        currentEditor()->setTextCursor(c);
+        found = currentEditor()->find(lastSearch, flags);
+        if (!found) {
+            QApplication::beep();
         }
     }
 }

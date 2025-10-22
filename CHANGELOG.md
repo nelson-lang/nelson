@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Continuation prompt: Introduced context-aware continuation prompts to enhance interactive command workflows.
 
+- Search Text in Console and Text Editor.
+
 - Type support: Expanded support for missing types, increasing compatibility across functions and data structures.
 
 - `missing` function: Added to create missing values for arrays and tables, improving data handling and interoperability.
