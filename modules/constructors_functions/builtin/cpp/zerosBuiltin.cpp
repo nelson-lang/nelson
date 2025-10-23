@@ -29,7 +29,7 @@ Nelson::ConstructorsGateway::zerosBuiltin(int nLhs, const ArrayOfVector& argIn)
         bool bCheckClassName = true;
         if (static_cast<int>(nRhs) - 2 >= 0) {
             ArrayOf Arg = argIn[argIn.size() - 2];
-            if (Arg.isRowVectorCharacterArray()) {
+            if (Arg.isRowVectorCharacterArray() || Arg.isScalarStringArray()) {
                 std::wstring paramstr = Arg.getContentAsWideString();
                 if (paramstr == L"like") {
                     ArrayOf lastArg = argIn[argIn.size() - 1];

@@ -36,7 +36,7 @@ Nelson::DoubleGateway::flintmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(_W("#1 'double' or 'single' expected."));
         }
     } else if (argIn.size() == 2) {
-        if (argIn[0].isRowVectorCharacterArray()) {
+        if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
             std::wstring param = argIn[0].getContentAsWideString();
             if (param == L"like") {
                 if (argIn[1].isDoubleType()) {

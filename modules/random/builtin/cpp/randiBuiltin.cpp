@@ -83,7 +83,7 @@ Nelson::RandomGateway::randiBuiltin(int nLhs, const ArrayOfVector& argIn)
         const ArrayOf& dimArg = argIn[argIdx];
         if (dimArg.isNumeric() && dimArg.isScalar()) {
             dims[dims.getLength()] = dimArg.getContentAsScalarIndex();
-        } else if (dimArg.isRowVectorCharacterArray()) {
+        } else if (dimArg.isRowVectorCharacterArray() || dimArg.isScalarStringArray()) {
             std::wstring paramstr = dimArg.getContentAsWideString();
             if (paramstr == L"double") {
                 cl = NLS_DOUBLE;

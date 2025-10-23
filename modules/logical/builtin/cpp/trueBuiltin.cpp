@@ -32,7 +32,7 @@ Nelson::LogicalGateway::trueBuiltin(int nLhs, const ArrayOfVector& argIn)
         indexType idxMax = argIn.size();
         if ((static_cast<double>(argIn.size()) - 2.) >= 0.) {
             indexType pos = argIn.size() - 2;
-            if (argIn[pos].isRowVectorCharacterArray()) {
+            if (argIn[pos].isRowVectorCharacterArray() || argIn[pos].isScalarStringArray()) {
                 std::wstring arg = argIn[pos].getContentAsWideString();
                 if (arg.compare(L"like") == 0) {
                     ArrayOf arg = argIn[pos + 1];

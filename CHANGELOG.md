@@ -72,6 +72,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [#1462](http://github.com/nelson-lang/nelson/issues/1462): fwrite without specifying precision did not work as expected.
 
+- `eye` without input argument managed.
+
 ## 1.14.0 - (2025-05-30)
 
 ### Added
