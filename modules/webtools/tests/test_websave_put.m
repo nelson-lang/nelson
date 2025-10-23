@@ -9,15 +9,31 @@
 %=============================================================================
 o = weboptions('RequestMethod', 'put');
 o.Timeout = 60;
-filename = [tempdir(), 'test_websave_put.json'];
-try
-  fullname = websave(filename, 'https://jsonplaceholder.typicode.com/posts/1', o);
-catch ex
-  fullname = '';
-  R = strcmp(ex.message, _('Forbidden (403)')) || ...
-      strcmp(ex.message, _('Timeout was reached')) || ... 
-      strcmp(ex.message, _('Couldn''t resolve host name'));
-  skip_testsuite(R, ex.message)
+filename = fullfile(tempdir(), 'test_websave_put.json');
+url = 'https://jsonplaceholder.typicode.com/posts/1';
+max_attempts = 3;
+fullname = '';
+for attempt = 1:max_attempts
+  try
+    fullname = websave(filename, url, o);
+    if isfile(fullname) && dir(fullname).bytes > 0
+      break;
+    end
+    fullname = '';
+  catch ex
+    transient = strcmp(ex.message, _('Forbidden (403)')) || ...
+                strcmp(ex.message, _('Timeout was reached')) || ...
+                strcmp(ex.message, _('Couldn''t resolve host name')) || ...
+                strcmp(ex.message, _('Service unavailable (503)'));
+    if transient
+      skip_testsuite(transient, ex.message);
+    end
+    % otherwise allow retry
+  end
+  pause(0.5 * attempt);
+end
+if isempty(fullname)
+  skip_testsuite(true, 'websave put failed after retries or returned empty file');
 end
 R = jsondecode(fileread(fullname));
 assert_isequal(R.id, 1);

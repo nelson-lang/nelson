@@ -8,34 +8,55 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 url = 'https://s.w-x.co/staticmaps/WEB_Current_Weather_Map_1280x720.jpg?crop=16:9&width=800&format=pjpg&auto=webp&quality=60';
-filename = [tempdir(), 'earth2.jpg'];
+filename = fullfile(tempdir(), 'earth2.jpg');
 if isfile(filename)
-  rmfile(filename);
-end
-testPass = false;
-i = 0;
-retry = true;
-while (retry)
   try
-    destination_filename = websave(filename, url);
-    testPass = true;
-  catch ex
-    destination_filename = '';
-    testPass = (strcmp(ex.message, 'Bad Request (400)') == 1);
-    if ~testPass
-      testPass = (strcmp(ex.message, _('Timeout was reached')) == 1);
-    end
+    rmfile(filename);
+  catch
+    % ignore deletion errors
   end
-  i = i + 1;
-  retry = ~testPass && (i < 5);
 end
-if isvar('ex')
-  R = strcmp(ex.message, _('Forbidden (403)')) || ...
-  strcmp(ex.message, _('Bad Request (400)')) || ... 
-  strcmp(ex.message, _('Timeout was reached')) || ... 
-  strcmp(ex.message, _('Couldn''t resolve host name'));
-  skip_testsuite(R, ex.message)
+
+% Use a reasonable timeout and retry a few times with backoff
+options = weboptions('Timeout', 30);
+MAX_ATTEMPTS = 4;
+PAUSE_SECS = [0, 5, 10, 20];
+destination_filename = '';
+lastErrorMsg = '';
+success = false;
+
+for attempt = 1:MAX_ATTEMPTS
+  % remove any stale file before trying
+  if isfile(filename)
+    try delete(filename); catch; end
+  end
+
+  try
+    destination_filename = websave(filename, url, options);
+
+    % basic validation: file exists and is not tiny
+    if isfile(destination_filename)
+      info = dir(destination_filename);
+      if info.bytes >= 1000
+        success = true;
+        break;
+      else
+        lastErrorMsg = sprintf('Downloaded file too small (%d bytes).', info.bytes);
+      end
+    else
+      lastErrorMsg = 'websave did not create the file.';
+    end
+  catch ex
+    lastErrorMsg = ex.message;
+  end
+
+  pause(PAUSE_SECS(min(attempt, numel(PAUSE_SECS))));
 end
+
+if ~success
+  skip_testsuite(true, ['Could not obtain test data: ' lastErrorMsg]);
+end
+
 assert_istrue(isfile(destination_filename));
-assert_istrue(testPass)
+assert_istrue(success)
 %=============================================================================

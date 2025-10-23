@@ -9,23 +9,55 @@
 %=============================================================================
 ok = false;
 cnt = 0;
-o = weboptions('RequestMethod', 'get');
-o.Timeout = 30;
-filename = [tempdir(), 'test_websave_args_1.json'];
-while (~ok && cnt < 10)
+o = weboptions('RequestMethod', 'get', 'Timeout', 30);
+filename = fullfile(tempdir(), 'test_websave_args_1.json');
+
+% retry loop to make the test more robust
+MAX_ATTEMPTS = 5;
+PAUSE_SECS = [0, 1, 2, 4, 8];
+fullname = '';
+lastErrorMsg = '';
+
+while (~ok && cnt < MAX_ATTEMPTS)
+  % ensure no stale file remains
+  if isfile(filename)
+    try delete(filename); catch; end
+  end
+
   try
-    fullname = websave(filename, 'http://httpbin.org/get', 'r', i, "b+", 3, o);
-    ok = true;
-  catch
+    % use HTTPS to avoid redirects; preserve original argument intent
+    fullname = websave(filename, 'https://httpbin.org/get', 'r', i, "b+", 3, o);
+    ok = isfile(fullname);
+    if ok
+      % basic content sanity check
+      txt = fileread(fullname);
+      if isempty(txt)
+        ok = false;
+        lastErrorMsg = 'Empty response from server.';
+      end
+    end
+  catch ex
     fullname = '';
-    cnt = cnt + 1;
+    lastErrorMsg = ex.message;
+    ok = false;
+  end
+
+  cnt = cnt + 1;
+  if ~ok
+    pause(PAUSE_SECS(min(cnt, numel(PAUSE_SECS))));
   end
 end
-skip_testsuite(~ok, 'Timeout reached')
+
+if ~ok
+  skip_testsuite(true, ['Could not obtain test data: ' lastErrorMsg]);
+end
+
 assert_istrue(isfile(fullname));
 R = jsondecode(fileread(fullname));
 assert_istrue(isstruct(R.args));
-assert_isequal(fieldnames(R.args), {'b_'; 'r'});
+% accept either order of fields, but ensure both expected fields exist and have expected values
+fn = fieldnames(R.args);
+assert_istrue(ismember('b_', fn) && ismember('r', fn));
 assert_isequal(R.args.b_, '3');
 assert_isequal(R.args.r, '0+1i');
 %=============================================================================

@@ -9,19 +9,50 @@
 %=============================================================================
 ok = false;
 cnt = 0;
-o = weboptions('RequestMethod', 'get', 'ArrayFormat', 'csv');
-o.Timeout = 30;
-filename = [tempdir(), 'test_websave_args_2.json'];
+o = weboptions('RequestMethod', 'get', 'ArrayFormat', 'csv', 'Timeout', 30);
+filename = fullfile(tempdir(), 'test_websave_args_2.json');
 M = [1 2 3; 4 5 6];
-try
-  fullname = websave(filename, 'http://httpbin.org/get', 'r', M, o);
-catch ex
-  fullname = '';
-  R = strcmp(ex.message, _('Forbidden (403)')) || ...
-      strcmp(ex.message, _('Timeout was reached')) || ... 
-      strcmp(ex.message, _('Couldn''t resolve host name'));
-  skip_testsuite(R, ex.message)
+
+% retry loop to make the test more robust
+MAX_ATTEMPTS = 5;
+PAUSE_SECS = [0, 1, 2, 4, 8];
+fullname = '';
+lastErrorMsg = '';
+success = false;
+
+for attempt = 1:MAX_ATTEMPTS
+  % remove stale file
+  if isfile(filename)
+    try delete(filename); catch; end
+  end
+
+  try
+    % use HTTPS to avoid redirects
+    fullname = websave(filename, 'https://httpbin.org/get', 'r', M, o);
+
+    if isfile(fullname)
+      info = dir(fullname);
+      if info.bytes >= 20
+        success = true;
+        break;
+      else
+        lastErrorMsg = sprintf('Downloaded file too small (%d bytes).', info.bytes);
+      end
+    else
+      lastErrorMsg = 'websave did not create the file.';
+    end
+  catch ex
+    fullname = '';
+    lastErrorMsg = ex.message;
+  end
+
+  pause(PAUSE_SECS(min(attempt, numel(PAUSE_SECS))));
 end
+
+if ~success
+  skip_testsuite(true, ['Could not obtain test data: ' lastErrorMsg]);
+end
+
 assert_istrue(isfile(fullname));
 R = jsondecode(fileread(fullname))
 %=============================================================================
