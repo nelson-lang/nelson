@@ -21,6 +21,8 @@
 #include <QtGui/QTextImageFormat>
 #include <QtGui/QFontDatabase>
 #include <QtWidgets/QFileDialog>
+#include <QtWidgets/QInputDialog>
+#include <QtWidgets/QLineEdit>
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QtGui/QAction>
@@ -102,6 +104,25 @@ QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
     clcAction = nullptr;
     stopAction = nullptr;
     contextMenu = nullptr;
+
+    lastSearch.clear();
+    lastSearchCaseSensitive = false;
+
+    // Find actions
+    findAction = new QAction(TR("Find..."), this);
+    findAction->setShortcut(QKeySequence::Find);
+    connect(findAction, SIGNAL(triggered()), this, SLOT(showFindDialog()));
+
+    findNextAction = new QAction(TR("Find Next"), this);
+    findNextAction->setShortcut(QKeySequence::FindNext);
+    connect(findNextAction, SIGNAL(triggered()), this, SLOT(findNext()));
+    findNextAction->setEnabled(!lastSearch.isEmpty());
+
+    findPreviousAction = new QAction(TR("Find Previous"), this);
+    findPreviousAction->setShortcut(QKeySequence::FindPrevious);
+    connect(findPreviousAction, SIGNAL(triggered()), this, SLOT(findPrevious()));
+    findPreviousAction->setEnabled(!lastSearch.isEmpty());
+
     completionDisabled = false;
     mCommandLineReady = true;
 }
@@ -195,11 +216,16 @@ QtTerminal::printPrompt(QString prompt)
         cur.movePosition(QTextCursor::EndOfBlock);
         cur.insertBlock();
     }
+
+    // Batch changes to avoid repeated layout/paint work
+    cur.beginEditBlock();
     QTextCharFormat fmt;
     fmt.setForeground(getInputColor());
     cur.setCharFormat(fmt);
     cur.insertText(mPrompt);
     cur.setCharFormat(QTextCharFormat());
+    cur.endEditBlock();
+
     setTextCursor(cur);
 
     if (isFirstPrompt) {
@@ -371,18 +397,37 @@ QtTerminal::clearTerminal()
 }
 //=============================================================================
 void
+QtTerminal::applyForegroundToCursor(
+    QTextCursor& cursor, const QColor& color, bool merge, bool makeCurrent)
+{
+    QTextCharFormat fmt = cursor.charFormat();
+    fmt.setForeground(color);
+    if (merge) {
+        cursor.mergeCharFormat(fmt);
+    } else {
+        cursor.setCharFormat(fmt);
+    }
+    if (makeCurrent) {
+        setCurrentCharFormat(fmt);
+        setTextColor(color);
+    }
+}
+//=============================================================================
+void
 QtTerminal::ensureInputColor()
 {
     // force to restore input color
-    if (isInEditionZone()) {
-        QTextCursor cur = textCursor();
-        setTextColor(getInputColor());
-        QTextCharFormat fmt;
-        fmt.setForeground(getInputColor());
-        cur.setCharFormat(fmt);
-        cur.setCharFormat(QTextCharFormat());
-        setTextCursor(cur);
+    if (!isInEditionZone()) {
+        return;
     }
+
+    QTextCursor cur = textCursor();
+
+    // Apply input color to current cursor/selection and make it the current
+    // char format so subsequent typing uses it.
+    applyForegroundToCursor(cur, getInputColor(), true, true);
+
+    setTextCursor(cur);
 }
 //=============================================================================
 bool
@@ -440,6 +485,22 @@ QtTerminal::sendKeyEvent(QKeyEvent* event)
 void
 QtTerminal::keyPressEvent(QKeyEvent* event)
 {
+    if (event->matches(QKeySequence::Find)) {
+        showFindDialog();
+        event->accept();
+        return;
+    }
+    if (event->matches(QKeySequence::FindNext)) {
+        findNext();
+        event->accept();
+        return;
+    }
+    if (event->matches(QKeySequence::FindPrevious)) {
+        findPrevious();
+        event->accept();
+        return;
+    }
+
     if (event->modifiers() & Qt::ControlModifier) {
         if (event->key() == Qt::Key_Plus || event->key() == Qt::Key_Equal) {
             this->zoomOut();
@@ -451,6 +512,7 @@ QtTerminal::keyPressEvent(QKeyEvent* event)
             return;
         }
     }
+
     if (!isInEditionZone()) {
         QTextCursor cur = textCursor();
         cur.movePosition(QTextCursor::End);
@@ -604,7 +666,30 @@ QtTerminal::printNewLine()
     setTextCursor(cursor);
 }
 //=============================================================================
-static bool doOnce = false;
+QTextCharFormat
+QtTerminal::createCharFormatWithForeground(const QColor& color)
+{
+    QTextCharFormat fmt;
+    fmt.setForeground(color);
+    return fmt;
+}
+//=============================================================================
+QColor
+QtTerminal::colorForMode(DISP_MODE mode)
+{
+    switch (mode) {
+    case WARNING_DISP:
+        return getWarningColor();
+    case STDOUT_DISP:
+        return getOutputColor();
+    case STDERR_DISP:
+        return getErrorColor();
+    case STDIN_DISP:
+    default:
+        return getInputColor();
+    }
+}
+//=============================================================================
 void
 QtTerminal::printMessage(QString msg, DISP_MODE mode)
 {
@@ -627,33 +712,33 @@ QtTerminal::printMessage(QString msg, DISP_MODE mode)
         cur.movePosition(QTextCursor::End);
     }
 
-    QTextCharFormat format = cur.charFormat();
-    switch (mode) {
-    case WARNING_DISP:
-        format.setForeground(getWarningColor());
-        break;
-    case STDOUT_DISP:
-        format.setForeground(getOutputColor());
-        break;
-    case STDERR_DISP:
-        format.setForeground(getErrorColor());
-        break;
-    case STDIN_DISP:
-        format.setForeground(getInputColor());
-        break;
-    }
+    QColor col = colorForMode(mode);
+    QTextCharFormat format = createCharFormatWithForeground(col);
 
+    // Batch document edits to reduce layout/paint work
+    cur.beginEditBlock();
     if (msg.contains("\b")) {
+        QString buffer;
+        buffer.reserve(msg.size());
         for (auto c : msg) {
             if (c == '\b') {
+                if (!buffer.isEmpty()) {
+                    cur.insertText(buffer, format);
+                    buffer.clear();
+                }
                 cur.deletePreviousChar();
             } else {
-                cur.insertText(c, format);
+                buffer.append(c);
             }
+        }
+        if (!buffer.isEmpty()) {
+            cur.insertText(buffer, format);
         }
     } else {
         cur.insertText(msg, format);
     }
+    cur.endEditBlock();
+
     setTextCursor(cur);
     this->setUpdatesEnabled(true);
 }
@@ -886,6 +971,16 @@ QtTerminal::contextMenuEvent(QContextMenuEvent* event)
             connect(helpOnSelectionAction, SIGNAL(triggered()), this, SLOT(helpOnSelection()));
             contextMenu->addSeparator();
         }
+        // Add find actions to context menu
+        if (findAction != nullptr) {
+            contextMenu->addAction(findAction);
+        }
+        if (findNextAction != nullptr) {
+            contextMenu->addAction(findNextAction);
+        }
+        if (findPreviousAction != nullptr) {
+            contextMenu->addAction(findPreviousAction);
+        }
         if (cutAction == nullptr) {
             fileNameIcon = nelsonPath + QString("/resources/edit-cut.svg");
             cutAction = new QAction(QIcon(fileNameIcon), TR("Cut"), this);
@@ -964,6 +1059,12 @@ QtTerminal::contextMenuEvent(QContextMenuEvent* event)
         stopAction->setVisible(true);
     } else {
         stopAction->setVisible(false);
+    }
+    if (findNextAction != nullptr) {
+        findNextAction->setEnabled(!lastSearch.isEmpty());
+    }
+    if (findPreviousAction != nullptr) {
+        findPreviousAction->setEnabled(!lastSearch.isEmpty());
     }
     contextMenu->exec(event->globalPos());
 }
@@ -1168,6 +1269,66 @@ QtTerminal::wheelEvent(QWheelEvent* wheelEvent)
         wheelEvent->accept();
     } else {
         QTextEdit::wheelEvent(wheelEvent);
+    }
+}
+//=============================================================================
+void
+QtTerminal::showFindDialog()
+{
+    bool ok = false;
+    QString text
+        = QInputDialog::getText(this, TR("Find"), TR("Find:"), QLineEdit::Normal, lastSearch, &ok);
+    if (ok) {
+        lastSearch = text;
+        lastSearchCaseSensitive = false; // default
+        findNext();
+    }
+}
+//=============================================================================
+void
+QtTerminal::findPrevious()
+{
+    if (lastSearch.isEmpty()) {
+        return;
+    }
+
+    QTextDocument::FindFlags flags = QTextDocument::FindBackward;
+    if (lastSearchCaseSensitive) {
+        flags |= QTextDocument::FindCaseSensitively;
+    }
+
+    bool found = this->find(lastSearch, flags);
+    if (!found) {
+        QTextCursor c = this->textCursor();
+        c.movePosition(QTextCursor::End);
+        this->setTextCursor(c);
+        found = this->find(lastSearch, flags);
+        if (!found) {
+            QApplication::beep();
+        }
+    }
+}
+//=============================================================================
+void
+QtTerminal::findNext()
+{
+    if (lastSearch.isEmpty()) {
+        return;
+    }
+    QTextDocument::FindFlags flags;
+    if (lastSearchCaseSensitive) {
+        flags |= QTextDocument::FindCaseSensitively;
+    }
+    bool found = this->find(lastSearch, flags);
+    if (!found) {
+        // wrap around
+        QTextCursor c = this->textCursor();
+        c.movePosition(QTextCursor::Start);
+        this->setTextCursor(c);
+        found = this->find(lastSearch, flags);
+        if (!found) {
+            QApplication::beep();
+        }
     }
 }
 //=============================================================================
