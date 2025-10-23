@@ -16,7 +16,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New functions for sparse matrix generation:
 
   - `sprand`: Generate sparse matrices with uniformly distributed random values.
-
   - `sprandn`: Generate sparse matrices with normally distributed random values.
 
 - Search Text in Console and Text Editor.
@@ -28,11 +27,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Variable Editor: Redesigned for improved usability and performance. Accessible via `openvar` or the GUI, it supports structured variables, tables, arrays, and nested data. Features include:
 
   - Dynamic table view.
-
   - Real-time updates from the execution context.
-
   - Enhanced performance for large datasets.
-
   - Copy-paste compatibility with Excel, LibreOffice, and OpenOffice.
 
 - Continuation prompt: Context-aware prompts to enhance interactive command workflows.
@@ -62,21 +58,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Help framework reworked for improved performance and usability:
 
   - Multithreaded builds for faster performance.
-
   - Enhanced search capabilities with extended functionality.
-
   - Improved maintainability using Extensible Stylesheet Language Transformations (XSLT).
-
   - Unified stylesheet for consistent appearance online and offline.
-
   - Removed internal usage of Qt help support.
-
   - Replaced `http://` links with `https://` for secure connections.
-
   - Removed the `help_browser` module.
-
   - Added French language support for Help.
-
   - Introduced support for LaTeX formulas.
 
 - `jsondecode`: Integrated [simdjson](https://simdjson.org/) for significantly improved performance and efficiency.
