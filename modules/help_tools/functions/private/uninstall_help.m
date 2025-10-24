@@ -13,7 +13,7 @@ function [tf, msg] = uninstall_help()
   help_dir = [userdir(), '/Nelson/', version_string, '/help/'];
   if ~isdir(help_dir)
     tf = false;
-    msg = 'Help directory does not exist.';
+    msg = _('Help directory does not exist.');
     return;
   end
   [tf, msg] = rmdir(help_dir, 's');

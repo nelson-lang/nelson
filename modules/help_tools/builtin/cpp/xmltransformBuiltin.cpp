@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "helptransformBuiltin.hpp"
+#include "xmltransformBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "XmlTransform.hpp"
 #include "Error.hpp"
@@ -17,7 +17,7 @@ using namespace Nelson;
 // xmldocbuild(source_dirs, destination_dir, main_title, export_format, overwrite)
 
 ArrayOfVector
-Nelson::HelpToolsGateway::helptransformBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::HelpToolsGateway::xmltransformBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
 
     ArrayOfVector retval;

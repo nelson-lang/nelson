@@ -19,7 +19,7 @@ function file_generated = xmldoctohelp(varargin)
   end
   dir_output_tmp = [dir_output, 'nelson_help'];
   mkdir(dir_output_tmp);
-  module_name = xmldocbuild(dirs_input, dir_output_tmp, main_title, 'help', overwrite);
+  module_name = xmldocbuild(dirs_input, dir_output_tmp, main_title, 'html', overwrite);
   destination_file = '';
   if strcmp(module_name, '')
     destination_file = [nelsonappid(), '.modules.', 'manual', '.help', '.nhz'];

@@ -45,7 +45,7 @@
     <ClCompile Include="..\cpp\XmlDocToc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\XmlDocPrettify.cpp">
+    <ClCompile Include="..\cpp\XmlPrettyPrint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cmark\blocks.c">
@@ -182,7 +182,7 @@
     <ClInclude Include="..\include\nlsHelp_tools_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\XmlDocPrettify.hpp">
+    <ClInclude Include="..\include\XmlPrettyPrint.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\XmlDocToc.hpp">

@@ -34,8 +34,8 @@ function varargout = buildhelpjson(varargin)
         if isempty(xml_files)
           continue;
         end
-        msg = sprintf(_('Building JSON help for module: %s\n'), m{1});
-        fprintf(['   ', msg]);
+        msg = sprintf(_('help "%s" (%s) generated.'), m{1}, lang{1});
+        fprintf(['   ', msg, '\n']);
         for f = xml_files'
           if ~(ismacro(f.name(1:end-4)) || isbuiltin(f.name(1:end-4)))
             continue;

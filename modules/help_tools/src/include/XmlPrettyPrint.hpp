@@ -15,10 +15,10 @@
 namespace Nelson {
 //=============================================================================
 NLSHELP_TOOLS_IMPEXP void
-XmlDocPrettify(const wstringVector& xmlFiles, std::wstring& errorMessage);
+XmlPrettyPrint(const wstringVector& xmlFiles, std::wstring& errorMessage);
 //=============================================================================
 NLSHELP_TOOLS_IMPEXP void
-XmlDocPrettify(std::wstring& errorMessage);
+XmlPrettyPrint(std::wstring& errorMessage);
 //=============================================================================
 }
 //=============================================================================

@@ -15,8 +15,8 @@
 #include "xmldocbuildBuiltin.hpp"
 #include "xmldoccheckerBuiltin.hpp"
 #include "docrootBuiltin.hpp"
-#include "helptransformBuiltin.hpp"
-#include "xmldocprettifyBuiltin.hpp"
+#include "xmltransformBuiltin.hpp"
+#include "xmlprettyprintBuiltin.hpp"
 #include "xmldocmergesummaryBuiltin.hpp"
 #include "__xmldocgenerateimages__Builtin.hpp"
 //=============================================================================
@@ -32,12 +32,11 @@ static const nlsGateway gateway[] = { { "headcomments",
     { "htmltopdf", (ptrBuiltin)Nelson::HelpToolsGateway::htmltopdfBuiltin, 0, 2, CPP_BUILTIN },
     { "markdown", (ptrBuiltin)Nelson::HelpToolsGateway::markdownBuiltin, 1, -2 },
     { "xmldocbuild", (ptrBuiltin)Nelson::HelpToolsGateway::xmldocbuildBuiltin, -1, 5 },
-    { "xmldocbuild2", (ptrBuiltin)Nelson::HelpToolsGateway::helptransformBuiltin, 1, 5 },
     { "docroot", (ptrBuiltin)Nelson::HelpToolsGateway::docrootBuiltin, 1, 1 },
-    { "xmldocprettify", (ptrBuiltin)Nelson::HelpToolsGateway::xmldocprettifyBuiltin, 1, -1 },
     { "xmldocmergesummary", (ptrBuiltin)Nelson::HelpToolsGateway::xmldocmergesummaryBuiltin, -1,
         2 },
-    { "xmltransform", (ptrBuiltin)Nelson::HelpToolsGateway::helptransformBuiltin, -1, 2 },
+    { "xmlprettyprint", (ptrBuiltin)Nelson::HelpToolsGateway::xmlprettyprintBuiltin, 1, -1 },
+    { "xmltransform", (ptrBuiltin)Nelson::HelpToolsGateway::xmltransformBuiltin, -1, 2 },
     { "__xmldocgenerateimages__",
         (ptrBuiltin)Nelson::HelpToolsGateway::__xmlgenerateimages__Builtin, 3, 2, CPP_BUILTIN } };
 //=============================================================================

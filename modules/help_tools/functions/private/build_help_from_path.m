@@ -35,7 +35,7 @@ function build_help_from_path(module, module_path, lang, dirdest, package)
       else
         msg = sprintf(_('help "%s" (%s) is up to date.'), module, lang);
       end
-      disp(msg);
+      fprintf(['   ', msg, '\n']);
     end
 end
 %=============================================================================
@@ -134,7 +134,7 @@ function main_help(module_path, lang, dirdest, package)
         end
       end
       msg = sprintf(_('help "%s" (%s) generated.'), 'homepage', lang);
-      disp(msg);
+      fprintf(['   ', msg, '\n']);
     end
     if package
       help_archive_name = [nelsonappid(), '.modules.main.help', '.', lang, '.nhz'];
@@ -201,3 +201,4 @@ function content = addStyle(content)
 '</style>', newline];
   content = [script, content];
 end
+%=============================================================================

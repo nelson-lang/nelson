@@ -78,9 +78,8 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
     std::wstring mainTitle = argMainTitle.getContentAsWideString();
     ArrayOf argExportFormat = argIn[3];
     std::wstring exportFormat = argExportFormat.getContentAsWideString();
-    if ((exportFormat != L"help") && (exportFormat != L"html") && (exportFormat != L"web")
-        && (exportFormat != L"md")) {
-        Error(_W("format not supported: 'help', 'html', 'web' or 'md' expected."));
+    if ((exportFormat != L"html") && (exportFormat != L"md")) {
+        Error(_W("format not supported: 'html', or 'md' expected."));
     }
     DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HTML_WEB;
     if (exportFormat == L"html") {

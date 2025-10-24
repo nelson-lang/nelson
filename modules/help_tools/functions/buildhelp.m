@@ -19,6 +19,8 @@ function buildhelp(varargin)
     modules_help_list_with_main = [modules_help_list; "main"];
 
     for lang = getavailablelanguages()'
+      msg = sprintf(_('Building help files for language: %s\n'), lang{1});
+      fprintf(msg);
       tmplang = [TMP, '/',lang{1}];
       mkdir(tmplang);
       for m = modules_help_list_with_main'

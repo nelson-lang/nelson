@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "XmlDocPrettify.hpp"
+#include "XmlPrettyPrint.hpp"
 #include "characters_encoding.hpp"
 #include "ModulesManager.hpp"
 #include "Localization.hpp"
@@ -20,7 +20,7 @@
 namespace Nelson {
 //=============================================================================
 void
-XmlDocPrettify(const wstringVector& xmlFilesOrDirectories, std::wstring& errorMessage)
+XmlPrettyPrint(const wstringVector& xmlFilesOrDirectories, std::wstring& errorMessage)
 {
     errorMessage.clear();
     wstringVector xmlFiles;
@@ -102,7 +102,7 @@ XmlDocPrettify(const wstringVector& xmlFilesOrDirectories, std::wstring& errorMe
 }
 //=============================================================================
 void
-XmlDocPrettify(std::wstring& errorMessage)
+XmlPrettyPrint(std::wstring& errorMessage)
 {
     wstringVector modulesPaths = ModulesManager::Instance().getModulesPathList(false);
     wstringVector xmlPaths;
@@ -116,7 +116,7 @@ XmlDocPrettify(std::wstring& errorMessage)
             }
         }
     }
-    XmlDocPrettify(xmlPaths, errorMessage);
+    XmlPrettyPrint(xmlPaths, errorMessage);
 }
 //=============================================================================
 }

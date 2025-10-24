@@ -13,7 +13,7 @@ function varargout = xmldoctohtml(varargin)
   dirs_input = varargin{1};
   dir_output = varargin{2};
   main_title = varargin{3};
-  html_type = 'web';
+  html_type = 'html';
    if nargin() == 4
     overwrite = varargin{4};
   else

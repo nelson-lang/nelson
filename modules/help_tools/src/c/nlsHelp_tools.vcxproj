@@ -228,7 +228,7 @@
     <ClCompile Include="..\cpp\XmlDocBuild.cpp" />
     <ClCompile Include="..\cpp\XmlDocListOfFiles.cpp" />
     <ClCompile Include="..\cpp\XmlDocMergeSummary.cpp" />
-    <ClCompile Include="..\cpp\XmlDocPrettify.cpp" />
+    <ClCompile Include="..\cpp\XmlPrettyPrint.cpp" />
     <ClCompile Include="..\cpp\XmlDocSummary.cpp" />
     <ClCompile Include="..\cpp\XmlDocToc.cpp" />
     <ClCompile Include="..\cpp\XmlDocXsdChecker.cpp" />
@@ -264,7 +264,7 @@
     <ClInclude Include="..\include\XmlDocGenerateImages.hpp" />
     <ClInclude Include="..\include\XmlDocListOfFiles.hpp" />
     <ClInclude Include="..\include\XmlDocMergeSummary.hpp" />
-    <ClInclude Include="..\include\XmlDocPrettify.hpp" />
+    <ClInclude Include="..\include\XmlPrettyPrint.hpp" />
     <ClInclude Include="..\include\XmlDocSummary.hpp" />
     <ClInclude Include="..\include\XmlDocToc.hpp" />
     <ClInclude Include="..\include\XmlDocXsdChecker.hpp" />
