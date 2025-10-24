@@ -10,7 +10,7 @@
 function doc(varargin)
   m = getnelsonmode();
   if contains(getnelsonmode(), {'BASIC_ENGINE', 'BASIC_TERMINAL'})
-    warning(_('Help is not available in this mode.'));
+    warning(_('Documentation is not available in this mode. See "help" command for more information.'));
     return
   end
   isSIO = contains(m, {'BASIC_SIO_CLIENT', 'ADVANCED_SIO_CLIENT'});

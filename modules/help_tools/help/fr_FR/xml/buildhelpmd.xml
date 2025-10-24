@@ -17,7 +17,7 @@
         <param_input_item>
             <param_name>module_name</param_name>
             <param_description
-      >a string: module name (module must be loaded).</param_description>
+      >une chaîne : nom du module (le module doit être chargé).</param_description>
         </param_input_item>
     </param_input>
     <description>

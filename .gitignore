@@ -119,6 +119,7 @@ modules/slicot/src/f2c/*.c
 #==============================================================================
 # Help related files
 #==============================================================================
+/modules/help_tools/help/*.json
 /modules/*/help/*/md/*.html
 /modules/*/help/*/*.nhz
 /modules/*/help/*/*.qch

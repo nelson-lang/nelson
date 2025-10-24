@@ -13,12 +13,12 @@
         <param_input_item>
             <param_name>destination_dir</param_name>
             <param_description
-      >a string: destination directory.</param_description>
+      >une chaîne : répertoire de destination.</param_description>
         </param_input_item>
         <param_input_item>
             <param_name>language</param_name>
             <param_description
-      >a string: language. if it is missing, current default language used.</param_description>
+      >une chaîne : langue. Si elle est manquante, la langue par défaut actuelle est utilisée.</param_description>
         </param_input_item>
     </param_input>
     <description>

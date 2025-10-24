@@ -19,7 +19,7 @@ const std::wstring gatewayName = L"console";
 static const nlsGateway gateway[] = {
     { "clc", (ptrBuiltin)Nelson::ConsoleGateway::clcBuiltin, 0, 0, CPP_BUILTIN_WITH_EVALUATOR },
     { "input", (ptrBuiltin)Nelson::ConsoleGateway::inputBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "terminal_size", (ptrBuiltin)Nelson::ConsoleGateway::terminal_sizeBuiltin, 1, 0,
+    { "terminal_size", (ptrBuiltin)Nelson::ConsoleGateway::terminal_sizeBuiltin, -1, 0,
         CPP_BUILTIN_WITH_EVALUATOR }
 
 };

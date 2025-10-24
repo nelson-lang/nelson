@@ -13,34 +13,33 @@
         <param_input_item>
             <param_name>source_dirs</param_name>
             <param_description
-      >a cell of string: list of xml filenames.</param_description>
+      >une cellule de chaînes : liste des noms de fichiers xml.</param_description>
         </param_input_item>
         <param_input_item>
             <param_name>destination_dir</param_name>
             <param_description
-      >a string: directory destination.</param_description>
+      >une chaîne : répertoire de destination.</param_description>
         </param_input_item>
         <param_input_item>
             <param_name>main_title</param_name>
             <param_description
-      >a string: title of main index.</param_description>
+      >une chaîne : titre de l'index principal.</param_description>
         </param_input_item>
         <param_input_item>
             <param_name>export_format</param_name>
-            <param_description
-      >a string: 'qt', 'html', 'web', 'md'.</param_description>
+            <param_description>une chaîne : 'html' ou 'md'.</param_description>
         </param_input_item>
         <param_input_item>
             <param_name>overwrite</param_name>
             <param_description
-      >a logical: force overwrite if file destination already exists</param_description>
+      >un booléen : forcer l'écrasement si le fichier de destination existe déjà.</param_description>
         </param_input_item>
     </param_input>
     <param_output>
         <param_output_item>
             <param_name>status</param_name>
             <param_description
-      >a logical: files generated or not.</param_description>
+      >un booléen : fichiers générés ou non.</param_description>
         </param_output_item>
     </param_output>
     <description>
@@ -66,7 +65,7 @@
             <history_item>
                 <history_version>1.15.0</history_version>
                 <history_description
-      >'web' input parameter added.</history_description>
+      >'qt' input parameter removed.</history_description>
             </history_item>
 
         </history>

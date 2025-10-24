@@ -153,6 +153,7 @@ install(
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
   PATTERN "*.nhz"
+  PATTERN "*.json"
   PATTERN "xml" EXCLUDE
   PATTERN "md" EXCLUDE)
 install(

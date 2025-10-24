@@ -12,7 +12,8 @@
     <param_input>
         <param_input_item>
             <param_name>function_name</param_name>
-            <param_description>a string: function name</param_description>
+            <param_description
+      >une chaîne : nom de la fonction</param_description>
         </param_input_item>
     </param_input>
     <description>
@@ -45,6 +46,11 @@
       ><![CDATA[doc is]]></example_item_data>
                 </example_item>
             </examples>
+              <see_also>
+        <see_also_item>
+            <link linkend="${help_tools}help">help</link>
+        </see_also_item>
+    </see_also>
             <history>
                 <history_item>
                     <history_version>1.0.0</history_version>

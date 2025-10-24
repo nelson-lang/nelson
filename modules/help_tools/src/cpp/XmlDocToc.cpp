@@ -63,9 +63,7 @@ assembleToc(const std::vector<XMLDOCFILES>& xmlDocFiles, DOCUMENT_OUTPUT outputD
 {
     std::wstring destinationFileExtension;
     switch (outputDocumentType) {
-    case DOCUMENT_OUTPUT::HTML_LOCAL:
     case DOCUMENT_OUTPUT::HTML_WEB:
-    case DOCUMENT_OUTPUT::QT_HELP:
         destinationFileExtension = L".html";
         break;
     case DOCUMENT_OUTPUT::MARKDOWN:

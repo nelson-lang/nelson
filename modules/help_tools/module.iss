@@ -32,6 +32,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_help.js; DestDir: {ap
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\tex-mml-chtml.js; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_html.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_markdown.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_json.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_summary2html.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_toc2html.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_summary2md.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
@@ -43,6 +44,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\private\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\private\;Components: {#COMPONENT_HELP_TOOLS};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_HELP_TOOLS} and {#COMPONENT_HELP_FILES};
+Source: {#RootPath}modules\{#MODULE_NAME}\help\*.json; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_HELP_TOOLS} and {#COMPONENT_HELP_FILES};  
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_HELP_TOOLS} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
 ;==============================================================================

@@ -10,12 +10,13 @@
     <param_input>
         <param_input_item>
             <param_name>html_filename</param_name>
-            <param_description>a string: html filename.</param_description>
+            <param_description
+      >une chaîne : nom du fichier html.</param_description>
         </param_input_item>
         <param_input_item>
             <param_name>pdf_filename</param_name>
             <param_description
-      >a string: pdf filename (destination).</param_description>
+      >une chaîne : nom du fichier pdf (destination).</param_description>
         </param_input_item>
     </param_input>
     <description>

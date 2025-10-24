@@ -83,13 +83,7 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
         Error(_W("format not supported: 'help', 'html', 'web' or 'md' expected."));
     }
     DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HTML_WEB;
-    if (exportFormat == L"help") {
-        outputTarget = DOCUMENT_OUTPUT::QT_HELP;
-    }
     if (exportFormat == L"html") {
-        outputTarget = DOCUMENT_OUTPUT::HTML_LOCAL;
-    }
-    if (exportFormat == L"web") {
         outputTarget = DOCUMENT_OUTPUT::HTML_WEB;
     }
     if (exportFormat == L"md") {

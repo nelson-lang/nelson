@@ -17,16 +17,21 @@ ArrayOfVector
 Nelson::ConsoleGateway::terminal_sizeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 0, 0);
-    nargoutcheck(nLhs, 0, 1);
+    nargoutcheck(nLhs, 0, 2);
     ArrayOfVector res;
     if (eval) {
         Interface* io = eval->getInterface();
         if (io) {
-            ArrayOf v = ArrayOf::doubleRowVectorConstructor(2);
-            double* ptrDouble = (double*)v.getDataPointer();
-            ptrDouble[0] = (double)io->getTerminalHeight();
-            ptrDouble[1] = (double)io->getTerminalWidth();
-            res << v;
+            if (nLhs < 2) {
+                ArrayOf v = ArrayOf::doubleRowVectorConstructor(2);
+                double* ptrDouble = (double*)v.getDataPointer();
+                ptrDouble[0] = (double)io->getTerminalHeight();
+                ptrDouble[1] = (double)io->getTerminalWidth();
+                res << v;
+            } else {
+                res << ArrayOf::doubleConstructor((double)io->getTerminalHeight());
+                res << ArrayOf::doubleConstructor((double)io->getTerminalWidth());
+            }
         }
     }
     return res;

@@ -7,15 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-exit_code = 0;
-try
-  buildhelp()
-  buildhelpjson()
-catch
-  r = lasterror();
-  disp(_('Error:'));
-  disp(r.message);
-  disp(_('help build failed.'));
-  exit_code = 1;
-end
-exit(exit_code);
+% <--ADV-CLI MODE-->
+%=============================================================================
+help;
+help('help');
+help help
+%=============================================================================

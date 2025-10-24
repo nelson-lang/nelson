@@ -49,6 +49,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `fwrite`: return also bytes count as second output argument.
 
+- `help`: Help for functions in Command Window.
+
 - macOS Tahoe 26: CI setup and platform support.
 
 - Python 3.14 support.
@@ -62,10 +64,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Improved maintainability using Extensible Stylesheet Language Transformations (XSLT).
   - Unified stylesheet for consistent appearance online and offline.
   - Removed internal usage of Qt help support.
-  - Replaced `http://` links with `https://` for secure connections.
-  - Removed the `help_browser` module.
+  - Dark theme.
   - Added French language support for Help.
   - Introduced support for LaTeX formulas.
+  - Replaced `http://` links with `https://` for secure connections.
+  - Removed the `help_browser` module.
 
 - `jsondecode`: Integrated [simdjson](https://simdjson.org/) for significantly improved performance and efficiency.
 
