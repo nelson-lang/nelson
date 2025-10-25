@@ -12,7 +12,6 @@ set(module_library_name nlsHelp_tools)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
 file(GLOB HELP_TOOLS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
-     "${CMAKE_CURRENT_SOURCE_DIR}/src/c/hoedown/*.c"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/c/cmark/*.c")
 list(FILTER HELP_TOOLS_SRC EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
@@ -25,6 +24,7 @@ target_include_directories(
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/c/cmark
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../xml/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
@@ -38,8 +38,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
-          ${LIBXML2_INCLUDE_DIR}
-          ${LIBXSLT_INCLUDE_DIR})
+          ${LIBXML2_INCLUDE_DIR})
 # ==============================================================================
 target_link_libraries(
   ${module_library_name}
@@ -47,15 +46,12 @@ target_link_libraries(
     nlsCharacters_encoding
     nlsCommons
     nlsError_manager
-    nlsFiles_folders_functions
     nlsI18n
     nlsInterpreter
-    nlsLocalization
     nlsModules_manager
     nlsNelson_manager
-    nlsCore
-    ${LIBXML2_LIBRARIES}
-    ${LIBXSLT_LIBRARIES})
+    nlsXml
+    ${LIBXML2_LIBRARIES})
 if(NOT WITHOUT_TBB AND TBB_FOUND)
   target_link_libraries(${module_library_name} PRIVATE ${TBB_LIBRARY})
 endif()
@@ -72,6 +68,7 @@ target_include_directories(
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../xml/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include

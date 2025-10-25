@@ -17,10 +17,6 @@
 #include "characters_encoding.hpp"
 #include "XmlDocToc.hpp"
 #include "XmlDocSummary.hpp"
-#include <libxslt/xslt.h>
-#include <libxslt/transform.h>
-#include <libxslt/xsltutils.h>
-#include <libxslt/extensions.h>
 #include <mutex>
 #include "NelsonConfiguration.hpp"
 #include "omp_for_loop.hpp"
@@ -63,39 +59,16 @@ xmldocbuild(const wstringVector& srcDir, std::wstring destDir, const std::wstrin
         }
     }
 
-    xsltStylesheetPtr style = nullptr;
-
     std::wstring extDestination = L".html";
 
+    std::wstring xsltFilename;
     if (documentOutput == DOCUMENT_OUTPUT::HTML_WEB) {
         extDestination = L".html";
-        std::wstring xsltHtmlFilename = helptoolsPath + L"/resources/nelson_html.xslt";
-        xmlDocPtr styledoc = xmlParseFile(wstring_to_utf8(xsltHtmlFilename).c_str());
-        if (!styledoc) {
-            errorMessage = L"Unable to load XSLT stylesheet: " + xsltHtmlFilename;
-            return false;
-        }
-        style = xsltParseStylesheetDoc(styledoc);
-        if (!style) {
-            xmlFreeDoc(styledoc);
-            errorMessage = L"Unable to load XSLT stylesheet: " + xsltHtmlFilename;
-            return false;
-        }
+        xsltFilename = helptoolsPath + L"/resources/nelson_html.xslt";
     }
     if (documentOutput == DOCUMENT_OUTPUT::MARKDOWN) {
         extDestination = L".md";
-        std::wstring xsltHtmlFilename = helptoolsPath + L"/resources/nelson_markdown.xslt";
-        xmlDocPtr styledoc = xmlParseFile(wstring_to_utf8(xsltHtmlFilename).c_str());
-        if (!styledoc) {
-            errorMessage = L"Unable to load XSLT stylesheet: " + xsltHtmlFilename;
-            return false;
-        }
-        style = xsltParseStylesheetDoc(styledoc);
-        if (!style) {
-            xmlFreeDoc(styledoc);
-            errorMessage = L"Unable to load XSLT stylesheet: " + xsltHtmlFilename;
-            return false;
-        }
+        xsltFilename = helptoolsPath + L"/resources/nelson_markdown.xslt";
     }
 
     std::mutex errorMutex;
@@ -117,16 +90,13 @@ xmldocbuild(const wstringVector& srcDir, std::wstring destDir, const std::wstrin
             StringHelpers::replace_last(destinationFilename, L".xml", extDestination);
             destinationFilename = destDir + L"/" + destinationFilename;
 
-            if (!XmlTransform(completeXmlFilename, style, destinationFilename, overwrite,
+            if (!XmlTransform(completeXmlFilename, xsltFilename, destinationFilename, overwrite,
                     documentOutput, localError)) {
                 std::lock_guard<std::mutex> lock(errorMutex);
                 errors.push_back(std::move(localError));
             }
         }
     }
-
-    xsltFreeStylesheet(style);
-
     if (!errors.empty()) {
         errorMessage = std::move(errors[0]);
         return false;

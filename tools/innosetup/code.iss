@@ -140,6 +140,7 @@ var
     ModulesList.Add(ExpandConstant('{#COMPONENT_F2C}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_NIG}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_JSON}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_XML}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_WEBTOOLS}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_MATIO}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_HDF5}'));
@@ -397,6 +398,16 @@ function NextButtonClick(CurPageID: Integer): Boolean;
                 mbError, MB_OK, MB_OK );
             Result := false;
           end;
+
+        if ( 
+          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_XML}') ) = false) and 
+          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_HELP_TOOLS}')) = true))) then
+          begin
+              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_XML_REQUIRED'),
+                mbError, MB_OK, MB_OK );
+            Result := false;
+          end;
+
 
       end;
   end;

@@ -102,6 +102,7 @@ list(
   TESTS_MANAGER
   GUI
   JSON
+  XML
   NIG
   ASSERT_FUNCTIONS
   STATISTICS
@@ -159,6 +160,10 @@ endif()
 # ==============================================================================
 if (WITHOUT_LIBGIT2 AND WITHOUT_LIBCURL)
   set(WITHOUT_WEBTOOLS_MODULE ON)
+endif()
+# ==============================================================================
+if (WITHOUT_XML_MODULE)
+  set(WITHOUT_HELP_TOOLS_MODULE ON)
 endif()
 # ==============================================================================
 option(FORCE_QT5 "Force to use Qt5." OFF)
@@ -290,7 +295,7 @@ find_package(
   CONFIG COMPONENTS ${boost_components}
   REQUIRED)
 # ==============================================================================
-if(NOT WITHOUT_HELP_TOOLS_MODULE)
+if(NOT WITHOUT_XML_MODULE)
   find_package(LibXml2 REQUIRED)
   find_package(LibXslt REQUIRED)
 endif()

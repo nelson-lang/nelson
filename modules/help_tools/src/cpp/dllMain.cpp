@@ -11,7 +11,6 @@
 #include <Windows.h>
 //=============================================================================
 #pragma comment(lib, "libxml2.lib")
-#pragma comment(lib, "libxslt.lib")
 //=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)

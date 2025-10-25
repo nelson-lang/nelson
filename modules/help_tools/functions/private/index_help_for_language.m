@@ -35,11 +35,11 @@ function index_help_for_language(destination_dir, lang, modules_help_list, with_
 
   
   xmldocmergesummary([destination_dir],list_summary_files);
-  xmltransform([destination_dir '/help_summary.xml'], [nelsonroot() '/modules/help_tools/resources/nelson_summary2html.xslt'], ...
-  [destination_dir '/summary.html']);
 
-  xmltransform([destination_dir '/help_summary.xml'], [nelsonroot() '/modules/help_tools/resources/nelson_toc2html.xslt'], ...
-  [destination_dir '/toc.html']);
+  nelson_summary2html = [modulepath('help_tools'), '/resources/nelson_summary2html.xslt'];
+  xmltransform([destination_dir '/help_summary.xml'], nelson_summary2html, [destination_dir '/summary.html']);
 
+  nelson_toc2html = [modulepath('help_tools'), '/resources/nelson_toc2html.xslt'];
+  xmltransform([destination_dir '/help_summary.xml'], nelson_toc2html, [destination_dir '/toc.html']);
 end
 %=============================================================================

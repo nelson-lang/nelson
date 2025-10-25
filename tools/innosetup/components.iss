@@ -76,6 +76,9 @@ Name: {#COMPONENT_TEXT_EDITOR}; Description:{cm:TEXT_EDITOR_MODULE}; Types: full
 #define COMPONENT_HELP_TOOLS 'HELP_TOOLS'
 Name: {#COMPONENT_HELP_TOOLS}; Description:{cm:HELP_TOOLS_MODULE}; Types: full custom;
 ;==============================================================================
+#define COMPONENT_XML 'XML'
+Name: {#COMPONENT_XML}; Description:{cm:XML_MODULE}; Types: full custom;
+;==============================================================================
 #define COMPONENT_HELP_FILES 'HELP_FILES'
 Name: {#COMPONENT_HELP_FILES}; Description:{cm:HELP_FILES}; Types: full custom;
 ;==============================================================================

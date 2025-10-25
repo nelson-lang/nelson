@@ -84,7 +84,7 @@ XmlDocTocSummary(const std::wstring& destinationDirectory, std::vector<XMLDOCFIL
         return false;
     }
     if (outputDocumentType == DOCUMENT_OUTPUT::MARKDOWN) {
-        // std::filesystem::remove(outputXmlFile);
+        std::filesystem::remove(outputXmlFile);
     }
 
     return true;

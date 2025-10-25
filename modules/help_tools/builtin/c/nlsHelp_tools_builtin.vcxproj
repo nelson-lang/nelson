@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSHELP_TOOLS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/help_tools/builtin/include;$(SolutionDir)modules/help_tools/src/include;$(SolutionDir)modules/function_handle/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libiconv/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libxml2/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/help_tools/builtin/include;$(SolutionDir)modules/xml/src/include;$(SolutionDir)modules/help_tools/src/include;$(SolutionDir)modules/function_handle/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libiconv/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libxml2/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -116,7 +116,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSHELP_TOOLS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/help_tools/builtin/include;$(SolutionDir)modules/help_tools/src/include;$(SolutionDir)modules/function_handle/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libiconv/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libxml2/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/help_tools/builtin/include;$(SolutionDir)modules/xml/src/include;$(SolutionDir)modules/help_tools/src/include;$(SolutionDir)modules/function_handle/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libiconv/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libxml2/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -139,7 +139,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSHELP_TOOLS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/help_tools/builtin/include;$(SolutionDir)modules/help_tools/src/include;$(SolutionDir)modules/function_handle/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libiconv/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libxml2/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/help_tools/builtin/include;$(SolutionDir)modules/xml/src/include;$(SolutionDir)modules/help_tools/src/include;$(SolutionDir)modules/function_handle/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libiconv/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libxml2/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -164,7 +164,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSHELP_TOOLS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/help_tools/builtin/include;$(SolutionDir)modules/help_tools/src/include;$(SolutionDir)modules/function_handle/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libiconv/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libxml2/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/help_tools/builtin/include;$(SolutionDir)modules/xml/src/include;$(SolutionDir)modules/help_tools/src/include;$(SolutionDir)modules/function_handle/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/dynamic_link/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Boost;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libiconv/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libxml2/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -184,14 +184,11 @@
     <ClCompile Include="..\cpp\docrootBuitlin.cpp" />
     <ClCompile Include="..\cpp\headcommentsBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
-    <ClCompile Include="..\cpp\xmltransformBuiltin.cpp" />
     <ClCompile Include="..\cpp\htmltopdfBuiltin.cpp" />
     <ClCompile Include="..\cpp\markdownBuiltin.cpp" />
     <ClCompile Include="..\cpp\xmldocbuildBuiltin.cpp" />
-    <ClCompile Include="..\cpp\xmldoccheckerBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\xmldocmergesummaryBuiltin.cpp" />
-    <ClCompile Include="..\cpp\xmlprettyprintBuiltin.cpp" />
     <ClCompile Include="..\cpp\__xmldocgenerateimages__Builtin.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -233,14 +230,12 @@
     <ClInclude Include="..\..\src\include\XmlDocMakeSummary.hpp" />
     <ClInclude Include="..\include\docrootBuiltin.hpp" />
     <ClInclude Include="..\include\headcommentsBuiltin.hpp" />
-    <ClInclude Include="..\include\xmltransformBuiltin.hpp" />
     <ClInclude Include="..\include\htmltopdfBuiltin.hpp" />
     <ClInclude Include="..\include\nlsHelp_tools_builtin_exports.h" />
     <ClInclude Include="..\include\markdownBuiltin.hpp" />
     <ClInclude Include="..\include\xmldoccheckerBuiltin.hpp" />
     <ClInclude Include="..\include\xmldocbuildBuiltin.hpp" />
     <ClInclude Include="..\include\xmldocmergesummaryBuiltin.hpp" />
-    <ClInclude Include="..\include\xmlprettyprintBuiltin.hpp" />
     <ClInclude Include="..\include\__xmldocgenerateimages__Builtin.hpp" />
   </ItemGroup>
   <ItemGroup>

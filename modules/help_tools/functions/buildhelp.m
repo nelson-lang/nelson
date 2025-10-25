@@ -13,6 +13,10 @@ function buildhelp(varargin)
   % buildhelp(module_name) build help of a module loaded in Nelson
   %
   narginchk(0, 1);
+  if ~isempty(getenv('CONDA_PREFIX')) && ismac()
+    warning(_('Building help files is not allowed in a conda environment. libxslt causes issues on macOS.'));
+    return;
+  end
   TMP = tempname();
   if (nargin() == 0)
     modules_help_list = get_modules_help_list();

@@ -55,6 +55,7 @@ modules_list = {
 {'stream_manager', true};
 {'hdf5', @WITH_HDF5_MODULE@};
 {'matio', @WITH_MATIO_MODULE@};
+{'xml', @WITH_XML_MODULE@};
 {'json', @WITH_JSON_MODULE@};
 {'spreadsheet', @WITH_SPREADSHEET_MODULE@};
 {'mpi', @WITH_MPI_MODULE@};
