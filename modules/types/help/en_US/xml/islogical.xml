@@ -30,6 +30,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = 1;
 res = islogical(A)]]></example_item_data>
             </example_item>
@@ -37,6 +38,7 @@ res = islogical(A)]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[B = logical(1);
 res = islogical(B)]]></example_item_data>
             </example_item>

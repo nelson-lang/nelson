@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>engOpen</keyword>
+    <short_description>Démarre un processus Nelson</short_description>
+    <syntax>
+        <syntax_item>#include "engine.h"</syntax_item>
+        <syntax_item>Engine *engOpen(const char *startcmd);</syntax_item>
+    </syntax>
+    <param_input>
+                <param_input_item>
+                        <param_name>startcmd</param_name>
+                        <param_description
+      >Commande de démarrage de Nelson (NULL).</param_description>
+                </param_input_item>
+    </param_input>
+    <param_output>
+                <param_output_item>
+                        <param_name>Engine</param_name>
+                        <param_description
+      >poignée du moteur Nelson ou NULL.</param_description>
+                </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >engOpen</b> démarre un processus Nelson afin d'utiliser Nelson comme moteur de calcul.</p>
+            <p
+    >Le chemin des bibliothèques doit contenir le chemin de Nelson pour trouver les bibliothèques de Nelson à l'exécution.</p>
+            <p
+    >Définissez la valeur sur le chemin renvoyé par la commande Nelson suivante :</p>
+            <p>
+                <b>res</b> = modulepath('nelson', 'builtin')</p>
+                <p>sur Linux : export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<b
+      >res</b>
+            </p>
+            <p>export PATH=$PATH:<b>res</b>
+        </p>
+        <p>sur macOS : export DYLIB_LIBRARY_PATH=$DYLIB_LIBRARY_PATH:<b>res</b>
+    </p>
+    <p>export PATH=$PATH:<b>res</b>
+</p>
+<p>sur Windows : set PATH=%PATH%;<b>res</b>
+</p>
+</description>
+<used_function />
+<bibliography />
+<examples>
+    <example_item>
+        <example_item_type>nelson</example_item_type>
+        <example_item_description />
+        <example_item_data
+        runnable="false"
+      ><![CDATA[edit([modulepath('mex', 'tests'), '/test_engine.c'])]]></example_item_data>
+    </example_item>
+</examples>
+<see_also>
+    <see_also_item>
+        <link linkend="${mex}mex">mex</link>
+    </see_also_item>
+    <see_also_item>
+        <link linkend="${mex}engClose">engClose</link>
+    </see_also_item>
+</see_also>
+<history>
+    <history_item>
+        <history_version>1.0.0</history_version>
+        <history_description>version initiale</history_description>
+    </history_item>
+</history>
+<authors>
+    <author_item>Allan CORNET</author_item>
+</authors>
+</xmldoc>

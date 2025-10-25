@@ -69,6 +69,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 t = 0:0.01:2*pi;
 x = cos(t);
@@ -90,7 +91,11 @@ subplot(2, 2, 4);
 plot (t, x);
 title('normal plot again');
 axis('normal');]]></example_item_data>
-                <example_item_img src="../images/axis.svg" align="middle" />
+                <example_item_img
+        src="../images/axis.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

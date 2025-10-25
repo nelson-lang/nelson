@@ -33,6 +33,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = [1 -255 -120 127 128 215]
 B = int8(A)]]></example_item_data>
             </example_item>

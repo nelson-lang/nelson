@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>copyfile</keyword>
+    <short_description>Copie des fichiers ou des dossiers.</short_description>
+    <syntax>
+        <syntax_item>copyfile(source, destination)</syntax_item>
+        <syntax_item>[status, msg] = copyfile(source, destination)</syntax_item>
+        <syntax_item
+    >[status, msg] = copyfile(source, destination, 'f')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>source</param_name>
+            <param_description
+      >a string: fichier ou répertoire source.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>destination</param_name>
+            <param_description
+      >a string: fichier ou répertoire de destination.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>'f' or 'F'</param_name>
+        <param_description
+      >forcer la copie même si la destination n'est pas inscriptible.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>status</param_name>
+            <param_description>un booléen: vrai ou faux</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>msg</param_name>
+            <param_description>a string: message d'erreur</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+      <p><b
+      >copyfile(source, destination)</b> copie le fichier ou le répertoire <b
+      >source</b> (et ses sous-répertoires) vers le fichier ou répertoire <b
+      >destination</b>.</p>
+      <p>Si <b>source</b> est un répertoire, <b
+      >destination</b> ne peut pas être un fichier.</p>
+      <p><b>copyfile</b> remplace les fichiers existants sans avertissement.</p>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[copyfile([nelsonroot(), '/etc/startup.m'], [tempdir(), 'startup.m'])
+[status, msg] = copyfile([nelsonroot(), '/etc/startup.m'], [tempdir(), 'startup.m'])]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${files_folders_functions}isdir">isdir</link>
+                </see_also_item>
+                <see_also_item>
+                    <link
+        linkend="${files_folders_functions}rmfile"
+      >rmfile</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>initial version</history_description>
+                </history_item>
+                <history_item>
+                    <history_version>1.4.0</history_version>
+                    <history_description
+      >input arguments support scalar string array type</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

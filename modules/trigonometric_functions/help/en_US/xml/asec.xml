@@ -30,6 +30,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[x = -pi:0.75:pi;
 R = asec(x)]]></example_item_data>
             </example_item>

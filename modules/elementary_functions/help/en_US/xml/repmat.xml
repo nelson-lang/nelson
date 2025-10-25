@@ -28,7 +28,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>repmat</b> repeats matrix or N-D array.</description>
+        <p><b>repmat</b> replicates and tiles an array.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>
@@ -36,18 +37,21 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[repmat(1:5, 2)]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[repmat(1:5, [2 3])]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[repmat(1:5, [2 3 4])]]></example_item_data>
             </example_item>
         </examples>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>string</module_name>
+    <chapter>Type Chaîne</chapter>
+    <chapter_description>
+        <p
+    >Le module Type Chaîne fournit des outils complets pour créer, manipuler et analyser du texte dans Nelson.</p>
+        <p
+    >Il prend en charge la conversion entre tableaux de caractères et tableaux de chaînes, la concaténation, le nettoyage, la justification et la conversion de casse.</p>
+        <p
+    >Le module inclut également des fonctions pour rechercher, faire correspondre, remplacer et formater des chaînes, permettant un traitement textuel flexible pour des opérations simples ou avancées.</p>
+    </chapter_description>
+</xmldoc>

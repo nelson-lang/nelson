@@ -54,7 +54,7 @@
         <p>
             <b
       >sparse</b> is used to build a sparse matrix. Only non-zero entries are stored.</p>
-            <p>If <b>M</b>is a full matrix, <b
+            <p>If <b>M</b> is a full matrix, <b
       >sparse</b> converts it to a sparse matrix representation, removing all zero values.</p>
             <p>If nz is not specified, <b
       >sparse</b> uses as default value: nz = max([numel(i), numel(j), numel(v)])</p>
@@ -68,18 +68,21 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[sp = sparse(eye(3,3))]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[sp = sparse(3, 3)]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[I = [1 2 3];
 J = [3 1 2];
 V = [32 42 53];
@@ -90,6 +93,7 @@ size(sp)]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[I = [1 2 3];
 J = [3 1 2];
 V = [32 42 53];
@@ -102,6 +106,7 @@ nzmax(sp)]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[I = [1 2 3];
 J = [3 1 2];
 V = [32 42 53];

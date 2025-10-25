@@ -60,6 +60,7 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="cli"
       ><![CDATA[X = rand(3, 4, 5, 6);
 size(X)
 size(X, 3)
@@ -70,7 +71,9 @@ size(X, [2 4])
         <example_item>
             <example_item_type>nelson</example_item_type>
             <example_item_description />
-            <example_item_data><![CDATA[size(cell(4,3))]]></example_item_data>
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[size(cell(4,3))]]></example_item_data>
         </example_item>
     </examples>
     <see_also>

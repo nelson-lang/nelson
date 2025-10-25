@@ -43,7 +43,7 @@ apt-get install -y build-essential ninja-build autotools-dev libtool automake \
 
 print_status "Installing system dependencies"
 apt-get install -y apt-transport-https ca-certificates gnupg software-properties-common wget \
-                   xvfb zlib1g-dev libffi-dev libicu-dev libxml2-dev libsqlite3-dev \
+                   xvfb zlib1g-dev libffi-dev libicu-dev libxml2-dev libxslt1-dev libsqlite3-dev \
                    libgl-dev libcurl4-openssl-dev libgit2-dev libtbb-dev
 
 print_status "Installing math libraries"

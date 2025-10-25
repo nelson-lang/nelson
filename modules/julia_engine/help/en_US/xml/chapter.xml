@@ -4,6 +4,10 @@
     <language>en_US</language>
     <module_name>julia_engine</module_name>
     <chapter>Julia engine</chapter>
-    <chapter_description>julia_engine functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Julia Engine module enables Nelson users to seamlessly interface with the Julia programming language, combining Julia's high-performance numerical capabilities with Nelson's environment.</p>
+        <p
+    >It provides functions to run Julia code, manage interpreter environments, and exchange data between Nelson and Julia.</p>
+    </chapter_description>
 </xmldoc>

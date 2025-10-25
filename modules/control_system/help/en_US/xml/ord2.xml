@@ -61,6 +61,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[wn = 5;
 z = 0.7;
 [A, B, C, D] = ord2(wn, z);

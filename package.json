@@ -39,7 +39,6 @@
       "modules/f2c/tests/dgemm.c",
       "modules/f2c/src/c/libf2c/",
       "modules/f2c/src/c/f2c/",
-      "modules/help_tools/src/c/hoedown",
       "modules/file_archiver/src/c/minizip",
       "modules/commons/src/fmt/include/fmt",
       "modules/files_folders_functions/src/include/dtl/",

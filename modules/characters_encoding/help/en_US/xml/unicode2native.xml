@@ -37,8 +37,9 @@
                     <b
       >bytes = unicode2native(str, charset)</b> converts unicode characters to an numeric array (character set <b
       >charset</b> instead of the native character set).</p>
-                    <p
-    >List of characters set: http://www.iana.org/assignments/character-sets/character-sets.xhtml</p>
+                    <p>List of characters set: <a
+        href="http://www.iana.org/assignments/character-sets/character-sets.xhtml"
+      >http://www.iana.org/assignments/character-sets/character-sets.xhtml</a></p>
                 </description>
                 <used_function />
                 <bibliography>ICU library</bibliography>
@@ -47,6 +48,7 @@
                         <example_item_type>nelson</example_item_type>
                         <example_item_description />
                         <example_item_data
+        runnable="cli"
       ><![CDATA[R = unicode2native('片仮名', 'SHIFT_JIS')]]></example_item_data>
                     </example_item>
                 </examples>

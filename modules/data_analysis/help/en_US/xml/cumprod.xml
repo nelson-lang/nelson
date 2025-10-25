@@ -51,6 +51,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[M = uint8([10:30:70;20:30:80;30:30:90]);
 R = cumprod(M)
 R = cumprod(M, 'reverse')]]></example_item_data>

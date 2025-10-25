@@ -24,13 +24,11 @@
         </param_output_item>
     </param_output>
     <description>
-        <p>
-            <b>flipdim</b> return an new array of <b
+        <p><b>flipdim</b> return an new array of <b
       >A</b> flipped about the dimension <b>dim</b>.</p>
-            <p>
-                <b>flipdim</b> is similar to <b
+        <p><b>flipdim</b> is similar to <b
       >flip</b> and available for compatibility with old existing scripts.</p>
-            </description>
+    </description>
             <used_function />
             <bibliography />
             <examples>
@@ -38,6 +36,7 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[x = eye(3, 2);
 y = flipdim(x, 1)
 y = flipdim(x, 2)

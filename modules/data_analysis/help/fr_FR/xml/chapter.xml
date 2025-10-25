@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>data_analysis</module_name>
+    <chapter>Analyse de données</chapter>
+    <chapter_description>
+       <p
+    >Le module Analyse de données fournit des outils pour effectuer des opérations numériques et des analyses basées sur des tableaux dans Nelson.</p>
+       <p
+    >Il prend en charge les opérations cumulatives, le tri, l'agrégation, la convolution et l'identification des valeurs uniques ou manquantes.</p>
+       <p
+    >Ce module permet un traitement, un résumé et une exploration efficaces des jeux de données, facilitant un large éventail de tâches analytiques et computationnelles.</p>
+    </chapter_description>
+</xmldoc>

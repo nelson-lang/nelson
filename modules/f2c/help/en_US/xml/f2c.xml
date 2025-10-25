@@ -43,6 +43,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[f2c([modulepath(nelsonroot(),'f2c','root'), '/tests/dgemm.f'], tempdir());
 fileread([tempdir(), 'dgemm.c'])]]></example_item_data>
             </example_item>

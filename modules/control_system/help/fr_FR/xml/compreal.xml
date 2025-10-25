@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>compreal</keyword>
+    <short_description
+  >Réalisation compagnon des fonctions de transfert.</short_description>
+    <syntax>
+        <syntax_item
+    >[A, B, C, D, E] = compreal(numerator, denominator)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>numerator</param_name>
+            <param_description>un vecteur ou une matrice</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>denominator</param_name>
+            <param_description>un vecteur</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>A (n x n)</param_name>
+            <param_description
+      >Représente la matrice de transition d'état du système. Elle décrit comment l'état interne du système évolue au fil du temps.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>B (n x m)</param_name>
+            <param_description
+      >Décrit la correspondance entrée-état. Elle montre comment les entrées de contrôle affectent le changement dans l'état du système.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>C (p x n)</param_name>
+            <param_description
+      >Représente la correspondance état-sortie. Elle montre comment les variables d'état du système sont liées aux sorties du système.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>D (p x m)</param_name>
+            <param_description
+      >Décrit le passage direct des entrées aux sorties. Dans de nombreux systèmes, cette matrice est nulle car il n'y a pas de passage direct.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>E (n x n)</param_name>
+            <param_description>matrice.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >[A, B, C, D, E] = compreal(numerator, denominator)</b> calcule une réalisation d'espace d'état représentée par les matrices A, B, C, D et E.</p>
+            <p>La matrice <b
+      >E</b> est une matrice vide (matrice identité) lorsqu'il y a au moins autant de pôles que de zéros.</p>
+            <p
+    >Cependant, si le nombre de zéros dépasse celui des pôles, la matrice <b
+      >E</b> devient singulière.</p>
+        </description>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[numerator = [0 10 10];
+denominator = [1 1 10];
+[A, B, C, D, E] = compreal(numerator, denominator)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${control_system}tf">tf</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${control_system}ss">ss</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${linear_algebra}balance">balance</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

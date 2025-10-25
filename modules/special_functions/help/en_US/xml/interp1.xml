@@ -46,13 +46,18 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 v = [0  1.41  2  1.41  0  -1.41  -2  -1.41 0];
 xq = 1.5:8.5;
 vq = interp1(v,xq);
 plot(1:9, v, 'o', xq, vq, '*');
 legend('v','vq');]]></example_item_data>
-                <example_item_img src="../images/interp1.svg" align="middle" />
+                <example_item_img
+        src="../../images/interp1.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <history>

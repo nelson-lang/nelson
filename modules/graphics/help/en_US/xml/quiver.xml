@@ -78,6 +78,7 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 f.DrawLater = 'on';
 [X, Y] = meshgrid(0:pi/8:pi, -pi:pi/8:pi);
@@ -86,14 +87,16 @@ V1 = cos(Y);
 quiver(U1,V1, 'r')
 f.DrawLater = 'off';]]></example_item_data>
                     <example_item_img
-        src="../images/quiver_1.svg"
+        src="../../images/quiver_1.svg"
         align="middle"
+        generate="true"
       />
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 f.DrawLater = 'on';      
 [X, Y] = meshgrid(0:pi/8:pi, -pi:pi/8:pi);
@@ -113,6 +116,7 @@ f.DrawLater = 'off';]]></example_item_data>
                     <example_item_img
         src="../images/quiver_2.svg"
         align="middle"
+        generate="true"
       />
                 </example_item>
             </examples>

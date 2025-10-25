@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>operators</module_name>
+    <chapter>Opérateurs</chapter>
+    <chapter_description>
+        <p
+    >Le module Operators fournit des outils pour effectuer des opérations arithmétiques, logiques, relationnelles et sur tableaux dans Nelson.</p>
+        <p
+    >Il prend en charge les calculs élément par élément et matriciels, la concaténation, l'indexation et l'affectation par indices, ainsi que les opérations logiques à court-circuit.</p>
+        <p
+    >Ce module permet une manipulation flexible des structures de données et des tableaux numériques, constituant la base des calculs simples comme des expressions mathématiques avancées.</p>
+    </chapter_description>
+</xmldoc>

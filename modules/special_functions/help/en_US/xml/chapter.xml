@@ -4,6 +4,12 @@
     <language>en_US</language>
     <module_name>special_functions</module_name>
     <chapter>Special functions</chapter>
-    <chapter_description>special functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Special Functions module provides tools for performing advanced mathematical operations in Nelson.</p>
+        <p
+    >It includes functions for statistical distributions, combinatorial calculations, and other specialized mathematical computations that are essential in various scientific and engineering applications.</p>  
+        <p
+    >This module enhances Nelson's capabilities by offering a range of functions that support complex analyses and modeling tasks.</p>
+    </chapter_description>
 </xmldoc>

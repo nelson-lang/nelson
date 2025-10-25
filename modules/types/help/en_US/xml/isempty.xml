@@ -33,6 +33,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = rand(3, 3, 3);
 res = isempty(A)
 A(:, :, :) = [];
@@ -43,6 +44,7 @@ res = isempty(A)
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[B = {};
 res = isempty(B)
 C = struct()

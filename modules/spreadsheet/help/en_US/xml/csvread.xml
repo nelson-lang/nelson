@@ -78,7 +78,9 @@
                         <example_item>
                             <example_item_type>nelson</example_item_type>
                             <example_item_description />
-                            <example_item_data>A = [Inf, -Inf, NaN, 3];
+                            <example_item_data
+        runnable="cli"
+      >A = [Inf, -Inf, NaN, 3];
 filename = [tempdir(), 'csvread_example.csv'];
 csvwrite(filename, A);
 R = csvread(filename)</example_item_data>

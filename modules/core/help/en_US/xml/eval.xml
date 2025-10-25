@@ -40,25 +40,31 @@
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
-                <example_item_data><![CDATA[eval('B=4')]]></example_item_data>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[eval('B=4')]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description
       >This example will fail and returns an error message.</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[C = eval('B=4')]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
-                <example_item_data><![CDATA[D = eval(4)]]></example_item_data>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[D = eval(4)]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description
       >This example will not fail and return false.</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[eval('error(''blabla'')', 'l = lasterror(); disp([''lasterror message: '', l.message])')]]></example_item_data>
             </example_item>
         </examples>

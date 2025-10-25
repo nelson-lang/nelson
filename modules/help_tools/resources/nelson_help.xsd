@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+-->
+
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
   <!-- Root Element -->
@@ -11,8 +23,7 @@
         <xs:element name="language" type="xs:string" minOccurs="1" maxOccurs="1"/>
         <xs:element name="module_name" type="xs:string" minOccurs="0" maxOccurs="1"/>
         <xs:element name="chapter" type="xs:string" minOccurs="0"  maxOccurs="1"/>
-        <xs:element name="chapter_description" type="xs:string" minOccurs="0"  maxOccurs="1"/>
-        <xs:element name="auto_toc" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="chapter_description" type="DescriptionType" minOccurs="0"  maxOccurs="1"/>
         <xs:element name="keyword" type="xs:string" minOccurs="0"  maxOccurs="1"/>
         <xs:element name="keyword_alias" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="short_description" type="xs:string" minOccurs="0"  maxOccurs="1"/>
@@ -21,10 +32,12 @@
         <xs:element name="syntax" minOccurs="0" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="syntax_item" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="syntax_item" type="SyntaxItemType" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+
+        <!-- Syntax item uses SyntaxItemType (defined at top-level) -->
         
         <!-- Parameters -->
         <xs:element name="param_input" minOccurs="0" maxOccurs="1">
@@ -34,7 +47,7 @@
                 <xs:complexType>
                   <xs:sequence>
                     <xs:element name="param_name" type="xs:string"/>
-                    <xs:element name="param_description" type="xs:string"/>
+                    <xs:element name="param_description" type="ParamDescriptionType"/>
                   </xs:sequence>
                 </xs:complexType>
               </xs:element>
@@ -48,7 +61,7 @@
                 <xs:complexType>
                   <xs:sequence>
                     <xs:element name="param_name" type="xs:string"/>
-                    <xs:element name="param_description" type="xs:string"/>
+                    <xs:element name="param_description" type="ParamDescriptionType"/>
                   </xs:sequence>
                 </xs:complexType>
               </xs:element>
@@ -81,6 +94,10 @@
   <xs:complexType name="PType" mixed="true">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
       <xs:element name="b"    type="InlineType"/>
+      <xs:element name="a"    type="AnchorType"/>
+      <xs:element name="link" type="LinkType"/>
+      <xs:element name="latex" type="LatexType"/>
+      <xs:element name="table" type="TableType"/>
       <xs:element name="i"    type="InlineType"/>
       <xs:element name="code" type="InlineType"/>
       <xs:element name="ul"   type="UlType"/>
@@ -92,6 +109,29 @@
   <xs:complexType name="InlineType" mixed="true">
     <xs:sequence/>
   </xs:complexType>
+  <xs:complexType name="LatexType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="format" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="AnchorType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="href" type="xs:string" use="required"/>
+        <xs:attribute name="target" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <!-- Generic link type used inline with linkend attribute -->
+  <xs:complexType name="LinkType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="linkend" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
   <xs:complexType name="EmptyType"/>
   <xs:complexType name="ImgType">
     <xs:attribute name="src" type="xs:string" use="required"/>
@@ -100,24 +140,32 @@
 
   <!-- Lists -->
   <xs:complexType name="UlType">
-    <xs:sequence>
-      <xs:element name="li" type="LiType" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="li" type="LiType"/>
+      <xs:element name="latex" type="LatexType"/>
+      <xs:element name="p" type="PType"/>
+    </xs:choice>
   </xs:complexType>
   <xs:complexType name="OlType">
-    <xs:sequence>
-      <xs:element name="li" type="LiType" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="li" type="LiType"/>
+      <xs:element name="latex" type="LatexType"/>
+      <xs:element name="p" type="PType"/>
+    </xs:choice>
   </xs:complexType>
   <xs:complexType name="LiType" mixed="true">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
       <xs:element name="ul"   type="UlType"/>
       <xs:element name="ol"   type="OlType"/>
+      <xs:element name="link" type="LinkType"/>
+      <xs:element name="a"    type="AnchorType"/>
       <xs:element name="b"    type="InlineType"/>
       <xs:element name="i"    type="InlineType"/>
       <xs:element name="code" type="InlineType"/>
       <xs:element name="br"   type="EmptyType"/>
       <xs:element name="img"  type="ImgType"/>
+      <xs:element name="latex" type="LatexType"/>
+      <xs:element name="p" type="PType"/>
     </xs:choice>
   </xs:complexType>
 
@@ -131,6 +179,8 @@
     </xs:choice>
     <xs:attribute name="style" type="xs:string" use="optional"/>
     <xs:attribute name="border" type="xs:string" use="optional"/>
+    <xs:attribute name="cellpadding" type="xs:string" use="optional"/>
+    <xs:attribute name="cellspacing" type="xs:string" use="optional"/>
   </xs:complexType>
   <xs:complexType name="TheadType">
     <xs:sequence>
@@ -155,35 +205,65 @@
   </xs:complexType>
   <xs:complexType name="ThType" mixed="true">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="a"    type="AnchorType"/>
       <xs:element name="b"    type="InlineType"/>
       <xs:element name="i"    type="InlineType"/>
+      <xs:element name="link" type="LinkType"/>
       <xs:element name="code" type="InlineType"/>
       <xs:element name="br"   type="EmptyType"/>
       <xs:element name="img"  type="ImgType"/>
     </xs:choice>
+    <xs:attribute name="rowspan" type="xs:string" use="optional"/>
+    <xs:attribute name="colspan" type="xs:string" use="optional"/>
+    <xs:attribute name="align" type="xs:string" use="optional"/>
   </xs:complexType>
   <xs:complexType name="TdType" mixed="true">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="a"    type="AnchorType"/>
+      <xs:element name="link" type="LinkType"/>
       <xs:element name="b"    type="InlineType"/>
       <xs:element name="i"    type="InlineType"/>
       <xs:element name="code" type="InlineType"/>
       <xs:element name="br"   type="EmptyType"/>
       <xs:element name="img"  type="ImgType"/>
     </xs:choice>
+    <xs:attribute name="rowspan" type="xs:string" use="optional"/>
+    <xs:attribute name="colspan" type="xs:string" use="optional"/>
+    <xs:attribute name="align" type="xs:string" use="optional"/>
   </xs:complexType>
 
   <!-- DescriptionType: allows PType and block elements -->
   <xs:complexType name="DescriptionType" mixed="true">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
       <xs:element name="p" type="PType"/>
+      <xs:element name="latex" type="LatexType"/>
       <xs:element name="table" type="TableType"/>
       <xs:element name="ul" type="UlType"/>
       <xs:element name="ol" type="OlType"/>
       <xs:element name="b" type="InlineType"/>
+      <xs:element name="a" type="AnchorType"/>
+      <xs:element name="link" type="LinkType"/>
       <xs:element name="i" type="InlineType"/>
       <xs:element name="br" type="EmptyType"/>
       <xs:element name="code" type="InlineType"/>
       <xs:element name="img" type="ImgType"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <!-- Parameter description type (allows inline markup) -->
+  <xs:complexType name="ParamDescriptionType" mixed="true">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="b" type="InlineType"/>
+      <xs:element name="a" type="AnchorType"/>
+      <xs:element name="link" type="LinkType"/>
+      <xs:element name="i" type="InlineType"/>
+      <xs:element name="code" type="InlineType"/>
+      <xs:element name="br" type="EmptyType"/>
+      <xs:element name="img" type="ImgType"/>
+      <xs:element name="ul" type="UlType"/>
+      <xs:element name="ol" type="OlType"/>
+      <xs:element name="latex" type="LatexType"/>
+      <xs:element name="p" type="PType"/>
     </xs:choice>
   </xs:complexType>
 
@@ -200,9 +280,21 @@
                 <xs:complexType>
                   <xs:attribute name="src" type="xs:string" use="optional"/>
                   <xs:attribute name="align" type="xs:string" use="optional"/>
+                  <xs:attribute name="alt" type="xs:string" use="optional"/>
+                  <xs:attribute name="generate" type="xs:string" use="optional"/>
                 </xs:complexType>
               </xs:element>
-              <xs:element name="example_item_data" type="xs:string" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="example_item_data" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="runnable" type="xs:string" use="optional"/>
+                      <xs:attribute name="language" type="xs:string" use="optional"/>
+                      <xs:attribute name="format" type="xs:string" use="optional"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
             </xs:choice>
           </xs:sequence>
         </xs:complexType>
@@ -212,6 +304,8 @@
   <!-- Allow markup in example_item_description and example_item_type -->
   <xs:complexType name="ExampleItemDescriptionType" mixed="true">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="latex" type="LatexType"/>
+      <xs:element name="a"    type="AnchorType"/>
       <xs:element name="b"    type="InlineType"/>
       <xs:element name="i"    type="InlineType"/>
       <xs:element name="code" type="InlineType"/>
@@ -221,6 +315,8 @@
   </xs:complexType>
   <xs:complexType name="ExampleItemType" mixed="true">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="latex" type="LatexType"/>
+      <xs:element name="a"    type="AnchorType"/>
       <xs:element name="b"    type="InlineType"/>
       <xs:element name="i"    type="InlineType"/>
       <xs:element name="code" type="InlineType"/>
@@ -270,5 +366,43 @@
       <xs:element name="author_item" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
+
+  <!-- Top-level help summary used by summary files -->
+  <xs:element name="help_summary">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="main_summary" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:attribute name="link" type="xs:string" use="optional"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="toc" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="module" type="xs:string" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="section" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="chapter_description" type="DescriptionType" minOccurs="0" maxOccurs="1"/>
+                  </xs:sequence>
+                  <xs:attribute name="name" type="xs:string" use="optional"/>
+                  <xs:attribute name="link" type="xs:string" use="optional"/>
+                  <xs:attribute name="toc_visibility" type="xs:string" use="optional"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Syntax item: plain text only, no angle brackets or ampersand, 1..200 chars -->
+  <xs:simpleType name="SyntaxItemType">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="200"/>
+    </xs:restriction>
+  </xs:simpleType>
 
 </xs:schema>

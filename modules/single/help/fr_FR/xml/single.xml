@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>single</keyword>
+    <short_description
+  >Convertit une variable en type simple précision.</short_description>
+    <syntax>
+        <syntax_item>S = single(V)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>V</param_name>
+            <param_description>une variable.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>S</param_name>
+            <param_description
+      >une variable simple précision.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>single(V)</b> convertit vers le type simple précision.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[single('Nelson')]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = single(pi)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${string}char">char</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${double}double">double</link>
+            </see_also_item>
+            <see_also_item>
+                <link
+        linkend="${interpreter}numeric_types"
+      >types numériques</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

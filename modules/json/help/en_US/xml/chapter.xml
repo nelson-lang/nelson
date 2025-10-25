@@ -4,7 +4,15 @@
 	<language>en_US</language>
 	<module_name>JSON</module_name>
 	<chapter>JavaScript Object Notation</chapter>
-	<chapter_description
-  >Functions to transmit data objects consisting of attribute–value pairs and array data types (or any other serializable value).</chapter_description>
-    <auto_toc />
+	<chapter_description>
+		<p
+    >The JSON module provides functions to encode, decode, and format JSON data, allowing easy
+			exchange of structured information between Nelson and external systems.</p>
+		<p
+    >JSON (JavaScript Object Notation) is a lightweight, text-based data format widely used
+			for transmitting attribute-value pairs and arrays.</p>
+		<p
+    >This module enables Nelson to interoperate with web services, configuration files, and
+			applications that rely on JSON.</p>
+	</chapter_description>
 </xmldoc>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>siogetvariable</keyword>
+        <short_description
+  >Émettre la valeur d'une variable vers le navigateur web.</short_description>
+    <syntax>
+        <syntax_item>siogetvariable(variable_name)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>variable_name</param_name>
+            <param_description
+      >une chaîne : nom de la variable</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b
+      >siogetvariable</b> envoie la valeur d'une variable vers le navigateur web.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="false"
+      ><![CDATA[A = eye(3, 3); siogetvariable('A')]]></example_item_data>
+            </example_item>
+        </examples>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

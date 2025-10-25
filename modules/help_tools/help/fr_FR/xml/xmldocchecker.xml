@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>xmldocchecker</keyword>
+    <short_description
+  >Vérifie un fichier de documentation XML.</short_description>
+    <syntax>
+        <syntax_item>xmldocchecker()</syntax_item>
+        <syntax_item>xmldocchecker(xmldocfilename)</syntax_item>
+        <syntax_item
+    >[state, errors_detected, warnings_detected] = xmldocchecker(xmldocfilename)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>xmldocfilename</param_name>
+            <param_description>une chaîne : document xml.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>state</param_name>
+            <param_description
+      >un booléen : vrai si le document est valide, faux sinon.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>errors_detected</param_name>
+            <param_description
+      >un tableau (cell) de chaînes : erreurs détectées.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>warnings_detected</param_name>
+            <param_description
+      >un tableau (cell) de chaînes : avertissements détectés.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >xmldocchecker</b> est un outil pour vérifier qu'un document XML est valide.</p>
+            <p
+    >Utilisé pour valider la structure et le contenu des fichiers XML de la documentation de Nelson.</p>
+            <p>
+                <b
+      >xmldocchecker()</b> vérifie la validité de tous les fichiers XML de la documentation de Nelson.</p>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[xmldocchecker([nelsonroot(),'/module_skeleton/help/en_US/xml/nelson_sum.xml'])]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${xml}xmlchecker">xmlchecker</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${help_tools}buildhelp">buildhelp</link>
+                </see_also_item>
+                <see_also_item>
+                    <link
+        linkend="${help_tools}buildhelpweb"
+      >buildhelpweb</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>version initiale</history_description>
+                </history_item>
+                <history_item>
+                    <history_version>1.15.0</history_version>
+                    <history_description
+      >Use xmlchecker pour la validation XML.</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

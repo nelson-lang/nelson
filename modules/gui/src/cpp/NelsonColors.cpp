@@ -15,25 +15,25 @@ namespace Nelson {
 QColor
 getWarningColor()
 {
-    return QColor(QColor(255, 175, 0));
+    return isDarkPalette() ? QColor(QStringLiteral("#b78620")) : QColor(QColor(255, 175, 0));
 }
 //===================================================================================
 QColor
 getInputColor()
 {
-    return isDarkPalette() ? QColor(Qt::cyan) : QColor(Qt::blue);
+    return isDarkPalette() ? QColor(QStringLiteral("#007ACC")) : QColor(Qt::blue);
 }
 //===================================================================================
 QColor
 getErrorColor()
 {
-    return { Qt::red };
+    return isDarkPalette() ? QColor(QStringLiteral("#f44747")) : QColor(Qt::red);
 }
 //===================================================================================
 QColor
 getOutputColor()
 {
-    return isDarkPalette() ? QColor(Qt::white) : QColor(Qt::black);
+    return isDarkPalette() ? QColor(QStringLiteral("#D4D4D4")) : QColor(Qt::black);
 }
 //===================================================================================
 }

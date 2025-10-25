@@ -4,6 +4,10 @@
     <language>en_US</language>
     <module_name>profiler</module_name>
     <chapter>Profiling tools</chapter>
-    <chapter_description>Profile to Improve Performance</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Profiler module in Nelson provides functions to measure and analyze the execution performance of code.</p>
+        <p
+    >It helps users identify bottlenecks, optimize slow parts of programs, and improve overall efficiency.</p>
+    </chapter_description>
 </xmldoc>

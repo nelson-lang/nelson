@@ -57,6 +57,7 @@
       >nelson</example_item_type>
                                             <example_item_description />
                                             <example_item_data
+        runnable="cli"
       ><![CDATA[
 semver('1.5.10', '2.3.0')
 semver('2.3.0', '1.5.10');

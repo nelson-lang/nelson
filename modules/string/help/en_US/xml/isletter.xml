@@ -22,7 +22,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>isletter</b> determines which characters are letters.</description>
+       <p><b>isletter</b> determines which characters are letters.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>
@@ -30,12 +31,14 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[isletter('Nel Son')]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[isletter("六書 six writings")]]></example_item_data>
             </example_item>
         </examples>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>cancel</keyword>
+        <short_description
+  >Arrêter une fonction s'exécutant en arrière-plan.</short_description>
+    <syntax>
+        <syntax_item>cancel(f)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>f</param_name>
+            <param_description
+      >objet FevalFuture : scalaire ou tableau.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p><b
+      >cancel(f)</b> arrêtera chaque élément en cours d'exécution ou en file d'attente du tableau de Future <b
+      >f</b>.</p>
+        <p>Un Future annulé marque une erreur dans sa propriété d'état.</p>
+        <p>Certaines fonctions ne peuvent pas être interrompues avec <b
+      >Ctrl+C</b> ou <b>cancel</b>, comme la fonction <b>save</b>.</p>
+    </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[fptr = str2func('pause');
+for i = 1:100
+ f(i) = parfeval(backgroundPool, fptr, 0, 5);
+end
+f(70)
+cancel(f(70))
+f(70)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${core}pause">pause</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${parallel}parfeval">parfeval</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${parallel}wait">wait</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

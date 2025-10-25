@@ -32,6 +32,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[sys1 = tf(1,[1 0]);
 sys2 = tf([1 -1], [4 2]);
 sys = append(sys1, 10, sys2)

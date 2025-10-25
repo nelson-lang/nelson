@@ -8,8 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
-- [#674](http://github.com/nelson-lang/nelson/issues/674) Migrate sources to nelson-lang github organization.
-- [#775](http://github.com/nelson-lang/nelson/issues/775) `quit`, `exit`, `startup.m`, `finish.m` behavior reworked for compatibility.
+- [#674](https://github.com/nelson-lang/nelson/issues/674) Migrate sources to nelson-lang github organization.
+- [#775](https://github.com/nelson-lang/nelson/issues/775) `quit`, `exit`, `startup.m`, `finish.m` behavior reworked for compatibility.
 - JSON for Modern C++ version 3.11.3 used on all platforms.
 - {fmt} 10.1.1 (6f95000) used.
 - Fedora 39 CI support.
@@ -50,21 +50,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `damp` Natural frequency and damping ratio.
   - `balreal` Gramian-based balancing of state-space realizations.
   - `lqry` Form linear-quadratic (LQ) state-feedback regulator with output weighting.
-  - [#957](http://github.com/nelson-lang/nelson/issues/957) `dlqr` Linear-quadratic (LQ) state-feedback regulator for discrete-time state-space system.
-  - [#961](http://github.com/nelson-lang/nelson/issues/961) `lqed` Discrete Kalman estimator design from continuous cost function.
-  - [#960](http://github.com/nelson-lang/nelson/issues/960) `lqe` Kalman estimator design for continuous-time systems.
-  - [#955](http://github.com/nelson-lang/nelson/issues/955) `lqr` Linear-Quadratic Regulator (LQR) design.
-  - [#943](http://github.com/nelson-lang/nelson/issues/943) `dare` Solve discrete-time algebraic Riccati equations.
-  - [#951](http://github.com/nelson-lang/nelson/issues/951) `care` Continuous-time algebraic Riccati equation solution.
-  - [#945](http://github.com/nelson-lang/nelson/issues/945) `ctrbf` Compute controllability staircase form.
-  - [#946](http://github.com/nelson-lang/nelson/issues/946) `ctrb` Controllability of state-space model.
-  - [#963](http://github.com/nelson-lang/nelson/issues/963) `obsv` Observability matrix.
-  - [#964](http://github.com/nelson-lang/nelson/issues/964) `obsvf` Compute observability staircase form.
-  - [#949](http://github.com/nelson-lang/nelson/issues/949) `acker` Pole placement gain selection using Ackermann's formula.
-  - [#950](http://github.com/nelson-lang/nelson/issues/950) `bdschur` Block-diagonal Schur factorization.
-  - [#952](http://github.com/nelson-lang/nelson/issues/952) `cloop` Close unity feedback loops.
-  - [#953](http://github.com/nelson-lang/nelson/issues/953) `compreal` Companion realization of transfer functions.
-  - [#959](http://github.com/nelson-lang/nelson/issues/959) `gensig` Create periodic signals for simulating system response.
+  - [#957](https://github.com/nelson-lang/nelson/issues/957) `dlqr` Linear-quadratic (LQ) state-feedback regulator for discrete-time state-space system.
+  - [#961](https://github.com/nelson-lang/nelson/issues/961) `lqed` Discrete Kalman estimator design from continuous cost function.
+  - [#960](https://github.com/nelson-lang/nelson/issues/960) `lqe` Kalman estimator design for continuous-time systems.
+  - [#955](https://github.com/nelson-lang/nelson/issues/955) `lqr` Linear-Quadratic Regulator (LQR) design.
+  - [#943](https://github.com/nelson-lang/nelson/issues/943) `dare` Solve discrete-time algebraic Riccati equations.
+  - [#951](https://github.com/nelson-lang/nelson/issues/951) `care` Continuous-time algebraic Riccati equation solution.
+  - [#945](https://github.com/nelson-lang/nelson/issues/945) `ctrbf` Compute controllability staircase form.
+  - [#946](https://github.com/nelson-lang/nelson/issues/946) `ctrb` Controllability of state-space model.
+  - [#963](https://github.com/nelson-lang/nelson/issues/963) `obsv` Observability matrix.
+  - [#964](https://github.com/nelson-lang/nelson/issues/964) `obsvf` Compute observability staircase form.
+  - [#949](https://github.com/nelson-lang/nelson/issues/949) `acker` Pole placement gain selection using Ackermann's formula.
+  - [#950](https://github.com/nelson-lang/nelson/issues/950) `bdschur` Block-diagonal Schur factorization.
+  - [#952](https://github.com/nelson-lang/nelson/issues/952) `cloop` Close unity feedback loops.
+  - [#953](https://github.com/nelson-lang/nelson/issues/953) `compreal` Companion realization of transfer functions.
+  - [#959](https://github.com/nelson-lang/nelson/issues/959) `gensig` Create periodic signals for simulating system response.
 
 ## 0.7.11 (2023-11-29)
 
@@ -94,7 +94,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `subsref`, `subsasgn` compatibility with `substruct`.
 - To display a percent sign, you need to use a double percent sign (%%) in the format string (compatibility).
 - French translation updated (100%, Thanks to weblate contributors)
-- [#997](http://github.com/nelson-lang/nelson/issues/997) Macos BigSur Github CI support removed.
+- [#997](https://github.com/nelson-lang/nelson/issues/997) Macos BigSur Github CI support removed.
 - Qt 6.6.1 on win64 CI build.
 
 ### Fixed
@@ -110,23 +110,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - example: `18446744073709551615u64`, `18446744073709551615i64` (similar to rust syntax)
 - `flintmax('like', p)` syntax added.
 - `int64`, `uint64` warning about double-precision.
-- [#570](http://github.com/nelson-lang/nelson/issues/570) balance: Diagonal scaling to improve eigenvalue accuracy.
+- [#570](https://github.com/nelson-lang/nelson/issues/570) balance: Diagonal scaling to improve eigenvalue accuracy.
 - `isobject` Check whether the input is an object.
 - `cell2mat` Convert cell array of matrices to single matrix.
-- [#948](http://github.com/nelson-lang/nelson/issues/948) `blkdiag` Create a block diagonal matrix from 2D matrices of different sizes.
+- [#948](https://github.com/nelson-lang/nelson/issues/948) `blkdiag` Create a block diagonal matrix from 2D matrices of different sizes.
 - `kron` Kronecker tensor product.
 - `strjust` Justify strings.
 
 - control system module (part 1):
 
-  - [#967](http://github.com/nelson-lang/nelson/issues/967) control system module template.
-  - [#944](http://github.com/nelson-lang/nelson/issues/944) `mag2db`, `db2mag`, `pow2db`, `db2pow` functions.
-  - [#968](http://github.com/nelson-lang/nelson/issues/968) `zp2tf`: Zero-pole to transfer function conversion.
-  - [#954](http://github.com/nelson-lang/nelson/issues/954) `dcgain`: Low-frequency (DC) gain of LTI system.
-  - [#965](http://github.com/nelson-lang/nelson/issues/965) `padecoef`: Padé approximation of time delays.
-  - [#958](http://github.com/nelson-lang/nelson/issues/958) `esort`: Sort continuous-time poles by real part.
+  - [#967](https://github.com/nelson-lang/nelson/issues/967) control system module template.
+  - [#944](https://github.com/nelson-lang/nelson/issues/944) `mag2db`, `db2mag`, `pow2db`, `db2pow` functions.
+  - [#968](https://github.com/nelson-lang/nelson/issues/968) `zp2tf`: Zero-pole to transfer function conversion.
+  - [#954](https://github.com/nelson-lang/nelson/issues/954) `dcgain`: Low-frequency (DC) gain of LTI system.
+  - [#965](https://github.com/nelson-lang/nelson/issues/965) `padecoef`: Padé approximation of time delays.
+  - [#958](https://github.com/nelson-lang/nelson/issues/958) `esort`: Sort continuous-time poles by real part.
   - `dsort`: Sort discrete-time poles by magnitude.
-  - [#962](http://github.com/nelson-lang/nelson/issues/962) `lyap`: Continuous Lyapunov equation solution.
+  - [#962](https://github.com/nelson-lang/nelson/issues/962) `lyap`: Continuous Lyapunov equation solution.
   - `dlyap`: Discret Lyapunov equation solution.
   - `abcdchk` Verifies the dimensional compatibility of matrices A, B, C, and D.
   - `ss`: State-space model.
@@ -147,18 +147,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
-- [#940](http://github.com/nelson-lang/nelson/issues/940) title bar on dark theme on Windows.
+- [#940](https://github.com/nelson-lang/nelson/issues/940) title bar on dark theme on Windows.
 - help viewer using dark theme.
 - adjust position `xlabel` on `figure`.
-- [#976](http://github.com/nelson-lang/nelson/issues/976) wrong output when reading a file with fscanf with size argument.
-- [#975](http://github.com/nelson-lang/nelson/issues/975) Legend color (and width) is not matching that of curve in figure.
-- [#988](http://github.com/nelson-lang/nelson/issues/988) anonymous function serialization '.^' and '^' are inversed.
+- [#976](https://github.com/nelson-lang/nelson/issues/976) wrong output when reading a file with fscanf with size argument.
+- [#975](https://github.com/nelson-lang/nelson/issues/975) Legend color (and width) is not matching that of curve in figure.
+- [#988](https://github.com/nelson-lang/nelson/issues/988) anonymous function serialization '.^' and '^' are inversed.
 
 ## 0.7.9 (2023-09-18)
 
 ### Changed
 
-- [#488](http://github.com/nelson-lang/nelson/issues/488) overloading functions:
+- [#488](https://github.com/nelson-lang/nelson/issues/488) overloading functions:
 
   - all types including basic types can be overloaded.
   - overload is now fully compatible using '@' syntax and precedence.
@@ -182,14 +182,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-- [#491](http://github.com/nelson-lang/nelson/issues/491) Anonymous functions
+- [#491](https://github.com/nelson-lang/nelson/issues/491) Anonymous functions
 - `--withoutfilewatcher` executable argument. disable file watcher for current session.
 - `<--FILE WATCHER REQUIRED -->` test_run option.
-- [#853](http://github.com/nelson-lang/nelson/issues/853) MacOs 13 ventura CI
+- [#853](https://github.com/nelson-lang/nelson/issues/853) MacOs 13 ventura CI
 
 ### Fixed
 
-- [#916](http://github.com/nelson-lang/nelson/issues/916) openblas micromamba on macos required to link libgfortran
+- [#916](https://github.com/nelson-lang/nelson/issues/916) openblas micromamba on macos required to link libgfortran
 
 ## 0.7.5 (2023-05-27)
 
@@ -208,7 +208,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - Qt 6.5 support.
-- [#802](http://github.com/nelson-lang/nelson/issues/802): `bitand`, `bitor`, `bitxor` functions.
+- [#802](https://github.com/nelson-lang/nelson/issues/802): `bitand`, `bitor`, `bitxor` functions.
 - `issorted` Determine if array is sorted.
 - `num2cell` Convert array to cell array with consistently sized cells.
 - `hggroup` Create group object.
@@ -240,7 +240,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - `weboptions` did not manage HeaderFields as expected.
 - update `cacert.pem`.
-- [#895](http://github.com/nelson-lang/nelson/issues/895): Micromamba linux build fails after packages updates.
+- [#895](https://github.com/nelson-lang/nelson/issues/895): Micromamba linux build fails after packages updates.
 
 ## 0.7.3 (2023-03-28)
 
@@ -250,7 +250,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `ancestor` Ancestor of graphics object.
 - hexadecimal color code managed example: '#DDFF00'.
 - `validatecolor` Validate color values.
-- [#851](http://github.com/nelson-lang/nelson/issues/851): Build with micromamba environment (linux and macOS)
+- [#851](https://github.com/nelson-lang/nelson/issues/851): Build with micromamba environment (linux and macOS)
 
 ### Changed
 
@@ -261,10 +261,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
-- [#866](http://github.com/nelson-lang/nelson/issues/866): Close menu on figure can crash on linux.
+- [#866](https://github.com/nelson-lang/nelson/issues/866): Close menu on figure can crash on linux.
 - graphic hierarchy was not fully destroyed after `close` or `delete`.
 - labels were not displayed correctly when the logarithmic scale was enabled.
-- [#869](http://github.com/nelson-lang/nelson/issues/869): missing help files in linux package.
+- [#869](https://github.com/nelson-lang/nelson/issues/869): missing help files in linux package.
 
 ## 0.7.2 (2023-02-27)
 
@@ -294,9 +294,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `drawnow`: Update figures and process callbacks.
 - `DrawLater` property added to `figure` graphics object.
 - `interp1` linear interpolation 1D.
-- [#736](http://github.com/nelson-lang/nelson/issues/736): `bone`, `cool`, `copper`, `hot`, `jet`, `pink`, `turbo`, `viridis`, `white` colormaps.
+- [#736](https://github.com/nelson-lang/nelson/issues/736): `bone`, `cool`, `copper`, `hot`, `jet`, `pink`, `turbo`, `viridis`, `white` colormaps.
 - `Visible` property to `figure` graphics object.
-- [#809](http://github.com/nelson-lang/nelson/issues/809): `NumberTitle` property to `figure` graphics object.
+- [#809](https://github.com/nelson-lang/nelson/issues/809): `NumberTitle` property to `figure` graphics object.
 - `AlphaMap` and `Colormap` properties added to `Axes` graphics object.
 - `LineStyleOrder` property of 'axes' used for `plot` and `plot3`.
 - `ColorOrderIndex` and `LineStyleOrderIndex` properties added to `axes` graphics object.
@@ -307,10 +307,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `imwrite` Write image to graphics file.
 - `imshow` Display image.
 - `surface` Primitive surface plot.
-- [#808](http://github.com/nelson-lang/nelson/issues/808): `pcolor` Pseudocolor plot.
+- [#808](https://github.com/nelson-lang/nelson/issues/808): `pcolor` Pseudocolor plot.
 - `mesh` Mesh surface plot.
 - `meshz` Mesh surface plot with curtain.
-- [#807](http://github.com/nelson-lang/nelson/issues/807): `loglog` Log-log scale plot.
+- [#807](https://github.com/nelson-lang/nelson/issues/807): `loglog` Log-log scale plot.
 - `CHANGELOG` 0.7.x family.
 
 ### Changed
@@ -321,11 +321,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
-- [#823](http://github.com/nelson-lang/nelson/issues/823): default LineStyle for a line was wrong with marker.
+- [#823](https://github.com/nelson-lang/nelson/issues/823): default LineStyle for a line was wrong with marker.
 - `CTRL+C` was not catched on advanced cli for linux and macos.
 - colors in `colorbar` were not in the good order.
 - warnings detected by CodeQL.
-- [#824](http://github.com/nelson-lang/nelson/issues/824): VariableCompleter was not filtered by prefix.
+- [#824](https://github.com/nelson-lang/nelson/issues/824): VariableCompleter was not filtered by prefix.
 
 ## Previous changelog
 

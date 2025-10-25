@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>axis</keyword>
+    <short_description
+  >Définit les limites et les rapports d'aspect des axes.</short_description>
+    <syntax>
+        <syntax_item
+    >axis([xmin, xmax, ymin, ymax, zmin, zmax, cmin, cmax])</syntax_item>
+        <syntax_item>axis([xmin, xmax, ymin, ymax, zmin, zmax])</syntax_item>
+        <syntax_item>axis([xmin, xmax, ymin, ymax])</syntax_item>
+        <syntax_item>axis(style)</syntax_item>
+        <syntax_item>axis(mode)</syntax_item>
+        <syntax_item>axis(visibility)</syntax_item>
+        <syntax_item>lim = axis()</syntax_item>
+        <syntax_item>axis(ax, ...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name
+      >[xmin, xmax, ymin, ymax, zmin, zmax, cmin, cmax]</param_name>
+        <param_description
+      >définit les limites sur les axes X, Y, Z et couleur.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>[xmin, xmax, ymin, ymax, zmin, zmax]</param_name>
+        <param_description
+      >définit uniquement les limites sur X, Y, Z.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>[xmin, xmax, ymin, ymax]</param_name>
+        <param_description
+      >définit uniquement les limites sur X, Y.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>style</param_name>
+        <param_description
+      >'tight', 'equal', 'image', 'square', 'fill', 'vis3d' ou 'normal' (par défaut).</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>cax</param_name>
+            <param_description>axes.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>visibility</param_name>
+            <param_description>'off' ou 'on' (par défaut).</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>mode</param_name>
+        <param_description
+      >'manual' (désactive l'ajustement automatique des axes selon les enfants de l'objet axe courant) ou 'auto' (choisit automatiquement toutes les limites d'axe).</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+                <param_output_item>
+                        <param_name>lim</param_name>
+                        <param_description
+      >Pour 2D : [xmin, xmax, ymin, ymax] ou pour 3D : [xmin, xmax, ymin, ymax, zmin, zmax]</param_description>
+                </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>axes</b> définit les limites et l'apparence des axes.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+t = 0:0.01:2*pi;
+x = cos(t);
+subplot(2, 2, 1);
+plot(t, x);
+title ('normal plot');
+
+subplot(2, 2, 2);
+plot (t, x);
+title('axis square');
+axis('square');
+
+subplot(2, 2, 3);
+plot (t, x);
+title('axis equal');
+axis('equal');
+
+subplot(2, 2, 4);
+plot (t, x);
+title('normal plot again');
+axis('normal');]]></example_item_data>
+                <example_item_img
+        src="../images/axis.svg"
+        align="middle"
+        generate="true"
+      />
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${graphics}gca">gca</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${graphics}axes">axes</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

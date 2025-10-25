@@ -53,6 +53,7 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="cli"
       ><![CDATA[MAXRED_IN  = 0.0;
 A_IN = [1.0   0.0   0.0   0.0;
  300.0 400.0 500.0 600.0;

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>readtable</keyword>
+    <short_description
+  >Créer une table à partir d'un fichier.</short_description>
+    <syntax>
+        <syntax_item>T = readtable(filename)</syntax_item>
+        <syntax_item>T = readtable(filename, opts)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>filename</param_name>
+            <param_description
+      >une chaîne : nom de fichier source.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>opts</param_name>
+        <param_description>Objet DelimitedTextImportOptions</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>T</param_name>
+            <param_description>une table.</param_description>
+        </param_output_item>
+    </param_output>
+      <description>
+      <p>
+        <b
+      >T = readtable(filename)</b> crée une table en important des données orientées colonne depuis un fichier texte ou tableur.</p>
+        <p>
+            <b
+      >T = readtable(filename, opts)</b> crée une table en utilisant les paramètres définis dans l'objet d'options d'importation <b
+      >opts</b>. L'objet d'options d'importation permet de personnaliser la façon dont <b
+      >readtable</b> interprète le fichier, offrant un meilleur contrôle, de meilleures performances et la possibilité de réutiliser la configuration comparé à la syntaxe par défaut.</p>
+        </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data runnable="cli">
+Names = {'John'; 'Alice'; 'Bob'; 'Diana'};
+Age = [28; 34; 22; 30];
+Height = [175; 160; 180; 165];
+Weight = [70; 55; 80; 60];
+T1 = table(Names, Age, Height, Weight);
+writetable(T1, [tempdir,'readtable_1.csv'])
+T2 = readtable([tempdir,'readtable_1.csv'])
+</example_item_data>
+                </example_item>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data runnable="cli">
+Names = {'John'; 'Alice'; 'Bob'; 'Diana'};
+Age = [28; 34; 22; 30];
+Height = [175; 160; 180; 165];
+Weight = [70; 55; 80; 60];
+T = table(Names, Age, Height, Weight);
+writetable(T, [tempdir,'readtable_1.csv'])
+options = detectImportOptions([tempdir,'readtable_1.csv']);
+T1 = readtable([tempdir,'readtable_1.csv'], options)
+options.DataLines = [1 Inf]
+T2 = readtable([tempdir,'readtable_1.csv'], options)
+</example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${spreadsheet}writetable">writetable</link>
+                </see_also_item>
+                <see_also_item>
+                    <link
+        linkend="${spreadsheet}detectImportOptions"
+      >detectImportOptions</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${spreadsheet}readcell">readcell</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${stream_manager}fileread">fileread</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.10.0</history_version>
+                    <history_description>version initiale</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

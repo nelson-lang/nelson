@@ -34,6 +34,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[R = str2double('2.6 + 3j')
 R = str2double('+NaNi')
 R = str2double({'2.71' '3.1415'})

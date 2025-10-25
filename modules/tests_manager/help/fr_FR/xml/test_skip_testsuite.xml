@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>skip_testsuite</keyword>
+    <short_description
+  >Sauter la suite de tests selon une condition</short_description>
+    <syntax>
+        <syntax_item>skip_testsuite()</syntax_item>
+        <syntax_item>skip_testsuite(reason)</syntax_item>
+        <syntax_item>skip_testsuite(condition)</syntax_item>
+        <syntax_item>skip_testsuite(condition, reason)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>condition</param_name>
+            <param_description
+      >logique: vrai (par défaut) ou faux</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>reason</param_name>
+            <param_description
+      >une chaîne : raison pour laquelle la suite de tests est sautée</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>La fonction <b
+      >skip_testsuite</b> permet de sauter une suite de tests en fonction d'une
+            condition spécifiée.</p>
+        <p><b
+      >condition</b> : Une expression booléenne qui détermine si la suite de tests doit être
+            sautée. Si <b>condition</b> évalue à <b
+      >true</b>, la suite de tests sera sautée.</p>
+        <p><b
+      >reason</b> : Une chaîne expliquant la raison du saut de la suite de tests. Ce
+            paramètre est utile pour fournir du contexte aux autres développeurs ou pour vous-même
+            si la suite est sautée.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[skip_testsuite(true, 'Test skipped')]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${tests_manager}test_run">test_run</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.4.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

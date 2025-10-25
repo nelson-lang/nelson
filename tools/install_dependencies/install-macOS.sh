@@ -12,7 +12,7 @@ print_status() {
     echo -e "\n===> $1"
 }
 
-print_status "Nelson - Installation script for macOS Sequoia/Sonoma dependencies"
+print_status "Nelson - Installation script for macOS Tahoe/Sequoia/Sonoma dependencies"
 
 # Check if Homebrew is installed
 if ! command -v brew &>/dev/null; then
@@ -40,6 +40,7 @@ dependencies=(
     gettext
     boost
     libxml2
+    libxslt
     cmake
     fftw
     portaudio
@@ -83,3 +84,10 @@ if ! grep -q '/usr/local/opt/gettext/bin' ~/.zshrc; then
 fi
 
 print_status "All dependencies have been installed successfully!"
+
+# Install Xcode Command Line Tools
+sudo rm -r /Library/Developer/CommandLineTools
+# Reset xcode-select
+sudo xcode-select -r
+# Then install. You will be asked to click a button 
+sudo xcode-select --install

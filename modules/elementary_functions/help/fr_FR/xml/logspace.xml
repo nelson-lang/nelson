@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>logspace</keyword>
+    <short_description
+  >logarithmically spaced vector constructor.</short_description>
+    <syntax>
+        <syntax_item>V = logspace(s, e)</syntax_item>
+        <syntax_item>V = logspace(s, e, n)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>s</param_name>
+            <param_description
+      >first value: a scalar, single or double.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>e</param_name>
+            <param_description
+      >last value: a scalar, single or double.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>n</param_name>
+            <param_description
+      >Number of points: a scalar, single or double (by default 100).</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>V</param_name>
+            <param_description
+      >result of logspace: an logarithmically spaced vector.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>logspace</b> generates an logarithmically spaced vector.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[V = logspace(1+2i, 10+10i, 4)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${elementary_functions}linspace">linspace</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

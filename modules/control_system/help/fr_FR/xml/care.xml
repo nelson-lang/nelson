@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>care</keyword>
+    <short_description
+  >Solution de l'équation algébrique de Riccati en temps continu.</short_description>
+    <syntax>
+        <syntax_item>[X, L, G] = care(A, B, Q)</syntax_item>
+        <syntax_item>[X, L, G] = care(A, B, Q, R, S, E)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
+      >Matrice représentant l'état avec dimensions n x n, où n correspond au nombre d'états.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>B</param_name>
+            <param_description
+      >Matrice représentant le contrôle avec dimensions n x p, où p est le nombre d'entrées.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Q</param_name>
+            <param_description
+      >Matrice décrivant le coût associé à l'état, ayant dimensions n x n, où n est le nombre d'états.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>R</param_name>
+            <param_description
+      >Matrice représentant le coût associé au contrôle, avec dimensions p x p, où p est le nombre d'entrées.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>S</param_name>
+            <param_description
+      >Matrice optionnellement à valeurs réelles avec dimensions n x p.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>E</param_name>
+            <param_description
+      >Matrice avec dimensions n x n qui sert de matrice descripteur.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>X</param_name>
+            <param_description
+      >solution stabilisée pour l'équation de Riccati en temps continu de dimension n x n.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>L</param_name>
+            <param_description
+      >Vecteur des pôles en boucle fermée.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>G</param_name>
+            <param_description>Matrice de gain.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>La fonction <b
+      >care(A, B, Q)</b> calcule la solution exclusive, notée <b
+      >X</b>, pour l'équation algébrique de Riccati en temps continu avec les matrices <b
+      >A</b>, <b>B</b> et <b
+      >Q</b>, et fournit également les matrices supplémentaires <b>L</b> et <b
+      >G</b>.</p>
+    </description>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[a = [-3 2;1 1];
+b = [0 ; 1];
+c = [1 -1];
+r = 3;
+[x, l, g] = care(a, b, c'*c, r)
+]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${slicot}slicot_sb02od">slicot_sb02od</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${slicot}slicot_sg02ad">slicot_sg02ad</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>SLICOT Documentation</author_item>
+    </authors>
+</xmldoc>

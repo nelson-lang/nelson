@@ -65,32 +65,48 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 p = pie ([3, 2, 1], [0, 0, 1]);]]></example_item_data>
-                <example_item_img src="../images/pie_1.svg" align="middle" />
+                <example_item_img
+        src="../../images/pie_1.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 p = pie([5 9 4 6 3],[0 1 0 1 0]);
 ]]></example_item_data>
-                <example_item_img src="../images/pie_2.svg" align="middle" />
+                <example_item_img
+        src="../../images/pie_2.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 p = pie([3 4 6 2],[0 1 0 0],["part1", "part2", "part3", "part4"]);
 ]]></example_item_data>
-                <example_item_img src="../images/pie_3.svg" align="middle" />
+                <example_item_img
+        src="../../images/pie_3.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 y2010 = [50 0 100 95];
 y2011 = [65 22 97 120];
@@ -101,7 +117,11 @@ ax2 = subplot(1, 2, 2);
 p2 = pie(ax2, y2011)
 title('2011')
 ]]></example_item_data>
-                <example_item_img src="../images/pie_4.svg" align="middle" />
+                <example_item_img
+        src="../../images/pie_4.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

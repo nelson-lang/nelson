@@ -23,6 +23,7 @@
                     <example_item_description
       >demo_switch.m</example_item_description>
                     <example_item_data
+        runnable="cli"
       ><![CDATA[function c = demo_switch(a)
  switch(a)
     case {'hello', 'world'}
@@ -39,6 +40,7 @@ end
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[demo_switch('hello')
 demo_switch('red')
 demo_switch('?')

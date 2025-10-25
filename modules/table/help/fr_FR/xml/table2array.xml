@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>table2array</keyword>
+    <short_description
+  >Convertir une table en tableau homogène.</short_description>
+    <syntax>
+        <syntax_item>A = table2array(T)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>T</param_name>
+            <param_description>Objet table.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>A</param_name>
+        <param_description
+      >matrice : single, double, types entiers, logique, char, string, struct, cell.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+      <p><b>A = table2array(T)</b> convertit la table d'entrée <b
+      >T</b> en un tableau homogène <b>A</b>, où les variables de <b
+      >T</b> deviennent les colonnes de <b>A</b>.</p>
+        <p>La sortie <b
+      >A</b> ne conserve pas les propriétés de la table provenant de <b
+      >T.Properties</b>.</p>
+        <p>Si <b
+      >T</b> est une table avec des noms de lignes, ces noms ne seront pas inclus dans <b
+      >A</b>.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = magic(6);
+T = array2table(A);
+A = table2array(T)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${table}array2table">array2table</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${table}table">table</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.8.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

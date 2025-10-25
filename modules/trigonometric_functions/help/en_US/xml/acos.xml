@@ -36,7 +36,7 @@
 	<example_item>
 		<example_item_type>nelson</example_item_type>
 		<example_item_description />
-		<example_item_data><![CDATA[A = eye(3, 3);
+		<example_item_data runnable="cli"><![CDATA[A = eye(3, 3);
 res = acos(A)]]>
 		</example_item_data>
 	</example_item>
@@ -45,7 +45,7 @@ res = acos(A)]]>
 
 	<see_also>
 		<see_also_item>
-			<link linkend="${trigonometric}cos">cos</link>
+			<link linkend="${trigonometric_functions}cos">cos</link>
 		</see_also_item>
 	</see_also>
 

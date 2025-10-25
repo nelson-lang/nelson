@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>buildhelpweb</keyword>
+        <short_description
+  >Génère l'aide des modules de Nelson pour un site web.</short_description>
+    <syntax>
+        <syntax_item>buildhelpweb(destination_dir)</syntax_item>
+        <syntax_item>buildhelpweb(destination_dir, language)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>destination_dir</param_name>
+            <param_description
+      >une chaîne : répertoire de destination.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>language</param_name>
+            <param_description
+      >une chaîne : langue. Si elle est manquante, la langue par défaut actuelle est utilisée.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p><b>buildhelpweb</b> génère les fichiers d'aide pour un site web.</p>
+        <p>fonction interne</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <see_also>
+            <see_also_item>
+                <link linkend="${help_tools}buildhelp">buildhelp</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

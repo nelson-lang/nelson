@@ -7,14 +7,15 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-if isfile([modulepath('help_tools'), '/help/en_US/xml/chapter.xml'])
-  destination = [tempdir(), 'test_buildhelpweb'];
-  if isdir(destination)
-    rmdir(destination, 's');
-  end
-  mkdir(destination);
-  buildhelpweb(destination);
-  r = dir([destination, '/*.html'], '-s');
-  assert_istrue(length(r) > 600);
+have_xmldoc = isfile([modulepath('help_tools'), '/help/en_US/xml/chapter.xml'])
+skip_testsuite(~have_xmldoc, 'XML documentation is missing')
+%=============================================================================
+destination = [tempdir(), 'test_buildhelpweb'];
+if isdir(destination)
+  rmdir(destination, 's');
 end
+mkdir(destination);
+buildhelpweb(destination);
+r = dir([destination, '/*.html'], '-s');
+assert_istrue(length(r) > 600);
 %=============================================================================

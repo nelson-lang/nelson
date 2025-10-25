@@ -44,6 +44,7 @@
                 <example_item_description
       >Creates two .m in temp directory to use as example:</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[fd = fopen([tempdir(), 'example_run_ok.m'], 'wt');
 fprintf(fd, ['A = 1;', char(10)]);
 fprintf(fd, ['B = 2;', char(10)]);

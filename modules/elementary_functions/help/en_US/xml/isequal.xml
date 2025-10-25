@@ -30,11 +30,11 @@
         </param_output_item>
     </param_output>
     <description>
-        <b
-    >isequal</b>	returns true if x1 and x2 are the same size and their contents are of equal value; otherwise, it returns false.
-<b
-    >isequal</b> compares real and imaginary parts of numeric arrays. NaN (Not a Number) values are considered to be <b
-    >unequal</b> to other elements.
+        <p><b
+      >isequal</b> returns true if x1 and x2 are the same size and their contents are of equal value; otherwise, it returns false.</p>
+        <p><b
+      >isequal</b> compares real and imaginary parts of numeric arrays. NaN (Not a Number) values are considered to be NOT <b
+      >equal</b> to other elements.</p>
 </description>
         <used_function />
         <bibliography />
@@ -43,6 +43,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = eye(3, 3);
 res = isequal(A, A)]]></example_item_data>
             </example_item>
@@ -50,6 +51,7 @@ res = isequal(A, A)]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = eye(3, 3);
 B = single(A)
 res = isequal(A, B)
@@ -59,12 +61,14 @@ res = isequalto(A, B)]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[res = isequal('nel', 'son')]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[res = isequalnNaN, NaN)]]></example_item_data>
             </example_item>
         </examples>

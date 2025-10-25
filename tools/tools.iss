@@ -11,5 +11,7 @@ Source: {#RootPath}tools\tests_all\*.*; DestDir: {app}\tools\tests_all\;Componen
 Source: {#RootPath}tools\benchmark_all\*.*; DestDir: {app}\tools\benchmark_all\;Components: {#COMPONENT_TESTS_MANAGER};
 Source: {#RootPath}tools\tests_result\*.*; DestDir: {app}\tools\tests_result\;Components: {#COMPONENT_TESTS_MANAGER};
 Source: {#RootPath}tools\module_CI\*.*; DestDir: {app}\tools\module_CI\;Components: {#COMPONENT_TESTS_MANAGER};
-Source: {#RootPath}tools\cmake\*.*; DestDir: {app}\tools\cmake\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK};
+;==============================================================================
+Source: {#RootPath}tools\cmake\bin\*.*; DestDir: {app}\tools\cmake\bin\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK};
+Source: {#RootPath}tools\cmake\share\cmake-3.31\*.*; DestDir: {app}\tools\cmake\share\cmake-3.31\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK};
 ;==============================================================================

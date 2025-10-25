@@ -1,16 +1,16 @@
-![banner](banner_homepage.png)
+<img src="banner_homepage.png" alt="banner" style="display:block; margin-left:auto; margin-right:auto;" />
 
 ### Nelson 1.15.0.0
+
+The main homepage for Nelson can be found at [https://nelson-lang.github.io/nelson-website/](https://nelson-lang.github.io/nelson-website/).
+
+## **Introduction**
 
 Nelson is a powerful, open-source numerical computational language, developed to provide a comprehensive and intuitive environment for engineers, scientists, and students. With over 1,200 built-in functions, Nelson supports a wide range of tasks, from basic algebra to advanced numerical simulations.
 
 Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers users a lightweight yet feature-rich experience. It is designed to be easy to learn and use, with an emphasis on performance and flexibility.
 
-**Try it now!**
-
-[Site Web](https://nelson-lang.github.io/nelson-website/)
-
-## Features
+## **Features**
 
 ### Data Types Managed by Nelson
 
@@ -51,6 +51,7 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
 - **Foreign Function Interface (FFI)**: Build and load C/Fortran code on the fly.
 - **MEX C API Compatibility**: Interfacing with MEX-compatible C APIs.
 - **Nelson Engine API**: Use Nelson as a backend engine within C code, compatible with the MEX Engine API.
+- **Julia Interfacing**: Call Julia scripts and functions from Nelson.
 - **Python Interfacing**: Call Python scripts and functions from Nelson.
 - **RESTful API**: Enables Nelson to interact with web services.
 

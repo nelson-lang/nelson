@@ -7,20 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-
-#include <chrono>
-#include <string>
-#include <atomic>
-#include <tuple>
-#include <thread>
-#include <future>
-#include <vector>
-#include <cstdio>
-#include <cstdlib>
-
-#include "Types.hpp"
-#include "FileSystemWrapper.hpp"
-
+#pragma once
+//=============================================================================
 #ifdef _MSC_VER
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -32,7 +20,17 @@
 #include <unistd.h>
 #include <signal.h>
 #endif
-
+#include <chrono>
+#include <string>
+#include <atomic>
+#include <tuple>
+#include <thread>
+#include <future>
+#include <vector>
+#include <cstdio>
+#include <cstdlib>
+#include "Types.hpp"
+#include "FileSystemWrapper.hpp"
 //=============================================================================
 // Define PROCESS_CHILD as a small wrapper around platform-specific process handle
 #ifdef _MSC_VER
@@ -57,7 +55,6 @@ struct PROCESS_CHILD
     }
 };
 #endif
-
 //=============================================================================
 namespace Nelson {
 //=============================================================================

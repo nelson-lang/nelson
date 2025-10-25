@@ -20,7 +20,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.json; DestDir: {app}\modules\{#MODULE_NAME}\examples\;Components: {#COMPONENT_JSON};
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_JSON} and {#COMPONENT_HELP_FILES} and {#COMPONENT_HELP_BROWSER};
+Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_JSON} and {#COMPONENT_HELP_FILES};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_JSON} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.json; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_JSON} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};

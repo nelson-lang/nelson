@@ -45,6 +45,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[pTextToSpeech = actxserver('Sapi.SpVoice')
 for i = 0:5
   invoke(pTextToSpeech, 'Speak', int2str(5 - i));

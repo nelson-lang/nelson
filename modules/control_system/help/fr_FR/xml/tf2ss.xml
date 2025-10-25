@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>tf2ss</keyword>
+    <short_description
+  >Convertit les paramètres d'un filtre en fonction de transfert en forme état-espace.</short_description>
+    <syntax>
+        <syntax_item>[A, B, C, D] = tf2ss(b, a)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>b</param_name>
+            <param_description
+      >Coefficients du numérateur de la fonction de transfert : vecteur ou matrice.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>a</param_name>
+            <param_description
+      >Coefficients du dénominateur de la fonction de transfert : vecteur.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>A (n x n)</param_name>
+            <param_description
+      >Représente la matrice d'état-transition du système. Elle décrit comment l'état interne du système évolue dans le temps.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>B (n x m)</param_name>
+            <param_description
+      >Décrit le mapping entrée-état. Il montre comment les entrées de contrôle affectent le changement de l'état du système.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>C (p x n)</param_name>
+            <param_description
+      >Représente le mapping état-sortie. Il montre comment les variables d'état du système sont liées aux sorties du système.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>D (p x m)</param_name>
+            <param_description
+      >Décrit le passage direct des entrées aux sorties. Dans de nombreux systèmes, cette matrice est nulle car il n'y a pas de passage direct.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >Convertit un numérateur et un dénominateur de fonction de transfert en matrices d'état A, B, C, D.</p>
+    </description>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[Fs = 6;
+dt = 1/Fs;
+b = [1 -(1+cos(dt)) cos(dt)];
+a = [1 -3*cos(dt) 1];
+[A, B, C, D] = tf2ss(b, a)
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${control_system}ss2tf">ss2tf</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${control_system}ss">ss</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${control_system}tf">tf</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

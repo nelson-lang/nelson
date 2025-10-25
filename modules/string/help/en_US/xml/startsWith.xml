@@ -29,8 +29,9 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>startsWith</b> returns <b>true</b> if <b>str</b> starts with <b
-    >pattern</b>.</description>
+        <p><b>startsWith</b> returns <b>true</b> if <b>str</b> starts with <b
+      >pattern</b>.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>
@@ -38,6 +39,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[
 str = 'To make a mountain out of a molehill';
 k = startsWith (str, 'in')

@@ -32,7 +32,9 @@
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
-                <example_item_data><![CDATA[R = rosser()]]></example_item_data>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[R = rosser()]]></example_item_data>
             </example_item>
         </examples>
         <see_also>

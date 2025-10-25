@@ -30,7 +30,6 @@ filtered = { 'buildhelp';
 'test_run';
 'vswhere';
 'warndlg';
-'qcollectiongenerator';
 'license'};
 for k = 1:length(macro_list)
   if strcmp(macro_list{k}, filtered) == false

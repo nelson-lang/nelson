@@ -62,6 +62,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="gui"
       ><![CDATA[
 currentlf = lookandfeel();
 lfs = lookandfeel('available')
@@ -76,6 +77,7 @@ lookandfeel(currentlf)
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="gui"
       ><![CDATA[
 currentstylesheet = lookandfeel('stylesheet')
 stylefilename = [modulepath('gui'), '/resources/darkstyle.qss'];

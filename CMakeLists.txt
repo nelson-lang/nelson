@@ -96,7 +96,6 @@ list(
   SLICOT
   CONTROL_SYSTEM
   HELP_TOOLS
-  HELP_BROWSER
   TEXT_EDITOR
   DATA_ANALYSIS
   DYNAMIC_LINK
@@ -137,7 +136,6 @@ endif()
 if(WITHOUT_GUI_MODULE)
   set(WITHOUT_GRAPHICS_MODULE ON)
   set(WITHOUT_QML_ENGINE_MODULE ON)
-  set(WITHOUT_HELP_BROWSER_MODULE ON)
   set(WITHOUT_TEXT_EDITOR_MODULE ON)
 endif()
 # ==============================================================================
@@ -294,6 +292,7 @@ find_package(
 # ==============================================================================
 if(NOT WITHOUT_HELP_TOOLS_MODULE)
   find_package(LibXml2 REQUIRED)
+  find_package(LibXslt REQUIRED)
 endif()
 # ==============================================================================
 find_package(MKL)

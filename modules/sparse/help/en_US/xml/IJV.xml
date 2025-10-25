@@ -57,6 +57,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[sp = sparse(eye(3,3))
 [IV, JV, VV, m, n, nzmax] = IJV(sp)]]></example_item_data>
             </example_item>

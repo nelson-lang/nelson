@@ -49,6 +49,7 @@ single, int64, int32, int16, or int8.</param_description>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[h5create([tempdir(), 'myfile.h5'],'/myDataset1',[10 20]);
 h5writeatt([tempdir(), 'myfile.h5'],'/','creation_date', '26-Dec-2018 16:55:32')]]></example_item_data>
             </example_item>

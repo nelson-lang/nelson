@@ -40,6 +40,7 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="adv-cli"
       ><![CDATA[h1 = errordlg()
 h2 = errordlg()
 hr = QObject_findchildren(QObject_root(), 'errordlg', true)]]></example_item_data>

@@ -30,6 +30,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = 3;
 res = isinteger(A)]]></example_item_data>
             </example_item>
@@ -37,6 +38,7 @@ res = isinteger(A)]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[B = uint8(3);
 res = isinteger(B)]]></example_item_data>
             </example_item>
@@ -44,6 +46,7 @@ res = isinteger(B)]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = single([3, i]);
 res = isinteger(A)]]></example_item_data>
             </example_item>

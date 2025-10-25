@@ -44,6 +44,7 @@ n of the resulting grid.</p>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[M = {'apple', 'banana', 'cherry'};
 N = {'blue', 'green', 'red'};
 ndgrid(M , N)

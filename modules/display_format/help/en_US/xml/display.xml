@@ -35,23 +35,28 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[display(33, 'Hello')]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[display('Hello Nelson')]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
-                <example_item_data><![CDATA[display(pi)]]></example_item_data>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[display(pi)]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = eye(3, 3); disp(A)]]></example_item_data>
             </example_item>
         </examples>

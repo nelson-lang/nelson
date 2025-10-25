@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>random</module_name>
+    <chapter>Aléatoire</chapter>
+    <chapter_description>
+        <p
+    >Le module Random fournit des outils pour générer des nombres aléatoires et des séquences aléatoires dans Nelson.</p>
+        <p
+    >Il prend en charge les distributions uniforme et normale, la génération d'entiers aléatoires, les permutations et le contrôle de l'état du générateur de nombres aléatoires.</p>
+        <p
+    >Ce module est essentiel pour les simulations, la modélisation probabiliste et les calculs stochastiques.</p>
+    </chapter_description>
+</xmldoc>

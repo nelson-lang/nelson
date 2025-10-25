@@ -89,6 +89,7 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="cli"
       ><![CDATA[N = 8;
 PMAX = 1.D03;
 TOL = 1.D-2;

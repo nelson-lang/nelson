@@ -1,307 +1,206 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>surf</keyword>
-    <short_description>surface plot.</short_description>
-    <syntax>
-        <syntax_item>surf(X, Y, Z)</syntax_item>
-        <syntax_item>surf(X, Y, Z, C)</syntax_item>
-        <syntax_item>surf(Z)</syntax_item>
-        <syntax_item>surf(Z, C)</syntax_item>
-        <syntax_item>surf(parent, ...)</syntax_item>
-        <syntax_item>surf(..., propertyName, propertyValue)</syntax_item>
-        <syntax_item>go = surf(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>X</param_name>
-            <param_description
-      >x-coordinates: vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Y</param_name>
-            <param_description
-      >y-coordinates: vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Z</param_name>
-            <param_description
-      >z-coordinates: vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>C</param_name>
-            <param_description
+	<copyright>SAME AS NELSON SOFTWARE</copyright>
+	<language>en_US</language>
+	<keyword>surf</keyword>
+	<short_description>surface plot.</short_description>
+	<syntax>
+		<syntax_item>surf(X, Y, Z)</syntax_item>
+		<syntax_item>surf(X, Y, Z, C)</syntax_item>
+		<syntax_item>surf(Z)</syntax_item>
+		<syntax_item>surf(Z, C)</syntax_item>
+		<syntax_item>surf(parent, ...)</syntax_item>
+		<syntax_item>surf(..., propertyName, propertyValue)</syntax_item>
+		<syntax_item>go = surf(...)</syntax_item>
+	</syntax>
+	<param_input>
+		<param_input_item>
+			<param_name>X</param_name>
+			<param_description>x-coordinates: vector or matrix.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>Y</param_name>
+			<param_description>y-coordinates: vector or matrix.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>Z</param_name>
+			<param_description>z-coordinates: vector or matrix.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>C</param_name>
+			<param_description
       >Color array: m-by-n-by-3 array of RGB triplets.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>parent</param_name>
-            <param_description
+		</param_input_item>
+		<param_input_item>
+			<param_name>parent</param_name>
+			<param_description
       >a scalar graphics object value: parent container, specified as a axes.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyName</param_name>
-            <param_description
-      >a scalar string or row vector character.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyValue</param_name>
-            <param_description>a value.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>go</param_name>
-            <param_description
-      >a graphics object: surface type.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >surf</b> creates a 3D surface plot. It can be used to plot data in the form of a matrix or a function of two variables.</p>
-            <p
+		</param_input_item>
+		<param_input_item>
+			<param_name>propertyName</param_name>
+			<param_description>a scalar string or row vector character.</param_description>
+		</param_input_item>
+		<param_input_item>
+			<param_name>propertyValue</param_name>
+			<param_description>a value.</param_description>
+		</param_input_item>
+	</param_input>
+	<param_output>
+		<param_output_item>
+			<param_name>go</param_name>
+			<param_description>a graphics object: surface type.</param_description>
+		</param_output_item>
+	</param_output>
+	<description>
+Set this property on an existing component has no effect.
+	
+		<p>
+			<b
+      >surf</b> creates a 3D surface plot. It can be used to plot data in the form of a matrix or a function of two variables.
+	
+	
+		</p>
+		<p
     >You can customize the appearance of the plot using various options such as color, lighting, and shading.</p>
-            <p
+		<p
     >For example, you can use the colormap option to change the color of the surface, and the FaceLighting option to change the lighting of the surface.</p>
-            <p>Properties:</p>
-            <p />
-            <p>
-                <b
-      >AlphaData</b> Transparency data: array same size as ZData or 1 (default).</p>
-                <p>
-                    <b
-      >AlphaDataMapping</b> Interpretation of AlphaData values: 'direct', 'none' or 'scaled' (default).</p>
-                    <p>
-                        <b
-      >AmbientStrength</b> Strength of ambient light: scalar in [0, 1].</p>
-                        <p>
-                            <b
-      >BackFaceLighting</b> Face lighting when normals point away from camera: 'unlit', 'lit' or 'reverselit' (default).</p>
-                            <p>
-                                <b
-      >CData</b> Vertex colors: 2-D or 3-D array.</p>
-                                <p>
-                                    <b
-      >CDataMapping</b> Color mapping method: 'direct', 'scaled' (default).</p>
-                                    <p>
-                                        <b
-      >CDataMode</b> Selection mode for CData: 'manual', 'auto' (default).</p>
-                                        <p>
-                                            <b
-      >Children</b> currently not used: []</p>
-                                            <p>
-                                                <b
-      >DiffuseStrength</b> Strength of diffuse light: scalar in range [0, 1].</p>
-                                                <p>
-                                                    <b
-      >EdgeAlpha</b> Edge transparency: scalar value in range[0, 1].</p>
-                                                    <p>
-                                                        <b
-      >EdgeColor</b> Edge line color: RGB triplets.</p>
-                                                        <p>
-                                                            <b
-      >EdgeLighting</b> Effect of light objects on edges: 'flat', 'gouraud' or 'none' (default).</p>
-                                                            <p>
-                                                                <b
-      >FaceAlpha</b> Face transparency: scalar in range [0, 1].</p>
-                                                                <p>
-                                                                    <b
-      >FaceColor</b> Face color:  RGB triplet.</p>
-                                                                    <p>
-                                                                        <b
-      >FaceLighting</b> Effect of light objects on faces: 'gouraud', 'none' or 'flat' (default).</p>
-                                                                        <p>
-                                                                            <b
-      >LineStyle</b> Line style: '--', ':', '-.', 'none' or '-' (default).</p>
-                                                                            <p>
-                                                                                <b
-      >LineWidth</b> Line width: positive value, 0.5 (default).</p>
-                                                                                <p
-    >
-                                                                                    <b
-      >Marker</b>Marker symbol: 'o' (circle), '+' (Plus sign), '*' (asterik), '.' (point), 'x' (cross), '_' (horizontal line) , '|' (vertical line), 'square', 'diamond', '^' (Upward-pointing triangle), 'v' (Downward-pointing triangle), '&gt;' (Right-pointing triangle), '&lt;' (Left-pointing triangle), 'pentagram', 'hexagram', 'none'(default). </p>
-                                                                                    <p
-    >
-                                                                                        <b
-      >MarkerEdgeColor</b> Marker outline color: RGB triplet.</p>
-                                                                                        <p
-    >
-                                                                                            <b
-      >MarkerFaceColor</b> Marker fill color: RGB triplet.</p>
-                                                                                            <p
-    >
-                                                                                                <b
-      >MarkerSize</b> Marker size: scalar positive value.</p>
-                                                                                                <p
-    >
-                                                                                                    <b
-      >MeshStyle</b> Edges to display: 'row', 'column' or 'both' (default).</p>
-                                                                                                    <p
-    >
-                                                                                                        <b
-      >Parent</b> Parent: axes object.</p>
-                                                                                                        <p
-    >
-                                                                                                            <b
-      >SpecularColorReflectance</b> Color of specular reflections: scalar in range [0, 1].</p>
-                                                                                                            <p
-    >
-                                                                                                                <b
-      >SpecularExponent</b> Size of specular spot: scalar greater than or equal to 1.</p>
-                                                                                                                <p
-    >
-                                                                                                                    <b
-      >SpecularStrength</b>  Strength of specular reflection: scalar in range [0, 1].</p>
-                                                                                                                    <p
-    >
-                                                                                                                        <b
-      >Tag</b> Object identifier: character vector, string scalar or '' (default).</p>
-                                                                                                                        <p
-    >
-                                                                                                                            <b
-      >Type</b> Type of graphics object: 'surface'.</p>
-                                                                                                                            <p
-    >
-                                                                                                                                <b
-      >UserData</b> User data: array or [] (default).</p>
-                                                                                                                                <p
-    >
-                                                                                                                                    <b
-      >VertexNormals</b> Normal vectors for each surface vertex: m-by-n-by-3 array or [] (default).</p>
-                                                                                                                                    <p
-    >
-                                                                                                                                        <b
-      >Visible</b> State of visibility: 'off' or 'on' (default).</p>
-                                                                                                                                        <p
-    >
-                                                                                                                                            <b
-      >XData</b> x-coordinate data: vector or matrix.</p>
-                                                                                                                                            <p
-    >
-                                                                                                                                                <b
-      >XDataMode</b> Selection mode for XData: 'manual' or 'auto'.</p>
-                                                                                                                                                <p
-    >
-                                                                                                                                                    <b
-      >YData</b> y-coordinate data: vector or matrix.</p>
-                                                                                                                                                    <p
-    >
-                                                                                                                                                        <b
-      >YDataMode</b> Selection mode for YData: 'manual' or 'auto'.</p>
-                                                                                                                                                        <p
-    >
-                                                                                                                                                            <b
-      >ZData</b> z-coordinate data: vector or matrix.</p>
-                                                                                                                                                            <p
-    >
-                                                                                                                                                                <b
-      >CreateFcn</b>Callback (function handle, string or cell) called when object is created.
-Set this property on an existing component has no effect.</p>
-                                                                                                                                                                <p
-    >
-                                                                                                                                                                    <b
-      >DeleteFcn</b>Callback (function handle, string or cell) called when object is deleted.</p>
-                                                                                                                                                                    <p
-    />
-                                                                                                                                                                    <p
-    >
-                                                                                                                                                                        <b
-      >BeingDeleted</b> Flag indicating that the object is being deleted.</p>
-                                                                                                                                                                        <p
+		<p>Properties:</p>
+		<table>
+			<tr><th>Property</th><th>Description</th></tr>
+			<tr><td><b>AlphaData</b></td><td
+        >Transparency data: array same size as ZData or 1 (default).</td></tr>
+			<tr><td><b>AlphaDataMapping</b></td><td
+        >Interpretation of AlphaData values: 'direct', 'none' or 'scaled' (default).</td></tr>
+			<tr><td><b>AmbientStrength</b></td><td
+        >Strength of ambient light: scalar in [0, 1].</td></tr>
+			<tr><td><b>BackFaceLighting</b></td><td
+        >Face lighting when normals point away from camera: 'unlit', 'lit' or 'reverselit' (default).</td></tr>
+			<tr><td><b>CData</b></td><td>Vertex colors: 2-D or 3-D array.</td></tr>
+			<tr><td><b>CDataMapping</b></td><td
+        >Color mapping method: 'direct', 'scaled' (default).</td></tr>
+			<tr><td><b>CDataMode</b></td><td
+        >Selection mode for CData: 'manual', 'auto' (default).</td></tr>
+			<tr><td><b>Children</b></td><td>currently not used: []</td></tr>
+			<tr><td><b>DiffuseStrength</b></td><td
+        >Strength of diffuse light: scalar in range [0, 1].</td></tr>
+			<tr><td><b>EdgeAlpha</b></td><td
+        >Edge transparency: scalar value in range [0, 1].</td></tr>
+			<tr><td><b>EdgeColor</b></td><td>Edge line color: RGB triplets.</td></tr>
+			<tr><td><b>EdgeLighting</b></td><td
+        >Effect of light objects on edges: 'flat', 'gouraud' or 'none' (default).</td></tr>
+			<tr><td><b>FaceAlpha</b></td><td
+        >Face transparency: scalar in range [0, 1].</td></tr>
+			<tr><td><b>FaceColor</b></td><td>Face color: RGB triplet.</td></tr>
+			<tr><td><b>FaceLighting</b></td><td
+        >Effect of light objects on faces: 'gouraud', 'none' or 'flat' (default).</td></tr>
+			<tr><td><b>LineStyle</b></td><td
+        >Line style: '--', ':', '-.', 'none' or '-' (default).</td></tr>
+			<tr><td><b>LineWidth</b></td><td
+        >Line width: positive value, 0.5 (default).</td></tr>
+			<tr><td><b>Marker</b></td><td
+        >Marker symbol: 'o' (circle), '+' (Plus sign), '*' (asterisk), '.' (point), 'x' (cross), '_' (horizontal line), '|' (vertical line), 'square', 'diamond', '^' (Upward-pointing triangle), 'v' (Downward-pointing triangle), '' (Right-pointing triangle), '' (Left-pointing triangle), 'pentagram', 'hexagram', 'none' (default).</td></tr>
+			<tr><td><b>MarkerEdgeColor</b></td><td
+        >Marker outline color: RGB triplet.</td></tr>
+			<tr><td><b>MarkerFaceColor</b></td><td>Marker fill color: RGB triplet.</td></tr>
+			<tr><td><b>MarkerSize</b></td><td>Marker size: scalar positive value.</td></tr>
+			<tr><td><b>MeshStyle</b></td><td
+        >Edges to display: 'row', 'column' or 'both' (default).</td></tr>
+			<tr><td><b>Parent</b></td><td>Parent: axes object.</td></tr>
+			<tr><td><b>SpecularColorReflectance</b></td><td
+        >Color of specular reflections: scalar in range [0, 1].</td></tr>
+			<tr><td><b>SpecularExponent</b></td><td
+        >Size of specular spot: scalar greater than or equal to 1.</td></tr>
+			<tr><td><b>SpecularStrength</b></td><td
+        >Strength of specular reflection: scalar in range [0, 1].</td></tr>
+			<tr><td><b>Tag</b></td><td
+        >Object identifier: character vector, string scalar or '' (default).</td></tr>
+			<tr><td><b>Type</b></td><td>Type of graphics object: 'surface'.</td></tr>
+			<tr><td><b>UserData</b></td><td>User data: array or [] (default).</td></tr>
+			<tr><td><b>VertexNormals</b></td><td
+        >Normal vectors for each surface vertex: m-by-n-by-3 array or [] (default).</td></tr>
+			<tr><td><b>Visible</b></td><td
+        >State of visibility: 'off' or 'on' (default).</td></tr>
+			<tr><td><b>XData</b></td><td>x-coordinate data: vector or matrix.</td></tr>
+			<tr><td><b>XDataMode</b></td><td
+        >Selection mode for XData: 'manual' or 'auto'.</td></tr>
+			<tr><td><b>YData</b></td><td>y-coordinate data: vector or matrix.</td></tr>
+			<tr><td><b>YDataMode</b></td><td
+        >Selection mode for YData: 'manual' or 'auto'.</td></tr>
+			<tr><td><b>ZData</b></td><td>z-coordinate data: vector or matrix.</td></tr>
+			<tr><td><b>CreateFcn</b></td><td
+        >Callback (function handle, string or cell) called when object is created. Set this property on an existing component has no effect.</td></tr>
+			<tr><td><b>DeleteFcn</b></td><td
+        >Callback (function handle, string or cell) called when object is deleted.</td></tr>
+			<tr><td><b>BeingDeleted</b></td><td
+        >Flag indicating that the object is being deleted.</td></tr>
+		</table>
+		<p
     >Some properties are available only for compatibility and have currently no effect on the surface.</p>
-                                                                                                                                                                    </description>
-                                                                                                                                                                    <used_function
-  />
-                                                                                                                                                                    <bibliography
-  />
-                                                                                                                                                                    <examples
-  >
-                                                                                                                                                                        <example_item
-    >
-                                                                                                                                                                            <example_item_type
-      >nelson</example_item_type>
-                                                                                                                                                                            <example_item_description
-      />
-                                                                                                                                                                            <example_item_data
-      ><![CDATA[f = figure();
+	</description>
+	<used_function />
+	<bibliography />
+	<examples>
+		<example_item>
+			<example_item_type>nelson</example_item_type>
+			<example_item_description />
+			<example_item_data runnable="adv-cli">
+<![CDATA[f = figure();
 [X, Y, Z] = peaks(35);
 C(:, :, 1) = zeros(35);
 C(:, :, 2) = ones(35) .* linspace(0.5, 0.6, 35);
 C(:, :, 3) = ones(35) .* linspace(0, 1, 35);
-S = surf(X, Y, Z, C)]]></example_item_data>
-                                                                                                                                                                            <example_item_img
-        src="../images/surf_1.svg"
+S = surf(X, Y, Z, C)]]>
+			</example_item_data>
+			<example_item_img
+        src="../../images/surf_1.svg"
         align="middle"
+        generate="true"
       />
-                                                                                                                                                                        </example_item>
-                                                                                                                                                                        <example_item
-    >
-                                                                                                                                                                            <example_item_type
-      >nelson</example_item_type>
-                                                                                                                                                                            <example_item_description
-      />
-                                                                                                                                                                            <example_item_data
-      ><![CDATA[f = figure();
+		</example_item>
+		<example_item>
+			<example_item_type>nelson</example_item_type>
+			<example_item_description />
+			<example_item_data runnable="adv-cli">
+<![CDATA[f = figure();
 [X,Y] = meshgrid(-8:.5:8);
 R = sqrt(X.^2 + Y.^2) + eps;
 Z = sin(R)./R;
 h = surf(X, Y, Z);
-axis square]]></example_item_data>
-                                                                                                                                                                            <example_item_img
-        src="../images/surf_2.svg"
+axis square]]>
+			</example_item_data>
+			<example_item_img
+        src="../../images/surf_2.svg"
         align="middle"
+        generate="true"
       />
-                                                                                                                                                                        </example_item>
-                                                                                                                                                                    </examples>
-                                                                                                                                                                    <see_also
-  >
-                                                                                                                                                                        <see_also_item
-    >
-                                                                                                                                                                            <link
-        linkend="${graphics}view"
-      >view</link>
-                                                                                                                                                                        </see_also_item>
-                                                                                                                                                                        <see_also_item
-    >
-                                                                                                                                                                            <link
-        linkend="${graphics}surface"
-      >surface</link>
-                                                                                                                                                                        </see_also_item>
-                                                                                                                                                                        <see_also_item
-    >
-                                                                                                                                                                            <link
-        linkend="${elementary_functions}meshgrid"
-      >meshgrid</link>
-                                                                                                                                                                        </see_also_item>
-                                                                                                                                                                    </see_also>
-                                                                                                                                                                    <history
-  >
-                                                                                                                                                                        <history_item
-    >
-                                                                                                                                                                            <history_version
-      >1.0.0</history_version>
-                                                                                                                                                                            <history_description
-      >initial version</history_description>
-                                                                                                                                                                        </history_item>
-                                                                                                                                                                        <history_item
-    >
-                                                                                                                                                                            <history_version
-      >1.7.0</history_version>
-                                                                                                                                                                            <history_description
-      >CreateFcn, DeleteFcn callback added.</history_description>
-                                                                                                                                                                        </history_item>
-                                                                                                                                                                        <history_item
-    >
-                                                                                                                                                                            <history_version
-      >--</history_version>
-                                                                                                                                                                            <history_description
-      >BeingDeleted property added.</history_description>
-                                                                                                                                                                        </history_item>
-                                                                                                                                                                    </history>
-                                                                                                                                                                    <authors
-  >
-                                                                                                                                                                        <author_item
-    >Allan CORNET</author_item>
-                                                                                                                                                                    </authors>
-                                                                                                                                                                </xmldoc>
+		</example_item>
+	</examples>
+	<see_also>
+		<see_also_item>
+			<link linkend="${graphics}view">view</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${graphics}surface">surface</link>
+		</see_also_item>
+		<see_also_item>
+			<link linkend="${elementary_functions}meshgrid">meshgrid</link>
+		</see_also_item>
+	</see_also>
+	<history>
+		<history_item>
+			<history_version>1.0.0</history_version>
+			<history_description>initial version</history_description>
+		</history_item>
+		<history_item>
+			<history_version>1.7.0</history_version>
+			<history_description>CreateFcn, DeleteFcn callback added.</history_description>
+		</history_item>
+		<history_item>
+			<history_version>--</history_version>
+			<history_description>BeingDeleted property added.</history_description>
+		</history_item>
+	</history>
+	<authors>
+		<author_item>Allan CORNET</author_item>
+	</authors>
+</xmldoc>

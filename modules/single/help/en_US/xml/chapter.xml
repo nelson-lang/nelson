@@ -4,6 +4,10 @@
     <language>en_US</language>
     <module_name>single</module_name>
     <chapter>Single type</chapter>
-    <chapter_description>single type functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Single Type module provides tools for handling single-precision numeric values in Nelson.</p>
+        <p
+    >It enables conversion of variables to single-precision format, allowing efficient storage and computation while maintaining sufficient numeric accuracy for many applications.</p>
+    </chapter_description>
 </xmldoc>

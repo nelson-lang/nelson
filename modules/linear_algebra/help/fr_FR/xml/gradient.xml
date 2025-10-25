@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>gradient</keyword>
+    <short_description>Gradient numérique.</short_description>
+    <syntax>
+        <syntax_item>FX = gradient(F)</syntax_item>
+        <syntax_item>[FX, FY] = gradient(F)</syntax_item>
+        <syntax_item>[FX, FY, FZ, ..., FN] = gradient(F)</syntax_item>
+        <syntax_item>[...] = gradient(F, h)</syntax_item>
+        <syntax_item>[...] = gradient(F, hx, hy, ... , hN)</syntax_item>
+    </syntax>
+        <param_input>
+                <param_input_item>
+                        <param_name>F</param_name>
+                        <param_description
+      >Tableau d'entrée : vecteur, matrice ou tableau multidimensionnel.</param_description>
+                </param_input_item>
+                <param_input_item>
+                        <param_name>F</param_name>
+                        <param_description
+      >Tableau d'entrée : vecteur, matrice ou tableau multidimensionnel.</param_description>
+                </param_input_item>
+                <param_input_item>
+                        <param_name>hx, hy, ..., hN</param_name>
+                        <param_description
+      >Espacement entre les points : vecteur, scalaire ou 1 (par défaut).</param_description>
+                </param_input_item>
+        </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>FX, FY, FZ, ..., FN</param_name>
+            <param_description
+      >Gradients numériques : tableau.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+    <p>
+        <b
+      >gradient(F)</b> calcule le gradient numérique unidimensionnel du vecteur ou de la matrice F.</p>
+        <p
+    >La sortie FX représente les différences dans la direction x (horizontale), correspondant à ∂F/∂x.</p>
+        <p>Elle suppose que l'espacement entre les points est 1.</p>
+            <p>
+                <b
+      >gradient(F, h)</b> permet de spécifier un espacement uniforme h entre les points dans chaque direction.</p>
+                <p
+    >Cet espacement uniforme peut également être spécifié individuellement pour chaque dimension de F en utilisant <b
+      >gradient(F, hx, hy, ..., hN)</b>.</p>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[[X, Y] = meshgrid(-2:0.2:2);
+Z = X .* exp(-X.^2 - Y.^2);
+[U, V] = gradient(Z, 0.2, 0.2);
+]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${linear_algebra}diff">diff</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.3.0</history_version>
+                    <history_description>version initiale</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

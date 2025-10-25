@@ -53,6 +53,7 @@
       >nelson</example_item_type>
                                             <example_item_description />
                                             <example_item_data
+        runnable="cli"
       ><![CDATA[exist('fileread')
 fileread = 3;
 exist('fileread')

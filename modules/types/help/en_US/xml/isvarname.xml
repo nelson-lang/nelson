@@ -30,6 +30,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[isvarname(4)
 isvarname('t')
 isvarname('8t')

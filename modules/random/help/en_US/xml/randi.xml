@@ -71,7 +71,9 @@
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
-                <example_item_data><![CDATA[
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[
 X = randi(10)
 ]]></example_item_data>
             </example_item>
@@ -79,6 +81,7 @@ X = randi(10)
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[
 X = randi(10, 3, 4)
 ]]></example_item_data>
@@ -87,6 +90,7 @@ X = randi(10, 3, 4)
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[
 X = randi(10, [3 4])
 ]]></example_item_data>
@@ -95,6 +99,7 @@ X = randi(10, [3 4])
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[
 X = randi(10, 3, 4, 'int32')
 ]]></example_item_data>
@@ -103,6 +108,7 @@ X = randi(10, 3, 4, 'int32')
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[
 p = single([3 3]);
 X = randi(10, 3, 3, 'like', p)
@@ -112,6 +118,7 @@ X = randi(10, 3, 3, 'like', p)
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[
 X = randi([5, 15], 2, 3)
 ]]></example_item_data>

@@ -22,92 +22,78 @@
     </param_output>
     <description>
         <b
-    >isnumeric</b> returns a logical 1 if the argument is a numeric array and a logical 0 otherwise.
-<p>List of numeric types:</p>
+    >isnumeric</b> returns a logical 1 if the argument is a numeric array and a logical 0
+        otherwise. <p>List of numeric types:</p>
         <p>
             <b>single</b> : single precision</p>
             <p>
-                <b>double</b> : double precision</p>
+            <b>double</b> : double precision</p>
                 <p>
-                    <b>int8</b>   : 8 bit signed integer</p>
+            <b>int8</b> : 8 bit signed integer</p>
                     <p>
-                        <b>int16</b>  : 16 bit signed integer</p>
+            <b>int16</b> : 16 bit signed integer</p>
                         <p>
-                            <b>int32</b>  : 32 bit signed integer</p>
+            <b>int32</b> : 32 bit signed integer</p>
                             <p>
-                                <b>int64</b>  : 64 bit signed integer</p>
+            <b>int64</b> : 64 bit signed integer</p>
                                 <p>
-                                    <b>uint8</b>  : 8 bit unsigned integer</p>
+            <b>uint8</b> : 8 bit unsigned integer</p>
                                     <p>
-                                        <b
-      >uint16</b> : 16 bit unsigned integer</p>
+            <b>uint16</b> : 16 bit unsigned integer</p>
                                         <p>
-                                            <b
-      >uint32</b> : 32 bit unsigned integer</p>
+            <b>uint32</b> : 32 bit unsigned integer</p>
                                             <p>
-                                                <b
-      >uint64</b> : 64 bit unsigned integer</p>
-                                            </description>
-                                            <used_function />
-                                            <bibliography />
-                                            <examples>
-                                                <example_item>
-                                                    <example_item_type
-      >nelson</example_item_type>
-                                                    <example_item_description />
-                                                    <example_item_data
+            <b>uint64</b> : 64 bit unsigned integer</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
       ><![CDATA[A = 1;
 res = isnumeric(A)]]></example_item_data>
-                                                </example_item>
-                                                <example_item>
-                                                    <example_item_type
-      >nelson</example_item_type>
-                                                    <example_item_description />
-                                                    <example_item_data
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
       ><![CDATA[B = single(1+i);
 res = isnumeric(B)]]></example_item_data>
-                                                </example_item>
-                                                <example_item>
-                                                    <example_item_type
-      >nelson</example_item_type>
-                                                    <example_item_description />
-                                                    <example_item_data
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
       ><![CDATA[C = logical(1);
 res = isnumeric(C)]]></example_item_data>
-                                                </example_item>
-                                            </examples>
-                                            <see_also>
-                                                <see_also_item>
-                                                    <link
-        linkend="${types}islogical"
-      >islogical</link>
-                                                </see_also_item>
-                                                <see_also_item>
-                                                    <link
-        linkend="${types}isinteger"
-      >isinteger</link>
-                                                </see_also_item>
-                                                <see_also_item>
-                                                    <link
-        linkend="${types}isdouble"
-      >isdouble</link>
-                                                </see_also_item>
-                                                <see_also_item>
-                                                    <link
-        linkend="${types}issingle"
-      >issingle</link>
-                                                </see_also_item>
-                                            </see_also>
-                                            <history>
-                                                <history_item>
-                                                    <history_version
-      >1.0.0</history_version>
-                                                    <history_description
-      >initial version</history_description>
-                                                </history_item>
-                                            </history>
-                                            <authors>
-                                                <author_item
-    >Allan CORNET</author_item>
-                                            </authors>
-                                        </xmldoc>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${types}islogical">islogical</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${types}isinteger">isinteger</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${types}isdouble">isdouble</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${types}issingle">issingle</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

@@ -39,6 +39,7 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[lib = dlopen([modulepath('nelson', 'builtin'), '/libnlsDynamic_link', getdynlibext()]);
 V = double([1 2;3 4]);
 % C prototype:

@@ -14,7 +14,8 @@
         </param_input_item>
     </param_input>
     <description>
-        <b>pause</b> pauses an audioplayer object.</description>
+        <p><b>pause</b> pauses an audioplayer object.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>
@@ -22,6 +23,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[signal = rand(2, 44100) - 0.5;
 playObj = audioplayer(signal, 44100, 16)
 play(playObj)

@@ -53,7 +53,7 @@ install_packages openmpi onetbb
 
 # Install data format libraries
 print_status "Installing data format libraries"
-install_packages libxml2 hdf5 libmatio
+install_packages libxml2 libxslt hdf5 libmatio
 
 # Install multimedia libraries
 print_status "Installing multimedia libraries"

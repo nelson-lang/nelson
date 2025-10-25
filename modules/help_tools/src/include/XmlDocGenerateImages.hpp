@@ -1,0 +1,23 @@
+//=============================================================================
+// Copyright (c) 2016-present Allan CORNET (Nelson)
+//=============================================================================
+// This file is part of Nelson.
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// LICENCE_BLOCK_END
+//=============================================================================
+#pragma once
+//=============================================================================
+#include <string>
+#include "nlsHelp_tools_exports.h"
+#include <Types.hpp>
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+NLSHELP_TOOLS_IMPEXP bool
+xmlDocGenerateImages(const std::wstring& xmlFileOrDir, const std::wstring& outputDir,
+    wstringVector& outputScriptFilenames, std::wstring& errorMessage);
+//=============================================================================
+} // namespace Nelson
+//=============================================================================

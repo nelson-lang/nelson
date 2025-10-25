@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>fr_FR</language>
+  <keyword>repo</keyword>
+  <short_description
+  >Outil de gestion de dépôt Git pour Nelson</short_description>
+
+  <syntax>
+    <syntax_item>repo('clone', url, branch, destination)</syntax_item>
+    <syntax_item>repo('clone', url, destination)</syntax_item> 
+    <syntax_item
+    >repo('clone', url, branch, destination, username, password)</syntax_item>
+    <syntax_item
+    >repo('clone', url, destination, username, password)</syntax_item> 
+    <syntax_item>repo('export', url, branch_tag_sha1, destination)</syntax_item>
+    <syntax_item>repo('export', url, destination)</syntax_item> 
+    <syntax_item
+    >repo('export', url, branch_tag_sha1, destination, username, password)</syntax_item>
+    <syntax_item
+    >repo('export', url, destination, username, password)</syntax_item> 
+    <syntax_item>repo('checkout', destination, branch_tag_sha1)</syntax_item>
+    <syntax_item>ce = repo('branch', destination)</syntax_item>
+    <syntax_item>ce = repo('tag', destination)</syntax_item>    
+    <syntax_item>st = repo('log', destination)</syntax_item>        
+    <syntax_item>repo('fetch', destination)</syntax_item>            
+    <syntax_item
+    >repo('fetch', destination, username, password)</syntax_item>            
+    <syntax_item
+    >repo('remove_branch', destination, branch)</syntax_item>            
+    <syntax_item
+    >current_branch = repo('current_branch', destination)</syntax_item>            
+  </syntax>
+
+  <param_input>
+
+    <param_input_item>
+      <param_name>url</param_name>
+      <param_description>a string: URL to a git repository.</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>branch</param_name>
+      <param_description>a string: branch name.</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>destination</param_name>
+      <param_description>a string: local pathname.</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>branch_tag_sha1</param_name>
+      <param_description
+      >a string: a branch name, tag or sha1.</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>username</param_name>
+      <param_description
+      >a string: username used if an authentification is required.</param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>password</param_name>
+      <param_description
+      >a string: password used  if an authentification is required.</param_description>
+    </param_input_item>
+
+  </param_input>
+
+  <param_output>
+
+    <param_output_item>
+      <param_name>ce</param_name>
+      <param_description>a cell: list of tags or branchs.</param_description>
+    </param_output_item>
+
+    <param_output_item>
+      <param_name>st</param_name>
+      <param_description
+      >a structure: contains log information.</param_description>
+    </param_output_item>
+
+    <param_output_item>
+      <param_name>current_branch</param_name>
+      <param_description>a string: name of current branch.</param_description>
+    </param_output_item>
+
+  </param_output>
+
+  <description>
+    <p><b>repo()</b> allows to clone, checkout, fetch a git repository.</p>
+    <p>checkout command will be forced and remove untracked filed.</p>
+    <p
+    >git https protocol works on all platforms. git ssh protocol works currently on macos and linux platforms.</p>
+    <p>report('export', ...) clone and remove .git directory.</p>
+    <p />
+    <p>Tips:</p>
+    <p />
+    <p>If you have this error: <b
+      >callback returned unsupported credentials type</b> , checks your ~/.gitconfig file.</p>
+    <p>You don't have some  ssh or https redirection.</p>
+    <p>Remove entries:</p>
+    <p>[url "git@github.com:"]</p>
+    <p>  insteadOf = https://github.com/</p>
+
+  </description>
+  <used_function>libgit2 (https://libgit2.org/)</used_function>
+  <bibliography />
+
+<examples>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+        runnable="cli"
+      ><![CDATA[url = 'https://github.com/nelson-lang/module_skeleton.git';
+destination = [tempdir(), 'demo_repo'];
+if isdir(destination)
+    rmdir(destination, 's');
+end
+mkdir(destination);
+repo('clone', url, destination)
+repo('tag', destination)
+repo('branch', destination)
+repo('current_branch', destination)
+repo('log', destination)]]>
+    </example_item_data>
+  </example_item>
+
+
+</examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${webtools}webread">webread</link>
+    </see_also_item>
+
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

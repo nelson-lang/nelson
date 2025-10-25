@@ -94,6 +94,7 @@
                                     <example_item_description
       >Interactive rotation visualization  (Part 1)</example_item_description>
                                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[% Create a test image with clear directional features
 I = zeros(100, 100, 'uint8');
 
@@ -132,6 +133,7 @@ end
                                     <example_item_img
         src="../images/imrotate_1.svg"
         align="middle"
+        generate="true"
       />
                                 </example_item>
                                 <example_item>
@@ -168,6 +170,7 @@ end
                                     <example_item_img
         src="../images/imrotate_2.svg"
         align="middle"
+        generate="true"
       />
                                 </example_item>
                             </examples>

@@ -48,12 +48,17 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f  = figure();
 t = 0:pi/50:10*pi;
 L = plot3(sin(t), cos(t), t);
 axis square
 zlabel('Z axis Label - Unicode ドラゴンボールZ(ゼット)')]]></example_item_data>
-                <example_item_img src="../images/zlabel.svg" align="middle" />
+                <example_item_img
+        src="../images/zlabel.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

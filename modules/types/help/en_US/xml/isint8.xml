@@ -21,9 +21,9 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>isint8</b> returns a logical <b>1</b>if the argument is a <b
-    >signed 8-bit</b> integer array and a logical <b
-    >0</b> otherwise.</description>
+        <p><b>isint8</b> returns a logical <b>1</b> if the argument is a <b
+      >signed 8-bit</b> integer array and a logical <b>0</b> otherwise.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>
@@ -31,6 +31,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = 3;
 res = isint8(A)]]></example_item_data>
             </example_item>
@@ -38,6 +39,7 @@ res = isint8(A)]]></example_item_data>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[B = int8(3);
 res = isint8(B)]]></example_item_data>
             </example_item>

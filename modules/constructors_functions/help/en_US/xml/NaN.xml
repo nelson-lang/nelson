@@ -35,17 +35,22 @@
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
-                    <example_item_data><![CDATA[NaN]]></example_item_data>
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data><![CDATA[3 + NaN]]></example_item_data>
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[NaN]]></example_item_data>
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
+      ><![CDATA[3 + NaN]]></example_item_data>
+                </example_item>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="cli"
       ><![CDATA[NaN != NaN
 isnan(NaN)]]></example_item_data>
                 </example_item>

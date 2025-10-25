@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>spy</keyword>
+    <short_description
+  >Visualiser le motif de parcimonie d'une matrice.</short_description>
+    <syntax>
+        <syntax_item>spy(S)</syntax_item>
+        <syntax_item>spy(S, LineSpec)</syntax_item>
+        <syntax_item>spy(S, LineSpec, MarkerSize)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>S</param_name>
+            <param_description>matrice : creuse ou dense.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>LineSpec</param_name>
+        <param_description
+      >Style de ligne, marqueur et/ou couleur : vecteur de caractères ou chaîne scalaire.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>MarkerSize</param_name>
+        <param_description>Valeur entière scalaire positive.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b>spy(S)</b> trace le motif de parcimonie de la matrice creuse <b
+      >S</b>.</p>
+    </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+rng('default');
+S = sparse((rand(1, 10) + 1) * 100, (rand(1, 10) + 1) * 100 , (rand(1, 10) + 1) * 10);
+spy(S);]]></example_item_data>
+                <example_item_img
+        src="../../images/spy_1.svg"
+        align="middle"
+        generate="true"
+      />
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+rng('default');
+S = sparse((rand(1, 10) + 1) * 100, (rand(1, 10) + 1) * 100 , (rand(1, 10) + 1) * 100);
+spy(S, 45);]]></example_item_data>
+                <example_item_img
+        src="../../images/spy_2.svg"
+        align="middle"
+        generate="true"
+      />
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+spy();]]></example_item_data>
+                <example_item_img
+        src="../../images/spy_3.svg"
+        align="middle"
+        generate="true"
+      />
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${sparse}sparse">sparse</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${graphics}plot">plot</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

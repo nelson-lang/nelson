@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>arrayfun</keyword>
+        <short_description
+  >Appliquer une fonction à chaque élément d'un tableau.</short_description>
+    <syntax>
+        <syntax_item>B = arrayfun(func, A)</syntax_item>
+        <syntax_item>B = arrayfun(func, A1, ..., An)</syntax_item>
+        <syntax_item>B = arrayfun(..., 'UniformOutput', false)</syntax_item>
+        <syntax_item>[B1, ..., Bm] = arrayfun(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>func</param_name>
+        <param_description
+      >handle de fonction à appliquer à chaque élément. Doit renvoyer un scalaire sauf si 'UniformOutput' est false.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>A, A1, ..., An</param_name>
+        <param_description>tableaux d'entrée de même taille.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>'UniformOutput'</param_name>
+        <param_description
+      >scalaire logique. Si false, les sorties sont renvoyées dans un tableau cellulaire.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+        <param_name>B, B1, ..., Bm</param_name>
+        <param_description
+      >sorties de la fonction appliquée élément par élément. Tableau cellulaire si 'UniformOutput' est false.</param_description>
+        </param_output_item>
+    </param_output>
+        <description>
+        <p>
+            <b>arrayfun(func, A)</b> applique la fonction <b
+      >func</b> à chaque élément du tableau <b
+      >A</b>, et renvoie le résultat dans <b>B</b> avec la même taille que <b
+      >A</b>.</p>
+            <p>
+                <b>arrayfun(func, A1, ..., An)</b> applique <b
+      >func</b> aux éléments correspondants des tableaux d'entrée. Tous les tableaux doivent avoir la même taille.</p>
+                <p>Utilisez l'option <b>'UniformOutput'</b> à <b
+      >false</b> pour autoriser des valeurs de sortie qui ne peuvent pas être concaténées dans un seul tableau. Dans ce cas, le résultat est un tableau cellulaire.</p>
+                <p>
+                    <b
+      >[B1, ..., Bm] = arrayfun(...)</b> capture plusieurs sorties de la fonction appliquée.</p>
+                </description>
+                <used_function />
+                <bibliography />
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description
+      >Apply mean to structure field</example_item_description>
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[
+S(1).f1 = rand(1, 5);
+S(2).f1 = rand(1, 10);
+S(3).f1 = rand(1, 15);
+means = arrayfun(@(x) mean(x.f1), S);
+]]></example_item_data>
+                    </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description
+      >Return multiple outputs from function</example_item_description>
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[
+f = @(x) deal(x, x^2);
+[A, B] = arrayfun(f, 1:4);
+]]></example_item_data>
+                    </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description
+      >Return variable-sized outputs in a cell array</example_item_description>
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[
+S(1).f1 = rand(3,5);
+S(2).f1 = rand(2,6);
+A = arrayfun(@(x) mean(x.f1), S, 'UniformOutput', false);
+]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link linkend="${data_structures}cellfun">cellfun</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.14.0</history_version>
+                        <history_description
+      >version initiale</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

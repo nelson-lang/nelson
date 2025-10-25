@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>docroot</keyword>
+        <short_description
+  >Récupère ou met à jour le répertoire racine du système d'aide de Nelson.</short_description>
+    <syntax>
+        <syntax_item>r = docroot()</syntax_item>
+        <syntax_item>r = docroot(new_docroot)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>new_docroot</param_name>
+            <param_description>a string: '', '.', or a URL.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+      <p><b
+      >docroot</b> récupère ou met à jour le répertoire racine de l'aide de Nelson.</p>
+      <p>Lorsqu'il est appelé sans argument, <b
+      >docroot</b> renvoie le répertoire racine actuel de l'aide de Nelson. Par défaut, il renvoie l'URL du site d'aide utilisé par Nelson.</p>
+      <p>Lorsque appelé avec un argument, <b
+      >docroot</b> met à jour le répertoire racine de l'aide de Nelson.</p>
+      <p><b
+      >docroot('')</b> réinitialise le répertoire racine de l'aide de Nelson à la valeur par défaut.</p>
+      <p><b
+      >docroot('.')</b> utilise les fichiers d'aide locaux et le navigateur local (restaure le comportement avant la v1.11.0).</p>
+                </description>
+                <used_function />
+                <bibliography />
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[
+docroot()
+doc rand
+docroot('.')
+doc rand
+docroot('')
+      ]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link linkend="${help_tools}doc">doc</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.14.0</history_version>
+                        <history_description
+      >version initiale</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

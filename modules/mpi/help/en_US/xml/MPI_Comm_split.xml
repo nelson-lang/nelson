@@ -43,6 +43,7 @@
             <example_item_description
       >mpiexec([modulepath('mpi'), '/examples/help_examples/MPI_Comm_split.m'], 10)</example_item_description>
             <example_item_data
+        runnable="false"
       ><![CDATA[if ~MPI_Initialized()
   MPI_Init();
 end

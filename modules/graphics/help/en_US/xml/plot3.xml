@@ -56,7 +56,7 @@
     <description>
         <p>
             <b
-      >plot3(X1, Y1, Z1, ...)</b>plots one or more lines in three-dimensional space.</p>
+      >plot3(X1, Y1, Z1, ...)</b> plots one or more lines in three-dimensional space.</p>
             <p>
                 <b
       >go = plot3(...)</b> returns a column vector of line graphics objects.</p>
@@ -71,13 +71,15 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f  = figure();
 t = 0:pi/50:10*pi;
 L = plot3(sin(t), cos(t), t);
 axis square]]></example_item_data>
                     <example_item_img
-        src="../images/plot3_1.svg"
+        src="../../images/plot3_1.svg"
         align="middle"
+        generate="true"
       />
                 </example_item>
                 <example_item>
@@ -97,6 +99,7 @@ axis square]]></example_item_data>
                     <example_item_img
         src="../images/plot3_2.svg"
         align="middle"
+        generate="true"
       />
                 </example_item>
             </examples>

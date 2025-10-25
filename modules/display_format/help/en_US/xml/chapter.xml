@@ -4,7 +4,14 @@
 	<language>en_US</language>
 	<module_name>display_format</module_name>
 	<chapter>Display format</chapter>
-	<chapter_description>output display format functions</chapter_description>
-	    <auto_toc />
-
+	<chapter_description>
+		<p
+    >The Display Format module defines how values, variables, and expressions are presented in Nelson.</p>
+		<p
+    >It offers control over numeric formatting, text representation, and the way results are shown in the console.</p>
+		<p
+    >The module also provides mechanisms for capturing formatted output programmatically, enabling both human-readable display and programmatic handling of results.</p>
+		<p
+    >This ensures flexibility in how information is presented and reused within scripts and applications.</p>
+	</chapter_description>
 </xmldoc>

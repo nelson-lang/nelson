@@ -4,6 +4,12 @@
     <language>en_US</language>
     <module_name>operators</module_name>
     <chapter>Operators</chapter>
-    <chapter_description>Operators</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Operators module provides tools for performing arithmetic, logical, relational, and array operations in Nelson.</p>
+        <p
+    >It supports element-wise and matrix computations, concatenation, subscripted referencing and assignment, and short-circuit logical operations.</p>
+        <p
+    >This module enables flexible manipulation of data structures and numerical arrays, forming the foundation for both basic calculations and advanced mathematical expressions.</p>
+    </chapter_description>
 </xmldoc>

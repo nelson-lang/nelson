@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>COM_xlswrite</keyword>
+    <short_description
+  >Écrire un fichier de feuille de calcul Microsoft Excel en utilisant COM.</short_description>
+    <syntax>
+        <syntax_item>COM_xlswrite(filename, v)</syntax_item>
+        <syntax_item>COM_xlswrite(filename, v, sheet)</syntax_item>
+        <syntax_item>COM_xlswrite(filename, v, range)</syntax_item>
+        <syntax_item>COM_xlswrite(filename, v, sheet, range)</syntax_item>
+        <syntax_item>status = COM_xlswrite(filename, v)</syntax_item>
+        <syntax_item>status = COM_xlswrite(filename, v, sheet)</syntax_item>
+        <syntax_item>status = COM_xlswrite(filename, v, range)</syntax_item>
+        <syntax_item
+    >status = COM_xlswrite(filename, v, sheet, range)</syntax_item>
+        <syntax_item>[status, msg] = COM_xlswrite(filename, v)</syntax_item>
+        <syntax_item
+    >[status, msg] = COM_xlswrite(filename, v, sheet)</syntax_item>
+        <syntax_item
+    >[status, msg] = COM_xlswrite(filename, v, range)</syntax_item>
+        <syntax_item
+    >[status, msg] = COM_xlswrite(filename, v, sheet, range)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>filename</param_name>
+            <param_description
+      >une chaîne : un chemin complet de nom de fichier.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>v</param_name>
+            <param_description
+      >une chaîne, une cellule, une matrice : valeurs à sauvegarder.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>sheet</param_name>
+            <param_description
+      >un entier ou une chaîne : id de feuille ou nom de feuille</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>range</param_name>
+            <param_description>une chaîne : une plage xx:xx</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>status</param_name>
+            <param_description
+      >un booléen : vrai si sauvegardé.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>msg</param_name>
+            <param_description
+      >une chaîne : '' si pas d'erreur ou un message d'erreur.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >COM_xlswrite</b> écrit un fichier de feuille de calcul Microsoft Excel en utilisant COM.</p>
+            <p>Inf est converti par Excel en 65535.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[COM_xlswrite([tempdir(), 'example_xlswrite_1.xlsx'], rand(3, 3))]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[data = {'Time', 'Temp'; 12 98; 13 99; Inf 97};
+s = COM_xlswrite([tempdir(), 'example_xlswrite_2.xlsx'], data, 'Temperatures');]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${com_engine}COM_xlsread">COM_xlsread</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

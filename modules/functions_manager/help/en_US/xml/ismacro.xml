@@ -23,7 +23,7 @@
     </param_output>
     <description>
         <p>
-            <b>isbuiltin</b> checks for the existence of a macro.</p>
+            <b>ismacro</b> checks for the existence of a macro.</p>
         </description>
         <used_function />
         <bibliography />
@@ -32,6 +32,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[ismacro('isbuiltin')
 ismacro('exist')]]></example_item_data>
             </example_item>

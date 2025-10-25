@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>exit</keyword>
+    <short_description>Quitte l'environnement Nelson.</short_description>
+    <syntax>
+        <syntax_item>exit</syntax_item>
+        <syntax_item>exit(status)</syntax_item>
+        <syntax_item>exit('force')</syntax_item>
+        <syntax_item>exit('cancel')</syntax_item>
+        <syntax_item>exit(status, 'force')</syntax_item>
+    </syntax>
+    <description>
+        <p>Ferme l'environnement Nelson ou termine la session en cours.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <see_also>
+        <see_also_item>
+            <link linkend="${core}quit">quit</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

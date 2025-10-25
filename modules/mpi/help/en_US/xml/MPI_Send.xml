@@ -43,6 +43,7 @@
             <example_item_description
       >mpiexec([modulepath('mpi'), '/examples/MPI_helloworld.m'], 4)</example_item_description>
             <example_item_data
+        runnable="false"
       ><![CDATA[if ~MPI_Initialized()
   MPI_Init();
 end

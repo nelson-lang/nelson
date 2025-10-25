@@ -155,7 +155,7 @@
                                                                                                 <p
     >
                                                                                                     <b
-      >history('get', lines)</b>returns the current Nelson history in a cell of strings by index: a scalar value or a vector 1x2.</p>
+      >history('get', lines)</b> returns the current Nelson history in a cell of strings by index: a scalar value or a vector 1x2.</p>
                                                                                                     <p
     >
                                                                                                         <b
@@ -181,6 +181,7 @@
                                                                                                                 <example_item_description
       >Example to share your history file in OneDrive cloud</example_item_description>
                                                                                                                 <example_item_data
+        runnable="cli"
       ><![CDATA[OneDrivePath = getenv('OneDrive');
 if (strcmp(OneDrivePath, '') == false)
   NelsonOneDrivePath = [OneDrivePath, '/Nelson'];
@@ -197,6 +198,7 @@ end]]></example_item_data>
                                                                                                                 <example_item_description
       />
                                                                                                                 <example_item_data
+        runnable="cli"
       ><![CDATA[history()
 c = history()]]></example_item_data>
                                                                                                             </example_item>

@@ -4,6 +4,16 @@
     <language>en_US</language>
     <module_name>modules_manager</module_name>
     <chapter>Modules manager</chapter>
-    <chapter_description>modules manager functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Modules Manager in Nelson provides the infrastructure to extend and manage the environment at runtime.</p>
+        <p
+    >It allows modules to be dynamically added, removed, and queried, making the system flexible and adaptable to different workflows.</p> 
+        <p
+    >With support for both internal and external modules, the manager handles module metadata, paths, and versioning.</p>
+        <p
+    >It also provides utilities for organizing user-defined toolboxes, managing gateways, and ensuring that dependencies are properly loaded.</p> 
+        <p
+    >This framework simplifies module distribution, integration, and maintenance, forming the backbone of Nelson’s modular architecture.</p>
+    </chapter_description>
 </xmldoc>

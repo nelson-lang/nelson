@@ -58,6 +58,7 @@
                         <example_item_type>nelson</example_item_type>
                         <example_item_description />
                         <example_item_data
+        runnable="cli"
       ><![CDATA[jlrun('a = b * c', 'b', 5, 'c', 10)
 r = jlrun('d = a + c', 'd')]]></example_item_data>
                     </example_item>
@@ -65,12 +66,14 @@ r = jlrun('d = a + c', 'd')]]></example_item_data>
                         <example_item_type>nelson</example_item_type>
                         <example_item_description />
                         <example_item_data
+        runnable="cli"
       ><![CDATA[jlrun(["a = 3","print(a)"])]]></example_item_data>
                     </example_item>
                     <example_item>
                         <example_item_type>nelson</example_item_type>
                         <example_item_description />
                         <example_item_data
+        runnable="cli"
       ><![CDATA[[R1, R2] = jlrun("a=b*c",["a","b"], 'b', 5, 'c', 10)]]></example_item_data>
                     </example_item>
                 </examples>

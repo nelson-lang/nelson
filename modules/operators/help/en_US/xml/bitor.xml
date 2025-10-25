@@ -43,6 +43,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = uint16([0 1; 0 1]);
 B = uint16([0 0; 1 1]);
 R = bitor(A, B)

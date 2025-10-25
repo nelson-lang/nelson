@@ -104,6 +104,7 @@
                                                         <example_item_description
       />
                                                         <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 outerX = [0, 0.3, 1, 0.7, 1, 0.3, 0, -0.3, -1, -0.7, -1, -0.3, 0];
 outerY = [1, 0.3, 0.3, 0, -0.3, -1, -0.3, -1, -0.3, 0, 0.3, 0.3, 1];
@@ -112,8 +113,9 @@ innerY = [0.6, 0.3, 0.3, 0, -0.3, -0.6, -0.3, -0.6, -0.3, 0, 0.3, 0.3, 0.6];
 fill(outerX, outerY, 'y');
 fill(innerX, innerY, 'r');]]></example_item_data>
                                                         <example_item_img
-        src="../images/fill_1.svg"
+        src="../../images/fill_1.svg"
         align="middle"
+        generate="true"
       />
                                                     </example_item>
                                                     <example_item>
@@ -122,6 +124,7 @@ fill(innerX, innerY, 'r');]]></example_item_data>
                                                         <example_item_description
       />
                                                         <example_item_data
+        runnable="adv-cli"
       ><![CDATA[% Define the vertices of a colorful geometric pattern
 x1 = [0, 1, 1, 0];
 y1 = [0, 0, 1, 1];
@@ -153,6 +156,7 @@ title('Colorful Geometric Pattern');
                                                         <example_item_img
         src="../images/fill_2.svg"
         align="middle"
+        generate="true"
       />
                                                     </example_item>
                                                     <example_item>
@@ -161,6 +165,7 @@ title('Colorful Geometric Pattern');
                                                         <example_item_description
       >Alpha channel</example_item_description>
                                                         <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 x = [10 30 40 30 10 0];
 y = [0 0 20 40 40 20];
@@ -169,8 +174,9 @@ fill(x, y, 'cyan', 'FaceAlpha', 0.3);
 fill(x + 2, y, 'magenta', 'FaceAlpha', 0.3);
 fill(x + 1, y + 2, 'yellow', 'FaceAlpha', 0.3);]]></example_item_data>
                                                         <example_item_img
-        src="../images/fill_3.svg"
+        src="../../images/fill_3.svg"
         align="middle"
+        generate="true"
       />
                                                     </example_item>
                                                 </examples>

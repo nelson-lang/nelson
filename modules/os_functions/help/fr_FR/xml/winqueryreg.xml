@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>winqueryreg</keyword>
+        <short_description
+  >Lire le registre Windows (Windows seulement).</short_description>
+    <syntax>
+        <syntax_item>c = winqueryreg ('name', rootkey, subkey)</syntax_item>
+        <syntax_item>v = winqueryreg (rootkey, subkey, value_name)</syntax_item>
+        <syntax_item>v = winqueryreg (rootkey, subkey)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>rootkey</param_name>
+            <param_description>une chaîne : clé racine.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>subkey</param_name>
+            <param_description
+      >une chaîne : chemin de la sous-clé.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>value_name</param_name>
+            <param_description
+      >une chaîne : nom de la valeur.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>c</param_name>
+            <param_description>une cellule de chaînes.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>v</param_name>
+            <param_description>une chaîne ou un int32.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p><b
+      >c = winqueryreg ('name', rootkey, subkey)</b> renvoie une cellule de chaînes contenant les noms des clés dans rootkey\subkey.</p>
+        <p><b
+      >v = winqueryreg (rootkey, subkey, value_name)</b> renvoie la valeur associée à value_name dans rootkey\subkey.</p>
+        <p>Si la valeur est un entier 32 bits, <b
+      >winqueryreg</b> renvoie la valeur en int32. Si la valeur est une chaîne, elle est renvoyée en tant que chaîne.</p>
+        <p><b
+      >v = winqueryreg (rootkey, subkey)</b> renvoie la valeur dans rootkey\subkey qui n'a pas de propriété value name.</p>
+        <p>Clés racines supportées :</p>
+        <p>'HKEY_CLASSES_ROOT', 'HKCR',</p>
+        <p>'HKEY_CURRENT_USER', 'HKCU',</p>
+        <p>'HKEY_LOCAL_MACHINE', 'HKLM',</p>
+        <p>'HKEY_USERS', 'HKU',</p>
+        <p>'HKEY_CURRENT_CONFIG', 'HKCC'</p>
+    </description>
+                <used_function />
+                <bibliography />
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[winqueryreg('name', 'HKEY_LOCAL_MACHINE', 'HARDWARE\DESCRIPTION\System')
+winqueryreg('HKLM', 'HARDWARE\DESCRIPTION\System\CentralProcessor\1\', 'ProcessorNameString')]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link linkend="${os_functions}winopen">winopen</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link
+        linkend="${os_functions}searchenv"
+      >searchenv</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.0.0</history_version>
+                        <history_description
+      >version initiale</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

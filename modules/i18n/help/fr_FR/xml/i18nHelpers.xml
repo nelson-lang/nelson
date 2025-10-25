@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>i18nHelpers</keyword>
+        <short_description
+  >Fonctions utilitaires d'internationalisation (i18n)</short_description>
+    <syntax>
+        <syntax_item>i18nHelpers('convert', potFile, jsonFile)</syntax_item>
+        <syntax_item>i18nHelpers('merge', jsonFile1, jsonFile2)</syntax_item>
+        <syntax_item>i18nHelpers('sort', jsonFileA, jsonFileB)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>potFile</param_name>
+            <param_description
+      >Chaîne : chemin vers le fichier source .po/.pot (template de traduction)</param_description>
+        </param_input_item>
+        <param_input_item>
+                        <param_name>jsonFile</param_name>
+                        <param_description
+      >Chaîne : chemin vers le fichier JSON de traduction de destination</param_description>
+        </param_input_item>
+        <param_input_item>
+                        <param_name>jsonFile1</param_name>
+                        <param_description
+      >Chaîne : chemin vers le fichier JSON de traduction source</param_description>
+        </param_input_item>
+        <param_input_item>
+                        <param_name>jsonFile2</param_name>
+                        <param_description
+      >Chaîne : chemin vers le fichier JSON de traduction de destination</param_description>
+        </param_input_item>
+        <param_input_item>
+                        <param_name>jsonFileA</param_name>
+                        <param_description
+      >Chaîne : chemin vers le fichier JSON source à trier</param_description>
+        </param_input_item>
+        <param_input_item>
+                        <param_name>jsonFileB</param_name>
+                        <param_description
+      >Chaîne : chemin vers le fichier JSON trié</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+      <p><b
+      >i18nHelpers</b> fournit des fonctions utilitaires essentielles pour gérer les fichiers d'internationalisation. Les fonctions principales incluent :</p>
+      <p>- <b
+      >'convert'</b> : Convertit un fichier template .po/.pot en format JSON pour une manipulation simplifiée.</p>
+      <p>- <b
+      >'merge'</b> : Fusionne deux fichiers JSON de traduction. Les entrées de <code
+      >jsonFile1</code> sont ajoutées à <code
+      >jsonFile2</code>, et les entrées exclusives à <code
+      >jsonFile2</code> sont supprimées.</p>
+      <p>- <b
+      >'sort'</b> : Trie et organise les entrées d'un fichier JSON de traduction. <code
+      >jsonFileA</code> et <code
+      >jsonFileB</code> peuvent référencer le même fichier si un tri en place est souhaité.</p>
+      <p
+    >Cette utilité est destinée à un usage interne et peut être mise à jour au fil du temps.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <see_also>
+            <see_also_item>
+                <link linkend="${localization}setlanguage">setlanguage</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${localization}getlanguage">getlanguage</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.10.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

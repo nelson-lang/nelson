@@ -52,6 +52,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[[l, c, m, msg] = colstyle('r:x')
 [l, c, m, msg] = colstyle('*')
 [l, c, m, msg] = colstyle('*', 'plot')]]></example_item_data>

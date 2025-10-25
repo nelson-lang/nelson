@@ -44,6 +44,7 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[f = zeros(5, 5);
 f(1:5,4:5) = 1;
 Y = ifftn(fftn(f));]]></example_item_data>

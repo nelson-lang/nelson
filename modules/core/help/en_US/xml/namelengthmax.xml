@@ -28,6 +28,7 @@
                 <example_item_description
       >Working: identifier length 4096 characters</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[ID = ['A', char(double('0') * ones(1, namelengthmax -1 ))];
 length(ID)
 STR = [ID, ' = 3'];
@@ -39,6 +40,7 @@ execstr(STR)
                 <example_item_description
       >Not Working: identifier length 4097 characters</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[ID = ['A', char(double('0') * ones(1, namelengthmax))];
 length(ID)
 STR = [ID, ' = 3'];

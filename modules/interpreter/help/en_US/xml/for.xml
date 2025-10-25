@@ -23,12 +23,14 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[for i = 1:10, disp(i), end]]></example_item_data>
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[for i = [1, 2; 3 4], disp(i), disp('next'), end]]></example_item_data>
                 </example_item>
             </examples>

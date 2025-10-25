@@ -53,6 +53,7 @@ A movie frame structure can be created using the im2frame and getframe functions
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 s = surf(peaks);
 F = getframe(f)

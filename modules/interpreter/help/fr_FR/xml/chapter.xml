@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>interpreter</module_name>
+    <chapter>Fonctions de l'interpréteur</chapter>
+    <chapter_description>
+     <p
+    >Le module Fonctions de l'interpréteur fournit les constructions de langage de base et les mécanismes de contrôle qui définissent le flux d'exécution dans Nelson.</p>
+     <p
+    >Il inclut des éléments essentiels tels que les boucles, les branchements conditionnels, la gestion des erreurs et les déclarations de fonctions.</p>
+     <p
+    >Le module propose également des outils pour analyser le code, travailler avec les mots-clés et gérer les limites de récursion.</p>
+     <p
+    >Ensemble, ces fonctionnalités établissent la syntaxe et la sémantique fondamentales du langage Nelson, permettant aux utilisateurs d'écrire des programmes structurés, dynamiques et fiables.</p>
+    </chapter_description>
+</xmldoc>

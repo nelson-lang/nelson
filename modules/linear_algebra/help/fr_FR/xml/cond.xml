@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>cond</keyword>
+    <short_description>Nombre de condition pour l'inversion.</short_description>
+    <syntax>
+        <syntax_item>c = rcond(A, p)</syntax_item>
+    </syntax>
+    <param_input>
+      <param_input_item>
+        <param_name>A</param_name>
+        <param_description
+      >une valeur numérique : matrice carrée ou rectangulaire (double ou simple précision)</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>p</param_name>
+        <param_description
+      >type de norme : Inf, 'fro', 1, 2 (par défaut)</param_description>
+        </param_input_item>
+    </param_input>
+        <param_output>
+        <param_output_item>
+            <param_name>c</param_name>
+            <param_description
+      >une valeur numérique : un scalaire.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >c = cond(A)</b> retourne le nombre de condition en norme 2 pour l'inversion.</p>
+            <p>
+                <b
+      >c = cond(A, p)</b> retourne le nombre de condition en norme p, où p peut être 1, 2, Inf ou 'fro'.</p>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[X = rand(10, 10);
+r = cond(X)]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${linear_algebra}rcond">rcond</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>version initiale</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>cputime</keyword>
+        <short_description
+  >Renvoie le temps CPU utilisé par votre session Nelson.</short_description>
+    <syntax>
+        <syntax_item>t = cputime()</syntax_item>
+    </syntax>
+    <param_output>
+        <param_output_item>
+            <param_name>t</param_name>
+            <param_description
+      >un double : temps CPU en secondes.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >cputime()</b> renvoie le temps CPU utilisé par la session Nelson.</p>
+            <p
+    >Pour mesurer les performances, il est préférable d'utiliser les fonctions tic et toc.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[t1 = cputime;
+sleep(10);
+t2 = cputime;
+t2 - t1
+
+% versus tic toc
+tic()
+sleep(10);
+toc()]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${time}tic">tic</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${time}toc">toc</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

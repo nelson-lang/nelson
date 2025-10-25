@@ -43,6 +43,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[str = fileread([nelsonroot(),'/CHANGELOG.md'], 'string')
     	filewrite([tempdir(), 'CHANGELOG.md'], str)]]></example_item_data>
             </example_item>
@@ -51,6 +52,7 @@
                 <example_item_description
       >characters encoding</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[
 str = 'живете зело, земля, и иже и како люди';
 filewrite([tempdir(), 'example_filewrite.txt'], str, 'native', 'windows-1251')]]></example_item_data>

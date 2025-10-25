@@ -34,6 +34,7 @@
                 <example_item_description
       >See module skeleton for example</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[
 dlgenerateunloader(tempdir(), {'c_dynamic_library_1',  'c_dynamic_library_2'});
 text = fileread([tempdir(), 'unloader.m'])]]></example_item_data>

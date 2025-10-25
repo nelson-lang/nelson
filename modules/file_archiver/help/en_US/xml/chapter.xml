@@ -4,6 +4,10 @@
     <language>en_US</language>
     <module_name>file_archiver</module_name>
     <chapter>File archiver functions</chapter>
-    <chapter_description>file archiver functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The File Archiver module provides tools for compressing and decompressing files in Nelson.</p>
+        <p
+    >It supports creation of zip archives and extraction of files from zip archives, enabling efficient file storage, sharing, and management.</p>
+    </chapter_description>
 </xmldoc>

@@ -53,6 +53,7 @@
                                                         <example_item_description
       />
                                                         <example_item_data
+        runnable="adv-cli"
       ><![CDATA[g = groot()
 g.ScreenDepth]]></example_item_data>
                                                     </example_item>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>hsvd</keyword>
+    <short_description
+  >Décomposition en valeurs singulières de Hankel.</short_description>
+    <syntax>
+        <syntax_item>hsv = hsvd(sys)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>sys</param_name>
+            <param_description>Modèle d'état-espace</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>hsv</param_name>
+            <param_description
+      >Valeurs singulières de Hankel.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >hsv = hsvd(sys)</b> calcule les valeurs singulières de Hankel (hsv) pour le système dynamique <b
+      >sys</b>.</p>
+            <p
+    >Ces valeurs singulières sont calculées dans des coordonnées d'état qui équilibrent les transferts d'énergie de l'entrée vers l'état et de l'état vers la sortie.</p>
+            <p
+    >Les valeurs singulières de Hankel servent de mesure de l'impact de chaque état sur les caractéristiques d'entrée/sortie du système.</p>
+            <p
+    >À l'instar de la façon dont les valeurs singulières sont liées au rang d'une matrice, de petites valeurs singulières de Hankel indiquent des états qui peuvent être omis pour rationaliser le modèle et simplifier sa représentation.</p>
+        </description>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [ -0.04165  0.0000  4.9200  -4.9200  0.0000  0.0000  0.0000;
+-5.2100  -12.500  0.0000   0.0000  0.0000  0.0000  0.0000;
+0.0000   3.3300 -3.3300   0.0000  0.0000  0.0000  0.0000;
+0.5450   0.0000  0.0000   0.0000 -0.5450  0.0000  0.0000;
+0.0000   0.0000  0.0000   4.9200 -0.04165 0.0000  4.9200;
+0.0000   0.0000  0.0000   0.0000 -5.2100 -12.500  0.0000;
+0.0000   0.0000  0.0000   0.0000  0.0000  3.3300 -3.3300];
+
+B = [  0.0000   0.0000;
+12.5000   0.0000;
+0.0000   0.0000;
+0.0000   0.0000;
+0.0000   0.0000;
+0.0000   12.500;
+0.0000   0.0000];
+
+C = [  1.0000   0.0000  0.0000   0.0000  0.0000  0.0000  0.0000
+0.0000   0.0000  0.0000   1.0000  0.0000  0.0000  0.0000
+0.0000   0.0000  0.0000   0.0000  1.0000  0.0000  0.0000];
+
+D = [];
+
+sys = ss(A, B, C, D);
+hsv = hsvd(sys)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${control_system}balreal">balreal</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

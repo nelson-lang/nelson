@@ -48,6 +48,7 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="cli"
       ><![CDATA[h = .01; x = 0:h:pi;
 X = sin(x.^2);
 R = diff(X)]]></example_item_data>

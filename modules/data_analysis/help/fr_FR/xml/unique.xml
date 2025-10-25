@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>unique</keyword>
+    <short_description>Valeurs uniques.</short_description>
+    <syntax>
+        <syntax_item>C = unique(A)</syntax_item>
+        <syntax_item>C = unique(A, 'rows')</syntax_item>
+        <syntax_item>[C, ia, ic] = unique(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>A</param_name>
+        <param_description
+      >une variable Nelson (double, single, int8, int16, int32, int64, uint8, uint16, uint32, uint64, logical, char, string, cell).</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>C</param_name>
+            <param_description>Données uniques de A.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>ia</param_name>
+            <param_description
+      >Indice dans A : vecteur colonne.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>ic</param_name>
+            <param_description
+      >Indice dans C : vecteur colonne.</param_description>
+        </param_output_item>
+    </param_output>
+        <description>
+        <p>
+            <b>C = unique(A)</b> renvoie les éléments uniques du tableau <b
+      >A</b> dans l'ordre trié.</p>
+            <p>
+                <b>C = unique(A, 'rows')</b> considère chaque ligne de <b
+      >A</b> comme une entité unique et renvoie les lignes uniques dans l'ordre trié.</p>
+                <p
+    >Notez que l'option 'rows' ne prend pas en charge les cellules de tableaux.</p>
+                <p>
+                    <b
+      >[C, ia, ic] = unique(...)</b> étend n'importe quelle syntaxe précédente pour également renvoyer les vecteurs d'indices <b
+      >ia</b> et <b>ic</b>.</p>
+                    <p>Pour un vecteur <b>A</b>, les relations sont <b
+      >C = A(ia)</b> et <b>A = C(ic)</b>.</p>
+                    <p>Pour une matrice ou un tableau <b
+      >A</b>, les relations sont <b>C = A(ia)</b> et <b>A(:) = C(ic)</b>.</p>
+                    <p>Si l'option 'rows' est utilisée, les relations sont <b
+      >C = A(ia, :)</b> et <b>A = C(ic, :)</b>.</p>
+                </description>
+                <used_function>std::sort, std::unique (stl)</used_function>
+                <bibliography />
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [10+20i 30+i 10i 0 -10i];
+[C, ia, ic] = unique(A)
+]]></example_item_data>
+                    </example_item>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[A = {'hi', 'good'; 'good', 'tell'; 'hi', 'bye'}
+[C, ia, ic] = unique(A)
+]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link linkend="${data_analysis}sort">sort</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.6.0</history_version>
+                        <history_description
+      >version initiale</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

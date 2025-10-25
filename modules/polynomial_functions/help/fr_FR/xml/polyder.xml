@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>polyder</keyword>
+    <short_description>Dérivation polynomiale.</short_description>
+    <syntax>
+        <syntax_item>k = polyder(p)</syntax_item>
+        <syntax_item>k = polyder(a, b)</syntax_item>
+        <syntax_item>[q, d] = polyder(a, b)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>p</param_name>
+            <param_description
+      >vecteur : coefficients du polynôme</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>a</param_name>
+            <param_description
+      >vecteur ligne : coefficients du polynôme</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>b</param_name>
+            <param_description
+      >vecteur ligne : coefficients du polynôme</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>k</param_name>
+            <param_description
+      >vecteur ligne : coefficients du polynôme dérivé</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>q</param_name>
+            <param_description
+      >vecteur ligne : polynôme numérateur</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>d</param_name>
+            <param_description
+      >vecteur ligne : polynôme dénominateur</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p><b
+      >k = polyder(p)</b> renvoie les coefficients de la dérivée du polynôme dont les coefficients sont fournis par le vecteur <b
+      >p</b>.</p>
+        <p><b
+      >k = polyder(a, b)</b> renvoie la dérivée du produit des polynômes <b
+      >a</b> et <b>b</b>.</p>
+        <p><b
+      >[q, d] = polyder(a, b)</b> renvoie la dérivée du quotient des polynômes <b
+      >a</b> et <b>b</b>.</p>
+    </description>
+                <examples>
+                    <example_item>
+                        <example_item_type>nelson</example_item_type>
+                        <example_item_description />
+                        <example_item_data
+        runnable="cli"
+      ><![CDATA[
+p = [30 0 -20 0 10 50];
+q = polyder(p)]]></example_item_data>
+                    </example_item>
+                </examples>
+                <see_also>
+                    <see_also_item>
+                        <link
+        linkend="${polynomial_functions}polyval"
+      >polyval</link>
+                    </see_also_item>
+                    <see_also_item>
+                        <link linkend="${polynomial_functions}poly">poly</link>
+                    </see_also_item>
+                </see_also>
+                <history>
+                    <history_item>
+                        <history_version>1.0.0</history_version>
+                        <history_description
+      >version initiale</history_description>
+                    </history_item>
+                </history>
+                <authors>
+                    <author_item>Allan CORNET</author_item>
+                </authors>
+            </xmldoc>

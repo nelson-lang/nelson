@@ -68,12 +68,14 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[COM_xlswrite([tempdir(), 'example_xlswrite_1.xlsx'], rand(3, 3))]]></example_item_data>
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[data = {'Time', 'Temp'; 12 98; 13 99; Inf 97};
 s = COM_xlswrite([tempdir(), 'example_xlswrite_2.xlsx'], data, 'Temperatures');]]></example_item_data>
             </example_item>

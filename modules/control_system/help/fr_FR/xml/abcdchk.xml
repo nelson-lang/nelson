@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>abcdchk</keyword>
+    <short_description
+  >Vérifie la compatibilité dimensionnelle des matrices A, B, C et D.</short_description>
+    <syntax>
+        <syntax_item>[msg, A, B, C, D] = abcdchk(a, b, c, d)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>a (n x n)</param_name>
+            <param_description
+      >Représente la matrice de transition d'état du système. Elle décrit comment l'état interne du système évolue au fil du temps.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>b (n x m)</param_name>
+            <param_description
+      >Décrit la correspondance entrée-état. Elle montre comment les entrées de contrôle affectent le changement dans l'état du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>c (p x n)</param_name>
+            <param_description
+      >Représente la correspondance état-sortie. Elle montre comment les variables d'état du système sont liées aux sorties du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>d (p x m)</param_name>
+            <param_description
+      >Décrit le passage direct des entrées aux sorties. Dans de nombreux systèmes, cette matrice est nulle car il n'y a pas de passage direct.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>msg</param_name>
+            <param_description
+      >Retourne une structure vide si les dimensions des matrices sont cohérentes. Sinon, elle retourne le message d'erreur associé.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>a (n x n)</param_name>
+            <param_description
+      >Représente la matrice de transition d'état du système. Elle décrit comment l'état interne du système évolue au fil du temps.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>b (n x m)</param_name>
+            <param_description
+      >Décrit la correspondance entrée-état. Elle montre comment les entrées de contrôle affectent le changement dans l'état du système.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>c (p x n)</param_name>
+            <param_description
+      >Représente la correspondance état-sortie. Elle montre comment les variables d'état du système sont liées aux sorties du système.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>d (p x m)</param_name>
+            <param_description
+      >Décrit le passage direct des entrées aux sorties. Dans de nombreux systèmes, cette matrice est nulle car il n'y a pas de passage direct.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >abcdchk</b> vérifie la cohérence dimensionnelle des matrices A, B, C, D, E.</p>
+            <p
+    >Elle ajuste également les dimensions de toute matrice vide 0-par-0 pour assurer leur alignement avec le reste.</p>
+        </description>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [0 1; -2 -3];
+B = [0;  1];
+C = [1 0];
+D = 0;
+[msg, AA, BB, CC, DD] = abcdchk(A, B, C, D) ]]></example_item_data>
+            </example_item>
+        </examples>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

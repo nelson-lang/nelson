@@ -66,6 +66,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[
 fid = fopen([tempdir(), filesep(), 'fopen_tst'], 'wt');
 [filename, permission] = fopen(fid)
@@ -81,6 +82,7 @@ status = fclose(fd)
                 <example_item_description
       >characters encoding</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[
 TEXT_REF = 'Виртуальная';
 filename = [tempdir(), 'fwrite_example_Windows-1251.txt'];

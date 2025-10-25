@@ -157,7 +157,7 @@ if(NOT WITHOUT_IPC_MODULE)
     DESTINATION
       "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
     FILES_MATCHING
-    PATTERN "*.qch"
+    PATTERN "*.nhz"
     PATTERN "xml" EXCLUDE
     PATTERN "md" EXCLUDE)
   install(

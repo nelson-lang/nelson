@@ -4,6 +4,12 @@
     <language>en_US</language>
     <module_name>console</module_name>
     <chapter>Console</chapter>
-    <chapter_description>Console</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Console module manages interaction with Nelson’s command window.</p>
+        <p
+    >It provides tools to control the display, handle user input, and query terminal properties.</p>
+        <p
+    >These features allow scripts and applications to communicate directly with the user through the console, making it easier to build interactive workflows and adapt output to the current terminal environment.</p>
+    </chapter_description>
 </xmldoc>

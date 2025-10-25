@@ -4,6 +4,12 @@
     <language>en_US</language>
     <module_name>validators</module_name>
     <chapter>Validators</chapter>
-    <chapter_description>validators functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Validators module provides tools for enforcing constraints and verifying input values in Nelson.</p>
+        <p
+    >It supports checking data types, numerical properties, matrix and vector dimensions, text validity, file and folder existence, and logical or numeric conditions.</p>
+        <p
+    >This module ensures robust input validation, helping to prevent errors, enforce correctness, and improve the reliability of scripts and functions.</p>
+    </chapter_description>
 </xmldoc>

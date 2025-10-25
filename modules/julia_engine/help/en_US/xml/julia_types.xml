@@ -95,6 +95,7 @@
                         <example_item_type>nelson</example_item_type>
                         <example_item_description />
                         <example_item_data
+        runnable="cli"
       ><![CDATA[R = jlrun('', "A", 'A', magic(3))
 R.double()]]></example_item_data>
                     </example_item>
@@ -102,6 +103,7 @@ R.double()]]></example_item_data>
                         <example_item_type>nelson</example_item_type>
                         <example_item_description />
                         <example_item_data
+        runnable="cli"
       ><![CDATA[names = ["Unicycle" "Bicycle" "Tricycle"];
 wheels = [1 2 3];
 d = dictionary(wheels,names)

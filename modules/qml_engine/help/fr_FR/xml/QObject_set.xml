@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+
+  <language>fr_FR</language>
+  <keyword>QObject_set</keyword>
+  <short_description
+  >Définit la valeur d'une propriété d'une poignée (handle) QObject (set).</short_description>
+
+  <syntax>
+    <syntax_item>R = set(h, property_name, value)</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+  <param_name>h</param_name>
+  <param_description>une poignée (handle) QObject.</param_description>
+    </param_input_item>
+    <param_input_item>
+  <param_name>property_name</param_name>
+  <param_description>une chaîne : nom de propriété.</param_description>
+    </param_input_item>
+    <param_input_item>
+  <param_name>value</param_name>
+  <param_description>une variable.</param_description>
+    </param_input_item>
+
+  </param_input>
+
+  <param_output>
+
+    <param_output_item>
+  <param_name>R</param_name>
+  <param_description
+      >Propriétés modifiables par l'utilisateur et valeurs possibles pour l'objet identifié par h.</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+  <p
+    >Cette routine peut être utilisée pour modifier la valeur d'une propriété spécifiée d'un objet QObject.</p>
+</description>
+
+  <used_function />
+  <bibliography />
+
+
+<examples>
+
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[h = errordlg()
+h.visible = false; % or set(h, 'visible', false)
+h.windowTitle = 'new title' % or set(h, 'windowTitle', 'new title')
+h.visible = true;]]>
+    </example_item_data>
+  </example_item>
+
+</examples>
+
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${handle}set">set</link>
+    </see_also_item>
+
+  </see_also>
+  
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

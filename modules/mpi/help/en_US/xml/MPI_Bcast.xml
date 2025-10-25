@@ -41,6 +41,7 @@
             <example_item_description
       >mpiexec([modulepath('mpi'), '/examples/help_examples/MPI_Bcast.m'], 4)</example_item_description>
             <example_item_data
+        runnable="false"
       ><![CDATA[
 if ~MPI_Initialized()
   MPI_Init();

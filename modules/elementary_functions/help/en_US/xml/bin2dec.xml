@@ -33,7 +33,9 @@
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
-                <example_item_data><![CDATA[bin2dec('11')]]></example_item_data>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[bin2dec('11')]]></example_item_data>
             </example_item>
         </examples>
         <see_also>

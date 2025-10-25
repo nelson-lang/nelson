@@ -51,16 +51,22 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 sys = tf([1, 1, 3, 3], [1, -3, 3, -1])
 nyquist(sys);
 ]]></example_item_data>
-            <example_item_img src="../images/nyquist_1.svg" align="middle" />
+            <example_item_img
+        src="../images/nyquist_1.svg"
+        align="middle"
+        generate="true"
+      />
         </example_item>
         <example_item>
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="cli"
       ><![CDATA[H = tf([2 5 1], [1 2 3]);
 [re, im, wout] = nyquist(H);
 ]]></example_item_data>
@@ -69,11 +75,16 @@ nyquist(sys);
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
       H = tf([2 5 1], [1 2 3]);
 nyquist(H);
 ]]></example_item_data>
-            <example_item_img src="../images/nyquist_2.svg" align="middle" />
+            <example_item_img
+        src="../images/nyquist_2.svg"
+        align="middle"
+        generate="true"
+      />
         </example_item>
     </examples>
     <see_also>

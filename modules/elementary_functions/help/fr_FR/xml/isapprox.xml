@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>isapprox</keyword>
+        <short_description
+  >Renvoie vrai si les arguments sont approximativement égaux, dans la précision donnée.</short_description>
+    <syntax>
+        <syntax_item>res = isapprox(x1, x2)</syntax_item>
+        <syntax_item>res = isapprox(x1, x2, precision)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>x1</param_name>
+            <param_description
+      >a matrix, a sparse matrix of doubles, or a multidimensional matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>x2</param_name>
+            <param_description
+      >a matrix, a sparse matrix of doubles, or a multidimensional matrix.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>precision</param_name>
+            <param_description
+      >une valeur double : 0 par défaut</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>res</param_name>
+            <param_description>une valeur booléenne</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >Pour les matrices, la comparaison est effectuée en utilisant la norme de Hilbert-Schmidt (aussi appelée norme de Frobenius L2).</p>
+        <p><b
+      >isapprox</b> gère les nombres complexes. Dans ce cas, les parties réelles des arguments d'entrée sont comparées. Si cela échoue, la fonction renvoie false. Si cela réussit, les parties imaginaires sont comparées.</p>
+        <p
+    >Pour comparer les valeurs, NaN, Inf, -Inf et les autres valeurs sont traités séparément. Comme il est impossible de comparer des NaN entre eux, on compare les indices où NaN apparaît. Pour les valeurs infinies, on compare également les indices où Inf apparaît.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = pi
+B = single(pi)
+res = isapprox(A, B)]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = pi
+B = single(pi)
+res = isapprox(A, B, 1e-4)]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [pi NaN]
+res = isapprox(A, A)]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [pi NaN]
+B = [pi + 2*eps, NaN]
+res = isapprox(A, B)
+res = isapprox(A, B, eps)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${elementary_functions}isequaln">isequaln</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${elementary_functions}isequal">isequal</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

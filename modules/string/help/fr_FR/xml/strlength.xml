@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+        <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>strlength</keyword>
+        <short_description
+  >Longueur des chaînes dans un tableau ou une cellule de chaînes.</short_description>
+    <syntax>
+        <syntax_item>len = strlength(ce)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>ce</param_name>
+        <param_description
+      >une chaîne, un tableau de chaînes ou une cellule de chaînes.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+        <param_name>len</param_name>
+        <param_description
+      >une matrice d'entiers : longueurs des chaînes.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p><b>strlength</b> renvoie la longueur des chaînes.</p>
+    </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[
+str = 'To make a mountain out of a molehill';
+k = strlength(str)
+
+A = {'Nel', 'son'; 'Toolboxes', 'Modules'}
+k = strlength(A)
+
+B = ["Nel", NaN, "son"; "is", "open", "source"];
+k = strlength(B)
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${string}strcmp">strcmp</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

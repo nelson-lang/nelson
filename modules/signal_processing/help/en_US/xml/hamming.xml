@@ -37,6 +37,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[c = hamming(8)
 c = hamming(8, 'periodic')]]></example_item_data>
             </example_item>

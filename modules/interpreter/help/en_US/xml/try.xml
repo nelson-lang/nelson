@@ -28,6 +28,7 @@
                     <example_item_description
       >try/catch in a script file</example_item_description>
                     <example_item_data
+        runnable="cli"
       ><![CDATA[try 
 error('an error')
 catch
@@ -39,6 +40,7 @@ end]]></example_item_data>
                     <example_item_description
       >try/catch in a script file</example_item_description>
                     <example_item_data
+        runnable="cli"
       ><![CDATA[try 
 error('an error')
 catch ME

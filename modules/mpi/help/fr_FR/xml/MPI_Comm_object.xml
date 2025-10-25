@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>MPI_Comm_object</keyword>
+    <short_description>Creates MPI_Comm object.</short_description>
+    <syntax>
+        <syntax_item>comm = MPI_Comm_object()</syntax_item>
+        <syntax_item>comm = MPI_Comm_object(str)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>str</param_name>
+            <param_description
+      >a string: MPI_COMM_SELF, or MPI_COMM_WORLD.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b>MPI_Comm_object(h)</b> creates an MPI_Comm object.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description
+      >CLI required</example_item_description>
+                <example_item_data
+        runnable="false"
+      ><![CDATA[
+if ~MPI_Initialized()
+  MPI_Init();
+end
+comm = MPI_Comm_object();
+MPI_Comm_used
+delete(MPI_Comm_used())
+MPI_Comm_used
+if MPI_Initialized()
+  MPI_Finalize();
+end
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${mpi}MPI_Comm_used">MPI_Comm_used</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${mpi}MPI_Comm_delete">MPI_Comm_delete</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

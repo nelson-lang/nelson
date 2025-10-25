@@ -194,6 +194,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\bannerBuiltin.cpp" />
+    <ClCompile Include="..\cpp\crc32builtin.cpp" />
     <ClCompile Include="..\cpp\evalBuiltin.cpp" />
     <ClCompile Include="..\cpp\evalcBuiltin.cpp" />
     <ClCompile Include="..\cpp\evalinBuiltin.cpp" />
@@ -249,6 +250,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\bannerBuiltin.hpp" />
+    <ClInclude Include="..\include\crc32Builtin.hpp" />
     <ClInclude Include="..\include\evalBuiltin.hpp" />
     <ClInclude Include="..\include\evalcBuiltin.hpp" />
     <ClInclude Include="..\include\evalinBuiltin.hpp" />

@@ -30,6 +30,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[x = [0 1 20 10 Inf];
 y = acscd(x)]]></example_item_data>
             </example_item>

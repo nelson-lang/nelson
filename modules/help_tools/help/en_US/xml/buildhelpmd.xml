@@ -31,6 +31,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[buildhelpmd(tempdir());
 buildhelpmd(tempdir(), 'core');]]></example_item_data>
             </example_item>
@@ -40,7 +41,7 @@ buildhelpmd(tempdir(), 'core');]]></example_item_data>
                 <link linkend="${help_tools}buildhelp">buildhelp</link>
             </see_also_item>
             <see_also_item>
-                <link linkend="${help_browser}doc">doc</link>
+                <link linkend="${help_tools}doc">doc</link>
             </see_also_item>
         </see_also>
         <history>

@@ -48,6 +48,7 @@ Ignored silently if the field name is not present in stIn.</param_description>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[date_st = struct('day', 15, 'month' ,'August','year', 1974)
 date_st = renameStructField(date_st, {'Day', 'Month', 'Year'})]]></example_item_data>
             </example_item>
@@ -55,6 +56,7 @@ date_st = renameStructField(date_st, {'Day', 'Month', 'Year'})]]></example_item_
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[date_st = struct('day', 15, 'month' ,'August','year', 1974)
 date_st = renameStructField(date_st, 'day', 'jour')]]></example_item_data>
             </example_item>

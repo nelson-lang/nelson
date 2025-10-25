@@ -54,6 +54,7 @@
                             <example_item_type>nelson</example_item_type>
                             <example_item_description />
                             <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure(1)
 close();
 h = figure(3)

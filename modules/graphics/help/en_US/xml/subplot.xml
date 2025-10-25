@@ -51,6 +51,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 X = linspace(-pi, pi) * 2;
 Y1 = cos(X) .* exp(-2 * X);
@@ -67,14 +68,16 @@ plot(X, Y3, 'g');
 subplot(4, 1, 4);
 plot(X, Y4, 'k');]]></example_item_data>
                 <example_item_img
-        src="../images/subplot_1.svg"
+        src="../../images/subplot_1.svg"
         align="middle"
+        generate="true"
       />
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 t = 0 : (2 * pi/100) : (2 * pi);
 X = cos(t * 2) .* (2 + sin(t * 3) * 0.3);
@@ -91,8 +94,9 @@ plot(t, Y);
 subplot(2, 2, 4);
 plot(t, Z);]]></example_item_data>
                 <example_item_img
-        src="../images/subplot_2.svg"
+        src="../../images/subplot_2.svg"
         align="middle"
+        generate="true"
       />
             </example_item>
         </examples>

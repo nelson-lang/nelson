@@ -51,6 +51,7 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[b = backgroundPool()
 fptr = str2func('cos');
 f = parfeval(b, fptr, 1, 5);

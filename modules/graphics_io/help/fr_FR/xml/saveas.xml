@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>saveas</keyword>
+    <short_description
+  >Enregistre une figure dans un format de fichier spécifique.</short_description>
+    <syntax>
+        <syntax_item>saveas(fig, filename)</syntax_item>
+        <syntax_item>saveas(fig, filename, formattype)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>fig</param_name>
+            <param_description>objet figure.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>filename</param_name>
+            <param_description
+      >vecteur de caractères ou chaîne scalaire : nom de fichier de destination.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>formattype</param_name>
+            <param_description
+      >vecteur de caractères ou chaîne scalaire : extension ou type de format.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p><b
+      >saveas</b> enregistre la figure dans un format de fichier spécifique.</p>
+        <p><b>Formats pris en charge</b> :</p>
+        <table style="width:100%">
+            <tr>
+                <th>Option</th>
+                <th>Format</th>
+                <th>Extension</th>
+            </tr>
+            <tr>
+                <td>svg</td>
+                <td>SVG (scalable vector graphics)</td>
+                <td>.svg</td>
+            </tr>
+            <tr>
+                <td>pdf</td>
+                <td>Portable Document Format (PDF) page entière, couleur</td>
+                <td>.pdf</td>
+            </tr>
+            <tr>
+                <td>png</td>
+                <td>PNG 24-bit</td>
+                <td>.png</td>
+            </tr>
+            <tr>
+                <td>jpg</td>
+                <td>JPEG 24-bit</td>
+                <td>.jpg</td>
+            </tr>
+            <tr>
+                <td>gif</td>
+                <td>Graphics Interchange Format</td>
+                <td>.gif</td>
+            </tr>
+            <tr>
+                <td>tif</td>
+                <td>Tagged Image File Format</td>
+                <td>.tif</td>
+            </tr>
+        </table>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[x = -2:0.25:2;
+y = x;
+[X,Y] = meshgrid(x);
+F = X.*exp(-X.^2-Y.^2);
+surf(X,Y,F);
+saveas(gcf(), [tempdir, 'svg-file.svg']);
+]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${graphics}gcf">gcf</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>version initiale</history_description>
+                </history_item>
+                <history_item>
+                    <history_version>1.13.0</history_version>
+                    <history_description>tiff format added</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

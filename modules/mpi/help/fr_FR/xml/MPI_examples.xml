@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <title>Exemples MPI</title>
+    <language>fr_FR</language>
+    <short_description>Quelques exemples MPI pour Nelson.</short_description>
+    <description>
+        <p
+    >Voir ci-dessous quelques exemples de base des interfaces MPI disponibles dans Nelson.</p>
+    </description>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+        <example_item_description
+      >mpiexec([modulepath('mpi'), '/examples/MPI_helloworld.m'], 4)</example_item_description>
+            <example_item_data
+        runnable="false"
+      ><![CDATA[edit([modulepath('mpi'), '/examples/MPI_helloworld.m'])]]></example_item_data>
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+        <example_item_description
+      >mpiexec([modulepath('mpi'), '/examples/MPI_simpledemo.m'], 4)</example_item_description>
+            <example_item_data
+        runnable="false"
+      ><![CDATA[edit([modulepath('mpi'), '/examples/MPI_simpledemo.m'])]]></example_item_data>
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+        <example_item_description
+      >mpiexec([modulepath('mpi'), '/examples/MPI_parallel_sum.m'], 40)</example_item_description>
+            <example_item_data
+        runnable="false"
+      ><![CDATA[edit([modulepath('mpi'), '/examples/MPI_parallel_sum.m'])]]></example_item_data>
+        </example_item>
+    </examples>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>
