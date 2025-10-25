@@ -7,14 +7,17 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#include "CleanupXml.hpp"
+#include <libxml/parser.h>
 //=============================================================================
-#include "ArrayOf.hpp"
+namespace Nelson {
 //=============================================================================
-namespace Nelson::HelpToolsGateway {
+bool
+cleanupXml()
+{
+    xmlCleanupParser();
+    return true;
+}
 //=============================================================================
-ArrayOfVector
-xmltransformBuiltin(int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-} // namespace Nelson
+}
 //=============================================================================

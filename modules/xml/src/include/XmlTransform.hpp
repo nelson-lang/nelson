@@ -9,13 +9,20 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsHelp_tools_exports.h"
+#include "nlsXml_exports.h"
+#include "XmlTarget.hpp"
+#include <string>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSHELP_TOOLS_IMPEXP
-bool
-cleanupHelptools();
+NLSXML_IMPEXP bool
+XmlTransform(const std::wstring& xmlfile, const std::wstring& xslfile,
+    const std::wstring& outputfile, bool overwrite, DOCUMENT_OUTPUT documentOutput,
+    std::wstring& errorMessage);
+//=============================================================================
+NLSXML_IMPEXP bool
+XmlTransform(const std::wstring& xmlfile, void* style, const std::wstring& outputfile,
+    bool overwrite, DOCUMENT_OUTPUT documentOutput, std::wstring& errorMessage);
 //=============================================================================
 }
 //=============================================================================

@@ -9,12 +9,15 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
+#include <string>
+#include "nlsXml_exports.h"
+#include <Types.hpp>
 //=============================================================================
-namespace Nelson::HelpToolsGateway {
+namespace Nelson {
 //=============================================================================
-ArrayOfVector
-xmlprettyprintBuiltin(int nLhs, const ArrayOfVector& argIn);
+NLSXML_IMPEXP bool
+xmlDocXsdChecker(const std::wstring& xlmFilename, const std::wstring& dtdfilename,
+    wstringVector& errorMessage, wstringVector& warningMessage);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

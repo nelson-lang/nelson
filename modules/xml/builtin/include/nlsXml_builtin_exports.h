@@ -9,16 +9,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "Types.hpp"
-#include "nlsHelp_tools_exports.h"
-//=============================================================================
-namespace Nelson {
-//=============================================================================
-NLSHELP_TOOLS_IMPEXP void
-XmlPrettyPrint(const wstringVector& xmlFiles, std::wstring& errorMessage);
-//=============================================================================
-NLSHELP_TOOLS_IMPEXP void
-XmlPrettyPrint(std::wstring& errorMessage);
-//=============================================================================
-}
+#ifdef _MSC_VER
+#ifdef NLSXML_BUILTIN_EXPORTS
+#define NLSXML_BUILTIN_IMPEXP __declspec(dllexport)
+#else
+#define NLSXML_BUILTIN_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSXML_BUILTIN_IMPEXP __attribute__((visibility("default")))
+#endif
 //=============================================================================

@@ -7,24 +7,21 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
-set(module_name help_tools)
-set(module_library_name nlsHelp_tools)
+set(module_name xml)
+set(module_library_name nlsXml)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-file(GLOB HELP_TOOLS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
-     "${CMAKE_CURRENT_SOURCE_DIR}/src/c/cmark/*.c")
-list(FILTER HELP_TOOLS_SRC EXCLUDE REGEX
+file(GLOB XML_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
+list(FILTER XML_SRC EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
-add_library(${module_library_name} ${HELP_TOOLS_SRC})
+add_library(${module_library_name} ${XML_SRC})
 # ==============================================================================
 target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/c/cmark
-          ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../xml/src/include
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
@@ -53,7 +50,6 @@ target_link_libraries(
     nlsLocalization
     nlsModules_manager
     nlsNelson_manager
-    nlsXml
     nlsCore
     ${LIBXML2_LIBRARIES}
     ${LIBXSLT_LIBRARIES})
@@ -61,11 +57,11 @@ if(NOT WITHOUT_TBB AND TBB_FOUND)
   target_link_libraries(${module_library_name} PRIVATE ${TBB_LIBRARY})
 endif()
 # ==============================================================================
-file(GLOB HELP_TOOLS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
-list(FILTER HELP_TOOLS_BUILTIN EXCLUDE REGEX
+file(GLOB XML_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
+list(FILTER XML_BUILTIN EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
 # ==============================================================================
-add_library(${module_library_builtin_name} ${HELP_TOOLS_BUILTIN})
+add_library(${module_library_builtin_name} ${XML_BUILTIN})
 # ==============================================================================
 target_include_directories(
   ${module_library_builtin_name}
@@ -128,38 +124,9 @@ install(
   FILES_MATCHING
   PATTERN "*.m")
 install(
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests/xml
-  DESTINATION
-    "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}/tests"
-  FILES_MATCHING
-  PATTERN "*.xml")
-install(
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests/md
-  DESTINATION
-    "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}/tests"
-  FILES_MATCHING
-  PATTERN "*.md")
-install(
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/resources
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.*")
-install(
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/templates
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.xml")
-install(
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/help
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
   PATTERN "*.nhz"
-  PATTERN "*.json"
-  PATTERN "xml" EXCLUDE
-  PATTERN "md" EXCLUDE)
-install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.m")
+  PATTERN "xml" EXCLUDE)
 # ==============================================================================

@@ -8,36 +8,32 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "headcommentsBuiltin.hpp"
-#include "htmltopdfBuiltin.hpp"
-#include "markdownBuiltin.hpp"
-#include "xmldocbuildBuiltin.hpp"
-#include "docrootBuiltin.hpp"
-#include "xmldocmergesummaryBuiltin.hpp"
-#include "__xmldocgenerateimages__Builtin.hpp"
+#include "CleanupXml.hpp"
+#include "xmlcheckerBuiltin.hpp"
+#include "xmltransformBuiltin.hpp"
+#include "xmlprettyprintBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-const std::wstring gatewayName = L"help_tools";
+const std::wstring gatewayName = L"xml";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "htmltopdf", (ptrBuiltin)Nelson::HelpToolsGateway::htmltopdfBuiltin, 0, 2, CPP_BUILTIN },
-    { "markdown", (ptrBuiltin)Nelson::HelpToolsGateway::markdownBuiltin, 1, -2 },
-    { "xmldocbuild", (ptrBuiltin)Nelson::HelpToolsGateway::xmldocbuildBuiltin, -1, 5 },
-    { "docroot", (ptrBuiltin)Nelson::HelpToolsGateway::docrootBuiltin, 1, 1 },
-    { "xmldocmergesummary", (ptrBuiltin)Nelson::HelpToolsGateway::xmldocmergesummaryBuiltin, -1,
-        2 },
-    { "headcomments", (ptrBuiltin)Nelson::HelpToolsGateway::headcommentsBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "__xmldocgenerateimages__",
-        (ptrBuiltin)Nelson::HelpToolsGateway::__xmlgenerateimages__Builtin, 3, 2, CPP_BUILTIN }
+    { "xmlchecker", (ptrBuiltin)Nelson::XmlGateway::xmlcheckerBuiltin, -1, 2, CPP_BUILTIN },
+    { "xmlprettyprint", (ptrBuiltin)Nelson::XmlGateway::xmlprettyprintBuiltin, 0, -1, CPP_BUILTIN },
+    { "xmltransform", (ptrBuiltin)Nelson::XmlGateway::xmltransformBuiltin, -1, -3, CPP_BUILTIN },
 };
+//=============================================================================
+static bool
+finishXmlModule(Nelson::Evaluator* eval)
+{
+    return cleanupXml();
+}
 //=============================================================================
 NLSGATEWAYFUNC(gateway)
 //=============================================================================
 NLSGATEWAYINFO(gateway)
 //=============================================================================
-NLSGATEWAYREMOVE(gateway)
+NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishXmlModule)
 //=============================================================================
 NLSGATEWAYNAME()
 //=============================================================================

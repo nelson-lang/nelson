@@ -13,6 +13,7 @@
 #include "XmlTransform.hpp"
 #include "characters_encoding.hpp"
 #include "XmlTarget.hpp"
+#include "i18n.hpp"
 #include <libxml/parser.h>
 #include <libxml/xpathInternals.h>
 #include <libxml/xmlerror.h>
@@ -141,12 +142,12 @@ XmlTransform(const std::wstring& xmlfile, const std::wstring& xslfile,
     xsltStylesheetPtr style = nullptr;
     xmlDocPtr styledoc = xmlParseFile(wstring_to_utf8(xslfile).c_str());
     if (!styledoc) {
-        errorMessage = L"Impossible de charger la feuille de style XSLT : " + xslfile;
+        errorMessage = _W("Impossible to load XSLT stylesheet: ") + xslfile;
         return false;
     }
     style = xsltParseStylesheetDoc(styledoc);
     if (!style) {
-        errorMessage = L"Impossible de charger la feuille de style XSLT : " + xslfile;
+        errorMessage = _W("Impossible to load XSLT stylesheet: ") + xslfile;
         return false;
     }
     bool res
@@ -166,7 +167,7 @@ XmlTransform(const std::wstring& xmlfile, void* _style, const std::wstring& outp
     errorMessage.clear();
     lastXSLTError.clear();
     if (!overwrite && std::filesystem::is_regular_file(outputfile)) {
-        errorMessage = L"Destination file already exist : " + outputfile;
+        errorMessage = _W("Destination file already exists: ") + outputfile;
         return false;
     }
     xsltSetGenericErrorFunc(nullptr, xsltErrorCapture);
@@ -180,7 +181,7 @@ XmlTransform(const std::wstring& xmlfile, void* _style, const std::wstring& outp
 
     xmlDocPtr doc = xmlParseFile(wstring_to_utf8(xmlfile).c_str());
     if (!doc) {
-        errorMessage = L"Impossible d'ouvrir ou de parser le fichier XML : " + xmlfile;
+        errorMessage = _W("Impossible to open or parse XML file: ") + xmlfile;
         return false;
     }
 
@@ -202,7 +203,7 @@ XmlTransform(const std::wstring& xmlfile, void* _style, const std::wstring& outp
         if (!lastXSLTError.empty()) {
             errorMessage += utf8_to_wstring(lastXSLTError);
         } else {
-            errorMessage = L"Erreur lors de l'application de la feuille de style XSLT.";
+            errorMessage = _W("Error applying XSLT stylesheet.");
         }
         return false;
     }
@@ -212,7 +213,7 @@ XmlTransform(const std::wstring& xmlfile, void* _style, const std::wstring& outp
     if (saveResult < 0) {
         xmlFreeDoc(result);
         xmlFreeDoc(doc);
-        errorMessage = L"Erreur lors de l'écriture du fichier de sortie : " + outputfile;
+        errorMessage = _W("Error writing output file: ") + outputfile;
         return false;
     }
 

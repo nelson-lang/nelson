@@ -14,12 +14,9 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-// xmldocbuild(source_dirs, destination_dir, main_title, export_format, overwrite)
-
 ArrayOfVector
-Nelson::HelpToolsGateway::xmltransformBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::XmlGateway::xmltransformBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-
     ArrayOfVector retval;
     nargincheck(argIn, 3, 4);
     nargoutcheck(nLhs, 0, 1);
@@ -34,7 +31,7 @@ Nelson::HelpToolsGateway::xmltransformBuiltin(int nLhs, const ArrayOfVector& arg
 
     std::wstring errorMessage;
     bool res = XmlTransform(
-        xmlfile, xslfile, outputfile, overwrite, DOCUMENT_OUTPUT::HTML_WEB, errorMessage);
+        xmlfile, xslfile, outputfile, overwrite, DOCUMENT_OUTPUT::UNDEFINED, errorMessage);
     if (!res) {
         Error(errorMessage);
     }

@@ -288,7 +288,7 @@ function txt = limitToTwoSentences(txt)
     end
 
     if truncated
-        out = [out, ' ...'];
+        out = [out, ' …'];
     end
 
     txt = out;

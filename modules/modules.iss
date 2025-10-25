@@ -67,6 +67,7 @@ Source: {#RootPath}modules\modules.m; DestDir: {app}\modules\; AfterInstall: Aft
 #include "text_editor/module.iss"
 #include "text_completion/module.iss"
 #include "mpi/module.iss"
+#include "xml/module.iss"
 #include "json/module.iss"
 #include "audio/module.iss"
 #include "sio_client/module.iss"

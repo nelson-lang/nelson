@@ -20,25 +20,30 @@ using namespace Nelson;
 //=============================================================================
 // xmlprettyprintBuiltin(source_dirs)
 ArrayOfVector
-Nelson::HelpToolsGateway::xmlprettyprintBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::XmlGateway::xmlprettyprintBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 0, 1);
+    nargincheck(argIn, 0, -1);
     nargoutcheck(nLhs, 0, 0);
+    bool formatSpace = true;
     std::wstring errorMessage;
-    if (argIn.empty()) {
-        XmlPrettyPrint(errorMessage);
+    wstringVector xmlFilesOrDirectories;
+    if (argIn[0].isRowVectorCharacterArray()) {
+        xmlFilesOrDirectories.push_back(argIn[0].getContentAsWideString());
+    } else if (argIn[0].isCellArrayOfCharacterVectors() || argIn[0].isStringArray()) {
+        xmlFilesOrDirectories = argIn[0].getContentAsWideStringVector();
     } else {
-        wstringVector xmlFilesOrDirectories;
-        if (argIn[0].isRowVectorCharacterArray()) {
-            xmlFilesOrDirectories.push_back(argIn[0].getContentAsWideString());
-        } else if (argIn[0].isCellArrayOfCharacterVectors() || argIn[0].isStringArray()) {
-            xmlFilesOrDirectories = argIn[0].getContentAsWideStringVector();
-        } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_CELL_OF_STRINGS_EXPECTED);
-        }
-        XmlPrettyPrint(xmlFilesOrDirectories, errorMessage);
+        Error(ERROR_WRONG_ARGUMENT_1_TYPE_CELL_OF_STRINGS_EXPECTED);
     }
+    if (argIn.size() >= 2) {
+        if (argIn[1].isLogical()) {
+            formatSpace = argIn[1].getContentAsLogicalScalar();
+        } else {
+            Error(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
+        }
+    }
+
+    XmlPrettyPrint(xmlFilesOrDirectories, formatSpace, errorMessage);
     if (!errorMessage.empty()) {
         Error(errorMessage);
     }

@@ -7,17 +7,25 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#pragma once
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
 //=============================================================================
-#include <string>
+#pragma comment(lib, "libxml2.lib")
+#pragma comment(lib, "libxslt.lib")
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-typedef enum
+int WINAPI
+DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
 {
-    HTML_WEB,
-    MARKDOWN,
-} DOCUMENT_OUTPUT;
-//=============================================================================
+    switch (reason) {
+    case DLL_PROCESS_ATTACH:
+        break;
+    case DLL_PROCESS_DETACH:
+        break;
+    case DLL_THREAD_ATTACH:
+        break;
+    case DLL_THREAD_DETACH:
+        break;
+    }
+    return 1;
 }
 //=============================================================================

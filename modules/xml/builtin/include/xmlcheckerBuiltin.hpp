@@ -9,15 +9,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <string>
-#include "nlsHelp_tools_exports.h"
-#include <Types.hpp>
+#include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::XmlGateway {
 //=============================================================================
-NLSHELP_TOOLS_IMPEXP bool
-xmlDocXsdChecker(const std::wstring& xlmFilename, const std::wstring& dtdfilename,
-    wstringVector& errorMessage, wstringVector& warningMessage);
+ArrayOfVector
+xmlcheckerBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

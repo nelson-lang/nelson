@@ -7,13 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "XmlDocXsdChecker.hpp"
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xmlerror.h>
 #include <libxml/xmlschemastypes.h>
 #include <fstream>
 #include <sstream>
+#include "XmlXsdChecker.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 //=============================================================================

@@ -9,18 +9,19 @@
 //=============================================================================
 #include "XmlPrettyPrint.hpp"
 #include "characters_encoding.hpp"
-#include "ModulesManager.hpp"
 #include "Localization.hpp"
 #include <filesystem>
 #include <fstream>
 #include <libxml/parser.h>
 #include <libxml/xpathInternals.h>
 #include <libxml/xmlerror.h>
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 void
-XmlPrettyPrint(const wstringVector& xmlFilesOrDirectories, std::wstring& errorMessage)
+XmlPrettyPrint(
+    const wstringVector& xmlFilesOrDirectories, bool formatSpace, std::wstring& errorMessage)
 {
     errorMessage.clear();
     wstringVector xmlFiles;
@@ -34,7 +35,7 @@ XmlPrettyPrint(const wstringVector& xmlFilesOrDirectories, std::wstring& errorMe
         } else if (std::filesystem::is_regular_file(fileOrDir)) {
             xmlFiles.push_back(fileOrDir);
         } else {
-            errorMessage = L"File or directory does not exist: " + fileOrDir;
+            errorMessage = _W("File or directory does not exist: ") + fileOrDir;
             return;
         }
     }
@@ -48,21 +49,21 @@ XmlPrettyPrint(const wstringVector& xmlFilesOrDirectories, std::wstring& errorMe
         file.open(xmlFileUtf8, std::ios::binary);
 #endif
         if (!file) {
-            errorMessage = L"Cannot open file: " + xmlFile;
+            errorMessage = _W("Cannot open file: ") + xmlFile;
             return;
         }
         std::string buffer(
             (std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
         file.close();
         if (buffer.empty()) {
-            errorMessage = L"File is empty or cannot be read: " + xmlFile;
+            errorMessage = _W("File is empty or cannot be read: ") + xmlFile;
             return;
         }
         // Parse the XML from memory
         xmlDocPtr doc = xmlReadMemory(buffer.data(), (int)buffer.size(), xmlFileUtf8.c_str(),
             nullptr, XML_PARSE_NOERROR | XML_PARSE_NOWARNING);
         if (!doc) {
-            errorMessage = L"Failed to parse XML file: " + xmlFile;
+            errorMessage = _W("Failed to parse XML file: ") + xmlFile;
             return;
         }
 
@@ -76,10 +77,10 @@ XmlPrettyPrint(const wstringVector& xmlFilesOrDirectories, std::wstring& errorMe
         }
         // Dump the pretty XML to memory (format = 1)
         buffersize = 0;
-        xmlDocDumpFormatMemoryEnc(doc, &xmlbuff, &buffersize, "UTF-8", 1);
+        xmlDocDumpFormatMemoryEnc(doc, &xmlbuff, &buffersize, "UTF-8", formatSpace ? 1 : 0);
         if (!xmlbuff) {
             xmlFreeDoc(doc);
-            errorMessage = L"Failed to prettify XML file: " + xmlFile;
+            errorMessage = _W("Failed to prettify XML file: ") + xmlFile;
             return;
         }
 // Write the formatted XML back to the file
@@ -91,7 +92,7 @@ XmlPrettyPrint(const wstringVector& xmlFilesOrDirectories, std::wstring& errorMe
         if (!outFile) {
             xmlFree(xmlbuff);
             xmlFreeDoc(doc);
-            errorMessage = L"Cannot write to file: " + xmlFile;
+            errorMessage = _W("Cannot write to file: ") + xmlFile;
             return;
         }
         outFile.write(reinterpret_cast<const char*>(xmlbuff), buffersize);
@@ -99,24 +100,6 @@ XmlPrettyPrint(const wstringVector& xmlFilesOrDirectories, std::wstring& errorMe
         xmlFree(xmlbuff);
         xmlFreeDoc(doc);
     }
-}
-//=============================================================================
-void
-XmlPrettyPrint(std::wstring& errorMessage)
-{
-    wstringVector modulesPaths = ModulesManager::Instance().getModulesPathList(false);
-    wstringVector xmlPaths;
-    wstringVector langs;
-    Localization::Instance()->getManagedLanguages(langs);
-    for (size_t i = 0; i < modulesPaths.size(); ++i) {
-        for (size_t j = 0; j < langs.size(); ++j) {
-            std::wstring xmlPath = modulesPaths[i] + L"/help/" + langs[j] + L"/xml";
-            if (std::filesystem::is_directory(xmlPath)) {
-                xmlPaths.push_back(xmlPath);
-            }
-        }
-    }
-    XmlPrettyPrint(xmlPaths, errorMessage);
 }
 //=============================================================================
 }

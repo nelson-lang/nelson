@@ -7,54 +7,38 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "xmldoccheckerBuiltin.hpp"
+#include "xmlcheckerBuiltin.hpp"
 #include "Error.hpp"
 #include "Warning.hpp"
 #include "i18n.hpp"
 #include "FileSystemWrapper.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "XmlDocXsdChecker.hpp"
-#include "NelsonConfiguration.hpp"
+#include "XmlXsdChecker.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static std::wstring
-getDefaultXsd()
-{
-    std::wstring path = NelsonConfiguration::getInstance()->getNelsonRootDirectory()
-        + L"/modules/help_tools/resources/nelson_help.xsd";
-    return path;
-}
-//=============================================================================
 ArrayOfVector
-Nelson::HelpToolsGateway::xmldoccheckerBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::XmlGateway::xmlcheckerBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 1, 2);
+    nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 3);
 
     std::wstring dtdFilename = L"";
 
-    if (argIn.size() == 2) {
-        dtdFilename = argIn[1].getContentAsWideString();
-    } else {
-        dtdFilename = getDefaultXsd();
+    dtdFilename = argIn[1].getContentAsWideString();
+    FileSystemWrapper::Path dtdpath(dtdFilename);
+    bool permissionDenied;
+    bool IsFileIn = FileSystemWrapper::Path::is_regular_file(dtdpath, permissionDenied);
+    if (permissionDenied) {
+        Error(_W("Permission denied."));
     }
-    if (!dtdFilename.empty()) {
-        FileSystemWrapper::Path pathIn(dtdFilename);
-        bool permissionDenied;
-        bool IsFileIn = FileSystemWrapper::Path::is_regular_file(pathIn, permissionDenied);
-        if (permissionDenied) {
-            Error(_W("Permission denied."));
-        }
-        if (!IsFileIn) {
-            Error(_W("Wrong value for argument #2: An existing .dtd file expected."));
-        }
+    if (!IsFileIn) {
+        Error(_W("Wrong value for argument #2: An existing .dtd file expected."));
     }
     std::wstring xmlFilename = argIn[0].getContentAsWideString();
     FileSystemWrapper::Path pathIn(xmlFilename);
-    bool permissionDenied;
-    bool IsFileIn = FileSystemWrapper::Path::is_regular_file(pathIn, permissionDenied);
+    IsFileIn = FileSystemWrapper::Path::is_regular_file(pathIn, permissionDenied);
     if (permissionDenied) {
         Error(_W("Permission denied."));
     }

@@ -7,17 +7,15 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "CleanupHelptools.hpp"
-#include <libxml/parser.h>
+#pragma once
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-bool
-cleanupHelptools()
-{
-    xmlCleanupParser();
-    return true;
-}
-//=============================================================================
-}
+#ifdef _MSC_VER
+#ifdef NLSXML_EXPORTS
+#define NLSXML_IMPEXP __declspec(dllexport)
+#else
+#define NLSXML_IMPEXP __declspec(dllimport)
+#endif
+#else
+#define NLSXML_IMPEXP __attribute__((visibility("default")))
+#endif
 //=============================================================================

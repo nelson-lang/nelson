@@ -9,20 +9,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsHelp_tools_exports.h"
-#include "XmlTarget.hpp"
-#include <string>
+#include "ArrayOf.hpp"
 //=============================================================================
-namespace Nelson {
+namespace Nelson::XmlGateway {
 //=============================================================================
-NLSHELP_TOOLS_IMPEXP bool
-XmlTransform(const std::wstring& xmlfile, const std::wstring& xslfile,
-    const std::wstring& outputfile, bool overwrite, DOCUMENT_OUTPUT documentOutput,
-    std::wstring& errorMessage);
+ArrayOfVector
+xmlprettyprintBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-NLSHELP_TOOLS_IMPEXP bool
-XmlTransform(const std::wstring& xmlfile, void* style, const std::wstring& outputfile,
-    bool overwrite, DOCUMENT_OUTPUT documentOutput, std::wstring& errorMessage);
-//=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

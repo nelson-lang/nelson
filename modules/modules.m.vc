@@ -43,8 +43,8 @@ modules_list = {
 {'polynomial_functions', true};
 {'geometry', true};
 {'control_system', true};
-{'signal_processing', true};
 {'slicot', true};
+{'signal_processing', true};
 {'fftw', true};
 {'random', true};
 {'os_functions', true};
@@ -55,6 +55,7 @@ modules_list = {
 {'stream_manager', true};
 {'hdf5', true};
 {'matio', true};
+{'xml', true};
 {'json', true};
 {'spreadsheet', true};
 {'mpi', true};

@@ -27,6 +27,7 @@ function varargout = buildhelpjson(varargin)
     temp_dir = tempname();
     mkdir(temp_dir);
     main_st = struct();
+    nelson_json_xslt = [modulepath('help_tools'), '/resources/nelson_json.xslt'];
     for m = modules_help_list(:)'
       xml_module_path = [nelsonroot() '/modules/' m{1}, '/help/', lang{1}, '/xml/'];
       if isdir(xml_module_path)
@@ -42,9 +43,7 @@ function varargout = buildhelpjson(varargin)
           end
           xml_filename = [xml_module_path, f.name];
           json_filename = [temp_dir, '/', m{1}, '_', lang{1}, '_', f.name(1:end-4), '.json'];
-          xmltransform(xml_filename, ...
-            [nelsonroot() '/modules/help_tools/resources/nelson_json.xslt'], ...
-            json_filename);
+          xmltransform(xml_filename, nelson_json_xslt, json_filename);
           st = jsondecode(json_filename, '-file');
           names = fieldnames(st);
           lower_names = lower(names);
@@ -66,3 +65,4 @@ function varargout = buildhelpjson(varargin)
     rmdir(temp_dir, 's');
   end
 end
+%=============================================================================
