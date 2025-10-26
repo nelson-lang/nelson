@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <module_name>SPREADSHEET</module_name>
+    <chapter>Feuille de calcul</chapter>
+    <chapter_description>
+        <p
+    >Le module Feuille de calcul fournit des fonctions pour lire et écrire des données tabulaires depuis et vers des formats de feuille de calcul basés sur du texte, tels que CSV et les fichiers séparés par délimiteurs.</p>
+        <p
+    >Il prend en charge l'importation vers différents types de données comme les tableaux numériques, les cellules de chaînes et les tables, ainsi que leur exportation vers des fichiers.</p>
+        <p
+    >Cela permet une interaction fluide avec les logiciels de tableur (Excel, LibreOffice Calc, etc.) et l'échange de données entre applications.</p>
+    </chapter_description>
+</xmldoc>

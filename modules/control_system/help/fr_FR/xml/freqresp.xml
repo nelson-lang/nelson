@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>freqresp</keyword>
+    <short_description>Réponse en fréquence du système.</short_description>
+    <syntax>
+        <syntax_item>[H, wout] = freqresp(sys, w)</syntax_item>
+        <syntax_item>H = freqresp(sys, w)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>sys</param_name>
+            <param_description>modèle LTI</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>w</param_name>
+            <param_description>Fréquences : vecteur.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>H</param_name>
+            <param_description
+      >Valeurs de réponse en fréquence</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>wout</param_name>
+            <param_description
+      >Fréquences de sortie correspondant à la réponse en fréquence : vecteur.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >Calcule la réponse en fréquence (réponse complexe) d'un système LTI pour une gamme de fréquences donnée.</p>
+    </description>
+    <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[G = tf(1,[1 1]);
+h1 = freqresp(G, 3)]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="gui"
+      ><![CDATA[num = [1 2];
+den = [1 3 2];
+sys = tf(num,den);
+w = linspace(0, 100, 60);
+[resp,freq] = freqresp(sys, w);
+
+f = figure();
+subplot(2, 1, 1);
+plot(freq, 20 * log10(abs(squeeze(resp))));
+ylabel(_('Amplitude (dB)'));
+subplot(2, 1, 2);
+plot(freq, angle(squeeze(resp)) * 180/pi);
+ylabel(_('Phase (degrees)'));
+xlabel(_('Frequency (Hz)'));
+]]></example_item_data>
+                <example_item_img
+        src="../images/freqresp.svg"
+        align="middle"
+        generate="true"
+      />
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${control_system}bode">bode</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${control_system}evalfr">evalfr</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

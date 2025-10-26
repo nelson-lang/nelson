@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>isvector</keyword>
+    <short_description>Checks input is vector.</short_description>
+    <syntax>
+        <syntax_item>tf = isvector(M)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>M</param_name>
+            <param_description>a variable</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>tf</param_name>
+            <param_description
+      >logical: result of 'isvector'.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>isvector</b> returns an scalar logical if entry is an vector.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = eye(3, 3);
+R = isvector(A)
+R = isvector(A(:,1))]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${elementary_functions}isempty">isempty</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

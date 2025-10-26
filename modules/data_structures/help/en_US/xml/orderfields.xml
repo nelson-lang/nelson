@@ -81,6 +81,7 @@
       >nelson</example_item_type>
                                     <example_item_description />
                                     <example_item_data
+        runnable="cli"
       ><![CDATA[s = struct ("d", 4, "b", 2, "a", 1, "c", 3);
 tA = orderfields (s)
 t = struct ("d", {}, "c", {}, "b", {}, "a", {});

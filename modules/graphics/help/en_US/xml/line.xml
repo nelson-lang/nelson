@@ -63,7 +63,7 @@
       >LineWidth</b> Line width: scalar positive value.</p>
                                     <p>
                                         <b
-      >Marker</b>Marker symbol: 'o' (circle), '+' (Plus sign), '*' (asterik), '.' (point), 'x' (cross), '_' (horizontal line) , '|' (vertical line), 'square', 'diamond', '^' (Upward-pointing triangle), 'v' (Downward-pointing triangle), '&gt;' (Right-pointing triangle), '&lt;' (Left-pointing triangle), 'pentagram', 'hexagram', 'none'(default). </p>
+      >Marker</b> Marker symbol: 'o' (circle), '+' (Plus sign), '*' (asterik), '.' (point), 'x' (cross), '_' (horizontal line) , '|' (vertical line), 'square', 'diamond', '^' (Upward-pointing triangle), 'v' (Downward-pointing triangle), '&gt;' (Right-pointing triangle), '&lt;' (Left-pointing triangle), 'pentagram', 'hexagram', 'none'(default). </p>
                                         <p>
                                             <b
       >MarkerEdgeColor</b> Marker outline color: RGB triplet.</p>
@@ -101,12 +101,12 @@
                                                                                     <p
     >
                                                                                         <b
-      >CreateFcn</b>Callback (function handle, string or cell) called when object is created.
+      >CreateFcn</b> Callback (function handle, string or cell) called when object is created.
 Set this property on an existing component has no effect.</p>
                                                                                         <p
     >
                                                                                             <b
-      >DeleteFcn</b>Callback (function handle, string or cell) called when object is deleted.</p>
+      >DeleteFcn</b> Callback (function handle, string or cell) called when object is deleted.</p>
                                                                                             <p
     />
                                                                                             <p
@@ -127,6 +127,7 @@ Set this property on an existing component has no effect.</p>
                                                                                                     <example_item_description
       />
                                                                                                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 x = linspace(0,10)';
 y1 = sin(x);
@@ -135,8 +136,9 @@ line(x, y1, 'Color', [0 1 0])
 line(x, y2, 'Color', [1 0 0])
 ]]></example_item_data>
                                                                                                     <example_item_img
-        src="../images/line_xy.svg"
+        src="../../images/line_xy.svg"
         align="middle"
+        generate="true"
       />
                                                                                                 </example_item>
                                                                                                 <example_item
@@ -146,13 +148,15 @@ line(x, y2, 'Color', [1 0 0])
                                                                                                     <example_item_description
       />
                                                                                                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 x = [1 9];
 y = [2 12];
 line(x,y,'Color','red','LineStyle','--')]]></example_item_data>
                                                                                                     <example_item_img
-        src="../images/line_linestyle.svg"
+        src="../../images/line_linestyle.svg"
         align="middle"
+        generate="true"
       />
                                                                                                 </example_item>
                                                                                                 <example_item
@@ -162,6 +166,7 @@ line(x,y,'Color','red','LineStyle','--')]]></example_item_data>
                                                                                                     <example_item_description
       />
                                                                                                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 t = linspace(0,10*pi,400);
 x = sin(t);
@@ -170,8 +175,9 @@ z = t;
 line(x,y,z)
 view(3)]]></example_item_data>
                                                                                                     <example_item_img
-        src="../images/line_xyz.svg"
+        src="../../images/line_xyz.svg"
         align="middle"
+        generate="true"
       />
                                                                                                 </example_item>
                                                                                             </examples>

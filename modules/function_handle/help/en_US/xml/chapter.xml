@@ -4,6 +4,12 @@
     <language>en_US</language>
     <module_name>function_handle</module_name>
     <chapter>Function_handle functions</chapter>
-    <chapter_description>function_handle functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Function Handle Type module provides tools for creating and managing function handles in Nelson.</p>
+        <p
+    >It supports anonymous functions, conversion between strings and function handles, and verification of function handle objects.</p>
+        <p
+    >This module enables flexible and dynamic function invocation, allowing functions to be passed, stored, and executed programmatically.</p>
+    </chapter_description>
 </xmldoc>

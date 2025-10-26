@@ -33,8 +33,8 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
-      ><![CDATA[
-S = sparse([1,0;3,4]);
+        runnable="cli"
+      ><![CDATA[S = sparse([1,0;3,4]);
 R = spones(S)]]></example_item_data>
             </example_item>
         </examples>

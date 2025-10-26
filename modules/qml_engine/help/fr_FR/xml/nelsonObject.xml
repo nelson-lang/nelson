@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>nelsonObject</keyword>
+    <short_description>objet nelson appelable depuis QML.</short_description>
+    <syntax>
+        <syntax_item>nelson.disp(msg)</syntax_item>
+        <syntax_item>nelson.evaluate(cmd)</syntax_item>
+        <syntax_item>nelson.processevent()</syntax_item>
+        <syntax_item>nelson.call(function_name)</syntax_item>
+        <syntax_item>nelson.call(function_name, arg1, ..., arg5)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>msg</param_name>
+            <param_description>une chaîne.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>cmd</param_name>
+            <param_description>une chaîne.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>function_name</param_name>
+        <param_description
+      >une chaîne : nom de la fonction nelson à appeler</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>arg1, ..., arg5</param_name>
+            <param_description>variables JavaScript</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+                <p>
+                        <b
+      >nelson</b> contient des méthodes utilisées comme callbacks pour appeler nelson depuis QML</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <see_also>
+            <see_also_item>
+                <link
+        linkend="${qml_engine}qml_pluginpathlist"
+      >qml_pluginpathlist</link>
+            </see_also_item>
+            <see_also_item>
+                <link
+        linkend="${qml_engine}qml_addimportpath"
+      >qml_addimportpath</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

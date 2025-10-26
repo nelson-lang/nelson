@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>ss2tf</keyword>
+    <short_description
+  >Convertit une représentation état-espace en fonction de transfert.</short_description>
+    <syntax>
+        <syntax_item>[b, a] = ss2tf(A, B, C, D)</syntax_item>
+        <syntax_item>[b, a] = ss2tf(A, B, C, D, ni)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A (n x n)</param_name>
+            <param_description
+      >Represente la matrice de transition d'état du système. Elle décrit comment l'état interne du système évolue dans le temps.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>B (n x m)</param_name>
+            <param_description
+      >Décrit la cartographie entrée-état. Elle montre comment les entrées de contrôle affectent le changement de l'état du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>C (p x n)</param_name>
+            <param_description
+      >Représente la cartographie état-sortie. Elle montre comment les variables d'état du système sont liées aux sorties du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>D (p x m)</param_name>
+            <param_description
+      >Décrit le passage direct des entrées aux sorties. Dans de nombreux systèmes, cette matrice est nulle car il n'y a pas de passage direct.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>ni</param_name>
+            <param_description
+      >Indice d'entrée : scalaire entier ou 1 (par défaut).</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>b</param_name>
+            <param_description
+      >Coefficients du numérateur de la fonction de transfert : vecteur ou matrice.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>a</param_name>
+            <param_description
+      >Coefficients du dénominateur de la fonction de transfert : vecteur.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >Convertit les matrices d'état A, B, C, D en numérateur et dénominateur d'une fonction de transfert.</p>
+    </description>
+    <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[Fs = 16;
+dt = 1/Fs;
+Ac = [0 1 0 0; -2 0 1 0; 0 0 0 1; 1 0 -2 0];
+A = expm(Ac*dt);
+Bc = [0 0; 1 0; 0 0; 0 1];
+B = Ac\(A-eye(4))*Bc;
+C = [-2 0 1 0; 1 0 -2 0];
+D = eye(2);
+[b, a] = ss2tf(A, B, C, D, 2)
+]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${control_system}tf2ss">tf2ss</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${control_system}ss">ss</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${control_system}tf">tf</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>version initiale</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

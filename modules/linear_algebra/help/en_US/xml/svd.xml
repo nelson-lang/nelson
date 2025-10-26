@@ -39,15 +39,29 @@
     </param_output>
     <description>
         <p>
-            <b
-      >[U, S, V] = svd(M)</b> produces a diagonal matrix S of the same dimension as M and with nonnegative diagonal elements in decreasing order, and unitary matrices U and V so that X = U*S*V'.</p>
-            <p>
-                <b
-      >[U, S, V] = svd(M, 0)</b> produces the 'economy size' decomposition. If M is m-by-n with m &gt; n then only the first n columns of U are computed and S is n-by-n.</p>
-                <p>
-                    <b
-      >[U, S, V] = svd(M,0)</b> produces a different economy-size decomposition of m-by-n matrix M. If m &gt; n  then svd(M, 0) is equivalent to svd(M,'econ'). If m  &lt;= n then svd(M, 0) is equivalent to svd(M).</p>
-                </description>
+            <b>svd</b> computes the Singular Value Decomposition of a matrix.
+        </p>
+        <p>For an</p>
+        <latex>m \times n</latex>
+        <p>matrix <b>M</b>, the SVD is:</p>
+        <latex>M = U\Sigma V^T</latex>
+        <p>where:</p>
+        <ul>
+        <li><latex>U</latex> is an</li>
+        <latex>m \times m</latex>
+        <p>unitary matrix (left singular vectors)</p>
+        <li><latex>\Sigma</latex> is an</li>
+        <latex>m \times n</latex>
+        <p>diagonal matrix with non-negative real numbers (singular values)</p>
+        <li><latex>V^T</latex> is an</li>
+        <latex>n \times n</latex>
+        <p>unitary matrix (right singular vectors)</p>
+        </ul>
+        <p>The singular values</p>
+        <latex>\sigma_i</latex>
+        <p>are arranged in decreasing order:</p>
+        <latex>\sigma_1 \geq \sigma_2 \geq \ldots \geq 0</latex>
+    </description>
                 <used_function />
                 <bibliography />
                 <examples>
@@ -55,6 +69,7 @@
                         <example_item_type>nelson</example_item_type>
                         <example_item_description />
                         <example_item_data
+        runnable="cli"
       ><![CDATA[X = eye(3, 3);
 s = svd(X)
 [U, S, V] = svd(X)]]></example_item_data>

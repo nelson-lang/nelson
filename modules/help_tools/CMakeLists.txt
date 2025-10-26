@@ -12,7 +12,7 @@ set(module_library_name nlsHelp_tools)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
 file(GLOB HELP_TOOLS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
-     "${CMAKE_CURRENT_SOURCE_DIR}/src/c/hoedown/*.c")
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/c/cmark/*.c")
 list(FILTER HELP_TOOLS_SRC EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
@@ -22,8 +22,9 @@ target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/c/hoedown
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/c/cmark
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../xml/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
@@ -45,12 +46,11 @@ target_link_libraries(
     nlsCharacters_encoding
     nlsCommons
     nlsError_manager
-    nlsFiles_folders_functions
     nlsI18n
     nlsInterpreter
-    nlsLocalization
     nlsModules_manager
     nlsNelson_manager
+    nlsXml
     ${LIBXML2_LIBRARIES})
 if(NOT WITHOUT_TBB AND TBB_FOUND)
   target_link_libraries(${module_library_name} PRIVATE ${TBB_LIBRARY})
@@ -68,6 +68,7 @@ target_include_directories(
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../xml/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
@@ -76,8 +77,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
-          ${LIBXML2_INCLUDE_DIR})
+          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include)
 # ==============================================================================
 target_link_libraries(
   ${module_library_builtin_name}
@@ -130,6 +130,12 @@ install(
   FILES_MATCHING
   PATTERN "*.xml")
 install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests/md
+  DESTINATION
+    "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}/tests"
+  FILES_MATCHING
+  PATTERN "*.md")
+install(
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/resources
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
@@ -143,7 +149,8 @@ install(
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/help
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
-  PATTERN "*.qch"
+  PATTERN "*.nhz"
+  PATTERN "*.json"
   PATTERN "xml" EXCLUDE
   PATTERN "md" EXCLUDE)
 install(

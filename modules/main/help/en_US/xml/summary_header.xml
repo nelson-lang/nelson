@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<help_summary>
+  <main_summary link="./homepage.html" />
+  <toc>
+    <module>main</module>
+    <section name="Nelson Documentation" toc_visibility="false">
+      <chapter_description>
+        <p>Nelson: Scientific Computing Environment Programming Language.</p>
+        <p
+        >Nelson is an open-source scientific computing environment designed for numerical analysis, data visualization, and algorithm development.</p>
+        <p
+        >Built for performance and ease of use, Nelson provides a comprehensive suite of mathematical functions, advanced data structures, and powerful visualization tools.</p>
+        <p
+        >This documentation serves as your complete reference guide to Nelson's built-in functions, module system, and programming capabilities - from basic mathematical operations to advanced computational tasks.</p>
+     </chapter_description>
+    </section>
+    <section name="Overview" link="homepage.html" />
+    <section name="Summary" link="summary.html" />
+    <section name="Getting Started" link="getting_started.html" />
+    <section name="License" link="license.html" />
+  </toc>
+</help_summary>

@@ -144,6 +144,7 @@
                         <example_item_type>nelson</example_item_type>
                         <example_item_description />
                         <example_item_data
+        runnable="cli"
       ><![CDATA[
 A = rand(3,1)
 
@@ -166,8 +167,7 @@ fid = fopen([tempdir(), 'fwrite_example_char.txt'], 'w','n', 'UTF-8');
 [count, bytes] = fwrite(fid, test_string) % returns 11 and 17
 fclose(fid);
 
-% This is the number of characters written
-% not the number of bytes. 
+% This is the number of characters written and not the number of bytes. 
 % Each accented character (é, ö, ä, ü, è, ê) = 2 bytes each 
 % Each space = 1 byte
 % Total bytes = 6*2 + 5*1 = 17 bytes

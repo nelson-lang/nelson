@@ -283,7 +283,7 @@ install(
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/help
   DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
   FILES_MATCHING
-  PATTERN "*.qch"
-  PATTERN "xml" EXCLUDE
+  PATTERN "*.nhz"
+  PATTERN "*.xml"
   PATTERN "md" EXCLUDE)
 # ==============================================================================

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>removevars</keyword>
+    <short_description>Supprimer des variables d'une table.</short_description>
+    <syntax>
+        <syntax_item>TB = removevars(TA, varsNames)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>TA</param_name>
+            <param_description>Table d'entrée.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>varsNames</param_name>
+        <param_description
+      >Noms des variables de la table d'entrée à supprimer : vecteur de caractères, tableau de chaînes ou tableau de cellules de vecteurs de caractères.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>TB</param_name>
+            <param_description>Objet table modifié.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p><b
+      >TB = removevars(TA, varsNames)</b> supprime les variables spécifiées par <b
+      >varsNames</b> de la table <b
+      >TA</b> et stocke les variables restantes dans <b>T2</b>.</p>
+            <p
+    >Vous pouvez spécifier les variables par nom, position ou en utilisant des indices logiques.</p>
+            <p
+    >Vous pouvez également supprimer des variables d'une table en utilisant <b
+      >T(:, varsNames) = []</b>.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[C = {'John', 28, true; 'Alice', 35, false; 'Bob', 42, true};
+% Convert the cell array to a table
+T1 = cell2table(C)
+T2 = removevars(T1, 'C2')
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${table}table">table</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${table}renamevars">renamevars</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.9.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

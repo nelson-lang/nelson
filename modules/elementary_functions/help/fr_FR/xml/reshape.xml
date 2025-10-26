@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>reshape</keyword>
+    <short_description
+  >Reshapes a vector or a matrix to a different size matrix.</short_description>
+    <syntax>
+        <syntax_item>M2 = reshape(M1, s1, ... ,sN)</syntax_item>
+        <syntax_item>M2 = reshape(M1, ..., [], ...)</syntax_item>
+        <syntax_item>M2 = reshape(M1, size)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>M1</param_name>
+            <param_description>a vector or an matrix</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>size</param_name>
+            <param_description>a size vector</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>s1, ... ,sN</param_name>
+            <param_description
+      >a s1 - by - ... - by - sN array where s1, ..., sN indicates the size of each dimension.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>M2</param_name>
+            <param_description>Matrix reshaped</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >reshape</b> performs a reshape to a different size matrix. If only one dimension is specified, <b
+      >reshape</b> will determine complementary size automatically. [ ] is used to unspecify the dimension.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[M1 = ones(3, 4, 5);
+M2 = reshape(M1, [5, 3, 4])
+M2 = reshape(M1, 5, [], 4)
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${elementary_functions}colon">colon</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

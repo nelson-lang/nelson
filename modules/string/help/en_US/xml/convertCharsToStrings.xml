@@ -46,6 +46,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[[A, B, C, D] = convertCharsToStrings("one", 2, 'three', {'four' ; 'NaN' ;'five'})
 R = convertCharsToStrings(['Nelson' ; '  is  '; '  good'])]]></example_item_data>
             </example_item>

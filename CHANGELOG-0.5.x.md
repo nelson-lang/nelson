@@ -10,9 +10,9 @@
 
 ## Fixed
 
-- [#544](http://github.com/nelson-lang/nelson/issues/544): add `folder` fieldname to `dir` output.
+- [#544](https://github.com/nelson-lang/nelson/issues/544): add `folder` fieldname to `dir` output.
 
-- [#541](http://github.com/nelson-lang/nelson/issues/541): common class between two elements for operators, horzcat and vertcat.
+- [#541](https://github.com/nelson-lang/nelson/issues/541): common class between two elements for operators, horzcat and vertcat.
 
 ## Compilation
 
@@ -38,8 +38,8 @@
 ## Fixed
 
 - `vercat`, `horzcat` returns an empty array whose size is equal to the output size as when the inputs are nonempty.
-- [#533](http://github.com/nelson-lang/nelson/issues/533): `find` with one lhs did not return expected result with complex.
-- [#536](http://github.com/nelson-lang/nelson/issues/536): `test_websave_3` failed randomly due to distant server.
+- [#533](https://github.com/nelson-lang/nelson/issues/533): `find` with one lhs did not return expected result with complex.
+- [#536](https://github.com/nelson-lang/nelson/issues/536): `test_websave_3` failed randomly due to distant server.
 
 # 0.5.10 (2021-10-30)
 
@@ -55,13 +55,13 @@
 
 - `pinv`: Moore-Penrose pseudoinverse.
 
-- [#520](http://github.com/nelson-lang/nelson/issues/520): `inputname` get variable name of function input.
+- [#520](https://github.com/nelson-lang/nelson/issues/520): `inputname` get variable name of function input.
 
-- [#525](http://github.com/nelson-lang/nelson/issues/525): use [`fast_float`](https://github.com/fastfloat/fast_float) library to parse numbers .
+- [#525](https://github.com/nelson-lang/nelson/issues/525): use [`fast_float`](https://github.com/fastfloat/fast_float) library to parse numbers .
 
-- [#528](http://github.com/nelson-lang/nelson/issues/528): Assignment in cell did not work in this case `[c{:}] = ind2sub (dv, i)`
+- [#528](https://github.com/nelson-lang/nelson/issues/528): Assignment in cell did not work in this case `[c{:}] = ind2sub (dv, i)`
 
-- [#534](http://github.com/nelson-lang/nelson/issues/534): `diag(ones(0, 1), -1)` did not return zero as result.
+- [#534](https://github.com/nelson-lang/nelson/issues/534): `diag(ones(0, 1), -1)` did not return zero as result.
 
 # 0.5.9 (2021-09-29)
 
@@ -73,25 +73,25 @@
 
 - `ind2sub` function: matrix subscript values to linear index.
 
-- [#518](http://github.com/nelson-lang/nelson/issues/518): `isStringScalar` checks if input is string array with one element.
+- [#518](https://github.com/nelson-lang/nelson/issues/518): `isStringScalar` checks if input is string array with one element.
 
-- [#516](http://github.com/nelson-lang/nelson/issues/516): `ind = 2; ind(false)` logical extraction on scalar should return empty matrix.
+- [#516](https://github.com/nelson-lang/nelson/issues/516): `ind = 2; ind(false)` logical extraction on scalar should return empty matrix.
 
-- [#514](http://github.com/nelson-lang/nelson/issues/514): `C{3} = 4` should create a cell with good dimensions.
+- [#514](https://github.com/nelson-lang/nelson/issues/514): `C{3} = 4` should create a cell with good dimensions.
 
-- [#512](http://github.com/nelson-lang/nelson/issues/512): Assign must not change left assign type when it is possible.
+- [#512](https://github.com/nelson-lang/nelson/issues/512): Assign must not change left assign type when it is possible.
 
-- [#509](http://github.com/nelson-lang/nelson/issues/509): horzcat vertcat generic support for class object.
+- [#509](https://github.com/nelson-lang/nelson/issues/509): horzcat vertcat generic support for class object.
 
-- [#508](http://github.com/nelson-lang/nelson/issues/508): Change default seed for 'rand' with Mersenne Twister algo.
+- [#508](https://github.com/nelson-lang/nelson/issues/508): Change default seed for 'rand' with Mersenne Twister algo.
 
-- [#506](http://github.com/nelson-lang/nelson/issues/506): Modernize windows installer style.
+- [#506](https://github.com/nelson-lang/nelson/issues/506): Modernize windows installer style.
 
 ## Compilation:
 
-- [#496](http://github.com/nelson-lang/nelson/issues/496): Eigen 3.4 used.
+- [#496](https://github.com/nelson-lang/nelson/issues/496): Eigen 3.4 used.
 
-- [#503](http://github.com/nelson-lang/nelson/issues/503): Boost 1.77 support (default on Windows).
+- [#503](https://github.com/nelson-lang/nelson/issues/503): Boost 1.77 support (default on Windows).
 
 # 0.5.8 (2021-08-25)
 
@@ -105,25 +105,25 @@
 
 - allows .m file empty to be called.
 
-- [#477](http://github.com/nelson-lang/nelson/issues/477): update files watcher algo.
+- [#477](https://github.com/nelson-lang/nelson/issues/477): update files watcher algo.
 
-- [#489](http://github.com/nelson-lang/nelson/issues/489): display builtin and associated overload.
+- [#489](https://github.com/nelson-lang/nelson/issues/489): display builtin and associated overload.
 
-- [#490](http://github.com/nelson-lang/nelson/issues/490): update default prompt.
+- [#490](https://github.com/nelson-lang/nelson/issues/490): update default prompt.
 
 ## Bug Fixes:
 
-- [#480](http://github.com/nelson-lang/nelson/issues/480): publisher name updated for windows installer.
+- [#480](https://github.com/nelson-lang/nelson/issues/480): publisher name updated for windows installer.
 
-- [#483](http://github.com/nelson-lang/nelson/issues/483): extern modules no more build if boost not available.
+- [#483](https://github.com/nelson-lang/nelson/issues/483): extern modules no more build if boost not available.
 
-- [#486](http://github.com/nelson-lang/nelson/issues/486): `inmem` help was missing.
+- [#486](https://github.com/nelson-lang/nelson/issues/486): `inmem` help was missing.
 
-- [#464](http://github.com/nelson-lang/nelson/issues/464): simplify macos build (catalina & BigSur support only).
+- [#464](https://github.com/nelson-lang/nelson/issues/464): simplify macos build (catalina & BigSur support only).
 
-- [#499](http://github.com/nelson-lang/nelson/issues/499): rename `getContentAsUnsignedInt64Scalar` to `getContentAsUnsignedInteger64Scalar`.
+- [#499](https://github.com/nelson-lang/nelson/issues/499): rename `getContentAsUnsignedInt64Scalar` to `getContentAsUnsignedInteger64Scalar`.
 
-- [#495](http://github.com/nelson-lang/nelson/issues/495): some mtimes call failed.
+- [#495](https://github.com/nelson-lang/nelson/issues/495): some mtimes call failed.
 
 # 0.5.7 (2021-07-24)
 
@@ -151,13 +151,13 @@
 
 - `nargin`, `nargout` behavior with mex updated.
 
-- [#474](http://github.com/nelson-lang/nelson/issues/474): `exist`: extended to manage mex function.
+- [#474](https://github.com/nelson-lang/nelson/issues/474): `exist`: extended to manage mex function.
 
-- [#449](http://github.com/nelson-lang/nelson/issues/449): `conv2`: 2-D convolution and `conv`: Convolution and polynomial multiplication.
+- [#449](https://github.com/nelson-lang/nelson/issues/449): `conv2`: 2-D convolution and `conv`: Convolution and polynomial multiplication.
 
 ## Bug Fixes:
 
-- [#468](http://github.com/nelson-lang/nelson/issues/468): A(':') = [] was not managed.
+- [#468](https://github.com/nelson-lang/nelson/issues/468): A(':') = [] was not managed.
 
 # 0.5.6 (2021-06-27)
 
@@ -185,17 +185,17 @@ BREAKING CHANGE:
 
 - `nargoutchk` builtin: checks number of outnput arguments.
 
-- [#448](http://github.com/nelson-lang/nelson/issues/448): data analysis module (Code refactoring).
+- [#448](https://github.com/nelson-lang/nelson/issues/448): data analysis module (Code refactoring).
 
 ## Bug Fixes:
 
 - `nmm('install', existing_module_directory)` did not work as expected.
 
-- [#451](http://github.com/nelson-lang/nelson/issues/451): var() returns an unexpected error.
+- [#451](https://github.com/nelson-lang/nelson/issues/451): var() returns an unexpected error.
 
 ## Compilation:
 
-- [#455](http://github.com/nelson-lang/nelson/issues/455): M1 macOS apple native support. It works but some gui features can crash due to young Qt support on M1.
+- [#455](https://github.com/nelson-lang/nelson/issues/455): M1 macOS apple native support. It works but some gui features can crash due to young Qt support on M1.
 
 - Update fmt library to 8.0.
 
@@ -223,7 +223,7 @@ BREAKING CHANGE:
 
 - `ismember` builtin: Array elements that are members of another array.
 
-- [#439](http://github.com/nelson-lang/nelson/issues/439): split elementary_functions module and creates operators modules.
+- [#439](https://github.com/nelson-lang/nelson/issues/439): split elementary_functions module and creates operators modules.
 
 ## Changed:
 
@@ -231,15 +231,15 @@ BREAKING CHANGE:
 
 ## Bug Fixes:
 
-- [#435](http://github.com/nelson-lang/nelson/issues/435): `maxNumCompThreads` did not return number of threads but number of cores.
+- [#435](https://github.com/nelson-lang/nelson/issues/435): `maxNumCompThreads` did not return number of threads but number of cores.
 
 ## Compilation:
 
 - Move Windows build to GitHub CI. Appveyor is no more the principal build CI for Windows.
 
-- [#441](http://github.com/nelson-lang/nelson/issues/441): Circle CI (ArchLinux build) fixed.
+- [#441](https://github.com/nelson-lang/nelson/issues/441): Circle CI (ArchLinux build) fixed.
 
-- [#357](http://github.com/nelson-lang/nelson/issues/357): Curl 7.76.1 on Windows.
+- [#357](https://github.com/nelson-lang/nelson/issues/357): Curl 7.76.1 on Windows.
 
 # 0.5.4 (2021-04-24)
 
@@ -277,17 +277,17 @@ BREAKING CHANGE:
 
 ## Bug Fixes:
 
-- [#352](http://github.com/nelson-lang/nelson/issues/352): number of input arguments checked in macro.
+- [#352](https://github.com/nelson-lang/nelson/issues/352): number of input arguments checked in macro.
 
-- [#382](http://github.com/nelson-lang/nelson/issues/382): optimize `corrcoef`.
+- [#382](https://github.com/nelson-lang/nelson/issues/382): optimize `corrcoef`.
 
 # 0.5.3 (2021-03-24)
 
 ## Features:
 
-- [#373](http://github.com/nelson-lang/nelson/issues/373): `sign` builtin.
+- [#373](https://github.com/nelson-lang/nelson/issues/373): `sign` builtin.
 
-- [#313](http://github.com/nelson-lang/nelson/issues/313): `atanh` builtin: inverse hyperbolic tangent.
+- [#313](https://github.com/nelson-lang/nelson/issues/313): `atanh` builtin: inverse hyperbolic tangent.
 
 - `MException` comes default exception in Nelson.
 
@@ -311,9 +311,9 @@ BREAKING CHANGE:
 
 ## Bug Fixes:
 
-- [#413](http://github.com/nelson-lang/nelson/issues/413): circle CI Arch docker did not work.
+- [#413](https://github.com/nelson-lang/nelson/issues/413): circle CI Arch docker did not work.
 
-- [#412](http://github.com/nelson-lang/nelson/issues/412) docker fedora 35 support.
+- [#412](https://github.com/nelson-lang/nelson/issues/412) docker fedora 35 support.
 
 # 0.5.2 (2021-02-27)
 
@@ -349,13 +349,13 @@ BREAKING CHANGE:
 
 - `qt_constant` builtin: returns value of an Qt constant.
 
-- [#374](http://github.com/nelson-lang/nelson/issues/374): `num2str` builtin: converts numbers to character array.
+- [#374](https://github.com/nelson-lang/nelson/issues/374): `num2str` builtin: converts numbers to character array.
 
 ## Bug Fixes:
 
-- [#388](http://github.com/nelson-lang/nelson/issues/388): Windows x64 build failed (elementary_functions module was too big).
+- [#388](https://github.com/nelson-lang/nelson/issues/388): Windows x64 build failed (elementary_functions module was too big).
 
-- [#385](http://github.com/nelson-lang/nelson/issues/385): `corrcoef`, `mean`, `var`, `cov` moved in statistics module.
+- [#385](https://github.com/nelson-lang/nelson/issues/385): `corrcoef`, `mean`, `var`, `cov` moved in statistics module.
 
 ## Compilation:
 
@@ -369,15 +369,15 @@ BREAKING CHANGE:
 
 - fix cirle CI build.
 
-- [#394](http://github.com/nelson-lang/nelson/issues/394): Upgrade socket.IO dependency to v3.0.
+- [#394](https://github.com/nelson-lang/nelson/issues/394): Upgrade socket.IO dependency to v3.0.
 
-- [#367](http://github.com/nelson-lang/nelson/issues/367): add fftw_init_threads and fftw_plan_with_nthreads to MKL wrapper for FFTW.
+- [#367](https://github.com/nelson-lang/nelson/issues/367): add fftw_init_threads and fftw_plan_with_nthreads to MKL wrapper for FFTW.
 
-- [#356](http://github.com/nelson-lang/nelson/issues/356): MKL OneAPI v2021 support.
+- [#356](https://github.com/nelson-lang/nelson/issues/356): MKL OneAPI v2021 support.
 
-- [#355](http://github.com/nelson-lang/nelson/issues/355): Qt6 support.
+- [#355](https://github.com/nelson-lang/nelson/issues/355): Qt6 support.
 
-- [#317](http://github.com/nelson-lang/nelson/issues/317): uses fmtlib.
+- [#317](https://github.com/nelson-lang/nelson/issues/317): uses fmtlib.
 
 ## Previous changelog:
 

@@ -22,10 +22,18 @@
     </param_output>
     <description>
         <p>
-            <b>log</b> computes the natural logarithm.</p>
-            <p>If input argument is a complex number or negative, <b
-      >log(z)</b> computes log(abs(z)) + angle(z) * i.</p>
-        </description>
+            <b>log</b> computes the natural logarithm.
+        </p>
+        <p>For real positive numbers:</p>
+        <latex>\ln(x)</latex>
+        <p>For complex numbers <b>z</b>:</p>
+        <latex>\ln(z) = \ln|z| + i\arg(z)</latex>
+        <p>where</p>
+        <latex>|z|</latex>
+        <p>is the modulus and</p>
+        <latex>\arg(z)</latex>
+        <p>is the argument of <b>z</b>.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>
@@ -33,6 +41,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[x = [1+i,-i;i,2i];
 r = log(x)]]></example_item_data>
             </example_item>

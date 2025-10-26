@@ -4,7 +4,12 @@
     <language>en_US</language>
     <module_name>constructors_functions</module_name>
     <chapter>Constructors functions</chapter>
-    <chapter_description
-  >Create scalars, vectors, or matrices</chapter_description>
-    <auto_toc />
+    <chapter_description>
+      <p
+    >The Constructors module provides tools for creating fundamental numeric values, scalars, vectors, and matrices in Nelson.</p>
+      <p
+    >It includes constants, identity and diagonal matrices, and special values such as infinity, NaN, and machine precision.</p>
+      <p
+    >This module forms the basis for initializing data structures and performing mathematical and numerical computations.</p>
+    </chapter_description>
 </xmldoc>

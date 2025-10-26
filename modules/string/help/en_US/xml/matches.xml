@@ -44,6 +44,7 @@
     <example_item_type>nelson</example_item_type>
     <example_item_description />
     <example_item_data
+        runnable="cli"
       ><![CDATA[matches("Nelson", 'nelSon')
 matches("Nelson", 'Nelson')
 str = ["yellow", "green", "blue", "brown"];

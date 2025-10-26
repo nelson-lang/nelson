@@ -45,6 +45,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[ind = [4 5 6 7];
 sz = [4 4];
 [row,col] = ind2sub(sz,ind)]]></example_item_data>

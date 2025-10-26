@@ -23,14 +23,19 @@
     </param_output>
     <description>
         <p>
-            <b
-      >db = mag2db(mag)</b> returns corresponding values in decibels.</p>
-        </description>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+            <b>db = mag2db(mag)</b> converts magnitude values to decibels (dB).
+        </p>
+        <p>The conversion formula is:</p>
+        <latex>\text{dB} = 20 \log_{10}(\text{magnitude})</latex>
+        <p
+    >This conversion is commonly used in signal processing, acoustics, and electronics to express ratios on a logarithmic scale.</p>
+    </description>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
       ><![CDATA[DB = mag2db([1, 0.01])]]></example_item_data>
             </example_item>
         </examples>

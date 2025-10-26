@@ -44,7 +44,6 @@
 #include "PostCommand.hpp"
 #include "GOColorProperty.hpp"
 #include "Nelson_VERSION.h"
-#include "HelpBrowser.hpp"
 #include "TextEditor.hpp"
 #include "MainGuiObject.hpp"
 #include "GOCallbackProperty.hpp"
@@ -453,15 +452,6 @@ GOWindow::updateWindowMenuItems()
             mainWindow->raise();
             mainWindow->setFocus();
         });
-        windowMenu->addSeparator();
-        windowMenu->addAction(action);
-    }
-    if (HelpBrowser::getInstance()->isVisible()) {
-        fileNameIcon = wstringToQString(NelsonConfiguration::getInstance()->getNelsonRootDirectory()
-            + L"/resources/help-icon.svg");
-        QString menuItem = TR("&Help");
-        QAction* action = new QAction(QIcon(fileNameIcon), menuItem, this);
-        connect(action, &QAction::triggered, []() { HelpBrowser::getInstance()->show(); });
         windowMenu->addSeparator();
         windowMenu->addAction(action);
     }

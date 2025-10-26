@@ -57,6 +57,7 @@ apt-get install -y \
     libffi-dev \
     libicu-dev \
     libxml2-dev \
+    libxslt1-dev \
     libopenblas-openmp-dev \
     liblapack-dev \
     liblapacke-dev \

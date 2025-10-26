@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>rgbplot</keyword>
+    <short_description>Tracer une palette de couleurs.</short_description>
+    <syntax>
+        <syntax_item>rgbplot(cmap)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>cmap</param_name>
+            <param_description
+      >Palette de couleurs : matrice à trois colonnes de triplets RGB.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b
+      >rgbplot(cmap)</b> trace les intensités R (rouge), G (vert) et B (bleu) de la palette de couleurs <b
+      >cmap</b> spécifiée.
+        </p>
+    </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f  = figure();
+colormap = [0.2 0.1 0.5;
+    0.1 0.5 0.8;
+    0.2 0.7 0.6;
+    0.8 0.7 0.3;
+    0.9 1 0];
+rgbplot(colormap);]]></example_item_data>
+                <example_item_img
+        src="../../images/rgbplot.svg"
+        align="middle"
+        generate="true"
+      />
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${graphics}plot">plot</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${graphics}colormap">colormap</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

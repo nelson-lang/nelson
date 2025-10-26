@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>persistent</keyword>
+    <short_description>Variable persistante.</short_description>
+    <syntax>
+        <syntax_item>persistent variable_name</syntax_item>
+        <syntax_item>persistent('variable_name')</syntax_item>
+        <syntax_item
+    >persistent  variable_name1, ...,  variable_nameN</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>variable_name</param_name>
+            <param_description
+      >une chaîne : nom de la variable.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b>persistent</b> définit une variable identifiée par son nom <b
+      >variable_name</b> comme persistante dans une fonction.</p>
+            <p
+    >Avant d'utiliser une variable persistante, il est nécessaire d'initialiser sa valeur.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description
+      >function to define:</example_item_description>
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[function r = test_persistent_function()
+ persistent calls;
+ if isempty(calls)
+    calls = 0;
+ end 
+ disp(['nb calls to test_persistent_function: ', int2str(calls)]);
+ r= calls;
+ calls = calls + 1;
+end]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description
+      >calls test_persistent_function</example_item_description>
+                <example_item_data
+      ><![CDATA[for i = 1:30
+  r = test_persistent_function();
+end
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${memory_manager}clear">clear</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${memory_manager}who">who</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${memory_manager}global">global</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

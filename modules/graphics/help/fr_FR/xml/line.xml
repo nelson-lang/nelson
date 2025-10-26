@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>line</keyword>
+    <short_description>Crée une ligne primitive.</short_description>
+    <syntax>
+        <syntax_item>go = line()</syntax_item>
+        <syntax_item>po = line(x, y)</syntax_item>
+        <syntax_item>go = line(x, y, z)</syntax_item>
+        <syntax_item>go = line(ax, x, y, z)</syntax_item>
+        <syntax_item
+    >go = line(ax, x, y, z, propertyName, propertyValue)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>x, y , z</param_name>
+            <param_description
+      >Un ou plusieurs vecteurs ou matrices de coordonnées.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>ax</param_name>
+            <param_description>Axes cibles : objet axes.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyName</param_name>
+            <param_description
+      >Une chaîne scalaire ou un vecteur ligne de caractères.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>propertyValue</param_name>
+            <param_description>Une valeur.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>go</param_name>
+            <param_description
+      >Un objet graphique : type ligne.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >line(x, y)</b> crée une ligne dans les axes courants avec les vecteurs <b
+      >x</b> et <b>y</b>.
+        </p>
+        <p>
+            <b
+      >line(x, y, z)</b> crée une ligne en coordonnées tridimensionnelles.
+        </p>
+        <p>Propriétés :</p>
+        <p />
+        <p>
+            <b>Children</b> [] (actuellement non utilisé).
+        </p>
+        <p>
+            <b
+      >Color</b> Couleur de la ligne : triplet RGB, [0, 0, 0] ou code couleur hexadécimal.
+        </p>
+        <p>
+            <b
+      >DisplayName</b> Étiquette de légende : vecteur de caractères ou chaîne scalaire, '' (par défaut).
+        </p>
+        <p>
+            <b
+      >LineStyle</b> Style de ligne : '--', ':', '-.', 'none' ou '-' (par défaut).
+        </p>
+        <p>
+            <b>LineWidth</b> Largeur de ligne : valeur scalaire positive.
+        </p>
+        <p>
+            <b
+      >Marker</b> Symbole de marqueur : 'o' (cercle), '+' (plus), '*' (astérisque), '.' (point),
+            'x' (croix), '_' (ligne horizontale), '|' (ligne verticale), 'square', 'diamond', '^'
+            (triangle vers le haut), 'v' (triangle vers le bas), '&gt;' (triangle vers la droite), '&lt;' (triangle vers la gauche), 'pentagram', 'hexagram', 'none' (par défaut).
+        </p>
+        <p>
+            <b>MarkerEdgeColor</b> Couleur du contour du marqueur : triplet RGB.
+        </p>
+        <p>
+            <b
+      >MarkerFaceColor</b> Couleur de remplissage du marqueur : triplet RGB.
+        </p>
+        <p>
+            <b>MarkerSize</b> Taille du marqueur : valeur scalaire positive.
+        </p>
+        <p>
+            <b>Parent</b> Parent : objet axes graphique.
+        </p>
+        <p>
+            <b
+      >Tag</b> Identifiant de l'objet : chaîne scalaire, vecteur de caractères, '' (par défaut).
+        </p>
+        <p>
+            <b>Type</b> Type d'objet graphique : 'line'
+        </p>
+        <p>
+            <b>UserData</b> Données utilisateur : tableau, [] (par défaut).
+        </p>
+        <p>
+            <b>Visible</b> État de visibilité : 'off' ou 'on' (par défaut).
+        </p>
+        <p>
+            <b>XData</b> valeurs x : vecteur, [0 1] (par défaut).
+        </p>
+        <p>
+            <b>YData</b> valeurs y : vecteur, [0 1] (par défaut).
+        </p>
+        <p>
+            <b>ZData</b> valeurs z : vecteur, [] (par défaut).
+        </p>
+        <p>
+            <b
+      >CreateFcn</b> Callback (fonction, chaîne ou cellule) appelée lors de la création de l'objet. Définir cette propriété sur un composant existant n'a aucun effet.
+        </p>
+        <p>
+            <b
+      >DeleteFcn</b> Callback (fonction, chaîne ou cellule) appelée lors de la suppression de l'objet.
+        </p>
+        <p />
+        <p>
+            <b>BeingDeleted</b> Indique que l'objet est en cours de suppression.
+        </p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+x = linspace(0,10)';
+y1 = sin(x);
+y2 = cos(x);
+line(x, y1, 'Color', [0 1 0])
+line(x, y2, 'Color', [1 0 0])
+]]></example_item_data>
+            <example_item_img
+        src="../../images/line_xy.svg"
+        align="middle"
+        generate="true"
+      />
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+x = [1 9];
+y = [2 12];
+line(x,y,'Color','red','LineStyle','--')]]></example_item_data>
+            <example_item_img
+        src="../../images/line_linestyle.svg"
+        align="middle"
+        generate="true"
+      />
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+t = linspace(0,10*pi,400);
+x = sin(t);
+y = cos(t);
+z = t;
+line(x,y,z)
+view(3)]]></example_item_data>
+            <example_item_img
+        src="../../images/line_xyz.svg"
+        align="middle"
+        generate="true"
+      />
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${graphics}plot">plot</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${graphics}plot3">plot3</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+        <history_item>
+            <history_version>1.7.0</history_version>
+            <history_description
+      >Ajout des callbacks CreateFcn, DeleteFcn.</history_description>
+        </history_item>
+        <history_item>
+            <history_version>--</history_version>
+            <history_description
+      >Ajout de la propriété BeingDeleted.</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

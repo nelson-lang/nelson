@@ -70,6 +70,7 @@
                             <example_item_type>nelson</example_item_type>
                             <example_item_description />
                             <example_item_data
+        runnable="cli"
       ><![CDATA[str = ["x","y","z"; "a","b","c"];
 delimiters = [" + "," = "; " - "," = "];
 R = join(str, delimiters)]]></example_item_data>

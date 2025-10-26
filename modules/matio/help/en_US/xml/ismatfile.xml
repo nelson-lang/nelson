@@ -42,6 +42,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = ones(3, 4);
 savemat([tempdir(), 'example_loadmat-v7.3.mat'], 'A', '-v7.3')
 savemat([tempdir(), 'example_loadmat-v7.mat'], 'A', '-v7')

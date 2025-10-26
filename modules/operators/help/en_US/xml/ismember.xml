@@ -37,6 +37,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = [50 30 40 20];
 B = [20 40 40 40 60 80];
 T = ismember(A, B)

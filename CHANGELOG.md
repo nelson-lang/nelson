@@ -9,30 +9,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `sprand`: Function for generating sparse matrices with uniformly distributed random values.
-- `sprandn`: Function for generating sparse matrices with normally distributed random values.
-- `randi`: Function for generating uniformly distributed random integers.
 - Enhanced random number generation engine with new algorithms: `simdTwister`, `combRecursive`, `philox`, and `threefry`.
 
-- `imresize`: Added a function to resize images by scale or to a specified output size, supporting both upscaling and downscaling for flexible image processing workflows.
+- `randi`: Generate uniformly distributed random integers.
 
-- Variable Editor: Major redesign, now accessible via `openvar` or the GUI. Supports structured variables, tables, arrays, and nested data. Features a dynamic table view, real-time updates from the execution context, and improved performance for large datasets. Copy-paste compatibility with Excel, LibreOffice, and OpenOffice in both directions.
+- New functions for sparse matrix generation:
 
-- Continuation prompt: Introduced context-aware continuation prompts to enhance interactive command workflows.
+  - `sprand`: Generate sparse matrices with uniformly distributed random values.
+  - `sprandn`: Generate sparse matrices with normally distributed random values.
 
 - Search Text in Console and Text Editor.
 
 - Type support: Expanded support for missing types, increasing compatibility across functions and data structures.
 
-- `missing` function: Added to create missing values for arrays and tables, improving data handling and interoperability.
+- `imresize`: Resize images by scale or to a specified output size, supporting both upscaling and downscaling.
 
-- `renameStructField`: New function to rename fields in structures, simplifying data manipulation and refactoring.
+- Variable Editor: Redesigned for improved usability and performance. Accessible via `openvar` or the GUI, it supports structured variables, tables, arrays, and nested data. Features include:
 
-- `jsondecode(filename, '-file')`: Added '-file' argument to allow direct reading and decoding of JSON files from disk.
+  - Dynamic table view.
+  - Real-time updates from the execution context.
+  - Enhanced performance for large datasets.
+  - Copy-paste compatibility with Excel, LibreOffice, and OpenOffice.
 
-- `tdigest`: Introduced t-digest algorithm data structure for accurate quantile estimation with configurable compression parameters.
+- Continuation prompt: Context-aware prompts to enhance interactive command workflows.
+
+- Expanded type support for missing types, increasing compatibility across functions and data structures.
+
+- `missing` function: Create missing values for arrays and tables, improving data handling and interoperability.
+
+- `renameStructField`: Rename fields in structures, simplifying data manipulation and refactoring.
+
+- `jsondecode(filename, '-file')`: Added `-file` argument for direct reading and decoding of JSON files from disk.
+
+- `tdigest`: Introduced t-digest algorithm for accurate quantile estimation with configurable compression parameters.
+
+- `crc32` builtin: Compute CRC32 checksum of a file or string.
+
+- `markdown`: Added option to select output format (`secure` or `advanced`).
 
 - `fwrite`: return also bytes count as second output argument.
+
+- `help`: Help for functions in Command Window.
 
 - macOS Tahoe 26: CI setup and platform support.
 
@@ -40,9 +57,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- `jsondecode`: Significantly improved performance by integrating [simdjson](https://simdjson.org/), enabling faster and more efficient JSON parsing.
+- Help framework reworked for improved performance and usability:
 
-- `fileread`: Enhanced performance for reading large files, reducing memory usage and increasing speed for file operations.
+  - Multithreaded builds for faster performance.
+  - Enhanced search capabilities with extended functionality.
+  - Improved maintainability using Extensible Stylesheet Language Transformations (XSLT).
+  - Unified stylesheet for consistent appearance online and offline.
+  - Removed internal usage of Qt help support.
+  - Dark theme.
+  - Added French language support for Help.
+  - Introduced support for LaTeX formulas.
+  - Replaced `http://` links with `https://` for secure connections.
+  - Removed the `help_browser` module.
+
+- `jsondecode`: Integrated [simdjson](https://simdjson.org/) for significantly improved performance and efficiency.
+
+- `fileread`: Enhanced performance for reading large files, reducing memory usage and increasing speed.
 
 - `fwrite`: returns the number of characters written for character data.
 
@@ -50,25 +80,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Browser variable: Refactored for improved usability, reliability, and consistency in variable inspection.
 
-- Third-party libraries on Windows: Updated support for HDF5, zlib, and matio, improving compatibility and stability for Windows users.
+- Third-party libraries on Windows: Updated support for HDF5, zlib, and matio, improving compatibility and stability.
 
 - Qt: Upgraded to version 6.9.1 on Windows x64, providing better UI performance and compatibility with modern systems.
 
-- Benchmarks: `bench_jsonencode.json` updated to include larger datasets for more robust and realistic performance testing.
+- Benchmarks: Updated `bench_jsonencode.json` to include larger datasets for more robust performance testing.
 
-- Improved `xmldocchecker` with XSD schema validation for XML files.
+- `xmldocchecker`: Improved with XSD schema validation for XML files.
 
-- [#1458](http://github.com/nelson-lang/nelson/issues/1458): Eigen 5.0.0 used if detected.
+- [#1458](https://github.com/nelson-lang/nelson/issues/1458): Added support for Eigen 5.0.0 if detected.
 
-- GitHub CI MacOS Ventura removed and replaced by MacOS 15 intel ([#1457](http://github.com/nelson-lang/nelson/issues/1457))
+- GitHub CI: Replaced MacOS Ventura with MacOS 15 Intel ([#1457](https://github.com/nelson-lang/nelson/issues/1457)).
+
+- Markdown renderer: Switched to the cmark library.
+
+- External packages:
+
+  - Installing a Nelson external package now switches to local embedded help.
+  - External packages must be rebuilt with this version to use the new help format.
 
 - Removed several dependencies on Boost to reduce build complexity and improve portability.
 
 ### Fixed
 
-- `ans` variable: Fixed issue to ensure 'ans' is only created for expressions, preventing unintended variable creation in the workspace.
+- `ans` variable: Ensured `ans` is only created for expressions, preventing unintended variable creation in the workspace.
 
-- `jsondecode`: Corrected parsing of arrays containing empty arrays, improving reliability and correctness of JSON decoding.
+- `jsondecode`: Corrected parsing of arrays containing empty arrays, improving reliability and correctness.
 
 - Julia engine works also with Julia 1.12.0
 
@@ -110,7 +147,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Colormap handling updated to use the new `DefaultFigureColormap` root property.
 - Improved error message when parsing invalid anonymous functions.
 - Boost:
-  - Now supports Boost 1.88 ([#1378](http://github.com/nelson-lang/nelson/issues/1378)).
+  - Now supports Boost 1.88 ([#1378](https://github.com/nelson-lang/nelson/issues/1378)).
   - Minimum required version set to 1.71.
 - Updated dependencies and platform support:
   - Qt 6.9.0 on Windows x64.
@@ -119,7 +156,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- [#1413](http://github.com/nelson-lang/nelson/issues/1413): `axes` function did not properly manage figure objects.
+- [#1413](https://github.com/nelson-lang/nelson/issues/1413): `axes` function did not properly manage figure objects.
 
 ### Technical Improvements
 
@@ -218,18 +255,18 @@ This release introduces performance improvements and new graphical capabilities 
 ### Changed
 
 - Completion .m files allows execution without extension.
-- [#1342](http://github.com/nelson-lang/nelson/issues/1342) Github CI - Ubuntu-20.04 hosted runner image removed.
+- [#1342](https://github.com/nelson-lang/nelson/issues/1342) Github CI - Ubuntu-20.04 hosted runner image removed.
 
 ### Fixed
 
-- [#1346](http://github.com/nelson-lang/nelson/issues/1346) [display] integer in cell are displayed as double and not as integer.
+- [#1346](https://github.com/nelson-lang/nelson/issues/1346) [display] integer in cell are displayed as double and not as integer.
 
 ## 1.11.0 (2025-01-11)
 
 ### Added
 
-- [#1321](http://github.com/nelson-lang/nelson/issues/1321) `mustBeSparse` validator function.
-- [#1322](http://github.com/nelson-lang/nelson/issues/1322) `cmdsep`: Command separator for current operating system.
+- [#1321](https://github.com/nelson-lang/nelson/issues/1321) `mustBeSparse` validator function.
+- [#1322](https://github.com/nelson-lang/nelson/issues/1322) `cmdsep`: Command separator for current operating system.
 - `urlencode`: Replace special characters in URLs with escape characters.
 - `docroot`: Utility to retrieve or define the root directory of Nelson Help.
 - `ismodule`: second input argument `isprotected` added.
@@ -249,7 +286,7 @@ This release introduces performance improvements and new graphical capabilities 
 
 ### Fixed
 
-- [#1324](http://github.com/nelson-lang/nelson/issues/1324) Cell display could not be interrupted.
+- [#1324](https://github.com/nelson-lang/nelson/issues/1324) Cell display could not be interrupted.
 
 ## 1.10.0 (2024-12-14)
 
@@ -266,10 +303,10 @@ This release introduces performance improvements and new graphical capabilities 
 - `csvwrite`: Write comma-separated value (CSV) file.
 - `dlmread`: Read ASCII-delimited file of numeric data into matrix.
 - `realmin`: Smallest normalized floating-point number.
-- [#1288](http://github.com/nelson-lang/nelson/issues/1288) `mustBeMatrix`, `mustBeRow`, `mustBeColumn` validator functions.
+- [#1288](https://github.com/nelson-lang/nelson/issues/1288) `mustBeMatrix`, `mustBeRow`, `mustBeColumn` validator functions.
 - `join`: Combine strings.
-- [#1292](http://github.com/nelson-lang/nelson/issues/1292) Large Table Display.
-- [#1290](http://github.com/nelson-lang/nelson/issues/1290) `VariableTypes` property for table: Specify the data types of table in Nelson.
+- [#1292](https://github.com/nelson-lang/nelson/issues/1292) Large Table Display.
+- [#1290](https://github.com/nelson-lang/nelson/issues/1290) `VariableTypes` property for table: Specify the data types of table in Nelson.
 - `hour`, `minute`, `second` component of input date and time.
 
 ### Changed
@@ -284,9 +321,9 @@ This release introduces performance improvements and new graphical capabilities 
 
 ### Fixed
 
-- [#1303](http://github.com/nelson-lang/nelson/issues/1303) `datevec` result must be normalized.
-- [#1297](http://github.com/nelson-lang/nelson/issues/1297) some features have no help files.
-- [#1276](http://github.com/nelson-lang/nelson/issues/1276) micromamba macos build.
+- [#1303](https://github.com/nelson-lang/nelson/issues/1303) `datevec` result must be normalized.
+- [#1297](https://github.com/nelson-lang/nelson/issues/1297) some features have no help files.
+- [#1276](https://github.com/nelson-lang/nelson/issues/1276) micromamba macos build.
 
 ## 1.9.0 (2024-10-26)
 
@@ -307,12 +344,12 @@ This release introduces performance improvements and new graphical capabilities 
     `ne`, `lt`, `rdivide`, `rem`, `power`, `pow2`, `or`, `mod`, `ldivide`.
 
 - `end` magic keyword can be overloaded for classes (applied to `table` class).
-- [#1250](http://github.com/nelson-lang/nelson/issues/1250) `head`, `tail` functions for table and array.
-- [#1248](http://github.com/nelson-lang/nelson/issues/1248) `removevars`, `renamevars` functions for table.
+- [#1250](https://github.com/nelson-lang/nelson/issues/1250) `head`, `tail` functions for table and array.
+- [#1248](https://github.com/nelson-lang/nelson/issues/1248) `removevars`, `renamevars` functions for table.
 
 ### Changed
 
-- [#1259](http://github.com/nelson-lang/nelson/issues/1259) Add macOS Sequoia and remove macOS Monterey CI support.
+- [#1259](https://github.com/nelson-lang/nelson/issues/1259) Add macOS Sequoia and remove macOS Monterey CI support.
 - Qt 6.8 LTS support (used on Windows 64 bits binary).
 - Python 3.13.0 on Windows.
 - Boost 1.86 on Windows.
@@ -350,8 +387,8 @@ This release introduces performance improvements and new graphical capabilities 
     - `istable`: Check if a variable is of the `table` data type
 
 - `Resize` - Resize figure property.
-- [#36](http://github.com/nelson-lang/nelson/issues/36) `datenum` format compatibility extended.
-- [#37](http://github.com/nelson-lang/nelson/issues/37) `datestr` Convert date and time to string format.
+- [#36](https://github.com/nelson-lang/nelson/issues/36) `datenum` format compatibility extended.
+- [#37](https://github.com/nelson-lang/nelson/issues/37) `datestr` Convert date and time to string format.
 
 ### Changed
 
@@ -429,12 +466,12 @@ This release introduces performance improvements and new graphical capabilities 
 
 ### Fixed
 
-- [#1210](http://github.com/nelson-lang/nelson/issues/1210) `bode` did not unwrap phase.
-- [#1206](http://github.com/nelson-lang/nelson/issues/1206) `balance` yields wrong Transformation Matrix.
-- [#1205](http://github.com/nelson-lang/nelson/issues/1205) `diag` may return wrong sub-diagonals.
-- [#1202](http://github.com/nelson-lang/nelson/issues/1202) buildhelpmd does not generate SUMMARY as expected.
-- [#1201](http://github.com/nelson-lang/nelson/issues/1201) Matrix Exponential `expm` might give wrong results.
-- [#1200](http://github.com/nelson-lang/nelson/issues/1200) Matrix Parsing/Evaluation trouble.
+- [#1210](https://github.com/nelson-lang/nelson/issues/1210) `bode` did not unwrap phase.
+- [#1206](https://github.com/nelson-lang/nelson/issues/1206) `balance` yields wrong Transformation Matrix.
+- [#1205](https://github.com/nelson-lang/nelson/issues/1205) `diag` may return wrong sub-diagonals.
+- [#1202](https://github.com/nelson-lang/nelson/issues/1202) buildhelpmd does not generate SUMMARY as expected.
+- [#1201](https://github.com/nelson-lang/nelson/issues/1201) Matrix Exponential `expm` might give wrong results.
+- [#1200](https://github.com/nelson-lang/nelson/issues/1200) Matrix Parsing/Evaluation trouble.
 
 ## 1.5.0 (2024-05-31)
 
@@ -463,7 +500,7 @@ This release introduces performance improvements and new graphical capabilities 
 
 - Python interface (part 3):
 
-  - [#1160](http://github.com/nelson-lang/nelson/issues/1160) Python operators in Nelson.
+  - [#1160](https://github.com/nelson-lang/nelson/issues/1160) Python operators in Nelson.
   - `keyHash`, `keyMatch` for python objects.
   - `isa` builtin support python types.
   - python dictionary to Nelson dictionary `dictionary(pyDict)`
@@ -476,7 +513,7 @@ This release introduces performance improvements and new graphical capabilities 
 
 ### Fixed
 
-- [#1195](http://github.com/nelson-lang/nelson/issues/1195) `strcmp({'a'},["a"])` did not return expected value.
+- [#1195](https://github.com/nelson-lang/nelson/issues/1195) `strcmp({'a'},["a"])` did not return expected value.
 
 ## 1.4.0 (2024-04-27)
 
@@ -484,8 +521,8 @@ This release introduces performance improvements and new graphical capabilities 
 
 - Python interface (part 2):
 
-  - [#1168](http://github.com/nelson-lang/nelson/issues/1168) Run Python script file from Nelson.
-  - [#1141](http://github.com/nelson-lang/nelson/issues/1141) Help about Managing Data between Python and Nelson.
+  - [#1168](https://github.com/nelson-lang/nelson/issues/1168) Run Python script file from Nelson.
+  - [#1141](https://github.com/nelson-lang/nelson/issues/1141) Help about Managing Data between Python and Nelson.
   - [#1149](https://github.com/nelson-lang/nelson/issues/1149) python bytes, and bytearray types were not managed.
   - [#1163](https://github.com/nelson-lang/nelson/issues/1163) pyenv searchs python by version on Windows.
   - [#1164](https://github.com/nelson-lang/nelson/issues/1164) Embed python distribution on Windows.
@@ -501,24 +538,24 @@ This release introduces performance improvements and new graphical capabilities 
 ### Changed
 
 - Allow to call method of a variable of CLASS/HANDLE type like a function (currently, only plugged for python subtype).
-- [#1142](http://github.com/nelson-lang/nelson/issues/1142) Github Actions updated.
-- [#1157](http://github.com/nelson-lang/nelson/issues/1157) Qt 6.7 support (used on Windows 64 bits binary).
+- [#1142](https://github.com/nelson-lang/nelson/issues/1142) Github Actions updated.
+- [#1157](https://github.com/nelson-lang/nelson/issues/1157) Qt 6.7 support (used on Windows 64 bits binary).
 - `copyfile`, `isfile`, `isdir`, `mkdir` allow string array type as input.
 - warning about 'Matrix is singular to working precision' for inv matrix.
 - tests webtools skipped if connection fails or not available.
 
 ### Fixed
 
-- [#1144](http://github.com/nelson-lang/nelson/issues/1144) test_run markdown help file had a typo.
-- [#1143](http://github.com/nelson-lang/nelson/issues/1143) Linux Snapcraft version did not allow to use python.
-- [#1148](http://github.com/nelson-lang/nelson/issues/1148) pyrun('print(A)','A','A',string(NaN)) did not return expected value.
+- [#1144](https://github.com/nelson-lang/nelson/issues/1144) test_run markdown help file had a typo.
+- [#1143](https://github.com/nelson-lang/nelson/issues/1143) Linux Snapcraft version did not allow to use python.
+- [#1148](https://github.com/nelson-lang/nelson/issues/1148) pyrun('print(A)','A','A',string(NaN)) did not return expected value.
 - `single(int64([1 2; 3 4]))` returned a wrong value.
 - `py.tuple`, `py.list` compatibility increased.
 - `pyenv` did not manage python's path with space on Windows.
 - Matio 1.5.27 compatibility on ArchLinux.
 - Ubuntu 24.04 LTS support.
-- [#1178](http://github.com/nelson-lang/nelson/issues/1178) Fedora 40 support (CI).
-- [#1134](http://github.com/nelson-lang/nelson/issues/1134) [CI] MacOS X Ventura restored.
+- [#1178](https://github.com/nelson-lang/nelson/issues/1178) Fedora 40 support (CI).
+- [#1134](https://github.com/nelson-lang/nelson/issues/1134) [CI] MacOS X Ventura restored.
 
 ## 1.3.0 (2024-03-30)
 
@@ -539,25 +576,25 @@ This release introduces performance improvements and new graphical capabilities 
 - `deconv` Deconvolution and polynomial division.
 - `vecnorm` Vector-wise norm.
 - `normpdf` Normal probability density function.
-- [#310](http://github.com/nelson-lang/nelson/issues/310) `gammaln` Logarithm of gamma function.
-- [#1112](http://github.com/nelson-lang/nelson/issues/1112) `gradient` Numerical gradient.
-- [#1126](http://github.com/nelson-lang/nelson/issues/1126) `isspace` Determine which characters are space characters.
+- [#310](https://github.com/nelson-lang/nelson/issues/310) `gammaln` Logarithm of gamma function.
+- [#1112](https://github.com/nelson-lang/nelson/issues/1112) `gradient` Numerical gradient.
+- [#1126](https://github.com/nelson-lang/nelson/issues/1126) `isspace` Determine which characters are space characters.
 
 ### Changed
 
-- [#1110](http://github.com/nelson-lang/nelson/issues/1110) Eigen master branch (352ede96e4c331daae4e1be9a5f3f50fff951b8d) ready to use.
-- [#1134](http://github.com/nelson-lang/nelson/issues/1134) [CI] MacOS X Ventura disabled (Install dependencies fails)
+- [#1110](https://github.com/nelson-lang/nelson/issues/1110) Eigen master branch (352ede96e4c331daae4e1be9a5f3f50fff951b8d) ready to use.
+- [#1134](https://github.com/nelson-lang/nelson/issues/1134) [CI] MacOS X Ventura disabled (Install dependencies fails)
 - `struct` supports scalar string array as field name.
 
 ### Fixed
 
-- [#1110](http://github.com/nelson-lang/nelson/issues/1110) add help about build and use C/C++ on fly.
-- [#1124](http://github.com/nelson-lang/nelson/issues/1124) unexpected result from long statements on Multiple Lines.
-- [#1127](http://github.com/nelson-lang/nelson/issues/1127) Nelson could crash if an mxn characters is displayed in the variable browser.
-- [#1125](http://github.com/nelson-lang/nelson/issues/1125) Unsupported colon operator with char operands.
+- [#1110](https://github.com/nelson-lang/nelson/issues/1110) add help about build and use C/C++ on fly.
+- [#1124](https://github.com/nelson-lang/nelson/issues/1124) unexpected result from long statements on Multiple Lines.
+- [#1127](https://github.com/nelson-lang/nelson/issues/1127) Nelson could crash if an mxn characters is displayed in the variable browser.
+- [#1125](https://github.com/nelson-lang/nelson/issues/1125) Unsupported colon operator with char operands.
 - Missing 'zoom in', 'zoom out' icons for help viewer in linux package.
 - `gcd` without argument returned wrong error message.
-- [#1133](http://github.com/nelson-lang/nelson/issues/1133) [CI] [ARCH LINUX] Warning about MPI.
+- [#1133](https://github.com/nelson-lang/nelson/issues/1133) [CI] [ARCH LINUX] Warning about MPI.
 
 ## 1.2.0 (2024-02-25)
 
@@ -604,9 +641,9 @@ This release introduces performance improvements and new graphical capabilities 
 ### Added
 
 - Nelson Desktop environment: file browser, command history, workspace browser, desktop layout.
-- [#1074](http://github.com/nelson-lang/nelson/issues/1074) Roadmap v2.0.0
-- [#1044](http://github.com/nelson-lang/nelson/issues/1044): LU matrix factorization.
-- [#1080](http://github.com/nelson-lang/nelson/issues/1080) `LineStyle`, `LineWidth` properties were not implemented for surface objects.
+- [#1074](https://github.com/nelson-lang/nelson/issues/1074) Roadmap v2.0.0
+- [#1044](https://github.com/nelson-lang/nelson/issues/1044): LU matrix factorization.
+- [#1080](https://github.com/nelson-lang/nelson/issues/1080) `LineStyle`, `LineWidth` properties were not implemented for surface objects.
 - `sky`, `abyss` colormaps.
 
 ## 1.0.0 (2024-01-04)

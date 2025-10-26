@@ -52,6 +52,7 @@
                 <example_item_description
       >Send message to Slack</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[[Y, M, D, H, MN, S] = datevec(now);
 datetime = sprintf('%d/%d/%d %d:%d:%d', Y, M, D, H, MN, S);
 % hide url to slack
@@ -65,6 +66,7 @@ R = webwrite(url, data);
                 <example_item_description
       >Connect to your NetAtmo Weather station (oAuth2 connection)</example_item_description>
                 <example_item_data
+        runnable="false"
       ><![CDATA[
 USER_NAME = 'your username';
 PASSWORD = 'your password';

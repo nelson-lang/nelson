@@ -14,165 +14,87 @@
 #include "Markdown.hpp"
 #include "characters_encoding.hpp"
 #include <cstdio>
-//=============================================================================
-extern "C"
-{
-#include "document.h"
-#include "html.h"
-}
-//=============================================================================
-#define DEF_IUNIT 1024
-#define DEF_OUNIT 64
-#define DEF_MAX_NESTING 16
-//=============================================================================
-enum renderer_type
-{
-    RENDERER_HTML,
-    RENDERER_HTML_TOC
-};
-//=============================================================================
-struct option_data
-{
-    int done;
-
-    /* time reporting */
-    int show_time;
-
-    /* I/O */
-    size_t iunit;
-    size_t ounit;
-    const char* filename;
-
-    /* renderer */
-    enum renderer_type renderer;
-    int toc_level;
-    hoedown_html_flags html_flags;
-
-    /* parsing */
-    hoedown_extensions extensions;
-    size_t max_nesting;
-};
+#include <cmark.h>
+#include <fstream>
 //=============================================================================
 bool
-Nelson::MarkdownFile(
-    const std::wstring& inputMarkdownFilename, const std::wstring& outputHtmlFilename)
+Nelson::MarkdownFile(const std::wstring& inputMarkdownFilename,
+    const std::wstring& outputHtmlFilename, MarkdownMode mode)
 {
-    hoedown_buffer *ib, *ob;
-    hoedown_renderer* renderer = nullptr;
-    void (*renderer_free)(hoedown_renderer*) = nullptr;
-    hoedown_document* document;
-    struct option_data data;
-    data.done = 0;
-    data.show_time = 0;
-    data.iunit = DEF_IUNIT;
-    data.ounit = DEF_OUNIT;
-    data.filename = nullptr;
-    data.renderer = RENDERER_HTML;
-    data.toc_level = 0;
-    data.html_flags = HOEDOWN_HTML_USE_XHTML;
-    data.extensions
-        = (hoedown_extensions)(HOEDOWN_EXT_MATH | HOEDOWN_EXT_TABLES | HOEDOWN_EXT_FENCED_CODE);
-    data.max_nesting = DEF_MAX_NESTING;
-#ifdef _MSCVER
-    FILE* file = _wfopen(inputMarkdownFilename.c_str(), L"r");
+    std::ifstream infile;
+#if _MSC_VER
+    infile.open(inputMarkdownFilename, std::ios::in | std::ios::binary);
 #else
-    FILE* file = fopen(wstring_to_utf8(inputMarkdownFilename).c_str(), "r");
+    infile.open(wstring_to_utf8(inputMarkdownFilename), std::ios::in | std::ios::binary);
 #endif
-    if (file == nullptr) {
+    if (!infile.is_open()) {
         return false;
     }
-    ib = hoedown_buffer_new(data.iunit);
-    if (hoedown_buffer_putf(ib, file)) {
+    std::string markdownContent(
+        (std::istreambuf_iterator<char>(infile)), std::istreambuf_iterator<char>());
+    infile.close();
+    std::string outputHtmlString;
+    if (!MarkdownString(markdownContent, outputHtmlString, mode)) {
         return false;
     }
-    fclose(file);
-    switch (data.renderer) {
-    case RENDERER_HTML:
-        renderer = hoedown_html_renderer_new(data.html_flags, data.toc_level);
-        renderer_free = hoedown_html_renderer_free;
-        break;
-    case RENDERER_HTML_TOC:
-        renderer = hoedown_html_toc_renderer_new(data.toc_level);
-        renderer_free = hoedown_html_renderer_free;
-        break;
-    };
-    ob = hoedown_buffer_new(data.ounit);
-    document = hoedown_document_new(renderer, data.extensions, data.max_nesting);
-    hoedown_document_render(document, ob, ib->data, ib->size);
-    hoedown_buffer_free(ib);
-    hoedown_document_free(document);
-    renderer_free(renderer);
-#ifdef _MSCVER
-    file = _wfopen(outputHtmlFilename.c_str(), L"wt");
+
+    std::ofstream outfile;
+#if _MSC_VER
+    outfile.open(outputHtmlFilename, std::ios::out | std::ios::binary);
 #else
-    file = fopen(wstring_to_utf8(outputHtmlFilename).c_str(), "wt");
+    outfile.open(wstring_to_utf8(outputHtmlFilename), std::ios::out | std::ios::binary);
 #endif
-    fwrite(ob->data, 1, ob->size, file);
-    hoedown_buffer_free(ob);
-    bool res = ferror(file) ? true : false;
-    fclose(file);
-    if (res) {
+    if (!outfile.is_open()) {
         return false;
     }
+    outfile.write(outputHtmlString.c_str(), outputHtmlString.size());
+    outfile.close();
     return true;
 }
 //=============================================================================
 bool
-Nelson::MarkdownString(const std::string& inputMarkdownString, std::string& outputHtmlString)
+Nelson::MarkdownString(
+    const std::string& inputMarkdownString, std::string& outputHtmlString, MarkdownMode mode)
 {
-    if (inputMarkdownString.empty()) {
-        return true;
+    // Convert input string to UTF-8 C string
+    const char* markdown = inputMarkdownString.c_str();
+
+    int options = CMARK_OPT_SAFE;
+    if (mode == MarkdownMode::ADVANCED) {
+        options = CMARK_OPT_SMART /* curly quotes, en/em dashes, ellipses */
+            | CMARK_OPT_UNSAFE; /* allow raw HTML and unsafe URLs */
     }
-    hoedown_buffer *ib, *ob;
-    hoedown_renderer* renderer = nullptr;
-    void (*renderer_free)(hoedown_renderer*) = nullptr;
-    hoedown_document* document;
-    struct option_data data;
-    data.done = 0;
-    data.show_time = 0;
-    data.iunit = DEF_IUNIT;
-    data.ounit = DEF_OUNIT;
-    data.filename = nullptr;
-    data.renderer = RENDERER_HTML;
-    data.toc_level = 0;
-    data.html_flags = HOEDOWN_HTML_USE_XHTML;
-    data.extensions
-        = (hoedown_extensions)(HOEDOWN_EXT_MATH | HOEDOWN_EXT_TABLES | HOEDOWN_EXT_FENCED_CODE);
-    data.max_nesting = DEF_MAX_NESTING;
-    std::string UTF8 = inputMarkdownString;
-    ib = hoedown_buffer_new(UTF8.size());
-    hoedown_buffer_puts(ib, UTF8.c_str());
-    switch (data.renderer) {
-    case RENDERER_HTML:
-        renderer = hoedown_html_renderer_new(data.html_flags, data.toc_level);
-        renderer_free = hoedown_html_renderer_free;
-        break;
-    case RENDERER_HTML_TOC:
-        renderer = hoedown_html_toc_renderer_new(data.toc_level);
-        renderer_free = hoedown_html_renderer_free;
-        break;
-    };
-    ob = hoedown_buffer_new(data.ounit);
-    document = hoedown_document_new(renderer, data.extensions, data.max_nesting);
-    hoedown_document_render(document, ob, ib->data, ib->size);
-    hoedown_buffer_free(ib);
-    hoedown_document_free(document);
-    renderer_free(renderer);
-    std::string strOut;
-    for (size_t k = 0; k < ob->size; k++) {
-        strOut.push_back(ob->data[k]);
-    }
-    hoedown_buffer_free(ob);
-    outputHtmlString = strOut;
+
+    // Parse the markdown into a cmark node
+    cmark_node* doc = cmark_parse_document(markdown, inputMarkdownString.length(), options);
+    if (!doc)
+        return false;
+
+    // Render the document node as HTML
+    char* html = cmark_render_html(doc, options);
+
+    // Clean up the cmark node
+    cmark_node_free(doc);
+
+    if (!html)
+        return false;
+
+    // Assign the returned HTML to the output parameter
+    outputHtmlString = html;
+
+    // Free the rendered HTML string
+    free(html);
+
     return true;
 }
 //=============================================================================
 bool
-Nelson::MarkdownString(const std::wstring& inputMarkdownString, std::wstring& outputHtmlString)
+Nelson::MarkdownString(
+    const std::wstring& inputMarkdownString, std::wstring& outputHtmlString, MarkdownMode mode)
 {
     std::string UTF8 = wstring_to_utf8(inputMarkdownString);
     std::string strOut = "";
-    bool res = MarkdownString(UTF8, strOut);
+    bool res = MarkdownString(UTF8, strOut, mode);
     outputHtmlString = utf8_to_wstring(strOut);
     return res;
 }

@@ -126,13 +126,13 @@ Fork of the popular zip manipulation library found in the zlib distribution.
 
 > <https://github.com/nmoinvaz/minizip/blob/master/LICENSE>
 
-- Hoedown
+- Cmark
 
-Standards compliant, fast, secure markdown processing library in C
+`cmark` is the C reference implementation of CommonMark
 
-> <https://github.com/hoedown/hoedown>
+> <https://github.com/commonmark/cmark/>
 
-> <https://github.com/hoedown/hoedown/blob/master/LICENSE>
+> <https://github.com/commonmark/cmark//blob/master/COPYING> (BSD)
 
 - Linenoise
 
@@ -437,3 +437,11 @@ Double precision SIMD-oriented Fast Mersenne Twister
 > <https://github.com/MersenneTwister-Lab/dSFMT>
 
 > <https://github.com/MersenneTwister-Lab/dSFMT/blob/master/LICENSE.txt> (BSD)
+
+- MathJax
+
+Beautiful and accessible math in all browsers
+
+> <https://github.com/mathjax/MathJax>
+
+> <https://github.com/mathjax/MathJax/blob/master/LICENSE> (Apache 2.0)

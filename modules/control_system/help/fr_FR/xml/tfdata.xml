@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>tfdata</keyword>
+    <short_description
+  >Accède aux données d'un modèle en fonction de transfert.</short_description>
+    <syntax>
+        <syntax_item>[numerator, denominator] = tfdata(sys)</syntax_item>
+        <syntax_item>[numerator, denominator, Ts] = tfdata(sys)</syntax_item>
+        <syntax_item>sys = tf(numerator, denominator)</syntax_item>
+        <syntax_item>sys = tf(numerator, denominator, Ts)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>sys</param_name>
+            <param_description>un modèle LTI.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>numerator</param_name>
+            <param_description
+      >coefficients du polynôme : un vecteur ligne ou un tableau de cellules de vecteurs ligne.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>denominator</param_name>
+            <param_description
+      >coefficients du polynôme : un vecteur ligne ou un tableau de cellules de vecteurs ligne.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>Ts</param_name>
+            <param_description
+      >Temps d'échantillonnage Ts, par défaut : en secondes</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>La fonction <b
+      >tfdata(sys)</b> récupère les coefficients du numérateur et du dénominateur ainsi que le temps d'échantillonnage (si présent) du modèle de fonction de transfert.</p>
+    </description>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[numerator = 10;
+denominator = [20, 33, 44];
+sys = tf(numerator, denominator)
+[num, den] = tfdata(sys)]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${control_system}tf">tf</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

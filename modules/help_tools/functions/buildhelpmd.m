@@ -60,7 +60,8 @@ function locales = buildHelpFromPath(destinationdir, module, module_path)
       end
       p = xmldoctomd(src, dstbuild, module);
       if p
-        disp(['help ''', module, ''' (', k{1}, ') generated.']);
+        msg = sprintf(_("help '%s' (%s) generated."), module, k{1});
+        disp(msg);
       else
         disp([module, _(' file was not generated.')]);
       end
@@ -124,8 +125,8 @@ function buildSummary(destinationdir, locales, modules_help_list, is_nelson_help
 end
 %=============================================================================
 function helpForNelsonOnly(destinationdir)
-  src_files = {'homepage.md', 'banner_homepage.png'};
-  dst_files = {'README.md', 'banner_homepage.png'};
+  src_files = {'homepage.md', 'banner_homepage.png','getting_started.md'};
+  dst_files = {'README.md', 'banner_homepage.png','getting_started.md'};
   for k = getavailablelanguages()(:)'
     locale = k{1}(1:2);
     dir_dst = [destinationdir, '/', locale];

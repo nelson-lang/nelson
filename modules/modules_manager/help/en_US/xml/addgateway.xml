@@ -31,6 +31,7 @@
                 <example_item_description
       >Add gateway for string module:</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[addgateway(modulepath('time', 'builtin'))]]></example_item_data>
             </example_item>
         </examples>

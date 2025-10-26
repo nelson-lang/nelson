@@ -58,6 +58,7 @@
                         <example_item_type>nelson</example_item_type>
                         <example_item_description />
                         <example_item_data
+        runnable="cli"
       ><![CDATA[pyrun('a = b * c', 'b', 5, 'c', 10)
 r = pyrun('d = a + c', 'd')]]></example_item_data>
                     </example_item>
@@ -65,12 +66,14 @@ r = pyrun('d = a + c', 'd')]]></example_item_data>
                         <example_item_type>nelson</example_item_type>
                         <example_item_description />
                         <example_item_data
+        runnable="cli"
       ><![CDATA[pyrun(["a = 3","print(a)"])]]></example_item_data>
                     </example_item>
                     <example_item>
                         <example_item_type>nelson</example_item_type>
                         <example_item_description />
                         <example_item_data
+        runnable="cli"
       ><![CDATA[[R1, R2] = pyrun("a=b*c",["a","b"], 'b', 5, 'c', 10)]]></example_item_data>
                     </example_item>
                     <example_item>
@@ -78,6 +81,7 @@ r = pyrun('d = a + c', 'd')]]></example_item_data>
                         <example_item_description
       >Python code object representing a script generated through the built-in compile function in Python</example_item_description>
                         <example_item_data
+        runnable="cli"
       ><![CDATA[PYCODE = pyrun('X = compile(''Y = 3'', ''test'', ''exec'')', 'X')
 y = pyrun(PYCODE, 'Y')]]></example_item_data>
                     </example_item>

@@ -65,6 +65,7 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 x = 1:100;
 y1 = x.^2;
@@ -72,14 +73,16 @@ y2 = x.^3;
 semilogy(x,y1,'--',x,y2)
 legend('x^2','x^3','Location','northwest')]]></example_item_data>
                     <example_item_img
-        src="../images/semilogy_1.svg"
+        src="../../images/semilogy_1.svg"
         align="middle"
+        generate="true"
       />
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 y = [ 0.1    1     10
       0.2    2     20
@@ -90,8 +93,9 @@ y = [ 0.1    1     10
 semilogy(y)
 grid on]]></example_item_data>
                     <example_item_img
-        src="../images/semilogy_2.svg"
+        src="../../images/semilogy_2.svg"
         align="middle"
+        generate="true"
       />
                 </example_item>
             </examples>

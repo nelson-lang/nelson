@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>join</keyword>
+    <short_description>Combine des chaînes.</short_description>
+    <syntax>
+        <syntax_item>res = join(str)</syntax_item>
+        <syntax_item>res = join(str, delimiter)</syntax_item>
+        <syntax_item>res = join(str, dim)</syntax_item>
+        <syntax_item>res = join(str, delimiter, dim)</syntax_item>
+    </syntax>
+    <param_input>
+                <param_input_item>
+                        <param_name>str</param_name>
+                        <param_description
+      >une chaîne, un tableau de chaînes ou une cellule de chaînes.</param_description>
+                </param_input_item>
+                <param_input_item>
+                        <param_name>delimiter</param_name>
+                        <param_description
+      >une chaîne, un tableau de chaînes ou une cellule de chaînes : caractères utilisés pour séparer et joindre les chaînes.</param_description>
+                </param_input_item>
+        <param_input_item>
+            <param_name>dim</param_name>
+            <param_description
+      >positive integer: Dimension along which to join strings.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+                <param_output_item>
+                        <param_name>res</param_name>
+                        <param_description
+      >une chaîne, un tableau de chaînes ou une cellule de chaînes.</param_description>
+                </param_output_item>
+    </param_output>
+    <description>
+        <p>
+        <b>res = join(str)</b> combine les éléments de <b
+      >str</b> en un seul texte en les joignant avec un espace comme délimiteur par défaut.</p>
+        <p>L'entrée, <b
+      >str</b>, peut être un tableau de chaînes ou une cellule de vecteurs de caractères. La sortie, <b
+      >res</b>, a le même type de données que <b>str</b>.</p>
+        <p>Si <b>str</b> est un tableau 1-by-N ou N-by-1, <b
+      >res</b> sera un scalaire de chaîne ou une cellule contenant un seul vecteur de caractères.</p>
+        <p>Si <b>str</b> est un tableau M-by-N, alors <b
+      >res</b> sera un tableau M-by-1.</p>
+        <p
+    >Pour des tableaux de n'importe quelle taille, join concatène les éléments le long de la dernière dimension ayant une taille supérieure à 1.</p>
+        <p>
+            <b>res = join(str, delimiter)</b> joint les éléments de <b
+      >str</b> en utilisant le délimiteur spécifié au lieu de l'espace par défaut.</p>
+            <p>Si delimiter est un tableau de délimiteurs et que <b
+      >str</b> a N éléments le long de la dimension de jointure, delimiter doit avoir N-1 éléments le long de la même dimension. Toutes les autres dimensions de delimiter doivent soit avoir la taille 1, soit correspondre aux dimensions correspondantes de <b
+      >str</b>.</p>
+            <p>
+              <b>res = join(str, dim)</b> combine les éléments de <b
+      >str</b> le long de la dimension spécifiée <b>dim</b>.</p>
+              <p>
+                <b>res = join(str, delimiter, dim)</b> joint les éléments de <b
+      >str</b> le long de la dimension spécifiée <b
+      >dim</b>, en utilisant delimiter pour les séparer.</p>
+                    </description>
+                    <used_function />
+                    <bibliography />
+                    <examples>
+                        <example_item>
+                            <example_item_type>nelson</example_item_type>
+                            <example_item_description />
+                            <example_item_data
+        runnable="cli"
+      ><![CDATA[str = ["x","y","z"; "a","b","c"];
+delimiters = [" + "," = "; " - "," = "];
+R = join(str, delimiters)]]></example_item_data>
+                        </example_item>
+                    </examples>
+                    <see_also>
+                        <see_also_item>
+                            <link linkend="${string}append">append</link>
+                        </see_also_item>
+                        <see_also_item>
+                            <link linkend="${string}strcat">strcat</link>
+                        </see_also_item>
+                    </see_also>
+                    <history>
+                        <history_item>
+                            <history_version>1.10.0</history_version>
+                            <history_description
+      >version initiale</history_description>
+                        </history_item>
+                    </history>
+                    <authors>
+                        <author_item>Allan CORNET</author_item>
+                    </authors>
+                </xmldoc>

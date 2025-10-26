@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>dlmwrite</keyword>
+        <short_description
+  >Écrire une matrice numérique dans un fichier texte en utilisant un délimiteur.</short_description>
+    <syntax>
+        <syntax_item>dlmwrite(filename, M)</syntax_item>
+        <syntax_item>dlmwrite(filename, M, delimiter)</syntax_item>
+        <syntax_item>dlmwrite(filename, M, '-append')</syntax_item>
+        <syntax_item>dlmwrite(filename, M, '-append', delimiter)</syntax_item>
+        <syntax_item>dlmwrite(filename, M, delimiter, r, c)</syntax_item>
+        <syntax_item
+    >dlmwrite(filename, M, '-append', delimiter, r, c)</syntax_item>
+        <syntax_item>dlmwrite(filename, M, delimiter, r, c, eol)</syntax_item>
+        <syntax_item
+    >dlmwrite(filename, M, '-append', delimiter, r, c, eol)</syntax_item>
+        <syntax_item
+    >dlmwrite(filename, M, delimiter, r, c, eol, precision)</syntax_item>
+        <syntax_item
+    >dlmwrite(filename, M, '-append', delimiter, r, c, eol, precision)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>filename</param_name>
+        <param_description
+      >une chaîne : nom de fichier de destination.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>M</param_name>
+            <param_description
+      >une matrice numérique ou logique.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>delimiter</param_name>
+        <param_description
+      >une chaîne : délimiteur ',' , '\t', ';'. par défaut ','</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>r, c</param_name>
+        <param_description
+      >entier : décalage. par défaut : 0, 0</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>eol</param_name>
+            <param_description>a string: 'pc' ou 'unix'.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>precision</param_name>
+        <param_description
+      >un entier ou une chaîne de format C. (par défaut : 5)</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b
+      >dlmwrite</b> écrit une matrice numérique dans un fichier au format ASCII.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [Inf, -Inf, NaN, 3];
+filename = [tempdir(), 'dlmwrite_example.csv'];
+dlmwrite(filename, A);
+R = dlmread(filename)
+A = eye(3, 2);
+dlmwrite(filename, A, ';', 4, 5);
+R = fileread(filename)
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${spreadsheet}dlmread">dlmread</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${stream_manager}fileread">fileread</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

@@ -40,7 +40,7 @@ bool
 CreateIfRequiredExternalModulesPath()
 {
     std::wstring defaultExternalModulesDirectory = getUserDir() + std::wstring(NELSON_PROJECT_NAME)
-        + L"/" + utf8_to_wstring(NELSON_SEMANTIC_VERSION_STRING);
+        + L"/" + utf8_to_wstring(NELSON_SEMANTIC_VERSION_STRING) + L"/modules";
     externalModulesPath
         = GetVariableEnvironment(L"NELSON_EXTERNAL_MODULES_PATH", defaultExternalModulesDirectory);
     FileSystemWrapper::Path modulesPath(externalModulesPath);

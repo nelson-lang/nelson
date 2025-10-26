@@ -186,7 +186,7 @@ EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, const ArrayOfV
         std::string error_message = "";
         switch (error_code) {
         case SIGSEGV: {
-            error_message = fmt::sprintf(_("System error detected: %s"), "SIGSEV");
+            error_message = fmt::sprintf(_("System error detected: %s"), "SIGSEGV");
         } break;
         case SIGFPE: {
             error_message = fmt::sprintf(_("System error detected: %s"), "SIGFPE");
@@ -195,7 +195,8 @@ EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, const ArrayOfV
             error_message = fmt::sprintf(_("System error detected: %s"), "SIGILL");
         } break;
         default: {
-            fmt::sprintf(_("System error detected: Error code: %s"), std::to_string(error_code));
+            error_message = fmt::sprintf(
+                _("System error detected: Error code: %s"), std::to_string(error_code));
         } break;
         }
         signal(SIGSEGV, SIG_DFL);

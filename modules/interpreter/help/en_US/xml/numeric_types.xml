@@ -77,6 +77,7 @@
             <example_item_description
       >explicit single number</example_item_description>
             <example_item_data
+        runnable="cli"
       ><![CDATA[
 single(3.1415)
 3.1415f32
@@ -86,7 +87,9 @@ single(3.1415)
             <example_item_type>nelson</example_item_type>
             <example_item_description
       >implicit-explicit double number</example_item_description>
-            <example_item_data><![CDATA[
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[
 3.1415
 3.1415f64
 ]]></example_item_data>
@@ -96,6 +99,7 @@ single(3.1415)
             <example_item_description
       >values exceed maximum precision representable by double</example_item_description>
             <example_item_data
+        runnable="cli"
       ><![CDATA[
 R1 = uint64([72057594035891654 81997179153022975])
 R2 = [72057594035891654u64 81997179153022975u64]

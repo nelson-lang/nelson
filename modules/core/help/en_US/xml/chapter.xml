@@ -4,6 +4,16 @@
     <language>en_US</language>
     <module_name>core</module_name>
     <chapter>Core</chapter>
-    <chapter_description>core functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Core module provides the fundamental building blocks of the Nelson environment.</p>
+        <p
+    >It includes essential services for program execution, environment management, and system interaction.</p>
+        <p
+    >Through this module, users can evaluate code dynamically, manage execution flow, query program state, and access key system information such as versioning, configuration, and licensing.</p>
+        <p
+    >It also offers basic utilities for file identification, checksums, and terminal capabilities.</p>
+        <p
+    >Together, these features form the foundation upon which all other modules and user-level functionality in Nelson are built.</p>
+    </chapter_description>
 </xmldoc>

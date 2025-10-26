@@ -18,7 +18,6 @@
 #include "characters_encoding.hpp"
 #include "PyObjectHelpers.hpp"
 #include "i18n.hpp"
-#include "PyObjectHelpers.hpp"
 #include "PythonTypesWrapper.hpp"
 #include "PythonEngine.hpp"
 #include "Error.hpp"

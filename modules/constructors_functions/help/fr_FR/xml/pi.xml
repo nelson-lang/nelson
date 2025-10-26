@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>pi</keyword>
+    <short_description
+  >Rapport de la circonférence d'un cercle à son diamètre.</short_description>
+    <syntax>
+        <syntax_item>pi</syntax_item>
+    </syntax>
+    <description>
+        <p>
+            <b
+      >pi</b> retourne le nombre à virgule flottante le plus proche de la valeur de <b
+      >π</b>.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[cos(pi)]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[sin(pi)]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[4*atan(1) == pi]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${trigonometric_functions}cos">cos</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${trigonometric_functions}sin">sin</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${trigonometric_functions}atan">atan</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

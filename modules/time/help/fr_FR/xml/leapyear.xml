@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>leapyear</keyword>
+    <short_description>Déterminer les années bissextiles.</short_description>
+    <syntax>
+        <syntax_item>tf = leapyear(year)</syntax_item>
+    </syntax>
+    <param_input>
+                <param_input_item>
+                        <param_name>year</param_name>
+                        <param_description
+      >année : scalaire ou tableau de valeurs numériques.</param_description>
+                </param_input_item>
+    </param_input>
+    <param_output>
+                <param_output_item>
+                        <param_name>tf</param_name>
+                        <param_description
+      >résultat de la détermination bissextile : scalaire ou tableau de valeurs logiques.</param_description>
+                </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>leapyear</b> determines leap years.</p>
+            <p>Leap years is done by Gregorian calendar rules.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[tf = leapyear([2020 2021 2022])]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${time}datenum">datenum</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

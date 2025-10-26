@@ -65,27 +65,32 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 x = logspace(-1,2);
 semilogx(x, x);
-grid on]]></example_item_data>
+grid on]]>
+</example_item_data>
                     <example_item_img
-        src="../images/semilogx_1.svg"
+        src="../../images/semilogx_1.svg"
         align="middle"
+        generate="true"
       />
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 x = logspace(-1, 2, 15);
 y = 13 + x;
 semilogx(x, y, 'x', 'MarkerFaceColor', [0 0.447 0.741])
 grid on]]></example_item_data>
                     <example_item_img
-        src="../images/semilogx_2.svg"
+        src="../../images/semilogx_2.svg"
         align="middle"
+        generate="true"
       />
                 </example_item>
             </examples>

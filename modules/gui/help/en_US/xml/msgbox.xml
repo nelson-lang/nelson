@@ -54,18 +54,21 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[h = msgbox('help string')]]></example_item_data>
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[h = msgbox('help string', 'dialog title')]]></example_item_data>
                 </example_item>
                 <example_item>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="adv-cli"
       ><![CDATA[h = msgbox('help string', 'dialog title')
 h = msgbox('help string', 'dialog title', 'on')]]></example_item_data>
                 </example_item>

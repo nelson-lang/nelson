@@ -4,7 +4,10 @@
     <language>en_US</language>
     <module_name>qml_engine</module_name>
     <chapter>QML engine</chapter>
-    <chapter_description
-  >The QML engine enables nelson programs to display and manipulate graphical content using Qt's QML framework.</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The QML Engine module allows Nelson programs to display, manipulate, and interact with graphical content using Qt's QML framework.</p>
+        <p
+    >It provides functions to manage QML components, access Qt objects, and integrate JavaScript and QML logic.</p>
+    </chapter_description>
 </xmldoc>

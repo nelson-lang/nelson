@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>randi</keyword>
+    <short_description>Entier aléatoire.</short_description>
+    <syntax>
+        <syntax_item>X = randi(imax)</syntax_item>
+        <syntax_item>X = randi(imax, n)</syntax_item>
+        <syntax_item>X = randi(imax, sz)</syntax_item>
+        <syntax_item>X = randi(imax, ..., typename)</syntax_item>
+        <syntax_item>X = randi(imax, ..., 'like', p)</syntax_item>
+        <syntax_item>X = randi([imin, imax], ...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>imax</param_name>
+        <param_description
+      >Valeur entière maximale (incluse).</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>imin</param_name>
+        <param_description
+      >Valeur entière minimale (incluse).</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>n</param_name>
+            <param_description>Génère une matrice n-par-n.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>sz</param_name>
+        <param_description
+      >Vecteur de taille spécifiant la taille du tableau de sortie.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>typename</param_name>
+        <param_description
+      >Type de données de sortie : "single", "double", "int8", "uint8", "int16", "uint16", "int32", "uint32" ou "logical".</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>p</param_name>
+        <param_description
+      >Tableau dont le type et la complexité sont utilisés pour la sortie.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>X</param_name>
+            <param_description>Tableau d'entiers aléatoires.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+        <b
+      >randi</b> renvoie des entiers aléatoires tirés d'une distribution uniforme discrète.</p>
+        <p
+    >X = randi(imax) renvoie un entier scalaire aléatoire entre 1 et imax.</p>
+        <p
+    >X = randi(imax, n) renvoie une matrice n-par-n d'entiers aléatoires entre 1 et imax.</p>
+        <p
+    >X = randi(imax, sz) renvoie un tableau dont le vecteur de taille sz définit size(X).</p>
+        <p
+    >X = randi(imax, ..., typename) renvoie un tableau d'entiers aléatoires du type typename.</p>
+        <p
+    >X = randi(imax, ..., 'like', p) renvoie un tableau d'entiers aléatoires similaire à p (même type et complexité).</p>
+        <p
+    >X = randi([imin, imax], ...) renvoie des entiers aléatoires entre imin et imax.</p>
+        </description>
+        <used_function />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                                <example_item_data
+        runnable="cli"
+      ><![CDATA[
+X = randi(10)
+]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                                <example_item_data
+        runnable="cli"
+      ><![CDATA[
+X = randi(10, 3, 4)
+]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                                <example_item_data
+        runnable="cli"
+      ><![CDATA[
+X = randi(10, [3 4])
+]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                                <example_item_data
+        runnable="cli"
+      ><![CDATA[
+X = randi(10, 3, 4, 'int32')
+]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                                <example_item_data
+        runnable="cli"
+      ><![CDATA[
+p = single([3 3]);
+X = randi(10, 3, 3, 'like', p)
+]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                                <example_item_data
+        runnable="cli"
+      ><![CDATA[
+X = randi([5, 15], 2, 3)
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${random}rng">rng</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${random}rand">rand</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${random}randn">randn</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${constructors_functions}eye">eye</link>
+            </see_also_item>
+        </see_also>
+        <history>
+                <history_item>
+                <history_version>1.15.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

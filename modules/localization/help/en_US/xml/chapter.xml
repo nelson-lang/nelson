@@ -4,6 +4,12 @@
     <language>en_US</language>
     <module_name>localization</module_name>
     <chapter>Localization functions</chapter>
-    <chapter_description>localization functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+    <p
+    >The Localization module manages language settings and internationalization in Nelson.</p>
+    <p
+    >It provides mechanisms to query available languages, determine the current and default language, and change the interface language dynamically.</p>
+    <p
+    >This module ensures that Nelson can be adapted to different linguistic and regional preferences, supporting a multilingual user experience.</p>
+    </chapter_description>
 </xmldoc>

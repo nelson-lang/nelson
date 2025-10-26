@@ -37,6 +37,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[h = qt_verbose()]]></example_item_data>
             </example_item>
         </examples>

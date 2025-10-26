@@ -37,29 +37,44 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 rng('default');
 S = sparse((rand(1, 10) + 1) * 100, (rand(1, 10) + 1) * 100 , (rand(1, 10) + 1) * 10);
 spy(S);]]></example_item_data>
-                <example_item_img src="../images/spy_1.svg" align="middle" />
+                <example_item_img
+        src="../../images/spy_1.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 rng('default');
 S = sparse((rand(1, 10) + 1) * 100, (rand(1, 10) + 1) * 100 , (rand(1, 10) + 1) * 100);
 spy(S, 45);]]></example_item_data>
-                <example_item_img src="../images/spy_2.svg" align="middle" />
+                <example_item_img
+        src="../../images/spy_2.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
             <example_item>
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="adv-cli"
       ><![CDATA[f = figure();
 spy();]]></example_item_data>
-                <example_item_img src="../images/spy_3.svg" align="middle" />
+                <example_item_img
+        src="../../images/spy_3.svg"
+        align="middle"
+        generate="true"
+      />
             </example_item>
         </examples>
         <see_also>

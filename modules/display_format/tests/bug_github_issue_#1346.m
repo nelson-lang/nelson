@@ -12,6 +12,8 @@
 % <-- Short Description -->
 % [display] integer in cell are displayed as double and not as integer.
 %=============================================================================
+% <--ENGLISH IMPOSED-->
+%=============================================================================
 A = {intmax('uint64'), intmax('uint32')};
 R = evalc('A');
 REF = '

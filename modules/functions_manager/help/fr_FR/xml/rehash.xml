@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>rehash</keyword>
+    <short_description
+  >Réinitialise le cache des répertoires du chemin de recherche de Nelson.</short_description>
+    <syntax>
+        <syntax_item>rehash</syntax_item>
+    </syntax>
+    <description>
+        <p>
+            <b
+      >rehash()</b> réinitialise le cache des répertoires du chemin de recherche de Nelson.</p>
+            <p>Cela se produit chaque fois que Nelson affiche l'invite.</p>
+            <p>Vous devriez utiliser <b
+      >rehash()</b> uniquement lorsque vous exécutez un fichier .m qui met à jour un autre fichier .m</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[rehash()]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${functions_manager}addpath">addpath</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${functions_manager}path">path</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

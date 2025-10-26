@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>poly</keyword>
+        <short_description
+  >Polynôme à partir de racines ou polynôme caractéristique.</short_description>
+    <syntax>
+        <syntax_item>p = poly(r)</syntax_item>
+        <syntax_item>p = poly(A)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>r</param_name>
+            <param_description>vecteur : racines du polynôme</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description>matrice : matrice d'entrée</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>p</param_name>
+            <param_description
+      >vecteur ligne : coefficients du polynôme</param_description>
+        </param_output_item>
+    </param_output>
+        <description>
+                <p>Si <b>A</b> est une matrice carrée, <b
+      >p = poly(A)</b> calcule un vecteur ligne de n+1 éléments correspondant aux coefficients du polynôme caractéristique.</p>
+                <p>Si <b>r</b> est un vecteur, <b
+      >p = poly(r)</b> calcule un vecteur ligne contenant les coefficients du polynôme dont les racines sont les éléments de <b
+      >r</b>.</p>
+        </description>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[
+A = [1    2    3;
+4    5    6;
+7    8    1];
+p = poly(A)]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${data_analysis}conv">conv</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${polynomial_functions}roots">roots</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

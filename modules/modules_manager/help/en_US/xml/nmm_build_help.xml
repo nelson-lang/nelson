@@ -33,6 +33,7 @@
                 <example_item_description
       >See module skeleton for example</example_item_description>
                 <example_item_data
+        runnable="false"
       ><![CDATA[% see builder.m]]></example_item_data>
             </example_item>
         </examples>

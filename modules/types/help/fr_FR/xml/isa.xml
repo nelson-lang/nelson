@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>isa</keyword>
+        <short_description
+  >Renvoie vrai si var est un objet de la classe str.</short_description>
+    <syntax>
+        <syntax_item>res = isa(var, str)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>var</param_name>
+            <param_description>une variable</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>str</param_name>
+            <param_description
+      >une chaîne : nom de la classe attendu</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>res</param_name>
+            <param_description>un logique : vrai ou faux</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+    <p><b
+      >isa</b> renvoie 1 logique (vrai) si l'argument est un tableau de cellules et 0 logique (faux) sinon.</p>
+        <p>str peut aussi être 'numeric', 'float' ou 'integer' :</p>
+        <p
+    >numeric : tableau à virgule flottante ou entier : double, single, int8, uint8, int16, uint16, int32, uint32, int64, uint64</p>
+        <p
+    >float : tableau flottant en simple ou double précision : double, single</p>
+        <p
+    >integer : tableau entier signé ou non signé : int8, uint8, int16, uint16, int32, uint32, int64, uint64</p>
+        <p>Si <b
+      >var</b> est un objet handle, str peut être 'handle' ou le nom de type du handle.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = 3;
+res = isa(A, 'double')]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[B = {'NelSon', 3, true};
+res = isa(B, 'cell')]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[B = {'NelSon', 3, true};
+res = isa(B, 'cell')]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${types}class">class</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${integer}isinteger">isinteger</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${types}isnumeric">isnumeric</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

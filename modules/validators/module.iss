@@ -22,7 +22,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{
 ;==============================================================================
 ;Source: {#RootPath}modules\validators\functions\*.m; DestDir: {app}\modules\validators\functions\;Components: {#COMPONENT_VALIDATORS};
 ;==============================================================================
-Source: {#RootPath}modules\validators\help\*.qch; DestDir: {app}\modules\validators\help\; Flags: recursesubdirs;Components: {#COMPONENT_VALIDATORS} and {#COMPONENT_HELP_FILES} and {#COMPONENT_HELP_BROWSER};
+Source: {#RootPath}modules\validators\help\*.nhz; DestDir: {app}\modules\validators\help\; Flags: recursesubdirs;Components: {#COMPONENT_VALIDATORS} and {#COMPONENT_HELP_FILES};
 ;==============================================================================
 Source: {#RootPath}modules\validators\tests\*.m; DestDir: {app}\modules\validators\tests\; Flags: recursesubdirs;Components: {#COMPONENT_VALIDATORS} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
 ;==============================================================================

@@ -40,6 +40,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[x = eye(3, 2);
 y = rot90(x, 0)      
 y = rot90(x, 1)

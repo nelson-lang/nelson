@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>meshgrid</keyword>
+    <short_description
+  >Cartesian rectangular grid in 2-D or 3-D.</short_description>
+    <syntax>
+        <syntax_item>[X, Y] = meshgrid(x, y)</syntax_item>
+        <syntax_item>[X, Y] = meshgrid(x)</syntax_item>
+        <syntax_item>[X, Y, Z] = meshgrid(x, y, z)</syntax_item>
+        <syntax_item>[X, Y, Z] = meshgrid(x)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>x</param_name>
+            <param_description
+      >x-coordinates of points: vector</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>y</param_name>
+            <param_description
+      >y-coordinates of points: vector</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>z</param_name>
+            <param_description
+      >z-coordinates of points: vector</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>X</param_name>
+            <param_description
+      >x-coordinates over grid: 2-D or 3-D array.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>Y</param_name>
+            <param_description
+      >y-coordinates over grid: 2-D or 3-D array.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>Z</param_name>
+            <param_description
+      >z-coordinates over grid: 3-D array.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >meshgrid</b> creates Cartesian rectangular grid in 2-D or 3-D.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[x = -1:0.4:1;
+y = -1:0.4:1;
+[X, Y] = meshgrid(x, y)
+
+x = 0:2:6;
+y = 0:1:6;
+z = 0:3:6;
+[X,Y,Z] = meshgrid(x, y, z)]]></example_item_data>
+            </example_item>
+        </examples>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

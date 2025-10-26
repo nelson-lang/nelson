@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>private functions</keyword>
+    <short_description>Fonctions privées.</short_description>
+    <description>
+        <p
+    >Les fonctions privées servent un objectif précieux lorsque vous souhaitez restreindre l'accessibilité d'une fonction.</p>
+        <p
+    >Dans de nombreux cas, une seule fonction peut nécessiter l'accès à une ou plusieurs fonctions auxiliaires.</p>
+        <p
+    >lorsqu'une fonction auxiliaire solitaire est utilisée par plusieurs fonctions, il devient nécessaire de déplacer ces fonctions auxiliaires vers un sous-répertoire dédié nommé "private", situé dans le répertoire où se trouvent les fonctions qui nécessitent l'accès à ces fonctions auxiliaires.</p>
+        <p>Pour illustrer ce concept, considérons une fonction, appelons-la <b
+      >function1</b>, qui repose sur une fonction d'aide, <b
+      >function2</b>, pour effectuer une partie substantielle de ses tâches, comme indiqué dans l'exemple ci-dessous.</p>
+        <p>Dans ce scénario, si le chemin vers function1 est <b
+      >directory/function1.m</b> et <b
+      >function2</b> se trouve dans le répertoire <b
+      >directory/private/function2.m</b>, alors <b
+      >function2</b> n'est accessible qu'aux fonctions dans <b
+      >directory</b>, telles que <b>function1</b>.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description
+      >directory/function1.m</example_item_description>
+            <example_item_data
+        runnable="false"
+      ><![CDATA[function y = function1(x)
+  y = function2(x)  +  1;
+end
+]]></example_item_data>
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description
+      >directory/private/function2.m</example_item_description>
+            <example_item_data
+        runnable="false"
+      ><![CDATA[function y = function2(x)
+  y = 41;
+end
+]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${functions_manager}addpath">addpath</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

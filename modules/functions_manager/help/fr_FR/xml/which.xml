@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>which</keyword>
+    <short_description>Localise les fonctions et intégrées.</short_description>
+    <syntax>
+        <syntax_item>which(function_name)</syntax_item>
+        <syntax_item>p = which(function_name)</syntax_item>
+        <syntax_item>c = which(function_name, '-all')</syntax_item>
+        <syntax_item>m = which(function_name, '-module')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>function_name</param_name>
+            <param_description>une chaîne : nom de fonction.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>p</param_name>
+            <param_description
+      >une chaîne : chemin de la fonction ou intégrée</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>c</param_name>
+            <param_description
+      >une cellule de chaînes : chemins de la fonction ou intégrée.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>m</param_name>
+            <param_description
+      >une cellule de chaînes : nom des modules où la fonction ou intégrée est disponible.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >which</b> retourne le chemin d'une fonction ou d'une intégrée.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[which('cos')
+p = which('cos')
+c = which('cos', '-all')
+m = which('cos', '-module')
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${functions_manager}what">what</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

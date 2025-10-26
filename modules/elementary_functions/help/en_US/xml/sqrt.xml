@@ -21,41 +21,47 @@
     </param_output>
     <description>
         <p>
-            <b>sqrt</b> computes the square root.</p>
-            <p>If input argument is a complex number or negative, <b
-      >sqrt(z)</b> computes: sqrt(r) * (cos(phi/2) + sin(phi/2) * i) with</p>
-            <p
-    >r = sqrt((real(z) * real(z)) + (imag(z) * imag(z))) and phi = atan2(imag(z), real(z))</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+            <b>sqrt</b> computes the square root.
+        </p>
+        <p>For real positive numbers:</p>
+        <latex>\sqrt{x}</latex>
+        <p>For complex numbers <b>z = x + iy</b>:</p>
+        <latex>\sqrt{z} = \sqrt{r} e^{i\phi/2}</latex>
+        <p>where</p>
+        <latex>r = |z| = \sqrt{x^2 + y^2}</latex>
+        <p>and</p>
+        <latex>\phi = \arg(z) = \text{atan2}(y, x)</latex>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
       ><![CDATA[x = -3:3;
 r = sqrt(x)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${elementary_functions}log">log</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${elementary_functions}abs">abs</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${elementary_functions}angle">angle</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${elementary_functions}log">log</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${elementary_functions}abs">abs</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${elementary_functions}angle">angle</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>initial version</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

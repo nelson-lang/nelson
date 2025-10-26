@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>convertCharsToStrings</keyword>
+        <short_description
+  >Convertit des tableaux de caractères en tableaux de chaînes.</short_description>
+    <syntax>
+        <syntax_item>S = convertCharsToStrings(C)</syntax_item>
+        <syntax_item
+    >[B1, B2, ..., BN] = convertCharsToStrings(A1, A2, ..., AN)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>C</param_name>
+        <param_description
+      >si C est un tableau de caractères, la sortie S sera convertie en tableau de chaînes.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>A1, A2, ..., AN</param_name>
+        <param_description
+      >variables à convertir en tableau de chaînes si elles sont des tableaux de caractères.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>S</param_name>
+        <param_description
+      >un tableau de chaînes ou la variable inchangée</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>B1, B2, ..., BN</param_name>
+        <param_description
+      >variables converties en tableau de chaînes si elles sont des tableaux de caractères ou des cellules de tableaux de caractères.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >convertCharsToStrings</b> convertit des tableaux de caractères en tableaux de chaînes.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[[A, B, C, D] = convertCharsToStrings("one", 2, 'three', {'four' ; 'NaN' ;'five'})
+R = convertCharsToStrings(['Nelson' ; '  is  '; '  good'])]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link
+        linkend="${string}convertStringsToChars"
+      >convertStringsToChars</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${data_structures}cellstr">cellstr</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${string}string">string</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${string}char">char</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

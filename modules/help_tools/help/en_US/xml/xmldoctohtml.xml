@@ -30,6 +30,11 @@
             <param_description
       >a logical: force overwrite if file destination already exists</param_description>
         </param_input_item>
+        <param_input_item>
+            <param_name>html_type</param_name>
+            <param_description
+      >a string: 'web' default or 'html' (local) </param_description>
+        </param_input_item>
     </param_input>
     <param_output>
         <param_output_item>
@@ -60,6 +65,12 @@
                 <history_version>1.0.0</history_version>
                 <history_description>initial version</history_description>
             </history_item>
+                 <history_item>
+                <history_version>1.15.0</history_version>
+                <history_description
+      >html_type input argument</history_description>
+            </history_item>
+       
         </history>
         <authors>
             <author_item>Allan CORNET</author_item>

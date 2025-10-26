@@ -31,7 +31,7 @@
     <description>
         <p>
             <b
-      >ls</b> is implemented by calling the native operating system's directory listing command—available options will vary from system to system.</p>
+      >ls</b> is implemented by calling the native operating system's directory listing command-available options will vary from system to system.</p>
         </description>
         <used_function />
         <bibliography />
@@ -40,6 +40,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[res = ls(nelsonroot())
 if ~ispc()
   res = ls(nelsonroot(), '-l')

@@ -4,6 +4,12 @@
     <language>en_US</language>
     <module_name>python_engine</module_name>
     <chapter>Python engine</chapter>
-    <chapter_description>python_engine functions</chapter_description>
-    <auto_toc />
+    <chapter_description>
+        <p
+    >The Python Engine module allows Nelson users to seamlessly interface with Python,
+            leveraging Python’s extensive ecosystem alongside Nelson’s native capabilities.</p>
+        <p
+    >It provides functions to run Python code, manage interpreter environments, and exchange
+            data between Nelson and Python.</p>
+    </chapter_description>
 </xmldoc>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>xmlprettyprint</keyword>
+    <short_description>formate un fichier XML.</short_description>
+    <syntax>
+        <syntax_item>xmlprettyprint(xml_file)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>xml_file</param_name>
+            <param_description>un fichier XML valide.</param_description>
+        </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b
+      >xmlprettyprint</b> formate un fichier XML pour qu'il soit lisible par un humain.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <see_also>
+            <see_also_item>
+                <link linkend="${json}jsonprettyprint">jsonprettyprint</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.15.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

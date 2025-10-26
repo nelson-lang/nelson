@@ -3,7 +3,11 @@
     <copyright>SAME AS NELSON SOFTWARE</copyright>
     <language>en_US</language>
     <module_name>tests_manager</module_name>
-    <chapter>Tests manager</chapter>
-    <chapter_description>Tests framework for Nelson</chapter_description>
-    <auto_toc />
+    <chapter>Tests framework for Nelson</chapter>
+    <chapter_description>
+        <p
+    >The Test Manager module in Nelson provides tools for automated testing of code, enabling users to validate functionality, ensure correctness, and manage test cases efficiently.</p>
+        <p
+    >This module supports creating reference outputs, running test suites, and conditionally skipping tests.</p>
+    </chapter_description>
 </xmldoc>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>uint64</keyword>
+    <short_description
+  >Convertit en entier non signé 64 bits.</short_description>
+    <syntax>
+        <syntax_item>Y = uint64(X)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>X</param_name>
+            <param_description
+      >une matrice de double, single ou d'entiers.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>Y</param_name>
+            <param_description
+      >une matrice d'entiers non signés 64 bits.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >uint64</b> convertit la valeur en type entier non signé 64 bits.</p>
+            <p
+    >La valeur est arrondie à la valeur uint64 la plus proche lors de la conversion. Une valeur qui dépasse la plage autorisée pour la classe uint64 est mappée vers l'une des extrémités de la plage [0, 18446744073709551616].</p>
+            <p
+    >Lorsque vous créez un tableau numérique contenant de grands entiers dans Nelson, surtout lorsqu'ils dépassent la précision maximale représentable par double (plus grands que flintmax), Nelson stocke par défaut ces valeurs sous forme de nombres à virgule flottante en double précision.</p>
+            <p
+    >Cette représentation par défaut peut entraîner une perte de précision, car les nombres à virgule flottante ont une précision limitée.</p>
+            <p
+    >Pour conserver la précision complète de ces grandes valeurs entières, il est conseillé de convertir explicitement chaque élément scalaire du tableau en type int64 ou uint64 en utilisant la notation i64 ou u64 (voir exemple).</p>
+            <p
+    >De cette manière, vous vous assurez que les valeurs sont stockées avec leur précision complète en tant qu'entiers signés ou non signés 64 bits, plutôt qu'en tant que nombres à virgule flottante double précision.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [1 12 -120 127 -9e24 9e23]
+B = uint64(A)
+R1 = uint64([72057594035891654 81997179153022975])
+R2 = [72057594035891654u64 81997179153022975u64]
+
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${integer}intmax">intmax</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${integer}intmax">intmin</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${interpreter}numeric_types">numeric types</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

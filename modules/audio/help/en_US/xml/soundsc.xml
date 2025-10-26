@@ -35,7 +35,7 @@
     <description>
         <p>
             <b>soundsc</b> scales the values of audio signal <b
-      >y </b>to fit in the range from <b>–1.0</b> to <b
+      >y </b> to fit in the range from <b>–1.0</b> to <b
       >1.0</b> and play as sound.
 	</p>
         </description>
@@ -46,6 +46,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[signal = rand(2, 44100) - 0.5;
 soundsc(signal, 44110, 16)	  
 ]]></example_item_data>

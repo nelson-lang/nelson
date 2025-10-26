@@ -4,7 +4,10 @@
 	<language>en_US</language>
 	<module_name>double</module_name>
 	<chapter>Double</chapter>
-	<chapter_description>double type functions</chapter_description>
-	    <auto_toc />
-
+	<chapter_description>
+		<p
+    >The Double Type module provides tools for handling double-precision numeric values in Nelson.</p>
+		<p
+    >It enables conversion to double precision and offers access to key numeric limits, supporting high-accuracy computations and reliable handling of large or small floating-point numbers in mathematical and scientific applications.</p>
+	</chapter_description>
 </xmldoc>

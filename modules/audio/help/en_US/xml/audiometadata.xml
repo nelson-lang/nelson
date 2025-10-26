@@ -49,6 +49,7 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[wav_file = [modulepath('audio'), '/examples/haha.wav'];
 info = audiometadata(wav_file)]]></example_item_data>
                 </example_item>
@@ -56,6 +57,7 @@ info = audiometadata(wav_file)]]></example_item_data>
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[wav_file = [modulepath('audio'), '/examples/haha.wav'];
 modified_wav_file = [tempdir(), 'haha_modified_tags.wav'];
 if isfile(modified_wav_file)

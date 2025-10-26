@@ -59,7 +59,7 @@
       >description</b>: full description of the module, markdown format supported, example: "nelson's module skeleton (macros only)" </p>
                                                 <p>
                                                     <b
-      >copyright</b>copyright description, example: "Copyright © 2019-present Allan CORNET" </p>
+      >copyright</b> copyright description, example: "Copyright © 2019-present Allan CORNET" </p>
                                                     <p>
                                                         <b
       >license</b>: License under which the toolbox will be published, example: "BSD" or "LGPLv2", ... </p>
@@ -89,6 +89,7 @@
                                                                     <example_item_description
       >Deploy module_skeleton and module_skeleton_basic template</example_item_description>
                                                                     <example_item_data
+        runnable="cli"
       ><![CDATA[if ~ismodule('module_skeleton_basic')
     nmm('install', 'https://github.com/nelson-lang/module_skeleton_basic.git#v1.0.0');
 end

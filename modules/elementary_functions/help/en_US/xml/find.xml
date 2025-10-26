@@ -65,6 +65,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[M = rand(4, 3, 5);
 [R, C, V] = find(M > 0.9)
 M(R(1),C(1),V(1))]]></example_item_data>

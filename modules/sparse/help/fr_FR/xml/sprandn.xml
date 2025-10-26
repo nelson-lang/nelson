@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>sprandn</keyword>
+    <short_description
+  >Matrice sparse aléatoire à distribution normale.</short_description>
+    <syntax>
+        <syntax_item>R = sprandn(S)</syntax_item>
+        <syntax_item>R = sprandn(m,n,density)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>S</param_name>
+            <param_description>Matrice d'entrée</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>m</param_name>
+            <param_description>Nombre de lignes</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>density</param_name>
+            <param_description>Densité des éléments non nuls</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>S</param_name>
+            <param_description>une matrice sparse.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >R = sprandn(S)</b> crée une matrice sparse qui a le même motif de sparsité que la matrice S, mais avec des entrées aléatoires distribuées normalement.</p>
+            <p>
+                <b
+      >R = sprandn(m,n,density)</b> crée une matrice sparse aléatoire m-par-n avec approximativement density*m*n entrées non nulles distribuées normalement pour une densité dans l'intervalle [0,1].</p>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description
+      >sprandn avec motif de matrice</example_item_description>
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[S = [1 0 0; 0 1 0; 0 0 1]; R = sprandn(S)]]></example_item_data>
+                </example_item>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description
+      >sprandn avec taille et densité</example_item_description>
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[R = sprandn(5, 5, 0.2)]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${sparse}sprand">sprand</link>
+                </see_also_item>
+                <see_also_item>
+                    <link linkend="${random}rng">rng</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.15.0</history_version>
+                    <history_description>version initiale</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

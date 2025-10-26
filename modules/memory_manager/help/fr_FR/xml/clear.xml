@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>clear</keyword>
+    <short_description
+  >Efface une variable de l'espace de travail.</short_description>
+    <syntax>
+            <syntax_item>clear</syntax_item>
+            <syntax_item>clear variable_name</syntax_item>
+            <syntax_item>clear -scope scope_name</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>variable_name</param_name>
+            <param_description>a string: variable name.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>global</param_name>
+            <param_description>clears all global variables.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>all</param_name>
+            <param_description
+      >clears all variables in all scopes</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>mex</param_name>
+            <param_description
+      >clears all mex functions in all scopes</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>variables</param_name>
+            <param_description
+      >clears all variables in current scope.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>functions</param_name>
+            <param_description
+      >clears cache of macros functions and associated persistent variables.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>function_name</param_name>
+            <param_description
+      >clears persistent variables of a function.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>mexfunction_name</param_name>
+            <param_description
+      >clears mex function (see mexAtExit).</param_description>
+        </param_input_item>
+    </param_input>
+        <description>
+            <p
+    >Supprime des variables de l'espace de travail courant ou d'une portée spécifiée. Sans argument, supprime toutes les variables de l'espace de travail courant.</p>
+            <p
+    >À utiliser avec prudence : cette opération ne peut pas être annulée.</p>
+        </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[A = 3;
+who
+clear A
+who
+A]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${memory_manager}who">who</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>version initiale</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

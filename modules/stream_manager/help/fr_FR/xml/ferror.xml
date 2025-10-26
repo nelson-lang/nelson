@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>ferror</keyword>
+    <short_description
+  >Test des erreurs d'E/S lecture/écriture.</short_description>
+    <syntax>
+        <syntax_item>msg = ferror(fid)</syntax_item>
+        <syntax_item>[msg, code] = ferror(fid)</syntax_item>
+        <syntax_item>ferror(fid, 'clear')</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>fid</param_name>
+            <param_description>un descripteur de fichier</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+        <param_name>code</param_name>
+        <param_description
+      >une valeur entière : 0 s'il n'y a pas d'erreur. valeur négative si une erreur est détectée.</param_description>
+        </param_output_item>
+        <param_output_item>
+        <param_name>msg</param_name>
+        <param_description
+      >un vecteur de caractères : message d'erreur correspondant au code.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>ferror</b> interroge le statut d'erreur d'un fichier.</p>
+            <p>
+                <b
+      >ferror(fid, 'clear')</b> efface l'indicateur d'erreur pour le fichier spécifié.</p>
+                <p
+    >Pour plus d'informations sur le message retourné, consultez le manuel de la bibliothèque d'exécution C.</p>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[filename = [tempdir(), 'test_ferror.csv'];
+fid = fopen(filename, 'w');
+res = fgets(fid);
+[msg, code] = ferror(fid)
+]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${stream_manager}fopen">fopen</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>version initiale</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

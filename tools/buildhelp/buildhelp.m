@@ -10,6 +10,7 @@
 exit_code = 0;
 try
   buildhelp()
+  buildhelpjson()
 catch
   r = lasterror();
   disp(_('Error:'));

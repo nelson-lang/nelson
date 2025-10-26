@@ -29,6 +29,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="gui"
       ><![CDATA[txt = {'## Example of Markdown text';
 '>Nelson html to pdf conversion example'};
 

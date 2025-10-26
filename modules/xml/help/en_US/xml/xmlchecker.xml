@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>xmlchecker</keyword>
+    <short_description>Checks a xmlfile against xsd.</short_description>
+    <syntax>
+        <syntax_item>xmlchecker(xmlfile, xsdfile)</syntax_item>
+        <syntax_item
+    >[state, errors_detected, warnings_detected] = xmlchecker(xmlfile, xsdfile)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>xmlfile</param_name>
+            <param_description
+      >a string: path to the XML file.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>xsdfile</param_name>
+            <param_description
+      >a string: path to the XSD file.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>state</param_name>
+            <param_description
+      >a logical: true if the document is valid, false otherwise.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>errors_detected</param_name>
+            <param_description
+      >a cell of strings: errors detected.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>warnings_detected</param_name>
+            <param_description
+      >a cell of strings: warnings detected.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >xmlchecker</b> is a tool to check that a xml file is valid against a xsd file.</p>
+            </description>
+            <used_function />
+            <bibliography />
+            <see_also>
+                <see_also_item>
+                    <link
+        linkend="${help_tools}xmldocchecker"
+      >xmldocchecker</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.15.0</history_version>
+                    <history_description>initial version</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

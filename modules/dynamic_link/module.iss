@@ -21,7 +21,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.m; DestDir: {app}\modules\{#MODULE_NAME}\examples\;Components: {#COMPONENT_DYNAMIC_LINK};
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\help\*.qch; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_HELP_BROWSER} and {#COMPONENT_HELP_FILES};
+Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_HELP_FILES};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\*.txt; DestDir: {app}\modules\{#MODULE_NAME}\resources\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\*.bat; DestDir: {app}\modules\{#MODULE_NAME}\resources\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK};

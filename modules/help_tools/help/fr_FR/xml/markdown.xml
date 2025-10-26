@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>markdown</keyword>
+    <short_description>Convertit le Markdown en HTML.</short_description>
+    <syntax>
+        <syntax_item>html_txt = markdown(md_txt)</syntax_item>
+        <syntax_item>html_txt = markdown(md_txt, options)</syntax_item>
+        <syntax_item>status = markdown(md_filename, html_filename)</syntax_item>
+        <syntax_item
+    >status = markdown(md_filename, html_filename, options)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>md_txt</param_name>
+            <param_description
+      >une chaîne : texte markdown à convertir.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>md_filename</param_name>
+            <param_description
+      >une chaîne : nom du fichier markdown à convertir (source).</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>html_filename</param_name>
+            <param_description
+      >une chaîne : nom du fichier html (destination).</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>options</param_name>
+            <param_description
+      >une chaîne : options pour la conversion. 'secure' (par défaut) ou 'advanced'.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>status</param_name>
+            <param_description
+      >un booléen : le fichier HTML a été généré ou non.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p><b>markdown</b> convertit du texte Markdown en HTML.</p>
+        <p>Options :</p>
+        <ul>
+            <li><b
+        >secure</b> (par défaut) : seul un sous-ensemble de Markdown est pris en charge (pas de HTML brut, pas de tableaux, pas d'images, pas de liens).</li>
+            <li><b
+        >advanced</b> : Markdown complet pris en charge (y compris HTML brut, tableaux, images, liens).</li>
+        </ul>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[txt = {'## Example of Markdown text';
+'>Nelson supports markdown ...'};
+html = markdown(txt);
+filewrite([tempdir(), 'markdown_example.html'], html)
+
+if ispc()
+  winopen([tempdir(), 'markdown_example.html']);
+end]]></example_item_data>
+            </example_item>
+
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+      ><![CDATA[txt = 'Hello <script>alert("XSS")</script> World';
+advanced_html = markdown(txt, 'advanced')
+secure_html = markdown(txt, 'secure')
+]]></example_item_data>
+            </example_item>
+
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${help_tools}htmltopdf">htmltopdf</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+            <history_item>
+                <history_version>1.15.0</history_version>
+                <history_description
+      >'secure', 'advanced' modes added</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

@@ -90,7 +90,7 @@ Implemented features:
 
 - `--noaudio` CLI argument disable audio (module) in Nelson.
 
-- [#783](http://github.com/nelson-lang/nelson/issues/783): Fedora 37 support.
+- [#783](https://github.com/nelson-lang/nelson/issues/783): Fedora 37 support.
 
 - an example to build mexFunction using Rust.
 
@@ -112,7 +112,7 @@ Implemented features:
 
 - `exit` does not allow value > 255 on Linux and MacOS.
 
-- [#776](http://github.com/nelson-lang/nelson/issues/776): internal dependencies between modules reworked.
+- [#776](https://github.com/nelson-lang/nelson/issues/776): internal dependencies between modules reworked.
 
 - Uses MKL or OpenBlas if detected on linux and MacOs (Nelson is faster on Linux and MacOs).
 
@@ -122,31 +122,31 @@ Implemented features:
 
 - Github Actions CI warnings.
 
-- [#778](http://github.com/nelson-lang/nelson/issues/778): ArchLinux Github CI was broken.
+- [#778](https://github.com/nelson-lang/nelson/issues/778): ArchLinux Github CI was broken.
 
 ## 0.6.10 (2022-10-31)
 
 ### Added
 
-- [#750](http://github.com/nelson-lang/nelson/issues/750): Qt 6.4.0 support (win64 release embed Qt6.4.0).
+- [#750](https://github.com/nelson-lang/nelson/issues/750): Qt 6.4.0 support (win64 release embed Qt6.4.0).
 
-- [#733](http://github.com/nelson-lang/nelson/issues/733): minimal build and optional installation on MacOs, Linux and Windows.
+- [#733](https://github.com/nelson-lang/nelson/issues/733): minimal build and optional installation on MacOs, Linux and Windows.
 
 ### Fixed
 
-- [#762](http://github.com/nelson-lang/nelson/issues/762): MacOs CI was broken (libomp no more detected).
+- [#762](https://github.com/nelson-lang/nelson/issues/762): MacOs CI was broken (libomp no more detected).
 
-- [#776](http://github.com/nelson-lang/nelson/issues/776): CodeQL Analyze was broken.
+- [#776](https://github.com/nelson-lang/nelson/issues/776): CodeQL Analyze was broken.
 
-- [#739](http://github.com/nelson-lang/nelson/issues/739): special case with empty cell.
+- [#739](https://github.com/nelson-lang/nelson/issues/739): special case with empty cell.
 
 - buildhelp did not return some errors.
 
 ### Changed
 
-- [#755](http://github.com/nelson-lang/nelson/issues/755): Boost 1.80 support (default on Windows)
+- [#755](https://github.com/nelson-lang/nelson/issues/755): Boost 1.80 support (default on Windows)
 
-- [#753](http://github.com/nelson-lang/nelson/issues/753): move from boost::filesystem to std::filesystem. (It should have no impact for users ...)
+- [#753](https://github.com/nelson-lang/nelson/issues/753): move from boost::filesystem to std::filesystem. (It should have no impact for users ...)
 
 - Path functions returns sensitive path on Windows. `cd ('c:/program files')` returns true path `C:/Program Files`.
 
@@ -205,7 +205,7 @@ Implemented features:
 
 ### Changed
 
-- [#715](http://github.com/nelson-lang/nelson/issues/715): update `{fmt}` to 9.1.0.
+- [#715](https://github.com/nelson-lang/nelson/issues/715): update `{fmt}` to 9.1.0.
 
 - Nelson uses [`simdutf`](https://github.com/simdutf/simdutf) library to convert characters encoding faster.
 
@@ -213,7 +213,7 @@ Implemented features:
 
 - assign behavior with empty matrix.
 
-- [#702](http://github.com/nelson-lang/nelson/issues/702): Ubuntu 18.04 CI removed on Github.
+- [#702](https://github.com/nelson-lang/nelson/issues/702): Ubuntu 18.04 CI removed on Github.
 
 - Remove definitively Appveyor CI.
 
@@ -223,21 +223,21 @@ Implemented features:
 
 ### Fixed
 
-- [#722](http://github.com/nelson-lang/nelson/issues/722): MS MPI runtime v10.1.2.
+- [#722](https://github.com/nelson-lang/nelson/issues/722): MS MPI runtime v10.1.2.
 
-- [#723](http://github.com/nelson-lang/nelson/issues/723): MacOS CI was broken.
+- [#723](https://github.com/nelson-lang/nelson/issues/723): MacOS CI was broken.
 
-- [#737](http://github.com/nelson-lang/nelson/issues/737): profiler failed with `sind` example.
+- [#737](https://github.com/nelson-lang/nelson/issues/737): profiler failed with `sind` example.
 
-- [#739](http://github.com/nelson-lang/nelson/issues/739): special case with empty cell.
+- [#739](https://github.com/nelson-lang/nelson/issues/739): special case with empty cell.
 
-- [#741](http://github.com/nelson-lang/nelson/issues/741): `ones` and `zeros` do not manager logical as typename.
+- [#741](https://github.com/nelson-lang/nelson/issues/741): `ones` and `zeros` do not manager logical as typename.
 
 ## 0.6.8 (2022-08-27)
 
 ### Added
 
-- [#573](http://github.com/nelson-lang/nelson/issues/574): `diff` differences and discret derivatives.
+- [#573](https://github.com/nelson-lang/nelson/issues/574): `diff` differences and discret derivatives.
 
 - `peaks`: peaks function.
 
@@ -312,22 +312,22 @@ Implemented features:
   - returns time execution
   - timeout input argument can be set to kill process after n seconds.
 
-- [#687](http://github.com/nelson-lang/nelson/issues/687): Uses BS thread pool 3.3.0.
+- [#687](https://github.com/nelson-lang/nelson/issues/687): Uses BS thread pool 3.3.0.
 
 - Windows 32 bits threads support: due to threading limitations with MKL, openMP and others threads
   computation threads are limited to 4 threads on Windows 32 bits.
 
-- [#683](http://github.com/nelson-lang/nelson/issues/683): MacOS Catalina removed on Github CI (no more officially supported).
+- [#683](https://github.com/nelson-lang/nelson/issues/683): MacOS Catalina removed on Github CI (no more officially supported).
 
 - Help chapter titles all start with a capital letter.
 
-- [#771](http://github.com/nelson-lang/nelson/issues/771): Fedora 36 Github CI replaces Fedora 35 Github CI.
+- [#771](https://github.com/nelson-lang/nelson/issues/771): Fedora 36 Github CI replaces Fedora 35 Github CI.
 
 ### Fixed
 
-- [#689](http://github.com/nelson-lang/nelson/issues/689): `c = computer` returns an error.
-- [#691](http://github.com/nelson-lang/nelson/issues/691): help generation crashs if copyright tag is empty.
-- [#35](http://github.com/nelson-lang/nelson/issues/35): datenum does not support vectorization.
+- [#689](https://github.com/nelson-lang/nelson/issues/689): `c = computer` returns an error.
+- [#691](https://github.com/nelson-lang/nelson/issues/691): help generation crashs if copyright tag is empty.
+- [#35](https://github.com/nelson-lang/nelson/issues/35): datenum does not support vectorization.
 - `or`, `and` do not manage matrix operator scalar case.
 
 ## 0.6.7 (2022-07-27)
@@ -351,7 +351,7 @@ Implemented features:
 
 ### Fixed
 
-- [#679](http://github.com/nelson-lang/nelson/issues/679): uniformize path for includes and libraries.
+- [#679](https://github.com/nelson-lang/nelson/issues/679): uniformize path for includes and libraries.
 
 ## 0.6.6 (2022-06-27)
 
@@ -363,43 +363,43 @@ Implemented features:
   - `backgroundPool`: Environment for running code in the background.
   - `fetchOutputs`: Retrieve results from function running in the background.
 
-- [#666](http://github.com/nelson-lang/nelson/issues/666): `ls` function: List folder contents.
+- [#666](https://github.com/nelson-lang/nelson/issues/666): `ls` function: List folder contents.
 
-- [#655](http://github.com/nelson-lang/nelson/issues/655): help viewer embedded (available on all platforms).
+- [#655](https://github.com/nelson-lang/nelson/issues/655): help viewer embedded (available on all platforms).
 
 ### Changed
 
 - LGTM replaced by CodeQL (Thanks to Github for their support)
 
-- [#662](http://github.com/nelson-lang/nelson/issues/662): Snap uses Core22 and Qt6 (all dependencies are up-to-date).
+- [#662](https://github.com/nelson-lang/nelson/issues/662): Snap uses Core22 and Qt6 (all dependencies are up-to-date).
 
-- [#668](http://github.com/nelson-lang/nelson/issues/668): `maxNumCompThreads` detects numbers of physical cores on Windows.
+- [#668](https://github.com/nelson-lang/nelson/issues/668): `maxNumCompThreads` detects numbers of physical cores on Windows.
 
 - matrix of handles supported.
 
-- [#676](http://github.com/nelson-lang/nelson/issues/676): use fmtlib 9.0
+- [#676](https://github.com/nelson-lang/nelson/issues/676): use fmtlib 9.0
 
 ### Fixed
 
-- [#659](http://github.com/nelson-lang/nelson/issues/659): qhelpgenerator on macOs after brew Qt6.3.0 update.
+- [#659](https://github.com/nelson-lang/nelson/issues/659): qhelpgenerator on macOs after brew Qt6.3.0 update.
 
-- [#661](http://github.com/nelson-lang/nelson/issues/661): CodeQL warnings.
+- [#661](https://github.com/nelson-lang/nelson/issues/661): CodeQL warnings.
 
 ## 0.6.5 (2022-05-26)
 
 ### Added
 
-- [#572](http://github.com/nelson-lang/nelson/issues/572): `pow2`: Base 2 exponentiation.
+- [#572](https://github.com/nelson-lang/nelson/issues/572): `pow2`: Base 2 exponentiation.
 
 - `audioread`, `audiowrite` supports new file formats `.mp3`, `.flac`, `.caf` (Thanks to libsndfile).
 
 - MacOs 12 Monterey Github CI.
 
-- [#634](http://github.com/nelson-lang/nelson/issues/634): Ubuntu 22.04 CI.
+- [#634](https://github.com/nelson-lang/nelson/issues/634): Ubuntu 22.04 CI.
 
 ### Changed
 
-- [#631](http://github.com/nelson-lang/nelson/issues/631): Qt6 used as default distribution on some OS platforms.
+- [#631](https://github.com/nelson-lang/nelson/issues/631): Qt6 used as default distribution on some OS platforms.
 
   For backport compatibility only Qt5.15.x and Qt6.3 (or more) are supported.
 
@@ -411,37 +411,37 @@ Implemented features:
   - MacOs BigSur, Catalina: Qt5.15.x
   - Others OS platforms: Qt version based on distributed Qt version.
 
-- [#636](http://github.com/nelson-lang/nelson/issues/636): docker image uses bullseye image.
+- [#636](https://github.com/nelson-lang/nelson/issues/636): docker image uses bullseye image.
 
 - `system` builtin: multithread rework.
 
-- [#633](http://github.com/nelson-lang/nelson/issues/633): libsndfile 1.1.0 used.
+- [#633](https://github.com/nelson-lang/nelson/issues/633): libsndfile 1.1.0 used.
 
 - Windows build uses `/permissive-` option.
 
-- [#646](http://github.com/nelson-lang/nelson/issues/646): `warndlg`, `questdlg`, `errordlg`, `helpdlg` reworked to better Qt6 support.
+- [#646](https://github.com/nelson-lang/nelson/issues/646): `warndlg`, `questdlg`, `errordlg`, `helpdlg` reworked to better Qt6 support.
 
 ### Fixed
 
 - Dark theme detection with Gnome.
 
-- [#642](http://github.com/nelson-lang/nelson/issues/642): `rand` was not thread safe.
+- [#642](https://github.com/nelson-lang/nelson/issues/642): `rand` was not thread safe.
 
-- [#648](http://github.com/nelson-lang/nelson/issues/648): Ubuntu 18.04 CI failed.
+- [#648](https://github.com/nelson-lang/nelson/issues/648): Ubuntu 18.04 CI failed.
 
-- [#651](http://github.com/nelson-lang/nelson/issues/651): MacOs monterey crashs at exit with mpi module.
+- [#651](https://github.com/nelson-lang/nelson/issues/651): MacOs monterey crashs at exit with mpi module.
 
 ## 0.6.4 (2022-04-24)
 
 ### Changed
 
-- [#590](http://github.com/nelson-lang/nelson/issues/590): Nelson's license moved to LGPL v3.0 and GPL v3.0 and uses SPDX format.
+- [#590](https://github.com/nelson-lang/nelson/issues/590): Nelson's license moved to LGPL v3.0 and GPL v3.0 and uses SPDX format.
 
 - Nelson uses [Hack](https://sourcefoundry.org/hack/) font.
 
 - Linux 64 bits and 32 bits uses same main script.
 
-- [#594](http://github.com/nelson-lang/nelson/issues/594): `.pot` used to generate en_US.
+- [#594](https://github.com/nelson-lang/nelson/issues/594): `.pot` used to generate en_US.
 
 ### Added
 
@@ -451,7 +451,7 @@ Implemented features:
 
 - Dark theme detected and applied on Linux, MacOS and Windows.
 
-- [#559](http://github.com/nelson-lang/nelson/issues/559): `formattedDisplayText` function: Capture display output as string.
+- [#559](https://github.com/nelson-lang/nelson/issues/559): `formattedDisplayText` function: Capture display output as string.
 
 - Better detection Qt6 or Qt5 with CMake.
 
@@ -459,7 +459,7 @@ Implemented features:
 
 - Main Nelson's font was not applied on some OS platforms (ex: MacOS Catalina)
 
-- [#622](http://github.com/nelson-lang/nelson/issues/622): `isreal(sqrt(i^4))` did not return true.
+- [#622](https://github.com/nelson-lang/nelson/issues/622): `isreal(sqrt(i^4))` did not return true.
 
 - Nelson's help indexing is faster (x100).
 
@@ -467,15 +467,15 @@ Implemented features:
 
 ### Changed
 
-- [#596](http://github.com/nelson-lang/nelson/issues/596): Tests results display use emoji if terminal supports Unicode.
+- [#596](https://github.com/nelson-lang/nelson/issues/596): Tests results display use emoji if terminal supports Unicode.
 
 ### Added
 
 - Packaging:
 
-  - [#603](http://github.com/nelson-lang/nelson/issues/603): Nelson as snap package for Linux.
-  - [#605](http://github.com/nelson-lang/nelson/issues/605): [Package request] Chocolatey package manager for Windows.
-  - [#582](http://github.com/nelson-lang/nelson/issues/582): Nelson available as Portable apps.
+  - [#603](https://github.com/nelson-lang/nelson/issues/603): Nelson as snap package for Linux.
+  - [#605](https://github.com/nelson-lang/nelson/issues/605): [Package request] Chocolatey package manager for Windows.
+  - [#582](https://github.com/nelson-lang/nelson/issues/582): Nelson available as Portable apps.
 
 - add information for Software Center (Linux desktop, icons).
 
@@ -487,23 +487,23 @@ Implemented features:
 
 - `terminal_size` function:Query the size of the terminal window.
 
-- [#598](http://github.com/nelson-lang/nelson/issues/598): `sscanf` function read formatted data from strings.
+- [#598](https://github.com/nelson-lang/nelson/issues/598): `sscanf` function read formatted data from strings.
 
 ### Fixed
 
-- [#599](http://github.com/nelson-lang/nelson/issues/599): `make install` step in CI for linux and MacOs.
+- [#599](https://github.com/nelson-lang/nelson/issues/599): `make install` step in CI for linux and MacOs.
 
-- [#601](http://github.com/nelson-lang/nelson/issues/601): embed all tests on linux and macos install.
+- [#601](https://github.com/nelson-lang/nelson/issues/601): embed all tests on linux and macos install.
 
 ## 0.6.2 (2022-02-26)
 
 ### Changed
 
-- [#576](http://github.com/nelson-lang/nelson/issues/576): C++17 Compiler required to build Nelson.
+- [#576](https://github.com/nelson-lang/nelson/issues/576): C++17 Compiler required to build Nelson.
 
-- [#581](http://github.com/nelson-lang/nelson/issues/581): Github CI platforms list extended (ArchLinux, Fedora, Ubuntu 18.04, MacOs BigSur).
+- [#581](https://github.com/nelson-lang/nelson/issues/581): Github CI platforms list extended (ArchLinux, Fedora, Ubuntu 18.04, MacOs BigSur).
 
-- [#539](http://github.com/nelson-lang/nelson/issues/539): Visual studio 2022 build on Windows
+- [#539](https://github.com/nelson-lang/nelson/issues/539): Visual studio 2022 build on Windows
 
   - Visual studio 2022 solution upgraded,
   - Github CI and Appveyor use VS 2022 image,
@@ -516,24 +516,24 @@ Implemented features:
   - hdf5 1.12.1 (VS 2022 x86, x64 build),
   - matio 1.5.21 (VS 2022 x86, x64 build),
   - all others windows dependencies rebuilt with VS 2022.
-  - [#505](http://github.com/nelson-lang/nelson/issues/505): libCurl 7.81 on Windows.
-  - [#524](http://github.com/nelson-lang/nelson/issues/524): oneApi 2022.1 on Windows.
+  - [#505](https://github.com/nelson-lang/nelson/issues/505): libCurl 7.81 on Windows.
+  - [#524](https://github.com/nelson-lang/nelson/issues/524): oneApi 2022.1 on Windows.
 
 ### Added
 
 - Nelson uses `JuliaMono-Regular` font as default.
-- [#567](http://github.com/nelson-lang/nelson/issues/567): `...` in cells if character vector is too long.
+- [#567](https://github.com/nelson-lang/nelson/issues/567): `...` in cells if character vector is too long.
 
 ### Fixed
 
-- [#587](http://github.com/nelson-lang/nelson/issues/587): implicit cast to string array for horzcat and vertcat operators.
-- [#562](http://github.com/nelson-lang/nelson/issues/562): `format long` complex do not display expected precision.
+- [#587](https://github.com/nelson-lang/nelson/issues/587): implicit cast to string array for horzcat and vertcat operators.
+- [#562](https://github.com/nelson-lang/nelson/issues/562): `format long` complex do not display expected precision.
 - scale factor for integer values did not display as expected.
-- [#561](http://github.com/nelson-lang/nelson/issues/561): `0^0` did not return expected value.
-- [#560](http://github.com/nelson-lang/nelson/issues/560): many warnings fixed (Thanks to new PVS-Studio and cppcheck).
+- [#561](https://github.com/nelson-lang/nelson/issues/561): `0^0` did not return expected value.
+- [#560](https://github.com/nelson-lang/nelson/issues/560): many warnings fixed (Thanks to new PVS-Studio and cppcheck).
 - cmake `WITH_SLICOT`, `WITH_FFTW`, `ENABLE_CLANG_TIDY_FIX` were not documented.
-- [#584](http://github.com/nelson-lang/nelson/issues/584): docker files updated to support C++17 and new libraries.
-- [#591](http://github.com/nelson-lang/nelson/issues/591): Innosetup display glitch with `Nelson's website` button.
+- [#584](https://github.com/nelson-lang/nelson/issues/584): docker files updated to support C++17 and new libraries.
+- [#591](https://github.com/nelson-lang/nelson/issues/591): Innosetup display glitch with `Nelson's website` button.
 
 ## 0.6.1 (2022-01-31)
 
@@ -544,9 +544,9 @@ Implemented features:
 ### Added
 
 - `format` extended to manage: `compact`, `loose`, `longE`, `longG`, `hex`, `bank`, `rational`.
-- [#507](http://github.com/nelson-lang/nelson/issues/507): `celldisp`: Display cell array contents.
-- [#548](http://github.com/nelson-lang/nelson/issues/548): `hypot` builtin: Square root of sum of squares.
-- [#555](http://github.com/nelson-lang/nelson/issues/555): `rsf2csf` function: Convert real Schur form to complex Schur form.
+- [#507](https://github.com/nelson-lang/nelson/issues/507): `celldisp`: Display cell array contents.
+- [#548](https://github.com/nelson-lang/nelson/issues/548): `hypot` builtin: Square root of sum of squares.
+- [#555](https://github.com/nelson-lang/nelson/issues/555): `rsf2csf` function: Convert real Schur form to complex Schur form.
 - `CHANGELOG` 0.6.x family.
 
 ## Previous changelog

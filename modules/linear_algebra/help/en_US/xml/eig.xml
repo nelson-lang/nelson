@@ -50,11 +50,22 @@
     </param_output>
     <description>
         <p>
-            <b>eig(A)</b> returns the Eigenvalues and eigenvectors.</p>
-            <p>
-                <b
-      >eig(A, B)</b> returns the  generalized Eigenvalues and eigenvectors.</p>
-            </description>
+            <b>eig(A)</b> returns the eigenvalues and eigenvectors.
+        </p>
+        <p>For a square matrix <b>A</b>, eigenvalues</p>
+        <latex>\lambda</latex>
+        <p>and eigenvectors</p>
+        <latex>\mathbf{v}</latex>
+        <p>satisfy:</p>
+        <latex>A\mathbf{v} = \lambda\mathbf{v}</latex>
+        <p>The characteristic equation is:</p>
+        <latex>\det(A - \lambda I) = 0</latex>
+        <p>
+            <b
+      >eig(A, B)</b> returns the generalized eigenvalues and eigenvectors where:
+        </p>
+        <latex>A\mathbf{v} = \lambda B\mathbf{v}</latex>
+    </description>
             <used_function />
             <bibliography
   >[1]  Anderson, E., Z. Bai, C. Bischof, S. Blackford, J. Demmel, J. Dongarra, J. Du Croz, A. Greenbaum, S. Hammarling, A. McKenney, and D. Sorensen, LAPACK User's Guide (http://www.netlib.org/lapack/lug/ lapack_lug.html), Third Edition, SIAM, Philadelphia, 1999.</bibliography>
@@ -63,6 +74,7 @@
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[A = [10 -20 40; -50 20 0; 10 0 30]
 e = eig(A)
 [V, D] = eig(A)
@@ -72,6 +84,7 @@ e = eig(A)
                     <example_item_type>nelson</example_item_type>
                     <example_item_description />
                     <example_item_data
+        runnable="cli"
       ><![CDATA[A = [1/sqrt(2) 0; 0 1];
 B = [0 1; -1/sqrt(2) 0];
 [V, D] = eig(A, B)

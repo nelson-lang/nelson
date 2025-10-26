@@ -52,6 +52,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[str = fileread([nelsonroot(),'/CHANGELOG.md'])
 str = fileread([nelsonroot(),'/CHANGELOG.md'], 'char')
 str = fileread([nelsonroot(),'/CHANGELOG.md'], 'cell')
@@ -62,6 +63,7 @@ str = fileread([nelsonroot(),'/CHANGELOG.md'], 'string')
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[str = 'живете зело, земля, и иже и како люди';
 filewrite([tempdir(), 'example_fileread.txt'], str, 'native', 'windows-1251')
 T1 = fileread([tempdir(), 'example_fileread.txt'], 'char', 'native', 'windows-1251')

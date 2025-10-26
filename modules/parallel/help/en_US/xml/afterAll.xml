@@ -47,6 +47,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[pool = backgroundPool()
 fptrRand = str2func('rand')
 fptrMax = str2func('@(r) max(r)')

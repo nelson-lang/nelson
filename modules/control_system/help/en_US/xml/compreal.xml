@@ -59,6 +59,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[numerator = [0 10 10];
 denominator = [1 1 10];
 [A, B, C, D, E] = compreal(numerator, denominator)]]></example_item_data>

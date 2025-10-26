@@ -48,6 +48,7 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="cli"
       ><![CDATA[mkdir(tempdir(), 'subdir_example')
 if isdir([tempdir(), 'subdir_example'])
 	disp('OK')

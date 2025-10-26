@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>str2double</keyword>
+    <short_description>Convertit une chaîne en double.</short_description>
+    <syntax>
+        <syntax_item>res = str2double(str)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>str</param_name>
+            <param_description
+      >une cellule de chaînes, un tableau de chaînes ou une chaîne.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>res</param_name>
+            <param_description>un double</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >str2double</b> convertit une chaîne représentant un nombre en une valeur numérique de type double. Si la chaîne représente un nombre complexe, les parties réelle et imaginaire sont converties séparément en valeurs numériques.</p>
+            <p>Si <b
+      >str2double</b> ne peut pas convertir la chaîne en nombre, elle renvoie la valeur NaN (Not-a-Number).</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[R = str2double('2.6 + 3j')
+R = str2double('+NaNi')
+R = str2double({'2.71' '3.1415'})
+R = str2double(["2.71" "3.1415"])
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${double}double">double</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

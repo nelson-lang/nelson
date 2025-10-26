@@ -32,6 +32,7 @@
                 <example_item_description
       >removes time builtin</example_item_description>
                 <example_item_data
+        runnable="cli"
       ><![CDATA[calendar
 removegateway(modulepath('time', 'builtin'))
 calendar]]></example_item_data>

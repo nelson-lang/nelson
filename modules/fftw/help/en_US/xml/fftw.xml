@@ -45,6 +45,7 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="cli"
       ><![CDATA[w = fftw('dwisdom')
 M = rand(1000);
 tic; fft(M); toc

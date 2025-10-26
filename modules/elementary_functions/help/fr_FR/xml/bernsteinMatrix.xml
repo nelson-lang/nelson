@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>bernsteinMatrix</keyword>
+    <short_description>Matrice de Bernstein</short_description>
+    <syntax>
+        <syntax_item>B = bernsteinMatrix(n, t)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>n</param_name>
+        <param_description
+      >entier non négatif : ordre d'approximation.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>t</param_name>
+        <param_description
+      >nombre ou vecteur : points d'évaluation.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+        <param_name>B</param_name>
+        <param_description
+      >Matrice de Bernstein : matrice de taille length(t)-par-(n+1).</param_description>
+        </param_output_item>
+    </param_output>
+        <description>
+        <p>
+            <b
+      >B = bernsteinMatrix(n, t)</b> construit une matrice de Bernstein <b
+      >B</b> de dimensions length(t)-par-(n+1) lorsque t est un vecteur.</p>
+            <p>La matrice de Bernstein est aussi appelée matrice de Bézier.</p>
+            <p
+    >Cette fonction permet de calculer les points d'une courbe de Bézier.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[t = 0:1/100:1;
+B = bernsteinMatrix(3, t);
+P = [0 0 0; 1 2 1; 1 -2 3; 5 2 4];
+bezierCurve = B * P;
+plot3(bezierCurve(:,1), bezierCurve(:,2), bezierCurve(:,3))
+]]></example_item_data>
+                <example_item_img
+        src="../../images/bernsteinMatrix.svg"
+        align="middle"
+        generate="true"
+      />
+            </example_item>
+        </examples>
+        <history>
+            <history_item>
+                <history_version>1.5.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

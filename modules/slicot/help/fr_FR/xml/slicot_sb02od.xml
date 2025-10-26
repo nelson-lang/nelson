@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>slicot_sb02od</keyword>
+    <short_description
+  >Résolution des équations de Riccati algébriques temps continu ou discret (méthode des vecteurs de Schur généralisés).</short_description>
+    <syntax>
+        <syntax_item
+    >[RCOND, X, ALFAR, ALFAI, BETA, S, T, U, INFO] = slicot_sb02od(DICO, JOBB, FACT, UPLO, JOBL, SORT, P, A, B, Q, R, L, TOL)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+    <param_name>DICO</param_name>
+    <param_description
+      >Spécifie le type d'équation de Riccati à résoudre : = 'C' : cas continu ; = 'D' : cas discret.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>JOBB</param_name>
+    <param_description
+      >Spécifie si la matrice G est fournie au lieu des matrices B et R : = 'B' : B et R sont fournis ; = 'G' : G est fourni.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>FACT</param_name>
+    <param_description
+      >Spécifie si les matrices Q et/ou R (si JOBB = 'B') sont factorisées : = 'N' : non factorisées (Q et R fournis) ; = 'C' : C donné, Q = C'C ; = 'D' : D donné, R = D'D ; = 'B' : facteurs C et D donnés, Q = C'C, R = D'D.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>UPLO</param_name>
+    <param_description
+      >Si JOBB = 'G' ou FACT = 'N', spécifie quel triangle des matrices G et Q (si FACT = 'N') ou Q et R (si JOBB = 'B') est stocké : = 'U' : triangle supérieur ; = 'L' : triangle inférieur.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>JOBL</param_name>
+    <param_description
+      >Spécifie si la matrice L est nulle : = 'Z' : L est nulle ; = 'N' : L est non nulle. JOBL n'est pas utilisé si JOBB = 'G' (on suppose JOBL = 'Z'). La routine SB02MT doit être appelée juste avant SB02OD pour obtenir les résultats lorsque JOBB = 'G' et JOBL = 'N'.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>SORT</param_name>
+    <param_description
+      >Spécifie quelles valeurs propres doivent apparaître en tête de la forme de Schur généralisée : = 'S' : valeurs propres stables en premier ; = 'U' : valeurs propres instables en premier.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>P</param_name>
+    <param_description
+      >Le nombre de sorties du système. Si FACT = 'C' ou 'D' ou 'B', P est le nombre de lignes des matrices C et/ou D. P >= 0. Sinon, P n'est pas utilisé.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>A</param_name>
+    <param_description
+      >La partie principale N-by-N de ce tableau doit contenir la matrice d'état A du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>B</param_name>
+    <param_description
+      >Si JOBB = 'B', la partie principale N-by-M de ce tableau doit contenir la matrice d'entrée B du système.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>Q</param_name>
+    <param_description
+      >Si FACT = 'N' ou 'D', la partie principale N-by-N triangulaire supérieure (si UPLO = 'U') ou triangulaire inférieure (si UPLO = 'L') doit contenir la partie triangulaire supérieure ou inférieure, respectivement, de la matrice symétrique de pondération d'état Q. La partie strictement inférieure (si UPLO = 'U') ou strictement supérieure (si UPLO = 'L') n'est pas référencée.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>R</param_name>
+    <param_description
+      >Si FACT = 'N' ou 'C', la partie principale M-by-M triangulaire supérieure (si UPLO = 'U') ou triangulaire inférieure (si UPLO = 'L') doit contenir la partie triangulaire correspondante de la matrice symétrique de pondération d'entrée R. La partie strictement inférieure (si UPLO = 'U') ou strictement supérieure (si UPLO = 'L') n'est pas référencée.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>L</param_name>
+    <param_description
+      >Si JOBL = 'N' (et JOBB = 'B'), la partie principale N-by-M de ce tableau doit contenir la matrice de pondération croisée L. Cette partie est modifiée en interne, mais restaurée à la sortie. Si JOBL = 'Z' ou JOBB = 'G', ce tableau n'est pas référencé.</param_description>
+        </param_input_item>
+        <param_input_item>
+    <param_name>TOL</param_name>
+    <param_description
+      >La tolérance à utiliser pour tester la quasi-singularité du pencil matriciel original, spécifiquement du facteur triangulaire obtenu lors du processus de réduction.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+    <param_name>RCOND</param_name>
+    <param_description
+      >Une estimation du réciproque du nombre de condition (en norme 1) du système d'ordre N d'équations algébriques à partir duquel la matrice solution X est obtenue.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>X</param_name>
+    <param_description
+      >La partie principale N-by-N de ce tableau contient la matrice solution X du problème.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>ALFAR, ALFAI, BETA</param_name>
+    <param_description
+      >Les valeurs propres généralisées de la paire de matrices 2N-by-2N, ordonnées comme spécifié par SORT (si INFO = 0).</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>S</param_name>
+    <param_description
+      >La partie principale 2N-by-2N de ce tableau contient la forme de Schur réelle ordonnée S de la première matrice du pencil réduit associé au problème optimal, ou de la matrice hamiltonienne correspondante si DICO = 'C' et JOBB = 'G'.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>T</param_name>
+    <param_description
+      >Si DICO = 'D' ou JOBB = 'B', la partie principale 2N-by-2N contient la forme triangulaire supérieure ordonnée T de la seconde matrice du pencil réduit associé au problème optimal.</param_description>
+        </param_output_item>
+        <param_output_item>
+    <param_name>U</param_name>
+    <param_description
+      >La partie principale 2N-by-2N de ce tableau contient la matrice de transformation droite U qui réduit le pencil 2N-by-2N à la forme de Schur généralisée ordonnée (S,T), ou la matrice hamiltonienne à la forme de Schur réelle ordonnée S si DICO = 'C' et JOBB = 'G'.</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>INFO</param_name>
+            <param_description>  = 0 : sortie réussie ;</param_description>
+        </param_output_item>
+    </param_output>
+  <description>
+    <p
+    >Résolution des équations de Riccati algébriques temps continu ou discret (méthode des vecteurs de Schur généralisés).</p>
+    <p
+    >La routine utilise la méthode des sous-espaces déflants, basée sur le réordonnancement des valeurs propres dans une paire de matrices de Schur généralisée.</p>
+    <p
+    >Un problème propre standard est résolu dans le cas continu si G est fourni.</p>
+  </description>
+    <used_function>SB02OD</used_function>
+    <bibliography
+  >http://slicot.org/objects/software/shared/doc/SB02OD.html</bibliography>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[N = 2;
+M = 1;
+P = 3;
+TOL = 0.0;
+DICO = 'C';
+JOBB = 'B';
+FACT = 'B';
+UPLO = 'U';
+JOBL = 'Z';
+SORT = 'S';
+A = [0.0  1.0;
+   0.0  0.0];
+B = [0.0; 1.0];
+Q = [1.0  0.0;
+   0.0  1.0;
+   0.0  0.0];
+R = [0.0;
+   0.0;
+   1.0];
+L = zeros(N, M);
+[RCOND, X, ALFAR, ALFAI, BETA, S, T, U, INFO] = slicot_sb02od(DICO, JOBB, FACT, UPLO, JOBL, SORT, P, A, B, Q, R, L, TOL)]]></example_item_data>
+        </example_item>
+    </examples>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>SLICOT Documentation</author_item>
+    </authors>
+</xmldoc>

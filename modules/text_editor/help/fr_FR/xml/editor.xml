@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>editor</keyword>
+    <short_description>appelle l'éditeur de texte intégré.</short_description>
+    <syntax>
+        <syntax_item>editor()</syntax_item>
+        <syntax_item>editor(filename)</syntax_item>
+        <syntax_item>editor('editor_command', cmd)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>filename</param_name>
+            <param_description
+      >une chaîne : nom de fichier à ouvrir.</param_description>
+        </param_input_item>
+                <param_input_item>
+                        <param_name>cmd</param_name>
+                        <param_description
+      >une chaîne représentant la commande pour lancer votre éditeur de code préféré.</param_description>
+                </param_input_item>
+    </param_input>
+    <description>
+        <p>
+            <b
+      >editor</b> ouvre un fichier existant dans l'éditeur intégré de Nelson.</p>
+            <p>
+                <b
+      >editor</b> doit être considéré comme interne et il est préférable d'utiliser <b
+      >edit</b>.</p>
+                <p
+    >Définir un autre éditeur de texte par défaut : (exemple avec VS Code)</p>
+                <p>
+                    <code>editor('editor_command', 'code')</code>
+                </p>
+                <p>Pour restaurer l'éditeur par défaut, utilisez :</p>
+                <p>
+                    <code>editor('editor_command', '')</code>
+                </p>
+                <p
+    >Le changement d'éditeur est persistant et sera enregistré dans un fichier de configuration.</p>
+            </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description />
+                    <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[edit('edit')
+if ispc()
+  editor('editor_command ', 'notepad')
+else
+  editor('editor_command ', 'vim')
+end
+edit('edit')
+% restore default editor
+editor('editor_command ', '')
+]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${text_editor}edit">edit</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.0.0</history_version>
+                    <history_description>version initiale</history_description>
+                </history_item>
+                <history_item>
+                    <history_version>1.10.0</history_version>
+                    <history_description
+      >Option pour changer l'éditeur de texte par défaut</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

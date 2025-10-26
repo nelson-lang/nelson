@@ -24,77 +24,56 @@ ArrayOfVector
 Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 1, 2);
+    nargincheck(argIn, 1, 3);
     nargoutcheck(nLhs, 0, 1);
-    if (argIn.size() == 2) {
-        std::wstring filenameIn;
-        std::wstring filenameOut;
-        if (argIn[0].isRowVectorCharacterArray()) {
-            filenameIn = argIn[0].getContentAsWideString();
-        } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
-        }
-        filenameOut = argIn[1].getContentAsWideString();
-        bool permissionDenied;
-        FileSystemWrapper::Path pathIn(filenameIn);
-        bool IsDirIn = FileSystemWrapper::Path::is_directory(pathIn, permissionDenied);
-        if (permissionDenied) {
-            Error(_W("Permission denied."));
-        }
 
-        FileSystemWrapper::Path pathOut(filenameOut);
-        bool IsDirOut = FileSystemWrapper::Path::is_directory(pathOut, permissionDenied);
-        if (permissionDenied) {
-            Error(_W("Permission denied."));
+    MarkdownMode mode = MarkdownMode::SECURE;
+    size_t nbInputArguments = argIn.size();
+
+    if (argIn.size() >= 2
+        && (argIn.back().isRowVectorCharacterArray() || argIn.back().isScalarStringArray())) {
+        std::wstring opt = argIn.back().getContentAsWideString();
+        if (StringHelpers::iequals(opt, L"secure")) {
+            mode = MarkdownMode::SECURE;
+            nbInputArguments--;
+        } else if (StringHelpers::iequals(opt, L"advanced")) {
+            mode = MarkdownMode::ADVANCED;
+            nbInputArguments--;
         }
-        if (IsDirIn && IsDirOut) {
-            nfs::directory_iterator end_iter;
-            wstringVector filesListIn;
-            for (nfs::directory_iterator dir_iter(pathIn.native()); dir_iter != end_iter;
-                 ++dir_iter) {
-                FileSystemWrapper::Path current(dir_iter->path().native());
-                if (StringHelpers::iequals(current.extension().generic_wstring(), L".md")) {
-                    filesListIn.push_back(current.generic_wstring());
-                }
-                parallelSort(filesListIn);
-            }
-            bool bRes = true;
-            for (auto& k : filesListIn) {
-                FileSystemWrapper::Path st(k);
-                FileSystemWrapper::Path out(pathOut);
-                out /= st.stem();
-                out += L".html";
-                bool bLocal = MarkdownFile(k, out.generic_wstring());
-                if (!bLocal) {
-                    bRes = bLocal;
-                }
-            }
-            retval << ArrayOf::logicalConstructor(bRes);
-        } else {
-            bool bRes = MarkdownFile(filenameIn, filenameOut);
-            retval << ArrayOf::logicalConstructor(bRes);
-        }
+    }
+
+    bool bRes = false;
+
+    if (nbInputArguments == 2
+        && (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray())
+        && (argIn[1].isRowVectorCharacterArray() || argIn[1].isScalarStringArray())) {
+        // markdown(md_filename, html_filename [, mode])
+        std::wstring filenameIn = argIn[0].getContentAsWideString();
+        std::wstring filenameOut = argIn[1].getContentAsWideString();
+
+        bRes = MarkdownFile(filenameIn, filenameOut, mode);
+        retval << ArrayOf::logicalConstructor(bRes);
     } else {
-        // argIn.size() == 1
+        // markdown(md_txt [, mode])
         ArrayOf param1 = argIn[0];
         std::wstring stringInput;
-        if (param1.isCellArrayOfCharacterVectors()) {
+        if (param1.isCellArrayOfCharacterVectors() || param1.isStringArray()) {
             wstringVector vstr = param1.getContentAsWideStringColumnVector();
             for (auto& k : vstr) {
                 stringInput = stringInput + L"\n" + k;
             }
+        } else if (param1.isRowVectorCharacterArray() || param1.isScalarStringArray()) {
+            stringInput = param1.getContentAsWideString();
         } else {
-            if (param1.isRowVectorCharacterArray()) {
-                stringInput = param1.getContentAsWideString();
-            } else {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
-            }
+            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
         }
+
         std::wstring stringOutput;
-        if (MarkdownString(stringInput, stringOutput)) {
+        bRes = MarkdownString(stringInput, stringOutput, mode);
+        if (bRes) {
             retval << ArrayOf::characterArrayConstructor(stringOutput);
         } else {
-            Error(_W("Error markdown generation."));
+            Error(_W("Markdown generation fails."));
         }
     }
     return retval;

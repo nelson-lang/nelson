@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>cylinder</keyword>
+    <short_description>Créer un cylindre.</short_description>
+    <syntax>
+        <syntax_item>[X, Y, Z] = cylinder()</syntax_item>
+        <syntax_item>[X, Y, Z] = cylinder(r)</syntax_item>
+        <syntax_item>[X, Y, Z] = cylinder(r, n)</syntax_item>
+        <syntax_item>cylinder()</syntax_item>
+        <syntax_item>cylinder(r)</syntax_item>
+        <syntax_item>cylinder(r, n)</syntax_item>
+        <syntax_item>cylinder(ax, ...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>r</param_name>
+            <param_description>Courbe de profil : vecteur.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>n</param_name>
+            <param_description
+      >Nombre de points : entier positif.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>ax</param_name>
+            <param_description>Axes cibles : objet 'axes'.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>X, Y, Z</param_name>
+            <param_description
+      >Coordonnées x, y et z d'un cylindre sans l'afficher.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>cylinder</b> crée un cylindre et l'affiche.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f1 = figure();
+colormap(spring)
+cylinder()]]></example_item_data>
+                <example_item_img
+        src="../../images/cylinder_1.svg"
+        align="middle"
+        generate="true"
+      />
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f2 = figure();
+colormap(summer)
+r = 4;
+cylinder(r);]]></example_item_data>
+                <example_item_img
+        src="../../images/cylinder_2.svg"
+        align="middle"
+        generate="true"
+      />
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${graphics}sphere">sphere</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${graphics}surf">surf</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

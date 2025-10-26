@@ -27,7 +27,8 @@
         </param_output_item>
     </param_output>
     <description>
-        <b>strcmp</b> compares two strings.</description>
+        <p><b>strcmp</b> compares two strings.</p>
+    </description>
         <used_function />
         <bibliography />
         <examples>
@@ -35,6 +36,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[strcmp('Nelson', 'nelSon')
 strcmp('Nelson', 'Nelson')
 

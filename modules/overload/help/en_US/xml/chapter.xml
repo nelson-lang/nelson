@@ -4,7 +4,12 @@
     <language>en_US</language>
     <module_name>overload</module_name>
     <chapter>Overloading</chapter>
-    <chapter_description
-  >Overloading capabilities on functions and operators.</chapter_description>
-    <auto_toc />
+    <chapter_description>
+      <p
+    >The Overloading module provides mechanisms for customizing the behavior of functions and operators in Nelson.</p>
+      <p
+    >It allows users to define how standard operations or built-in functions should behave when applied to user-defined types or objects.</p>
+      <p
+    >This capability enables the extension of Nelson’s language features, supporting more natural and expressive use of custom data structures.</p>
+    </chapter_description>
 </xmldoc>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>renamevars</keyword>
+    <short_description
+  >Renommer les variables dans une table.</short_description>
+    <syntax>
+        <syntax_item>TB = renamevars(TA, varsNames, newNames)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>TA</param_name>
+            <param_description>Table d'entrée.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>varsNames</param_name>
+        <param_description
+      >Noms des variables dans la table d'entrée : vecteur de caractères, tableau de chaînes ou tableau de cellules de vecteurs de caractères.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>newNames</param_name>
+        <param_description
+      >Nouveaux noms pour les variables : vecteur de caractères, tableau de chaînes ou tableau de cellules de vecteurs de caractères.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>TB</param_name>
+        <param_description
+      >Objet Table avec les noms de variables modifiés.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+      <p><b
+      >TB = renamevars(TA, varsNames, newNames)</b> renomme les variables dans la table <b
+      >TA</b> telles que spécifiées par <b
+      >varsNames</b> et leur assigne les nouveaux noms fournis dans <b
+      >newNames</b>.</p>
+        <p
+    >Vous pouvez également renommer toutes les variables d'une table en assignant de nouveaux noms à sa propriété <b
+      >VariableNames</b> en utilisant <b
+      >T.Properties.VariableNames = newNames</b>.</p>
+        <p>Dans ce cas, <b
+      >newNames</b> doit être un tableau de chaînes ou un tableau de cellules de vecteurs de caractères.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[C = {'John', 28, true; 'Alice', 35, false; 'Bob', 42, true};
+% Convert the cell array to a table
+T1 = cell2table(C);
+T2 = renamevars(T1, {'C1', 'C2'}, {'Name', 'Age'})
+T3 = cell2table(C);
+T3.Properties.VariableNames = {'Name', 'Age', 'Married'};
+T3]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${table}table">table</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${table}removevars">removevars</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.9.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

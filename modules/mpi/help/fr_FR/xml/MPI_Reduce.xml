@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+        <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>MPI_Reduce</keyword>
+        <short_description
+  >Réduit les valeurs de tous les processus en une seule valeur.</short_description>
+    <syntax>
+        <syntax_item>r = MPI_Reduce(Value, Operation, Root)</syntax_item>
+        <syntax_item>r = MPI_Reduce(Value, Operation, Root, Comm)</syntax_item>
+    </syntax>
+    <param_input>
+                <param_input_item>
+                        <param_name>Value</param_name>
+                        <param_description
+      >valeur à envoyer : tableau numérique ou logique (sparse non supporté).</param_description>
+                </param_input_item>
+        <param_input_item>
+            <param_name>Operation</param_name>
+        <param_description
+      >chaîne : MPI_SUM, MPI_MAX, MPI_MIN, MPI_PROD, MPI_LAND, MPI_LOR, MPI_BAND, MPI_BOR, MPI_LXOR ou MPI_BXOR</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Root</param_name>
+        <param_description>entier : rang du processus root.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>Comm</param_name>
+            <param_description>a MPI_Comm object.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>r</param_name>
+            <param_description>valeur reçue</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>Réduit les valeurs de tous les processus en une seule valeur.</p>
+        <p
+    >Nelson ne vérifie pas que les tableaux fournis aux opérations de réduction sont de la même taille sur tous les processus du groupe.</p>
+        <p
+    >Assurez-vous que chaque processus passe un tableau de la même taille à MPI_Reduce.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description
+      >mpiexec([modulepath('mpi'), '/examples/help_examples/MPI_Reduce.m'], 4)</example_item_description>
+            <example_item_data
+        runnable="false"
+      ><![CDATA[
+if ~MPI_Initialized()
+  MPI_Init();
+end
+my_rank = MPI_Comm_rank ();
+num_ranks = MPI_Comm_size();
+
+A = [1 + my_rank:3 + my_rank]
+B = MPI_Reduce(A, 'MPI_SUM', 0);
+if (my_rank == 0)
+  disp('Result:')
+  B
+end
+if MPI_Initialized()
+  MPI_Finalize();
+end
+]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${mpi}MPI_Allreduce">MPI_Allreduce</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

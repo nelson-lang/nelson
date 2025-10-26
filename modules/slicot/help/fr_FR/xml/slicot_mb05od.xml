@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+        <copyright>SAME AS NELSON SOFTWARE</copyright>
+        <language>fr_FR</language>
+        <keyword>slicot_mb05od</keyword>
+        <short_description
+  >Exponentielle matricielle pour une matrice réelle, avec estimation de précision.</short_description>
+    <syntax>
+        <syntax_item
+    >[A_OUT, MDIG, IDIG, IWARN, INFO] = slicot_mb05od(BALANC, NDIAG, DELTA, A_IN)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+        <param_name>BALANC</param_name>
+        <param_description
+      >Spécifie si une transformation d'équilibrage (réalisée par MB04MD) est requise : = 'N' : ne pas utiliser d'équilibrage ; = 'S' : utiliser l'équilibrage (mise à l'échelle).</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>NDIAG</param_name>
+        <param_description
+      >L'ordre spécifié de l'approximation de Pade diagonale. À défaut d'information, NDIAG = 9. NDIAG ne doit pas dépasser 15. NDIAG ≥ 1.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>DELTA</param_name>
+        <param_description
+      >La valeur scalaire delta du problème.</param_description>
+        </param_input_item>
+        <param_input_item>
+        <param_name>A_IN</param_name>
+        <param_description
+      >La partie principale N-by-N de ce tableau doit contenir la matrice A du problème.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+        <param_name>A_OUT</param_name>
+        <param_description
+      >Si INFO = 0, la partie principale N-by-N de ce tableau contient la matrice solution exp(A * delta).</param_description>
+        </param_output_item>
+        <param_output_item>
+        <param_name>MDIG</param_name>
+        <param_description
+      >Le nombre minimal de chiffres exacts dans la norme 1 de exp(A*delta).</param_description>
+        </param_output_item>
+        <param_output_item>
+        <param_name>IDIG</param_name>
+        <param_description
+      >Le nombre de chiffres exacts dans la norme 1 de exp(A*delta) au niveau de confiance 95%.</param_description>
+        </param_output_item>
+        <param_output_item>
+        <param_name>IWARN</param_name>
+        <param_description
+      > = 0 : pas d'avertissement ; = 1 : si MDIG = 0 et IDIG > 0, avertissement d'inexactitude possible (l'exponentielle a été calculée) ; = 2 : si MDIG = 0 et IDIG = 0, avertissement d'inexactitude sévère (l'exponentielle a été calculée) ; = 3 : si l'équilibrage a été demandé mais a échoué à réduire la norme et n'a pas été utilisé.</param_description>
+        </param_output_item>
+        <param_output_item>
+        <param_name>INFO</param_name>
+        <param_description
+      >= 0 : sortie réussie ; = 1 : si la norme de A*delta (après équilibrage éventuel) est trop grande pour obtenir un résultat précis ; = 2 : si la matrice de coefficients (dénominateur de l'approximation de Pade) est exactement singulière ; essayer une autre valeur de NDIAG ; = 3 : si l'exponentielle solution débordera, possiblement dû à une valeur DELTA trop grande ; les calculs ont été interrompus prématurément.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p
+    >Calculer exp(A*delta) où A est une matrice réelle N-by-N et delta un scalaire. La routine renvoie aussi le nombre minimal de chiffres exacts dans la norme 1 de exp(A*delta) et le nombre de chiffres exacts au niveau de confiance 95%.</p>
+    </description>
+    <used_function>MB05OD</used_function>
+    <bibliography
+  >http://slicot.org/objects/software/shared/doc/MB05OD.html</bibliography>
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[N = 3;
+NDIAG = 9;
+DELTA = 1.0;
+BALANC = 'S';
+A_IN = [2.0   1.0   1.0;
+   0.0   3.0   2.0;
+   1.0   0.0   4.0];
+[A_OUT, MDIG, IDIG, IWARN, INFO] = slicot_mb05od(BALANC, NDIAG, DELTA, A_IN)]]></example_item_data>
+        </example_item>
+    </examples>
+    <history>
+        <history_item>
+            <history_version>1.0.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>SLICOT Documentation</author_item>
+    </authors>
+</xmldoc>

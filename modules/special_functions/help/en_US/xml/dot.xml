@@ -28,8 +28,25 @@
     <description>
         <p>
             <b>R = dot(A, B)</b> returns the scalar dot product of <b
-      >A</b> and <b>B</b>.</p>
-        </description>
+      >A</b> and <b>B</b>.
+        </p>
+        <p>For real vectors</p>
+        <latex>\mathbf{a}</latex>
+        <p>and</p>
+        <latex>\mathbf{b}</latex>
+        <p>of length</p>
+        <latex>n</latex>
+        <p>:</p>
+        <latex
+    >\mathbf{a} \cdot \mathbf{b} = \sum_{i=1}^{n} a_i b_i = a_1 b_1 + a_2 b_2 + \cdots + a_n b_n</latex>
+        <p>For complex vectors, the dot product is:</p>
+        <latex
+    >\mathbf{a} \cdot \mathbf{b} = \sum_{i=1}^{n} \overline{a_i} b_i</latex>
+        <p>where</p>
+        <latex>\overline{a_i}</latex>
+        <p>denotes the complex conjugate of</p>
+        <latex>a_i</latex>
+    </description>
         <used_function />
         <bibliography>https://en.wikipedia.org/wiki/Dot_product</bibliography>
         <examples>
@@ -37,6 +54,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[A = [1 2 3;4 5 6;7 8 9];
 B = [9 8 7;6 5 4;3 2 1];
 R = dot(A, B)

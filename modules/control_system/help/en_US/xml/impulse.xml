@@ -54,11 +54,16 @@
             <example_item_type>nelson</example_item_type>
             <example_item_description />
             <example_item_data
+        runnable="adv-cli"
       ><![CDATA[sys = tf(4,[1 2 10]);
 t = 0:0.05:5;
 f = figure();
 impulse(sys,t);]]></example_item_data>
-            <example_item_img src="../images/impulse.svg" align="middle" />
+            <example_item_img
+        src="../images/impulse.svg"
+        align="middle"
+        generate="true"
+      />
         </example_item>
     </examples>
     <see_also>

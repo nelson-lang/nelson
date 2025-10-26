@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>primes</keyword>
+    <short_description
+  >Nombres premiers inférieurs ou égaux à la valeur d'entrée</short_description>
+    <syntax>
+        <syntax_item>p = primes(n)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>n</param_name>
+            <param_description
+      >scalaire, valeur entière réelle</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>p</param_name>
+            <param_description
+      >vecteur avec les nombres premiers.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >p = primes(n)</b> retourne un vecteur ligne contenant tous les nombres premiers inférieurs ou égaux à n.</p>
+            <p>Le type de données de p est le même que celui de n.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[p = primes(15)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${special_functions}factor">factor</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

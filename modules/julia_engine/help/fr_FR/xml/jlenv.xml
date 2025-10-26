@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>jlenv</keyword>
+    <short_description
+  >Modifier l'environnement par défaut de l'interpréteur Julia.</short_description>
+    <syntax>
+        <syntax_item>jlenv</syntax_item>
+        <syntax_item>je = jlenv('Version', julia_path)</syntax_item>
+        <syntax_item>je = jlenv(...)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>julia_path</param_name>
+            <param_description
+      >une chaîne ou un vecteur de caractères : nom du fichier exécutable de Julia.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>je</param_name>
+            <param_description>objet JuliaEnvironment.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>Utilisez <b
+      >jlenv</b> pour modifier la version par défaut ou le mode d'exécution de l'interpréteur Julia, en veillant à ce que ces ajustements persistent entre les différentes sessions Nelson.</p>
+        <p>La valeur définie par <b
+      >jlenv</b> est persistante entre les sessions Nelson.</p>
+        <p />
+        <p>Properties:</p>
+        <p>
+            <b>Version</b>: string: Julia version</p>
+            <p>
+                <b>Executable</b>: string: Name of Julia executable file</p>
+                <p>
+                    <b>Library</b>: string: Shared library file</p>
+                    <p>
+                        <b>Home</b>: string: Home folder</p>
+                        <p>
+                            <b
+      >Status</b>: Process status: "NotLoaded" (default), "Loaded", "Terminated"</p>
+                            <p>
+                                <b
+      >ExecutionMode</b>: Execution mode: "InProcess" (default) or "OutOfProcess"</p>
+                                <p />
+                                <p
+    >Utilisez des variables d'environnement pour forcer l'environnement Julia au démarrage (utile pour les distributions snapcraft ou docker) :</p>
+                                <p />
+                                <p>
+                                    <b
+      >__NELSON_JULIA_VERSION__</b>:  exemple "1.11"</p>
+                                    <p>
+                                        <b
+      >__NELSON_JULIA_EXECUTABLE__</b>: exemple  "/usr/bin/julia"</p>
+                                        <p>
+                                            <b
+      >__NELSON_JULIA_LIBRARY__</b>: exemple "libjulia.so"</p>
+                                            <p>
+                                                <b
+      >__NELSON_JULIA_HOME__</b>: exemple "/usr"</p>
+                                                <p
+    >Toutes les variables d'environnement doivent exister et être valides pour être prises en compte.</p>
+                                                <p />
+                                            </description>
+                                            <used_function />
+                                            <bibliography />
+                                            <examples>
+                                                <example_item>
+                                                    <example_item_type
+      >nelson</example_item_type>
+                                                    <example_item_description />
+                                                    <example_item_data
+        runnable="cli"
+      ><![CDATA[je = jlenv]]></example_item_data>
+                                                </example_item>
+                                                <example_item>
+                                                    <example_item_type
+      >nelson</example_item_type>
+                                                    <example_item_description
+      >Définir le chemin de l'exécutable Julia</example_item_description>
+                                                    <example_item_data
+        runnable="false"
+      ><![CDATA[jlenv('Version', ''C:\WindowsTools\Julia-1.11.6\bin\julia.exe'')]]></example_item_data>
+                                                </example_item>
+                                            </examples>
+                                            <see_also>
+                                                <see_also_item>
+                                                    <link
+        linkend="${julia_engine}jlrun"
+      >jlrun</link>
+                                                </see_also_item>
+                                            </see_also>
+                                            <history>
+                                                <history_item>
+                                                    <history_version
+      >1.12.0</history_version>
+                                                    <history_description
+      >version initiale</history_description>
+                                                </history_item>
+                                            </history>
+                                            <authors>
+                                                <author_item
+    >Allan CORNET</author_item>
+                                            </authors>
+                                        </xmldoc>

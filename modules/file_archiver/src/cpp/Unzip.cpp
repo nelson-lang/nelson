@@ -65,18 +65,26 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
                 unzClose(zipfile);
                 Error(_W("Cannot open file."));
             }
-            std::wstring completePath = fullRootPath + L"/" + utf8_to_wstring(filename);
+            std::filesystem::path completePath(fullRootPath + L"/" + utf8_to_wstring(filename));
+            std::error_code ec;
+            std::filesystem::create_directories(completePath.parent_path(), ec);
+            if (ec) {
+                unzCloseCurrentFile(zipfile);
+                unzClose(zipfile);
+                Error(_W("Cannot create intermediate directory."));
+            }
+
 #ifdef _MSC_VER
-            FILE* out = _wfopen(completePath.c_str(), L"wb");
+            FILE* out = _wfopen(completePath.generic_wstring().c_str(), L"wb");
 #else
-            FILE* out = fopen(wstring_to_utf8(completePath).c_str(), "wb");
+            FILE* out = fopen(wstring_to_utf8(completePath.generic_wstring()).c_str(), "wb");
 #endif
             if (out == nullptr) {
                 unzCloseCurrentFile(zipfile);
                 unzClose(zipfile);
                 Error(_W("Cannot open destination file."));
             }
-            filenames.push_back(completePath);
+            filenames.push_back(completePath.generic_wstring());
 
             int error = UNZ_OK;
             char read_buffer[MAX_FILENAME];
@@ -100,8 +108,8 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
                 fclose(out);
                 out = nullptr;
             }
-            changeFileDate(completePath, file_info.tmu_date, file_info.dosDate);
-            changeFileOrFolderAttributes(completePath, file_info.external_fa);
+            changeFileDate(completePath.generic_wstring(), file_info.tmu_date, file_info.dosDate);
+            changeFileOrFolderAttributes(completePath.generic_wstring(), file_info.external_fa);
         }
         if ((i + 1) < global_info.number_entry) {
             if (unzGoToNextFile(zipfile) != UNZ_OK) {

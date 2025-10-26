@@ -40,6 +40,7 @@
                 <example_item_type>nelson</example_item_type>
                 <example_item_description />
                 <example_item_data
+        runnable="cli"
       ><![CDATA[C = {'John', 28, true; 'Alice', 35, false; 'Bob', 42, true};
 % Convert the cell array to a table
 T = cell2table(C)]]></example_item_data>

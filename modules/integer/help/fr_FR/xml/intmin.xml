@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>intmin</keyword>
+    <short_description
+  >Renvoie le plus petit entier pouvant être représenté pour un type entier.</short_description>
+    <syntax>
+        <syntax_item>imin = intmin()</syntax_item>
+        <syntax_item>imin = intmin(classname)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>classname</param_name>
+            <param_description
+      >une chaîne : par défaut : int32</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>imin</param_name>
+            <param_description>le plus petit entier</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >imin = intmin(classname)</b> le plus petit entier pouvant être représenté pour un type entier.</p>
+            <p>Les valeurs prises en charge pour la chaîne <b
+      >classname</b> sont :</p>
+            <p>'int8'</p>
+            <p>'uint8'</p>
+            <p>'int16'</p>
+            <p>'uint16'</p>
+            <p>'int32'</p>
+            <p>'uint32'</p>
+            <p>'int64'</p>
+            <p>'uint64'</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = intmin('int64')
+res = class(A)]]></example_item_data>
+            </example_item>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[A = intmin('uint32')
+res = class(C)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${integer}intmax">intmax</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${type}class">class</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.0.0</history_version>
+                <history_description>version initiale</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

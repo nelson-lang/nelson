@@ -64,14 +64,16 @@
                             <example_item_description
       >uicontrol demo Interruptible</example_item_description>
                             <example_item_data
+        runnable="adv-cli"
       ><![CDATA[
 addpath([modulepath('graphics','root'), '/examples/uicontrol'])
 edit uicontrol_demo_interruptible
 uicontrol_demo_interruptible
 ]]></example_item_data>
                             <example_item_img
-        src="../images/uicontrol_6.png"
+        src="../../images/uicontrol_6.png"
         align="middle"
+        generate="false"
       />
                         </example_item>
                     </examples>
