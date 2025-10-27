@@ -26,6 +26,23 @@
         </description>
         <used_function />
         <bibliography />
+<examples>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+        runnable="cli"
+      ><![CDATA[xml_filename = [modulepath('xml'), '/tests/test_xml.xml'];
+if isfile(xml_filename)
+    xmlprettyprint(xml_filename, false);
+    fileread(xml_filename)
+    xmlprettyprint(xml_filename, true);
+    fileread(xml_filename)
+end]]>
+    </example_item_data>
+  </example_item>
+</examples>
+
         <see_also>
             <see_also_item>
                 <link linkend="${json}jsonprettyprint">jsonprettyprint</link>

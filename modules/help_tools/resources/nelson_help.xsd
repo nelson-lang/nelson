@@ -77,6 +77,7 @@
           <xs:element name="bibliography" type="xs:string" minOccurs="0"/>
           <xs:element name="examples" type="ExamplesType" minOccurs="0"/>
           <xs:element name="used_function" minOccurs="0"/>
+          <xs:element name="img" type="ImgType" minOccurs="0"/>
         </xs:choice>
           <xs:element name="see_also" type="SeeAlsoType" minOccurs="0" maxOccurs="1"/>
           <xs:element name="history" type="HistoryType" minOccurs="0" maxOccurs="1"/>

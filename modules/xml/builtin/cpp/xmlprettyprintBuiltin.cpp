@@ -35,7 +35,7 @@ Nelson::XmlGateway::xmlprettyprintBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_CELL_OF_STRINGS_EXPECTED);
     }
-    if (argIn.size() >= 2) {
+    if (argIn.size() > 1) {
         if (argIn[1].isLogical()) {
             formatSpace = argIn[1].getContentAsLogicalScalar();
         } else {

@@ -74,6 +74,7 @@ modules_list = {
 {'mex', @WITH_MEX_MODULE@};
 {'f2c', @WITH_F2C_MODULE@};
 {'nig', @WITH_NIG_MODULE@};
+{'validators', @WITH_VALIDATORS_MODULE@};
 {'com_engine', false};
 {'python_engine', @WITH_PYTHON_ENGINE_MODULE@};
 {'julia_engine', @WITH_JULIA_ENGINE_MODULE@};
@@ -81,7 +82,6 @@ modules_list = {
 {'debugger', true};
 {'profiler', true};
 {'tests_manager', @WITH_TESTS_MANAGER_MODULE@};
-{'validators', @WITH_VALIDATORS_MODULE@};
 {'assert_functions', @WITH_ASSERT_FUNCTIONS_MODULE@};
 {'help_tools', @WITH_HELP_TOOLS_MODULE@};
 };

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table>
+  <row>
+    <Var1>M</Var1>
+    <Var2>45</Var2>
+    <Var2>45</Var2>
+    <Var3>NY</Var3>
+    <Var4>true</Var4>
+  </row>
+  <row>
+    <Var1>F</Var1>
+    <Var2>41</Var2>
+    <Var2>32</Var2>
+    <Var3>CA</Var3>
+    <Var4>false</Var4>
+  </row>
+  <row>
+    <Var1>M</Var1>
+    <Var2>40</Var2>
+    <Var2>34</Var2>
+    <Var3>MA</Var3>
+    <Var4>false</Var4>
+  </row>
+</table>

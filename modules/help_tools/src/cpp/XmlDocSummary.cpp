@@ -18,15 +18,13 @@
 #include "StringHelpers.hpp"
 #include "i18n.hpp"
 #include "Nelson_VERSION.h"
+#include "XmlHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static std::string
 assembleTocSummary(const std::vector<XMLDOCFILES>& xmlDocFiles, DOCUMENT_OUTPUT outputDocumentType,
     std::wstring& errorMessage);
-//=============================================================================
-static void
-addRawXml(xmlNodePtr parent, const std::string& rawxml);
 //=============================================================================
 bool
 XmlDocTocSummary(const std::wstring& destinationDirectory, std::vector<XMLDOCFILES>& xmlDocFiles,
@@ -117,7 +115,7 @@ assembleTocSummary(const std::vector<XMLDOCFILES>& xmlDocFiles, DOCUMENT_OUTPUT 
 
     for (const auto& xmlDocFile : xmlDocFiles) {
         std::wstring moduleName = std::get<1>(xmlDocFile);
-        xmlNodePtr modulename_node = xmlNewChild(
+        xmlNewChild(
             toc_node, nullptr, BAD_CAST "module", BAD_CAST wstring_to_utf8(moduleName).c_str());
         std::wstring chapterTitle = std::get<2>(xmlDocFile);
         std::string chapterDescription = std::get<3>(xmlDocFile);
@@ -160,22 +158,6 @@ assembleTocSummary(const std::vector<XMLDOCFILES>& xmlDocFiles, DOCUMENT_OUTPUT 
     }
     xmlFreeDoc(doc);
     return result;
-}
-//=============================================================================
-void
-addRawXml(xmlNodePtr parent, const std::string& rawxml)
-{
-    xmlDocPtr doc = parent->doc;
-    xmlNodePtr list = nullptr;
-
-    int ret = xmlParseInNodeContext(parent, rawxml.c_str(), (int)rawxml.size(), 0, &list);
-
-    if (ret == 0 && list) {
-        for (xmlNodePtr cur = list; cur; cur = cur->next) {
-            xmlAddChild(parent, xmlCopyNode(cur, 1));
-        }
-        xmlFreeNodeList(list);
-    }
 }
 //=============================================================================
 }

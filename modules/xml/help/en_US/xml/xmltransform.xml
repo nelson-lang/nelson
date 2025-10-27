@@ -47,6 +47,23 @@
     </description>
     <used_function />
     <bibliography />
+<examples>
+  <example_item>
+    <example_item_type>nelson</example_item_type>
+    <example_item_description />
+    <example_item_data
+        runnable="cli"
+      ><![CDATA[xml_filename = [modulepath('xml'), '/tests/test_xml.xml'];
+if isfile(xml_filename)
+  xsl_filename = [modulepath('xml'), '/tests/test_xml_to_text.xslt'];
+  output_filename = [tempdir(), 'test_xml_output.html'];
+  fileread(xml_filename)
+  R = xmltransform(xml_filename, xsl_filename, output_filename)
+  fileread(output_filename)
+end]]>
+    </example_item_data>
+  </example_item>
+</examples>    
     <see_also>
         <see_also_item>
             <link linkend="${xml}xmlchecker">xmlchecker</link>

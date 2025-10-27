@@ -34,15 +34,13 @@
         </param_output_item>
     </param_output>
     <description>
-        <p>
-            <b>errordlg</b> creates an error dialog box.</p>
-            <p>
-                <b
+        <p><b>errordlg</b> creates an error dialog box.</p>
+        <p><b
       >h = errordlg(text_error, title, 'replace')</b> specifies whether to replace an existing dialog box having the same title.</p>
-                <p>
-                    <img src="../images/errordlg_1.png" />
-                </p>
-            </description>
+        <p>
+            <img src="../images/errordlg_1.png" />
+        </p>
+    </description>
             <used_function />
             <bibliography />
             <examples>

@@ -25,6 +25,7 @@
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "omp_for_loop.hpp"
+#include "XmlHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -223,23 +224,6 @@ ProcessXmlFile(const std::wstring& filename, std::string& moduleValue,
     xmlXPathFreeContext(xpathCtx);
     xmlFreeDoc(doc);
     return true;
-}
-
-//=============================================================================
-static void
-addRawXml(xmlNodePtr parent, const std::string& rawxml)
-{
-
-    xmlNodePtr list = nullptr;
-
-    int ret = xmlParseInNodeContext(parent, rawxml.c_str(), (int)rawxml.size(), 0, &list);
-
-    if (ret == 0 && list) {
-        for (xmlNodePtr cur = list; cur; cur = cur->next) {
-            xmlAddChild(parent, xmlCopyNode(cur, 1));
-        }
-        xmlFreeNodeList(list);
-    }
 }
 //=============================================================================
 static bool

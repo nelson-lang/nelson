@@ -163,6 +163,20 @@
     </xsl:for-each>
     <xsl:text>]</xsl:text>
 
+    <!-- used function (optional field) -->
+    <xsl:if test="used_function and normalize-space(used_function)">
+      <xsl:text>, "used_function": "</xsl:text>
+      <xsl:call-template name="escape-json"><xsl:with-param name="text" select="normalize-space(used_function)"/></xsl:call-template>
+      <xsl:text>"</xsl:text>
+    </xsl:if>
+
+    <!-- copyright (optional field) -->
+    <xsl:if test="copyright and normalize-space(copyright)">
+      <xsl:text>, "copyright": "</xsl:text>
+      <xsl:call-template name="escape-json"><xsl:with-param name="text" select="normalize-space(copyright)"/></xsl:call-template>
+      <xsl:text>"</xsl:text>
+    </xsl:if>
+
     <xsl:text>}</xsl:text>
   </xsl:template>
 

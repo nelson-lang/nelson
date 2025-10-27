@@ -388,7 +388,7 @@
         </xsl:if>
 
         <!-- Used Function Section -->
-        <xsl:if test="used_function[text()]">
+        <xsl:if test="used_function and normalize-space(used_function)">
             <div class="section">
                 <div class="section-title">Used Functions</div>
                 <div><xsl:value-of select="used_function"/></div>

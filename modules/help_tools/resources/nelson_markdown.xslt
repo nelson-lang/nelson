@@ -137,17 +137,17 @@
     <xsl:text>&#10;</xsl:text>
     </xsl:if>
 
-    <!-- Bibliography section if present and non-empty -->
-    <xsl:if test="normalize-space(bibliography)">
-      <xsl:text>&#10;## </xsl:text><xsl:value-of select="$bibliography-text"/><xsl:text>&#10;&#10;</xsl:text>
-      <xsl:value-of select="bibliography"/>
+    <!-- Used function(s) section if present and non-empty -->
+    <xsl:if test="used_function and normalize-space(used_function) != ''">
+      <xsl:text>&#10;## </xsl:text><xsl:value-of select="$used-functions-text"/><xsl:text>&#10;&#10;</xsl:text>
+      <xsl:value-of select="used_function"/>
       <xsl:text>&#10;</xsl:text>
     </xsl:if>
 
-    <!-- Used function(s) section if present and non-empty -->
-    <xsl:if test="normalize-space(used_function)">
-      <xsl:text>&#10;## </xsl:text><xsl:value-of select="$used-functions-text"/><xsl:text>&#10;&#10;</xsl:text>
-      <xsl:value-of select="used_function"/>
+    <!-- Bibliography section if present and non-empty -->
+    <xsl:if test="bibliography and normalize-space(bibliography) != ''">
+      <xsl:text>&#10;## </xsl:text><xsl:value-of select="$bibliography-text"/><xsl:text>&#10;&#10;</xsl:text>
+      <xsl:value-of select="bibliography"/>
       <xsl:text>&#10;</xsl:text>
     </xsl:if>
 

@@ -233,6 +233,7 @@
     <ClCompile Include="..\cpp\XmlDocSummary.cpp" />
     <ClCompile Include="..\cpp\XmlDocToc.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\XmlHelpers.cpp" />
     <ClCompile Include="cmark\blocks.c" />
     <ClCompile Include="cmark\buffer.c" />
     <ClCompile Include="cmark\cmark.c" />
@@ -254,6 +255,7 @@
     <ClCompile Include="cmark\xml.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\cpp\XmlHelpers.hpp" />
     <ClInclude Include="..\include\HeadComments.hpp" />
     <ClInclude Include="..\include\HtmlToPdf.hpp" />
     <ClInclude Include="..\include\Markdown.hpp" />
