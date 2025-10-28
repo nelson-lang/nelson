@@ -74,6 +74,7 @@ modules_list = {
 {'mex', true};
 {'f2c', true};
 {'nig', true};
+{'validators', true};
 {'com_engine', true};
 {'python_engine', true};
 {'julia_engine', true};
@@ -81,7 +82,6 @@ modules_list = {
 {'debugger', true};
 {'profiler', true};
 {'tests_manager', true};
-{'validators', true};
 {'assert_functions', true};
 {'help_tools', true};
 };

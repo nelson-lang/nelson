@@ -10,14 +10,105 @@
 #include "XmlPrettyPrint.hpp"
 #include "characters_encoding.hpp"
 #include "Localization.hpp"
+#include "i18n.hpp"
 #include <filesystem>
 #include <fstream>
+#include <string>
 #include <libxml/parser.h>
 #include <libxml/xpathInternals.h>
 #include <libxml/xmlerror.h>
-#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static std::string
+readXmlFile(const std::wstring& xmlFile, std::wstring& errorMessage)
+{
+    std::string xmlFileUtf8 = wstring_to_utf8(xmlFile);
+    std::ifstream file;
+#ifdef _MSC_VER
+    file.open(xmlFile, std::ios::binary);
+#else
+    file.open(xmlFileUtf8, std::ios::binary);
+#endif
+    if (!file) {
+        errorMessage = _W("Cannot open file: ") + xmlFile;
+        return {};
+    }
+    std::string buffer((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+    file.close();
+    if (buffer.empty()) {
+        errorMessage = _W("File is empty or cannot be read: ") + xmlFile;
+        return {};
+    }
+    return buffer;
+}
+//=============================================================================
+static std::string
+formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, bool formatSpace,
+    std::wstring& errorMessage)
+{
+    // Remove all whitespace and carriage return characters
+    std::string noWhitespace;
+    noWhitespace.reserve(xmlContent.size());
+    for (char c : xmlContent) {
+        if (c != ' ' && c != '\n' && c != '\r' && c != '\t') {
+            noWhitespace += c;
+        }
+    }
+    noWhitespace += '\n';
+
+    // Fix malformed XML declaration if present
+    const std::string badDecl = "<?xmlversion=\"1.0\"encoding=\"UTF-8\"?>";
+    const std::string goodDecl = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    size_t declPos = noWhitespace.find(badDecl);
+    if (declPos != std::string::npos) {
+        noWhitespace.replace(declPos, badDecl.length(), goodDecl);
+    }
+
+    if (!formatSpace) {
+        // If no formatting requested, return compacted XML
+        return noWhitespace;
+    }
+
+    // If formatting requested, use libxml to prettify
+    xmlDocPtr doc = xmlReadMemory(noWhitespace.data(), (int)noWhitespace.size(),
+        xmlFileUtf8.c_str(), nullptr, XML_PARSE_NOERROR | XML_PARSE_NOWARNING);
+    if (!doc) {
+        errorMessage = _W("Failed to parse XML for formatting: ") + utf8_to_wstring(xmlFileUtf8);
+        return {};
+    }
+    xmlChar* xmlbuff = nullptr;
+    int buffersize = 0;
+    int previous = xmlKeepBlanksDefault(0);
+    xmlDocDumpFormatMemoryEnc(doc, &xmlbuff, &buffersize, nullptr, 1); // 1 = pretty print
+    xmlKeepBlanksDefault(previous);
+    if (!xmlbuff) {
+        xmlFreeDoc(doc);
+        errorMessage = _W("Failed to prettify XML file: ") + utf8_to_wstring(xmlFileUtf8);
+        return {};
+    }
+    std::string formattedXml(reinterpret_cast<const char*>(xmlbuff), buffersize);
+    xmlFree(xmlbuff);
+    xmlFreeDoc(doc);
+    return formattedXml;
+}
+//=============================================================================
+static bool
+saveString(const std::wstring& xmlFile, const std::string& content, std::wstring& errorMessage)
+{
+#ifdef _MSC_VER
+    std::ofstream outFile(xmlFile, std::ios::binary);
+#else
+    std::ofstream outFile(wstring_to_utf8(xmlFile), std::ios::binary);
+#endif
+    if (!outFile) {
+        errorMessage = _W("Cannot write to file: ") + xmlFile;
+        return false;
+    }
+    outFile.write(content.data(), content.size());
+    outFile.close();
+    return true;
+}
 //=============================================================================
 void
 XmlPrettyPrint(
@@ -40,65 +131,18 @@ XmlPrettyPrint(
         }
     }
     for (const auto& xmlFile : xmlFiles) {
-        std::ifstream file;
+        std::string xmlContent = readXmlFile(xmlFile, errorMessage);
+        if (!errorMessage.empty())
+            return;
+
         std::string xmlFileUtf8 = wstring_to_utf8(xmlFile);
+        std::string formattedXml
+            = formatXmlString(xmlContent, xmlFileUtf8, formatSpace, errorMessage);
+        if (!errorMessage.empty())
+            return;
 
-#ifdef _MSC_VER
-        file.open(xmlFile, std::ios::binary);
-#else
-        file.open(xmlFileUtf8, std::ios::binary);
-#endif
-        if (!file) {
-            errorMessage = _W("Cannot open file: ") + xmlFile;
+        if (!saveString(xmlFile, formattedXml, errorMessage))
             return;
-        }
-        std::string buffer(
-            (std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-        file.close();
-        if (buffer.empty()) {
-            errorMessage = _W("File is empty or cannot be read: ") + xmlFile;
-            return;
-        }
-        // Parse the XML from memory
-        xmlDocPtr doc = xmlReadMemory(buffer.data(), (int)buffer.size(), xmlFileUtf8.c_str(),
-            nullptr, XML_PARSE_NOERROR | XML_PARSE_NOWARNING);
-        if (!doc) {
-            errorMessage = _W("Failed to parse XML file: ") + xmlFile;
-            return;
-        }
-
-        // Dump the non-pretty XML to memory (format = 0)
-        xmlChar* xmlbuff = nullptr;
-        int buffersize = 0;
-        xmlDocDumpFormatMemoryEnc(doc, &xmlbuff, &buffersize, "UTF-8", 0);
-        if (xmlbuff) {
-            xmlFree(xmlbuff);
-            xmlbuff = nullptr;
-        }
-        // Dump the pretty XML to memory (format = 1)
-        buffersize = 0;
-        xmlDocDumpFormatMemoryEnc(doc, &xmlbuff, &buffersize, "UTF-8", formatSpace ? 1 : 0);
-        if (!xmlbuff) {
-            xmlFreeDoc(doc);
-            errorMessage = _W("Failed to prettify XML file: ") + xmlFile;
-            return;
-        }
-// Write the formatted XML back to the file
-#ifdef _MSC_VER
-        std::ofstream outFile(xmlFile, std::ios::binary);
-#else
-        std::ofstream outFile(wstring_to_utf8(xmlFile), std::ios::binary);
-#endif
-        if (!outFile) {
-            xmlFree(xmlbuff);
-            xmlFreeDoc(doc);
-            errorMessage = _W("Cannot write to file: ") + xmlFile;
-            return;
-        }
-        outFile.write(reinterpret_cast<const char*>(xmlbuff), buffersize);
-        outFile.close();
-        xmlFree(xmlbuff);
-        xmlFreeDoc(doc);
     }
 }
 //=============================================================================

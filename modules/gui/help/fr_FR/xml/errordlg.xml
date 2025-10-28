@@ -37,10 +37,10 @@
         <p><b>errordlg</b> crée une boîte de dialogue d'erreur.</p>
         <p><b
       >h = errordlg(text_error, title, 'replace')</b> indique si une boîte de dialogue existante portant le même titre doit être remplacée.</p>
-                <p>
-                    <img src="../images/errordlg_1.png" />
-                </p>
-            </description>
+        <p>
+            <img src="../images/errordlg_1.png" />
+        </p>
+    </description>
             <used_function />
             <bibliography />
             <examples>

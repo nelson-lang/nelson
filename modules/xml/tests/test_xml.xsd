@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+
+    <!-- Root element definition -->
+    <xs:element name="table">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="row" type="rowType" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Row type definition -->
+    <xs:complexType name="rowType">
+        <xs:sequence>
+            <xs:element name="Var1" type="genderType"/>
+            <xs:element name="Var2" type="xs:positiveInteger" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="Var3" type="stateCodeType"/>
+            <xs:element name="Var4" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Gender type definition (M or F) -->
+    <xs:simpleType name="genderType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="M"/>
+            <xs:enumeration value="F"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- State code type definition (2-letter US state codes) -->
+    <xs:simpleType name="stateCodeType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Z]{2}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

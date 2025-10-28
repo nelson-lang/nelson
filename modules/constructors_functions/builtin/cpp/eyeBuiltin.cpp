@@ -7,6 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#define FMT_HEADER_ONLY
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "eyeBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -39,12 +43,10 @@ extractDestClassAndSparse(
                 nRhs -= 2;
                 return;
             } else {
-                wchar_t buffer[4096];
                 const std::wstring fmt = std::wstring(ERROR_WRONG_ARGUMENT_X_VALUE);
                 // report a 1-based argument index to the user
                 int humanArgIndex = static_cast<int>(nRhs - 2) + 1;
-                swprintf(buffer, 4096, fmt.c_str(), humanArgIndex);
-                Error(std::wstring(buffer));
+                Error(fmt::sprintf(fmt, humanArgIndex));
             }
         }
     }
