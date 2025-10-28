@@ -101,6 +101,13 @@
     <xsl:value-of select="short_description"/>
     <xsl:text>&#10;</xsl:text>
 
+    <!-- Chapter description section if present -->
+    <xsl:if test="chapter_description">
+    <xsl:text>&#10;</xsl:text>
+    <xsl:apply-templates select="chapter_description"/>
+    <xsl:text>&#10;</xsl:text>
+    </xsl:if>
+
     <!-- Only display syntax section if it has content -->
     <xsl:if test="syntax/syntax_item[normalize-space(.)]">
     <xsl:text>&#10;## </xsl:text><xsl:value-of select="$syntax-text"/><xsl:text>&#10;&#10;</xsl:text>
@@ -191,9 +198,14 @@
       <!-- Extract module and function name from linkend -->
       <xsl:variable name="linkend" select="@linkend"/>
       <xsl:variable name="module">
-        <xsl:if test="contains($linkend, '{') and contains($linkend, '}')">
-          <xsl:value-of select="substring-before(substring-after($linkend, '{'), '}')"/>
-        </xsl:if>
+        <xsl:choose>
+          <xsl:when test="contains($linkend, '${') and contains($linkend, '}')">
+            <xsl:value-of select="substring-before(substring-after($linkend, '${'), '}')"/>
+          </xsl:when>
+          <xsl:when test="contains($linkend, '{') and contains($linkend, '}')">
+            <xsl:value-of select="substring-before(substring-after($linkend, '{'), '}')"/>
+          </xsl:when>
+        </xsl:choose>
       </xsl:variable>
       <xsl:variable name="function">
         <xsl:choose>
@@ -261,26 +273,19 @@
   <xsl:template match="text()">
     <xsl:choose>
       <xsl:when test="normalize-space(.) = ''">
-        <!-- If text is only whitespace, output single space if between elements -->
+        <!-- If text is only whitespace, output single space if between inline elements -->
         <xsl:if test="preceding-sibling::node() and following-sibling::node()">
           <xsl:text> </xsl:text>
         </xsl:if>
       </xsl:when>
       <xsl:otherwise>
-        <!-- Preserve leading space if text starts with whitespace and has preceding sibling -->
-        <xsl:if test="starts-with(., ' ') or starts-with(., '&#10;') or starts-with(., '&#13;') or starts-with(., '&#9;')">
-          <xsl:if test="preceding-sibling::node()">
-            <xsl:text> </xsl:text>
-          </xsl:if>
+        <!-- Output normalized text content with space preservation -->
+        <xsl:if test="preceding-sibling::node() and starts-with(., ' ')">
+          <xsl:text> </xsl:text>
         </xsl:if>
-        <!-- Output normalized text content -->
         <xsl:value-of select="normalize-space(.)"/>
-        <!-- Preserve trailing space if text ends with whitespace and has following sibling -->
-        <xsl:variable name="last-char" select="substring(., string-length(.))"/>
-        <xsl:if test="$last-char = ' ' or $last-char = '&#10;' or $last-char = '&#13;' or $last-char = '&#9;'">
-          <xsl:if test="following-sibling::node()">
-            <xsl:text> </xsl:text>
-          </xsl:if>
+        <xsl:if test="following-sibling::node() and substring(., string-length(.)) = ' '">
+          <xsl:text> </xsl:text>
         </xsl:if>
       </xsl:otherwise>
     </xsl:choose>
@@ -290,9 +295,14 @@
   <xsl:template match="link">
     <xsl:variable name="linkend" select="@linkend"/>
     <xsl:variable name="module">
-      <xsl:if test="contains($linkend, '{') and contains($linkend, '}')">
-        <xsl:value-of select="substring-before(substring-after($linkend, '{'), '}')"/>
-      </xsl:if>
+      <xsl:choose>
+        <xsl:when test="contains($linkend, '${') and contains($linkend, '}')">
+          <xsl:value-of select="substring-before(substring-after($linkend, '${'), '}')"/>
+        </xsl:when>
+        <xsl:when test="contains($linkend, '{') and contains($linkend, '}')">
+          <xsl:value-of select="substring-before(substring-after($linkend, '{'), '}')"/>
+        </xsl:when>
+      </xsl:choose>
     </xsl:variable>
     <xsl:variable name="function">
       <xsl:choose>
@@ -304,7 +314,7 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    <xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text>](&#10;</xsl:text>
+    <xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text>](</xsl:text>
     <xsl:choose>
       <xsl:when test="string-length($module) &gt; 0">
         <xsl:text>../</xsl:text><xsl:value-of select="$module"/><xsl:text>/</xsl:text><xsl:value-of select="$function"/>
@@ -332,9 +342,8 @@
 
   <!-- Template for <p> tag -->
   <xsl:template match="p">
-    <xsl:text>&#10;</xsl:text>
+    <xsl:text>&#10;&#10;</xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>&#10;</xsl:text>
   </xsl:template>
 
   <!-- Template for <img> tag -->
@@ -372,8 +381,8 @@
     <xsl:apply-templates/>
   </xsl:template>
 
-  <!-- Template for <li> (list item) -->
-  <xsl:template match="li">
+  <!-- Template for <li> (list item) in unordered lists -->
+  <xsl:template match="ul/li">
     <xsl:text>&#10;- </xsl:text>
     <xsl:apply-templates/>
   </xsl:template>
@@ -465,4 +474,10 @@
     <xsl:value-of select="."/>
     <xsl:text>&lt;/code&gt;</xsl:text>
   </xsl:template>
+
+  <!-- Template for chapter_description -->
+  <xsl:template match="chapter_description">
+    <xsl:apply-templates/>
+  </xsl:template>
+
 </xsl:stylesheet>

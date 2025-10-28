@@ -28,11 +28,11 @@
   <!-- Syntax overview (renders as pre block) -->
   <syntax>
     <syntax_item
-    >&lt;xmldoc&gt; (root) - Enfant OBLIGATOIRE : &lt;language&gt;</syntax_item>
+    >`&lt;xmldoc&gt;` (root) - Enfant OBLIGATOIRE : `&lt;language&gt;`</syntax_item>
     <syntax_item
-    >Header: &lt;title&gt;, &lt;language&gt;, &lt;module_name&gt;, &lt;chapter&gt;, &lt;short_description&gt;</syntax_item>
+    >Header: `&lt;title&gt;`, `&lt;language&gt;`, `&lt;module_name&gt;`, `&lt;chapter&gt;`, `&lt;short_description&gt;`</syntax_item>
     <syntax_item
-    >Sections: &lt;syntax&gt;, &lt;param_input&gt;, &lt;param_output&gt;, &lt;description&gt;, &lt;examples&gt;, &lt;see_also&gt;, &lt;history&gt;, &lt;authors&gt;, &lt;bibliography&gt;</syntax_item>
+    >Sections: `&lt;syntax&gt;`, `&lt;param_input&gt;`, `&lt;param_output&gt;`, `&lt;description&gt;`, `&lt;examples&gt;`, `&lt;see_also&gt;`, `&lt;history&gt;`, `&lt;authors&gt;`, `&lt;bibliography&gt;`</syntax_item>
   </syntax>
 
   <!-- Parameter examples -->
@@ -44,7 +44,7 @@
         >Localisation utilisée par le XSLT pour sélectionner les étiquettes et le texte localisé. Exemples : <code
           >en_US</code>, <code
           >fr_FR</code>. Cet élément est obligatoire dans la racine <code
-          >&lt;xmldoc&gt;</code>.</p>
+          >`&lt;xmldoc&gt;`</code>.</p>
       </param_description>
     </param_input_item>
     <param_input_item>
@@ -52,7 +52,7 @@
       <param_description>
         <p
         >Identifiant principal affiché comme titre de la page par le XSLT. En cas d'absence, le XSLT revient à <code
-          >&lt;chapter&gt;</code> ou "Documentation".</p>
+          >`&lt;chapter&gt;`</code> ou "Documentation".</p>
       </param_description>
     </param_input_item>
   </param_input>
@@ -77,41 +77,41 @@
       >nelson_help.xsd</code>, et comment <code
       >nelson_html.xslt</code> transforme ses éléments en HTML.</p>
     <p>Utilisez <code
-      >&lt;description&gt;</code> pour fournir le corps principal de la documentation. Il accepte des paragraphes (<code
-      >&lt;p&gt;</code>), des listes (<code>&lt;ul&gt;</code>, <code
-      >&lt;ol&gt;</code>), des tableaux (<code
-      >&lt;table&gt;</code>), des balisages en ligne (<code
-      >&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code
-      >&lt;code&gt;</code>), des images (<code
-      >&lt;img src="..."/&gt;</code>) et LaTeX (<code>&lt;latex&gt;</code>).</p>
+      >`&lt;description&gt;`</code> pour fournir le corps principal de la documentation. Il accepte des paragraphes (<code
+      >`&lt;p&gt;`</code>), des listes (<code>`&lt;ul&gt;`</code>, <code
+      >`&lt;ol&gt;`</code>), des tableaux (<code
+      >`&lt;table&gt;`</code>), des balisages en ligne (<code
+      >`&lt;b&gt;`</code>, <code>`&lt;i&gt;`</code>, <code
+      >`&lt;code&gt;`</code>), des images (<code
+      >`&lt;img src="..."/&gt;`</code>) et LaTeX (<code>`&lt;latex&gt;`</code>).</p>
 
     <p>Les éléments en ligne et leur rendu XSLT :</p>
     <ul>
-      <li><b>&lt;b&gt;</b> - texte en gras.</li>
-      <li><b>&lt;i&gt;</b> - texte en italique.</li>
-      <li><b>&lt;code&gt;</b> - rendu de code en ligne.</li>
+      <li><b>`&lt;b&gt;`</b> - texte en gras.</li>
+      <li><b>`&lt;i&gt;`</b> - texte en italique.</li>
+      <li><b>`&lt;code&gt;`</b> - rendu de code en ligne.</li>
       <li><b
-        >&lt;a href="..."&gt;</b> - liens externes (rendus en tant qu'ancres HTML).</li>
+        >`&lt;a href="..."&gt;`</b> - liens externes (rendus en tant qu'ancres HTML).</li>
       <li><b
-        >&lt;link linkend="..."&gt;</b> - référence croisée interne. Si linkend contient un module entre accolades <code
+        >`&lt;link linkend="..."&gt;`</b> - référence croisée interne. Si linkend contient un module entre accolades <code
         >{module}name</code>, il devient <code
         >../module/name.html</code>, sinon <code>name.html</code>.</li>
       <li><b
-        >&lt;latex&gt;</b> - expressions mathématiques ; rendues en tant que mathématiques d'affichage MathJax par le modèle XSLT (enveloppées avec <code
-        >$$...$$</code>).</li>
-      <li><b>&lt;img src="..."/&gt;</b> - images. XSLT calls <code
-        >ext:copy_img(@src)</code>; SVGs are rendered with a large fixed frame and other formats are responsive.</li>
+        >`&lt;latex&gt;`</b> - expressions mathématiques ; rendues en tant que mathématiques d'affichage MathJax par le modèle XSLT (enveloppées avec <code
+        >`$$...$$`</code>).</li>
+      <li><b>`&lt;img src="..."/&gt;`</b> - images. Le XSLT appelle <code
+        >ext:copy_img(@src)</code>; les SVG sont rendus avec un cadre fixe large et les autres formats sont adaptables.</li>
     </ul>
 
     <p>Éléments de bloc :</p>
     <ul>
-      <li><code>&lt;ul&gt;</code> et <code
-        >&lt;ol&gt;</code> - listes. Utilisez <code
-        >&lt;li&gt;</code> avec un balisage en ligne/de bloc imbriqué selon les besoins.</li>
-      <li><code>&lt;table&gt;</code> - utilisez <code
-        >&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code>, <code
-        >&lt;tr&gt;</code>, <code>&lt;th&gt;</code> et <code
-        >&lt;td&gt;</code>. Le XSD autorise les attributs communs <code
+      <li><code>`&lt;ul&gt;`</code> et <code
+        >`&lt;ol&gt;`</code> - listes. Utilisez <code
+        >`&lt;li&gt;`</code> avec un balisage en ligne/de bloc imbriqué selon les besoins.</li>
+      <li><code>`&lt;table&gt;`</code> - utilisez <code
+        >`&lt;thead&gt;`</code>, <code>`&lt;tbody&gt;`</code>, <code
+        >`&lt;tr&gt;`</code>, <code>`&lt;th&gt;`</code> et <code
+        >`&lt;td&gt;`</code>. Le XSD autorise les attributs communs <code
         >border</code>, <code>cellpadding</code> et <code
         >cellspacing</code>.</li>
     </ul>
@@ -119,16 +119,16 @@
     <p>Conseils pour la rédaction :</p>
     <ol>
       <li>Préférez des lignes de résumé courtes pour <code
-        >&lt;short_description&gt;</code>.</li>
+        >`&lt;short_description&gt;`</code>.</li>
       <li>Placez les exemples exécutables à l'intérieur de <code
-        >&lt;examples&gt;</code> en utilisant <code
-        >&lt;example_item_data&gt;</code> et définissez <code
+        >`&lt;examples&gt;`</code> en utilisant <code
+        >`&lt;example_item_data&gt;`</code> et définissez <code
         >runnable="cli"</code> si applicable ou <code
         >runnable="false"</code> (par défaut).</li>
       <li
       >Enveloppez le code source de l'exemple dans CDATA pour éviter l'échappement (voir les exemples ci-dessous).</li>
       <li>Utilisez <code
-        >&lt;link linkend="{module}name"&gt;</code> pour les références qualifiées par module ; sinon, utilisez des noms simples.</li>
+        >`&lt;link linkend="{module}name"&gt;`</code> pour les références qualifiées par module ; sinon, utilisez des noms simples.</li>
     </ol>
   </description>
 
