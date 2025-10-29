@@ -23,26 +23,26 @@ public:
     PathFunctionIndexer(const std::wstring& path, bool withWatcher = true);
     ~PathFunctionIndexer();
     wstringVector
-    getFunctionsName(const std::wstring& prefix = L"");
+    getFunctionsName(const std::wstring& prefix, bool withPrivate) const;
     wstringVector
-    getFunctionsFilename();
-    std::wstring
-    getPath();
+    getFunctionsFilename() const;
+    const std::wstring&
+    getPath() const;
     void
     rehash();
     bool
-    findFuncName(const std::string& functionName, std::wstring& filename);
+    findFuncName(const std::string& functionName, std::wstring& filename) const;
     std::unordered_map<std::string, FileFunction*>
-    getAllFileFunctions();
+    getAllFileFunctions() const;
 
     bool
-    wasModified();
+    wasModified() const;
 
     void
     startFileWatcher();
 
     bool
-    isWithWatcher();
+    isWithWatcher() const;
 
 private:
     std::unordered_map<std::string, FileFunction*> mapAllFiles;

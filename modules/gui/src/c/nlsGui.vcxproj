@@ -56,6 +56,7 @@
     <ClCompile Include="..\cpp\QtMainWindow.cpp" />
     <ClCompile Include="..\cpp\QtTerminal.cpp" />
     <ClCompile Include="..\cpp\GuiTerminal.cpp" />
+    <ClCompile Include="..\cpp\QtTerminalCompleter.cpp" />
     <ClCompile Include="..\cpp\QtTranslation.cpp" />
     <ClCompile Include="..\cpp\QtVariablesEditor.cpp" />
     <ClCompile Include="..\cpp\QtVariableTextEdit.cpp" />
@@ -261,6 +262,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
     </CustomBuild>
+    <ClInclude Include="..\cpp\QtTerminalCompleter.h" />
     <ClInclude Include="..\include\Console.hpp" />
     <ClInclude Include="..\include\DefaultFont.hpp" />
     <ClInclude Include="..\include\FileBrowser.hpp" />

@@ -17,10 +17,11 @@ wstringVector
 MacroCompleter(const std::wstring& prefix)
 {
     wstringVector res;
-    wstringVector macros = PathFunctionIndexerManager::getInstance()->getMacrosList();
-    for (auto& macro : macros) {
+    wstringVector macros = PathFunctionIndexerManager::getInstance()->getMacrosList(false);
+    res.reserve(macros.size());
+    for (const auto& macro : macros) {
         if (StringHelpers::starts_with(macro, prefix)) {
-            res.push_back(macro);
+            res.emplace_back(macro);
         }
     }
     return res;

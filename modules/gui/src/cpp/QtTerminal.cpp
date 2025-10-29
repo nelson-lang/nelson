@@ -53,7 +53,6 @@
 #include "DefaultFont.hpp"
 #include "StringHelpers.hpp"
 #include "CompleterHelper.hpp"
-#include "QStringConverter.hpp"
 #include "HistoryBrowser.hpp"
 #include "QtHistoryBrowser.h"
 #include "FileBrowser.hpp"
@@ -62,6 +61,7 @@
 #include "QtWorkspaceBrowser.h"
 #include "CallbackQueue.hpp"
 #include "VariablesEditor.hpp"
+#include "QtTerminalCompleter.h"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -70,7 +70,9 @@ QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
     mCommandLineReady = false;
     completionDisabled = true;
     isFirstPrompt = true;
-    qCompleter = nullptr;
+    completerImpl = nullptr;
+    // qCompleter removed; use completerImpl
+
     QLocale us(QLocale::English, QLocale::UnitedStates);
     QLocale::setDefault(us);
     setPalette(getNelsonPalette());
@@ -130,16 +132,8 @@ QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
 void
 QtTerminal::createCompleter()
 {
-    if (!qCompleter) {
-        qCompleter = new QCompleter(this);
-
-        qCompleter->setWidget(this);
-        qCompleter->setModelSorting(QCompleter::UnsortedModel);
-        qCompleter->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
-        qCompleter->setCaseSensitivity(Qt::CaseSensitive);
-        qCompleter->setWrapAround(false);
-        QObject::connect(
-            qCompleter, SIGNAL(activated(QString)), this, SLOT(insertCompletion(QString)));
+    if (!completerImpl) {
+        completerImpl = new QtTerminalCompleter(this);
     }
 }
 //=============================================================================
@@ -177,9 +171,9 @@ QtTerminal::~QtTerminal()
         delete contextMenu;
         contextMenu = nullptr;
     }
-    if (qCompleter) {
-        delete qCompleter;
-        qCompleter = nullptr;
+    if (completerImpl) {
+        delete completerImpl;
+        completerImpl = nullptr;
     }
 }
 //=============================================================================
@@ -523,10 +517,10 @@ QtTerminal::keyPressEvent(QKeyEvent* event)
             return;
         }
     }
-    if (qCompleter) {
-        if (qCompleter->popup()->isVisible()) {
+    if (completerImpl) {
+        if (completerImpl->completer()->popup()->isVisible()) {
             if (completionDisabled) {
-                qCompleter->popup()->hide();
+                completerImpl->completer()->popup()->hide();
             } else {
                 // The following keys are forwarded by the completer to the widget
                 switch (event->key()) {
@@ -538,7 +532,7 @@ QtTerminal::keyPressEvent(QKeyEvent* event)
                     event->ignore();
                     return; // let the completer do default behavior
                 default:
-                    qCompleter->popup()->hide();
+                    completerImpl->completer()->popup()->hide();
                     break;
                 }
             }
@@ -1109,36 +1103,10 @@ QtTerminal::complete(QString prefix)
     if (prefix.isEmpty()) {
         return;
     }
-    std::wstring line = QStringTowstring(prefix);
-    std::wstring completionPrefix;
-    wstringVector files;
-    wstringVector builtin;
-    wstringVector macros;
-    wstringVector variables;
-    wstringVector fields;
-    wstringVector properties;
-    wstringVector methods;
-
-    bool showpopup = computeCompletion(
-        line, completionPrefix, files, builtin, macros, variables, fields, properties, methods);
-
-    if (showpopup) {
-        updateModel(
-            completionPrefix, files, builtin, macros, variables, fields, properties, methods);
-
-        QRect cr = cursorRect();
-        cr.setWidth(qCompleter->popup()->sizeHintForColumn(0)
-            + qCompleter->popup()->verticalScrollBar()->sizeHint().width());
-        cr.setHeight(10);
-        qCompleter->complete(cr);
-        qCompleter->setCurrentRow(0);
-        qCompleter->popup()->setCurrentIndex(qCompleter->completionModel()->index(0, 0));
-        qCompleter->popup()->setVisible(true);
-    } else {
-        if (qCompleter->popup()->isVisible()) {
-            qCompleter->popup()->close();
-        }
+    if (!completerImpl) {
+        return;
     }
+    completerImpl->complete(prefix);
 }
 //=============================================================================
 void
@@ -1147,11 +1115,9 @@ QtTerminal::updateModel(const std::wstring& prefix, const wstringVector& filesLi
     const wstringVector& variableList, const wstringVector& fieldList,
     const wstringVector& propertyList, const wstringVector& methodList)
 {
-
-    if (qCompleter != nullptr) {
-        qCompleter->setModel(modelFromNelson(
-            filesList, builtinList, macroList, variableList, fieldList, propertyList, methodList));
-        qCompleter->setCompletionPrefix(wstringToQString(prefix));
+    if (completerImpl != nullptr) {
+        completerImpl->updateModel(prefix, filesList, builtinList, macroList, variableList,
+            fieldList, propertyList, methodList);
     }
 }
 //=============================================================================
@@ -1161,6 +1127,12 @@ QtTerminal::modelFromNelson(const wstringVector& filesList, const wstringVector&
     const wstringVector& fieldList, const wstringVector& propertyList,
     const wstringVector& methodList)
 {
+    // Forward to completer impl for now (kept for compatibility)
+    if (completerImpl) {
+        return completerImpl->modelFromNelson(
+            filesList, builtinList, macroList, variableList, fieldList, propertyList, methodList);
+    }
+    // fallback original implementation
     QStringList words;
 
     auto appendItemsWithPostfix = [&](const wstringVector& list, const std::wstring& postfix) {
@@ -1178,12 +1150,13 @@ QtTerminal::modelFromNelson(const wstringVector& filesList, const wstringVector&
     appendItemsWithPostfix(methodList, POSTFIX_METHOD);
     appendItemsWithPostfix(propertyList, POSTFIX_PROPERTY);
     words.sort();
-    return new QStringListModel(words, qCompleter);
+    return new QStringListModel(words, completerImpl ? completerImpl->completer() : nullptr);
 }
 //=============================================================================
 void
 QtTerminal::insertCompletion(const QString& completion)
 {
+    // original implementation kept
     QString FILE_OR_DIR = QString(" (") + wstringToQString(POSTFIX_FILES) + QString(")");
     bool isPathCompletion = (completion.lastIndexOf(FILE_OR_DIR) != -1);
     wstringVector postfixStrings;
@@ -1203,11 +1176,14 @@ QtTerminal::insertCompletion(const QString& completion)
     cleanedCompletion = cleanedCompletion.replace(
         cleanedCompletion.lastIndexOf(FILE_OR_DIR), FILE_OR_DIR.size(), QString());
 
-    if (qCompleter->widget() != this) {
-        return;
+    if (completerImpl && completerImpl->completer()) {
+        if (completerImpl->completer()->widget() != this) {
+            return;
+        }
     }
     QTextCursor tc = textCursor();
-    QString completionPrefix = qCompleter->completionPrefix();
+    QString completionPrefix
+        = completerImpl ? completerImpl->completer()->completionPrefix() : QString();
     bool backup = mCommandLineReady;
     std::wstring currentLineW = QStringTowstring(getCurrentCommandLine());
     mCommandLineReady = backup;
@@ -1330,5 +1306,12 @@ QtTerminal::findNext()
             QApplication::beep();
         }
     }
+}
+//=============================================================================
+void
+QtTerminal::insertCompletionImpl(const QString& completion)
+{
+    // Forward vers l'implémentation publique existante.
+    insertCompletion(completion);
 }
 //=============================================================================

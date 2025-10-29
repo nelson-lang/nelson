@@ -52,7 +52,7 @@ WhatListOfBuiltin(bool bSorted)
 wstringVector
 WhatListOfMacro(Evaluator* eval)
 {
-    return PathFunctionIndexerManager::getInstance()->getMacrosList();
+    return PathFunctionIndexerManager::getInstance()->getMacrosList(false);
 }
 //=============================================================================
 wstringVector

@@ -103,6 +103,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Removed several dependencies on Boost to reduce build complexity and improve portability.
 
+- Private functions are no longer shown in autocompletion.
+
 ### Fixed
 
 - `ans` variable: Ensured `ans` is only created for expressions, preventing unintended variable creation in the workspace.

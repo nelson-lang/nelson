@@ -78,7 +78,7 @@ PathFunctionIndexer::PathFunctionIndexer(const std::wstring& path, bool withWatc
 }
 //=============================================================================
 bool
-PathFunctionIndexer::isWithWatcher()
+PathFunctionIndexer::isWithWatcher() const
 {
     return NelsonConfiguration::getInstance()->isFileWatcherEnabled() && this->withWatcher;
 }
@@ -103,13 +103,13 @@ PathFunctionIndexer::startFileWatcher()
 }
 //=============================================================================
 std::unordered_map<std::string, FileFunction*>
-PathFunctionIndexer::getAllFileFunctions()
+PathFunctionIndexer::getAllFileFunctions() const
 {
     return mapAllFiles;
 }
 //=============================================================================
 bool
-PathFunctionIndexer::wasModified()
+PathFunctionIndexer::wasModified() const
 {
 #if WITH_FILE_WATCHER
     if (NelsonConfiguration::getInstance()->isFileWatcherEnabled() && withWatcher) {
@@ -132,11 +132,8 @@ PathFunctionIndexer::comparePathname(const std::wstring& path1, const std::wstri
 //=============================================================================
 PathFunctionIndexer::~PathFunctionIndexer()
 {
-    for (auto& mapAllFile : mapAllFiles) {
-        if (mapAllFile.second) {
-            delete mapAllFile.second;
-            mapAllFile.second = nullptr;
-        }
+    for (const auto& mapAllFile : mapAllFiles) {
+        delete mapAllFile.second;
     }
     mapRecentFiles.clear();
     mapAllFiles.clear();
@@ -158,38 +155,45 @@ PathFunctionIndexer::~PathFunctionIndexer()
 }
 //=============================================================================
 wstringVector
-PathFunctionIndexer::getFunctionsName(const std::wstring& prefix)
+PathFunctionIndexer::getFunctionsName(const std::wstring& prefix, bool withPrivate) const
 {
     wstringVector functionsName;
-    for (auto& mapAllFile : mapAllFiles) {
-        if (mapAllFile.second) {
-            if (prefix.empty()) {
-                functionsName.push_back(mapAllFile.second->getName());
-            } else {
-                std::wstring name = mapAllFile.second->getName();
-                if (StringHelpers::starts_with(name, prefix)) {
-                    functionsName.push_back(name);
-                }
-            }
+    functionsName.reserve(mapAllFiles.size()); // Reserve memory to avoid reallocations
+
+    const bool hasPrefix = !prefix.empty();
+
+    for (const auto& mapAllFile : mapAllFiles) {
+        const FileFunction* ff = mapAllFile.second;
+        if (!ff)
+            continue;
+
+        if (!withPrivate && ff->isPrivate())
+            continue;
+
+        const std::wstring& name = ff->getName();
+        if (!hasPrefix || StringHelpers::starts_with(name, prefix)) {
+            functionsName.emplace_back(name);
         }
     }
     return functionsName;
 }
 //=============================================================================
 wstringVector
-PathFunctionIndexer::getFunctionsFilename()
+PathFunctionIndexer::getFunctionsFilename() const
 {
     wstringVector functionsFilename;
-    for (auto& mapAllFile : mapAllFiles) {
+    functionsFilename.reserve(mapAllFiles.size());
+
+    for (const auto& mapAllFile : mapAllFiles) {
         if (mapAllFile.second) {
-            functionsFilename.push_back(mapAllFile.second->getFilename());
+            functionsFilename.emplace_back(mapAllFile.second->getFilename());
         }
     }
     return functionsFilename;
 }
 //=============================================================================
-std::wstring
-PathFunctionIndexer::getPath()
+const std::wstring&
+PathFunctionIndexer::getPath() const
 {
     return _path;
 }
@@ -197,10 +201,10 @@ PathFunctionIndexer::getPath()
 bool
 PathFunctionIndexer::isSupportedFuncFilename(const std::wstring& name)
 {
-    for (int c : name) {
-        bool bSupportedChar
-            = (c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c == '_') || (c >= 48 && c <= 57);
-        if (!bSupportedChar) {
+    // Use range-based for with auto for better performance
+    for (wchar_t c : name) {
+        if (!((c >= L'A' && c <= L'Z') || (c >= L'a' && c <= L'z') || c == L'_'
+                || (c >= L'0' && c <= L'9'))) {
             return false;
         }
     }
@@ -221,96 +225,120 @@ PathFunctionIndexer::rehash(
     const std::wstring& pathToScan, const std::wstring& prefix, bool isPrivate)
 {
     try {
+        const FileSystemWrapper::Path path(pathToScan);
+        if (!path.is_directory())
+            return;
+
+        // Pre-compute commonly used values
+        const std::wstring mexExt = L"." + getMexExtension();
+        const std::wstring macroExt = L".m";
+        const std::wstring privateDir = L"private";
+
+        std::wstring objectName;
+        if (prefix.length() > 1) {
+            objectName = prefix.substr(1); // More efficient than erase
+        }
+
         nfs::directory_iterator end_iter;
-        FileSystemWrapper::Path path(pathToScan);
         for (nfs::directory_iterator dir_iter(path.native()); dir_iter != end_iter; ++dir_iter) {
-            FileSystemWrapper::Path current(dir_iter->path().native());
+            const FileSystemWrapper::Path current(dir_iter->path().native());
+
             if (current.is_directory()) {
-                std::wstring stemDirectory = current.stem().wstring();
-                if (stemDirectory[0] == OVERLOAD_SYMBOL_CHAR) {
-                    rehash(current.generic_wstring(), stemDirectory, false);
-                }
-                if (stemDirectory == L"private") {
-                    rehash(current.generic_wstring(), L"", true);
-                }
-            }
-            std::wstring ext = current.extension().generic_wstring();
-            bool isMacro = ext == L".m";
-            bool isMex = ext == L"." + getMexExtension();
-            std::wstring objectName;
-            if (prefix.length() > 1) {
-                objectName = prefix;
-                objectName.erase(0, 1);
-            }
-            if (isMacro || isMex) {
-                std::wstring name = getFunctionName(objectName, current.stem().generic_wstring());
-                if (isSupportedFuncFilename(current.stem().generic_wstring())) {
-                    FileFunction* ff = nullptr;
-                    std::wstring pathName = prefix == L""
-                        ? pathToScan
-                        : nfs::path(pathToScan).parent_path().generic_wstring();
-
-                    try {
-                        bool isOverload = prefix != L"" && !isPrivate;
-                        if (prefix != L"") {
-                            if (prefix.substr(1) == name) {
-                                isOverload = false;
-                            }
-                        }
-                        ff = new FileFunction(
-                            pathName, objectName, name, isMex, withWatcher, isOverload, isPrivate);
-                    } catch (const std::bad_alloc&) {
-                        ff = nullptr;
-                    }
-                    if (ff) {
-                        if (isPrivate) {
-                            name = pathName + L"/" + name;
-                            mapAllFiles.emplace(wstring_to_utf8(name), ff);
-
-                        } else {
-                            mapAllFiles.emplace(wstring_to_utf8(name), ff);
-                        }
+                const std::wstring stemDirectory = current.stem().wstring();
+                if (!stemDirectory.empty()) {
+                    if (stemDirectory[0] == OVERLOAD_SYMBOL_CHAR) {
+                        rehash(current.generic_wstring(), stemDirectory, false);
+                    } else if (stemDirectory == privateDir) {
+                        rehash(current.generic_wstring(), L"", true);
                     }
                 }
+                continue;
+            }
+
+            const std::wstring ext = current.extension().generic_wstring();
+            const bool isMacro = (ext == macroExt);
+            const bool isMex = (ext == mexExt);
+
+            if (!(isMacro || isMex))
+                continue;
+
+            const std::wstring stemName = current.stem().generic_wstring();
+            if (!isSupportedFuncFilename(stemName))
+                continue;
+
+            const std::wstring name = getFunctionName(objectName, stemName);
+            const std::wstring pathName = prefix.empty()
+                ? pathToScan
+                : nfs::path(pathToScan).parent_path().generic_wstring();
+
+            bool isOverload = !prefix.empty() && !isPrivate;
+            if (!prefix.empty() && prefix.substr(1) == name) {
+                isOverload = false;
+            }
+
+            try {
+                auto ff = std::make_unique<FileFunction>(
+                    pathName, objectName, name, isMex, withWatcher, isOverload, isPrivate);
+
+                const std::string key
+                    = isPrivate ? wstring_to_utf8(pathName + L"/" + name) : wstring_to_utf8(name);
+
+                mapAllFiles.emplace(std::move(key), ff.release());
+            } catch (const std::bad_alloc&) {
+                // Handle allocation failure gracefully
             }
         }
     } catch (const nfs::filesystem_error&) {
+        // Handle filesystem errors gracefully
     }
 }
 //=============================================================================
 void
 PathFunctionIndexer::rehash()
 {
-    if (!_path.empty()) {
-        mapRecentFiles.clear();
-        rehash(_path, L"", false);
+    if (_path.empty())
+        return;
+
+    // Clear existing data
+    for (const auto& pair : mapAllFiles) {
+        delete pair.second;
     }
+    mapAllFiles.clear();
+    mapRecentFiles.clear();
+
+    // Reserve some space to reduce rehashing
+    mapAllFiles.reserve(128);
+
+    rehash(_path, L"", false);
 }
 //=============================================================================
 bool
-PathFunctionIndexer::findFuncName(const std::string& functionName, std::wstring& filename)
+PathFunctionIndexer::findFuncName(const std::string& functionName, std::wstring& filename) const
 {
-    std::unordered_map<std::string, FileFunction*>::iterator found = mapAllFiles.find(functionName);
+    // Use const iterator for better performance
+    const auto found = mapAllFiles.find(functionName);
     if (found != mapAllFiles.end()) {
         filename = found->second->getFilename();
         if (FileSystemWrapper::Path::is_regular_file(filename)) {
             return true;
         }
     }
-    if (withWatcher) {
-        const std::wstring mexFullFilename
-            = _path + L"/" + utf8_to_wstring(functionName) + L"." + getMexExtension();
-        if (FileSystemWrapper::Path::is_regular_file(mexFullFilename)) {
-            filename = mexFullFilename;
-            return true;
-        }
-        const std::wstring macroFullFilename = _path + L"/" + utf8_to_wstring(functionName) + L".m";
-        if (FileSystemWrapper::Path::is_regular_file(macroFullFilename)) {
-            filename = macroFullFilename;
-            return true;
-        }
+
+    if (!withWatcher)
+        return false;
+
+    // Cache the converted function name to avoid repeated conversions
+    const std::wstring wFunctionName = utf8_to_wstring(functionName);
+
+    // Check for MEX file
+    filename = _path + L"/" + wFunctionName + L"." + getMexExtension();
+    if (FileSystemWrapper::Path::is_regular_file(filename)) {
+        return true;
     }
-    return false;
+
+    // Check for macro file
+    filename = _path + L"/" + wFunctionName + L".m";
+    return FileSystemWrapper::Path::is_regular_file(filename);
 }
 //=============================================================================
 } // namespace Nelson

@@ -12,6 +12,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update --fix-missing
+          sudo apt-get install -y --fix-missing libssh-dev
           sudo apt upgrade;
           sudo apt -y install build-essential;
           sudo apt -y install apt-transport-https ca-certificates gnupg software-properties-common wget ;
