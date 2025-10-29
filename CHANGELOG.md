@@ -55,6 +55,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Python 3.14 support.
 
+- Fedora 43 support.
+
 ### Changed
 
 - Help framework reworked for improved performance and usability:
