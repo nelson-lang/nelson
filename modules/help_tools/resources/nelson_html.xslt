@@ -76,20 +76,21 @@
             </a>
             <xsl:apply-templates select="xmldoc"/>
 
-            <!-- Author section always LAST -->
+            <!-- Author section: emit as HTML comment (keeps info in source but not visible) -->
             <xsl:if test="xmldoc/authors/author_item">
-                <div class="section" style="margin-top:30px;">
-                    <div class="section-title"><span class="syntax-icon">👤</span> <xsl:choose>
+                <xsl:comment>
+                    <xsl:choose>
                         <xsl:when test="xmldoc/language = 'fr_FR'">Auteur</xsl:when>
                         <xsl:otherwise>Author</xsl:otherwise>
-                    </xsl:choose><xsl:if test="count(xmldoc/authors/author_item) &gt; 1">s</xsl:if></div>
-                    <div>
-                        <xsl:for-each select="xmldoc/authors/author_item">
-                            <xsl:value-of select="."/>
-                            <xsl:if test="position() != last()">, </xsl:if>
-                        </xsl:for-each>
-                    </div>
-                </div>
+                    </xsl:choose>
+                    <xsl:text>: </xsl:text>
+                    <xsl:for-each select="xmldoc/authors/author_item">
+                        <xsl:value-of select="."/>
+                        <xsl:if test="position() != last()">
+                            <xsl:text>, </xsl:text>
+                        </xsl:if>
+                    </xsl:for-each>
+                </xsl:comment>
             </xsl:if>
 
             <!-- GitHub Edit Button: placed as the last element on the page -->

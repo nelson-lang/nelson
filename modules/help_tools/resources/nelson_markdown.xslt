@@ -243,13 +243,20 @@
     </xsl:for-each>
     </xsl:if>
 
-    <!-- Only show author section if there are authors -->
+    <!-- Only show author section if there are authors
+         -> Emit authors inside an HTML comment so they appear in the generated file
+            but are not rendered in the Markdown output.
+         -> Keep localization by using $author-text.
+    -->
     <xsl:if test="authors/author_item">
-    <xsl:text>&#10;## </xsl:text><xsl:value-of select="$author-text"/><xsl:text>&#10;&#10;</xsl:text>
-    <xsl:for-each select="authors/author_item">
-    <xsl:value-of select="."/>
-    <xsl:text>&#10;</xsl:text>
-    </xsl:for-each>
+      <xsl:text>&#10;&lt;!--&#10;## </xsl:text><xsl:value-of select="$author-text"/><xsl:text>&#10;&#10;</xsl:text>
+      <xsl:for-each select="authors/author_item">
+        <xsl:value-of select="."/>
+        <xsl:if test="position() != last()">
+          <xsl:text>&#10;</xsl:text>
+        </xsl:if>
+      </xsl:for-each>
+      <xsl:text>&#10;--&gt;&#10;</xsl:text>
     </xsl:if>
   </xsl:template>
 
