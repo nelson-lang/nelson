@@ -83,7 +83,8 @@
       >`&lt;table&gt;`</code>), des balisages en ligne (<code
       >`&lt;b&gt;`</code>, <code>`&lt;i&gt;`</code>, <code
       >`&lt;code&gt;`</code>), des images (<code
-      >`&lt;img src="..."/&gt;`</code>) et LaTeX (<code>`&lt;latex&gt;`</code>).</p>
+      >`&lt;img src="..."/&gt;`</code>) et LaTeX (<code
+      >`&lt;latex&gt;`</code>).</p>
 
     <p>Les éléments en ligne et leur rendu XSLT :</p>
     <ul>

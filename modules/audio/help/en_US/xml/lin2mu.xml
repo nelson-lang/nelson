@@ -4,7 +4,7 @@
     <language>en_US</language>
     <keyword>lin2mu</keyword>
     <short_description
-  >Convert audio data from linear singal to mu-law.</short_description>
+  >Convert audio data from linear signal to mu-law.</short_description>
     <syntax>
         <syntax_item>mu = lin2mu(y)</syntax_item>
     </syntax>

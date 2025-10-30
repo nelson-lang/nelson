@@ -175,7 +175,7 @@ Implemented features:
   - `sound`: Convert matrix of signal data to sound and play it.
   - `soundsc`: Scale data and play as sound.
   - `mu2lin`: Convert audio data from mu-law to linear signal.
-  - `lin2mu`: Convert audio data from linear singal to mu-law.
+  - `lin2mu`: Convert audio data from linear signal to mu-law.
 
 - elementary functions module:
 

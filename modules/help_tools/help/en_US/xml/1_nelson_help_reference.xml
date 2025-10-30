@@ -89,11 +89,14 @@
       <li><b>`&lt;b&gt;`</b> — bold text.</li>
       <li><b>`&lt;i&gt;`</b> — italic text.</li>
       <li><b>`&lt;code&gt;`</b> — inline code rendering.</li>
-      <li><b>`&lt;a href="..."&gt;`</b> — external links (rendered as HTML anchors).</li>
-      <li><b>`&lt;link linkend="..."&gt;`</b> — internal cross reference. If linkend contains a module in braces <code
+      <li><b
+        >`&lt;a href="..."&gt;`</b> — external links (rendered as HTML anchors).</li>
+      <li><b
+        >`&lt;link linkend="..."&gt;`</b> — internal cross reference. If linkend contains a module in braces <code
         >{module}name</code> it becomes <code
         >../module/name.html</code>, otherwise <code>name.html</code>.</li>
-      <li><b>`&lt;latex&gt;`</b> — math expressions; rendered as MathJax display math by the XSLT template (wrapped with <code
+      <li><b
+        >`&lt;latex&gt;`</b> — math expressions; rendered as MathJax display math by the XSLT template (wrapped with <code
         >`$$...$$`</code>).</li>
       <li><b>`&lt;img src="..."/&gt;`</b> — images. XSLT calls <code
         >ext:copy_img(@src)</code>; SVGs are rendered with a large fixed frame and other formats are responsive.</li>
@@ -101,11 +104,13 @@
 
     <p>Block elements:</p>
     <ul>
-      <li><code>`&lt;ul&gt;`</code> and <code>`&lt;ol&gt;`</code> — lists. Use <code
+      <li><code>`&lt;ul&gt;`</code> and <code
+        >`&lt;ol&gt;`</code> — lists. Use <code
         >`&lt;li&gt;`</code> with nested inline/block markup as needed.</li>
       <li><code>`&lt;table&gt;`</code> — use <code>`&lt;thead&gt;`</code>, <code
         >`&lt;tbody&gt;`</code>, <code>`&lt;tr&gt;`</code>, <code
-        >`&lt;th&gt;`</code> and <code>`&lt;td&gt;`</code>. The XSD allows common attributes <code
+        >`&lt;th&gt;`</code> and <code
+        >`&lt;td&gt;`</code>. The XSD allows common attributes <code
         >border</code>, <code>cellpadding</code> and <code
         >cellspacing</code>.</li>
     </ul>
