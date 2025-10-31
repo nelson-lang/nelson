@@ -15,12 +15,16 @@
 #include <cstdlib>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <winver.h>
+#include <string>
+#include <vector>
 #define dup _dup
 #define dup2 _dup2
 #define close _close
 #define fileno _fileno
 #endif
 #include "Console.hpp"
+#include "Nelson_VERSION.h"
 //===================================================================================
 namespace Nelson {
 //===================================================================================
@@ -64,6 +68,20 @@ CreateConsole()
 
     if (hNelSonConsole) {
         ShowWindow(hNelSonConsole, SW_HIDE);
+
+        // Disable the Close (X) button on the console window to prevent closing via cross
+        HMENU hMenu = GetSystemMenu(hNelSonConsole, FALSE);
+        if (hMenu) {
+            // Gray out the Close menu item
+            EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
+            // Update the window menu bar
+            DrawMenuBar(hNelSonConsole);
+        }
+
+        // Set console title to "Nelson - <version>"
+        std::string title = "Nelson - " + std::string(NELSON_VERSION_STRING);
+        SetConsoleTitleA(title.c_str());
+        SetWindowTextA(hNelSonConsole, title.c_str());
     }
 
     // success if at least stdout or stderr reopened
@@ -81,45 +99,40 @@ DestroyConsole()
     return false;
 }
 //===================================================================================
-bool
-ShowConsoleWindow()
-{
-#if _MSC_VER
-    HWND h = GetConsoleWindow();
-    if (!h) {
-        if (!CreateConsole()) {
-            if (!AllocConsole()) {
-                return false;
-            }
-        }
-        h = GetConsoleWindow();
-    }
-    if (h) {
-        ShowWindow(h, SW_SHOW);
-        return true;
-    }
-#endif
-    return false;
-}
-//===================================================================================
-bool
-HideConsoleWindow()
-{
-#if _MSC_VER
-    HWND h = GetConsoleWindow();
-    if (h) {
-        ShowWindow(h, SW_HIDE);
-        return true;
-    }
-#endif
-    return false;
-}
-//===================================================================================
-bool
-ToggleConsole(bool show)
-{
-    return show ? ShowConsoleWindow() : HideConsoleWindow();
-}
-//===================================================================================
 } // namespace Nelson
+//===================================================================================
+bool
+ShowConsoleWindow(bool show)
+{
+#if _MSC_VER
+    HWND h = GetConsoleWindow();
+    if (h) {
+        if (show) {
+            ShowWindow(h, SW_SHOW);
+        } else {
+            ShowWindow(h, SW_HIDE);
+        }
+        return true;
+    }
+#endif
+    return false;
+}
+//===================================================================================
+bool
+ConsoleIsVisible()
+{
+#if _MSC_VER
+    HWND h = GetConsoleWindow();
+    if (h) {
+        return IsWindowVisible(h) != 0;
+    }
+#endif
+    return false;
+}
+//===================================================================================
+bool
+ToggleConsole()
+{
+    return ShowConsoleWindow(!ConsoleIsVisible());
+}
 //===================================================================================

@@ -16,7 +16,9 @@
 #include <QtWidgets/QScrollBar>
 #include <QtCore/QStringListModel>
 //=============================================================================
-QtTerminalCompleter::QtTerminalCompleter(QtTerminal* owner) : m_owner(owner), m_qCompleter(nullptr) {}
+QtTerminalCompleter::QtTerminalCompleter(QtTerminal* owner) : m_owner(owner), m_qCompleter(nullptr)
+{
+}
 //=============================================================================
 QtTerminalCompleter::~QtTerminalCompleter()
 {
@@ -26,7 +28,8 @@ QtTerminalCompleter::~QtTerminalCompleter()
     }
 }
 //=============================================================================
-void QtTerminalCompleter::createIfNeeded()
+void
+QtTerminalCompleter::createIfNeeded()
 {
     if (!m_qCompleter) {
         m_qCompleter = new QCompleter(m_owner);
@@ -39,8 +42,7 @@ void QtTerminalCompleter::createIfNeeded()
         // QCompleter::activated is overloaded in Qt6; use a lambda and QMetaObject::invokeMethod
         // to call the owner's slot by name, avoiding pointer-to-member access issues.
         QObject::connect(m_qCompleter,
-            static_cast<void (QCompleter::*)(const QString&)>(&QCompleter::activated),
-            m_owner,
+            static_cast<void (QCompleter::*)(const QString&)>(&QCompleter::activated), m_owner,
             [this](const QString& completion) {
                 if (m_owner) {
                     QMetaObject::invokeMethod(m_owner, "insertCompletion", Qt::DirectConnection,
@@ -48,12 +50,14 @@ void QtTerminalCompleter::createIfNeeded()
                 }
             });
 #else
-        QObject::connect(m_qCompleter, SIGNAL(activated(QString)), m_owner, SLOT(insertCompletion(QString)));
+        QObject::connect(
+            m_qCompleter, SIGNAL(activated(QString)), m_owner, SLOT(insertCompletion(QString)));
 #endif
     }
 }
 //=============================================================================
-void QtTerminalCompleter::complete(const QString& prefix)
+void
+QtTerminalCompleter::complete(const QString& prefix)
 {
     if (prefix.isEmpty()) {
         return;
@@ -88,8 +92,8 @@ void QtTerminalCompleter::complete(const QString& prefix)
 
         if (popup && rows > 0) {
             QRect cr = m_owner->cursorRect();
-            cr.setWidth(popup->sizeHintForColumn(0)
-                + popup->verticalScrollBar()->sizeHint().width());
+            cr.setWidth(
+                popup->sizeHintForColumn(0) + popup->verticalScrollBar()->sizeHint().width());
             cr.setHeight(20);
             m_qCompleter->complete(cr);
             m_qCompleter->setCurrentRow(0);
@@ -109,7 +113,8 @@ void QtTerminalCompleter::complete(const QString& prefix)
     }
 }
 //=============================================================================
-void QtTerminalCompleter::updateModel(const std::wstring& prefix, const wstringVector& filesList,
+void
+QtTerminalCompleter::updateModel(const std::wstring& prefix, const wstringVector& filesList,
     const wstringVector& builtinList, const wstringVector& macroList,
     const wstringVector& variableList, const wstringVector& fieldList,
     const wstringVector& propertyList, const wstringVector& methodList)
@@ -121,7 +126,8 @@ void QtTerminalCompleter::updateModel(const std::wstring& prefix, const wstringV
     }
 }
 //=============================================================================
-QAbstractItemModel* QtTerminalCompleter::modelFromNelson(const wstringVector& filesList,
+QAbstractItemModel*
+QtTerminalCompleter::modelFromNelson(const wstringVector& filesList,
     const wstringVector& builtinList, const wstringVector& macroList,
     const wstringVector& variableList, const wstringVector& fieldList,
     const wstringVector& propertyList, const wstringVector& methodList)
@@ -130,7 +136,8 @@ QAbstractItemModel* QtTerminalCompleter::modelFromNelson(const wstringVector& fi
 
     auto appendItemsWithPostfix = [&](const wstringVector& list, const std::wstring& postfix) {
         for (const auto& k : list) {
-            words.append(wstringToQString(k) + QString(" (") + wstringToQString(postfix) + QString(")"));
+            words.append(
+                wstringToQString(k) + QString(" (") + wstringToQString(postfix) + QString(")"));
         }
     };
 
@@ -145,7 +152,8 @@ QAbstractItemModel* QtTerminalCompleter::modelFromNelson(const wstringVector& fi
     return new QStringListModel(words, m_qCompleter);
 }
 //=============================================================================
-void QtTerminalCompleter::insertCompletion(const QString& completion)
+void
+QtTerminalCompleter::insertCompletion(const QString& completion)
 {
     // forward to owner implementation
     if (m_owner) {
@@ -153,7 +161,8 @@ void QtTerminalCompleter::insertCompletion(const QString& completion)
     }
 }
 //=============================================================================
-QCompleter* QtTerminalCompleter::completer()
+QCompleter*
+QtTerminalCompleter::completer()
 {
     return m_qCompleter;
 }

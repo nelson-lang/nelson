@@ -199,6 +199,8 @@ QtTerminal::banner()
             repaint();
         }
     }
+    fprintf(stdout, "Nelson %s - Copyright (c) 2016-present Allan CORNET (Nelson)\n",
+        NELSON_VERSION_STRING);
 }
 //=============================================================================
 void

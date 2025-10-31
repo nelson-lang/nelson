@@ -51,11 +51,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `help`: Help for functions in Command Window.
 
+- `consolebox`: Displays or hides the Windows terminal associated with the Nelson session.
+
 - macOS Tahoe 26: CI setup and platform support.
 
-- Python 3.14 support.
-
 - Fedora 43 support.
+
+- Python 3.14 support.
 
 ### Changed
 

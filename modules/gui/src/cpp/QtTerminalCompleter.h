@@ -26,23 +26,29 @@ public:
     explicit QtTerminalCompleter(QtTerminal* owner);
     ~QtTerminalCompleter();
 
-    void createIfNeeded();
-    void complete(const QString& prefix);
-    void updateModel(const std::wstring& prefix, const wstringVector& filesList,
+    void
+    createIfNeeded();
+    void
+    complete(const QString& prefix);
+    void
+    updateModel(const std::wstring& prefix, const wstringVector& filesList,
         const wstringVector& builtinList, const wstringVector& macroList,
         const wstringVector& variableList, const wstringVector& fieldList,
         const wstringVector& propertyList, const wstringVector& methodList);
 
-    QCompleter* completer();
+    QCompleter*
+    completer();
 
     // Expose modelFromNelson for QtTerminal fallback
-    QAbstractItemModel* modelFromNelson(const wstringVector& filesList, const wstringVector& builtinList,
+    QAbstractItemModel*
+    modelFromNelson(const wstringVector& filesList, const wstringVector& builtinList,
         const wstringVector& macroList, const wstringVector& variableList,
         const wstringVector& fieldList, const wstringVector& propertyList,
         const wstringVector& methodList);
 
 private:
-    void insertCompletion(const QString& completion);
+    void
+    insertCompletion(const QString& completion);
 
     QtTerminal* m_owner;
     QCompleter* m_qCompleter;
