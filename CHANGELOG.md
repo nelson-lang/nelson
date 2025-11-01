@@ -49,13 +49,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `fwrite`: return also bytes count as second output argument.
 
+- `loadenv`: Load environment variables defined in .env or regular text files.
+
 - `help`: Help for functions in Command Window.
 
 - macOS Tahoe 26: CI setup and platform support.
 
-- Python 3.14 support.
-
 - Fedora 43 support.
+
+- Python 3.14 support.
 
 ### Changed
 

@@ -16,6 +16,7 @@
 #include "isunixBuiltin.hpp"
 #include "searchenvBuiltin.hpp"
 #include "setenvBuiltin.hpp"
+#include "loadenvBuiltin.hpp"
 #include "systemBuiltin.hpp"
 #include "winopenBuiltin.hpp"
 #include "winqueryregBuiltin.hpp"
@@ -32,6 +33,8 @@ static const nlsGateway gateway[] = {
     { "dos", (ptrBuiltin)Nelson::OsFunctionsGateway::systemBuiltin, 2, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "unix", (ptrBuiltin)Nelson::OsFunctionsGateway::systemBuiltin, 2, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "loadenv", (ptrBuiltin)Nelson::OsFunctionsGateway::loadenvBuiltin, -1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "getenv", (ptrBuiltin)Nelson::OsFunctionsGateway::getenvBuiltin, 1, 1 },
     { "setenv", (ptrBuiltin)Nelson::OsFunctionsGateway::setenvBuiltin, 1, 2 },

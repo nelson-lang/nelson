@@ -182,6 +182,7 @@
     <ClCompile Include="..\cpp\GetHostname.cpp" />
     <ClCompile Include="..\cpp\GetUsername.cpp" />
     <ClCompile Include="..\cpp\GetVariableEnvironment.cpp" />
+    <ClCompile Include="..\cpp\LoadEnvironment.cpp" />
     <ClCompile Include="..\cpp\PlatformInfo.cpp" />
     <ClCompile Include="..\cpp\SearchVariableEnvironment.cpp" />
     <ClCompile Include="..\cpp\SetVariableEnvironment.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="..\include\CreateGUID.hpp" />
     <ClInclude Include="..\include\GetHostname.hpp" />
     <ClInclude Include="..\include\GetUsername.hpp" />
+    <ClInclude Include="..\include\LoadEnvironment.hpp" />
     <ClInclude Include="..\include\WindowsQueryRegistry.hpp" />
     <ClInclude Include="..\include\WinOpen.hpp" />
   </ItemGroup>
