@@ -35,7 +35,7 @@ FileFunction::buildFullFilename(const std::wstring& directory, const std::wstrin
     std::wstring path = directory + L"/";
 
     if (isPrivate) {
-        // Private function — stored under directory/@objectName/
+        // Private function - stored under directory/@objectName/
         if (!objectName.empty()) {
             path += L"@" + objectName + L"/";
         }
