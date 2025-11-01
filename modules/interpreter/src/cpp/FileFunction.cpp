@@ -18,72 +18,74 @@ namespace Nelson {
 //=============================================================================
 FileFunction::FileFunction(const std::wstring& directory, const std::wstring& objectName,
     const std::wstring& name, bool ismex, bool withWatcher, bool isOverload, bool isPrivate)
+    : _withWatcher(withWatcher)
+    , _isOverload(isOverload)
+    , _ismex(ismex)
+    , _name(name)
+    , _isPrivate(isPrivate)
 {
-    this->_withWatcher = withWatcher;
-    this->_isOverload = isOverload;
-    _ismex = ismex;
     _fullfilename = buildFullFilename(directory, objectName, name, ismex, isPrivate);
-    _name = name;
 }
 //=============================================================================
 std::wstring
 FileFunction::buildFullFilename(const std::wstring& directory, const std::wstring& objectName,
     const std::wstring& name, bool ismex, bool isPrivate)
 {
-    std::wstring _fullfilename;
-    std::wstring extension = ismex ? L"." + getMexExtension() : L".m";
+    const std::wstring extension = ismex ? L"." + getMexExtension() : L".m";
+    std::wstring path = directory + L"/";
 
     if (isPrivate) {
-        if (objectName.empty()) {
-            _fullfilename = directory + L"/" + name + extension;
-        } else {
-            _fullfilename = directory + L"/" + L"@" + objectName + L"/" + extension;
+        // Private function - stored under directory/@objectName/
+        if (!objectName.empty()) {
+            path += L"@" + objectName + L"/";
         }
+        path += name + extension;
     } else {
-        if (objectName.empty() || objectName != name) {
-            _fullfilename = directory + L"/" + name + extension;
-        } else {
-            _fullfilename = directory + L"/" + L"@" + objectName + L"/" + name + extension;
+        // Public function
+        if (!objectName.empty() && objectName == name) {
+            path += L"@" + objectName + L"/";
         }
+        path += name + extension;
     }
-    return _fullfilename;
+    return path;
 }
 //=============================================================================
-FileFunction::~FileFunction()
-{
-    _fullfilename.clear();
-    _name.clear();
-    _ismex = false;
-}
+FileFunction::~FileFunction() { }
 //=============================================================================
-std::wstring
-FileFunction::getFilename()
+const std::wstring&
+FileFunction::getFilename() const
 {
     return _fullfilename;
 }
 //=============================================================================
-std::wstring
-FileFunction::getName()
+const std::wstring&
+FileFunction::getName() const
 {
     return _name;
 }
 //=============================================================================
 bool
-FileFunction::isMex()
+FileFunction::isMex() const
 {
     return _ismex;
 }
 //=============================================================================
 bool
-FileFunction::getWithWatcher()
+FileFunction::getWithWatcher() const
 {
     return _withWatcher;
 }
 //=============================================================================
 bool
-FileFunction::isOverload()
+FileFunction::isOverload() const
 {
     return _isOverload;
+}
+//=============================================================================
+bool
+FileFunction::isPrivate() const
+{
+    return _isPrivate;
 }
 //=============================================================================
 } // namespace Nelson

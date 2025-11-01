@@ -192,6 +192,9 @@
     <ClCompile Include="..\cpp\moc_VariableTableTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\QtTerminalCompleter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\nlsGui_exports.h">
@@ -258,6 +261,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\VariablesEditor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\QtTerminalCompleter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,25 +7,16 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "MacroCompleter.hpp"
-#include "PathFunctionIndexerManager.hpp"
-#include "StringHelpers.hpp"
+#pragma once
+//=============================================================================
+#include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-wstringVector
-MacroCompleter(const std::wstring& prefix)
-{
-    wstringVector res;
-    wstringVector macros = PathFunctionIndexerManager::getInstance()->getMacrosList(false);
-    res.reserve(macros.size());
-    for (const auto& macro : macros) {
-        if (StringHelpers::starts_with(macro, prefix)) {
-            res.emplace_back(macro);
-        }
-    }
-    return res;
-}
+namespace ConsoleGateway {
+    ArrayOfVector
+    consoleboxBuiltin(int nLhs, const ArrayOfVector& argIn);
+};
 //=============================================================================
-} // namespace Nelson;
+}; // namespace Nelson
 //=============================================================================

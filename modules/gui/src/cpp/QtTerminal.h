@@ -19,6 +19,7 @@
 #include "Types.hpp"
 //=============================================================================
 using namespace Nelson;
+class QtTerminalCompleter;
 //=============================================================================
 class NLSGUI_IMPEXP QtTerminal : public QTextBrowser
 {
@@ -61,9 +62,12 @@ public slots:
     void
     sendKeyEvent(QKeyEvent* event);
 
-private slots:
     void
     insertCompletion(const QString& completion);
+
+private slots:
+    void
+    insertCompletionImpl(const QString& completion);
 
     // Find feature slots
     void
@@ -150,7 +154,7 @@ private:
     QAction* exportContentAction;
     QAction* stopAction;
 
-    QCompleter* qCompleter;
+    QtTerminalCompleter* completerImpl;
 
     bool completionDisabled;
 
