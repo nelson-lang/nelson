@@ -43,6 +43,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `tdigest`: Introduced t-digest algorithm for accurate quantile estimation with configurable compression parameters.
 
+- `pascal`: Pascal matrix.
+
+- `gallery`: Test matrices.
+
 - `crc32` builtin: Compute CRC32 checksum of a file or string.
 
 - `markdown`: Added option to select output format (`secure` or `advanced`).
