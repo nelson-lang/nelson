@@ -445,3 +445,11 @@ Beautiful and accessible math in all browsers
 > <https://github.com/mathjax/MathJax>
 
 > <https://github.com/mathjax/MathJax/blob/master/LICENSE> (Apache 2.0)
+
+- cppenv
+
+cppenv is a header-only C++ library that makes it easy to manage .env files in your projects.
+
+> <https://github.com/Tina-1300/cppenv>
+
+> <https://raw.githubusercontent.com/Tina-1300/cppenv/refs/heads/main/LICENSE> (MIT)

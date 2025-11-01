@@ -49,6 +49,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `fwrite`: return also bytes count as second output argument.
 
+- `loadenv`: Load environment variables defined in .env or regular text files.
+
 - `help`: Help for functions in Command Window.
 
 - `consolebox`: Displays or hides the Windows terminal associated with the Nelson session.
