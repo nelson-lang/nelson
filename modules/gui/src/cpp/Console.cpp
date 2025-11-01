@@ -69,7 +69,7 @@ CreateConsole()
     if (hNelSonConsole) {
         ShowWindow(hNelSonConsole, SW_HIDE);
 
-        // Disable the Close (X) button on the console window to prevent closing via cross
+        // Disable the Close (X) button on the console window to prevent closing via the cross button
         HMENU hMenu = GetSystemMenu(hNelSonConsole, FALSE);
         if (hMenu) {
             // Gray out the Close menu item
