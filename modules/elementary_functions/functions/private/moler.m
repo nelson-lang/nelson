@@ -17,7 +17,8 @@ function A = moler(nSize, alphaVal, className)
     alphaVal = -ones(className);
   end
   % Build T and compute A = T' * T
-  A = triw(nSize, alphaVal, [], className)' * triw(nSize, alphaVal, [], className);
+  T = triw(nSize, alphaVal, [], className);
+  A = T' * T;
 end
 %=============================================================================
 function T = triw(nSize, alphaVal, upperBand, className)
