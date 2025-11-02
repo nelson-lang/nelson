@@ -12,7 +12,7 @@
 % <-- Short Description -->
 % error(error_struct) did not return an error.
 %=============================================================================
-res = run([modulepath('error_manager', 'tests'), '/error_script_issue_#14.m'], 'errcatch');
+res = run([modulepath('error_manager', 'tests'), '/error_script_issue_14.m'], 'errcatch');
 assert_isequal(res, false);
 a = lasterror();
 assert_isequal(a.message, _('Requested divide operation requires arguments to have correct dimensions.'));

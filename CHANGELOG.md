@@ -113,6 +113,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Private functions are no longer shown in autocompletion.
 
+- [#1465](https://github.com/nelson-lang/nelson/issues/1465): Rename tests files to bug_github_issue_XXX
+
 ### Fixed
 
 - `ans` variable: Ensured `ans` is only created for expressions, preventing unintended variable creation in the workspace.
