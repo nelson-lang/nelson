@@ -81,9 +81,9 @@ if exist "%BAT_PATH%\..\..\..\qt_windows_x64\" (
 )
 rem =============================================================================
 rem Resolve QTDIR64 to absolute path by temporarily changing directory
-pushd "%BAT_PATH%\..\..\..\qt_windows_x64\6.9.1\msvc2022_64" 2>nul
+pushd "%BAT_PATH%\..\..\..\qt_windows_x64\6.10.0\msvc2022_64" 2>nul
 if errorlevel 1 (
-    echo ERROR: Qt directory does not exist: "%BAT_PATH%\..\..\..\qt_windows_x64\6.9.1\msvc2022_64"
+    echo ERROR: Qt directory does not exist: "%BAT_PATH%\..\..\..\qt_windows_x64\6.10.0\msvc2022_64"
     cd "%ORIGINAL_DIR%"
     exit /b 1
 )

@@ -92,7 +92,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Third-party libraries on Windows: Updated support for HDF5, zlib, and matio, improving compatibility and stability.
 
-- Qt: Upgraded to version 6.9.1 on Windows x64, providing better UI performance and compatibility with modern systems.
+- Qt: Upgraded to version 6.10.0 on Windows x64, providing better UI performance and compatibility with modern systems.
 
 - Benchmarks: Updated `bench_jsonencode.json` to include larger datasets for more robust performance testing.
 
