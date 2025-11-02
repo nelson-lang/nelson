@@ -10,31 +10,50 @@
 % <--SEQUENTIAL TEST REQUIRED-->
 % <--CLI MODE--> 
 %=============================================================================
+skip_testsuite(~ismodule('trigonometric_functions'), _('trigonometric_functions module not installed'));
 clear('functions');
-[builtin_list, macro_list] = what();
+% use always same macro list to have reproducible test
+macro_list = {
+'acosd';
+'acosh';
+'acot';
+'acotd';
+'acoth';
+'acsc';
+'acscd';
+'acsch';
+'asec';
+'asecd';
+'asech';
+'asind';
+'asinh';
+'atan2d';
+'atand';
+'cart2pol';
+'cart2sph';
+'cosd';
+'cospi';
+'cot';
+'cotd';
+'coth';
+'csc';
+'cscd';
+'csch';
+'deg2rad';
+'pol2cart';
+'rad2deg';
+'sec';
+'secd';
+'sech';
+'sind';
+'sinpi';
+'sph2cart';
+'tand'};
 [u1, s1] = memory();
-filtered = { 'buildhelp';
-'buildhelpmd';
-'buildhelpweb';
-'configuremingw';
-'configuremsvc';
-'removecompilerconf';
-'doc';
-'edit';
-'errordlg';
-'helpdlg';
-'indexhelp';
-'msgbox';
-'qml_demos';
-'questdlg';
-'test_run';
-'vswhere';
-'warndlg';
-'license'};
-for k = 1:length(macro_list)
-  if strcmp(macro_list{k}, filtered) == false
-    execstr([macro_list{k}, ';'], 'errcatch');
-  end
+for j = 1:10
+    for k = 1:length(macro_list)
+        execstr([macro_list{k}, ';'], 'errcatch');
+    end
 end
 [u2, s2] = memory();
 clear('functions');
