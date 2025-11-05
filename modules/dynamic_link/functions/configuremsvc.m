@@ -26,8 +26,16 @@ function varargout = configuremsvc()
     varargout{2} = e.message;
     return
   end
+
+  if isempty(vsjon)
+    varargout{1} = false;
+    varargout{2} = _('No Visual Studio installation found.');
+    return
+  end
   
-  if startsWith(vsjon.installationVersion, '17.')
+  if startsWith(vsjon.installationVersion, '18.')
+    vsconfig = [modulepath('dynamic_link'), '/resources/msvc2026.json'];
+  elseif startsWith(vsjon.installationVersion, '17.')
     vsconfig = [modulepath('dynamic_link'), '/resources/msvc2022.json'];
   elseif startsWith(vsjon.installationVersion, '16.')
     vsconfig = [modulepath('dynamic_link'), '/resources/msvc2019.json'];
