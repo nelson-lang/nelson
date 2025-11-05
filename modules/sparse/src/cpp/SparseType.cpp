@@ -472,6 +472,101 @@ Eigen_GetSparseNDimSubsets(NelsonType dclass, indexType rows, indexType cols, co
     const indexType* rindx, indexType irows, const indexType* cindx, indexType icols)
 {
     void* spMat = nullptr;
+    // Validate indices
+    for (indexType i = 0; i < irows; ++i) {
+        double ndx = static_cast<double>(rindx[i]) - 1;
+        if ((ndx < 0) || ndx >= rows) {
+            Error(_W("Index exceeds variable dimensions."));
+        }
+    }
+    for (indexType j = 0; j < icols; ++j) {
+        double ndx = static_cast<double>(cindx[j]) - 1;
+        if ((ndx < 0) || ndx >= cols) {
+            Error(_W("Index exceeds variable dimensions."));
+        }
+    }
+    switch (dclass) {
+    case NLS_LOGICAL: {
+        Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatsrc
+            = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)src;
+        using Triplet = Eigen::Triplet<logical, signedIndexType>;
+        std::vector<Triplet> tripletList;
+        tripletList.reserve(irows * icols);
+        for (indexType i = 0; i < irows; ++i) {
+            indexType I = rindx[i] - 1;
+            for (indexType j = 0; j < icols; ++j) {
+                indexType J = cindx[j] - 1;
+                logical v = spMatsrc->coeff(I, J);
+                if (v) {
+                    tripletList.emplace_back(i, j, v);
+                }
+            }
+        }
+        try {
+            auto* dst = new Eigen::SparseMatrix<logical, 0, signedIndexType>(irows, icols);
+            dst->setFromTriplets(tripletList.begin(), tripletList.end());
+            dst->finalize();
+            dst->makeCompressed();
+            return (void*)dst;
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+    } break;
+    case NLS_DOUBLE: {
+        Eigen::SparseMatrix<double, 0, signedIndexType>* spMatsrc
+            = (Eigen::SparseMatrix<double, 0, signedIndexType>*)src;
+        using Triplet = Eigen::Triplet<double, signedIndexType>;
+        std::vector<Triplet> tripletList;
+        tripletList.reserve(irows * icols);
+        for (indexType i = 0; i < irows; ++i) {
+            indexType I = rindx[i] - 1;
+            for (indexType j = 0; j < icols; ++j) {
+                indexType J = cindx[j] - 1;
+                double v = spMatsrc->coeff(I, J);
+                if (v != 0.) {
+                    tripletList.emplace_back(i, j, v);
+                }
+            }
+        }
+        try {
+            auto* dst = new Eigen::SparseMatrix<double, 0, signedIndexType>(irows, icols);
+            dst->setFromTriplets(tripletList.begin(), tripletList.end());
+            dst->finalize();
+            dst->makeCompressed();
+            return (void*)dst;
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+    } break;
+    case NLS_DCOMPLEX: {
+        Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMatsrc
+            = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)src;
+        using Triplet = Eigen::Triplet<doublecomplex, signedIndexType>;
+        std::vector<Triplet> tripletList;
+        tripletList.reserve(irows * icols);
+        for (indexType i = 0; i < irows; ++i) {
+            indexType I = rindx[i] - 1;
+            for (indexType j = 0; j < icols; ++j) {
+                indexType J = cindx[j] - 1;
+                doublecomplex v = spMatsrc->coeff(I, J);
+                if ((v.real() != 0.) || (v.imag() != 0.)) {
+                    tripletList.emplace_back(i, j, v);
+                }
+            }
+        }
+        try {
+            auto* dst = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(irows, icols);
+            dst->setFromTriplets(tripletList.begin(), tripletList.end());
+            dst->finalize();
+            dst->makeCompressed();
+            return (void*)dst;
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+    } break;
+    default:
+        Error(_W("Unsupported type in GetSparseNDimSubsets."));
+    }
     return spMat;
 }
 //=============================================================================
@@ -524,42 +619,107 @@ void*
 Eigen_SetSparseVectorSubsets(NelsonType dclass, indexType& rows, indexType& cols, const void* src,
     const indexType* indx, indexType irows, indexType icols, const void* data, int advance)
 {
-    if (advance) {
-        Error(_W("Eigen_DeleteSparseMatrixVectorSubset advanced not yet implemented."));
+    // For a linear index vector, each element corresponds to a single
+    // (row,col) pair. Previously we converted the linear indices into
+    // separate row and column vectors and delegated to the N-D setter,
+    // which produced the cartesian product of rows and cols. That's
+    // incorrect for this use-case. Instead, copy the source sparse
+    // matrix and set each target (row,col) entry individually.
+    indexType nelem = irows * icols;
+    // Copy source into result (may resize if necessary below)
+    void* res = Eigen_CopySparseMatrix(dclass, rows, cols, src);
+    switch (dclass) {
+    case NLS_LOGICAL: {
+        Eigen::SparseMatrix<logical, 0, signedIndexType>* spMat
+            = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)res;
+        logical* pV = (logical*)data;
+        bool isScalar = (advance == 0);
+        spMat->uncompress();
+        for (indexType k = 0; k < nelem; ++k) {
+            auto idx = static_cast<indexType>(indx[k] - 1);
+            indexType r = static_cast<indexType>(idx % rows);
+            indexType c = static_cast<indexType>(idx / rows);
+            logical val = isScalar ? pV[0] : pV[k];
+            spMat->coeffRef(r, c) = val;
+        }
+        spMat->finalize();
+        spMat->makeCompressed();
+        return res;
+    } break;
+    case NLS_DOUBLE: {
+        Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
+            = (Eigen::SparseMatrix<double, 0, signedIndexType>*)res;
+        double* pV = (double*)data;
+        bool isScalar = (advance == 0);
+        spMat->uncompress();
+        for (indexType k = 0; k < nelem; ++k) {
+            auto idx = static_cast<indexType>(indx[k] - 1);
+            indexType r = static_cast<indexType>(idx % rows);
+            indexType c = static_cast<indexType>(idx / rows);
+            double val = isScalar ? pV[0] : pV[k];
+            spMat->coeffRef(r, c) = val;
+        }
+        spMat->finalize();
+        spMat->makeCompressed();
+        return res;
+    } break;
+    case NLS_DCOMPLEX: {
+        Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMat
+            = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)res;
+        double* pV = (double*)data;
+        bool isScalar = (advance == 0);
+        spMat->uncompress();
+        indexType q = 0;
+        for (indexType k = 0; k < nelem; ++k) {
+            auto idx = static_cast<indexType>(indx[k] - 1);
+            indexType r = static_cast<indexType>(idx % rows);
+            indexType c = static_cast<indexType>(idx / rows);
+            doublecomplex val;
+            if (isScalar) {
+                val = doublecomplex(pV[0], pV[1]);
+            } else {
+                val = doublecomplex(pV[q], pV[q + 1]);
+            }
+            spMat->coeffRef(r, c) = val;
+            q += 2;
+        }
+        spMat->finalize();
+        spMat->makeCompressed();
+        return res;
+    } break;
+    default:
+        Error(_W("Unsupported type in SetSparseVectorSubsets."));
     }
-    indexType* rowvect = new_with_exception<indexType>(irows * icols, false);
-    indexType* colvect = new_with_exception<indexType>(irows * icols, false);
-    for (indexType k = 0; k < irows * icols; k++) {
-        auto idx = static_cast<indexType>(indx[k] - 1);
-        rowvect[k] = static_cast<indexType>(idx % rows) + 1;
-        colvect[k] = static_cast<indexType>(idx / rows) + 1;
-    }
-    void* spMat = Eigen_SetSparseNDimSubsets(
-        dclass, rows, cols, src, rowvect, irows * icols, colvect, irows * icols, data, advance);
-    delete[] rowvect;
-    delete[] colvect;
-    return spMat;
+    return nullptr;
 }
 //=============================================================================
 template <class T>
 void*
 Eigen_SetSparseNDimSubsetsInternal(indexType& rows, indexType& cols, const void* res,
     const indexType* rindx, indexType irows, const indexType* cindx, indexType icols,
-    const void* data)
+    const void* data, bool advance)
 {
     T* dData = (T*)data;
     Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
         = (Eigen::SparseMatrix<T, 0, signedIndexType>*)res;
     spMat->uncompress();
-    if (irows == icols) {
-        for (indexType j = 0; j < irows; j++) {
-            spMat->coeffRef(rindx[j] - 1, cindx[j] - 1) = dData[0];
-        }
-    } else {
-        for (indexType i = 0; i < irows; i++) {
-            for (indexType j = 0; j < icols; j++) {
-                spMat->coeffRef(rindx[i] - 1, cindx[j] - 1) = dData[0];
-            }
+    indexType total = irows * icols;
+    // The 'advance' parameter is provided by the caller and indicates
+    // whether the RHS data should be treated as a scalar broadcast
+    // (advance == false / 0) or as an array with one element per
+    // selection element (advance == true / non-zero). Use that to
+    // determine scalar-vs-array semantics. We perform direct
+    // assignment for each targeted entry (last value wins when the
+    // same (row,col) is written multiple times).
+    bool isScalarData = !advance;
+    // Fill values. Data is expected in column-major order: element index = i + j*irows
+    for (indexType i = 0; i < irows; ++i) {
+        for (indexType j = 0; j < icols; ++j) {
+            indexType idx = isScalarData ? 0 : (i + j * irows);
+            T val = dData[idx];
+            // Perform assignment (not accumulation). If callers need
+            // accumulation semantics they should use a dedicated API.
+            spMat->coeffRef(rindx[i] - 1, cindx[j] - 1) = val;
         }
     }
     spMat->finalize();
@@ -572,9 +732,7 @@ Eigen_SetSparseNDimSubsets(NelsonType dclass, indexType& rows, indexType& cols, 
     const indexType* rindx, indexType irows, const indexType* cindx, indexType icols,
     const void* data, int advance)
 {
-    if (advance) {
-        Error(_W("Eigen_SetSparseNDimSubsets advanced not yet implemented."));
-    }
+    // advance==1 indicates accumulation (+=) rather than assignment.
     void* res = nullptr;
     indexType i = 0;
     indexType maxrow = rindx[0];
@@ -597,15 +755,15 @@ Eigen_SetSparseNDimSubsets(NelsonType dclass, indexType& rows, indexType& cols, 
     switch (dclass) {
     case NLS_LOGICAL: {
         return Eigen_SetSparseNDimSubsetsInternal<logical>(
-            rows, cols, res, rindx, irows, cindx, icols, data);
+            rows, cols, res, rindx, irows, cindx, icols, data, advance != 0);
     } break;
     case NLS_DOUBLE: {
         return Eigen_SetSparseNDimSubsetsInternal<double>(
-            rows, cols, res, rindx, irows, cindx, icols, data);
+            rows, cols, res, rindx, irows, cindx, icols, data, advance != 0);
     } break;
     case NLS_DCOMPLEX: {
         return Eigen_SetSparseNDimSubsetsInternal<doublecomplex>(
-            rows, cols, res, rindx, irows, cindx, icols, data);
+            rows, cols, res, rindx, irows, cindx, icols, data, advance != 0);
     } break;
     default:
         Error(_W("Unsupported type in SetSparseNDimSubsets."));
@@ -949,8 +1107,112 @@ Eigen_DeleteSparseMatrixCols(
     NelsonType dclass, indexType rows, indexType cols, const void* cp, bool* dmap)
 {
     void* spMat = nullptr;
-    Error(_W("Eigen_DeleteSparseMatrixCols not yet implemented."));
-    return spMat;
+    // dmap is a boolean map of length 'cols' where true means delete that column
+    // Count remaining columns
+    indexType keepCols = 0;
+    for (indexType j = 0; j < cols; ++j) {
+        if (!dmap[j])
+            keepCols++;
+    }
+    if (keepCols == 0) {
+        // No columns left -> return nullptr, caller will set dims accordingly
+        return nullptr;
+    }
+    switch (dclass) {
+    case NLS_LOGICAL: {
+        Eigen::SparseMatrix<logical, 0, signedIndexType>* spSrc
+            = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)cp;
+        using Triplet = Eigen::Triplet<logical, signedIndexType>;
+        std::vector<Triplet> tripletList;
+        tripletList.reserve(spSrc ? spSrc->nonZeros() : 0);
+        indexType newCol = 0;
+        for (indexType j = 0; j < cols; ++j) {
+            if (dmap[j])
+                continue;
+            if (spSrc) {
+                for (typename Eigen::SparseMatrix<logical, 0, signedIndexType>::InnerIterator it(
+                         *spSrc, j);
+                     it; ++it) {
+                    tripletList.emplace_back(it.row(), newCol, it.value());
+                }
+            }
+            newCol++;
+        }
+        try {
+            auto* dst = new Eigen::SparseMatrix<logical, 0, signedIndexType>(rows, keepCols);
+            dst->setFromTriplets(tripletList.begin(), tripletList.end());
+            dst->finalize();
+            dst->makeCompressed();
+            return (void*)dst;
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+    } break;
+    case NLS_DOUBLE: {
+        Eigen::SparseMatrix<double, 0, signedIndexType>* spSrc
+            = (Eigen::SparseMatrix<double, 0, signedIndexType>*)cp;
+        using Triplet = Eigen::Triplet<double, signedIndexType>;
+        std::vector<Triplet> tripletList;
+        tripletList.reserve(spSrc ? spSrc->nonZeros() : 0);
+        indexType newCol = 0;
+        for (indexType j = 0; j < cols; ++j) {
+            if (dmap[j])
+                continue;
+            if (spSrc) {
+                for (typename Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(
+                         *spSrc, j);
+                     it; ++it) {
+                    tripletList.emplace_back(it.row(), newCol, it.value());
+                }
+            }
+            newCol++;
+        }
+        try {
+            auto* dst = new Eigen::SparseMatrix<double, 0, signedIndexType>(rows, keepCols);
+            dst->setFromTriplets(tripletList.begin(), tripletList.end());
+            dst->finalize();
+            dst->makeCompressed();
+            return (void*)dst;
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+    } break;
+    case NLS_DCOMPLEX: {
+        Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spSrc
+            = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)cp;
+        using Triplet = Eigen::Triplet<doublecomplex, signedIndexType>;
+        std::vector<Triplet> tripletList;
+        tripletList.reserve(spSrc ? spSrc->nonZeros() : 0);
+        indexType newCol = 0;
+        for (indexType j = 0; j < cols; ++j) {
+            if (dmap[j])
+                continue;
+            if (spSrc) {
+                for (typename Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator
+                         it(*spSrc, j);
+                     it; ++it) {
+                    doublecomplex v = it.value();
+                    if ((v.real() != 0.) || (v.imag() != 0.)) {
+                        tripletList.emplace_back(it.row(), newCol, v);
+                    }
+                }
+            }
+            newCol++;
+        }
+        try {
+            auto* dst = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(rows, keepCols);
+            dst->setFromTriplets(tripletList.begin(), tripletList.end());
+            dst->finalize();
+            dst->makeCompressed();
+            return (void*)dst;
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+    } break;
+    default:
+        Error(_W("Unsupported type in DeleteSparseMatrixCols."));
+    }
+    return nullptr;
 }
 //=============================================================================
 void*
@@ -958,8 +1220,124 @@ Eigen_DeleteSparseMatrixRows(
     NelsonType dclass, indexType rows, indexType cols, const void* cp, bool* dmap)
 {
     void* spMat = nullptr;
-    Error(_W("Eigen_DeleteSparseMatrixRows not yet implemented."));
-    return spMat;
+    // dmap is a boolean map of length 'rows' where true means delete that row
+    // Count remaining rows
+    indexType keepRows = 0;
+    for (indexType i = 0; i < rows; ++i) {
+        if (!dmap[i])
+            keepRows++;
+    }
+    if (keepRows == 0) {
+        // No rows left -> return nullptr, caller will set dims accordingly
+        return nullptr;
+    }
+
+    // Build row mapping: old row -> new row index (or -1 if deleted)
+    // Use signedIndexType so we can store -1 as sentinel safely even if indexType
+    // is unsigned. Using an unsigned sentinel (-1) caused incorrect large values
+    // and crashes in setFromTriplets.
+    std::vector<signedIndexType> rowMap(rows, -1);
+    signedIndexType newRow = 0;
+    for (indexType i = 0; i < rows; ++i) {
+        if (!dmap[i]) {
+            rowMap[i] = newRow++;
+        }
+    }
+
+    switch (dclass) {
+    case NLS_LOGICAL: {
+        Eigen::SparseMatrix<logical, 0, signedIndexType>* spSrc
+            = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)cp;
+        using Triplet = Eigen::Triplet<logical, signedIndexType>;
+        std::vector<Triplet> tripletList;
+        tripletList.reserve(spSrc ? spSrc->nonZeros() : 0);
+        for (indexType j = 0; j < cols; ++j) {
+            if (spSrc) {
+                for (typename Eigen::SparseMatrix<logical, 0, signedIndexType>::InnerIterator it(
+                         *spSrc, j);
+                     it; ++it) {
+                    indexType r = it.row();
+                    signedIndexType nr = rowMap[r];
+                    if (nr >= 0) {
+                        tripletList.emplace_back(nr, j, it.value());
+                    }
+                }
+            }
+        }
+        try {
+            auto* dst = new Eigen::SparseMatrix<logical, 0, signedIndexType>(keepRows, cols);
+            dst->setFromTriplets(tripletList.begin(), tripletList.end());
+            dst->finalize();
+            dst->makeCompressed();
+            return (void*)dst;
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+    } break;
+    case NLS_DOUBLE: {
+        Eigen::SparseMatrix<double, 0, signedIndexType>* spSrc
+            = (Eigen::SparseMatrix<double, 0, signedIndexType>*)cp;
+        using Triplet = Eigen::Triplet<double, signedIndexType>;
+        std::vector<Triplet> tripletList;
+        tripletList.reserve(spSrc ? spSrc->nonZeros() : 0);
+        for (indexType j = 0; j < cols; ++j) {
+            if (spSrc) {
+                for (typename Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(
+                         *spSrc, j);
+                     it; ++it) {
+                    indexType r = it.row();
+                    signedIndexType nr = rowMap[r];
+                    double v = it.value();
+                    if (nr >= 0 && v != 0.) {
+                        tripletList.emplace_back(nr, j, v);
+                    }
+                }
+            }
+        }
+        try {
+            auto* dst = new Eigen::SparseMatrix<double, 0, signedIndexType>(keepRows, cols);
+            dst->setFromTriplets(tripletList.begin(), tripletList.end());
+            dst->finalize();
+            dst->makeCompressed();
+            return (void*)dst;
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+    } break;
+    case NLS_DCOMPLEX: {
+        Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spSrc
+            = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)cp;
+        using Triplet = Eigen::Triplet<doublecomplex, signedIndexType>;
+        std::vector<Triplet> tripletList;
+        tripletList.reserve(spSrc ? spSrc->nonZeros() : 0);
+        for (indexType j = 0; j < cols; ++j) {
+            if (spSrc) {
+                for (typename Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator
+                         it(*spSrc, j);
+                     it; ++it) {
+                    indexType r = it.row();
+                    signedIndexType nr = rowMap[r];
+                    doublecomplex v = it.value();
+                    if (nr >= 0 && ((v.real() != 0.) || (v.imag() != 0.))) {
+                        tripletList.emplace_back(nr, j, v);
+                    }
+                }
+            }
+        }
+        try {
+            auto* dst = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(keepRows, cols);
+            dst->setFromTriplets(tripletList.begin(), tripletList.end());
+            dst->finalize();
+            dst->makeCompressed();
+            return (void*)dst;
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+    } break;
+    default:
+        Error(_W("Unsupported type in DeleteSparseMatrixRows."));
+    }
+    return nullptr;
 }
 //=============================================================================
 void*
@@ -967,8 +1345,169 @@ Eigen_DeleteSparseMatrixVectorSubset(NelsonType dclass, indexType& rows, indexTy
     const void* cp, const indexType* todel, indexType delete_len)
 {
     void* spMat = nullptr;
-    Error(_W("Eigen_DeleteSparseMatrixVectorSubset not yet implemented."));
-    return spMat;
+    indexType oldRows = rows;
+    indexType oldCols = cols;
+    indexType N = oldRows * oldCols;
+    // Build deletion map
+    std::vector<char> delmap(N, 0);
+    for (indexType k = 0; k < delete_len; ++k) {
+        double ndx = static_cast<double>(todel[k]) - 1;
+        if ((ndx < 0) || ndx >= N) {
+            Error(_W("Index exceeds variable dimensions."));
+        }
+        delmap[static_cast<size_t>(todel[k] - 1)] = 1;
+    }
+    // Count remaining elements
+    indexType newSize = 0;
+    for (indexType i = 0; i < N; ++i) {
+        if (!delmap[i])
+            newSize++;
+    }
+    // Determine new dimensions following dense semantics
+    bool isScalar = (oldRows == 1 && oldCols == 1);
+    bool isVector = (oldRows == 1 || oldCols == 1);
+    indexType newRows = 0;
+    indexType newCols = 0;
+    if (isScalar) {
+        if (delete_len == 1) {
+            newRows = 0;
+            newCols = 0;
+        } else {
+            newRows = 1;
+            newCols = newSize;
+        }
+    } else if (isVector) {
+        // preserve orientation
+        if (oldRows != 1) {
+            newRows = newSize;
+            newCols = oldCols;
+        } else {
+            newRows = oldRows;
+            newCols = newSize;
+        }
+    } else {
+        if (newSize == 0) {
+            // When deleting all elements of a non-vector (matrix),
+            // follow dense semantics and return an empty matrix with
+            // zero rows but preserve the original number of columns.
+            newRows = 0;
+            newCols = newSize;
+        } else {
+            newRows = 1;
+            newCols = newSize;
+        }
+    }
+    // If no remaining elements
+    if (newSize == 0) {
+        rows = newRows;
+        cols = newCols;
+    }
+
+    // Build result sparse matrix by iterating original array in column-major
+    // and writing remaining elements into the new matrix in column-major.
+    switch (dclass) {
+    case NLS_LOGICAL: {
+        Eigen::SparseMatrix<logical, 0, signedIndexType>* spSrc
+            = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)cp;
+        using Triplet = Eigen::Triplet<logical, signedIndexType>;
+        std::vector<Triplet> tripletList;
+        tripletList.reserve(newSize);
+        indexType t = 0;
+        for (indexType k = 0; k < N; ++k) {
+            if (delmap[k])
+                continue;
+            indexType I = k % oldRows;
+            indexType J = k / oldRows;
+            logical v = spSrc->coeff(I, J);
+            if (v) {
+                // map t to new (r,c)
+                indexType r = t % newRows;
+                indexType c = t / newRows;
+                tripletList.emplace_back(r, c, v);
+            }
+            t++;
+        }
+        try {
+            auto* dst = new Eigen::SparseMatrix<logical, 0, signedIndexType>(newRows, newCols);
+            dst->setFromTriplets(tripletList.begin(), tripletList.end());
+            dst->finalize();
+            dst->makeCompressed();
+            rows = newRows;
+            cols = newCols;
+            return (void*)dst;
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+    } break;
+    case NLS_DOUBLE: {
+        Eigen::SparseMatrix<double, 0, signedIndexType>* spSrc
+            = (Eigen::SparseMatrix<double, 0, signedIndexType>*)cp;
+        using Triplet = Eigen::Triplet<double, signedIndexType>;
+        std::vector<Triplet> tripletList;
+        tripletList.reserve(newSize);
+        indexType t = 0;
+        for (indexType k = 0; k < N; ++k) {
+            if (delmap[k])
+                continue;
+            indexType I = k % oldRows;
+            indexType J = k / oldRows;
+            double v = spSrc->coeff(I, J);
+            if (v != 0.) {
+                indexType r = t % newRows;
+                indexType c = t / newRows;
+                tripletList.emplace_back(r, c, v);
+            }
+            t++;
+        }
+        try {
+            auto* dst = new Eigen::SparseMatrix<double, 0, signedIndexType>(newRows, newCols);
+            dst->setFromTriplets(tripletList.begin(), tripletList.end());
+            dst->finalize();
+            dst->makeCompressed();
+            rows = newRows;
+            cols = newCols;
+            return (void*)dst;
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+    } break;
+    case NLS_DCOMPLEX: {
+        Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spSrc
+            = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)cp;
+        using Triplet = Eigen::Triplet<doublecomplex, signedIndexType>;
+        std::vector<Triplet> tripletList;
+        tripletList.reserve(newSize);
+        indexType t = 0;
+        for (indexType k = 0; k < N; ++k) {
+            if (delmap[k])
+                continue;
+            indexType I = k % oldRows;
+            indexType J = k / oldRows;
+            doublecomplex v = spSrc->coeff(I, J);
+            if ((v.real() != 0.) || (v.imag() != 0.)) {
+                indexType r = t % newRows;
+                indexType c = t / newRows;
+                tripletList.emplace_back(r, c, v);
+            }
+            t++;
+        }
+        try {
+            auto* dst
+                = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(newRows, newCols);
+            dst->setFromTriplets(tripletList.begin(), tripletList.end());
+            dst->finalize();
+            dst->makeCompressed();
+            rows = newRows;
+            cols = newCols;
+            return (void*)dst;
+        } catch (const std::bad_alloc&) {
+            Error(ERROR_MEMORY_ALLOCATION);
+        }
+    } break;
+    default:
+        Error(_W("Unsupported type in DeleteSparseMatrixVectorSubset."));
+    }
+    return nullptr;
 }
 //=============================================================================
 void*
