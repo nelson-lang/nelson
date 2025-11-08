@@ -20,6 +20,7 @@
 #include "GOPropertyValues.hpp"
 #include "GOCallbackProperty.hpp"
 #include "CallbackQueue.hpp"
+#include "TimerQueue.hpp"
 #include "Evaluator.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
@@ -34,6 +35,7 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     Evaluator* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
     CallbackQueue::getInstance()->processCallback(eval);
+    TimerQueue::getInstance()->processCallback(eval);
 
     int64 currentFigureID;
     if (argIn.size() == 0) {

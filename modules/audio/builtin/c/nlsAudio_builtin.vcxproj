@@ -105,7 +105,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -126,7 +127,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -151,7 +153,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -177,7 +180,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -244,6 +248,26 @@
     <ClCompile Include="..\cpp\audioplayer_stopBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioplayer_usedBuiltin.cpp" />
     <ClCompile Include="..\cpp\audioreadBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorderBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_deleteBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_dispBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_displayBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_fieldnamesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_getBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_invokeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_ismethodBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_ispropBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_isvalidBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_pauseBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_playBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_propertiesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_recordblockingBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_recordBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_resumeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_setBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_startBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_stopBuiltin.cpp" />
+    <ClCompile Include="..\cpp\audiorecorder_usedBuiltin.cpp" />
     <ClCompile Include="..\cpp\audiosupportedformatsBuiltin.cpp" />
     <ClCompile Include="..\cpp\audiowriteBuiltin.cpp" />
     <ClCompile Include="..\cpp\beepBuiltin.cpp" />
@@ -267,6 +291,7 @@
     <ClInclude Include="..\include\audioplayer_ispropBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_isvalidBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_pauseBuiltin.hpp" />
+    <ClInclude Include="..\include\audioplayer_playblockingBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_playBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_propertiesBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_resumeBuiltin.hpp" />
@@ -274,6 +299,27 @@
     <ClInclude Include="..\include\audioplayer_stopBuiltin.hpp" />
     <ClInclude Include="..\include\audioplayer_usedBuiltin.hpp" />
     <ClInclude Include="..\include\audioreadBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorderBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_deleteBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_dispBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_displayBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_fieldnamesBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_getBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_invokeBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_ismethodBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_ispropBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_isvalidBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_pauseBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_playblockingBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_playBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_propertiesBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_recordblockingBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_recordBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_resumeBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_setBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_startBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_stopBuiltin.hpp" />
+    <ClInclude Include="..\include\audiorecorder_usedBuiltin.hpp" />
     <ClInclude Include="..\include\audiosupportedformatsBuiltin.hpp" />
     <ClInclude Include="..\include\audiowriteBuiltin.hpp" />
     <ClInclude Include="..\include\beepBuiltin.hpp" />

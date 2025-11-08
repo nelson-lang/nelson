@@ -392,5 +392,32 @@ ArrayOf::int32Matrix2dConstructor(indexType m, indexType n)
     return ArrayOf(NLS_INT32, dim, data);
 }
 //=============================================================================
+ArrayOf
+ArrayOf::int8Matrix2dConstructor(indexType m, indexType n)
+{
+    Dimensions dim(m, n);
+    int8* data = static_cast<int8*>(
+        allocateArrayOf(NLS_INT8, dim.getElementCount(), stringVector(), true));
+    return ArrayOf(NLS_INT8, dim, data);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::uint8Matrix2dConstructor(indexType m, indexType n)
+{
+    Dimensions dim(m, n);
+    uint8* data = static_cast<uint8*>(
+        allocateArrayOf(NLS_UINT8, dim.getElementCount(), stringVector(), true));
+    return ArrayOf(NLS_UINT8, dim, data);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::int16Matrix2dConstructor(indexType m, indexType n)
+{
+    Dimensions dim(m, n);
+    int16* data = static_cast<int16*>(
+        allocateArrayOf(NLS_INT16, dim.getElementCount(), stringVector(), true));
+    return ArrayOf(NLS_INT16, dim, data);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

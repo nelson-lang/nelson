@@ -36,6 +36,8 @@
 #include "Interface.hpp"
 #include "NelsonReadyNamedMutex.hpp"
 #include "CallbackQueue.hpp"
+#include "TimerQueue.hpp"
+#include "HandleGenericObject.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -405,7 +407,12 @@ Evaluator::evalCLI()
         if (!bpActive) {
             clearStacks();
         }
+
         if (CallbackQueue::getInstance()->processCallback(this)) {
+            return;
+        }
+
+        if (TimerQueue::getInstance()->processCallback(this)) {
             return;
         }
 
@@ -630,7 +637,8 @@ Evaluator::setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
 // Retrieves the handle of an object based on its type and field name, using the provided
 // parameters.
 ArrayOfVector
-Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& params)
+Evaluator::getHandle(
+    ArrayOf r, const std::string& fieldname, const ArrayOfVector& params, int& nLhs)
 {
     ArrayOfVector argIn;
     std::string currentType;
@@ -649,7 +657,7 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
                 || (funcDef->type() == NLS_MACRO_FUNCTION))) {
             Error(_W("Type function not valid."));
         }
-        int nLhs = 1;
+        nLhs = funcDef->outputArgCount() == 0 ? 0 : 1;
         argIn.reserve(params.size() + 1);
         argIn.push_back(r);
         for (const ArrayOf& a : params) {
@@ -664,7 +672,6 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
         Error(_W("Type function not valid."));
     }
-    int nLhs = 1;
     argIn.push_back(r);
     argIn.push_back(ArrayOf::characterArrayConstructor(fieldname));
     return funcDef->evaluateFunction(this, argIn, nLhs);
@@ -698,7 +705,7 @@ Evaluator::isObjectMethod(const ArrayOf& r, const std::string& methodName)
 // Invokes a method on the given object with the specified parameters.
 ArrayOfVector
 Evaluator::invokeMethod(
-    const ArrayOf& r, const std::string& methodName, const ArrayOfVector& params)
+    const ArrayOf& r, const std::string& methodName, const ArrayOfVector& params, int& nLhs)
 {
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
@@ -709,17 +716,22 @@ Evaluator::invokeMethod(
 
     if (!currentType.empty()) {
         std::string functionNameCurrentType = getOverloadFunctionName(currentType, "invoke");
+
         if (_context->lookupFunction(functionNameCurrentType, funcDef)) {
             ArrayOfVector argIn;
-            int nLhs = 1;
+            HandleGenericObject* handleObj = r.getContentAsHandleScalar();
+            if (handleObj != nullptr) {
+                nLhs = handleObj->nargoutMethod(utf8_to_wstring(methodName)) == 0 ? 0 : 1;
+            }
             argIn.push_back(r);
             argIn.push_back(ArrayOf::characterArrayConstructor(methodName));
+
             for (const ArrayOf& a : params) {
                 argIn.push_back(a);
             }
             return funcDef->evaluateFunction(this, argIn, nLhs);
         }
-        return getHandle(r, methodName, params);
+        return getHandle(r, methodName, params, nLhs);
     }
     Error(_("Function not found: ") + "invoke");
     return {};

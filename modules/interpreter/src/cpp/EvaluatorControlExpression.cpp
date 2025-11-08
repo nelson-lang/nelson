@@ -193,7 +193,8 @@ Evaluator::expressionOperator(AbstractSyntaxTreePtr t)
         if (t->down->down == nullptr) {
             retval = rhsExpressionSimple(t->down);
         } else {
-            ArrayOfVector m(rhsExpression(t->down));
+            int nLhs = 1;
+            ArrayOfVector m(rhsExpression(t->down, nLhs));
             if (m.empty()) {
                 retval = ArrayOf::emptyConstructor();
             } else {
@@ -423,7 +424,8 @@ Evaluator::expressionList(AbstractSyntaxTreePtr t)
         }
         if (t->type == non_terminal && t->opNum == (OP_RHS)) {
             try {
-                n = rhsExpression(t->down);
+                int nLhs = 1;
+                n = rhsExpression(t->down, nLhs);
             } catch (Exception& e) {
                 if (!e.matches(ERROR_EMPTY_EXPRESSION)) {
                     throw;
@@ -468,7 +470,8 @@ Evaluator::expressionList(AbstractSyntaxTreePtr t, ArrayOf subRoot)
         }
         if (t->type == non_terminal && t->opNum == (OP_RHS)) {
             try {
-                n = rhsExpression(t->down);
+                int nLhs = 1;
+                n = rhsExpression(t->down, nLhs);
             } catch (Exception& e) {
                 if (!e.matches(ERROR_EMPTY_EXPRESSION)) {
                     throw;

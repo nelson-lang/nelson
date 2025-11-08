@@ -11,6 +11,7 @@
 #include "DrawNow.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "CallbackQueue.hpp"
+#include "TimerQueue.hpp"
 #include "Evaluator.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
@@ -25,6 +26,7 @@ drawnowBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     Evaluator* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
     CallbackQueue::getInstance()->processCallback(eval);
+    TimerQueue::getInstance()->processCallback(eval);
     drawNow();
 
     return retval;

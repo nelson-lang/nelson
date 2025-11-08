@@ -277,7 +277,7 @@ public:
      *    -
      */
     ArrayOfVector
-    rhsExpression(AbstractSyntaxTreePtr t, int nLhs = 1);
+    rhsExpression(AbstractSyntaxTreePtr t, int& nLh);
     /**
      * Look up an identifier as a potential function name
      */
@@ -749,7 +749,7 @@ private:
     void
     setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& fieldvalue);
     ArrayOfVector
-    getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& params);
+    getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& params, int& nLhs);
     ArrayOf
     EndReference(const ArrayOf& v, indexType index, size_t count);
     ArrayOf
@@ -761,7 +761,8 @@ private:
     bool
     isObjectMethod(const ArrayOf& r, const std::string& methodName);
     ArrayOfVector
-    invokeMethod(const ArrayOf& r, const std::string& methodName, const ArrayOfVector& params);
+    invokeMethod(
+        const ArrayOf& r, const std::string& methodName, const ArrayOfVector& params, int& nLhs);
 
     /**
      * Handles the logistics of shortcut evaluation
@@ -875,9 +876,9 @@ private:
     rhsExpressionBraces(Dimensions& rhsDimensions, ArrayOfVector& rv, AbstractSyntaxTreePtr& t,
         ArrayOf& r, int nLhs);
     void
-    rhsExpressionDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs);
+    rhsExpressionDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int& nLhs);
     void
-    rhsExpressionDynDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs);
+    rhsExpressionDynDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int& nLhs);
 };
 NLSINTERPRETER_IMPEXP void
 sigInterrupt(int arg);

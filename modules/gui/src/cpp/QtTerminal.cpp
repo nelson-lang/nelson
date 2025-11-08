@@ -60,6 +60,7 @@
 #include "WorkspaceBrowser.hpp"
 #include "QtWorkspaceBrowser.h"
 #include "CallbackQueue.hpp"
+#include "TimerQueue.hpp"
 #include "VariablesEditor.hpp"
 #include "QtTerminalCompleter.h"
 //=============================================================================
@@ -71,7 +72,6 @@ QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
     completionDisabled = true;
     isFirstPrompt = true;
     completerImpl = nullptr;
-    // qCompleter removed; use completerImpl
 
     QLocale us(QLocale::English, QLocale::UnitedStates);
     QLocale::setDefault(us);
@@ -287,6 +287,7 @@ QtTerminal::getLine(const std::wstring& prompt)
     }
     eval->commandQueue.clear();
     Nelson::CallbackQueue::getInstance()->clear();
+    Nelson::TimerQueue::getInstance()->clear();
 
     bool wasInterruptedByAction = false;
 
@@ -300,7 +301,8 @@ QtTerminal::getLine(const std::wstring& prompt)
             break;
         }
 
-        if (!eval->commandQueue.isEmpty() || !Nelson::CallbackQueue::getInstance()->isEmpty()) {
+        if (!eval->commandQueue.isEmpty() || !Nelson::CallbackQueue::getInstance()->isEmpty()
+            || !Nelson::TimerQueue::getInstance()->isEmpty()) {
             wasInterruptedByAction = true;
             break;
         }

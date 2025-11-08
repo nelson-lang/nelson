@@ -28,6 +28,26 @@
 #include "audioplayer_setBuiltin.hpp"
 #include "audioplayer_stopBuiltin.hpp"
 #include "audioplayer_usedBuiltin.hpp"
+#include "audiorecorderBuiltin.hpp"
+#include "audiorecorder_deleteBuiltin.hpp"
+#include "audiorecorder_displayBuiltin.hpp"
+#include "audiorecorder_dispBuiltin.hpp"
+#include "audiorecorder_fieldnamesBuiltin.hpp"
+#include "audiorecorder_getBuiltin.hpp"
+#include "audiorecorder_ismethodBuiltin.hpp"
+#include "audiorecorder_ispropBuiltin.hpp"
+#include "audiorecorder_isvalidBuiltin.hpp"
+#include "audiorecorder_pauseBuiltin.hpp"
+#include "audiorecorder_playBuiltin.hpp"
+#include "audiorecorder_propertiesBuiltin.hpp"
+#include "audiorecorder_recordblockingBuiltin.hpp"
+#include "audiorecorder_recordBuiltin.hpp"
+#include "audiorecorder_resumeBuiltin.hpp"
+#include "audiorecorder_setBuiltin.hpp"
+#include "audiorecorder_startBuiltin.hpp"
+#include "audiorecorder_stopBuiltin.hpp"
+#include "audiorecorder_usedBuiltin.hpp"
+#include "audiorecorder_invokeBuiltin.hpp"
 #include "audioreadBuiltin.hpp"
 #include "audiosupportedformatsBuiltin.hpp"
 #include "audiowriteBuiltin.hpp"
@@ -88,6 +108,64 @@ static const nlsGateway gateway[] = {
     { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR, "ismethod"),
         (ptrBuiltin)Nelson::AudioGateway::audioplayer_ismethodBuiltin, 1, 2, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },
+    //=============================================================================
+    // audiorecorder overloads
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIORECORDER_CATEGORY_STR, "display"),
+        (ptrBuiltin)Nelson::AudioGateway::audiorecorder_displayBuiltin, 0, 2,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIORECORDER_CATEGORY_STR, "disp"),
+        (ptrBuiltin)Nelson::AudioGateway::audiorecorder_dispBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIORECORDER_CATEGORY_STR, "get"),
+        (ptrBuiltin)Nelson::AudioGateway::audiorecorder_getBuiltin, 1, 2, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIORECORDER_CATEGORY_STR, "set"),
+        (ptrBuiltin)Nelson::AudioGateway::audiorecorder_setBuiltin, 0, 3, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+
+    //{ OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIORECORDER_CATEGORY_STR, "delete"),
+    //    (ptrBuiltin)Nelson::AudioGateway::audiorecorder_deleteBuiltin, 0, 1, CPP_BUILTIN,
+    //    NLS_OVERLOAD_AUTO_OFF },
+    //{ OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIORECORDER_CATEGORY_STR, "isvalid"),
+    //    (ptrBuiltin)Nelson::AudioGateway::audiorecorder_isvalidBuiltin, 1, 1, CPP_BUILTIN,
+    //    NLS_OVERLOAD_AUTO_OFF },
+    //{ OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIORECORDER_CATEGORY_STR, "fieldnames"),
+    //    (ptrBuiltin)Nelson::AudioGateway::audiorecorder_fieldnamesBuiltin, 1, 1, CPP_BUILTIN,
+    //    NLS_OVERLOAD_AUTO_OFF },
+    //{ OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIORECORDER_CATEGORY_STR, "properties"),
+    //    (ptrBuiltin)Nelson::AudioGateway::audiorecorder_propertiesBuiltin, 1, 1, CPP_BUILTIN,
+    //    NLS_OVERLOAD_AUTO_OFF },
+    //{ OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIORECORDER_CATEGORY_STR, "start"),
+    //    (ptrBuiltin)Nelson::AudioGateway::audiorecorder_startBuiltin, 0, -1,
+    //    CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+    //{ OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIORECORDER_CATEGORY_STR, "pause"),
+    //    (ptrBuiltin)Nelson::AudioGateway::audiorecorder_pauseBuiltin, 0, 1, CPP_BUILTIN,
+    //    NLS_OVERLOAD_AUTO_OFF },
+    //{ OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIORECORDER_CATEGORY_STR, "resume"),
+    //    (ptrBuiltin)Nelson::AudioGateway::audiorecorder_resumeBuiltin, 0, 1, CPP_BUILTIN,
+    //    NLS_OVERLOAD_AUTO_OFF },
+    //{ OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIORECORDER_CATEGORY_STR, "stop"),
+    //    (ptrBuiltin)Nelson::AudioGateway::audiorecorder_stopBuiltin, 0, 1, CPP_BUILTIN,
+    //    NLS_OVERLOAD_AUTO_OFF },
+    ////{ OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIORECORDER_CATEGORY_STR, "play"),
+    ////    (ptrBuiltin)Nelson::AudioGateway::audiorecorder_playBuiltin, 0, -1,
+    ////    CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+    //{ OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIORECORDER_CATEGORY_STR, "isprop"),
+    //    (ptrBuiltin)Nelson::AudioGateway::audiorecorder_ispropBuiltin, 1, 2, CPP_BUILTIN,
+    //    NLS_OVERLOAD_AUTO_OFF },
+    //{ OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIORECORDER_CATEGORY_STR, "ismethod"),
+    //    (ptrBuiltin)Nelson::AudioGateway::audiorecorder_ismethodBuiltin, 1, 2, CPP_BUILTIN,
+    //    NLS_OVERLOAD_AUTO_OFF },
+
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIORECORDER_CATEGORY_STR, "invoke"),
+        (ptrBuiltin)Nelson::AudioGateway::audiorecorder_invokeBuiltin, 0, 2,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+
+    { "record", (ptrBuiltin)Nelson::AudioGateway::audiorecorder_recordBuiltin, 0, -2, CPP_BUILTIN },
+    { "recordblocking", (ptrBuiltin)Nelson::AudioGateway::audiorecorder_recordblockingBuiltin, 0, 2,
+        CPP_BUILTIN },
+    { "audiorecorder_used", (ptrBuiltin)Nelson::AudioGateway::audiorecorder_usedBuiltin, 1, 0 },
+    { "audiorecorder", (ptrBuiltin)Nelson::AudioGateway::audiorecorderBuiltin, 1, -1 },
     //=============================================================================
     { "audioplayer_used", (ptrBuiltin)Nelson::AudioGateway::audioplayer_usedBuiltin, 1, 0 },
     { "audiodevinfo", (ptrBuiltin)Nelson::AudioGateway::audiodevinfoBuiltin, 1, -1 },

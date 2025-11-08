@@ -59,6 +59,12 @@ public:
         return false;
     };
 
+    virtual int
+    nargoutMethod(const std::wstring& methodName)
+    {
+        return -1;
+    }
+
     virtual bool
     invokeMethod(Interface* io, const ArrayOfVector& args, int nLhs, const std::string& methodName,
         ArrayOfVector& results)

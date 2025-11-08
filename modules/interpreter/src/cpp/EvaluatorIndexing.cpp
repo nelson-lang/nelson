@@ -72,7 +72,8 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
         try {
             if (r.isGraphicsObject()) {
                 ArrayOfVector params;
-                ArrayOfVector rv = getHandle(r, t->down->text, params);
+                int nLhs = 1;
+                ArrayOfVector rv = getHandle(r, t->down->text, params, nLhs);
                 if (rv.size() > 0) {
                     return rv[0];
                 } else {
@@ -283,7 +284,7 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
 // a value of pi.
 //!
 ArrayOfVector
-Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
+Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int& nLhs)
 {
     ArrayOf r;
     ArrayOfVector m;
@@ -351,7 +352,7 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
         t = t->right;
     }
     if (rv.empty()) {
-        if (nLhs != 0) {
+        if (nLhs != 0 && !r.isEmpty()) {
             rv.push_back(r);
         }
     }
@@ -539,7 +540,7 @@ Evaluator::rhsExpressionBraces(
 }
 //=============================================================================
 void
-Evaluator::rhsExpressionDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs)
+Evaluator::rhsExpressionDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int& nLhs)
 {
     std::string fieldname = t->down->text;
 
@@ -594,9 +595,9 @@ Evaluator::rhsExpressionDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf
             }
         }
         if (isValidMethod) {
-            rv = invokeMethod(r, fieldname, params);
+            rv = invokeMethod(r, fieldname, params, nLhs);
         } else {
-            rv = getHandle(r, fieldname, params);
+            rv = getHandle(r, fieldname, params, nLhs);
         }
 
     } else {
@@ -612,7 +613,7 @@ Evaluator::rhsExpressionDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf
 }
 //=============================================================================
 void
-Evaluator::rhsExpressionDynDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs)
+Evaluator::rhsExpressionDynDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int& nLhs)
 {
     std::string field;
     try {
@@ -636,7 +637,7 @@ Evaluator::rhsExpressionDynDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, Arra
         }
     } else if (r.isHandle()) {
         ArrayOfVector v;
-        rv = getHandle(r, field, v);
+        rv = getHandle(r, field, v, nLhs);
     } else {
         rv = r.getFieldAsList(field);
     }

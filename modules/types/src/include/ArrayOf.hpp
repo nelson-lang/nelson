@@ -824,6 +824,27 @@ public:
     singleMatrix2dConstructor(indexType m, indexType n);
 
     /**
+     * int8 matrix constructor - Construct an NLS_INT8 object
+     * that is a (row, columns) matrix with the given length.
+     */
+    static ArrayOf
+    int8Matrix2dConstructor(indexType m, indexType n);
+
+    /**
+     * uint8 matrix constructor - Construct an NLS_UINT8 object
+     * that is a (row, columns) matrix with the given length.
+     */
+    static ArrayOf
+    uint8Matrix2dConstructor(indexType m, indexType n);
+
+    /**
+     * int16 matrix constructor - Construct an NLS_INT16 object
+     * that is a (row, columns) matrix with the given length.
+     */
+    static ArrayOf
+    int16Matrix2dConstructor(indexType m, indexType n);
+
+    /**
      * Construct a NLS_INT32 or NLS_INT64 (on x64 platform) vector (either
      * vertical or horizontal) corresponding to minval:stepsize:maxval, with an
      * optional transpose.

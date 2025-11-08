@@ -160,6 +160,7 @@
 #include "NelsonConfiguration.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
 #include "CallbackQueue.hpp"
+#include "TimerQueue.hpp"
 
 static bool stopInputBuffer = false;
 
@@ -2159,7 +2160,8 @@ private:
                     }
 
                     if (!eval->commandQueue.isEmpty()
-                        || !Nelson::CallbackQueue::getInstance()->isEmpty()) {
+                        || !Nelson::CallbackQueue::getInstance()->isEmpty()
+                        || !Nelson::TimerQueue::getInstance()->isEmpty()) {
                         stopInputBuffer = false;
                         return -1;
                     }
@@ -2268,7 +2270,8 @@ private:
                         return -1;
                     }
                     if (!eval->commandQueue.isEmpty()
-                        || !Nelson::CallbackQueue::getInstance()->isEmpty()) {
+                        || !Nelson::CallbackQueue::getInstance()->isEmpty()
+                        || !Nelson::TimerQueue::getInstance()->isEmpty()) {
                         return -1;
                     }
                 }

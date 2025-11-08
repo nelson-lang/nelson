@@ -108,7 +108,8 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
     <PreLinkEvent>
       <Command>
@@ -138,7 +139,8 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
     <PreLinkEvent>
       <Command>
@@ -173,7 +175,8 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
     <PreLinkEvent>
       <Command>
@@ -209,7 +212,8 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
     <PreLinkEvent>
       <Command>
@@ -297,6 +301,8 @@
     <ClCompile Include="..\cpp\ProfilerHelpers.cpp" />
     <ClCompile Include="..\cpp\Scope.cpp" />
     <ClCompile Include="..\cpp\StackEntry.cpp" />
+    <ClCompile Include="..\cpp\TimerCallback.cpp" />
+    <ClCompile Include="..\cpp\TimerQueue.cpp" />
     <ClCompile Include="..\cpp\VariablesTable.cpp" />
     <ClCompile Include="..\FileWatcher\FileWatcher.cpp" />
     <ClCompile Include="..\FileWatcher\FileWatcherWin32.cpp" />
@@ -402,6 +408,8 @@
     <ClInclude Include="..\include\ProfilerHelpers.hpp" />
     <ClInclude Include="..\include\Scope.hpp" />
     <ClInclude Include="..\include\StackEntry.hpp" />
+    <ClInclude Include="..\include\TimerCallback.hpp" />
+    <ClInclude Include="..\include\TimerQueue.hpp" />
     <ClInclude Include="..\include\VariablesTable.hpp" />
   </ItemGroup>
   <ItemGroup>

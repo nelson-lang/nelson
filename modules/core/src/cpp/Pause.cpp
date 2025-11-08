@@ -13,6 +13,7 @@
 #include "NelsonConfiguration.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
 #include "CallbackQueue.hpp"
+#include "TimerQueue.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,6 +25,7 @@ Pause(Evaluator* eval, double seconds)
             std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
             if (eval && eval->haveEventsLoop()) {
                 CallbackQueue::getInstance()->processCallback(eval);
+                TimerQueue::getInstance()->processCallback(eval);
                 ProcessEventsDynamicFunctionWithoutWait();
             }
         }
@@ -41,6 +43,7 @@ Pause(Evaluator* eval, double seconds)
             bContinue = !(difftime.count() > int64(seconds * 1e9));
             if (eval != nullptr && eval->haveEventsLoop()) {
                 CallbackQueue::getInstance()->processCallback(eval);
+                TimerQueue::getInstance()->processCallback(eval);
                 ProcessEventsDynamicFunctionWithoutWait();
             }
         } while (!NelsonConfiguration::getInstance()->getInterruptPending(eval->getID())

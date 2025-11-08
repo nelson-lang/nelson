@@ -23,6 +23,7 @@
 #include "ProcessEventsDynamicFunction.hpp"
 #include "NelsonConfiguration.hpp"
 #include "CallbackQueue.hpp"
+#include "TimerQueue.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -694,17 +695,23 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
             }
         } else {
             if (context->lookupVariable(t->down->text, b) && b.isFunctionHandle()) {
-                m = rhsExpression(t->down, 0);
+                int nLhs = 0;
+                m = rhsExpression(t->down, nLhs);
             } else {
                 if (b.isCell()) {
                     try {
-                        m = rhsExpression(t->down);
+                        int nLhs = 1;
+                        m = rhsExpression(t->down, nLhs);
                     } catch (Exception& e) {
                         if (!e.matches(ERROR_EMPTY_EXPRESSION))
                             throw;
                     }
                 } else {
-                    m = rhsExpression(t->down);
+                    int nLhs = 1;
+                    m = rhsExpression(t->down, nLhs);
+                    if (nLhs == 0 && m.size() == 1 && m[0].isEmpty()) {
+                        m.clear();
+                    }
                 }
             }
             if (m.empty()) {
@@ -863,6 +870,7 @@ Evaluator::block(AbstractSyntaxTreePtr t)
                 if (ID == 0) {
                     NelsonConfiguration::getInstance()->setInterruptPending(false, ID);
                     CallbackQueue::getInstance()->clear();
+                    TimerQueue::getInstance()->clear();
                     setState(NLS_STATE_ABORT);
                     Error(MSG_CTRL_C_DETECTED);
                 } else {

@@ -35,7 +35,7 @@ NaN(Dimensions& dims)
     if (nbElements != 0) {
         mat = static_cast<double*>(
             ArrayOf::allocateArrayOf(NLS_DOUBLE, nbElements, stringVector(), false));
-        double value = std::nan("NaN");
+        double value = std::nan("");
         if (nbElements == 1) {
             mat[0] = value;
         } else {
