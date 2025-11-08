@@ -842,9 +842,21 @@ RenderQt::drawPatch(const FaceList& faces, double lineWidth, const std::wstring&
     if (faces.size() == 0) {
         return;
     }
-    poly.reserve(std::max(faces[0].vertices.size(), faces[faces.size() - 1].vertices.size()));
+
+    const size_t kMaxVertices = 1000000;
+    size_t reserveSize
+        = std::max(faces[0].vertices.size(), faces[faces.size() - 1].vertices.size());
+    if (reserveSize > kMaxVertices) {
+        reserveSize = kMaxVertices;
+    }
+    poly.reserve(static_cast<int>(reserveSize));
+
     for (const auto& face : faces) {
-        poly.resize(0);
+        const size_t vcount = face.vertices.size();
+        if (vcount < 3 || vcount > kMaxVertices) {
+            continue;
+        }
+
         if (face.FaceColorMode == ColorMode::ColorSpec) {
             pnt->setBrush(QColor((int)(face.FaceColor.r * 255), (int)(face.FaceColor.g * 255),
                 (int)(face.FaceColor.b * 255), (int)(face.FaceColor.a * 255)));
@@ -868,12 +880,34 @@ RenderQt::drawPatch(const FaceList& faces, double lineWidth, const std::wstring&
             setLineStyle(pen, lineStyle);
             pnt->setPen(pen);
         }
-        // Map vertices
+
+        QPolygonF sub;
+        sub.reserve(static_cast<int>(std::min<size_t>(vcount, 1024)));
+
         for (const auto& v : face.vertices) {
-            poly.push_back(map(v.x, v.y, v.z));
+            if (std::isnan(v.x) || std::isnan(v.y) || std::isnan(v.z)) {
+                if (sub.size() >= 3) {
+                    pnt->drawPolygon(sub);
+                }
+                sub.clear();
+                continue;
+            }
+
+            QPointF pt = map(v.x, v.y, v.z);
+            double px = pt.x();
+            double py = pt.y();
+
+            if (!std::isfinite(px) || !std::isfinite(py)) {
+                sub.clear();
+                continue;
+            }
+
+            sub.push_back(pt);
         }
-        // Draw the polygon
-        pnt->drawPolygon(poly);
+
+        if (sub.size() >= 3) {
+            pnt->drawPolygon(sub);
+        }
     }
 }
 //=============================================================================

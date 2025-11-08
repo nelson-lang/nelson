@@ -24,6 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `imresize`: Resize images by scale or to a specified output size, supporting both upscaling and downscaling.
 
+- `clabel`: Contour labeling.
+
+- `colormap`: added support for the following locations `north`, `south`, `east`, `west`, `northoutside`, `southoutside`, `eastoutside`, and `westoutside`.
+
 - Variable Editor: Redesigned for improved usability and performance. Accessible via `openvar` or the GUI, it supports structured variables, tables, arrays, and nested data. Features include:
 
   - Dynamic table view.
@@ -65,7 +69,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Python 3.14 support.
 
-- Visual studio 2026 support (NOT prerelease).
+- Visual studio 2026 support (release).
 
 ### Changed
 

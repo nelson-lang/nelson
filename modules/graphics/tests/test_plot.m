@@ -56,7 +56,7 @@ assert_isequal(L.Visible, 'on');
 assert_isapprox(L.XData, x, 1e-4);
 assert_isequal(L.XDataMode,'manual');
 assert_isapprox(L.YData, y, 1e-4);
-assert_isequal(L.ZData, zeros(1, 201));
+assert_isequal(L.ZData, zeros(1, 0));
 %=============================================================================
 x = 0:pi/100:2*pi;
 y1 = sin(x);
