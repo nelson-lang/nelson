@@ -49,7 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `pascal`: Pascal matrix.
 
-- `gallery`: Creates predefined matrices commonly used for testing algorithms (`gallery3`, `gallery5`, `circul`, `grcar`, `minij`, `dramadah`, `house`, `binomial`, `cauchy`, `ris`, `chebspec`, `wilk`, `sampling`, `ipjfact`, `moler`, `lotkin`, `chebvand`).
+- `gallery`: Creates predefined matrices commonly used for testing algorithms (`gallery3`, `gallery5`, `circul`, `grcar`, `minij`, `dramadah`, `house`, `binomial`, `cauchy`, `ris`, `chebspec`, `wilk`, `sampling`, `ipjfact`, `moler`, `lotkin`, `chebvand`, `lehmer`).
 
 - `crc32` builtin: Compute CRC32 checksum of a file or string.
 
@@ -72,6 +72,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Visual studio 2026 support (release).
 
 ### Changed
+
+- `svd` has been optimized for multithreading and large matrices.
 
 - Help framework reworked for improved performance and usability:
 

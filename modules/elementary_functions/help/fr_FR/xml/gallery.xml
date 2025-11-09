@@ -105,38 +105,38 @@
                     <td>gallery(3)</td>
                     <td><code>A = gallery(3)</code></td>
                     <td
-          >Exemple classique 3×3 mal conditionné ; illustre la sensibilité des valeurs propres.</td>
+          >Exemple classique 3×3 mal conditionné ; illustre la sensibilité des valeurs propres.</td>
                 </tr>
                 <tr>
                     <td>gallery(5)</td>
                     <td><code>A = gallery(5)</code></td>
                     <td
-          >Exemple 5×5 avec polynôme caractéristique exact \(\lambda^5=0\) ; numériquement les valeurs propres sont petites et sensibles.</td>
+          >Exemple 5×5 avec polynôme caractéristique exact \(\lambda^5=0\) ; numériquement les valeurs propres sont petites et sensibles.</td>
                 </tr>
                 <tr>
                     <td>circul</td>
                     <td><code>A = gallery("circul", v)</code></td>
                     <td
           >Matrice circulante : les lignes sont des décalages cycliques de <code
-            >v</code> ; les valeurs propres sont la DFT de <code>v</code>.</td>
+            >v</code> ; les valeurs propres sont la DFT de <code>v</code>.</td>
                 </tr>
                 <tr>
                     <td>grcar</td>
                     <td><code>A = gallery("grcar", n, k)</code></td>
                     <td
-          >Toeplitz avec -1 sur la sous-diagonale et des 1 sur la diagonale principale et les k sur-diagonales ; utile pour des exemples de pseudospectres.</td>
+          >Toeplitz avec -1 sur la sous-diagonale et des 1 sur la diagonale principale et les k sur-diagonales ; utile pour des exemples de pseudospectres.</td>
                 </tr>
                 <tr>
                     <td>minij</td>
                     <td><code>A = gallery("minij", n)</code></td>
                     <td>Matrice symétrique définie positive avec <code
-            >A(i,j)=min(i,j)</code> ; l'inverse est tridiagonal (structure de différence seconde).</td>
+            >A(i,j)=min(i,j)</code> ; l'inverse est tridiagonal (structure de différence seconde).</td>
                 </tr>
                 <tr>
                     <td>dramadah</td>
                     <td><code>A = gallery("dramadah", n, k)</code></td>
                     <td
-          >Familles binaires (0/1) ; certains k donnent des matrices de Toeplitz unimodulaires dont l'inverse est entière.</td>
+          >Familles binaires (0/1) ; certains k donnent des matrices de Toeplitz unimodulaires dont l'inverse est entière.</td>
                 </tr>
                 <tr>
                     <td>house</td>
@@ -150,25 +150,25 @@
                     <td>binomial</td>
                     <td><code>A = gallery("binomial", n)</code></td>
                     <td>Matrice binomiale avec <code
-            >A^2 = 2^(n-1) I</code> ; la matrice mise à l'échelle est involutive.</td>
+            >A^2 = 2^(n-1) I</code> ; la matrice mise à l'échelle est involutive.</td>
                 </tr>
                 <tr>
                     <td>cauchy</td>
                     <td><code>A = gallery("cauchy", x, y)</code></td>
                     <td>Matrice de Cauchy <code
-            >A(i,j)=1/(x(i)+y(j))</code> ; des formules explicites pour le déterminant et l'inverse existent.</td>
+            >A(i,j)=1/(x(i)+y(j))</code> ; des formules explicites pour le déterminant et l'inverse existent.</td>
                 </tr>
                 <tr>
                     <td>ris</td>
                     <td><code>A = gallery("ris", n)</code></td>
                     <td
-          >Matrice Hankel symétrique avec éléments 0.5/(n-i-j+1.5) ; les valeurs propres se regroupent près de ±π/2.</td>
+          >Matrice Hankel symétrique avec éléments 0.5/(n-i-j+1.5) ; les valeurs propres se regroupent près de ±π/2.</td>
                 </tr>
                 <tr>
                     <td>chebspec</td>
                     <td><code>A = gallery("chebspec", n, k)</code></td>
                     <td>Matrice de différenciation spectrale de Chebyshev. <code
-            >k</code>=0 donne une forme nilpotente ; <code
+            >k</code>=0 donne une forme nilpotente ; <code
             >k</code>=1 donne un opérateur non singulier, bien conditionné.</td>
                 </tr>
                 <tr>
@@ -181,31 +181,37 @@
                     <td>sampling</td>
                     <td><code>A = gallery("sampling", x)</code></td>
                     <td
-          >Matrice non symétrique avec valeurs propres entières 0..n-1 ; les vecteurs propres sont généralement mal conditionnés.</td>
+          >Matrice non symétrique avec valeurs propres entières 0..n-1 ; les vecteurs propres sont généralement mal conditionnés.</td>
                 </tr>
                 <tr>
                     <td>ipjfact</td>
                     <td><code>[A,beta] = gallery("ipjfact", n, k)</code></td>
                     <td
-          >Matrice Hankel construite à partir de factorielles (ou de leurs réciproques) ; déterminant et inverse connus en forme fermée.</td>
+          >Matrice Hankel construite à partir de factorielles (ou de leurs réciproques) ; déterminant et inverse connus en forme fermée.</td>
                 </tr>
                 <tr>
                     <td>moler</td>
                     <td><code>A = gallery("moler", n, alpha)</code></td>
                     <td>Exemple symétrique définie positive produit comme <code
-            >U'*U</code> ; peut présenter une petite valeur propre isolée.</td>
+            >U'*U</code> ; peut présenter une petite valeur propre isolée.</td>
                 </tr>
                 <tr>
                     <td>lotkin</td>
                     <td><code>A = gallery("lotkin", n)</code></td>
                     <td
-          >Matrice de type Hilbert avec première ligne de 1 ; extrêmement mal conditionnée, l'inverse a une structure entière.</td>
+          >Matrice de type Hilbert avec première ligne de 1 ; extrêmement mal conditionnée, l'inverse a une structure entière.</td>
                 </tr>
                 <tr>
                     <td>chebvand</td>
                     <td><code>A = gallery("chebvand", x)</code></td>
                     <td>Matrice de type Vandermonde de Chebyshev : <code
             >A(i,j)=T_{i-1}(x(j))</code>, utile pour l'interpolation spectrale et les bases polynomiales.</td>
+                </tr>
+                <tr>
+                    <td>lehmer</td>
+                    <td><code>A = gallery("lehmer", n)</code></td>
+                    <td
+          >Matrice de Lehmer avec entrées i/j pour i ≤ j ; symétrique définie positive et mal conditionnée.</td>
                 </tr>
             </tbody>
         </table>

@@ -16,10 +16,45 @@
 #include <Eigen/SVD>
 #include <Eigen/src/misc/lapacke.h>
 #include "NewWithException.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 // https://software.intel.com/sites/products/documentation/doclib/mkl_sa/11/mkl_lapack_examples/lapacke_dgesvd_col.c.htm
+//=============================================================================
+// Helper: in-place transpose for square column-major matrices. Falls back to Eigen
+// transpose when leading dimension != n.
+template <typename T>
+static void
+inplace_transpose_colmajor(T* data, int n, int ld)
+{
+    if (n <= 1) {
+        return;
+    }
+    if (ld == n) {
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                std::swap(data[i + j * (size_t)ld], data[j + i * (size_t)ld]);
+            }
+        }
+    } else {
+        // fallback to Eigen-based transpose (allocates temporary)
+        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> mat(data, n, n);
+        mat = mat.transpose().eval();
+    }
+}
+//=============================================================================
+static bool
+use_gesdd_for_size(int m, int n)
+{
+    uint64_t elems = (uint64_t)m * (uint64_t)n;
+#if WITH_OPENMP
+    return elems >= NelsonConfiguration::getInstance()->getOpenMPParallelizationThreshold();
+#else
+    // default: use gesdd for matrices with >= 1e6 elements
+    return elems >= 1000000ULL;
+#endif
+}
 //=============================================================================
 static void
 SVD_double(const ArrayOf& A, ArrayOf& s)
@@ -32,7 +67,6 @@ SVD_double(const ArrayOf& A, ArrayOf& s)
     int ldu = m;
     int ldvt = n;
     int lda = m;
-    double* superb = new_with_exception<double>(std::min(m, n) - 1, true);
     double* ds = new_with_exception<double>(std::min(m, n), true);
     double* u = nullptr;
     double* vt = nullptr;
@@ -40,13 +74,32 @@ SVD_double(const ArrayOf& A, ArrayOf& s)
     if (!matA.allFinite()) {
         Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
-    int info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(), lda,
-        ds, u, ldu, vt, ldvt, superb);
-    if (info > 0) {
-        Error(_("LAPACKE_dgesvd error."));
+    char JOBZ = 'N';
+    if (JOBU == 'A' && JOBVT == 'A') {
+        JOBZ = 'A';
+    } else if (JOBU == 'S' && JOBVT == 'S') {
+        JOBZ = 'S';
+    } else if (JOBU == 'N' && JOBVT == 'N') {
+        JOBZ = 'N';
+    } else {
+        JOBZ = 'S';
     }
-    delete[] superb;
-    superb = nullptr;
+    int info = 0;
+    if (use_gesdd_for_size(m, n)) {
+        info = LAPACKE_dgesdd(
+            LAPACK_COL_MAJOR, JOBZ, m, n, (double*)A.getDataPointer(), lda, ds, u, ldu, vt, ldvt);
+        if (info > 0) {
+            Error(_("LAPACKE_dgesdd error."));
+        }
+    } else {
+        double* superb = new_with_exception<double>(std::max(0, std::min(m, n) - 1), true);
+        info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(), lda,
+            ds, u, ldu, vt, ldvt, superb);
+        delete[] superb;
+        if (info > 0) {
+            Error(_("LAPACKE_dgesvd error."));
+        }
+    }
     Dimensions dimsS(std::min(m, n), 1);
     s = ArrayOf(NLS_DOUBLE, dimsS, ds);
 }
@@ -62,7 +115,6 @@ SVD_doublecomplex(const ArrayOf& A, ArrayOf& s)
     int ldu = m;
     int ldvt = n;
     int lda = m;
-    double* superb = new_with_exception<double>((std::min(m, n) - 1), true);
     double* ds = new_with_exception<double>(std::min(m, n), true);
     auto* Rz = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
     doublecomplex* uz = nullptr;
@@ -71,13 +123,31 @@ SVD_doublecomplex(const ArrayOf& A, ArrayOf& s)
     if (!matA.allFinite()) {
         Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
-    int info = LAPACKE_zgesvd(
-        LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, ds, uz, ldu, vtz, ldvt, superb);
-    if (info > 0) {
-        Error(_("LAPACKE_zgesvd error."));
+    char JOBZ = 'N';
+    if (JOBU == 'A' && JOBVT == 'A') {
+        JOBZ = 'A';
+    } else if (JOBU == 'S' && JOBVT == 'S') {
+        JOBZ = 'S';
+    } else if (JOBU == 'N' && JOBVT == 'N') {
+        JOBZ = 'N';
+    } else {
+        JOBZ = 'S';
     }
-    delete[] superb;
-    superb = nullptr;
+    int info = 0;
+    if (use_gesdd_for_size(m, n)) {
+        info = LAPACKE_zgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, Rz, lda, ds, uz, ldu, vtz, ldvt);
+        if (info > 0) {
+            Error(_("LAPACKE_zgesdd error."));
+        }
+    } else {
+        double* superb = new_with_exception<double>(std::max(0, std::min(m, n) - 1), true);
+        info = LAPACKE_zgesvd(
+            LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, ds, uz, ldu, vtz, ldvt, superb);
+        delete[] superb;
+        if (info > 0) {
+            Error(_("LAPACKE_zgesvd error."));
+        }
+    }
     Dimensions dimsS(std::min(m, n), 1);
     s = ArrayOf(NLS_DOUBLE, dimsS, ds);
 }
@@ -93,7 +163,6 @@ SVD_single(const ArrayOf& A, ArrayOf& s)
     int ldu = m;
     int ldvt = n;
     int lda = m;
-    single* superb = new_with_exception<single>(std::min(m, n) - 1, true);
     single* ds = new_with_exception<single>(std::min(m, n), true);
     single* u = nullptr;
     single* vt = nullptr;
@@ -101,13 +170,32 @@ SVD_single(const ArrayOf& A, ArrayOf& s)
     if (!matA.allFinite()) {
         Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
-    int info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(), lda,
-        ds, u, ldu, vt, ldvt, superb);
-    if (info > 0) {
-        Error(_("LAPACKE_sgesvd error."));
+    char JOBZ = 'N';
+    if (JOBU == 'A' && JOBVT == 'A') {
+        JOBZ = 'A';
+    } else if (JOBU == 'S' && JOBVT == 'S') {
+        JOBZ = 'S';
+    } else if (JOBU == 'N' && JOBVT == 'N') {
+        JOBZ = 'N';
+    } else {
+        JOBZ = 'S';
     }
-    delete[] superb;
-    superb = nullptr;
+    int info = 0;
+    if (use_gesdd_for_size(m, n)) {
+        info = LAPACKE_sgesdd(
+            LAPACK_COL_MAJOR, JOBZ, m, n, (single*)A.getDataPointer(), lda, ds, u, ldu, vt, ldvt);
+        if (info > 0) {
+            Error(_("LAPACKE_sgesdd error."));
+        }
+    } else {
+        single* superb = new_with_exception<single>(std::max(0, std::min(m, n) - 1), true);
+        info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(), lda,
+            ds, u, ldu, vt, ldvt, superb);
+        delete[] superb;
+        if (info > 0) {
+            Error(_("LAPACKE_sgesvd error."));
+        }
+    }
     Dimensions dimsS(std::min(m, n), 1);
     s = ArrayOf(NLS_SINGLE, dimsS, ds);
 }
@@ -123,7 +211,6 @@ SVD_singlecomplex(const ArrayOf& A, ArrayOf& s)
     int ldu = m;
     int ldvt = n;
     int lda = m;
-    single* superb = new_with_exception<single>((std::min(m, n) - 1), true);
     single* ds = new_with_exception<single>(std::min(m, n), true);
     auto* Rz = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
     singlecomplex* uz = nullptr;
@@ -132,13 +219,31 @@ SVD_singlecomplex(const ArrayOf& A, ArrayOf& s)
     if (!matA.allFinite()) {
         Error(_("svd: cannot take svd of matrix containing Inf or NaN values."));
     }
-    int info = LAPACKE_cgesvd(
-        LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, ds, uz, ldu, vtz, ldvt, superb);
-    if (info > 0) {
-        Error(_("LAPACKE_cgesvd error."));
+    char JOBZ = 'N';
+    if (JOBU == 'A' && JOBVT == 'A') {
+        JOBZ = 'A';
+    } else if (JOBU == 'S' && JOBVT == 'S') {
+        JOBZ = 'S';
+    } else if (JOBU == 'N' && JOBVT == 'N') {
+        JOBZ = 'N';
+    } else {
+        JOBZ = 'S';
     }
-    delete[] superb;
-    superb = nullptr;
+    int info = 0;
+    if (use_gesdd_for_size(m, n)) {
+        info = LAPACKE_cgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, Rz, lda, ds, uz, ldu, vtz, ldvt);
+        if (info > 0) {
+            Error(_("LAPACKE_cgesdd error."));
+        }
+    } else {
+        single* superb = new_with_exception<single>(std::max(0, std::min(m, n) - 1), true);
+        info = LAPACKE_cgesvd(
+            LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, ds, uz, ldu, vtz, ldvt, superb);
+        delete[] superb;
+        if (info > 0) {
+            Error(_("LAPACKE_cgesvd error."));
+        }
+    }
     Dimensions dimsS(std::min(m, n), 1);
     s = ArrayOf(NLS_SINGLE, dimsS, ds);
 }
@@ -165,7 +270,6 @@ SVD_doublecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        double* superb = new_with_exception<double>(minMN - 1, true);
         double* dstemp = new_with_exception<double>(minMN, true);
         double* u = new_with_exception<double>(((size_t)ldu * (size_t)m * (size_t)2), true);
         auto* uz = reinterpret_cast<doublecomplex*>(u);
@@ -175,13 +279,32 @@ SVD_doublecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
             vt = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2, true);
             vtz = reinterpret_cast<doublecomplex*>(vt);
         }
-        int info = LAPACKE_zgesvd(
-            LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
-        if (info > 0) {
-            Error(_("LAPACKE_zgesvd error."));
+        char JOBZ = 'N';
+        if (JOBU == 'A' && JOBVT == 'A') {
+            JOBZ = 'A';
+        } else if (JOBU == 'S' && JOBVT == 'S') {
+            JOBZ = 'S';
+        } else if (JOBU == 'N' && JOBVT == 'N') {
+            JOBZ = 'N';
+        } else {
+            JOBZ = 'S';
         }
-        delete[] superb;
-        superb = nullptr;
+        int info = 0;
+        if (use_gesdd_for_size(m, n)) {
+            info
+                = LAPACKE_zgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt);
+            if (info > 0) {
+                Error(_("LAPACKE_zgesdd error."));
+            }
+        } else {
+            double* superb = new_with_exception<double>(std::max(0, minMN - 1), true);
+            info = LAPACKE_zgesvd(
+                LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
+            delete[] superb;
+            if (info > 0) {
+                Error(_("LAPACKE_zgesvd error."));
+            }
+        }
         Dimensions dimsU(maxMN, maxMN);
         U = ArrayOf(NLS_DCOMPLEX, dimsU, u);
         double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN, true);
@@ -198,7 +321,7 @@ SVD_doublecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
         if (withV) {
             Dimensions dimsV(minMN, minMN);
             Eigen::Map<Eigen::MatrixXcd> matV(vtz, minMN, minMN);
-            matV = matV.transpose().eval();
+            inplace_transpose_colmajor(vtz, minMN, minMN);
             V = ArrayOf(NLS_DCOMPLEX, dimsV, vt);
         }
     } else if (flag == SVD_ECON) {
@@ -246,7 +369,6 @@ SVD_doublecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        double* superb = new_with_exception<double>(minMN - 1, true);
         double* dstemp = new_with_exception<double>(minMN, true);
         double* u = new_with_exception<double>((size_t)ldu * (size_t)m * (size_t)2, true);
         auto* uz = reinterpret_cast<doublecomplex*>(u);
@@ -256,13 +378,32 @@ SVD_doublecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
             vt = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2, true);
             vtz = reinterpret_cast<doublecomplex*>(vt);
         }
-        int info = LAPACKE_zgesvd(
-            LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
-        if (info > 0) {
-            Error(_("LAPACKE_zgesvd error."));
+        char JOBZ = 'N';
+        if (JOBU == 'A' && JOBVT == 'A') {
+            JOBZ = 'A';
+        } else if (JOBU == 'S' && JOBVT == 'S') {
+            JOBZ = 'S';
+        } else if (JOBU == 'N' && JOBVT == 'N') {
+            JOBZ = 'N';
+        } else {
+            JOBZ = 'S';
         }
-        delete[] superb;
-        superb = nullptr;
+        int info = 0;
+        if (use_gesdd_for_size(m, n)) {
+            info
+                = LAPACKE_zgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt);
+            if (info > 0) {
+                Error(_("LAPACKE_zgesdd error."));
+            }
+        } else {
+            double* superb = new_with_exception<double>(std::max(0, minMN - 1), true);
+            info = LAPACKE_zgesvd(
+                LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
+            delete[] superb;
+            if (info > 0) {
+                Error(_("LAPACKE_zgesvd error."));
+            }
+        }
         U = ArrayOf(NLS_DCOMPLEX, dimsU, u);
         Eigen::Map<Eigen::VectorXd> matStmp(dstemp, minMN);
         if (m > n) {
@@ -288,8 +429,12 @@ SVD_doublecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
             Eigen::Map<Eigen::MatrixXcd> matV(vtz, ldvt, n);
             double* vt2 = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2, true);
             auto* vt2z = reinterpret_cast<doublecomplex*>(vt2);
-            Eigen::Map<Eigen::MatrixXcd> matV2(vt2z, n, ldvt);
-            matV2 = matV.transpose().eval();
+            // manual transpose copy: vt2z[a + b*n] = vtz[b + a*ldvt]
+            for (int a = 0; a < n; ++a) {
+                for (int b = 0; b < ldvt; ++b) {
+                    vt2z[a + b * (size_t)n] = vtz[b + a * (size_t)ldvt];
+                }
+            }
             delete[] vt;
             vt = nullptr;
             V = ArrayOf(NLS_DCOMPLEX, dimsV, vt2);
@@ -318,20 +463,38 @@ SVD_single(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        single* superb = new_with_exception<single>(minMN - 1, true);
         single* dstemp = new_with_exception<single>(minMN, true);
         single* u = new_with_exception<single>((size_t)(ldu) * (size_t)(m), true);
         single* vt = nullptr;
         if (withV) {
             vt = new_with_exception<single>((size_t)ldvt * (size_t)n, true);
         }
-        int info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(),
-            lda, dstemp, u, ldu, vt, ldvt, superb);
-        if (info > 0) {
-            Error(_("LAPACKE_sgesvd error."));
+        char JOBZ = 'N';
+        if (JOBU == 'A' && JOBVT == 'A') {
+            JOBZ = 'A';
+        } else if (JOBU == 'S' && JOBVT == 'S') {
+            JOBZ = 'S';
+        } else if (JOBU == 'N' && JOBVT == 'N') {
+            JOBZ = 'N';
+        } else {
+            JOBZ = 'S';
         }
-        delete[] superb;
-        superb = nullptr;
+        int info = 0;
+        if (use_gesdd_for_size(m, n)) {
+            info = LAPACKE_sgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, (single*)A.getDataPointer(), lda,
+                dstemp, u, ldu, vt, ldvt);
+            if (info > 0) {
+                Error(_("LAPACKE_sgesdd error."));
+            }
+        } else {
+            single* superb = new_with_exception<single>(std::max(0, minMN - 1), true);
+            info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(),
+                lda, dstemp, u, ldu, vt, ldvt, superb);
+            delete[] superb;
+            if (info > 0) {
+                Error(_("LAPACKE_sgesvd error."));
+            }
+        }
         Dimensions dimsU(maxMN, maxMN);
         U = ArrayOf(NLS_SINGLE, dimsU, u);
         single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN, true);
@@ -348,7 +511,7 @@ SVD_single(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         if (withV) {
             Dimensions dimsV(minMN, minMN);
             Eigen::Map<Eigen::MatrixXf> matV(vt, minMN, minMN);
-            matV = matV.transpose().eval();
+            inplace_transpose_colmajor(vt, minMN, minMN);
             V = ArrayOf(NLS_SINGLE, dimsV, vt);
         }
     } else if (flag == SVD_ECON) {
@@ -393,20 +556,38 @@ SVD_single(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        single* superb = new_with_exception<single>(minMN - 1, true);
         single* dstemp = new_with_exception<single>(minMN, true);
         single* u = new_with_exception<single>((size_t)ldu * (size_t)m, true);
         single* vt = nullptr;
         if (withV) {
             vt = new_with_exception<single>((size_t)ldvt * (size_t)n, true);
         }
-        int info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(),
-            lda, dstemp, u, ldu, vt, ldvt, superb);
-        if (info > 0) {
-            Error(_("LAPACKE_sgesvd error."));
+        char JOBZ = 'N';
+        if (JOBU == 'A' && JOBVT == 'A') {
+            JOBZ = 'A';
+        } else if (JOBU == 'S' && JOBVT == 'S') {
+            JOBZ = 'S';
+        } else if (JOBU == 'N' && JOBVT == 'N') {
+            JOBZ = 'N';
+        } else {
+            JOBZ = 'S';
         }
-        delete[] superb;
-        superb = nullptr;
+        int info = 0;
+        if (use_gesdd_for_size(m, n)) {
+            info = LAPACKE_sgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, (single*)A.getDataPointer(), lda,
+                dstemp, u, ldu, vt, ldvt);
+            if (info > 0) {
+                Error(_("LAPACKE_sgesdd error."));
+            }
+        } else {
+            single* superb = new_with_exception<single>(std::max(0, minMN - 1), true);
+            info = LAPACKE_sgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (single*)A.getDataPointer(),
+                lda, dstemp, u, ldu, vt, ldvt, superb);
+            delete[] superb;
+            if (info > 0) {
+                Error(_("LAPACKE_sgesvd error."));
+            }
+        }
         U = ArrayOf(NLS_SINGLE, dimsU, u);
         Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
         if (m > n) {
@@ -431,8 +612,12 @@ SVD_single(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         if (withV) {
             Eigen::Map<Eigen::MatrixXf> matV(vt, ldvt, n);
             single* vt2 = new_with_exception<single>((size_t)ldvt * (size_t)n, true);
-            Eigen::Map<Eigen::MatrixXf> matV2(vt2, n, ldvt);
-            matV2 = matV.transpose().eval();
+            // manual transpose copy: vt2[a + b*n] = vt[b + a*ldvt]
+            for (int a = 0; a < n; ++a) {
+                for (int b = 0; b < ldvt; ++b) {
+                    vt2[a + b * (size_t)n] = vt[b + a * (size_t)ldvt];
+                }
+            }
             delete[] vt;
             vt = nullptr;
             V = ArrayOf(NLS_SINGLE, dimsV, vt2);
@@ -461,20 +646,38 @@ SVD_double(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        double* superb = new_with_exception<double>(minMN - 1, true);
         double* dstemp = new_with_exception<double>(minMN, true);
         double* u = new_with_exception<double>((size_t)ldu * (size_t)m, true);
         double* vt = nullptr;
         if (withV) {
             vt = new_with_exception<double>((size_t)ldvt * (size_t)n, true);
         }
-        int info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(),
-            lda, dstemp, u, ldu, vt, ldvt, superb);
-        if (info > 0) {
-            Error(_("LAPACKE_dgesvd error."));
+        char JOBZ = 'N';
+        if (JOBU == 'A' && JOBVT == 'A') {
+            JOBZ = 'A';
+        } else if (JOBU == 'S' && JOBVT == 'S') {
+            JOBZ = 'S';
+        } else if (JOBU == 'N' && JOBVT == 'N') {
+            JOBZ = 'N';
+        } else {
+            JOBZ = 'S';
         }
-        delete[] superb;
-        superb = nullptr;
+        int info = 0;
+        if (use_gesdd_for_size(m, n)) {
+            info = LAPACKE_dgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, (double*)A.getDataPointer(), lda,
+                dstemp, u, ldu, vt, ldvt);
+            if (info > 0) {
+                Error(_("LAPACKE_dgesdd error."));
+            }
+        } else {
+            double* superb = new_with_exception<double>(std::max(0, minMN - 1), true);
+            info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(),
+                lda, dstemp, u, ldu, vt, ldvt, superb);
+            delete[] superb;
+            if (info > 0) {
+                Error(_("LAPACKE_dgesvd error."));
+            }
+        }
         Dimensions dimsU(maxMN, maxMN);
         U = ArrayOf(NLS_DOUBLE, dimsU, u);
         double* ds = new_with_exception<double>((size_t)minMN * (size_t)maxMN, true);
@@ -491,7 +694,7 @@ SVD_double(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         if (withV) {
             Dimensions dimsV(minMN, minMN);
             Eigen::Map<Eigen::MatrixXd> matV(vt, minMN, minMN);
-            matV = matV.transpose().eval();
+            inplace_transpose_colmajor(vt, minMN, minMN);
             V = ArrayOf(NLS_DOUBLE, dimsV, vt);
         }
     } else if (flag == SVD_ECON) {
@@ -539,20 +742,38 @@ SVD_double(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        double* superb = new_with_exception<double>(minMN - 1, true);
         double* dstemp = new_with_exception<double>(minMN, true);
         double* u = new_with_exception<double>((size_t)ldu * (size_t)m, true);
         double* vt = nullptr;
         if (withV) {
             vt = new_with_exception<double>((size_t)ldvt * (size_t)n, true);
         }
-        int info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(),
-            lda, dstemp, u, ldu, vt, ldvt, superb);
-        if (info > 0) {
-            Error(_("LAPACKE_dgesvd error."));
+        char JOBZ = 'N';
+        if (JOBU == 'A' && JOBVT == 'A') {
+            JOBZ = 'A';
+        } else if (JOBU == 'S' && JOBVT == 'S') {
+            JOBZ = 'S';
+        } else if (JOBU == 'N' && JOBVT == 'N') {
+            JOBZ = 'N';
+        } else {
+            JOBZ = 'S';
         }
-        delete[] superb;
-        superb = nullptr;
+        int info = 0;
+        if (use_gesdd_for_size(m, n)) {
+            info = LAPACKE_dgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, (double*)A.getDataPointer(), lda,
+                dstemp, u, ldu, vt, ldvt);
+            if (info > 0) {
+                Error(_("LAPACKE_dgesdd error."));
+            }
+        } else {
+            double* superb = new_with_exception<double>(std::max(0, minMN - 1), true);
+            info = LAPACKE_dgesvd(LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, (double*)A.getDataPointer(),
+                lda, dstemp, u, ldu, vt, ldvt, superb);
+            delete[] superb;
+            if (info > 0) {
+                Error(_("LAPACKE_dgesvd error."));
+            }
+        }
         U = ArrayOf(NLS_DOUBLE, dimsU, u);
         Eigen::Map<Eigen::VectorXd> matStmp(dstemp, minMN);
         if (m > n) {
@@ -577,8 +798,12 @@ SVD_double(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
         if (withV) {
             Eigen::Map<Eigen::MatrixXd> matV(vt, ldvt, n);
             double* vt2 = new_with_exception<double>((size_t)ldvt * (size_t)n, true);
-            Eigen::Map<Eigen::MatrixXd> matV2(vt2, n, ldvt);
-            matV2 = matV.transpose().eval();
+            // manual transpose copy: vt2[a + b*n] = vt[b + a*ldvt]
+            for (int a = 0; a < n; ++a) {
+                for (int b = 0; b < ldvt; ++b) {
+                    vt2[a + b * (size_t)n] = vt[b + a * (size_t)ldvt];
+                }
+            }
             delete[] vt;
             vt = nullptr;
             V = ArrayOf(NLS_DOUBLE, dimsV, vt2);
@@ -608,7 +833,6 @@ SVD_singlecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        single* superb = new_with_exception<single>(minMN - 1, true);
         single* dstemp = new_with_exception<single>(minMN, true);
         single* u = new_with_exception<single>((size_t)ldu * (size_t)m * (size_t)2, true);
         single* vt = nullptr;
@@ -618,13 +842,32 @@ SVD_singlecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
             vtz = reinterpret_cast<singlecomplex*>(vt);
         }
         auto* uz = reinterpret_cast<singlecomplex*>(u);
-        int info = LAPACKE_cgesvd(
-            LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
-        if (info > 0) {
-            Error(_("LAPACKE_cgesvd error."));
+        char JOBZ = 'N';
+        if (JOBU == 'A' && JOBVT == 'A') {
+            JOBZ = 'A';
+        } else if (JOBU == 'S' && JOBVT == 'S') {
+            JOBZ = 'S';
+        } else if (JOBU == 'N' && JOBVT == 'N') {
+            JOBZ = 'N';
+        } else {
+            JOBZ = 'S';
         }
-        delete[] superb;
-        superb = nullptr;
+        int info = 0;
+        if (use_gesdd_for_size(m, n)) {
+            info
+                = LAPACKE_cgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt);
+            if (info > 0) {
+                Error(_("LAPACKE_cgesdd error."));
+            }
+        } else {
+            single* superb = new_with_exception<single>(std::max(0, minMN - 1), true);
+            info = LAPACKE_cgesvd(
+                LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
+            delete[] superb;
+            if (info > 0) {
+                Error(_("LAPACKE_cgesvd error."));
+            }
+        }
         Dimensions dimsU(maxMN, maxMN);
         U = ArrayOf(NLS_SCOMPLEX, dimsU, u);
         single* ds = new_with_exception<single>((size_t)minMN * (size_t)maxMN, true);
@@ -641,7 +884,7 @@ SVD_singlecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
         if (withV) {
             Dimensions dimsV(minMN, minMN);
             Eigen::Map<Eigen::MatrixXcf> matV(vtz, minMN, minMN);
-            matV = matV.transpose().eval();
+            inplace_transpose_colmajor(vtz, minMN, minMN);
             V = ArrayOf(NLS_SCOMPLEX, dimsV, vt);
         }
     } else if (flag == SVD_ECON) {
@@ -689,7 +932,6 @@ SVD_singlecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
         int lda = m;
         int minMN = std::min(m, n);
         int maxMN = std::max(m, n);
-        single* superb = new_with_exception<single>(minMN - 1, true);
         single* dstemp = new_with_exception<single>(minMN, true);
         single* u = new_with_exception<single>((size_t)ldu * (size_t)m * (size_t)2, true);
         auto* uz = reinterpret_cast<singlecomplex*>(u);
@@ -699,13 +941,32 @@ SVD_singlecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
             vt = new_with_exception<single>((size_t)ldvt * (size_t)n * (size_t)2, true);
             vtz = reinterpret_cast<singlecomplex*>(vt);
         }
-        int info = LAPACKE_cgesvd(
-            LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
-        if (info > 0) {
-            Error(_("LAPACKE_cgesvd error."));
+        char JOBZ = 'N';
+        if (JOBU == 'A' && JOBVT == 'A') {
+            JOBZ = 'A';
+        } else if (JOBU == 'S' && JOBVT == 'S') {
+            JOBZ = 'S';
+        } else if (JOBU == 'N' && JOBVT == 'N') {
+            JOBZ = 'N';
+        } else {
+            JOBZ = 'S';
         }
-        delete[] superb;
-        superb = nullptr;
+        int info = 0;
+        if (use_gesdd_for_size(m, n)) {
+            info
+                = LAPACKE_cgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt);
+            if (info > 0) {
+                Error(_("LAPACKE_cgesdd error."));
+            }
+        } else {
+            single* superb = new_with_exception<single>(std::max(0, minMN - 1), true);
+            info = LAPACKE_cgesvd(
+                LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
+            delete[] superb;
+            if (info > 0) {
+                Error(_("LAPACKE_cgesvd error."));
+            }
+        }
         U = ArrayOf(NLS_SCOMPLEX, dimsU, u);
         Eigen::Map<Eigen::VectorXf> matStmp(dstemp, minMN);
         if (m > n) {
@@ -731,8 +992,12 @@ SVD_singlecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
             Eigen::Map<Eigen::MatrixXcf> matV(vtz, ldvt, n);
             single* vt2 = new_with_exception<single>((size_t)ldvt * (size_t)n * (size_t)2, true);
             auto* vt2z = reinterpret_cast<singlecomplex*>(vt2);
-            Eigen::Map<Eigen::MatrixXcf> matV2(vt2z, n, ldvt);
-            matV2 = matV.transpose().eval();
+            // manual transpose copy: vt2z[a + b*n] = vtz[b + a*ldvt]
+            for (int a = 0; a < n; ++a) {
+                for (int b = 0; b < ldvt; ++b) {
+                    vt2z[a + b * (size_t)n] = vtz[b + a * (size_t)ldvt];
+                }
+            }
             delete[] vt;
             vt = nullptr;
             V = ArrayOf(NLS_SCOMPLEX, dimsV, vt2);
