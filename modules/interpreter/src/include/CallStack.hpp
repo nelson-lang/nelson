@@ -11,6 +11,8 @@
 //=============================================================================
 #include <string>
 #include <vector>
+#include <cassert>
+#include <string_view>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,16 +26,15 @@ private:
     size_t IDX = 0;
     //=============================================================================
     void
-    pushEntry(const std::string& _context, const std::string& _detail, size_t _id)
+    pushEntry(std::string _context, std::string _detail, size_t _id) noexcept
     {
         if (IDX >= context.size()) {
-            context.push_back(_context);
-            detail.push_back(_detail);
-            id.push_back(_id);
-
+            context.emplace_back(std::move(_context));
+            detail.emplace_back(std::move(_detail));
+            id.emplace_back(_id);
         } else {
-            context[IDX] = _context;
-            detail[IDX] = _detail;
+            context[IDX] = std::move(_context);
+            detail[IDX] = std::move(_detail);
             id[IDX] = _id;
         }
         IDX++;
@@ -47,10 +48,10 @@ public:
         id.reserve(2048);
     }
     //=============================================================================
-    ~CallStack() { clear(); }
+    ~CallStack() = default;
     //=============================================================================
     void
-    clear()
+    clear() noexcept
     {
         context.clear();
         detail.clear();
@@ -59,63 +60,66 @@ public:
     }
     //=============================================================================
     [[nodiscard]] size_t
-    size() const
+    size() const noexcept
     {
         return IDX;
     }
     //=============================================================================
     void
-    setSize(size_t newSize)
+    setSize(size_t newSize) noexcept
     {
         if (newSize < IDX) {
             IDX = newSize;
         }
     }
     //=============================================================================
-    [[nodiscard]] std::string
-    getContext(size_t pos) const
+    [[nodiscard]] const std::string&
+    getContext(size_t pos) const noexcept
     {
         return context[pos];
     }
     //=============================================================================
-    [[nodiscard]] std::string
-    getDetail(size_t pos) const
+    [[nodiscard]] const std::string&
+    getDetail(size_t pos) const noexcept
     {
         return detail[pos];
     }
     //=============================================================================
     [[nodiscard]] size_t
-    getID(size_t pos) const
+    getID(size_t pos) const noexcept
     {
         return id[pos];
     }
     //=============================================================================
-    [[nodiscard]] std::string
-    getLastContext() const
+    [[nodiscard]] const std::string&
+    getLastContext() const noexcept
     {
+        assert(IDX > 0);
         return context[IDX - 1];
     }
     //=============================================================================
-    std::string
-    getLastDetail()
+    const std::string&
+    getLastDetail() const noexcept
     {
+        assert(IDX > 0);
         return detail[IDX - 1];
     }
     //=============================================================================
     size_t
-    getLastID()
+    getLastID() const noexcept
     {
+        assert(IDX > 0);
         return id[IDX - 1];
     }
     //=============================================================================
     void
-    pushDebug(const std::string& _name, const std::string& _detail)
+    pushDebug(std::string_view _name, std::string_view _detail)
     {
-        pushEntry(_name, _detail, 0);
+        pushEntry(std::string(_name), std::string(_detail), 0);
     }
     //=============================================================================
     void
-    popDebug()
+    popDebug() noexcept
     {
         pop_back();
     }
@@ -124,24 +128,24 @@ public:
     pushID(size_t _id)
     {
         if (IDX == 0) {
-            pushEntry("base", "base", _id);
+            pushEntry(std::string("base"), std::string("base"), _id);
         } else {
             pushEntry(context[IDX - 1], detail[IDX - 1], _id);
         }
     }
     //=============================================================================
     void
-    popID()
+    popID() noexcept
     {
         pop_back();
     }
     //=============================================================================
     void
-    pop_back()
+    pop_back() noexcept
     {
         if (IDX > 0) {
             IDX--;
-        };
+        }
     }
     //=============================================================================
 };

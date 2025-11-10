@@ -22,8 +22,8 @@ public:
     int tokid { 0 };
 
     StackEntry();
-    StackEntry(const std::string& cntxt, const std::string& detail, int id);
-    ~StackEntry();
+    StackEntry(std::string cntxt, std::string detail, int id);
+    ~StackEntry() = default;
 };
 //=============================================================================
 } // namespace Nelson

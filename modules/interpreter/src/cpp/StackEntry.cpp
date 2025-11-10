@@ -15,16 +15,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-StackEntry::StackEntry(const std::string& cntxt, const std::string& det, int id)
+StackEntry::StackEntry(std::string cntxt, std::string det, int id)
+    : cname(std::move(cntxt)), detail(std::move(det)), tokid(id)
 {
-    cname = cntxt;
-    detail = det;
-    tokid = id;
 }
 //=============================================================================
 StackEntry::StackEntry() : cname("base"), detail("base") { }
-//=============================================================================
-StackEntry::~StackEntry() = default;
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

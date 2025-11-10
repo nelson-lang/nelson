@@ -304,89 +304,59 @@ Evaluator::expression(AbstractSyntaxTreePtr t)
     ArrayOf retval;
     switch (t->type) {
     case const_double_node: {
-        callstack.pushID((size_t)t->getContext());
         retval = ArrayOf::doubleConstructor(textToDouble(t->text));
-        callstack.popID();
     } break;
     case const_float_node: {
-        callstack.pushID((size_t)t->getContext());
         retval = ArrayOf::singleConstructor((textToSingle(t->text)));
-        callstack.popID();
     } break;
     case const_uint8_node: {
-        callstack.pushID((size_t)t->getContext());
         retval = ArrayOf::uint8Constructor(textToUint8(t->text));
-        callstack.popID();
     } break;
     case const_int8_node: {
-        callstack.pushID((size_t)t->getContext());
         retval = ArrayOf::int8Constructor(textToInt8(t->text));
-        callstack.popID();
     } break;
     case const_uint16_node: {
-        callstack.pushID((size_t)t->getContext());
         retval = ArrayOf::uint16Constructor(textToUint16(t->text));
-        callstack.popID();
     } break;
     case const_int16_node: {
-        callstack.pushID((size_t)t->getContext());
         retval = ArrayOf::int16Constructor(textToInt16(t->text));
-        callstack.popID();
     } break;
     case const_uint32_node: {
-        callstack.pushID((size_t)t->getContext());
         retval = ArrayOf::uint32Constructor(textToUint32(t->text));
-        callstack.popID();
     } break;
     case const_int32_node: {
-        callstack.pushID((size_t)t->getContext());
         retval = ArrayOf::int32Constructor(textToInt32(t->text));
-        callstack.popID();
     } break;
     case const_int64_node: {
-        callstack.pushID((size_t)t->getContext());
         retval = ArrayOf::int64Constructor(textToInt64(t->text));
-        callstack.popID();
     } break;
     case const_uint64_node: {
-        callstack.pushID((size_t)t->getContext());
         retval = ArrayOf::uint64Constructor(textToUint64(t->text));
-        callstack.popID();
     } break;
     case const_int_node: {
-        callstack.pushID((size_t)t->getContext());
         retval = ArrayOf::doubleConstructor(textToDouble(t->text));
-        callstack.popID();
     } break;
     case const_character_array_node: {
-        callstack.pushID((size_t)t->getContext());
         retval = ArrayOf::characterArrayConstructor(t->text);
-        callstack.popID();
     } break;
     case const_string_node: {
-        callstack.pushID((size_t)t->getContext());
         retval = ArrayOf::stringArrayConstructor(t->text);
-        callstack.popID();
     } break;
     case const_dcomplex_node: {
-        callstack.pushID((size_t)t->getContext());
         double val = textToDouble(t->text);
         if (approximatelyEqual(val, 0, std::numeric_limits<double>::epsilon())) {
             retval = ArrayOf::doubleConstructor(0.);
         } else {
             retval = ArrayOf::dcomplexConstructor(0, val);
         }
-        callstack.popID();
     } break;
     case const_complex_node: {
-        callstack.pushID((size_t)t->getContext());
         single val = textToSingle(t->text);
         if (approximatelyEqual(val, 0, std::numeric_limits<single>::epsilon())) {
             retval = ArrayOf::singleConstructor(0.);
         } else {
             retval = ArrayOf::complexConstructor(0, val);
         }
-        callstack.popID();
     } break;
     case reserved_node: {
         return expressionReserved(t);
