@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>mink</keyword>
+    <short_description>k plus petits éléments d'un tableau</short_description>
+    <syntax>
+        <syntax_item>B = mink(A, k)</syntax_item>
+        <syntax_item>[B, I] = mink(A, k)</syntax_item>
+        <syntax_item>B = mink(A, k, dim)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
+      >tableau numérique (vecteur ou matrice)</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>k</param_name>
+            <param_description
+      >entier positif spécifiant combien de plus petits éléments retourner</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>dim</param_name>
+            <param_description
+      >dimension optionnelle le long de laquelle opérer (par défaut : première dimension non singleton)</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>B</param_name>
+            <param_description
+      >tableau contenant les k plus petits éléments de A le long de la dimension spécifiée</param_description>
+        </param_output_item>
+        <param_output_item>
+            <param_name>I</param_name>
+            <param_description
+      >indices des k plus petits éléments par rapport à A le long de la dimension spécifiée</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b>mink</b> retourne les k plus petits éléments du tableau <b
+      >A</b>. Lorsque A est un vecteur, le résultat est les k plus petites valeurs de A.
+            Lorsque A est une matrice, <b
+      >mink</b> opère le long de la dimension spécifiée (ou la première dimension non singleton par défaut) et retourne les k plus petits éléments pour chaque tranche le long de cette dimension.
+        </p>
+        <p>
+            Si <b
+      >k</b> est plus grand que le nombre d'éléments disponibles le long de la dimension d'opération, tous les éléments sont retournés (triés par ordre croissant).
+            Lorsqu'il est appelé comme <b>[B, I] = mink(A, k)</b>, <b
+      >I</b> contient les indices des éléments retournés par rapport à <b>A</b>.
+        </p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description
+      >Exemple de vecteur</example_item_description>
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[
+A = [5 2 4 1];
+B = mink(A, 2)   % returns [1 2]
+[B, I] = mink(A, 3) % returns [1 2 4] and indices [4 2 3]
+            ]]></example_item_data>
+        </example_item>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description
+      >Exemple de matrice (le long des colonnes)</example_item_description>
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[
+M = [4 2; 1 3];
+B = mink(M, 1)   % returns [1 2] operating along first non-singleton dimension (columns)
+B = mink(M, 2, 1) % returns 2 smallest per column
+            ]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link linkend="${elementary_functions}maxk">maxk</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.15.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

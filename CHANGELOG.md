@@ -18,6 +18,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `sprand`: Generate sparse matrices with uniformly distributed random values.
   - `sprandn`: Generate sparse matrices with normally distributed random values.
 
+- `mink`: k smallest elements of an array.
+
+- `maxk`: k largest elements of an array.
+
+- `subspace`: Measure of distance (angle) between two subspaces spanned by columns of matrices.
+
+- `std`: Standard deviation.
+
+- `findpeaks`: Find local maxima.
+
+- `downsample`: Downsample a signal by an integer factor.
+
 - Search Text in Console and Text Editor.
 
 - Type support: Expanded support for missing types, increasing compatibility across functions and data structures.

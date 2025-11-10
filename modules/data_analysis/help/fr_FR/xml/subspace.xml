@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>subspace</keyword>
+    <short_description
+  >Mesure de distance (angle) entre deux sous-espaces engendrés par les colonnes de matrices.</short_description>
+    <syntax>
+        <syntax_item>d = subspace(A, B)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>A</param_name>
+            <param_description
+      >matrice dont les colonnes engendrent le premier sous-espace (réel ou complexe).</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>B</param_name>
+            <param_description
+      >matrice dont les colonnes engendrent le second sous-espace (réel ou complexe).</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>d</param_name>
+            <param_description
+      >mesure scalaire de la distance entre les espaces colonnes de A et B. d = 0 indique des sous-espaces identiques ; des valeurs plus grandes indiquent une plus grande séparation.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >subspace</b> calcule une mesure scalaire de la distance entre les sous-espaces engendrés par les colonnes des matrices <b
+      >A</b> et <b
+      >B</b>. La valeur est dérivée des angles principaux entre les deux sous-espaces (calculés à partir de bases orthonormales des espaces colonnes). Cette mesure est utile pour quantifier la proximité de deux espaces colonnes ; elle est nulle lorsque les sous-espaces coïncident.
+        </p>
+    </description>
+    <used_function>orth</used_function>
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description />
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[
+% Two 2-D subspaces (columns)
+A = [1 0; 0 1; 0 0];    % spans e1 and e2
+B = [1 0; 0 0; 0 1];    % spans e1 and e3
+d = subspace(A, B)
+% d > 0 indicating the subspaces are different
+]]></example_item_data>
+        </example_item>
+    </examples>
+    <history>
+        <history_item>
+            <history_version>1.15.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

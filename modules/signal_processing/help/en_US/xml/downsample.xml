@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>downsample</keyword>
+    <short_description
+  >Downsample a signal by an integer factor.</short_description>
+    <syntax>
+        <syntax_item>Y = downsample(X, n)</syntax_item>
+        <syntax_item>Y = downsample(X, n, phase)</syntax_item>
+        <syntax_item>Y = downsample(X, n, phase, dim)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>X</param_name>
+            <param_description
+      >input sequence. Vector or matrix. If X is a matrix, columns are processed independently by default.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>n</param_name>
+            <param_description
+      >positive integer downsampling factor (n &gt; 0).</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>phase</param_name>
+            <param_description
+      >optional integer in the range 0..n-1 (default 0). The output starts at X(phase+1) and then takes every n-th sample.</param_description>
+        </param_input_item>
+        <param_input_item>
+            <param_name>dim</param_name>
+            <param_description
+      >optional dimension along which to downsample. If omitted, downsampling is applied to columns for 2-D inputs.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>Y</param_name>
+            <param_description
+      >downsampled result: elements of X taken every n samples starting at index (phase + 1) along the specified dimension.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            The <b
+      >downsample</b> function returns every n-th sample of the input sequence X, beginning at sample index (phase + 1). For example, <b
+      >downsample(X, 2)</b> returns the odd-indexed samples of X (1,3,5,...). If X is a matrix, the operation is applied column-wise by default unless a dimension is provided.
+        </p>
+        <p>
+            No anti-aliasing filtering is performed; if you need to reduce high-frequency content before decimation, consider using <b
+      >decimate</b> or applying a low-pass filter first.
+        </p>
+        </description>
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[
+% Downsample a vector by 2
+X = 1:10;
+Y = downsample(X, 2);
+% Y is [1 3 5 7 9]
+
+% Downsample with phase = 1 (start at second element)
+Y2 = downsample(X, 3, 1);
+% Y2 is [2 5 8]
+
+% Downsample columns of a matrix by 2
+A = reshape(1:12, 4, 3);
+B = downsample(A, 2);
+]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${special_functions}interp1">interp1</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.15.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>

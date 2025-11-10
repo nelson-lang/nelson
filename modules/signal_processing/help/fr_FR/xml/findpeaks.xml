@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>findpeaks</keyword>
+  <short_description
+  >localiser les maxima locaux (pics) dans un signal 1-D.</short_description>
+  <syntax>
+    <syntax_item>[pks, locs, widths, prominences] = findpeaks(Y)</syntax_item>
+    <syntax_item
+    >[pks, locs, widths, prominences] = findpeaks(Y, Fs, ...)</syntax_item>
+    <syntax_item
+    >[pks, locs, widths, prominences] = findpeaks(Y, X, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description
+      >vecteur : signal d'entrée (ligne ou colonne)</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Fs</param_name>
+      <param_description
+      >scalaire : fréquence d'échantillonnage (optionnel). Si fourni, les emplacements des pics sont retournés en unités de temps.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
+      >vecteur : valeurs x correspondant à Y (optionnel). Doit avoir la même longueur que Y.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Nom/Valeur paires</param_name>
+      <param_description>
+        options nom/valeur :
+        <ul>
+          <li><b>MinPeakHeight</b>: scalaire numérique, défaut -Inf</li>
+          <li><b
+            >MinPeakProminence</b>: scalaire numérique &gt;= 0, défaut 0</li>
+          <li><b
+            >Threshold</b>: scalaire numérique &gt;= 0 (distance verticale minimale par rapport à la ligne de base voisine), défaut 0</li>
+          <li><b>MinPeakWidth</b>: scalaire numérique &gt;= 0, défaut 0</li>
+          <li><b>MaxPeakWidth</b>: scalaire numérique &gt;= 0, défaut Inf</li>
+          <li><b
+            >MinPeakDistance</b>: scalaire numérique &gt;= 0 (dans les mêmes unités que X), défaut 0</li>
+          <li><b
+            >WidthReference</b>: 'halfprom' (par défaut) ou 'halfheight'</li>
+          <li><b>SortStr</b>: 'none' (par défaut), 'ascend' ou 'descend'</li>
+          <li><b
+            >NPeaks</b>: entier positif, nombre maximum de pics à retourner (par défaut Inf)</li>
+          <li><b
+            >Annotate</b>: 'peaks' (par défaut) ou 'extents' (contrôle l'annotation du tracé)</li>
+        </ul>
+      </param_description>
+    </param_input_item>
+  </param_input>
+
+  <param_output>
+    <param_output_item>
+      <param_name>pks</param_name>
+      <param_description>amplitudes des pics</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>locs</param_name>
+      <param_description
+      >emplacements des pics (valeurs x ou indices)</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>widths</param_name>
+      <param_description
+      >largeurs des pics mesurées à la référence de largeur spécifiée</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>prominences</param_name>
+      <param_description>prominence de chaque pic</param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+    <p><b
+      >findpeaks</b> localise les maxima locaux (pics) dans un signal unidimensionnel Y.</p>
+    <p
+    >L'algorithme détecte les pics candidats, les filtre par hauteur et seuil, calcule la prominence et les largeurs, impose une séparation minimale, et retourne les sorties demandées.</p>
+    <p
+    >Lorsqu'aucune sortie n'est demandée, la fonction trace le signal et marque les pics détectés.</p>
+  </description>
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Trouver des pics dans un signal simple</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+t = 0:0.01:2*pi;
+y = sin(5*t) + 0.2*randn(size(t));
+findpeaks(y, t, 'MinPeakProminence', 0.3);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Retourner les largeurs et les prominences</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+[pks, locs, widths, proms] = findpeaks(y, 'MinPeakHeight', 0);
+]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item><link
+        linkend="${data_analysis}max"
+      >max</link></see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
