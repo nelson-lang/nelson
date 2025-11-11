@@ -99,15 +99,15 @@ function [P, K] = steadyStateError(A, C, Q, R, N, E, rA, Ts)
   % Riccati equation
   if (Ts == 0) || (Ts == -2)
     % continuous case
-    [P, dummy, K] = care(A', C', Q, R, N, E');
+    [P, ~, K] = care(A', C', Q, R, N, E');
   else
     % discrete case
-    [P, dummy, K] = dare(A', C', Q, R, N, E');
+    [P, ~, K] = dare(A', C', Q, R, N, E');
   end
 end
 %=============================================================================
 function validateSysEMatrix(Q, R, N, Ts)
-  [dummy, V] = eig(R);
+  [~, V] = eig(R);
   realEigenvalues = real(diag(V));
   if ~isempty(realEigenvalues) && (min(realEigenvalues) < 0 || ((Ts == 0 || Ts == -2) && min(realEigenvalues) == 0))
     error(_('Wrong value for argument #1: sys.E matrix must be positive definite.'));

@@ -40,8 +40,8 @@ function varargout = ctrbf(varargin)
   % Main loop for controllability staircase form
   for j = 1:size(A, 1)
     % Singular value decomposition of B_current
-    [U_j, S_j, void] = svd(B_current);
-    [row_S_j, void] = size(S_j);
+    [U_j, S_j, ~] = svd(B_current);
+    [row_S_j, ~] = size(S_j);
     
     % Rotate the singular vectors
     rotation_matrix = rot90(eye(row_S_j), 1);
@@ -52,7 +52,7 @@ function varargout = ctrbf(varargin)
     
     % Compute the rank of B_current
     ro_j = rank(B_current, tol);
-    [row_B_current, void] = size(B_current);
+    [row_B_current, ~] = size(B_current);
     
     % Update variables
     sigma_j = row_B_current - ro_j;

@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <cstddef>
 #include <cstdio>
 #include <string>
 #include "Keywords.hpp"
@@ -52,9 +53,11 @@ struct LexerContext
     LexingStates lexState;
     int bracketStack[DEFAULT_BUFFER_SIZE_LEXER];
     int bracketStackSize;
+    bool bracketIsDestructuring[DEFAULT_BUFFER_SIZE_LEXER];
     int vcStack[DEFAULT_BUFFER_SIZE_LEXER];
     int vcStackSize;
     int vcFlag;
+    int placeholderCounter = 0;
     //=============================================================================
     /*
      * These variables capture the token information
@@ -67,6 +70,15 @@ struct LexerContext
     keywordStruct tSearch, *pSearch;
     //=============================================================================
 };
+//=============================================================================
+inline constexpr const char* UNUSED_PLACEHOLDER_PREFIX = "__nelson_unused_output_";
+inline constexpr std::size_t UNUSED_PLACEHOLDER_PREFIX_LEN = sizeof("__nelson_unused_output_") - 1;
+
+inline bool
+isPlaceholderIdentifier(const std::string& name)
+{
+    return name.compare(0, UNUSED_PLACEHOLDER_PREFIX_LEN, UNUSED_PLACEHOLDER_PREFIX) == 0;
+}
 //=============================================================================
 }
 //=============================================================================

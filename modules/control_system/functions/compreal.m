@@ -95,7 +95,7 @@ function [A, B, C, E] = balanceCompanionForm(A, B, C, E, kE)
   if nx - kE < 2
     rs = zeros(0, 1);
   else
-    [dummy, dummy, x] = balance(A(kE+1:nx,kE+1:nx), 'noperm');
+    [~, ~, x] = balance(A(kE+1:nx,kE+1:nx), 'noperm');
     rs = diag(x, -1);
   end
   
@@ -111,7 +111,7 @@ function [A, B, C, E] = balanceCompanionForm(A, B, C, E, kE)
     end
     vc = max(abs(C(:, 1:kE)), [], 1);
     vc = vc/vc(1);
-    [dummy, dummy, x] = balance([vc; eye(kE - 1, kE)], 'noperm');
+    [~, ~, x] = balance([vc; eye(kE - 1, kE)], 'noperm');
     rs = [diag(x, -1); rs];
   end
   

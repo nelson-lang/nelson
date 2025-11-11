@@ -21,7 +21,7 @@ function varargout = randperm(varargin)
     varargout{1} = zeros(1, 0);
     return
   end  
-  [dummy, p] = sort(rand(1, n));
+  [~, p] = sort(rand(1, n));
   varargout{1} = p(1:k);
 end
 %=============================================================================

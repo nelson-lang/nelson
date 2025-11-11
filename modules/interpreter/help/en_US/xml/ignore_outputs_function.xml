@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>tilde</keyword>
+    <short_description>Ignore outputs function.</short_description>
+    <syntax>
+        <syntax_item>[~, A, ~] = svd(B)</syntax_item>
+    </syntax>
+    <description>
+        <p>
+            The <b
+      >tilde</b> syntax allows you to ignore specific outputs from functions that return multiple values. By using the tilde symbol (~) in the output list, you can indicate which outputs you do not wish to capture.</p>
+            <p>
+                This is particularly useful when you are only interested in certain results from a function and want to avoid unnecessary variable assignments.</p>
+            <p>
+                For example, when using the Singular Value Decomposition (SVD) function, you might only want the singular values and not the left or right singular vectors. You can achieve this by using the tilde symbol to ignore the unwanted outputs.</p>
+    </description>
+            <used_function />
+            <bibliography />
+            <examples>
+                <example_item>
+                    <example_item_type>nelson</example_item_type>
+                    <example_item_description
+      >in a file: demo_function.m</example_item_description>
+                    <example_item_data
+        runnable="cli"
+      ><![CDATA[
+      A = rand(4,4);
+      [~, S, ~] = svd(A);
+]]></example_item_data>
+                </example_item>
+            </examples>
+            <see_also>
+                <see_also_item>
+                    <link linkend="${interpreter}function">function</link>
+                </see_also_item>
+            </see_also>
+            <history>
+                <history_item>
+                    <history_version>1.15.0</history_version>
+                    <history_description>initial version</history_description>
+                </history_item>
+            </history>
+            <authors>
+                <author_item>Allan CORNET</author_item>
+            </authors>
+        </xmldoc>

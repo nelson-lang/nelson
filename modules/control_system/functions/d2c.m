@@ -43,7 +43,7 @@ function varargout = d2c(varargin)
   end
   
   m = [[phi, gamma(:, nonzero)]; zeros(nz, n), eye(nz)];
-  [s, dummy] = logm(m);
+  [s, ~] = logm(m);
   s = real(s / T);
   a = s(1:n, 1:n);
   if length(b)

@@ -82,9 +82,11 @@ LexerException(LexerContext& lexerContext, const std::string& msg)
 }
 //=============================================================================
 inline void
-pushBracket(LexerContext& lexerContext, char t)
+pushBracket(LexerContext& lexerContext, char t, bool isDestructuring)
 {
-    lexerContext.bracketStack[lexerContext.bracketStackSize++] = t;
+    lexerContext.bracketStack[lexerContext.bracketStackSize] = t;
+    lexerContext.bracketIsDestructuring[lexerContext.bracketStackSize] = isDestructuring;
+    lexerContext.bracketStackSize++;
 }
 //=============================================================================
 inline void
@@ -108,6 +110,205 @@ inline void
 popVCState(LexerContext& lexerContext)
 {
     lexerContext.vcFlag = lexerContext.vcStack[--lexerContext.vcStackSize];
+}
+//=============================================================================
+inline char
+peekPreviousMeaningfulChar(LexerContext& lexerContext)
+{
+    if (lexerContext.datap == lexerContext.textbuffer) {
+        return '\0';
+    }
+    const char* begin = lexerContext.textbuffer;
+    const char* cursor = lexerContext.datap - 1;
+    while (cursor >= begin) {
+        const unsigned char current = static_cast<unsigned char>(*cursor);
+        if (isspace(current)) {
+            cursor--;
+            continue;
+        }
+        if (*cursor == '%') {
+            while (cursor >= begin && *cursor != '\n') {
+                cursor--;
+            }
+            continue;
+        }
+        if ((*cursor == '.') && (cursor - begin >= 2) && (cursor[-1] == '.')
+            && (cursor[-2] == '.')) {
+            cursor -= 3;
+            continue;
+        }
+        return static_cast<char>(current);
+    }
+    return '\0';
+}
+//=============================================================================
+inline char
+peekNextMeaningfulChar(LexerContext& lexerContext)
+{
+    const char* cursor = lexerContext.datap + 1;
+    while (*cursor != '\0') {
+        if (*cursor == '%') {
+            while (*cursor != '\0' && *cursor != '\n') {
+                cursor++;
+            }
+            continue;
+        }
+        if ((*cursor == '.') && (cursor[1] != '\0') && (cursor[2] != '\0') && (cursor[1] == '.')
+            && (cursor[2] == '.')) {
+            cursor += 3;
+            while (*cursor != '\0' && *cursor != '\n') {
+                cursor++;
+            }
+            continue;
+        }
+        if (isspace(static_cast<unsigned char>(*cursor))) {
+            cursor++;
+            continue;
+        }
+        return *cursor;
+    }
+    return '\0';
+}
+//=============================================================================
+inline const char*
+skipWhitespaceCommentsAndContinuations(const char* cursor)
+{
+    while (*cursor != '\0') {
+        if ((*cursor == ' ') || (*cursor == '\t') || (*cursor == '\r') || (*cursor == '\n')) {
+            cursor++;
+            continue;
+        }
+        if (*cursor == '%') {
+            while ((*cursor != '\0') && (*cursor != '\n')) {
+                cursor++;
+            }
+            continue;
+        }
+        if ((*cursor == '.') && (cursor[1] != '\0') && (cursor[2] != '\0') && (cursor[1] == '.')
+            && (cursor[2] == '.')) {
+            cursor += 3;
+            while ((*cursor != '\0') && (*cursor != '\n')) {
+                cursor++;
+            }
+            continue;
+        }
+        break;
+    }
+    return cursor;
+}
+//=============================================================================
+inline const char*
+skipStringLiteral(const char* cursor)
+{
+    const char delimiter = *cursor;
+    cursor++;
+    while (*cursor != '\0') {
+        if ((*cursor == delimiter) && (cursor[1] == delimiter)) {
+            cursor += 2;
+            continue;
+        }
+        if (*cursor == delimiter) {
+            cursor++;
+            break;
+        }
+        cursor++;
+    }
+    return cursor;
+}
+//=============================================================================
+inline bool
+bracketFollowedByAssignment(LexerContext& lexerContext)
+{
+    const char* cursor = lexerContext.datap + 1;
+    int depth = 1;
+    while (*cursor != '\0' && depth > 0) {
+        if (*cursor == '%') {
+            while ((*cursor != '\0') && (*cursor != '\n')) {
+                cursor++;
+            }
+            continue;
+        }
+        if ((*cursor == '.') && (cursor[1] != '\0') && (cursor[2] != '\0') && (cursor[1] == '.')
+            && (cursor[2] == '.')) {
+            cursor += 3;
+            while ((*cursor != '\0') && (*cursor != '\n')) {
+                cursor++;
+            }
+            continue;
+        }
+        if ((*cursor == '\'') || (*cursor == '"')) {
+            cursor = skipStringLiteral(cursor);
+            continue;
+        }
+        if (*cursor == '[') {
+            depth++;
+        } else if (*cursor == ']') {
+            depth--;
+            cursor++;
+            if (depth == 0) {
+                break;
+            }
+            continue;
+        }
+        cursor++;
+    }
+    if (depth != 0) {
+        return false;
+    }
+    cursor = skipWhitespaceCommentsAndContinuations(cursor);
+    return (*cursor == '=');
+}
+//=============================================================================
+inline bool
+isTildeSlotPattern(LexerContext& lexerContext)
+{
+    if (lexerContext.bracketStackSize <= 0) {
+        return false;
+    }
+    const char enclosing
+        = static_cast<char>(lexerContext.bracketStack[lexerContext.bracketStackSize - 1]);
+    if ((enclosing != '[') && (enclosing != '{')) {
+        return false;
+    }
+    const char previous = peekPreviousMeaningfulChar(lexerContext);
+    if ((previous != enclosing) && (previous != ',')) {
+        return false;
+    }
+    const char next = peekNextMeaningfulChar(lexerContext);
+    if (enclosing == '[') {
+        return (next == ',' || next == ']');
+    }
+    return (next == ',' || next == '}');
+}
+//=============================================================================
+inline bool
+isTildePlaceholder(LexerContext& lexerContext)
+{
+    if (!isTildeSlotPattern(lexerContext)) {
+        return false;
+    }
+    const char enclosing
+        = static_cast<char>(lexerContext.bracketStack[lexerContext.bracketStackSize - 1]);
+    if (enclosing != '[') {
+        return false;
+    }
+    return lexerContext.bracketIsDestructuring[lexerContext.bracketStackSize - 1];
+}
+//=============================================================================
+inline bool
+isIllegalTildeSlotUsage(LexerContext& lexerContext)
+{
+    if (!isTildeSlotPattern(lexerContext)) {
+        return false;
+    }
+    return !isTildePlaceholder(lexerContext);
+}
+//=============================================================================
+inline std::string
+generatePlaceholderIdentifier(LexerContext& lexerContext)
+{
+    lexerContext.placeholderCounter++;
+    return fmt::format("{}{}", UNUSED_PLACEHOLDER_PREFIX, lexerContext.placeholderCounter);
 }
 //=============================================================================
 inline bool
@@ -894,6 +1095,25 @@ lexScanningState(LexerContext& lexerContext)
         return;
     }
 
+    if (currentChar(lexerContext) == '~') {
+        if (isTildePlaceholder(lexerContext)) {
+            const std::string placeholderName = generatePlaceholderIdentifier(lexerContext);
+            setTokenType(lexerContext, IDENT);
+            discardChar(lexerContext);
+            lexerContext.tokenValue.isToken = false;
+            lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
+                id_node, placeholderName, static_cast<int>(ContextInt(lexerContext)));
+            return;
+        }
+        if (isIllegalTildeSlotUsage(lexerContext)) {
+            LexerException(lexerContext, _("Incorrect use of tilde."));
+            return;
+        }
+        setTokenType(lexerContext, static_cast<int>('~'));
+        discardChar(lexerContext);
+        return;
+    }
+
     if ((testAlphaChar(lexerContext) != 0) || currentChar(lexerContext) == '_') {
         lexIdentifier(lexerContext);
         // Are we inside a bracket? If so, leave well enough alone
@@ -915,13 +1135,18 @@ lexScanningState(LexerContext& lexerContext)
             return;
         }
     }
-    if ((currentChar(lexerContext) == '[') || (currentChar(lexerContext) == '{')) {
-        pushBracket(lexerContext, currentChar(lexerContext));
+    if (currentChar(lexerContext) == '[') {
+        const bool isDestructuring = bracketFollowedByAssignment(lexerContext);
+        pushBracket(lexerContext, currentChar(lexerContext), isDestructuring);
+        pushVCState(lexerContext);
+        lexerContext.vcFlag = 1;
+    } else if (currentChar(lexerContext) == '{') {
+        pushBracket(lexerContext, currentChar(lexerContext), false);
         pushVCState(lexerContext);
         lexerContext.vcFlag = 1;
     }
     if (currentChar(lexerContext) == '(') {
-        pushBracket(lexerContext, currentChar(lexerContext));
+        pushBracket(lexerContext, currentChar(lexerContext), false);
         pushVCState(lexerContext);
         lexerContext.vcFlag = 0;
     }
@@ -1077,6 +1302,7 @@ setLexBuffer(LexerContext& lexerContext, const std::string& buffer)
     lexerContext.inFunction = false;
     lexerContext.lexState = Initial;
     lexerContext.vcStackSize = 0;
+    lexerContext.placeholderCounter = 0;
     clearTextBufferLexer(lexerContext);
     lexerContext.textbuffer = static_cast<char*>(calloc(buffer.length() + 1, sizeof(char)));
     lexerContext.datap = lexerContext.textbuffer;
@@ -1099,6 +1325,7 @@ setLexFile(LexerContext& lexerContext, FILE* fp)
     lexerContext.inBlock = 0;
     lexerContext.inStatement = 0;
     lexerContext.inFunction = false;
+    lexerContext.placeholderCounter = 0;
     struct stat st;
     clearerr(fp);
 #ifdef _MSC_VER

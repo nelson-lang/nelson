@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Ignore function outputs: `[~, V, ~] = svd(A)` (compatible syntax).
+
 - Enhanced random number generation engine with new algorithms: `simdTwister`, `combRecursive`, `philox`, and `threefry`.
 
 - `randi`: Generate uniformly distributed random integers.

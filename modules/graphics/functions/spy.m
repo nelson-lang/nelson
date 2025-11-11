@@ -22,7 +22,7 @@ function spy(varargin)
   if nargin >= 3
     arg3 = varargin{3};
     if ischar(arg3) || isStringScalar(arg3)
-      [void, color, marker, msg] = colstyle(arg3, 'plot'); 
+      [~, color, marker, msg] = colstyle(arg3, 'plot'); 
       if ~isempty(msg)
         error(msg.message);
       end
@@ -34,7 +34,7 @@ function spy(varargin)
   if nargin >= 2
     arg2 = varargin{2};
     if ischar(arg2) || isStringScalar(arg2)
-      [void , color, marker, msg] = colstyle(arg2, 'plot');
+      [~ , color, marker, msg] = colstyle(arg2, 'plot');
       if ~isempty(msg)
         error(msg.message);
       end

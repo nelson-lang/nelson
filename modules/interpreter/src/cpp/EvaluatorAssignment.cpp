@@ -33,24 +33,27 @@ Evaluator::assignStatement(AbstractSyntaxTreePtr t, bool printIt)
     if (t->down != nullptr) {
         b = assignExpression(t, b);
     }
-    ArrayOf* var = context->lookupVariable(variableName);
-    if (var == nullptr) {
-        b.ensureSingleOwner();
-        bool bInserted = context->insertVariable(variableName, b);
-        if (!bInserted) {
-            if (IsValidVariableName(variableName, true)) {
+    const bool dropResult = isPlaceholderIdentifier(variableName);
+    if (!dropResult) {
+        ArrayOf* var = context->lookupVariable(variableName);
+        if (var == nullptr) {
+            b.ensureSingleOwner();
+            bool bInserted = context->insertVariable(variableName, b);
+            if (!bInserted) {
+                if (IsValidVariableName(variableName, true)) {
+                    Error(_W("Redefining permanent variable."));
+                }
+                Error(_W("Valid variable name expected."));
+            }
+        } else {
+            if (context->isLockedVariable(variableName)) {
                 Error(_W("Redefining permanent variable."));
             }
-            Error(_W("Valid variable name expected."));
+            var->setValue(b);
         }
-    } else {
-        if (context->isLockedVariable(variableName)) {
-            Error(_W("Redefining permanent variable."));
+        if (printIt) {
+            display(b, variableName, false, false);
         }
-        var->setValue(b);
-    }
-    if (printIt) {
-        display(b, variableName, false, false);
     }
     if (ticProfiling != 0) {
         internalProfileFunction stack = computeProfileStack(

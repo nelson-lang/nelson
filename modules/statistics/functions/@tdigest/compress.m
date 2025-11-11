@@ -78,7 +78,7 @@ function td = compress(td)
       
       % Find smallest adjacent pair sum (vectorized)
       adjSums = mergedWeights(1:end-1) + mergedWeights(2:end);
-      [dummy, minIdx] = min(adjSums);
+      [~, minIdx] = min(adjSums);
       
       % Merge the pair
       w1 = mergedWeights(minIdx);

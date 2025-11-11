@@ -505,14 +505,17 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
     s = saveLHS;
     while ((s != nullptr) && (m.size() > 0)) {
         ArrayOf cLocal(assignExpression(s->down, m));
-        if (!context->insertVariable(s->down->text, cLocal)) {
-            if (IsValidVariableName(s->down->text, true)) {
-                Error(_W("Redefining permanent variable."));
+        const bool dropResult = isPlaceholderIdentifier(s->down->text);
+        if (!dropResult) {
+            if (!context->insertVariable(s->down->text, cLocal)) {
+                if (IsValidVariableName(s->down->text, true)) {
+                    Error(_W("Redefining permanent variable."));
+                }
+                Error(_W("Valid variable name expected."));
             }
-            Error(_W("Valid variable name expected."));
-        }
-        if (printIt) {
-            display(cLocal, s->down->text, false, true);
+            if (printIt) {
+                display(cLocal, s->down->text, false, true);
+            }
         }
         s = s->right;
     }
