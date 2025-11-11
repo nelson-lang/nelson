@@ -20,7 +20,7 @@ function varargout = scatter3(varargin)
   narginchk(3, 100);
   nargoutchk(0, 1);
   
-  [parent, X, Y, Z, scatterProperties] = parseArguments(varargin);
+  [parent, X, Y, Z, scatterProperties] = parseArguments(convertStringToCharArgs(varargin));
   if isvector(X)
     if ~isfield(scatterProperties, 'CData')
       scatterProperties.CData = getColorAndUpdateIndex(parent);

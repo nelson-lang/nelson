@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>fr_FR</language>
+    <keyword>convertStringToCharArgs</keyword>
+    <short_description
+  >Convertir des tableaux de chaînes en tableaux de caractères ou en cellules de vecteurs de caractères.</short_description>
+    <syntax>
+        <syntax_item>C = convertStringToCharArgs(S)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>S</param_name>
+            <param_description
+      >Scalaire de chaîne ou tableau de chaînes en entrée. Si S est un scalaire de chaîne, la sortie C est un vecteur de caractères. Si S est un tableau de chaînes, C est renvoyé sous forme de cellule de vecteurs de caractères.</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>C</param_name>
+            <param_description
+      >Vecteur de caractères (pour une entrée scalaire de chaîne) ou tableau de cellules de vecteurs de caractères (pour des tableaux de chaînes). Si l'entrée n'était pas une chaîne, C est l'entrée non modifiée.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+<p><b
+      >convertStringToCharArgs</b> convertit soit un tableau de cellules de valeurs de chaîne, soit un tableau de chaînes
+en un tableau de cellules de vecteurs de caractères.</p>
+<p
+    >Pour convertir un scalaire de chaîne unique en un vecteur de caractères, utilisez plutôt la fonction char.</p>
+<p
+    >Cette conversion est nécessaire car certaines fonctions (par exemple set ou get) n'acceptent actuellement pas les entrées de type chaîne.</p>
+    </description>
+    <used_function />
+    <bibliography />
+    <examples>
+        <example_item>
+            <example_item_type>nelson</example_item_type>
+            <example_item_description
+      >Convertir un scalaire de chaîne en un vecteur de caractères et un tableau de chaînes en une cellule de vecteurs de caractères.</example_item_description>
+            <example_item_data
+        runnable="cli"
+      ><![CDATA[
+% Scalaire de chaîne -> vecteur de caractères
+C = convertStringToCharArgs("Nelson")
+% Tableau de chaînes -> cellule de vecteurs de caractères
+C2 = convertStringToCharArgs({"a",'b'; 1,"d"})]]></example_item_data>
+        </example_item>
+    </examples>
+    <see_also>
+        <see_also_item>
+            <link
+        linkend="${string}convertCharsToStrings"
+      >convertCharsToStrings</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${data_structures}cellstr">cellstr</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${string}string">string</link>
+        </see_also_item>
+        <see_also_item>
+            <link linkend="${string}char">char</link>
+        </see_also_item>
+    </see_also>
+    <history>
+        <history_item>
+            <history_version>1.15.0</history_version>
+            <history_description>version initiale</history_description>
+        </history_item>
+    </history>
+    <authors>
+        <author_item>Allan CORNET</author_item>
+    </authors>
+</xmldoc>

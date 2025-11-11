@@ -10,7 +10,7 @@
 function varargout = hggroup(varargin)
   narginchk(0, 1000);
   nargoutchk(0, 1);
-  inputArguments = varargin;
+  inputArguments = convertStringToCharArgs(varargin);
   
   if (length(inputArguments) > 0)
     if isgraphics(inputArguments{1})

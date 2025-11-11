@@ -8,6 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = image(varargin)
+  varargin = convertStringToCharArgs(varargin);
   ax = newplot();
   ax.YDir = 'reverse';
   if (length(varargin) == 0)

@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = plot(varargin)
-  inputArguments = varargin;
+  inputArguments = convertStringToCharArgs(varargin);
   nbInputArguments = nargin;
   if (nbInputArguments >= 2)
     if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))

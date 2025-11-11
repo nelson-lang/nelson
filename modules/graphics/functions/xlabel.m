@@ -12,7 +12,7 @@ function varargout = xlabel(varargin)
   if (nargin < 1) 
     error(_('xlabel needs at least one argument.'));
   end
-  inputArguments = varargin;
+  inputArguments = convertStringToCharArgs(varargin);
   if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
     ax = inputArguments{1};
     inputArguments = inputArguments(2:end);

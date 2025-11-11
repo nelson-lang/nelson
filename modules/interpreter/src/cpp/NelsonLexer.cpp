@@ -82,10 +82,11 @@ LexerException(LexerContext& lexerContext, const std::string& msg)
 }
 //=============================================================================
 inline void
-pushBracket(LexerContext& lexerContext, char t, bool isDestructuring)
+pushBracket(LexerContext& lexerContext, char t, bool isDestructuring, bool isFunctionCall)
 {
     lexerContext.bracketStack[lexerContext.bracketStackSize] = t;
     lexerContext.bracketIsDestructuring[lexerContext.bracketStackSize] = isDestructuring;
+    lexerContext.bracketIsFunctionCall[lexerContext.bracketStackSize] = isFunctionCall;
     lexerContext.bracketStackSize++;
 }
 //=============================================================================
@@ -98,6 +99,8 @@ popBracket(LexerContext& lexerContext, char t)
     if (lexerContext.bracketStack[--lexerContext.bracketStackSize] != t) {
         LexerException(lexerContext, _("mismatched parenthesis"));
     }
+    lexerContext.bracketIsDestructuring[lexerContext.bracketStackSize] = false;
+    lexerContext.bracketIsFunctionCall[lexerContext.bracketStackSize] = false;
 }
 //=============================================================================
 inline void
@@ -257,6 +260,22 @@ bracketFollowedByAssignment(LexerContext& lexerContext)
     }
     cursor = skipWhitespaceCommentsAndContinuations(cursor);
     return (*cursor == '=');
+}
+//=============================================================================
+inline bool
+isFunctionCallOpening(const LexerContext& lexerContext)
+{
+    return (lexerContext.previousToken == IDENT);
+}
+//=============================================================================
+inline bool
+isInsideFunctionCallArguments(const LexerContext& lexerContext)
+{
+    if (lexerContext.bracketStackSize <= 0) {
+        return false;
+    }
+    const int idx = lexerContext.bracketStackSize - 1;
+    return (lexerContext.bracketStack[idx] == '(') && lexerContext.bracketIsFunctionCall[idx];
 }
 //=============================================================================
 inline bool
@@ -509,6 +528,49 @@ testCharacterArrayTerm(LexerContext& lexerContext)
         || (lexerContext.datap[0] == ' '));
 }
 //=============================================================================
+inline bool
+hasNamedArgumentAssignment(const LexerContext& lexerContext)
+{
+    if (!isInsideFunctionCallArguments(lexerContext)) {
+        return false;
+    }
+    const char* cursor = lexerContext.datap;
+    while ((*cursor == ' ') || (*cursor == '\t')) {
+        cursor++;
+    }
+    if (*cursor != '=') {
+        return false;
+    }
+    return (cursor[1] != '=');
+}
+//=============================================================================
+// Convert "name = value" sequences inside function call parentheses into
+// quoted positional arguments so the parser sees ""name", value".
+static bool
+convertIdentifierToNamedArgument(LexerContext& lexerContext, const char* ident, int context)
+{
+    if (!hasNamedArgumentAssignment(lexerContext)) {
+        return false;
+    }
+    setTokenType(lexerContext, STRING);
+    lexerContext.tokenValue.isToken = false;
+    lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(const_string_node, ident, context);
+
+    while ((lexerContext.datap[0] == ' ') || (lexerContext.datap[0] == '\t')) {
+        discardChar(lexerContext);
+    }
+    if (currentChar(lexerContext) == '=') {
+        discardChar(lexerContext);
+    }
+    while ((lexerContext.datap[0] == ' ') || (lexerContext.datap[0] == '\t')) {
+        discardChar(lexerContext);
+    }
+
+    lexerContext.pendingNamedArgumentComma = true;
+    lexerContext.pendingCommaContext = context;
+    return true;
+}
+//=============================================================================
 void
 lexUntermCharacterArray(LexerContext& lexerContext)
 {
@@ -625,11 +687,14 @@ lexIdentifier(LexerContext& lexerContext)
     lexerContext.tSearch.word[IDENTIFIER_LENGTH_MAX] = '\0';
     lexerContext.pSearch = static_cast<keywordStruct*>(bsearch(
         &lexerContext.tSearch, keyWord, KEYWORDCOUNT, sizeof(keywordStruct), compareKeyword));
+    const int context = static_cast<int>(ContextInt(lexerContext));
     if (lexerContext.pSearch == nullptr) {
+        if (convertIdentifierToNamedArgument(lexerContext, ident, context)) {
+            return;
+        }
         setTokenType(lexerContext, IDENT);
         lexerContext.tokenValue.isToken = false;
-        lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
-            id_node, ident, static_cast<int>(ContextInt(lexerContext)));
+        lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(id_node, ident, context);
         return;
     }
     switch (lexerContext.pSearch->token) {
@@ -716,8 +781,8 @@ lexIdentifier(LexerContext& lexerContext)
     } break;
     }
     lexerContext.tokenValue.isToken = false;
-    lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
-        reserved_node, lexerContext.pSearch->ordinal, static_cast<int>(ContextInt(lexerContext)));
+    lexerContext.tokenValue.v.p
+        = AbstractSyntaxTree::createNode(reserved_node, lexerContext.pSearch->ordinal, context);
 }
 //=============================================================================
 int
@@ -1137,16 +1202,17 @@ lexScanningState(LexerContext& lexerContext)
     }
     if (currentChar(lexerContext) == '[') {
         const bool isDestructuring = bracketFollowedByAssignment(lexerContext);
-        pushBracket(lexerContext, currentChar(lexerContext), isDestructuring);
+        pushBracket(lexerContext, currentChar(lexerContext), isDestructuring, false);
         pushVCState(lexerContext);
         lexerContext.vcFlag = 1;
     } else if (currentChar(lexerContext) == '{') {
-        pushBracket(lexerContext, currentChar(lexerContext), false);
+        pushBracket(lexerContext, currentChar(lexerContext), false, false);
         pushVCState(lexerContext);
         lexerContext.vcFlag = 1;
     }
     if (currentChar(lexerContext) == '(') {
-        pushBracket(lexerContext, currentChar(lexerContext), false);
+        const bool functionCallContext = isFunctionCallOpening(lexerContext);
+        pushBracket(lexerContext, currentChar(lexerContext), false, functionCallContext);
         pushVCState(lexerContext);
         lexerContext.vcFlag = 0;
     }
@@ -1211,62 +1277,76 @@ yylexDoLex(LexerContext& lexerContext)
 static int
 yylexScreen(LexerContext& lexerContext)
 {
-    lexerContext.tokenActive = 0;
-    while (lexerContext.tokenActive == 0) {
-        yylexDoLex(lexerContext);
-    }
-    if ((lexerContext.tokenType == WS) && (lexerContext.vcFlag != 0)) {
-        /* Check for virtual commas... */
-        if ((lexerContext.previousToken == ')') || (lexerContext.previousToken == '\'')
-            || (lexerContext.previousToken == NUMERIC) || (lexerContext.previousToken == CHARACTER)
-            || (lexerContext.previousToken == STRING) || (lexerContext.previousToken == ']')
-            || (lexerContext.previousToken == '}') || (lexerContext.previousToken == IDENT)
-            || (lexerContext.previousToken == MAGICEND)) {
-            /* Test if next character indicates the start of an expression */
-            const char* nextPtr = lexerContext.datap;
-            bool hasContinuation = false;
-            if (strncmp(nextPtr, "...", 3) == 0) {
-                hasContinuation = true;
-                nextPtr = skipContinuationTrivia(nextPtr);
-            }
-            char nextChar = *nextPtr;
-            bool nextStartsExpression = false;
-            if ((nextChar != '\0') && (nextChar != ']') && (nextChar != '}') && (nextChar != ')')
-                && (nextChar != ';') && (nextChar != ',')) {
-                if ((nextChar == '(') || (nextChar == '+') || (nextChar == '-') || (nextChar == '~')
-                    || (nextChar == '[') || (nextChar == '{') || (nextChar == '\'')
-                    || ((isalnum(nextChar)) != 0)
-                    || ((nextChar == '.') && ((_isDigit(nextPtr[1])) != 0))) {
-                    nextStartsExpression = true;
-                } else if (!hasContinuation && (strncmp(nextPtr, "...", 3) == 0)) {
-                    nextStartsExpression = true;
+    if (lexerContext.pendingNamedArgumentComma) {
+        lexerContext.pendingNamedArgumentComma = false;
+        lexerContext.tokenActive = 1;
+        lexerContext.tokenType = ',';
+        lexerContext.tokenValue.isToken = true;
+        lexerContext.tokenValue.v.i = (lexerContext.pendingCommaContext != 0)
+            ? lexerContext.pendingCommaContext
+            : static_cast<int>(ContextInt(lexerContext));
+        lexerContext.pendingCommaContext = 0;
+    } else {
+        lexerContext.tokenActive = 0;
+        while (lexerContext.tokenActive == 0) {
+            yylexDoLex(lexerContext);
+        }
+        if ((lexerContext.tokenType == WS) && (lexerContext.vcFlag != 0)) {
+            /* Check for virtual commas... */
+            if ((lexerContext.previousToken == ')') || (lexerContext.previousToken == '\'')
+                || (lexerContext.previousToken == NUMERIC)
+                || (lexerContext.previousToken == CHARACTER)
+                || (lexerContext.previousToken == STRING) || (lexerContext.previousToken == ']')
+                || (lexerContext.previousToken == '}') || (lexerContext.previousToken == IDENT)
+                || (lexerContext.previousToken == MAGICEND)) {
+                /* Test if next character indicates the start of an expression */
+                const char* nextPtr = lexerContext.datap;
+                bool hasContinuation = false;
+                if (strncmp(nextPtr, "...", 3) == 0) {
+                    hasContinuation = true;
+                    nextPtr = skipContinuationTrivia(nextPtr);
                 }
-            }
-            if (nextStartsExpression) {
-                /*
-                   OK - now we have to decide if the "+/-" are infix or prefix operators...
-                   In fact, this decision alone is the reason for this whole lexer.
-                */
-                if ((nextChar == '+') || (nextChar == '-')) {
-                    /* If we are inside a parenthetical, we never insert virtual commas */
-                    if ((lexerContext.bracketStackSize == 0)
-                        || (lexerContext.bracketStack[lexerContext.bracketStackSize - 1] != '(')) {
-                        /*
-                          OK - we are not inside a parenthetical.  Insert a virtual comma
-                          if the next character is anything other than a whitespace
-                        */
-                        if ((nextPtr[1] != ' ') && (nextPtr[1] != '\t')) {
-                            lexerContext.tokenType = ',';
-                        }
+                char nextChar = *nextPtr;
+                bool nextStartsExpression = false;
+                if ((nextChar != '\0') && (nextChar != ']') && (nextChar != '}')
+                    && (nextChar != ')') && (nextChar != ';') && (nextChar != ',')) {
+                    if ((nextChar == '(') || (nextChar == '+') || (nextChar == '-')
+                        || (nextChar == '~') || (nextChar == '[') || (nextChar == '{')
+                        || (nextChar == '\'') || ((isalnum(nextChar)) != 0)
+                        || ((nextChar == '.') && ((_isDigit(nextPtr[1])) != 0))) {
+                        nextStartsExpression = true;
+                    } else if (!hasContinuation && (strncmp(nextPtr, "...", 3) == 0)) {
+                        nextStartsExpression = true;
                     }
-                } else {
+                }
+                if (nextStartsExpression) {
+                    /*
+                       OK - now we have to decide if the "+/-" are infix or prefix operators...
+                       In fact, this decision alone is the reason for this whole lexer.
+                    */
+                    if ((nextChar == '+') || (nextChar == '-')) {
+                        /* If we are inside a parenthetical, we never insert virtual commas */
+                        if ((lexerContext.bracketStackSize == 0)
+                            || (lexerContext.bracketStack[lexerContext.bracketStackSize - 1]
+                                != '(')) {
+                            /*
+                              OK - we are not inside a parenthetical.  Insert a virtual comma
+                              if the next character is anything other than a whitespace
+                            */
+                            if ((nextPtr[1] != ' ') && (nextPtr[1] != '\t')) {
+                                lexerContext.tokenType = ',';
+                            }
+                        }
+                    } else {
+                        lexerContext.tokenType = ',';
+                    }
+                }
+                // Consolidated duplicate checks for virtual commas between strings.
+                if (((!hasContinuation && currentChar(lexerContext) == '"')
+                        || (hasContinuation && nextChar == '"'))
+                    && lexerContext.previousToken == STRING) {
                     lexerContext.tokenType = ',';
                 }
-            }
-            if (((!hasContinuation && currentChar(lexerContext) == '"')
-                    || (hasContinuation && nextChar == '"'))
-                && lexerContext.previousToken == STRING) {
-                lexerContext.tokenType = ',';
             }
         }
     }
@@ -1303,6 +1383,9 @@ setLexBuffer(LexerContext& lexerContext, const std::string& buffer)
     lexerContext.lexState = Initial;
     lexerContext.vcStackSize = 0;
     lexerContext.placeholderCounter = 0;
+    lexerContext.pendingNamedArgumentComma = false;
+    lexerContext.pendingCommaContext = 0;
+    lexerContext.previousToken = 0;
     clearTextBufferLexer(lexerContext);
     lexerContext.textbuffer = static_cast<char*>(calloc(buffer.length() + 1, sizeof(char)));
     lexerContext.datap = lexerContext.textbuffer;
@@ -1337,6 +1420,9 @@ setLexFile(LexerContext& lexerContext, FILE* fp)
     lexerContext.lexState = Initial;
     lexerContext.vcStackSize = 0;
     lexerContext.lineNumber = 0;
+    lexerContext.pendingNamedArgumentComma = false;
+    lexerContext.pendingCommaContext = 0;
+    lexerContext.previousToken = 0;
     size_t cpos = (size_t)st.st_size;
     clearTextBufferLexer(lexerContext);
     // Allocate enough for the text, an extra newline, and null

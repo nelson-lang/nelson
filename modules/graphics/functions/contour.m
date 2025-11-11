@@ -15,7 +15,7 @@ function varargout = contour(varargin)
   % contour(..., LineSpec)
   % M = contour(...)
   % [M, c] = contour(...)
-  inputArguments = varargin;
+  inputArguments = convertStringToCharArgs(varargin);
   if nargin == 0
     error(_('Wrong number of input arguments.'));
   end

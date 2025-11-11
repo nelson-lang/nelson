@@ -285,7 +285,7 @@ function [prominences, prominenceBaseY, leftBasePosX, rightBasePosX, leftBaseVal
       leftBasePosX(kk) = xVals(leftPos);
     else
       window = leftHigher:idx;
-      [mv, void] = min(signal(window));
+      [mv, ~] = min(signal(window));
       leftBaseValY(kk) = mv;
       leftBasePosX(kk) = interp1(signal(window), xVals(window), mv, 'linear');
     end
@@ -296,7 +296,7 @@ function [prominences, prominenceBaseY, leftBasePosX, rightBasePosX, leftBaseVal
       rightBasePosX(kk) = xVals(rightPos);
     else
       window = idx:rightHigher;
-      [mv,void] = min(signal(window));
+      [mv,~] = min(signal(window));
       rightBaseValY(kk) = mv;
       rightBasePosX(kk) = interp1(signal(window), xVals(window), mv, 'linear');
     end
@@ -378,7 +378,7 @@ function [peakIndices_out, prominences_out, prominenceBaseY_out, widthX_out, pea
   end
   peakLocs = xVals(peakIndices);
   peakAmplitudes = signal(peakIndices);
-  [void, ord] = sort(peakAmplitudes,'descend');
+  [~, ord] = sort(peakAmplitudes,'descend');
   toKeep = true(size(peakIndices));
   for ii = 1:numel(ord)
     if ~toKeep(ord(ii)), continue; end
@@ -400,7 +400,7 @@ function [Ypk, Xpk, Wpk, Ppk, peakIndices, widthX, widthY] = ...
   peakLocs = xVals(peakIndices);
   % apply sort
   if ~strcmp(params.SortStr,'none')
-    [void, sidx] = sort(peakAmplitudes, params.SortStr);
+    [~, sidx] = sort(peakAmplitudes, params.SortStr);
     peakAmplitudes = peakAmplitudes(sidx); peakLocs = peakLocs(sidx);
     widthX = widthX(sidx,:); prominences = prominences(sidx); peakWidths = peakWidths(sidx); peakIndices = peakIndices(sidx);
   end

@@ -101,6 +101,23 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
             profileLines = Profiler::getInstance()->info(sortOption);
 
         size_t nbElements = profileLines.size();
+        if (nbElements == 0) {
+            Dimensions dims;
+            dims[0] = 0;
+            dims[1] = 0;
+            stringVector fieldnames;
+            fieldnames.reserve(6);
+            fieldnames.push_back("FunctionName");
+            fieldnames.push_back("Filename");
+            fieldnames.push_back("LinePosition");
+            fieldnames.push_back("NumCalls");
+            fieldnames.push_back("TotalTime");
+            fieldnames.push_back("PerCall");
+
+            retval << ArrayOf::emptyStructConstructor(fieldnames, dims);
+            validOption = true;
+            return retval;
+        }
         ArrayOfVector FunctionName;
         ArrayOfVector Filename;
         ArrayOfVector LinePosition;

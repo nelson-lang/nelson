@@ -53,8 +53,22 @@ AnonymousMacroFunctionDef::AnonymousMacroFunctionDef(const std::string& anonymou
     this->isFunctionHandleOnly = false;
     this->anonymousContent = anonymousContent;
     this->arguments = arguments;
-    this->variableNames = variableNames;
-    this->variables = variables;
+
+    static const std::unordered_set<std::string> filteredNames = { "varargin", "varargout" };
+    stringVector filteredVariableNames;
+    std::vector<ArrayOf> filteredVariables;
+    filteredVariableNames.reserve(variableNames.size());
+    filteredVariables.reserve(variables.size());
+    for (size_t k = 0; k < variableNames.size(); ++k) {
+        const auto& varName = variableNames[k];
+        if (filteredNames.find(varName) == filteredNames.end()) {
+            filteredVariableNames.push_back(varName);
+            filteredVariables.push_back(variables[k]);
+        }
+    }
+
+    this->variableNames = std::move(filteredVariableNames);
+    this->variables = std::move(filteredVariables);
 }
 //=============================================================================
 AnonymousMacroFunctionDef::~AnonymousMacroFunctionDef()

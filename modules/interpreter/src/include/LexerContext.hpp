@@ -54,10 +54,13 @@ struct LexerContext
     int bracketStack[DEFAULT_BUFFER_SIZE_LEXER];
     int bracketStackSize;
     bool bracketIsDestructuring[DEFAULT_BUFFER_SIZE_LEXER];
+    bool bracketIsFunctionCall[DEFAULT_BUFFER_SIZE_LEXER];
     int vcStack[DEFAULT_BUFFER_SIZE_LEXER];
     int vcStackSize;
     int vcFlag;
     int placeholderCounter = 0;
+    bool pendingNamedArgumentComma = false;
+    int pendingCommaContext = 0;
     //=============================================================================
     /*
      * These variables capture the token information
