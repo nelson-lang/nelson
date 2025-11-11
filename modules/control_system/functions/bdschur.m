@@ -45,7 +45,7 @@ function varargout = bdschur(varargin)
   JOBX =  'U';
   SORT = 'S';
   PMAX = CONDMAX;
-  [U, void] = schur(A);
+  [U, ~] = schur(A);
   TOL = 0; % default lapack tolerance
   [A_OUT, X_OUT, NBLCKS, BLSIZE, WR, WI, INFO] = slicot_mb03rd(JOBX, SORT, CONDMAX, A, U, TOL);
   

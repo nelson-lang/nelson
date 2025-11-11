@@ -28,7 +28,7 @@ function varargout = damp(varargin)
   % sort
   sPoles = size(Poles);
   for k = 1:prod(sPoles(3:end))
-    [void, idx] = sort(Damping(:, k));
+    [~, idx] = sort(Damping(:, k));
     Damping(:, k) = Damping(idx, k);
     Poles(:, k) = Poles(idx, k);
     Frequency(:, k) = Frequency(idx, k);
