@@ -204,6 +204,12 @@
                     <td>Chebyshev Vandermonde-like matrix: <code
             >A(i,j)=T_{i-1}(x(j))</code>, useful for spectral interpolation and polynomial bases.</td>
                 </tr>
+                <tr>
+                    <td>lehmer</td>
+                    <td><code>A = gallery("lehmer", n)</code></td>
+                    <td
+          >lehmer matrix with entries i/j for i ≤ j; symmetric positive definite and ill-conditioned.</td>
+                </tr>
             </tbody>
         </table>
 

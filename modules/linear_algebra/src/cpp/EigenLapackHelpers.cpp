@@ -24,23 +24,49 @@ void
 doubleEigenDecomposition(int n, std::complex<double>* v, std::complex<double>* d, double* a,
     bool eigenvectors, bool balance)
 {
-    char BALANC;
-    if (balance) {
-        BALANC = 'B';
-    } else {
-        BALANC = 'N';
-    }
+    // Use the simpler LAPACK_dgeev when balancing is not requested (faster);
+    // fall back to LAPACK_dgeevx when balance==true to preserve old behavior.
     char JOBVL = 'N';
-    char JOBVR;
-    if (eigenvectors) {
-        JOBVR = 'V';
-    } else {
-        JOBVR = 'N';
-    }
-    char SENSE = 'N';
+    char JOBVR = eigenvectors ? 'V' : 'N';
     int N = n;
     double* Ain = a;
     int LDA = n;
+
+    if (!balance) {
+        double* WR = (double*)new_with_exception<double>(n, false);
+        double* WI = (double*)new_with_exception<double>(n, false);
+        double wkopt;
+        int LWORK = -1;
+        int INFO;
+        double* VL = nullptr;
+        int LDVL = 1;
+        auto* VR = (double*)reinterpret_cast<double*>(v);
+        int LDVR = n;
+
+        // workspace query
+        LAPACK_dgeev(
+            &JOBVL, &JOBVR, &N, Ain, &LDA, WR, WI, VL, &LDVL, VR, &LDVR, &wkopt, &LWORK, &INFO);
+
+        LWORK = (int)wkopt;
+        double* WORK = (double*)new_with_exception<double>(LWORK, false);
+
+        LAPACK_dgeev(
+            &JOBVL, &JOBVR, &N, Ain, &LDA, WR, WI, VL, &LDVL, VR, &LDVR, WORK, &LWORK, &INFO);
+
+        OMP_PARALLEL_FOR_LOOP(N)
+        for (int i = 0; i < N; i++) {
+            d[i].real(WR[i]);
+            d[i].imag(WI[i]);
+        }
+
+        delete[] WORK;
+        delete[] WR;
+        delete[] WI;
+        return;
+    }
+    // Keep original geevx behaviour when balancing is requested
+    char BALANC = 'B';
+    char SENSE = 'N';
     double* WR = (double*)new_with_exception<double>(n, false);
     double* WI = (double*)new_with_exception<double>(n, false);
     double* VL = nullptr;
@@ -79,23 +105,49 @@ void
 singleEigenDecomposition(int n, std::complex<float>* v, std::complex<float>* d, float* a,
     bool eigenvectors, bool balance)
 {
-    char BALANC;
-    if (balance) {
-        BALANC = 'B';
-    } else {
-        BALANC = 'N';
-    }
+    // Use LAPACK_sgeev when balancing is not requested (faster),
+    // otherwise preserve the original sgeevx path.
     char JOBVL = 'N';
-    char JOBVR;
-    if (eigenvectors) {
-        JOBVR = 'V';
-    } else {
-        JOBVR = 'N';
-    }
-    char SENSE = 'N';
+    char JOBVR = eigenvectors ? 'V' : 'N';
     int N = n;
     float* Ain = a;
     int LDA = n;
+
+    if (!balance) {
+        float* WR = (float*)new_with_exception<float>(n, false);
+        float* WI = (float*)new_with_exception<float>(n, false);
+        float wkopt;
+        int LWORK = -1;
+        int INFO;
+        float* VL = nullptr;
+        int LDVL = 1;
+        auto* VR = (float*)reinterpret_cast<float*>(v);
+        int LDVR = n;
+
+        // workspace query
+        LAPACK_sgeev(
+            &JOBVL, &JOBVR, &N, Ain, &LDA, WR, WI, VL, &LDVL, VR, &LDVR, &wkopt, &LWORK, &INFO);
+
+        LWORK = (int)wkopt;
+        float* WORK = (float*)new_with_exception<float>(LWORK, false);
+
+        LAPACK_sgeev(
+            &JOBVL, &JOBVR, &N, Ain, &LDA, WR, WI, VL, &LDVL, VR, &LDVR, WORK, &LWORK, &INFO);
+
+        OMP_PARALLEL_FOR_LOOP(N)
+        for (int i = 0; i < N; i++) {
+            d[i].real(WR[i]);
+            d[i].imag(WI[i]);
+        }
+
+        delete[] WORK;
+        delete[] WR;
+        delete[] WI;
+        return;
+    }
+    // original sgeevx path
+    char BALANC = 'B';
+    char SENSE = 'N';
     float* WR = (float*)new_with_exception<float>(n, false);
     float* WI = (float*)new_with_exception<float>(n, false);
     float* VL = nullptr;
@@ -223,28 +275,43 @@ void
 singleComplexEigenDecomposition(int n, std::complex<float>* v, std::complex<float>* d,
     std::complex<float>* a, bool eigenvectors, bool balance)
 {
-    char BALANC;
-    if (balance) {
-        BALANC = 'B';
-    } else {
-        BALANC = 'N';
-    }
+    // Use cgeev when balancing is not requested (faster),
+    // otherwise preserve original cgeevx behavior.
     char JOBVL = 'N';
-    char JOBVR;
-    if (eigenvectors) {
-        JOBVR = 'V';
-    } else {
-        JOBVR = 'N';
-    }
-    char SENSE = 'N';
+    char JOBVR = eigenvectors ? 'V' : 'N';
     int N = n;
     std::complex<float>* Ain = a;
     int LDA = n;
-    std::complex<float>* W = d;
     std::complex<float>* VL = nullptr;
     int LDVL = 1;
     std::complex<float>* VR = v;
     int LDVR = n;
+    std::complex<float>* W = d;
+
+    if (!balance) {
+        std::complex<float> wkopt;
+        int LWORK = -1;
+        int INFO;
+        float* RWORK = (float*)new_with_exception<float>(std::max(1, N), false); // added
+
+        // workspace query (RWORK must be provided for complex routines)
+        LAPACK_cgeev(
+            &JOBVL, &JOBVR, &N, Ain, &LDA, W, VL, &LDVL, VR, &LDVR, &wkopt, &LWORK, RWORK, &INFO);
+
+        LWORK = (int)wkopt.real();
+        std::complex<float>* WORK
+            = (std::complex<float>*)new_with_exception<std::complex<float>>(LWORK, false);
+
+        LAPACK_cgeev(
+            &JOBVL, &JOBVR, &N, Ain, &LDA, W, VL, &LDVL, VR, &LDVR, WORK, &LWORK, RWORK, &INFO);
+
+        delete[] WORK;
+        delete[] RWORK; // free RWORK
+        return;
+    }
+    // original cgeevx path
+    char BALANC = 'B';
+    char SENSE = 'N';
     int ILO;
     int IHI;
     float* SCALE = (float*)new_with_exception<float>(n, false);
@@ -256,13 +323,84 @@ singleComplexEigenDecomposition(int n, std::complex<float>* v, std::complex<floa
     int INFO;
     std::complex<float> WORKSZE[2];
     LWORK = -1;
-    LAPACK_cgeevx(&BALANC, &JOBVL, &JOBVR, &SENSE, &N, Ain, &LDA, W, VL, &LDVL, VR, &LDVR, &ILO,
+    LAPACK_cgeevx(&BALANC, &JOBVL, &JOBVR, &SENSE, &N, Ain, &LDA, d, VL, &LDVL, VR, &LDVR, &ILO,
         &IHI, SCALE, &ABNRM, RCONDE, RCONDV, WORKSZE, &LWORK, RWORK, &INFO);
     LWORK = (int)WORKSZE[0].real();
     std::complex<float>* WORK
         = (std::complex<float>*)new_with_exception<std::complex<float>>(LWORK, false);
-    LAPACK_cgeevx(&BALANC, &JOBVL, &JOBVR, &SENSE, &N, Ain, &LDA, W, VL, &LDVL, VR, &LDVR, &ILO,
+    LAPACK_cgeevx(&BALANC, &JOBVL, &JOBVR, &SENSE, &N, Ain, &LDA, d, VL, &LDVL, VR, &LDVR, &ILO,
         &IHI, SCALE, &ABNRM, RCONDE, RCONDV, WORK, &LWORK, RWORK, &INFO);
+    delete[] WORK;
+    delete[] SCALE;
+    delete[] RCONDE;
+    delete[] RCONDV;
+    delete[] RWORK;
+}
+//=============================================================================
+void
+doubleComplexEigenDecomposition(int n, std::complex<double>* v, std::complex<double>* d,
+    std::complex<double>* a, bool eigenvectors, bool balance)
+{
+    // Use zgeev when balancing is not requested (faster),
+    // otherwise preserve zgeevx behaviour.
+    char JOBVL = 'N';
+    char JOBVR = eigenvectors ? 'V' : 'N';
+    int N = n;
+    std::complex<double>* Ain = a;
+    int LDA = n;
+    std::complex<double>* VL = nullptr;
+    int LDVL = 1;
+    std::complex<double>* VR = v;
+    int LDVR = n;
+    std::complex<double>* W = d; // re-added missing declaration
+
+    if (!balance) {
+        int LWORK = -1;
+        int INFO;
+        double* RWORK = (double*)new_with_exception<double>(std::max(1, N), false); // added
+
+        // workspace query (RWORK must be provided for complex routines)
+        std::complex<double> wk;
+        LAPACK_zgeev(
+            &JOBVL, &JOBVR, &N, Ain, &LDA, W, VL, &LDVL, VR, &LDVR, &wk, &LWORK, RWORK, &INFO);
+
+        LWORK = (int)wk.real();
+        std::complex<double>* WORK
+            = (std::complex<double>*)new_with_exception<std::complex<double>>(LWORK, false);
+
+        LAPACK_zgeev(
+            &JOBVL, &JOBVR, &N, Ain, &LDA, W, VL, &LDVL, VR, &LDVR, WORK, &LWORK, RWORK, &INFO);
+
+        delete[] WORK;
+        delete[] RWORK; // free RWORK
+        return;
+    }
+    // original zgeevx path
+    char BALANC = 'B';
+    char SENSE = 'N';
+    int ILO;
+    int IHI;
+    double* SCALE = (double*)new_with_exception<double>(n, true);
+    double ABNRM;
+    double* RCONDE = (double*)new_with_exception<double>(n, true);
+    double* RCONDV = (double*)new_with_exception<double>(n, true);
+    int LWORK;
+    double* RWORK = (double*)new_with_exception<double>(2 * n, false);
+    int INFO;
+
+    std::complex<double> WORKSZE[2];
+
+    LWORK = -1;
+    LAPACK_zgeevx(&BALANC, &JOBVL, &JOBVR, &SENSE, &N, Ain, &LDA, W, VL, &LDVL, VR, &LDVR, &ILO,
+        &IHI, SCALE, &ABNRM, RCONDE, RCONDV, WORKSZE, &LWORK, RWORK, &INFO);
+
+    LWORK = (int)WORKSZE[0].real();
+    std::complex<double>* WORK
+        = (std::complex<double>*)new_with_exception<std::complex<double>>(LWORK, false);
+
+    LAPACK_zgeevx(&BALANC, &JOBVL, &JOBVR, &SENSE, &N, Ain, &LDA, W, VL, &LDVL, VR, &LDVR, &ILO,
+        &IHI, SCALE, &ABNRM, RCONDE, RCONDV, WORK, &LWORK, RWORK, &INFO);
+
     delete[] WORK;
     delete[] SCALE;
     delete[] RCONDE;
@@ -301,61 +439,5 @@ doubleComplexEigenDecompositionSymmetric(
     }
 }
 //=============================================================================
-void
-doubleComplexEigenDecomposition(int n, std::complex<double>* v, std::complex<double>* d,
-    std::complex<double>* a, bool eigenvectors, bool balance)
-{
-    char BALANC;
-    if (balance) {
-        BALANC = 'B';
-    } else {
-        BALANC = 'N';
-    }
-    char JOBVL = 'N';
-    char JOBVR;
-    if (eigenvectors) {
-        JOBVR = 'V';
-    } else {
-        JOBVR = 'N';
-    }
-    char SENSE = 'N';
-    int N = n;
-    std::complex<double>* Ain = a;
-    int LDA = n;
-    std::complex<double>* W = d;
-    std::complex<double>* VL = nullptr;
-    int LDVL = 1;
-    std::complex<double>* VR = v;
-    int LDVR = n;
-    int ILO;
-    int IHI;
-    double* SCALE = (double*)new_with_exception<double>(n, true);
-    double ABNRM;
-    double* RCONDE = (double*)new_with_exception<double>(n, true);
-    double* RCONDV = (double*)new_with_exception<double>(n, true);
-    int LWORK;
-    double* RWORK = (double*)new_with_exception<double>(2 * n, false);
-    int INFO;
-
-    std::complex<double> WORKSZE[2];
-
-    LWORK = -1;
-    LAPACK_zgeevx(&BALANC, &JOBVL, &JOBVR, &SENSE, &N, Ain, &LDA, W, VL, &LDVL, VR, &LDVR, &ILO,
-        &IHI, SCALE, &ABNRM, RCONDE, RCONDV, WORKSZE, &LWORK, RWORK, &INFO);
-
-    LWORK = (int)WORKSZE[0].real();
-    std::complex<double>* WORK
-        = (std::complex<double>*)new_with_exception<std::complex<double>>(LWORK, false);
-
-    LAPACK_zgeevx(&BALANC, &JOBVL, &JOBVR, &SENSE, &N, Ain, &LDA, W, VL, &LDVL, VR, &LDVR, &ILO,
-        &IHI, SCALE, &ABNRM, RCONDE, RCONDV, WORK, &LWORK, RWORK, &INFO);
-
-    delete[] WORK;
-    delete[] SCALE;
-    delete[] RCONDE;
-    delete[] RCONDV;
-    delete[] RWORK;
-}
-//=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

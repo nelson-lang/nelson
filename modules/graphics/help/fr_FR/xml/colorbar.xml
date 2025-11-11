@@ -8,6 +8,7 @@
     <syntax>
         <syntax_item>colorbar()</syntax_item>
         <syntax_item>colorbar('off')</syntax_item>
+        <syntax_item>colorbar(location)</syntax_item>
         <syntax_item>colorbar(..., propertyName, propertyValue)</syntax_item>
         <syntax_item>colorbar(target, ...)</syntax_item>
         <syntax_item>colorbar(target, 'off')</syntax_item>
@@ -32,6 +33,11 @@
         <param_description
       >supprime la barre de couleur associée aux axes courants.</param_description>
         </param_input_item>
+        <param_input_item>
+        <param_name>location</param_name>
+        <param_description
+      >spécifie la position de la barre de couleur: 'north','south','east','west', ...</param_description>
+        </param_input_item>
     </param_input>
     <param_output>
                 <param_output_item>
@@ -43,6 +49,11 @@
     <description>
         <p>
             <b>colorbar</b> ajoute une barre de couleur à un graphique.</p>
+            <p
+    >Elle peut être placée à différents emplacements autour des axes.</p>
+            <p
+    >Les emplacements pris en charge incluent : 'north','south','east','west',
+            'northoutside','southoutside','eastoutside','westoutside'.</p>
         </description>
         <used_function />
         <bibliography />
@@ -80,6 +91,29 @@ cb = colorbar(gca);]]></example_item_data>
         generate="true"
       />
             </example_item>
+          <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="false"
+      ><![CDATA[locations = { 'north';
+'south';
+'east';
+'west';
+'northoutside';
+'southoutside';
+'eastoutside';
+'westoutside'};
+f = figure();
+surf(peaks);
+colormap('jet');
+for k = 1 : length(locations)
+    colorbar(locations{k});
+    pause(1);
+end
+]]></example_item_data>
+            </example_item>
+  
         </examples>
         <see_also>
             <see_also_item>
@@ -90,6 +124,11 @@ cb = colorbar(gca);]]></example_item_data>
             <history_item>
                 <history_version>1.0.0</history_version>
                 <history_description>version initiale</history_description>
+            </history_item>
+            <history_item>
+                <history_version>1.15.0</history_version>
+                <history_description
+      >ajout du support du paramètre location</history_description>
             </history_item>
         </history>
         <authors>

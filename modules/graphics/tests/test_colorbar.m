@@ -23,3 +23,19 @@ f = figure();
 cba = colorbar();
 colorbar('off');
 %=============================================================================
+locations = { 'north';
+'south';
+'east';
+'west';
+'northoutside';
+'southoutside';
+'eastoutside';
+'westoutside'};
+for k = 1 : length(locations)
+    f = figure();
+    surf(peaks);
+    colormap('jet');
+    colorbar(locations{k});
+    title(['Location: ', locations{k}]);
+end
+%=============================================================================

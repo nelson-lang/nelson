@@ -18,7 +18,7 @@ function varargout = configuremsvc()
     return
   end
   try
-    vsjon = vswhere();
+    vsjson = vswhere();
     varargout{1} = true;
   catch
     e = lasterror();
@@ -26,10 +26,18 @@ function varargout = configuremsvc()
     varargout{2} = e.message;
     return
   end
+
+  if isempty(vsjson)
+    varargout{1} = false;
+    varargout{2} = _('No Visual Studio installation found.');
+    return
+  end
   
-  if startsWith(vsjon.installationVersion, '17.')
+  if startsWith(vsjson.installationVersion, '18.')
+    vsconfig = [modulepath('dynamic_link'), '/resources/msvc2026.json'];
+  elseif startsWith(vsjson.installationVersion, '17.')
     vsconfig = [modulepath('dynamic_link'), '/resources/msvc2022.json'];
-  elseif startsWith(vsjon.installationVersion, '16.')
+  elseif startsWith(vsjson.installationVersion, '16.')
     vsconfig = [modulepath('dynamic_link'), '/resources/msvc2019.json'];
   else
     vsconfig = [modulepath('dynamic_link'), '/resources/msvc2017.json'];
@@ -44,7 +52,7 @@ function varargout = configuremsvc()
   
   vsinfo_batch = [modulepath('dynamic_link'), '/resources/vcinfo.bat'];
   arch = computer('arch');
-  vcvarsbatpath = [vsjon.installationPath,'/VC/Auxiliary/Build'];
+  vcvarsbatpath = [vsjson.installationPath,'/VC/Auxiliary/Build'];
   if strcmp(arch, 'win64')
     vcvarsbat = 'vcvars64.bat';
   else

@@ -273,6 +273,20 @@ function varargout = gallery(varargin)
         error(_('Too many output arguments for chebvand matrix.'));
       end
       [varargout{1:nargout('chebvand')}] = chebvand(numRows, pointsSeq, className);
+    case 'lehmer'
+      if (nargin() < 2 || nargin() > 3)
+        error(_('lehmer matrix requires between 1 and 2 additional arguments.'));
+      end
+      nSize = varargin{2};
+      if nargin() == 3
+        className = varargin{3};
+      else
+        className = 'double';
+      end
+      if nargout() > 1
+        error(_('Too many output arguments for lehmer matrix.'));
+      end
+      [varargout{1:1}] = lehmer(nSize, className);
     otherwise
       msg = sprintf(_('Unknown matrix name "%s".'), matname);
       error(msg);

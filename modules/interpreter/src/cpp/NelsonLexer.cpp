@@ -262,6 +262,44 @@ discardChar(LexerContext& lexerContext)
     lexerContext.datap++;
 }
 //=============================================================================
+static const char*
+skipContinuationTrivia(const char* ptr)
+{
+    const char* current = ptr;
+    if (strncmp(current, "...", 3) != 0) {
+        return current;
+    }
+    current += 3;
+    for (;;) {
+        while (*current == ' ' || *current == '\t') {
+            ++current;
+        }
+        if (*current == '%') {
+            while (*current != '\0' && *current != '\n' && *current != '\r') {
+                ++current;
+            }
+            continue;
+        }
+        if (*current == '\r') {
+            ++current;
+            if (*current == '\n') {
+                ++current;
+            }
+            continue;
+        }
+        if (*current == '\n') {
+            ++current;
+            continue;
+        }
+        if (strncmp(current, "...", 3) == 0) {
+            current += 3;
+            continue;
+        }
+        break;
+    }
+    return current;
+}
+//=============================================================================
 inline int
 testCharacterArrayTerm(LexerContext& lexerContext)
 {
@@ -960,18 +998,31 @@ yylexScreen(LexerContext& lexerContext)
             || (lexerContext.previousToken == '}') || (lexerContext.previousToken == IDENT)
             || (lexerContext.previousToken == MAGICEND)) {
             /* Test if next character indicates the start of an expression */
-            if ((currentChar(lexerContext) == '(') || (currentChar(lexerContext) == '+')
-                || (currentChar(lexerContext) == '-') || (currentChar(lexerContext) == '~')
-                || (currentChar(lexerContext) == '[') || (currentChar(lexerContext) == '{')
-                || (currentChar(lexerContext) == '\'')
-                || ((isalnum(currentChar(lexerContext))) != 0)
-                || ((currentChar(lexerContext) == '.') && ((_isDigit(lexerContext.datap[1])) != 0))
-                || (strncmp(lexerContext.datap, "...", 3) == 0)) {
+            const char* nextPtr = lexerContext.datap;
+            bool hasContinuation = false;
+            if (strncmp(nextPtr, "...", 3) == 0) {
+                hasContinuation = true;
+                nextPtr = skipContinuationTrivia(nextPtr);
+            }
+            char nextChar = *nextPtr;
+            bool nextStartsExpression = false;
+            if ((nextChar != '\0') && (nextChar != ']') && (nextChar != '}') && (nextChar != ')')
+                && (nextChar != ';') && (nextChar != ',')) {
+                if ((nextChar == '(') || (nextChar == '+') || (nextChar == '-') || (nextChar == '~')
+                    || (nextChar == '[') || (nextChar == '{') || (nextChar == '\'')
+                    || ((isalnum(nextChar)) != 0)
+                    || ((nextChar == '.') && ((_isDigit(nextPtr[1])) != 0))) {
+                    nextStartsExpression = true;
+                } else if (!hasContinuation && (strncmp(nextPtr, "...", 3) == 0)) {
+                    nextStartsExpression = true;
+                }
+            }
+            if (nextStartsExpression) {
                 /*
                    OK - now we have to decide if the "+/-" are infix or prefix operators...
                    In fact, this decision alone is the reason for this whole lexer.
                 */
-                if ((currentChar(lexerContext) == '+') || (currentChar(lexerContext) == '-')) {
+                if ((nextChar == '+') || (nextChar == '-')) {
                     /* If we are inside a parenthetical, we never insert virtual commas */
                     if ((lexerContext.bracketStackSize == 0)
                         || (lexerContext.bracketStack[lexerContext.bracketStackSize - 1] != '(')) {
@@ -979,7 +1030,7 @@ yylexScreen(LexerContext& lexerContext)
                           OK - we are not inside a parenthetical.  Insert a virtual comma
                           if the next character is anything other than a whitespace
                         */
-                        if ((lexerContext.datap[1] != ' ') && (lexerContext.datap[1] != '\t')) {
+                        if ((nextPtr[1] != ' ') && (nextPtr[1] != '\t')) {
                             lexerContext.tokenType = ',';
                         }
                     }
@@ -987,7 +1038,9 @@ yylexScreen(LexerContext& lexerContext)
                     lexerContext.tokenType = ',';
                 }
             }
-            if (currentChar(lexerContext) == '"' && lexerContext.previousToken == STRING) {
+            if (((!hasContinuation && currentChar(lexerContext) == '"')
+                    || (hasContinuation && nextChar == '"'))
+                && lexerContext.previousToken == STRING) {
                 lexerContext.tokenType = ',';
             }
         }

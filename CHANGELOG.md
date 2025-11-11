@@ -24,6 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `imresize`: Resize images by scale or to a specified output size, supporting both upscaling and downscaling.
 
+- `clabel`: Contour labeling.
+
+- `colormap`: added support for the following locations `north`, `south`, `east`, `west`, `northoutside`, `southoutside`, `eastoutside`, and `westoutside`.
+
 - Variable Editor: Redesigned for improved usability and performance. Accessible via `openvar` or the GUI, it supports structured variables, tables, arrays, and nested data. Features include:
 
   - Dynamic table view.
@@ -45,7 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `pascal`: Pascal matrix.
 
-- `gallery`: Creates predefined matrices commonly used for testing algorithms (`gallery3`, `gallery5`, `circul`, `grcar`, `minij`, `dramadah`, `house`, `binomial`, `cauchy`, `ris`, `chebspec`, `wilk`, `sampling`, `ipjfact`, `moler`, `lotkin`, `chebvand`).
+- `gallery`: Creates predefined matrices commonly used for testing algorithms (`gallery3`, `gallery5`, `circul`, `grcar`, `minij`, `dramadah`, `house`, `binomial`, `cauchy`, `ris`, `chebspec`, `wilk`, `sampling`, `ipjfact`, `moler`, `lotkin`, `chebvand`, `lehmer`).
 
 - `crc32` builtin: Compute CRC32 checksum of a file or string.
 
@@ -65,7 +69,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Python 3.14 support.
 
+- Visual studio 2026 support (release).
+
 ### Changed
+
+- `svd` has been optimized for multithreading and large matrices.
 
 - Help framework reworked for improved performance and usability:
 
@@ -126,6 +134,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#1462](http://github.com/nelson-lang/nelson/issues/1462): fwrite without specifying precision did not work as expected.
 
 - `eye` without input argument managed.
+
+- [#2](http://github.com/nelson-lang/nelson/issues/2): Sparse type: insertion & extraction extended.
 
 ## 1.14.0 - (2025-05-30)
 

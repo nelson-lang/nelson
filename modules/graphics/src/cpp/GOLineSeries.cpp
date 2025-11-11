@@ -88,42 +88,70 @@ GOLineSeries::setupDefaults()
     setStringDefault(GO_TYPE_PROPERTY_NAME_STR, getType());
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_X_DATA_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
-    setTwoVectorDefault(GO_X_DATA_PROPERTY_NAME_STR, 0, 1);
-    setTwoVectorDefault(GO_Y_DATA_PROPERTY_NAME_STR, 0, 1);
     setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
     setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+
+    /*
+    GO_X_DATA_PROPERTY_NAME_STR, GO_Y_DATA_PROPERTY_NAME_STR, GO_Z_DATA_PROPERTY_NAME_STR
+    voluntary not initialized (empty is the default here)
+    */
 }
 //=============================================================================
 void
 GOLineSeries::updateState()
 {
-    if (hasChanged(GO_X_DATA_PROPERTY_NAME_STR) || hasChanged(GO_Y_DATA_PROPERTY_NAME_STR)
-        || hasChanged(GO_Z_DATA_PROPERTY_NAME_STR)) {
+    bool xDataChanged = hasChanged(GO_X_DATA_PROPERTY_NAME_STR);
+    bool yDataChanged = hasChanged(GO_Y_DATA_PROPERTY_NAME_STR);
+    bool zDataChanged = hasChanged(GO_Z_DATA_PROPERTY_NAME_STR);
+
+    if (xDataChanged || yDataChanged || zDataChanged) {
         limitsDirty = true;
     }
+
+    // Fetch current vectors (copies)
     std::vector<double> xs(findVectorDoubleProperty(GO_X_DATA_PROPERTY_NAME_STR));
     std::vector<double> ys(findVectorDoubleProperty(GO_Y_DATA_PROPERTY_NAME_STR));
     std::vector<double> zs(findVectorDoubleProperty(GO_Z_DATA_PROPERTY_NAME_STR));
+
+    // If X is in auto mode, generate X = 1..N only when we have Y values.
     if (isAuto(GO_X_DATA_MODE_PROPERTY_NAME_STR)) {
-        xs.clear();
-        xs.resize(ys.size());
-        OMP_PARALLEL_FOR_LOOP(ys.size())
-        for (ompIndexType i = 0; i < (ompIndexType)ys.size(); i++) {
-            xs[i] = (i + 1.0);
+        if (!ys.empty()) {
+            // resize and fill xs to match ys length
+            xs.clear();
+            xs.resize(ys.size());
+            OMP_PARALLEL_FOR_LOOP(ys.size())
+            for (ompIndexType i = 0; i < (ompIndexType)ys.size(); ++i) {
+                xs[i] = (static_cast<double>(i) + 1.0);
+            }
+        } else {
+            // No Y values -> ensure xs is empty
+            xs.clear();
         }
     }
-    if (zs.size() == 0) {
-        zs.resize(ys.size());
-        OMP_PARALLEL_FOR_LOOP(ys.size())
-        for (ompIndexType i = 0; i < (ompIndexType)ys.size(); i++) {
-            zs[i] = 0.0;
-        }
+
+    // Determine if Z was originally empty
+    bool zsEmpty = zs.empty();
+
+    // Update X property only when needed:
+    // - explicit X change, or
+    // - X is auto (because it depends on Y), or
+    // - Y changed while X is auto (covered by isAuto above but keep condition explicit)
+    if (xDataChanged || isAuto(GO_X_DATA_MODE_PROPERTY_NAME_STR) || yDataChanged) {
+        GOVectorProperty* sp
+            = static_cast<GOVectorProperty*>(findProperty(GO_X_DATA_PROPERTY_NAME_STR));
+        sp->data(xs);
     }
-    GOVectorProperty* sp
-        = static_cast<GOVectorProperty*>(findProperty(GO_X_DATA_PROPERTY_NAME_STR));
-    sp->data(xs);
-    sp = static_cast<GOVectorProperty*>(findProperty(GO_Z_DATA_PROPERTY_NAME_STR));
-    sp->data(zs);
+
+    // Update Z property:
+    // - if Z was explicitly changed (including being cleared), update to the fetched value
+    // (possibly empty)
+    // - otherwise, preserve previous Z if it was empty (original behavior), but if zs already
+    // contains values keep them
+    if (zDataChanged || !zsEmpty) {
+        GOVectorProperty* spz
+            = static_cast<GOVectorProperty*>(findProperty(GO_Z_DATA_PROPERTY_NAME_STR));
+        spz->data(zs);
+    }
 }
 //=============================================================================
 void
@@ -137,6 +165,13 @@ GOLineSeries::paintMe(RenderInterface& gc)
     std::vector<double> xs(findVectorDoubleProperty(GO_X_DATA_PROPERTY_NAME_STR));
     std::vector<double> ys(findVectorDoubleProperty(GO_Y_DATA_PROPERTY_NAME_STR));
     std::vector<double> zs(findVectorDoubleProperty(GO_Z_DATA_PROPERTY_NAME_STR));
+    if (zs.size() == 0) {
+        zs.resize(ys.size());
+        OMP_PARALLEL_FOR_LOOP(ys.size())
+        for (ompIndexType i = 0; i < (ompIndexType)ys.size(); i++) {
+            zs[i] = 0.0;
+        }
+    }
     if (!((xs.size() == ys.size()) && (ys.size() == zs.size()))) {
         return;
     }
@@ -208,6 +243,13 @@ GOLineSeries::getLimits()
     std::vector<double> xs(findVectorDoubleProperty(GO_X_DATA_PROPERTY_NAME_STR));
     std::vector<double> ys(findVectorDoubleProperty(GO_Y_DATA_PROPERTY_NAME_STR));
     std::vector<double> zs(findVectorDoubleProperty(GO_Z_DATA_PROPERTY_NAME_STR));
+    if (zs.size() == 0) {
+        zs.resize(ys.size());
+        OMP_PARALLEL_FOR_LOOP(ys.size())
+        for (ompIndexType i = 0; i < (ompIndexType)ys.size(); i++) {
+            zs[i] = 0.0;
+        }
+    }
     limits.resize(0);
     limits.reserve(12);
     limits.push_back(findVectorMin(xs));
