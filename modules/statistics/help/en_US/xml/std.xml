@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+    <copyright>SAME AS NELSON SOFTWARE</copyright>
+    <language>en_US</language>
+    <keyword>std</keyword>
+    <short_description>Standard deviation</short_description>
+    <syntax>
+        <syntax_item>S = std(M)</syntax_item>
+    </syntax>
+    <param_input>
+        <param_input_item>
+            <param_name>M</param_name>
+            <param_description>a vector or matrix</param_description>
+        </param_input_item>
+    </param_input>
+    <param_output>
+        <param_output_item>
+            <param_name>S</param_name>
+            <param_description>Standard deviation of M.</param_description>
+        </param_output_item>
+    </param_output>
+    <description>
+        <p>
+            <b
+      >S = std(M)</b> returns the standard deviation of the elements of M along the first array dimension whose size does not equal 1.</p>
+        </description>
+        <used_function />
+        <bibliography />
+        <examples>
+            <example_item>
+                <example_item_type>nelson</example_item_type>
+                <example_item_description />
+                <example_item_data
+        runnable="cli"
+      ><![CDATA[M = [4 -7 3; 1 4 -2; 10 7 9];
+S = std(M)]]></example_item_data>
+            </example_item>
+        </examples>
+        <see_also>
+            <see_also_item>
+                <link linkend="${statistics}var">var</link>
+            </see_also_item>
+            <see_also_item>
+                <link linkend="${statistics}mean">mean</link>
+            </see_also_item>
+        </see_also>
+        <history>
+            <history_item>
+                <history_version>1.15.0</history_version>
+                <history_description>initial version</history_description>
+            </history_item>
+        </history>
+        <authors>
+            <author_item>Allan CORNET</author_item>
+        </authors>
+    </xmldoc>
