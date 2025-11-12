@@ -15,7 +15,7 @@ function varargout = surface(varargin)
   % surface(ax, ...) 
   nargoutchk(0, 1);
   
-  inputArguments = varargin;
+  inputArguments = convertStringToCharArgs(varargin);
   nbInputArguments = nargin;
   if (nbInputArguments >= 2)
     if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))

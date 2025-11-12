@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = plot3(varargin)
-  inputArguments = varargin;
+  inputArguments = convertStringToCharArgs(varargin);
   nbInputArguments = nargin;
   
   if (nbInputArguments >= 2)

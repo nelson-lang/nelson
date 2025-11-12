@@ -15,7 +15,7 @@ function varargout = patch(varargin)
   
   nargoutchk(0, 1);
   
-  args = parsePatchArguments(varargin);
+  args = parsePatchArguments(convertStringToCharArgs(varargin));
   
   h = __patch__(args{:});
   

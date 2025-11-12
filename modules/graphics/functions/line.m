@@ -9,7 +9,7 @@
 %=============================================================================
 function varargout = line(varargin)
   nargoutchk(0, 1);
-  inputArguments = varargin;
+  inputArguments = convertStringToCharArgs(varargin);
   if (nargin == 0)
     ax = gca();
     handle = line(ax, [0 1], [0 1]);

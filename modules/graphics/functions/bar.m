@@ -30,7 +30,7 @@ function [parent, X, Y, width, color, otherProperties] = parseArguments(inputArg
   if (nbInputArguments >= 1)
     if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
       parent = inputArguments{1}(1);
-      inputArguments = inputArguments(2:end);
+      inputArguments = convertStringToCharArgs(inputArguments(2:end));
       nbInputArguments = nbInputArguments - 1;
     else
       parent = newplot();

@@ -7,149 +7,69 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.15.0 - (UNRELEASED)
 
+Starting with v1.15, Nelson for Windows is officially signed with a Certum-issued code-signing certificate.
+This is a major security milestone, ensuring the authenticity and integrity of Nelson’s Windows releases.
+
+Nelson remains a non-profit, community-driven project.
+The certificate represents a significant cost for a volunteer effort - any donation to help cover it is deeply appreciated.
+
 ### Added
 
-- Ignore function outputs: `[~, V, ~] = svd(A)` (compatible syntax).
-
-- Enhanced random number generation engine with new algorithms: `simdTwister`, `combRecursive`, `philox`, and `threefry`.
-
-- `randi`: Generate uniformly distributed random integers.
-
-- New functions for sparse matrix generation:
-
-  - `sprand`: Generate sparse matrices with uniformly distributed random values.
-  - `sprandn`: Generate sparse matrices with normally distributed random values.
-
-- `mink`: k smallest elements of an array.
-
-- `maxk`: k largest elements of an array.
-
-- `subspace`: Measure of distance (angle) between two subspaces spanned by columns of matrices.
-
-- `std`: Standard deviation.
-
-- `findpeaks`: Find local maxima.
-
-- `downsample`: Downsample a signal by an integer factor.
-
-- Search Text in Console and Text Editor.
-
-- Type support: Expanded support for missing types, increasing compatibility across functions and data structures.
-
-- `imresize`: Resize images by scale or to a specified output size, supporting both upscaling and downscaling.
-
-- `clabel`: Contour labeling.
-
-- `colormap`: added support for the following locations `north`, `south`, `east`, `west`, `northoutside`, `southoutside`, `eastoutside`, and `westoutside`.
-
-- Variable Editor: Redesigned for improved usability and performance. Accessible via `openvar` or the GUI, it supports structured variables, tables, arrays, and nested data. Features include:
-
-  - Dynamic table view.
-  - Real-time updates from the execution context.
-  - Enhanced performance for large datasets.
-  - Copy-paste compatibility with Excel, LibreOffice, and OpenOffice.
-
-- Continuation prompt: Context-aware prompts to enhance interactive command workflows.
-
-- Expanded type support for missing types, increasing compatibility across functions and data structures.
-
-- `missing` function: Create missing values for arrays and tables, improving data handling and interoperability.
-
-- `renameStructField`: Rename fields in structures, simplifying data manipulation and refactoring.
-
-- `jsondecode(filename, '-file')`: Added `-file` argument for direct reading and decoding of JSON files from disk.
-
-- `tdigest`: Introduced t-digest algorithm for accurate quantile estimation with configurable compression parameters.
-
-- `pascal`: Pascal matrix.
-
-- `gallery`: Creates predefined matrices commonly used for testing algorithms (`gallery3`, `gallery5`, `circul`, `grcar`, `minij`, `dramadah`, `house`, `binomial`, `cauchy`, `ris`, `chebspec`, `wilk`, `sampling`, `ipjfact`, `moler`, `lotkin`, `chebvand`, `lehmer`).
-
-- `crc32` builtin: Compute CRC32 checksum of a file or string.
-
-- `markdown`: Added option to select output format (`secure` or `advanced`).
-
-- `fwrite`: return also bytes count as second output argument.
-
-- `loadenv`: Load environment variables defined in .env or regular text files.
-
-- `help`: Help for functions in Command Window.
-
-- `consolebox`: Displays or hides the Windows terminal associated with the Nelson session.
-
-- macOS Tahoe 26: CI setup and platform support.
-
-- Fedora 43 support.
-
-- Python 3.14 support.
-
-- Visual studio 2026 support (release).
+- Pair Name/Value argument syntax for plotting (e.g. `plot(x, y, '--rs', LineWidth=2, MarkerEdgeColor='k')`).
+- Support for ignored outputs in assignments (e.g. `[~, V, ~] = svd(A)`).
+- New random engines: `simdTwister`, `combRecursive`, `philox`, `threefry`.
+- `randi`: uniform random integers.
+- `sprand`, `sprandn`: sparse random matrices (uniform and normal).
+- `mink`, `maxk`: k smallest / largest elements.
+- `subspace`: angle/distance between column spaces.
+- `std`: standard deviation.
+- `findpeaks`: local maxima detection.
+- `downsample`: integer-factor resampling.
+- `imresize`: image resizing (scale or target size).
+- `clabel`: contour labeling.
+- Extended colormap placement locations: `north`, `south`, `east`, `west` and their outside variants.
+- Variable Editor: redesigned UI with improved performance, structured/table/array support and copy-paste compatibility with common spreadsheet apps.
+- Continuation prompt: context-aware interactive prompts.
+- `missing`: create missing values for arrays and tables.
+- `renameStructField`: rename structure fields.
+- `convertStringToCharArgs`: convert string/cell-of-strings to char-args.
+- `jsondecode(..., '-file')`: decode JSON directly from a file.
+- `tdigest`: t-digest quantile estimation.
+- `pascal` and `gallery` helper matrices.
+- `crc32` builtin: compute CRC32 of file/string.
+- `markdown`: output mode option (`secure` | `advanced`).
+- `fwrite`: also return written byte count as a second output.
+- `loadenv`: load environment variables from .env or text files.
+- `help`: function help available in Command Window.
+- `consolebox`: show/hide Windows terminal for Nelson session.
+- CI / platform additions: macOS Tahoe 26, Fedora 43, Python 3.14, Visual Studio 2026 support.
 
 ### Changed
 
-- `svd` has been optimized for multithreading and large matrices.
-
-- Help framework reworked for improved performance and usability:
-
-  - Multithreaded builds for faster performance.
-  - Enhanced search capabilities with extended functionality.
-  - Improved maintainability using Extensible Stylesheet Language Transformations (XSLT).
-  - Unified stylesheet for consistent appearance online and offline.
-  - Removed internal usage of Qt help support.
-  - Dark theme.
-  - Added French language support for Help.
-  - Introduced support for LaTeX formulas.
-  - Replaced `http://` links with `https://` for secure connections.
-  - Removed the `help_browser` module.
-
-- `jsondecode`: Integrated [simdjson](https://simdjson.org/) for significantly improved performance and efficiency.
-
-- `fileread`: Enhanced performance for reading large files, reducing memory usage and increasing speed.
-
-- `fwrite`: returns the number of characters written for character data.
-
-- i18nExtractor: Reworked for greater speed and modernized codebase, improving internationalization extraction reliability.
-
-- Browser variable: Refactored for improved usability, reliability, and consistency in variable inspection.
-
-- Third-party libraries on Windows: Updated support for HDF5, zlib, and matio, improving compatibility and stability.
-
-- Qt: Upgraded to version 6.10.0 on Windows x64, providing better UI performance and compatibility with modern systems.
-
-- Benchmarks: Updated `bench_jsonencode.json` to include larger datasets for more robust performance testing.
-
-- `xmldocchecker`: Improved with XSD schema validation for XML files.
-
-- [#1458](https://github.com/nelson-lang/nelson/issues/1458): Added support for Eigen 5.0.0 if detected.
-
-- GitHub CI: Replaced MacOS Ventura with MacOS 15 Intel ([#1457](https://github.com/nelson-lang/nelson/issues/1457)).
-
-- Markdown renderer: Switched to the cmark library.
-
-- External packages:
-
-  - Installing a Nelson external package now switches to local embedded help.
-  - External packages must be rebuilt with this version to use the new help format.
-
-- Removed several dependencies on Boost to reduce build complexity and improve portability.
-
-- Private functions are no longer shown in autocompletion.
-
-- [#1465](https://github.com/nelson-lang/nelson/issues/1465): Rename tests files to bug_github_issue_XXX
+- `svd`: optimized for multithreading and large matrices.
+- Help framework: reworked for performance and maintainability (multithreaded builds, improved search, unified stylesheet, XSLT, LaTeX formula support, French translations, removed Qt help dependency, secure links).
+- `jsondecode`: integrated [simdjson](https://simdjson.org/) for faster parsing.
+- `fileread`: improved performance for large files.
+- `fwrite`: returns character count for character data.
+- `i18nExtractor`, browser variable and other internals: refactored for speed and reliability.
+- Third-party library updates on Windows (HDF5, zlib, matio) and Qt upgraded to 6.10.0 (Win x64).
+- Benchmarks and `xmldocchecker`: updated/improved.
+- External packages: installing a package switches to local embedded help; packages must be rebuilt for the new help format.
+- Removed several Boost dependencies to simplify builds.
+- Private functions no longer appear in autocompletion.
+- GitHub CI: MacOS Ventura replaced by MacOS 15 Intel.
+- Markdown renderer switched to cmark.
+- [#1458](https://github.com/nelson-lang/nelson/issues/1458) Optional support for Eigen 5.0.0 when detected.
+- [#1465](https://github.com/nelson-lang/nelson/issues/1465) Test file renaming to bug_github_issue_XXX.
 
 ### Fixed
 
-- `ans` variable: Ensured `ans` is only created for expressions, preventing unintended variable creation in the workspace.
-
-- `jsondecode`: Corrected parsing of arrays containing empty arrays, improving reliability and correctness.
-
-- Julia engine works also with Julia 1.12.0
-
-- [#1462](http://github.com/nelson-lang/nelson/issues/1462): fwrite without specifying precision did not work as expected.
-
-- `eye` without input argument managed.
-
-- [#2](http://github.com/nelson-lang/nelson/issues/2): Sparse type: insertion & extraction extended.
+- `ans` variable: created only for expressions.
+- `jsondecode`: fixed parsing of arrays that contain empty arrays.
+- `fwrite`: fixed behavior when precision is unspecified.
+- `eye`: handled no-argument call correctly.
+- [#2](https://github.com/nelson-lang/nelson/issues/2) Sparse type insertion & extraction extended and corrected.
+- Julia engine: compatibility with Julia 1.12.0
 
 ## 1.14.0 - (2025-05-30)
 

@@ -105,7 +105,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -126,7 +127,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -151,7 +153,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -177,7 +180,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -187,6 +191,7 @@
     <ClCompile Include="..\cpp\containsBuiltin.cpp" />
     <ClCompile Include="..\cpp\convertCharsToStringsBuiltin.cpp" />
     <ClCompile Include="..\cpp\convertStringsToCharsBuiltin.cpp" />
+    <ClCompile Include="..\cpp\convertStringToCharArgsBuiltin.cpp" />
     <ClCompile Include="..\cpp\countBuiltin.cpp" />
     <ClCompile Include="..\cpp\deblankBuiltin.cpp" />
     <ClCompile Include="..\cpp\endsWithBuiltin.cpp" />
@@ -251,6 +256,7 @@
     <ClInclude Include="..\include\containsBuiltin.hpp" />
     <ClInclude Include="..\include\convertCharsToStringsBuiltin.hpp" />
     <ClInclude Include="..\include\convertStringsToCharsBuiltin.hpp" />
+    <ClInclude Include="..\include\convertStringToCharArgsBuiltin.hpp" />
     <ClInclude Include="..\include\countBuiltin.hpp" />
     <ClInclude Include="..\include\deblankBuiltin.hpp" />
     <ClInclude Include="..\include\endsWithBuiltin.hpp" />

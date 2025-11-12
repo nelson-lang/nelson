@@ -36,6 +36,7 @@
 #include "deblankBuiltin.hpp"
 #include "convertStringsToCharsBuiltin.hpp"
 #include "convertCharsToStringsBuiltin.hpp"
+#include "convertStringToCharArgsBuiltin.hpp"
 #include "blanksBuiltin.hpp"
 #include "matchesBuiltin.hpp"
 #include "strcatBuiltin.hpp"
@@ -81,6 +82,8 @@ static const nlsGateway gateway[] = {
         -1 },
     { "convertCharsToStrings", (ptrBuiltin)Nelson::StringGateway::convertCharsToStringsBuiltin, -1,
         -1 },
+    { "convertStringToCharArgs", (ptrBuiltin)Nelson::StringGateway::convertStringToCharArgsBuiltin,
+        1, 1 },
     { "blanks", (ptrBuiltin)Nelson::StringGateway::blanksBuiltin, 1, 1 },
     { "strcat", (ptrBuiltin)Nelson::StringGateway::strcatBuiltin, 1, -1 },
     { "append", (ptrBuiltin)Nelson::StringGateway::appendBuiltin, 1, -1 },

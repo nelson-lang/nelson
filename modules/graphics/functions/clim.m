@@ -8,6 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = clim(varargin)
+  varargin = convertStringToCharArgs(varargin);
   if ((nargin > 0)  && isscalar(varargin{1}) && isgraphics(varargin{1}))
     handle = varargin{1};
     varargin(1) = [];

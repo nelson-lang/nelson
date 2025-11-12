@@ -9,6 +9,7 @@
 %=============================================================================
 function varargout = colorbar(varargin)
   % TO DO: (later) a dedicated graphics object.
+  varargin = convertStringToCharArgs(varargin);
   nargoutchk(0, 1);
   width = 0.1; % relative thickness of colorbar (width for vertical, height for horizontal)
   inputArguments = varargin;

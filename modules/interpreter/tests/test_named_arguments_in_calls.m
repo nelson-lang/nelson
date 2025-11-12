@@ -7,22 +7,36 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--SEQUENTIAL TEST REQUIRED-->
+captureArgs = @(varargin) varargin;
 %=============================================================================
-clear('all')
-[u1, s1] = memory();
+A = captureArgs(B = 1);
+assert_isequal(A{1}, "B");
+assert_isequal(A{2}, 1);
 %=============================================================================
-addpath([modulepath('stream_manager', 'tests'), '/loadsavebin']);
-for i=1:50000
-  typeofbin(201);
-end
+args = captureArgs(   B   =    1   );
+assert_isequal(args{1}, "B");
+assert_isequal(args{2}, 1);
 %=============================================================================
-sleep(5);
+args = captureArgs(B = 1, C = 2);
+assert_isequal(args{1}, "B");
+assert_isequal(args{2}, 1);
+assert_isequal(args{3}, "C");
+assert_isequal(args{4}, 2);
 %=============================================================================
-% it is not a good practice to compare memory because mac, linux, win have not same behavior. 
+args = captureArgs(42, D = 10);
+assert_isequal(args{1}, 42);
+assert_isequal(args{2}, "D");
+assert_isequal(args{3}, 10);
 %=============================================================================
-[u2, s2] = memory();
-r = u2.MemUsedNelson - u1.MemUsedNelson;
-disp(r)
-assert_istrue(r < 6300000)
+nested = captureArgs(captureArgs(C = 3));
+assert_isequal(nested{1}{1}, "C");
+assert_isequal(nested{1}{2}, 3);
+%=============================================================================
+B = 5;
+logicArgs = captureArgs(B == 5);
+assert_istrue(logicArgs{1});
+%=============================================================================
+nested = captureArgs(captureArgs(C = 3*2));
+assert_isequal(nested{1}{1}, "C");
+assert_isequal(nested{1}{2}, 6);
 %=============================================================================

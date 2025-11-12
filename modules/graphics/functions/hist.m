@@ -12,7 +12,7 @@ function varargout = hist(varargin)
   narginchk(1, 100);
   nargoutchk(0, 2);
   
-  inputArguments = varargin;
+  inputArguments = convertStringToCharArgs(varargin);
   nbInputArguments = length(inputArguments);
   if (nargout == 0)
     if (nbInputArguments >= 1)

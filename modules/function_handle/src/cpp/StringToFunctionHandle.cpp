@@ -189,10 +189,30 @@ createFunctionHandleAnonymous(const std::string& content, const stringVector& ar
     stringVector variableNames;
     std::vector<ArrayOf> variables;
     getVariablesFromCurrentScope(eval, variableNames, variables);
+    std::vector<ArrayOf> filteredVariables;
+
+    stringVector filteredVariableNames;
+    static const stringVector filter = { "varargin", "varargout" };
+
+    for (size_t k = 0; k < variableNames.size(); ++k) {
+        std::string varName = variableNames[k];
+        bool isFiltered = false;
+        for (const auto& filteredName : filter) {
+            if (varName == filteredName) {
+                isFiltered = true;
+                break;
+            }
+        }
+        if (!isFiltered) {
+            filteredVariableNames.push_back(varName);
+            filteredVariables.push_back(variables[k]);
+        }
+    }
 
     AnonymousMacroFunctionDef* cp = nullptr;
     try {
-        cp = new AnonymousMacroFunctionDef(content, arguments, variableNames, variables);
+        cp = new AnonymousMacroFunctionDef(
+            content, arguments, filteredVariableNames, filteredVariables);
     } catch (std::bad_alloc&) {
         cp = nullptr;
     } catch (Exception&) {
