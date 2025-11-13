@@ -7,7 +7,7 @@
 ; SPDX-License-Identifier: LGPL-3.0-or-later
 ; LICENCE_BLOCK_END
 ;==============================================================================
-; Boost 1.88
+; Boost 1.89
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\boost_chrono-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
 Source: {#RootPath}bin\{#BinPath}\boost_date_time-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
@@ -15,7 +15,7 @@ Source: {#RootPath}bin\{#BinPath}\boost_filesystem-{#BOOST_TARGET}.dll; DestDir:
 Source: {#RootPath}bin\{#BinPath}\boost_iostreams-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
 Source: {#RootPath}bin\{#BinPath}\boost_program_options-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
 Source: {#RootPath}bin\{#BinPath}\boost_regex-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
-Source: {#RootPath}bin\{#BinPath}\boost_system-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
+;Source: {#RootPath}bin\{#BinPath}\boost_system-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
 Source: {#RootPath}bin\{#BinPath}\boost_thread-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
 Source: {#RootPath}bin\{#BinPath}\boost_random-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
 Source: {#RootPath}bin\{#BinPath}\boost_zlib-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_NELSON};
