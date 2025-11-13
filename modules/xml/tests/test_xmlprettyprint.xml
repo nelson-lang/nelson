@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmldoc>
-  <copyright>SAMEASNELSONSOFTWARE</copyright>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <module_name>xml</module_name>
   <chapter>XmlProcessing</chapter>
   <chapter_description>
-    <p>TheXMLmoduleprovidesfunctionstocreate,convert,andmanageXMLdocumentsforNelson.</p>
+    <p>The XML module provides functions to create, convert, and manage XML documents for Nelson.</p>
   </chapter_description>
 </xmldoc>
