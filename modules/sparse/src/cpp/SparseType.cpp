@@ -703,7 +703,7 @@ Eigen_SetSparseNDimSubsetsInternal(indexType& rows, indexType& cols, const void*
     Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
         = (Eigen::SparseMatrix<T, 0, signedIndexType>*)res;
     spMat->uncompress();
-    indexType total = irows * icols;
+
     // The 'advance' parameter is provided by the caller and indicates
     // whether the RHS data should be treated as a scalar broadcast
     // (advance == false / 0) or as an array with one element per
@@ -1106,7 +1106,6 @@ void*
 Eigen_DeleteSparseMatrixCols(
     NelsonType dclass, indexType rows, indexType cols, const void* cp, bool* dmap)
 {
-    void* spMat = nullptr;
     // dmap is a boolean map of length 'cols' where true means delete that column
     // Count remaining columns
     indexType keepCols = 0;
@@ -1219,7 +1218,6 @@ void*
 Eigen_DeleteSparseMatrixRows(
     NelsonType dclass, indexType rows, indexType cols, const void* cp, bool* dmap)
 {
-    void* spMat = nullptr;
     // dmap is a boolean map of length 'rows' where true means delete that row
     // Count remaining rows
     indexType keepRows = 0;
@@ -1344,7 +1342,6 @@ void*
 Eigen_DeleteSparseMatrixVectorSubset(NelsonType dclass, indexType& rows, indexType& cols,
     const void* cp, const indexType* todel, indexType delete_len)
 {
-    void* spMat = nullptr;
     indexType oldRows = rows;
     indexType oldCols = cols;
     indexType N = oldRows * oldCols;
