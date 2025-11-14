@@ -47,32 +47,86 @@ static std::string
 formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, bool formatSpace,
     std::wstring& errorMessage)
 {
-    // Remove all whitespace and carriage return characters
-    std::string noWhitespace;
-    noWhitespace.reserve(xmlContent.size());
-    for (char c : xmlContent) {
-        if (c != ' ' && c != '\n' && c != '\r' && c != '\t') {
-            noWhitespace += c;
-        }
-    }
-    noWhitespace += '\n';
-
-    // Fix malformed XML declaration if present
+    // Do not remove all whitespace from the raw XML content — that breaks required spaces.
+    // Only normalize/fix a known malformed XML declaration if present.
+    std::string buffer = xmlContent;
     const std::string badDecl = "<?xmlversion=\"1.0\"encoding=\"UTF-8\"?>";
     const std::string goodDecl = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-    size_t declPos = noWhitespace.find(badDecl);
+    size_t declPos = buffer.find(badDecl);
     if (declPos != std::string::npos) {
-        noWhitespace.replace(declPos, badDecl.length(), goodDecl);
+        buffer.replace(declPos, badDecl.length(), goodDecl);
     }
 
     if (!formatSpace) {
-        // If no formatting requested, return compacted XML
-        return noWhitespace;
+        std::string compact;
+        compact.reserve(buffer.size());
+        bool in_quote = false;
+        char quote_char = 0;
+        bool last_space = false;
+        for (size_t i = 0; i < buffer.size(); ++i) {
+            char c = buffer[i];
+            if (c == '"' || c == '\'') {
+                // toggle in-quote state; quotes themselves are preserved
+                if (!in_quote) {
+                    in_quote = true;
+                    quote_char = c;
+                } else if (quote_char == c) {
+                    in_quote = false;
+                    quote_char = 0;
+                }
+                compact += c;
+                last_space = false;
+                continue;
+            }
+            // normalize whitespace chars to space
+            if (c == '\n' || c == '\r' || c == '\t')
+                c = ' ';
+
+            if (in_quote) {
+                // inside quotes preserve spaces/newlines-as-space exactly
+                compact += c;
+                // do not update last_space because spaces inside quotes are significant
+                continue;
+            } else {
+                if (c == ' ') {
+                    // lookahead: if next non-space char is '<' or previous output char is '>',
+                    // skip emitting the space (removes spaces between tags / after declaration)
+                    size_t j = i + 1;
+                    while (j < buffer.size()
+                        && (buffer[j] == ' ' || buffer[j] == '\n' || buffer[j] == '\r'
+                            || buffer[j] == '\t'))
+                        ++j;
+                    char nextNonSpace = (j < buffer.size()) ? buffer[j] : 0;
+                    char prevOut = compact.empty() ? 0 : compact.back();
+                    if (nextNonSpace == '<' || prevOut == '>') {
+                        // skip this space
+                        last_space = false;
+                        continue;
+                    }
+
+                    if (!last_space) {
+                        compact += ' ';
+                        last_space = true;
+                    }
+                } else {
+                    compact += c;
+                    last_space = false;
+                }
+            }
+        }
+        // trim leading/trailing spaces
+        size_t start = 0;
+        while (start < compact.size() && compact[start] == ' ')
+            ++start;
+        size_t end = compact.size();
+        while (end > start && compact[end - 1] == ' ')
+            --end;
+        return compact.substr(start, end - start);
     }
 
-    // If formatting requested, use libxml to prettify
-    xmlDocPtr doc = xmlReadMemory(noWhitespace.data(), (int)noWhitespace.size(),
-        xmlFileUtf8.c_str(), nullptr, XML_PARSE_NOERROR | XML_PARSE_NOWARNING);
+    // Use libxml2 to prettify — pass filename as base URI and explicit encoding.
+    xmlDocPtr doc = xmlReadMemory(buffer.data(), (int)buffer.size(), xmlFileUtf8.c_str(), "UTF-8",
+        XML_PARSE_NOERROR | XML_PARSE_NOWARNING | XML_PARSE_NOBLANKS);
     if (!doc) {
         errorMessage = _W("Failed to parse XML for formatting: ") + utf8_to_wstring(xmlFileUtf8);
         return {};
@@ -80,7 +134,8 @@ formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, b
     xmlChar* xmlbuff = nullptr;
     int buffersize = 0;
     int previous = xmlKeepBlanksDefault(0);
-    xmlDocDumpFormatMemoryEnc(doc, &xmlbuff, &buffersize, nullptr, 1); // 1 = pretty print
+    // Ask libxml2 to output with UTF-8 encoding and pretty print (last parameter = 1).
+    xmlDocDumpFormatMemoryEnc(doc, &xmlbuff, &buffersize, "UTF-8", 1);
     xmlKeepBlanksDefault(previous);
     if (!xmlbuff) {
         xmlFreeDoc(doc);

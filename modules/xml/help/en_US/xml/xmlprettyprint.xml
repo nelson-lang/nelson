@@ -12,6 +12,11 @@
             <param_name>xml_file</param_name>
             <param_description>a valid XML file.</param_description>
         </param_input_item>
+        <param_input_item>
+            <param_name>format_space</param_name>
+            <param_description
+      >a boolean indicating whether to format with spaces (true) or not (false).</param_description>
+        </param_input_item>
     </param_input>
     <param_output>
         <param_output_item>
@@ -34,10 +39,12 @@
         runnable="cli"
       ><![CDATA[xml_filename = [modulepath('xml'), '/tests/test_xml.xml'];
 if isfile(xml_filename)
-    xmlprettyprint(xml_filename, false);
-    fileread(xml_filename)
-    xmlprettyprint(xml_filename, true);
-    fileread(xml_filename)
+    xml_tmp = [tempdir(), 'test_xml.xml'];
+    copyfile(xml_filename, xml_tmp);
+    xmlprettyprint(xml_tmp, false);
+    fileread(xml_tmp)
+    xmlprettyprint(xml_tmp, true);
+    fileread(xml_tmp)
 end]]>
     </example_item_data>
   </example_item>
