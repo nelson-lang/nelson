@@ -282,7 +282,7 @@ plot(x, [cos(x), cos(2*x), cos(3*x)])]]></example_item_data>
       ><![CDATA[f = figure();
 x = -pi:pi/10:pi;
 y = tan(sin(x)) - sin(tan(x));
-plot(x ,y, '--rs','LineWidth', 2, 'MarkerEdgeColor','k', 'MarkerFaceColor','g', 'MarkerSize', 11)]]></example_item_data>
+plot(x ,y, '--rs', LineWidth=2, MarkerEdgeColor='k', MarkerFaceColor='g', MarkerSize=11)]]></example_item_data>
             <example_item_img
         src="../../images/plot_markers.svg"
         align="middle"
@@ -314,6 +314,11 @@ ylabel('sin(5x)')]]></example_item_data>
         </see_also_item>
         <see_also_item>
             <link linkend="${graphics}plot3">plot3</link>
+        </see_also_item>
+        <see_also_item>
+            <link
+        linkend="${interpreter}name_value_syntax"
+      >name=value syntax</link>
         </see_also_item>
     </see_also>
     <history>

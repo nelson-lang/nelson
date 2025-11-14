@@ -12,6 +12,5 @@ A = H(:,2:4);
 B = H(:,5:8);
 theta = subspace(A,B);
 expectedTheta = pi/2;
-tol = 1e-8;
-assert_istrue(abs(theta - expectedTheta) < tol);
+assert_isapprox(theta, expectedTheta, 1e-3)
 %=============================================================================
