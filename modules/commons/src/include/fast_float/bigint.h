@@ -44,9 +44,9 @@ template <uint16_t size> struct stackvec
     uint16_t length { 0 };
 
     stackvec() = default;
-    stackvec(const stackvec&) = delete;
+    stackvec(stackvec const&) = delete;
     stackvec&
-    operator=(const stackvec&)
+    operator=(stackvec const&)
         = delete;
     stackvec(stackvec&&) = delete;
     stackvec&
@@ -63,12 +63,14 @@ template <uint16_t size> struct stackvec
         FASTFLOAT_DEBUG_ASSERT(index < length);
         return data[index];
     }
+
     FASTFLOAT_CONSTEXPR14 const limb&
     operator[](size_t index) const noexcept
     {
         FASTFLOAT_DEBUG_ASSERT(index < length);
         return data[index];
     }
+
     // index from the end of the container
     FASTFLOAT_CONSTEXPR14 const limb&
     rindex(size_t index) const noexcept
@@ -84,21 +86,25 @@ template <uint16_t size> struct stackvec
     {
         length = uint16_t(len);
     }
+
     constexpr size_t
     len() const noexcept
     {
         return length;
     }
+
     constexpr bool
     is_empty() const noexcept
     {
         return length == 0;
     }
+
     constexpr size_t
     capacity() const noexcept
     {
         return size;
     }
+
     // append item to vector, without bounds checking
     FASTFLOAT_CONSTEXPR14 void
     push_unchecked(limb value) noexcept
@@ -106,6 +112,7 @@ template <uint16_t size> struct stackvec
         data[length] = value;
         length++;
     }
+
     // append item to vector, returning if item was added
     FASTFLOAT_CONSTEXPR14 bool
     try_push(limb value) noexcept
@@ -117,6 +124,7 @@ template <uint16_t size> struct stackvec
             return false;
         }
     }
+
     // add items to the vector, from a span, without bounds checking
     FASTFLOAT_CONSTEXPR20 void
     extend_unchecked(limb_span s) noexcept
@@ -125,6 +133,7 @@ template <uint16_t size> struct stackvec
         std::copy_n(s.ptr, s.len(), ptr);
         set_len(len() + s.len());
     }
+
     // try to add items to the vector, returning if items were added
     FASTFLOAT_CONSTEXPR20 bool
     try_extend(limb_span s) noexcept
@@ -136,6 +145,7 @@ template <uint16_t size> struct stackvec
             return false;
         }
     }
+
     // resize the vector, without bounds checking
     // if the new size is longer than the vector, assign value to each
     // appended item.
@@ -153,6 +163,7 @@ template <uint16_t size> struct stackvec
             set_len(new_len);
         }
     }
+
     // try to resize the vector, returning if the vector was resized.
     FASTFLOAT_CONSTEXPR20 bool
     try_resize(size_t new_len, limb value) noexcept
@@ -164,6 +175,7 @@ template <uint16_t size> struct stackvec
             return true;
         }
     }
+
     // check if any limbs are non-zero after the given index.
     // this needs to be done in reverse order, since the index
     // is relative to the most significant limbs.
@@ -178,6 +190,7 @@ template <uint16_t size> struct stackvec
         }
         return false;
     }
+
     // normalize the big integer, so most-significant zero limbs are removed.
     FASTFLOAT_CONSTEXPR14 void
     normalize() noexcept
@@ -460,11 +473,15 @@ template <typename = void> struct pow5_tables
 #endif
 };
 
+#if FASTFLOAT_DETAIL_MUST_DEFINE_CONSTEXPR_VARIABLE
+
 template <typename T> constexpr uint32_t pow5_tables<T>::large_step;
 
 template <typename T> constexpr uint64_t pow5_tables<T>::small_power_of_5[];
 
 template <typename T> constexpr limb pow5_tables<T>::large_power_of_5[];
+
+#endif
 
 // big integer type. implements a small subset of big integer
 // arithmetic, using simple algorithms since asymptotically
@@ -477,9 +494,10 @@ struct bigint : pow5_tables<>
 
     FASTFLOAT_CONSTEXPR20
     bigint() : vec() { }
-    bigint(const bigint&) = delete;
+
+    bigint(bigint const&) = delete;
     bigint&
-    operator=(const bigint&)
+    operator=(bigint const&)
         = delete;
     bigint(bigint&&) = delete;
     bigint&
@@ -535,7 +553,7 @@ struct bigint : pow5_tables<>
     // the limbs are stored in little-endian order, so we
     // must compare the limbs in ever order.
     FASTFLOAT_CONSTEXPR20 int
-    compare(const bigint& other) const noexcept
+    compare(bigint const& other) const noexcept
     {
         if (vec.len() > other.vec.len()) {
             return 1;
@@ -594,7 +612,7 @@ struct bigint : pow5_tables<>
         } else if (!vec.is_empty()) {
             // move limbs
             limb* dst = vec.data + n;
-            const limb* src = vec.data;
+            limb const* src = vec.data;
             std::copy_backward(src, src + vec.len(), dst + vec.len());
             // fill in empty limbs
             limb* first = vec.data;

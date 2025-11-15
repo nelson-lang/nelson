@@ -199,3 +199,7 @@ ref = struct();
 ref.PATH = '14.44.35207\bin\v';
 assert_isequal(s, ref);
 %=============================================================================
+cmd = "s = jsondecode('total')";
+msg = _('Invalid JSON scalar value.');
+assert_checkerror(cmd, msg);
+%=============================================================================

@@ -839,6 +839,9 @@ jsonDecodeInternal(const simdjson::padded_string& json_padded, std::string& erro
                     jsVar.jsonVariableType = JSON_TO_NELSON_LOGICAL;
                     jsVar.scalarLogical = val;
                     jsVar.reduced = true;
+                } else {
+                    errorMessage = _("Invalid JSON scalar value.");
+                    return {};
                 }
             } break;
             case simdjson::ondemand::json_type::null: {
@@ -848,6 +851,17 @@ jsonDecodeInternal(const simdjson::padded_string& json_padded, std::string& erro
 
             } break;
             default: {
+                if (doc.is_alive()) {
+                    std::string_view contentView = doc.raw_json_token();
+                    std::string jsonString(contentView);
+                    StringHelpers::trim(jsonString);
+                    if (jsonString == "NaN" || jsonString == "Inf" || jsonString == "-Inf") {
+                        jsVar.jsonVariableType = JSON_TO_NELSON_DOUBLE;
+                        jsVar.scalarDouble = parseSpecialNumeric(jsonString);
+                        jsVar.reduced = true;
+                        return jsonVariableToNelson(jsVar);
+                    }
+                }
                 errorMessage = _("Invalid JSON scalar value.");
                 return {};
             } break;

@@ -48,7 +48,7 @@ template <typename T>
 fastfloat_really_inline FASTFLOAT_CONSTEXPR20 adjusted_mantissa
 to_extended(T value) noexcept
 {
-    using equiv_uint = typename binary_format<T>::equiv_uint;
+    using equiv_uint = equiv_uint_t<T>;
     constexpr equiv_uint exponent_mask = binary_format<T>::exponent_mask();
     constexpr equiv_uint mantissa_mask = binary_format<T>::mantissa_mask();
     constexpr equiv_uint hidden_bit_mask = binary_format<T>::hidden_bit_mask();
@@ -127,8 +127,8 @@ template <typename callback>
 fastfloat_really_inline FASTFLOAT_CONSTEXPR14 void
 round_nearest_tie_even(adjusted_mantissa& am, int32_t shift, callback cb) noexcept
 {
-    const uint64_t mask = (shift == 64) ? UINT64_MAX : (uint64_t(1) << shift) - 1;
-    const uint64_t halfway = (shift == 0) ? 0 : uint64_t(1) << (shift - 1);
+    uint64_t const mask = (shift == 64) ? UINT64_MAX : (uint64_t(1) << shift) - 1;
+    uint64_t const halfway = (shift == 0) ? 0 : uint64_t(1) << (shift - 1);
     uint64_t truncated_bits = am.mantissa & mask;
     bool is_above = truncated_bits > halfway;
     bool is_halfway = truncated_bits == halfway;
@@ -155,6 +155,7 @@ round_down(adjusted_mantissa& am, int32_t shift) noexcept
     }
     am.power2 += shift;
 }
+
 template <typename UC>
 fastfloat_really_inline FASTFLOAT_CONSTEXPR20 void
 skip_zeros(UC const*& first, UC const* last) noexcept
@@ -198,16 +199,17 @@ is_truncated(UC const* first, UC const* last) noexcept
     }
     return false;
 }
+
 template <typename UC>
 fastfloat_really_inline FASTFLOAT_CONSTEXPR20 bool
-is_truncated(span<const UC> s) noexcept
+is_truncated(span<UC const> s) noexcept
 {
     return is_truncated(s.ptr, s.ptr + s.len());
 }
 
 template <typename UC>
 fastfloat_really_inline FASTFLOAT_CONSTEXPR20 void
-parse_eight_digits(const UC*& p, limb& value, size_t& counter, size_t& count) noexcept
+parse_eight_digits(UC const*& p, limb& value, size_t& counter, size_t& count) noexcept
 {
     value = value * 100000000 + parse_eight_digits_unrolled(p);
     p += 8;
@@ -362,7 +364,8 @@ negative_digit_comp(bigint& bigmant, adjusted_mantissa am, int32_t exponent) noe
 
     // get the value of `b`, rounded down, and get a bigint representation of b+h
     adjusted_mantissa am_b = am;
-    // gcc7 buf: use a lambda to remove the noexcept qualifier bug with -Wnoexcept-type.
+    // gcc7 buf: use a lambda to remove the noexcept qualifier bug with
+    // -Wnoexcept-type.
     round<T>(am_b, [](adjusted_mantissa& a, int32_t shift) { round_down(a, shift); });
     T b;
     to_float(false, am_b, b);
