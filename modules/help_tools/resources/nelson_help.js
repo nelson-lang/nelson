@@ -395,10 +395,12 @@
       }
       var mdLang = /^fr/i.test(lang) ? "fr" : "en";
       if (!version) version = "master";
-      // keep previous behavior (prefixing with v may have been used before)
-      var verSegment = /^v/i.test(String(version))
-        ? encodeURIComponent(version)
-        : "v" + encodeURIComponent(version);
+      // keep previous behavior (prefixing with v) but preserve branch names like master
+      var versionString = String(version);
+      var verSegment =
+        /^v/i.test(versionString) || /^master$/i.test(versionString)
+          ? encodeURIComponent(versionString)
+          : "v" + encodeURIComponent(versionString);
       return (
         "https://github.com/nelson-lang/nelson-gitbook/blob/" +
         verSegment +
