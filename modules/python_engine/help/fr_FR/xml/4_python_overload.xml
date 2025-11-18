@@ -8,6 +8,7 @@
     <description>
         <p
     >Nelson facilite l'utilisation des opérateurs surchargés suivants :</p>
+        <p />
         <table>
             <tr>
                 <th>Symbole opérateur Python</th>

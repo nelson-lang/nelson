@@ -57,6 +57,7 @@
     <description>
         <p>
             <b>figure</b> creates figure.</p>
+            <p />
             <table>
                 <tr>
                     <th>Property</th>
@@ -650,7 +651,7 @@
                 </tr>
                 <tr>
                     <th>\mid</th>
-                    <th>|</th>
+                    <th>&#124;</th>
                 </tr>
                 <tr>
                     <th>\vee</th>

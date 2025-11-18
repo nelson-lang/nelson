@@ -56,6 +56,7 @@
         <p>
             <b>image</b> displays C data as an image.</p>
             <p>Properties:</p>
+            <p />
             <table>
                 <tr><th>Property</th><th>Description</th></tr>
                 <tr><td><b>AlphaData</b></td><td

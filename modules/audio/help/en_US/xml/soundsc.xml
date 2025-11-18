@@ -29,7 +29,7 @@
         <param_input_item>
             <param_name>yRange</param_name>
             <param_description
-      >range of audio data to scale: | two-element vector or [-max(abs(y)),max(abs(y))] default.</param_description>
+      >range of audio data to scale: two-element vector or [-max(abs(y)),max(abs(y))] default.</param_description>
         </param_input_item>
     </param_input>
     <description>

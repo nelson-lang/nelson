@@ -29,6 +29,7 @@
         <p><b
       >saveas</b> enregistre la figure dans un format de fichier spécifique.</p>
         <p><b>Formats pris en charge</b> :</p>
+        <p />
         <table style="width:100%">
             <tr>
                 <th>Option</th>
@@ -66,7 +67,8 @@
                 <td>.tif</td>
             </tr>
         </table>
-            </description>
+        <p />
+    </description>
             <used_function />
             <bibliography />
             <examples>

@@ -43,6 +43,7 @@
     <p><b>axes(cax)</b> rend les axes courants.</p>
     <p>Un clic sur un axe le rend automatiquement courant.</p>
     <p>Propriétés :</p>
+    <p />
     <table>
         <tr><th>Propriété</th><th>Description</th></tr>
         <tr><td><b>ALim</b></td><td
@@ -69,7 +70,7 @@
         <tr><td><b>CameraUpVectorMode</b></td><td
         >Mode de sélection pour CameraUpVector : 'manual' ou 'auto' (par défaut).</td></tr>
         <tr><td><b>CameraViewAngle</b></td><td
-        >Champ de vision : 0 (par défaut) | angle scalaire dans [0,180]</td></tr>
+        >Champ de vision : 0 (par défaut) ou angle scalaire dans [0,180]</td></tr>
         <tr><td><b>CameraViewAngleMode</b></td><td
         >Mode de sélection pour CameraViewAngle : 'manual' ou 'auto' (par défaut).</td></tr>
         <tr><td><b>Children</b></td><td
@@ -107,8 +108,7 @@
         >Réponse aux clics souris capturés : 'on' (par défaut) ou 'off'.</td></tr>
         <tr><td><b>BeingDeleted</b></td><td
         >Indique que l'objet est en cours de suppression.</td></tr>
-        <tr><td><b>Interruptible</b></td><td
-        >Interruption de callback :</td></tr>
+        <tr><td><b>Interruptible</b></td><td>Interruption de callback</td></tr>
         <tr><td><b>Layer</b></td><td
         >Placement des lignes de grille et des graduations : 'top' ou 'bottom' (par défaut).</td></tr>
         <tr><td><b>LineStyleOrder</b></td><td

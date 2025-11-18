@@ -25,11 +25,10 @@
         </param_input_item>
     </param_input>
     <description>
-        <p>
-            <b>saveas</b> save figure to specific file format.</p>
-            <p>
-                <b>supported formats</b>:</p>
-                <table style="width:100%">
+        <p><b>saveas</b> save figure to specific file format.</p>
+        <p><b>supported formats</b>:</p>
+        <p />
+        <table style="width:100%">
                     <tr>
                         <th>Option</th>
                         <th>Format</th>
@@ -65,8 +64,9 @@
                         <td>Tagged Image File Format</td>
                         <td>.tif</td>
                     </tr>
-                </table>
-            </description>
+        </table>
+        <p />
+    </description>
             <used_function />
             <bibliography />
             <examples>

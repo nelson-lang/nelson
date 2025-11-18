@@ -65,6 +65,7 @@ Set this property on an existing component has no effect.
 		<p
     >For example, you can use the colormap option to change the color of the surface, and the FaceLighting option to change the lighting of the surface.</p>
 		<p>Properties:</p>
+        <p />
 		<table>
 			<tr><th>Property</th><th>Description</th></tr>
 			<tr><td><b>AlphaData</b></td><td

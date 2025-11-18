@@ -418,26 +418,32 @@
 
   <xsl:template match="tr" mode="header">
     <!-- Render header row: compact single-line cells -->
+    <xsl:variable name="cells" select="th | td"/>
+    <xsl:if test="count($cells)">
     <xsl:text>| </xsl:text>
-    <xsl:for-each select="th">
+    <xsl:for-each select="$cells">
       <xsl:apply-templates/>
       <xsl:text> | </xsl:text>
     </xsl:for-each>
     <xsl:text>&#10;| </xsl:text>
-    <xsl:for-each select="th">
+    <xsl:for-each select="$cells">
       <xsl:text>--- | </xsl:text>
     </xsl:for-each>
     <xsl:text>&#10;</xsl:text>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="tr">
     <!-- Render data row with normalized, single-line cell content -->
-    <xsl:text>| </xsl:text>
-    <xsl:for-each select="td">
-      <xsl:apply-templates/>
-      <xsl:text> | </xsl:text>
-    </xsl:for-each>
-    <xsl:text>&#10;</xsl:text>
+    <xsl:variable name="cells" select="td | th"/>
+    <xsl:if test="count($cells)">
+      <xsl:text>| </xsl:text>
+      <xsl:for-each select="$cells">
+        <xsl:apply-templates/>
+        <xsl:text> | </xsl:text>
+      </xsl:for-each>
+      <xsl:text>&#10;</xsl:text>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="th">
@@ -453,14 +459,40 @@
   <!-- Render inline bold/italic content as Markdown inside tables -->
   <xsl:template match="table//b">
     <xsl:text>**</xsl:text>
-    <xsl:value-of select="normalize-space(.)"/>
+    <xsl:call-template name="escape-markdown-text">
+      <xsl:with-param name="text" select="normalize-space(.)"/>
+    </xsl:call-template>
     <xsl:text>**</xsl:text>
   </xsl:template>
   
   <xsl:template match="table//i">
     <xsl:text>*</xsl:text>
-    <xsl:value-of select="normalize-space(.)"/>
+    <xsl:call-template name="escape-markdown-text">
+      <xsl:with-param name="text" select="normalize-space(.)"/>
+    </xsl:call-template>
     <xsl:text>*</xsl:text>
+  </xsl:template>
+
+  <!-- Table-specific text nodes require markdown escaping (pipes, backslashes) -->
+  <xsl:template match="table//text()" priority="1">
+    <xsl:choose>
+      <xsl:when test="normalize-space(.) = ''">
+        <xsl:if test="preceding-sibling::node() and following-sibling::node()">
+          <xsl:text> </xsl:text>
+        </xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:if test="preceding-sibling::node() and starts-with(., ' ')">
+          <xsl:text> </xsl:text>
+        </xsl:if>
+        <xsl:call-template name="escape-markdown-text">
+          <xsl:with-param name="text" select="normalize-space(.)"/>
+        </xsl:call-template>
+        <xsl:if test="following-sibling::node() and substring(., string-length(.)) = ' '">
+          <xsl:text> </xsl:text>
+        </xsl:if>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <!-- General templates for inline formatting (outside tables) -->
@@ -485,6 +517,46 @@
   <!-- Template for chapter_description -->
   <xsl:template match="chapter_description">
     <xsl:apply-templates/>
+  </xsl:template>
+
+  <!-- Markdown escaping helpers -->
+  <xsl:template name="escape-markdown-text">
+    <xsl:param name="text"/>
+    <xsl:variable name="escaped-backslash">
+      <xsl:call-template name="replace-string">
+        <xsl:with-param name="text" select="$text"/>
+        <xsl:with-param name="search" select="'\'"/>
+        <xsl:with-param name="replace" select="'\\'"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="escaped-pipe">
+      <xsl:call-template name="replace-string">
+        <xsl:with-param name="text" select="$escaped-backslash"/>
+        <xsl:with-param name="search" select="'|'"/>
+        <xsl:with-param name="replace" select="'\|'"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:value-of select="$escaped-pipe"/>
+  </xsl:template>
+
+  <xsl:template name="replace-string">
+    <xsl:param name="text"/>
+    <xsl:param name="search"/>
+    <xsl:param name="replace"/>
+    <xsl:choose>
+      <xsl:when test="contains($text, $search)">
+        <xsl:value-of select="substring-before($text, $search)"/>
+        <xsl:value-of select="$replace"/>
+        <xsl:call-template name="replace-string">
+          <xsl:with-param name="text" select="substring-after($text, $search)"/>
+          <xsl:with-param name="search" select="$search"/>
+          <xsl:with-param name="replace" select="$replace"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$text"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>

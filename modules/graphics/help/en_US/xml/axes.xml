@@ -43,6 +43,7 @@
     <p><b>axes(cax)</b> set current axes.</p>
     <p>Clicking on an axis automatically sets it as the current axes object.</p>
     <p>Properties:</p>
+    <p />
     <table>
         <tr><th>Property</th><th>Description</th></tr>
         <tr><td><b>ALim</b></td><td
@@ -69,7 +70,7 @@
         <tr><td><b>CameraUpVectorMode</b></td><td
         >Selection mode for CameraUpVector: 'manual' or 'auto' (default).</td></tr>
         <tr><td><b>CameraViewAngle</b></td><td
-        >Field of view: 0 (default) | scalar angle in range [0,180]</td></tr>
+        >Field of view: 0 (default) or scalar angle in range [0,180]</td></tr>
         <tr><td><b>CameraViewAngleMode</b></td><td
         >Selection mode for CameraViewAngle: 'manual' or 'auto' (default).</td></tr>
         <tr><td><b>Children</b></td><td
@@ -107,7 +108,7 @@
         >Response to captured mouse clicks: 'on' (default) or 'off'.</td></tr>
         <tr><td><b>BeingDeleted</b></td><td
         >Flag indicating that the object is being deleted.</td></tr>
-        <tr><td><b>Interruptible</b></td><td>Callback interruption:</td></tr>
+        <tr><td><b>Interruptible</b></td><td>Callback interruption</td></tr>
         <tr><td><b>Layer</b></td><td
         >Placement of grid lines and tick marks: 'top' or 'bottom' (default).</td></tr>
         <tr><td><b>LineStyleOrder</b></td><td

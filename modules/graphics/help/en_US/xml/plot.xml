@@ -65,6 +65,7 @@
                         <p />
                         <p
     >The SymbolSpec specifies the symbol to be drawn at each data point:</p>
+        <p />
                         <table>
                             <tr>
                                 <th>Symbol</th>
@@ -140,6 +141,8 @@
                         <p />
                         <p
     >The LineStyleSpec specifies the line style to use for each data series:</p>
+        <p />
+
                         <table>
                             <tr>
                                 <th>Style</th>
@@ -173,6 +176,7 @@
                         <p />
                         <p
     >The ColorSpec specifies the line color to use for each data series:</p>
+        <p />
                         <table>
                             <tr>
                                 <th>Color</th>

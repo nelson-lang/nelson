@@ -130,7 +130,7 @@
             </tr>
             <tr>
                 <td>Logical OR</td>
-                <td>a | b</td>
+                <td>a &#124; b</td>
                 <td>or(a, b)</td>
             </tr>
             <tr>

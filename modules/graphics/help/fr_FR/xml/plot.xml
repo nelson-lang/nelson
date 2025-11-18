@@ -70,6 +70,7 @@
         <p />
         <p
     >Le SymbolSpec spécifie le symbole à dessiner à chaque point de données :</p>
+        <p />
         <table>
             <tr>
                 <th>Symbole</th>
@@ -145,6 +146,7 @@
         <p />
         <p
     >Le LineStyleSpec spécifie le style de ligne à utiliser pour chaque série de données :</p>
+        <p />
         <table>
             <tr>
                 <th>Style</th>
@@ -178,6 +180,7 @@
         <p />
         <p
     >Le ColorSpec spécifie la couleur de ligne à utiliser pour chaque série de données :</p>
+        <p />
         <table>
             <tr>
                 <th>Couleur</th>

@@ -30,7 +30,7 @@
         <param_input_item>
             <param_name>yRange</param_name>
             <param_description
-      >plage des données audio à mettre à l'échelle : | vecteur à deux éléments ou [-max(abs(y)),max(abs(y))] par défaut.</param_description>
+      >plage des données audio à mettre à l'échelle : vecteur à deux éléments ou [-max(abs(y)),max(abs(y))] par défaut.</param_description>
         </param_input_item>
     </param_input>
     <description>

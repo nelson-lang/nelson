@@ -67,6 +67,7 @@
                 <p
     >The matrices X and Y provide the coordinates, while Z contains the height values for generating the contour plot.</p>
                 <p>Property Name-Value Pairs:</p>
+                <p />
                 <table>
                     <tr><th>Property</th><th>Description</th></tr>
                     <tr><td><b>LevelList</b></td><td

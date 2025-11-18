@@ -71,11 +71,11 @@
                                 <th>Example:</th>
                             </tr>
                             <tr>
-                                <td>±&lt;real&gt;±&lt;imag&gt;i|j</td>
+                                <td>± real ± imag i&#124;j</td>
                                 <td>3.1347-2.1i</td>
                             </tr>
                             <tr>
-                                <td>±&lt;imag&gt;i|j</td>
+                                <td>± imag i&#124;j</td>
                                 <td>-2.1j</td>
                             </tr>
                         </table>

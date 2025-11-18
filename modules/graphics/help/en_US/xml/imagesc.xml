@@ -58,6 +58,7 @@
             <b
       >imagessc</b> displays C data as an image. This image is colormapped using the colormap for the current figure.</p>
             <p>Properties:</p>
+            <p />
             <table>
                 <tr><th>Property</th><th>Description</th></tr>
                 <tr><td><b>AlphaData</b></td><td

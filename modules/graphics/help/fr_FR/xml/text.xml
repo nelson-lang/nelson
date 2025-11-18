@@ -58,6 +58,7 @@
     <description>
         <p>
             <b>text</b> crée du texte.</p>
+            <p />
             <table>
                 <tr>
                     <th>Propriété</th>
@@ -656,7 +657,7 @@
                 </tr>
                 <tr>
                     <th>\mid</th>
-                    <th>|</th>
+                    <th>&#124;</th>
                 </tr>
                 <tr>
                     <th>\vee</th>
