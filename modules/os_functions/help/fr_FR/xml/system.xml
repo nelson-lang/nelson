@@ -1,152 +1,149 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>system</keyword>
-    <keyword_alias>dos</keyword_alias>
-    <keyword_alias>unix</keyword_alias>
-    <short_description>Exécution de commandes shell.</short_description>
-    <syntax>
-        <syntax_item>status = system(command)</syntax_item>
-        <syntax_item>status = system(command, timeout)</syntax_item>
-        <syntax_item>status = dos(command)</syntax_item>
-        <syntax_item>status = unix(command)</syntax_item>
-        <syntax_item>status = unix(commands)</syntax_item>
-        <syntax_item>[status, output, duration] = system(command)</syntax_item>
-        <syntax_item>[status, output, duration] = dos(command)</syntax_item>
-        <syntax_item>[status, output, duration] = unix(command)</syntax_item>
-        <syntax_item
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>system</keyword>
+  <keyword_alias>dos</keyword_alias>
+  <keyword_alias>unix</keyword_alias>
+  <short_description>Exécution de commandes shell.</short_description>
+  <syntax>
+    <syntax_item>status = system(command)</syntax_item>
+    <syntax_item>status = system(command, timeout)</syntax_item>
+    <syntax_item>status = dos(command)</syntax_item>
+    <syntax_item>status = unix(command)</syntax_item>
+    <syntax_item>status = unix(commands)</syntax_item>
+    <syntax_item>[status, output, duration] = system(command)</syntax_item>
+    <syntax_item>[status, output, duration] = dos(command)</syntax_item>
+    <syntax_item>[status, output, duration] = unix(command)</syntax_item>
+    <syntax_item
     >[status, output, duration] = system(command, '-echo')</syntax_item>
-        <syntax_item
+    <syntax_item
     >[status, output, duration] = dos(command, '-echo')</syntax_item>
-        <syntax_item
+    <syntax_item
     >[status, output, duration] = unix(command, '-echo')</syntax_item>
-        <syntax_item>[s, outputs, duration] = unix(commands)</syntax_item>
-        <syntax_item
-    >[s, outputs, duration] = unix(commands, timeouts)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>command</param_name>
-            <param_description
+    <syntax_item>[s, outputs, duration] = unix(commands)</syntax_item>
+    <syntax_item>[s, outputs, duration] = unix(commands, timeouts)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>command</param_name>
+      <param_description
       >une chaîne : commande à exécuter dans le shell.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>commands</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>commands</param_name>
+      <param_description
       >une cellule de chaînes ou un tableau de chaînes : commandes à exécuter en parallèle dans le shell.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>timeout</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>timeout</param_name>
+      <param_description
       >un entier (scalaire) : arrêter le processus après le timeout en secondes.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>timeouts</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>timeouts</param_name>
+      <param_description
       >un entier (scalaire : appliqué à toutes les commandes) ou un vecteur : timeout par commande en secondes.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>status</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>status</param_name>
+      <param_description
       >un entier : code de sortie de la commande.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>output</param_name>
-            <param_description
-      >une chaîne : sortie de la commande.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>duration</param_name>
-            <param_description
-      >entier : durée (millisecondes).</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>s</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>output</param_name>
+      <param_description>une chaîne : sortie de la commande.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>duration</param_name>
+      <param_description>entier : durée (millisecondes).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description
       >une matrice d'entiers : codes de sortie des commandes (mêmes dimensions que commands).</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>output</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>output</param_name>
+      <param_description
       >un tableau de chaînes : sortie des commandes.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>duration</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>duration</param_name>
+      <param_description
       >une matrice d'entiers : durée de chaque exécution (millisecondes).</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p><b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >system</b> envoie une chaîne au système d'exploitation pour exécution. La sortie standard et les erreurs standard de la commande shell sont écrites dans le shell appelant.</p>
-        <p><b
+    <p><b
       >[status, output] = system(command, '-echo')</b> force l'affichage de la sortie dans la fenêtre de commande, même si elle est également assignée à une variable.</p>
-        <p
-    >Les fonctions de rappel (callbacks) ne peuvent pas être appelées tant que la commande <b
+    <p
+    >Les fonctions de rappel (callbacks) ne peuvent pas être appelées tant que la commande<b
       >system</b> n'est pas terminée.</p>
-        <p
+    <p
     >Nelson convertira les caractères vers l'encodage accepté par votre shell système (ANSI sur Windows par défaut, UTF-8 sur les autres systèmes).</p>
-        <p>La commande peut être interrompue avec la touche <b
-      >CTRL-C</b>. Dans ce cas, le code de retour sera 258 (WAIT_TIMEOUT) sous Windows et 134 sur les autres plateformes (128 + SIGABRT) et la <b
+    <p>La commande peut être interrompue avec la touche<b
+      >CTRL-C</b>. Dans ce cas, le code de retour sera 258 (WAIT_TIMEOUT) sous Windows et 134 sur les autres plateformes (128 + SIGABRT) et la<b
       >output</b> contiendra 'ABORTED'.</p>
-        <p>Si la valeur timeout est 0, le timeout est désactivé.</p>
-    </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    <p>Si la valeur timeout est 0, le timeout est désactivé.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[[s,w] = system('dir');
 [s,w] = system('dir','-echo');]]></example_item_data>
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[[s,w] = system(["echo hello", "dir", "echo world"])]]></example_item_data>
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[tic();[s, w, d] = system(["PING -n 5 127.0.0.1>nul", "PING -n 7 127.0.0.1>nul", "PING -n 10 127.0.0.1>nul"]), toc()]]></example_item_data>
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[tic();[s, w, d] = system(["PING -n 5 127.0.0.1>nul", "PING -n 7 127.0.0.1>nul", "PING -n 10 127.0.0.1>nul"], [1, 5, 3]), toc()]]></example_item_data>
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >To detach an system command, include the trailing character, &amp;, in the command argument.</example_item_description>
-                    <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[[s,w] = system('notepad &');]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${os_functions}winopen">winopen</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${os_functions}winopen">winopen</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

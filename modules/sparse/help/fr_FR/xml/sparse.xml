@@ -1,99 +1,97 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>sparse</keyword>
-    <short_description>Définition de matrice sparse.</short_description>
-    <syntax>
-        <syntax_item>sp = sparse(M)</syntax_item>
-        <syntax_item>sp = sparse(m, n)</syntax_item>
-        <syntax_item>sp = sparse(I, J, V)</syntax_item>
-        <syntax_item>sp = sparse(I, J, V, m, n)</syntax_item>
-        <syntax_item>sp = sparse(I, J, V, m, n, nz)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>M</param_name>
-            <param_description
-      >une matrice : double ou logique.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>m</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>sparse</keyword>
+  <short_description>Définition de matrice sparse.</short_description>
+  <syntax>
+    <syntax_item>sp = sparse(M)</syntax_item>
+    <syntax_item>sp = sparse(m, n)</syntax_item>
+    <syntax_item>sp = sparse(I, J, V)</syntax_item>
+    <syntax_item>sp = sparse(I, J, V, m, n)</syntax_item>
+    <syntax_item>sp = sparse(I, J, V, m, n, nz)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>M</param_name>
+      <param_description>une matrice : double ou logique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>m</param_name>
+      <param_description
       >une valeur entière : dimension des lignes.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>n</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description
       >une valeur entière : dimension des colonnes</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>I</param_name>
-            <param_description>un vecteur.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>J</param_name>
-            <param_description>un vecteur.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>V</param_name>
-            <param_description>un vecteur.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>nz</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>un vecteur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>J</param_name>
+      <param_description>un vecteur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description>un vecteur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nz</param_name>
+      <param_description
       >une valeur entière : allocation de stockage pour les éléments non nuls.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>S</param_name>
-            <param_description>une matrice sparse.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>S</param_name>
+      <param_description>une matrice sparse.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >sparse</b> est utilisé pour construire une matrice sparse. Seuls les éléments non nuls sont stockés.</p>
-            <p>Si <b>M</b> est une matrice pleine, <b
+    <p>Si <b>M</b> est une matrice pleine,<b
       >sparse</b> la convertit en représentation sparse, supprimant toutes les valeurs nulles.</p>
-            <p>Si nz n'est pas spécifié, <b
+    <p>Si nz n'est pas spécifié, <b
       >sparse</b> utilise comme valeur par défaut : nz = max([numel(i), numel(j), numel(v)])</p>
-            <p
+    <p
     >Si plusieurs valeurs sont spécifiées avec les mêmes indices i, j, la valeur associée sera la somme des valeurs à l'indice répété.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[sp = sparse(eye(3,3))]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[sp = sparse(3, 3)]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[I = [1 2 3];
 J = [3 1 2];
 V = [32 42 53];
 sp = sparse(I, J, V)
 size(sp)]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[I = [1 2 3];
 J = [3 1 2];
@@ -102,11 +100,11 @@ sp = sparse(I, J, V, 5, 4)
 size(sp)
 nnz(sp)
 nzmax(sp)]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[I = [1 2 3];
 J = [3 1 2];
@@ -115,29 +113,29 @@ sp = sparse(I, J, V, 5, 4, 10)
 size(sp)
 nnz(sp)
 nzmax(sp)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${sparse}full">full</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${sparse}IJV">IJV</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${sparse}nnz">nnz</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${sparse}nzmax">nzmax</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${sparse}full">full</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${sparse}IJV">IJV</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${sparse}nnz">nnz</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${sparse}nzmax">nzmax</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

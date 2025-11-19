@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <module_name>python_engine</module_name>
-    <chapter>Moteur Python</chapter>
-    <chapter_description>
-        <p
-    >Le module Moteur Python permet aux utilisateurs de Nelson d'interfacer de manière transparente avec Python,
-            tirant parti de l'écosystème étendu de Python tout en conservant les fonctionnalités natives de Nelson.</p>
-        <p
-    >Il fournit des fonctions pour exécuter du code Python, gérer les environnements d'interpréteur et échanger
-            des données entre Nelson et Python.</p>
-    </chapter_description>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>python_engine</module_name>
+  <chapter>Moteur Python</chapter>
+  <chapter_description>
+    <p
+    >Le module Moteur Python permet aux utilisateurs de Nelson d'interfacer de manière transparente avec Python,              tirant parti de l'écosystème étendu de Python tout en conservant les fonctionnalités natives de Nelson.</p>
+    <p
+    >Il fournit des fonctions pour exécuter du code Python, gérer les environnements d'interpréteur et échanger              des données entre Nelson et Python.</p>
+  </chapter_description>
 </xmldoc>

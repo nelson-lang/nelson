@@ -1,94 +1,94 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>slicot_mb03rd</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>slicot_mb03rd</keyword>
+  <short_description
   >Réduction d'une matrice en forme de Schur réelle vers une forme bloc-diagonale.</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[A_OUT, X_OUT, NBLCKS, BLSIZE, WR, WI, INFO] = slicot_mb03rd(JOBX, SORT, PMAX, A_IN, X_IN, TOL)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>JOBX</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>JOBX</param_name>
+      <param_description
       >Spécifie si les transformations sont accumulées : = 'N' : non accumulées ; = 'U' : accumulées dans X (la matrice X donnée est mise à jour).</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>SORT</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>SORT</param_name>
+      <param_description
       >Spécifie si les blocs diagonaux de la forme de Schur réelle sont réordonnés : = 'N' : pas de réordonnancement ; = 'S' : réordonnés avant chaque étape de réduction pour regrouper les valeurs propres proches ; = 'C' : pas de réordonnancement mais la stratégie "voisin le plus proche" est utilisée ; = 'B' : réordonnés et stratégie "voisin le plus proche" utilisée.</param_description>
-  </param_input_item>
-  <param_input_item>
-    <param_name>PMAX</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>PMAX</param_name>
+      <param_description
       >Une borne supérieure pour la norme infinie des sous-matrices élémentaires des transformations individuelles utilisées pour la réduction.</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>A_IN</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>A_IN</param_name>
+      <param_description
       >La partie principale N-by-N de ce tableau doit contenir la matrice A à mettre en forme bloc-diagonale, en forme de Schur réelle.</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>X_IN</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>X_IN</param_name>
+      <param_description
       >Si JOBX = 'U', la partie principale N-by-N de ce tableau doit contenir la matrice X donnée.</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>TOL</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>TOL</param_name>
+      <param_description
       >La tolérance à utiliser pour l'ordre des blocs diagonaux de la matrice en forme de Schur réelle.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-    <param_name>A_OUT</param_name>
-    <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>A_OUT</param_name>
+      <param_description
       >La partie principale N-by-N de ce tableau contient la matrice bloc-diagonale calculée, en forme canonique de Schur réelle. Les blocs non diagonaux sont mis à zéro.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>X_OUT</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>X_OUT</param_name>
+      <param_description
       >Si JOBX = 'U', la partie principale N-by-N de ce tableau contient le produit de la matrice X donnée et de la matrice de transformation qui a réduit A en forme bloc-diagonale. La matrice de transformation est elle-même un produit de transformations de similarité non orthogonales ayant des éléments de magnitude ≤ PMAX. Si JOBX = 'N', ce tableau n'est pas référencé.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>NBLCKS</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>NBLCKS</param_name>
+      <param_description
       >Le nombre de blocs diagonaux de la matrice A.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>BLSIZE</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>BLSIZE</param_name>
+      <param_description
       >Les NBLCKS premiers éléments de ce tableau contiennent les ordres des blocs diagonaux résultants de la matrice A.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>WR</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>WR</param_name>
+      <param_description
       >Parties réelles des valeurs propres de la matrice A.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>WI</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>WI</param_name>
+      <param_description
       >Parties imaginaires des valeurs propres de la matrice A.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>INFO</param_name>
-            <param_description> = 0 : sortie réussie ;</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
+    </param_output_item>
+    <param_output_item>
+      <param_name>INFO</param_name>
+      <param_description> = 0 : sortie réussie ;</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >To reduce a matrix A in real Schur form to a block-diagonal form using well-conditioned non-orthogonal similarity transformations. The condition numbers of the transformations used for reduction are roughly bounded by PMAX*PMAX, where PMAX is a given value. The transformations are optionally postmultiplied in a given matrix X. The real Schur form is optionally ordered, so that clustered eigenvalues are grouped in the same block.</p>
-    </description>
-    <used_function>MB03RD</used_function>
-    <bibliography
+  </description>
+  <used_function>MB03RD</used_function>
+  <bibliography
   >http://slicot.org/objects/software/shared/doc/MB03RD.html</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[N = 8;
 PMAX = 1.D03;
@@ -105,15 +105,15 @@ A_IN = [1.   -1.    1.    2.    3.    1.    2.    3.;
    0.    0.    0.    0.    0.    0.    0.99999999    0.99999999];
 X_IN = zeros(N, N);
 [A_OUT, X_OUT, NBLCKS, BLSIZE, WR, WI, INFO] = slicot_mb03rd(JOBX, SORT, PMAX, A_IN, X_IN, TOL)]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>SLICOT Documentation</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>SLICOT Documentation</author_item>
+  </authors>
 </xmldoc>

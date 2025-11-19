@@ -1,53 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>blkdiag</keyword>
-    <short_description>Matrice diagonale par blocs</short_description>
-    <syntax>
-        <syntax_item>R = blkdiag(M1, ... , MN)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>M1, ..., MN</param_name>
-            <param_description>une matrice numérique 2D</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>R</param_name>
-            <param_description>une matrice.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>blkdiag</keyword>
+  <short_description>Matrice diagonale par blocs</short_description>
+  <syntax>
+    <syntax_item>R = blkdiag(M1, ... , MN)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>M1, ..., MN</param_name>
+      <param_description>une matrice numérique 2D</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description>une matrice.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >R = blkdiag(M1, ... , MN)</b> construit la matrice diagonale par blocs obtenue en alignant les matrices d'entrée <b
       >M1, ... , MN</b> le long de la diagonale de <b>R</b>.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[blkdiag(magic(2), magic(3), magic(4))]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${constructors_functions}diag">diag</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${constructors_functions}diag">diag</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

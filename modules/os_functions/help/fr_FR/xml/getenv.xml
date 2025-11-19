@@ -1,72 +1,72 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>getenv</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>getenv</keyword>
+  <short_description
   >Obtenir la valeur d'une variable d'environnement.</short_description>
-    <syntax>
-        <syntax_item>s = getenv(env_name)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>env_name</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>s = getenv(env_name)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>env_name</param_name>
+      <param_description
       >scalaire chaîne, vecteur de caractères, tableau de chaînes, cellule de vecteurs de caractères : nom de la variable d'environnement.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>s</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description
       >scalaire chaîne, vecteur de caractères, tableau de chaînes, cellule de vecteurs de caractères : valeur de la variable d'environnement.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p><b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >getenv</b> retourne la valeur d'une variable d'environnement si elle existe.</p>
-        <p>Si la variable d'environnement n'existe pas, elle renverra ''.</p>
-        <p>Si <b
-      >env_name</b> est une cellule non scalaire de vecteurs de caractères ou un tableau de chaînes, alors <b
+    <p>Si la variable d'environnement n'existe pas, elle renverra ''.</p>
+    <p>Si<b
+      >env_name</b> est une cellule non scalaire de vecteurs de caractères ou un tableau de chaînes, alors<b
       >s</b> a les mêmes dimensions et le même type que <b>env_name</b>.</p>
-        <p>Si <b>env_name</b> est une chaîne scalaire, alors <b
+    <p>Si <b>env_name</b> est une chaîne scalaire, alors<b
       >s</b> est un vecteur de caractères.</p>
-    </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[getenv('OS')
 getenv('myenvvar')
 getenv(["PATH"; "OS"])
 getenv({'PATH'; 'OS'})
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${os_functions}setenv">setenv</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${os_functions}searchenv">searchenv</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-            <history_item>
-                <history_version>1.4.0</history_version>
-                <history_description
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${os_functions}setenv">setenv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${os_functions}searchenv">searchenv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.4.0</history_version>
+      <history_description
       >Récupération des valeurs de plusieurs variables d'environnement.</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

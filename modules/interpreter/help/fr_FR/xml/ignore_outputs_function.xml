@@ -1,48 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>tilde</keyword>
-    <short_description>Ignore les sorties d'une fonction.</short_description>
-    <syntax>
-        <syntax_item>[~, A, ~] = svd(B)</syntax_item>
-    </syntax>
-    <description>
-        <p>
-            La syntaxe <b
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tilde</keyword>
+  <short_description>Ignore les sorties d'une fonction.</short_description>
+  <syntax>
+    <syntax_item>[~, A, ~] = svd(B)</syntax_item>
+  </syntax>
+  <description>
+    <p>              La syntaxe <b
       >tilde</b> permet d'ignorer des sorties spécifiques de fonctions qui renvoient plusieurs valeurs. En utilisant le symbole tilde (~) dans la liste des sorties, vous pouvez indiquer quelles sorties vous ne souhaitez pas capturer.</p>
-            <p>
-                Cela est particulièrement utile lorsque vous ne vous intéressez qu'à certains résultats d'une fonction et que vous souhaitez éviter des affectations de variables inutiles.</p>
-            <p>
-                Par exemple, lors de l'utilisation de la fonction de Décomposition en Valeurs Singulières (SVD), vous pouvez ne vouloir que les valeurs singulières et non les vecteurs singuliers gauche ou droit. Vous pouvez y parvenir en utilisant le symbole tilde pour ignorer les sorties indésirables.</p>
-    </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description
+    <p
+    >Cela est particulièrement utile lorsque vous ne vous intéressez qu'à certains résultats d'une fonction et que vous souhaitez éviter des affectations de variables inutiles.</p>
+    <p
+    >Par exemple, lors de l'utilisation de la fonction de Décomposition en Valeurs Singulières (SVD), vous pouvez ne vouloir que les valeurs singulières et non les vecteurs singuliers gauche ou droit. Vous pouvez y parvenir en utilisant le symbole tilde pour ignorer les sorties indésirables.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >in a file: demo_function.m</example_item_description>
-                    <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[
       A = rand(4,4);
       [~, S, ~] = svd(A);
 ]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${interpreter}function">function</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.15.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${interpreter}function">function</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

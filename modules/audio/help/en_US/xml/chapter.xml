@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<module_name>audio</module_name>
-	<chapter>Audio playback functions</chapter>
-	<chapter_description>
-		<p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>audio</module_name>
+  <chapter>Audio playback functions</chapter>
+  <chapter_description>
+    <p
     >The audio module provides functions for reading, writing, analyzing, and playing audio files.</p>
-		<p
+    <p
     >It supports playback control through the audioplayer object, manipulation of playback properties, and metadata handling.</p>
-		<p>It also includes utilities for signal conversion and sound generation.</p>
-	</chapter_description>
+    <p
+    >It also includes utilities for signal conversion and sound generation.</p>
+  </chapter_description>
 </xmldoc>

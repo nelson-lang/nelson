@@ -1,68 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>xlim</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>xlim</keyword>
+  <short_description
   >définir ou obtenir les limites de l'axe des x.</short_description>
-    <syntax>
-        <syntax_item>lims = xlim()</syntax_item>
-        <syntax_item>xlim([xmin, xmax])</syntax_item>
-        <syntax_item>xlim('auto')</syntax_item>
-        <syntax_item>xlim('manual')</syntax_item>
-        <syntax_item>m = xlim('mode')</syntax_item>
-        <syntax_item>xlim(ax, ...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>[xmin, xmax]</param_name>
-            <param_description
-      >coordonnées x : vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'auto'</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>lims = xlim()</syntax_item>
+    <syntax_item>xlim([xmin, xmax])</syntax_item>
+    <syntax_item>xlim('auto')</syntax_item>
+    <syntax_item>xlim('manual')</syntax_item>
+    <syntax_item>m = xlim('mode')</syntax_item>
+    <syntax_item>xlim(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>[xmin, xmax]</param_name>
+      <param_description>coordonnées x : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'auto'</param_name>
+      <param_description
       >activer la sélection automatique des limites.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'manual'</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'manual'</param_name>
+      <param_description
       >figer les limites de l'axe des x à leur valeur actuelle.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'mode'</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'mode'</param_name>
+      <param_description
       >retourne le mode actuel des limites de l'axe des x.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description
       >une valeur scalaire d'objet graphique : conteneur parent, spécifié comme un axes.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>lims</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>lims</param_name>
+      <param_description
       >vecteur à deux éléments : [xmin, xmax]</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>m</param_name>
-            <param_description>'auto' ou 'manual'.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+    <param_output_item>
+      <param_name>m</param_name>
+      <param_description>'auto' ou 'manual'.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >xlim</b> obtient ou définit les limites de l'axe des x pour le tracé actuel.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[x = linspace(-1, 1);
 y = sin(2*pi*x);
@@ -70,23 +68,23 @@ plot(x, y);
 lim = xlim()
 m = xlim('mode')
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${graphics}axes">axes</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${graphics}axis">axis</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}axes">axes</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}axis">axis</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

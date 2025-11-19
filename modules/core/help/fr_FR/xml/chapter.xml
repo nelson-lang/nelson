@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <module_name>core</module_name>
-    <chapter>Core</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>core</module_name>
+  <chapter>Core</chapter>
+  <chapter_description>
+    <p
     >Le module core fournit les éléments fondamentaux de l'environnement Nelson.</p>
-        <p
+    <p
     >Il comprend des services essentiels pour l'exécution de programmes, la gestion de l'environnement et l'interaction avec le système.</p>
-        <p
+    <p
     >Grâce à ce module, les utilisateurs peuvent évaluer le code de manière dynamique, gérer le flux d'exécution, interroger l'état du programme et accéder à des informations clés sur le système telles que la version, la configuration et la licence.</p>
-        <p
+    <p
     >Il offre également des utilitaires de base pour l'identification des fichiers, les sommes de contrôle et les capacités du terminal.</p>
-        <p
+    <p
     >Ensemble, ces fonctionnalités forment la base sur laquelle tous les autres modules et fonctionnalités au niveau utilisateur dans Nelson sont construits.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

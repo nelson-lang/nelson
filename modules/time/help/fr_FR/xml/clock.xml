@@ -1,64 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>clock</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>clock</keyword>
+  <short_description
   >Renvoie la date et l'heure locales actuelles sous forme d'un vecteur date.</short_description>
-    <syntax>
-        <syntax_item>v = clock()</syntax_item>
-    </syntax>
-    <param_output>
-                <param_output_item>
-                        <param_name>v</param_name>
-                        <param_description
+  <syntax>
+    <syntax_item>v = clock()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>v</param_name>
+      <param_description
       >un vecteur : [année, mois, jour, heures, minutes, secondes].</param_description>
-                </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>calendar()</b> renvoie le calendrier du mois courant.</p>
-            <p>Le vecteur date contient les champs suivants :</p>
-            <p>année</p>
-            <p>mois [1, 12]</p>
-            <p>jours [1, 31]</p>
-            <p>heures [0, 23]</p>
-            <p>minutes [0, 59]</p>
-            <p>secondes [0, 61]</p>
-            <p
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>calendar()</b> renvoie le calendrier du mois courant.</p>
+    <p>Le vecteur date contient les champs suivants :</p>
+    <p>année</p>
+    <p>mois [1, 12]</p>
+    <p>jours [1, 31]</p>
+    <p>heures [0, 23]</p>
+    <p>minutes [0, 59]</p>
+    <p>secondes [0, 61]</p>
+    <p
     >secondes : le champ peut avoir une partie fractionnaire après la virgule pour une précision étendue.</p>
-            <p
+    <p
     >Pour mesurer la durée d'un événement, utilisez les fonctions tic et toc plutôt que clock.</p>
-            <p
+    <p
     >La fonction clock se base sur l'heure système et peut donc ne pas être fiable pour des comparaisons temporelles précises.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[c = clock()
 fix(c)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${time}tic">tic</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${time}toc">toc</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}tic">tic</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}toc">toc</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

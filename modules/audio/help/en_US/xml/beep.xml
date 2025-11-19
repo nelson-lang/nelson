@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>beep</keyword>
-    <short_description>Produces a beep sound.</short_description>
-    <syntax>
-        <syntax_item>beep</syntax_item>
-        <syntax_item>beep(str)</syntax_item>
-        <syntax_item>str = beep</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>str</param_name>
-            <param_description>a string: 'on' or 'off'.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>str</param_name>
-            <param_description>a string: 'on' or 'off'.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p><b>beep</b> produces a beep sound.</p>
-        <p>If the optional argument is 'off', the beep sound is disabled.</p>
-        <p>If the optional argument is 'on', the beep sound is enabled.</p>
-        <p>If no argument is provided, the current state is toggled.</p>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>beep</keyword>
+  <short_description>Produces a beep sound.</short_description>
+  <syntax>
+    <syntax_item>beep</syntax_item>
+    <syntax_item>beep(str)</syntax_item>
+    <syntax_item>str = beep</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>str</param_name>
+      <param_description>a string: 'on' or 'off'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>str</param_name>
+      <param_description>a string: 'on' or 'off'.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>beep</b> produces a beep sound.</p>
+    <p>If the optional argument is 'off', the beep sound is disabled.</p>
+    <p>If the optional argument is 'on', the beep sound is enabled.</p>
+    <p>If no argument is provided, the current state is toggled.</p>
+    <p
     >If an output argument is provided, the current state ('on' or 'off') is returned.</p>
-    </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[beep('off')
 beep
 beep('on')
 beep
 s = beep]]></example_item_data>
-            </example_item>
-        </examples>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

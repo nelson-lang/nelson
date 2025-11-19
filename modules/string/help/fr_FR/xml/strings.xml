@@ -1,66 +1,65 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>strings</keyword>
-        <short_description>Crée un tableau de chaînes vide.</short_description>
-    <syntax>
-        <syntax_item>C = strings()</syntax_item>
-        <syntax_item>C = strings(m)</syntax_item>
-        <syntax_item>C = strings(m, n)</syntax_item>
-        <syntax_item>C = strings(m, n, ... , p)</syntax_item>
-        <syntax_item>C = strings(sz)</syntax_item>
-    </syntax>
-    <param_input>
-                <param_input_item>
-                        <param_name>m, n, ... , p</param_name>
-                        <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>strings</keyword>
+  <short_description>Crée un tableau de chaînes vide.</short_description>
+  <syntax>
+    <syntax_item>C = strings()</syntax_item>
+    <syntax_item>C = strings(m)</syntax_item>
+    <syntax_item>C = strings(m, n)</syntax_item>
+    <syntax_item>C = strings(m, n, ... , p)</syntax_item>
+    <syntax_item>C = strings(sz)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>m, n, ... , p</param_name>
+      <param_description
       >dimensions du tableau de chaînes à créer.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>sz</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>sz</param_name>
+      <param_description
       >un vecteur d'entiers (dimensions du tableau à créer).</param_description>
-                </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>C</param_name>
-            <param_description>un tableau de chaînes</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>strings</b> renvoie un tableau de chaînes vides.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>un tableau de chaînes</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>strings</b> renvoie un tableau de chaînes vides.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = eye(2, 4);
 sz = size(A)
 C = strings(sz)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${data_structures}cell">cell</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${types}isstring">isstring</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_structures}cell">cell</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${types}isstring">isstring</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

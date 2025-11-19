@@ -1,120 +1,115 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>waterfall</keyword>
-    <short_description>graphique en cascade.</short_description>
-    <syntax>
-        <syntax_item>waterfall(X, Y, Z)</syntax_item>
-        <syntax_item>waterfall(Z)</syntax_item>
-        <syntax_item>waterfall(Z, C)</syntax_item>
-        <syntax_item>waterfall(X, Y, Z, C)</syntax_item>
-        <syntax_item>waterfall(parent, ...)</syntax_item>
-        <syntax_item>waterfall(..., propertyName, propertyValue)</syntax_item>
-        <syntax_item>go = waterfall(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>X</param_name>
-            <param_description
-      >coordonnées x : vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Y</param_name>
-            <param_description
-      >coordonnées y : vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Z</param_name>
-            <param_description
-      >coordonnées z : vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>C</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>waterfall</keyword>
+  <short_description>graphique en cascade.</short_description>
+  <syntax>
+    <syntax_item>waterfall(X, Y, Z)</syntax_item>
+    <syntax_item>waterfall(Z)</syntax_item>
+    <syntax_item>waterfall(Z, C)</syntax_item>
+    <syntax_item>waterfall(X, Y, Z, C)</syntax_item>
+    <syntax_item>waterfall(parent, ...)</syntax_item>
+    <syntax_item>waterfall(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>go = waterfall(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>coordonnées x : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>coordonnées y : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>coordonnées z : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>C</param_name>
+      <param_description
       >Tableau de couleurs : tableau m-par-n-par-3 de triplets RGB.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>parent</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description
       >une valeur scalaire d'objet graphique : conteneur parent, spécifié comme un axes.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyName</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
       >une chaîne scalaire ou un vecteur de caractères en ligne.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyValue</param_name>
-            <param_description>une valeur.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>go</param_name>
-            <param_description
-      >un objet graphique : type surface.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>une valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>un objet graphique : type surface.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >waterfall</b> crée un graphique en cascade, qui est un graphique en maillage avec un rideau partiel le long de la dimension y.</p>
-            <p>Cela donne un effet de 'cascade'.</p>
-            <p>La fonction prend les mêmes arguments d'entrée que la fonction <b
+    <p>Cela donne un effet de 'cascade'.</p>
+    <p>La fonction prend les mêmes arguments d'entrée que la fonction<b
       >mesh</b>.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 Z = peaks();
 waterfall(Z);
 title ("fonction waterfall");
 ]]></example_item_data>
-                <example_item_img
+      <example_item_img
         src="../images/waterfall_1.svg"
         align="middle"
         generate="true"
       />
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 [X,Y] = meshgrid(-5:.5:5);
 Z = Y.*sin(X) - X.*cos(Y);
 p = waterfall(X, Y, Z);
 ]]></example_item_data>
-                <example_item_img
+      <example_item_img
         src="../../images/waterfall_2.svg"
         align="middle"
         generate="true"
       />
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${graphics}mesh">mesh</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${elementary_functions}meshgrid">meshgrid</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}mesh">mesh</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}meshgrid">meshgrid</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

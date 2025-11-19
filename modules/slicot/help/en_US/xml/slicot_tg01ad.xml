@@ -1,94 +1,94 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>slicot_tg01ad</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>slicot_tg01ad</keyword>
+  <short_description
   >Balancing the matrices of the system pencil corresponding to a descriptor triple (A-lambda E, B, C).</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[A_OUT, E_OUT, B_OUT, C_OUT, LSCALE, RSCALE, INFO] = slicot_tg01ad(JOB, THRESH, A_IN, E_IN, B_IN, C_IN)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>JOB</param_name>
-            <param_description
-      >= 'A':  All matrices are involved in balancing; = 'B':  B, A and E matrices are involved in balancing; = 'C':  C, A and E matrices are involved in balancing; = 'N':  B and C matrices are not involved in balancing.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>THRESH</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>JOB</param_name>
+      <param_description
+      >= 'A': All matrices are involved in balancing; = 'B': B, A and E matrices are involved in balancing; = 'C': C, A and E matrices are involved in balancing; = 'N': B and C matrices are not involved in balancing.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>THRESH</param_name>
+      <param_description
       >Threshold value for magnitude of elements: elements with magnitude less than or equal to THRESH are ignored for balancing.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>A_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>A_IN</param_name>
+      <param_description
       >The leading L-by-N part of this array must contain the state dynamics matrix A.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>E_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>E_IN</param_name>
+      <param_description
       >The leading L-by-N part of this array must contain the descriptor matrix E.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>B_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>B_IN</param_name>
+      <param_description
       >The leading L-by-M part of this array must contain the input/state matrix B.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>C_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>C_IN</param_name>
+      <param_description
       >The leading P-by-N part of this array must contain the state/output matrix C.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>A_OUT</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>A_OUT</param_name>
+      <param_description
       >The leading L-by-N part of this array contains the balanced matrix Dl*A*Dr.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>E_OUT</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>E_OUT</param_name>
+      <param_description
       >The leading L-by-N part of this array contains the balanced matrix Dl*E*Dr.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>B_OUT</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>B_OUT</param_name>
+      <param_description
       >The leading L-by-M part of this array contains the balanced matrix Dl*B.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>C_OUT</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>C_OUT</param_name>
+      <param_description
       >The leading P-by-N part of this array contains the balanced matrix C*Dr.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>LSCALE</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>LSCALE</param_name>
+      <param_description
       >The scaling factors applied to S from left.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>RSCALE</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>RSCALE</param_name>
+      <param_description
       >The scaling factors applied to S from right.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>INFO</param_name>
-            <param_description>= 0:  successful exit.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
+    </param_output_item>
+    <param_output_item>
+      <param_name>INFO</param_name>
+      <param_description>= 0: successful exit.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >To balance the matrices of the system pencil corresponding to the descriptor triple (A-lambda E,B,C), by balancing.</p>
-    </description>
-    <used_function>TG01AD</used_function>
-    <bibliography
+  </description>
+  <used_function>TG01AD</used_function>
+  <bibliography
   >http://slicot.org/objects/software/shared/doc/TG01AD.html</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[L = 4;
 N = 4;
@@ -116,15 +116,15 @@ C_IN = [-0.1      0.0    0.001    0.0;
        0.0      0.01  -0.001    0.0001];
 
 [A_OUT, E_OUT, B_OUT, C_OUT, LSCALE, RSCALE, INFO] = slicot_tg01ad(JOB, THRESH, A_IN, E_IN, B_IN, C_IN)]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>SLICOT Documentation</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>SLICOT Documentation</author_item>
+  </authors>
 </xmldoc>

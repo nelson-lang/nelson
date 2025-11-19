@@ -1,133 +1,240 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>contour</keyword>
-    <short_description>Tracé de contours d'une matrice</short_description>
-    <syntax>
-        <syntax_item>contour(Z)</syntax_item>
-        <syntax_item>contour(X, Y, Z)</syntax_item>
-        <syntax_item>contour(..., levels)</syntax_item>
-        <syntax_item>contour(..., LineSpec)</syntax_item>
-        <syntax_item>contour(ax, ...)</syntax_item>
-        <syntax_item>M = contour(...)</syntax_item>
-        <syntax_item>[M, h] = contour(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>X</param_name>
-            <param_description
-      >Coordonnées x : vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Y</param_name>
-            <param_description
-      >Coordonnées y : vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Z</param_name>
-            <param_description
-      >Coordonnées z : vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>levels</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>contour</keyword>
+  <short_description>Tracé de contours d'une matrice</short_description>
+  <syntax>
+    <syntax_item>contour(Z)</syntax_item>
+    <syntax_item>contour(X, Y, Z)</syntax_item>
+    <syntax_item>contour(..., levels)</syntax_item>
+    <syntax_item>contour(..., LineSpec)</syntax_item>
+    <syntax_item>contour(ax, ...)</syntax_item>
+    <syntax_item>M = contour(...)</syntax_item>
+    <syntax_item>[M, h] = contour(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>Coordonnées x : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>Coordonnées y : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>Coordonnées z : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>levels</param_name>
+      <param_description
       >Niveaux de contours : scalaire ou vecteur.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>LineSpec</param_name>
-            <param_description>Style et couleur de ligne</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineSpec</param_name>
+      <param_description>Style et couleur de ligne</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description
       >Un objet graphique scalaire : conteneur parent, spécifié comme axes.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>M</param_name>
-            <param_description>Matrice de contours.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>h</param_name>
-            <param_description
-      >Un objet graphique : type contour.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>M</param_name>
+      <param_description>Matrice de contours.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>Un objet graphique : type contour.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >contour(Z)</b> génère un tracé de contours représentant les isolignes de la matrice Z. Chaque isoligne correspond à une valeur de hauteur spécifique sur le plan x-y.</p>
-        <p>
-            Nelson sélectionne automatiquement les lignes de contour à afficher en fonction des valeurs de Z. Les indices de colonnes et de lignes de Z servent respectivement de coordonnées x et y dans le plan.</p>
-        <p>
-            <b
+    <p
+    >              Nelson sélectionne automatiquement les lignes de contour à afficher en fonction des valeurs de Z. Les indices de colonnes et de lignes de Z servent respectivement de coordonnées x et y dans le plan.</p>
+    <p><b
       >contour(X, Y, Z)</b> permet à l'utilisateur de spécifier les coordonnées x et y correspondant aux valeurs de la matrice Z. Cela permet un contrôle plus précis du positionnement du tracé de contours sur le plan x-y.</p>
-        <p>
-            Les matrices X et Y fournissent les coordonnées, tandis que Z contient les valeurs de hauteur pour générer le tracé de contours.</p>
-        <p>Paires Nom-Valeur de propriétés :</p>
-        <p />
-                <table>
-                    <tr><th>Propriété</th><th>Description</th></tr>
-                    <tr><td><b>LevelList</b></td><td
-        >Les niveaux de contours, spécifiés comme un vecteur de valeurs z, déterminent les hauteurs auxquelles les lignes de contour sont tracées. Par défaut, si non fournis, la fonction contour sélectionne automatiquement ces valeurs pour couvrir l'ensemble des valeurs présentes dans la propriété ZData, assurant une couverture complète de la plage de données. Par défaut : matrice vide.</td></tr>
-                    <tr><td><b>LevelListMode</b></td><td
-        >Mode de sélection pour LevelList : 'manual' ou 'auto' (par défaut).</td></tr>
-                    <tr><td><b>LevelStep</b></td><td
-        >Espacement entre les lignes de contour : valeur numérique scalaire ou 0 (par défaut).</td></tr>
-                    <tr><td><b>LevelStepMode</b></td><td
-        >Mode de sélection pour LevelStep : 'manual' ou 'auto' (par défaut).</td></tr>
-                    <tr><td><b>EdgeColor</b></td><td
-        >Couleur des lignes de contour : couleur rgb ou 'flat' (par défaut).</td></tr>
-                    <tr><td><b>EdgeAlpha</b></td><td
-        >Transparence des lignes de contour : scalaire dans [0, 1] ou 1 (par défaut).</td></tr>
-                    <tr><td><b>LineStyle</b></td><td
-        >Style de ligne : '--', ':', '-.' ou '-' (par défaut).</td></tr>
-                    <tr><td><b>LineWidth</b></td><td
-        >Épaisseur de ligne : valeur positive ou 0.5 (par défaut).</td></tr>
-                    <tr><td><b>ContourMatrix</b></td><td
-        >Matrice de contours.</td></tr>
-                    <tr><td><b>XData</b></td><td
-        >Valeurs x : vecteur ou matrice ou [] (par défaut).</td></tr>
-                    <tr><td><b>YData</b></td><td
-        >Valeurs y : vecteur ou matrice ou [] (par défaut).</td></tr>
-                    <tr><td><b>ZData</b></td><td
-        >Valeurs z : vecteur ou matrice ou [] (par défaut).</td></tr>
-                    <tr><td><b>XDataMode</b></td><td
-        >Mode de sélection pour XData : 'manual' ou 'auto' (par défaut).</td></tr>
-                    <tr><td><b>YDataMode</b></td><td
-        >Mode de sélection pour YData : 'manual' ou 'auto' (par défaut).</td></tr>
-                    <tr><td><b>DisplayName</b></td><td
-        >Étiquette de légende : vecteur de caractères, chaîne ou '' (par défaut).</td></tr>
-                    <tr><td><b>Visible</b></td><td
-        >État de visibilité : valeur logique on/off, 'on' (par défaut).</td></tr>
-                    <tr><td><b>Parent</b></td><td
-        >Parent : objet Axes ou Group.</td></tr>
-                    <tr><td><b>Children</b></td><td>Enfants.</td></tr>
-                    <tr><td><b>HandleVisibility</b></td><td
-        >Visibilité du handle : 'on', 'off'.</td></tr>
-                    <tr><td><b>Type</b></td><td
-        >Type d'objet graphique : 'contour'.</td></tr>
-                    <tr><td><b>Tag</b></td><td
-        >Identifiant de l'objet : vecteur de caractères, chaîne ou '' (par défaut).</td></tr>
-                    <tr><td><b>UserData</b></td><td
-        >Données utilisateur : tableau ou [] (par défaut).</td></tr>
-                    <tr><td><b>CreateFcn</b></td><td
-        >Callback (fonction, chaîne ou cellule) appelée lors de la création de l'objet. Définir cette propriété sur un composant existant n'a aucun effet.</td></tr>
-                    <tr><td><b>DeleteFcn</b></td><td
-        >Callback (fonction, chaîne ou cellule) appelée lors de la suppression de l'objet.</td></tr>
-                    <tr><td><b>BeingDeleted</b></td><td
-        >Indique que l'objet est en cours de suppression.</td></tr>
-                </table>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    <p
+    >Les matrices X et Y fournissent les coordonnées, tandis que Z contient les valeurs de hauteur pour générer le tracé de contours.</p>
+    <p>Paires Nom-Valeur de propriétés :</p>
+    <table>
+      <tr>
+        <th>Propriété</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>
+          <b>LevelList</b>
+        </td>
+        <td
+        >Les niveaux de contours, spécifiés comme un vecteur de valeurs z, déterminent les hauteurs auxquelles les lignes de contour sont tracées. Par défaut, si non fournis, la fonction contour sélectionne automatiquement ces valeurs pour couvrir l'ensemble des valeurs présentes dans la propriété ZData, assurant une couverture complète de la plage de données. Par défaut : matrice vide.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>LevelListMode</b>
+        </td>
+        <td
+        >Mode de sélection pour LevelList : 'manual' ou 'auto' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>LevelStep</b>
+        </td>
+        <td
+        >Espacement entre les lignes de contour : valeur numérique scalaire ou 0 (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>LevelStepMode</b>
+        </td>
+        <td
+        >Mode de sélection pour LevelStep : 'manual' ou 'auto' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>EdgeColor</b>
+        </td>
+        <td
+        >Couleur des lignes de contour : couleur rgb ou 'flat' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>EdgeAlpha</b>
+        </td>
+        <td
+        >Transparence des lignes de contour : scalaire dans [0, 1] ou 1 (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>LineStyle</b>
+        </td>
+        <td>Style de ligne : '--', ':', '-.' ou '-' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>LineWidth</b>
+        </td>
+        <td>Épaisseur de ligne : valeur positive ou 0.5 (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ContourMatrix</b>
+        </td>
+        <td>Matrice de contours.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XData</b>
+        </td>
+        <td>Valeurs x : vecteur ou matrice ou [] (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YData</b>
+        </td>
+        <td>Valeurs y : vecteur ou matrice ou [] (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ZData</b>
+        </td>
+        <td>Valeurs z : vecteur ou matrice ou [] (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XDataMode</b>
+        </td>
+        <td>Mode de sélection pour XData : 'manual' ou 'auto' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YDataMode</b>
+        </td>
+        <td>Mode de sélection pour YData : 'manual' ou 'auto' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>DisplayName</b>
+        </td>
+        <td
+        >Étiquette de légende : vecteur de caractères, chaîne ou '' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Visible</b>
+        </td>
+        <td>État de visibilité : valeur logique on/off, 'on' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Parent</b>
+        </td>
+        <td>Parent : objet Axes ou Group.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Children</b>
+        </td>
+        <td>Enfants.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>HandleVisibility</b>
+        </td>
+        <td>Visibilité du handle : 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Type</b>
+        </td>
+        <td>Type d'objet graphique : 'contour'.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Tag</b>
+        </td>
+        <td
+        >Identifiant de l'objet : vecteur de caractères, chaîne ou '' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>UserData</b>
+        </td>
+        <td>Données utilisateur : tableau ou [] (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CreateFcn</b>
+        </td>
+        <td
+        >Callback (fonction, chaîne ou cellule) appelée lors de la création de l'objet. Définir cette propriété sur un composant existant n'a aucun effet.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>DeleteFcn</b>
+        </td>
+        <td
+        >Callback (fonction, chaîne ou cellule) appelée lors de la suppression de l'objet.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>BeingDeleted</b>
+        </td>
+        <td>Indique que l'objet est en cours de suppression.</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
     subplot(2, 3, 1)
@@ -161,16 +268,16 @@
     Z = sin (2*theta) .* (1-r);
     contour (X, Y, abs (Z), 10);
     ]]></example_item_data>
-                    <example_item_img
+      <example_item_img
         src="../../images/contour_1.svg"
         align="middle"
         generate="true"
       />
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[
     rng('default');
@@ -178,16 +285,16 @@
     N = 50;
     contour(1:N, 1:N, rand(N), 5)
     ]]></example_item_data>
-                    <example_item_img
+      <example_item_img
         src="../../images/contour_2.svg"
         align="middle"
         generate="true"
       />
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[
     f = figure();      
@@ -195,41 +302,40 @@
     Z(:,26) = NaN;
     contour(Z)
     ]]></example_item_data>
-                    <example_item_img
+      <example_item_img
         src="../../images/contour_nan.png"
         align="middle"
         generate="true"
       />
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${graphics}contour3">contour3</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${graphics}surf">surf</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${graphics}mesh">mesh</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.3.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-                <history_item>
-                    <history_version>1.7.0</history_version>
-                    <history_description
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}contour3">contour3</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}surf">surf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}mesh">mesh</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.3.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description
       >CreateFcn, DeleteFcn callback added.</history_description>
-                </history_item>
-                <history_item>
-                    <history_version>--</history_version>
-                    <history_description
-      >BeingDeleted property added.</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </history_item>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description>BeingDeleted property added.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <module_name>table</module_name>
-    <chapter>Tables</chapter>
-    <chapter_description>
-      <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>table</module_name>
+  <chapter>Tables</chapter>
+  <chapter_description>
+    <p
     >Le module Tables fournit des outils pour créer, accéder et manipuler des données tabulaires dans Nelson.</p>
-      <p
+    <p
     >Les tables sont des structures de type tableau avec des variables nommées (colonnes), chacune pouvant contenir différents types de données.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

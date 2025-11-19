@@ -1,98 +1,95 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>jlrun</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>jlrun</keyword>
+  <short_description
   >Exécute des instructions Julia depuis Nelson.</short_description>
-    <syntax>
-        <syntax_item>jlrun(code)</syntax_item>
-        <syntax_item>outvars = jlrun(code, outputs)</syntax_item>
-        <syntax_item
-    >outvars = jlrun(code, outputs, jlName, jlValue)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>code</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>jlrun(code)</syntax_item>
+    <syntax_item>outvars = jlrun(code, outputs)</syntax_item>
+    <syntax_item>outvars = jlrun(code, outputs, jlName, jlValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>code</param_name>
+      <param_description
       >une chaîne (scalaire), un tableau de chaînes, un vecteur de caractères ou un tableau de caractères.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>jlName, jlValue</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>jlName, jlValue</param_name>
+      <param_description
       >Noms et valeurs des arguments d'entrée.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>outputs</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>outputs</param_name>
+      <param_description
       >tableau de chaînes : noms des variables Julia.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>outvars</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>outvars</param_name>
+      <param_description
       >Une ou plusieurs variables de l'espace de travail Nelson renvoyées sous forme de types Julia valides.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p><b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >jlrun(code)</b> exécute les instructions Julia présentes dans la chaîne de code via l'interpréteur Julia.</p>
-        <p>Les variables générées par la fonction <b
+    <p>Les variables générées par la fonction <b
       >jlrun</b> restent persistantes, permettant leur réutilisation dans des appels <b
       >jlrun</b> ultérieurs.</p>
-        <p><b
+    <p><b
       >outvars = jlrun(code, outputs)</b> : les variables Julia spécifiées dans outputs sont renvoyées vers Nelson.</p>
-        <p>Les valeurs de ces variables sont capturées dans <b>outvars</b>.</p>
-        <p><b>outvars = jlrun(code, outputs, jlName, jlValue)</b> : le <b
+    <p>Les valeurs de ces variables sont capturées dans <b>outvars</b>.</p>
+    <p><b>outvars = jlrun(code, outputs, jlName, jlValue)</b> : le <b
       >code</b> est exécuté avec des noms de variables d'entrée et de sortie assignés, en utilisant des données Nelson transmises via un ou plusieurs arguments nom-valeur.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[jlrun('a = b * c', 'b', 5, 'c', 10)
 r = jlrun('d = a + c', 'd')]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[jlrun(["a = 3","print(a)"])]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[[R1, R2] = jlrun("a=b*c",["a","b"], 'b', 5, 'c', 10)]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${julia_engine}jlrunfile">jlrunfile</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${julia_engine}jlenv">jlenv</link>
-        </see_also_item>
-        <see_also_item>
-            <link
-        linkend="${julia_engine}julia_types"
-      >Julia types supported</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.12.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${julia_engine}jlrunfile">jlrunfile</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${julia_engine}jlenv">jlenv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${julia_engine}julia_types">Julia types supported</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.12.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

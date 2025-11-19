@@ -1,123 +1,120 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>loglog</keyword>
-    <short_description>Log-log scale plot.</short_description>
-    <syntax>
-        <syntax_item>loglog(X, Y)</syntax_item>
-        <syntax_item>loglog(X, Y, LineSpec)</syntax_item>
-        <syntax_item>loglog(Y)</syntax_item>
-        <syntax_item>loglog(Y, LineSpec)</syntax_item>
-        <syntax_item>loglog(ax, ...)</syntax_item>
-        <syntax_item>loglog(..., propertyName, propertyValue)</syntax_item>
-        <syntax_item>go = loglog(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>X</param_name>
-            <param_description
-      > Log scale coordinates: scalar, vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Y</param_name>
-            <param_description
-      >Log scale  coordinates: scalar, vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>LineSpec</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>loglog</keyword>
+  <short_description>Log-log scale plot.</short_description>
+  <syntax>
+    <syntax_item>loglog(X, Y)</syntax_item>
+    <syntax_item>loglog(X, Y, LineSpec)</syntax_item>
+    <syntax_item>loglog(Y)</syntax_item>
+    <syntax_item>loglog(Y, LineSpec)</syntax_item>
+    <syntax_item>loglog(ax, ...)</syntax_item>
+    <syntax_item>loglog(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>go = loglog(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
+      >Log scale coordinates: scalar, vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description
+      >Log scale coordinates: scalar, vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineSpec</param_name>
+      <param_description
       >Line style, marker, and/or color: character vector or scalar string.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description
       >a scalar graphics object value: parent container, specified as a axes.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyName</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
       >a scalar string or row vector character. see help of 'line' for property list.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyValue</param_name>
-            <param_description>a value.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>go</param_name>
-            <param_description>a graphics object: line type.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>a value.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>a graphics object: line type.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >loglog(X, Y)</b> plots data using a base 10 logarithmic scale for the x-axis and the y-axis.</p>
-            <p>
-                <b>loglog</b> has the exact same syntax as the <b
-      >plot</b> command.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    <p><b>loglog</b> has the exact same syntax as the<b>plot</b> command.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 x = logspace(-1,2);
 y = 2 .^ x;
 loglog(x,y)
 grid on]]></example_item_data>
-                    <example_item_img
+      <example_item_img
         src="../../images/loglog_1.svg"
         align="middle"
         generate="true"
       />
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 x = logspace(-1,2,20);
 y = 10 .^ x;
 loglog(x,y,'s','MarkerFaceColor',[0 0.447 0.741])
 grid on]]></example_item_data>
-                    <example_item_img
+      <example_item_img
         src="../../images/loglog_2.svg"
         align="middle"
         generate="true"
       />
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${graphics}semilogx">semilogx</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${graphics}semilogy">semilogy</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${graphics}line">line</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${graphics}plot">plot</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${graphics}grid">grid</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>initial version</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}semilogx">semilogx</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}semilogy">semilogy</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}line">line</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}plot">plot</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}grid">grid</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

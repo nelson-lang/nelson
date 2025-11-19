@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>subsindex</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>subsindex</keyword>
+  <short_description
   >Convertir un objet en vecteur d'indices.</short_description>
-    <syntax>
-        <syntax_item>r = subsindex(O)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>O</param_name>
-            <param_description>une variable</param_description>
-        </param_input_item>
-    </param_input>
-        <description>
-                <p>Si <b>O</b> est un objet alors <b
+  <syntax>
+    <syntax_item>r = subsindex(O)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>O</param_name>
+      <param_description>une variable</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>Si <b>O</b> est un objet alors <b
       >subsindex</b> est la méthode de surcharge qui permet de convertir cet objet en un vecteur d'indexation valide.</p>
-        </description>
-    <used_function />
-    <bibliography />
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+  </description>
+  <used_function />
+  <bibliography />
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

@@ -1,81 +1,79 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>subsref</keyword>
-    <short_description>Référence par indice.</short_description>
-    <syntax>
-        <syntax_item>B = subsref(A, S)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>A</param_name>
-            <param_description>tableau d'objets indexés</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>B</param_name>
-            <param_description>structure d'indexation</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>B</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>subsref</keyword>
+  <short_description>Référence par indice.</short_description>
+  <syntax>
+    <syntax_item>B = subsref(A, S)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>tableau d'objets indexés</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description>structure d'indexation</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description
       >Résultat de l'expression d'indexation</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >B = subsref(A, S)</b> est invoqué lors de l'utilisation de la syntaxe <b
       >A(i)</b>, <b>A{i}</b> ou <b>A.i</b> avec un objet <b>A</b>.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Indexation par parenthèses</example_item_description>
-                <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = magic(5);
 S.type='()';
 S.subs={1:2,':'};
 R = subsref(A, S)]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Indexation par accolades</example_item_description>
-                <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[C = {"one", 2, 'three'};
 S = [];
 S.type = '{}';
 S.subs = {[1 2]};
 [R1, R2] = subsref(C, S);]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
-      >Indexation par point</example_item_description>
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Indexation par point</example_item_description>
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = struct('number', 10);
 S = [];
 S.type = '.';
 S.subs = 'number';
 R = subsref(A, S)]]></example_item_data>
-            </example_item>
-        </examples>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

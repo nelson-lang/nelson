@@ -1,88 +1,84 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>pan</keyword>
-    <short_description>Activer le mode déplacement (pan).</short_description>
-    <syntax>
-        <syntax_item>pan</syntax_item>
-        <syntax_item>pan option</syntax_item>
-        <syntax_item>pan(fig, ...)</syntax_item>
-        <syntax_item>pan(ax, ...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>option</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>pan</keyword>
+  <short_description>Activer le mode déplacement (pan).</short_description>
+  <syntax>
+    <syntax_item>pan</syntax_item>
+    <syntax_item>pan option</syntax_item>
+    <syntax_item>pan(fig, ...)</syntax_item>
+    <syntax_item>pan(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>option</param_name>
+      <param_description
       >Chaîne de caractères : 'on', 'off', 'out', 'xon', 'yon' ou 'toggle'.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>fig</param_name>
-            <param_description>Objet figure : figure cible</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>fig</param_name>
+      <param_description>Objet figure : figure cible</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description
       >Valeur scalaire d'objet graphique : conteneur parent, spécifié comme axes.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p
+    </param_input_item>
+  </param_input>
+  <description>
+    <p
     >Utilisez le mode déplacement (pan) pour ajuster dynamiquement les limites des axes lors de l'exploration interactive des données.</p>
-        <p
+    <p
     >Activez ou désactivez le mode déplacement et configurez des options de base supplémentaires avec la fonction pan.</p>
-        <p
+    <p
     >Le mode déplacement est compatible avec divers graphiques comme les courbes, barres, histogrammes et surfaces. Ces graphiques disposent généralement d'une icône de déplacement dans la barre d'outils pour faciliter cette fonctionnalité.</p>
-        <p><b
+    <p><b
       >pan option</b> configure le mode déplacement pour tous les axes de la figure courante.</p>
-        <p
+    <p
     >Une fois le mode déplacement activé, vous pouvez ajuster la vue des axes avec le curseur ou le clavier :</p>
-        <p>Curseur : cliquez et faites glisser le curseur dans les axes.</p>
-        <p
+    <p>Curseur : cliquez et faites glisser le curseur dans les axes.</p>
+    <p
     >Clavier : pour déplacer horizontalement, utilisez les flèches gauche (←) ou droite (→). Pour déplacer verticalement, utilisez les flèches haut (↑) ou bas (↓).</p>
-        <p />
-        <p
+    <p />
+    <p
     >L'option du mode déplacement peut être spécifiée avec l'une des valeurs suivantes :</p>
-        <p><b
+    <p><b
       >'toggle'</b> : Bascule le mode déplacement. Si le mode est désactivé, 'toggle' revient à la dernière option utilisée parmi 'on', 'xon' ou 'yon'. Ce comportement est identique à l'appel de pan sans argument.</p>
-        <p><b>'xon'</b> : Active le mode déplacement uniquement sur l'axe x.</p>
-        <p><b>'yon'</b> : Active le mode déplacement uniquement sur l'axe y.</p>
-        <p><b>'on'</b> : Active le mode déplacement.</p>
-        <p><b
+    <p><b>'xon'</b> : Active le mode déplacement uniquement sur l'axe x.</p>
+    <p><b>'yon'</b> : Active le mode déplacement uniquement sur l'axe y.</p>
+    <p><b>'on'</b> : Active le mode déplacement.</p>
+    <p><b
       >'off'</b> : Désactive le mode déplacement. Certaines interactions par défaut peuvent persister quel que soit le mode d'interaction.</p>
-    </description>
-                            <used_function />
-                            <bibliography />
-                            <examples>
-                                <example_item>
-                                    <example_item_type
-      >nelson</example_item_type>
-                                    <example_item_description />
-                                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[surf(peaks)
 pan on
 ]]></example_item_data>
-                                </example_item>
-                            </examples>
-                            <see_also>
-                                <see_also_item>
-                                    <link
-        linkend="${graphics}rotate3d"
-      >rotate3d</link>
-                                </see_also_item>
-                                <see_also_item>
-                                    <link linkend="${graphics}zoom">zoom</link>
-                                </see_also_item>
-                            </see_also>
-                            <history>
-                                <history_item>
-                                    <history_version>1.2.0</history_version>
-                                    <history_description
-      >version initiale</history_description>
-                                </history_item>
-                            </history>
-                            <authors>
-                                <author_item>Allan CORNET</author_item>
-                            </authors>
-                        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}rotate3d">rotate3d</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}zoom">zoom</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.2.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

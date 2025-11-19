@@ -1,74 +1,72 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>dir</keyword>
-    <short_description>Renvoie la liste des fichiers.</short_description>
-    <syntax>
-        <syntax_item>dir</syntax_item>
-        <syntax_item>dir(dirname)</syntax_item>
-        <syntax_item>dir(dirname, '-s')</syntax_item>
-        <syntax_item>res =dir()</syntax_item>
-        <syntax_item>res = dir(dirname)</syntax_item>
-        <syntax_item>res = dir(dirname, '-s')</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-        <param_name>dirname</param_name>
-        <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>dir</keyword>
+  <short_description>Renvoie la liste des fichiers.</short_description>
+  <syntax>
+    <syntax_item>dir</syntax_item>
+    <syntax_item>dir(dirname)</syntax_item>
+    <syntax_item>dir(dirname, '-s')</syntax_item>
+    <syntax_item>res =dir()</syntax_item>
+    <syntax_item>res = dir(dirname)</syntax_item>
+    <syntax_item>res = dir(dirname, '-s')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>dirname</param_name>
+      <param_description
       >a string: nom de fichier ou de répertoire.</param_description>
-        </param_input_item>
-        <param_input_item>
-        <param_name>'-s'</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'-s'</param_name>
+      <param_description
       >a string: inclut également les sous-répertoires.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-        <param_name>res</param_name>
-        <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>res</param_name>
+      <param_description
       >une structure avec les champs : name, date, bytes, isdir, datenum.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-      <p><b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >dir</b> affiche la liste des fichiers et dossiers dans le répertoire courant.</p>
-      <p
+    <p
     >Le caractère * (joker) est supporté dans les noms de fichiers et chemins.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[res = dir(nelsonroot())
-res = dir(nelsonroot(), '-s')]]>
-res = dir([nelsonroot(),'/*.m'], '-s')
-		</example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${files_folders_functions}ls">ls</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${files_folders_functions}isdir">isdir</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${files_folders_functions}isfile">isfile</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+res = dir(nelsonroot(), '-s')]]>res = dir([nelsonroot(),'/*.m'], '-s')</example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${files_folders_functions}ls">ls</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${files_folders_functions}isdir">isdir</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${files_folders_functions}isfile">isfile</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

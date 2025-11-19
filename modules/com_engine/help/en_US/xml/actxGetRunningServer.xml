@@ -1,62 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>actxGetRunningServer</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>actxGetRunningServer</keyword>
+  <short_description
   >Handle to running instance of Automation server.</short_description>
-    <syntax>
-        <syntax_item>h = actxGetRunningServer(progid)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>progid</param_name>
-            <param_description
-      >a string:  the name of a COM server.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>h</param_name>
-            <param_description>a COM object.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+  <syntax>
+    <syntax_item>h = actxGetRunningServer(progid)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>progid</param_name>
+      <param_description>a string: the name of a COM server.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>a COM object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >h = actxGetRunningServer(progid)</b> gets a reference to a running instance of the OLE/COM Automation server.</p>
-            <p>
-                <b
-      >progid</b> is the programmatic identifier of the Automation server object and <b
+    <p><b
+      >progid</b> is the programmatic identifier of the Automation server object and<b
       >h</b> is the handle to the default interface of the server object.</p>
-                <p
+    <p
     >The function returns an error if the server specified by progid is not currently running or if the server object is not registered.</p>
-                <p
+    <p
     >When multiple instances of the Automation server are running, the operating system controls the behavior of this function.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[h = actxGetRunningServer('Excel.application')]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${com_engine}actxserver">actxserver</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>initial version</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${com_engine}actxserver">actxserver</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

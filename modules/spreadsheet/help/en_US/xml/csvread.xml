@@ -1,114 +1,100 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>csvread</keyword>
-    <short_description
-  >Read comma-separated value (CSV) file.</short_description>
-    <syntax>
-        <syntax_item>M = csvread(filename)</syntax_item>
-        <syntax_item>M = csvread(filename, R1, C1)</syntax_item>
-        <syntax_item>M = csvread(filename, R1, C1, [R1 C1 R2 C2])</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description>a string: filename source.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>R1, C1</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>csvread</keyword>
+  <short_description>Read comma-separated value (CSV) file.</short_description>
+  <syntax>
+    <syntax_item>M = csvread(filename)</syntax_item>
+    <syntax_item>M = csvread(filename, R1, C1)</syntax_item>
+    <syntax_item>M = csvread(filename, R1, C1, [R1 C1 R2 C2])</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: filename source.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>R1, C1</param_name>
+      <param_description
       >nonnegative integer: offset. default : 0, 0</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>[R1 C1 R2 C2]</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>[R1 C1 R2 C2]</param_name>
+      <param_description
       >nonnegative integer: Starting row offset, starting column offset, ending row offset and ending column offset.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>M</param_name>
-            <param_description>a double matrix.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >M = csvread(filename, R1, C1, [R1 C1 R2 C2])</b> reads only the data within the range specified by row offsets <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>M</param_name>
+      <param_description>a double matrix.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >M = csvread(filename, R1, C1, [R1 C1 R2 C2])</b> reads only the data within the range specified by row offsets<b
       >R1</b> to <b>R2</b> and column offsets <b>C1</b> to <b>C2</b>.</p>
-            <p>
-                <b
-      >M = csvread(filename, R1, C1)</b> starts reading data at the row and column offsets specified by <b
-      >R1</b> and <b
+    <p><b
+      >M = csvread(filename, R1, C1)</b> starts reading data at the row and column offsets specified by<b
+      >R1</b> and<b
       >C1</b>. For example, R1=0, C1=0 indicates the first value in the file.</p>
-                <p
-    >To set row and column offsets without defining a delimiter, use an empty character as a placeholder, like <b
+    <p
+    >To set row and column offsets without defining a delimiter, use an empty character as a placeholder, like<b
       >M = csvread(filename, 3, 1)</b>.</p>
-                <p>
-                    <b
-      >M = csvread(filename)</b> read a comma-separated value (CSV) formatted file into matrix <b
+    <p><b
+      >M = csvread(filename)</b> read a comma-separated value (CSV) formatted file into matrix<b
       >M</b>.</p>
-                    <p>Complex Number Importing: <b
+    <p>Complex Number Importing:<b
       >csvread</b> reads each complex number as a single unit, storing it in a complex numeric field.</p>
-                    <p>Valid forms for complex numbers are:</p>
-                    <p />
-                    <table style="width:100%">
-                        <tr>
-                            <th>Form:</th>
-                            <th>Example:</th>
-                        </tr>
-                        <tr>
-                            <td>± real ± imag i&#124;j</td>
-                            <td>3.1347-2.1i</td>
-                        </tr>
-                        <tr>
-                            <td>± imag i&#124;j</td>
-                            <td>-2.1j</td>
-                        </tr>
-                    </table>
-                    <p>
-                        <b
-      >Note</b>: Whitespace within a complex number is not allowed; <b
+    <p>Valid forms for complex numbers are:</p>
+    <p />
+    <table style="width:100%">
+      <tr>
+        <th>Form:</th>
+        <th>Example:</th>
+      </tr>
+      <tr>
+        <td>± real ± imag i|j</td>
+        <td>3.1347-2.1i</td>
+      </tr>
+      <tr>
+        <td>± imag i|j</td>
+        <td>-2.1j</td>
+      </tr>
+    </table>
+    <p><b>Note</b>: Whitespace within a complex number is not allowed;<b
       >csvread</b> interprets any embedded spaces as field delimiters.</p>
-                    </description>
-                    <used_function />
-                    <bibliography />
-                    <examples>
-                        <example_item>
-                            <example_item_type>nelson</example_item_type>
-                            <example_item_description />
-                            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
-      >A = [Inf, -Inf, NaN, 3];
-filename = [tempdir(), 'csvread_example.csv'];
-csvwrite(filename, A);
-R = csvread(filename)</example_item_data>
-                        </example_item>
-                    </examples>
-                    <see_also>
-                        <see_also_item>
-                            <link
-        linkend="${spreadsheet}csvwrite"
-      >csvwrite</link>
-                        </see_also_item>
-                        <see_also_item>
-                            <link linkend="${spreadsheet}dlmread">dlmread</link>
-                        </see_also_item>
-                        <see_also_item>
-                            <link
-        linkend="${stream_manager}fileread"
-      >fileread</link>
-                        </see_also_item>
-                    </see_also>
-                    <history>
-                        <history_item>
-                            <history_version>1.10.0</history_version>
-                            <history_description
-      >initial version</history_description>
-                        </history_item>
-                    </history>
-                    <authors>
-                        <author_item>Allan CORNET</author_item>
-                    </authors>
-                </xmldoc>
+      >A = [Inf, -Inf, NaN, 3]; filename = [tempdir(), 'csvread_example.csv']; csvwrite(filename, A); R = csvread(filename)</example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${spreadsheet}csvwrite">csvwrite</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}dlmread">dlmread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fileread">fileread</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.10.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

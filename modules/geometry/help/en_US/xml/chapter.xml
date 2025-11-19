@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>geometry</module_name>
-    <chapter>Geometry</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>geometry</module_name>
+  <chapter>Geometry</chapter>
+  <chapter_description>
+    <p
     >The Geometry module provides tools for performing geometric transformations and computations in Nelson.</p>
-        <p
+    <p
     >It supports rotation operations in three-dimensional space, enabling the construction of transformation matrices for manipulating objects and coordinate systems.</p>
-        <p
+    <p
     >This module is useful for applications in computer graphics, robotics, and spatial analysis.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

@@ -1,99 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SPDX-License-Identifier: LGPL-3.0</copyright>
-    <language>en_US</language>
-    <keyword>imrotate</keyword>
-    <short_description>Rotate image by specified angle</short_description>
-    <syntax>
-        <syntax_item>J = imrotate(I, angle)</syntax_item>
-        <syntax_item>J = imrotate(I, angle, method)</syntax_item>
-        <syntax_item>J = imrotate(I, angle, method, bbox)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>I</param_name>
-            <param_description
+  <copyright>SPDX-License-Identifier: LGPL-3.0</copyright>
+  <language>en_US</language>
+  <keyword>imrotate</keyword>
+  <short_description>Rotate image by specified angle</short_description>
+  <syntax>
+    <syntax_item>J = imrotate(I, angle)</syntax_item>
+    <syntax_item>J = imrotate(I, angle, method)</syntax_item>
+    <syntax_item>J = imrotate(I, angle, method, bbox)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description
       >Input image: 2-D grayscale image or 3-D RGB image of class uint8, uint16, int16, single, or double</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>angle</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>angle</param_name>
+      <param_description
       >Rotation angle in degrees (scalar). Positive values rotate counterclockwise, negative values rotate clockwise</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>method</param_name>
-            <param_description
-      >Interpolation method (optional, default: 'bilinear'):
-        - 'nearest': Nearest neighbor interpolation
-        - 'bilinear': Bilinear interpolation (default)
-        - 'bicubic': Bicubic interpolation</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>bbox</param_name>
-            <param_description>Bounding box option (optional, default: 'loose'):
-        - 'loose': Make output large enough to contain entire rotated image
-        - 'crop': Crop output to same size as input image</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>J</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description
+      >Interpolation method (optional, default: 'bilinear'): - 'nearest': Nearest neighbor interpolation - 'bilinear': Bilinear interpolation (default) - 'bicubic': Bicubic interpolation</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>bbox</param_name>
+      <param_description
+      >Bounding box option (optional, default: 'loose'): - 'loose': Make output large enough to contain entire rotated image - 'crop': Crop output to same size as input image</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>J</param_name>
+      <param_description
       >Rotated image, same class as input image I</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>The <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>The<b
       >imrotate</b> function rotates an image by the specified angle around its center point. The rotation is performed using the specified interpolation method.</p>
-        <p
+    <p
     >The function supports various image formats including grayscale and RGB color images. The output image maintains the same data type as the input image.</p>
-        <p
+    <p
     >For angles that are multiples of 90 degrees, the rotation is performed exactly without interpolation to preserve image quality. For other angles, interpolation is used to estimate pixel values at non-integer coordinates.</p>
-        <p>The bounding box option controls the size of the output image:</p>
-        <ul>
-            <li>
-                <b
+    <p>The bounding box option controls the size of the output image:</p>
+    <ul>
+      <li><b
         >'loose'</b>: The output image is sized to contain the entire rotated image. This may result in a larger image than the input.</li>
-                <li>
-                    <b
+      <li><b
         >'crop'</b>: The output image is cropped to the same size as the input image. Parts of the rotated image may be cut off.</li>
-                </ul>
-                <p
+    </ul>
+    <p
     >Background pixels (areas not covered by the rotated image) are filled with zeros.</p>
-                <p />
-                <p>Note:</p>
-                <p>
-                    <b
+    <p />
+    <p>Note:</p>
+    <p><b
       >Performance Note:</b> For exact 90-degree rotations (0°, 90°, 180°, 270°), the function uses optimized algorithms that preserve exact pixel values without interpolation.</p>
-                    <p>
-                        <b
+    <p><b
       >Memory Usage:</b> When using 'loose' bounding box with large rotation angles, the output image may be significantly larger than the input. Consider using 'crop' for memory-constrained applications.</p>
-                        <p>
-                            <b
+    <p><b
       >Data Type Preservation:</b> The output image maintains the same data type as the input. For floating-point inputs, pixel values may extend beyond the typical [0,1] range after interpolation.</p>
-                            <p>
-                                <b
+    <p><b
       >Angle Convention:</b> Positive angles rotate counterclockwise, following standard mathematical convention. This is opposite to some image_processing applications that use clockwise positive rotation.</p>
-                                <p />
-                                <p>Limitations:</p>
-                                <p
+    <p />
+    <p>Limitations:</p>
+    <p
     >Input image must be 2-D (grayscale) or 3-D (RGB). Other color spaces are not directly supported.</p>
-                                <p
+    <p
     >Rotation is always performed around the center of the image. Off-center rotations require additional preprocessing.</p>
-                                <p
+    <p
     >For very large angles (&gt;360°), consider using modulo arithmetic to normalize the angle for better performance.</p>
-                                <p
+    <p
     >Bicubic interpolation may produce overshoot artifacts near sharp edges in the image.</p>
-                            </description>
-                            <used_function />
-                            <bibliography />
-                            <examples>
-                                <example_item>
-                                    <example_item_type
-      >nelson</example_item_type>
-                                    <example_item_description
-      >Interactive rotation visualization  (Part 1)</example_item_description>
-                                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Interactive rotation visualization (Part 1)</example_item_description>
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[% Create a test image with clear directional features
 I = zeros(100, 100, 'uint8');
@@ -130,18 +119,17 @@ for i = 1:length(angles)
             angles(i), size(J, 1), size(J, 2), sum(J(:) > 0));
 end
         ]]></example_item_data>
-                                    <example_item_img
+      <example_item_img
         src="../images/imrotate_1.svg"
         align="middle"
         generate="true"
       />
-                                </example_item>
-                                <example_item>
-                                    <example_item_type
-      >nelson</example_item_type>
-                                    <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Interactive rotation visualization (Part 2)</example_item_description>
-                                    <example_item_data
+      <example_item_data
       ><![CDATA[% Create a test image with clear directional features
 I = zeros(100, 100, 'uint8');
 
@@ -167,33 +155,28 @@ for i = 1:length(methods)
     title(sprintf('%s interpolation', methods{i}));
 end
         ]]></example_item_data>
-                                    <example_item_img
+      <example_item_img
         src="../images/imrotate_2.svg"
         align="middle"
         generate="true"
       />
-                                </example_item>
-                            </examples>
-                            <see_also>
-                                <see_also_item>
-                                    <link
-        linkend="${image_processing}imresize"
-      >imresize</link>
-                                </see_also_item>
-                                <see_also_item>
-                                    <link
-        linkend="${image_processing}imshow"
-      >imshow</link>
-                                </see_also_item>
-                            </see_also>
-                            <history>
-                                <history_item>
-                                    <history_version>1.14.0</history_version>
-                                    <history_description
-      >initial version</history_description>
-                                </history_item>
-                            </history>
-                            <authors>
-                                <author_item>Allan CORNET</author_item>
-                            </authors>
-                        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imresize">imresize</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imshow">imshow</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.14.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

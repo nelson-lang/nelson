@@ -1,46 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>mat2str</keyword>
-    <short_description>Matrix to String.</short_description>
-    <syntax>
-        <syntax_item>res = mat2str(M)</syntax_item>
-        <syntax_item>res = mat2str(M, 'class')</syntax_item>
-        <syntax_item>res = mat2str(M, P, 'class')</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>M</param_name>
-            <param_description
-      >a numerical 2D matrix or logical.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>P</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>mat2str</keyword>
+  <short_description>Matrix to String.</short_description>
+  <syntax>
+    <syntax_item>res = mat2str(M)</syntax_item>
+    <syntax_item>res = mat2str(M, 'class')</syntax_item>
+    <syntax_item>res = mat2str(M, P, 'class')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>M</param_name>
+      <param_description>a numerical 2D matrix or logical.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>P</param_name>
+      <param_description
       >an integer value: precision, 15 by default.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>res</param_name>
-            <param_description>a string</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>mat2str</b> converts a matrix to a string.</p>
-            <p
-    >This string may be used to reconstruct the original matrix with <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>res</param_name>
+      <param_description>a string</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>mat2str</b> converts a matrix to a string.</p>
+    <p>This string may be used to reconstruct the original matrix with<b
       >execstr</b> function.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[R = mat2str(pi)
 R = mat2str(pi, 'class')
@@ -48,20 +45,20 @@ R = mat2str(pi, 4)
 R = mat2str(pi + i, 'class')
 execstr(['RB = ', R])
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${core}execstr">execstr</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}execstr">execstr</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

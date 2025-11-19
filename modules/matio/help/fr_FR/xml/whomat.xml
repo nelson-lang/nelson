@@ -1,47 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>whomat</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>whomat</keyword>
+  <short_description
   >Liste les variables d'un fichier .mat valide.</short_description>
-    <syntax>
-        <syntax_item>whomat(filename)</syntax_item>
-        <syntax_item>ce = whomat(filename)</syntax_item>
-        <syntax_item>whomat(filename, var1, ..., varN)</syntax_item>
-        <syntax_item>ce = whomat(filename, var1, ..., varN)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description
-      >une chaîne : nom de fichier .mat.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>var1, ..., varN</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>whomat(filename)</syntax_item>
+    <syntax_item>ce = whomat(filename)</syntax_item>
+    <syntax_item>whomat(filename, var1, ..., varN)</syntax_item>
+    <syntax_item>ce = whomat(filename, var1, ..., varN)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>une chaîne : nom de fichier .mat.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>var1, ..., varN</param_name>
+      <param_description
       >une chaîne : noms des variables à inspecter.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>ce</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ce</param_name>
+      <param_description
       >cellule de chaînes contenant les noms des variables.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>whomat</b> liste les variables d'un fichier .mat valide.</p>
-        </description>
-        <used_function />
-      <bibliography
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>whomat</b> liste les variables d'un fichier .mat valide.</p>
+  </description>
+  <used_function />
+  <bibliography
   >Remerciements à la bibliothèque MATIO (http://sourceforge.net/projects/matio/).</bibliography>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = ones(3, 4);
 B = 'Nelson';
@@ -50,23 +48,23 @@ D = sparse(3i);
 savemat([tempdir(), 'example_whomat-v7.3.mat'], 'A', 'B', 'C', 'D', '-v7.3')
 whomat([tempdir(), 'example_whomat-v7.3.mat'])
 ce = whomat([tempdir(), 'example_whomat-v7.3.mat'])]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${hdf5}whonh5">whonh5</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${memory_manager}who">who</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${hdf5}whonh5">whonh5</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${memory_manager}who">who</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

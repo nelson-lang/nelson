@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>fetchNext</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fetchNext</keyword>
+  <short_description
   >Récupérer les prochaines sorties non lues d'un tableau FevalFuture.</short_description>
-    <syntax>
-        <syntax_item>[idx, y1, ... , ym] = fetchNext(f)</syntax_item>
-        <syntax_item>[idx, y1, ... , ym] = fetchNext(f, timeout)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>f</param_name>
-            <param_description>objet FevalFuture</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>timeout</param_name>
-            <param_description>durée en secondes : attend au maximum <i
-        >timeout</i> secondes qu'un résultat dans <b
+  <syntax>
+    <syntax_item>[idx, y1, ... , ym] = fetchNext(f)</syntax_item>
+    <syntax_item>[idx, y1, ... , ym] = fetchNext(f, timeout)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>f</param_name>
+      <param_description>objet FevalFuture</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>timeout</param_name>
+      <param_description>durée en secondes : attend au maximum <i
+        >timeout</i> secondes qu'un résultat dans<b
         >f</b> devienne disponible.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>idx</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>idx</param_name>
+      <param_description
       >Indice dans le tableau FevalFuture, renvoyé comme scalaire entier.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>y1, ... , ym</param_name>
-            <param_description>sorties</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p><b>[idx, y1, ... , ym] = fetchNext(f)</b> récupère l'indice <b
+    </param_output_item>
+    <param_output_item>
+      <param_name>y1, ... , ym</param_name>
+      <param_description>sorties</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>[idx, y1, ... , ym] = fetchNext(f)</b> récupère l'indice <b
       >idx</b> du nouvel objet <b>FevalFuture</b> lisible dans le tableau <b
       >f</b> qui est terminé, ainsi que <b
       >m</b> résultats de ce FevalFuture en tant que <b>Y1, ... , Ym</b>.</p>
     <p />
-    </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 tic()
@@ -61,26 +61,26 @@ for idx = 1:N
 end
 toc()
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${parallel}parfeval">parfeval</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${parallel}fetchOutputs">fetchOutputs</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${parallel}backgroundPool">backgroundPool</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${parallel}parfeval">parfeval</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parallel}fetchOutputs">fetchOutputs</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parallel}backgroundPool">backgroundPool</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

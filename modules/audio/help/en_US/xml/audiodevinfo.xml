@@ -1,84 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>audiodevinfo</keyword>
-    <short_description>Get audio devices information.</short_description>
-    <syntax>
-        <syntax_item>devices = audiodevinfo()</syntax_item>
-        <syntax_item>devices = audiodevinfo('default')</syntax_item>
-        <syntax_item>devices = audiodevinfo(io)</syntax_item>
-        <syntax_item>name = audiodevinfo(io, id)</syntax_item>
-        <syntax_item>id = audiodevinfo(io, name)</syntax_item>
-        <syntax_item>id = audiodevinfo(io, rate, bits, channels)</syntax_item>
-        <syntax_item
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>audiodevinfo</keyword>
+  <short_description>Get audio devices information.</short_description>
+  <syntax>
+    <syntax_item>devices = audiodevinfo()</syntax_item>
+    <syntax_item>devices = audiodevinfo('default')</syntax_item>
+    <syntax_item>devices = audiodevinfo(io)</syntax_item>
+    <syntax_item>name = audiodevinfo(io, id)</syntax_item>
+    <syntax_item>id = audiodevinfo(io, name)</syntax_item>
+    <syntax_item>id = audiodevinfo(io, rate, bits, channels)</syntax_item>
+    <syntax_item
     >support = audiodevinfo(io, id, rate, bits, channels)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>io</param_name>
-            <param_description
-      >input (1) or output (0) device</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>id</param_name>
-            <param_description>an integer value.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>name</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>io</param_name>
+      <param_description>input (1) or output (0) device</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>id</param_name>
+      <param_description>an integer value.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name</param_name>
+      <param_description
       >a string: name of the audio device to search.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>rate</param_name>
-            <param_description>a double scalar: sample rate.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>bits</param_name>
-            <param_description
-      >an integer value: bits per sample.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>channels</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>rate</param_name>
+      <param_description>a double scalar: sample rate.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>bits</param_name>
+      <param_description>an integer value: bits per sample.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>channels</param_name>
+      <param_description
       >an integer value: number of audio channel.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>devices</param_name>
-            <param_description>struct array</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>name</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>devices</param_name>
+      <param_description>struct array</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>name</param_name>
+      <param_description
       >a string: name of the audio device specified by io and id.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>id</param_name>
-            <param_description>an integer value.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>support</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>id</param_name>
+      <param_description>an integer value.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>support</param_name>
+      <param_description
       >a logical: true if values supported or false.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >audiodevinfo</b> returns a structure with available audio input and output devices.</p>
-            <p>
-                <b
+    <p><b
       >devices = audiodevinfo('default')</b> returns a structure with default used audio input and output devices.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[info = audiodevinfo()
 OUTPUT_DEVICE = 0;
@@ -89,15 +85,15 @@ end
 for k = [1:audiodevinfo(INPUT_DEVICE)]
   info.output(k)
 end]]></example_item_data>
-                </example_item>
-            </examples>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>initial version</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

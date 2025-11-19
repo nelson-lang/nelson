@@ -1,93 +1,90 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>svd</keyword>
-    <short_description>Singular Value Decomposition.</short_description>
-    <syntax>
-        <syntax_item>s = svd(M)</syntax_item>
-        <syntax_item>[U, S, V] = svd(M)</syntax_item>
-        <syntax_item>[U, S, V] = svd(M, 0)</syntax_item>
-        <syntax_item>[U, S, V] = svd(M, 'econ')</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>M</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>svd</keyword>
+  <short_description>Singular Value Decomposition.</short_description>
+  <syntax>
+    <syntax_item>s = svd(M)</syntax_item>
+    <syntax_item>[U, S, V] = svd(M)</syntax_item>
+    <syntax_item>[U, S, V] = svd(M, 0)</syntax_item>
+    <syntax_item>[U, S, V] = svd(M, 'econ')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>M</param_name>
+      <param_description
       >a numeric value: matrix (double or single)</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>s</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description
       >real vector (singular values) by descending order.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>U</param_name>
-            <param_description>left singular values.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>S</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>U</param_name>
+      <param_description>left singular values.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>S</param_name>
+      <param_description
       >real diagonal matrix (singular values)</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>V</param_name>
-            <param_description>right singular values.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>svd</b> computes the Singular Value Decomposition of a matrix.
-        </p>
-        <p>For an</p>
-        <latex>m \times n</latex>
-        <p>matrix <b>M</b>, the SVD is:</p>
-        <latex>M = U\Sigma V^T</latex>
-        <p>where:</p>
-        <ul>
-        <li><latex>U</latex> is an</li>
-        <latex>m \times m</latex>
-        <p>unitary matrix (left singular vectors)</p>
-        <li><latex>\Sigma</latex> is an</li>
-        <latex>m \times n</latex>
-        <p>diagonal matrix with non-negative real numbers (singular values)</p>
-        <li><latex>V^T</latex> is an</li>
-        <latex>n \times n</latex>
-        <p>unitary matrix (right singular vectors)</p>
-        </ul>
-        <p>The singular values</p>
-        <latex>\sigma_i</latex>
-        <p>are arranged in decreasing order:</p>
-        <latex>\sigma_1 \geq \sigma_2 \geq \ldots \geq 0</latex>
-    </description>
-                <used_function />
-                <bibliography />
-                <examples>
-                    <example_item>
-                        <example_item_type>nelson</example_item_type>
-                        <example_item_description />
-                        <example_item_data
+    </param_output_item>
+    <param_output_item>
+      <param_name>V</param_name>
+      <param_description>right singular values.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>svd</b> computes the Singular Value Decomposition of a matrix.</p>
+    <p>For an</p>
+    <latex>m \times n</latex>
+    <p>matrix <b>M</b>, the SVD is:</p>
+    <latex>M = U\Sigma V^T</latex>
+    <p>where:</p>
+    <ul>
+      <li><latex>U</latex>is an</li>
+      <latex>m \times m</latex>
+      <p>unitary matrix (left singular vectors)</p>
+      <li><latex>\Sigma</latex>is an</li>
+      <latex>m \times n</latex>
+      <p>diagonal matrix with non-negative real numbers (singular values)</p>
+      <li><latex>V^T</latex>is an</li>
+      <latex>n \times n</latex>
+      <p>unitary matrix (right singular vectors)</p>
+    </ul>
+    <p>The singular values</p>
+    <latex>\sigma_i</latex>
+    <p>are arranged in decreasing order:</p>
+    <latex>\sigma_1 \geq \sigma_2 \geq \ldots \geq 0</latex>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[X = eye(3, 3);
 s = svd(X)
 [U, S, V] = svd(X)]]></example_item_data>
-                    </example_item>
-                </examples>
-                <see_also>
-                    <see_also_item>
-                        <link linkend="${linear_algebra}eig">eig</link>
-                    </see_also_item>
-                </see_also>
-                <history>
-                    <history_item>
-                        <history_version>1.0.0</history_version>
-                        <history_description
-      >initial version</history_description>
-                    </history_item>
-                </history>
-                <authors>
-                    <author_item>Allan CORNET</author_item>
-                </authors>
-            </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}eig">eig</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

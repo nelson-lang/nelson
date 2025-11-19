@@ -1,84 +1,84 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-        <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>slicot_mc01td</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>slicot_mc01td</keyword>
+  <short_description
   >Vérification de la stabilité d'un polynôme réel donné.</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[DP_OUT, STABLE, NZ, IWARN, INFO] = slicot_mc01td(DICO, DP_IN, P)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-        <param_name>DICO</param_name>
-        <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>DICO</param_name>
+      <param_description
       >Indique si le test de stabilité à appliquer à P(x) est en temps continu ou discret : = 'C' : continu ; = 'D' : discret.</param_description>
-        </param_input_item>
-        <param_input_item>
-        <param_name>DP_IN</param_name>
-        <param_description>Le degré du polynôme P(x).</param_description>
-        </param_input_item>
-        <param_input_item>
-        <param_name>P</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>DP_IN</param_name>
+      <param_description>Le degré du polynôme P(x).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>P</param_name>
+      <param_description
       >Ce tableau doit contenir les coefficients de P(x) par puissances croissantes de x.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-        <param_name>DP_OUT</param_name>
-        <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>DP_OUT</param_name>
+      <param_description
       >Si P(DP+1) = 0.0 à l'entrée, alors DP contient l'indice de la plus haute puissance de x pour laquelle P(DP+1) != 0.0.</param_description>
-        </param_output_item>
-        <param_output_item>
-        <param_name>STABLE</param_name>
-        <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>STABLE</param_name>
+      <param_description
       >Contient la valeur int32(1) si P(x) est stable et int32(0) sinon.</param_description>
-        </param_output_item>
-        <param_output_item>
-        <param_name>NZ</param_name>
-        <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>NZ</param_name>
+      <param_description
       >Si INFO = 0, contient le nombre de zéros instables - c.-à-d. le nombre de zéros de P(x) dans le demi-plan droit si DICO = 'C' ou le nombre de zéros de P(x) à l'extérieur du cercle unité si DICO = 'D'.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>IWARN</param_name>
-            <param_description>= 0 : pas d'avertissement ;</param_description>
-        </param_output_item>
-        <param_output_item>
-        <param_name>INFO</param_name>
-        <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>IWARN</param_name>
+      <param_description>= 0 : pas d'avertissement ;</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>INFO</param_name>
+      <param_description
       >= 0 : sortie réussie ; = 1 : si à l'entrée, P(x) est le polynôme nul ; = 2 : si le polynôme P(x) est très probablement instable.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >Déterminer si un polynôme P(x) à coefficients réels est stable, soit en temps continu, soit en temps discret.</p>
-        <p
+    <p
     >Un polynôme est dit stable en continu si tous ses zéros se trouvent dans le demi-plan gauche, et stable en discret si tous ses zéros se trouvent à l'intérieur du cercle unité.</p>
-    </description>
-    <used_function>MC01TD</used_function>
-    <bibliography
+  </description>
+  <used_function>MC01TD</used_function>
+  <bibliography
   >http://slicot.org/objects/software/shared/doc/MC01TD.html</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[DICO = 'C';
 DP_IN = 4;
 P = [2.0  0.0  1.0  -1.0  1.0];
 [DP, STABLE, NZ, IWARN, INFO] = slicot_mc01td(DICO, DP_IN, P)]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>SLICOT Documentation</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>SLICOT Documentation</author_item>
+  </authors>
 </xmldoc>

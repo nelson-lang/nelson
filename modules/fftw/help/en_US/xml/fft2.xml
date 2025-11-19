@@ -1,74 +1,72 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>fft2</keyword>
-    <short_description>2-D fast Fourier transform.</short_description>
-    <syntax>
-        <syntax_item>Y = fft2(X)</syntax_item>
-        <syntax_item>Y = fft2(X, m, n)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>X</param_name>
-            <param_description>Input array.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>m</param_name>
-            <param_description>Number of transform rows.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>n</param_name>
-            <param_description>Number of transform columns.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>Y</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fft2</keyword>
+  <short_description>2-D fast Fourier transform.</short_description>
+  <syntax>
+    <syntax_item>Y = fft2(X)</syntax_item>
+    <syntax_item>Y = fft2(X, m, n)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>Input array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>m</param_name>
+      <param_description>Number of transform rows.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>Number of transform columns.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Y</param_name>
+      <param_description
       >a vector, matrix, N-D array: frequency domain representation.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >Y = fft2(X)</b> returns the two-dimensional Fourier transform of <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>Y = fft2(X)</b> returns the two-dimensional Fourier transform of<b
       >X</b> using a Fast Fourier Transform (FFT) algorithm.</p>
-            <p>Optional arguments <b>m</b> and <b
-      >n</b> may be used specify the number of rows and columns of <b
+    <p>Optional arguments <b>m</b> and<b
+      >n</b> may be used specify the number of rows and columns of<b
       >X</b> to use.</p>
-            <p>If either of these is larger than the size of <b>X</b>, <b
+    <p>If either of these is larger than the size of <b>X</b>,<b
       >X</b> is resized and padded with zeros.</p>
-            <p>If <b
-      >X</b> is a multi-dimensional matrix, each two-dimensional sub-matrix of <b
+    <p>If<b
+      >X</b> is a multi-dimensional matrix, each two-dimensional sub-matrix of<b
       >X</b> is treated separately.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[R = fft2(eye(5, 5), 2, 3)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${fftw}fftn">fftn</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${fftw}fft">fft</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${fftw}fftn">fftn</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${fftw}fft">fft</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

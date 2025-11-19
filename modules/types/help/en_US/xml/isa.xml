@@ -1,89 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>isa</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>isa</keyword>
+  <short_description
   >Return true if var is an object from the class str.</short_description>
-    <syntax>
-        <syntax_item>res = isa(var, str)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>var</param_name>
-            <param_description>a variable</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>str</param_name>
-            <param_description>a string: classname expected</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>res</param_name>
-            <param_description>a logical: true or false</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+  <syntax>
+    <syntax_item>res = isa(var, str)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>var</param_name>
+      <param_description>a variable</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>str</param_name>
+      <param_description>a string: classname expected</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>res</param_name>
+      <param_description>a logical: true or false</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >isa</b> returns a logical 1 if the argument is a cell array and a logical 0 otherwise.</p>
-            <p>str can also be 'numeric', 'float', or 'integer':</p>
-            <p
+    <p>str can also be 'numeric', 'float', or 'integer':</p>
+    <p
     >numeric: floating point or integer array: double, single, int8, uint8, int16, uint16, int32, uint32, int64, uint64</p>
-            <p
+    <p
     >float: single or double precision floating-point array: double, single</p>
-            <p
+    <p
     >integer: unsigned or signed integer array: int8, uint8, int16, uint16, int32, uint32, int64, uint64</p>
-            <p>If <b
+    <p>If<b
       >var</b> is a handle object, str can be 'handle' or type name of the handle.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = 3;
 res = isa(A, 'double')]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[B = {'NelSon', 3, true};
 res = isa(B, 'cell')]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[B = {'NelSon', 3, true};
 res = isa(B, 'cell')]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${types}class">class</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${integer}isinteger">isinteger</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${types}isnumeric">isnumeric</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${types}class">class</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${integer}isinteger">isinteger</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${types}isnumeric">isnumeric</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

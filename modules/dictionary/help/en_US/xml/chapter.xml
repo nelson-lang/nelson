@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>dictionary</module_name>
-    <chapter>Dictionaries</chapter>
-    <chapter_description>
-      <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>dictionary</module_name>
+  <chapter>Dictionaries</chapter>
+  <chapter_description>
+    <p
     >The Dictionary module provides tools for working with key-value mappings in Nelson.</p>
-      <p
+    <p
     >It supports creation and configuration of dictionaries with defined key and value types, querying and modifying entries, and managing the overall structure.</p>
-      <p
+    <p
     >This module enables efficient storage, retrieval, and manipulation of data indexed by unique keys, making it ideal for associative arrays, lookups, and dynamic data management.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

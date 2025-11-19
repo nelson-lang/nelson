@@ -1,53 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>usermodulesdir</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>usermodulesdir</keyword>
+  <short_description
   >Renvoie le chemin où les modules externes sont enregistrés.</short_description>
-    <syntax>
-        <syntax_item>p = usermodulesdir()</syntax_item>
-    </syntax>
-    <param_output>
-        <param_output_item>
-            <param_name>p</param_name>
-        <param_description
+  <syntax>
+    <syntax_item>p = usermodulesdir()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description
       >chaîne : chemin où sont stockés les modules externes.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >usermodulesdir</b> est une fonction d'aide qui renvoie le chemin où les modules externes des utilisateurs sont enregistrés.</p>
-            <p
+    <p
     >Ce chemin peut être remplacé en définissant la variable d'environnement NELSON_EXTERNAL_MODULES_PATH sur votre système.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[usermodulesdir()]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${modules_manager}toolboxdir">toolboxdir</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${modules_manager}getmodules">getmodules</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${modules_manager}toolboxdir">toolboxdir</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${modules_manager}getmodules">getmodules</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

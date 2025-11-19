@@ -1,168 +1,167 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>bar</keyword>
-    <short_description>Diagramme en barres.</short_description>
-    <syntax>
-        <syntax_item>bar(Y)</syntax_item>
-        <syntax_item>bar(X, Y)</syntax_item>
-        <syntax_item>bar(..., width)</syntax_item>
-        <syntax_item>bar(..., color)</syntax_item>
-        <syntax_item>bar(..., propertyName, propertyValue)</syntax_item>
-        <syntax_item>bar(ax, ...)</syntax_item>
-        <syntax_item>b = bar(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-        <param_name>X</param_name>
-        <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bar</keyword>
+  <short_description>Diagramme en barres.</short_description>
+  <syntax>
+    <syntax_item>bar(Y)</syntax_item>
+    <syntax_item>bar(X, Y)</syntax_item>
+    <syntax_item>bar(..., width)</syntax_item>
+    <syntax_item>bar(..., color)</syntax_item>
+    <syntax_item>bar(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>bar(ax, ...)</syntax_item>
+    <syntax_item>b = bar(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
       >abscisses : scalaire, vecteur ou tableau de chaînes.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Y</param_name>
-            <param_description>ordonnées : vecteur.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>width</param_name>
-            <param_description>scalaire, 0.8 (par défaut).</param_description>
-        </param_input_item>
-        <param_input_item>
-        <param_name>color</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>ordonnées : vecteur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>width</param_name>
+      <param_description>scalaire, 0.8 (par défaut).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>color</param_name>
+      <param_description
       >une chaîne scalaire ou un vecteur ligne de caractères : nom de couleur ou nom court de couleur.</param_description>
-        </param_input_item>
-        <param_input_item>
-        <param_name>propertyName</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
       >une chaîne scalaire ou un vecteur ligne de caractères.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyValue</param_name>
-            <param_description>une valeur.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description>Objet axes.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>b</param_name>
-            <param_description>objet graphique patch.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>une valeur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Objet axes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>b</param_name>
+      <param_description>objet graphique patch.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >bar(X, Y)</b> crée un diagramme en barres à partir de deux ensembles de vecteurs X-Y.</p>
-            <p
+    <p
     >Lorsqu'un seul argument est fourni (Y), il est interprété comme un vecteur de valeurs Y, et les abscisses X sont générées comme une séquence de 1 au nombre d'éléments du vecteur Y.</p>
-            <p>Vous pouvez éventuellement spécifier la largeur des barres.</p>
-            <p
+    <p>Vous pouvez éventuellement spécifier la largeur des barres.</p>
+    <p
     >Une valeur de 1.0 fera que chaque barre touche exactement ses voisines, tandis que la largeur par défaut est fixée à 0.8.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 y = [ 91 75 123.5 105 150 131 203 179 249 226 281.5];
 bar(y);
 ]]></example_item_data>
-                <example_item_img
+      <example_item_img
         src="../../images/bar_1.svg"
         align="middle"
         generate="true"
       />
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 y = [ 91 75 123.5 105 150 131 203 179 249 226 281.5];
 bar(y, 0.5);
 ]]></example_item_data>
-                <example_item_img
+      <example_item_img
         src="../../images/bar_2.svg"
         align="middle"
         generate="true"
       />
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 x = 1900:10:2000;
 y = [75 91 105 123.5 131 150 179 203 226 249 281.5];
 bar(x, y, 'r');
 ]]></example_item_data>
-                <example_item_img
+      <example_item_img
         src="../../images/bar_3.svg"
         align="middle"
         generate="true"
       />
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 x = [ "Summer", "Spring", "Winter", "Autumn"];
 y = [ 2 1 4 3];
 bar(x, y);
 ]]></example_item_data>
-                <example_item_img
+      <example_item_img
         src="../images/bar_4.svg"
         align="middle"
         generate="true"
       />
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 y = [91 75 123.5 105 150 131 203 179 249 226 281.5];
 bar(y, 'FaceColor', [0 .5 .5], 'EdgeColor', [0 .9 .9], 'LineWidth', 1.5)
 ]]></example_item_data>
-                <example_item_img
+      <example_item_img
         src="../../images/bar_5.svg"
         align="middle"
         generate="true"
       />
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${graphics}hist">hist</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${graphics}patch">patch</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-            <history_item>
-                <history_version>1.12.0</history_version>
-                <history_description
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}hist">hist</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}patch">patch</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.12.0</history_version>
+      <history_description
       >Gestion du nom de couleur ou du nom court de couleur.</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

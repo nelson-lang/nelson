@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>stream_manager</module_name>
-    <chapter>Stream manager</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>stream_manager</module_name>
+  <chapter>Stream manager</chapter>
+  <chapter_description>
+    <p
     >The Stream Manager module provides tools for managing input and output streams in Nelson.</p>
-        <p
+    <p
     >It supports reading and writing text and binary data to files, handling file positions, detecting end-of-file conditions, and managing file errors.</p>
-        <p
+    <p
     >The module also enables logging of session activity, and loading and saving workspace data, facilitating robust and flexible file I/O operations within scripts and applications.</p>
-   </chapter_description>
+  </chapter_description>
 </xmldoc>

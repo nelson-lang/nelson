@@ -1,147 +1,147 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>sprintf</keyword>
-    <short_description>Écrit des données dans une chaîne.</short_description>
-    <syntax>
-        <syntax_item>sprintf(format, v1, ... , vn)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>format</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>sprintf</keyword>
+  <short_description>Écrit des données dans une chaîne.</short_description>
+  <syntax>
+    <syntax_item>sprintf(format, v1, ... , vn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>format</param_name>
+      <param_description
       >une chaîne décrivant le format à utiliser.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>v1, ... , vn</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>v1, ... , vn</param_name>
+      <param_description
       >données à convertir et à écrire selon le paramètre de format précédent.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>Écrit des données sous forme de texte dans une chaîne.</p>
-        <p>Le <b>format</b> suit la syntaxe C de fprintf.</p>
-        <table style="width:100%">
-            <tr>
-                <th>Type de valeur</th>
-                <th>Format</th>
-                <th>Remarque</th>
-            </tr>
-            <tr>
-                <td>Entier</td>
-                <td>%i</td>
-                <td>base 10</td>
-            </tr>
-            <tr>
-                <td>Entier signé</td>
-                <td>%d</td>
-                <td>base 10</td>
-            </tr>
-            <tr>
-                <td>Entier non signé</td>
-                <td>%u</td>
-                <td>base 10</td>
-            </tr>
-            <tr>
-                <td>Entier</td>
-                <td>%o</td>
-                <td>Octal (base 8)</td>
-            </tr>
-            <tr>
-                <td>Entier</td>
-                <td>%x</td>
-                <td>Hexadécimal (minuscules)</td>
-            </tr>
-            <tr>
-                <td>Entier</td>
-                <td>%X</td>
-                <td>Hexadécimal (MAJUSCULES)</td>
-            </tr>
-            <tr>
-                <td>Nombre à virgule flottante</td>
-                <td>%f</td>
-                <td>Notation décimale fixe</td>
-            </tr>
-            <tr>
-                <td>Nombre à virgule flottante</td>
-                <td>%e</td>
-                <td>Notation exponentielle (minuscules)</td>
-            </tr>
-            <tr>
-                <td>Nombre à virgule flottante</td>
-                <td>%E</td>
-                <td>Notation exponentielle (MAJUSCULES)</td>
-            </tr>
-            <tr>
-                <td>Nombre à virgule flottante</td>
-                <td>%g</td>
-                <td>Notation exponentielle (format compact, minuscules)</td>
-            </tr>
-            <tr>
-                <td>Nombre à virgule flottante</td>
-                <td>%G</td>
-                <td>Notation exponentielle (format compact, MAJUSCULES)</td>
-            </tr>
-            <tr>
-                <td>Caractère</td>
-                <td>%c</td>
-                <td>Caractère unique</td>
-            </tr>
-            <tr>
-                <td>Chaîne</td>
-                <td>%s</td>
-                <td>Vecteur de caractères.</td>
-            </tr>
-        </table>
-        <p
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>Écrit des données sous forme de texte dans une chaîne.</p>
+    <p>Le <b>format</b> suit la syntaxe C de fprintf.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Type de valeur</th>
+        <th>Format</th>
+        <th>Remarque</th>
+      </tr>
+      <tr>
+        <td>Entier</td>
+        <td>%i</td>
+        <td>base 10</td>
+      </tr>
+      <tr>
+        <td>Entier signé</td>
+        <td>%d</td>
+        <td>base 10</td>
+      </tr>
+      <tr>
+        <td>Entier non signé</td>
+        <td>%u</td>
+        <td>base 10</td>
+      </tr>
+      <tr>
+        <td>Entier</td>
+        <td>%o</td>
+        <td>Octal (base 8)</td>
+      </tr>
+      <tr>
+        <td>Entier</td>
+        <td>%x</td>
+        <td>Hexadécimal (minuscules)</td>
+      </tr>
+      <tr>
+        <td>Entier</td>
+        <td>%X</td>
+        <td>Hexadécimal (MAJUSCULES)</td>
+      </tr>
+      <tr>
+        <td>Nombre à virgule flottante</td>
+        <td>%f</td>
+        <td>Notation décimale fixe</td>
+      </tr>
+      <tr>
+        <td>Nombre à virgule flottante</td>
+        <td>%e</td>
+        <td>Notation exponentielle (minuscules)</td>
+      </tr>
+      <tr>
+        <td>Nombre à virgule flottante</td>
+        <td>%E</td>
+        <td>Notation exponentielle (MAJUSCULES)</td>
+      </tr>
+      <tr>
+        <td>Nombre à virgule flottante</td>
+        <td>%g</td>
+        <td>Notation exponentielle (format compact, minuscules)</td>
+      </tr>
+      <tr>
+        <td>Nombre à virgule flottante</td>
+        <td>%G</td>
+        <td>Notation exponentielle (format compact, MAJUSCULES)</td>
+      </tr>
+      <tr>
+        <td>Caractère</td>
+        <td>%c</td>
+        <td>Caractère unique</td>
+      </tr>
+      <tr>
+        <td>Chaîne</td>
+        <td>%s</td>
+        <td>Vecteur de caractères.</td>
+      </tr>
+    </table>
+    <p
     >Pour afficher un signe pourcentage, utilisez un double pourcentage (%%) dans la chaîne de format.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[sprintf('an example of %s.', 'text')]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[sprintf("an example of %s.", "text")]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[sprintf('an value %g.', pi)]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Display a percent sign</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[sprintf('%d%%.', 95)]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${stream_manager}fprintf">fprintf</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}fprintf">fprintf</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

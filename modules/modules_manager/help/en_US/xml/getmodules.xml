@@ -1,71 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>getmodules</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>getmodules</keyword>
+  <short_description
   >Returns list of modules loaded in Nelson.</short_description>
-    <syntax>
-        <syntax_item>modules_name = getmodules()</syntax_item>
-        <syntax_item
+  <syntax>
+    <syntax_item>modules_name = getmodules()</syntax_item>
+    <syntax_item
     >[modules_name, modules_root_path, modules_version, modules_protected] = getmodules()</syntax_item>
-    </syntax>
-    <param_output>
-        <param_output_item>
-            <param_name>modules_name</param_name>
-            <param_description
-      >a cell of strings: modules names.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>modules_root_path</param_name>
-            <param_description
-      >a cell of strings: path of modules.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>modules_version</param_name>
-            <param_description
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>modules_name</param_name>
+      <param_description>a cell of strings: modules names.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>modules_root_path</param_name>
+      <param_description>a cell of strings: path of modules.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>modules_version</param_name>
+      <param_description
       >a cell of vector: [major, minor, patch].</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>modules_protected</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>modules_protected</param_name>
+      <param_description
       >a vector of logical: true if module can be removed or not.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>getmodules</b> returns list of modules loaded in Nelson.</p>
-            <p
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>getmodules</b> returns list of modules loaded in Nelson.</p>
+    <p
     >all core's modules are protected and cannot removed during an nelson's session.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[[modules_name, modules_root_path, modules_version, modules_protected] = getmodules()]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link
-        linkend="${modules_manager}requiremodule"
-      >requiremodule</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${modules_manager}ismodule">ismodule</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${modules_manager}requiremodule">requiremodule</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${modules_manager}ismodule">ismodule</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

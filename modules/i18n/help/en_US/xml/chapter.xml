@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>i18n</module_name>
-    <chapter>I18n functions</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>i18n</module_name>
+  <chapter>I18n functions</chapter>
+  <chapter_description>
+    <p
     >The i18n module provides tools for internationalization and localization of text within Nelson.</p>
-        <p
+    <p
     >It enables retrieval of translated strings for the current locale, supports utilities for managing translation workflows, and facilitates the generation of translation file headers.</p>
-        <p
+    <p
     >This module helps developers create software that can adapt dynamically to multiple languages and cultural contexts.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

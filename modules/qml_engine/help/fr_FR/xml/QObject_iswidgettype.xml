@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>QObject_iswidgettype</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>QObject_iswidgettype</keyword>
+  <short_description
   >Renvoie true si le QObject est un widget.</short_description>
-    <syntax>
-        <syntax_item>R = QObject_iswidgettype(h)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>h</param_name>
-            <param_description>une poignée (handle) QObject.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>R</param_name>
-            <param_description>un logique (booléen).</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>Renvoie true si le QObject est un widget ; sinon renvoie false.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <syntax>
+    <syntax_item>R = QObject_iswidgettype(h)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>h</param_name>
+      <param_description>une poignée (handle) QObject.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description>un logique (booléen).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Renvoie true si le QObject est un widget ; sinon renvoie false.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[h = errordlg()
 r = QObject_iswidgettype(h)]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${qml_engine}QObject_set">QObject_set (set)</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${qml_engine}QObject_set">QObject_set (set)</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

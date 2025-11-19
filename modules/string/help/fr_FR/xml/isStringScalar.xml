@@ -1,57 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>isStringScalar</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>isStringScalar</keyword>
+  <short_description
   >vérifie si l'entrée est un tableau de chaînes avec un seul élément.</short_description>
-    <syntax>
-        <syntax_item>r = isStringScalar(str)</syntax_item>
-    </syntax>
-        <param_input>
-            <param_input_item>
-                <param_name>str</param_name>
-                <param_description
+  <syntax>
+    <syntax_item>r = isStringScalar(str)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>str</param_name>
+      <param_description
       >une chaîne, un tableau de chaînes ou une cellule de chaînes.</param_description>
-            </param_input_item>
-        </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>r</param_name>
-        <param_description>un booléen : vrai si <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>un booléen : vrai si <b
         >res</b> est de type chaîne et scalaire, sinon faux.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >isStringScalar</b> vérifie si l'entrée est un tableau de chaînes avec un seul élément.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[r = isStringScalar('hello')
 r = isStringScalar("hello")
 r = isStringScalar(["hello", "world"])]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${types}ischar">ischar</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${types}ischar">ischar</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

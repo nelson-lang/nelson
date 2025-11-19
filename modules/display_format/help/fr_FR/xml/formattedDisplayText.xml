@@ -1,46 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>formattedDisplayText</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>formattedDisplayText</keyword>
+  <short_description
   >Capturer la sortie d'affichage en tant que chaîne.</short_description>
-    <syntax>
-        <syntax_item>str = formattedDisplayText(V)</syntax_item>
-        <syntax_item>str = formattedDisplayText(V, Name, Value)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>V</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>str = formattedDisplayText(V)</syntax_item>
+    <syntax_item>str = formattedDisplayText(V, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description
       >Variable à retourner sous forme de chaîne</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Name, Value</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description
       >Arguments paires nom-valeur, Name : 'NumericFormat' ou 'LineSpacing'.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>str</param_name>
-            <param_description>une chaîne</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >str = formattedDisplayText(V)</b> renvoie la sortie d'affichage de <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>str</param_name>
+      <param_description>une chaîne</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>str = formattedDisplayText(V)</b> renvoie la sortie d'affichage de<b
       >V</b> sous forme de chaîne.</p>
-            <p>La chaîne est équivalente à la sortie de <b>disp(V)</b>.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    <p>La chaîne est équivalente à la sortie de <b>disp(V)</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[R = eye(3, 3)
 str = formattedDisplayText(R)		
@@ -48,26 +46,26 @@ R = rand(3, 3);
 disp(R)
 str = formattedDisplayText(R)
 str = formattedDisplayText(R, 'NumericFormat', 'bank', 'LineSpacing', 'compact')]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${display_format}display">display</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${display_format}disp">disp</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${display_format}format">format</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${display_format}display">display</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${display_format}disp">disp</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${display_format}format">format</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

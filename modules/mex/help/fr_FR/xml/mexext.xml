@@ -1,58 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>mexext</keyword>
-    <short_description
-  >Extension de nom de fichier binaire MEX</short_description>
-    <syntax>
-        <syntax_item>ext = mexext()</syntax_item>
-        <syntax_item>extlist = mexext('all')</syntax_item>
-    </syntax>
-    <description>
-        <p>
-            <b
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>mexext</keyword>
+  <short_description>Extension de nom de fichier binaire MEX</short_description>
+  <syntax>
+    <syntax_item>ext = mexext()</syntax_item>
+    <syntax_item>extlist = mexext('all')</syntax_item>
+  </syntax>
+  <description>
+    <p><b
       >ext = mexext()</b> renvoie l'extension de nom de fichier pour la plateforme courante.</p>
-            <p>
-                <b
+    <p><b
       >extlist = mexext('all')</b> renvoie les extensions pour toutes les plateformes.</p>
-                <p
+    <p
     >Un fichier mex est un type de fichier qui fournit une interface entre Octave ou le logiciel commercial de référence et des fonctions écrites en C ou C++.</p>
-                <p
+    <p
     >Nelson dispose également de sa propre API C++ pour gérer plus facilement les objets internes de Nelson.</p>
-                <p />
-                <p
-    >Nelson ne peut pas charger des mex générés par d'autres logiciels, <b
+    <p />
+    <p>Nelson ne peut pas charger des mex générés par d'autres logiciels,<b
       >MAIS</b> vous pouvez facilement les reconstruire pour chaque cible logicielle.</p>
-                <p
-    >Les mex générés par Nelson ont une extension de fichier commençant par <b
-      >.nex</b>
-            </p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    <p>Les mex générés par Nelson ont une extension de fichier commençant par<b
+      >.nex</b></p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[ext = mexext()
 extlist = mexext('all')]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${mex}mex">mex</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${mex}mex">mex</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

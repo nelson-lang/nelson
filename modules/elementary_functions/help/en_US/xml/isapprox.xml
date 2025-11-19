@@ -1,100 +1,99 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>isapprox</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>isapprox</keyword>
+  <short_description
   >Return true if arguments are approximately equal, within the precision.</short_description>
-    <syntax>
-        <syntax_item>res = isapprox(x1, x2)</syntax_item>
-        <syntax_item>res = isapprox(x1, x2, precision)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>x1</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>res = isapprox(x1, x2)</syntax_item>
+    <syntax_item>res = isapprox(x1, x2, precision)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x1</param_name>
+      <param_description
       >a matrix, a sparse matrix of doubles, or a multidimensional matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>x2</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>x2</param_name>
+      <param_description
       >a matrix, a sparse matrix of doubles, or a multidimensional matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>precision</param_name>
-            <param_description>a double value: 0. by default</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>res</param_name>
-            <param_description>a logical value</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
+    </param_input_item>
+    <param_input_item>
+      <param_name>precision</param_name>
+      <param_description>a double value: 0. by default</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>res</param_name>
+      <param_description>a logical value</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >For matrices, the comparison is done using the Hilbert-Schmidt norm (aka Frobenius norm L2 norm).</p>
-        <p>
-            <b
+    <p><b
       >isapprox</b> manages complex numbers. In this case, the real parts of the input arguments are compared. If this fails, it returns false. If this succeeds, the imaginary parts are compared.</p>
-            <p
+    <p
     >To compare values, NaN, Inf, -Inf and remaining values, are separated. As it is impossible to compare NaN values between them, we compare the indices where NaN value occurs. For infinity values, we also compare the indices where Inf values occurs.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = pi
 B = single(pi)
 res = isapprox(A, B)]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = pi
 B = single(pi)
 res = isapprox(A, B, 1e-4)]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [pi NaN]
 res = isapprox(A, A)]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [pi NaN]
 B = [pi + 2*eps, NaN]
 res = isapprox(A, B)
 res = isapprox(A, B, eps)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${elementary_functions}isequaln">isequaln</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${elementary_functions}isequal">isequal</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}isequaln">isequaln</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}isequal">isequal</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

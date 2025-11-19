@@ -1,71 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>ismodule</keyword>
-    <short_description>Vérifie si un module est chargé.</short_description>
-    <syntax>
-        <syntax_item>state = ismodule(module_short_name)</syntax_item>
-        <syntax_item
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>ismodule</keyword>
+  <short_description>Vérifie si un module est chargé.</short_description>
+  <syntax>
+    <syntax_item>state = ismodule(module_short_name)</syntax_item>
+    <syntax_item
     >state = ismodule(module_short_name, 'isprotected')</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>module_short_name</param_name>
-        <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>module_short_name</param_name>
+      <param_description
       >chaîne : nom court du module à tester.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'isprotected'</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'isprotected'</param_name>
+      <param_description
       >vérifie si le module est protégé (c.-à-d. module interne).</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>state</param_name>
-            <param_description>a logical.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>ismodule</b> retourne <b
-      >true</b> si le module est chargé, sinon <b>false</b>.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>state</param_name>
+      <param_description>a logical.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>ismodule</b> retourne<b>true</b> si le module est chargé, sinon <b
+      >false</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[ismodule('core')
 ismodule('mymodule')]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link
-        linkend="${modules_manager}requiremodule"
-      >requiremodule</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${modules_manager}getmodules">getmodules</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-            <history_item>
-                <history_version>1.11.0</history_version>
-                <history_description
-      >'isprotected' second argument.</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${modules_manager}requiremodule">requiremodule</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${modules_manager}getmodules">getmodules</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.11.0</history_version>
+      <history_description>'isprotected' second argument.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

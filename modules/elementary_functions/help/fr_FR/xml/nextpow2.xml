@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>nextpow2</keyword>
-    <short_description>Exponent of next higher power of 2</short_description>
-    <syntax>
-        <syntax_item>R = nextpow2(M)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>M</param_name>
-            <param_description>a variable</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>R</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nextpow2</keyword>
+  <short_description>Exponent of next higher power of 2</short_description>
+  <syntax>
+    <syntax_item>R = nextpow2(M)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>M</param_name>
+      <param_description>a variable</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description
       >result of nextpow2: next higher power of 2.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>if <b>M</b> is a vector or a matrix <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>if <b>M</b> is a vector or a matrix<b
       >nextpow2(M)</b> applies element-wise.</p>
-        <p>If <b>M</b> is a scalar, <b>nextpow2(M)</b> returns the first <b
+    <p>If <b>M</b> is a scalar, <b>nextpow2(M)</b> returns the first<b
       >p</b> such that <b>2^p &gt;= abs(M)</b>.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[R = nextpow2([10, Inf, 30, -Inf, 90, NaN])
 M = uint32([1020 4000 32700]);
 R = nextpow2(M)]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${elementary_functions}pow2">pow2</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${elementary_functions}log2">log2</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}pow2">pow2</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}log2">log2</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

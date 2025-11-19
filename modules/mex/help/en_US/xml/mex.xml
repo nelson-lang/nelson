@@ -1,120 +1,105 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>mex</keyword>
-    <short_description>Build MEX function</short_description>
-    <syntax>
-        <syntax_item>mex(filenames)</syntax_item>
-        <syntax_item>mex(filenames, option1, ..., optionN)</syntax_item>
-        <syntax_item>mex(api, filenames)</syntax_item>
-        <syntax_item>mex(api, filenames, option1, ..., optionN)</syntax_item>
-        <syntax_item>mex('-output', mexName, filenames)</syntax_item>
-        <syntax_item>mex(api, '-output', mexName, filenames)</syntax_item>
-        <syntax_item
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>mex</keyword>
+  <short_description>Build MEX function</short_description>
+  <syntax>
+    <syntax_item>mex(filenames)</syntax_item>
+    <syntax_item>mex(filenames, option1, ..., optionN)</syntax_item>
+    <syntax_item>mex(api, filenames)</syntax_item>
+    <syntax_item>mex(api, filenames, option1, ..., optionN)</syntax_item>
+    <syntax_item>mex('-output', mexName, filenames)</syntax_item>
+    <syntax_item>mex(api, '-output', mexName, filenames)</syntax_item>
+    <syntax_item
     >mex(api, '-output', mexName, filenames, option1, ..., optionN)</syntax_item>
-        <syntax_item>mex('-client, 'engine', filenames)</syntax_item>
-        <syntax_item
+    <syntax_item>mex('-client, 'engine', filenames)</syntax_item>
+    <syntax_item
     >mex('-client', 'engine', 'filenames', api, option1, ..., optionN)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>'-client', 'engine'</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>'-client', 'engine'</param_name>
+      <param_description
       >enable to build C/C++ source files into standalone engine application.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>api</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>api</param_name>
+      <param_description
       >a string: '-R2017b' (separated complex representation) or '-R2018a' (interleaved complex representation).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>filenames</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>filenames</param_name>
+      <param_description
       >a string or cell of characters: list of files to use. First filename used as mex name.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>mexName</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>mexName</param_name>
+      <param_description
       >a string: override naming convention.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>option1, ..., optionN</param_name>
-            <param_description
-      >string: compilation or link option.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p
+    </param_input_item>
+    <param_input_item>
+      <param_name>option1, ..., optionN</param_name>
+      <param_description>string: compilation or link option.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p
     >To use mex, C/C++ compiler must be available and configured. See Supported C/C++ compilers section for more information.</p>
-        <p
+    <p
     >Nelson includes an interface to allow legacy mex-files to be compiled and linked with Nelson.</p>
-        <p
+    <p
     >A mex file is a type of computer file that provides an interface between Octave or the reference commercial software and functions written in C, C++.</p>
-        <p
+    <p
     >Nelson have also his own C++ API to manage more easily internal nelson's objects.</p>
-        <p />
-        <p>PREDEFINED C MACRO:</p>
-        <p>
-            <b
+    <p />
+    <p>PREDEFINED C MACRO:</p>
+    <p><b
       >MX_IS_NELSON</b> macro is defined to easily detect if Nelson is used in C code.</p>
-            <p>
-                <b
+    <p><b
       >MX_HAS_INTERLEAVED_COMPLEX</b> macro is defined if C MEX API used is '-R2018a'.</p>
-                <p />
-                <p>Supported options: compilation or link.</p>
-                <p>
-                    <b>CFLAGS=</b>
-                </p>
-                <p>
-                    <b>-D</b> The -D option defines C preprocessor macro.</p>
-                    <p>
-                        <b
-      >-U</b> The -U option undefines C preprocessor macro</p>
-                        <p>
-                            <b
+    <p />
+    <p>Supported options: compilation or link.</p>
+    <p>
+      <b>CFLAGS=</b>
+    </p>
+    <p><b>-D</b> The -D option defines C preprocessor macro.</p>
+    <p><b>-U</b> The -U option undefines C preprocessor macro</p>
+    <p><b
       >-I</b> Adds pathname to the list of folders to search for #include files.</p>
-                            <p>
-                                <b
-      >-l</b> Links with dynamic object library .lib, .so or .dylib.</p>
-                                <p>
-                                    <b
-      >-g</b> Used for debugging (Debug configuration).</p>
-                                </description>
-                                <used_function />
-                                <bibliography />
-                                <examples>
-                                    <example_item>
-                                        <example_item_type
-      >nelson</example_item_type>
-                                        <example_item_description />
-                                        <example_item_data
+    <p><b>-l</b> Links with dynamic object library .lib, .so or .dylib.</p>
+    <p><b>-g</b> Used for debugging (Debug configuration).</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="false"
       ><![CDATA[
 		edit([modulepath('mex', 'tests'), '/test_engine.m'])
 ]]></example_item_data>
-                                    </example_item>
-                                </examples>
-                                <see_also>
-                                    <see_also_item>
-                                        <link
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link
         linkend="${dynamic_link}2_supported_compilers"
       >Supported C/C++ compilers</link>
-                                    </see_also_item>
-                                    <see_also_item>
-                                        <link
-        linkend="${dynamic_link}dlgenerategateway"
-      >dlgenerategateway</link>
-                                    </see_also_item>
-                                </see_also>
-                                <history>
-                                    <history_item>
-                                        <history_version>1.0.0</history_version>
-                                        <history_description
-      >initial version</history_description>
-                                    </history_item>
-                                </history>
-                                <authors>
-                                    <author_item>Allan CORNET</author_item>
-                                </authors>
-                            </xmldoc>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dynamic_link}dlgenerategateway">dlgenerategateway</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

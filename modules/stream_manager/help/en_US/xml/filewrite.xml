@@ -1,75 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>filewrite</keyword>
-    <short_description>Write text to a file.</short_description>
-    <syntax>
-        <syntax_item>filewrite(filename, txt)</syntax_item>
-        <syntax_item>filewrite(filename, txt, eol)</syntax_item>
-        <syntax_item>filewrite(filename, txt, eol, encoding)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description>a string: a filename</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>txt</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>filewrite</keyword>
+  <short_description>Write text to a file.</short_description>
+  <syntax>
+    <syntax_item>filewrite(filename, txt)</syntax_item>
+    <syntax_item>filewrite(filename, txt, eol)</syntax_item>
+    <syntax_item>filewrite(filename, txt, eol, encoding)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: a filename</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>txt</param_name>
+      <param_description
       >a string, cell of string or string array: content to save in file</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>eol</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>eol</param_name>
+      <param_description
       >a string: 'native' (system default), 'pc' [(char(13), char(10)], 'unix' [char(10)]</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>encoding</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>encoding</param_name>
+      <param_description
       >a string: 'UTF-8' (default), 'ISO-8859-1', 'windows-1251', 'windows-1252', ...</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b
       >filewrite</b> saves a character array, cell of string or string array to a file.</p>
-            <p>file saved uses by default UTF-8 (NO-BOM) encoding.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    <p>file saved uses by default UTF-8 (NO-BOM) encoding.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[str = fileread([nelsonroot(),'/CHANGELOG.md'], 'string')
     	filewrite([tempdir(), 'CHANGELOG.md'], str)]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
-      >characters encoding</example_item_description>
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>characters encoding</example_item_description>
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 str = 'живете зело, земля, и иже и како люди';
 filewrite([tempdir(), 'example_filewrite.txt'], str, 'native', 'windows-1251')]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${stream_manager}fileread">fileread</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}fileread">fileread</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

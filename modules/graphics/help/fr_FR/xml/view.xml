@@ -1,110 +1,108 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>view</keyword>
-    <short_description>Ligne de visée de la caméra.</short_description>
-    <syntax>
-        <syntax_item>view(az, el)</syntax_item>
-        <syntax_item>view([az, el])</syntax_item>
-        <syntax_item>view([x, y, z])</syntax_item>
-        <syntax_item>view(dim)</syntax_item>
-        <syntax_item>view(ax, ...)</syntax_item>
-        <syntax_item>[az, el] = view(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>dim</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>view</keyword>
+  <short_description>Ligne de visée de la caméra.</short_description>
+  <syntax>
+    <syntax_item>view(az, el)</syntax_item>
+    <syntax_item>view([az, el])</syntax_item>
+    <syntax_item>view([x, y, z])</syntax_item>
+    <syntax_item>view(dim)</syntax_item>
+    <syntax_item>view(ax, ...)</syntax_item>
+    <syntax_item>[az, el] = view(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description
       >Dimensions : 2 équivaut à view(0, 90) ou 3 équivaut à view(-37.5, 30).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>az</param_name>
-            <param_description>Azimut : scalaire</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>el</param_name>
-            <param_description>Élévation : scalaire</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>az</param_name>
+      <param_description>Azimut : scalaire</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>el</param_name>
+      <param_description>Élévation : scalaire</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description
       >Un objet graphique scalaire : conteneur parent, spécifié comme axes.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>
-            <b>view</b> définit la vue dans un tracé.
-        </p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data runnable="adv-cli">
-<![CDATA[f = figure();
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>view</b> définit la vue dans un tracé.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
 [X,Y] = meshgrid(-6:.5:6);
 Z = Y .* sin(X) - X .* cos(Y);
-surf(X, Y, Z)]]>
-            </example_item_data>
-            <example_item_img
+surf(X, Y, Z)]]></example_item_data>
+      <example_item_img
         src="../../images/view_1.svg"
         align="middle"
         generate="true"
       />
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data runnable="adv-cli">
-<![CDATA[f = figure();
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
 [X,Y] = meshgrid(-6:.5:6);
 Z = Y .* sin(X) - X .* cos(Y);
 surf(X, Y, Z)
-view(90, 0)]]>
-            </example_item_data>
-            <example_item_img
+view(90, 0)]]></example_item_data>
+      <example_item_img
         src="../../images/view_2.svg"
         align="middle"
         generate="true"
       />
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data runnable="adv-cli">
-<![CDATA[f = figure();
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
 [X,Y] = meshgrid(-6:.5:6);
 Z = Y .* sin(X) - X .* cos(Y);
 surf(X, Y, Z)
-view(2)]]>
-            </example_item_data>
-            <example_item_img
+view(2)]]></example_item_data>
+      <example_item_img
         src="../../images/view_3.svg"
         align="middle"
         generate="true"
       />
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${graphics}axes">axes</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>Version initiale</history_description>
-        </history_item>
-        <history_item>
-            <history_version>1.2.0</history_version>
-            <history_description
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}axes">axes</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>Version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.2.0</history_version>
+      <history_description
       >Azimut et élévation comme arguments de sortie.</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

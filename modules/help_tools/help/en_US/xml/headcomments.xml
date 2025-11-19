@@ -1,70 +1,69 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>headcomments</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>headcomments</keyword>
+  <short_description
   >Display Nelson function header comments.</short_description>
-    <syntax>
-        <syntax_item>headcomments(function_name)</syntax_item>
-        <syntax_item>ce = headcomments(function_name)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>function_name</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>headcomments(function_name)</syntax_item>
+    <syntax_item>ce = headcomments(function_name)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>function_name</param_name>
+      <param_description
       >a string: function name or a .m filename.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>ce</param_name>
-            <param_description>a cell of strings</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>head_comments</b> displays the function header comments.</p>
-            <p>Comments are read from the associated .m file.</p>
-            <p>Nelson predefined functions have no header comments.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ce</param_name>
+      <param_description>a cell of strings</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>head_comments</b> displays the function header comments.</p>
+    <p>Comments are read from the associated .m file.</p>
+    <p>Nelson predefined functions have no header comments.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="gui"
       ><![CDATA[comments = headcomments('cellstr'); md = markdown(comments);inserthtml(md)]]></example_item_data>
-                <example_item_img
+      <example_item_img
         src="../images/headcomments.png"
         align="middle"
         generate="false"
       />
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${help_tools}doc">doc</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${help_tools}markdown">markdown</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${gui}inserthtml">inserthtml</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${function_manager}which">which</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${help_tools}doc">doc</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${help_tools}markdown">markdown</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}inserthtml">inserthtml</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${function_manager}which">which</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

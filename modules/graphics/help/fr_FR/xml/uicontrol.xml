@@ -1,213 +1,170 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>uicontrol</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uicontrol</keyword>
+  <short_description
   >Créer un composant d'interface utilisateur.</short_description>
-    <syntax>
-        <syntax_item>c = uicontrol()</syntax_item>
-        <syntax_item>c = uicontrol(propertyName, propertyValue)</syntax_item>
-        <syntax_item>c = uicontrol(parent)</syntax_item>
-        <syntax_item
+  <syntax>
+    <syntax_item>c = uicontrol()</syntax_item>
+    <syntax_item>c = uicontrol(propertyName, propertyValue)</syntax_item>
+    <syntax_item>c = uicontrol(parent)</syntax_item>
+    <syntax_item
     >c = uicontrol(parent, propertyName, propertyValue, ...)</syntax_item>
-        <syntax_item>uicontrol(c)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>parent</param_name>
-            <param_description
-      >Objet graphique de type figure.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyName</param_name>
-            <param_description
+    <syntax_item>uicontrol(c)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>Objet graphique de type figure.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
       >Nom de la propriété : une chaîne scalaire ou un vecteur ligne de caractères.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyValue</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description
       >Valeur de la propriété : une valeur compatible avec le nom de la propriété.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>c</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>c</param_name>
+      <param_description
       >Un objet de contrôle d'interface utilisateur.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>c</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>c</param_name>
+      <param_description
       >Un objet de contrôle d'interface utilisateur.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >c = uicontrol</b> crée un bouton poussoir, qui est le contrôle d'interface utilisateur par défaut, dans la figure actuelle et retourne l'objet uicontrol associé. Si aucune figure n'est actuellement ouverte, Nelson en génère une à l'aide de la fonction figure.</p>
-        <p>
-            <b
+    <p><b
       >c = uicontrol(propertyName, propertyValue)</b> crée un contrôle d'interface utilisateur avec des propriétés définies par un ou plusieurs arguments nom-valeur. Par exemple, spécifier 'Style', 'button' créera un bouton.</p>
-        <p>
-            <b
+    <p><b
       >c = uicontrol(parent)</b> crée le contrôle d'interface utilisateur par défaut (bouton poussoir) dans le conteneur parent spécifié, au lieu de se baser sur la figure actuelle.</p>
-        <p>
-            <b
+    <p><b
       >c = uicontrol(parent, propertyName, propertyValue)</b> crée un contrôle d'interface utilisateur dans le conteneur parent spécifié, permettant de définir ses propriétés à l'aide d'un ou plusieurs arguments nom-valeur.</p>
-        <p>
-            <b
+    <p><b
       >uicontrol(c)</b> met le focus sur un contrôle d'interface utilisateur précédemment défini, le plaçant au premier plan pour l'interaction utilisateur.</p>
-        <p />
-        <p>Liste des propriétés :</p>
-        <p />
-        <p>
-            <b
+    <p />
+    <p>Liste des propriétés :</p>
+    <p />
+    <p><b
       >BackgroundColor</b> : Couleur de l'arrière-plan, spécifiée comme un triplet RGB, un code couleur hexadécimal ou un nom de couleur valide.</p>
-        <p>
-            <b
-      >BeingDeleted</b> : Statut de suppression. Valeur logique on/off.</p>
-        <p>
-            <b
+    <p><b>BeingDeleted</b> : Statut de suppression. Valeur logique on/off.</p>
+    <p><b
       >BusyAction</b> : Mise en file d'attente des callbacks spécifiée comme 'queue' (par défaut) ou 'cancel'. Cette propriété détermine comment Nelson gère l'exécution des callbacks interrompus.</p>
-        <p>
-            <b
+    <p><b
       >ButtonDownFcn</b> : Fonction de callback pour l'appui sur un bouton.</p>
-        <p>
-            <b
+    <p><b
       >CData</b> : Une icône optionnelle peut être spécifiée comme un tableau 3D de valeurs RGB en vraies couleurs. Les valeurs du tableau peuvent être : des nombres en double précision allant de 0.0 à 1.0, ou des nombres uint8 allant de 0 à 255.</p>
-        <p>
-            <b
+    <p><b
       >Callback</b> : Fonction de callback principale : '' (par défaut), handle de fonction, tableau de cellules ou vecteur de caractères.</p>
-        <p>
-            <b>Children</b> : Enfants de l'UIControl : tableau vide.</p>
-        <p>
-            <b>CreateFcn</b> : Fonction de création du composant.</p>
-        <p>
-            <b>DeleteFcn</b> : Fonction de suppression du composant.</p>
-        <p>
-            <b
+    <p><b>Children</b> : Enfants de l'UIControl : tableau vide.</p>
+    <p><b>CreateFcn</b> : Fonction de création du composant.</p>
+    <p><b>DeleteFcn</b> : Fonction de suppression du composant.</p>
+    <p><b
       >Enable</b> : État opérationnel du contrôle d'interface utilisateur.</p>
-        <p>
-            <b
+    <p><b
       >FontAngle</b> : Angle de la police : 'italic' ou 'normal' (par défaut).</p>
-        <p>
-            <b
+    <p><b
       >FontName</b> : Nom de la police : nom de police pris en charge par le système.</p>
-        <p>
-            <b>FontSize</b> : Taille de la police : nombre positif.</p>
-        <p>
-            <b
+    <p><b>FontSize</b> : Taille de la police : nombre positif.</p>
+    <p><b
       >FontUnits</b> : Unités de la police : 'normalized', 'inches', 'centimeters', 'pixels' ou 'points' (par défaut).</p>
-        <p>
-            <b
+    <p><b
       >FontWeight</b> : Épaisseur de la police : 'bold' ou 'normal' (par défaut).</p>
-        <p>
-            <b
+    <p><b
       >ForeGround</b> : Couleur du texte, spécifiée comme un triplet RGB, un code couleur hexadécimal ou un nom de couleur valide.</p>
-        <p>
-            <b>HandleVisibility</b> : Visibilité du handle de l'UIControl.</p>
-        <p>
-            <b
+    <p><b>HandleVisibility</b> : Visibilité du handle de l'UIControl.</p>
+    <p><b
       >HorizontalAlignment</b> : Alignement du texte de l'uicontrol : 'left', 'right' ou 'center' (par défaut).</p>
-        <p>
-            <b
+    <p><b
       >Interruptible</b> : Interruption des callbacks : 'on' (par défaut).</p>
-        <p>
-            <b
+    <p><b
       >KeyPressFcn</b> : Fonction de callback pour l'appui sur une touche.</p>
-        <p>
-            <b
+    <p><b
       >KeyReleaseFcn</b> : Fonction de callback pour le relâchement d'une touche.</p>
-        <p>
-            <b
+    <p><b
       >ListboxTop</b> : Index de l'élément supérieur dans la liste : valeur entière ou 1 (par défaut).</p>
-        <p>
-            <b>Max</b> : Valeur maximale : nombre ou 1 (par défaut).</p>
-        <p>
-            <b>Min</b> : Valeur minimale : nombre ou 0 (par défaut).</p>
-        <p>
-            <b>Parent</b> : Objet parent : Figure.</p>
-        <p>
-            <b
+    <p><b>Max</b> : Valeur maximale : nombre ou 1 (par défaut).</p>
+    <p><b>Min</b> : Valeur minimale : nombre ou 0 (par défaut).</p>
+    <p><b>Parent</b> : Objet parent : Figure.</p>
+    <p><b
       >Position</b> : Emplacement et taille : [gauche bas largeur hauteur].</p>
-        <p>
-            <b
+    <p><b
       >SliderStep</b> : Taille des étapes du curseur : [minorstep majorstep] ou [0.01 0.10] (par défaut).</p>
-        <p>
-            <b
+    <p><b
       >String</b> : Texte à afficher : vecteur de caractères, tableau de cellules de vecteurs de caractères ou tableau de chaînes.</p>
-        <p>
-            <b
+    <p><b
       >Style</b> : 'pushbutton' (par défaut), 'togglebutton', 'checkbox', 'radiobutton', 'edit', 'text', 'slider'.</p>
-        <p>
-            <b
+    <p><b
       >Tooltip</b> : Infobulle : vecteur de caractères ou chaîne scalaire.</p>
-        <p>
-            <b>Type</b> : 'uicontrol'</p>
-        <p>
-            <b
+    <p><b>Type</b> : 'uicontrol'</p>
+    <p><b
       >Units</b> : Unités de mesure : 'pixels' (par défaut), 'normalized', 'centimeters', 'inches' ou 'points'.</p>
-        <p>
-            <b
-      >UserData</b> : Tableau de données utilisateur ou [] (par défaut).</p>
-        <p>
-            <b>Value</b> : Valeur actuelle : nombre</p>
-        <p>
-            <b>Visible</b> : État de visibilité : 'on' (par défaut).</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description>Bouton poussoir</example_item_description>
-            <example_item_data
+    <p><b>UserData</b> : Tableau de données utilisateur ou [] (par défaut).</p>
+    <p><b>Value</b> : Valeur actuelle : nombre</p>
+    <p><b>Visible</b> : État de visibilité : 'on' (par défaut).</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Bouton poussoir</example_item_description>
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[
 f = figure;
 b = uicontrol(f,'Style','pushbutton', 'String', 'Cliquez-moi', 'Position', [100 100 60 30], 'Callback', 'disp(''Bonjour tout le monde!'')')
 ]]></example_item_data>
-            <example_item_img
+      <example_item_img
         src="../images/uicontrol_1.png"
         align="middle"
         generate="false"
       />
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description>Case à cocher</example_item_description>
-            <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Case à cocher</example_item_description>
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[
 f = figure();
 h = uicontrol(Style='checkbox', String='Cliquez-moi!', Position=[100, 100, 100, 50]);
 ]]></example_item_data>
-            <example_item_img
+      <example_item_img
         src="../images/uicontrol_2.png"
         align="middle"
         generate="false"
       />
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description>Édition</example_item_description>
-            <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Édition</example_item_description>
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[
 f = figure();
 h = uicontrol(Style='edit', String='Cliquez-moi!', Position=[100, 100, 100, 50]);
 ]]></example_item_data>
-            <example_item_img
+      <example_item_img
         src="../images/uicontrol_3.png"
         align="middle"
         generate="false"
       />
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description>Image</example_item_description>
-            <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Image</example_item_description>
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[
 hFig = figure(Position=[100, 100, 300, 300]);
@@ -217,67 +174,67 @@ CData = cat(3, X/imgSize, Y/imgSize, zeros(imgSize));
 CData = im2double(CData);  % S'assurer que l'image est de type double
 hButton = uicontrol(Style='pushbutton',  Position=[100, 100, 100, 100], CData=CData, String='Cliquez-moi!');
 ]]></example_item_data>
-            <example_item_img
+      <example_item_img
         src="../images/uicontrol_4.png"
         align="middle"
         generate="false"
       />
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description>Démo uicontrol</example_item_description>
-            <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Démo uicontrol</example_item_description>
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[
 addpath([modulepath('graphics','root'), '/examples/uicontrol'])
 edit uicontrol_demo
 uicontrol_demo
 ]]></example_item_data>
-            <example_item_img
+      <example_item_img
         src="../images/uicontrol_5.png"
         align="middle"
         generate="false"
       />
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Démo uicontrol Interruptible</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[
 addpath([modulepath('graphics','root'), '/examples/uicontrol'])
 edit uicontrol_demo_interruptible
 uicontrol_demo_interruptible
 ]]></example_item_data>
-            <example_item_img
+      <example_item_img
         src="../images/uicontrol_6.png"
         align="middle"
         generate="false"
       />
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${graphics}figure">figure</link>
-        </see_also_item>
-        <see_also_item>
-            <link
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}figure">figure</link>
+    </see_also_item>
+    <see_also_item>
+      <link
         linkend="${graphics}graphical_callback"
       >Gérer les interruptions de callback dans Nelson</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.7.0</history_version>
-            <history_description>Version initiale</history_description>
-        </history_item>
-        <history_item>
-            <history_version>1.14.0</history_version>
-            <history_description>Propriété Units ajoutée</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description>Version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.14.0</history_version>
+      <history_description>Propriété Units ajoutée</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

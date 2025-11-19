@@ -1,74 +1,74 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>rotate3d</keyword>
-    <short_description>Activer le mode rotation.</short_description>
-    <syntax>
-        <syntax_item>rotate3d</syntax_item>
-        <syntax_item>rotate3d option</syntax_item>
-        <syntax_item>rotate3d(fig, ...)</syntax_item>
-        <syntax_item>rotate3d(ax, ...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>option</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>rotate3d</keyword>
+  <short_description>Activer le mode rotation.</short_description>
+  <syntax>
+    <syntax_item>rotate3d</syntax_item>
+    <syntax_item>rotate3d option</syntax_item>
+    <syntax_item>rotate3d(fig, ...)</syntax_item>
+    <syntax_item>rotate3d(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>option</param_name>
+      <param_description
       >Chaîne de caractères : 'on', 'off' ou 'toggle'.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>fig</param_name>
-            <param_description>Objet figure : figure cible</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>fig</param_name>
+      <param_description>Objet figure : figure cible</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description
       >Valeur scalaire d'objet graphique : conteneur parent, spécifié comme axes.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p
+    </param_input_item>
+  </param_input>
+  <description>
+    <p
     >Utilisez le mode rotation pour faire pivoter de façon interactive la vue 3D des axes lors de l'exploration des données. Activez ou désactivez le mode rotation et configurez des options de base supplémentaires avec la fonction rotate3d.</p>
-        <p><b
+    <p><b
       >rotate3d option</b> établit le mode rotation pour tous les axes de la figure courante. Par exemple, rotate3d on active le mode rotation, tandis que rotate3d off le désactive.</p>
-        <p />
-        <p
+    <p />
+    <p
     >Lorsque le mode rotation est activé, vous pouvez ajuster la vue des axes avec le curseur ou le clavier :</p>
-        <p />
-        <p>Curseur : cliquez et faites glisser dans les axes.</p>
-        <p
+    <p />
+    <p>Curseur : cliquez et faites glisser dans les axes.</p>
+    <p
     >Clavier : utilisez les flèches droite (→) ou gauche (←) pour ajuster l'azimut, et les flèches haut (↑) ou bas (↓) pour modifier l'élévation.</p>
-    </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[surf(peaks)
 rotate3d]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${graphics}zoom">zoom</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${graphics}pan">pan</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${graphics}view">view</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.2.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}zoom">zoom</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}pan">pan</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}view">view</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.2.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

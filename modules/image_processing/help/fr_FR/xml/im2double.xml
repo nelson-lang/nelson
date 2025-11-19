@@ -1,64 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>im2double</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>im2double</keyword>
+  <short_description
   >Convertit une image en précision double.</short_description>
-    <syntax>
-        <syntax_item>IM = im2double(I)</syntax_item>
-        <syntax_item>IM = im2double(I,'indexed')</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>I</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>IM = im2double(I)</syntax_item>
+    <syntax_item>IM = im2double(I,'indexed')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description
       >Image d'entrée : scalaire, vecteur, matrice ou tableau multidimensionnel de type single, double, int16, uint8, uint16 ou logical.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-                        <param_name>IM</param_name>
-                        <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>IM</param_name>
+      <param_description
       >L'image convertie est renvoyée sous forme d'un tableau numérique ayant les mêmes dimensions que l'image d'entrée I et de type double.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-      <p><b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >IM = im2double(I)</b> convertit l'image d'entrée I au format en précision double. L'image d'entrée IM peut être une image en niveaux de gris, en couleurs vraies ou binaire. Lors de la conversion, <b
       >im2double</b> remet à l'échelle les valeurs de pixels depuis leur format entier d'origine vers une plage flottante [0, 1].</p>
-      <p>Pour une image indexée, <b
+    <p>Pour une image indexée, <b
       >IM = im2double(I, 'indexed')</b> convertit également l'image I en précision double, mais ajoute un décalage de 1 aux valeurs de pixels lors de la conversion depuis les types entiers.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[I = reshape(uint8(linspace(1,255,25)),[5 5]);
 IM1 = im2double(I)
 IM2 = im2double(I, 'indexed')
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${double}double">double</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${graphics_io}imread">imread</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${double}double">double</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics_io}imread">imread</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

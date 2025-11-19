@@ -1,276 +1,301 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>gallery</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>gallery</keyword>
+  <short_description
   >Générer des matrices de test et des données couramment utilisées pour des expériences numériques</short_description>
-
-    <syntax>
-        <syntax_item
-    >[A1,A2,...,Am] = gallery(matrixname,P1,P2,...,Pn)</syntax_item>
-        <syntax_item
+  <syntax>
+    <syntax_item>[A1,A2,...,Am] = gallery(matrixname,P1,P2,...,Pn)</syntax_item>
+    <syntax_item
     >[A1,A2,...,Am] = gallery(matrixname,P1,P2,...,Pn,typename)</syntax_item>
-        <syntax_item>A = gallery(k)</syntax_item>
-        <syntax_item>A = gallery("circul", v)</syntax_item>
-        <syntax_item>[v,beta] = gallery("house", x)</syntax_item>
-        <syntax_item>[A,beta] = gallery("ipjfact", n, k)</syntax_item>
-        <syntax_item>A = gallery("cauchy", x, y)</syntax_item>
-    </syntax>
-
-    <param_input>
-        <param_input_item>
-            <param_name>matrixname</param_name>
-            <param_description
+    <syntax_item>A = gallery(k)</syntax_item>
+    <syntax_item>A = gallery("circul", v)</syntax_item>
+    <syntax_item>[v,beta] = gallery("house", x)</syntax_item>
+    <syntax_item>[A,beta] = gallery("ipjfact", n, k)</syntax_item>
+    <syntax_item>A = gallery("cauchy", x, y)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>matrixname</param_name>
+      <param_description
       >nom de la famille de matrices à générer (chaîne ou vecteur de caractères), par exemple "circul", "cauchy", "grcar", "minij", "dramadah", "house", "ipjfact"</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>P1, P2, ..., Pn</param_name>
-            <param_description
-      >paramètres dépendants de la famille : scalaires, vecteurs ou matrices qui déterminent la taille et les entrées (par exemple <code
-        >n</code>, vecteurs <code>v</code>, <code>x</code>, <code
+    </param_input_item>
+    <param_input_item>
+      <param_name>P1, P2, ..., Pn</param_name>
+      <param_description
+      >paramètres dépendants de la famille : scalaires, vecteurs ou matrices qui déterminent la taille et les entrées (par exemple<code
+        >n</code>, vecteurs<code>v</code>,<code>x</code>,<code
         >y</code>, ou indicateurs d'options)</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>n</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description
       >entier positif spécifiant l'ordre ou la taille de la matrice</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>v, x, y</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>v, x, y</param_name>
+      <param_description
       >vecteurs utilisés comme paramètres (par exemple première ligne pour circulante, emplacements des points pour chebvand, ou paramètres de Cauchy)</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>k</param_name>
-            <param_description
-      >option ou petit paramètre entier contrôlant le comportement de la famille (par exemple nombre de superdiagonales pour <b
-        >grcar</b> ou sélecteurs de variantes pour <b
+    </param_input_item>
+    <param_input_item>
+      <param_name>k</param_name>
+      <param_description
+      >option ou petit paramètre entier contrôlant le comportement de la famille (par exemple nombre de superdiagonales pour<b
+        >grcar</b> ou sélecteurs de variantes pour<b
         >dramadah</b>)</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>typename</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>typename</param_name>
+      <param_description
       >type de données de sortie optionnel : "double" (par défaut) ou "single"</param_description>
-        </param_input_item>
-    </param_input>
-
-    <param_output>
-        <param_output_item>
-            <param_name>A1,A2,...,Am</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>A1,A2,...,Am</param_name>
+      <param_description
       >une ou plusieurs matrices ou tableaux produits par la famille choisie</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>A</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>A</param_name>
+      <param_description
       >matrice unique ou tableau multidimensionnel lorsque une seule sortie est demandée</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>v,beta,s</param_name>
-            <param_description>Sorties de Householder : <code
-        >v</code> (vecteur), <code>beta</code> (scalaire), et optionnel <code
-        >s</code> retourné par <b>house</b></param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>beta</param_name>
-            <param_description
-      >détérminant ou sortie scalaire pour les familles qui le retournent explicitement (par exemple <b
-        >ipjfact</b> retourne le déterminant <code
+    </param_output_item>
+    <param_output_item>
+      <param_name>v,beta,s</param_name>
+      <param_description>Sorties de Householder :<code>v</code>(vecteur),<code
+        >beta</code>(scalaire), et optionnel<code>s</code>retourné par <b
+        >house</b></param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>beta</param_name>
+      <param_description
+      >détérminant ou sortie scalaire pour les familles qui le retournent explicitement (par exemple<b
+        >ipjfact</b> retourne le déterminant<code
         >beta</code>)</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>La fonction <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>La fonction<b
       >gallery</b> retourne une collection de matrices de test standard et de données générées utilisées pour illustrer les concepts d'algèbre linéaire numérique, tester des algorithmes et reproduire des exemples de manuels.</p>
-        <p>Utilisez l'argument <b
+    <p>Utilisez l'argument<b
       >matrixname</b> pour sélectionner une famille ; les paramètres supplémentaires (tailles, vecteurs, options) dépendent de la famille choisie.</p>
-        <p
+    <p
     >Utilisations typiques : étudier la sensibilité et le conditionnement des valeurs propres, exercer des solveurs avec des matrices structurées (Toeplitz, Hankel, circulante), générer des matrices aléatoires ou spécialement structurées avec des propriétés singulières/valeurs propres prescrites, ou obtenir des exemples canoniques pour l'enseignement et les tests.</p>
-        <p>Le <b>typename</b> optionnel force le type de sortie numérique.</p>
-        <p
-    >Si omis, le type de sortie est déduit des entrées : la présence d'une entrée <code
-      >single</code> donne lieu à <code
-      >single</code>, sinon les sorties sont <code>double</code>.</p>
-        <table border="1" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Syntaxe</th>
-                    <th>Remarques</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>gallery(3)</td>
-                    <td><code>A = gallery(3)</code></td>
-                    <td
+    <p>Le <b>typename</b> optionnel force le type de sortie numérique.</p>
+    <p
+    >Si omis, le type de sortie est déduit des entrées : la présence d'une entrée<code
+      >single</code>donne lieu à<code>single</code>, sinon les sorties sont<code
+      >double</code>.</p>
+    <table border="1" style="width:100%">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Syntaxe</th>
+          <th>Remarques</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>gallery(3)</td>
+          <td>
+            <code>A = gallery(3)</code>
+          </td>
+          <td
           >Exemple classique 3×3 mal conditionné ; illustre la sensibilité des valeurs propres.</td>
-                </tr>
-                <tr>
-                    <td>gallery(5)</td>
-                    <td><code>A = gallery(5)</code></td>
-                    <td
+        </tr>
+        <tr>
+          <td>gallery(5)</td>
+          <td>
+            <code>A = gallery(5)</code>
+          </td>
+          <td
           >Exemple 5×5 avec polynôme caractéristique exact \(\lambda^5=0\) ; numériquement les valeurs propres sont petites et sensibles.</td>
-                </tr>
-                <tr>
-                    <td>circul</td>
-                    <td><code>A = gallery("circul", v)</code></td>
-                    <td
-          >Matrice circulante : les lignes sont des décalages cycliques de <code
-            >v</code> ; les valeurs propres sont la DFT de <code>v</code>.</td>
-                </tr>
-                <tr>
-                    <td>grcar</td>
-                    <td><code>A = gallery("grcar", n, k)</code></td>
-                    <td
+        </tr>
+        <tr>
+          <td>circul</td>
+          <td>
+            <code>A = gallery("circul", v)</code>
+          </td>
+          <td
+          >Matrice circulante : les lignes sont des décalages cycliques de<code
+            >v</code>; les valeurs propres sont la DFT de<code>v</code>.</td>
+        </tr>
+        <tr>
+          <td>grcar</td>
+          <td>
+            <code>A = gallery("grcar", n, k)</code>
+          </td>
+          <td
           >Toeplitz avec -1 sur la sous-diagonale et des 1 sur la diagonale principale et les k sur-diagonales ; utile pour des exemples de pseudospectres.</td>
-                </tr>
-                <tr>
-                    <td>minij</td>
-                    <td><code>A = gallery("minij", n)</code></td>
-                    <td>Matrice symétrique définie positive avec <code
-            >A(i,j)=min(i,j)</code> ; l'inverse est tridiagonal (structure de différence seconde).</td>
-                </tr>
-                <tr>
-                    <td>dramadah</td>
-                    <td><code>A = gallery("dramadah", n, k)</code></td>
-                    <td
+        </tr>
+        <tr>
+          <td>minij</td>
+          <td>
+            <code>A = gallery("minij", n)</code>
+          </td>
+          <td>Matrice symétrique définie positive avec<code
+            >A(i,j)=min(i,j)</code>; l'inverse est tridiagonal (structure de différence seconde).</td>
+        </tr>
+        <tr>
+          <td>dramadah</td>
+          <td>
+            <code>A = gallery("dramadah", n, k)</code>
+          </td>
+          <td
           >Familles binaires (0/1) ; certains k donnent des matrices de Toeplitz unimodulaires dont l'inverse est entière.</td>
-                </tr>
-                <tr>
-                    <td>house</td>
-                    <td><code>[v,beta] = gallery("house", x)</code></td>
-                    <td>Retourne le vecteur de Householder <code
-            >v</code> et le scalaire <code>beta</code> tels que <code
+        </tr>
+        <tr>
+          <td>house</td>
+          <td>
+            <code>[v,beta] = gallery("house", x)</code>
+          </td>
+          <td>Retourne le vecteur de Householder<code
+            >v</code>et le scalaire<code>beta</code>tels que<code
             >H=I-beta*v*v'</code> reflète <code
             >x</code> sur un multiple de <code>e1</code>.</td>
-                </tr>
-                <tr>
-                    <td>binomial</td>
-                    <td><code>A = gallery("binomial", n)</code></td>
-                    <td>Matrice binomiale avec <code
+        </tr>
+        <tr>
+          <td>binomial</td>
+          <td>
+            <code>A = gallery("binomial", n)</code>
+          </td>
+          <td>Matrice binomiale avec <code
             >A^2 = 2^(n-1) I</code> ; la matrice mise à l'échelle est involutive.</td>
-                </tr>
-                <tr>
-                    <td>cauchy</td>
-                    <td><code>A = gallery("cauchy", x, y)</code></td>
-                    <td>Matrice de Cauchy <code
-            >A(i,j)=1/(x(i)+y(j))</code> ; des formules explicites pour le déterminant et l'inverse existent.</td>
-                </tr>
-                <tr>
-                    <td>ris</td>
-                    <td><code>A = gallery("ris", n)</code></td>
-                    <td
+        </tr>
+        <tr>
+          <td>cauchy</td>
+          <td>
+            <code>A = gallery("cauchy", x, y)</code>
+          </td>
+          <td>Matrice de Cauchy<code
+            >A(i,j)=1/(x(i)+y(j))</code>; des formules explicites pour le déterminant et l'inverse existent.</td>
+        </tr>
+        <tr>
+          <td>ris</td>
+          <td>
+            <code>A = gallery("ris", n)</code>
+          </td>
+          <td
           >Matrice Hankel symétrique avec éléments 0.5/(n-i-j+1.5) ; les valeurs propres se regroupent près de ±π/2.</td>
-                </tr>
-                <tr>
-                    <td>chebspec</td>
-                    <td><code>A = gallery("chebspec", n, k)</code></td>
-                    <td>Matrice de différenciation spectrale de Chebyshev. <code
+        </tr>
+        <tr>
+          <td>chebspec</td>
+          <td>
+            <code>A = gallery("chebspec", n, k)</code>
+          </td>
+          <td>Matrice de différenciation spectrale de Chebyshev. <code
             >k</code>=0 donne une forme nilpotente ; <code
             >k</code>=1 donne un opérateur non singulier, bien conditionné.</td>
-                </tr>
-                <tr>
-                    <td>wilk</td>
-                    <td><code>gallery("wilk", m)</code></td>
-                    <td
+        </tr>
+        <tr>
+          <td>wilk</td>
+          <td>
+            <code>gallery("wilk", m)</code>
+          </td>
+          <td
           >Exemples de Wilkinson (petits systèmes triangulaires, W21+, etc.) illustrant des problèmes de stabilité.</td>
-                </tr>
-                <tr>
-                    <td>sampling</td>
-                    <td><code>A = gallery("sampling", x)</code></td>
-                    <td
+        </tr>
+        <tr>
+          <td>sampling</td>
+          <td>
+            <code>A = gallery("sampling", x)</code>
+          </td>
+          <td
           >Matrice non symétrique avec valeurs propres entières 0..n-1 ; les vecteurs propres sont généralement mal conditionnés.</td>
-                </tr>
-                <tr>
-                    <td>ipjfact</td>
-                    <td><code>[A,beta] = gallery("ipjfact", n, k)</code></td>
-                    <td
+        </tr>
+        <tr>
+          <td>ipjfact</td>
+          <td>
+            <code>[A,beta] = gallery("ipjfact", n, k)</code>
+          </td>
+          <td
           >Matrice Hankel construite à partir de factorielles (ou de leurs réciproques) ; déterminant et inverse connus en forme fermée.</td>
-                </tr>
-                <tr>
-                    <td>moler</td>
-                    <td><code>A = gallery("moler", n, alpha)</code></td>
-                    <td>Exemple symétrique définie positive produit comme <code
-            >U'*U</code> ; peut présenter une petite valeur propre isolée.</td>
-                </tr>
-                <tr>
-                    <td>lotkin</td>
-                    <td><code>A = gallery("lotkin", n)</code></td>
-                    <td
+        </tr>
+        <tr>
+          <td>moler</td>
+          <td>
+            <code>A = gallery("moler", n, alpha)</code>
+          </td>
+          <td>Exemple symétrique définie positive produit comme <code
+            >U'*U</code>; peut présenter une petite valeur propre isolée.</td>
+        </tr>
+        <tr>
+          <td>lotkin</td>
+          <td>
+            <code>A = gallery("lotkin", n)</code>
+          </td>
+          <td
           >Matrice de type Hilbert avec première ligne de 1 ; extrêmement mal conditionnée, l'inverse a une structure entière.</td>
-                </tr>
-                <tr>
-                    <td>chebvand</td>
-                    <td><code>A = gallery("chebvand", x)</code></td>
-                    <td>Matrice de type Vandermonde de Chebyshev : <code
+        </tr>
+        <tr>
+          <td>chebvand</td>
+          <td>
+            <code>A = gallery("chebvand", x)</code>
+          </td>
+          <td>Matrice de type Vandermonde de Chebyshev : <code
             >A(i,j)=T_{i-1}(x(j))</code>, utile pour l'interpolation spectrale et les bases polynomiales.</td>
-                </tr>
-                <tr>
-                    <td>lehmer</td>
-                    <td><code>A = gallery("lehmer", n)</code></td>
-                    <td
+        </tr>
+        <tr>
+          <td>lehmer</td>
+          <td>
+            <code>A = gallery("lehmer", n)</code>
+          </td>
+          <td
           >Matrice de Lehmer avec entrées i/j pour i ≤ j ; symétrique définie positive et mal conditionnée.</td>
-                </tr>
-            </tbody>
-        </table>
-    </description>
-
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+        </tr>
+      </tbody>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Exemple simple 3×3 mal conditionné</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = gallery(3)]]></example_item_data>
-        </example_item>
-
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Créer et afficher une matrice circulante</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[C = gallery("circul",120);
 imagesc(C); 
 axis square;
 colorbar;]]></example_item_data>
-        </example_item>
-
-    </examples>
-
-    <bibliography
+    </example_item>
+  </examples>
+  <bibliography
   >Voir les références dans Higham, N. J., Accuracy and Stability of Numerical Algorithms pour la galerie des matrices de test.</bibliography>
-    <used_function />
-    <see_also>
-        <see_also_item>
-            <link linkend="${elementary_functions}hankel">hankel</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${elementary_functions}hilb">hilb</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${elementary_functions}magic">magic</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${elementary_functions}pascal">pascal</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${elementary_functions}toeplitz">toeplitz</link>
-        </see_also_item>
-    </see_also>
-
-    <history>
-        <history_item>
-            <history_version>1.15.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
-
+  <used_function />
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}hankel">hankel</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}hilb">hilb</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}magic">magic</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}pascal">pascal</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}toeplitz">toeplitz</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

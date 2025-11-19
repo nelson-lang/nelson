@@ -1,71 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>remove</keyword>
-    <short_description
-  >Supprimer des entrées du dictionnaire.</short_description>
-    <syntax>
-        <syntax_item>db = remove(da, key)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>da</param_name>
-            <param_description
-      >scalaire : un objet dictionnaire.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>key</param_name>
-            <param_description>scalaire ou tableau : clé</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>db</param_name>
-            <param_description
-      >scalaire : un objet dictionnaire.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>remove</keyword>
+  <short_description>Supprimer des entrées du dictionnaire.</short_description>
+  <syntax>
+    <syntax_item>db = remove(da, key)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>da</param_name>
+      <param_description>scalaire : un objet dictionnaire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>key</param_name>
+      <param_description>scalaire ou tableau : clé</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>db</param_name>
+      <param_description>scalaire : un objet dictionnaire.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >db = remove(da, key)</b> supprime l'entrée associée à la clé du dictionnaire da.</p>
-            <p>
-                <b>d = remove(d, key)</b> équivaut à <b>d[key] = []</b>.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    <p><b>d = remove(d, key)</b> équivaut à <b>d[key] = []</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[names = ["Apple" "Banana" "Kiwi"];
 wheels = [1 2 3];
 d = dictionary(wheels, names)
 d = remove(d, 2)
 ]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${dictionary}dictionary">dictionary</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${dictionary}insert">insert</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${dictionary}lookup">lookup</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.5.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${dictionary}dictionary">dictionary</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dictionary}insert">insert</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dictionary}lookup">lookup</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.5.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

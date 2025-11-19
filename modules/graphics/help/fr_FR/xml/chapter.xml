@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <module_name>graphics</module_name>
-    <chapter>Fonctions graphiques</chapter>
-    <chapter_description>
-        <p
-    >Le module graphique fournit des fonctions pour créer, personnaliser et gérer des graphiques,
-            figures, palettes de couleurs et objets graphiques.</p>
-        <p
-    >Il inclut la visualisation 2D et 3D, des outils d'interaction utilisateur (zoom, déplacement, rotation), et
-            des utilitaires pour travailler avec les couleurs, légendes, axes et annotations de texte.</p>
-    </chapter_description>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>graphics</module_name>
+  <chapter>Fonctions graphiques</chapter>
+  <chapter_description>
+    <p
+    >Le module graphique fournit des fonctions pour créer, personnaliser et gérer des graphiques, figures, palettes de couleurs et objets graphiques.</p>
+    <p
+    >Il inclut la visualisation 2D et 3D, des outils d'interaction utilisateur (zoom, déplacement, rotation), et              des utilitaires pour travailler avec les couleurs, légendes, axes et annotations de texte.</p>
+  </chapter_description>
 </xmldoc>

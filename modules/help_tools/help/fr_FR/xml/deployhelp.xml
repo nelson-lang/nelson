@@ -1,72 +1,71 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>deployhelp</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>deployhelp</keyword>
+  <short_description
   >Installer, désinstaller et gérer le système d'aide local de Nelson et les fichiers d'aide des modules.</short_description>
-    <syntax>
-        <syntax_item>deployhelp('install')</syntax_item>
-        <syntax_item>deployhelp('install', verbose)</syntax_item>
-        <syntax_item
-    >deployhelp('add', module_name, module_help_dir)</syntax_item>
-        <syntax_item>deployhelp('remove', module_name)</syntax_item>
-        <syntax_item>[status, message] = deployhelp('uninstall')</syntax_item>
-        <syntax_item>status = deployhelp('status')</syntax_item>
-        <syntax_item>[status, message] = deployhelp('refresh')</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>'install'</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>deployhelp('install')</syntax_item>
+    <syntax_item>deployhelp('install', verbose)</syntax_item>
+    <syntax_item>deployhelp('add', module_name, module_help_dir)</syntax_item>
+    <syntax_item>deployhelp('remove', module_name)</syntax_item>
+    <syntax_item>[status, message] = deployhelp('uninstall')</syntax_item>
+    <syntax_item>status = deployhelp('status')</syntax_item>
+    <syntax_item>[status, message] = deployhelp('refresh')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>'install'</param_name>
+      <param_description
       >Installer le système d'aide local (tous les modules, toutes les langues). Le deuxième argument optionnel verbose (logique) contrôle la verbosité ; la valeur par défaut est true.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>module_name</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>module_name</param_name>
+      <param_description
       >Nom du module à ajouter ou à supprimer de l'arborescence d'aide locale.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>module_help_dir</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>module_help_dir</param_name>
+      <param_description
       >Répertoire contenant l'(les) archive(s) d'aide du module.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>verbose</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>verbose</param_name>
+      <param_description
       >scalaire logique (true/false). Lorsqu'il est fourni à 'install', il contrôle si les étapes d'installation affichent une sortie détaillée.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p
+    </param_input_item>
+  </param_input>
+  <description>
+    <p
     >La fonction gère un répertoire d'aide local versionné sous userdir()/Nelson/&lt;version&gt;/help/.</p>
-        <p>Actions :</p>
-        <p><b
+    <p>Actions :</p>
+    <p><b
       >install</b>: crée et installe le système d'aide local (appelle docroot('.') et installe localement). Utilisez l'option verbose pour activer ou désactiver la sortie détaillée.</p>
-        <p><b
+    <p><b
       >add</b>: extrait les archives d'aide .nhz par langue trouvées dans module_help_dir/help/ vers les répertoires versionnés help/lang/&lt;module_name&gt;.</p>
-        <p><b
+    <p><b
       >remove</b>: supprime le répertoire d'aide du module pour chaque langue.</p>
-        <p><b>refresh</b>, <b>uninstall</b>, <b
+    <p><b>refresh</b>, <b>uninstall</b>,<b
       >status</b>: respectivement rafraîchit la base de données d'aide, désinstalle le système d'aide local ou renvoie si le dossier d'aide local existe. Les actions qui peuvent échouer renvoient [status, message].</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <see_also>
-        <see_also_item>
-            <link linkend="${help_tools}doc">doc</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${help_tools}docroot">docroot</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.15.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+  </description>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${help_tools}doc">doc</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${help_tools}docroot">docroot</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

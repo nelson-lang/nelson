@@ -1,82 +1,79 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>parfeval</keyword>
-    <short_description
-  >Exécuter une fonction en arrière-plan.</short_description>
-    <syntax>
-        <syntax_item>f = parfeval(bPool, fptr, n, x1, ..., xm)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-        <param_name>bPool</param_name>
-        <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>parfeval</keyword>
+  <short_description>Exécuter une fonction en arrière-plan.</short_description>
+  <syntax>
+    <syntax_item>f = parfeval(bPool, fptr, n, x1, ..., xm)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>bPool</param_name>
+      <param_description
       >objet backgroundPool renvoyé par backgroundPool().</param_description>
-        </param_input_item>
-        <param_input_item>
-        <param_name>fptr</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>fptr</param_name>
+      <param_description
       >handle de fonction : fonction à exécuter.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>n</param_name>
-            <param_description>Nombre d'arguments de sortie.</param_description>
-        </param_input_item>
-        <param_input_item>
-        <param_name>x1, ..., xm</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>Nombre d'arguments de sortie.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x1, ..., xm</param_name>
+      <param_description
       >Arguments d'entrée, spécifiés comme une liste séparée par des virgules de variables ou d'expressions.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>f</param_name>
-            <param_description>objet FevalFuture.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p><b>f = parfeval(bPool, fptr, n, x1, ..., xm)</b> lance la fonction <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>f</param_name>
+      <param_description>objet FevalFuture.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>f = parfeval(bPool, fptr, n, x1, ..., xm)</b> lance la fonction <b
       >fptr</b> pour s'exécuter en arrière-plan.</p>
-        <p>backgroundPool dispose de <b
+    <p>backgroundPool dispose de<b
       >NumWorkers</b> workers disponibles. Si davantage de fonctions sont programmées, les fonctions attendent qu'une entrée soit disponible dans le pool.</p>
-        <p><b>parfeval</b> exécute la fonction <b
+    <p><b>parfeval</b> exécute la fonction <b
       >fptr</b> sur un worker en arrière-plan.</p>
-    </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[b = backgroundPool()
 fptr = str2func('cos');
 f = parfeval(b, fptr, 1, 5);
 r = fetchOutputs(f)]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link
-        linkend="${parallel}backgroundPool"
-      >backgroundPool</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${parallel}fetchOutputs">fetchOutputs</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${functions_manager}feval">feval</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${parallel}backgroundPool">backgroundPool</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parallel}fetchOutputs">fetchOutputs</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${functions_manager}feval">feval</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

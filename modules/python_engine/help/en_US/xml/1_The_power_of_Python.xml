@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>The power of calling Python from Nelson</keyword>
-    <description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>The power of calling Python from Nelson</keyword>
+  <description>
+    <p
     >Python is a dominant force in various fields, including machine learning, data science, and general programming.</p>
-        <p
+    <p
     >Its extensive libraries, such as NumPy, SciPy and Pandas, provide an arsenal of tools for scientific computing and data manipulation.</p>
-        <p
+    <p
     >Combining the strengths of Nelson’s digital capabilities with Python’s vast ecosystem opens up a world of possibilities.</p>
-        <p />
-        <p>Why call Python from Nelson?</p>
-        <p
+    <p />
+    <p>Why call Python from Nelson?</p>
+    <p
     >- Access to a rich ecosystem: Python has a vast collection of libraries for various tasks, from advanced statistical analysis to machine learning and beyond.</p>
-        <p
+    <p
     >By calling Python from Nelson, users can access this rich ecosystem without sacrificing Nelson's core functionality.</p>
-        <p
+    <p
     >- Seamless integration: Nelson's ability to call external functions allows for seamless integration with Python.</p>
-        <p
+    <p
     >This means Nelson users can leverage Python capabilities within their familiar Nelson environment, improving productivity and workflow efficiency.</p>
-        <p />
-        <p
+    <p />
+    <p
     >- Specialized Libraries: Although Nelson offers a wide range of built-in functions, there are some niche tasks that Python libraries excel at.</p>
-        <p
+    <p
     >For example, deep learning tasks can be handled efficiently using Python libraries such as TensorFlow or PyTorch, seamlessly integrated into Nelson workflows.</p>
-        <p />
-        <p
+    <p />
+    <p
     >- Rapid prototyping and development: Python is often preferred for rapid prototyping and development due to its concise syntax and extensive library support.</p>
-        <p
+    <p
     >By leveraging Python from Nelson, users can leverage Python's rapid prototyping capabilities while maintaining Nelson's digital computing environment for production-level work.</p>
-        <p />
-        <p
+    <p />
+    <p
     >- Community Collaboration: By integrating Python into Nelson workflows, users can leverage the collective wisdom of both communities, fostering collaboration and innovation.</p>
-        <p />
-        <p
+    <p />
+    <p
     >In conclusion, calling Python from Nelson offers a powerful synergy that combines the strengths of both platforms.</p>
-        <p
+    <p
     >Whether accessing specialized libraries, prototyping algorithms, or fostering collaboration, integrating Python into Nelson workflows can improve productivity and open up new possibilities for scientific computing and data analysis.</p>
-    </description>
-    <see_also>
-        <see_also_item>
-            <link linkend="${python_engine}pyrun">pyrun</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${python_engine}pyenv">pyenv</link>
-        </see_also_item>
-    </see_also>
+  </description>
+  <see_also>
+    <see_also_item>
+      <link linkend="${python_engine}pyrun">pyrun</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${python_engine}pyenv">pyenv</link>
+    </see_also_item>
+  </see_also>
 </xmldoc>

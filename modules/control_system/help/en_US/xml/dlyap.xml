@@ -1,57 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>dlyap</keyword>
-    <short_description>Discrete-time Lyapunov equations.</short_description>
-    <syntax>
-        <syntax_item>X = dlyap(A, Q)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>A</param_name>
-            <param_description>real matrix</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Q</param_name>
-            <param_description>real matrix</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>X</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>dlyap</keyword>
+  <short_description>Discrete-time Lyapunov equations.</short_description>
+  <syntax>
+    <syntax_item>X = dlyap(A, Q)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>real matrix</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Q</param_name>
+      <param_description>real matrix</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>X</param_name>
+      <param_description
       >matrix: solution of the discrete-time Lyapunov equation.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >X = dlyap(A, Q)</b> resolves the Discrete-time Lyapunov equation.</p>
-        </description>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>X = dlyap(A, Q)</b> resolves the Discrete-time Lyapunov equation.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [10, 20; -30, -40];
 Q = [30, 10; 10, 10];
 X = dlyap (A, Q)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${control_system}lyap">lyap</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}lyap">lyap</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

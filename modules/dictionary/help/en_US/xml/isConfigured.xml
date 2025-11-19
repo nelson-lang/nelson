@@ -1,41 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>isConfigured</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>isConfigured</keyword>
+  <short_description
   >Check if dictionary has types assigned to keys and values.</short_description>
-    <syntax>
-        <syntax_item>tf = isConfigured(d)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>d</param_name>
-            <param_description>scalar: dictionary object.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>tf</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>tf = isConfigured(d)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>d</param_name>
+      <param_description>scalar: dictionary object.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description
       >scalar logical: true if configured, false if not.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>tf = isConfigured(d)</b> returns a logical <b
-      >true</b> if the specified dictionary is configured, and a logical <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>tf = isConfigured(d)</b> returns a logical<b
+      >true</b> if the specified dictionary is configured, and a logical<b
       >false</b> if it is not.</p>
-            <p
+    <p
     >A dictionary is considered configured when it has assigned types for its keys and values. Adding entries to an unconfigured dictionary will configure it.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[names = ["Biil" "John" "Yann"];
 wheels = [1 2 3];
@@ -45,31 +44,31 @@ d2 = dictionary()
 tf = isConfigured(d2)
 
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${dictionary}dictionary">dictionary</link>
-            </see_also_item>
-            <see_also_item>
-                <link
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${dictionary}dictionary">dictionary</link>
+    </see_also_item>
+    <see_also_item>
+      <link
         linkend="${dictionary}configureDictionary"
       >configureDictionary</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${dictionary}insert">insert</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${dictionary}values">values</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.5.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dictionary}insert">insert</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dictionary}values">values</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.5.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

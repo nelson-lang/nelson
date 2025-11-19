@@ -1,189 +1,176 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>executable</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>executable</keyword>
+  <short_description
   >Exécutables pour démarrer le logiciel Nelson.</short_description>
-    <syntax>
-        <syntax_item>nelson arg1 ... argn</syntax_item>
-        <syntax_item>nelson-cli arg1 ... argn</syntax_item>
-        <syntax_item>nelson-adv-cli  arg1 ... argn</syntax_item>
-        <syntax_item>nelson-gui arg1 ... argn</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>-cli</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>nelson arg1 ... argn</syntax_item>
+    <syntax_item>nelson-cli arg1 ... argn</syntax_item>
+    <syntax_item>nelson-adv-cli arg1 ... argn</syntax_item>
+    <syntax_item>nelson-gui arg1 ... argn</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>-cli</param_name>
+      <param_description
       >équivalent à l'appel de 'nelson-cli'.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>-adv-cli</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>-adv-cli</param_name>
+      <param_description
       >équivalent à l'appel de 'nelson-adv-cli'.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>-gui</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>-gui</param_name>
+      <param_description
       >équivalent à l'appel de 'nelson-gui'.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>-e "nelson instructions"</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>-e "nelson instructions"</param_name>
+      <param_description
       >Si cette option est présente, les instructions Nelson sont exécutées juste après l'exécution du fichier de démarrage. Les options -e et -f sont mutuellement exclusives.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>-f filename</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>-f filename</param_name>
+      <param_description
       >Un script Nelson est exécuté juste après l'exécution du fichier de démarrage. Les options -e et -f sont mutuellement exclusives.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>-F filename</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>-F filename</param_name>
+      <param_description
       >Si cette option est présente, le script Nelson est exécuté juste après l'exécution du fichier de démarrage dans un processus Nelson existant ou en crée un.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>--help</param_name>
-            <param_description
-      >aide sur les options du programme.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>--version</param_name>
-            <param_description
-      >Retourne la version de Nelson.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>--vscode</param_name>
-            <param_description
-      >active le mode Visual Studio Code.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>--open</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>--help</param_name>
+      <param_description>aide sur les options du programme.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>--version</param_name>
+      <param_description>Retourne la version de Nelson.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>--vscode</param_name>
+      <param_description>active le mode Visual Studio Code.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>--open</param_name>
+      <param_description
       >ouvre des fichiers ; arg2 ... argN doivent être des noms de fichiers valides/existants.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>--mat</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>--mat</param_name>
+      <param_description
       >charge des fichiers ; arg2 ... argN doivent être des fichiers .nh5 ou .mat valides/existants.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>--nostartup</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>--nostartup</param_name>
+      <param_description
       >désactive l'exécution du fichier script principal de Nelson au démarrage.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>--nousermodules</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>--nousermodules</param_name>
+      <param_description
       >désactive le chargement des modules utilisateur (chargés avant le script utilisateur).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>--nouserstartup</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>--nouserstartup</param_name>
+      <param_description
       >désactive le script utilisateur exécuté au démarrage après le fichier principal.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>--minimize</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>--minimize</param_name>
+      <param_description
       >minimise la fenêtre principale du GUI (mode GUI uniquement).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>--noipc</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>--noipc</param_name>
+      <param_description
       >désactive les fonctionnalités interprocessus (association de fichiers, ipc intégré).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>--withoutfilewatcher</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>--withoutfilewatcher</param_name>
+      <param_description
       >désactive la fonctionnalité de surveillance de fichiers pour cette session.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>--noaudio</param_name>
-            <param_description>désactive le module audio.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>--without_python</param_name>
-            <param_description
-      >désactive le module python_engine.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>--language lang</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>--noaudio</param_name>
+      <param_description>désactive le module audio.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>--without_python</param_name>
+      <param_description>désactive le module python_engine.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>--language lang</param_name>
+      <param_description
       >Si cette option est présente, elle fixe la langue de l'utilisateur. Actuellement, lang peut être : fr_FR fr_FR.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>--quiet</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>--quiet</param_name>
+      <param_description
       >Si cette option est présente, aucune bannière ni version n'est affichée.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b
       >nelson-cli</b> : terminal basique, sans GUI (pas de dépendance au framework GUI), sans historique, sans complétion (encodage ISO Latin).</p>
-        <p>
-            <b
+    <p><b
       >nelson-adv-cli</b> : terminal avancé, console graphique absente, historique et complétion disponibles (support UTF-16).</p>
-        <p>
-            <b
+    <p><b
       >nelson-gui</b> : console graphique, historique et complétion disponibles (support UTF-16).</p>
-        <p />
-        <p
-    >Si vous avez installé Nelson sur Windows, la variable d'environnement <b
+    <p />
+    <p>Si vous avez installé Nelson sur Windows, la variable d'environnement<b
       >NELSON_RUNTIME_PATH</b> sera définie.</p>
-        <p>Elle permet d'appeler facilement Nelson <b
+    <p>Elle permet d'appeler facilement Nelson <b
       >"%NELSON_RUNTIME_PATH%\nelson.bat"</b>.</p>
-    </description>
-                <used_function />
-                <bibliography />
-                <examples>
-                    <example_item>
-                        <example_item_type>nelson</example_item_type>
-                        <example_item_description />
-                        <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
       ><![CDATA[nelson-adv-cli -q -e "a = 1 + 2"]]></example_item_data>
-                    </example_item>
-                    <example_item>
-                        <example_item_type>nelson</example_item_type>
-                        <example_item_description />
-                        <example_item_data
-      ><![CDATA[nelson-gui -v]]></example_item_data>
-                    </example_item>
-                    <example_item>
-                        <example_item_type>nelson</example_item_type>
-                        <example_item_description />
-                        <example_item_data
-      ><![CDATA[nelson-gui --help]]></example_item_data>
-                    </example_item>
-                </examples>
-                <see_also>
-                    <see_also_item>
-                        <link linkend="${engine}startup">startup</link>
-                    </see_also_item>
-                </see_also>
-                <history>
-                    <history_item>
-                        <history_version>1.0.0</history_version>
-                        <history_description
-      >version initiale</history_description>
-                    </history_item>
-                    <history_item>
-                        <history_version>1.4.0</history_version>
-                        <history_description
-      >--without_python added</history_description>
-                    </history_item>
-                    <history_item>
-                        <history_version>1.11.0</history_version>
-                        <history_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[nelson-gui -v]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[nelson-gui --help]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${engine}startup">startup</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.4.0</history_version>
+      <history_description>--without_python added</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.11.0</history_version>
+      <history_description
       >About NELSON_RUNTIME_PATH environment variable added</history_description>
-                    </history_item>
-                    <history_item>
-                        <history_version>1.11.0</history_version>
-                        <history_description
-      >--vsocde argument</history_description>
-                    </history_item>
-                </history>
-                <authors>
-                    <author_item>Allan CORNET</author_item>
-                </authors>
-            </xmldoc>
+    </history_item>
+    <history_item>
+      <history_version>1.11.0</history_version>
+      <history_description>--vsocde argument</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

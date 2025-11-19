@@ -1,83 +1,84 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>slicot_tb01id</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>slicot_tb01id</keyword>
+  <short_description
   >Équilibrage d'une matrice système correspondant au triplet (A, B, C).</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[MAXRED_OUT, A_OUT, B_OUT, C_OUT, SCALE, INFO] = slicot_tb01id(JOB, MAXRED_IN, A_IN, B_IN, C_IN)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-    <param_name>JOB</param_name>
-    <param_description
-      > = 'A':  Toutes les matrices sont impliquées dans l'équilibrage ; = 'B':  Les matrices B et A sont impliquées ; = 'C':  Les matrices C et A sont impliquées ; = 'N':  Les matrices B et C ne sont pas impliquées dans l'équilibrage.</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>MAXRED_IN</param_name>
-    <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>JOB</param_name>
+      <param_description
+      > = 'A':  Toutes les matrices sont impliquées dans l'équilibrage ; = 'B': Les matrices B et A sont impliquées ; = 'C': Les matrices C et A sont impliquées ; = 'N': Les matrices B et C ne sont pas impliquées dans l'équilibrage.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>MAXRED_IN</param_name>
+      <param_description
       >la réduction maximale autorisée de la norme 1 de S (dans une itération) si des lignes ou colonnes nulles sont rencontrées.</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>A_IN</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>A_IN</param_name>
+      <param_description
       >La partie principale N-by-N de ce tableau doit contenir la matrice d'état du système A.</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>B_IN</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>B_IN</param_name>
+      <param_description
       >La partie principale N-by-M de ce tableau doit contenir la matrice d'entrée du système B.</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>C_IN</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>C_IN</param_name>
+      <param_description
       >La partie principale P-by-N de ce tableau doit contenir la matrice de sortie du système C.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-    <param_name>MAXRED_OUT</param_name>
-    <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>MAXRED_OUT</param_name>
+      <param_description
       > si la norme 1 de la matrice donnée S est non nulle, le ratio entre la norme 1 de la matrice donnée et la norme 1 de la matrice équilibrée.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>A_OUT</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>A_OUT</param_name>
+      <param_description
       >La partie principale N-by-N de ce tableau contient la matrice équilibrée inv(D)*A*D.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>B_OUT</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>B_OUT</param_name>
+      <param_description
       >La partie principale N-by-M de ce tableau contient la matrice équilibrée inv(D)*B.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>C_OUT</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>C_OUT</param_name>
+      <param_description
       >La partie principale P-by-N de ce tableau contient la matrice équilibrée C*D.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>SCALE</param_name>
-    <param_description>Les facteurs d'échelle appliqués à S.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>INFO</param_name>
-            <param_description> = 0 : sortie réussie.</param_description>
-        </param_output_item>
-    </param_output>
+    </param_output_item>
+    <param_output_item>
+      <param_name>SCALE</param_name>
+      <param_description
+      >Les facteurs d'échelle appliqués à S.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>INFO</param_name>
+      <param_description>= 0 : sortie réussie.</param_description>
+    </param_output_item>
+  </param_output>
   <description>
     <p
     >Réduire la norme 1 d'une matrice système correspondant au triplet (A, B, C), par équilibrage.</p>
   </description>
-    <used_function>TB01ID</used_function>
-    <bibliography
+  <used_function>TB01ID</used_function>
+  <bibliography
   >http://slicot.org/objects/software/shared/doc/TB01ID.html</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[N = 5;
 M = 2;
@@ -103,15 +104,15 @@ C_IN = [1.0000e+000          0.0          0.0          0.0          0.0;
   6.6640e-001          0.0 -6.2000e-013          0.0          0.0;
           0.0          0.0 -1.0000e-003  1.8960e+006  1.5080e+002];
 [MAXRED_OUT, A_OUT, B_OUT, C_OUT, SCALE, INFO] = slicot_tb01id(JOB, MAXRED_IN, A_IN, B_IN, C_IN)]]></example_item_data>
-        </example_item>
-    </examples>
+    </example_item>
+  </examples>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
     </history_item>
   </history>
-    <authors>
-        <author_item>SLICOT Documentation</author_item>
-    </authors>
+  <authors>
+    <author_item>SLICOT Documentation</author_item>
+  </authors>
 </xmldoc>

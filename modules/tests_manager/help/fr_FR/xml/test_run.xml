@@ -1,73 +1,71 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>test_run</keyword>
-    <short_description>Exécute les tests</short_description>
-    <syntax>
-        <syntax_item>status = test_run()</syntax_item>
-        <syntax_item>status = test_run([])</syntax_item>
-        <syntax_item>status = test_run('minimal_tests')</syntax_item>
-        <syntax_item>status = test_run('-stoponfail')</syntax_item>
-        <syntax_item>status = test_run(modules)</syntax_item>
-        <syntax_item>status = test_run(file_to_test)</syntax_item>
-        <syntax_item>status = test_run(modules, '-stoponfail')</syntax_item>
-        <syntax_item
-    >status = test_run(file_to_test, '-stoponfail')</syntax_item>
-        <syntax_item>status = test_run(modules, option)</syntax_item>
-        <syntax_item>status = test_run(file_to_test, option)</syntax_item>
-        <syntax_item
-    >status = test_run('minimal_tests', '-stoponfail')</syntax_item>
-        <syntax_item>status = test_run('minimal_tests', option)</syntax_item>
-        <syntax_item>status = test_run([], '-stoponfail')</syntax_item>
-        <syntax_item>status = test_run([], option)</syntax_item>
-        <syntax_item>status = test_run(modules, file_output)</syntax_item>
-        <syntax_item>status = test_run(file_to_test, file_output)</syntax_item>
-        <syntax_item>status = test_run([], file_output)</syntax_item>
-        <syntax_item>status = test_run(modules, option, xunitfile)</syntax_item>
-        <syntax_item
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>test_run</keyword>
+  <short_description>Exécute les tests</short_description>
+  <syntax>
+    <syntax_item>status = test_run()</syntax_item>
+    <syntax_item>status = test_run([])</syntax_item>
+    <syntax_item>status = test_run('minimal_tests')</syntax_item>
+    <syntax_item>status = test_run('-stoponfail')</syntax_item>
+    <syntax_item>status = test_run(modules)</syntax_item>
+    <syntax_item>status = test_run(file_to_test)</syntax_item>
+    <syntax_item>status = test_run(modules, '-stoponfail')</syntax_item>
+    <syntax_item>status = test_run(file_to_test, '-stoponfail')</syntax_item>
+    <syntax_item>status = test_run(modules, option)</syntax_item>
+    <syntax_item>status = test_run(file_to_test, option)</syntax_item>
+    <syntax_item>status = test_run('minimal_tests', '-stoponfail')</syntax_item>
+    <syntax_item>status = test_run('minimal_tests', option)</syntax_item>
+    <syntax_item>status = test_run([], '-stoponfail')</syntax_item>
+    <syntax_item>status = test_run([], option)</syntax_item>
+    <syntax_item>status = test_run(modules, file_output)</syntax_item>
+    <syntax_item>status = test_run(file_to_test, file_output)</syntax_item>
+    <syntax_item>status = test_run([], file_output)</syntax_item>
+    <syntax_item>status = test_run(modules, option, xunitfile)</syntax_item>
+    <syntax_item
     >status = test_run(modules, '-stoponfail', xunitfile)</syntax_item>
-        <syntax_item
+    <syntax_item
     >status = test_run(modules, option, xunitfile, '-stoponfail')</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>module_name</param_name>
-                    <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>module_name</param_name>
+      <param_description
       >a string ou une cellule de chaînes : nom du module ou liste de modules.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>file_to_test</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>file_to_test</param_name>
+      <param_description
       >une string ou une cellule de chaînes : fichier à tester ou liste de noms de fichiers.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>options</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>options</param_name>
+      <param_description
       >une string ou une cellule de chaînes : options supportées 'all', 'all_tests', 'unitary_tests', 'nonreg_tests' ou 'benchs'.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>xunitfile</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>xunitfile</param_name>
+      <param_description
       >une string : nom de fichier pour exporter les résultats en .xml ou .json compatible avec le format Xunit.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'-stoponfail'</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'-stoponfail'</param_name>
+      <param_description
       >une string : arrêter l'exécution des tests à la première erreur détectée.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>status</param_name>
-        <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>status</param_name>
+      <param_description
       >un logique : vrai si les tests passent.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-      <p><b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >test_run</b> recherche les fichiers 'test_*.m', 'bug_*.m' et 'bench_*.m', les exécute et affiche un rapport sur les succès ou les échecs.</p>
-        <p
+    <p
     >Chaque test ou bench est exécuté dans un processus séparé en utilisant la commande 'unix'.</p>
     <p
     >Cela permet à la commande courante de continuer, même si le test a créé un environnement instable.</p>
@@ -76,170 +74,128 @@
     <p
     >Certains tags spéciaux peuvent être insérés dans les fichiers .m pour aider au traitement du test correspondant.</p>
     <p>Ces tags doivent être trouvés dans les commentaires Nelson :</p>
-        <p>
-            <b
-      >&lt;--NOT FIXED--&gt;</b> This test is skipped because it is a reported bug, but it
-            is not yet fixed. </p>
-        <p>
-            <b
+    <p><b
+      >&lt;--NOT FIXED--&gt;</b> This test is skipped because it is a reported bug, but it is not yet fixed.</p>
+    <p><b
       >&lt;--INTERACTIVE TEST--&gt;</b> This test is skipped because it is interactive test.</p>
-        <p>
-            <b
-      >&lt;--CLI MODE--&gt;</b> This test will be executed by nelson-cli executable
-            (default).</p>
-        <p>
-            <b
+    <p><b
+      >&lt;--CLI MODE--&gt;</b> This test will be executed by nelson-cli executable (default).</p>
+    <p><b
       >&lt;--ADV-CLI MODE--&gt;</b> This test will be executed by nelson-adv-cli executable.</p>
-        <p>
-            <b
+    <p><b
       >&lt;--GUI MODE--&gt;</b> This test will be executed by nelson-gui executable.</p>
-        <p>
-            <b
-      >&lt;--CHECK REF--&gt;</b> This test will compare .ref available in same directory
-            with output generated. see <b
+    <p><b
+      >&lt;--CHECK REF--&gt;</b> This test will compare .ref available in same directory with output generated. see<b
       >test_makeref</b> to generate .ref file.</p>
-        <p>
-            <b
+    <p><b
       >&lt;--ENGLISH IMPOSED--&gt;</b> This test will be executed with the fr_FR language.</p>
-        <p>
-            <b
+    <p><b
       >&lt;--WINDOWS ONLY--&gt;</b> This test will be executed only on Windows.</p>
-        <p>
-            <b
+    <p><b
       >&lt;--MACOS ONLY--&gt;</b> This test will be executed only on Macos.</p>
-        <p>
-            <b
-      >&lt;--UNIX ONLY--&gt;</b> This test will be executed only on Unix.</p>
-        <p>
-            <b
-      >&lt;--WITH DISPLAY--&gt;</b> This test will be executed only if a display output is
-            available.</p>
-        <p>
-            <b
-      >&lt;--RELEASE ONLY--&gt;</b> This test will be executed only if nelson is an release
-            (not in debug mode).</p>
-        <p>
-            <b
-      >&lt;--EXCEL REQUIRED--&gt;</b> This test will be executed only if excel is detected
-            (on Windows).</p>
-        <p>
-            <b
-      >&lt;--MPI MODE--&gt;</b> This test will be executed in MPI mode.</p>
-        <p>
-            <b
-      >&lt;--AUDIO INPUT REQUIRED--&gt;</b> This test will be executed if an audio input is
-            available.</p>
-        <p>
-            <b
-      >&lt;--AUDIO OUTPUT REQUIRED--&gt;</b> This test will be executed if an audio output
-            is available.</p>
-        <p>
-            <b
-      >&lt;--C/C++ COMPILER REQUIRED--&gt;</b> This test will be executed if an C/C++
-            compiler is available.</p>
-        <p>
-            <b
-      >&lt;--INDEX 64 BIT REQUIRED--&gt;</b> This test will be executed if 64 bit index is
-            available.</p>
-        <p>
-            <b
+    <p><b>&lt;--UNIX ONLY--&gt;</b> This test will be executed only on Unix.</p>
+    <p><b
+      >&lt;--WITH DISPLAY--&gt;</b> This test will be executed only if a display output is available.</p>
+    <p><b
+      >&lt;--RELEASE ONLY--&gt;</b> This test will be executed only if nelson is an release (not in debug mode).</p>
+    <p><b
+      >&lt;--EXCEL REQUIRED--&gt;</b> This test will be executed only if excel is detected (on Windows).</p>
+    <p><b>&lt;--MPI MODE--&gt;</b> This test will be executed in MPI mode.</p>
+    <p><b
+      >&lt;--AUDIO INPUT REQUIRED--&gt;</b> This test will be executed if an audio input is available.</p>
+    <p><b
+      >&lt;--AUDIO OUTPUT REQUIRED--&gt;</b> This test will be executed if an audio output is available.</p>
+    <p><b
+      >&lt;--C/C++ COMPILER REQUIRED--&gt;</b> This test will be executed if an C/C++ compiler is available.</p>
+    <p><b
+      >&lt;--INDEX 64 BIT REQUIRED--&gt;</b> This test will be executed if 64 bit index is available.</p>
+    <p><b
       >&lt;--NO USER MODULES--&gt;</b> This test will be executed without load user modules.</p>
-        <p>
-            <b
+    <p><b
       >&lt;--IPC REQUIRED--&gt;</b> This test will be executed if IPC is available.</p>
-        <p>
-            <b
-      >&lt;--SEQUENTIAL TEST REQUIRED--&gt;</b> This test will be executed sequentialy (1
-            worker).</p>
-        <p>
-            <b
-      >&lt;--NATIVE ARCHITECTURE TEST REQUIRED--&gt;</b> This test will be executed if
-            application's build and architecture are same.</p>
-        <p>
-            <b
-      >&lt;--FILE WATCHER REQUIRED--&gt;</b> This test will be executed if file watcher is
-            available.</p>
-        <p />
-        <p>
-            <b
-      >&lt;--PYTHON ENVIRONMENT REQUIRED--&gt;</b> This test will be executed if python
-            environment is available and configured.</p>
-        <p />
-        <p />
-        <p>
-            <b
-      >&lt;--JULIA ENVIRONMENT REQUIRED--&gt;</b> This test will be executed if julia
-            environment is available and configured.</p>
-        <p />
-                <p
+    <p><b
+      >&lt;--SEQUENTIAL TEST REQUIRED--&gt;</b> This test will be executed sequentialy (1 worker).</p>
+    <p><b
+      >&lt;--NATIVE ARCHITECTURE TEST REQUIRED--&gt;</b> This test will be executed if application's build and architecture are same.</p>
+    <p><b
+      >&lt;--FILE WATCHER REQUIRED--&gt;</b> This test will be executed if file watcher is              available.</p>
+    <p />
+    <p><b
+      >&lt;--PYTHON ENVIRONMENT REQUIRED--&gt;</b> This test will be executed if python              environment is available and configured.</p>
+    <p />
+    <p />
+    <p><b
+      >&lt;--JULIA ENVIRONMENT REQUIRED--&gt;</b> This test will be executed if julia              environment is available and configured.</p>
+    <p />
+    <p
     >Les tests peuvent également être sautés dynamiquement en utilisant la fonction <b
       >skip_testsuite</b>.</p>
     <p
     >Pour éviter de bloquer l'application, les tests ont un temps d'exécution de 2 minutes et les benchs ont un temps de 6 minutes.</p>
-        <p><b
+    <p><b
       >test_run</b> utilise n workers pour exécuter et accélérer l'exécution des tests.</p>
-                <p>Les tests avec <b
+    <p>Les tests avec<b
       >&lt;--SEQUENTIAL TEST REQUIRED--&gt;</b> sont évalués en dernier.</p>
     <p>Les benchs sont évalués séquentiellement.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[test_run('string');]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[test_run({'string', 'time'})]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[test_run({'string', 'time'}, 'all', [tempdir(), 'tests.xml'])]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${assert_functions}assert">assert</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${tests_manager}test_makeref">test_makeref</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${tests_manager}skip_testsuite">skip_testsuite</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-        <history_item>
-            <history_version>1.3.0</history_version>
-            <history_description
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${assert_functions}assert">assert</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}test_makeref">test_makeref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}skip_testsuite">skip_testsuite</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.3.0</history_version>
+      <history_description
       >PYTHON ENVIRONMENT REQUIRED tag added</history_description>
-        </history_item>
-        <history_item>
-            <history_version>1.4.0</history_version>
-            <history_description
+    </history_item>
+    <history_item>
+      <history_version>1.4.0</history_version>
+      <history_description
       >skip_testsuite function reference</history_description>
-        </history_item>
-        <history_item>
-            <history_version>1.12.0</history_version>
-            <history_description
+    </history_item>
+    <history_item>
+      <history_version>1.12.0</history_version>
+      <history_description
       >JULIA ENVIRONMENT REQUIRED tag added</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

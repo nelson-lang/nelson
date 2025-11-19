@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <module_name>gui</module_name>
-    <chapter>Module GUI</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>gui</module_name>
+  <chapter>Module GUI</chapter>
+  <chapter_description>
+    <p
     >Le module GUI fournit des fonctions pour créer et interagir avec les composants d'interface graphique, les boîtes de dialogue et les fenêtres d'application.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

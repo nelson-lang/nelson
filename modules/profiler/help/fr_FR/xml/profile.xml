@@ -1,55 +1,54 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>profile</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>profile</keyword>
+  <short_description
   >Profiler le temps d'exécution des fonctions Macro.</short_description>
-    <syntax>
-        <syntax_item>profile on</syntax_item>
-        <syntax_item>profile off</syntax_item>
-        <syntax_item>profile resume</syntax_item>
-        <syntax_item>profile clear</syntax_item>
-        <syntax_item>status = profile('status')</syntax_item>
-        <syntax_item>p = profile('info')</syntax_item>
-        <syntax_item>profile('show', sortOption)</syntax_item>
-        <syntax_item>profile('show', sortOption, nbLines)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>sortOption</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>profile on</syntax_item>
+    <syntax_item>profile off</syntax_item>
+    <syntax_item>profile resume</syntax_item>
+    <syntax_item>profile clear</syntax_item>
+    <syntax_item>status = profile('status')</syntax_item>
+    <syntax_item>p = profile('info')</syntax_item>
+    <syntax_item>profile('show', sortOption)</syntax_item>
+    <syntax_item>profile('show', sortOption, nbLines)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>sortOption</param_name>
+      <param_description
       >chaîne : 'nfl' (par nom fichier ligne), 'line' (par ligne), 'percalls', 'totaltime', 'filename', 'function' ou 'nbcalls'.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>nbLines</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>nbLines</param_name>
+      <param_description
       >entier : nombre de lignes à afficher.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p
+    </param_input_item>
+  </param_input>
+  <description>
+    <p
     >Le profiling permet de mesurer où les fonctions Macro passent leur temps d'exécution.</p>
-        <p><b
+    <p><b
       >s = profile('status')</b> renvoie une structure contenant le statut courant du profiler.</p>
-        <p><b
+    <p><b
       >p = profile('info')</b> renvoie une structure contenant les données de profiling collectées.</p>
-        <p><b>profile('on')</b> démarre le profiler.</p>
-        <p><b
-      >profile('off')</b> arrête le profiler. Les données collectées pourront être récupérées ultérieurement avec <b
+    <p><b>profile('on')</b> démarre le profiler.</p>
+    <p><b
+      >profile('off')</b> arrête le profiler. Les données collectées pourront être récupérées ultérieurement avec<b
       >p = profile('info')</b>.</p>
-        <p><b>profile('clear')</b> efface les données collectées.</p>
-        <p><b
+    <p><b>profile('clear')</b> efface les données collectées.</p>
+    <p><b
       >profile('resume')</b> redémarre et prolonge la collecte des données déjà recueillies.</p>
-    </description>
-                            <used_function />
-                            <bibliography />
-                            <examples>
-                                <example_item>
-                                    <example_item_type
-      >nelson</example_item_type>
-                                    <example_item_description />
-                                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[profile on
 sind(5)
@@ -58,12 +57,11 @@ profile('show')
 profile('show', 'totaltime')
 profile('show', 'totaltime', 4)
 ]]></example_item_data>
-                                </example_item>
-                                <example_item>
-                                    <example_item_type
-      >nelson</example_item_type>
-                                    <example_item_description />
-                                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[profile on
 sind(5)
@@ -71,23 +69,20 @@ profile off
 profsave(profile('info'), [tempdir(), 'profile_results'])
 unix([tempdir(), 'profile_results/index.html'])
 ]]></example_item_data>
-                                </example_item>
-                            </examples>
-                            <see_also>
-                                <see_also_item>
-                                    <link
-        linkend="${profiler}profsave"
-      >profsave</link>
-                                </see_also_item>
-                            </see_also>
-                            <history>
-                                <history_item>
-                                    <history_version>1.0.0</history_version>
-                                    <history_description
-      >version initiale</history_description>
-                                </history_item>
-                            </history>
-                            <authors>
-                                <author_item>Allan CORNET</author_item>
-                            </authors>
-                        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${profiler}profsave">profsave</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,42 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>struct2table</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>struct2table</keyword>
+  <short_description
   >Convert a structure array into a tabular format.</short_description>
-    <syntax>
-        <syntax_item>T = struct2table(S)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>S</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>T = struct2table(S)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>S</param_name>
+      <param_description
       >structure: Array provided as a structure.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>T</param_name>
-            <param_description>A table object.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>T</param_name>
+      <param_description>A table object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >T = struct2table(S)</b> transforms a structure array into a table, where each field of the input structure is represented as a variable in the resulting table.</p>
-            <p
+    <p
     >If the input is a scalar structure containing 𝑛 fields, each with 𝑚 rows, the output will be an 𝑚×𝑛 table.</p>
-            <p
+    <p
     >If the input is either an 𝑚×1 or a 1×𝑚 structure array with 𝑛 fields, the output will also be an 𝑚×𝑛 table.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[% Define a structure array
 S(1).Name = 'Alice';
@@ -50,11 +49,11 @@ S(2).Height = 6.0;
 % Convert the structure array to a table
 T = struct2table(S)
 ]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[S = struct();
 S(1).a = [10 20];
@@ -62,21 +61,21 @@ S(2).a = [30 40];
 S(1).b = 50;
 S(2).b = 60;
 T = struct2table(S)]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[S = struct();
 S.a = [1;2;3]
 S.b = [4 5;6 7;8 9]
 T = struct2table(S)]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[S = struct();
 S(1).a = [10 20];
@@ -84,23 +83,23 @@ S(2).a = [30 40 50];
 S(1).b = 70;
 S(2).b = 80;
 T = struct2table(S)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${table}table2struct">table2struct</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${table}table">table</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.8.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${table}table2struct">table2struct</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.8.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

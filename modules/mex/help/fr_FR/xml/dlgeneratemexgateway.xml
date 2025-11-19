@@ -1,51 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>dlgeneratemexgateway</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>dlgeneratemexgateway</keyword>
+  <short_description
   >Génère une passerelle MEX en C (fonction interne).</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >dlgeneratemexgateway(destinationdir, function_name)</syntax_item>
-    </syntax>
-        <param_input>
-                <param_input_item>
-                        <param_name>destinationdir</param_name>
-                        <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>destinationdir</param_name>
+      <param_description
       >une chaîne : répertoire de destination où sera généré le fichier passerelle.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>function_name</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>function_name</param_name>
+      <param_description
       >une chaîne : nom de la fonction exposée dans Nelson.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>interleavedcomplex</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>interleavedcomplex</param_name>
+      <param_description
       >un booléen : utiliser la représentation complexe interlacée.</param_description>
-                </param_input_item>
-        </param_input>
-    <description>
-        <p>
-            <b
-      >dlgeneratemexgateway</b> génère une passerelle MEX en C utilisée par <b
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>dlgeneratemexgateway</b> génère une passerelle MEX en C utilisée par<b
       >mex</b> (fonction interne).</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <see_also>
-            <see_also_item>
-                <link linkend="${mex}mex">mex</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+  </description>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${mex}mex">mex</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

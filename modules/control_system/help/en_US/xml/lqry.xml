@@ -1,68 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>lqry</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>lqry</keyword>
+  <short_description
   >Form linear-quadratic (LQ) state-feedback regulator with output weighting.</short_description>
-    <syntax>
-        <syntax_item>[K, S, e] = lqry(sys, Q, R, N)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>sys</param_name>
-            <param_description>LTI model</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Q</param_name>
-            <param_description>State-cost weighted matrix</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>R</param_name>
-            <param_description>Input-cost weighted matrix</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>N</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>[K, S, e] = lqry(sys, Q, R, N)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>sys</param_name>
+      <param_description>LTI model</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Q</param_name>
+      <param_description>State-cost weighted matrix</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>R</param_name>
+      <param_description>Input-cost weighted matrix</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>N</param_name>
+      <param_description
       >Optional cross term matrix: 0 by default.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>K</param_name>
-            <param_description>Optimal gain: row vector.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>S</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>K</param_name>
+      <param_description>Optimal gain: row vector.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>S</param_name>
+      <param_description
       >Solution of the Algebraic Riccati Equation.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>e</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>e</param_name>
+      <param_description
       >Poles of the closed-loop system: column vector.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>The function <b
-      >lqry</b> computes and returns the optimal gain matrix (<b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>The function<b>lqry</b> computes and returns the optimal gain matrix (<b
       >K</b>), the Riccati solution (<b
       >S</b>), and the closed-loop eigenvalues (<b
       >e</b>) for a given state-space model (<b
       >sys</b>) with specified weights (<b>Q</b>, <b>R</b>, <b>N</b>).</p>
-        <p>The plant data is defined by the matrices <b>A</b>, <b>B</b>, <b
-      >C</b>, and <b
+    <p>The plant data is defined by the matrices <b>A</b>, <b>B</b>,<b
+      >C</b>, and<b
       >D</b>, representing continuous- or discrete-time dynamics.</p>
-        <p>If the parameter <b>N</b> is not provided, it defaults to N=0.</p>
-        <p
-    >The closed-loop eigenvalues are determined by the eigenvalues of the matrix <b
+    <p>If the parameter <b>N</b> is not provided, it defaults to N=0.</p>
+    <p
+    >The closed-loop eigenvalues are determined by the eigenvalues of the matrix<b
       >A - B * K</b>.</p>
-    </description>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [0.6, 0.25; 0, 0.9];
 B = [0; 10];
@@ -71,20 +70,20 @@ D = 0;
 Q = 2;
 R = 1;
 [K, S, e] = lqry(A, B, C, D, Q, R)]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${control_system}lqr">lqr</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}lqr">lqr</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

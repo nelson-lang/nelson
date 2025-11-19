@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <module_name>console</module_name>
-    <chapter>Console</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>console</module_name>
+  <chapter>Console</chapter>
+  <chapter_description>
+    <p
     >Le module Console gère l'interaction avec la fenêtre de commande de Nelson.</p>
-        <p
+    <p
     >Il fournit des outils pour contrôler l'affichage, gérer les entrées utilisateur et interroger les propriétés du terminal.</p>
-        <p
+    <p
     >Ces fonctionnalités permettent aux scripts et applications de communiquer directement avec l'utilisateur via la console, facilitant la construction de workflows interactifs et l'adaptation de la sortie à l'environnement terminal actuel.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

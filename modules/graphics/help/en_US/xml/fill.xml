@@ -1,109 +1,91 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>fill</keyword>
-    <short_description>Create  filled 2-D patches.</short_description>
-    <syntax>
-        <syntax_item>fill(X, Y, C)</syntax_item>
-        <syntax_item>fill(..., propertyName, propertyValue)</syntax_item>
-        <syntax_item>fill(ax, ...)</syntax_item>
-        <syntax_item>go = fill(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>X</param_name>
-            <param_description
-      >x-coordinates: vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Y</param_name>
-            <param_description
-      >y-coordinates: vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>C</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fill</keyword>
+  <short_description>Create filled 2-D patches.</short_description>
+  <syntax>
+    <syntax_item>fill(X, Y, C)</syntax_item>
+    <syntax_item>fill(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>fill(ax, ...)</syntax_item>
+    <syntax_item>go = fill(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>x-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>y-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>C</param_name>
+      <param_description
       >Color array: scalar, vector, m-by-n-by-3 array of RGB triplets.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description
       >a scalar graphics object value: parent container, specified as a axes.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyName</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
       >a scalar string or row vector character.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyValue</param_name>
-            <param_description>a value.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>go</param_name>
-            <param_description
-      >a graphics object: patch type.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >fill(X, Y, C)</b> creates a 2D polygonal shape with vertices defined by <b
-      >X</b> and <b>Y</b> coordinates, and fills the shape with color <b
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>a value.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>a graphics object: patch type.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >fill(X, Y, C)</b> creates a 2D polygonal shape with vertices defined by<b
+      >X</b> and <b>Y</b> coordinates, and fills the shape with color<b
       >C</b>.</p>
-            <p>
-                <b
+    <p><b
       >fill(..., PropertyName, PropertyValue, ...)</b> sets optional properties for the fill/patch object using name-value pairs.</p>
-                <p>
-                    <b>go = fill(...)</b> returns the handle <b
+    <p><b>go = fill(...)</b> returns the handle<b
       >go</b> to the created patch object.</p>
-                    <p>Property Name-Value Pairs:</p>
-                    <p />
-                    <p>
-                        <b
-      >'FaceColor'</b>: color of the filled shape. FaceColor can be a character vector or a 3-element RGB vector. Default: <b
+    <p>Property Name-Value Pairs:</p>
+    <p />
+    <p><b
+      >'FaceColor'</b>: color of the filled shape. FaceColor can be a character vector or a 3-element RGB vector. Default:<b
       >'flat'</b>.</p>
-                        <p>
-                            <b
-      >'EdgeColor'</b>: color of the edges of the polygonal shape. EdgeColor can be a character vector or a 3-element RGB vector. Default: <b
+    <p><b
+      >'EdgeColor'</b>: color of the edges of the polygonal shape. EdgeColor can be a character vector or a 3-element RGB vector. Default:<b
       >'none'</b>.</p>
-                            <p>
-                                <b
-      >'LineWidth'</b>: width of the edges of the polygonal shape. Default: <b
+    <p><b>'LineWidth'</b>: width of the edges of the polygonal shape. Default:<b
       >0.5</b>.</p>
-                                <p>
-                                    <b
-      >'LineStyle'</b>: style of the edges of the polygonal shape. LineStyle can be a character vector or a line style code. Default: <b
+    <p><b
+      >'LineStyle'</b>: style of the edges of the polygonal shape. LineStyle can be a character vector or a line style code. Default:<b
       >'-'</b>.</p>
-                                    <p>
-                                        <b
-      >'FaceAlpha'</b>: transparency of the filled shape. FaceAlpha can be a scalar between 0 and 1. Default: <b
+    <p><b
+      >'FaceAlpha'</b>: transparency of the filled shape. FaceAlpha can be a scalar between 0 and 1. Default:<b
       >1</b>.</p>
-                                        <p>
-                                            <b
-      >'EdgeAlpha'</b>: transparency of the edges of the polygonal shape. EdgeAlpha can be a scalar between 0 and 1. Default: <b
+    <p><b
+      >'EdgeAlpha'</b>: transparency of the edges of the polygonal shape. EdgeAlpha can be a scalar between 0 and 1. Default:<b
       >1</b>.</p>
-                                            <p>
-                                                <b
-      >'Parent'</b>: handle of the parent object for the patch. Default: <b
+    <p><b>'Parent'</b>: handle of the parent object for the patch. Default:<b
       >gca()</b>.</p>
-                                                <p>
-                                                    <b
-      >'Vertices'</b>: matrix of vertex coordinates. The matrix must have size N-by-2 or N-by-3, where N is the number of vertices. Default: the vertex coordinates are specified by the <b
+    <p><b
+      >'Vertices'</b>: matrix of vertex coordinates. The matrix must have size N-by-2 or N-by-3, where N is the number of vertices. Default: the vertex coordinates are specified by the<b
       >X</b>, <b>Y</b>, and <b>Z</b> input arguments.</p>
-                                                </description>
-                                                <used_function />
-                                                <bibliography />
-                                                <examples>
-                                                    <example_item>
-                                                        <example_item_type
-      >nelson</example_item_type>
-                                                        <example_item_description
-      />
-                                                        <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 outerX = [0, 0.3, 1, 0.7, 1, 0.3, 0, -0.3, -1, -0.7, -1, -0.3, 0];
@@ -112,18 +94,16 @@ innerX = [0, 0.2, 0.5, 0.35, 0.5, 0.2, 0, -0.2, -0.5, -0.35, -0.5, -0.2, 0];
 innerY = [0.6, 0.3, 0.3, 0, -0.3, -0.6, -0.3, -0.6, -0.3, 0, 0.3, 0.3, 0.6];
 fill(outerX, outerY, 'y');
 fill(innerX, innerY, 'r');]]></example_item_data>
-                                                        <example_item_img
+      <example_item_img
         src="../../images/fill_1.svg"
         align="middle"
         generate="true"
       />
-                                                    </example_item>
-                                                    <example_item>
-                                                        <example_item_type
-      >nelson</example_item_type>
-                                                        <example_item_description
-      />
-                                                        <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[% Define the vertices of a colorful geometric pattern
 x1 = [0, 1, 1, 0];
@@ -153,18 +133,16 @@ text(1.5, 0.5, 'Polygon 3', 'Color', 'w', 'HorizontalAlignment', 'center', 'Font
 axis equal;
 title('Colorful Geometric Pattern');
 ]]></example_item_data>
-                                                        <example_item_img
+      <example_item_img
         src="../images/fill_2.svg"
         align="middle"
         generate="true"
       />
-                                                    </example_item>
-                                                    <example_item>
-                                                        <example_item_type
-      >nelson</example_item_type>
-                                                        <example_item_description
-      >Alpha channel</example_item_description>
-                                                        <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Alpha channel</example_item_description>
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 x = [10 30 40 30 10 0];
@@ -173,30 +151,25 @@ hold on
 fill(x, y, 'cyan', 'FaceAlpha', 0.3);
 fill(x + 2, y, 'magenta', 'FaceAlpha', 0.3);
 fill(x + 1, y + 2, 'yellow', 'FaceAlpha', 0.3);]]></example_item_data>
-                                                        <example_item_img
+      <example_item_img
         src="../../images/fill_3.svg"
         align="middle"
         generate="true"
       />
-                                                    </example_item>
-                                                </examples>
-                                                <see_also>
-                                                    <see_also_item>
-                                                        <link
-        linkend="${graphics}patch"
-      >patch</link>
-                                                    </see_also_item>
-                                                </see_also>
-                                                <history>
-                                                    <history_item>
-                                                        <history_version
-      >1.0.0</history_version>
-                                                        <history_description
-      >initial version</history_description>
-                                                    </history_item>
-                                                </history>
-                                                <authors>
-                                                    <author_item
-    >Allan CORNET</author_item>
-                                                </authors>
-                                            </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}patch">patch</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

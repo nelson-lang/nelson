@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>statistics</module_name>
-    <chapter>Statistics</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>statistics</module_name>
+  <chapter>Statistics</chapter>
+  <chapter_description>
+    <p
     >The Statistics module provides tools for analyzing and summarizing data in Nelson.</p>
-        <p
+    <p
     >It includes functions for computing measures of central tendency, variability, correlation, and probability distributions.</p>
-        <p
+    <p
     >The module also supports advanced data summarization structures for accurate quantile estimation, enabling robust statistical analysis and interpretation of datasets.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

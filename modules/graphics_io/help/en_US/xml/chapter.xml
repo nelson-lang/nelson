@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>graphics_io</module_name>
-    <chapter>Graphics I/O functions</chapter>
-    <chapter_description>
-        <p
-    >The Graphics I/O module provides functions for importing, exporting, and managing
-            graphical content and image formats.</p>
-        <p
-    >It supports reading and writing image files, copying figures, and saving plots in various
-            file formats for interoperability with other applications.</p>
-    </chapter_description>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>graphics_io</module_name>
+  <chapter>Graphics I/O functions</chapter>
+  <chapter_description>
+    <p
+    >The Graphics I/O module provides functions for importing, exporting, and managing graphical content and image formats.</p>
+    <p
+    >It supports reading and writing image files, copying figures, and saving plots in various file formats for interoperability with other applications.</p>
+  </chapter_description>
 </xmldoc>

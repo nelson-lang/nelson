@@ -1,84 +1,84 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>slicot_mb03pd</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>slicot_mb03pd</keyword>
+  <short_description
   >Matrix rank determination by incremental condition estimation (row pivoting).</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[A_OUT, JPVT_OUT, TAU, RANK, SVAL, INFO] = slicot_mb03pd(JOBRQ, A_IN, JPVT_IN, RCOND, SVLMAX)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>JOBRQ</param_name>
-            <param_description
-      > = 'R':  Perform an RQ factorization with row pivoting; = 'N':  Do not perform the RQ factorization (but assume that it has been done outside).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>A_IN</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>JOBRQ</param_name>
+      <param_description
+      >= 'R': Perform an RQ factorization with row pivoting; = 'N': Do not perform the RQ factorization (but assume that it has been done outside).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A_IN</param_name>
+      <param_description
       >with JOBRQ = 'R', the leading M-by-N part of this array must contain the given matrix A.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>JPVT_IN</param_name>
-            <param_description
-      >with JOBRQ = 'R', if JPVT(i) != 0, the i-th row of A is a final row, otherwise it is a free row. Before the RQ factorization of A, all final rows are permuted to the trailing positions; only the remaining free rows are moved as a result of row pivoting during the factorization.  For rank determination it is preferable that all rows be free.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>RCOND</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>JPVT_IN</param_name>
+      <param_description
+      >with JOBRQ = 'R', if JPVT(i) != 0, the i-th row of A is a final row, otherwise it is a free row. Before the RQ factorization of A, all final rows are permuted to the trailing positions; only the remaining free rows are moved as a result of row pivoting during the factorization. For rank determination it is preferable that all rows be free.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>RCOND</param_name>
+      <param_description
       >RCOND is used to determine the effective rank of A, which is defined as the order of the largest trailing triangular submatrix R22 in the RQ factorization with pivoting of A, whose estimated condition number is less than 1/RCOND.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>SVLMAX</param_name>
-            <param_description
-      >If A is a submatrix of another matrix B, and the rank decision should be related to that matrix, then SVLMAX should be an estimate of the largest singular value of B (for instance, the Frobenius norm of B).  If this is not the case, the input value SVLMAX = 0 should work.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>A_OUT</param_name>
-            <param_description
-      > with JOBRQ = 'R', if M less or equal than N, the upper triangle of the subarray A(1:M,N-M+1:N) contains the M-by-M upper triangular matrix R;</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>JPVT_OUT</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>SVLMAX</param_name>
+      <param_description
+      >If A is a submatrix of another matrix B, and the rank decision should be related to that matrix, then SVLMAX should be an estimate of the largest singular value of B (for instance, the Frobenius norm of B). If this is not the case, the input value SVLMAX = 0 should work.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>A_OUT</param_name>
+      <param_description
+      >with JOBRQ = 'R', if M less or equal than N, the upper triangle of the subarray A(1:M,N-M+1:N) contains the M-by-M upper triangular matrix R;</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>JPVT_OUT</param_name>
+      <param_description
       >with JOBRQ = 'R', if JPVT(i) = k, then the i-th row of P*A was the k-th row of A.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>TAU</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>TAU</param_name>
+      <param_description
       >with JOBRQ = 'R', the leading min(M,N) elements of TAU contain the scalar factors of the elementary reflectors.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>RANK</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>RANK</param_name>
+      <param_description
       >The effective (estimated) rank of A, i.e. the order of the submatrix R22.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>SVAL</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>SVAL</param_name>
+      <param_description
       >The estimates of some of the singular values of the triangular factor R.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>INFO</param_name>
-            <param_description> = 0:  successful exit</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
+    </param_output_item>
+    <param_output_item>
+      <param_name>INFO</param_name>
+      <param_description>= 0: successful exit</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >To compute (optionally) a rank-revealing RQ factorization of a real general M-by-N matrix A, which may be rank-deficient, and estimate its effective rank using incremental condition estimation.</p>
-    </description>
-    <used_function>MB03PD</used_function>
-    <bibliography
+  </description>
+  <used_function>MB03PD</used_function>
+  <bibliography
   >http://slicot.org/objects/software/shared/doc/MB03PD.html</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[M = 6;
 N = 5;
@@ -93,15 +93,15 @@ A_IN = [   1.    2.    6.    3.    5.;
    4.    8.    4.   20.    4.;
   -2.   -1.   -1.    0.   -2.];
 [A_OUT, JPVT_OUT, TAU, RANK, SVAL, INFO] = slicot_mb03pd(JOBRQ, A_IN, JPVT_IN, RCOND, SVLMAX)]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>SLICOT Documentation</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>SLICOT Documentation</author_item>
+  </authors>
 </xmldoc>

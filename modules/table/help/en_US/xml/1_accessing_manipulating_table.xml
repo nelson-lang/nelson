@@ -1,81 +1,76 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>Accessing and Manipulating Tables in Nelson</keyword>
-    <description>
-        <p>
-            <b>Insertion into a Table</b>
-        </p>
-        <p>To insert new data into a table, use dot notation or curly braces <b
-      >{}</b> for specific element-wise insertion. You can add new rows, columns, or update existing data.</p>
-        <p>see examples: <b>Adding a New Column</b> and <b
-      >Updating an Existing Element</b>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>Accessing and Manipulating Tables in Nelson</keyword>
+  <description>
+    <p>
+      <b>Insertion into a Table</b>
     </p>
+    <p>To insert new data into a table, use dot notation or curly braces<b
+      >{}</b> for specific element-wise insertion. You can add new rows, columns, or update existing data.</p>
+    <p>see examples: <b>Adding a New Column</b> and<b
+      >Updating an Existing Element</b></p>
     <p />
     <p>
-        <b>Extraction from a Table</b>
+      <b>Extraction from a Table</b>
     </p>
     <p
     >You can extract specific rows, columns, or individual elements using indexing or by referencing variable names.</p>
-    <p>see examples: <b>Extracting Specific Columns</b> and <b
-      >Extracting Specific Rows</b>
-</p>
-<p />
-<p>
-    <b>Removing Data from a Table</b>
-</p>
-<p
+    <p>see examples: <b>Extracting Specific Columns</b> and<b
+      >Extracting Specific Rows</b></p>
+    <p />
+    <p>
+      <b>Removing Data from a Table</b>
+    </p>
+    <p
     >In Nelson, you can remove rows, columns, or specific elements from a table by using indexing or the removevars function. Rows or columns can be removed by setting the indices to empty brackets [].</p>
-<p>see examples: <b>Removing Rows</b> and <b>Removing Columns</b>
-</p>
-<p />
-<p>
-    <b>Horizontal Concatenation (horzcat)</b>
-</p>
-<p
+    <p>see examples: <b>Removing Rows</b> and <b>Removing Columns</b></p>
+    <p />
+    <p>
+      <b>Horizontal Concatenation (horzcat)</b>
+    </p>
+    <p
     >You can concatenate tables horizontally (side by side) using the horzcat function. This function combines tables by appending the columns of one table to the columns of another table.</p>
-<p>see examples: <b>Horizontal Concatenation</b>
-</p>
-<p />
-<p>
-    <b>Vertical Concatenation (vertcat)</b>
-</p>
-<p
+    <p>see examples: <b>Horizontal Concatenation</b></p>
+    <p />
+    <p>
+      <b>Vertical Concatenation (vertcat)</b>
+    </p>
+    <p
     >You can concatenate tables vertically (one below the other) using the vertcat function. This function combines tables by appending the rows of one table to the rows of another table.</p>
-<p>see examples: <b>Vertical Concatenation</b>
-</p>
-<p />
-<p>
-    <b>Convert variable types</b>
-</p>
-<p>You can convert table variables by using the <b
+    <p>see examples: <b>Vertical Concatenation</b></p>
+    <p />
+    <p>
+      <b>Convert variable types</b>
+    </p>
+    <p>You can convert table variables by using the<b
       >VariableTypes</b> property.</p>
-<p>see examples: <b>VariableTypes</b> example</p>
-<p />
-<p>
-    <b>Summary</b>
-</p>
-<p
+    <p>see examples: <b>VariableTypes</b> example</p>
+    <p />
+    <p>
+      <b>Summary</b>
+    </p>
+    <p
     >In Nelson, tables provide a flexible way to store and manipulate heterogeneous data. You can easily insert data, extract parts of the table, and concatenate tables both horizontally and vertically using built-in functionality like dot notation and concatenation functions (horzcat, vertcat), making table manipulation intuitive and powerful for data analysis.</p>
-</description>
-<used_function />
-<bibliography />
-<examples>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
     <example_item>
-        <example_item_type>nelson</example_item_type>
-        <example_item_description>Adding a New Column</example_item_description>
-        <example_item_data
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Adding a New Column</example_item_description>
+      <example_item_data
       ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
 % Insert a new column 'Score'
 T.Score = [10; 20]
 ]]></example_item_data>
     </example_item>
     <example_item>
-        <example_item_type>nelson</example_item_type>
-        <example_item_description
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Updating an Existing Element</example_item_description>
-        <example_item_data
+      <example_item_data
       ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
 % Insert a new column 'Score'
 T.Score = [10; 20]
@@ -84,10 +79,10 @@ T{1, 'Score'} = 15
 ]]></example_item_data>
     </example_item>
     <example_item>
-        <example_item_type>nelson</example_item_type>
-        <example_item_description
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Extracting Specific Columns</example_item_description>
-        <example_item_data
+      <example_item_data
       ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
 % Insert a new column 'Score'
 T.Score = [10; 20]
@@ -98,10 +93,10 @@ ID_column = T.ID
 ]]></example_item_data>
     </example_item>
     <example_item>
-        <example_item_type>nelson</example_item_type>
-        <example_item_description
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Extracting Specific Rows</example_item_description>
-        <example_item_data
+      <example_item_data
       ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
 % Insert a new column 'Score'
 T.Score = [10; 20]
@@ -112,9 +107,9 @@ rows_1_2 = T(1:2, :)
 ]]></example_item_data>
     </example_item>
     <example_item>
-        <example_item_type>nelson</example_item_type>
-        <example_item_description>Removing a Column</example_item_description>
-        <example_item_data
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Removing a Column</example_item_description>
+      <example_item_data
       ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
 % Insert a new column 'Score'
 T.Score = [10; 20]
@@ -123,9 +118,9 @@ T(:, 'Score') = [];
 ]]></example_item_data>
     </example_item>
     <example_item>
-        <example_item_type>nelson</example_item_type>
-        <example_item_description>Removing a Row</example_item_description>
-        <example_item_data
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Removing a Row</example_item_description>
+      <example_item_data
       ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
 % Insert a new column 'Score'
 T.Score = [10; 20]
@@ -134,10 +129,10 @@ T(2, :) = [];
 ]]></example_item_data>
     </example_item>
     <example_item>
-        <example_item_type>nelson</example_item_type>
-        <example_item_description
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Horizontal Concatenation</example_item_description>
-        <example_item_data
+      <example_item_data
       ><![CDATA[% Create two tables with the same number of rows
 T1 = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'});
 T2 = table([10; 20], {'X'; 'Y'}, 'VariableNames', {'Score', 'Grade'});
@@ -147,10 +142,10 @@ T_horz = [T1, T2]  % or T_horz = horzcat(T1, T2);
 ]]></example_item_data>
     </example_item>
     <example_item>
-        <example_item_type>nelson</example_item_type>
-        <example_item_description
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Vertical Concatenation</example_item_description>
-        <example_item_data
+      <example_item_data
       ><![CDATA[T1 = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'});
 % Create two tables with the same column names
 T3 = table([3; 4], {'C'; 'D'}, 'VariableNames', {'ID', 'Label'});
@@ -160,10 +155,10 @@ T_vert = [T1; T3]  % or T_vert = vertcat(T1, T3)
 ]]></example_item_data>
     </example_item>
     <example_item>
-        <example_item_type>nelson</example_item_type>
-        <example_item_description
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Convert variable types</example_item_description>
-        <example_item_data
+      <example_item_data
       ><![CDATA[Names = {'John'; 'Alice'; 'Bob'; 'Diana'};
 Age = [28; 34; 22; 30];
 Height = [175; 160; 180; 165];
@@ -177,28 +172,28 @@ T{:,1}
 T{:,2}
 T.Properties.VariableTypes]]></example_item_data>
     </example_item>
-</examples>
-<see_also>
+  </examples>
+  <see_also>
     <see_also_item>
-        <link linkend="${table}table">table</link>
+      <link linkend="${table}table">table</link>
     </see_also_item>
     <see_also_item>
-        <link
+      <link
         linkend="${table}2_direct_compution_with_table"
       >Direct computation with Table</link>
     </see_also_item>
-</see_also>
-<history>
+  </see_also>
+  <history>
     <history_item>
-        <history_version>1.8.0</history_version>
-        <history_description>initial version</history_description>
+      <history_version>1.8.0</history_version>
+      <history_description>initial version</history_description>
     </history_item>
     <history_item>
-        <history_version>1.10.0</history_version>
-        <history_description>VariableTypes property</history_description>
+      <history_version>1.10.0</history_version>
+      <history_description>VariableTypes property</history_description>
     </history_item>
-</history>
-<authors>
+  </history>
+  <authors>
     <author_item>Allan CORNET</author_item>
-</authors>
+  </authors>
 </xmldoc>

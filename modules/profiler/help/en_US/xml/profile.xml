@@ -1,61 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>profile</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>profile</keyword>
+  <short_description
   >Profile execution time for Macro functions.</short_description>
-    <syntax>
-        <syntax_item>profile on</syntax_item>
-        <syntax_item>profile off</syntax_item>
-        <syntax_item>profile resume</syntax_item>
-        <syntax_item>profile clear</syntax_item>
-        <syntax_item>status = profile('status')</syntax_item>
-        <syntax_item>p = profile('info')</syntax_item>
-        <syntax_item>profile('show', sortOption)</syntax_item>
-        <syntax_item>profile('show', sortOption, nbLines)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>sortOption</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>profile on</syntax_item>
+    <syntax_item>profile off</syntax_item>
+    <syntax_item>profile resume</syntax_item>
+    <syntax_item>profile clear</syntax_item>
+    <syntax_item>status = profile('status')</syntax_item>
+    <syntax_item>p = profile('info')</syntax_item>
+    <syntax_item>profile('show', sortOption)</syntax_item>
+    <syntax_item>profile('show', sortOption, nbLines)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>sortOption</param_name>
+      <param_description
       >a string: 'nfl' by name file line, 'line' by line, 'percalls', 'totaltime', 'filename', 'function' or 'nbcalls'.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>nbLines</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>nbLines</param_name>
+      <param_description
       >a integer value: number of lines to display.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>Profiling is a way to measure where Macro function spend times.</p>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>Profiling is a way to measure where Macro function spend times.</p>
+    <p><b
       >s = profile('status')</b> returns a structure with the current status of the profiler.</p>
-            <p>
-                <b
+    <p><b
       >p = profile('info')</b> returns a structure with collected profiling data.</p>
-                <p>
-                    <b>profile('on')</b> starts profiler.</p>
-                    <p>
-                        <b
-      >profile('off')</b> stops profiler. Collected profiling data will be retrieved later with <b
+    <p><b>profile('on')</b> starts profiler.</p>
+    <p><b
+      >profile('off')</b> stops profiler. Collected profiling data will be retrieved later with<b
       >p = profile ('info')</b>.</p>
-                        <p>
-                            <b
-      >profile('clear')</b> clears collected profiling data.</p>
-                            <p>
-                                <b
+    <p><b>profile('clear')</b> clears collected profiling data.</p>
+    <p><b
       >profile('resume')</b> restarts and continue and extends collected profiling data.</p>
-                            </description>
-                            <used_function />
-                            <bibliography />
-                            <examples>
-                                <example_item>
-                                    <example_item_type
-      >nelson</example_item_type>
-                                    <example_item_description />
-                                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[profile on
 sind(5)
@@ -64,12 +56,11 @@ profile('show')
 profile('show', 'totaltime')
 profile('show', 'totaltime', 4)
 ]]></example_item_data>
-                                </example_item>
-                                <example_item>
-                                    <example_item_type
-      >nelson</example_item_type>
-                                    <example_item_description />
-                                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[profile on
 sind(5)
@@ -77,23 +68,20 @@ profile off
 profsave(profile('info'), [tempdir(), 'profile_results'])
 unix([tempdir(), 'profile_results/index.html'])
 ]]></example_item_data>
-                                </example_item>
-                            </examples>
-                            <see_also>
-                                <see_also_item>
-                                    <link
-        linkend="${profiler}profsave"
-      >profsave</link>
-                                </see_also_item>
-                            </see_also>
-                            <history>
-                                <history_item>
-                                    <history_version>1.0.0</history_version>
-                                    <history_description
-      >initial version</history_description>
-                                </history_item>
-                            </history>
-                            <authors>
-                                <author_item>Allan CORNET</author_item>
-                            </authors>
-                        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${profiler}profsave">profsave</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

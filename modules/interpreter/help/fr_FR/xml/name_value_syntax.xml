@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>nom=valeur</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nom=valeur</keyword>
+  <short_description
   >Nom=valeur syntaxe pour les arguments nom=valeur.</short_description>
-    <syntax>
-        <syntax_item>plot(x, y, LineWidth=2)</syntax_item>
-        <syntax_item>plot(x, y, "LineWidth", 2)</syntax_item>
-    </syntax>
-    <description>
-        <p>
-            À partir de Nelson 1.15.0, les fonctions peuvent accepter des arguments nom-valeur en utilisant la syntaxe <b
+  <syntax>
+    <syntax_item>plot(x, y, LineWidth=2)</syntax_item>
+    <syntax_item>plot(x, y, "LineWidth", 2)</syntax_item>
+  </syntax>
+  <description>
+    <p
+    >À partir de Nelson 1.15.0, les fonctions peuvent accepter des arguments nom-valeur en utilisant la syntaxe<b
       >nom=valeur</b>.</p>
-        <p
+    <p
     >La nouvelle forme est équivalente à la syntaxe traditionnelle séparée par des virgules et améliore la lisibilité lorsque plusieurs paires nom-valeur apparaissent dans un seul appel.</p>
-        <p
-    >Utilisez une seule syntaxe par appel autant que possible. Si vous mélangez les deux formes, chaque argument <b
+    <p
+    >Utilisez une seule syntaxe par appel autant que possible. Si vous mélangez les deux formes, chaque argument<b
       >nom=valeur</b> doit venir après les paires séparées par des virgules, par exemple : plot(x, y, "Color", "red", LineWidth=2).</p>
-        <p
+    <p
     >Inverser cet ordre, comme dans plot(x, y, Color="red", "LineWidth", 2), est invalide.</p>
-        <p>Les noms utilisés avec la syntaxe <b
+    <p>Les noms utilisés avec la syntaxe<b
       >nom=valeur</b> doivent être des identifiants Nelson valides. Pour les noms contenant des caractères tels que des tirets, continuez à les passer sous forme de paires chaîne/valeur ; par exemple : "allow-empty", true.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Utilisez la syntaxe nom=valeur pour une meilleure lisibilité.</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[
 x = 0:0.1:2*pi;
@@ -38,32 +38,32 @@ y = sin(x);
 plot(x, y, LineWidth=2, Color="red");
 title("Sine wave with custom style");
         ]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Mélangez les syntaxes uniquement en plaçant les arguments nom=valeur en dernier.</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[
 x = linspace(0, 2*pi, 100);
 y = cos(x);
 plot(x, y, "LineStyle", "--", LineWidth=1.5);
         ]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${interpreter}function">function</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.15.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${interpreter}function">function</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

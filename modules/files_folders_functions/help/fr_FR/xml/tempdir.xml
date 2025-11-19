@@ -1,51 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>tempdir</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tempdir</keyword>
+  <short_description
   >Renvoie le chemin du répertoire temporaire.</short_description>
-    <syntax>
-        <syntax_item>tempdir()</syntax_item>
-        <syntax_item>p = tempdir()</syntax_item>
-    </syntax>
-    <param_output>
-        <param_output_item>
-            <param_name>p</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>tempdir()</syntax_item>
+    <syntax_item>p = tempdir()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description
       >a string: répertoire temporaire courant.</param_description>
-        </param_output_item>
-    </param_output>
-        <description>
-        <p
-    >Renvoie le nom du répertoire de fichiers temporaires du système hôte.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Renvoie le nom du répertoire de fichiers temporaires du système hôte.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[r = tempdir()]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${files_folders_functions}cd">cd</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${files_folders_functions}dir">dir</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${files_folders_functions}cd">cd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${files_folders_functions}dir">dir</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

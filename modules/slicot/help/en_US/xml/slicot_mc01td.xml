@@ -1,85 +1,84 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>slicot_mc01td</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>slicot_mc01td</keyword>
+  <short_description
   >Checking stability of a given real polynomial.</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[DP_OUT, STABLE, NZ, IWARN, INFO] = slicot_mc01td(DICO, DP_IN, P)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>DICO</param_name>
-            <param_description
-      >Indicates whether the stability test to be applied to P(x) is in the continuous-time or discrete-time case as follows: = 'C':  Continuous-time case; = 'D':  Discrete-time case.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>DP_IN</param_name>
-            <param_description
-      >The degree of the polynomial P(x).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>P</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>DICO</param_name>
+      <param_description
+      >Indicates whether the stability test to be applied to P(x) is in the continuous-time or discrete-time case as follows: = 'C': Continuous-time case; = 'D': Discrete-time case.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>DP_IN</param_name>
+      <param_description>The degree of the polynomial P(x).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>P</param_name>
+      <param_description
       >This array must contain the coefficients of P(x) in increasing powers of x.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>DP_OUT</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>DP_OUT</param_name>
+      <param_description
       >if P(DP+1) = 0.0 on entry, then DP contains the index of the highest power of x for which P(DP+1) != 0.0.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>STABLE</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>STABLE</param_name>
+      <param_description
       >Contains the value int32(1) if P(x) is stable and the value int32(0) otherwise.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>NZ</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>NZ</param_name>
+      <param_description
       >If INFO = 0, contains the number of unstable zeros - that is, the number of zeros of P(x) in the right half-plane if DICO = 'C' or the number of zeros of P(x) outside the unit circle if DICO = 'D'.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>IWARN</param_name>
-            <param_description>= 0:  no warning;</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>INFO</param_name>
-            <param_description
-      >= 0:  successful exit; = 1:  if on entry, P(x) is the zero polynomial;= 2:  if the polynomial P(x) is most probably unstable.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
+    </param_output_item>
+    <param_output_item>
+      <param_name>IWARN</param_name>
+      <param_description>= 0: no warning;</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>INFO</param_name>
+      <param_description
+      >= 0: successful exit; = 1: if on entry, P(x) is the zero polynomial;= 2: if the polynomial P(x) is most probably unstable.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >To determine whether or not a given polynomial P(x) with real coefficients is stable, either in the continuous-time or discrete-time case.</p>
-        <p
+    <p
     >A polynomial is said to be stable in the continuous-time case if all its zeros lie in the left half-plane, and stable in the discrete-time case if all its zeros lie inside the unit circle.</p>
-    </description>
-    <used_function>MC01TD</used_function>
-    <bibliography
+  </description>
+  <used_function>MC01TD</used_function>
+  <bibliography
   >http://slicot.org/objects/software/shared/doc/MC01TD.html</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[DICO = 'C';
 DP_IN = 4;
 P = [2.0  0.0  1.0  -1.0  1.0];
 [DP, STABLE, NZ, IWARN, INFO] = slicot_mc01td(DICO, DP_IN, P)]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>SLICOT Documentation</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>SLICOT Documentation</author_item>
+  </authors>
 </xmldoc>

@@ -14,6 +14,7 @@
 #include <filesystem>
 #include <fstream>
 #include <string>
+#include <vector>
 #include <libxml/parser.h>
 #include <libxml/xpathInternals.h>
 #include <libxml/xmlerror.h>
@@ -43,6 +44,74 @@ readXmlFile(const std::wstring& xmlFile, std::wstring& errorMessage)
     return buffer;
 }
 //=============================================================================
+struct PreservedXmlBlock
+{
+    std::string placeholder;
+    std::string original;
+};
+//=============================================================================
+static void
+preserveExampleItemDataBlocks(std::string& buffer, std::vector<PreservedXmlBlock>& preservedBlocks)
+{
+    const std::string startTag = "<example_item_data>";
+    const std::string endTag = "</example_item_data>";
+    size_t searchPos = 0;
+    size_t counter = 0;
+    while (true) {
+        size_t start = buffer.find(startTag, searchPos);
+        if (start == std::string::npos)
+            break;
+        size_t end = buffer.find(endTag, start);
+        if (end == std::string::npos)
+            break;
+        end += endTag.size();
+        PreservedXmlBlock block;
+        block.placeholder = "<!--NELSON_XML_PRESERVE_" + std::to_string(counter++) + "-->";
+        block.original = buffer.substr(start, end - start);
+        buffer.replace(start, end - start, block.placeholder);
+        preservedBlocks.push_back(std::move(block));
+        searchPos = start + preservedBlocks.back().placeholder.size();
+    }
+}
+//=============================================================================
+static void
+restoreExampleItemDataBlocks(
+    std::string& buffer, const std::vector<PreservedXmlBlock>& preservedBlocks)
+{
+    for (const auto& block : preservedBlocks) {
+        size_t pos = buffer.find(block.placeholder);
+        if (pos != std::string::npos) {
+            buffer.replace(pos, block.placeholder.size(), block.original);
+        }
+    }
+}
+//=============================================================================
+static bool
+startsWithOpeningBoldTag(const std::string& text, size_t pos)
+{
+    if (pos >= text.size() || text[pos] != '<')
+        return false;
+    return text.compare(pos, 3, "<b>") == 0 || text.compare(pos, 3, "<b ") == 0;
+}
+
+static bool
+startsWithClosingBoldTag(const std::string& text, size_t pos)
+{
+    return pos + 4 <= text.size() && text.compare(pos, 4, "</b>") == 0;
+}
+
+static bool
+startsWithBoldTag(const std::string& text, size_t pos)
+{
+    return startsWithOpeningBoldTag(text, pos) || startsWithClosingBoldTag(text, pos);
+}
+//=============================================================================
+static bool
+endsWithClosingBold(const std::string& text)
+{
+    return text.size() >= 4 && text.compare(text.size() - 4, 4, "</b>") == 0;
+}
+//=============================================================================
 static std::string
 formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, bool formatSpace,
     std::wstring& errorMessage)
@@ -57,14 +126,73 @@ formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, b
         buffer.replace(declPos, badDecl.length(), goodDecl);
     }
 
+    std::vector<PreservedXmlBlock> preservedBlocks;
+    if (formatSpace) {
+        preserveExampleItemDataBlocks(buffer, preservedBlocks);
+    }
+
     if (!formatSpace) {
         std::string compact;
         compact.reserve(buffer.size());
         bool in_quote = false;
         char quote_char = 0;
         bool last_space = false;
+        const std::string exampleStartTag = "<example_item_data>";
+        const std::string exampleEndTag = "</example_item_data>";
+        const std::string cdataStart = "<![CDATA[";
+        const std::string cdataEnd = "]]>";
+        bool inExampleBlock = false;
+        bool inCdataBlock = false;
+        int boldDepth = 0;
         for (size_t i = 0; i < buffer.size(); ++i) {
+            if (!inExampleBlock && !inCdataBlock
+                && buffer.compare(i, exampleStartTag.size(), exampleStartTag) == 0) {
+                inExampleBlock = true;
+                compact.append(exampleStartTag);
+                i += exampleStartTag.size() - 1;
+                last_space = false;
+                continue;
+            }
+            if (!inCdataBlock && buffer.compare(i, cdataStart.size(), cdataStart) == 0) {
+                inCdataBlock = true;
+                compact.append(cdataStart);
+                i += cdataStart.size() - 1;
+                last_space = false;
+                continue;
+            }
+            if (inCdataBlock) {
+                if (buffer.compare(i, cdataEnd.size(), cdataEnd) == 0) {
+                    inCdataBlock = false;
+                    compact.append(cdataEnd);
+                    i += cdataEnd.size() - 1;
+                } else {
+                    compact += buffer[i];
+                }
+                continue;
+            }
+            if (inExampleBlock) {
+                if (buffer.compare(i, exampleEndTag.size(), exampleEndTag) == 0) {
+                    inExampleBlock = false;
+                    compact.append(exampleEndTag);
+                    i += exampleEndTag.size() - 1;
+                } else {
+                    compact += buffer[i];
+                }
+                continue;
+            }
+            if (!inExampleBlock && !inCdataBlock && buffer[i] == '<') {
+                if (startsWithOpeningBoldTag(buffer, i)) {
+                    ++boldDepth;
+                } else if (startsWithClosingBoldTag(buffer, i) && boldDepth > 0) {
+                    --boldDepth;
+                }
+            }
             char c = buffer[i];
+            if (boldDepth > 0 && c == ' ') {
+                compact += ' ';
+                last_space = false;
+                continue;
+            }
             if (c == '"' || c == '\'') {
                 // toggle in-quote state; quotes themselves are preserved
                 if (!in_quote) {
@@ -89,8 +217,6 @@ formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, b
                 continue;
             } else {
                 if (c == ' ') {
-                    // lookahead: if next non-space char is '<' or previous output char is '>',
-                    // skip emitting the space (removes spaces between tags / after declaration)
                     size_t j = i + 1;
                     while (j < buffer.size()
                         && (buffer[j] == ' ' || buffer[j] == '\n' || buffer[j] == '\r'
@@ -98,12 +224,13 @@ formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, b
                         ++j;
                     char nextNonSpace = (j < buffer.size()) ? buffer[j] : 0;
                     char prevOut = compact.empty() ? 0 : compact.back();
-                    if (nextNonSpace == '<' || prevOut == '>') {
-                        // skip this space
+                    bool prevEndsClosingBold = endsWithClosingBold(compact);
+                    bool nextStartsBoldTag = startsWithBoldTag(buffer, j);
+                    if ((nextNonSpace == '<' && !nextStartsBoldTag)
+                        || (prevOut == '>' && !prevEndsClosingBold)) {
                         last_space = false;
                         continue;
                     }
-
                     if (!last_space) {
                         compact += ' ';
                         last_space = true;
@@ -145,6 +272,7 @@ formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, b
     std::string formattedXml(reinterpret_cast<const char*>(xmlbuff), buffersize);
     xmlFree(xmlbuff);
     xmlFreeDoc(doc);
+    restoreExampleItemDataBlocks(formattedXml, preservedBlocks);
     return formattedXml;
 }
 //=============================================================================

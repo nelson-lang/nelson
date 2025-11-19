@@ -1,55 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>jsonencode</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>jsonencode</keyword>
+  <short_description
   >encodes a Nelson object into a JSON string.</short_description>
-    <syntax>
-        <syntax_item>res = jsonencode(obj)</syntax_item>
-        <syntax_item
+  <syntax>
+    <syntax_item>res = jsonencode(obj)</syntax_item>
+    <syntax_item
     >res = jsonencode(obj, 'ConvertInfAndNaN', true_or_false)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>obj</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description
       >a Nelson object: struct, cell, matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>true_or_false</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>true_or_false</param_name>
+      <param_description
       >a logical: if true, Inf, NaN are converted to 'Inf' or 'Nan'.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>res</param_name>
-            <param_description>a string: JSON text.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>jsonencode</b> converts a Nelson variable to JSON text.</p>
-            <p>
-                <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>res</param_name>
+      <param_description>a string: JSON text.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>jsonencode</b> converts a Nelson variable to JSON text.</p>
+    <p><b
       >jsonencode</b> does not support complex numbers, sparse arrays, function handle, and others handle.</p>
-                <p>
-                    <b
-      >jsonencode</b> can be overloaded to manage your own type.</p>
-                    <p>By default <b
+    <p><b>jsonencode</b> can be overloaded to manage your own type.</p>
+    <p>By default<b
       >jsonencode</b> Inf values are converted to the string "Inf", NaN values are converted to 'null'.</p>
-                    <p
+    <p
     >Warning: The shape of a matrix and data type are not always preserved.</p>
-                </description>
-                <used_function />
-                <bibliography
-  >http://www.rfc-editor.org/rfc/rfc7159.txt</bibliography>
-                <examples>
-                    <example_item>
-                        <example_item_type>nelson</example_item_type>
-                        <example_item_description />
-                        <example_item_data
+  </description>
+  <used_function />
+  <bibliography>http://www.rfc-editor.org/rfc/rfc7159.txt</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[field1 = 'f1';  value1 = zeros(1,10);
 field2 = 'f2';  value2 = {'a', 'b'};
@@ -59,21 +54,20 @@ s = struct(field1,value1,field2,value2,field3,value3,field4,value4);
 r = jsonencode(s)
 filewrite([tempdir(), 'example.json'], r);
 ]]></example_item_data>
-                    </example_item>
-                </examples>
-                <see_also>
-                    <see_also_item>
-                        <link linkend="${json}jsondecode">jsondecode</link>
-                    </see_also_item>
-                </see_also>
-                <history>
-                    <history_item>
-                        <history_version>1.0.0</history_version>
-                        <history_description
-      >initial version</history_description>
-                    </history_item>
-                </history>
-                <authors>
-                    <author_item>Allan CORNET</author_item>
-                </authors>
-            </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${json}jsondecode">jsondecode</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

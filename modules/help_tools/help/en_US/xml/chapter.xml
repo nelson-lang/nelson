@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>help_tools</module_name>
-    <chapter>Documentation and Help Management</chapter>
-    <chapter_description>
-        <p
-    >The Help Tools module provides functions to create, convert, and manage documentation for
-            Nelson.</p>
-        <p
-    >It supports generating help content in multiple formats, including HTML, Markdown, PDF,
-            and website-ready formats, enabling developers to maintain and distribute comprehensive
-            documentation efficiently.</p>
-    </chapter_description>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>help_tools</module_name>
+  <chapter>Documentation and Help Management</chapter>
+  <chapter_description>
+    <p
+    >The Help Tools module provides functions to create, convert, and manage documentation for Nelson.</p>
+    <p
+    >It supports generating help content in multiple formats, including HTML, Markdown, PDF, and website-ready formats, enabling developers to maintain and distribute comprehensive documentation efficiently.</p>
+  </chapter_description>
 </xmldoc>

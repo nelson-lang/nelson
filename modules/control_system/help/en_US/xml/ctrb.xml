@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>ctrb</keyword>
-    <short_description>Controllability of state-space model.</short_description>
-    <syntax>
-        <syntax_item>Co = ctrb(A, B)</syntax_item>
-        <syntax_item>Co = ctrb(sys)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>sys</param_name>
-            <param_description>State-space model</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>A</param_name>
-            <param_description>State matrix: Nx-by-Nx matrix</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>B</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ctrb</keyword>
+  <short_description>Controllability of state-space model.</short_description>
+  <syntax>
+    <syntax_item>Co = ctrb(A, B)</syntax_item>
+    <syntax_item>Co = ctrb(sys)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>sys</param_name>
+      <param_description>State-space model</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>State matrix: Nx-by-Nx matrix</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description
       >Input-to-state matrix: Nx-by-Nu matrix</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>Co</param_name>
-            <param_description>Controllability matrix.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Co</param_name>
+      <param_description>Controllability matrix.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >Controllability in a dynamic system refers to the system's ability to be guided to any desired state within a finite timeframe through the application of suitable control signals.</p>
-        <p>This property is commonly known as reachability.</p>
-        <p>The function <b
+    <p>This property is commonly known as reachability.</p>
+    <p>The function <b
       >ctrb</b> is employed to calculate a controllability matrix, either from state matrices or a state-space model.</p>
-        <p
+    <p
     >The resulting matrix serves as a tool to assess and confirm the controllability of the system.</p>
-    </description>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [1 2; 0 3];
 B = [1; 1];
@@ -50,23 +50,23 @@ C = eye(2);
 D = zeros(2, 1);
 sys = ss(A, B, C, D);
 Co = ctrb(sys)]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${control_system}ctrbf">ctrbf</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${control_system}obsv">obsv</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}ctrbf">ctrbf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}obsv">obsv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

@@ -1,65 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>tril</keyword>
-    <short_description>Lower triangular part of matrix</short_description>
-    <syntax>
-        <syntax_item>T = tril(M)</syntax_item>
-        <syntax_item>T = tril(M, k)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>M</param_name>
-            <param_description>2D input matrix</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>k</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tril</keyword>
+  <short_description>Lower triangular part of matrix</short_description>
+  <syntax>
+    <syntax_item>T = tril(M)</syntax_item>
+    <syntax_item>T = tril(M, k)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>M</param_name>
+      <param_description>2D input matrix</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>k</param_name>
+      <param_description
       >Diagonals to include: integer real value</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>R</param_name>
-            <param_description
-      >Lower Triangular Portions of Matrix</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>tril</b> computes Lower Triangular Portions of Matrix.</p>
-            <p>
-                <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description>Lower Triangular Portions of Matrix</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>tril</b> computes Lower Triangular Portions of Matrix.</p>
+    <p><b
       >R = tril(M, k)</b> returns the elements on and above the kth diagonal of M.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[x = [1+i,-i;i,2i];
 r = tril(x)]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${elementary_functions}diag">diag</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${elementary_functions}triu">triu</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}diag">diag</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}triu">triu</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

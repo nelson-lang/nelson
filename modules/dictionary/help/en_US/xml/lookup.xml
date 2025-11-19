@@ -1,85 +1,76 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>lookup</keyword>
-    <short_description>Find value in dictionary by key.</short_description>
-    <syntax>
-        <syntax_item>value = lookup(d, key)</syntax_item>
-        <syntax_item
-    >value = lookup(d, key, 'FallbackValue', fallback)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>d</param_name>
-            <param_description>scalar: dictionary object.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>key</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>lookup</keyword>
+  <short_description>Find value in dictionary by key.</short_description>
+  <syntax>
+    <syntax_item>value = lookup(d, key)</syntax_item>
+    <syntax_item>value = lookup(d, key, 'FallbackValue', fallback)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>d</param_name>
+      <param_description>scalar: dictionary object.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>key</param_name>
+      <param_description
       >key type must match or be convertible to the data type of keys in d.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>fallback</param_name>
-            <param_description>scalar: Fallback value</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>value</param_name>
-            <param_description>value.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+    <param_input_item>
+      <param_name>fallback</param_name>
+      <param_description>scalar: Fallback value</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>value</param_name>
+      <param_description>value.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >value = lookup(d, key)</b> retrieves the value associated with the given key in dictionary d.</p>
-            <p>If the key does not exist, an error is raised.</p>
-            <p>
-                <b>value = lookup(d, key)</b> is equivalent to <b
-      >value = d[key]</b>.</p>
-                <p>
-                    <b
+    <p>If the key does not exist, an error is raised.</p>
+    <p><b>value = lookup(d, key)</b> is equivalent to<b>value = d[key]</b>.</p>
+    <p><b
       >value = lookup(d, key, 'FallbackValue', fallback)</b> specifies a fallback value to return if the key is not found in d.</p>
-                    <p>
-                        <b
+    <p><b
       >lookup</b> function only validates the fallback if it is needed. An error is raised only if the key is not found and no valid fallback is provided.</p>
-                    </description>
-                    <used_function />
-                    <bibliography />
-                    <examples>
-                        <example_item>
-                            <example_item_type>nelson</example_item_type>
-                            <example_item_description />
-                            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[names = ["Apple" "Banana" "Kiwi"];
 wheels = [1 2 3];
 d = dictionary(wheels, names)
 v = lookup(d,[3,5], 'FallbackValue', "Orange")]]></example_item_data>
-                        </example_item>
-                    </examples>
-                    <see_also>
-                        <see_also_item>
-                            <link
-        linkend="${dictionary}dictionary"
-      >dictionary</link>
-                        </see_also_item>
-                        <see_also_item>
-                            <link linkend="${dictionary}remove">remove</link>
-                        </see_also_item>
-                        <see_also_item>
-                            <link linkend="${dictionary}insert">insert</link>
-                        </see_also_item>
-                    </see_also>
-                    <history>
-                        <history_item>
-                            <history_version>1.5.0</history_version>
-                            <history_description
-      >initial version</history_description>
-                        </history_item>
-                    </history>
-                    <authors>
-                        <author_item>Allan CORNET</author_item>
-                    </authors>
-                </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${dictionary}dictionary">dictionary</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dictionary}remove">remove</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dictionary}insert">insert</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.5.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,37 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>is2D</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>is2D</keyword>
+  <short_description
   >Checks if ax is a 2-D Polar or Cartesian axes.</short_description>
-    <syntax>
-        <syntax_item>tf = is2D(ax)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description>a scalar graphic object: axe.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>tf</param_name>
-            <param_description>a logical scalar.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >is2D</b> returns Checks if ax is a 2-D Polar or Cartesian axes.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  <syntax>
+    <syntax_item>tf = is2D(ax)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>a scalar graphic object: axe.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>a logical scalar.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>is2D</b> returns Checks if ax is a 2-D Polar or Cartesian axes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 ax = gca();
@@ -42,20 +40,20 @@ f = figure();
 surf(peaks);
 ax = gca();
 assert_isfalse(is2D(ax));]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${graphics}isgraphics">isgraphics</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}isgraphics">isgraphics</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

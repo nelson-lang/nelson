@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>polynomial_functions</module_name>
-    <chapter>Polynomials</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>polynomial_functions</module_name>
+  <chapter>Polynomials</chapter>
+  <chapter_description>
+    <p
     >The Polynomials module provides tools for creating, manipulating, and analyzing polynomials in Nelson.</p>
-        <p
+    <p
     >It supports polynomial evaluation, differentiation, integration, fitting, root finding, and matrix polynomial operations.</p>
-        <p
+    <p
     >This module enables efficient handling of polynomial expressions for mathematical modeling, curve fitting, and numerical analysis.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>cmdsep</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>cmdsep</keyword>
+  <short_description
   >Séparateur de commande pour le système d'exploitation courant.</short_description>
-    <syntax>
-        <syntax_item>sep = cmdsep()</syntax_item>
-    </syntax>
-    <param_output>
-        <param_output_item>
-            <param_name>sep</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>sep = cmdsep()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>sep</param_name>
+      <param_description
       >une chaîne : sous Windows "&amp;&amp;", sous Linux ";"</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p><b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >cmdsep</b> retourne le séparateur de commande pour le système d'exploitation courant.</p>
-        <p
+    <p
     >Cette fonction est utilisée par Nelson pour construire des lignes de commande pour les systèmes Unix et DOS.</p>
-    </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[unix("cd c:/ " + cmdsep() + " nelson")]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${os_functions}unix">unix</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.11.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${os_functions}unix">unix</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.11.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

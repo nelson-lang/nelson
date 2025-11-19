@@ -1,51 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>ctrb</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>ctrb</keyword>
+  <short_description
   >Contrôlabilité du modèle d'espace d'état.</short_description>
-    <syntax>
-        <syntax_item>Co = ctrb(A, B)</syntax_item>
-        <syntax_item>Co = ctrb(sys)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>sys</param_name>
-            <param_description>Modèle d'espace d'état</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>A</param_name>
-            <param_description
-      >Matrice d'état : matrice Nx-par-Nx</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>B</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>Co = ctrb(A, B)</syntax_item>
+    <syntax_item>Co = ctrb(sys)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>sys</param_name>
+      <param_description>Modèle d'espace d'état</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>Matrice d'état : matrice Nx-par-Nx</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description
       >Matrice entrée-état : matrice Nx-par-Nu</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>Co</param_name>
-            <param_description>Matrice de contrôlabilité.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Co</param_name>
+      <param_description>Matrice de contrôlabilité.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >La contrôlabilité dans un système dynamique fait référence à la capacité du système à être guidé vers n'importe quel état souhaité dans un délai fini grâce à l'application de signaux de contrôle appropriés.</p>
-        <p
-    >Cette propriété est communément connue sous le nom d'accessibilité.</p>
-        <p>La fonction <b
+    <p>Cette propriété est communément connue sous le nom d'accessibilité.</p>
+    <p>La fonction<b
       >ctrb</b> est utilisée pour calculer une matrice de contrôlabilité, soit à partir des matrices d'état, soit à partir d'un modèle d'espace d'état.</p>
-        <p
+    <p
     >La matrice résultante sert d'outil pour évaluer et confirmer la contrôlabilité du système.</p>
-    </description>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [1 2; 0 3];
 B = [1; 1];
@@ -53,24 +51,23 @@ C = eye(2);
 D = zeros(2, 1);
 sys = ss(A, B, C, D);
 Co = ctrb(sys)]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${control_system}ctrbf">ctrbf</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${control_system}obsv">obsv</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-                            <history_description
-      >version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}ctrbf">ctrbf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}obsv">obsv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

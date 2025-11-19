@@ -1,46 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>test_makeref</keyword>
-    <short_description>Creates a '.ref' file for a test</short_description>
-    <syntax>
-        <syntax_item>status = test_makeref(filename)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description
-      >a string: filename, a test file.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>status</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>test_makeref</keyword>
+  <short_description>Creates a '.ref' file for a test</short_description>
+  <syntax>
+    <syntax_item>status = test_makeref(filename)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: filename, a test file.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>status</param_name>
+      <param_description
       >a logical: true if .ref was generated.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >test_makeref</b> function creates a '.ref' file from a test file.</p>
-            <p>test file must have &lt;--CHECK REF--&gt; tag.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <see_also>
-            <see_also_item>
-                <link linkend="${tests_manager}test_run">test_run</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>test_makeref</b> function creates a '.ref' file from a test file.</p>
+    <p>test file must have &lt;--CHECK REF--&gt; tag.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${tests_manager}test_run">test_run</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

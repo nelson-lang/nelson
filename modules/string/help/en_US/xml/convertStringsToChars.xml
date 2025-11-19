@@ -1,79 +1,77 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>convertStringsToChars</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>convertStringsToChars</keyword>
+  <short_description
   >Convert string arrays to character arrays.</short_description>
-    <syntax>
-        <syntax_item>C = convertStringsToChars(S)</syntax_item>
-        <syntax_item
+  <syntax>
+    <syntax_item>C = convertStringsToChars(S)</syntax_item>
+    <syntax_item
     >[B1, B2, ..., BN] = convertStringsToChars(A1, A2, ..., AN)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>S</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>S</param_name>
+      <param_description
       >if S is a string array, output C will be converted to an cell of strings or an character vector (if S is scalar).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>A1, A2, ..., AN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>A1, A2, ..., AN</param_name>
+      <param_description
       >variables to convert to char array if it is a string array.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>C</param_name>
-            <param_description
-      >a char array or unaltered variable</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>B1, B2, ..., BN</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>a char array or unaltered variable</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>B1, B2, ..., BN</param_name>
+      <param_description
       >variables converted to char array if it is a string array.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >convertStringsToChars</b> converts string arrays to character arrays.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = convertStringsToChars("Nelson")
 A = convertStringsToChars(["Nelson", string(NaN)])]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link
         linkend="${string}convertCharsToStrings"
       >convertCharsToStringss</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${data_structures}cellstr">cellstr</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${string}string">string</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${string}char">char</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_structures}cellstr">cellstr</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${string}string">string</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${string}char">char</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

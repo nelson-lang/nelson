@@ -1,93 +1,90 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>fileread</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fileread</keyword>
+  <short_description
   >Lire le contenu d'un fichier en tant que texte.</short_description>
-    <syntax>
-        <syntax_item>str = fileread(filename)</syntax_item>
-        <syntax_item>str = fileread(filename, type)</syntax_item>
-        <syntax_item>str = fileread(filename, 'char', eol)</syntax_item>
-        <syntax_item
-    >str = fileread(filename, 'char', eol, encoding)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description
-      >une chaîne : un nom de fichier</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>type</param_name>
-        <param_description
+  <syntax>
+    <syntax_item>str = fileread(filename)</syntax_item>
+    <syntax_item>str = fileread(filename, type)</syntax_item>
+    <syntax_item>str = fileread(filename, 'char', eol)</syntax_item>
+    <syntax_item>str = fileread(filename, 'char', eol, encoding)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>une chaîne : un nom de fichier</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description
       >une chaîne : 'char', 'cell' ou 'string'. 'cell' convertit le fichier texte en cellule de chaînes. 'string' convertit le fichier texte en tableau de chaînes. 'char' par défaut.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>eol</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>eol</param_name>
+      <param_description
       >une chaîne : 'native', 'pc' ou 'unix'. Définit la fin de ligne. 'unix' par défaut.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>encoding</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>encoding</param_name>
+      <param_description
       >une chaîne : 'UTF-8' (par défaut), 'auto', 'ISO-8859-1', 'windows-1251', 'windows-1252', ...</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>str</param_name>
-        <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>str</param_name>
+      <param_description
       >une chaîne, une cellule de chaînes ou un tableau de chaînes.</param_description>
-        </param_output_item>
-    </param_output>
-        <description>
-        <p>
-            <b>fileread</b> lit le contenu d'un fichier en tant que texte.</p>
-            <p
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>fileread</b> lit le contenu d'un fichier en tant que texte.</p>
+    <p
     >Si l'encodage est 'auto', Nelson tentera de détecter le meilleur encodage pour lire le contenu du fichier en texte.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[str = fileread([nelsonroot(),'/CHANGELOG.md'])
 str = fileread([nelsonroot(),'/CHANGELOG.md'], 'char')
 str = fileread([nelsonroot(),'/CHANGELOG.md'], 'cell')
 str = fileread([nelsonroot(),'/CHANGELOG.md'], 'string')
 ]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[str = 'живете зело, земля, и иже и како люди';
 filewrite([tempdir(), 'example_fileread.txt'], str, 'native', 'windows-1251')
 T1 = fileread([tempdir(), 'example_fileread.txt'], 'char', 'native', 'windows-1251')
 T2 = fileread([tempdir(), 'example_fileread.txt'], 'string', 'native', 'auto')
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${stream_manager}fgetl">fgetl</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${stream_manager}filewrite">filewrite</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}fgetl">fgetl</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}filewrite">filewrite</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

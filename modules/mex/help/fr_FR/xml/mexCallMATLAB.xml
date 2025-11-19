@@ -1,82 +1,79 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>mexCallMATLAB</keyword>
-    <short_description>Appelle une fonction NELSON</short_description>
-    <syntax>
-        <syntax_item>#include "mex.h"</syntax_item>
-        <syntax_item
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>mexCallMATLAB</keyword>
+  <short_description>Appelle une fonction NELSON</short_description>
+  <syntax>
+    <syntax_item>#include "mex.h"</syntax_item>
+    <syntax_item
     >int mexCallMATLAB(int nlhs, mxArray *plhs[], int nrhs, mxArray *prhs[], const char *command_name);</syntax_item>
-    </syntax>
-    <param_input>
-                <param_input_item>
-                        <param_name>nlhs</param_name>
-                        <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>nlhs</param_name>
+      <param_description
       >nombre d'arguments de sortie souhaités.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>plhs</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>plhs</param_name>
+      <param_description
       >pointeur vers un tableau de mxArray (sortie).</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>nrhs</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>nrhs</param_name>
+      <param_description
       >nombre d'arguments d'entrée souhaités.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>prhs</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>prhs</param_name>
+      <param_description
       >pointeur vers un tableau de mxArray (entrée).</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>command_name</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>command_name</param_name>
+      <param_description
       >chaîne de caractères contenant le nom de la fonction NELSON appelée.</param_description>
-                </param_input_item>
-    </param_input>
-    <param_output>
-                <param_output_item>
-                        <param_name>valeur retournée</param_name>
-                        <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>valeur retournée</param_name>
+      <param_description
       >0 si l'appel réussit, et une valeur non nulle en cas d'échec.</param_description>
-                </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>mexCallMATLAB</b> appelle une fonction NELSON.</p>
-            <p
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>mexCallMATLAB</b> appelle une fonction NELSON.</p>
+    <p
     >Si la fonction appelée détecte une erreur, NELSON terminera le MEX et rendra le contrôle à NELSON.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="false"
       ><![CDATA[edit([modulepath('mex', 'tests'), '/test_mexCallMATLAB.m'])]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${core}eval">eval</link>
-            </see_also_item>
-            <see_also_item>
-                <link
-        linkend="${mex}mexCallMATLABWithTrap"
-      >mexCallMATLABWithTrap</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}eval">eval</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${mex}mexCallMATLABWithTrap">mexCallMATLABWithTrap</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

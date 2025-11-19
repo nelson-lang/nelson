@@ -1,51 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>MPI_Recv</keyword>
-    <short_description>Réception bloquante d'un message.</short_description>
-    <syntax>
-        <syntax_item>r = MPI_Recv(Source, Tag)</syntax_item>
-        <syntax_item
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>MPI_Recv</keyword>
+  <short_description>Réception bloquante d'un message.</short_description>
+  <syntax>
+    <syntax_item>r = MPI_Recv(Source, Tag)</syntax_item>
+    <syntax_item
     >[r, mpi_source, mpi_tag] = MPI_Reduce(Source, Tag, Comm)</syntax_item>
-    </syntax>
-    <param_input>
-                <param_input_item>
-                        <param_name>Source</param_name>
-                        <param_description
-      >entier : rang de la source.</param_description>
-                </param_input_item>
-        <param_input_item>
-            <param_name>Tag</param_name>
-            <param_description
-      >an integer value: message tag.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Comm</param_name>
-            <param_description>a MPI_Comm object.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>r</param_name>
-            <param_description>valeur reçue</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>Source</param_name>
+      <param_description>entier : rang de la source.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Tag</param_name>
+      <param_description>an integer value: message tag.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Comm</param_name>
+      <param_description>a MPI_Comm object.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>valeur reçue</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >Cette fonction reçoit un tableau depuis un nœud source sur un communicateur donné avec le tag spécifié.</p>
-        <p>Lance une exception en cas d'erreur.</p>
-        <p
+    <p>Lance une exception en cas d'erreur.</p>
+    <p
     >Permet de recevoir des tableaux de complexité arbitraire, y compris cellules, structures, chaînes, matrices creuses, etc.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >mpiexec([modulepath('mpi'), '/examples/MPI_helloworld.m'], 4)</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="false"
       ><![CDATA[if ~MPI_Initialized()
   MPI_Init();
@@ -70,20 +68,20 @@ end
 if MPI_Initialized()
   MPI_Finalize();
 end]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${mpi}MPI_Send">MPI_Send</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${mpi}MPI_Send">MPI_Send</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

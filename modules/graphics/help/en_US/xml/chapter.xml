@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>graphics</module_name>
-    <chapter>Graphics functions</chapter>
-    <chapter_description>
-        <p
-    >The graphics module provides functions for creating, customizing, and managing plots,
-            figures, colormaps, and graphical objects.</p>
-        <p
-    >It includes 2-D and 3-D visualization, user interaction tools (zoom, pan, rotate), and
-            utilities for working with colors, legends, axes, and text annotations.</p>
-    </chapter_description>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>graphics</module_name>
+  <chapter>Graphics functions</chapter>
+  <chapter_description>
+    <p
+    >The graphics module provides functions for creating, customizing, and managing plots, figures, colormaps, and graphical objects.</p>
+    <p
+    >It includes 2-D and 3-D visualization, user interaction tools (zoom, pan, rotate), and utilities for working with colors, legends, axes, and text annotations.</p>
+  </chapter_description>
 </xmldoc>

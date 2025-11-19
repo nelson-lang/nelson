@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>logical</module_name>
-    <chapter>Logical type functions</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>logical</module_name>
+  <chapter>Logical type functions</chapter>
+  <chapter_description>
+    <p
     >The Logical Type module provides tools for working with Boolean values and logical operations in Nelson.</p>
-        <p
+    <p
     >It enables the creation, conversion, and manipulation of logical data, supporting fundamental logical operations that are essential for control flow, conditional evaluation, and decision-making in scripts and programs.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

@@ -1,107 +1,106 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>legend</keyword>
-    <short_description>Add legend to axes.</short_description>
-    <syntax>
-        <syntax_item>legend()</syntax_item>
-        <syntax_item>legend(label1, ..., labelN)</syntax_item>
-        <syntax_item>legend(labels)</syntax_item>
-        <syntax_item>legend('off')</syntax_item>
-        <syntax_item>legend('hide')</syntax_item>
-        <syntax_item>legend('show')</syntax_item>
-        <syntax_item>legend('toggle')</syntax_item>
-        <syntax_item>legend('boxon')</syntax_item>
-        <syntax_item>legend('boxoff')</syntax_item>
-        <syntax_item>legend(ax, ...)</syntax_item>
-        <syntax_item>legend(..., 'Location', lcn)</syntax_item>
-        <syntax_item>legend(..., propertyName, propertyValue)</syntax_item>
-        <syntax_item>L = legend(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>label1, ..., labelN</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>legend</keyword>
+  <short_description>Add legend to axes.</short_description>
+  <syntax>
+    <syntax_item>legend()</syntax_item>
+    <syntax_item>legend(label1, ..., labelN)</syntax_item>
+    <syntax_item>legend(labels)</syntax_item>
+    <syntax_item>legend('off')</syntax_item>
+    <syntax_item>legend('hide')</syntax_item>
+    <syntax_item>legend('show')</syntax_item>
+    <syntax_item>legend('toggle')</syntax_item>
+    <syntax_item>legend('boxon')</syntax_item>
+    <syntax_item>legend('boxoff')</syntax_item>
+    <syntax_item>legend(ax, ...)</syntax_item>
+    <syntax_item>legend(..., 'Location', lcn)</syntax_item>
+    <syntax_item>legend(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>L = legend(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>label1, ..., labelN</param_name>
+      <param_description
       >sets the legend labels: row vector characters.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>labels</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>labels</param_name>
+      <param_description
       >cell array of character vectors or string array.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'off'</param_name>
-            <param_description>delete the legend.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'toggle'</param_name>
-            <param_description>toggle legend visibility.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'hide'</param_name>
-            <param_description>hide legend.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'show'</param_name>
-            <param_description>show legend.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'boxon'</param_name>
-            <param_description>display box around legend.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'boxoff'</param_name>
-            <param_description>hide box around legend.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description>axes to make current.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>lcn</param_name>
-            <param_description
-      > Legend location: a string ('NE' default).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyName</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'off'</param_name>
+      <param_description>delete the legend.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'toggle'</param_name>
+      <param_description>toggle legend visibility.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'hide'</param_name>
+      <param_description>hide legend.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'show'</param_name>
+      <param_description>show legend.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'boxon'</param_name>
+      <param_description>display box around legend.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'boxoff'</param_name>
+      <param_description>hide box around legend.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>axes to make current.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lcn</param_name>
+      <param_description
+      >Legend location: a string ('NE' default).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
       >a scalar string or row vector character.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyValue</param_name>
-            <param_description>a value.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>L</param_name>
-            <param_description>a graphics object: axes type.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>legend</b> creates a legend in the current figure.</p>
-            <p>
-                <b>Location for legend on the plot:</b>
-            </p>
-            <p />
-            <p>'northeast' or 'NE': Top right (default).</p>
-            <p>'north' or 'N': Top center.</p>
-            <p>'south' or 'S': Bottom center.</p>
-            <p>'east' or 'E': Middle right.</p>
-            <p>'west' or 'W': Middle left.</p>
-            <p>'northwest' or 'NW': Top left.</p>
-            <p>'southeast' or 'SE': Bottom right.</p>
-            <p>'southwest' or 'SW': Bottom left.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>a value.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>L</param_name>
+      <param_description>a graphics object: axes type.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>legend</b> creates a legend in the current figure.</p>
+    <p>
+      <b>Location for legend on the plot:</b>
+    </p>
+    <p />
+    <p>'northeast' or 'NE': Top right (default).</p>
+    <p>'north' or 'N': Top center.</p>
+    <p>'south' or 'S': Bottom center.</p>
+    <p>'east' or 'E': Middle right.</p>
+    <p>'west' or 'W': Middle left.</p>
+    <p>'northwest' or 'NW': Top left.</p>
+    <p>'southeast' or 'SE': Bottom right.</p>
+    <p>'southwest' or 'SW': Bottom left.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 x = linspace(0,10);
@@ -111,31 +110,31 @@ ax = gca();
 plot(ax, x, y1);
 plot(ax, x, y2);
 legend('sin(x)', 'cos(x)', 'Location', 'N')]]></example_item_data>
-                <example_item_img
+      <example_item_img
         src="../../images/legend.svg"
         align="middle"
         generate="true"
       />
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${graphics}title">title</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${graphics}text">text</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${graphics}plot">plot</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}title">title</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}text">text</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}plot">plot</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

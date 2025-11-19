@@ -290,7 +290,13 @@
         <xsl:if test="preceding-sibling::node() and starts-with(., ' ')">
           <xsl:text> </xsl:text>
         </xsl:if>
-        <xsl:value-of select="normalize-space(.)"/>
+        <xsl:variable name="normalized" select="normalize-space(.)"/>
+        <xsl:variable name="escaped">
+          <xsl:call-template name="escape-description-text">
+            <xsl:with-param name="text" select="$normalized"/>
+          </xsl:call-template>
+        </xsl:variable>
+        <xsl:value-of select="$escaped"/>
         <xsl:if test="following-sibling::node() and substring(., string-length(.)) = ' '">
           <xsl:text> </xsl:text>
         </xsl:if>
@@ -410,6 +416,9 @@
 
   <!-- Table rendering templates -->
   <xsl:template match="table">
+    <xsl:if test="not(preceding-sibling::*[1][self::p and not(node())])">
+      <xsl:text>&#10;</xsl:text>
+    </xsl:if>
     <xsl:text>&#10;</xsl:text>
     <xsl:apply-templates select="tr[1]" mode="header"/>
     <xsl:apply-templates select="tr[position() > 1]"/>
@@ -498,13 +507,17 @@
   <!-- General templates for inline formatting (outside tables) -->
   <xsl:template match="b">
     <xsl:text>&lt;b&gt;</xsl:text>
-    <xsl:value-of select="."/>
+    <xsl:call-template name="escape-markdown-text">
+      <xsl:with-param name="text" select="."/>
+    </xsl:call-template>
     <xsl:text>&lt;/b&gt;</xsl:text>
   </xsl:template>
 
   <xsl:template match="i">
     <xsl:text>&lt;i&gt;</xsl:text>
-    <xsl:value-of select="."/>
+    <xsl:call-template name="escape-markdown-text">
+      <xsl:with-param name="text" select="."/>
+    </xsl:call-template>
     <xsl:text>&lt;/i&gt;</xsl:text>
   </xsl:template>
 
@@ -536,7 +549,21 @@
         <xsl:with-param name="replace" select="'\|'"/>
       </xsl:call-template>
     </xsl:variable>
-    <xsl:value-of select="$escaped-pipe"/>
+    <xsl:variable name="escaped-underscore">
+      <xsl:call-template name="replace-string">
+        <xsl:with-param name="text" select="$escaped-pipe"/>
+        <xsl:with-param name="search" select="'_'"/>
+        <xsl:with-param name="replace" select="'\_'"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="escaped-asterisk">
+      <xsl:call-template name="replace-string">
+        <xsl:with-param name="text" select="$escaped-underscore"/>
+        <xsl:with-param name="search" select="'*'"/>
+        <xsl:with-param name="replace" select="'\*'"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:value-of select="$escaped-asterisk"/>
   </xsl:template>
 
   <xsl:template name="replace-string">
@@ -557,6 +584,16 @@
         <xsl:value-of select="$text"/>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <!-- Helper to escape underscores in narrative text -->
+  <xsl:template name="escape-description-text">
+    <xsl:param name="text"/>
+    <xsl:call-template name="replace-string">
+      <xsl:with-param name="text" select="$text"/>
+      <xsl:with-param name="search" select="'_'"/>
+      <xsl:with-param name="replace" select="'\_'"/>
+    </xsl:call-template>
   </xsl:template>
 
 </xsl:stylesheet>

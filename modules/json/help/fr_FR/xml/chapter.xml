@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>fr_FR</language>
-	<module_name>JSON</module_name>
-	<chapter>JavaScript Object Notation (JSON)</chapter>
-	<chapter_description>
-		<p
-    >Le module JSON fournit des fonctions pour encoder, décoder et formater des données JSON,
-			permettant l'échange facile d'informations structurées entre Nelson et des systèmes externes.</p>
-		<p
-    >JSON (JavaScript Object Notation) est un format de données texte léger largement utilisé
-			pour transmettre des paires attribut-valeur et des tableaux.</p>
-		<p
-    >Ce module permet à Nelson d'interopérer avec des services web, des fichiers de configuration
-			et des applications qui utilisent JSON.</p>
-	</chapter_description>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>JSON</module_name>
+  <chapter>JavaScript Object Notation (JSON)</chapter>
+  <chapter_description>
+    <p
+    >Le module JSON fournit des fonctions pour encoder, décoder et formater des données JSON, permettant l'échange facile d'informations structurées entre Nelson et des systèmes externes.</p>
+    <p
+    >JSON (JavaScript Object Notation) est un format de données texte léger largement utilisé pour transmettre des paires attribut-valeur et des tableaux.</p>
+    <p
+    >Ce module permet à Nelson d'interopérer avec des services web, des fichiers de configuration     et des applications qui utilisent JSON.</p>
+  </chapter_description>
 </xmldoc>

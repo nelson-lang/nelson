@@ -1,52 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>for</keyword>
-    <keyword_alias>parfor</keyword_alias>
-    <short_description>boucle for.</short_description>
-    <syntax>
-        <syntax_item>for variable = expression, statements, end</syntax_item>
-        <syntax_item>for variable, statements, end</syntax_item>
-    </syntax>
-    <description>
-        <p>
-            La boucle <b
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>for</keyword>
+  <keyword_alias>parfor</keyword_alias>
+  <short_description>boucle for.</short_description>
+  <syntax>
+    <syntax_item>for variable = expression, statements, end</syntax_item>
+    <syntax_item>for variable, statements, end</syntax_item>
+  </syntax>
+  <description>
+    <p>La boucle<b
       >for</b> exécute un ensemble d'instructions avec une variable d'indice parcourant chaque élément d'un vecteur.</p>
-            <p>
-                <b>parfor</b> est actuellement un alias du mot-clé <b
-      >for</b>.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    <p><b>parfor</b> est actuellement un alias du mot-clé <b>for</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[for i = 1:10, disp(i), end]]></example_item_data>
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[for i = [1, 2; 3 4], disp(i), disp('next'), end]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${interpreter}while">while</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${interpreter}while">while</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

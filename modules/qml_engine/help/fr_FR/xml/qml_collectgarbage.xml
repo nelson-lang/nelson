@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>qml_collectgarbage</keyword>
-    <short_description>Exécute le ramasse-miette QML.</short_description>
-    <syntax>
-        <syntax_item>qml_collectgarbage</syntax_item>
-    </syntax>
-    <description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>qml_collectgarbage</keyword>
+  <short_description>Exécute le ramasse-miette QML.</short_description>
+  <syntax>
+    <syntax_item>qml_collectgarbage</syntax_item>
+  </syntax>
+  <description>
+    <p
     >Le ramasse-miette tentera de récupérer la mémoire en localisant et en détruisant les objets qui ne sont plus accessibles dans l'environnement de script.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[qml_collectgarbage()]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

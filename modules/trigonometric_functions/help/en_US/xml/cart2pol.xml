@@ -1,88 +1,84 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>cart2pol</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>cart2pol</keyword>
+  <short_description
   >Transforms Cartesian coordinates to polar or cylindrical.</short_description>
-    <syntax>
-        <syntax_item>[theta, rho] = cart2pol(x, y)</syntax_item>
-        <syntax_item>[theta, rho, z] = cart2pol(x, y, z)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>x</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>[theta, rho] = cart2pol(x, y)</syntax_item>
+    <syntax_item>[theta, rho, z] = cart2pol(x, y, z)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x</param_name>
+      <param_description
       >a numeric value (double or single real): Cartesian coordinates</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>y</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>y</param_name>
+      <param_description
       >a numeric value (double or single real): Cartesian coordinates</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>z</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>z</param_name>
+      <param_description
       >a numeric value (double or single real): Cartesian coordinates</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>theta</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>theta</param_name>
+      <param_description
       >a numeric value: Angular coordinate.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>rho</param_name>
-            <param_description
-      >a numeric value: Radial coordinate.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>z</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>rho</param_name>
+      <param_description>a numeric value: Radial coordinate.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>z</param_name>
+      <param_description
       >a numeric value: Elevation coordinate.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <b
+    </param_output_item>
+  </param_output>
+  <description><b
     >cart2pol</b> transforms Cartesian coordinates to polar or cylindrical.</description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[x = [5 3.5355 0 -10];
 y = [0 3.5355 10 0];
 [theta, rho] = cart2pol(x, y)]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[x = [1 2.1213 0 -5];
 y = [0 2.1213 4 0];
 z = [7 8 9 10];
 [theta, rho, el] = cart2pol(x, y, z)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link
-        linkend="${trigonometric_functions}pol2cart"
-      >pol2cart</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${trigonometric_functions}pol2cart">pol2cart</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

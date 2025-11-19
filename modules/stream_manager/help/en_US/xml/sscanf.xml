@@ -1,82 +1,81 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>sscanf</keyword>
-    <short_description>Read formatted data from strings.</short_description>
-    <syntax>
-        <syntax_item>R = sscanf(str, format)</syntax_item>
-        <syntax_item>R = sscanf(str, format, sizeR)</syntax_item>
-        <syntax_item>[R, count] = sscanf(...)</syntax_item>
-        <syntax_item>[R, count, errmsg] = sscanf(...)</syntax_item>
-        <syntax_item>[R, count, errmsg, nextindex] = sscanf(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>str</param_name>
-            <param_description
-      >character array or string scalar.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>format</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>sscanf</keyword>
+  <short_description>Read formatted data from strings.</short_description>
+  <syntax>
+    <syntax_item>R = sscanf(str, format)</syntax_item>
+    <syntax_item>R = sscanf(str, format, sizeR)</syntax_item>
+    <syntax_item>[R, count] = sscanf(...)</syntax_item>
+    <syntax_item>[R, count, errmsg] = sscanf(...)</syntax_item>
+    <syntax_item>[R, count, errmsg, nextindex] = sscanf(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>str</param_name>
+      <param_description>character array or string scalar.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>format</param_name>
+      <param_description
       >a string describing the format to used function, see fscanf for supported format.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>sizeR</param_name>
-            <param_description>desired dimensions of R.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>R</param_name>
-            <param_description>matrix or character vector.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>count</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>sizeR</param_name>
+      <param_description>desired dimensions of R.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description>matrix or character vector.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>count</param_name>
+      <param_description
       >number of elements read into output array.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>errmsg</param_name>
-            <param_description>Error message.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>nextindex</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>errmsg</param_name>
+      <param_description>Error message.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>nextindex</param_name>
+      <param_description
       >Position after last character scanned.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>Read formatted data from strings.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Read formatted data from strings.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[str = "2.7183  3.1416  0.0073";
 R = sscanf(str,'%f',[2 2])]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${stream_manager}fscanf">fscanf</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${stream_manager}sprintf">sprintf</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}fscanf">fscanf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}sprintf">sprintf</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

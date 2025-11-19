@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>engine</module_name>
-    <chapter>Engine</chapter>
-    <chapter_description>
-        <p
-    >The Engine module manages the execution environment of Nelson itself.</p>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>engine</module_name>
+  <chapter>Engine</chapter>
+  <chapter_description>
+    <p>The Engine module manages the execution environment of Nelson itself.</p>
+    <p
     >It provides mechanisms to handle program startup and shutdown behavior, command-line integration, and runtime modes.</p>
-        <p
+    <p
     >This includes support for user-defined initialization and termination scripts, platform-specific system requirements, and interpreter directives for cross-platform script execution.</p>
-        <p
+    <p
     >It serves as the core interface between Nelson and the underlying operating system, ensuring flexible configuration and smooth control over how the software is launched and operated.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

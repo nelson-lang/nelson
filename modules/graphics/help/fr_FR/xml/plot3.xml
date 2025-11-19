@@ -1,93 +1,86 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>plot3</keyword>
-    <short_description>Tracé de courbe 3D.</short_description>
-    <syntax>
-        <syntax_item>plot3(X1, Y1, Z1, ...)</syntax_item>
-        <syntax_item>plot3(X1, Y1, Z1, LineSpec, ...)</syntax_item>
-        <syntax_item>plot3(..., propertyName, propertyValue, ...)</syntax_item>
-        <syntax_item>plot3(ax, ...)</syntax_item>
-        <syntax_item>go = plot3(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>X1</param_name>
-            <param_description
-      >Coordonnées x : vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Y1</param_name>
-            <param_description
-      >Coordonnées y : vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Z1</param_name>
-            <param_description
-      >Coordonnées z : vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>LineSpec</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>plot3</keyword>
+  <short_description>Tracé de courbe 3D.</short_description>
+  <syntax>
+    <syntax_item>plot3(X1, Y1, Z1, ...)</syntax_item>
+    <syntax_item>plot3(X1, Y1, Z1, LineSpec, ...)</syntax_item>
+    <syntax_item>plot3(..., propertyName, propertyValue, ...)</syntax_item>
+    <syntax_item>plot3(ax, ...)</syntax_item>
+    <syntax_item>go = plot3(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X1</param_name>
+      <param_description>Coordonnées x : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y1</param_name>
+      <param_description>Coordonnées y : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Z1</param_name>
+      <param_description>Coordonnées z : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineSpec</param_name>
+      <param_description
       >Style de ligne, marqueur et/ou couleur : vecteur de caractères ou chaîne scalaire.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description
       >Valeur scalaire d'objet graphique : conteneur parent, spécifié comme axes.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyName</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
       >Chaîne scalaire ou vecteur ligne de caractères. Voir l'aide de 'line' pour la liste des propriétés.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyValue</param_name>
-            <param_description>Une valeur.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>go</param_name>
-            <param_description>Objet graphique : type ligne.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >plot3(X1, Y1, Z1, ...)</b> trace une ou plusieurs courbes dans l'espace tridimensionnel.
-        </p>
-        <p>
-            <b
-      >go = plot3(...)</b> retourne un vecteur colonne d'objets graphiques de type ligne.
-        </p>
-        <p />
-        <p>Voir <b>line</b> ou <b
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Une valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>Objet graphique : type ligne.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >plot3(X1, Y1, Z1, ...)</b> trace une ou plusieurs courbes dans l'espace tridimensionnel.          </p>
+    <p><b
+      >go = plot3(...)</b> retourne un vecteur colonne d'objets graphiques de type ligne.</p>
+    <p />
+    <p>Voir <b>line</b> ou<b
       >plot</b> pour plus d'informations sur les propriétés.</p>
-    </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f  = figure();
 t = 0:pi/50:10*pi;
 L = plot3(sin(t), cos(t), t);
 axis square]]></example_item_data>
-                    <example_item_img
+      <example_item_img
         src="../../images/plot3_1.svg"
         align="middle"
         generate="true"
       />
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
       ><![CDATA[f  = figure();
 t = 0:0.1:10*pi;
 r = linspace (0, 1, length(t));
@@ -98,28 +91,28 @@ xlabel ('r .* cos (t)');
 zlabel ('z');
 title (_('plot3 display of 3-D helix'));
 axis square]]></example_item_data>
-                    <example_item_img
+      <example_item_img
         src="../images/plot3_2.svg"
         align="middle"
         generate="true"
       />
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${graphics}line">line</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${graphics}plot">plot</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}line">line</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}plot">plot</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,299 +1,285 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>plot</keyword>
-    <short_description>Linear 2-D plot.</short_description>
-    <syntax>
-        <syntax_item>plot(Y)</syntax_item>
-        <syntax_item>plot(X1, Y1, ...)</syntax_item>
-        <syntax_item>plot(X1, Y1, LineSpec, ...)</syntax_item>
-        <syntax_item>plot(..., propertyName, propertyValue, ...)</syntax_item>
-        <syntax_item>plot(ax, ...)</syntax_item>
-        <syntax_item>go = plot(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>X1</param_name>
-            <param_description
-      >x-coordinates: vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Y1</param_name>
-            <param_description
-      >y-coordinates: vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>LineSpec</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>plot</keyword>
+  <short_description>Linear 2-D plot.</short_description>
+  <syntax>
+    <syntax_item>plot(Y)</syntax_item>
+    <syntax_item>plot(X1, Y1, ...)</syntax_item>
+    <syntax_item>plot(X1, Y1, LineSpec, ...)</syntax_item>
+    <syntax_item>plot(..., propertyName, propertyValue, ...)</syntax_item>
+    <syntax_item>plot(ax, ...)</syntax_item>
+    <syntax_item>go = plot(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X1</param_name>
+      <param_description>x-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y1</param_name>
+      <param_description>y-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineSpec</param_name>
+      <param_description
       >Line style, marker, and/or color: character vector or scalar string.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description
       >a scalar graphics object value: parent container, specified as a axes.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyName</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
       >a scalar string or row vector character. see help of 'line' for property list.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyValue</param_name>
-            <param_description>a value.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>go</param_name>
-            <param_description>a graphics object: line type.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>plot(Y)</b> plots the columns of <b>Y</b> versus their index.</p>
-            <p>
-                <b>plot(X, Y)</b> plots line defined by <b>X</b> versus <b
-      >Y</b> pair.</p>
-                <p>
-                    <b
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>a value.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>a graphics object: line type.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>plot(Y)</b> plots the columns of <b>Y</b> versus their index.</p>
+    <p><b>plot(X, Y)</b> plots line defined by <b>X</b> versus<b>Y</b> pair.</p>
+    <p><b
       >go = plot(...)</b> returns a column vector of line graphics objects.</p>
-                    <p />
-                    <p>
-                        <b
+    <p />
+    <p><b
       >LineSpec</b> is a string used to change the characteristics of the line and is composed of three optional parts in any order:</p>
-                        <p />
-                        <p
-    >The SymbolSpec specifies the symbol to be drawn at each data point:</p>
-        <p />
-                        <table>
-                            <tr>
-                                <th>Symbol</th>
-                                <th>Description</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'o'</b>
-                                </td>
-                                <td>Circle symbol</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'x'</b>
-                                </td>
-                                <td>Times symbol</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'+'</b>
-                                </td>
-                                <td>Plus symbol</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'*'</b>
-                                </td>
-                                <td>Asterisk symbol</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'.'</b>
-                                </td>
-                                <td>Dot symbol</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'s'</b>
-                                </td>
-                                <td>Square symbol</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'d'</b>
-                                </td>
-                                <td>Diamond symbol</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'v'</b>
-                                </td>
-                                <td>Downward-pointing triangle symbol</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'^'</b>
-                                </td>
-                                <td>Upward-pointing triangle symbol</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'&gt;'</b>
-                                </td>
-                                <td>Left-pointing triangle symbol</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'&lt;'</b>
-                                </td>
-                                <td>Right-pointing triangle symbol</td>
-                            </tr>
-                        </table>
-                        <p />
-                        <p
+    <p />
+    <p>The SymbolSpec specifies the symbol to be drawn at each data point:</p>
+    <table>
+      <tr>
+        <th>Symbol</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>
+          <b>'o'</b>
+        </td>
+        <td>Circle symbol</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'x'</b>
+        </td>
+        <td>Times symbol</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'+'</b>
+        </td>
+        <td>Plus symbol</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'*'</b>
+        </td>
+        <td>Asterisk symbol</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'.'</b>
+        </td>
+        <td>Dot symbol</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'s'</b>
+        </td>
+        <td>Square symbol</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'d'</b>
+        </td>
+        <td>Diamond symbol</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'v'</b>
+        </td>
+        <td>Downward-pointing triangle symbol</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'^'</b>
+        </td>
+        <td>Upward-pointing triangle symbol</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'&gt;'</b>
+        </td>
+        <td>Left-pointing triangle symbol</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'&lt;'</b>
+        </td>
+        <td>Right-pointing triangle symbol</td>
+      </tr>
+    </table>
+    <p />
+    <p
     >The LineStyleSpec specifies the line style to use for each data series:</p>
-        <p />
-
-                        <table>
-                            <tr>
-                                <th>Style</th>
-                                <th>Description</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'-'</b>
-                                </td>
-                                <td>Solid line style</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'--'</b>
-                                </td>
-                                <td>Dashed line style</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'-.'</b>
-                                </td>
-                                <td>Dot-Dash-Dot-Dash line style</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>':'</b>
-                                </td>
-                                <td>Dotted line style</td>
-                            </tr>
-                        </table>
-                        <p />
-                        <p
-    >The ColorSpec specifies the line color to use for each data series:</p>
-        <p />
-                        <table>
-                            <tr>
-                                <th>Color</th>
-                                <th>Description</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'k'</b>
-                                </td>
-                                <td>Color Black</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'y'</b>
-                                </td>
-                                <td>Color Yellow</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'m'</b>
-                                </td>
-                                <td>Color Magenta</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'c'</b>
-                                </td>
-                                <td>Color Cyan</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'r'</b>
-                                </td>
-                                <td>Color Red</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'b'</b>
-                                </td>
-                                <td>Color Blue</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>'g'</b>
-                                </td>
-                                <td>Color Green</td>
-                            </tr>
-                        </table>
-                        <p />
-                        <p>see <b
-      >line</b> for more information about properties</p>
-                    </description>
-                    <used_function />
-                    <bibliography />
-                    <examples>
-                        <example_item>
-                            <example_item_type>nelson</example_item_type>
-                            <example_item_description
+    <table>
+      <tr>
+        <th>Style</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>
+          <b>'-'</b>
+        </td>
+        <td>Solid line style</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'--'</b>
+        </td>
+        <td>Dashed line style</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'-.'</b>
+        </td>
+        <td>Dot-Dash-Dot-Dash line style</td>
+      </tr>
+      <tr>
+        <td>
+          <b>':'</b>
+        </td>
+        <td>Dotted line style</td>
+      </tr>
+    </table>
+    <p />
+    <p>The ColorSpec specifies the line color to use for each data series:</p>
+    <table>
+      <tr>
+        <th>Color</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>
+          <b>'k'</b>
+        </td>
+        <td>Color Black</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'y'</b>
+        </td>
+        <td>Color Yellow</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'m'</b>
+        </td>
+        <td>Color Magenta</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'c'</b>
+        </td>
+        <td>Color Cyan</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'r'</b>
+        </td>
+        <td>Color Red</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'b'</b>
+        </td>
+        <td>Color Blue</td>
+      </tr>
+      <tr>
+        <td>
+          <b>'g'</b>
+        </td>
+        <td>Color Green</td>
+      </tr>
+    </table>
+    <p />
+    <p>see<b>line</b> for more information about properties</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Default abscissae using indices:</example_item_description>
-                            <example_item_data
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure()
 plot(sin(0:0.1:2*pi))]]></example_item_data>
-                            <example_item_img
+      <example_item_img
         src="../../images/plot_y.svg"
         align="middle"
         generate="true"
       />
-                        </example_item>
-                        <example_item>
-                            <example_item_type>nelson</example_item_type>
-                            <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Using explicit abscissae:</example_item_description>
-                            <example_item_data
+      <example_item_data
       ><![CDATA[f = figure()
 x = [0:0.1:2*pi]';
 plot(x, sin(x))]]></example_item_data>
-                            <example_item_img
+      <example_item_img
         src="../../images/plot_xy.svg"
         align="middle"
         generate="true"
       />
-                        </example_item>
-                        <example_item>
-                            <example_item_type>nelson</example_item_type>
-                            <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Multiple curves with shared abscissae:</example_item_description>
-                            <example_item_data
+      <example_item_data
       ><![CDATA[f = figure()
 x = [0:0.1:2*pi]';
 plot(x, [cos(x), cos(2*x), cos(3*x)])]]></example_item_data>
-                            <example_item_img
+      <example_item_img
         src="../../images/plot_multiple.svg"
         align="middle"
         generate="true"
       />
-                        </example_item>
-                        <example_item>
-                            <example_item_type>nelson</example_item_type>
-                            <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Color and Size of Markers:</example_item_description>
-                            <example_item_data
+      <example_item_data
       ><![CDATA[f = figure();
 x = -pi:pi/10:pi;
 y = tan(sin(x)) - sin(tan(x));
 plot(x ,y, '--rs', LineWidth=2, MarkerEdgeColor='k', MarkerFaceColor='g', MarkerSize=11)]]></example_item_data>
-                            <example_item_img
+      <example_item_img
         src="../../images/plot_markers.svg"
         align="middle"
         generate="true"
       />
-                        </example_item>
-                        <example_item>
-                            <example_item_type>nelson</example_item_type>
-                            <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Adding Title and Axis Labels:</example_item_description>
-                            <example_item_data
+      <example_item_data
       ><![CDATA[f = figure();
 x = linspace(0, 10, 150);
 y = sin(5*x);
@@ -301,34 +287,31 @@ plot(x,y,'Color',[0,0.7,0.9])
 title(_('2-D Line Plot'))
 xlabel('x')
 ylabel('sin(5x)')]]></example_item_data>
-                            <example_item_img
+      <example_item_img
         src="../images/plot_title.svg"
         align="middle"
         generate="true"
       />
-                        </example_item>
-                    </examples>
-                    <see_also>
-                        <see_also_item>
-                            <link linkend="${graphics}line">line</link>
-                        </see_also_item>
-                        <see_also_item>
-                            <link linkend="${graphics}plot3">plot3</link>
-                        </see_also_item>
-                        <see_also_item>
-                            <link
-        linkend="${interpreter}name_value_syntax"
-      >name=value syntax</link>
-                        </see_also_item>
-                    </see_also>
-                    <history>
-                        <history_item>
-                            <history_version>1.0.0</history_version>
-                            <history_description
-      >initial version</history_description>
-                        </history_item>
-                    </history>
-                    <authors>
-                        <author_item>Allan CORNET</author_item>
-                    </authors>
-                </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}line">line</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}plot3">plot3</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}name_value_syntax">name=value syntax</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

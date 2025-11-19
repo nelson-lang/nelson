@@ -1,55 +1,54 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>bin2dec</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bin2dec</keyword>
+  <short_description
   >Convertit un nombre en base 2 en décimal.</short_description>
-    <syntax>
-        <syntax_item>D = bin2dec(TXT)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>TXT</param_name>
-            <param_description>un tableau de caractères.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-        <param_name>D</param_name>
-        <param_description
+  <syntax>
+    <syntax_item>D = bin2dec(TXT)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>TXT</param_name>
+      <param_description>un tableau de caractères.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>D</param_name>
+      <param_description
       >résultat de bin2dec : une valeur entière.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>bin2dec</b> convertit un nombre en base 2 en décimal.</p>
-            <p>Remarque : <b>bin2dec</b> et <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>bin2dec</b> convertit un nombre en base 2 en décimal.</p>
+    <p>Remarque : <b>bin2dec</b> et<b
       >dec2bin</b> sont des opérations réciproques.</p>
-    </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[bin2dec('11')]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${elementary_functions}dec2bin">dec2bin</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}dec2bin">dec2bin</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

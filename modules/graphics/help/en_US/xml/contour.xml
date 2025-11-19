@@ -1,133 +1,235 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>contour</keyword>
-    <short_description>Contour plot of matrix</short_description>
-    <syntax>
-        <syntax_item>contour(Z)</syntax_item>
-        <syntax_item>contour(X, Y, Z)</syntax_item>
-        <syntax_item>contour(..., levels)</syntax_item>
-        <syntax_item>contour(..., LineSpec)</syntax_item>
-        <syntax_item>contour(ax, ...)</syntax_item>
-        <syntax_item>M = contour(...)</syntax_item>
-        <syntax_item>[M, h] = contour(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>X</param_name>
-            <param_description
-      >x-coordinates: vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Y</param_name>
-            <param_description
-      >y-coordinates: vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Z</param_name>
-            <param_description
-      >z-coordinates: vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>levels</param_name>
-            <param_description
-      >Contour levels: scalar or vector.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>LineSpec</param_name>
-            <param_description>Line style and color</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>contour</keyword>
+  <short_description>Contour plot of matrix</short_description>
+  <syntax>
+    <syntax_item>contour(Z)</syntax_item>
+    <syntax_item>contour(X, Y, Z)</syntax_item>
+    <syntax_item>contour(..., levels)</syntax_item>
+    <syntax_item>contour(..., LineSpec)</syntax_item>
+    <syntax_item>contour(ax, ...)</syntax_item>
+    <syntax_item>M = contour(...)</syntax_item>
+    <syntax_item>[M, h] = contour(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>x-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>y-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>z-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>levels</param_name>
+      <param_description>Contour levels: scalar or vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineSpec</param_name>
+      <param_description>Line style and color</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description
       >a scalar graphics object value: parent container, specified as a axes.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>M</param_name>
-            <param_description>Contour matrix.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>h</param_name>
-            <param_description
-      >a graphics object: contour type.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>M</param_name>
+      <param_description>Contour matrix.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>a graphics object: contour type.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >contour(Z)</b> generates a contour plot representing isolines of the matrix Z. Each isoline corresponds to a specific height value on the x-y plane.</p>
-            <p
+    <p
     >Nelson automatically selects the contour lines to display based on the values in Z. The column and row indices of Z serve as the x and y coordinates in the plane, respectively.</p>
-            <p>
-                <b
+    <p><b
       >contour(X, Y, Z)</b> allows the user to specify the x and y coordinates corresponding to the values in matrix Z. This enables more precise control over the positioning of the contour plot on the x-y plane.</p>
-                <p
+    <p
     >The matrices X and Y provide the coordinates, while Z contains the height values for generating the contour plot.</p>
-                <p>Property Name-Value Pairs:</p>
-                <p />
-                <table>
-                    <tr><th>Property</th><th>Description</th></tr>
-                    <tr><td><b>LevelList</b></td><td
-        >The contour levels, specified as a vector of z values, determine the height levels at which the contour lines are drawn. By default, when not explicitly provided, the contour function automatically selects these values to cover the range of values present in the ZData property, ensuring comprehensive coverage of the data range. Default: empty matrix.</td></tr>
-                    <tr><td><b>LevelListMode</b></td><td
-        >Selection mode for LevelList: 'manual' or 'auto' (default).</td></tr>
-                    <tr><td><b>LevelStep</b></td><td
-        >Spacing between contour lines: scalar numeric value or 0 (default).</td></tr>
-                    <tr><td><b>LevelStepMode</b></td><td
-        >Selection mode for LevelStep: 'manual' or 'auto' (default).</td></tr>
-                    <tr><td><b>EdgeColor</b></td><td
-        >Color of contour lines: rgb color or 'flat' (default).</td></tr>
-                    <tr><td><b>EdgeAlpha</b></td><td
-        >Contour line transparency: scalar in range [0, 1] or 1 (default).</td></tr>
-                    <tr><td><b>LineStyle</b></td><td
-        >Line style: '--', ':',  '-.' or '-' (default).</td></tr>
-                    <tr><td><b>LineWidth</b></td><td
-        >Line Width: positive value or  0.5 (default).</td></tr>
-                    <tr><td><b>ContourMatrix</b></td><td
-        >contour matrix.</td></tr>
-                    <tr><td><b>XData</b></td><td
-        >x values: vector or matrix or [] (default).</td></tr>
-                    <tr><td><b>YData</b></td><td
-        >y values: vector or matrix or [] (default).</td></tr>
-                    <tr><td><b>ZData</b></td><td
-        >z values: vector or matrix or [] (default).</td></tr>
-                    <tr><td><b>XDataMode</b></td><td
-        >Selection mode for XData: 'manual' or 'auto' (default).</td></tr>
-                    <tr><td><b>YDataMode</b></td><td
-        >Selection mode for YData: 'manual' or 'auto' (default).</td></tr>
-                    <tr><td><b>DisplayName</b></td><td
-        >Legend label: character vector, string scalar or '' (default).</td></tr>
-                    <tr><td><b>Visible</b></td><td
-        >State of visibility: on/off logical value, 'on' (default).</td></tr>
-                    <tr><td><b>Parent</b></td><td
-        >Parent: Axes object or Group object.</td></tr>
-                    <tr><td><b>Children</b></td><td>Children.</td></tr>
-                    <tr><td><b>HandleVisibility</b></td><td
-        >Visibility of handle 'on', 'off'.</td></tr>
-                    <tr><td><b>Type</b></td><td
-        >Type of graphics object 'contour'.</td></tr>
-                    <tr><td><b>Tag</b></td><td
-        >Object identifier: character vector, string scalar or '' (default).</td></tr>
-                    <tr><td><b>UserData</b></td><td
-        >User data: array or  [] (default).</td></tr>
-                    <tr><td><b>CreateFcn</b></td><td
-        >Callback (function handle, string or cell) called when object is created. Set this property on an existing component has no effect.</td></tr>
-                    <tr><td><b>DeleteFcn</b></td><td
-        >Callback (function handle, string or cell) called when object is deleted.</td></tr>
-                    <tr><td><b>BeingDeleted</b></td><td
-        >Flag indicating that the object is being deleted.</td></tr>
-                </table>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    <p>Property Name-Value Pairs:</p>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>
+          <b>LevelList</b>
+        </td>
+        <td
+        >The contour levels, specified as a vector of z values, determine the height levels at which the contour lines are drawn. By default, when not explicitly provided, the contour function automatically selects these values to cover the range of values present in the ZData property, ensuring comprehensive coverage of the data range. Default: empty matrix.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>LevelListMode</b>
+        </td>
+        <td>Selection mode for LevelList: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>LevelStep</b>
+        </td>
+        <td
+        >Spacing between contour lines: scalar numeric value or 0 (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>LevelStepMode</b>
+        </td>
+        <td>Selection mode for LevelStep: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>EdgeColor</b>
+        </td>
+        <td>Color of contour lines: rgb color or 'flat' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>EdgeAlpha</b>
+        </td>
+        <td
+        >Contour line transparency: scalar in range [0, 1] or 1 (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>LineStyle</b>
+        </td>
+        <td>Line style: '--', ':', '-.' or '-' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>LineWidth</b>
+        </td>
+        <td>Line Width: positive value or 0.5 (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ContourMatrix</b>
+        </td>
+        <td>contour matrix.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XData</b>
+        </td>
+        <td>x values: vector or matrix or [] (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YData</b>
+        </td>
+        <td>y values: vector or matrix or [] (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ZData</b>
+        </td>
+        <td>z values: vector or matrix or [] (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XDataMode</b>
+        </td>
+        <td>Selection mode for XData: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YDataMode</b>
+        </td>
+        <td>Selection mode for YData: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>DisplayName</b>
+        </td>
+        <td>Legend label: character vector, string scalar or '' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Visible</b>
+        </td>
+        <td>State of visibility: on/off logical value, 'on' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Parent</b>
+        </td>
+        <td>Parent: Axes object or Group object.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Children</b>
+        </td>
+        <td>Children.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>HandleVisibility</b>
+        </td>
+        <td>Visibility of handle 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Type</b>
+        </td>
+        <td>Type of graphics object 'contour'.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Tag</b>
+        </td>
+        <td
+        >Object identifier: character vector, string scalar or '' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>UserData</b>
+        </td>
+        <td>User data: array or [] (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CreateFcn</b>
+        </td>
+        <td
+        >Callback (function handle, string or cell) called when object is created. Set this property on an existing component has no effect.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>DeleteFcn</b>
+        </td>
+        <td
+        >Callback (function handle, string or cell) called when object is deleted.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>BeingDeleted</b>
+        </td>
+        <td>Flag indicating that the object is being deleted.</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 subplot(2, 3, 1)
@@ -161,16 +263,16 @@ subplot(2, 3, 6)
 Z = sin (2*theta) .* (1-r);
 contour (X, Y, abs (Z), 10);
 ]]></example_item_data>
-                    <example_item_img
+      <example_item_img
         src="../../images/contour_1.svg"
         align="middle"
         generate="true"
       />
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[
 rng('default');
@@ -178,16 +280,16 @@ f = figure();
 N = 50;
 contour(1:N, 1:N, rand(N), 5)
 ]]></example_item_data>
-                    <example_item_img
+      <example_item_img
         src="../../images/contour_2.svg"
         align="middle"
         generate="true"
       />
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[
 f = figure();      
@@ -195,41 +297,40 @@ Z = peaks;
 Z(:,26) = NaN;
 contour(Z)
 ]]></example_item_data>
-                    <example_item_img
+      <example_item_img
         src="../../images/contour_nan.png"
         align="middle"
         generate="true"
       />
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${graphics}contour3">contour3</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${graphics}surf">surf</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${graphics}mesh">mesh</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.3.0</history_version>
-                    <history_description>initial version</history_description>
-                </history_item>
-                <history_item>
-                    <history_version>1.7.0</history_version>
-                    <history_description
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}contour3">contour3</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}surf">surf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}mesh">mesh</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.3.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description
       >CreateFcn, DeleteFcn callback added.</history_description>
-                </history_item>
-                <history_item>
-                    <history_version>--</history_version>
-                    <history_description
-      >BeingDeleted property added.</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </history_item>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description>BeingDeleted property added.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

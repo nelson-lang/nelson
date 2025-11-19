@@ -1,62 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>configuremsvc</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>configuremsvc</keyword>
+  <short_description
   >Configurer Nelson pour utiliser Visual Studio comme compilateur par défaut</short_description>
-    <syntax>
-        <syntax_item>[res, message] = configuremsvc()</syntax_item>
-    </syntax>
-    <param_output>
-        <param_output_item>
-        <param_name>res</param_name>
-        <param_description
+  <syntax>
+    <syntax_item>[res, message] = configuremsvc()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>res</param_name>
+      <param_description
       >un booléen : true si Visual Studio a été trouvé</param_description>
-        </param_output_item>
-        <param_output_item>
-        <param_name>message</param_name>
-        <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>message</param_name>
+      <param_description
       >une chaîne : vide si Visual Studio a été trouvé, sinon un message d'erreur.</param_description>
-        </param_output_item>
-    </param_output>
-        <description>
-                <p
-    >Par défaut, Nelson n'a pas de compilateur C/C++ défini sous Windows.</p>
-                <p
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Par défaut, Nelson n'a pas de compilateur C/C++ défini sous Windows.</p>
+    <p
     >Sur les autres plateformes, on suppose qu'un compilateur C/C++ est disponible et l'appel de cette fonction n'est pas requis.</p>
-                <p>Sous Windows, appelez une fois <b
+    <p>Sous Windows, appelez une fois <b
       >configuremsvc</b> si vous souhaitez utiliser Visual Studio comme compilateur par défaut.</p>
-                <p
-    >Après chaque mise à jour de Visual Studio, il pourra être nécessaire d'appeler de nouveau <b
+    <p
+    >Après chaque mise à jour de Visual Studio, il pourra être nécessaire d'appeler de nouveau<b
       >configuremsvc</b>.</p>
-        </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data><![CDATA[configuremsvc()]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[configuremsvc()]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link
         linkend="${dynamic_link}2_supported_compilers"
       >Supported C/C++ compilers</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${dynamic_link}havecompiler">havecompiler</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dynamic_link}havecompiler">havecompiler</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

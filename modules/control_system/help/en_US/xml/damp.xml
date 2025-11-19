@@ -1,73 +1,71 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>damp</keyword>
-    <short_description>Natural frequency and damping ratio.</short_description>
-    <syntax>
-        <syntax_item>[wn, zeta] = damp(sys)</syntax_item>
-        <syntax_item>[wn, zeta, p, T] = damp(sys)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>sys</param_name>
-            <param_description>LTI model.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>wn</param_name>
-            <param_description
-      > Natural frequency of each pole: vector.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>zeta</param_name>
-            <param_description
-      >Damping ratio of each pole: vector.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>p</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>damp</keyword>
+  <short_description>Natural frequency and damping ratio.</short_description>
+  <syntax>
+    <syntax_item>[wn, zeta] = damp(sys)</syntax_item>
+    <syntax_item>[wn, zeta, p, T] = damp(sys)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>sys</param_name>
+      <param_description>LTI model.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>wn</param_name>
+      <param_description
+      >Natural frequency of each pole: vector.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>zeta</param_name>
+      <param_description>Damping ratio of each pole: vector.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description
       >Poles of the dynamic system model: vector.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>T</param_name>
-            <param_description
-      >Time Constant (seconds): vector.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>The function <b>damp(sys)</b> provides the natural frequencies (<b
+    </param_output_item>
+    <param_output_item>
+      <param_name>T</param_name>
+      <param_description>Time Constant (seconds): vector.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>The function <b>damp(sys)</b> provides the natural frequencies (<b
       >wn</b>) and damping ratios (<b
-      >zeta</b>) associated with the poles of the system represented by <b
+      >zeta</b>) associated with the poles of the system represented by<b
       >sys</b>.</p>
-    </description>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[sys = tf([2, 5, 1], [1, 0, 2, -6]);
 [wn, zeta, p, T] = damp(sys)
 ]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${control_system}esort">esort</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${control_system}pole">pole</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}esort">esort</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}pole">pole</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

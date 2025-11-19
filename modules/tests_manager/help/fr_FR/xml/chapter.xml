@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <module_name>tests_manager</module_name>
-    <chapter>Outils de tests pour Nelson</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>tests_manager</module_name>
+  <chapter>Outils de tests pour Nelson</chapter>
+  <chapter_description>
+    <p
     >The Test Manager de Nelson fournit des outils pour les tests automatisés de code, permettant aux utilisateurs de valider les fonctionnalités, d'assurer la correction et de gérer efficacement les cas de test.</p>
-        <p
+    <p
     >Ce module prend en charge la création de sorties de référence, l'exécution de suites de tests et la désactivation conditionnelle des tests.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

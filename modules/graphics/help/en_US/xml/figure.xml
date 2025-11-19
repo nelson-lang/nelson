@@ -1,285 +1,253 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-        <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>en_US</language>
-        <keyword>figure</keyword>
-        <short_description>Creates an figure window.</short_description>
-        <syntax>
-                <syntax_item>f = figure()</syntax_item>
-                <syntax_item>f = figure(ID)</syntax_item>
-                <syntax_item>f = figure(H)</syntax_item>
-                <syntax_item
-    >f = figure(propertyName, propertyValue)</syntax_item>
-                <syntax_item
-    >f = figure(ID, propertyName, propertyValue)</syntax_item>
-                <syntax_item
-    >f = figure(H, propertyName, propertyValue)</syntax_item>
-        </syntax>
-        <param_input>
-                <param_input_item>
-                        <param_name>ID</param_name>
-                        <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>figure</keyword>
+  <short_description>Creates an figure window.</short_description>
+  <syntax>
+    <syntax_item>f = figure()</syntax_item>
+    <syntax_item>f = figure(ID)</syntax_item>
+    <syntax_item>f = figure(H)</syntax_item>
+    <syntax_item>f = figure(propertyName, propertyValue)</syntax_item>
+    <syntax_item>f = figure(ID, propertyName, propertyValue)</syntax_item>
+    <syntax_item>f = figure(H, propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ID</param_name>
+      <param_description
       >a scalar integer value: find or creates with ID.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>H</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>H</param_name>
+      <param_description
       >a scalar graphics object on an existing figure.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>propertyName</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
       >a scalar string or row vector character.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>propertyValue</param_name>
-                        <param_description>a value.</param_description>
-                </param_input_item>
-        </param_input>
-        <param_output>
-                <param_output_item>
-                        <param_name>f</param_name>
-                        <param_description
-      >a graphics object: figure handle.</param_description>
-                </param_output_item>
-        </param_output>
-        <description>
-                <p>
-                        <b>figure</b> creates figure.</p>
-                <p
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>a value.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>f</param_name>
+      <param_description>a graphics object: figure handle.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>figure</b> creates figure.</p>
+    <p
     >Clicking on an figure automatically sets it as the current figure object.</p>
-                <p />
-                <p><b>Properties</b>:</p>
-                            <p />
-                <table>
-                        <tr>
-                                <th>Property</th>
-                                <th>Description</th>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>AlphaMap</b>
-                                </td>
-                                <td>Transparency map for Axes content.</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>Children</b>
-                                </td>
-                                <td
-        >Children of figure: empty array (default) or 1-D array of
-                                        objects.</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>Color</b>
-                                </td>
-                                <td
-        >Background color [R, G, B] or string (example: 'blue') or
-                                        hexadecimal color code ('#FFAA00').</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>Colormap</b>
-                                </td>
-                                <td
-        >Color map for axes content of figure: m-by-3 array of RGB
-                                        triplets, parula (default).</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>CurrentAxes</b>
-                                </td>
-                                <td
-        >Target axes in current figure: Axes object.</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>DevicePixelRatio</b>
-                                </td>
-                                <td
-        >ratio between physical pixels and device-independent pixels for
-                                        the figure. Common values are 1.0 on normal displays and 2.0
-                                        on Apple "retina" displays.</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>Name</b>
-                                </td>
-                                <td>Name (default '').</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>GraphicsSmoothing</b>
-                                </td>
-                                <td>GraphicsSmoothing (default 'on').</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>MenuBar</b>
-                                </td>
-                                <td
-        >Figure menu bar display: 'none' or 'figure' (default).</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>NextPlot</b>
-                                </td>
-                                <td
-        >Directive on how to add next plot: 'new', 'replace',
-                                        'replacechildren' or 'add' (default).</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>Number</b>
-                                </td>
-                                <td>Figure Number.</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>NumberTitle</b>
-                                </td>
-                                <td
-        >Use number title: 'off' or 'on' (default).</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>Parent</b>
-                                </td>
-                                <td>Figure parent: root graphics object.</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>Position</b>
-                                </td>
-                                <td
-        >Location and size of drawable area: [left, bottom, width,
-                                        height]. 'width' and 'height' define the size of the window.
-                                        'left' and 'bottom' define the position of the first
-                                        addressable pixel in the lower left corner of the window</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>Resize</b>
-                                </td>
-                                <td>Resize figure: 'on' or 'off' (default).</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>Tag</b>
-                                </td>
-                                <td
-        >Object identifier: string scalar, character vector, ''
-                                        (default).</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>ToolBar</b>
-                                </td>
-                                <td
-        >Figure toolbar display: 'none', 'auto' (default), 'figure'.</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>Type</b>
-                                </td>
-                                <td>Type 'figure'.</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>UserData</b>
-                                </td>
-                                <td>User data: array or [] (default).</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>Visible</b>
-                                </td>
-                                <td
-        >State of visibility: 'off' or 'on' (default).</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>DrawLater</b>
-                                </td>
-                                <td
-        >is used to delay a huge succession of graphics commands
-                                        (implying several drawings or redrawings): 'on' or 'off'
-                                        (default).</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>CloseRequestFcn</b>
-                                </td>
-                                <td
-        >Close request callback: function handle, cell array, character
-                                        vector with 'closereq' (default).</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>CreateFcn</b>
-                                </td>
-                                <td
-        >Callback (function handle, string or cell) called when object is
-                                        created. Set this property on an existing component has no
-                                        effect.</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>DeleteFcn</b>
-                                </td>
-                                <td
-        >Callback (function handle, string or cell) called when object is
-                                        deleted.</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>KeyPressFcn</b>
-                                </td>
-                                <td
-        >Callback (function handle, string or cell) called when a key is
-                                        pressed while the figure has the focus.</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>KeyReleaseFcn</b>
-                                </td>
-                                <td
-        >Callback (function handle, string or cell) called when a key is
-                                        released while the figure has the focus.</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>ButtonDownFcn</b>
-                                </td>
-                                <td
-        >Callback (function handle, string or cell) called when a mouse
-                                        button is pressed while the figure has the focus.</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>BeingDeleted</b>
-                                </td>
-                                <td
-        >Flag indicating that the object is being deleted.</td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <b>WindowState</b>
-                                </td>
-                                <td
-        >Flag indicating that the Window state: 'normal', 'minimized',
-                                        'maximized', 'fullscreen'.</td>
-                        </tr>
-                </table>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-                <example_item>
-                        <example_item_type>nelson</example_item_type>
-                        <example_item_description />
-                        <example_item_data
+    <p />
+    <p><b>Properties</b>:</p>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>
+          <b>AlphaMap</b>
+        </td>
+        <td>Transparency map for Axes content.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Children</b>
+        </td>
+        <td
+        >Children of figure: empty array (default) or 1-D array of objects.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Color</b>
+        </td>
+        <td
+        >Background color [R, G, B] or string (example: 'blue') or hexadecimal color code ('#FFAA00').</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Colormap</b>
+        </td>
+        <td
+        >Color map for axes content of figure: m-by-3 array of RGB triplets, parula (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CurrentAxes</b>
+        </td>
+        <td>Target axes in current figure: Axes object.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>DevicePixelRatio</b>
+        </td>
+        <td
+        >ratio between physical pixels and device-independent pixels for the figure. Common values are 1.0 on normal displays and 2.0 on Apple "retina" displays.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Name</b>
+        </td>
+        <td>Name (default '').</td>
+      </tr>
+      <tr>
+        <td>
+          <b>GraphicsSmoothing</b>
+        </td>
+        <td>GraphicsSmoothing (default 'on').</td>
+      </tr>
+      <tr>
+        <td>
+          <b>MenuBar</b>
+        </td>
+        <td>Figure menu bar display: 'none' or 'figure' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>NextPlot</b>
+        </td>
+        <td
+        >Directive on how to add next plot: 'new', 'replace', 'replacechildren' or 'add' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Number</b>
+        </td>
+        <td>Figure Number.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>NumberTitle</b>
+        </td>
+        <td>Use number title: 'off' or 'on' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Parent</b>
+        </td>
+        <td>Figure parent: root graphics object.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Position</b>
+        </td>
+        <td
+        >Location and size of drawable area: [left, bottom, width, height]. 'width' and 'height' define the size of the window. 'left' and 'bottom' define the position of the first addressable pixel in the lower left corner of the window</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Resize</b>
+        </td>
+        <td>Resize figure: 'on' or 'off' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Tag</b>
+        </td>
+        <td
+        >Object identifier: string scalar, character vector, '' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ToolBar</b>
+        </td>
+        <td>Figure toolbar display: 'none', 'auto' (default), 'figure'.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Type</b>
+        </td>
+        <td>Type 'figure'.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>UserData</b>
+        </td>
+        <td>User data: array or [] (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Visible</b>
+        </td>
+        <td>State of visibility: 'off' or 'on' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>DrawLater</b>
+        </td>
+        <td
+        >is used to delay a huge succession of graphics commands (implying several drawings or redrawings): 'on' or 'off' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CloseRequestFcn</b>
+        </td>
+        <td
+        >Close request callback: function handle, cell array, character vector with 'closereq' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CreateFcn</b>
+        </td>
+        <td
+        >Callback (function handle, string or cell) called when object is created. Set this property on an existing component has no effect.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>DeleteFcn</b>
+        </td>
+        <td
+        >Callback (function handle, string or cell) called when object is deleted.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>KeyPressFcn</b>
+        </td>
+        <td
+        >Callback (function handle, string or cell) called when a key is pressed while the figure has the focus.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>KeyReleaseFcn</b>
+        </td>
+        <td
+        >Callback (function handle, string or cell) called when a key is released while the figure has the focus.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ButtonDownFcn</b>
+        </td>
+        <td
+        >Callback (function handle, string or cell) called when a mouse button is pressed while the figure has the focus.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>BeingDeleted</b>
+        </td>
+        <td>Flag indicating that the object is being deleted.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>WindowState</b>
+        </td>
+        <td
+        >Flag indicating that the Window state: 'normal', 'minimized', 'maximized', 'fullscreen'.</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure(1)
 g = figure(2)
@@ -288,56 +256,50 @@ figure(g)
 gcf()
 figure('Name', 'Hello')
 ]]></example_item_data>
-                </example_item>
-        </examples>
-        <see_also>
-                <see_also_item>
-                        <link linkend="${graphics}gcf">gcf</link>
-                </see_also_item>
-                <see_also_item>
-                        <link linkend="${graphics}close">close</link>
-                </see_also_item>
-        </see_also>
-        <history>
-                <history_item>
-                        <history_version>1.0.0</history_version>
-                        <history_description
-      >initial version</history_description>
-                </history_item>
-                <history_item>
-                        <history_version>1.2.0</history_version>
-                        <history_description
-      >Clicking on an figure automatically sets it as the
-                                current figure object.</history_description>
-                </history_item>
-                <history_item>
-                        <history_version>1.7.0</history_version>
-                        <history_description
-      >CreateFcn, DeleteFcn, CloseRequestFcn, KeyPressFcn,
-                                KeyReleaseFcn, ButtonDownFcn callback added.</history_description>
-                </history_item>
-                <history_item>
-                        <history_version>--</history_version>
-                        <history_description
-      >BeingDeleted property added.</history_description>
-                </history_item>
-                <history_item>
-                        <history_version>1.8.0</history_version>
-                        <history_description
-      >Resize property added.</history_description>
-                </history_item>
-                <history_item>
-                        <history_version>1.13.0</history_version>
-                        <history_description
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}gcf">gcf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}close">close</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.2.0</history_version>
+      <history_description
+      >Clicking on an figure automatically sets it as the current figure object.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description
+      >CreateFcn, DeleteFcn, CloseRequestFcn, KeyPressFcn, KeyReleaseFcn, ButtonDownFcn callback added.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description>BeingDeleted property added.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.8.0</history_version>
+      <history_description>Resize property added.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.13.0</history_version>
+      <history_description
       >DevicePixelRatio property added.</history_description>
-                </history_item>
-                <history_item>
-                        <history_version>1.14.0</history_version>
-                        <history_description
-      >WindowState property added.</history_description>
-                </history_item>
-        </history>
-        <authors>
-                <author_item>Allan CORNET</author_item>
-        </authors>
+    </history_item>
+    <history_item>
+      <history_version>1.14.0</history_version>
+      <history_description>WindowState property added.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

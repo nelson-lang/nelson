@@ -1,58 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>getLastReport</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>getLastReport</keyword>
+  <short_description
   >Renvoie le dernier message d'erreur formaté enregistré.</short_description>
-    <syntax>
-        <syntax_item>messageText = getLastReport()</syntax_item>
-    </syntax>
-    <param_output>
-        <param_output_item>
-            <param_name>messageText</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>messageText = getLastReport()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>messageText</param_name>
+      <param_description
       >un vecteur de caractères : message d'erreur formaté.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p><b>getLastReport</b> renvoie le dernier message d'erreur formaté.</p>
-    </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>getLastReport</b> renvoie le dernier message d'erreur formaté.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
       ><![CDATA[lasterror('reset')
 getLastReport()]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
       ><![CDATA[state = execstr('xxxxxx', 'errcatch')
 l = lasterror()
 getLastReport
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${error_manager}lasterror">lasterror</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${error_manager}error">error</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${error_manager}lasterror">lasterror</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}error">error</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>linear_algebra</module_name>
-    <chapter>Linear algebra</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>linear_algebra</module_name>
+  <chapter>Linear algebra</chapter>
+  <chapter_description>
+    <p
     >The Linear Algebra module provides comprehensive tools for performing matrix and vector computations in Nelson.</p>
-        <p
+    <p
     >It includes functions for matrix factorization, decomposition, inversion, and analysis, as well as operations on eigenvalues, singular values, and subspaces.</p>
-        <p
+    <p
     >The module supports advanced numerical methods for evaluating matrix properties, condition numbers, and transformations, enabling efficient and accurate solutions for a wide range of linear algebra problems.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

@@ -1,56 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>renamevars</keyword>
-    <short_description>Rename variables in table.</short_description>
-    <syntax>
-        <syntax_item>TB = renamevars(TA, varsNames, newNames)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>TA</param_name>
-            <param_description>Input table.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>varsNames</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>renamevars</keyword>
+  <short_description>Rename variables in table.</short_description>
+  <syntax>
+    <syntax_item>TB = renamevars(TA, varsNames, newNames)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>TA</param_name>
+      <param_description>Input table.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>varsNames</param_name>
+      <param_description
       >Variable names in input table: character vector, string array or cell array of character vectors.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>newNames</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>newNames</param_name>
+      <param_description
       >New names for variables: character vector, string array or cell array of character vectors.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>TB</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>TB</param_name>
+      <param_description
       >Table object with variable names modified.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >TB = renamevars(TA, varsNames, newNames)</b> renames the variables in the table <b
-      >TA</b> as specified by <b
-      >varsNames</b> and assigns them the new names provided in <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >TB = renamevars(TA, varsNames, newNames)</b> renames the variables in the table<b
+      >TA</b> as specified by<b
+      >varsNames</b> and assigns them the new names provided in<b
       >newNames</b>.</p>
-            <p
-    >You can also rename all the variables in a table by assigning new names to its <b
-      >VariableNames</b> property using <b
+    <p
+    >You can also rename all the variables in a table by assigning new names to its<b
+      >VariableNames</b> property using<b
       >T.Properties.VariableNames = newNames</b>.</p>
-            <p>In this case, <b
+    <p>In this case,<b
       >newNames</b> must be a string array or a cell array of character vectors.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[C = {'John', 28, true; 'Alice', 35, false; 'Bob', 42, true};
 % Convert the cell array to a table
@@ -59,23 +58,23 @@ T2 = renamevars(T1, {'C1', 'C2'}, {'Name', 'Age'})
 T3 = cell2table(C);
 T3.Properties.VariableNames = {'Name', 'Age', 'Married'};
 T3]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${table}table">table</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${table}removevars">removevars</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.9.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}removevars">removevars</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.9.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,95 +1,93 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>tdigest</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>tdigest</keyword>
+  <short_description
   >t-digest algorithm data structure for accurate quantile estimation with configurable compression parameters</short_description>
-    <syntax>
-        <syntax_item>td = tdigest()</syntax_item>
-        <syntax_item>td = tdigest(compression)</syntax_item>
-        <syntax_item>td = tdigest(X)</syntax_item>
-        <syntax_item>td = tdigest(compression, X)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>compression</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>td = tdigest()</syntax_item>
+    <syntax_item>td = tdigest(compression)</syntax_item>
+    <syntax_item>td = tdigest(X)</syntax_item>
+    <syntax_item>td = tdigest(compression, X)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>compression</param_name>
+      <param_description
       >compression factor: positive integer scalar.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>X</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
       >an array of double, single, integers, ...</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>td</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>td</param_name>
+      <param_description
       >t-digest representation of the array elements.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p><b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >td = tdigest(compression, X)</b> returns a t-digest representation of the array elements of X.</p>
-        <p
+    <p
     >TDigest is a data structure for accurate on-line accumulation of rank-based statistics such as quantiles and cumulative distribution functions. It is particularly effective for large data sets and for estimating extreme quantiles. The algorithm is described in detail in the paper "Computing Extremely Accurate Quantiles Using t-Digests" by Ted Dunning and Otmar Ertl.</p>
-        <p>The t-digest is particularly useful for:</p>
-        <ul>
-            <li
+    <p>The t-digest is particularly useful for:</p>
+    <ul>
+      <li
       >Large datasets where you need memory-efficient quantile estimation</li>
-            <li>Streaming data where data arrives continuously</li>
-            <li
+      <li>Streaming data where data arrives continuously</li>
+      <li
       >Accurate extreme quantiles (like 99th percentile) even with limited memory</li>
-            <li>Online algorithms where you can't store all the data</li>
-        </ul>
-        <p
+      <li>Online algorithms where you can't store all the data</li>
+    </ul>
+    <p
     >The compression factor (100 in the examples) controls the trade-off between accuracy and memory usage - higher values give more accuracy but use more memory.</p>
-        <p
+    <p
     >Once you have a t-digest object, you can add new data points to it using the <code
       >+</code> operator, and compute percentiles or quantiles using the <code
       >percentile</code> or <code>quantile</code> methods.</p>
-        <p
-    >For more details, see the original paper linked in the bibliography.</p>
-        <p>Methods available:</p>
-        <ul>
-            <li><b
+    <p>For more details, see the original paper linked in the bibliography.</p>
+    <p>Methods available:</p>
+    <ul>
+      <li><b
         >percentile(p)</b>: Returns the value(s) at the given percentile(s) <code
         >p</code> (in [0, 100]).</li>
-            <li><b
+      <li><b
         >quantile(q)</b>: Returns the value(s) at the given quantile(s) <code
         >q</code> (in [0, 1]).</li>
-            <li><b>+</b>: Adds new data points to the t-digest object.</li>
-        </ul>
-        <p>Properties:</p>
-        <ul>
-            <li><b
+      <li><b>+</b>: Adds new data points to the t-digest object.</li>
+    </ul>
+    <p>Properties:</p>
+    <ul>
+      <li><b
         >compression</b>: The compression factor used to create the t-digest.</li>
-            <li><b
+      <li><b
         >totalWeight</b>: The total weight of all the centroids in the t-digest.</li>
-        </ul>
-    </description>
-    <used_function>tdigest algorithm</used_function>
-    <bibliography
+    </ul>
+  </description>
+  <used_function>tdigest algorithm</used_function>
+  <bibliography
   >https://www.sciencedirect.com/science/article/pii/S2665963820300403</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[M = rand(1, 15000);
 td = tdigest(100, M);
 td = td + [1:15000];
 td.percentile([5, 50, 95])
 td.quantile([0.05 0.5 0.95])]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
-      >streaming updates</example_item_description>
-            <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>streaming updates</example_item_description>
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 td = tdigest(100);
@@ -97,20 +95,20 @@ while(1)
   td = td + randn();
   td.percentile([5, 50, 95])
 end]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${statistics}mean">mean</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.15.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}mean">mean</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

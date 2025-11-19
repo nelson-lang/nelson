@@ -30,30 +30,22 @@
     </param_input_item>
     <param_input_item>
       <param_name>Nom/Valeur paires</param_name>
-      <param_description>
-        options nom/valeur :
-        <ul>
-          <li><b>MinPeakHeight</b>: scalaire numérique, défaut -Inf</li>
-          <li><b
-            >MinPeakProminence</b>: scalaire numérique &gt;= 0, défaut 0</li>
-          <li><b
-            >Threshold</b>: scalaire numérique &gt;= 0 (distance verticale minimale par rapport à la ligne de base voisine), défaut 0</li>
-          <li><b>MinPeakWidth</b>: scalaire numérique &gt;= 0, défaut 0</li>
-          <li><b>MaxPeakWidth</b>: scalaire numérique &gt;= 0, défaut Inf</li>
-          <li><b
-            >MinPeakDistance</b>: scalaire numérique &gt;= 0 (dans les mêmes unités que X), défaut 0</li>
-          <li><b
-            >WidthReference</b>: 'halfprom' (par défaut) ou 'halfheight'</li>
-          <li><b>SortStr</b>: 'none' (par défaut), 'ascend' ou 'descend'</li>
-          <li><b
-            >NPeaks</b>: entier positif, nombre maximum de pics à retourner (par défaut Inf)</li>
-          <li><b
-            >Annotate</b>: 'peaks' (par défaut) ou 'extents' (contrôle l'annotation du tracé)</li>
-        </ul>
-      </param_description>
+      <param_description>options nom/valeur :<ul><li><b
+            >MinPeakHeight</b>: scalaire numérique, défaut -Inf</li><li><b
+            >MinPeakProminence</b>: scalaire numérique &gt;= 0, défaut 0</li><li
+          ><b
+            >Threshold</b>: scalaire numérique &gt;= 0 (distance verticale minimale par rapport à la ligne de base voisine), défaut 0</li><li
+          ><b>MinPeakWidth</b>: scalaire numérique &gt;= 0, défaut 0</li><li><b
+            >MaxPeakWidth</b>: scalaire numérique &gt;= 0, défaut Inf</li><li><b
+            >MinPeakDistance</b>: scalaire numérique &gt;= 0 (dans les mêmes unités que X), défaut 0</li><li
+          ><b
+            >WidthReference</b>: 'halfprom' (par défaut) ou 'halfheight'</li><li
+          ><b>SortStr</b>: 'none' (par défaut), 'ascend' ou 'descend'</li><li><b
+            >NPeaks</b>: entier positif, nombre maximum de pics à retourner (par défaut Inf)</li><li
+          ><b
+            >Annotate</b>: 'peaks' (par défaut) ou 'extents' (contrôle l'annotation du tracé)</li></ul>        </param_description>
     </param_input_item>
   </param_input>
-
   <param_output>
     <param_output_item>
       <param_name>pks</param_name>
@@ -74,7 +66,6 @@
       <param_description>prominence de chaque pic</param_description>
     </param_output_item>
   </param_output>
-
   <description>
     <p><b
       >findpeaks</b> localise les maxima locaux (pics) dans un signal unidimensionnel Y.</p>
@@ -83,7 +74,6 @@
     <p
     >Lorsqu'aucune sortie n'est demandée, la fonction trace le signal et marque les pics détectés.</p>
   </description>
-
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
@@ -108,20 +98,17 @@ findpeaks(y, t, 'MinPeakProminence', 0.3);
 ]]></example_item_data>
     </example_item>
   </examples>
-
   <see_also>
-    <see_also_item><link
-        linkend="${data_analysis}max"
-      >max</link></see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}max">max</link>
+    </see_also_item>
   </see_also>
-
   <history>
     <history_item>
       <history_version>1.15.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
   </history>
-
   <authors>
     <author_item>Allan CORNET</author_item>
   </authors>

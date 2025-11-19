@@ -1,47 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>subspace</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>subspace</keyword>
+  <short_description
   >Measure of distance (angle) between two subspaces spanned by columns of matrices.</short_description>
-    <syntax>
-        <syntax_item>d = subspace(A, B)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>A</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>d = subspace(A, B)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description
       >matrix whose columns span the first subspace (real or complex).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>B</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description
       >matrix whose columns span the second subspace (real or complex).</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>d</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>d</param_name>
+      <param_description
       >scalar measure of distance between the column spaces of A and B. d = 0 indicates identical subspaces; larger values indicate larger separation.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >subspace</b> computes a scalar measure of the distance between the subspaces spanned by the columns of matrices <b
-      >A</b> and <b
-      >B</b>. The value is derived from the principal angles between the two subspaces (computed from orthonormal bases of the column spaces). This measure is useful to quantify how close two column spaces are; it is zero when the subspaces coincide.
-        </p>
-    </description>
-    <used_function>orth</used_function>
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >subspace</b> computes a scalar measure of the distance between the subspaces spanned by the columns of matrices<b
+      >A</b> and<b
+      >B</b>. The value is derived from the principal angles between the two subspaces (computed from orthonormal bases of the column spaces). This measure is useful to quantify how close two column spaces are; it is zero when the subspaces coincide.</p>
+  </description>
+  <used_function>orth</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 % Two 2-D subspaces (columns)
@@ -50,15 +48,15 @@ B = [1 0; 0 0; 0 1];    % spans e1 and e3
 d = subspace(A, B)
 % d > 0 indicating the subspaces are different
 ]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-        <history_item>
-            <history_version>1.15.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

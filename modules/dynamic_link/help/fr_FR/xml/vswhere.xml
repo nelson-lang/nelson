@@ -1,55 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>vswhere</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>vswhere</keyword>
+  <short_description
   >Localiser les installations de Visual Studio (2017, 2019 et versions ultérieures)</short_description>
-    <syntax>
-        <syntax_item>res = vswhere()</syntax_item>
-    </syntax>
-    <param_output>
-        <param_output_item>
-            <param_name>res</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>res = vswhere()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>res</param_name>
+      <param_description
       >a struct with information about Visual studio</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>vswhere</b> permet de trouver facilement Visual Studio.</p>
-            <p>
-                <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>vswhere</b> permet de trouver facilement Visual Studio.</p>
+    <p><b
       >vswhere</b> est actuellement implémenté seulement sur la plateforme Windows.</p>
-            </description>
-            <used_function />
-            <bibliography>https://github.com/Microsoft/vswhere</bibliography>
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data><![CDATA[vswhere()]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link
-        linkend="${dynamic_link}havecompiler"
-      >havecompiler</link>
-                </see_also_item>
-                <see_also_item>
-                    <link
+  </description>
+  <used_function />
+  <bibliography>https://github.com/Microsoft/vswhere</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[vswhere()]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${dynamic_link}havecompiler">havecompiler</link>
+    </see_also_item>
+    <see_also_item>
+      <link
         linkend="${dynamic_link}2_supported_compilers"
       >Supported C/C++ compilers</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

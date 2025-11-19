@@ -1,62 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>int16</keyword>
-    <short_description>Convertit en entier signé 16 bits.</short_description>
-    <syntax>
-        <syntax_item>Y = int16(X)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>X</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>int16</keyword>
+  <short_description>Convertit en entier signé 16 bits.</short_description>
+  <syntax>
+    <syntax_item>Y = int16(X)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
       >une matrice de double, single ou d'entiers.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>Y</param_name>
-            <param_description
-      >une matrice d'entiers 16 bits.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>int16</b> convertit la valeur en type entier 16 bits.</p>
-            <p
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Y</param_name>
+      <param_description>une matrice d'entiers 16 bits.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>int16</b> convertit la valeur en type entier 16 bits.</p>
+    <p
     >La valeur est arrondie à la valeur int16 la plus proche lors de la conversion. Une valeur supérieure ou inférieure à la plage pour la classe int16 est mappée vers l'une des extrémités de la plage [-32768, 32767].</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [1 -32769 -120 127 32767 32768]
 B = int16(A)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${integer}intmax">intmax</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${integer}intmax">intmin</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${interpreter}numeric_types">numeric types</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${integer}intmax">intmax</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${integer}intmax">intmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}numeric_types">numeric types</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

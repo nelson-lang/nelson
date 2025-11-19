@@ -1,95 +1,81 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>imformats</keyword>
-    <short_description>Manage supported image formats.</short_description>
-    <syntax>
-        <syntax_item>imformats ()</syntax_item>
-        <syntax_item>formats = imformats()</syntax_item>
-        <syntax_item>format = imformats(ext)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>ext</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>imformats</keyword>
+  <short_description>Manage supported image formats.</short_description>
+  <syntax>
+    <syntax_item>imformats ()</syntax_item>
+    <syntax_item>formats = imformats()</syntax_item>
+    <syntax_item>format = imformats(ext)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ext</param_name>
+      <param_description
       >File format extension: character vector or string scalar.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>formats</param_name>
-            <param_description>structure array: supported image formats.
-            </param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>format</param_name>
-            <param_description
-      >structure: supported image format.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>imformats</b> returns the list of supported image formats.</p>
-        <p>
-            <b
-      >formats = imformats()</b> returns the list of supported image formats in a structure
-            array.</p>
-        <p>
-            <b
-      >format = imformats(ext)</b> returns the structure of the image format corresponding
-            to the extension <b>ext</b>.</p>
-        <p>Each element of the structure array contains the fields:</p>
-        <ul>
-            <li>
-                <b>ext</b>: file format extension</li>
-            <li>
-                <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>formats</param_name>
+      <param_description
+      >structure array: supported image formats.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>format</param_name>
+      <param_description>structure: supported image format.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>imformats</b> returns the list of supported image formats.</p>
+    <p><b
+      >formats = imformats()</b> returns the list of supported image formats in a structure array.</p>
+    <p><b
+      >format = imformats(ext)</b> returns the structure of the image format corresponding to the extension <b
+      >ext</b>.</p>
+    <p>Each element of the structure array contains the fields:</p>
+    <ul>
+      <li><b>ext</b>: file format extension</li>
+      <li><b
         >isa</b>: function handle to test if the file format is supported</li>
-            <li>
-                <b
+      <li><b
         >info</b>: function handle to get information about the file format</li>
-            <li>
-                <b>description</b>: file format description</li>
-            <li>
-                <b>read</b>: function handle to read the file format</li>
-            <li>
-                <b>write</b>: function handle to write the file format</li>
-            <li>
-                <b
+      <li><b>description</b>: file format description</li>
+      <li><b>read</b>: function handle to read the file format</li>
+      <li><b>write</b>: function handle to write the file format</li>
+      <li><b
         >alpha</b>: logical scalar indicating if the file format supports transparency</li>
-            <li>
-                <b
-        >multipage</b>: logical scalar indicating if the file format supports multipage
-                images</li>
-        </ul>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+      <li><b
+        >multipage</b>: logical scalar indicating if the file format supports multipage images</li>
+    </ul>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[imformats()]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${graphics_io}imwrite">imwrite</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${graphics_io}imread">imread</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.13.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics_io}imwrite">imwrite</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics_io}imread">imread</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.13.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

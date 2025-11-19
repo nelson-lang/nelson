@@ -1,39 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>setlanguage</keyword>
-    <short_description
-  >Modifie la langue utilisée dans Nelson.</short_description>
-    <syntax>
-        <syntax_item>setlanguage(language)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>language</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>setlanguage</keyword>
+  <short_description>Modifie la langue utilisée dans Nelson.</short_description>
+  <syntax>
+    <syntax_item>setlanguage(language)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>language</param_name>
+      <param_description
       >une chaîne : 'fr_FR', 'fr_FR' ou d'autres par défaut.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b
       >setlanguage</b> modifie la langue utilisée par Nelson et enregistre ce changement pour les exécutions ultérieures de Nelson.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <see_also>
-            <see_also_item>
-                <link linkend="${localization}getlanguage">getlanguage</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+  </description>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${localization}getlanguage">getlanguage</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,72 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>gamma</keyword>
-    <short_description>Gamma special function</short_description>
-    <syntax>
-        <syntax_item>R = gamma(M)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>M</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>gamma</keyword>
+  <short_description>Gamma special function</short_description>
+  <syntax>
+    <syntax_item>R = gamma(M)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>M</param_name>
+      <param_description
       >a real single or real double matrix.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>R</param_name>
-            <param_description>result of gamma function.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>gamma</b> computes the gamma function.
-        </p>
-        <p>The gamma function is defined by the integral:</p>
-        <latex>\Gamma(z) = \int_0^{\infty} t^{z-1} e^{-t} \, dt</latex>
-        <p>for</p>
-        <latex>\text{Re}(z) > 0</latex>
-        <p
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description>result of gamma function.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>gamma</b> computes the gamma function.</p>
+    <p>The gamma function is defined by the integral:</p>
+    <latex>\Gamma(z) = \int_0^{\infty} t^{z-1} e^{-t} \, dt</latex>
+    <p>for</p>
+    <latex>\text{Re}(z) &gt;0</latex>
+    <p
     >The gamma function extends the factorial function to real and complex numbers:</p>
-        <latex>\Gamma(n) = (n-1)!</latex>
-        <p>for positive integers</p>
-        <latex>n</latex>
-        <p>Key properties include:</p>
-        <ul>
-        <li><latex>\Gamma(z+1) = z\Gamma(z)</latex> (recurrence relation)</li>
-        <li><latex>\Gamma(1/2) = \sqrt{\pi}</latex></li>
-        </ul>
-    </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    <latex>\Gamma(n) = (n-1)!</latex>
+    <p>for positive integers</p>
+    <latex>n</latex>
+    <p>Key properties include:</p>
+    <ul>
+      <li><latex>\Gamma(z+1) = z\Gamma(z)</latex>(recurrence relation)</li>
+      <li>
+        <latex>\Gamma(1/2) = \sqrt{\pi}</latex>
+      </li>
+    </ul>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[R = gamma([-pi:0.1:pi])]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${special_functions}gammaln">gammaln</link>
-                </see_also_item>
-                <see_also_item>
-                    <link
-        linkend="${elementary_functions}factorial"
-      >factorial</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>initial version</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}gammaln">gammaln</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}factorial">factorial</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

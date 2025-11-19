@@ -1,65 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>normpdf</keyword>
-    <short_description>Densité de probabilité normale</short_description>
-    <syntax>
-        <syntax_item>y = normpdf(x)</syntax_item>
-        <syntax_item>y = normpdf(x, mu)</syntax_item>
-        <syntax_item>y = normpdf(x, mu, sigma)</syntax_item>
-    </syntax>
-        <param_input>
-                <param_input_item>
-                        <param_name>x</param_name>
-                        <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>normpdf</keyword>
+  <short_description>Densité de probabilité normale</short_description>
+  <syntax>
+    <syntax_item>y = normpdf(x)</syntax_item>
+    <syntax_item>y = normpdf(x, mu)</syntax_item>
+    <syntax_item>y = normpdf(x, mu, sigma)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x</param_name>
+      <param_description
       >valeur scalaire ou tableau : valeurs auxquelles évaluer la densité.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>mu</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>mu</param_name>
+      <param_description
       >valeur scalaire, 0 (par défaut) ou tableau : moyenne.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>sigma</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>sigma</param_name>
+      <param_description
       >valeur scalaire positive, 1 (par défaut) ou tableau de valeurs positives : écart-type.</param_description>
-                </param_input_item>
-        </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>y</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>y</param_name>
+      <param_description
       >valeur scalaire ou tableau : valeurs de la densité.</param_description>
-        </param_output_item>
-    </param_output>
-        <description>
-        <p>
-            <b
-      >normpdf</b> calcule la fonction de densité de probabilité de la loi normale (gaussienne).
-        </p>
-        <p>La formule générale pour la densité de la loi normale est :</p>
-        <latex
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >normpdf</b> calcule la fonction de densité de probabilité de la loi normale (gaussienne).</p>
+    <p>La formule générale pour la densité de la loi normale est :</p>
+    <latex
     >f(x|\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}</latex>
-        <p>où</p>
-        <latex>\mu</latex>
-        <p>est la moyenne et</p>
-        <latex>\sigma^2</latex>
-        <p>est la variance.</p>
-        <p>Pour la loi normale centrée-réduite (</p>
-        <latex>\mu = 0, \sigma = 1</latex>
-        <p>) :</p>
-        <latex>\phi(x) = \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}}</latex>
-    </description>
-                <used_function />
-                <bibliography
+    <p>où</p>
+    <latex>\mu</latex>
+    <p>est la moyenne et</p>
+    <latex>\sigma^2</latex>
+    <p>est la variance.</p>
+    <p>Pour la loi normale centrée-réduite (</p>
+    <latex>\mu = 0, \sigma = 1</latex>
+    <p>) :</p>
+    <latex>\phi(x) = \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}}</latex>
+  </description>
+  <used_function />
+  <bibliography
   >Evans, M., N. Hastings, and B. Peacock. Statistical Distributions. 2nd ed. Hoboken, NJ: John Wiley and Sons, Inc., 1993.</bibliography>
-                <examples>
-                                    <example_item>
-                                            <example_item_type
-      >nelson</example_item_type>
-                                            <example_item_description />
-                                            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[x = [-0.2, -0.1, 0, 0.1, 0.2];
     R = normpdf(x);
@@ -68,21 +65,20 @@
     R = normpdf(x, 2, 1);
 
     R = normpdf(0, [-0.2, -0.1, 0, 0.1, 0.2], 1);]]></example_item_data>
-                                            </example_item>
-                </examples>
-                <see_also>
-                    <see_also_item>
-                        <link linkend="${statistics}mean">mean</link>
-                    </see_also_item>
-                </see_also>
-                <history>
-                    <history_item>
-                        <history_version>1.0.0</history_version>
-                        <history_description
-      >version initiale</history_description>
-                    </history_item>
-                </history>
-                <authors>
-                    <author_item>Allan CORNET</author_item>
-                </authors>
-            </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}mean">mean</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,44 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>drawnow</keyword>
-    <short_description>Update figures and process callbacks</short_description>
-    <syntax>
-        <syntax_item>drawnow()</syntax_item>
-    </syntax>
-    <description>
-        <p>
-            <b
-      >drawnow</b> flushes the event queue and updates the figure window.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>drawnow</keyword>
+  <short_description>Update figures and process callbacks</short_description>
+  <syntax>
+    <syntax_item>drawnow()</syntax_item>
+  </syntax>
+  <description>
+    <p><b>drawnow</b> flushes the event queue and updates the figure window.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[x = -pi:pi/20:pi;
 plot(x, cos(x))
 drawnow
 title('Title Here ...')
 grid on]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${graphics}refresh">refresh</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}refresh">refresh</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

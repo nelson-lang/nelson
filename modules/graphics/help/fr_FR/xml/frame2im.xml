@@ -1,58 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>frame2im</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>frame2im</keyword>
+  <short_description
   >Récupère les données d'image d'une image vidéo.</short_description>
-    <syntax>
-        <syntax_item>RGB = frame2im(F)</syntax_item>
-        <syntax_item>[X, map] = frame2im(F)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>F</param_name>
-                    <param_description
-      >une structure : image vidéo, représentée comme une structure avec deux champs :
-                        cdata : un tableau de uint8 stockant les données de l'image.
-                        colormap : la palette de couleurs. Ce champ est vide ([]) pour les images truecolor (RGB).
-                        Une structure d'image vidéo peut être créée avec les fonctions im2frame et getframe.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>RGB</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>RGB = frame2im(F)</syntax_item>
+    <syntax_item>[X, map] = frame2im(F)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>F</param_name>
+      <param_description
+      >une structure : image vidéo, représentée comme une structure avec deux champs : cdata : un tableau de uint8 stockant les données de l'image.                          colormap : la palette de couleurs. Ce champ est vide ([]) pour les images truecolor (RGB).                          Une structure d'image vidéo peut être créée avec les fonctions im2frame et getframe.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>RGB</param_name>
+      <param_description
       >Tableau numérique m×n×3 : image truecolor (uint8).</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>X</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>X</param_name>
+      <param_description
       >Matrice numérique m×n : image indexée (uint8).</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>map</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>map</param_name>
+      <param_description
       >Matrice numérique c×3 : palette de couleurs correspondant à l'image indexée X, retournée comme une matrice c×3 avec des valeurs dans l'intervalle [0, 1]. Chaque ligne représente un triplet RGB définissant les composantes rouge, verte et bleue d'une couleur de la palette.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >RGB = frame2im(F)</b> extrait l'image truecolor (RGB) de l'image vidéo <b
       >F</b>.</p>
-        <p>
-            <b>[X, map] = frame2im(F)</b> récupère l'image indexée <b
-      >X</b> et sa palette de couleurs associée <b
+    <p><b>[X, map] = frame2im(F)</b> récupère l'image indexée<b
+      >X</b> et sa palette de couleurs associée<b
       >map</b> à partir de l'image vidéo <b>F</b>.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 s = surf(peaks);
@@ -60,20 +55,20 @@ F = getframe(f)
 RGB = frame2im(F);
 figure;
 imshow(RGB);]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${graphics}im2frame">im2frame</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.13.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}im2frame">im2frame</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.13.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

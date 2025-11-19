@@ -1,60 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>gammaln</keyword>
-    <short_description>Logarithme de la fonction gamma
-</short_description>
-    <syntax>
-        <syntax_item>R = gammaln(M)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>M</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>gammaln</keyword>
+  <short_description>Logarithme de la fonction gamma</short_description>
+  <syntax>
+    <syntax_item>R = gammaln(M)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>M</param_name>
+      <param_description
       >une matrice réelle simple ou double.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>R</param_name>
-            <param_description
-      >résultat de la fonction gammaln.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>La fonction <b
-      >gammaln(A)</b> calcule le logarithme naturel de la fonction gamma pour une entrée donnée <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description>résultat de la fonction gammaln.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>La fonction<b
+      >gammaln(A)</b> calcule le logarithme naturel de la fonction gamma pour une entrée donnée<b
       >A</b>, exprimé comme <b>gammaln(A) = log(gamma(A))</b>.</p>
-        <p
-    >Il est important de noter que A doit être un nombre réel non négatif.</p>
-        <p
-    >L'utilisation de gammaln aide à prévenir les problèmes potentiels de sous-débordement et de débordement qui pourraient survenir si l'on calculait directement <b
+    <p>Il est important de noter que A doit être un nombre réel non négatif.</p>
+    <p
+    >L'utilisation de gammaln aide à prévenir les problèmes potentiels de sous-débordement et de débordement qui pourraient survenir si l'on calculait directement<b
       >log(gamma(A))</b>.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[R = gammaln([0:0.1:pi])]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${special_functions}gamma">gamma</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}gamma">gamma</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

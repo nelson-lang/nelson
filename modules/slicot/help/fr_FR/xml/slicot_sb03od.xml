@@ -1,89 +1,89 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-        <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>slicot_sb03od</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>slicot_sb03od</keyword>
+  <short_description
   >Résolution des équations de Lyapunov stables temps continu ou discret (facteur de Cholesky).</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[Q_OUT, B_OUT, SCALE, WR, WI, INFO] = slicot_sb03od(DICO, FACT, TRANS, A, Q_IN, B_IN)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-        <param_name>DICO</param_name>
-        <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>DICO</param_name>
+      <param_description
       >Spécifie le type d'équation de Lyapunov à résoudre : = 'C' : cas continu ; = 'D' : cas discret.</param_description>
-        </param_input_item>
-        <param_input_item>
-        <param_name>FACT</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>FACT</param_name>
+      <param_description
       >Spécifie si la factorisation de Schur réelle de A est fournie à l'entrée : = 'F' : A et Q contiennent les facteurs ; = 'N' : la factorisation sera calculée et stockée dans A et Q.</param_description>
-        </param_input_item>
-        <param_input_item>
-        <param_name>TRANS</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>TRANS</param_name>
+      <param_description
       >Spécifie la forme de op(K) : = 'N' : op(K) = K (sans transposition) ; = 'T' : op(K) = K**T (transposée).</param_description>
-        </param_input_item>
-        <param_input_item>
-        <param_name>A</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description
       >La partie principale N-by-N de ce tableau doit contenir la matrice A. Si FACT = 'F', A contient une matrice quasi-triangulaire supérieure S en forme canonique de Schur ; les éléments sous la partie Hessenberg supérieure de A ne sont pas référencés.</param_description>
-        </param_input_item>
-        <param_input_item>
-        <param_name>Q_IN</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>Q_IN</param_name>
+      <param_description
       >Si FACT = 'F', la partie principale N-by-N de ce tableau doit contenir la matrice orthogonale Q de la factorisation de Schur de A. Sinon, Q n'a pas besoin d'être fournie.</param_description>
-        </param_input_item>
-        <param_input_item>
-        <param_name>B_IN</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>B_IN</param_name>
+      <param_description
       >Si TRANS = 'N', dimension (LDB,max(M,N)), si TRANS = 'T'. À l'entrée, si TRANS = 'N', la partie principale M-by-N de ce tableau doit contenir la matrice de coefficients B de l'équation. Si TRANS = 'T', la partie principale N-by-M doit contenir B.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-        <param_name>Q_OUT</param_name>
-        <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Q_OUT</param_name>
+      <param_description
       >La partie principale N-by-N de ce tableau contient la matrice orthogonale Q de la factorisation de Schur de A. Le contenu de Q n'est pas modifié si FACT = 'F'.</param_description>
-        </param_output_item>
-        <param_output_item>
-        <param_name>B_OUT</param_name>
-        <param_description
-      >La partie principale N-by-N de ce tableau contient le facteur de Cholesky supérieur U de la matrice solution X, X = op(U)'*op(U). Si M = 0 et N > 0, alors U est mis à zéro.</param_description>
-        </param_output_item>
-        <param_output_item>
-        <param_name>SCALE</param_name>
-        <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>B_OUT</param_name>
+      <param_description
+      >La partie principale N-by-N de ce tableau contient le facteur de Cholesky supérieur U de la matrice solution X, X = op(U)'*op(U). Si M = 0 et N &gt;0, alors U est mis à zéro.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>SCALE</param_name>
+      <param_description
       >Le facteur d'échelle scale ≤ 1 pour prévenir le débordement de la solution.</param_description>
-        </param_output_item>
-        <param_output_item>
-        <param_name>WR</param_name>
-        <param_description
-      >Si FACT = 'N', et INFO &#8805; 0 et INFO &lt; 2, WR contient les parties réelles des valeurs propres de A.</param_description>
-        </param_output_item>
-        <param_output_item>
-        <param_name>WI</param_name>
-        <param_description
-      >Si FACT = 'N', et INFO &#8805; 0 et INFO &lt; 2, WI contient les parties imaginaires des valeurs propres de A.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>INFO</param_name>
-            <param_description>= 0 : sortie réussie.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
+    </param_output_item>
+    <param_output_item>
+      <param_name>WR</param_name>
+      <param_description
+      >Si FACT = 'N', et INFO ≥ 0 et INFO &lt; 2, WR contient les parties réelles des valeurs propres de A.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>WI</param_name>
+      <param_description
+      >Si FACT = 'N', et INFO ≥ 0 et INFO &lt; 2, WI contient les parties imaginaires des valeurs propres de A.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>INFO</param_name>
+      <param_description>= 0 : sortie réussie.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >Résoudre pour X = op(U)'*op(U) soit l'équation de Lyapunov continue stable non négative définie, soit l'équation de Lyapunov discrète convergente non négative définie.</p>
-    </description>
-    <used_function>SB03OD</used_function>
-    <bibliography
+  </description>
+  <used_function>SB03OD</used_function>
+  <bibliography
   >http://slicot.org/objects/software/shared/doc/SB03OD.html</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [-0.5000    0.5000         0;
          0         0         0;
@@ -95,15 +95,15 @@ DICO = 'D';
 FACT = 'N';
 Q_IN = zeros(3, 3);
 [Q_OUT, B_OUT, SCALE, WR, WI, INFO] = slicot_sb03od(DICO, FACT, TRANS, A, Q_IN, B_IN)]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>SLICOT Documentation</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>SLICOT Documentation</author_item>
+  </authors>
 </xmldoc>

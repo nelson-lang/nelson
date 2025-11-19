@@ -1,43 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>fetchOutputs</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fetchOutputs</keyword>
+  <short_description
   >Récupérer les résultats d'une fonction s'exécutant dans le pool d'arrière-plan.</short_description>
-    <syntax>
-        <syntax_item>[y1, ... , ym] = fetchOutputs(f)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>f</param_name>
-            <param_description>objet FevalFuture</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>y1, ... , ym</param_name>
-            <param_description>sorties</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p><b>[y1, ... , ym] = fetchOutputs(f)</b> récupère <b
+  <syntax>
+    <syntax_item>[y1, ... , ym] = fetchOutputs(f)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>f</param_name>
+      <param_description>objet FevalFuture</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>y1, ... , ym</param_name>
+      <param_description>sorties</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>[y1, ... , ym] = fetchOutputs(f)</b> récupère <b
       >m</b> résultats d'un tableau de <b>Future</b> <b>f</b>.</p>
-        <p />
-        <p><b>fetchOutputs</b> attend que la fonction associée à <b
+    <p />
+    <p><b>fetchOutputs</b> attend que la fonction associée à<b
       >f</b> se termine avant de récupérer les résultats.</p>
-        <p>Si <b
-      >fetchOutputs</b> est appelé, la propriété Read de chaque élément de <b
+    <p>Si<b
+      >fetchOutputs</b> est appelé, la propriété Read de chaque élément de<b
       >f</b> est définie sur true.</p>
-    </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description
-      >Sequential version</example_item_description>
-                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Sequential version</example_item_description>
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 tic()
@@ -46,12 +45,11 @@ R2 = magic(5000);
 toc()
 size(R1)
 ]]></example_item_data>
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description
-      >Parallel version</example_item_description>
-                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Parallel version</example_item_description>
+      <example_item_data
       ><![CDATA[
 b = backgroundPool()
 tic()
@@ -65,28 +63,26 @@ toc()
 size(r1)
 f1
 f2]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${parallel}parfeval">parfeval</link>
-                </see_also_item>
-                <see_also_item>
-                    <link
-        linkend="${parallel}backgroundPool"
-      >backgroundPool</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${parallel}fetchNext">fetchNext</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${parallel}parfeval">parfeval</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parallel}backgroundPool">backgroundPool</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parallel}fetchNext">fetchNext</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,104 +1,99 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>imshow</keyword>
-    <short_description>Affiche une image.</short_description>
-    <syntax>
-        <syntax_item>imshow(filename)</syntax_item>
-        <syntax_item>imshow(img)</syntax_item>
-        <syntax_item>imshow(RGB)</syntax_item>
-        <syntax_item>imshow(img, [low high])</syntax_item>
-        <syntax_item>imshow(img, [])</syntax_item>
-        <syntax_item>imshow(img, map)</syntax_item>
-        <syntax_item>imshow(..., propertyName, propertyValue)</syntax_item>
-        <syntax_item>go = imshow(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>imshow</keyword>
+  <short_description>Affiche une image.</short_description>
+  <syntax>
+    <syntax_item>imshow(filename)</syntax_item>
+    <syntax_item>imshow(img)</syntax_item>
+    <syntax_item>imshow(RGB)</syntax_item>
+    <syntax_item>imshow(img, [low high])</syntax_item>
+    <syntax_item>imshow(img, [])</syntax_item>
+    <syntax_item>imshow(img, map)</syntax_item>
+    <syntax_item>imshow(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>go = imshow(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
       >Vecteur ligne de caractères : nom du fichier de l'image à afficher.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>img</param_name>
-            <param_description
-      >Image en niveaux de gris : matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>RGB</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>img</param_name>
+      <param_description>Image en niveaux de gris : matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>RGB</param_name>
+      <param_description
       >Image en vraies couleurs : tableau m-par-n-par-3.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>[low high]</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>[low high]</param_name>
+      <param_description
       >Plage d'affichage de l'image en niveaux de gris.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>map</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>map</param_name>
+      <param_description
       >Palette de couleurs : matrice c-par-3.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyName</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
       >Une chaîne scalaire ou un vecteur ligne de caractères (pour compatibilité).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyValue</param_name>
-            <param_description
-      >Une valeur (pour compatibilité).</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>go</param_name>
-            <param_description
-      >Un objet graphique : type image.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>imshow(img)</b> affiche l'image <b>img</b>.
-        </p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Une valeur (pour compatibilité).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>Un objet graphique : type image.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>imshow(img)</b> affiche l'image <b>img</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 filename = [tempdir, 'apollo_8_earthrise_1968_as08-14-2383.jpg'];
 websave(filename, 'https://www.nasa.gov/wp-content/uploads/2025/05/3dmodels-casa-2025-astro.jpg');
 h = imshow(filename);
 ]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${graphics}imread">imread</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${graphics}image">image</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${graphics}imagesc">imagesc</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${graphics}colormap">colormap</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}imread">imread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}image">image</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}imagesc">imagesc</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}colormap">colormap</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

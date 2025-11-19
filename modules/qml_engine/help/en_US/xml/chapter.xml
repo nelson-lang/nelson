@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>qml_engine</module_name>
-    <chapter>QML engine</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>qml_engine</module_name>
+  <chapter>QML engine</chapter>
+  <chapter_description>
+    <p
     >The QML Engine module allows Nelson programs to display, manipulate, and interact with graphical content using Qt's QML framework.</p>
-        <p
+    <p
     >It provides functions to manage QML components, access Qt objects, and integrate JavaScript and QML logic.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

@@ -1,55 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>qml_evaluatestring</keyword>
-    <short_description>Evaluates a js string.</short_description>
-    <syntax>
-        <syntax_item>r = qml_evaluatestring(string_to_eval)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>string_to_eval</param_name>
-            <param_description>a string: a js code.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>r</param_name>
-            <param_description
-      >a double, logical, int or string.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>Evaluates a js string.</p>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>qml_evaluatestring</keyword>
+  <short_description>Evaluates a js string.</short_description>
+  <syntax>
+    <syntax_item>r = qml_evaluatestring(string_to_eval)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>string_to_eval</param_name>
+      <param_description>a string: a js code.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>a double, logical, int or string.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Evaluates a js string.</p>
+    <p
     >If returned value cannot be converted to a basic type, it will converted to string.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[qml_evaluatestring('a = 2 + 4')]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link
-        linkend="${qml_engine}qml_evaluatefile"
-      >qml_evaluatefile</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${qml_engine}qml_evaluatefile">qml_evaluatefile</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

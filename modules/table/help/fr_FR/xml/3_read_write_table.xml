@@ -1,42 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>Lecture/Écriture de tables vers des fichiers</keyword>
-    <description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>Lecture/Écriture de tables vers des fichiers</keyword>
+  <description>
+    <p
     >Nelson fournit des capacités étendues pour la lecture et l'écriture de tables vers des fichiers, prenant en charge les formats texte et binaire selon les besoins de gestion des données.</p>
-        <p>Fichiers texte (.csv, .txt, etc.) :</p>
-        <ul>
-            <li
+    <p>Fichiers texte (.csv, .txt, etc.) :</p>
+    <ul>
+      <li
       >writetable() exporte les tables vers des fichiers texte délimités avec des séparateurs personnalisables</li>
-            <li
+      <li
       >readtable() importe les tables depuis des fichiers texte délimités avec détection automatique du format</li>
-            <li
+      <li
       >Les fichiers texte conservent les noms de variables et les données au format lisible par l'humain</li>
-        </ul>
-        <p>Fichier binaire :</p>
-        <ul>
-            <li>Format Nelson HDF5 (.nh5) :
-      	<ul>
-                <li>Stockage binaire efficace utilisant HDF5</li>
-                <li
-          >Conserve toutes les métadonnées et les types de données de la table</li>
-                <li>Utilisez les commandes save -nh5 et load</li>
-            </ul>
-        </li>
+    </ul>
+    <p>Fichier binaire :</p>
+    <ul>
+      <li>Format Nelson HDF5 (.nh5) :<ul><li
+          >Stockage binaire efficace utilisant HDF5</li><li
+          >Conserve toutes les métadonnées et les types de données de la table</li><li
+          >Utilisez les commandes save -nh5 et load</li></ul></li>
     </ul>
     <p
     >Le format binaire est recommandé pour préserver la précision numérique exacte et travailler avec de grands ensembles de données.</p>
-</description>
-<used_function />
-<bibliography />
-<examples>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
     <example_item>
-        <example_item_type>nelson</example_item_type>
-        <example_item_description
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Read/Write table to .nh5 file</example_item_description>
-        <example_item_data
+      <example_item_data
       ><![CDATA[% Create a sample table with sensor data
 T = table([1.5; -2.3; 4.7], [0.5; 1.1; -0.7], [-1; 2; 3], 'VariableNames', {'Voltage', 'Current', 'Resistance'});
 R = T;
@@ -49,10 +45,10 @@ T
 ]]></example_item_data>
     </example_item>
     <example_item>
-        <example_item_type>nelson</example_item_type>
-        <example_item_description
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Read/Write table to text file</example_item_description>
-        <example_item_data
+      <example_item_data
       ><![CDATA[% Create a sample table with sensor data
 T = table([1.5; -2.3; 4.7], [0.5; 1.1; -0.7], [-1; 2; 3], 'VariableNames', {'Voltage', 'Current', 'Resistance'});
 filename = [tempdir(), 'table_example.csv'];
@@ -60,28 +56,28 @@ writetable(T, filename);
 T2 = readtable(filename);
 ]]></example_item_data>
     </example_item>
-</examples>
-<see_also>
+  </examples>
+  <see_also>
     <see_also_item>
-        <link linkend="${spreadsheet}writetable">writetable</link>
+      <link linkend="${spreadsheet}writetable">writetable</link>
     </see_also_item>
     <see_also_item>
-        <link linkend="${spreadsheet}readtable">readtable</link>
+      <link linkend="${spreadsheet}readtable">readtable</link>
     </see_also_item>
     <see_also_item>
-        <link linkend="${stream_manager}load">load</link>
+      <link linkend="${stream_manager}load">load</link>
     </see_also_item>
     <see_also_item>
-        <link linkend="${stream_manager}save">save</link>
+      <link linkend="${stream_manager}save">save</link>
     </see_also_item>
-</see_also>
-<history>
+  </see_also>
+  <history>
     <history_item>
-        <history_version>1.10.0</history_version>
-        <history_description>version initiale</history_description>
+      <history_version>1.10.0</history_version>
+      <history_description>version initiale</history_description>
     </history_item>
-</history>
-<authors>
+  </history>
+  <authors>
     <author_item>Allan CORNET</author_item>
-</authors>
+  </authors>
 </xmldoc>

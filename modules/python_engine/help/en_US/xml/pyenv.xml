@@ -1,122 +1,97 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>pyenv</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>pyenv</keyword>
+  <short_description
   >Change default environment of Python interpreter.</short_description>
-    <syntax>
-        <syntax_item>pyenv</syntax_item>
-        <syntax_item>pe = pyenv('Version', python_path)</syntax_item>
-        <syntax_item>pe = pyenv(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>python_path</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>pyenv</syntax_item>
+    <syntax_item>pe = pyenv('Version', python_path)</syntax_item>
+    <syntax_item>pe = pyenv(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>python_path</param_name>
+      <param_description
       >a string, or row characters array: executable file name of Python or version (on Windows).</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>pe</param_name>
-            <param_description>PythonEnvironment object.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>Use <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>pe</param_name>
+      <param_description>PythonEnvironment object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Use<b
       >pyenv</b> to modify the default version or execution mode of the Python interpreter, ensuring these adjustments persist across various Nelson sessions.</p>
-        <p>The value set by <b
-      >pyenv</b> is persistent across Nelson sessions.</p>
-        <p />
-        <p>Properties:</p>
-        <p>
-            <b>Version</b>: string: Python version</p>
-            <p>
-                <b>Executable</b>: string: Name of Python executable file</p>
-                <p>
-                    <b>Library</b>: string: Shared library file</p>
-                    <p>
-                        <b>Home</b>: string: Home folder</p>
-                        <p>
-                            <b
+    <p>The value set by<b>pyenv</b> is persistent across Nelson sessions.</p>
+    <p />
+    <p>Properties:</p>
+    <p><b>Version</b>: string: Python version</p>
+    <p><b>Executable</b>: string: Name of Python executable file</p>
+    <p><b>Library</b>: string: Shared library file</p>
+    <p><b>Home</b>: string: Home folder</p>
+    <p><b
       >Status</b>: Process status: "NotLoaded" (default), "Loaded", "Terminated"</p>
-                            <p>
-                                <b
+    <p><b
       >ExecutionMode</b>: Execution mode: "InProcess" (default) or "OutOfProcess"</p>
-                                <p />
-                                <p
+    <p />
+    <p
     >Use environment variables to force python environment at each startup (usefull for snapcraft or docker distribution):</p>
-                                <p />
-                                <p>
-                                    <b
-      >__NELSON_PYTHON_VERSION__</b>:  example "3.10"</p>
-                                    <p>
-                                        <b
-      >__NELSON_PYTHON_EXECUTABLE__</b>: example  "/usr/bin/python3"</p>
-                                        <p>
-                                            <b
-      >__NELSON_PYTHON_LIBRARY__</b>: example "libpython3.10.so.1.0"</p>
-                                            <p>
-                                                <b
-      >__NELSON_PYTHON_HOME__</b>: example "/usr"</p>
-                                                <p
-    >All environment variables must exist and valid to be considered.</p>
-                                                <p />
-                                                <p>On Windows, the <b
+    <p />
+    <p><b>__NELSON_PYTHON_VERSION__</b>: example "3.10"</p>
+    <p><b>__NELSON_PYTHON_EXECUTABLE__</b>: example "/usr/bin/python3"</p>
+    <p><b>__NELSON_PYTHON_LIBRARY__</b>: example "libpython3.10.so.1.0"</p>
+    <p><b>__NELSON_PYTHON_HOME__</b>: example "/usr"</p>
+    <p>All environment variables must exist and valid to be considered.</p>
+    <p />
+    <p>On Windows, the<b
       >pyenv('Version', '3.11')</b> function searches the Windows Registry for the Python version associated with the specified version. It first looks in the HKCU environment, and if not found, it searches in HKLM.</p>
-                                            </description>
-                                            <used_function />
-                                            <bibliography />
-                                            <examples>
-                                                <example_item>
-                                                    <example_item_type
-      >nelson</example_item_type>
-                                                    <example_item_description />
-                                                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[pe = pyenv]]></example_item_data>
-                                                </example_item>
-                                                <example_item>
-                                                    <example_item_type
-      >nelson</example_item_type>
-                                                    <example_item_description />
-                                                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[if ispc()
 pe = pyenv('Version', '3.12')
 end]]></example_item_data>
-                                                </example_item>
-                                            </examples>
-                                            <see_also>
-                                                <see_also_item>
-                                                    <link
-        linkend="${python_engine}pyrun"
-      >pyrun</link>
-                                                </see_also_item>
-                                            </see_also>
-                                            <history>
-                                                <history_item>
-                                                    <history_version
-      >1.3.0</history_version>
-                                                    <history_description
-      >initial version</history_description>
-                                                </history_item>
-                                                <history_item>
-                                                    <history_version
-      >1.4.0</history_version>
-                                                    <history_description
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${python_engine}pyrun">pyrun</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.3.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.4.0</history_version>
+      <history_description
       >environment variables to force python environment</history_description>
-                                                </history_item>
-                                                <history_item>
-                                                    <history_version
-      >1.4.0</history_version>
-                                                    <history_description
+    </history_item>
+    <history_item>
+      <history_version>1.4.0</history_version>
+      <history_description
       >On Windows find python by Windows registry.</history_description>
-                                                </history_item>
-                                            </history>
-                                            <authors>
-                                                <author_item
-    >Allan CORNET</author_item>
-                                            </authors>
-                                        </xmldoc>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

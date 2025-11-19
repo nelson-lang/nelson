@@ -1,52 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>audiowrite</keyword>
-    <short_description>Writes an audio file.</short_description>
-    <syntax>
-        <syntax_item>audiowrite(filename, y, fs)</syntax_item>
-        <syntax_item
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>audiowrite</keyword>
+  <short_description>Writes an audio file.</short_description>
+  <syntax>
+    <syntax_item>audiowrite(filename, y, fs)</syntax_item>
+    <syntax_item
     >audiowrite(filename, y, fs, fieldname, fieldvalue, ...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description>a string: filename to create.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>y</param_name>
-            <param_description>a matrix: audio data.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>fs</param_name>
-            <param_description
-      >an integer value: sampling rate.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>fieldname</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: filename to create.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>y</param_name>
+      <param_description>a matrix: audio data.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fs</param_name>
+      <param_description>an integer value: sampling rate.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fieldname</param_name>
+      <param_description
       >a string: 'BitsPerSample', 'BitRate', 'Quality', 'Title', 'Artist' or 'Comment' .</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>fieldvalue</param_name>
-            <param_description
-      >value associated to the fieldname.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>
-            <b>audiowrite</b> writes an audio file.</p>
-            <p>More than 26 files format supported. See <b
+    </param_input_item>
+    <param_input_item>
+      <param_name>fieldvalue</param_name>
+      <param_description>value associated to the fieldname.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>audiowrite</b> writes an audio file.</p>
+    <p>More than 26 files format supported. See<b
       >audiosupportedformats</b> function to have all supported formats.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[wav_audio = [modulepath('audio'), '/examples/haha.wav'];
 [y, fs] = audioread(wav_audio);
@@ -59,25 +56,23 @@ audiowrite(dest_mp3, y, fs);
 dest_caf = [tempdir(), 'haha.caf'];
 audiowrite(dest_caf, y, fs);
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${audio}audioplayer">audioplayer</link>
-            </see_also_item>
-            <see_also_item>
-                <link
-        linkend="${audio}audiosupportedformats"
-      >audiosupportedformats</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${audio}audioplayer">audioplayer</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}audiosupportedformats">audiosupportedformats</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,157 +1,136 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>nmm</keyword>
-    <short_description>Nelson Modules Manager.</short_description>
-    <syntax>
-        <syntax_item>st = nmm('list')</syntax_item>
-        <syntax_item>nmm('load', module_name)</syntax_item>
-        <syntax_item>l = nmm('autoload', module_name)</syntax_item>
-        <syntax_item>nmm('autoload', module_name, state)</syntax_item>
-        <syntax_item>nmm('install', git_url)</syntax_item>
-        <syntax_item>nmm('uninstall', module_name)</syntax_item>
-        <syntax_item
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nmm</keyword>
+  <short_description>Nelson Modules Manager.</short_description>
+  <syntax>
+    <syntax_item>st = nmm('list')</syntax_item>
+    <syntax_item>nmm('load', module_name)</syntax_item>
+    <syntax_item>l = nmm('autoload', module_name)</syntax_item>
+    <syntax_item>nmm('autoload', module_name, state)</syntax_item>
+    <syntax_item>nmm('install', git_url)</syntax_item>
+    <syntax_item>nmm('uninstall', module_name)</syntax_item>
+    <syntax_item
     >package_filename = nmm('package', module_name, destination_dir)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>module_name</param_name>
-            <param_description
-      >a string: short module's name.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>state</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>module_name</param_name>
+      <param_description>a string: short module's name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>state</param_name>
+      <param_description
       >a logical: true will autoload module at startup, false disable autoload for this module.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>git_url</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>git_url</param_name>
+      <param_description
       >a string: a git url (http/https protocol).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>destination_dir</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>destination_dir</param_name>
+      <param_description
       >a string: an existing destination directory where archive will be created.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>st</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>st</param_name>
+      <param_description
       >a struct: list of installed modules.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>l</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>l</param_name>
+      <param_description
       >a logical: current state of autoload.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>package_filename</param_name>
-            <param_description>a string: filename.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>nmm</b> is the Nelson Modules Manager.</p>
-            <p
+    </param_output_item>
+    <param_output_item>
+      <param_name>package_filename</param_name>
+      <param_description>a string: filename.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nmm</b> is the Nelson Modules Manager.</p>
+    <p
     >Source-based distribution packages allows to have optimized packages for your computer and allows to have distributed repositories.</p>
-            <p>Installed modules are locally built and can require an C/C++.</p>
-            <p />
-            <p>
-                <b>st = nmm('list')</b> get list of installed modules.</p>
-                <p />
-                <p>
-                    <b>nmm('install', git_url)</b> install a distant module.</p>
-                    <p
+    <p>Installed modules are locally built and can require an C/C++.</p>
+    <p />
+    <p><b>st = nmm('list')</b> get list of installed modules.</p>
+    <p />
+    <p><b>nmm('install', git_url)</b> install a distant module.</p>
+    <p
     >About git_url, in this example 'https://github.com/nelson-lang/module_skeleton_basic.git#v1.0.0'</p>
-                    <p
+    <p
     >'#v1.0.0' is defined as #&lt;commit-ish&gt;, it allows to clone exactly an commit.</p>
-                    <p
+    <p
     >The commit-ish can be a tag (exact version), and an sha1 (exac commit) or an branch name.</p>
-                    <p>Without commit-ish, master branch will be used.</p>
-                    <p />
-                    <p>
-                        <b
+    <p>Without commit-ish, master branch will be used.</p>
+    <p />
+    <p><b
       >nmm('install', filename_nmz)</b> install an prebuilt external module.</p>
-                        <p />
-                        <p>
-                            <b
+    <p />
+    <p><b
       >nmm('load', module_name)</b> load an installed module for current session.</p>
-                            <p />
-                            <p>
-                                <b
+    <p />
+    <p><b
       >l = nmm('autoload', module_name</b> returns current state autoload for <b
       >module_name</b>.</p>
-                                <p />
-                                <p>
-                                    <b
+    <p />
+    <p><b
       >nmm('autoload', module_name, state)</b> marks an installed modules "marked" as autoload at startup.</p>
-                                    <p
-    >By default modules are marked as autoload.</p>
-                                    <p />
-                                    <p>
-                                        <b
-      >nmm('uninstall', module_name)</b> uninstall an installed module.</p>
-                                        <p />
-                                        <p>
-                                            <b
+    <p>By default modules are marked as autoload.</p>
+    <p />
+    <p><b>nmm('uninstall', module_name)</b> uninstall an installed module.</p>
+    <p />
+    <p><b
       >nmm('package', module_name, destination_dir)</b> packages an module as a zip file.</p>
-                                            <p />
-                                        </description>
-                                        <used_function />
-                                        <bibliography />
-                                        <examples>
-                                            <example_item>
-                                                <example_item_type
-      >nelson</example_item_type>
-                                                <example_item_description
+    <p />
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Deploy module_skeleton_basic template</example_item_description>
-                                                <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[if ~ismodule('module_skeleton_basic')
     nmm('install', 'https://github.com/nelson-lang/module_skeleton_basic.git#v1.0.0');
     macro_sum(3, 4)
     nmm('uninstall', 'module_skeleton_basic')
 end]]></example_item_data>
-                                            </example_item>
-                                            <example_item>
-                                                <example_item_type
-      >nelson</example_item_type>
-                                                <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Package easily a module</example_item_description>
-                                                <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[if ~ismodule('module_skeleton_basic')
     nmm('install', 'https://github.com/nelson-lang/module_skeleton_basic.git#v1.0.0');
 end
 package_filename = nmm('package', 'module_skeleton_basic', tempdir())
 ]]></example_item_data>
-                                            </example_item>
-                                        </examples>
-                                        <see_also>
-                                            <see_also_item>
-                                                <link
-        linkend="${modules_manager}ismodule"
-      >ismodule</link>
-                                            </see_also_item>
-                                            <see_also_item>
-                                                <link
-        linkend="${modules_manager}getmodules"
-      >getmodules</link>
-                                            </see_also_item>
-                                        </see_also>
-                                        <history>
-                                            <history_item>
-                                                <history_version
-      >1.0.0</history_version>
-                                                <history_description
-      >initial version</history_description>
-                                            </history_item>
-                                        </history>
-                                        <authors>
-                                            <author_item
-    >Allan CORNET</author_item>
-                                        </authors>
-                                    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${modules_manager}ismodule">ismodule</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${modules_manager}getmodules">getmodules</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

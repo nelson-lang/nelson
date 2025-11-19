@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>MPI_Reduce</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>MPI_Reduce</keyword>
+  <short_description
   >Reduces values on all processes to a single value.</short_description>
-    <syntax>
-        <syntax_item>r = MPI_Reduce(Value, Operation, Root)</syntax_item>
-        <syntax_item>r = MPI_Reduce(Value, Operation, Root, Comm)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>Value</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>r = MPI_Reduce(Value, Operation, Root)</syntax_item>
+    <syntax_item>r = MPI_Reduce(Value, Operation, Root, Comm)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>Value</param_name>
+      <param_description
       >value to send: numeric or logical array (sparse not supported).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Operation</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>Operation</param_name>
+      <param_description
       >a string: MPI_SUM, MPI_MAX, MPI_MIN, MPI_SUM, MPI_PROD, MPI_LAND, MPI_LOR, MPI_BAND, MPI_BOR, MPI_LXOR or MPI_BXOR</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Root</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>Root</param_name>
+      <param_description
       >a integer value: rank of root process.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Comm</param_name>
-            <param_description>a MPI_Comm object.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>r</param_name>
-            <param_description>received value</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>Reduces values on all processes to a single value.</p>
-        <p
+    </param_input_item>
+    <param_input_item>
+      <param_name>Comm</param_name>
+      <param_description>a MPI_Comm object.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>received value</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Reduces values on all processes to a single value.</p>
+    <p
     >Nelson does not check to ensure that the reduction operation are all the same size across the various processes in the group.</p>
-        <p
+    <p
     >Please be sure that each process passes the same sized array to the MPI_Allreduce operation.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >mpiexec([modulepath('mpi'), '/examples/help_examples/MPI_Reduce.m'], 4)</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="false"
       ><![CDATA[
 if ~MPI_Initialized()
@@ -69,20 +69,20 @@ if MPI_Initialized()
   MPI_Finalize();
 end
 ]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${mpi}MPI_Allreduce">MPI_Allreduce</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${mpi}MPI_Allreduce">MPI_Allreduce</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

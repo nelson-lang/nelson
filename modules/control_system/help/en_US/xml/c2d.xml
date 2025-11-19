@@ -1,73 +1,72 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>c2d</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>c2d</keyword>
+  <short_description
   >Convert model from continuous to discrete time.</short_description>
-    <syntax>
-        <syntax_item>[P, G] = c2d(A, B, Ts)</syntax_item>
-        <syntax_item>sysd = c2d(sysc, Ts)</syntax_item>
-        <syntax_item>sysd = c2d(sysc, Ts, method)</syntax_item>
-        <syntax_item>sysd = c2d(sysc, Ts, 'prewarp', w0)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>A</param_name>
-            <param_description
-      >State matrix: Nx-by-Nx matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>B</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>[P, G] = c2d(A, B, Ts)</syntax_item>
+    <syntax_item>sysd = c2d(sysc, Ts)</syntax_item>
+    <syntax_item>sysd = c2d(sysc, Ts, method)</syntax_item>
+    <syntax_item>sysd = c2d(sysc, Ts, 'prewarp', w0)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>State matrix: Nx-by-Nx matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description
       >Input-to-state matrix: Nx-by-Nu matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Ts</param_name>
-            <param_description>Sample time: positive scalar.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>sysc</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>Ts</param_name>
+      <param_description>Sample time: positive scalar.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sysc</param_name>
+      <param_description
       >Continuous-time dynamic system: LTI model.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>method</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description
       >Discretization method: 'zoh', 'tustin', 'prewarp'</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>w0</param_name>
-            <param_description>prewarp frequency.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>P</param_name>
-            <param_description>phi</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>G</param_name>
-            <param_description>gamma</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>sysd</param_name>
-            <param_description>Discrete-time model</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>The function <b
-      >sysd = c2d(sysc, Ts)</b> discretizes the continuous-time dynamic system model <b
-      >sysc</b> using a zero-order hold on the inputs with a sample time of <b
+    </param_input_item>
+    <param_input_item>
+      <param_name>w0</param_name>
+      <param_description>prewarp frequency.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>P</param_name>
+      <param_description>phi</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>G</param_name>
+      <param_description>gamma</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>sysd</param_name>
+      <param_description>Discrete-time model</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>The function<b
+      >sysd = c2d(sysc, Ts)</b> discretizes the continuous-time dynamic system model<b
+      >sysc</b> using a zero-order hold on the inputs with a sample time of<b
       >Ts</b>.</p>
-        <p>For instance, you can use <b
+    <p>For instance, you can use<b
       >sysd = c2d(sysc, Ts, method)</b> to explicitly specify the discretization method.</p>
-    </description>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [1  0.5; 0.5  1 ];
 B = [0 -1; 1  0 ];
@@ -77,23 +76,23 @@ sys = ss(A, B, C, D);
 Ts = 2;
 sysd = c2d(sys, Ts, 'zoh')
 ]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${control_system}d2c">d2c</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${control_system}ss">ss</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}d2c">d2c</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}ss">ss</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

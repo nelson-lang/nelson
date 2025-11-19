@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>webtools</module_name>
-    <chapter>Web tools</chapter>
-    <chapter_description>
-        <p
-    >The WebTools module provides functions to interact with web resources, transfer data via
-            URLs, and work with RESTful web services.</p>
-    </chapter_description>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>webtools</module_name>
+  <chapter>Web tools</chapter>
+  <chapter_description>
+    <p
+    >The WebTools module provides functions to interact with web resources, transfer data via URLs, and work with RESTful web services.</p>
+  </chapter_description>
 </xmldoc>

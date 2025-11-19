@@ -1,81 +1,79 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>zoom</keyword>
-    <short_description>Activer le mode zoom.</short_description>
-    <syntax>
-        <syntax_item>zoom</syntax_item>
-        <syntax_item>zoom option</syntax_item>
-        <syntax_item>zoom(factor)</syntax_item>
-        <syntax_item>zoom(fig, ...)</syntax_item>
-        <syntax_item>zoom(ax, ...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>option</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>zoom</keyword>
+  <short_description>Activer le mode zoom.</short_description>
+  <syntax>
+    <syntax_item>zoom</syntax_item>
+    <syntax_item>zoom option</syntax_item>
+    <syntax_item>zoom(factor)</syntax_item>
+    <syntax_item>zoom(fig, ...)</syntax_item>
+    <syntax_item>zoom(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>option</param_name>
+      <param_description
       >chaîne : 'on', 'off', 'reset', 'out', 'xon', 'yon' ou 'toggle'.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>factor</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>factor</param_name>
+      <param_description
       >nombre positif : Pour zoomer, indiquez un facteur supérieur à 1. Pour dézoomer, spécifiez un facteur entre 0 et 1. Lors du dézoom, les axes se dézoomeront d'un facteur de 1/factor.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>fig</param_name>
-            <param_description>Objet figure : Figure cible</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>fig</param_name>
+      <param_description>Objet figure : Figure cible</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description
       >une valeur scalaire d'objet graphique : conteneur parent, spécifié comme un axes.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p
+    </param_input_item>
+  </param_input>
+  <description>
+    <p
     >Utilisez le mode zoom pour ajuster dynamiquement les limites des axes pour une exploration interactive des données.</p>
-        <p
+    <p
     >Activez ou désactivez le mode zoom et configurez des paramètres de base supplémentaires à l'aide de la fonction zoom.</p>
-        <p
+    <p
     >Le mode zoom est compatible avec divers graphiques tels que les graphiques en ligne, en barres, les histogrammes et les graphiques de surface. Ces graphiques disposent généralement d'icônes de zoom avant et arrière sur la barre d'outils pour faciliter la fonctionnalité de zoom.</p>
-        <p><b
+    <p><b
       >zoom option</b> configure le mode zoom pour tous les axes de la figure actuelle.</p>
-        <p>Par exemple, <b>zoom('on')</b> active le mode zoom, <b
+    <p>Par exemple, <b>zoom('on')</b> active le mode zoom, <b
       >zoom('xon')</b> active le mode zoom exclusivement pour la dimension x, tandis que <b
       >zoom('off')</b> désactive complètement le mode zoom.</p>
-        <p
+    <p
     >Une fois le mode zoom activé, vous pouvez ajuster la vue des axes à l'aide du curseur, de la molette de défilement ou du clavier :</p>
-        <p
+    <p
     >Curseur : Cliquez pour zoomer au niveau de la position du curseur ; Faites glisser pour zoomer sur une région rectangulaire.</p>
-        <p
+    <p
     >Molette de défilement : Faites défiler vers le haut pour zoomer, faites défiler vers le bas pour dézoomer.</p>
-        <p
+    <p
     >Clavier : Appuyez sur la flèche haut (↑) pour zoomer, et sur la flèche bas (↓) pour dézoomer.</p>
-        <p
+    <p
     >L'option de mode zoom peut être spécifiée en utilisant l'une des valeurs suivantes :</p>
-        <p><b
+    <p><b
       >'toggle'</b> : Bascule le mode zoom. Si le mode zoom est désactivé, 'toggle' revient à l'option de zoom la plus récemment utilisée parmi 'on', 'xon' ou 'yon'. Cette option se comporte de la même manière que l'appel de zoom sans aucun argument.</p>
-        <p><b
-      >'xon'</b> : Active le mode zoom exclusivement pour la dimension x.</p>
-        <p><b
-      >'yon'</b> : Active le mode zoom exclusivement pour la dimension y.</p>
-        <p><b>'on'</b> : Active le mode zoom.</p>
-        <p><b
+    <p><b>'xon'</b> : Active le mode zoom exclusivement pour la dimension x.</p>
+    <p><b>'yon'</b> : Active le mode zoom exclusivement pour la dimension y.</p>
+    <p><b>'on'</b> : Active le mode zoom.</p>
+    <p><b
       >'off'</b> : Désactive le mode zoom. Notez que certaines interactions par défaut peuvent persister indépendamment du mode d'interaction.</p>
-        <p><b
-      >'reset'</b> : Établit le niveau de zoom actuel comme niveau de zoom de base. Une fois défini, des actions ultérieures comme le dézoom, le double-clic dans les axes ou le clic sur l'icône <b
+    <p><b
+      >'reset'</b> : Établit le niveau de zoom actuel comme niveau de zoom de base. Une fois défini, des actions ultérieures comme le dézoom, le double-clic dans les axes ou le clic sur l'icône<b
       >Restaurer la vue</b> sur la barre d'outils des axes ramèneront les axes à ce niveau de zoom de base.</p>
-        <p><b
+    <p><b
       >'out'</b> : Restaure les axes actuels à leur niveau de zoom de base.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[surf(peaks)
 zoom on
@@ -83,23 +81,23 @@ zoom reset
 zoom(1.5);
 sleep(5);
 zoom out]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${graphics}rotate3d">rotate3d</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${graphics}pan">pan</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.2.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}rotate3d">rotate3d</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}pan">pan</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.2.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

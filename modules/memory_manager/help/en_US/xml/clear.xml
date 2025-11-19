@@ -1,96 +1,93 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>clear</keyword>
-    <short_description>Remove variable from workspace.</short_description>
-    <syntax>
-        <syntax_item>clear</syntax_item>
-        <syntax_item>clear variable_name</syntax_item>
-        <syntax_item>clear global</syntax_item>
-        <syntax_item>clear all</syntax_item>
-        <syntax_item>clear mex</syntax_item>
-        <syntax_item>clear variables</syntax_item>
-        <syntax_item>clear functions</syntax_item>
-        <syntax_item>clear function_name</syntax_item>
-        <syntax_item>clear mexfunction_name</syntax_item>
-        <syntax_item>clear variable_name_1 ... variable_name_N</syntax_item>
-        <syntax_item>clear global variable_name</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>variable_name</param_name>
-            <param_description>a string: variable name.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>global</param_name>
-            <param_description>clears all global variables.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>all</param_name>
-            <param_description
-      >clears all variables in all scopes</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>mex</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>clear</keyword>
+  <short_description>Remove variable from workspace.</short_description>
+  <syntax>
+    <syntax_item>clear</syntax_item>
+    <syntax_item>clear variable_name</syntax_item>
+    <syntax_item>clear global</syntax_item>
+    <syntax_item>clear all</syntax_item>
+    <syntax_item>clear mex</syntax_item>
+    <syntax_item>clear variables</syntax_item>
+    <syntax_item>clear functions</syntax_item>
+    <syntax_item>clear function_name</syntax_item>
+    <syntax_item>clear mexfunction_name</syntax_item>
+    <syntax_item>clear variable_name_1 ... variable_name_N</syntax_item>
+    <syntax_item>clear global variable_name</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>variable_name</param_name>
+      <param_description>a string: variable name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>global</param_name>
+      <param_description>clears all global variables.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>all</param_name>
+      <param_description>clears all variables in all scopes</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>mex</param_name>
+      <param_description
       >clears all mex functions in all scopes</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>variables</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>variables</param_name>
+      <param_description
       >clears all variables in current scope.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>functions</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>functions</param_name>
+      <param_description
       >clears cache of macros functions and associated persistent variables.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>function_name</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>function_name</param_name>
+      <param_description
       >clears persistent variables of a function.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>mexfunction_name</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>mexfunction_name</param_name>
+      <param_description
       >clears mex function (see mexAtExit).</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>
-            <b>clear</b> is used to remove variable given by its name.</p>
-            <p>
-                <b
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>clear</b> is used to remove variable given by its name.</p>
+    <p><b
       >clear</b> can also delete handle object if a function handle_TYPE_clear is defined.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = 3;
 who
 clear A
 who
 A]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${memory_manager}who">who</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>initial version</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${memory_manager}who">who</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

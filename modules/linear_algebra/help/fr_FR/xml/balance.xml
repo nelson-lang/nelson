@@ -1,75 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>balance</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>balance</keyword>
+  <short_description
   >Mise à l'échelle diagonale pour améliorer la précision des valeurs propres.</short_description>
-    <syntax>
-        <syntax_item>B = balance(A)</syntax_item>
-        <syntax_item>B = balance(A,'noperm')</syntax_item>
-        <syntax_item>[T, B] = balance(A)</syntax_item>
-        <syntax_item>[S, P, B] = balance(A)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-        <param_name>A</param_name>
-        <param_description
+  <syntax>
+    <syntax_item>B = balance(A)</syntax_item>
+    <syntax_item>B = balance(A,'noperm')</syntax_item>
+    <syntax_item>[T, B] = balance(A)</syntax_item>
+    <syntax_item>[S, P, B] = balance(A)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description
       >une matrice carrée, finie (simple ou double précision).</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>B</param_name>
-            <param_description>matrice équilibrée.</param_description>
-        </param_output_item>
-        <param_output_item>
-        <param_name>T</param_name>
-        <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>matrice équilibrée.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>T</param_name>
+      <param_description
       >transformation de similarité : réarrange les éléments d'une matrice diagonale contenant des puissances entières de deux afin de minimiser l'impact des erreurs d'arrondi.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>S</param_name>
-            <param_description>vecteur d'échelle</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>P</param_name>
-            <param_description>vecteur de permutation</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>B = balance(A)</b> retourne la matrice équilibrée <b>B</b>.</p>
-            <p>
-                <b>B = balance(A, 'noperm')</b> met à l'échelle <b
+    </param_output_item>
+    <param_output_item>
+      <param_name>S</param_name>
+      <param_description>vecteur d'échelle</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>P</param_name>
+      <param_description>vecteur de permutation</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>B = balance(A)</b> retourne la matrice équilibrée <b>B</b>.</p>
+    <p><b>B = balance(A, 'noperm')</b> met à l'échelle<b
       >A</b> sans permuter ses lignes et colonnes.</p>
-            </description>
-            <used_function
+  </description>
+  <used_function
   >LAPACKE_dgebal, LAPACKE_sgebal, LAPACKE_zgebal, LAPACKE_cgebal</used_function>
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [10  1000  100000; .1  10  1000; .001  .1  10]
 F = balance(A)
 ]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${linear_algebra}eig">eig</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}eig">eig</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

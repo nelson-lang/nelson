@@ -1,206 +1,199 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>overloading</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>overloading</keyword>
+  <short_description
   >Personnalisation des opérateurs et fonctions</short_description>
-    <description>
-        <p
-    >Dans divers scénarios, vous pouvez avoir besoin de modifier le comportement des
-            opérateurs et fonctions de Nelson lorsqu'ils opèrent sur des objets ou des types de
-            base.</p>
-        <p
-    >Cette personnalisation peut être réalisée en surchargeant les fonctions concernées, leur
-            permettant de gérer différents types et nombres d'arguments d'entrée et d'exécuter
-            l'opération appropriée pour l'objet de plus haute priorité.</p>
-        <p />
-        <p>Surcharge des opérateurs :</p>
-        <p />
-        <p
-    >Chaque opérateur intégré correspond à un nom de fonction spécifique (par exemple,
-            l'opérateur <b>-</b> est associé à la fonction minus.m).</p>
-        <p
-    >Vous pouvez surcharger n'importe quel opérateur en créant un fichier M avec le nom
-            approprié dans le répertoire de la classe.</p>
-        <p>Par exemple, si <b>A</b> ou <b>B</b> est un objet de type <b
-      >classname</b>, l'expression <b>A
-            - B</b> déclenche un appel à la fonction <b
+  <description>
+    <p
+    >Dans divers scénarios, vous pouvez avoir besoin de modifier le comportement des opérateurs et fonctions de Nelson lorsqu'ils opèrent sur des objets ou des types de              base.</p>
+    <p
+    >Cette personnalisation peut être réalisée en surchargeant les fonctions concernées, leur              permettant de gérer différents types et nombres d'arguments d'entrée et d'exécuter l'opération appropriée pour l'objet de plus haute priorité.</p>
+    <p />
+    <p>Surcharge des opérateurs :</p>
+    <p />
+    <p
+    >Chaque opérateur intégré correspond à un nom de fonction spécifique (par exemple, l'opérateur <b
+      >-</b> est associé à la fonction minus.m).</p>
+    <p
+    >Vous pouvez surcharger n'importe quel opérateur en créant un fichier M avec le nom approprié dans le répertoire de la classe.</p>
+    <p>Par exemple, si <b>A</b> ou <b>B</b> est un objet de type<b
+      >classname</b>, l'expression <b
+      >A              - B</b> déclenche un appel à la fonction <b
       >@classname/minus.m</b>, si elle existe.</p>
-        <p>Lorsque <b>A</b> et <b
-      >B</b> appartiennent à des classes différentes, Nelson applique des
-            règles de précédence pour déterminer la méthode à utiliser.</p>
-        <p />
-        <p
-    >Le tableau ci-dessous fournit la liste des noms de fonctions associés à la plupart des
-            opérateurs Nelson :</p>
-        <p />
-        <table style="width:100%">
-            <tr>
-                <th>Description</th>
-                <th>Opérateur</th>
-                <th>Fonction</th>
-            </tr>
-            <tr>
-                <td>Addition binaire</td>
-                <td>a + b</td>
-                <td>plus(a, b)</td>
-            </tr>
-            <tr>
-                <td>Soustraction binaire</td>
-                <td>a - b</td>
-                <td>minus(a, b)</td>
-            </tr>
-            <tr>
-                <td>Moins unaire</td>
-                <td>-a</td>
-                <td>uminus(a)</td>
-            </tr>
-            <tr>
-                <td>Plus unaire</td>
-                <td>+a</td>
-                <td>uplus(a)</td>
-            </tr>
-            <tr>
-                <td>Multiplication élément par élément</td>
-                <td>a .* b</td>
-                <td>times(a, b)</td>
-            </tr>
-            <tr>
-                <td>Multiplication matricielle</td>
-                <td>a * b</td>
-                <td>mtimes(a, b)</td>
-            </tr>
-            <tr>
-                <td>Division élément par élément à droite</td>
-                <td>a ./ b</td>
-                <td>rdivide(a, b)</td>
-            </tr>
-            <tr>
-                <td>Division élément par élément à gauche</td>
-                <td>a .\ b</td>
-                <td>ldivide(a, b)</td>
-            </tr>
-            <tr>
-                <td>Division matricielle à droite</td>
-                <td>a / b</td>
-                <td>mrdivide(a, b)</td>
-            </tr>
-            <tr>
-                <td>Division matricielle à gauche</td>
-                <td>a \ b</td>
-                <td>mldivide(a, b)</td>
-            </tr>
-            <tr>
-                <td>Puissance élément par élément</td>
-                <td>a .^ b</td>
-                <td>power(a, b)</td>
-            </tr>
-            <tr>
-                <td>Puissance matricielle</td>
-                <td>a ^ b</td>
-                <td>mpower(a, b)</td>
-            </tr>
-            <tr>
-                <td>Inférieur à</td>
-                <td>a &lt; b</td>
-                <td>lt(a, b)</td>
-            </tr>
-            <tr>
-                <td>Supérieur à</td>
-                <td>a &gt; b</td>
-                <td>gt(a, b)</td>
-            </tr>
-            <tr>
-                <td>Inférieur ou égal</td>
-                <td>a &lt;= b</td>
-                <td>le(a, b)</td>
-            </tr>
-            <tr>
-                <td>Supérieur ou égal</td>
-                <td>a &gt;= b</td>
-                <td>ge(a, b)</td>
-            </tr>
-            <tr>
-                <td>Différent</td>
-                <td>a ~= b</td>
-                <td>ne(a, b)</td>
-            </tr>
-            <tr>
-                <td>Égalité</td>
-                <td>a == b</td>
-                <td>eq(a, b)</td>
-            </tr>
-            <tr>
-                <td>ET logique</td>
-                <td>a &amp; b</td>
-                <td>and(a, b)</td>
-            </tr>
-            <tr>
-                <td>OU logique</td>
-                <td>a &#124; b</td>
-                <td>or(a, b)</td>
-            </tr>
-            <tr>
-                <td>NON logique</td>
-                <td>~a</td>
-                <td>not(a)</td>
-            </tr>
-            <tr>
-                <td>Opérateur deux-points</td>
-                <td>a:d:b</td>
-                <td>colon(a, d, b)</td>
-            </tr>
-            <tr>
-                <td>Transposée conjuguée</td>
-                <td>a'</td>
-                <td>ctranspose(a)</td>
-            </tr>
-            <tr>
-                <td>Transposée matricielle</td>
-                <td>a.'</td>
-                <td>transpose(a)</td>
-            </tr>
-            <tr>
-                <td>Méthode d'affichage</td>
-                <td>sortie fenêtre de commandes</td>
-                <td>display(a)</td>
-            </tr>
-            <tr>
-                <td>Concaténation horizontale</td>
-                <td>[a, b]</td>
-                <td>horzcat(a, b, ...)</td>
-            </tr>
-            <tr>
-                <td>Concaténation verticale</td>
-                <td>[a; b]</td>
-                <td>vertcat(a, b, ...)</td>
-            </tr>
-            <tr>
-                <td>Référence par indice</td>
-                <td>a(s1, s2, ... , sn)</td>
-                <td>subsref(a, s)</td>
-            </tr>
-            <tr>
-                <td>Affectation par indice</td>
-                <td>a(s1, ... , sn) = b</td>
-                <td>subsasgn(a, s, b)</td>
-            </tr>
-            <tr>
-                <td>Index de sous-script</td>
-                <td>b(a)</td>
-                <td>subsindex(a)</td>
-            </tr>
-        </table>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+    <p>Lorsque <b>A</b> et <b
+      >B</b> appartiennent à des classes différentes, Nelson applique des              règles de précédence pour déterminer la méthode à utiliser.</p>
+    <p />
+    <p
+    >Le tableau ci-dessous fournit la liste des noms de fonctions associés à la plupart des              opérateurs Nelson :</p>
+    <p />
+    <table style="width:100%">
+      <tr>
+        <th>Description</th>
+        <th>Opérateur</th>
+        <th>Fonction</th>
+      </tr>
+      <tr>
+        <td>Addition binaire</td>
+        <td>a + b</td>
+        <td>plus(a, b)</td>
+      </tr>
+      <tr>
+        <td>Soustraction binaire</td>
+        <td>a - b</td>
+        <td>minus(a, b)</td>
+      </tr>
+      <tr>
+        <td>Moins unaire</td>
+        <td>-a</td>
+        <td>uminus(a)</td>
+      </tr>
+      <tr>
+        <td>Plus unaire</td>
+        <td>+a</td>
+        <td>uplus(a)</td>
+      </tr>
+      <tr>
+        <td>Multiplication élément par élément</td>
+        <td>a .* b</td>
+        <td>times(a, b)</td>
+      </tr>
+      <tr>
+        <td>Multiplication matricielle</td>
+        <td>a * b</td>
+        <td>mtimes(a, b)</td>
+      </tr>
+      <tr>
+        <td>Division élément par élément à droite</td>
+        <td>a ./ b</td>
+        <td>rdivide(a, b)</td>
+      </tr>
+      <tr>
+        <td>Division élément par élément à gauche</td>
+        <td>a .\ b</td>
+        <td>ldivide(a, b)</td>
+      </tr>
+      <tr>
+        <td>Division matricielle à droite</td>
+        <td>a / b</td>
+        <td>mrdivide(a, b)</td>
+      </tr>
+      <tr>
+        <td>Division matricielle à gauche</td>
+        <td>a \ b</td>
+        <td>mldivide(a, b)</td>
+      </tr>
+      <tr>
+        <td>Puissance élément par élément</td>
+        <td>a .^ b</td>
+        <td>power(a, b)</td>
+      </tr>
+      <tr>
+        <td>Puissance matricielle</td>
+        <td>a ^ b</td>
+        <td>mpower(a, b)</td>
+      </tr>
+      <tr>
+        <td>Inférieur à</td>
+        <td>a &lt; b</td>
+        <td>lt(a, b)</td>
+      </tr>
+      <tr>
+        <td>Supérieur à</td>
+        <td>a &gt; b</td>
+        <td>gt(a, b)</td>
+      </tr>
+      <tr>
+        <td>Inférieur ou égal</td>
+        <td>a &lt;= b</td>
+        <td>le(a, b)</td>
+      </tr>
+      <tr>
+        <td>Supérieur ou égal</td>
+        <td>a &gt;= b</td>
+        <td>ge(a, b)</td>
+      </tr>
+      <tr>
+        <td>Différent</td>
+        <td>a ~= b</td>
+        <td>ne(a, b)</td>
+      </tr>
+      <tr>
+        <td>Égalité</td>
+        <td>a == b</td>
+        <td>eq(a, b)</td>
+      </tr>
+      <tr>
+        <td>ET logique</td>
+        <td>a &amp; b</td>
+        <td>and(a, b)</td>
+      </tr>
+      <tr>
+        <td>OU logique</td>
+        <td>a | b</td>
+        <td>or(a, b)</td>
+      </tr>
+      <tr>
+        <td>NON logique</td>
+        <td>~a</td>
+        <td>not(a)</td>
+      </tr>
+      <tr>
+        <td>Opérateur deux-points</td>
+        <td>a:d:b</td>
+        <td>colon(a, d, b)</td>
+      </tr>
+      <tr>
+        <td>Transposée conjuguée</td>
+        <td>a'</td>
+        <td>ctranspose(a)</td>
+      </tr>
+      <tr>
+        <td>Transposée matricielle</td>
+        <td>a.'</td>
+        <td>transpose(a)</td>
+      </tr>
+      <tr>
+        <td>Méthode d'affichage</td>
+        <td>sortie fenêtre de commandes</td>
+        <td>display(a)</td>
+      </tr>
+      <tr>
+        <td>Concaténation horizontale</td>
+        <td>[a, b]</td>
+        <td>horzcat(a, b, ...)</td>
+      </tr>
+      <tr>
+        <td>Concaténation verticale</td>
+        <td>[a; b]</td>
+        <td>vertcat(a, b, ...)</td>
+      </tr>
+      <tr>
+        <td>Référence par indice</td>
+        <td>a(s1, s2, ... , sn)</td>
+        <td>subsref(a, s)</td>
+      </tr>
+      <tr>
+        <td>Affectation par indice</td>
+        <td>a(s1, ... , sn) = b</td>
+        <td>subsasgn(a, s, b)</td>
+      </tr>
+      <tr>
+        <td>Index de sous-script</td>
+        <td>b(a)</td>
+        <td>subsindex(a)</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Surcharger l'opérateur minus pour double</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="false"
       ><![CDATA[% save in @double directory, as minus.m
 function r = minus(A, B)
@@ -209,107 +202,107 @@ function r = minus(A, B)
   r = builtin('minus', A, B)
 end
 ]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${operators}plus">plus</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}minus">minus</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}uminus">uminus</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}uplus">uplus</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}times">times</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}mtimes">mtimes</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}rdivide">rdivide</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}ldivide">ldivide</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}mrdivide">mrdivide</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}mldivide">mldivide</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}power">power</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}mpower">mpower</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}lt">lt</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}gt">gt</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}le">le</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}ge">ge</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}ne">ne</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}eq">eq</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}and">and</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}or">or</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}not">not</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}colon">colon</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}ctranspose">ctranspose</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}transpose">transpose</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${display_format}display">display</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}horzcat">horzcat</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}vertcat">vertcat</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}subsref">subsref</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}subsasgn">subsasgn</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${operators}subsindex">subsindex</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${operators}plus">plus</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}minus">minus</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}uminus">uminus</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}uplus">uplus</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}times">times</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}mtimes">mtimes</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}rdivide">rdivide</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}ldivide">ldivide</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}mrdivide">mrdivide</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}mldivide">mldivide</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}power">power</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}mpower">mpower</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}lt">lt</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}gt">gt</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}le">le</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}ge">ge</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}ne">ne</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}eq">eq</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}and">and</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}or">or</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}not">not</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}colon">colon</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}ctranspose">ctranspose</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}transpose">transpose</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${display_format}display">display</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}horzcat">horzcat</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}vertcat">vertcat</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}subsref">subsref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}subsasgn">subsasgn</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}subsindex">subsindex</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

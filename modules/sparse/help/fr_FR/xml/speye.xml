@@ -1,73 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>speye</keyword>
-    <short_description>Matrice identité sparse.</short_description>
-    <syntax>
-        <syntax_item>S = speye()</syntax_item>
-        <syntax_item>S = speye(n)</syntax_item>
-        <syntax_item>S = speye(n, m)</syntax_item>
-        <syntax_item>S = speye(sz)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>n, m</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>speye</keyword>
+  <short_description>Matrice identité sparse.</short_description>
+  <syntax>
+    <syntax_item>S = speye()</syntax_item>
+    <syntax_item>S = speye(n)</syntax_item>
+    <syntax_item>S = speye(n, m)</syntax_item>
+    <syntax_item>S = speye(sz)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>n, m</param_name>
+      <param_description
       >tailles de dimensions : scalaire entier non négatif.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>sz</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>sz</param_name>
+      <param_description
       >tailles de dimensions : vecteur ligne à deux éléments.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>S</param_name>
-            <param_description>une matrice sparse.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>S = speye()</b> retourne un scalaire sparse 1.</p>
-            <p>
-                <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>S</param_name>
+      <param_description>une matrice sparse.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>S = speye()</b> retourne un scalaire sparse 1.</p>
+    <p><b
       >S = speye(n)</b> retourne une matrice identité sparse n-par-n, avec des uns sur la diagonale principale.</p>
-                <p>
-                    <b
+    <p><b
       >S = speye(n, m)</b> retourne une matrice sparse n-par-m, avec des uns sur la diagonale principale.</p>
-                    <p>
-                        <b
+    <p><b
       >S = speye(sz)</b> retourne une matrice avec des uns sur la diagonale principale.</p>
-                    </description>
-                    <used_function />
-                    <bibliography />
-                    <examples>
-                        <example_item>
-                            <example_item_type>nelson</example_item_type>
-                            <example_item_description />
-                            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 tic();S = speye(5000, 5000);toc()
 tic();S = sparse(eye(5000, 5000));toc()
     ]]></example_item_data>
-                        </example_item>
-                    </examples>
-                    <see_also>
-                        <see_also_item>
-                            <link linkend="${sparse}sparse">sparse</link>
-                        </see_also_item>
-                    </see_also>
-                    <history>
-                        <history_item>
-                            <history_version>1.0.0</history_version>
-                            <history_description
-      >version initiale</history_description>
-                        </history_item>
-                    </history>
-                    <authors>
-                        <author_item>Allan CORNET</author_item>
-                    </authors>
-                </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${sparse}sparse">sparse</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

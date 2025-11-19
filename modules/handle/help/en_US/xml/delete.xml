@@ -1,36 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>delete</keyword>
-    <short_description>delete handle objects.</short_description>
-    <syntax>
-        <syntax_item>delete(h)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>h</param_name>
-            <param_description
-      >a handle object: scalar or matrix.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>
-            <b
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>delete</keyword>
+  <short_description>delete handle objects.</short_description>
+  <syntax>
+    <syntax_item>delete(h)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>h</param_name>
+      <param_description>a handle object: scalar or matrix.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b
       >delete(h)</b> removes from memory the handle objects referenced by h.</p>
-            <p
-    >When deleted, any references to the objects in h become invalid.</p>
-            <p>To remove the handle variables, use the clear function.</p>
-            <p
-    >See clear function about how to force delete with clear function.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    <p>When deleted, any references to the objects in h become invalid.</p>
+    <p>To remove the handle variables, use the clear function.</p>
+    <p>See clear function about how to force delete with clear function.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 ax = gca();
@@ -42,20 +38,20 @@ delete(img);
 size(children1)
 children2 = ax.Children;
 size(children2)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${memory_manager}clear">clear</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${memory_manager}clear">clear</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

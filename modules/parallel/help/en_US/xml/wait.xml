@@ -1,58 +1,54 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>wait</keyword>
-    <short_description>Wait for futures to be completed.</short_description>
-    <syntax>
-        <syntax_item>wait(f)</syntax_item>
-        <syntax_item>wait(f, state)</syntax_item>
-        <syntax_item>TF = wait(f, state, timeout)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>f</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>wait</keyword>
+  <short_description>Wait for futures to be completed.</short_description>
+  <syntax>
+    <syntax_item>wait(f)</syntax_item>
+    <syntax_item>wait(f, state)</syntax_item>
+    <syntax_item>TF = wait(f, state, timeout)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>f</param_name>
+      <param_description
       >FevalFuture object: scalar or array.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>state</param_name>
-            <param_description
-      >state to wait: 'finished' (default) or  'running'</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>timeout</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>state</param_name>
+      <param_description
+      >state to wait: 'finished' (default) or 'running'</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>timeout</param_name>
+      <param_description
       >seconds to wait: real numeric scalar.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>TF</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>TF</param_name>
+      <param_description
       >logical: If each element of the Future array f finishes before timeout seconds elapse, TF is true. Otherwise, TF is false.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >wait(f)</b> pauses execution until each element of the Future array <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>wait(f)</b> pauses execution until each element of the Future array<b
       >f</b> is finished.</p>
-            <p>
-                <b
-      >wait(f, state)</b> pauses execution until each element of the Future array <b
+    <p><b
+      >wait(f, state)</b> pauses execution until each element of the Future array<b
       >f</b> has its 'State' property set to state.</p>
-                <p>
-                    <b
+    <p><b
       >tf = wait(f, state, timeout)</b> pauses execution for a maximum of timeout seconds.</p>
-                </description>
-                <used_function />
-                <bibliography />
-                <examples>
-                    <example_item>
-                        <example_item_type>nelson</example_item_type>
-                        <example_item_description />
-                        <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[fptr = str2func('pause');
 for i = 1:15
@@ -61,26 +57,23 @@ end
 tic()
 R = wait(f, 'finished');
 toc()]]></example_item_data>
-                    </example_item>
-                </examples>
-                <see_also>
-                    <see_also_item>
-                        <link linkend="${core}pause">pause</link>
-                    </see_also_item>
-                    <see_also_item>
-                        <link
-        linkend="${parallel}fetchOutputs"
-      >fetchOutputs</link>
-                    </see_also_item>
-                </see_also>
-                <history>
-                    <history_item>
-                        <history_version>1.0.0</history_version>
-                        <history_description
-      >initial version</history_description>
-                    </history_item>
-                </history>
-                <authors>
-                    <author_item>Allan CORNET</author_item>
-                </authors>
-            </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}pause">pause</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parallel}fetchOutputs">fetchOutputs</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

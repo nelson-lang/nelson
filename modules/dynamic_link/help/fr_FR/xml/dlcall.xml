@@ -1,45 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>dlcall</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>dlcall</keyword>
+  <short_description
   >Appel de fonction étrangère C ou Fortran</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[x1, ... , xN] = dlcall(dlsym_handle, arg1, ..., argN)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>dlsym_handle</param_name>
-            <param_description>un handle dlsym.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>arg1, ..., argN</param_name>
-            <param_description>arguments d'entrée.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>[x1, ... , xN]</param_name>
-            <param_description>valeurs de sortie.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-        <b
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>dlsym_handle</param_name>
+      <param_description>un handle dlsym.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>arg1, ..., argN</param_name>
+      <param_description>arguments d'entrée.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>[x1, ... , xN]</param_name>
+      <param_description>valeurs de sortie.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >dlcall</b> appelle une fonction externe C ou Fortran chargée depuis une bibliothèque partagée.</p>
-        <p>
-            <b
+    <p><b
       >dlcall</b> valide les types des arguments d'entrée avant l'appel, en se basant sur la définition du handle dlsym.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[lib = dlopen([modulepath('nelson', 'builtin'), '/libnlsDynamic_link', getdynlibext()]);
 V = double([1 2;3 4]);
@@ -50,40 +48,40 @@ f = dlsym(lib, 'dynlibTestMultiplyDoubleArrayWithReturn', 'int32', {'doublePtr',
 delete(f);
 delete(lib);
 ]]></example_item_data>
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Call C getpid function</example_item_description>
-                    <example_item_data
+      <example_item_data
       ><![CDATA[run([modulepath('dynamic_link'), '/examples/call_c.m']);
 ]]></example_item_data>
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Call fortran DASUM (blas) function</example_item_description>
-                    <example_item_data
+      <example_item_data
       ><![CDATA[run([modulepath('dynamic_link'), '/examples/call_fortran.m']);]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${dynamic_link}dlsym">dlsym</link>
-                </see_also_item>
-                <see_also_item>
-                    <link
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${dynamic_link}dlsym">dlsym</link>
+    </see_also_item>
+    <see_also_item>
+      <link
         linkend="${dynamic_link}C_datatype"
       >C/Nelson equivalent data types</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

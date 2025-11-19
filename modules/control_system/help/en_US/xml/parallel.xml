@@ -1,60 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>parallel</keyword>
-    <short_description>Parallel connection of two models.</short_description>
-    <syntax>
-        <syntax_item>sys = parallel(sys1, sys2)</syntax_item>
-        <syntax_item>sys = parallel(sys1, sys2)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>sys1, sys2</param_name>
-            <param_description>LTI models.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>sys</param_name>
-            <param_description>LTI model.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>parallel</b> function links two model objects in parallel.</p>
-            <p>It is versatile and can accept various types of models.</p>
-            <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>parallel</keyword>
+  <short_description>Parallel connection of two models.</short_description>
+  <syntax>
+    <syntax_item>sys = parallel(sys1, sys2)</syntax_item>
+    <syntax_item>sys = parallel(sys1, sys2)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>sys1, sys2</param_name>
+      <param_description>LTI models.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>sys</param_name>
+      <param_description>LTI model.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>parallel</b> function links two model objects in parallel.</p>
+    <p>It is versatile and can accept various types of models.</p>
+    <p
     >However, for successful connection, both systems must share the same nature, being either continuous or discrete, and must have identical sample times.</p>
-            <p
+    <p
     >Static gains are treated as neutral and can be defined using regular matrices.</p>
-        </description>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[sys1 = tf([1 4], [8 2 1]);
 sys2 = tf(1, [8 2 1]);
 sys = parallel(sys2, sys2)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${control_system}series">series</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${control_system}append">append</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}series">series</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}append">append</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,70 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>strrep</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>strrep</keyword>
+  <short_description
   >Remplace des sous-chaînes dans une chaîne.</short_description>
-    <syntax>
-        <syntax_item>res = strrep(str, old, new)</syntax_item>
-    </syntax>
-        <param_input>
-                <param_input_item>
-                        <param_name>str</param_name>
-                        <param_description
+  <syntax>
+    <syntax_item>res = strrep(str, old, new)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>str</param_name>
+      <param_description
       >une chaîne, un tableau de chaînes ou une cellule de chaînes.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>old</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>old</param_name>
+      <param_description
       >une chaîne, un tableau de chaînes ou une cellule de chaînes à rechercher.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>new</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>new</param_name>
+      <param_description
       >une chaîne, un tableau de chaînes ou une cellule de chaînes de remplacement.</param_description>
-                </param_input_item>
-        </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>res</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>res</param_name>
+      <param_description
       >une chaîne, un tableau de chaînes ou une cellule de chaînes.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>replace</b> remplace des sous-chaînes dans une chaîne.</p>
-            <p>
-                <b>replace</b> et <b
-      >strrep</b> remplacent des sous-chaînes, mais <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>replace</b> remplace des sous-chaînes dans une chaîne.</p>
+    <p><b>replace</b> et<b>strrep</b> remplacent des sous-chaînes, mais<b
       >replace</b> est recommandé.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[r = strrep('This is a string.', 'is', 'is not')
 r = strrep({'cccc','ccbbcca'},{'cc','bb'},{'cc'})
 r = strrep("This is a string.", "is", 'is not')]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${string}replace">replace</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${string}replace">replace</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

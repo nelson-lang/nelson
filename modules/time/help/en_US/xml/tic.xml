@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>tic</keyword>
-    <short_description>Starts a stopwatch timer.</short_description>
-    <syntax>
-        <syntax_item>tic()</syntax_item>
-        <syntax_item>t = tic()</syntax_item>
-    </syntax>
-    <param_output>
-        <param_output_item>
-            <param_name>t</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>tic</keyword>
+  <short_description>Starts a stopwatch timer.</short_description>
+  <syntax>
+    <syntax_item>tic()</syntax_item>
+    <syntax_item>t = tic()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>t</param_name>
+      <param_description
       >a unsigned integer 64 bit: value of internal timer of the tic function.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>The sequence of commands <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>The sequence of commands<b
       >tic(); commands ; t = toc() </b> returns the number of seconds required for the commands.</p>
-        <p>Consecutive <b>tic</b> commands overwrite the tic timer.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+    <p>Consecutive <b>tic</b> commands overwrite the tic timer.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[tic()
 sleep(10)
@@ -36,26 +36,26 @@ tic()
 sleep(10)
 t = toc()
 ]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${time}toc">toc</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${time}sleep">sleep</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${time}time">time</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}toc">toc</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}sleep">sleep</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}time">time</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>
