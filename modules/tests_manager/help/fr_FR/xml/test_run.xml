@@ -119,14 +119,10 @@
       >&lt;--NATIVE ARCHITECTURE TEST REQUIRED--&gt;</b> This test will be executed if application's build and architecture are same.</p>
     <p><b
       >&lt;--FILE WATCHER REQUIRED--&gt;</b> This test will be executed if file watcher is              available.</p>
-    <p />
     <p><b
       >&lt;--PYTHON ENVIRONMENT REQUIRED--&gt;</b> This test will be executed if python              environment is available and configured.</p>
-    <p />
-    <p />
     <p><b
       >&lt;--JULIA ENVIRONMENT REQUIRED--&gt;</b> This test will be executed if julia              environment is available and configured.</p>
-    <p />
     <p
     >Les tests peuvent également être sautés dynamiquement en utilisant la fonction <b
       >skip_testsuite</b>.</p>
