@@ -1,83 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>quiver</keyword>
-    <short_description>Vector plot.</short_description>
-    <syntax>
-        <syntax_item>quiver(X, Y, U, V)</syntax_item>
-        <syntax_item>quiver(U, V)</syntax_item>
-        <syntax_item>quiver(..., LineSpec)</syntax_item>
-        <syntax_item>quiver(..., propertyName, propertyValue)</syntax_item>
-        <syntax_item>quiver(parent, ...)</syntax_item>
-        <syntax_item>gr = quiver(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>X</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>quiver</keyword>
+  <short_description>Vector plot.</short_description>
+  <syntax>
+    <syntax_item>quiver(X, Y, U, V)</syntax_item>
+    <syntax_item>quiver(U, V)</syntax_item>
+    <syntax_item>quiver(..., LineSpec)</syntax_item>
+    <syntax_item>quiver(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>quiver(parent, ...)</syntax_item>
+    <syntax_item>gr = quiver(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
       >x-coordinates of bases of arrows: scalar, vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Y</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description
       >y-coordinates of bases of arrows: scalar, vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>U</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>U</param_name>
+      <param_description
       >x-components: scalar, vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>V</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description
       >y-components: scalar, vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>LineSpec</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineSpec</param_name>
+      <param_description
       >Line style, marker and/or color: character vector or scalar string.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>parent</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description
       >a scalar graphics object value: parent container, specified as a axes.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyName</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
       >a scalar string or row vector character.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyValue</param_name>
-            <param_description>a value.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>gr</param_name>
-            <param_description
-      >group of graphics object: arrows.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >quiver(X, Y, U, V)</b> plots velocity vectors as arrows with components <b
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>a value.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>gr</param_name>
+      <param_description>group of graphics object: arrows.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >quiver(X, Y, U, V)</b> plots velocity vectors as arrows with components<b
       >(U,V)</b> at the point <b>(X, Y)</b>.</p>
-            <p>
-                <b
+    <p><b
       >quiver</b> try to scale the arrow lengths so that they do not overlap.</p>
-                <p
+    <p
     >Current implementation is slow but it can be optimized using DrawLater property of figure. It could be optimized in an next version by an builtin.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 f.DrawLater = 'on';
@@ -86,16 +83,16 @@ U1 = sin(X);
 V1 = cos(Y);
 quiver(U1,V1, 'r')
 f.DrawLater = 'off';]]></example_item_data>
-                    <example_item_img
+      <example_item_img
         src="../../images/quiver_1.svg"
         align="middle"
         generate="true"
       />
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 f.DrawLater = 'on';      
@@ -113,28 +110,28 @@ quiver(X,Y,U2,V2)
 axis equal
 title(ax2, 'Right Plot')
 f.DrawLater = 'off';]]></example_item_data>
-                    <example_item_img
+      <example_item_img
         src="../images/quiver_2.svg"
         align="middle"
         generate="true"
       />
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${graphics}meshgrid">meshgrid</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${graphics}subplot">subplot</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>initial version</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}meshgrid">meshgrid</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}subplot">subplot</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

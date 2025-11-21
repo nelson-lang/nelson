@@ -1,106 +1,90 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>readmatrix</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>readmatrix</keyword>
+  <short_description
   >Créer une matrice à partir d'un fichier.</short_description>
-    <syntax>
-        <syntax_item>M = readmatrix(filename)</syntax_item>
-        <syntax_item>M = readmatrix(filename, opts)</syntax_item>
-        <syntax_item
+  <syntax>
+    <syntax_item>M = readmatrix(filename)</syntax_item>
+    <syntax_item>M = readmatrix(filename, opts)</syntax_item>
+    <syntax_item
     >M = readmatrix(filename, opts, 'OutputType', type)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-        <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
       >une chaîne : un nom de fichier existant source.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>opts</param_name>
-        <param_description>Objet DelimitedTextImportOptions</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>type</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>opts</param_name>
+      <param_description>Objet DelimitedTextImportOptions</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description
       >une chaîne : 'double', 'single', 'char', 'string', 'int8', 'int16', 'int32', 'int64', 'uint8', 'uint16', 'uint32', 'uint64'.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>M</param_name>
-            <param_description>une matrice.</param_description>
-        </param_output_item>
-    </param_output>
-      <description>
-      <p>
-        <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>M</param_name>
+      <param_description>une matrice.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >M = readmatrix(filename)</b> crée une matrice en important des données orientées colonne depuis un fichier texte ou tableur.</p>
-        <p>
-            <b
-      >M = readmatrix(filename, opts)</b> crée une matrice en utilisant les paramètres définis dans l'objet d'options d'importation <b
+    <p><b
+      >M = readmatrix(filename, opts)</b> crée une matrice en utilisant les paramètres définis dans l'objet d'options d'importation<b
       >opts</b>. L'objet d'options d'importation permet de personnaliser la façon dont <b
       >readmatrix</b> interprète le fichier, offrant un meilleur contrôle, de meilleures performances et la possibilité de réutiliser la configuration comparé à la syntaxe par défaut.</p>
-        </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data runnable="cli">
-filename = [tempdir,'readmatrix_1.csv'];
-Names = {'John'; 'Alice'; 'Bob'; 'Diana'};
-Age = [28; 34; 22; 30];
-Height = [175; 160; 180; 165];
-Weight = [70; 55; 80; 60];
-T = table(Names, Age, Height, Weight);
-writetable(T, filename)
-M = readmatrix(filename)
-</example_item_data>
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data runnable="cli">
-filename = [tempdir,'readmatrix_2.csv'];
-M = magic(6);
-writematrix(M, filename)
-options = detectImportOptions(filename)
-options.DataLines = [2 4];
-M2 = readmatrix(filename, options, 'OutputType', 'int64')
-M3 = readmatrix(filename, options, 'OutputType', 'char')
-
-</example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${spreadsheet}writematrix">writematrix</link>
-                </see_also_item>
-                <see_also_item>
-                    <link
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      >  filename = [tempdir,'readmatrix_1.csv'];  Names = {'John'; 'Alice'; 'Bob'; 'Diana'};  Age = [28; 34; 22; 30];  Height = [175; 160; 180; 165];  Weight = [70; 55; 80; 60];  T = table(Names, Age, Height, Weight);  writetable(T, filename)  M = readmatrix(filename)  </example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      >  filename = [tempdir,'readmatrix_2.csv'];  M = magic(6);  writematrix(M, filename)  options = detectImportOptions(filename)  options.DataLines = [2 4];  M2 = readmatrix(filename, options, 'OutputType', 'int64')  M3 = readmatrix(filename, options, 'OutputType', 'char')    </example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${spreadsheet}writematrix">writematrix</link>
+    </see_also_item>
+    <see_also_item>
+      <link
         linkend="${spreadsheet}detectImportOptions"
       >detectImportOptions</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${spreadsheet}writetable">writetable</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${spreadsheet}readtable">readtable</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${stream_manager}fileread">fileread</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.10.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}writetable">writetable</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}readtable">readtable</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fileread">fileread</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.10.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

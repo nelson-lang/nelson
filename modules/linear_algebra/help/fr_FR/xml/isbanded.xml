@@ -1,63 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>isbanded</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>isbanded</keyword>
+  <short_description
   >Détermine si une matrice est dans une largeur de bande spécifique.</short_description>
-    <syntax>
-        <syntax_item>tf = isbanded(A, lower, upper)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>A</param_name>
-            <param_description>matrice d'entrée</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>lower, upper</param_name>
-        <param_description
+  <syntax>
+    <syntax_item>tf = isbanded(A, lower, upper)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>matrice d'entrée</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lower, upper</param_name>
+      <param_description
       >largeur de bande inférieure : lower, et largeur de bande supérieure : upper, de la matrice A.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>tf</param_name>
-            <param_description>logique</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-                <p>
-                        <b>tf = isbanded(A, lower, upper)</b> retourne <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>logique</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>tf = isbanded(A, lower, upper)</b> retourne <b
       >true</b> si la matrice <b
       >A</b> est dans la largeur de bande inférieure spécifiée <b
       >lower</b> et la largeur de bande supérieure <b>upper</b>.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[M = [1 0 0 0 0; 2 1 0 0 0; 3 2 1 0 0]
 TF = isbanded(M, 2, 0)
 TF = isbanded(M, 2, 1)
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${linear_algebra}bandwidth">bandwidth</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}bandwidth">bandwidth</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,61 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>narginchk</keyword>
-    <short_description
-  >Vérifie le nombre d'arguments d'entrée.</short_description>
-    <syntax>
-        <syntax_item>narginchk(minArgs, maxArgs)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>minArgs</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>narginchk</keyword>
+  <short_description>Vérifie le nombre d'arguments d'entrée.</short_description>
+  <syntax>
+    <syntax_item>narginchk(minArgs, maxArgs)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>minArgs</param_name>
+      <param_description
       >nombre minimum d'entrées acceptées (valeur entière scalaire).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>maxArgs</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxArgs</param_name>
+      <param_description
       >nombre maximum d'entrées acceptées (valeur entière scalaire).</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-  <p
+    </param_input_item>
+  </param_input>
+  <description>
+    <p
     >Lance une erreur si le nombre d'arguments d'entrée n'est pas dans l'intervalle attendu.</p>
-</description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Avec une fonction macro :</example_item_description>
-                <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[narginchk(1, 2)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${core}nargin">nargin</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${core}nargoutchk">nargoutchk</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-            <history_item>
-                <history_version>1.10.0</history_version>
-                <history_description
-      >narginchk(3, Inf) géré</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}nargin">nargin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}nargoutchk">nargoutchk</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.10.0</history_version>
+      <history_description>narginchk(3, Inf) géré</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

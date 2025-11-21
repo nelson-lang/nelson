@@ -1,64 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>clock</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>clock</keyword>
+  <short_description
   >Return the current local date and time as a date vector.</short_description>
-    <syntax>
-        <syntax_item>v = clock()</syntax_item>
-    </syntax>
-    <param_output>
-        <param_output_item>
-            <param_name>v</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>v = clock()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>v</param_name>
+      <param_description
       >a vector: [year, month, day, hours, minutes, seconds].</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>calendar()</b> returns the currently monthly calendar.</p>
-            <p>The date vector contains the following fields:</p>
-            <p>year</p>
-            <p>months [1, 12]</p>
-            <p>days [1, 31]</p>
-            <p>hours [0, 23]</p>
-            <p>minutes [0, 59]</p>
-            <p>seconds [0, 61]</p>
-            <p
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>calendar()</b> returns the currently monthly calendar.</p>
+    <p>The date vector contains the following fields:</p>
+    <p>year</p>
+    <p>months [1, 12]</p>
+    <p>days [1, 31]</p>
+    <p>hours [0, 23]</p>
+    <p>minutes [0, 59]</p>
+    <p>seconds [0, 61]</p>
+    <p
     >seconds: field has a fractional part after the decimal point for extended accuracy.</p>
-            <p
+    <p
     >To time the duration of an event, use tic and toc functions instead of clock.</p>
-            <p
+    <p
     >The clock function is based on the system time and thus might not be reliable for time comparison operations.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[c = clock()
 fix(c)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${time}tic">tic</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${time}toc">toc</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}tic">tic</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}toc">toc</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,133 +1,133 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>slicot_sb02od</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>slicot_sb02od</keyword>
+  <short_description
   >Solution of continuous- or discrete-time algebraic Riccati equations (generalized Schur vectors method).</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[RCOND, X, ALFAR, ALFAI, BETA, S, T, U, INFO] = slicot_sb02od(DICO, JOBB, FACT, UPLO, JOBL, SORT, P, A, B, Q, R, L, TOL)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>DICO</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>DICO</param_name>
+      <param_description
       >Specifies the type of Riccati equation to be solved as follows: = 'C': continuous-time case; 'D': discrete-time case.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>JOBB</param_name>
-            <param_description
-      >Specifies whether or not the matrix G is given, instead of the matrices B and R, as follows: = 'B':  B and R are given; = 'G':  G is given.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>FACT</param_name>
-            <param_description
-      >Specifies whether or not the matrices Q and/or R (if JOBB = 'B') are factored, as follows: = 'N':  Not factored, Q and R are given; = 'C':  C is given, and Q = C'C; = 'D':  D is given, and R = D'D; = 'B':  Both factors C and D are given, Q = C'C, R = D'D.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>UPLO</param_name>
-            <param_description
-      >If JOBB = 'G', or FACT = 'N', specifies which triangle of the matrices G and Q (if FACT = 'N'), or Q and R (if JOBB = 'B'), is stored, as follows: = 'U':  Upper triangle is stored; = 'L':  Lower triangle is stored.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>JOBL</param_name>
-            <param_description
-      >Specifies whether or not the matrix L is zero, as follows: = 'Z':  L is zero; = 'N':  L is nonzero. JOBL is not used if JOBB = 'G' and JOBL = 'Z' is assumed. SLICOT Library routine SB02MT should be called just before SB02OD, for obtaining the results when JOBB = 'G' and JOBL = 'N'.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>SORT</param_name>
-            <param_description
-      >Specifies which eigenvalues should be obtained in the top of the generalized Schur form, as follows: = 'S':  Stable   eigenvalues come first;= 'U':  Unstable eigenvalues come first.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>P</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>JOBB</param_name>
+      <param_description
+      >Specifies whether or not the matrix G is given, instead of the matrices B and R, as follows: = 'B': B and R are given; = 'G': G is given.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>FACT</param_name>
+      <param_description
+      >Specifies whether or not the matrices Q and/or R (if JOBB = 'B') are factored, as follows: = 'N': Not factored, Q and R are given; = 'C': C is given, and Q = C'C; = 'D':  D is given, and R = D'D; = 'B': Both factors C and D are given, Q = C'C, R = D'D.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>UPLO</param_name>
+      <param_description
+      >If JOBB = 'G', or FACT = 'N', specifies which triangle of the matrices G and Q (if FACT = 'N'), or Q and R (if JOBB = 'B'), is stored, as follows: = 'U': Upper triangle is stored; = 'L': Lower triangle is stored.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>JOBL</param_name>
+      <param_description
+      >Specifies whether or not the matrix L is zero, as follows: = 'Z': L is zero; = 'N': L is nonzero. JOBL is not used if JOBB = 'G' and JOBL = 'Z' is assumed. SLICOT Library routine SB02MT should be called just before SB02OD, for obtaining the results when JOBB = 'G' and JOBL = 'N'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>SORT</param_name>
+      <param_description
+      >Specifies which eigenvalues should be obtained in the top of the generalized Schur form, as follows: = 'S': Stable eigenvalues come first;= 'U': Unstable eigenvalues come first.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>P</param_name>
+      <param_description
       >The number of system outputs. If FACT = 'C' or 'D' or 'B', P is the number of rows of the matrices C and/or D. P &gt;= 0. Otherwise, P is not used.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>A</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description
       >The leading N-by-N part of this array must contain the state matrix A of the system.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>B</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description
       >If JOBB = 'B', the leading N-by-M part of this array must contain the input matrix B of the system.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Q</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>Q</param_name>
+      <param_description
       >If FACT = 'N' or 'D', the leading N-by-N upper triangular part (if UPLO = 'U') or lower triangular part (if UPLO = 'L') of this array must contain the upper triangular part or lower triangular part, respectively, of the symmetric state weighting matrix Q. The stricly lower triangular part (if UPLO = 'U') or stricly upper triangular part (if UPLO = 'L') is not referenced.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>R</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>R</param_name>
+      <param_description
       >If FACT = 'N' or 'C', the leading M-by-M upper triangular part (if UPLO = 'U') or lower triangular part (if UPLO = 'L') of this array must contain the upper triangular part or lower triangular part, respectively, of the symmetric input weighting matrix R. The stricly lower triangular part (if UPLO = 'U') or stricly upper triangular part (if UPLO = 'L') is not referenced.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>L</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>L</param_name>
+      <param_description
       >If JOBL = 'N' (and JOBB = 'B'), the leading N-by-M part of this array must contain the cross weighting matrix L. This part is modified internally, but is restored on exit. If JOBL = 'Z' or JOBB = 'G', this array is not referenced.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>TOL</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>TOL</param_name>
+      <param_description
       >The tolerance to be used to test for near singularity of the original matrix pencil, specifically of the triangular factor obtained during the reduction process.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>RCOND</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>RCOND</param_name>
+      <param_description
       >An estimate of the reciprocal of the condition number (in the 1-norm) of the N-th order system of algebraic equations from which the solution matrix X is obtained.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>X</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>X</param_name>
+      <param_description
       >The leading N-by-N part of this array contains the solution matrix X of the problem.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>ALFAR, ALFAI, BETA</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>ALFAR, ALFAI, BETA</param_name>
+      <param_description
       >The generalized eigenvalues of the 2N-by-2N matrix pair, ordered as specified by SORT (if INFO = 0).</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>S</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>S</param_name>
+      <param_description
       >The leading 2N-by-2N part of this array contains the ordered real Schur form S of the first matrix in the reduced matrix pencil associated to the optimal problem, or of the corresponding Hamiltonian matrix, if DICO = 'C' and JOBB = 'G'.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>T</param_name>
-            <param_description
-      > If DICO = 'D' or JOBB = 'B', the leading 2N-by-2N part of this array contains the ordered upper triangular form T of the second matrix in the reduced matrix pencil associated to the optimal problem.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>U</param_name>
-            <param_description
-      > The leading 2N-by-2N part of this array contains the right transformation matrix U which reduces the 2N-by-2N matrix pencil to the ordered generalized real Schur form (S,T), or the Hamiltonian matrix to the ordered real Schur form S, if DICO = 'C' and JOBB = 'G'.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>INFO</param_name>
-            <param_description>  = 0:  successful exit;</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
+    </param_output_item>
+    <param_output_item>
+      <param_name>T</param_name>
+      <param_description
+      >If DICO = 'D' or JOBB = 'B', the leading 2N-by-2N part of this array contains the ordered upper triangular form T of the second matrix in the reduced matrix pencil associated to the optimal problem.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>U</param_name>
+      <param_description
+      >The leading 2N-by-2N part of this array contains the right transformation matrix U which reduces the 2N-by-2N matrix pencil to the ordered generalized real Schur form (S,T), or the Hamiltonian matrix to the ordered real Schur form S, if DICO = 'C' and JOBB = 'G'.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>INFO</param_name>
+      <param_description>= 0: successful exit;</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >Solution of continuous- or discrete-time algebraic Riccati equations (generalized Schur vectors method)</p>
-        <p
+    <p
     >The routine uses the method of deflating subspaces, based on reordering the eigenvalues in a generalized Schur matrix pair.</p>
-        <p
+    <p
     >A standard eigenproblem is solved in the continuous-time case if G is given.</p>
-    </description>
-    <used_function>SB02OD</used_function>
-    <bibliography
+  </description>
+  <used_function>SB02OD</used_function>
+  <bibliography
   >http://slicot.org/objects/software/shared/doc/SB02OD.html</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[N = 2;
 M = 1;
@@ -150,15 +150,15 @@ R = [0.0;
    1.0];
 L = zeros(N, M);
 [RCOND, X, ALFAR, ALFAI, BETA, S, T, U, INFO] = slicot_sb02od(DICO, JOBB, FACT, UPLO, JOBL, SORT, P, A, B, Q, R, L, TOL)]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>SLICOT Documentation</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>SLICOT Documentation</author_item>
+  </authors>
 </xmldoc>

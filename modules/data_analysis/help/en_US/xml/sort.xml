@@ -1,104 +1,98 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>sort</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>sort</keyword>
+  <short_description
   >Sort array elements by quick sort algorithm.</short_description>
-    <syntax>
-        <syntax_item>B = sort(A)</syntax_item>
-        <syntax_item>B = sort(A, dim)</syntax_item>
-        <syntax_item>B = sort(..., direction)</syntax_item>
-        <syntax_item>B = sort(..., name, value)</syntax_item>
-        <syntax_item>[B, I] = sort(...) </syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>A</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>B = sort(A)</syntax_item>
+    <syntax_item>B = sort(A, dim)</syntax_item>
+    <syntax_item>B = sort(..., direction)</syntax_item>
+    <syntax_item>B = sort(..., name, value)</syntax_item>
+    <syntax_item>[B, I] = sort(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description
       >an nelson's variable (double, single, int8, int16, int32, int64, uint8, uint16, uint32, uint64, logical, char, string, cell).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>dim</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description
       >Dimension to operate along: positive integer scalar.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>direction</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>direction</param_name>
+      <param_description
       >Sorting direction: 'ascend' (default) or 'descend'.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>name, value</param_name>
-            <param_description>name-value pair arguments.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>B</param_name>
-            <param_description>sorted array.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>I</param_name>
-            <param_description>sort index.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>sort</b> implements quick sort algorithm.</p>
-            <p>name-value pair arguments:</p>
-            <p>
-                <b>'MissingPlacement'</b> - Placement of missing values: <b
+    </param_input_item>
+    <param_input_item>
+      <param_name>name, value</param_name>
+      <param_description>name-value pair arguments.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>sorted array.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>I</param_name>
+      <param_description>sort index.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>sort</b> implements quick sort algorithm.</p>
+    <p>name-value pair arguments:</p>
+    <p><b>'MissingPlacement'</b> - Placement of missing values: <b
       >'auto'</b> (default), <b>'first'</b>, <b>'last'</b>.</p>
-                <p>
-                    <b>'ComparisonMethod'</b> - Element comparison method: <b
+    <p><b>'ComparisonMethod'</b> - Element comparison method: <b
       >'auto'</b> (default), <b>'real'</b>, <b>'abs'</b>.</p>
-                </description>
-                <used_function>qsort (stl)</used_function>
-                <bibliography
+  </description>
+  <used_function>qsort (stl)</used_function>
+  <bibliography
   >Quick sort algorithm from Bentley and McIlroy's "Engineering a Sort Function". Software - Practice and Experience</bibliography>
-                <examples>
-                    <example_item>
-                        <example_item_type>nelson</example_item_type>
-                        <example_item_description
-      >ComparisonMethod</example_item_description>
-                        <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>ComparisonMethod</example_item_description>
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [10+20i 30+i 10i 0 -10i];
 B = sort(A,'ComparisonMethod', 'auto')
 B = sort(A, 'ComparisonMethod', 'real')
 B = sort(A, 'ComparisonMethod', 'abs')
 ]]></example_item_data>
-                    </example_item>
-                    <example_item>
-                        <example_item_type>nelson</example_item_type>
-                        <example_item_description
-      >MissingPlacement</example_item_description>
-                        <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>MissingPlacement</example_item_description>
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [NaN 3 6 0 NaN];
 [B, I] = sort(A, 'MissingPlacement', 'auto')
 [B, I] = sort(A, 'MissingPlacement', 'first')
 [B, I] = sort(A, 'MissingPlacement', 'last')
 ]]></example_item_data>
-                    </example_item>
-                </examples>
-                <see_also>
-                    <see_also_item>
-                        <link linkend="${data_analysis}issorted">issorted</link>
-                    </see_also_item>
-                    <see_also_item>
-                        <link linkend="${data_analysis}unique">unique</link>
-                    </see_also_item>
-                </see_also>
-                <history>
-                    <history_item>
-                        <history_version>1.0.0</history_version>
-                        <history_description
-      >initial version</history_description>
-                    </history_item>
-                </history>
-                <authors>
-                    <author_item>Allan CORNET</author_item>
-                </authors>
-            </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}issorted">issorted</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}unique">unique</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

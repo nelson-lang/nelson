@@ -1,59 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>audioplayer</keyword>
-    <short_description>Objet lecteur audio.</short_description>
-    <syntax>
-        <syntax_item>playerObj = audioplayer(y, fs)</syntax_item>
-        <syntax_item>playerObj = audioplayer(y, fs, nbits)</syntax_item>
-        <syntax_item>playerObj = audioplayer(y, fs, nbits, id)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>y</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>audioplayer</keyword>
+  <short_description>Objet lecteur audio.</short_description>
+  <syntax>
+    <syntax_item>playerObj = audioplayer(y, fs)</syntax_item>
+    <syntax_item>playerObj = audioplayer(y, fs, nbits)</syntax_item>
+    <syntax_item>playerObj = audioplayer(y, fs, nbits, id)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>y</param_name>
+      <param_description
       >un vecteur ou matrice : int8, uint8, int16, single ou double.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>fs</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>fs</param_name>
+      <param_description
       >une valeur double : taux d'échantillonnage en Hz.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>nbits</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>nbits</param_name>
+      <param_description
       >une valeur double : bits par échantillon (16 par défaut).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>id</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>id</param_name>
+      <param_description
       >une valeur double : identifiant du périphérique (-1 par défaut).</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>playerObj</param_name>
-            <param_description>objet audioplayer</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>playerObj</param_name>
+      <param_description>objet audioplayer</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >audioplayer</b> retourne un objet audioplayer pour jouer des données sur un périphérique de sortie.</p>
-            <p
+    <p
     >L'objet audioplayer utilise une portée globale et doit être supprimé par l'utilisateur.</p>
-            <p>
-                <b
+    <p><b
       >audioplayer</b> peut jouer des données multi-canaux si votre carte son le supporte.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[signal = rand(2, 44100) - 0.5;
 playObj = audioplayer(signal, 44100, 16)
@@ -61,32 +59,32 @@ play(playObj)
 sleep(2)
 delete(playObj)
 playObj]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${handle}delete">delete</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${audio}play">play</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${audio}stop">stop</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${audio}resume">resume</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${audio}pause">pause</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${handle}delete">delete</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}play">play</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}stop">stop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}resume">resume</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}pause">pause</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

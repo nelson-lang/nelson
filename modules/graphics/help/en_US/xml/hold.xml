@@ -1,52 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>hold</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>hold</keyword>
+  <short_description
   >Retain current plot when adding new plots.</short_description>
-    <syntax>
-        <syntax_item>hold('on')</syntax_item>
-        <syntax_item>hold('off')</syntax_item>
-        <syntax_item>hold('all')</syntax_item>
-        <syntax_item>hold()</syntax_item>
-        <syntax_item>hold(ax, ...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>'on'</param_name>
-            <param_description>turn hold on.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'off'</param_name>
-            <param_description>turn hold off.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'all'</param_name>
-            <param_description>same as hold on.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description>Target axes: axes.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>ax</param_name>
-            <param_description>a graphics object: axes type.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>hold</b> allows to construct a plot sequence incrementally.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  <syntax>
+    <syntax_item>hold('on')</syntax_item>
+    <syntax_item>hold('off')</syntax_item>
+    <syntax_item>hold('all')</syntax_item>
+    <syntax_item>hold()</syntax_item>
+    <syntax_item>hold(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>'on'</param_name>
+      <param_description>turn hold on.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'off'</param_name>
+      <param_description>turn hold off.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'all'</param_name>
+      <param_description>same as hold on.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Target axes: axes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ax</param_name>
+      <param_description>a graphics object: axes type.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>hold</b> allows to construct a plot sequence incrementally.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 x = linspace(-pi, pi);
@@ -57,28 +56,28 @@ y2 = sin(x);
 plot(x, y2)
 hold off
 ]]></example_item_data>
-                <example_item_img
+      <example_item_img
         src="../../images/hold.svg"
         align="middle"
         generate="true"
       />
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${graphics}ishold">ishold</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${graphics}newplot">newplot</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}ishold">ishold</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}newplot">newplot</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

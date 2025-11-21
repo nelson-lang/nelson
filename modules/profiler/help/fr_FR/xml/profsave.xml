@@ -1,41 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>profsave</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>profsave</keyword>
+  <short_description
   >Enregistrer les résultats du profilage au format HTML.</short_description>
-    <syntax>
-        <syntax_item>profsave</syntax_item>
-        <syntax_item>profsave(profile_info)</syntax_item>
-        <syntax_item>profsave(profile_info, dirname)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>profile_info</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>profsave</syntax_item>
+    <syntax_item>profsave(profile_info)</syntax_item>
+    <syntax_item>profsave(profile_info, dirname)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>profile_info</param_name>
+      <param_description
       >structure : résultat de profile('info')</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>dirname</param_name>
-            <param_description
-      >chaîne : répertoire de destination.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p><b
+    </param_input_item>
+    <param_input_item>
+      <param_name>dirname</param_name>
+      <param_description>chaîne : répertoire de destination.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b
       >profsave</b> exporte les données de profiling en une série de fichiers HTML.</p>
-        <p>L'argument <b
+    <p>L'argument <b
       >profile_info</b> est la structure renvoyée par profile('info').</p>
-        <p>Si non précisé, <b>profsave</b> utilisera le profil courant.</p>
-    </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    <p>Si non précisé, <b>profsave</b> utilisera le profil courant.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[profile on
 sind(5)
@@ -43,20 +42,20 @@ profile off
 profsave(profile('info'), [tempdir(), 'profile_results'])
 unix([tempdir(), 'profile_results/index.html'])
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${profiler}profile">profile</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${profiler}profile">profile</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

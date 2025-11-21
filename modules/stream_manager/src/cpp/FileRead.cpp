@@ -104,74 +104,63 @@ FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, boo
     }
     if (classPrecision == NLS_CHAR) {
         std::string encoding = wstring_to_utf8(fp->getEncoding());
-        char* str = nullptr;
+        char* buffer = nullptr;
         try {
-            str = new char[static_cast<indexType>(sizeToRead + 1)];
+            buffer = new char[static_cast<indexType>(sizeToRead + 1)];
         } catch (const std::bad_alloc&) {
-            str = nullptr;
+            buffer = nullptr;
             Error(ERROR_MEMORY_ALLOCATION);
         }
         auto count = static_cast<size_t>(sizeToRead);
         size_t elsize = sizeof(char);
-        if (str) {
-            sizeReallyRead = static_cast<int>(fread(str, elsize, count, fileptr));
+        if (buffer) {
+            sizeReallyRead = static_cast<int>(fread(buffer, elsize, count, fileptr));
         }
         if (sizeReallyRead < 0) {
-            delete[] str;
-        } else if (sizeReallyRead < sizeToRead) {
-            char* resizestr = nullptr;
-            try {
-                resizestr = new char[(size_t)sizeReallyRead + (size_t)1];
-            } catch (const std::bad_alloc&) {
-                delete[] str;
-                str = nullptr;
+            delete[] buffer;
+        } else {
+            size_t validLength = static_cast<size_t>(sizeReallyRead);
+            if (sizeReallyRead < sizeToRead) {
+                char* trimmed = nullptr;
+                try {
+                    trimmed = new char[validLength + 1];
+                } catch (const std::bad_alloc&) {
+                    delete[] buffer;
+                    Error(ERROR_MEMORY_ALLOCATION);
+                }
+                if (buffer && trimmed) {
+                    memcpy(trimmed, buffer, validLength * sizeof(char));
+                }
+                delete[] buffer;
+                buffer = trimmed;
             }
-            if (str == nullptr) {
-                Error(ERROR_MEMORY_ALLOCATION);
+            if (buffer) {
+                buffer[validLength] = 0;
             }
-            if (str) {
-                memcpy(resizestr, str, sizeof(char) * (size_t)sizeReallyRead);
-            }
-            if (bIsLittleEndian != isLittleEndianFormat()) {
-                for (size_t k = 0; k < static_cast<size_t>(sizeReallyRead); k++) {
-                    resizestr[k] = bswap<char>(resizestr[k]);
+            if (buffer && (bIsLittleEndian != isLittleEndianFormat())) {
+                for (size_t k = 0; k < validLength; k++) {
+                    buffer[k] = bswap<char>(buffer[k]);
                 }
             }
-            resizestr[sizeReallyRead] = 0;
-            delete[] str;
-            toRead = ArrayOf::characterArrayConstructor(resizestr);
+            std::string raw;
+            if (buffer) {
+                raw.assign(buffer, validLength);
+            }
+            delete[] buffer;
+            std::string utf8Data;
             if (encoding != "UTF-8") {
-                std::string asUtf8;
-                bool res = charsetToUtf8Converter(resizestr, encoding, asUtf8);
-                delete[] resizestr;
-                if (res) {
-                    toRead = ArrayOf::characterArrayConstructor(asUtf8);
-                } else {
+                bool converted = charsetToUtf8Converter(raw, encoding, utf8Data);
+                if (!converted) {
                     Error(_("Cannot to use encoding:") + encoding);
                 }
             } else {
-                toRead = ArrayOf::characterArrayConstructor(resizestr);
-                delete[] resizestr;
+                utf8Data = raw;
             }
+            toRead = ArrayOf::characterArrayConstructor(utf8Data);
             if (!feof(fileptr)) {
                 if (skip) {
                     NLSFSEEK(fileptr, skip, SEEK_CUR);
                 }
-            }
-        } else {
-            str[sizeReallyRead] = 0;
-            if (encoding != "UTF-8") {
-                std::string asUtf8;
-                bool res = charsetToUtf8Converter(str, encoding, asUtf8);
-                delete[] str;
-                if (res) {
-                    toRead = ArrayOf::characterArrayConstructor(asUtf8);
-                } else {
-                    Error(_("Cannot to use encoding:") + encoding);
-                }
-            } else {
-                toRead = ArrayOf::characterArrayConstructor(str);
-                delete[] str;
             }
         }
     } else {

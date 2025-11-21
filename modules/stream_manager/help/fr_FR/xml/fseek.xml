@@ -1,59 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>fseek</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fseek</keyword>
+  <short_description
   >Positionne le pointeur de fichier à un emplacement.</short_description>
-    <syntax>
-        <syntax_item>fseek(fid, offset, origin)</syntax_item>
-        <syntax_item>status = fseek(fid, offset, origin)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>fid</param_name>
-        <param_description
+  <syntax>
+    <syntax_item>fseek(fid, offset, origin)</syntax_item>
+    <syntax_item>status = fseek(fid, offset, origin)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fid</param_name>
+      <param_description
       >une valeur entière : descripteur de fichier</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>offset</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>offset</param_name>
+      <param_description
       >une valeur entière : nombre d'octets à déplacer depuis l'origine.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>origin</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>origin</param_name>
+      <param_description
       >une valeur entière ou une chaîne : emplacement dans le fichier.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>status</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>status</param_name>
+      <param_description
       >an integer value: 0 or -1 if there is an error.</param_description>
-        </param_output_item>
-    </param_output>
-      <description>
-      <p>
-        <b>fseek</b> déplace le pointeur de fichier à l'emplacement <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>fseek</b> déplace le pointeur de fichier à l'emplacement <b
       >offset</b> dans le fichier <b>fid</b>.</p>
-        <p>origin peut prendre comme valeurs :</p>
-        <p>'bof' ou -1 : début du fichier.</p>
-        <p>'cof' ou 0 : position courante dans le fichier.</p>
-        <p>'eof' ou 1 : fin du fichier.</p>
-        <p>
-            <b>offset</b> peut être l'une des variables prédéfinies <b
-      >SEEK_CUR</b> (position courante, ou 0), <b
-      >SEEK_SET</b> (début, ou -1), ou <b
+    <p>origin peut prendre comme valeurs :</p>
+    <p>'bof' ou -1 : début du fichier.</p>
+    <p>'cof' ou 0 : position courante dans le fichier.</p>
+    <p>'eof' ou 1 : fin du fichier.</p>
+    <p><b>offset</b> peut être l'une des variables prédéfinies<b
+      >SEEK_CUR</b> (position courante, ou 0),<b
+      >SEEK_SET</b> (début, ou -1), ou<b
       >SEEK_END</b> (fin du fichier, ou 1).</p>
-        </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 fileID = fopen([tempdir(), 'fseek.txt'],'wt');
@@ -62,20 +60,20 @@ fseek(fileID, SEEK_CUR, 'bof');
 fprintf(fileID, 'sun');
 fclose(fileID);
 R = fileread([tempdir(), 'fseek.txt'])]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${stream_manager}frewind">frewind</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}frewind">frewind</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

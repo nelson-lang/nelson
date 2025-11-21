@@ -1,76 +1,74 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>convertStringToCharArgs</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>convertStringToCharArgs</keyword>
+  <short_description
   >Convert string arrays to character arrays or cell of char vectors.</short_description>
-    <syntax>
-        <syntax_item>C = convertStringToCharArgs(S)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>S</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>C = convertStringToCharArgs(S)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>S</param_name>
+      <param_description
       >Input string scalar or string array. If S is a string scalar, the output C is a character vector. If S is a string array, C is returned as a cell array of character vectors.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>C</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description
       >Character vector (for scalar string input) or cell array of character vectors (for string arrays). If the input was not a string, C is the unmodified input.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-<p><b
-      >convertStringToCharArgs</b> converts either a cell array of string values or a string array
-into a cell array of character vectors.</p>
-<p
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >convertStringToCharArgs</b> converts either a cell array of string values or a string array into a cell array of character vectors.</p>
+    <p
     >To convert a single string scalar to a character vector, use the char function instead.</p>
-<p
-    >This conversion is required because some functions (example set or get) currently do not accept string
-inputs.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+    <p
+    >This conversion is required because some functions (example set or get) currently do not accept string inputs.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Convert a string scalar to a char vector and a string array to a cell of char vectors.</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 % Scalar string -> char vector
 C = convertStringToCharArgs("Nelson")
 % String array -> cell array of char vectors
 C2 = convertStringToCharArgs({"a",'b'; 1,"d"})]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link
         linkend="${string}convertCharsToStrings"
       >convertCharsToStrings</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${data_structures}cellstr">cellstr</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${string}string">string</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${string}char">char</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.15.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_structures}cellstr">cellstr</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${string}string">string</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${string}char">char</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

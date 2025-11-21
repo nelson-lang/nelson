@@ -1,54 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>load</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>load</keyword>
+  <short_description
   >load data from .nh5 or .mat file into Nelson's workspace.</short_description>
-    <syntax>
-        <syntax_item>load(filename)</syntax_item>
-        <syntax_item>st = load(filename)</syntax_item>
-        <syntax_item>load(filename, var1, ..., varN)</syntax_item>
-        <syntax_item>st = load(filename, var1, ..., varN)</syntax_item>
-        <syntax_item>load(filename, '-mat')</syntax_item>
-        <syntax_item>load(filename, '-nh5')</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description
-      >a string: .nh5 or .mat filename.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'-mat' or '-nh5'</param_name>
-            <param_description
-      >forces to read file as nh5 or mat.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>var1, ..., varN</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>load(filename)</syntax_item>
+    <syntax_item>st = load(filename)</syntax_item>
+    <syntax_item>load(filename, var1, ..., varN)</syntax_item>
+    <syntax_item>st = load(filename, var1, ..., varN)</syntax_item>
+    <syntax_item>load(filename, '-mat')</syntax_item>
+    <syntax_item>load(filename, '-nh5')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: .nh5 or .mat filename.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'-mat' or '-nh5'</param_name>
+      <param_description>forces to read file as nh5 or mat.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>var1, ..., varN</param_name>
+      <param_description
       >string: Names of variables to load into Nelson's workspace.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>st</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>st</param_name>
+      <param_description
       >a structure with variables name as fieldnames.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >load</b> loads data from .nh5 or .mat file to Nelson's workspace.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>load</b> loads data from .nh5 or .mat file to Nelson's workspace.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = ones(3, 4);
 B = 'hello for open mat users';
@@ -65,26 +61,26 @@ who
 A
 B
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${stream_manager}save">save</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${matio}savemat">savemat</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${hdf5}savenh5">savenh5</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}save">save</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${matio}savemat">savemat</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${hdf5}savenh5">savenh5</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

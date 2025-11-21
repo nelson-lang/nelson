@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <module_name>text_editor</module_name>
-    <chapter>Text editor</chapter>
-    <chapter_description>
-        <p
-    >Le module Éditeur de texte fournit un éditeur intégré à Nelson pour créer, éditer et
-            formater des scripts et fichiers Nelson.</p>
-    </chapter_description>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>text_editor</module_name>
+  <chapter>Text editor</chapter>
+  <chapter_description>
+    <p
+    >Le module Éditeur de texte fournit un éditeur intégré à Nelson pour créer, éditer et formater des scripts et fichiers Nelson.</p>
+  </chapter_description>
 </xmldoc>

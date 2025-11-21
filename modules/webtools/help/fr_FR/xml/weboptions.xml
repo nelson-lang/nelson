@@ -1,96 +1,93 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>weboptions</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>weboptions</keyword>
+  <short_description
   >Spécifier les paramètres pour les services web RESTful</short_description>
-    <syntax>
-        <syntax_item>options = weboptions()</syntax_item>
-        <syntax_item>options = weboptions(name, value)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>name</param_name>
-            <param_description>chaîne.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>value</param_name>
-            <param_description
-      >valeur correspondant au champ name.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>options</param_name>
-            <param_description>objet weboptions.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p><b
-      >options = weboptions()</b> renvoie l'objet weboptions par défaut.</p>
-        <p
+  <syntax>
+    <syntax_item>options = weboptions()</syntax_item>
+    <syntax_item>options = weboptions(name, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>name</param_name>
+      <param_description>chaîne.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>value</param_name>
+      <param_description>valeur correspondant au champ name.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>options</param_name>
+      <param_description>objet weboptions.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>options = weboptions()</b> renvoie l'objet weboptions par défaut.</p>
+    <p
     >Un objet weboptions peut être un argument optionnel pour les fonctions builtin webread, websave et webwrite.</p>
-        <p>Arguments Nom-Valeur :</p>
-        <p><b
+    <p>Arguments Nom-Valeur :</p>
+    <p><b
       >UserAgent</b> Identification de l'agent utilisateur : chaîne ou vecteur de caractères.</p>
-        <p><b
+    <p><b
       >Timeout</b> Durée du timeout de connexion : scalaire numérique positif ou valeur Inf.</p>
-        <p><b
+    <p><b
       >Username</b> Identifiant utilisateur : chaîne ou vecteur de caractères.</p>
-        <p><b
+    <p><b
       >Password</b> Mot de passe d'authentification : chaîne ou vecteur de caractères.</p>
-        <p><b>KeyName</b> Nom de la clé : chaîne ou vecteur de caractères.</p>
-        <p><b
+    <p><b>KeyName</b> Nom de la clé : chaîne ou vecteur de caractères.</p>
+    <p><b
       >KeyValue</b> Valeur de la clé : chaîne, vecteur de caractères, numérique ou logique.</p>
-        <p><b
+    <p><b
       >HeaderFields</b> Noms et valeurs des en-têtes : tableau m-by-2 de chaînes ou cellule de vecteurs de caractères.</p>
-        <p><b
+    <p><b
       >ContentType</b> Type de contenu : chaîne. Valeurs supportées : 'auto', 'text', 'audio', 'binary', 'json', 'raw'.</p>
-        <p><b>ContentReader</b> Lecteur de contenu : handle de fonction.</p>
-        <p><b
+    <p><b>ContentReader</b> Lecteur de contenu : handle de fonction.</p>
+    <p><b
       >MediaType</b> Type média : chaîne. Valeurs supportées : 'auto', 'application/x-www-form-urlencoded'.</p>
-        <p><b
+    <p><b
       >RequestMethod</b> Méthode HTTP : chaîne. Valeurs supportées : 'auto', 'get', 'post', 'put', 'delete', 'patch'.</p>
-        <p><b
+    <p><b
       >ArrayFormat</b> : 'csv' (par défaut), 'json', 'repeating' ou 'php'.</p>
-        <p><b
+    <p><b
       >CertificateFilename</b> Nom de fichier des certificats racine : chaîne.</p>
-        <p><b
+    <p><b
       >FollowLocation</b> indique à la bibliothèque de suivre les redirections Location: envoyées par un serveur HTTP dans une réponse 30x : logique, false par défaut.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[weboptions()
 options = weboptions('UserAgent', 'http://www.whoishostingthis.com/tools/user-agent/')]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${webtools}webread">webread</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${webtools}websave">websave</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-        <history_item>
-            <history_version>1.6.0</history_version>
-            <history_description
-      >option 'FollowLocation' ajoutée</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${webtools}webread">webread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${webtools}websave">websave</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.6.0</history_version>
+      <history_description>option 'FollowLocation' ajoutée</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

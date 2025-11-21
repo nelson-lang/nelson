@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>backgroundPool</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>backgroundPool</keyword>
+  <short_description
   >Environnement pour exécuter du code Nelson en arrière-plan.</short_description>
-    <syntax>
-        <syntax_item>pool = backgroundPool()</syntax_item>
-    </syntax>
-    <param_output>
-        <param_output_item>
-            <param_name>pool</param_name>
-            <param_description>objet backgroundPool.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p><b>pool = backgroundPool()</b> renvoie le pool en arrière-plan.</p>
-        <p
+  <syntax>
+    <syntax_item>pool = backgroundPool()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>pool</param_name>
+      <param_description>objet backgroundPool.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>pool = backgroundPool()</b> renvoie le pool en arrière-plan.</p>
+    <p
     >Ceci permet d'exécuter d'autres codes dans votre session Nelson en parallèle.</p>
-        <p />
-        <p>Propriétés de l'objet backgroundPool :</p>
-        <p
+    <p />
+    <p>Propriétés de l'objet backgroundPool :</p>
+    <p
     >'FevalQueue' : file d'attente d'objets FevalFuture à exécuter dans le pool (lecture seule).</p>
-        <p>'NumWorkers' : nombre de workers (lecture seule).</p>
-        <p
+    <p>'NumWorkers' : nombre de workers (lecture seule).</p>
+    <p
     >'Busy' : indicateur logique indiquant si le pool est occupé (lecture seule).</p>
-    </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[b = backgroundPool()
 fptr = str2func('magic');
 f = parfeval(b, fptr, 1, 9);]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${parallel}parfeval">parfeval</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${parallel}fetchOutputs">fetchOutputs</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors />
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${parallel}parfeval">parfeval</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parallel}fetchOutputs">fetchOutputs</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors />
+</xmldoc>

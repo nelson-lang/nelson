@@ -1,65 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>diag</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>diag</keyword>
+  <short_description
   >Obtenir les éléments diagonaux d'une matrice ou créer une matrice diagonale.</short_description>
-    <syntax>
-        <syntax_item>D = diag(V)</syntax_item>
-        <syntax_item>X = diag(A)</syntax_item>
-        <syntax_item>D = diag(V, k)</syntax_item>
-        <syntax_item>X = diag(A, k)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>V</param_name>
-            <param_description>Éléments diagonaux</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>A</param_name>
-            <param_description>Matrice d'entrée</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>D</param_name>
-            <param_description>vecteur</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>X</param_name>
-            <param_description>matrice</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+  <syntax>
+    <syntax_item>D = diag(V)</syntax_item>
+    <syntax_item>X = diag(A)</syntax_item>
+    <syntax_item>D = diag(V, k)</syntax_item>
+    <syntax_item>X = diag(A, k)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description>Éléments diagonaux</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>Matrice d'entrée</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>D</param_name>
+      <param_description>vecteur</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>X</param_name>
+      <param_description>matrice</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >diag</b> retourne les éléments diagonaux d'une matrice ou crée une matrice diagonale.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[diag(eye(3))
 diag(diag(eye(3)))]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${constructors_functions}ones">ones</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${constructors_functions}ones">ones</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

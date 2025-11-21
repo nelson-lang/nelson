@@ -6,7 +6,6 @@
   <chapter>Fonctions MEX</chapter>
   <chapter_description>
     <p
-    >Le module MEX (MATLAB Executable) permet au code C/C++ d'interfacer avec Nelson, étendant ses
-      fonctionnalités et donnant accès au moteur de Nelson, aux variables et aux fonctions.</p>
+    >Le module MEX (MATLAB Executable) permet au code C/C++ d'interfacer avec Nelson, étendant ses        fonctionnalités et donnant accès au moteur de Nelson, aux variables et aux fonctions.</p>
   </chapter_description>
 </xmldoc>

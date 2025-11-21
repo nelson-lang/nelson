@@ -96,9 +96,14 @@
       </xsl:choose>
     </xsl:variable>
 
-# <xsl:value-of select="keyword"/>
+    <xsl:text># </xsl:text>
+    <xsl:call-template name="escape-description-text">
+      <xsl:with-param name="text" select="keyword"/>
+    </xsl:call-template>
     <xsl:text>&#10;&#10;</xsl:text>
-    <xsl:value-of select="short_description"/>
+    <xsl:call-template name="escape-description-text">
+      <xsl:with-param name="text" select="short_description"/>
+    </xsl:call-template>
     <xsl:text>&#10;</xsl:text>
 
     <!-- Chapter description section if present -->
@@ -112,7 +117,11 @@
     <xsl:if test="syntax/syntax_item[normalize-space(.)]">
     <xsl:text>&#10;## </xsl:text><xsl:value-of select="$syntax-text"/><xsl:text>&#10;&#10;</xsl:text>
     <xsl:for-each select="syntax/syntax_item">
-    <xsl:text>- </xsl:text><xsl:value-of select="normalize-space(.)"/>
+    <xsl:text>- </xsl:text>
+    <xsl:variable name="syntax-line" select="normalize-space(.)"/>
+    <xsl:call-template name="escape-description-text">
+      <xsl:with-param name="text" select="$syntax-line"/>
+    </xsl:call-template>
     <xsl:text>&#10;</xsl:text>
     </xsl:for-each>
     </xsl:if>
@@ -121,7 +130,11 @@
     <xsl:if test="param_input/param_input_item">
     <xsl:text>&#10;## </xsl:text><xsl:value-of select="$input-argument-text"/><xsl:text>&#10;&#10;</xsl:text>
     <xsl:for-each select="param_input/param_input_item">
-  <xsl:text>- </xsl:text><xsl:value-of select="param_name"/><xsl:text> - </xsl:text>
+  <xsl:text>- </xsl:text>
+  <xsl:call-template name="escape-markdown-text">
+    <xsl:with-param name="text" select="normalize-space(param_name)"/>
+  </xsl:call-template>
+  <xsl:text> - </xsl:text>
   <xsl:apply-templates select="param_description"/>
     <xsl:text>&#10;</xsl:text>
     </xsl:for-each>
@@ -131,7 +144,11 @@
     <xsl:if test="param_output/param_output_item">
     <xsl:text>&#10;## </xsl:text><xsl:value-of select="$output-argument-text"/><xsl:text>&#10;&#10;</xsl:text>
     <xsl:for-each select="param_output/param_output_item">
-  <xsl:text>- </xsl:text><xsl:value-of select="param_name"/><xsl:text> - </xsl:text>
+  <xsl:text>- </xsl:text>
+  <xsl:call-template name="escape-markdown-text">
+    <xsl:with-param name="text" select="normalize-space(param_name)"/>
+  </xsl:call-template>
+  <xsl:text> - </xsl:text>
   <xsl:apply-templates select="param_description"/>
     <xsl:text>&#10;</xsl:text>
     </xsl:for-each>
@@ -290,7 +307,39 @@
         <xsl:if test="preceding-sibling::node() and starts-with(., ' ')">
           <xsl:text> </xsl:text>
         </xsl:if>
-        <xsl:value-of select="normalize-space(.)"/>
+        <xsl:variable name="normalized" select="normalize-space(.)"/>
+        <xsl:variable name="escaped">
+          <xsl:call-template name="escape-description-text">
+            <xsl:with-param name="text" select="$normalized"/>
+          </xsl:call-template>
+        </xsl:variable>
+        <xsl:value-of select="$escaped"/>
+        <xsl:if test="following-sibling::node() and substring(., string-length(.)) = ' '">
+          <xsl:text> </xsl:text>
+        </xsl:if>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- Ensure underscores are escaped inside parameter descriptions -->
+  <xsl:template match="param_description//text()" priority="2">
+    <xsl:choose>
+      <xsl:when test="normalize-space(.) = ''">
+        <xsl:if test="preceding-sibling::node() and following-sibling::node()">
+          <xsl:text> </xsl:text>
+        </xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:if test="preceding-sibling::node() and starts-with(., ' ')">
+          <xsl:text> </xsl:text>
+        </xsl:if>
+        <xsl:variable name="normalized" select="normalize-space(.)"/>
+        <xsl:variable name="escaped">
+          <xsl:call-template name="escape-markdown-text">
+            <xsl:with-param name="text" select="$normalized"/>
+          </xsl:call-template>
+        </xsl:variable>
+        <xsl:value-of select="$escaped"/>
         <xsl:if test="following-sibling::node() and substring(., string-length(.)) = ' '">
           <xsl:text> </xsl:text>
         </xsl:if>
@@ -410,6 +459,9 @@
 
   <!-- Table rendering templates -->
   <xsl:template match="table">
+    <xsl:if test="not(preceding-sibling::*[1][self::p and not(node())])">
+      <xsl:text>&#10;</xsl:text>
+    </xsl:if>
     <xsl:text>&#10;</xsl:text>
     <xsl:apply-templates select="tr[1]" mode="header"/>
     <xsl:apply-templates select="tr[position() > 1]"/>
@@ -498,13 +550,17 @@
   <!-- General templates for inline formatting (outside tables) -->
   <xsl:template match="b">
     <xsl:text>&lt;b&gt;</xsl:text>
-    <xsl:value-of select="."/>
+    <xsl:call-template name="escape-markdown-text">
+      <xsl:with-param name="text" select="."/>
+    </xsl:call-template>
     <xsl:text>&lt;/b&gt;</xsl:text>
   </xsl:template>
 
   <xsl:template match="i">
     <xsl:text>&lt;i&gt;</xsl:text>
-    <xsl:value-of select="."/>
+    <xsl:call-template name="escape-markdown-text">
+      <xsl:with-param name="text" select="."/>
+    </xsl:call-template>
     <xsl:text>&lt;/i&gt;</xsl:text>
   </xsl:template>
 
@@ -536,7 +592,21 @@
         <xsl:with-param name="replace" select="'\|'"/>
       </xsl:call-template>
     </xsl:variable>
-    <xsl:value-of select="$escaped-pipe"/>
+    <xsl:variable name="escaped-underscore">
+      <xsl:call-template name="replace-string">
+        <xsl:with-param name="text" select="$escaped-pipe"/>
+        <xsl:with-param name="search" select="'_'"/>
+        <xsl:with-param name="replace" select="'\_'"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="escaped-asterisk">
+      <xsl:call-template name="replace-string">
+        <xsl:with-param name="text" select="$escaped-underscore"/>
+        <xsl:with-param name="search" select="'*'"/>
+        <xsl:with-param name="replace" select="'\*'"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:value-of select="$escaped-asterisk"/>
   </xsl:template>
 
   <xsl:template name="replace-string">
@@ -557,6 +627,14 @@
         <xsl:value-of select="$text"/>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <!-- Narrative text uses the general markdown escaping rules -->
+  <xsl:template name="escape-description-text">
+    <xsl:param name="text"/>
+    <xsl:call-template name="escape-markdown-text">
+      <xsl:with-param name="text" select="$text"/>
+    </xsl:call-template>
   </xsl:template>
 
 </xsl:stylesheet>

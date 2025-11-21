@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<module_name>double</module_name>
-	<chapter>Double</chapter>
-	<chapter_description>
-		<p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>double</module_name>
+  <chapter>Double</chapter>
+  <chapter_description>
+    <p
     >The Double Type module provides tools for handling double-precision numeric values in Nelson.</p>
-		<p
+    <p
     >It enables conversion to double precision and offers access to key numeric limits, supporting high-accuracy computations and reliable handling of large or small floating-point numbers in mathematical and scientific applications.</p>
-	</chapter_description>
+  </chapter_description>
 </xmldoc>

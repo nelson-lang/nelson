@@ -1,39 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>clf</keyword>
-    <short_description>Efface la figure.</short_description>
-    <syntax>
-        <syntax_item>clf</syntax_item>
-        <syntax_item>clf(f)</syntax_item>
-        <syntax_item>F = clf(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-        <param_name>f</param_name>
-        <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>clf</keyword>
+  <short_description>Efface la figure.</short_description>
+  <syntax>
+    <syntax_item>clf</syntax_item>
+    <syntax_item>clf(f)</syntax_item>
+    <syntax_item>F = clf(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>f</param_name>
+      <param_description
       >un objet graphique scalaire sur une figure existante.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-                <param_output_item>
-                        <param_name>F</param_name>
-                        <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>F</param_name>
+      <param_description
       >un objet graphique : objet figure utilisé.</param_description>
-                </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>clf</b> efface la figure courante.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>clf</b> efface la figure courante.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 x = linspace(0, 2*pi);
@@ -41,23 +40,23 @@ y = sin(3 * x);
 plot(x, y)
 sleep(5)
 clf]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${graphics}gcf">gcf</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${graphics}cla">cla</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}gcf">gcf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}cla">cla</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

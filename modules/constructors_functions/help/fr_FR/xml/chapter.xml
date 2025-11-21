@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <module_name>constructors_functions</module_name>
-    <chapter>Fonctions constructeurs</chapter>
-    <chapter_description>
-      <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>constructors_functions</module_name>
+  <chapter>Fonctions constructeurs</chapter>
+  <chapter_description>
+    <p
     >Le module Constructeurs fournit des outils pour créer des valeurs numériques fondamentales, des scalaires, des vecteurs et des matrices dans Nelson.</p>
-      <p
+    <p
     >Il comprend des constantes, des matrices identité et diagonales, et des valeurs spéciales telles que l'infini, NaN et la précision machine.</p>
-      <p
+    <p
     >Ce module constitue la base pour initialiser les structures de données et effectuer des calculs mathématiques et numériques.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

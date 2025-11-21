@@ -1,48 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>argv</keyword>
-    <short_description>Nelson command line arguments.</short_description>
-    <syntax>
-        <syntax_item>args = argv()</syntax_item>
-    </syntax>
-    <param_output>
-        <param_output_item>
-            <param_name>args</param_name>
-            <param_description>a cell array of strings.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>argv</keyword>
+  <short_description>Nelson command line arguments.</short_description>
+  <syntax>
+    <syntax_item>args = argv()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>args</param_name>
+      <param_description>a cell array of strings.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >argv()</b> returns a cell array of strings containing the arguments of the Nelson command line.</p>
-            <p
-    >The first element of the cell returned contains the path of the launched executable. </p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
-        runnable="cli"
-      ><![CDATA[argv()]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${engine}executable">executable</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    <p
+    >The first element of the cell returned contains the path of the launched executable.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[argv()]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${engine}executable">executable</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

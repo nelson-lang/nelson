@@ -1,63 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>viridis</keyword>
-    <short_description>Tableau de couleurs Viridis.</short_description>
-    <syntax>
-        <syntax_item>c = viridis</syntax_item>
-        <syntax_item>c = viridis(m)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>m</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>viridis</keyword>
+  <short_description>Tableau de couleurs Viridis.</short_description>
+  <syntax>
+    <syntax_item>c = viridis</syntax_item>
+    <syntax_item>c = viridis(m)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>m</param_name>
+      <param_description
       >Une valeur entière scalaire : Nombre de couleurs (256 par défaut).</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>c</param_name>
-            <param_description>Tableau de couleurs Viridis.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >viridis</b> retourne la carte de couleurs avec les couleurs Viridis.
-        </p>
-    </description>
-    <bibliography
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>c</param_name>
+      <param_description>Tableau de couleurs Viridis.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >viridis</b> retourne la carte de couleurs avec les couleurs Viridis.</p>
+  </description>
+  <bibliography
   >Carte de couleurs créée par Stéfan van der Walt et Nathaniel Smith</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data runnable="adv-cli">
-<![CDATA[f = figure();
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
 surf(peaks);
 view(2);
-colormap('viridis');]]>
-            </example_item_data>
-            <example_item_img
+colormap('viridis');]]></example_item_data>
+      <example_item_img
         src="../../images/viridis.svg"
         align="middle"
         generate="true"
       />
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${graphics}colormap">colormap</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>Version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}colormap">colormap</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>Version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

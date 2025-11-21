@@ -1,67 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>gettext</keyword>
-    <keyword_alias>_</keyword_alias>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>gettext</keyword>
+  <keyword_alias>_</keyword_alias>
+  <short_description
   >Get text translated into the current locale.</short_description>
-    <syntax>
-        <syntax_item>translated_string = gettext(your_string)</syntax_item>
-        <syntax_item>translated_string = _(your_string))</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>your_string</param_name>
-            <param_description
-      >a string: message to be translated.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>translated_string</param_name>
-            <param_description>a string: message translated.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >translated_string = gettext(your_string)</b> gets the translation of a string <b
+  <syntax>
+    <syntax_item>translated_string = gettext(your_string)</syntax_item>
+    <syntax_item>translated_string = _(your_string))</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>your_string</param_name>
+      <param_description>a string: message to be translated.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>translated_string</param_name>
+      <param_description>a string: message translated.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >translated_string = gettext(your_string)</b> gets the translation of a string<b
       >your_string</b> to the current locale in the Nelson domain.</p>
-            <p>
-                <b>_(your_string)</b> is an alias of <b
-      >gettext(your_string)</b>.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    <p><b>_(your_string)</b> is an alias of<b>gettext(your_string)</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[disp(_('function not found.'))]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link
-        linkend="${localization}setlanguage"
-      >setlanguage</link>
-                </see_also_item>
-                <see_also_item>
-                    <link
-        linkend="${localization}getlanguage"
-      >getlanguage</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>initial version</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${localization}setlanguage">setlanguage</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${localization}getlanguage">getlanguage</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

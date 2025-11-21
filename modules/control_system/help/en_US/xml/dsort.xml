@@ -1,40 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<keyword>dsort</keyword>
+  <language>en_US</language>
+  <keyword>dsort</keyword>
   <short_description>Sort discrete-time poles by magnitude.</short_description>
-
   <syntax>
     <syntax_item>s = dsort(p)</syntax_item>
     <syntax_item>[s, ndx] = dsort(p)</syntax_item>
   </syntax>
-
   <param_input>
     <param_input_item>
       <param_name>p</param_name>
       <param_description>p: a vector</param_description>
     </param_input_item>
-
   </param_input>
-
   <param_output>
-     <param_output_item>
+    <param_output_item>
       <param_name>s</param_name>
       <param_description>sorted vector by magnitude.</param_description>
     </param_output_item>
   </param_output>
-
   <description>
-    <p><b>dsort</b> arranges the discrete-time poles within the vector <b
+    <p><b>dsort</b> arranges the discrete-time poles within the vector<b
       >p</b> in a descending order based on their magnitude, with unstable poles taking precedence at the beginning of the sorted list.</p>
   </description>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[p = [-2.410 + 5.573i;
 -2.410 - 5.573i;
@@ -42,25 +36,20 @@
 -0.972;         
 -2.590];  
 [s, ndx] = dsort(p)    
-  ]]>
-    </example_item_data>
-  </example_item>
-</examples>
-
+  ]]></example_item_data>
+    </example_item>
+  </examples>
   <see_also>
     <see_also_item>
       <link linkend="${control_system}esort">esort</link>
     </see_also_item>
   </see_also>
-
-
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
   </history>
-
   <authors>
     <author_item>Allan CORNET</author_item>
   </authors>

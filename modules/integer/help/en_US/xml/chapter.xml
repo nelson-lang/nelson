@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>integer</module_name>
-    <chapter>Integers type</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>integer</module_name>
+  <chapter>Integers type</chapter>
+  <chapter_description>
+    <p
     >The Integer Types module provides tools for working with signed and unsigned integers of various sizes in Nelson.</p>
-        <p
+    <p
     >These types are particularly useful for efficiently storing and processing large datasets, such as images or large numeric arrays.</p>
-        <p
+    <p
     >The module supports conversions between integer formats and provides access to the minimum and maximum values representable for each integer type, ensuring safe and precise integer arithmetic.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

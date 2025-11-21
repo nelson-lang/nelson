@@ -1,59 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>mustBeNonnegative</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>mustBeNonnegative</keyword>
+  <short_description
   >Checks that value is nonnegative or raise an error.</short_description>
-    <syntax>
-        <syntax_item>mustBeNonnegative(var)</syntax_item>
-        <syntax_item>mustBeNonnegative(var, argPosition)</syntax_item>
-        <syntax_item
+  <syntax>
+    <syntax_item>mustBeNonnegative(var)</syntax_item>
+    <syntax_item>mustBeNonnegative(var, argPosition)</syntax_item>
+    <syntax_item
     >C++: void mustBeNonnegative(const ArrayOfVector&amp; args, int argPosition)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>var</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>var</param_name>
+      <param_description
       >a variable: all supported types and classes that implement isnumeric, islogical, all, isreal, and ge methods.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>argPosition</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>argPosition</param_name>
+      <param_description
       >a positive integer value: Position of input argument.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b
       >mustBeNonnegative</b> checks that value is nonnegative or raise an error.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[mustBeNonnegative(1)
 mustBeNonnegative(-1)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link
-        linkend="${validators}mustBePositive"
-      >mustBePositive</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${validators}mustBePositive">mustBePositive</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

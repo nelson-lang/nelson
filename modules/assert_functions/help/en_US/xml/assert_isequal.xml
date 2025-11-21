@@ -1,69 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>assert_isequal</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>assert_isequal</keyword>
+  <short_description
   >Check that computed and expected values are equal.</short_description>
-    <syntax>
-        <syntax_item>assert_isequal(computed, expected)</syntax_item>
-        <syntax_item>res = assert_isequal(computed, expected)</syntax_item>
-        <syntax_item
-    >[res, msg] = assert_isequal(computed, expected)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>computed</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>assert_isequal(computed, expected)</syntax_item>
+    <syntax_item>res = assert_isequal(computed, expected)</syntax_item>
+    <syntax_item>[res, msg] = assert_isequal(computed, expected)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>computed</param_name>
+      <param_description
       >a value of any type to be tested for equality.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>expected</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>expected</param_name>
+      <param_description
       >a value of any type representing the expected result.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>res</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>res</param_name>
+      <param_description
       >a logical value: true if values are equal, false otherwise.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>msg</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>msg</param_name>
+      <param_description
       >a string containing the error message. If res == true, then msg == ''. If res == false, then msg contains the assertion failure message.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p><b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >assert_isequal</b> raises an error if the computed value is not equal to the expected value.</p>
-        <p
-    >This function performs strict equality testing that checks for same type, same dimensions, and same values comparisons. It uses the same logic as the <b
+    <p
+    >This function performs strict equality testing that checks for same type, same dimensions, and same values comparisons. It uses the same logic as the<b
       >isequaln</b> function.</p>
-        <p
+    <p
     >Unlike standard equality operators, this function properly handles NaN values, considering them equal when both values contain NaN in the same positions.</p>
-        <p
+    <p
     >This function is essential for unit testing to verify that computed results match expected outcomes exactly.</p>
-    </description>
-    <used_function>isequaln</used_function>
-    <bibliography
+  </description>
+  <used_function>isequaln</used_function>
+  <bibliography
   >"Automated Software Testing for Matlab", Steven Eddins, 2009</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Test equality of identical matrices:</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = eye(3, 3);
 assert_isequal(A, A)]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Test that demonstrates type mismatch detection:</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = eye(3, 3);
 B = single(A);
@@ -72,22 +71,22 @@ try
 catch ME
     disp(['Error: ' ME.message])
 end]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Test NaN equality handling:</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = NaN;
 B = A;
 assert_isequal(A, B)]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Using return values to handle assertion results:</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[[res, msg] = assert_isequal([1, 2, 3], [1, 2, 4]);
 if res
@@ -95,35 +94,29 @@ if res
 else
     disp(['Values are not equal: ' msg])
 end]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${elementary_functions}isequaln">isequaln</link>
-        </see_also_item>
-        <see_also_item>
-            <link
-        linkend="${assert_functions}assert_isapprox"
-      >assert_isapprox</link>
-        </see_also_item>
-        <see_also_item>
-            <link
-        linkend="${assert_functions}assert_istrue"
-      >assert_istrue</link>
-        </see_also_item>
-        <see_also_item>
-            <link
-        linkend="${assert_functions}assert_isfalse"
-      >assert_isfalse</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}isequaln">isequaln</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${assert_functions}assert_isapprox">assert_isapprox</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${assert_functions}assert_istrue">assert_istrue</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${assert_functions}assert_isfalse">assert_isfalse</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

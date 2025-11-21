@@ -2,13 +2,13 @@
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
-    <keyword>slicot_sb01bd</keyword>
-    <short_description
+  <keyword>slicot_sb01bd</keyword>
+  <short_description
   >Affectation de pôles pour une paire de matrices donnée (A,B).</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[A_OUT, WR_OUT, WI_OUT, NFP, NAP, NUP, F, Z, IWARN, INFO] = slicot_sb01bd(DICO, ALPHA, A_IN, B_IN, WR_IN, WI_IN, TOL)</syntax_item>
-    </syntax>
+  </syntax>
   <param_input>
     <param_input_item>
       <param_name>DICO</param_name>
@@ -46,7 +46,7 @@
       >La tolérance absolue en dessous de laquelle les éléments de A ou B sont considérés comme nuls (utilisée pour les tests de contrôlabilité).</param_description>
     </param_input_item>
   </param_input>
-    <param_output>
+  <param_output>
     <param_output_item>
       <param_name>A_OUT</param_name>
       <param_description
@@ -96,19 +96,19 @@
       <param_name>INFO</param_name>
       <param_description>0 : sortie réussie ;</param_description>
     </param_output_item>
-    </param_output>
-    <description>
-        <p
+  </param_output>
+  <description>
+    <p
     >To determine the state feedback matrix F for a given system (A,B) such that the closed-loop state matrix A+B*F has specified eigenvalues.</p>
-    </description>
-    <used_function>SB01BD</used_function>
-    <bibliography
+  </description>
+  <used_function>SB01BD</used_function>
+  <bibliography
   >http://slicot.org/objects/software/shared/doc/SB01BD.html</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[N = 4;
 M = 2;
@@ -132,15 +132,15 @@ WI_IN = [ 0.1500; -0.1500];
   
 [A_OUT, WR_OUT, WI_OUT, NFP, NAP, NUP, F, Z, IWARN, INFO] = slicot_sb01bd(DICO, ALPHA, A_IN, B_IN, WR_IN, WI_IN, TOL)
 ]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>SLICOT Documentation</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>SLICOT Documentation</author_item>
+  </authors>
 </xmldoc>

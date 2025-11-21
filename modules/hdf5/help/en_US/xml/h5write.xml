@@ -1,61 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>h5write</keyword>
-    <short_description>Writes HDF5 data set.</short_description>
-    <syntax>
-        <syntax_item>h5write(filename, location, value)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description>a string: hdf5 filename.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>location</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>h5write</keyword>
+  <short_description>Writes HDF5 data set.</short_description>
+  <syntax>
+    <syntax_item>h5write(filename, location, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: hdf5 filename.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>location</param_name>
+      <param_description
       >a string: full path identifying a data set.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>value</param_name>
-            <param_description
-      >a value: supported types: double, uint64, uint32, uint16, uint8
-single, int64, int32, int16, int8 or character array.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>
-            <b>h5write</b> writes data to an entire data set, <b
+    </param_input_item>
+    <param_input_item>
+      <param_name>value</param_name>
+      <param_description
+      >a value: supported types: double, uint64, uint32, uint16, uint8 single, int64, int32, int16, int8 or character array.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>h5write</b> writes data to an entire data set,<b
       >location</b>, in the HDF5 file.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[h5filename = [tempdir(), 'doc_h5write.h5'];
 R = rand(3, 4)
 h5write(h5filename,'/rand', R);
 h5write(h5filename,'/str', 'Hello');
 h5dump(h5filename)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${hdf5}h5read">h5read</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${hdf5}h5read">h5read</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

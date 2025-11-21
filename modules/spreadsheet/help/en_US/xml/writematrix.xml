@@ -1,191 +1,159 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>writematrix</keyword>
-    <short_description>Write a matrix to a file.</short_description>
-    <syntax>
-        <syntax_item>writematrix(M)</syntax_item>
-        <syntax_item>writematrix(M, filename)</syntax_item>
-        <syntax_item>writematrix(..., Name, Value)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>M</param_name>
-            <param_description>an numeric or logical matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description
-      >a string: filename destination.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Name, Value </param_name>
-            <param_description>Name-Value Arguments</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>
-            <b
-      >writematrix</b> writes an numeric matrix to an CSV format file.</p>
-            <p>
-                <b>writematrix</b> does not support sparse matrices.</p>
-                <p>
-                    <b
-      >writematrix</b> outputs numeric data in the long G format.</p>
-                    <p />
-                    <p>Available Name-Value Arguments</p>
-                    <p />
-                    <p>Name-value pairs must follow all other arguments.</p>
-                    <p>The order of name-value pairs doesn't matter</p>
-                    <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>writematrix</keyword>
+  <short_description>Write a matrix to a file.</short_description>
+  <syntax>
+    <syntax_item>writematrix(M)</syntax_item>
+    <syntax_item>writematrix(M, filename)</syntax_item>
+    <syntax_item>writematrix(..., Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>M</param_name>
+      <param_description>an numeric or logical matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: filename destination.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>Name-Value Arguments</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>writematrix</b> writes an numeric matrix to an CSV format file.</p>
+    <p><b>writematrix</b> does not support sparse matrices.</p>
+    <p><b>writematrix</b> outputs numeric data in the long G format.</p>
+    <p />
+    <p>Available Name-Value Arguments</p>
+    <p />
+    <p>Name-value pairs must follow all other arguments.</p>
+    <p>The order of name-value pairs doesn't matter</p>
+    <p
     >Delimiter and QuoteStrings options only apply to delimited text files.</p>
-                    <p />
-                    <p>
-                        <b>FileType</b>: Specifies the type of output file</p>
-                        <p>Syntax: <b>'FileType','text'</b>
-                    </p>
-                    <p>Supports delimited text files (.txt, .dat, .csv)</p>
-                    <p />
-                    <p>
-                        <b
-      >WriteMode</b>: Controls how data is written to the file</p>
-                        <p>Syntax: <b>'WriteMode', mode</b>
-                    </p>
-                    <p>Options:</p>
-                    <p
-    >'overwrite' (default) - Creates new file or replaces existing content</p>
-                    <p>'append' - Adds data to end of existing file</p>
-                    <p
+    <p />
+    <p><b>FileType</b>: Specifies the type of output file</p>
+    <p>Syntax: <b>'FileType','text'</b>                      </p>
+    <p>Supports delimited text files (.txt, .dat, .csv)</p>
+    <p />
+    <p><b>WriteMode</b>: Controls how data is written to the file</p>
+    <p>Syntax: <b>'WriteMode', mode</b>                      </p>
+    <p>Options:</p>
+    <p>'overwrite' (default) - Creates new file or replaces existing content</p>
+    <p>'append' - Adds data to end of existing file</p>
+    <p
     >If the target file doesn't exist, a new file will be created regardless of mode.</p>
-                    <p />
-                    <p>
-                        <b
-      >Delimiter</b>: Defines the character used to separate fields</p>
-                        <p>Syntax: <b>'Delimiter', delimiter</b>
-                    </p>
-                    <p
-    >Available Delimiters: Only applicable for delimited text files.</p>
-                    <p />
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Specifier</th>
-                                <th>Alternative</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <code>','</code>
-                                </td>
-                                <td>
-                                    <code>'comma'</code>
-                                </td>
-                                <td>Comma (default)</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <code>' '</code>
-                                </td>
-                                <td>
-                                    <code>'space'</code>
-                                </td>
-                                <td>Space character</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <code>'\t'</code>
-                                </td>
-                                <td>
-                                    <code>'tab'</code>
-                                </td>
-                                <td>Tab character</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <code>';'</code>
-                                </td>
-                                <td>
-                                    <code>'semi'</code>
-                                </td>
-                                <td>Semicolon</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <code>'|'</code>
-                                </td>
-                                <td>
-                                    <code>'bar'</code>
-                                </td>
-                                <td>Vertical bar</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p />
-                    <p>
-                        <b
+    <p />
+    <p><b>Delimiter</b>: Defines the character used to separate fields</p>
+    <p>Syntax: <b>'Delimiter', delimiter</b></p>
+    <p>Available Delimiters: Only applicable for delimited text files.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Specifier</th>
+          <th>Alternative</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>','</code>
+          </td>
+          <td>
+            <code>'comma'</code>
+          </td>
+          <td>Comma (default)</td>
+        </tr>
+        <tr>
+          <td>
+            <code>' '</code>
+          </td>
+          <td>
+            <code>'space'</code>
+          </td>
+          <td>Space character</td>
+        </tr>
+        <tr>
+          <td>
+            <code>'\t'</code>
+          </td>
+          <td>
+            <code>'tab'</code>
+          </td>
+          <td>Tab character</td>
+        </tr>
+        <tr>
+          <td>
+            <code>';'</code>
+          </td>
+          <td>
+            <code>'semi'</code>
+          </td>
+          <td>Semicolon</td>
+        </tr>
+        <tr>
+          <td>
+            <code>'|'</code>
+          </td>
+          <td>
+            <code>'bar'</code>
+          </td>
+          <td>Vertical bar</td>
+        </tr>
+      </tbody>
+    </table>
+    <p />
+    <p><b
       >QuoteStrings</b>: Controls text quoting behavior (Only applicable for delimited text files).</p>
-                        <p>
-                            <b>'QuoteStrings', option</b>
-                        </p>
-                        <p>with <b>options</b>
-                    </p>
-                    <p>
-                        <b
+    <p>
+      <b>'QuoteStrings', option</b>
+    </p>
+    <p>with <b>options</b></p>
+    <p><b
       >'minimal'</b> (default) Quotes only text containing delimiters, line endings, or quotes.</p>
-                        <p>
-                            <b>'all'</b> Quotes all text variables.</p>
-                            <p>
-                                <b>'none'</b> Uses no quotes.</p>
-                            </description>
-                            <used_function />
-                            <bibliography />
-                            <examples>
-                                <example_item>
-                                    <example_item_type
-      >nelson</example_item_type>
-                                    <example_item_description />
-                                    <example_item_data
+    <p><b>'all'</b> Quotes all text variables.</p>
+    <p><b>'none'</b> Uses no quotes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [Inf, -Inf, NaN, 3];
 filename = [tempdir(), 'writematrix_example.csv'];
 writematrix(A, filename);
 R = fileread(filename)
 ]]></example_item_data>
-                                </example_item>
-                            </examples>
-                            <see_also>
-                                <see_also_item>
-                                    <link
-        linkend="${spreadsheet}readcell"
-      >readcell</link>
-                                </see_also_item>
-                                <see_also_item>
-                                    <link
-        linkend="${spreadsheet}csvwrite"
-      >csvwrite</link>
-                                </see_also_item>
-                                <see_also_item>
-                                    <link
-        linkend="${spreadsheet}dlmread"
-      >dlmread</link>
-                                </see_also_item>
-                                <see_also_item>
-                                    <link
-        linkend="${stream_manager}fileread"
-      >fileread</link>
-                                </see_also_item>
-                            </see_also>
-                            <history>
-                                <history_item>
-                                    <history_version>1.10.0</history_version>
-                                    <history_description
-      >initial version</history_description>
-                                </history_item>
-                            </history>
-                            <authors>
-                                <author_item>Allan CORNET</author_item>
-                            </authors>
-                        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${spreadsheet}readcell">readcell</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}csvwrite">csvwrite</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}dlmread">dlmread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fileread">fileread</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.10.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

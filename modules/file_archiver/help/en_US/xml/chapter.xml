@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>file_archiver</module_name>
-    <chapter>File archiver functions</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>file_archiver</module_name>
+  <chapter>File archiver functions</chapter>
+  <chapter_description>
+    <p
     >The File Archiver module provides tools for compressing and decompressing files in Nelson.</p>
-        <p
+    <p
     >It supports creation of zip archives and extraction of files from zip archives, enabling efficient file storage, sharing, and management.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

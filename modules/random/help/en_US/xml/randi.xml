@@ -1,150 +1,146 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>randi</keyword>
-    <short_description>Random Integer.</short_description>
-    <syntax>
-        <syntax_item>X = randi(imax)</syntax_item>
-        <syntax_item>X = randi(imax, n)</syntax_item>
-        <syntax_item>X = randi(imax, sz)</syntax_item>
-        <syntax_item>X = randi(imax, ..., typename)</syntax_item>
-        <syntax_item>X = randi(imax, ..., 'like', p)</syntax_item>
-        <syntax_item>X = randi([imin, imax], ...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>imax</param_name>
-            <param_description
-      >Maximum integer value (inclusive).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>imin</param_name>
-            <param_description
-      >Minimum integer value (inclusive).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>n</param_name>
-            <param_description>Generates an n-by-n matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>sz</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>randi</keyword>
+  <short_description>Random Integer.</short_description>
+  <syntax>
+    <syntax_item>X = randi(imax)</syntax_item>
+    <syntax_item>X = randi(imax, n)</syntax_item>
+    <syntax_item>X = randi(imax, sz)</syntax_item>
+    <syntax_item>X = randi(imax, ..., typename)</syntax_item>
+    <syntax_item>X = randi(imax, ..., 'like', p)</syntax_item>
+    <syntax_item>X = randi([imin, imax], ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>imax</param_name>
+      <param_description>Maximum integer value (inclusive).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>imin</param_name>
+      <param_description>Minimum integer value (inclusive).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>Generates an n-by-n matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sz</param_name>
+      <param_description
       >Size vector specifying the size of the output array.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>typename</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>typename</param_name>
+      <param_description
       >Data type of output: "single", "double", "int8", "uint8", "int16", "uint16", "int32", "uint32", or "logical".</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>p</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description
       >Array whose type and complexity are used for output.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>X</param_name>
-            <param_description>Array of random integers.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>X</param_name>
+      <param_description>Array of random integers.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >randi</b> returns random integers drawn from a discrete uniform distribution.</p>
-            <p
-    >X = randi(imax) returns a random scalar integer between 1 and imax.</p>
-            <p
+    <p>X = randi(imax) returns a random scalar integer between 1 and imax.</p>
+    <p
     >X = randi(imax, n) returns an n-by-n matrix of random integers between 1 and imax.</p>
-            <p
+    <p
     >X = randi(imax, sz) returns an array where size vector sz defines size(X).</p>
-            <p
+    <p
     >X = randi(imax, ..., typename) returns an array of random integers of type typename.</p>
-            <p
+    <p
     >X = randi(imax, ..., 'like', p) returns an array of random integers like p (same type and complexity).</p>
-            <p
+    <p
     >X = randi([imin, imax], ...) returns random integers between imin and imax.</p>
-        </description>
-        <used_function />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 X = randi(10)
 ]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 X = randi(10, 3, 4)
 ]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 X = randi(10, [3 4])
 ]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 X = randi(10, 3, 4, 'int32')
 ]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 p = single([3 3]);
 X = randi(10, 3, 3, 'like', p)
 ]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 X = randi([5, 15], 2, 3)
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${random}rng">rng</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${random}rand">rand</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${random}randn">randn</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${constructors_functions}eye">eye</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.15.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${random}rng">rng</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${random}rand">rand</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${random}randn">randn</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${constructors_functions}eye">eye</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

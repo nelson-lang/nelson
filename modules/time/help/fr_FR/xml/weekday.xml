@@ -1,77 +1,75 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>weekday</keyword>
-    <short_description>Renvoie le jour de la semaine.</short_description>
-    <syntax>
-        <syntax_item>number = weekday(D)</syntax_item>
-        <syntax_item>[number, name] = weekday(D)</syntax_item>
-        <syntax_item>[number, name] = weekday(D, form)</syntax_item>
-        <syntax_item>[number, name] = weekday(D, language)</syntax_item>
-        <syntax_item>[number, name] = weekday(D, form, language)</syntax_item>
-    </syntax>
-    <param_input>
-                <param_input_item>
-                        <param_name>D</param_name>
-                        <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>weekday</keyword>
+  <short_description>Renvoie le jour de la semaine.</short_description>
+  <syntax>
+    <syntax_item>number = weekday(D)</syntax_item>
+    <syntax_item>[number, name] = weekday(D)</syntax_item>
+    <syntax_item>[number, name] = weekday(D, form)</syntax_item>
+    <syntax_item>[number, name] = weekday(D, language)</syntax_item>
+    <syntax_item>[number, name] = weekday(D, form, language)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>D</param_name>
+      <param_description
       >numéros de date série ou texte représentant des dates et heures (vecteur, matrice, vecteur de caractères, cellule de vecteurs de caractères, tableau de chaînes ou tableau de caractères).</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>form</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>form</param_name>
+      <param_description
       >une chaîne : 'short' (par défaut) ou 'long'.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>language</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>language</param_name>
+      <param_description
       >une chaîne : 'fr_FR' (par défaut) ou 'local'.</param_description>
-                </param_input_item>
-    </param_input>
-    <param_output>
-                <param_output_item>
-                        <param_name>number</param_name>
-                        <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>number</param_name>
+      <param_description
       >tableau d'entiers dans l'intervalle [1, 7].</param_description>
-                </param_output_item>
-                <param_output_item>
-                        <param_name>name</param_name>
-                        <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>name</param_name>
+      <param_description
       >tableau de caractères. Si 'local' est utilisé et que la traduction du nom du jour est disponible, la sortie utilisera la langue locale courante.</param_description>
-                </param_output_item>
-    </param_output>
-    <description>
-                <p>
-                        <b
-      >weekday</b> renvoie le jour de la semaine sous forme numérique dans <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>weekday</b> renvoie le jour de la semaine sous forme numérique dans<b
       >number</b> et sous forme textuelle dans <b>name</b>.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 [DayNumber, DayName] = weekday(datenum('12-21-2012'), 'long', 'fr_FR')
 [DayNumber, DayName] = weekday(datenum('12-21-2012'), 'long', 'local')
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${time}datevec">datevec</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}datevec">datevec</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>nig</module_name>
-    <chapter>NIG</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>nig</module_name>
+  <chapter>NIG</chapter>
+  <chapter_description>
+    <p
     >The NIG module provides tools to easily interface C or Fortran functions with Nelson.</p>
-        <p
-    >It simplifies the process of creating gateways that allow compiled routines to be called
-            directly from Nelson scripts or functions, enabling high-performance computation and
-            reuse of existing numerical libraries.</p>
-    </chapter_description>
+    <p
+    >It simplifies the process of creating gateways that allow compiled routines to be called directly from Nelson scripts or functions, enabling high-performance computation and reuse of existing numerical libraries.</p>
+  </chapter_description>
 </xmldoc>

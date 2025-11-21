@@ -1,87 +1,85 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>slicot_ab04md</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>slicot_ab04md</keyword>
+  <short_description
   >Discrete-time / continuous-time systems conversion by a bilinear transformation.</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[A_OUT, B_OUT, C_OUT, D_OUT, INFO] = slicot_ab04md(TYPE, ALPHA, BETA, A_IN, B_IN, C_IN, D_IN)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>TYPE</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>TYPE</param_name>
+      <param_description
       >a character: 'D' discrete or 'C' continuous time</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ALPHA, BETA</param_name>
-            <param_description
-      >Parameters specifying the bilinear transformation. Recommended values for stable systems: ALPHA = 1, BETA = 1.  ALPHA ~= 0, BETA ~= 0</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>A_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>ALPHA, BETA</param_name>
+      <param_description
+      >Parameters specifying the bilinear transformation. Recommended values for stable systems: ALPHA = 1, BETA = 1. ALPHA ~= 0, BETA ~= 0</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A_IN</param_name>
+      <param_description
       >N-by-N part of this array must contain the state matrix A of the original system.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>B_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>B_IN</param_name>
+      <param_description
       >N-by-M part of this array must contain the input matrix B of the original system.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>C_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>C_IN</param_name>
+      <param_description
       >P-by-N part of this array must contain the output matrix C of the original system.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>D_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>D_IN</param_name>
+      <param_description
       >P-by-M part of this array must contain the input/output matrix D for the original system.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>A_OUT</param_name>
-            <param_description
-      > N-by-N part of this array contains the state matrix _A of the transformed system.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>B_OUT</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>A_OUT</param_name>
+      <param_description
+      >N-by-N part of this array contains the state matrix _A of the transformed system.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>B_OUT</param_name>
+      <param_description
       >N-by-M part of this array contains the input matrix _B of the transformed system.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>C_OUT</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>C_OUT</param_name>
+      <param_description
       >the leading P-by-N part of this array contains the output matrix _C of the transformed system.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>D_OUT</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>D_OUT</param_name>
+      <param_description
       >P-by-M part of this array contains the input/output matrix _D of the transformed system.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>INFO</param_name>
-            <param_description>Error Indicator: = 0:  successful exit;
-  less than 0:  if INFO = -i, the i-th argument had an illegal value;
-          = 1:  if the matrix (ALPHA*I + A) is exactly singular;
-          = 2:  if the matrix  (BETA*I - A) is exactly singular.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
-    > To perform a transformation on the parameters (A, B, C, D) of a system, which is equivalent to a bilinear transformation of the corresponding transfer function matrix.</p>
-    </description>
-    <used_function>AB04MD</used_function>
-    <bibliography
+    </param_output_item>
+    <param_output_item>
+      <param_name>INFO</param_name>
+      <param_description
+      >Error Indicator: = 0: successful exit; less than 0: if INFO = -i, the i-th argument had an illegal value; = 1: if the matrix (ALPHA*I + A) is exactly singular; = 2: if the matrix (BETA*I - A) is exactly singular.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
+    >To perform a transformation on the parameters (A, B, C, D) of a system, which is equivalent to a bilinear transformation of the corresponding transfer function matrix.</p>
+  </description>
+  <used_function>AB04MD</used_function>
+  <bibliography
   >http://slicot.org/objects/software/shared/doc/AB04MD.html</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[N = 2;
 M = 2;
@@ -94,15 +92,15 @@ B = [   0.0 -1.0; 1.0  0.0];
 C = [  -1.0  0.0; 0.0  1.0];
 D = [   1.0  0.0; 0.0 -1.0];
 [A_OUT, B_OUT, C_OUT, D_OUT, INFO] = slicot_ab04md(TYPE, ALPHA, BETA, A, B, C, D)]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>SLICOT Documentation</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>SLICOT Documentation</author_item>
+  </authors>
 </xmldoc>

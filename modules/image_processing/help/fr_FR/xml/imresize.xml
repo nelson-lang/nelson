@@ -1,115 +1,112 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>imresize</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>imresize</keyword>
+  <short_description
   >Redimensionne une image par échelle ou taille de sortie</short_description>
-    <syntax>
-        <syntax_item>img2 = imresize(img, scale)</syntax_item>
-        <syntax_item>img2 = imresize(img, [numrows numcols])</syntax_item>
-        <syntax_item>[Y, newmap] = imresize(X, map, ...)</syntax_item>
-        <syntax_item>... = imresize(..., method)</syntax_item>
-        <syntax_item>... = imresize(..., Name, Value)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>img</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>img2 = imresize(img, scale)</syntax_item>
+    <syntax_item>img2 = imresize(img, [numrows numcols])</syntax_item>
+    <syntax_item>[Y, newmap] = imresize(X, map, ...)</syntax_item>
+    <syntax_item>... = imresize(..., method)</syntax_item>
+    <syntax_item>... = imresize(..., Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>img</param_name>
+      <param_description
       >Image à redimensionner, spécifiée comme un tableau numérique ou logique de n'importe quelle dimension. L'entrée doit être non-creuse (nonsparse) et les entrées numériques doivent être réelles.</param_description>
-        </param_input_item>
-        <param_input_item>
-                        <param_name>scale</param_name>
-                        <param_description
-      >Facteur de redimensionnement, spécifié comme un nombre positif ou un vecteur à deux éléments. Si scale est entre 0 et 1, la sortie est plus petite ; si > 1, la sortie est plus grande. imresize applique le même facteur aux lignes et colonnes sauf si un vecteur est fourni.</param_description>
-        </param_input_item>
-        <param_input_item>
-                        <param_name>[numrows numcols]</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>scale</param_name>
+      <param_description
+      >Facteur de redimensionnement, spécifié comme un nombre positif ou un vecteur à deux éléments. Si scale est entre 0 et 1, la sortie est plus petite ; si &gt;1, la sortie est plus grande. imresize applique le même facteur aux lignes et colonnes sauf si un vecteur est fourni.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>[numrows numcols]</param_name>
+      <param_description
       >Dimensions en lignes et colonnes de l'image de sortie, spécifiées comme un vecteur à deux éléments de nombres positifs. NaN peut être utilisé pour une dimension afin de préserver le ratio d'aspect.</param_description>
-        </param_input_item>
-        <param_input_item>
-                        <param_name>X</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
       >Image indexée à redimensionner, spécifiée comme un tableau numérique réel non-creux d'entiers positifs.</param_description>
-        </param_input_item>
-        <param_input_item>
-                        <param_name>map</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>map</param_name>
+      <param_description
       >Colormap associée à l'image indexée X, spécifiée comme une matrice c-by-3 avec des valeurs dans [0,1].</param_description>
-        </param_input_item>
-        <param_input_item>
-                        <param_name>method</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description
       >Méthode d'interpolation (optionnelle, par défaut : 'bicubic') : doit toujours être le dernier paramètre positionnel.</param_description>
-        </param_input_item>
-        <param_input_item>
-                        <param_name>Name, Value</param_name>
-                        <param_description
-      >Arguments nom-valeur optionnels.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-                        <param_name>B</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>Arguments nom-valeur optionnels.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description
       >Image redimensionnée, renvoyée sous forme de tableau numérique ou logique du même type que l'image d'entrée A.</param_description>
-        </param_output_item>
-        <param_output_item>
-                        <param_name>Y</param_name>
-                        <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>Y</param_name>
+      <param_description
       >Image indexée redimensionnée, renvoyée sous forme de tableau numérique du même type que l'image indexée d'entrée X.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>newmap</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>newmap</param_name>
+      <param_description
       >Colormap de l'image indexée redimensionnée Y, renvoyée comme une matrice m-by-3. Par défaut, imresize retourne une nouvelle colormap optimisée. Pour retourner la colormap originale, utilisez l'argument nom-valeur 'Colormap'.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>La fonction <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>La fonction <b
       >imresize</b> redimensionne une image selon un facteur d'échelle ou une taille de sortie spécifiée. Elle prend en charge les images en niveaux de gris, RGB, binaires, ainsi que les images indexées avec colormap.</p>
-        <p
+    <p
     >Pour les images numériques et logiques, la méthode d'interpolation par défaut est 'bicubic'.</p>
-        <p
+    <p
     >Lors du redimensionnement, imresize applique le facteur d'échelle aux dimensions ligne et colonne sauf si un vecteur à deux éléments est spécifié. Si la taille de sortie n'est pas entière, imresize arrondit vers le haut en utilisant la fonction ceil.</p>
-        <p
+    <p
     >Pour les images indexées, imresize retourne par défaut l'image redimensionnée et une colormap optimisée. La colormap originale peut être retournée en utilisant l'argument nom-valeur 'Colormap'.</p>
-        <p>Les méthodes d'interpolation prises en charge incluent :</p>
-        <ul>
-            <li>'nearest' : interpolation au plus proche voisin</li>
-            <li>'bilinear' : interpolation bilinéaire</li>
-            <li>'bicubic' : interpolation bicubique</li>
-            <li>'box' : noyau en forme de boîte</li>
-            <li>'lanczos2' : noyau Lanczos-2</li>
-            <li>'lanczos3' : noyau Lanczos-3</li>
-        </ul>
-        <p>Paires nom-valeur prises en charge :</p>
-        <ul>
-            <li>'Antialiasing' : true/false (par défaut : true)</li>
-            <li
+    <p>Les méthodes d'interpolation prises en charge incluent :</p>
+    <ul>
+      <li>'nearest' : interpolation au plus proche voisin</li>
+      <li>'bilinear' : interpolation bilinéaire</li>
+      <li>'bicubic' : interpolation bicubique</li>
+      <li>'box' : noyau en forme de boîte</li>
+      <li>'lanczos2' : noyau Lanczos-2</li>
+      <li>'lanczos3' : noyau Lanczos-3</li>
+    </ul>
+    <p>Paires nom-valeur prises en charge :</p>
+    <ul>
+      <li>'Antialiasing' : true/false (par défaut : true)</li>
+      <li
       >'Colormap' : 'optimized' (par défaut) ou 'original' (image indexée uniquement)</li>
-            <li
-      >'Dither' : true (par défaut) ou false (image indexée uniquement)</li>
-        </ul>
-        <p>Limitations :</p>
-        <ul>
-            <li
+      <li>'Dither' : true (par défaut) ou false (image indexée uniquement)</li>
+    </ul>
+    <p>Limitations :</p>
+    <ul>
+      <li
       >L'entrée doit être non-creuse (nonsparse) et réelle pour les images numériques.</li>
-            <li
+      <li
       >Pour de grands facteurs d'échelle, la taille de l'image de sortie peut être significativement plus grande que l'entrée.</li>
-            <li
+      <li
       >L'interpolation bicubique peut produire des valeurs de pixels en dehors de la plage d'origine.</li>
-        </ul>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
-      >imresize example</example_item_description>
-            <example_item_data
+    </ul>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>imresize example</example_item_description>
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[filename = [tempdir, 'apollo_8_earthrise_1968_as08-14-2383.jpg'];
 websave(filename, 'https://www.nasa.gov/wp-content/uploads/2025/05/3dmodels-casa-2025-astro.jpg');
@@ -129,28 +126,28 @@ title('Original Image');
 subplot(1,2,2);          % second subplot
 image(im1);
 title('Resized Image');]]></example_item_data>
-            <example_item_img
+      <example_item_img
         src="../images/imresize_1.png"
         align="middle"
         generate="true"
       />
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${image_processing}imrotate">imrotate</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${image_processing}imshow">imshow</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.15.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imrotate">imrotate</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imshow">imshow</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

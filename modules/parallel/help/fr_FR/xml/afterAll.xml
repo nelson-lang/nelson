@@ -1,52 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>afterAll</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>afterAll</keyword>
+  <short_description
   >Exécuter une fonction après que toutes les fonctions en arrière-plan soient terminées.</short_description>
-    <syntax>
-        <syntax_item>B = afterAll(F, fcn, n)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>F</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>B = afterAll(F, fcn, n)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>F</param_name>
+      <param_description
       >objet Future en entrée (scalaire ou tableau).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>fcn</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>fcn</param_name>
+      <param_description
       >handle de fonction : fonction à exécuter après toutes les futures en entrée.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>n</param_name>
-            <param_description>nombre d'arguments de sortie.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>B</param_name>
-            <param_description>objet AfterAllFuture.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p><b>B = afterAll(F, fcn, n)</b> renvoie un objet AfterAllFuture <b
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>nombre d'arguments de sortie.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>objet AfterAllFuture.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>B = afterAll(F, fcn, n)</b> renvoie un objet AfterAllFuture <b
       >B</b>.</p>
-        <p>La fonction <b
+    <p>La fonction <b
       >fcn</b> est automatiquement exécutée une fois que tous les éléments du tableau Future <b
       >F</b> sont terminés.</p>
-        <p>Si l'un des éléments de <b
-      >F</b> rencontre une erreur, la propriété <b>Error</b> de <b
-      >B</b> contient l'erreur.</p>
-    </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    <p>Si l'un des éléments de<b>F</b> rencontre une erreur, la propriété <b
+      >Error</b> de<b>B</b> contient l'erreur.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[pool = backgroundPool()
 fptrRand = str2func('rand')
@@ -59,26 +58,26 @@ maxFuture = afterEach(f, fptrMax, 1);
 minFuture = afterAll(maxFuture, fptrMin, 1);
 fetchOutputs(minFuture)
 fetchOutputs(maxFuture)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${parallel}backgroundPool">backgroundPool</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${parallel}fetchOutputs">fetchOutputs</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${parallel}afterEach">afterEach</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${parallel}backgroundPool">backgroundPool</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parallel}fetchOutputs">fetchOutputs</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parallel}afterEach">afterEach</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

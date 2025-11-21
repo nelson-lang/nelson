@@ -1,78 +1,76 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>dot</keyword>
-    <short_description>Dot product.</short_description>
-    <syntax>
-        <syntax_item>R = dot(A, B)</syntax_item>
-        <syntax_item>R = dot(A, B, dim)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>A, B</param_name>
-            <param_description>numeric arrays.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>dim</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>dot</keyword>
+  <short_description>Dot product.</short_description>
+  <syntax>
+    <syntax_item>R = dot(A, B)</syntax_item>
+    <syntax_item>R = dot(A, B, dim)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A, B</param_name>
+      <param_description>numeric arrays.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description
       >positive integer scalar: Dimension to operate along.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>R</param_name>
-            <param_description>Scalar Dot Product.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>R = dot(A, B)</b> returns the scalar dot product of <b
-      >A</b> and <b>B</b>.
-        </p>
-        <p>For real vectors</p>
-        <latex>\mathbf{a}</latex>
-        <p>and</p>
-        <latex>\mathbf{b}</latex>
-        <p>of length</p>
-        <latex>n</latex>
-        <p>:</p>
-        <latex
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description>Scalar Dot Product.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>R = dot(A, B)</b> returns the scalar dot product of<b>A</b> and <b
+      >B</b>.</p>
+    <p>For real vectors</p>
+    <latex>\mathbf{a}</latex>
+    <p>and</p>
+    <latex>\mathbf{b}</latex>
+    <p>of length</p>
+    <latex>n</latex>
+    <p>:</p>
+    <latex
     >\mathbf{a} \cdot \mathbf{b} = \sum_{i=1}^{n} a_i b_i = a_1 b_1 + a_2 b_2 + \cdots + a_n b_n</latex>
-        <p>For complex vectors, the dot product is:</p>
-        <latex
+    <p>For complex vectors, the dot product is:</p>
+    <latex
     >\mathbf{a} \cdot \mathbf{b} = \sum_{i=1}^{n} \overline{a_i} b_i</latex>
-        <p>where</p>
-        <latex>\overline{a_i}</latex>
-        <p>denotes the complex conjugate of</p>
-        <latex>a_i</latex>
-    </description>
-        <used_function />
-        <bibliography>https://en.wikipedia.org/wiki/Dot_product</bibliography>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    <p>where</p>
+    <latex>\overline{a_i}</latex>
+    <p>denotes the complex conjugate of</p>
+    <latex>a_i</latex>
+  </description>
+  <used_function />
+  <bibliography>https://en.wikipedia.org/wiki/Dot_product</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [1 2 3;4 5 6;7 8 9];
 B = [9 8 7;6 5 4;3 2 1];
 R = dot(A, B)
 R = dot(A, B, 2)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${elementary_functions}conj">conj</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}conj">conj</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

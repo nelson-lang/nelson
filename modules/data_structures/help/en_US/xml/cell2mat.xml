@@ -1,63 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>cell2mat</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>cell2mat</keyword>
+  <short_description
   >Transform a cell array containing matrices into a single, concatenated matrix.</short_description>
-    <syntax>
-        <syntax_item>M = cell2mat(ce)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>ce</param_name>
-            <param_description>a cell.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>M</param_name>
-            <param_description>array.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >M = cell2smat(ce)</b> creates a single matrix by merging all elements within the cell array <b
-      >ce</b> into a multi-dimensional array. The elements in <b
-      >c</b> can consist of numeric, logical, or character matrices, cell arrays, or structs, and they must be compatible for concatenation using <b
+  <syntax>
+    <syntax_item>M = cell2mat(ce)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ce</param_name>
+      <param_description>a cell.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>M</param_name>
+      <param_description>array.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >M = cell2smat(ce)</b> creates a single matrix by merging all elements within the cell array<b
+      >ce</b> into a multi-dimensional array. The elements in<b
+      >c</b> can consist of numeric, logical, or character matrices, cell arrays, or structs, and they must be compatible for concatenation using<b
       >cat</b> function.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[C = {[10], [20 30 40]; [90; 50], [60 76 88; 110 111 112]};
  M = cell2mat(C)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${data_structures}cell">cell</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${data_structures}struct">struct</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${data_structures}struct2cell">struct2cell</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_structures}cell">cell</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_structures}struct">struct</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_structures}struct2cell">struct2cell</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

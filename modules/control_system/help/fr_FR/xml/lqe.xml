@@ -1,71 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>lqe</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>lqe</keyword>
+  <short_description
   >Conception d'un estimateur de Kalman pour systèmes en temps continu.</short_description>
-    <syntax>
-        <syntax_item>[L, P, E] = lqe(A, G, C, Q, R, N)</syntax_item>
-        <syntax_item>[L, P, E] = lqe(A, G, C, Q, R)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>A</param_name>
-            <param_description
-      >Matrice d'état: matrice n x n.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>G</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>[L, P, E] = lqe(A, G, C, Q, R, N)</syntax_item>
+    <syntax_item>[L, P, E] = lqe(A, G, C, Q, R)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>Matrice d'état: matrice n x n.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>G</param_name>
+      <param_description
       >Définit une matrice reliant le bruit de processus aux états.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>C</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>C</param_name>
+      <param_description
       >La matrice de sortie, avec des dimensions (q x n), où q est le nombre de sorties.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Q</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>Q</param_name>
+      <param_description
       >Matrice de pondération du coût d'état</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>R</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>R</param_name>
+      <param_description
       >Matrice de pondération du coût d'entrée</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>N</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>N</param_name>
+      <param_description
       >Matrice de terme croisé facultative: 0 par défaut.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>L</param_name>
-            <param_description>Matrice de gain de Kalman.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>P</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>L</param_name>
+      <param_description>Matrice de gain de Kalman.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>P</param_name>
+      <param_description
       >Solution de l'équation de Riccati algébrique discrète.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>E</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>E</param_name>
+      <param_description
       >Emplacements des pôles en boucle fermée</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >La fonction calcule le gain optimal de l'estimateur (L), la matrice de covariance d'état (P) et les valeurs propres associées pour un système continu.</p>
-    </description>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[c = 1;
 m = 1;
@@ -77,20 +76,20 @@ C = [2 0];
 Q = [0.02 0; 0 0.02];
 R = 0.02;
 [l, p, e] = lqe(A, G, C, Q, R)]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${control_system}lqr">lqr</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}lqr">lqr</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

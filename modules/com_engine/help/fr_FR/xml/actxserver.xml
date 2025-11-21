@@ -1,50 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>actxserver</keyword>
-    <short_description>Crée un serveur COM.</short_description>
-    <syntax>
-        <syntax_item>h = actxserver(progid)</syntax_item>
-        <syntax_item
-    >h = actxserver(progid, 'machine', machineName)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>progid</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>actxserver</keyword>
+  <short_description>Crée un serveur COM.</short_description>
+  <syntax>
+    <syntax_item>h = actxserver(progid)</syntax_item>
+    <syntax_item>h = actxserver(progid, 'machine', machineName)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>progid</param_name>
+      <param_description
       >une chaîne : le nom d'un serveur COM.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>machineName</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>machineName</param_name>
+      <param_description
       >une chaîne : le nom de la machine sur laquelle démarrer le serveur.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>h</param_name>
-            <param_description>un objet COM.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>un objet COM.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >h = actxserver(progid)</b> crée un serveur COM en utilisant l'identifiant progid.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
       ><![CDATA[h = actxserver('Excel.application')]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[pTextToSpeech = actxserver('Sapi.SpVoice')
 for i = 0:5
@@ -53,22 +51,20 @@ end
 invoke(pTextToSpeech, 'Speak', _('Welcome to COM Interface for Nelson !'));
 delete(pTextToSpeech)
 clear pTextToSpeech]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link
-        linkend="${com_engine}actxGetRunningSrv"
-      >actxGetRunningSrv</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${com_engine}actxGetRunningSrv">actxGetRunningSrv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

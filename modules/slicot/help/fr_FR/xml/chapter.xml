@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <module_name>slicot</module_name>
-    <chapter>Bibliothèque de sous-programmes en théorie du contrôle</chapter>
-    <chapter_description>
-      <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>slicot</module_name>
+  <chapter>Bibliothèque de sous-programmes en théorie du contrôle</chapter>
+  <chapter_description>
+    <p
     >Le module SLICOT fournit des algorithmes numériques avancés pour les calculs en automatique et théorie des systèmes.</p>
-      <p
+    <p
     >Il comprend des outils pour la factorisation de matrices, l'équilibrage de systèmes, l'analyse de stabilité, l'affectation de pôles et la résolution des équations de Lyapunov, Riccati et Sylvester.</p>
-      <p
+    <p
     >Le module prend en charge les systèmes temps continu et discret, y compris les systèmes descripteurs et multi-entrées, permettant une analyse, une conception et un contrôle précis et efficace des systèmes dynamiques complexes.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

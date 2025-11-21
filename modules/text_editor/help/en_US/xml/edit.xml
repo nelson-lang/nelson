@@ -1,63 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>edit</keyword>
-    <short_description>function editor.</short_description>
-    <syntax>
-        <syntax_item>edit()</syntax_item>
-        <syntax_item>edit filename</syntax_item>
-        <syntax_item>edit function_name</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description>a string: filename to open.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>function_name</param_name>
-            <param_description>a string: function name</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>
-            <b
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>edit</keyword>
+  <short_description>function editor.</short_description>
+  <syntax>
+    <syntax_item>edit()</syntax_item>
+    <syntax_item>edit filename</syntax_item>
+    <syntax_item>edit function_name</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: filename to open.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>function_name</param_name>
+      <param_description>a string: function name</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b
       >edit</b> opens a new file called untitled.m in the nelson's editor.</p>
-            <p>If <b
-      >function_name</b> is the name of a defined nelson function <b
+    <p>If <b>function_name</b> is the name of a defined nelson function <b
       >edit(function_name)</b> try to open the associated file function_name.m .</p>
-            <p>
-                <b>edit(dirname)</b> opens all .m available in <b
-      >dirname</b>.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    <p><b>edit(dirname)</b> opens all .m available in <b>dirname</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[edit('edit')]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${text_editor}smartindent">smartindent</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>initial version</history_description>
-                </history_item>
-                <history_item>
-                    <history_version>1.5.0</history_version>
-                    <history_description
-      >edit(dirname) added</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${text_editor}smartindent">smartindent</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.5.0</history_version>
+      <history_description>edit(dirname) added</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

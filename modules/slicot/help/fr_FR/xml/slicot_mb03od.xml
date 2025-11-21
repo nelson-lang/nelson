@@ -1,84 +1,84 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>slicot_mb03od</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>slicot_mb03od</keyword>
+  <short_description
   >Détermination du rang d'une matrice par estimation conditionnelle incrémentale.</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[A_OUT, JPVT_OUT, TAU, RANK, SVAL, INFO] = slicot_mb03od(JOBQR, A_IN, JPVT_IN, RCOND, SVLMAX)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>JOBQR</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>JOBQR</param_name>
+      <param_description
       >= 'Q' : effectuer une factorisation QR avec permutation de colonnes ; = 'N' : ne pas effectuer la factorisation QR (mais supposer qu'elle a été faite à l'extérieur).</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>A_IN</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>A_IN</param_name>
+      <param_description
       >Si JOBQR = 'Q', la partie principale M-by-N de ce tableau doit contenir la matrice A donnée.</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>JPVT_IN</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>JPVT_IN</param_name>
+      <param_description
       >Si JOBQR = 'Q', si JPVT(i) != 0, la i-ème colonne de A est une colonne initiale, sinon c'est une colonne libre. Avant la factorisation QR de A, toutes les colonnes initiales sont permutées en positions principales ; seules les colonnes libres restantes sont déplacées lors du pivotement de colonnes pendant la factorisation. Pour la détermination du rang, il est préférable que toutes les colonnes soient libres.</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>RCOND</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>RCOND</param_name>
+      <param_description
       >RCOND est utilisé pour déterminer le rang effectif de A, défini comme l'ordre de la plus grande sous-matrice triangulaire principale R11 dans la factorisation QR avec pivot de A, dont le nombre condition estimé est inférieur à 1/RCOND.</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>SVLMAX</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>SVLMAX</param_name>
+      <param_description
       >Si A est une sous-matrice d'une autre matrice B, et que la décision de rang doit être liée à cette matrice, SVLMAX doit être une estimation de la plus grande valeur singulière de B.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-    <param_name>A_OUT</param_name>
-    <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>A_OUT</param_name>
+      <param_description
       >Si JOBQR = 'Q', la partie triangulaire supérieure principale de A (min(M,N)-by-N) contient le facteur triangulaire R, et les éléments sous la diagonale, avec le tableau TAU, représentent la matrice orthogonale Q comme produit de min(M,N) réflecteurs élémentaires.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>JPVT_OUT</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>JPVT_OUT</param_name>
+      <param_description
       >Si JOBQR = 'Q', si JPVT(i) = k, alors la i-ème colonne de A*P était la k-ème colonne de A.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>TAU</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>TAU</param_name>
+      <param_description
       >Si JOBQR = 'Q', les min(M,N) premiers éléments de TAU contiennent les facteurs scalaires des réflecteurs élémentaires.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>RANK</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>RANK</param_name>
+      <param_description
       >Le rang effectif (estimé) de A, c.-à-d. l'ordre de la sous-matrice R11.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>SVAL</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>SVAL</param_name>
+      <param_description
       >Les estimations de certaines valeurs singulières du facteur triangulaire R.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>INFO</param_name>
-            <param_description>= 0 : sortie réussie</param_description>
-        </param_output_item>
-    </param_output>
+    </param_output_item>
+    <param_output_item>
+      <param_name>INFO</param_name>
+      <param_description>= 0 : sortie réussie</param_description>
+    </param_output_item>
+  </param_output>
   <description>
     <p
     >Calculer (éventuellement) une factorisation QR révélatrice de rang d'une matrice réelle M-by-N générale A, éventuellement de rang déficient, et estimer son rang effectif en utilisant l'estimation conditionnelle incrémentale.</p>
   </description>
-    <used_function>MB03OD</used_function>
-    <bibliography
+  <used_function>MB03OD</used_function>
+  <bibliography
   >http://slicot.org/objects/software/shared/doc/MB03OD.html</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[M = 6;
 N = 5;
@@ -94,15 +94,15 @@ A_IN = [1.    2.    6.    3.    5.;
   -2.   -1.   -1.    0.   -2.];
  
 [A_OUT, JPVT_OUT, TAU, RANK, SVAL, INFO] = slicot_mb03od(JOBQR, A_IN, JPVT_IN, RCOND, SVLMAX)]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>SLICOT Documentation</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>SLICOT Documentation</author_item>
+  </authors>
 </xmldoc>

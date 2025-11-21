@@ -1,86 +1,81 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>quiver</keyword>
-    <short_description>Tracé de champ de vecteurs.</short_description>
-    <syntax>
-        <syntax_item>quiver(X, Y, U, V)</syntax_item>
-        <syntax_item>quiver(U, V)</syntax_item>
-        <syntax_item>quiver(..., LineSpec)</syntax_item>
-        <syntax_item>quiver(..., propertyName, propertyValue)</syntax_item>
-        <syntax_item>quiver(parent, ...)</syntax_item>
-        <syntax_item>gr = quiver(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>X</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>quiver</keyword>
+  <short_description>Tracé de champ de vecteurs.</short_description>
+  <syntax>
+    <syntax_item>quiver(X, Y, U, V)</syntax_item>
+    <syntax_item>quiver(U, V)</syntax_item>
+    <syntax_item>quiver(..., LineSpec)</syntax_item>
+    <syntax_item>quiver(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>quiver(parent, ...)</syntax_item>
+    <syntax_item>gr = quiver(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
       >Coordonnées x des bases des flèches : scalaire, vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Y</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description
       >Coordonnées y des bases des flèches : scalaire, vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>U</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>U</param_name>
+      <param_description
       >Composantes x : scalaire, vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>V</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description
       >Composantes y : scalaire, vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>LineSpec</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineSpec</param_name>
+      <param_description
       >Style de ligne, marqueur et/ou couleur : vecteur de caractères ou chaîne scalaire.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>parent</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description
       >Valeur scalaire d'objet graphique : conteneur parent, spécifié comme axes.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyName</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
       >Chaîne scalaire ou vecteur ligne de caractères.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyValue</param_name>
-            <param_description>Une valeur.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>gr</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Une valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>gr</param_name>
+      <param_description
       >Groupe d'objets graphiques : flèches.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >quiver(X, Y, U, V)</b> trace des vecteurs vitesse sous forme de flèches avec les composantes <b
-      >(U,V)</b> au point <b>(X, Y)</b>.
-        </p>
-        <p>
-            <b
-      >quiver</b> essaie d'ajuster la longueur des flèches pour éviter qu'elles ne se chevauchent.
-        </p>
-        <p>
-            L'implémentation actuelle est lente mais peut être optimisée en utilisant la propriété DrawLater de la figure. Une optimisation par une fonction native pourrait être envisagée dans une prochaine version.
-        </p>
-    </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >quiver(X, Y, U, V)</b> trace des vecteurs vitesse sous forme de flèches avec les composantes<b
+      >(U,V)</b> au point <b>(X, Y)</b>.</p>
+    <p><b
+      >quiver</b> essaie d'ajuster la longueur des flèches pour éviter qu'elles ne se chevauchent.</p>
+    <p
+    >L'implémentation actuelle est lente mais peut être optimisée en utilisant la propriété DrawLater de la figure. Une optimisation par une fonction native pourrait être envisagée dans une prochaine version.          </p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 f.DrawLater = 'on';
@@ -89,16 +84,16 @@ U1 = sin(X);
 V1 = cos(Y);
 quiver(U1,V1, 'r')
 f.DrawLater = 'off';]]></example_item_data>
-                    <example_item_img
+      <example_item_img
         src="../../images/quiver_1.svg"
         align="middle"
         generate="true"
       />
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 f.DrawLater = 'on';      
@@ -116,28 +111,28 @@ quiver(X,Y,U2,V2)
 axis equal
 title(ax2, 'Right Plot')
 f.DrawLater = 'off';]]></example_item_data>
-                    <example_item_img
+      <example_item_img
         src="../images/quiver_2.svg"
         align="middle"
         generate="true"
       />
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${graphics}meshgrid">meshgrid</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${graphics}subplot">subplot</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}meshgrid">meshgrid</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}subplot">subplot</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

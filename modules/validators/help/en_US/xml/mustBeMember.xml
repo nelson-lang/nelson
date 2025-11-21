@@ -1,64 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>mustBeMember</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>mustBeMember</keyword>
+  <short_description
   >Checks that value is member of specified array or issue error.</short_description>
-    <syntax>
-        <syntax_item>mustBeMember(var, c)</syntax_item>
-        <syntax_item>mustBeMember(var, c, argPosition)</syntax_item>
-        <syntax_item
+  <syntax>
+    <syntax_item>mustBeMember(var, c)</syntax_item>
+    <syntax_item>mustBeMember(var, c, argPosition)</syntax_item>
+    <syntax_item
     >C++: void mustBeMember(const ArrayOfVector&amp; args, const ArrayOf &amp;c, int argPosition)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>var</param_name>
-            <param_description>a variable.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>c</param_name>
-            <param_description>a variable.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>argPosition</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>var</param_name>
+      <param_description>a variable.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>c</param_name>
+      <param_description>a variable.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>argPosition</param_name>
+      <param_description
       >a positive integer value: Position of input argument.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b
       >mustBeMember</b> checks that value is member of an array or issue error.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = "red";
 B = ["yellow","red","blue"];
 mustBeMember(A,B)
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link
-        linkend="${validators}mustBeNonempty"
-      >mustBeNonempty</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${validators}mustBeNonempty">mustBeNonempty</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

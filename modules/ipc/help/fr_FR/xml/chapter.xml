@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <module_name>ipc</module_name>
-    <chapter>Communication inter-processus</chapter>
-    <chapter_description>
-      <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>ipc</module_name>
+  <chapter>Communication inter-processus</chapter>
+  <chapter_description>
+    <p
     >Le module ipc fournit des outils de base pour interagir avec les processus et permettre la communication entre eux.</p>
-      <p
-    >Il permet de récupérer les identifiants de processus et d'utiliser un objet communicateur pour échanger des informations entre les processus Nelson.</p> 
-    </chapter_description>
+    <p
+    >Il permet de récupérer les identifiants de processus et d'utiliser un objet communicateur pour échanger des informations entre les processus Nelson.</p>
+  </chapter_description>
 </xmldoc>

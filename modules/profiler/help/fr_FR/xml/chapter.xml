@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <module_name>profiler</module_name>
-    <chapter>Profiling tools</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>profiler</module_name>
+  <chapter>Profiling tools</chapter>
+  <chapter_description>
+    <p
     >Le module Profiler de Nelson fournit des fonctions pour mesurer et analyser les performances d'exécution du code.</p>
-        <p
+    <p
     >Il aide les utilisateurs à identifier les goulots d'étranglement, optimiser les parties lentes des programmes et améliorer l'efficacité globale.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

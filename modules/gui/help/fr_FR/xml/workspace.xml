@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>workspace</keyword>
-    <short_description>Explorateur d'espace de travail</short_description>
-    <syntax>
-        <syntax_item>workspace</syntax_item>
-    </syntax>
-    <description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>workspace</keyword>
+  <short_description>Explorateur d'espace de travail</short_description>
+  <syntax>
+    <syntax_item>workspace</syntax_item>
+  </syntax>
+  <description>
+    <p
     >L'explorateur d'espace de travail vous permet d'observer et de gérer activement le contenu de l'espace de travail dans Nelson, offrant un accès et un contrôle sur chaque variable ou objet présent.</p>
-        <p>
-            <img src="../images/workspace.png" align="middle" />
-        </p>
-    </description>
-    <used_function />
-    <bibliography />
-    <see_also>
-        <see_also_item>
-            <link linkend="${gui}commandhistory">commandhistory</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${gui}filebrowser">filebrowser</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.1.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    <p>
+      <img src="../images/workspace.png" align="middle" />
+    </p>
+  </description>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}commandhistory">commandhistory</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}filebrowser">filebrowser</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.1.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

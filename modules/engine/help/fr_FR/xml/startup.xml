@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>startup</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>startup</keyword>
+  <short_description
   >Script de démarrage défini par l'utilisateur pour Nelson.</short_description>
-    <description>
-      <p><b
+  <description>
+    <p><b
       >startup.m</b> dans Nelson permet d'initialiser des commandes spécifiées par l'utilisateur au démarrage de Nelson.</p>
-      <p>Il exécute tout fichier nommé <b
+    <p>Il exécute tout fichier nommé <b
       >startup.m</b> qui se trouve dans le chemin de recherche.</p>
-      <p>Pour utiliser cette fonctionnalité, créez un fichier nommé <b
+    <p>Pour utiliser cette fonctionnalité, créez un fichier nommé <b
       >startup.m</b> dans le dossier userpath, qui fait partie du chemin de recherche de Nelson.</p>
-      <p
+    <p
     >Insérez dans ce fichier les commandes que vous souhaitez voir exécutées au démarrage de Nelson.</p>
-      <p
+    <p
     >Cela peut inclure la définition de constantes physiques, des valeurs par défaut pour les propriétés graphiques, l'ajout de facteurs de conversion, ou la pré-définition d'autres éléments souhaités dans votre espace de travail.</p>
-      <p>La personnalisation du fichier <b
+    <p>La personnalisation du fichier <b
       >startup.m</b> vous permet d'établir un environnement adapté à chaque lancement de Nelson.</p>
-    </description>
-        <used_function />
-        <bibliography />
-        <see_also>
-            <see_also_item>
-                <link linkend="${engine}finish">finish.m</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${core}exit">exit</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${core}quit">quit</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${functions_manager}path">path</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${functions_manager}userpath">userpath</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+  </description>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${engine}finish">finish.m</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}exit">exit</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}quit">quit</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${functions_manager}path">path</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${functions_manager}userpath">userpath</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

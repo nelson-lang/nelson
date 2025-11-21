@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>random</module_name>
-    <chapter>Random</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>random</module_name>
+  <chapter>Random</chapter>
+  <chapter_description>
+    <p
     >The Random module provides tools for generating random numbers and random sequences in Nelson.</p>
-        <p
+    <p
     >It supports uniform and normal distributions, random integer generation, permutations, and control over the random number generator state.</p>
-        <p
+    <p
     >This module is essential for simulations, probabilistic modeling, and stochastic computations.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

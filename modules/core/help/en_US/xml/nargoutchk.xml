@@ -1,86 +1,83 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>nargoutchk</keyword>
-    <short_description
-  >Checks the number of output arguments.</short_description>
-    <syntax>
-        <syntax_item>nargoutchk(minArgs, maxArgs)</syntax_item>
-        <syntax_item>msg = nargoutchk(minArgs, maxArgs, numArgs)</syntax_item>
-        <syntax_item
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nargoutchk</keyword>
+  <short_description>Checks the number of output arguments.</short_description>
+  <syntax>
+    <syntax_item>nargoutchk(minArgs, maxArgs)</syntax_item>
+    <syntax_item>msg = nargoutchk(minArgs, maxArgs, numArgs)</syntax_item>
+    <syntax_item
     >st = nargoutchk(minArgs, maxArgs, numArgs, 'struct')</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>minArgs</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>minArgs</param_name>
+      <param_description
       >minimum number of accepted outputs (scalar integer value).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>maxArgs</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxArgs</param_name>
+      <param_description
       >maximum number of accepted outputs (scalar integer value).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>numArgs</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>numArgs</param_name>
+      <param_description
       >number of function outputs (scalar integer value).</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>msg</param_name>
-            <param_description>a string: error message.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>st</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>msg</param_name>
+      <param_description>a string: error message.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>st</param_name>
+      <param_description
       >a struct with error message and identifier.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >nargoutchk</b> checks the number of output arguments of an function.</p>
-            <p
-    >To ensure a minimum number of outputs while imposing no maximum limit, set <b
-      >maxArgs</b> to <b>inf</b>. For example, <b
+    <p
+    >To ensure a minimum number of outputs while imposing no maximum limit, set<b
+      >maxArgs</b> to <b>inf</b>. For example,<b
       >nargoutchk(2, inf)</b> generates an error if fewer than two outputs are specified.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >With an macro function:</example_item_description>
-                <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[nargoutchk(1, 2, 3)
 nargoutchk(1, 2, 3, 'struct')]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${core}nargin">nargout</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${core}narginchk">narginchk</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-            <history_item>
-                <history_version>1.10.0</history_version>
-                <history_description
-      >nargoutchk(3, Inf) managed</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}nargin">nargout</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}narginchk">narginchk</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.10.0</history_version>
+      <history_description>nargoutchk(3, Inf) managed</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

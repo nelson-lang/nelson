@@ -1,63 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>array2table</keyword>
-    <short_description
-  >Convertir un tableau homogène en table.</short_description>
-    <syntax>
-        <syntax_item>T = array2table(A)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>A</param_name>
-        <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>array2table</keyword>
+  <short_description>Convertir un tableau homogène en table.</short_description>
+  <syntax>
+    <syntax_item>T = array2table(A)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description
       >matrice : single, double, types entiers, logique, char, string, struct, cell.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>T</param_name>
-            <param_description>Objet Table.</param_description>
-        </param_output_item>
-    </param_output>
-        <description>
-        <p><b>T = array2table(A)</b> convertit un tableau m-by-n <b
-      >A</b> en une table m-by-n, où chaque colonne de <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>T</param_name>
+      <param_description>Objet Table.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>T = array2table(A)</b> convertit un tableau m-by-n<b
+      >A</b> en une table m-by-n, où chaque colonne de<b
       >A</b> devient une variable dans la table résultante <b>T</b>.</p>
-            <p>Par défaut, <b
+    <p>Par défaut,<b
       >array2table</b> utilise le nom du tableau d'entrée, combiné avec le numéro de colonne, pour créer les noms de variables dans la table. Si ces noms ne sont pas des identifiants valides, il attribue des noms par défaut sous la forme <b
       >'Var1', 'Var2', ... , 'VarN'</b>, où <b
       >N</b> est le nombre de colonnes de <b>A</b>.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = magic(6);
 T = array2table(A)
 T = array2table(magic(6))]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${table}table2array">table2array</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${table}table">table</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.8.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${table}table2array">table2array</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.8.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

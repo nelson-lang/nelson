@@ -1,177 +1,170 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>image</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>image</keyword>
+  <short_description
   >Affiche une image à partir d'un tableau.</short_description>
-    <syntax>
-        <syntax_item>image()</syntax_item>
-        <syntax_item>image(C)</syntax_item>
-        <syntax_item>image(X, Y, C)</syntax_item>
-        <syntax_item>image('CData', C)</syntax_item>
-        <syntax_item>image('XData', X, 'YData', Y,'CData', C)</syntax_item>
-        <syntax_item>image(..., propertyName, propertyValue)</syntax_item>
-        <syntax_item>image(parent, ...)</syntax_item>
-        <syntax_item>go = image(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>X</param_name>
-            <param_description
-      >Coordonnées x : vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Y</param_name>
-            <param_description
-      >Coordonnées y : vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>C</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>image()</syntax_item>
+    <syntax_item>image(C)</syntax_item>
+    <syntax_item>image(X, Y, C)</syntax_item>
+    <syntax_item>image('CData', C)</syntax_item>
+    <syntax_item>image('XData', X, 'YData', Y,'CData', C)</syntax_item>
+    <syntax_item>image(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>image(parent, ...)</syntax_item>
+    <syntax_item>go = image(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>Coordonnées x : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>Coordonnées y : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>C</param_name>
+      <param_description
       >Tableau de couleurs : tableau m-par-n-par-3 de triplets RGB.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>parent</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description
       >Un objet graphique scalaire : conteneur parent, spécifié comme un axes.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyName</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
       >Une chaîne scalaire ou un vecteur ligne de caractères.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyValue</param_name>
-            <param_description>Une valeur.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>go</param_name>
-            <param_description
-      >Un objet graphique : type image.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>image</b> affiche les données C sous forme d'image.
-        </p>
-        <p>Propriétés :</p>
-        <p />
-        <table>
-            <tr>
-                <th>Propriété</th>
-                <th>Description</th>
-            </tr>
-            <tr>
-                <td>
-                    <b>AlphaData</b>
-                </td>
-                <td
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Une valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>Un objet graphique : type image.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>image</b> affiche les données C sous forme d'image.</p>
+    <p>Propriétés :</p>
+    <table>
+      <tr>
+        <th>Propriété</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>
+          <b>AlphaData</b>
+        </td>
+        <td
         >Données de transparence : scalaire, tableau de même taille que CData, ou 1 (par défaut).</td>
-            </tr>
-            <tr>
-                <td>
-                    <b>AlphaDataMapping</b>
-                </td>
-                <td>Méthode de mappage des données alpha.</td>
-            </tr>
-            <tr>
-                <td>
-                    <b>CData</b>
-                </td>
-                <td
+      </tr>
+      <tr>
+        <td>
+          <b>AlphaDataMapping</b>
+        </td>
+        <td>Méthode de mappage des données alpha.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CData</b>
+        </td>
+        <td
         >Données de couleur de l'image : vecteur ou matrice, tableau 3D de triplets RGB.</td>
-            </tr>
-            <tr>
-                <td>
-                    <b>CDataMapping</b>
-                </td>
-                <td
+      </tr>
+      <tr>
+        <td>
+          <b>CDataMapping</b>
+        </td>
+        <td
         >Méthode de mappage des couleurs : 'scaled' ou 'direct' (par défaut).</td>
-            </tr>
-            <tr>
-                <td>
-                    <b>Children</b>
-                </td>
-                <td>[].</td>
-            </tr>
-            <tr>
-                <td>
-                    <b>Parent</b>
-                </td>
-                <td>Parent : objet axes.</td>
-            </tr>
-            <tr>
-                <td>
-                    <b>Tag</b>
-                </td>
-                <td
+      </tr>
+      <tr>
+        <td>
+          <b>Children</b>
+        </td>
+        <td>[].</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Parent</b>
+        </td>
+        <td>Parent : objet axes.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Tag</b>
+        </td>
+        <td
         >Identifiant de l'objet : chaîne scalaire, vecteur de caractères, '' (par défaut).</td>
-            </tr>
-            <tr>
-                <td>
-                    <b>Type</b>
-                </td>
-                <td>Type d'objet graphique : 'surface'.</td>
-            </tr>
-            <tr>
-                <td>
-                    <b>UserData</b>
-                </td>
-                <td>Données utilisateur : tableau ou [] (par défaut).</td>
-            </tr>
-            <tr>
-                <td>
-                    <b>Visible</b>
-                </td>
-                <td>État de visibilité : 'off' ou 'on' (par défaut).</td>
-            </tr>
-            <tr>
-                <td>
-                    <b>XData</b>
-                </td>
-                <td
+      </tr>
+      <tr>
+        <td>
+          <b>Type</b>
+        </td>
+        <td>Type d'objet graphique : 'surface'.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>UserData</b>
+        </td>
+        <td>Données utilisateur : tableau ou [] (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Visible</b>
+        </td>
+        <td>État de visibilité : 'off' ou 'on' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XData</b>
+        </td>
+        <td
         >Placement sur l'axe x : vecteur à deux éléments, scalaire, [1 size(CData, 1)] (par défaut).</td>
-            </tr>
-            <tr>
-                <td>
-                    <b>YData</b>
-                </td>
-                <td
+      </tr>
+      <tr>
+        <td>
+          <b>YData</b>
+        </td>
+        <td
         >Placement sur l'axe y : vecteur à deux éléments, scalaire, [1 size(CData, 2)] (par défaut).</td>
-            </tr>
-            <tr>
-                <td>
-                    <b>CreateFcn</b>
-                </td>
-                <td
+      </tr>
+      <tr>
+        <td>
+          <b>CreateFcn</b>
+        </td>
+        <td
         >Callback (fonction, chaîne ou cellule) appelée lors de la création de l'objet. Définir cette propriété sur un composant existant n'a aucun effet.</td>
-            </tr>
-            <tr>
-                <td>
-                    <b>DeleteFcn</b>
-                </td>
-                <td
+      </tr>
+      <tr>
+        <td>
+          <b>DeleteFcn</b>
+        </td>
+        <td
         >Callback (fonction, chaîne ou cellule) appelée lors de la suppression de l'objet.</td>
-            </tr>
-            <tr>
-                <td>
-                    <b>BeingDeleted</b>
-                </td>
-                <td>Indique que l'objet est en cours de suppression.</td>
-            </tr>
-        </table>
-    </description>
-
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+      </tr>
+      <tr>
+        <td>
+          <b>BeingDeleted</b>
+        </td>
+        <td>Indique que l'objet est en cours de suppression.</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 L = linspace(0, 1);
@@ -182,51 +175,51 @@ C(:, :, 1) = G;
 C(:, :, 2) = G; 
 C(:, :, 3) = B;
 im = image(C)]]></example_item_data>
-            <example_item_img
+      <example_item_img
         src="../../images/image_1.svg"
         align="middle"
         generate="true"
       />
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 image();]]></example_item_data>
-            <example_item_img
+      <example_item_img
         src="../../images/image_2.svg"
         align="middle"
         generate="true"
       />
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${graphics}imagesc">imagesc</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${graphics}colormap">colormap</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-        <history_item>
-            <history_version>1.7.0</history_version>
-            <history_description
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}imagesc">imagesc</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}colormap">colormap</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description
       >Ajout des callbacks CreateFcn, DeleteFcn.</history_description>
-        </history_item>
-        <history_item>
-            <history_version>--</history_version>
-            <history_description
+    </history_item>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description
       >Ajout de la propriété BeingDeleted.</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

@@ -43,202 +43,630 @@
     <p><b>axes(cax)</b> set current axes.</p>
     <p>Clicking on an axis automatically sets it as the current axes object.</p>
     <p>Properties:</p>
-    <p />
     <table>
-        <tr><th>Property</th><th>Description</th></tr>
-        <tr><td><b>ALim</b></td><td
-        >Alpha limits: two-element vector of the form [amin, amax].</td></tr>
-        <tr><td><b>ALimMode</b></td><td
-        >Selection mode for ALim: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>AmbientLightColor</b></td><td
-        >Background light color: RGB triplet or string color.</td></tr>
-        <tr><td><b>Box</b></td><td>Box: 'on' or 'off'.</td></tr>
-        <tr><td><b>CLim</b></td><td
-        >Color limits: two-element vector of the form [cmin, cmax] or [0 1] (default).</td></tr>
-        <tr><td><b>CLimMode</b></td><td
-        >Selection mode for CLim: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>CameraPosition</b></td><td
-        >Camera location: vector [x, y, z].</td></tr>
-        <tr><td><b>CameraPositionMode</b></td><td
-        >Selection mode for CameraPosition: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>CameraTarget</b></td><td
-        >Camera target point: vector [x, y, z].</td></tr>
-        <tr><td><b>CameraTargetMode</b></td><td
-        >Selection mode for CameraTarget: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>CameraUpVector</b></td><td
-        >Vector defining upwards direction: vector [x, y, z].</td></tr>
-        <tr><td><b>CameraUpVectorMode</b></td><td
-        >Selection mode for CameraUpVector: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>CameraViewAngle</b></td><td
-        >Field of view: 0 (default) or scalar angle in range [0,180]</td></tr>
-        <tr><td><b>CameraViewAngleMode</b></td><td
-        >Selection mode for CameraViewAngle: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>Children</b></td><td
-        >Array of graphics objects: A vector containing graphics objects to children of the current axis.</td></tr>
-        <tr><td><b>Clipping</b></td><td
-        >Clipping of objects to axes limits: 'on' (default) or 'off'.</td></tr>
-        <tr><td><b>Color</b></td><td
-        >Background color for the axes: RGB triplet, string color or hexadecimal color code.</td></tr>
-        <tr><td><b>ColorOrder</b></td><td
-        >Color order: three-column matrix of RGB triplets.</td></tr>
-        <tr><td><b>ColorOrderIndex</b></td><td
-        >Color order index: positive integer value, specifies the next color used.</td></tr>
-        <tr><td><b>DataAspectRatio</b></td><td
-        >Relative length of data units: vector [x, y, z].</td></tr>
-        <tr><td><b>DataAspectRatioMode</b></td><td
-        >Data aspect ratio mode: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>FontAngle</b></td><td
-        >Character slant: 'italic' or 'normal' (default).</td></tr>
-        <tr><td><b>FontName</b></td><td>Font name</td></tr>
-        <tr><td><b>FontSize</b></td><td
-        >Font size: scalar numeric value</td></tr>
-        <tr><td><b>FontUnits</b></td><td
-        >Font size units: 'inches', 'centimeters', 'normalized', 'pixels' or 'points' (default).</td></tr>
-        <tr><td><b>FontWeight</b></td><td
-        >Character thickness: 'bold' or 'normal' (default).</td></tr>
-        <tr><td><b>GridAlpha</b></td><td
-        >Grid-line transparency (0.15 (default) or value in the range [0, 1]).</td></tr>
-        <tr><td><b>GridColor</b></td><td
-        >Color of grid lines ([0.15, 0.15, 0.15] (default) or RGB triplet).</td></tr>
-        <tr><td><b>GridLineStyle</b></td><td
-        >Line style for grid lines: '--' , ':', '-.', 'none' or '-' (default).</td></tr>
-        <tr><td><b>HandleVisibility</b></td><td
-        >Visibility of object handle: 'on' (default) or 'off'.</td></tr>
-        <tr><td><b>HitTest</b></td><td
-        >Response to captured mouse clicks: 'on' (default) or 'off'.</td></tr>
-        <tr><td><b>BeingDeleted</b></td><td
-        >Flag indicating that the object is being deleted.</td></tr>
-        <tr><td><b>Interruptible</b></td><td>Callback interruption</td></tr>
-        <tr><td><b>Layer</b></td><td
-        >Placement of grid lines and tick marks: 'top' or 'bottom' (default).</td></tr>
-        <tr><td><b>LineStyleOrder</b></td><td
-        >Line style order: character vector, cell array of character vectors, string array or '-' solid line (default).</td></tr>
-        <tr><td><b>LineStyleOrderIndex</b></td><td
-        >Color order index: positive integer value, property specifies the next line style used.</td></tr>
-        <tr><td><b>LineWidth</b></td><td
-        >Line width: positive numeric value.</td></tr>
-        <tr><td><b>MinorGridLineStyle</b></td><td
-        >Line style for minor grid lines: '-', '--', '-.', 'none' or ':' (default).</td></tr>
-        <tr><td><b>NextPlot</b></td><td
-        >Properties to reset: 'add', 'replacechildren', 'replaceall' or 'replace' (default).</td></tr>
-        <tr><td><b>OuterPosition</b></td><td
-        >Size and location, including labels and margin: four-element vector.</td></tr>
-        <tr><td><b>Parent</b></td><td
-        >Parent container: Figure graphics object.</td></tr>
-        <tr><td><b>PlotBoxAspectRatio</b></td><td
-        >Relative length of each axis: vector [x, y, z].</td></tr>
-        <tr><td><b>PlotBoxAspectRatioMode</b></td><td
-        >Selection mode for PlotBoxAspectRatio: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>Position</b></td><td
-        >Size and location, excluding margin for labels: four-element vector</td></tr>
-        <tr><td><b>PositionMode</b></td><td
-        >'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>Projection</b></td><td
-        >Type of projection onto 2-D screen: 'perspective' or 'orthographic' (default).</td></tr>
-        <tr><td><b>Selected</b></td><td
-        >Selection state: 'on' or 'off' (default).</td></tr>
-        <tr><td><b>SelectionHighlight</b></td><td
-        >Display of selection graphics objects: 'on' (default) or 'off'.</td></tr>
-        <tr><td><b>Tag</b></td><td
-        >Object identifier: character vector, string scalar or '' (default).</td></tr>
-        <tr><td><b>TickDir</b></td><td
-        >Tick mark direction: 'out', 'both', 'none' or 'in' (default).</td></tr>
-        <tr><td><b>TickDirMode</b></td><td
-        >Selection mode for TickDir: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>TickLength</b></td><td
-        >Tick mark length: two-element vector.</td></tr>
-        <tr><td><b>TightInset</b></td><td
-        >Margins for text labels: four-element vector [left bottom right top].</td></tr>
-        <tr><td><b>Title</b></td><td
-        >Text object for title: text object</td></tr>
-        <tr><td><b>Type</b></td><td>Type of graphics object: 'axes'.</td></tr>
-        <tr><td><b>Units</b></td><td
-        >Position units: 'inches', 'centimeters', 'points', 'pixels', 'characters' or 'normalized' (default).</td></tr>
-        <tr><td><b>UserData</b></td><td>User data: array or []</td></tr>
-        <tr><td><b>View</b></td><td
-        >Azimuth and elevation of view (default: [0 90])</td></tr>
-        <tr><td><b>Visible</b></td><td
-        >State of visibility: 'on' (default) or 'off'.</td></tr>
-        <tr><td><b>XAxisLocation</b></td><td
-        >x-axis location: 'top', 'origin' or 'bottom' (default).</td></tr>
-        <tr><td><b>XColor</b></td><td
-        >Color of axis line, tick values, and labels: RGB triplet.</td></tr>
-        <tr><td><b>XDir</b></td><td
-        >x-axis direction: 'reverse' or 'normal' (default).</td></tr>
-        <tr><td><b>XGrid</b></td><td
-        >Grid lines: 'on' or 'off' (default).</td></tr>
-        <tr><td><b>XLabel</b></td><td
-        >Text object for axis label: text object</td></tr>
-        <tr><td><b>XLim</b></td><td
-        >Minimum and maximum axis limits: two element vector [min max].</td></tr>
-        <tr><td><b>XLimMode</b></td><td
-        >Selection mode for axis limits: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>XMinorGrid</b></td><td
-        >Minor grid lines: 'on' or 'off' (default).</td></tr>
-        <tr><td><b>XScale</b></td><td
-        >Scale of values along axis: 'log' or 'linear' (default).</td></tr>
-        <tr><td><b>XTick</b></td><td
-        >Tick values: vector of increasing values or [] (default).</td></tr>
-        <tr><td><b>XTickLabel</b></td><td
-        >Tick labels: cell array of character vectors or '' (default).</td></tr>
-        <tr><td><b>XTickLabelMode</b></td><td
-        >Selection mode for tick labels: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>XTickMode</b></td><td
-        >Selection mode for tick values: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>YAxisLocation</b></td><td
-        >y-axis location: 'top', 'origin' or 'bottom' (default).</td></tr>
-        <tr><td><b>YColor</b></td><td
-        >Color of axis line, tick values, and labels: RGB triplet.</td></tr>
-        <tr><td><b>YDir</b></td><td
-        >y-axis direction: 'reverse' or 'normal' (default).</td></tr>
-        <tr><td><b>YGrid</b></td><td
-        >Grid lines: 'on' or 'off' (default).</td></tr>
-        <tr><td><b>YLabel</b></td><td
-        >Text object for axis label: text object</td></tr>
-        <tr><td><b>YLim</b></td><td
-        >Minimum and maximum axis limits: two element vector [min max].</td></tr>
-        <tr><td><b>YLimMode</b></td><td
-        >Selection mode for axis limits: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>YMinorGrid</b></td><td
-        >Minor grid lines: 'on' or 'off' (default).</td></tr>
-        <tr><td><b>YScale</b></td><td
-        >Scale of values along axis: 'log' or 'linear' (default).</td></tr>
-        <tr><td><b>YTick</b></td><td
-        >Tick values: vector of increasing values or [] (default).</td></tr>
-        <tr><td><b>YTickLabel</b></td><td
-        >Tick labels: cell array of character vectors or '' (default).</td></tr>
-        <tr><td><b>YTickLabelMode</b></td><td
-        >Selection mode for tick labels: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>YTickMode</b></td><td
-        >Selection mode for tick values: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>ZColor</b></td><td
-        >Color of axis line, tick values, and labels: RGB triplet.</td></tr>
-        <tr><td><b>ZDir</b></td><td
-        >z-axis direction: 'reverse' or 'normal' (default).</td></tr>
-        <tr><td><b>ZGrid</b></td><td
-        >Grid lines: 'on' or 'off' (default).</td></tr>
-        <tr><td><b>ZLabel</b></td><td
-        >Text object for axis label: text object</td></tr>
-        <tr><td><b>ZLim</b></td><td
-        >Minimum and maximum axis limits: two element vector [min max].</td></tr>
-        <tr><td><b>ZLimMode</b></td><td
-        >Selection mode for axis limits: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>ZMinorGrid</b></td><td
-        >Minor grid lines: 'on' or 'off' (default).</td></tr>
-        <tr><td><b>ZScale</b></td><td
-        >Scale of values along axis: 'log' or 'linear' (default).</td></tr>
-        <tr><td><b>ZTick</b></td><td
-        >Tick values: vector of increasing values or [] (default).</td></tr>
-        <tr><td><b>ZTickLabel</b></td><td
-        >Tick labels: cell array of character vectors or '' (default).</td></tr>
-        <tr><td><b>ZTickLabelMode</b></td><td
-        >Selection mode for tick labels: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>ZTickMode</b></td><td
-        >Selection mode for tick values: 'manual' or 'auto' (default).</td></tr>
-        <tr><td><b>CreateFcn</b></td><td
-        >Callback (function handle, string or cell) called when object is created. Set this property on an existing component has no effect.</td></tr>
-        <tr><td><b>DeleteFcn</b></td><td
-        >Callback (function handle, string or cell) called when object is deleted.</td></tr>
+      <tr>
+        <th>Property</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>
+          <b>ALim</b>
+        </td>
+        <td>Alpha limits: two-element vector of the form [amin, amax].</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ALimMode</b>
+        </td>
+        <td>Selection mode for ALim: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>AmbientLightColor</b>
+        </td>
+        <td>Background light color: RGB triplet or string color.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Box</b>
+        </td>
+        <td>Box: 'on' or 'off'.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CLim</b>
+        </td>
+        <td
+        >Color limits: two-element vector of the form [cmin, cmax] or [0 1] (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CLimMode</b>
+        </td>
+        <td>Selection mode for CLim: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CameraPosition</b>
+        </td>
+        <td>Camera location: vector [x, y, z].</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CameraPositionMode</b>
+        </td>
+        <td
+        >Selection mode for CameraPosition: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CameraTarget</b>
+        </td>
+        <td>Camera target point: vector [x, y, z].</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CameraTargetMode</b>
+        </td>
+        <td>Selection mode for CameraTarget: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CameraUpVector</b>
+        </td>
+        <td>Vector defining upwards direction: vector [x, y, z].</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CameraUpVectorMode</b>
+        </td>
+        <td
+        >Selection mode for CameraUpVector: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CameraViewAngle</b>
+        </td>
+        <td>Field of view: 0 (default) or scalar angle in range [0,180]</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CameraViewAngleMode</b>
+        </td>
+        <td
+        >Selection mode for CameraViewAngle: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Children</b>
+        </td>
+        <td
+        >Array of graphics objects: A vector containing graphics objects to children of the current axis.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Clipping</b>
+        </td>
+        <td>Clipping of objects to axes limits: 'on' (default) or 'off'.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Color</b>
+        </td>
+        <td
+        >Background color for the axes: RGB triplet, string color or hexadecimal color code.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ColorOrder</b>
+        </td>
+        <td>Color order: three-column matrix of RGB triplets.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ColorOrderIndex</b>
+        </td>
+        <td
+        >Color order index: positive integer value, specifies the next color used.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>DataAspectRatio</b>
+        </td>
+        <td>Relative length of data units: vector [x, y, z].</td>
+      </tr>
+      <tr>
+        <td>
+          <b>DataAspectRatioMode</b>
+        </td>
+        <td>Data aspect ratio mode: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>FontAngle</b>
+        </td>
+        <td>Character slant: 'italic' or 'normal' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>FontName</b>
+        </td>
+        <td>Font name</td>
+      </tr>
+      <tr>
+        <td>
+          <b>FontSize</b>
+        </td>
+        <td>Font size: scalar numeric value</td>
+      </tr>
+      <tr>
+        <td>
+          <b>FontUnits</b>
+        </td>
+        <td
+        >Font size units: 'inches', 'centimeters', 'normalized', 'pixels' or 'points' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>FontWeight</b>
+        </td>
+        <td>Character thickness: 'bold' or 'normal' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>GridAlpha</b>
+        </td>
+        <td
+        >Grid-line transparency (0.15 (default) or value in the range [0, 1]).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>GridColor</b>
+        </td>
+        <td
+        >Color of grid lines ([0.15, 0.15, 0.15] (default) or RGB triplet).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>GridLineStyle</b>
+        </td>
+        <td
+        >Line style for grid lines: '--' , ':', '-.', 'none' or '-' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>HandleVisibility</b>
+        </td>
+        <td>Visibility of object handle: 'on' (default) or 'off'.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>HitTest</b>
+        </td>
+        <td>Response to captured mouse clicks: 'on' (default) or 'off'.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>BeingDeleted</b>
+        </td>
+        <td>Flag indicating that the object is being deleted.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Interruptible</b>
+        </td>
+        <td>Callback interruption</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Layer</b>
+        </td>
+        <td
+        >Placement of grid lines and tick marks: 'top' or 'bottom' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>LineStyleOrder</b>
+        </td>
+        <td
+        >Line style order: character vector, cell array of character vectors, string array or '-' solid line (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>LineStyleOrderIndex</b>
+        </td>
+        <td
+        >Color order index: positive integer value, property specifies the next line style used.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>LineWidth</b>
+        </td>
+        <td>Line width: positive numeric value.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>MinorGridLineStyle</b>
+        </td>
+        <td
+        >Line style for minor grid lines: '-', '--', '-.', 'none' or ':' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>NextPlot</b>
+        </td>
+        <td
+        >Properties to reset: 'add', 'replacechildren', 'replaceall' or 'replace' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>OuterPosition</b>
+        </td>
+        <td
+        >Size and location, including labels and margin: four-element vector.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Parent</b>
+        </td>
+        <td>Parent container: Figure graphics object.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>PlotBoxAspectRatio</b>
+        </td>
+        <td>Relative length of each axis: vector [x, y, z].</td>
+      </tr>
+      <tr>
+        <td>
+          <b>PlotBoxAspectRatioMode</b>
+        </td>
+        <td
+        >Selection mode for PlotBoxAspectRatio: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Position</b>
+        </td>
+        <td
+        >Size and location, excluding margin for labels: four-element vector</td>
+      </tr>
+      <tr>
+        <td>
+          <b>PositionMode</b>
+        </td>
+        <td>'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Projection</b>
+        </td>
+        <td
+        >Type of projection onto 2-D screen: 'perspective' or 'orthographic' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Selected</b>
+        </td>
+        <td>Selection state: 'on' or 'off' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>SelectionHighlight</b>
+        </td>
+        <td>Display of selection graphics objects: 'on' (default) or 'off'.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Tag</b>
+        </td>
+        <td
+        >Object identifier: character vector, string scalar or '' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>TickDir</b>
+        </td>
+        <td>Tick mark direction: 'out', 'both', 'none' or 'in' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>TickDirMode</b>
+        </td>
+        <td>Selection mode for TickDir: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>TickLength</b>
+        </td>
+        <td>Tick mark length: two-element vector.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>TightInset</b>
+        </td>
+        <td
+        >Margins for text labels: four-element vector [left bottom right top].</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Title</b>
+        </td>
+        <td>Text object for title: text object</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Type</b>
+        </td>
+        <td>Type of graphics object: 'axes'.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Units</b>
+        </td>
+        <td
+        >Position units: 'inches', 'centimeters', 'points', 'pixels', 'characters' or 'normalized' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>UserData</b>
+        </td>
+        <td>User data: array or []</td>
+      </tr>
+      <tr>
+        <td>
+          <b>View</b>
+        </td>
+        <td>Azimuth and elevation of view (default: [0 90])</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Visible</b>
+        </td>
+        <td>State of visibility: 'on' (default) or 'off'.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XAxisLocation</b>
+        </td>
+        <td>x-axis location: 'top', 'origin' or 'bottom' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XColor</b>
+        </td>
+        <td>Color of axis line, tick values, and labels: RGB triplet.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XDir</b>
+        </td>
+        <td>x-axis direction: 'reverse' or 'normal' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XGrid</b>
+        </td>
+        <td>Grid lines: 'on' or 'off' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XLabel</b>
+        </td>
+        <td>Text object for axis label: text object</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XLim</b>
+        </td>
+        <td>Minimum and maximum axis limits: two element vector [min max].</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XLimMode</b>
+        </td>
+        <td>Selection mode for axis limits: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XMinorGrid</b>
+        </td>
+        <td>Minor grid lines: 'on' or 'off' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XScale</b>
+        </td>
+        <td>Scale of values along axis: 'log' or 'linear' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XTick</b>
+        </td>
+        <td>Tick values: vector of increasing values or [] (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XTickLabel</b>
+        </td>
+        <td>Tick labels: cell array of character vectors or '' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XTickLabelMode</b>
+        </td>
+        <td>Selection mode for tick labels: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XTickMode</b>
+        </td>
+        <td>Selection mode for tick values: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YAxisLocation</b>
+        </td>
+        <td>y-axis location: 'top', 'origin' or 'bottom' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YColor</b>
+        </td>
+        <td>Color of axis line, tick values, and labels: RGB triplet.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YDir</b>
+        </td>
+        <td>y-axis direction: 'reverse' or 'normal' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YGrid</b>
+        </td>
+        <td>Grid lines: 'on' or 'off' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YLabel</b>
+        </td>
+        <td>Text object for axis label: text object</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YLim</b>
+        </td>
+        <td>Minimum and maximum axis limits: two element vector [min max].</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YLimMode</b>
+        </td>
+        <td>Selection mode for axis limits: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YMinorGrid</b>
+        </td>
+        <td>Minor grid lines: 'on' or 'off' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YScale</b>
+        </td>
+        <td>Scale of values along axis: 'log' or 'linear' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YTick</b>
+        </td>
+        <td>Tick values: vector of increasing values or [] (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YTickLabel</b>
+        </td>
+        <td>Tick labels: cell array of character vectors or '' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YTickLabelMode</b>
+        </td>
+        <td>Selection mode for tick labels: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YTickMode</b>
+        </td>
+        <td>Selection mode for tick values: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ZColor</b>
+        </td>
+        <td>Color of axis line, tick values, and labels: RGB triplet.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ZDir</b>
+        </td>
+        <td>z-axis direction: 'reverse' or 'normal' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ZGrid</b>
+        </td>
+        <td>Grid lines: 'on' or 'off' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ZLabel</b>
+        </td>
+        <td>Text object for axis label: text object</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ZLim</b>
+        </td>
+        <td>Minimum and maximum axis limits: two element vector [min max].</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ZLimMode</b>
+        </td>
+        <td>Selection mode for axis limits: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ZMinorGrid</b>
+        </td>
+        <td>Minor grid lines: 'on' or 'off' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ZScale</b>
+        </td>
+        <td>Scale of values along axis: 'log' or 'linear' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ZTick</b>
+        </td>
+        <td>Tick values: vector of increasing values or [] (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ZTickLabel</b>
+        </td>
+        <td>Tick labels: cell array of character vectors or '' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ZTickLabelMode</b>
+        </td>
+        <td>Selection mode for tick labels: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ZTickMode</b>
+        </td>
+        <td>Selection mode for tick values: 'manual' or 'auto' (default).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CreateFcn</b>
+        </td>
+        <td
+        >Callback (function handle, string or cell) called when object is created. Set this property on an existing component has no effect.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>DeleteFcn</b>
+        </td>
+        <td
+        >Callback (function handle, string or cell) called when object is deleted.</td>
+      </tr>
     </table>
     <p
     >Some properties are available only for compatibility and have currently no effect on the axes.</p>

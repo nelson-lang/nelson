@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>graphics</module_name>
-    <keyword>clabel</keyword>
-    <short_description>Contour labeling</short_description>
-<syntax>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>graphics</module_name>
+  <keyword>clabel</keyword>
+  <short_description>Contour labeling</short_description>
+  <syntax>
     <syntax_item>clabel(C,h)</syntax_item>
     <syntax_item>clabel(C,h,v)</syntax_item>
     <syntax_item>clabel(C)</syntax_item>
@@ -13,21 +13,19 @@
     <syntax_item>tl = clabel(...)</syntax_item>
     <syntax_item>clabel(...,Name,Value)</syntax_item>
   </syntax>
-
   <param_input>
     <param_input_item>
       <param_name>C</param_name>
       <param_description>
-        <p>Contour matrix returned by <b>contour</b>, <b>contourf</b>, or <b
-          >contour3</b>. If you pass a contour object <b>h</b>, you may pass <b
+        <p>Contour matrix returned by <b>contour</b>, <b>contourf</b>, or<b
+          >contour3</b>. If you pass a contour object <b>h</b>, you may pass<b
           >[]</b> for <b>C</b>.</p>
       </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>h</param_name>
       <param_description>
-        <p>Contour object handle returned by <b>contour</b> / <b
-          >contourf</b> / <b
+        <p>Contour object handle returned by <b>contour</b> /<b>contourf</b> /<b
           >contour3</b>. When provided, labeling uses information attached to the contour object (levels and contour matrix).</p>
       </param_description>
     </param_input_item>
@@ -39,108 +37,103 @@
       </param_description>
     </param_input_item>
   </param_input>
-
   <param_output>
     <param_output_item>
       <param_name>t</param_name>
       <param_description>
-        <p>Text objects created by <b>clabel</b>. The <b
+        <p>Text objects created by <b>clabel</b>. The<b
           >String</b> properties contain the contour values displayed.</p>
       </param_description>
     </param_output_item>
     <param_output_item>
       <param_name>tl</param_name>
       <param_description>
-        <p>Text and line objects created when upright markers are used (for <b
+        <p>Text and line objects created when upright markers are used (for<b
           >clabel(C)</b>-style usage).</p>
       </param_description>
     </param_output_item>
   </param_output>
-
   <description>
     <p>The <b>clabel</b> function inserts labels into contour plots:</p>
     <ul>
-      <li>Provide a contour matrix <b>C</b> and contour object <b
+      <li>Provide a contour matrix <b>C</b> and contour object<b
         >h</b> to label rotated text along contour lines.</li>
-      <li>Provide only <b
+      <li>Provide only<b
         >C</b> to add upright labels and '+' markers at contour locations.</li>
-      <li>Pass a vector of levels <b
+      <li>Pass a vector of levels<b
         >v</b> to label only specific contour values.</li>
       <li
-      >Use Name,Value pairs to control text appearance (a subset of Text properties, plus <b
+      >Use Name,Value pairs to control text appearance (a subset of Text properties, plus<b
         >LabelSpacing</b>).</li>
     </ul>
   </description>
-
   <examples>
     <example_item>
       <example_item_description
       >Label contour plot levels (basic).</example_item_description>
-      <example_item_data runnable="adv-cli" language="matlab">
-<![CDATA[figure();
+      <example_item_data
+        runnable="adv-cli"
+        language="matlab"
+      ><![CDATA[figure();
 [x,y,z] = peaks;
 [C,h] = contour(x,y,z);
-clabel(C,h)]]>
-      </example_item_data>
+clabel(C,h)]]></example_item_data>
       <example_item_img
         src="../../images/clabel_1.svg"
         align="middle"
         generate="true"
       />
     </example_item>
-
     <example_item>
       <example_item_description
       >Label specific contour levels.</example_item_description>
-      <example_item_data runnable="adv-cli" language="matlab">
-<![CDATA[figure();
+      <example_item_data
+        runnable="adv-cli"
+        language="matlab"
+      ><![CDATA[figure();
 [x,y,z] = peaks;
 [C,h] = contour(x,y,z);
 v = [2,6];
-clabel(C,h,v)]]>
-      </example_item_data>
+clabel(C,h,v)]]></example_item_data>
       <example_item_img
         src="../../images/clabel_2.svg"
         align="middle"
         generate="true"
       />
-
     </example_item>
-
     <example_item>
       <example_item_description
       >Set contour label properties with Name,Value pairs.</example_item_description>
-      <example_item_data runnable="adv-cli" language="matlab">
-<![CDATA[figure();
+      <example_item_data
+        runnable="adv-cli"
+        language="matlab"
+      ><![CDATA[figure();
 [x,y,z] = peaks;
 [C,h] = contour(x,y,z);
-clabel(C,h,'FontSize',15,'Color','red')]]>
-      </example_item_data>
-           <example_item_img
+clabel(C,h,'FontSize',15,'Color','red')]]></example_item_data>
+      <example_item_img
         src="../../images/clabel_3.svg"
         align="middle"
         generate="true"
       />
- 
     </example_item>
-
     <example_item>
       <example_item_description
       >Label using only the contour matrix (upright labels).</example_item_description>
-      <example_item_data runnable="adv-cli" language="matlab">
-<![CDATA[figure();
+      <example_item_data
+        runnable="adv-cli"
+        language="matlab"
+      ><![CDATA[figure();
 [x,y,z] = peaks;
 C = contour(x,y,z);
-clabel(C)]]>
-      </example_item_data>
-            <example_item_img
+clabel(C)]]></example_item_data>
+      <example_item_img
         src="../../images/clabel_4.svg"
         align="middle"
         generate="true"
       />
     </example_item>
   </examples>
-
   <see_also>
     <see_also_item>
       <link linkend="${graphics}contour">contour</link>
@@ -148,18 +141,16 @@ clabel(C)]]>
     <see_also_item>
       <link linkend="${graphics}contourf">contourf</link>
     </see_also_item>
-       <see_also_item>
+    <see_also_item>
       <link linkend="${graphics}contourf">contourc</link>
     </see_also_item>
-   </see_also>
-
+  </see_also>
   <history>
     <history_item>
       <history_version>1.15.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
   </history>
-
   <authors>
     <author_item>Allan CORNET</author_item>
   </authors>

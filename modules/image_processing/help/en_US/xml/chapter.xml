@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>image_processing</module_name>
-    <chapter>Image Processing functions</chapter>
-    <chapter_description>
-        <p
-    >The Image Processing module provides basic operations for manipulating images, including
-            format conversion, resizing, and rotation.</p>
-    </chapter_description>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>image_processing</module_name>
+  <chapter>Image Processing functions</chapter>
+  <chapter_description>
+    <p
+    >The Image Processing module provides basic operations for manipulating images, including format conversion, resizing, and rotation.</p>
+  </chapter_description>
 </xmldoc>

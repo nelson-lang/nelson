@@ -1,116 +1,116 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>slicot_ab01od</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>slicot_ab01od</keyword>
+  <short_description
   >Staircase form for multi-input systems using orthogonal state and input transformations.</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[A_OUT, B_OUT, U_OUT, V, NCONT_OUT, INDCON_OUT, KSTAIR_OUT, INFO] = slicot_ab01od(STAGES, JOBU, JOBV, A_IN, B_IN, U_IN, NCONT_IN, INDCON_IN, KSTAIR_IN, TOL)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>STAGES</param_name>
-            <param_description
-      >Specifies the reduction stage: 'F':  Perform the forward stage only; 'B':  Perform the backward stage only; 'A':  Perform both (all) stages.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>JOBU</param_name>
-            <param_description
-      >Indicates whether the user wishes to accumulate in a matrix U the state-space transformations:  'N':  Do not form U; 'I':  U is internally initialized to the unit matrix</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>JOBV</param_name>
-            <param_description
-      >Indicates whether the user wishes to accumulate in a matrix V the input-space transformations: 'N':  Do not form V; I':  V is initialized to the unit matrix and the orthogonal transformation matrix V is returned.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>A_IN</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>STAGES</param_name>
+      <param_description
+      >Specifies the reduction stage: 'F': Perform the forward stage only; 'B': Perform the backward stage only; 'A': Perform both (all) stages.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>JOBU</param_name>
+      <param_description
+      >Indicates whether the user wishes to accumulate in a matrix U the state-space transformations: 'N': Do not form U; 'I': U is internally initialized to the unit matrix</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>JOBV</param_name>
+      <param_description
+      >Indicates whether the user wishes to accumulate in a matrix V the input-space transformations: 'N': Do not form V; I':  V is initialized to the unit matrix and the orthogonal transformation matrix V is returned.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A_IN</param_name>
+      <param_description
       >the leading N-by-N part of this array must contain the state transition matrix A to be transformed</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>B_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>B_IN</param_name>
+      <param_description
       > the leading N-by-M part of this array must contain the input matrix B to be transformed.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>U_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>U_IN</param_name>
+      <param_description
       >If STAGES ~= 'B' or JOBU = 'N', then U need not be set on entry. If STAGES = 'B' and JOBU = 'I', then, on entry, the leading N-by-N part of this array must contain the transformation matrix U that reduced the pair to the orthogonal canonical form.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>NCONT_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>NCONT_IN</param_name>
+      <param_description
       >The order of the controllable state-space representation. NCONT_IN is input only if STAGES = 'B'.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>INDCON_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>INDCON_IN</param_name>
+      <param_description
       >The number of stairs in the staircase form (also, the controllability index of the controllable part of the system representation).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>TOL</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>TOL</param_name>
+      <param_description
       >The tolerance to be used in rank determination when transforming (A, B).</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>A_OUT</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>A_OUT</param_name>
+      <param_description
       >On exit, the leading N-by-N part of this array contains the transformed state transition matrix U' * A * U. The leading NCONT-by-NCONT part contains the upper block Hessenberg state matrix Acont in Ac, given by U' * A * U, of a controllable realization for the original system. The elements below the first block-subdiagonal are set to zero.  If STAGES ~='F', the subdiagonal blocks of A are triangularized by RQ factorization, and the annihilated elements are explicitly zeroed.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>B_OUT</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>B_OUT</param_name>
+      <param_description
       >On exit with STAGES = 'F', the leading N-by-M part of this array contains the transformed input matrix U' * B, with all elements but the first block set to zero. On exit with STAGES ~= 'F', the leading N-by-M part of this array contains the transformed input matrix U' * B * V, with all elements but the first block set to zero and the first block in upper triangular form.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>U_OUT</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>U_OUT</param_name>
+      <param_description
       >if JOBU = 'I', the leading N-by-N part of this array contains the transformation matrix U that performed the specified reduction. If JOBU = 'N', the array U is not referenced and can be supplied as a dummy array.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>V</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>V</param_name>
+      <param_description
       >If JOBV = 'I', then the leading M-by-M part of this array contains the transformation matrix V.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>NCONT_OUT</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>NCONT_OUT</param_name>
+      <param_description
       > NCONT_OUT is input only if STAGES = 'B'.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>INDCON_OUT</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>INDCON_OUT</param_name>
+      <param_description
       >INDCON is input only if STAGES = 'B'.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>KSTAIR_OUT</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>KSTAIR_OUT</param_name>
+      <param_description
       >KSTAIR is input if STAGES = 'B', and output otherwise.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>INFO</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>INFO</param_name>
+      <param_description
       >0:  successful exit; if INFO = -i, the i-th argument had an illegal value.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >To reduce the matrices A and B using (and optionally accumulating) state-space and input-space transformations U and V respectively, such that the pair of matrices</p>
-        <p>Ac = U' * A * U,    Bc = U' * B * V</p>
-    </description>
-    <used_function>AB01OD</used_function>
-    <bibliography
+    <p>Ac = U' * A * U, Bc = U' * B * V</p>
+  </description>
+  <used_function>AB01OD</used_function>
+  <bibliography
   >http://slicot.org/objects/software/shared/doc/AB01OD.html</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[N = 5;
 M = 2;
@@ -139,15 +139,15 @@ NCONT_IN = 1;
 KSTAIR_IN = zeros(1,N);
 [A_OUT, B_OUT, U_OUT, V, NCONT_OUT, INDCON_OUT, KSTAIR_OUT, INFO] = slicot_ab01od(STAGES, JOBU, JOBV, A_IN, B_IN, U_IN, NCONT_IN, INDCON_IN, KSTAIR_IN, TOL)
 ]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>SLICOT Documentation</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>SLICOT Documentation</author_item>
+  </authors>
 </xmldoc>

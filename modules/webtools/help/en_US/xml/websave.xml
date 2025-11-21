@@ -1,78 +1,75 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>websave</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>websave</keyword>
+  <short_description
   >Save data from RESTful web service to file</short_description>
-    <syntax>
-        <syntax_item>result_filename = websave(filename, url)</syntax_item>
-        <syntax_item
+  <syntax>
+    <syntax_item>result_filename = websave(filename, url)</syntax_item>
+    <syntax_item
     >result_filename = websave(filename, url, name1, value1, ... , nameN, valueN)</syntax_item>
-        <syntax_item
+    <syntax_item
     >result_filename = websave(filename, url, name1, value1, ... , nameN, valueN, options)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
       >a string: name of file to save content to.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>url</param_name>
-            <param_description
-      >a string: URL to a web service.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>name1, value1, ... , nameN, valueN</param_name>
-            <param_description>Name-Value Pair Arguments.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>options</param_name>
-            <param_description>a weboptions object.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>result_filename</param_name>
-            <param_description>a string: full filename path.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>websave()</b> saves content from the web to filename.</p>
-            <p
-    >websave function returns the full filename path as result_filename.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_input_item>
+    <param_input_item>
+      <param_name>url</param_name>
+      <param_description>a string: URL to a web service.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name1, value1, ... , nameN, valueN</param_name>
+      <param_description>Name-Value Pair Arguments.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>options</param_name>
+      <param_description>a weboptions object.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>result_filename</param_name>
+      <param_description>a string: full filename path.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>websave()</b> saves content from the web to filename.</p>
+    <p>websave function returns the full filename path as result_filename.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[url ='https://httpbin.org/get';
 filename = [tempdir(), 'test.txt'];
 destination_filename = websave(filename, url, weboptions('ContentType','json'));
 txt = fileread(filename)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${webtools}weboptions">weboptions</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${webtools}webread">webread</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${webtools}weboptions">weboptions</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${webtools}webread">webread</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,59 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>invhilb</keyword>
-    <short_description>Inverse of Hilbert matrix</short_description>
-    <syntax>
-        <syntax_item>h = hilb(n)</syntax_item>
-        <syntax_item>h = hilb(n, className)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>n</param_name>
-            <param_description
-      >a scalar, nonnegative integer.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>className</param_name>
-            <param_description
-      >'single' or 'double' (default).</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>h</param_name>
-            <param_description>Hilbert matrix.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>hilb</b> computes the Hilbert matrix.</p>
-        </description>
-        <used_function />
-        <bibliography
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>invhilb</keyword>
+  <short_description>Inverse of Hilbert matrix</short_description>
+  <syntax>
+    <syntax_item>h = hilb(n)</syntax_item>
+    <syntax_item>h = hilb(n, className)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>a scalar, nonnegative integer.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>className</param_name>
+      <param_description>'single' or 'double' (default).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>Hilbert matrix.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>hilb</b> computes the Hilbert matrix.</p>
+  </description>
+  <used_function />
+  <bibliography
   >https://en.wikipedia.org/wiki/David_Hilbert, and Thanks to https://nhigham.com/2020/06/30/what-is-the-hilbert-matrix/</bibliography>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[h = hilb(5)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${elementary_functions}invhilb">invhilb</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}invhilb">invhilb</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

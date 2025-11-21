@@ -1,57 +1,54 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>webwrite</keyword>
-    <short_description>Write data to RESTful web service</short_description>
-    <syntax>
-        <syntax_item>response = webwrite(url, data)</syntax_item>
-        <syntax_item>response = webwrite(url, data, options)</syntax_item>
-        <syntax_item
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>webwrite</keyword>
+  <short_description>Write data to RESTful web service</short_description>
+  <syntax>
+    <syntax_item>response = webwrite(url, data)</syntax_item>
+    <syntax_item>response = webwrite(url, data, options)</syntax_item>
+    <syntax_item
     >response = webwrite(url, name1, value1, ... , nameN, valueN)</syntax_item>
-        <syntax_item
+    <syntax_item
     >response = webwrite(url, name1, value1, ... , nameN, valueN, options)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>url</param_name>
-            <param_description
-      >a string: URL to a web service.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>data</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>url</param_name>
+      <param_description>a string: URL to a web service.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>data</param_name>
+      <param_description
       >Data to post to a web service, an nelson's variable.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>name1, value1, ... , nameN, valueN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>name1, value1, ... , nameN, valueN</param_name>
+      <param_description
       >Name-Value Pair Arguments, Data to post to a web service.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>options</param_name>
-            <param_description>a weboptions object.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>response</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>options</param_name>
+      <param_description>a weboptions object.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>response</param_name>
+      <param_description
       >a variable: Response from a web service.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>webwrite</b> write data to RESTful web service.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
-      >Send message to Slack</example_item_description>
-                <example_item_data
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>webwrite</b> write data to RESTful web service.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Send message to Slack</example_item_description>
+      <example_item_data
         runnable="cli"
       ><![CDATA[[Y, M, D, H, MN, S] = datevec(now);
 datetime = sprintf('%d/%d/%d %d:%d:%d', Y, M, D, H, MN, S);
@@ -60,12 +57,12 @@ url = char([104 116 116 112 115 58 47 47 104 111 111 107 115 46 115 108 97 99 10
 data = struct('text', ['hello from Nelson ', datetime], 'channel', '#test_webwrite');
 R = webwrite(url, data);
 ]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Connect to your NetAtmo Weather station (oAuth2 connection)</example_item_description>
-                <example_item_data
+      <example_item_data
         runnable="false"
       ><![CDATA[
 USER_NAME = 'your username';
@@ -85,23 +82,23 @@ disp(r.body.devices.place)
 disp('Last values')
 disp(r.body.devices.dashboard_data)
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${webtools}weboptions">weboptions</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${webtools}webread">webread</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${webtools}weboptions">weboptions</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${webtools}webread">webread</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

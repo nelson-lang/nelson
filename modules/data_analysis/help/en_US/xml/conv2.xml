@@ -1,74 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>conv2</keyword>
-    <short_description>2-D convolution.</short_description>
-    <syntax>
-        <syntax_item>C = conv2(A, B)</syntax_item>
-        <syntax_item>C = conv2(u, v, A)</syntax_item>
-        <syntax_item>C = conv2(A, B, shape)</syntax_item>
-        <syntax_item>C = conv2(u, v, A, shape)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>A</param_name>
-            <param_description>vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>B</param_name>
-            <param_description>vector or matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>u</param_name>
-            <param_description>row or column vector.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>v</param_name>
-            <param_description>row or column vector.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>shape</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>conv2</keyword>
+  <short_description>2-D convolution.</short_description>
+  <syntax>
+    <syntax_item>C = conv2(A, B)</syntax_item>
+    <syntax_item>C = conv2(u, v, A)</syntax_item>
+    <syntax_item>C = conv2(A, B, shape)</syntax_item>
+    <syntax_item>C = conv2(u, v, A, shape)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description>vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>u</param_name>
+      <param_description>row or column vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>v</param_name>
+      <param_description>row or column vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>shape</param_name>
+      <param_description
       >subsection of convolution: 'full' (default: full 2-D convolution), 'same' (central part of the convolution) or 'valid' (parts of the convolution that are computed without zero-padded edges).</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>C</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description
       >2-D convolution, returned as a vector or matrix.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>conv2</b> returns the two-dimensional convolution.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>conv2</b> returns the two-dimensional convolution.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = magic(3);
 B = magic(4);
 R = conv2(A, B, 'same')]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${data_analysis}conv">conv</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}conv">conv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,65 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>nativecharset</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nativecharset</keyword>
+  <short_description
   >Trouve tous les jeux de caractères qui semblent cohérents avec l'entrée</short_description>
-    <syntax>
-        <syntax_item>ce = nativecharset(bytes)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>bytes</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>ce = nativecharset(bytes)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>bytes</param_name>
+      <param_description
       >un vecteur uint8, ou une chaîne ou un tableau de caractères ligne</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>ce</param_name>
-            <param_description>une cellule de chaînes.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ce</param_name>
+      <param_description>une cellule de chaînes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >nativecharset</b> trouve tous les jeux de caractères qui semblent cohérents avec l'entrée, retournant une cellule de chaînes avec les résultats.</p>
-            <p
+    <p
     >Les résultats sont ordonnés avec la meilleure correspondance de qualité en premier.</p>
-            <p>Liste des jeux de caractères : <a
+    <p>Liste des jeux de caractères :<a
         href="https://www.iana.org/assignments/character-sets/character-sets.xhtml"
       >https://www.iana.org/assignments/character-sets/character-sets.xhtml</a></p>
-        </description>
-        <used_function />
-        <bibliography>ICU library</bibliography>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography>ICU library</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[C = uint8([194   232   240   242   243   224   235   252   237   224   255]);
 nativecharset(R)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link
-        linkend="${characters_encoding}unicode2native"
-      >unicode2native</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${string}char">char</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${characters_encoding}unicode2native">unicode2native</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${string}char">char</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,58 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>Comment installer un paquet Python</keyword>
-    <description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>Comment installer un paquet Python</keyword>
+  <description>
+    <p
     >Nelson permet d'intégrer de manière transparente des paquets Python dans les flux de travail.</p>
-        <p
+    <p
     >Installer des paquets Python dans Nelson étend ses fonctionnalités et permet d'exploiter un large éventail de bibliothèques pour l'analyse de données, l'apprentissage automatique, le calcul scientifique, et plus encore.</p>
-        <p
+    <p
     >Ce fichier d'aide fournit un guide complet pour installer des paquets Python depuis Nelson.</p>
-        <p />
-        <p>Conseils et précautions :</p>
-        <p />
-        <p
+    <p />
+    <p>Conseils et précautions :</p>
+    <p />
+    <p
     >- Disponibilité du paquet : assurez-vous que le paquet Python que vous souhaitez installer est disponible sur le Python Package Index (PyPI) ou un autre dépôt compatible.</p>
-        <p
+    <p
     >- Dépendances : certains paquets Python peuvent dépendre d'autres paquets. Veillez à installer les dépendances requises au préalable.</p>
-        <p
+    <p
     >- Compatibilité des versions : vérifiez la compatibilité du paquet avec votre environnement Python actuel et la version de Nelson pour éviter les problèmes.</p>
-        <p
+    <p
     >- Environnements virtuels : envisagez d'utiliser des environnements virtuels dans Nelson pour isoler les installations de paquets et gérer les dépendances par projet.</p>
-        <p
+    <p
     >- Droits d'accès : lors de l'installation de paquets nécessitant un accès en écriture au répertoire Python, assurez-vous d'avoir les permissions nécessaires. Sur certains systèmes, des privilèges administrateur peuvent être requis. En cas d'erreur de permission, utilisez un environnement virtuel ou contactez l'administrateur système.</p>
-    </description>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Get info from the pyenv environment:</example_item_description>
-            <example_item_data><![CDATA[pe = pyenv]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+      <example_item_data><![CDATA[pe = pyenv]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Construct the command to install the package:</example_item_description>
-            <example_item_data
+      <example_item_data
       ><![CDATA[package_to_install = "scipy";
 command_to_install = '"' + pe.Executable +  '"' + " -m pip install " + package_to_install;]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Construct the command to install the package:</example_item_description>
-            <example_item_data
+      <example_item_data
       ><![CDATA[[status, msg] = system(command_to_install);]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${os_functions}system">system</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${python_engine}pyenv">pyenv</link>
-        </see_also_item>
-    </see_also>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${os_functions}system">system</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${python_engine}pyenv">pyenv</link>
+    </see_also_item>
+  </see_also>
 </xmldoc>

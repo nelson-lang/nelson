@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-	<copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>fr_FR</language>
-	<module_name>display_format</module_name>
-	<chapter>Format d'affichage</chapter>
-	<chapter_description>
-		<p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>display_format</module_name>
+  <chapter>Format d'affichage</chapter>
+  <chapter_description>
+    <p
     >Le module Format d'affichage définit la manière dont les valeurs, variables et expressions sont présentées dans Nelson.</p>
-		<p
+    <p
     >Il offre un contrôle sur le formatage numérique, la représentation du texte et la façon dont les résultats sont affichés dans la console.</p>
-		<p
+    <p
     >Le module fournit également des mécanismes pour capturer la sortie formatée de manière programmatique, permettant à la fois un affichage lisible par l'humain et un traitement programmatique des résultats.</p>
-		<p
+    <p
     >Cela garantit une grande flexibilité dans la présentation et la réutilisation des informations au sein de scripts et d'applications.</p>
-		</chapter_description>
+  </chapter_description>
 </xmldoc>

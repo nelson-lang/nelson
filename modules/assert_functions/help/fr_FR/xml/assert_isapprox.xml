@@ -1,121 +1,117 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>assert_isapprox</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>assert_isapprox</keyword>
+  <short_description
   >Vérifie que les valeurs calculées et attendues sont approximativement égales.</short_description>
-    <syntax>
-        <syntax_item>assert_isapprox(computed, expected)</syntax_item>
-        <syntax_item
-    >assert_isapprox(computed, expected, precision)</syntax_item>
-        <syntax_item>res = assert_isapprox(computed, expected)</syntax_item>
-        <syntax_item
+  <syntax>
+    <syntax_item>assert_isapprox(computed, expected)</syntax_item>
+    <syntax_item>assert_isapprox(computed, expected, precision)</syntax_item>
+    <syntax_item>res = assert_isapprox(computed, expected)</syntax_item>
+    <syntax_item
     >res = assert_isapprox(computed, expected, precision)</syntax_item>
-        <syntax_item
-    >[res, msg] = assert_isapprox(computed, expected)</syntax_item>
-        <syntax_item
+    <syntax_item>[res, msg] = assert_isapprox(computed, expected)</syntax_item>
+    <syntax_item
     >[res, msg] = assert_isapprox(computed, expected, precision)</syntax_item>
-    </syntax>
-    <param_input>
-                <param_input_item>
-                        <param_name>computed</param_name>
-                        <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>computed</param_name>
+      <param_description
       >une valeur numérique : matrice, double creux ou tableau multidimensionnel.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>expected</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>expected</param_name>
+      <param_description
       >une valeur numérique : matrice, double creux ou tableau multidimensionnel.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>precision</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>precision</param_name>
+      <param_description
       >une valeur double spécifiant la tolérance relative. La précision par défaut est 0.</param_description>
-                </param_input_item>
-    </param_input>
-    <param_output>
-                <param_output_item>
-                        <param_name>res</param_name>
-                        <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>res</param_name>
+      <param_description
       >une valeur logique : true si les valeurs sont approximativement égales, false sinon.</param_description>
-                </param_output_item>
-                <param_output_item>
-                        <param_name>msg</param_name>
-                        <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>msg</param_name>
+      <param_description
       >une chaîne contenant le message d'erreur. Si res == true, alors msg == ''. Si res == false, alors msg contient le message d'échec de l'assertion.</param_description>
-                </param_output_item>
-    </param_output>
-    <description>
-        <p><b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >assert_isapprox</b> lève une erreur si la valeur calculée n'est pas approximativement égale à la valeur attendue.</p>
-        <p
+    <p
     >Cette fonction compare deux nombres à virgule flottante avec une tolérance spécifiée, permettant de vérifier que deux nombres sont « approximativement » égaux lorsque l'égalité exacte n'est pas adaptée à cause des limitations de précision des flottants.</p>
-        <p
+    <p
     >La comparaison utilise le calcul de l'erreur relative pour déterminer si les valeurs sont dans la tolérance de précision spécifiée.</p>
-        <p
+    <p
     >Cette fonction est particulièrement utile dans les tests unitaires lors de calculs numériques pouvant comporter de petits arrondis.</p>
-    </description>
-    <used_function>isapprox</used_function>
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-        <example_item_description
+  </description>
+  <used_function>isapprox</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Test d'égalité approximative avec une tolérance de précision suffisante :</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[assert_isapprox(1.23456, 1.23457, 1e-5)]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-        <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Test qui échoue lorsque la précision est trop stricte :</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[try
     assert_isapprox(1.23456, 1.23457, 1e-6)
 catch ME
     disp(['Error: ' ME.message])
 end]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-        <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Utilisation des valeurs de retour pour gérer les résultats d'assertion :</example_item_description>
-            <example_item_data
+      <example_item_data
       ><![CDATA[[r, msg] = assert_isapprox(1.23456, 1.23457, 1e-6);
 assert_isfalse(r);
 assert_isequal(msg, _('Assertion failed: expected and computed values are too different.'));]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-        <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Test avec des matrices :</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [1.0001, 2.0002; 3.0003, 4.0004];
 B = [1.0000, 2.0000; 3.0000, 4.0000];
 assert_isapprox(A, B, 1e-3)]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${elementary_functions}isapprox">isapprox</link>
-        </see_also_item>
-        <see_also_item>
-            <link
-        linkend="${assert_functions}assert_isequal"
-      >assert_isequal</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}isapprox">isapprox</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${assert_functions}assert_isequal">assert_isequal</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

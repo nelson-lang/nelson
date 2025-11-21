@@ -1,75 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>grid</keyword>
-    <short_description>Display or hide axes grid lines.</short_description>
-    <syntax>
-        <syntax_item>grid</syntax_item>
-        <syntax_item>grid('on')</syntax_item>
-        <syntax_item>grid('off')</syntax_item>
-        <syntax_item>grid('minor')</syntax_item>
-        <syntax_item>grid(ax, ...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>'on'</param_name>
-            <param_description
-      >displays the major grid line. </param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'off'</param_name>
-            <param_description>removes all grid lines.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'minor'</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>grid</keyword>
+  <short_description>Display or hide axes grid lines.</short_description>
+  <syntax>
+    <syntax_item>grid</syntax_item>
+    <syntax_item>grid('on')</syntax_item>
+    <syntax_item>grid('off')</syntax_item>
+    <syntax_item>grid('minor')</syntax_item>
+    <syntax_item>grid(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>'on'</param_name>
+      <param_description>displays the major grid line.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'off'</param_name>
+      <param_description>removes all grid lines.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'minor'</param_name>
+      <param_description
       >toggles the visibility of the minor grid lines.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description>Target object: axes.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>
-            <b>grid()</b> toggles the visibility of the major grid lines.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Target object: axes.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>grid()</b> toggles the visibility of the major grid lines.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 x = linspace(0, 20);
 y = cos(x);
 plot(x, y)
 grid on]]></example_item_data>
-                <example_item_img
+      <example_item_img
         src="../../images/grid.svg"
         align="middle"
         generate="true"
       />
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${graphics}axes">axes</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${graphics}plot">plot</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}axes">axes</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}plot">plot</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

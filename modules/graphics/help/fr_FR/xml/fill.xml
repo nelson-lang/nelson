@@ -1,106 +1,91 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>fill</keyword>
-    <short_description>Créer des formes 2D remplies.</short_description>
-    <syntax>
-        <syntax_item>fill(X, Y, C)</syntax_item>
-        <syntax_item>fill(..., propertyName, propertyValue)</syntax_item>
-        <syntax_item>fill(ax, ...)</syntax_item>
-        <syntax_item>go = fill(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>X</param_name>
-            <param_description
-      >Coordonnées x : vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Y</param_name>
-            <param_description
-      >Coordonnées y : vecteur ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>C</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fill</keyword>
+  <short_description>Créer des formes 2D remplies.</short_description>
+  <syntax>
+    <syntax_item>fill(X, Y, C)</syntax_item>
+    <syntax_item>fill(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>fill(ax, ...)</syntax_item>
+    <syntax_item>go = fill(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>Coordonnées x : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>Coordonnées y : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>C</param_name>
+      <param_description
       >Tableau de couleurs : scalaire, vecteur, matrice m×n×3 de triplets RGB.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description
       >Un objet graphique scalaire : conteneur parent, spécifié comme axes.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyName</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
       >Une chaîne scalaire ou un vecteur ligne de caractères.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyValue</param_name>
-            <param_description>Une valeur.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>go</param_name>
-            <param_description
-      >Un objet graphique : type patch.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >fill(X, Y, C)</b> crée une forme polygonale 2D avec des sommets définis par les coordonnées <b
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Une valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>Un objet graphique : type patch.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >fill(X, Y, C)</b> crée une forme polygonale 2D avec des sommets définis par les coordonnées<b
       >X</b> et <b>Y</b>, et remplit la forme avec la couleur <b>C</b>.</p>
-        <p>
-            <b
+    <p><b
       >fill(..., PropertyName, PropertyValue, ...)</b> définit des propriétés optionnelles pour l'objet fill/patch à l'aide de paires nom-valeur.</p>
-        <p>
-            <b>go = fill(...)</b> retourne le handle <b
+    <p><b>go = fill(...)</b> retourne le handle<b
       >go</b> de l'objet patch créé.</p>
-        <p>Paires Nom-Valeur de propriétés :</p>
-        <p />
-        <p>
-            <b
+    <p>Paires Nom-Valeur de propriétés :</p>
+    <p />
+    <p><b
       >'FaceColor'</b> : couleur de la forme remplie. FaceColor peut être une chaîne de caractères ou un vecteur RGB à 3 éléments. Par défaut : <b
       >'flat'</b>.</p>
-        <p>
-            <b
+    <p><b
       >'EdgeColor'</b> : couleur des bords de la forme polygonale. EdgeColor peut être une chaîne de caractères ou un vecteur RGB à 3 éléments. Par défaut : <b
       >'none'</b>.</p>
-        <p>
-            <b
+    <p><b
       >'LineWidth'</b> : épaisseur des bords de la forme polygonale. Par défaut : <b
       >0.5</b>.</p>
-        <p>
-            <b
+    <p><b
       >'LineStyle'</b> : style des bords de la forme polygonale. LineStyle peut être une chaîne de caractères ou un code de style de ligne. Par défaut : <b
       >'-'</b>.</p>
-        <p>
-            <b
+    <p><b
       >'FaceAlpha'</b> : transparence de la forme remplie. FaceAlpha peut être un scalaire entre 0 et 1. Par défaut : <b
       >1</b>.</p>
-        <p>
-            <b
+    <p><b
       >'EdgeAlpha'</b> : transparence des bords de la forme polygonale. EdgeAlpha peut être un scalaire entre 0 et 1. Par défaut : <b
       >1</b>.</p>
-        <p>
-            <b
-      >'Parent'</b> : handle de l'objet parent pour le patch. Par défaut : <b
+    <p><b>'Parent'</b> : handle de l'objet parent pour le patch. Par défaut :<b
       >gca()</b>.</p>
-        <p>
-            <b
-      >'Vertices'</b> : matrice des coordonnées des sommets. La matrice doit avoir la taille N×2 ou N×3, où N est le nombre de sommets. Par défaut : les coordonnées des sommets sont spécifiées par les arguments <b
+    <p><b
+      >'Vertices'</b> : matrice des coordonnées des sommets. La matrice doit avoir la taille N×2 ou N×3, où N est le nombre de sommets. Par défaut : les coordonnées des sommets sont spécifiées par les arguments<b
       >X</b>, <b>Y</b> et <b>Z</b> d'entrée.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 outerX = [0, 0.3, 1, 0.7, 1, 0.3, 0, -0.3, -1, -0.7, -1, -0.3, 0];
@@ -109,16 +94,16 @@ innerX = [0, 0.2, 0.5, 0.35, 0.5, 0.2, 0, -0.2, -0.5, -0.35, -0.5, -0.2, 0];
 innerY = [0.6, 0.3, 0.3, 0, -0.3, -0.6, -0.3, -0.6, -0.3, 0, 0.3, 0.3, 0.6];
 fill(outerX, outerY, 'y');
 fill(innerX, innerY, 'r');]]></example_item_data>
-            <example_item_img
+      <example_item_img
         src="../../images/fill_1.svg"
         align="middle"
         generate="true"
       />
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[% Define the vertices of a colorful geometric pattern
 x1 = [0, 1, 1, 0];
@@ -148,16 +133,16 @@ text(1.5, 0.5, 'Polygon 3', 'Color', 'w', 'HorizontalAlignment', 'center', 'Font
 axis equal;
 title('Colorful Geometric Pattern');
 ]]></example_item_data>
-            <example_item_img
+      <example_item_img
         src="../images/fill_2.svg"
         align="middle"
         generate="true"
       />
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description>Canal alpha</example_item_description>
-            <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Canal alpha</example_item_description>
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 x = [10 30 40 30 10 0];
@@ -166,25 +151,25 @@ hold on
 fill(x, y, 'cyan', 'FaceAlpha', 0.3);
 fill(x + 2, y, 'magenta', 'FaceAlpha', 0.3);
 fill(x + 1, y + 2, 'yellow', 'FaceAlpha', 0.3);]]></example_item_data>
-            <example_item_img
+      <example_item_img
         src="../../images/fill_3.svg"
         align="middle"
         generate="true"
       />
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${graphics}patch">patch</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}patch">patch</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

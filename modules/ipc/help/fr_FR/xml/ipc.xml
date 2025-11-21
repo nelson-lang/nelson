@@ -1,93 +1,92 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>ipc</keyword>
-    <short_description>Communicateur inter-processus.</short_description>
-    <syntax>
-        <syntax_item>O = ipc(pid, 'eval', cmd)</syntax_item>
-        <syntax_item>B = ipc(pid, 'isvar', name, scope)</syntax_item>
-        <syntax_item>V = ipc(pid, 'get', name)</syntax_item>
-        <syntax_item>V = ipc(pid, 'get', name, scope)</syntax_item>
-        <syntax_item>TF = ipc(pid, 'minimize')</syntax_item>
-        <syntax_item>ipc(pid, 'post', cmd)</syntax_item>
-        <syntax_item>ipc(pid, 'post', cmd, scope)</syntax_item>
-        <syntax_item>ipc(pid, 'put', var, name)</syntax_item>
-        <syntax_item>ipc(pid, 'put', var, name, scope)</syntax_item>
-        <syntax_item>ipc(pid, 'minimize', tf)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>'post'</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>ipc</keyword>
+  <short_description>Communicateur inter-processus.</short_description>
+  <syntax>
+    <syntax_item>O = ipc(pid, 'eval', cmd)</syntax_item>
+    <syntax_item>B = ipc(pid, 'isvar', name, scope)</syntax_item>
+    <syntax_item>V = ipc(pid, 'get', name)</syntax_item>
+    <syntax_item>V = ipc(pid, 'get', name, scope)</syntax_item>
+    <syntax_item>TF = ipc(pid, 'minimize')</syntax_item>
+    <syntax_item>ipc(pid, 'post', cmd)</syntax_item>
+    <syntax_item>ipc(pid, 'post', cmd, scope)</syntax_item>
+    <syntax_item>ipc(pid, 'put', var, name)</syntax_item>
+    <syntax_item>ipc(pid, 'put', var, name, scope)</syntax_item>
+    <syntax_item>ipc(pid, 'minimize', tf)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>'post'</param_name>
+      <param_description
       >une chaîne : poster une commande à évaluer dans un autre processus Nelson dans le scope de base (non bloquant).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'eval'</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'eval'</param_name>
+      <param_description
       >une chaîne : poster une commande à évaluer dans un autre processus Nelson dans le scope de base (bloquant).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'isvar'</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'isvar'</param_name>
+      <param_description
       >une chaîne : vérifier si une variable existe dans un autre processus Nelson.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'put'</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'put'</param_name>
+      <param_description
       >une chaîne : envoyer une variable dans un autre processus Nelson.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'get'</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'get'</param_name>
+      <param_description
       >une chaîne : récupérer une variable depuis un autre processus Nelson.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'minimize'</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'minimize'</param_name>
+      <param_description
       >une chaîne : minimiser la fenêtre principale d'un autre processus Nelson.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>B</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description
       >un logique : true si la variable existe.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>V</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>V</param_name>
+      <param_description
       >une variable provenant d'un autre Nelson.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>TF</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>TF</param_name>
+      <param_description
       >un logique : true si le processus destination est minimisé.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>O</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>O</param_name>
+      <param_description
       >un tableau de caractères : sortie de l'évaluation d'une chaîne.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >ipc</b> permet d'exécuter, récupérer et envoyer des variables entre plusieurs processus Nelson.</p>
-            <p
+    <p
     >Tous les types Nelson sérialisables sont pris en charge. Les types non pris en charge seront remplacés par une matrice vide et un avertissement.</p>
-            <p>LIMITATION :</p>
-            <p
+    <p>LIMITATION :</p>
+    <p
     >La limite pour la taille des données transférées est de 5000x5000 double. Sur une architecture 32 bits, 1024x1024 double.</p>
-            <p>Limitation actuelle afin de limiter l'utilisation mémoire.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    <p>Limitation actuelle afin de limiter l'utilisation mémoire.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[master_pid = getpid()
 initial_pids = getpid('available')
@@ -134,39 +133,39 @@ for p = current_pids
         ipc(p, 'post', 'exit')
     end
 end]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
       ><![CDATA[ipc(getpid(), 'eval', 'dir')]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
       ><![CDATA[ipc(getpid(), 'minimize', true)
 ipc(getpid(), 'minimize')]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${ipc}getpid">getpid</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${os_functions}unix">unix</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${core}eval">eval</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ipc}getpid">getpid</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${os_functions}unix">unix</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}eval">eval</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

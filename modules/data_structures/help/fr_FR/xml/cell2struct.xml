@@ -1,72 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>cell2struct</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>cell2struct</keyword>
+  <short_description
   >Créer un struct à partir d'un tableau cellulaire.</short_description>
-    <syntax>
-        <syntax_item>st = cell2struct(ce, fields)</syntax_item>
-        <syntax_item>st = cell2struct(ce, fields, dim)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>ce</param_name>
-            <param_description>un tableau cellulaire.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>fields</param_name>
-            <param_description
-      >un tableau cellulaire de chaînes.</param_description>
-        </param_input_item>
-        <param_input_item>
-        <param_name>dim</param_name>
-        <param_description
+  <syntax>
+    <syntax_item>st = cell2struct(ce, fields)</syntax_item>
+    <syntax_item>st = cell2struct(ce, fields, dim)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ce</param_name>
+      <param_description>un tableau cellulaire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fields</param_name>
+      <param_description>un tableau cellulaire de chaînes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description
       >dimension le long de laquelle la cellule est convertie.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>st</param_name>
-            <param_description>un tableau de structs.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>st</param_name>
+      <param_description>un tableau de structs.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >st = cell2struct(ce, fields)</b> crée un struct à partir d'un tableau cellulaire.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[ce = {85, 50, 68; 'Pierre', 'Anna', 'Roberto'}
 fields = {'Height','Name'}
 A = cell2struct (ce, fields, 1)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${data_structures}cell">cell</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${data_structures}struct">struct</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${data_structures}struct2cell">struct2cell</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_structures}cell">cell</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_structures}struct">struct</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_structures}struct2cell">struct2cell</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

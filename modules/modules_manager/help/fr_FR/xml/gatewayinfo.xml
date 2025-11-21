@@ -1,70 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>gatewayinfo</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>gatewayinfo</keyword>
+  <short_description
   >Retourne des informations sur une gateway.</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[gateway_name, builtin_list] = gatewayinfo(dyn_lib_path)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>dyn_lib_path</param_name>
-        <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>dyn_lib_path</param_name>
+      <param_description
       >chaîne : chemin d'une bibliothèque dynamique préparée pour Nelson.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>gateway_name</param_name>
-            <param_description>chaîne : nom de la gateway</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>builtin_list</param_name>
-        <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>gateway_name</param_name>
+      <param_description>chaîne : nom de la gateway</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>builtin_list</param_name>
+      <param_description
       >cellule de chaînes : liste des builtin présents dans cette gateway</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >[gateway_name, builtin_list] = gatewayinfo(dyn_lib_path)</b> récupère des informations sur une gateway.</p>
-            <p
-    >La bibliothèque dynamique doit fournir au minimum un point d'entrée C nommé <b
+    <p
+    >La bibliothèque dynamique doit fournir au minimum un point d'entrée C nommé<b
       >GetGatewayInfo</b>.</p>
-            <p>Si le fichier n'existe pas, une erreur est levée.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    <p>Si le fichier n'existe pas, une erreur est levée.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[[gateway_name, builtin_list] = gatewayinfo(modulepath('time', 'builtin'))
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${dynamic_link}addgateway">addgateway</link>
-            </see_also_item>
-            <see_also_item>
-                <link
-        linkend="${dynamic_link}removegateway"
-      >removegateway</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${dynamic_link}addgateway">addgateway</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dynamic_link}removegateway">removegateway</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

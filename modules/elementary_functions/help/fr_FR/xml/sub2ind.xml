@@ -1,69 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>sub2ind</keyword>
-    <short_description
-  >Matrix subscript values to linear index</short_description>
-    <syntax>
-        <syntax_item>ind = sub2ind(sz, row, col)</syntax_item>
-        <syntax_item>ind = sub2ind(sz, I1, I2, ..., In)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>sz</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>sub2ind</keyword>
+  <short_description>Matrix subscript values to linear index</short_description>
+  <syntax>
+    <syntax_item>ind = sub2ind(sz, row, col)</syntax_item>
+    <syntax_item>ind = sub2ind(sz, I1, I2, ..., In)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>sz</param_name>
+      <param_description
       >size of array: vector of positive integers.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>row</param_name>
-            <param_description>row subscripts.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>col</param_name>
-            <param_description>column subscripts.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>I1, I2, ..., In</param_name>
-            <param_description>multidimensional subscripts.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>ind</param_name>
-            <param_description>linear indices.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>ind2sub</b> converts subscripts to linear indices. .</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_input_item>
+    <param_input_item>
+      <param_name>row</param_name>
+      <param_description>row subscripts.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>col</param_name>
+      <param_description>column subscripts.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>I1, I2, ..., In</param_name>
+      <param_description>multidimensional subscripts.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ind</param_name>
+      <param_description>linear indices.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>ind2sub</b> converts subscripts to linear indices. .</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[row = [2 3 4 2];
 col = [2 2 2 3];
 sz = [3 3];
 ind = sub2ind(sz, row, col)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${elementary_functions}sub2ind">ind2sub</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}sub2ind">ind2sub</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

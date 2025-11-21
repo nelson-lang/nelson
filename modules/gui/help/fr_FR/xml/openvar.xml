@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>openvar</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>openvar</keyword>
+  <short_description
   >Ouvre une variable dans l'éditeur de variables</short_description>
-    <syntax>
-        <syntax_item>openvar(varname)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>varname: a string or row vector characters</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>openvar(varname)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>varname: a string or row vector characters</param_name>
+      <param_description
       >Name of the variable to open. Must exist in the current workspace.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
+    </param_input_item>
+  </param_input>
+  <description>
     <p><b>openvar(varname)</b> ouvre la variable nommée <b
       >varname</b> dans l'éditeur de variables de Nelson pour inspection et édition graphique.</p>
     <p
@@ -33,31 +33,33 @@
       >OpenOffice Calc</b>.</p>
     <p
     >Vous pouvez copier des variables depuis l'éditeur de variables et les coller directement dans ces applications, et inversement.</p>
-    <p><img src="../images/openvar.png" align="middle" /></p>
-        </description>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    <p>
+      <img src="../images/openvar.png" align="middle" />
+    </p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
       ><![CDATA[A = [1 2 3; 4 5 6]; openvar("A");]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${gui}workspace">workspace</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${gui}filebrowser">filebrowser</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.15.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}workspace">workspace</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}filebrowser">filebrowser</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

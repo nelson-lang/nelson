@@ -1,136 +1,132 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>imread</keyword>
-    <short_description>Read image from graphics file.</short_description>
-    <syntax>
-        <syntax_item>A = imread(filename)</syntax_item>
-        <syntax_item>[A, map] = imread(filename)</syntax_item>
-        <syntax_item>[A, map, transparency] = imread(filename)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>imread</keyword>
+  <short_description>Read image from graphics file.</short_description>
+  <syntax>
+    <syntax_item>A = imread(filename)</syntax_item>
+    <syntax_item>[A, map] = imread(filename)</syntax_item>
+    <syntax_item>[A, map, transparency] = imread(filename)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
       >a row vector characters or scalar string: name of graphics file.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>A</param_name>
-            <param_description>Image data: array.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>map</param_name>
-            <param_description>Colormap: m-by-3 matrix.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>transparency</param_name>
-            <param_description
-      >Transparency information: matrix.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >imread</b> reads the image data from the given file into a matrix.</p>
-            <p />
-            <table style="width:100%">
-                <tr>
-                    <th>Format</th>
-                    <th>Description</th>
-                </tr>
-                <tr>
-                    <th>BMP</th>
-                    <th>Windows Bitmap</th>
-                </tr>
-                <tr>
-                    <th>GIF</th>
-                    <th>Graphic Interchange Format (optional)</th>
-                </tr>
-                <tr>
-                    <th>JPG</th>
-                    <th>Joint Photographic Experts Group</th>
-                </tr>
-                <tr>
-                    <th>TIFF</th>
-                    <th>Tagged Image File Format</th>
-                </tr>
-                <tr>
-                    <th>JPEG</th>
-                    <th>Joint Photographic Experts Group</th>
-                </tr>
-                <tr>
-                    <th>PCX</th>
-                    <th>PiCture eXchange</th>
-                </tr>
-                <tr>
-                    <th>PNG</th>
-                    <th>Portable Network Graphics</th>
-                </tr>
-                <tr>
-                    <th>PBM</th>
-                    <th>Portable Bitmap</th>
-                </tr>
-                <tr>
-                    <th>PGM</th>
-                    <th>Portable Graymap</th>
-                </tr>
-                <tr>
-                    <th>PPM</th>
-                    <th>Portable Pixmap</th>
-                </tr>
-                <tr>
-                    <th>XBM</th>
-                    <th>X11 Bitmap</th>
-                </tr>
-                <tr>
-                    <th>XPM</th>
-                    <th>X11 Pixmap</th>
-                </tr>
-            </table>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>A</param_name>
+      <param_description>Image data: array.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>map</param_name>
+      <param_description>Colormap: m-by-3 matrix.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>transparency</param_name>
+      <param_description>Transparency information: matrix.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>imread</b> reads the image data from the given file into a matrix.</p>
+    <p />
+    <table style="width:100%">
+      <tr>
+        <th>Format</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <th>BMP</th>
+        <th>Windows Bitmap</th>
+      </tr>
+      <tr>
+        <th>GIF</th>
+        <th>Graphic Interchange Format (optional)</th>
+      </tr>
+      <tr>
+        <th>JPG</th>
+        <th>Joint Photographic Experts Group</th>
+      </tr>
+      <tr>
+        <th>TIFF</th>
+        <th>Tagged Image File Format</th>
+      </tr>
+      <tr>
+        <th>JPEG</th>
+        <th>Joint Photographic Experts Group</th>
+      </tr>
+      <tr>
+        <th>PCX</th>
+        <th>PiCture eXchange</th>
+      </tr>
+      <tr>
+        <th>PNG</th>
+        <th>Portable Network Graphics</th>
+      </tr>
+      <tr>
+        <th>PBM</th>
+        <th>Portable Bitmap</th>
+      </tr>
+      <tr>
+        <th>PGM</th>
+        <th>Portable Graymap</th>
+      </tr>
+      <tr>
+        <th>PPM</th>
+        <th>Portable Pixmap</th>
+      </tr>
+      <tr>
+        <th>XBM</th>
+        <th>X11 Bitmap</th>
+      </tr>
+      <tr>
+        <th>XPM</th>
+        <th>X11 Pixmap</th>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 filename = [tempdir, 'ngc6543a.gif'];
 websave(filename, 'https://solarviews.com/raw/ds/ngc6543a.gif');
 img = imread(filename);
 imagesc(img);]]></example_item_data>
-                <example_item_img
+      <example_item_img
         src="../../images/imread.png"
         align="middle"
         generate="true"
       />
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${graphics}imagesc">imagesc</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${graphics_io}imformats">imformats</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-            <history_item>
-                <history_version>1.13.0</history_version>
-                <history_description
-      >pcx, tiff formats added</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}imagesc">imagesc</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics_io}imformats">imformats</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.13.0</history_version>
+      <history_description>pcx, tiff formats added</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

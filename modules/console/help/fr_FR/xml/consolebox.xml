@@ -1,69 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>consolebox</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>consolebox</keyword>
+  <short_description
   >Affiche ou masque le terminal Windows associé à la session Nelson.</short_description>
-    <syntax>
-        <syntax_item>consolebox(visibility)</syntax_item>
-        <syntax_item>consolebox('toggle')</syntax_item>
-        <syntax_item>status = consolebox('status')</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>visibility</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>consolebox(visibility)</syntax_item>
+    <syntax_item>consolebox('toggle')</syntax_item>
+    <syntax_item>status = consolebox('status')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>visibility</param_name>
+      <param_description
       >un logique : true pour afficher la console, false pour la masquer</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>status</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>status</param_name>
+      <param_description
       >un logique : true si la console est visible, false sinon</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
-    >Affiche ou masque le terminal Windows associé à la session Nelson.</p>
-        <p
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Affiche ou masque le terminal Windows associé à la session Nelson.</p>
+    <p
     >Chaque session Nelson s'exécute dans sa propre console. Lorsque la session Nelson se termine, sa console correspondante est automatiquement terminée.</p>
-        <p
+    <p
     >La console est une fenêtre de terminal noire qui ne peut pas être fermée manuellement — le bouton de fermeture (“X”) dans le coin supérieur droit est désactivé. Forcer sa fermeture mettra également fin à la session Nelson.</p>
-        <p
+    <p
     >Certaines fonctions Nelson de bas niveau (et certaines bibliothèques externes) envoient leurs messages directement à la console.</p>
-        <p
+    <p
     >Comme ces messages pourraient encombrer la console principale de Nelson, ils ne sont pas affichés là-bas.</p>
-        <p
+    <p
     >Activer la console avec consolebox on vous permet de voir ces messages, ce qui peut être très utile pour le débogage.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
       ><![CDATA[consolebox(true)
 pause(10)
 consolebox('toggle')
 pause(10)
 consolebox(false)]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${console}clc">clc</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.15.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${console}clc">clc</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

@@ -1,38 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>esort</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>esort</keyword>
+  <short_description
   >Sort continuous-time poles by real part.</short_description>
-    <syntax>
-        <syntax_item>s = esort(p)</syntax_item>
-        <syntax_item>[s, ndx] = esort(p)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>p</param_name>
-            <param_description>p: a vector</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>s</param_name>
-            <param_description>sorted vector by real part.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>esort</b> arranges the continuous-time poles within the vector <b
+  <syntax>
+    <syntax_item>s = esort(p)</syntax_item>
+    <syntax_item>[s, ndx] = esort(p)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>p: a vector</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description>sorted vector by real part.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>esort</b> arranges the continuous-time poles within the vector<b
       >p</b> based on their real parts.</p>
-            <p
+    <p
     >Unstable eigenvalues take precedence at the beginning of the sorted list, and the rest of the poles are organized in descending order according to their real parts.</p>
-        </description>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[p = [-2.410 + 5.573i;
 -2.410 - 5.573i;
@@ -41,20 +40,20 @@
 -2.590];  
 [s, ndx] = esort(p)    
   ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${control_system}dsort">dsort</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}dsort">dsort</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

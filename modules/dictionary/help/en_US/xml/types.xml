@@ -1,73 +1,71 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>types</keyword>
-    <short_description>Types of dictionary keys and values.</short_description>
-    <syntax>
-        <syntax_item>[keyType, valueType] = types(d)</syntax_item>
-        <syntax_item>keyType = types(d)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>d</param_name>
-            <param_description>scalar: dictionary object.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>keyType</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>types</keyword>
+  <short_description>Types of dictionary keys and values.</short_description>
+  <syntax>
+    <syntax_item>[keyType, valueType] = types(d)</syntax_item>
+    <syntax_item>keyType = types(d)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>d</param_name>
+      <param_description>scalar: dictionary object.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>keyType</param_name>
+      <param_description
       >string scalar: Data type of dictionary keys.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>valueType</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>valueType</param_name>
+      <param_description
       >string scalar: Data type of dictionary values.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >keyType = types(d)</b> returns the data type of the keys in the dictionary.</p>
-            <p>
-                <b
-      >[keyType, valueType] = types(d)</b> returns the data types of the keys and values in the specified dictionary. If the dictionary d is not configured, types returns a string scalar indicating <b
+    <p><b
+      >[keyType, valueType] = types(d)</b> returns the data types of the keys and values in the specified dictionary. If the dictionary d is not configured, types returns a string scalar indicating<b
       >missing</b>.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[names = ["Biil" "John" "Yann"];
 wheels = [1 2 3];
 d = dictionary(wheels, names)
 [keyType, valueType] = types(d)
 ]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${dictionary}dictionary">dictionary</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${dictionary}keys">keys</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${dictionary}values">values</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.5.0</history_version>
-                    <history_description>initial version</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${dictionary}dictionary">dictionary</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dictionary}keys">keys</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dictionary}values">values</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.5.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

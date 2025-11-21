@@ -1,49 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>run</keyword>
-    <short_description>Executes a script file (.m).</short_description>
-    <syntax>
-        <syntax_item>run(script_file)</syntax_item>
-        <syntax_item>run(script_file, 'nocatch')</syntax_item>
-        <syntax_item>bsuccess = run(script_file, 'errcatch')</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>script_file</param_name>
-            <param_description>a string: path of a script</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'nocatch'</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>run</keyword>
+  <short_description>Executes a script file (.m).</short_description>
+  <syntax>
+    <syntax_item>run(script_file)</syntax_item>
+    <syntax_item>run(script_file, 'nocatch')</syntax_item>
+    <syntax_item>bsuccess = run(script_file, 'errcatch')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>script_file</param_name>
+      <param_description>a string: path of a script</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'nocatch'</param_name>
+      <param_description
       >a string: default option (no error catch)</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'errcatch'</param_name>
-            <param_description>a string: error catched</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>bsuccess</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'errcatch'</param_name>
+      <param_description>a string: error catched</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>bsuccess</param_name>
+      <param_description
       >a logical: true if no error detected during script execution</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >run(script_file)</b> executes a Nelson's script file (.m file extension).</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Creates two .m in temp directory to use as example:</example_item_description>
-                <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[fd = fopen([tempdir(), 'example_run_ok.m'], 'wt');
 fprintf(fd, ['A = 1;', char(10)]);
@@ -56,48 +55,48 @@ fprintf(fd, ['AA = 1;', char(10)]);
 fprintf(fd, ['CC = AA + BB', char(10)]);
 fclose(fd);
 ]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >run a script without error.</example_item_description>
-                <example_item_data
+      <example_item_data
       ><![CDATA[run([tempdir(), 'example_run_ok.m']);]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >run a script and catch error (no error).</example_item_description>
-                <example_item_data
+      <example_item_data
       ><![CDATA[bsuccess = run([tempdir(), 'example_run_ok.m'], 'errcatch')]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >run a script and catch error (with error).</example_item_description>
-                <example_item_data
+      <example_item_data
       ><![CDATA[bsuccess = run([tempdir(), 'example_run_not_ok.m'], 'errcatch')]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >run a script and no catch error.</example_item_description>
-                <example_item_data
+      <example_item_data
       ><![CDATA[run([tempdir(), 'example_run_not_ok.m'], 'nocatch');]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${core}execstr">execstr</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}execstr">execstr</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

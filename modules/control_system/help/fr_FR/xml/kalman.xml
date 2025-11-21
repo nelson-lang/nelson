@@ -1,87 +1,84 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>kalman</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>kalman</keyword>
+  <short_description
   >Conception d'un filtre de Kalman pour l'estimation d'état.</short_description>
-    <syntax>
-        <syntax_item>[kalmf, L, P, M, Z] = kalman(sys, Q, R, N)</syntax_item>
-        <syntax_item
+  <syntax>
+    <syntax_item>[kalmf, L, P, M, Z] = kalman(sys, Q, R, N)</syntax_item>
+    <syntax_item
     >[kalmf, L, P, M, Z] = kalman(sys, Q, R, N, sensors, known)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>sys</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>sys</param_name>
+      <param_description
       >Modèle de plante avec bruit de processus : modèle d'état-espace.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Q</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>Q</param_name>
+      <param_description
       >Covariance du bruit de processus : scalaire ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>R</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>R</param_name>
+      <param_description
       >Covariance du bruit de mesure : scalaire ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>N</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>N</param_name>
+      <param_description
       >Covariance croisée du bruit : scalaire ou matrice.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>sensors</param_name>
-            <param_description
-      >Sorties mesurées de sys : vecteur.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>known</param_name>
-            <param_description
-      >Entrées connues de sys : vecteur.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>kalmf</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>sensors</param_name>
+      <param_description>Sorties mesurées de sys : vecteur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>known</param_name>
+      <param_description>Entrées connues de sys : vecteur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>kalmf</param_name>
+      <param_description
       >Estimateur de Kalman : modèle d'état-espace</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>L</param_name>
-            <param_description>Gains du filtre : matrice</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>P</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>L</param_name>
+      <param_description>Gains du filtre : matrice</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>P</param_name>
+      <param_description
       >Covariances de l'erreur à l'état stationnaire : matrice</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>M</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>M</param_name>
+      <param_description
       >Gains d'innovation des estimateurs d'état : matrice</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>Z</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>Z</param_name>
+      <param_description
       >Covariances de l'erreur à l'état stationnaire : matrice</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >[kalmf, L, P] = kalman(sys, Q, R, N)</b> génère un filtre de Kalman en utilisant le modèle de plante fourni <b
       >sys</b> et les matrices de covariance du bruit <b>Q</b>, <b>R</b>, et <b
       >N</b>.</p>
-            <p
+    <p
     >La fonction calcule un filtre de Kalman adapté pour une utilisation dans un estimateur de Kalman, comme montré dans le diagramme correspondant.</p>
-        </description>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [11.269   -0.4940    1.129; 1.0000         0         0;0    1.0000         0];
 B = [-0.3832;  0.5919;  0.5191];
@@ -90,23 +87,23 @@ sys = ss(A,[B, B], C, 0);
 Q = 1;
 R = 1;
 [kEst, l, p, m, z] = kalman(sys, Q, R, [])]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${control_system}care">care</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${control_system}dare">dare</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}care">care</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}dare">dare</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,196 +1,165 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>writematrix</keyword>
-    <short_description>Écrire une matrice dans un fichier.</short_description>
-    <syntax>
-        <syntax_item>writematrix(M)</syntax_item>
-        <syntax_item>writematrix(M, filename)</syntax_item>
-        <syntax_item>writematrix(..., Name, Value)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>M</param_name>
-            <param_description
-      >une matrice numérique ou logique.</param_description>
-        </param_input_item>
-        <param_input_item>
-        <param_name>filename</param_name>
-        <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>writematrix</keyword>
+  <short_description>Écrire une matrice dans un fichier.</short_description>
+  <syntax>
+    <syntax_item>writematrix(M)</syntax_item>
+    <syntax_item>writematrix(M, filename)</syntax_item>
+    <syntax_item>writematrix(..., Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>M</param_name>
+      <param_description>une matrice numérique ou logique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
       >une chaîne : nom de fichier de destination.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>Name, Value </param_name>
-            <param_description>Arguments Nom-Valeur</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>Arguments Nom-Valeur</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b
       >writematrix</b> écrit une matrice numérique dans un fichier au format CSV.</p>
-            <p>
-                <b
+    <p><b
       >writematrix</b> ne prend pas en charge les matrices creuses (sparse).</p>
-                <p>
-                    <b
+    <p><b
       >writematrix</b> formate les données numériques en utilisant le format long G.</p>
-                    <p />
-                    <p>Arguments Nom-Valeur disponibles</p>
-                    <p />
-                    <p
-    >Les paires nom-valeur doivent suivre tous les autres arguments.</p>
-                    <p>L'ordre des paires nom-valeur n'a pas d'importance</p>
-                    <p
+    <p />
+    <p>Arguments Nom-Valeur disponibles</p>
+    <p />
+    <p>Les paires nom-valeur doivent suivre tous les autres arguments.</p>
+    <p>L'ordre des paires nom-valeur n'a pas d'importance</p>
+    <p
     >Les options Delimiter et QuoteStrings ne s'appliquent qu'aux fichiers texte délimités.</p>
-                    <p />
-                    <p>
-                        <b>FileType</b>: Specifies the type of output file</p>
-                        <p>Syntaxe : <b>'FileType','text'</b>
-                    </p>
-                    <p
-    >Prend en charge les fichiers texte délimités (.txt, .dat, .csv)</p>
-                    <p />
-                    <p>
-                        <b
-      >WriteMode</b>: Controls how data is written to the file</p>
-                        <p>Syntaxe : <b>'WriteMode', mode</b>
-                    </p>
-                    <p>Options :</p>
-                    <p
+    <p />
+    <p><b>FileType</b>: Specifies the type of output file</p>
+    <p>Syntaxe : <b>'FileType','text'</b>                      </p>
+    <p>Prend en charge les fichiers texte délimités (.txt, .dat, .csv)</p>
+    <p />
+    <p><b>WriteMode</b>: Controls how data is written to the file</p>
+    <p>Syntaxe : <b>'WriteMode', mode</b>                      </p>
+    <p>Options :</p>
+    <p
     >'overwrite' (par défaut) - crée un nouveau fichier ou remplace le contenu existant</p>
-                    <p
-    >'append' - ajoute les données à la fin du fichier existant</p>
-                    <p
+    <p>'append' - ajoute les données à la fin du fichier existant</p>
+    <p
     >Si le fichier cible n'existe pas, un nouveau fichier sera créé quel que soit le mode.</p>
-                    <p />
-                    <p>
-                        <b
-      >Delimiter</b>: Defines the character used to separate fields</p>
-                        <p>Syntaxe : <b>'Delimiter', delimiter</b>
-                    </p>
-                    <p
+    <p />
+    <p><b>Delimiter</b>: Defines the character used to separate fields</p>
+    <p>Syntaxe : <b>'Delimiter', delimiter</b></p>
+    <p
     >Délimiteurs disponibles : uniquement applicables aux fichiers texte délimités.</p>
-                    <p />
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Spécificateur</th>
-                                <th>Alternative</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <code>','</code>
-                                </td>
-                                <td>
-                                    <code>'comma'</code>
-                                </td>
-                                <td>Virgule (par défaut)</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <code>' '</code>
-                                </td>
-                                <td>
-                                    <code>'space'</code>
-                                </td>
-                                <td>Caractère espace</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <code>'\t'</code>
-                                </td>
-                                <td>
-                                    <code>'tab'</code>
-                                </td>
-                                <td>Tabulation</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <code>';'</code>
-                                </td>
-                                <td>
-                                    <code>'semi'</code>
-                                </td>
-                                <td>Point-virgule</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <code>'|'</code>
-                                </td>
-                                <td>
-                                    <code>'bar'</code>
-                                </td>
-                                <td>Barre verticale</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p />
-                    <p>
-                        <b
+    <table>
+      <thead>
+        <tr>
+          <th>Spécificateur</th>
+          <th>Alternative</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>','</code>
+          </td>
+          <td>
+            <code>'comma'</code>
+          </td>
+          <td>Virgule (par défaut)</td>
+        </tr>
+        <tr>
+          <td>
+            <code>' '</code>
+          </td>
+          <td>
+            <code>'space'</code>
+          </td>
+          <td>Caractère espace</td>
+        </tr>
+        <tr>
+          <td>
+            <code>'\t'</code>
+          </td>
+          <td>
+            <code>'tab'</code>
+          </td>
+          <td>Tabulation</td>
+        </tr>
+        <tr>
+          <td>
+            <code>';'</code>
+          </td>
+          <td>
+            <code>'semi'</code>
+          </td>
+          <td>Point-virgule</td>
+        </tr>
+        <tr>
+          <td>
+            <code>'|'</code>
+          </td>
+          <td>
+            <code>'bar'</code>
+          </td>
+          <td>Barre verticale</td>
+        </tr>
+      </tbody>
+    </table>
+    <p />
+    <p><b
       >QuoteStrings</b> : contrôle le comportement de citation des textes (applicable uniquement aux fichiers texte délimités).</p>
-                        <p>
-                            <b>'QuoteStrings', option</b>
-                        </p>
-                        <p>with <b>options</b>
-                    </p>
-                    <p>
-                        <b
+    <p>
+      <b>'QuoteStrings', option</b>
+    </p>
+    <p>with <b>options</b></p>
+    <p><b
       >'minimal'</b> (par défaut) : cite uniquement les textes contenant des délimiteurs, des fins de ligne ou des guillemets.</p>
-                        <p>
-                            <b>'all'</b> : cite toutes les variables texte.</p>
-                            <p>
-                                <b>'none'</b> : n'utilise pas de guillemets.</p>
-                            </description>
-                            <used_function />
-                            <bibliography />
-                            <examples>
-                                <example_item>
-                                    <example_item_type
-      >nelson</example_item_type>
-                                    <example_item_description />
-                                    <example_item_data
+    <p><b>'all'</b> : cite toutes les variables texte.</p>
+    <p><b>'none'</b> : n'utilise pas de guillemets.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [Inf, -Inf, NaN, 3];
 filename = [tempdir(), 'writematrix_example.csv'];
 writematrix(A, filename);
 R = fileread(filename)
 ]]></example_item_data>
-                                </example_item>
-                            </examples>
-                            <see_also>
-                                <see_also_item>
-                                    <link
-        linkend="${spreadsheet}readcell"
-      >readcell</link>
-                                </see_also_item>
-                                <see_also_item>
-                                    <link
-        linkend="${spreadsheet}csvwrite"
-      >csvwrite</link>
-                                </see_also_item>
-                                <see_also_item>
-                                    <link
-        linkend="${spreadsheet}dlmread"
-      >dlmread</link>
-                                </see_also_item>
-                                <see_also_item>
-                                    <link
-        linkend="${stream_manager}fileread"
-      >fileread</link>
-                                </see_also_item>
-                            </see_also>
-                            <history>
-                                <history_item>
-                                    <history_version>1.10.0</history_version>
-                                    <history_description
-      >version initiale</history_description>
-                                </history_item>
-                            </history>
-                            <authors>
-                                <author_item>Allan CORNET</author_item>
-                            </authors>
-                        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${spreadsheet}readcell">readcell</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}csvwrite">csvwrite</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}dlmread">dlmread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fileread">fileread</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.10.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

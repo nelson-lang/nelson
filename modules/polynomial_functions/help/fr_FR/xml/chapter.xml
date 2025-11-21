@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <module_name>polynomial_functions</module_name>
-    <chapter>Polynomials</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>polynomial_functions</module_name>
+  <chapter>Polynomials</chapter>
+  <chapter_description>
+    <p
     >Le module Polynomials fournit des outils pour créer, manipuler et analyser des polynômes dans Nelson.</p>
-        <p
+    <p
     >Il prend en charge l'évaluation, la différentiation, l'intégration, l'ajustement (fitting), la recherche de racines et les opérations sur polynômes matriciels.</p>
-        <p
+    <p
     >Ce module permet une gestion efficace des expressions polynomiales pour la modélisation mathématique, l'ajustement de courbes et l'analyse numérique.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

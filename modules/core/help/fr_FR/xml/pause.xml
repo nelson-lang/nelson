@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>pause</keyword>
-    <short_description>Met l'exécution en pause.</short_description>
-    <syntax>
-        <syntax_item>state = pause()</syntax_item>
-        <syntax_item>pause(t)</syntax_item>
-        <syntax_item>pause(newState)</syntax_item>
-        <syntax_item>previousState = pause(newState)</syntax_item>
-        <syntax_item>currentState = pause('query')</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>t</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>pause</keyword>
+  <short_description>Met l'exécution en pause.</short_description>
+  <syntax>
+    <syntax_item>state = pause()</syntax_item>
+    <syntax_item>pause(t)</syntax_item>
+    <syntax_item>pause(newState)</syntax_item>
+    <syntax_item>previousState = pause(newState)</syntax_item>
+    <syntax_item>currentState = pause('query')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description
       >t: valeur double. temps (secondes) avant de continuer.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>newState</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>newState</param_name>
+      <param_description
       >une chaîne : 'on' (activer la pause) ou 'off' (désactiver la pause)</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>previousState, currentState</param_name>
-            <param_description>une chaîne : 'on' ou 'off'</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-  <p
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>previousState, currentState</param_name>
+      <param_description>une chaîne : 'on' ou 'off'</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >Met l'exécution du script ou de l'environnement en pause pendant une durée donnée ou jusqu'à une action de l'utilisateur.</p>
-</description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description>un exemple</example_item_description>
-            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>un exemple</example_item_description>
+      <example_item_data
       ><![CDATA[state = pause
 echo('appuyez sur retour pour continuer.')
 pause
@@ -47,20 +47,20 @@ pause('off')
 pause
 pause('on')
 pause(5)]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${time}sleep">sleep</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}sleep">sleep</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

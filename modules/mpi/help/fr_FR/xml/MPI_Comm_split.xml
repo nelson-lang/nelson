@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>MPI_Comm_split</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>MPI_Comm_split</keyword>
+  <short_description
   >Partitionne le groupe associé au communicateur spécifié en un nombre donné de sous-groupes disjoints.</short_description>
-    <syntax>
-        <syntax_item>newcomm = MPI_Comm_split(comm,  color, key)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>comm</param_name>
-            <param_description>objet MPI_Comm.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>color</param_name>
-        <param_description
-      >entier : identifiant du sous-groupe auquel le processus appelant sera affecté. La valeur de <code
-        >color</code> doit être non négative.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>key</param_name>
-        <param_description
+  <syntax>
+    <syntax_item>newcomm = MPI_Comm_split(comm, color, key)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>comm</param_name>
+      <param_description>objet MPI_Comm.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>color</param_name>
+      <param_description
+      >entier : identifiant du sous-groupe auquel le processus appelant sera affecté. La valeur de<code
+        >color</code>doit être non négative.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>key</param_name>
+      <param_description
       >entier : rang relatif du processus appelant dans le groupe du nouveau communicateur.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>newcomm</param_name>
-        <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>newcomm</param_name>
+      <param_description
       >objet MPI_Comm : descripteur d'un nouveau communicateur.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >Partitionne le groupe associé au communicateur spécifié en un nombre donné de sous-groupes disjoints.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >mpiexec([modulepath('mpi'), '/examples/help_examples/MPI_Comm_split.m'], 10)</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="false"
       ><![CDATA[if ~MPI_Initialized()
   MPI_Init();
@@ -65,20 +65,20 @@ disp(['WORLD RANK/SIZE: ',int2str(world_rank), '/', int2str(world_size), ' ROW R
 if MPI_Initialized()
   MPI_Finalize();
 end]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${mpi}MPI_Comm_rank">MPI_Comm_rank</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${mpi}MPI_Comm_rank">MPI_Comm_rank</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

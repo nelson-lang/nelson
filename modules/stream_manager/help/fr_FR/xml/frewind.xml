@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>frewind</keyword>
-        <short_description
-  >Positionne le flux au début du fichier.</short_description>
-    <syntax>
-        <syntax_item>frewind(fid)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>fid</param_name>
-        <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>frewind</keyword>
+  <short_description>Positionne le flux au début du fichier.</short_description>
+  <syntax>
+    <syntax_item>frewind(fid)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fid</param_name>
+      <param_description
       >une valeur entière : descripteur de fichier</param_description>
-        </param_input_item>
-    </param_input>
-        <description>
-        <p>
-            <b>frewind</b> positionne le pointeur au début du fichier</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>frewind</b> positionne le pointeur au début du fichier</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 fileID = fopen([tempdir(), 'frewind.txt'],'wt');
@@ -34,20 +32,20 @@ frewind(fileID);
 fprintf(fileID, 'sun');
 fclose(fileID);
 R = fileread([tempdir(), 'frewind.txt'])]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${stream_manager}fclose">fclose</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}fclose">fclose</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

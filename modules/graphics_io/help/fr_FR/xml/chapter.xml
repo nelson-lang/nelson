@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <module_name>graphics_io</module_name>
-    <chapter>Fonctions d'entrée/sortie graphiques</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>graphics_io</module_name>
+  <chapter>Fonctions d'entrée/sortie graphiques</chapter>
+  <chapter_description>
+    <p
     >Le module Graphics I/O fournit des fonctions pour importer, exporter et gérer le contenu graphique et les formats d'image.</p>
-        <p
+    <p
     >Il prend en charge la lecture et l'écriture de fichiers image, la copie de figures et l'enregistrement de tracés dans divers formats pour l'interopérabilité avec d'autres applications.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

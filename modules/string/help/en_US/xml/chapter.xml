@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>string</module_name>
-    <chapter>String type</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>string</module_name>
+  <chapter>String type</chapter>
+  <chapter_description>
+    <p
     >The String Type module provides comprehensive tools for creating, manipulating, and analyzing text in Nelson.</p>
-        <p
+    <p
     >It supports conversion between character arrays and string arrays, concatenation, trimming, justification, and case conversion.</p>
-        <p
+    <p
     >The module also includes functions for searching, matching, replacing, and formatting strings, enabling flexible text processing for both simple and complex string operations.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

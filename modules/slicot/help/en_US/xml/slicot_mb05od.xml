@@ -1,75 +1,75 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>slicot_mb05od</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>slicot_mb05od</keyword>
+  <short_description
   >Matrix exponential for a real matrix, with accuracy estimate.</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[A_OUT, MDIG, IDIG, IWARN, INFO] = slicot_mb05od(BALANC, NDIAG, DELTA, A_IN)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>BALANC</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>BALANC</param_name>
+      <param_description
       >Specifies whether or not a balancing transformation (done by SLICOT Library routine MB04MD) is required, as follows: = 'N', do not use balancing; = 'S', use balancing (scaling).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>NDIAG</param_name>
-            <param_description
-      >The specified order of the diagonal Pade approximant. In the absence of further information NDIAG should be set to 9.  NDIAG should not exceed 15.  NDIAG greater or equal than 1.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>DELTA</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>NDIAG</param_name>
+      <param_description
+      >The specified order of the diagonal Pade approximant. In the absence of further information NDIAG should be set to 9. NDIAG should not exceed 15. NDIAG greater or equal than 1.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>DELTA</param_name>
+      <param_description
       >The scalar value delta of the problem.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>A_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>A_IN</param_name>
+      <param_description
       >The leading N-by-N part of this array must contain the matrix A of the problem.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>A_OUT</param_name>
-            <param_description
-      > if INFO = 0, the leading N-by-N part of this array contains the solution matrix exp(A * delta).</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>MDIG</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>A_OUT</param_name>
+      <param_description
+      >if INFO = 0, the leading N-by-N part of this array contains the solution matrix exp(A * delta).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>MDIG</param_name>
+      <param_description
       >The minimal number of accurate digits in the 1-norm of exp(A*delta).</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>IDIG</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>IDIG</param_name>
+      <param_description
       >The number of accurate digits in the 1-norm of exp(A*delta) at 95% confidence level.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>IWARN</param_name>
-            <param_description
-      > = 0:  no warning; = 1:  if MDIG = 0 and IDIG greater than 0, warning for possible inaccuracy (the exponential has been computed); = 2:  if MDIG = 0 and IDIG = 0, warning for severe inaccuracy (the exponential has been computed); = 3:  if balancing has been requested, but it failed to reduce the matrix norm and was not actually used.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>INFO</param_name>
-            <param_description
-      >= 0:  successful exit; = 1:  if the norm of matrix A*delta (after a possible balancing) is too large to obtain an accurate result; = 2:  if the coefficient matrix (the denominator of the Pade approximant) is exactly singular; try a different value of NDIAG; = 3:  if the solution exponential would overflow, possibly due to a too large value DELTA; the calculations stopped prematurely. This error is not likely to appear.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
+    </param_output_item>
+    <param_output_item>
+      <param_name>IWARN</param_name>
+      <param_description
+      >= 0: no warning; = 1: if MDIG = 0 and IDIG greater than 0, warning for possible inaccuracy (the exponential has been computed); = 2: if MDIG = 0 and IDIG = 0, warning for severe inaccuracy (the exponential has been computed); = 3: if balancing has been requested, but it failed to reduce the matrix norm and was not actually used.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>INFO</param_name>
+      <param_description
+      >= 0: successful exit; = 1: if the norm of matrix A*delta (after a possible balancing) is too large to obtain an accurate result; = 2: if the coefficient matrix (the denominator of the Pade approximant) is exactly singular; try a different value of NDIAG; = 3: if the solution exponential would overflow, possibly due to a too large value DELTA; the calculations stopped prematurely. This error is not likely to appear.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >To compute exp(A*delta) where A is a real N-by-N matrix and delta is a scalar value. The routine also returns the minimal number of accurate digits in the 1-norm of exp(A*delta) and the number of accurate digits in the 1-norm of exp(A*delta) at 95% confidence level.</p>
-    </description>
-    <used_function>MB05OD</used_function>
-    <bibliography
+  </description>
+  <used_function>MB05OD</used_function>
+  <bibliography
   >http://slicot.org/objects/software/shared/doc/MB05OD.html</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[N = 3;
 NDIAG = 9;
@@ -79,15 +79,15 @@ A_IN = [2.0   1.0   1.0;
    0.0   3.0   2.0;
    1.0   0.0   4.0];
 [A_OUT, MDIG, IDIG, IWARN, INFO] = slicot_mb05od(BALANC, NDIAG, DELTA, A_IN)]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>SLICOT Documentation</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>SLICOT Documentation</author_item>
+  </authors>
 </xmldoc>

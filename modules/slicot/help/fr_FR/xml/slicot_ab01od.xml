@@ -1,116 +1,116 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>slicot_ab01od</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>slicot_ab01od</keyword>
+  <short_description
   >Forme en escalier pour systèmes multi-entrées utilisant des transformations orthogonales d'état et d'entrée.</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[A_OUT, B_OUT, U_OUT, V, NCONT_OUT, INDCON_OUT, KSTAIR_OUT, INFO] = slicot_ab01od(STAGES, JOBU, JOBV, A_IN, B_IN, U_IN, NCONT_IN, INDCON_IN, KSTAIR_IN, TOL)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>STAGES</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>STAGES</param_name>
+      <param_description
       >Spécifie l'étape de réduction : 'F' : effectuer uniquement l'étape avant ; 'B' : effectuer uniquement l'étape arrière ; 'A' : effectuer les deux étapes.</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>JOBU</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>JOBU</param_name>
+      <param_description
       >Indique si l'utilisateur souhaite accumuler dans une matrice U les transformations d'espace d'état : 'N' : ne pas former U ; 'I' : U est initialisée en interne à la matrice identité.</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>JOBV</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>JOBV</param_name>
+      <param_description
       >Indique si l'utilisateur souhaite accumuler dans une matrice V les transformations de l'espace d'entrée : 'N' : ne pas former V ; 'I' : V est initialisée à la matrice identité et la matrice de transformation orthogonale V est retournée.</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>A_IN</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>A_IN</param_name>
+      <param_description
       >La partie principale N-by-N de ce tableau doit contenir la matrice de transition d'état A à transformer.</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>B_IN</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>B_IN</param_name>
+      <param_description
       >La partie principale N-by-M de ce tableau doit contenir la matrice d'entrée B à transformer.</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>U_IN</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>U_IN</param_name>
+      <param_description
       >Si STAGES ≠ 'B' ou JOBU = 'N', U n'a pas besoin d'être fournie à l'entrée. Si STAGES = 'B' et JOBU = 'I', alors à l'entrée, la partie principale N-by-N de ce tableau doit contenir la matrice de transformation U qui a réduit la paire à la forme canonique orthogonale.</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>NCONT_IN</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>NCONT_IN</param_name>
+      <param_description
       >L'ordre de la représentation d'espace d'état controllable. NCONT_IN est en entrée uniquement si STAGES = 'B'.</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>INDCON_IN</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>INDCON_IN</param_name>
+      <param_description
       >Le nombre de marches dans la forme en escalier (aussi l'indice de contrôlabilité de la partie contrôlable de la représentation du système).</param_description>
-        </param_input_item>
-        <param_input_item>
-    <param_name>TOL</param_name>
-    <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>TOL</param_name>
+      <param_description
       >La tolérance utilisée pour la détermination du rang lors de la transformation (A, B).</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-    <param_name>A_OUT</param_name>
-    <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>A_OUT</param_name>
+      <param_description
       >À la sortie, la partie principale N-by-N de ce tableau contient la matrice de transition d'état transformée U' * A * U. La partie principale NCONT-by-NCONT contient la matrice d'état Acont en forme de Hessenberg par blocs, donnée par U' * A * U, d'une réalisation contrôlable du système original. Les éléments sous la première sous-diagonale par blocs sont mis à zéro. Si STAGES ≠ 'F', les blocs sous-diagonaux de A sont triangulés par factorisation RQ et les éléments annulés sont explicitement mis à zéro.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>B_OUT</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>B_OUT</param_name>
+      <param_description
       >À la sortie, si STAGES = 'F', la partie principale N-by-M de ce tableau contient la matrice d'entrée transformée U' * B, avec tous les éléments sauf le premier bloc mis à zéro. Si STAGES ≠ 'F', la partie principale N-by-M contient la matrice transformée U' * B * V, avec tous les éléments sauf le premier bloc mis à zéro et le premier bloc en forme triangulaire supérieure.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>U_OUT</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>U_OUT</param_name>
+      <param_description
       >Si JOBU = 'I', la partie principale N-by-N de ce tableau contient la matrice de transformation U qui a effectué la réduction spécifiée. Si JOBU = 'N', le tableau U n'est pas référencé et peut être fourni comme tableau factice.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>V</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>V</param_name>
+      <param_description
       >Si JOBV = 'I', la partie principale M-by-M de ce tableau contient la matrice de transformation V.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>NCONT_OUT</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>NCONT_OUT</param_name>
+      <param_description
       >NCONT_OUT est en entrée uniquement si STAGES = 'B'.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>INDCON_OUT</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>INDCON_OUT</param_name>
+      <param_description
       >INDCON est en entrée uniquement si STAGES = 'B'.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>KSTAIR_OUT</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>KSTAIR_OUT</param_name>
+      <param_description
       >KSTAIR est en entrée si STAGES = 'B', et en sortie sinon.</param_description>
-        </param_output_item>
-        <param_output_item>
-    <param_name>INFO</param_name>
-    <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>INFO</param_name>
+      <param_description
       >0 : sortie réussie ; si INFO = -i, le i-ème argument avait une valeur illégale.</param_description>
-        </param_output_item>
-    </param_output>
+    </param_output_item>
+  </param_output>
   <description>
     <p
     >Réduire les matrices A et B en utilisant (et en accumulant éventuellement) les transformations d'espace d'état et d'entrée U et V respectivement, telles que la paire de matrices</p>
-    <p>Ac = U' * A * U,    Bc = U' * B * V</p>
+    <p>Ac = U' * A * U, Bc = U' * B * V</p>
   </description>
-    <used_function>AB01OD</used_function>
-    <bibliography
+  <used_function>AB01OD</used_function>
+  <bibliography
   >http://slicot.org/objects/software/shared/doc/AB01OD.html</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[N = 5;
 M = 2;
@@ -139,15 +139,15 @@ NCONT_IN = 1;
 KSTAIR_IN = zeros(1,N);
 [A_OUT, B_OUT, U_OUT, V, NCONT_OUT, INDCON_OUT, KSTAIR_OUT, INFO] = slicot_ab01od(STAGES, JOBU, JOBV, A_IN, B_IN, U_IN, NCONT_IN, INDCON_IN, KSTAIR_IN, TOL)
 ]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>SLICOT Documentation</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>SLICOT Documentation</author_item>
+  </authors>
 </xmldoc>

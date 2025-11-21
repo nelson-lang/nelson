@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>qml_clearcomponentcache</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>qml_clearcomponentcache</keyword>
+  <short_description
   >Vide le cache interne de composants du moteur.</short_description>
-    <syntax>
-        <syntax_item>qml_clearcomponentcache</syntax_item>
-    </syntax>
-    <description>
-        <p
+  <syntax>
+    <syntax_item>qml_clearcomponentcache</syntax_item>
+  </syntax>
+  <description>
+    <p
     >Cette fonction provoque la destruction des métadonnées de propriété de tous les composants précédemment chargés par le moteur.</p>
-        <p
+    <p
     >Tous les composants précédemment chargés et les liaisons de propriété pour tous les objets existants créés à partir de ces composants cesseront de fonctionner.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[qml_clearcomponentcache()]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

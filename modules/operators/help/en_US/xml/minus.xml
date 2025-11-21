@@ -1,75 +1,74 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>minus</keyword>
-    <short_description>Subtraction, - operator</short_description>
-    <syntax>
-        <syntax_item>C = minus(A, B)</syntax_item>
-        <syntax_item>C = A - B</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>A</param_name>
-            <param_description>a variable</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>B</param_name>
-            <param_description>a variable</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>C</param_name>
-            <param_description>result of A - B</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>C = minus(A, B)</b> performs subtraction A - B variables.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>minus</keyword>
+  <short_description>Subtraction, - operator</short_description>
+  <syntax>
+    <syntax_item>C = minus(A, B)</syntax_item>
+    <syntax_item>C = A - B</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a variable</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description>a variable</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>result of A - B</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>C = minus(A, B)</b> performs subtraction A - B variables.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[minus(3, 4)
 3 - 4]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[[1, 2] - 1
 minus([1, 2], 1)]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[ones(0, 0) - 1]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${operators}plus">plus</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${operators}uminus">uminus</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${operators}plus">plus</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}uminus">uminus</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

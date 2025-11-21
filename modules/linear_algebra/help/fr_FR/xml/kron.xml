@@ -1,85 +1,78 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>kron</keyword>
-    <short_description>Produit tensoriel de Kronecker.</short_description>
-    <syntax>
-        <syntax_item>K = kron(A, B)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>A</param_name>
-        <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>kron</keyword>
+  <short_description>Produit tensoriel de Kronecker.</short_description>
+  <syntax>
+    <syntax_item>K = kron(A, B)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description
       >une matrice : scalaires, vecteurs ou matrices.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>B</param_name>
-        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description
       >une matrice : scalaires, vecteurs ou matrices.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>K</param_name>
-        <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>K</param_name>
+      <param_description
       >résultat : produit tensoriel de Kronecker.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >K = kron(A, B)</b> calcule le produit tensoriel de Kronecker des matrices <b
-      >A</b> et <b>B</b>.
-        </p>
-        <p>Pour des matrices</p>
-        <latex>A</latex>
-        <p>de taille</p>
-        <latex>m \times n</latex>
-        <p>et</p>
-        <latex>B</latex>
-        <p>de taille</p>
-        <latex>p \times q</latex>
-        <p>, le produit de Kronecker est :</p>
-        <latex>A \otimes B = \begin{pmatrix} 
-        a_{11}B &amp; a_{12}B &amp; \cdots &amp; a_{1n}B \\
-        a_{21}B &amp; a_{22}B &amp; \cdots &amp; a_{2n}B \\
-        \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
-        a_{m1}B &amp; a_{m2}B &amp; \cdots &amp; a_{mn}B 
-        \end{pmatrix}</latex>
-        <p>Le résultat est une matrice</p>
-        <latex>mp \times nq</latex>
-        <p>.</p>
-    </description>
-        <bibliography
-  >https://en.wikipedia.org/wiki/Kronecker_product</bibliography>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >K = kron(A, B)</b> calcule le produit tensoriel de Kronecker des matrices<b
+      >A</b> et <b>B</b>.</p>
+    <p>Pour des matrices</p>
+    <latex>A</latex>
+    <p>de taille</p>
+    <latex>m \times n</latex>
+    <p>et</p>
+    <latex>B</latex>
+    <p>de taille</p>
+    <latex>p \times q</latex>
+    <p>, le produit de Kronecker est :</p>
+    <latex
+    >A \otimes B = \begin{pmatrix} a_{11}B &amp; a_{12}B &amp; \cdots &amp; a_{1n}B \\ a_{21}B &amp; a_{22}B &amp; \cdots &amp; a_{2n}B \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ a_{m1}B &amp; a_{m2}B &amp; \cdots &amp; a_{mn}B \end{pmatrix}</latex>
+    <p>Le résultat est une matrice</p>
+    <latex>mp \times nq</latex>
+    <p>.</p>
+  </description>
+  <bibliography>https://en.wikipedia.org/wiki/Kronecker_product</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [1, 2; 3, 4];
 B = [0, 5; 6, 7];
 K = kron(A, B)
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${special_functions}cross">cross</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${elementary_functions}hankel">hankel</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}cross">cross</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}hankel">hankel</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

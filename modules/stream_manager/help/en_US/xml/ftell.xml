@@ -1,38 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>ftell</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ftell</keyword>
+  <short_description
   >Returns the offset of the current byte relative to the beginning of a file.</short_description>
-    <syntax>
-        <syntax_item>p = ftell(fid)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>fid</param_name>
-            <param_description>a file descriptor</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>p</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>p = ftell(fid)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fid</param_name>
+      <param_description>a file descriptor</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description
       >an integer value: position of the file pointer as the number of characters from the beginning of the file.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >ftell</b> returns the offset of the current byte relative to the beginning of the file associated with the named stream fid.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[TXT = 'example about ftell.';
 fileID = fopen([tempdir(), 'ftell.txt'],'wt');
@@ -41,29 +40,29 @@ p1 = ftell(fileID)
 fseek(fileID, SEEK_CUR, 'bof');
 p2 = ftell(fileID)
 status = fclose(fileID);]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${stream_manager}fopen">fopen</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${stream_manager}fread">fprintf</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${stream_manager}fclose">fclose</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${stream_manager}fseek">fseek</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}fopen">fopen</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fread">fprintf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fclose">fclose</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fseek">fseek</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

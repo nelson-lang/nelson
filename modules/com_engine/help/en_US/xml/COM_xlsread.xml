@@ -1,90 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>COM_xlsread</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>COM_xlsread</keyword>
+  <short_description
   >Read Microsoft Excel spreadsheet file using COM.</short_description>
-    <syntax>
-        <syntax_item>numeric_data = COM_xlsread(filename)</syntax_item>
-        <syntax_item>numeric_data = COM_xlsread(filename, sheet)</syntax_item>
-        <syntax_item>numeric_data = COM_xlsread(filename, range)</syntax_item>
-        <syntax_item
+  <syntax>
+    <syntax_item>numeric_data = COM_xlsread(filename)</syntax_item>
+    <syntax_item>numeric_data = COM_xlsread(filename, sheet)</syntax_item>
+    <syntax_item>numeric_data = COM_xlsread(filename, range)</syntax_item>
+    <syntax_item
     >numeric_data = COM_xlsread(filename, sheet, range)</syntax_item>
-        <syntax_item
+    <syntax_item
     >numeric_data = COM_xlsread(filename, sheet, range)</syntax_item>
-        <syntax_item
+    <syntax_item
     >[numeric_data, txt_data, raw_data] = COM_xlsread(filename)</syntax_item>
-        <syntax_item
+    <syntax_item
     >[numeric_data, txt_data, raw_data] = COM_xlsread(filename, sheet)</syntax_item>
-        <syntax_item
+    <syntax_item
     >[numeric_data, txt_data, raw_data] = COM_xlsread(filename, range)</syntax_item>
-        <syntax_item
+    <syntax_item
     >[numeric_data, txt_data, raw_data] = COM_xlsread(filename, sheet, range)</syntax_item>
-        <syntax_item
+    <syntax_item
     >[numeric_data, txt_data, raw_data] = COM_xlsread(filename, sheet, range)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description
-      >a string: an existing filename.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>sheet</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: an existing filename.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sheet</param_name>
+      <param_description
       >an integer or a string: sheet id or sheet name</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>range</param_name>
-            <param_description>an string: an range xx:xx</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>numeric_data</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>range</param_name>
+      <param_description>an string: an range xx:xx</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>numeric_data</param_name>
+      <param_description
       >a matrix or vector: string data converted to double.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>txt_data</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>txt_data</param_name>
+      <param_description
       >a cell of strings with only strings.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>raw_data</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>raw_data</param_name>
+      <param_description
       >a cell of strings: raw data without conversion.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <b
+    </param_output_item>
+  </param_output>
+  <description><b
     >COM_xlsread</b> read Microsoft Excel spreadsheet file using COM.</description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[data = {'Time', 'Temp'; 12 98; 13 99; Inf 97};
 s = COM_xlswrite([tempdir(), 'example_xlswrite_2.xlsx'], data, 'Temperatures');
 [numeric_data, txt_data, raw_data] = COM_xlsread([tempdir(), 'example_xlswrite_2.xlsx'])]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${com_engine}COM_xlswrite">COM_xlswrite</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${com_engine}COM_xlswrite">COM_xlswrite</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,135 +1,133 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>pyrunfile</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>pyrunfile</keyword>
+  <short_description
   >Exécuter un fichier Python depuis Nelson.</short_description>
-    <syntax>
-        <syntax_item>pyrunfile(filename)</syntax_item>
-        <syntax_item>pyrunfile(filename input)</syntax_item>
-        <syntax_item>outvars = pyrunfile(filename, outputs)</syntax_item>
-        <syntax_item
+  <syntax>
+    <syntax_item>pyrunfile(filename)</syntax_item>
+    <syntax_item>pyrunfile(filename input)</syntax_item>
+    <syntax_item>outvars = pyrunfile(filename, outputs)</syntax_item>
+    <syntax_item
     >outvars = pyrunfile(filename, outputs, pyName, pyValue, ...)</syntax_item>
-    </syntax>
-    <param_input>
-                <param_input_item>
-                        <param_name>filename</param_name>
-                        <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
       >un scalaire string, vecteur de caractères : nom du fichier .py à exécuter.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>"filename 'input'"</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>"filename 'input'"</param_name>
+      <param_description
       >un scalaire string, vecteur de caractères : nom du fichier .py à exécuter avec arguments d'entrée.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>pyName, pyValue</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>pyName, pyValue</param_name>
+      <param_description
       >noms et valeurs des arguments d'entrée</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>outputs</param_name>
-                        <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>outputs</param_name>
+      <param_description
       >tableau de chaînes : noms de variables Python.</param_description>
-                </param_input_item>
-    </param_input>
-    <param_output>
-                <param_output_item>
-                        <param_name>outvars</param_name>
-                        <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>outvars</param_name>
+      <param_description
       >Une ou plusieurs variables de l'espace de travail Nelson renvoyées sous des types Python valides.</param_description>
-                </param_output_item>
-    </param_output>
-    <description>
-      <p>
-        <b>pyrunfile(filename)</b> exécute un fichier Python.</p>
-        <p>Contrairement à la fonction <b
-      >pyrun</b>, les variables générées dans l'espace Python par <b
-      >pyrunfile</b> ne persistent pas. Ainsi, les appels suivants à <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>pyrunfile(filename)</b> exécute un fichier Python.</p>
+    <p>Contrairement à la fonction <b
+      >pyrun</b>, les variables générées dans l'espace Python par<b
+      >pyrunfile</b> ne persistent pas. Ainsi, les appels suivants à<b
       >pyrunfile</b> ne pourront pas accéder à ces variables.</p>
-        <p>Le code <b
+    <p>Le code<b
       >outvars = pyrunfile(file, outputs, pyName1, pyValue2, ..., pyNameN, pyValueN)</b> exécute le code avec une ou plusieurs paires nom-valeur en entrée.</p>
-        <p>Limitation connue :</p>
-        <p>Les fonctions <b>pyrun</b> et <b
+    <p>Limitation connue :</p>
+    <p>Les fonctions <b>pyrun</b> et<b
       >pyrunfile</b> ne prennent pas en charge les classes contenant des variables locales initialisées par d'autres variables locales via des méthodes. Dans ce cas, il est conseillé de créer un module et d'y accéder.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>Python</example_item_type>
-                <example_item_description
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>Python</example_item_type>
+      <example_item_description
       >pyrunfile_example_1.py</example_item_description>
-                <example_item_data
+      <example_item_data
       ><![CDATA[content = "hello Nelson"
 print(content)]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
-      >pyrunfile from Nelson</example_item_description>
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>pyrunfile from Nelson</example_item_description>
+      <example_item_data
       ><![CDATA[pyrunfile('pyrunfile_example_1.py')]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>Python</example_item_type>
-                <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>Python</example_item_type>
+      <example_item_description
       >pyrunfile_example_2.py</example_item_description>
-                <example_item_data
+      <example_item_data
       ><![CDATA[import sys
 print('greetings from:')
 for arg in sys.argv[0:]:
     print(arg)
 ]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >pyrunfile from Nelson with arguments</example_item_description>
-                <example_item_data
+      <example_item_data
       ><![CDATA[pyrunfile('pyrunfile_example_2.py "Hello" "world"')]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>Python</example_item_type>
-                <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>Python</example_item_type>
+      <example_item_description
       >pyrunfile_example_3.py</example_item_description>
-                <example_item_data
+      <example_item_data
       ><![CDATA[def minus(a,c):
     b = a-c
     return b
 
 z = minus(x, y)
 ]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >pyrunfile from Nelson with values from Nelson</example_item_description>
-                <example_item_data
+      <example_item_data
       ><![CDATA[pyrunfile('pyrunfile_example_3.py', 'x', 5, 'y', 3)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${python_engine}pyrun">pyrun</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${python_engine}pyenv">pyenv</link>
-            </see_also_item>
-            <see_also_item>
-                <link
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${python_engine}pyrun">pyrun</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${python_engine}pyenv">pyenv</link>
+    </see_also_item>
+    <see_also_item>
+      <link
         linkend="${python_engine}3_python_types"
       >Python types supported</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.4.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.4.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

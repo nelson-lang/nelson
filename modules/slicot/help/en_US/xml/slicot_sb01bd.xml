@@ -1,114 +1,114 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>slicot_sb01bd</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>slicot_sb01bd</keyword>
+  <short_description
   >Pole assignment for a given matrix pair (A,B).</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[A_OUT, WR_OUT, WI_OUT, NFP, NAP, NUP, F, Z, IWARN, INFO] = slicot_sb01bd(DICO, ALPHA, A_IN, B_IN, WR_IN, WI_IN, TOL)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>DICO</param_name>
-            <param_description
-      >Specifies the type of the original system.'C':  continuous-time system;'D':  discrete-time system.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ALPHA</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>DICO</param_name>
+      <param_description
+      >Specifies the type of the original system.'C': continuous-time system;'D': discrete-time system.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ALPHA</param_name>
+      <param_description
       >Specifies the maximum admissible value.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>A_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>A_IN</param_name>
+      <param_description
       >the leading N-by-N part of this array must contain the state dynamics matrix A.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>B_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>B_IN</param_name>
+      <param_description
       >The leading N-by-M part of this array must contain the input/state matrix.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>WR_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>WR_IN</param_name>
+      <param_description
       >contains the real parts of the desired eigenvalues of the closed-loop system state-matrix A+B*F.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>WI_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>WI_IN</param_name>
+      <param_description
       >contains the imaginary parts of the desired eigenvalues of the closed-loop system state-matrix A+B*F.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>TOL</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>TOL</param_name>
+      <param_description
       >The absolute tolerance level below which the elements of A or B are considered zero (used for controllability tests).</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>A_OUT</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>A_OUT</param_name>
+      <param_description
       >the leading N-by-N part of this array contains the matrix Z'*(A+B*F)*Z in a real Schur form.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>WR_OUT</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>WR_OUT</param_name>
+      <param_description
       >if INFO = 0, the leading NAP elements of these arrays contain the real parts of the assigned eigenvalues. The trailing NP-NAP elements contain the unassigned eigenvalues.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>WI_OUT</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>WI_OUT</param_name>
+      <param_description
       >if INFO = 0, the leading NAP elements of these arrays contain the imaginary parts of the assigned eigenvalues. The trailing NP-NAP elements contain the unassigned eigenvalues.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>NFP</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>NFP</param_name>
+      <param_description
       >The number of eigenvalues of A having real parts less than ALPHA, if DICO = 'C', or moduli less than ALPHA, if DICO = 'D'. These eigenvalues are not modified by the eigenvalue assignment algorithm.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>NAP</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>NAP</param_name>
+      <param_description
       >The number of assigned eigenvalues. If INFO = 0 on exit, then NAP = N-NFP-NUP.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>NUP</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>NUP</param_name>
+      <param_description
       >The number of uncontrollable eigenvalues detected by the eigenvalue assignment algorithm.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>F</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>F</param_name>
+      <param_description
       >The leading M-by-N part of this array contains the state feedback F, which assigns NAP closed-loop eigenvalues and keeps unaltered N-NAP open-loop eigenvalues.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>Z</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>Z</param_name>
+      <param_description
       >The leading N-by-N part of this array contains the orthogonal matrix Z which reduces the closed-loop system state matrix A + B*F to upper real Schur form.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>IWARN</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>IWARN</param_name>
+      <param_description
       >= 0:  no warning; = K:  K violations of the numerical stability condition.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>INFO</param_name>
-            <param_description>= 0:  successful exit;</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
+    </param_output_item>
+    <param_output_item>
+      <param_name>INFO</param_name>
+      <param_description>= 0:  successful exit;</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >To determine the state feedback matrix F for a given system (A,B) such that the closed-loop state matrix A+B*F has specified eigenvalues.</p>
-    </description>
-    <used_function>SB01BD</used_function>
-    <bibliography
+  </description>
+  <used_function>SB01BD</used_function>
+  <bibliography
   >http://slicot.org/objects/software/shared/doc/SB01BD.html</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[N = 4;
 M = 2;
@@ -132,15 +132,15 @@ WI_IN = [ 0.1500; -0.1500];
   
 [A_OUT, WR_OUT, WI_OUT, NFP, NAP, NUP, F, Z, IWARN, INFO] = slicot_sb01bd(DICO, ALPHA, A_IN, B_IN, WR_IN, WI_IN, TOL)
 ]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>SLICOT Documentation</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>SLICOT Documentation</author_item>
+  </authors>
 </xmldoc>

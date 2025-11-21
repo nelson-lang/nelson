@@ -1,61 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>h5ls</keyword>
-    <short_description>Liste le contenu d'un fichier HDF5.</short_description>
-    <syntax>
-        <syntax_item>h5ls(filename)</syntax_item>
-        <syntax_item>R = h5ls(filename)</syntax_item>
-        <syntax_item>h5ls(filename, location)</syntax_item>
-        <syntax_item>R = h5ls(filename, location)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description>a string: hdf5 filename.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>location</param_name>
-            <param_description
-      >a string: name of the path to list.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>R</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>h5ls</keyword>
+  <short_description>Liste le contenu d'un fichier HDF5.</short_description>
+  <syntax>
+    <syntax_item>h5ls(filename)</syntax_item>
+    <syntax_item>R = h5ls(filename)</syntax_item>
+    <syntax_item>h5ls(filename, location)</syntax_item>
+    <syntax_item>R = h5ls(filename, location)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: hdf5 filename.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>location</param_name>
+      <param_description>a string: name of the path to list.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description
       >un tableau (cell) de chaînes en deux colonnes (la première colonne donne les noms et la seconde le type des éléments listés).</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p><b>h5ls</b> liste le contenu d'un fichier HDF5.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>h5ls</b> liste le contenu d'un fichier HDF5.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[h5create([tempdir(), 'myfile.h5'],'/myDataset2',[10 20]);
 h5ls([tempdir(), 'myfile.h5'])
 R = h5ls([tempdir(), 'myfile.h5'])]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${hdf5}h5dump">h5dump</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${hdf5}h5dump">h5dump</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

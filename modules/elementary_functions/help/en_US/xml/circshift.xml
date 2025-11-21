@@ -1,65 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>circshift</keyword>
-    <short_description>Circular shift</short_description>
-    <syntax>
-        <syntax_item>R = circshift(M, N)</syntax_item>
-        <syntax_item>R = circshift(M, N, DIM)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>M</param_name>
-            <param_description>a variable</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>N</param_name>
-            <param_description>shift</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>DIM</param_name>
-            <param_description>dimension to operate</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>R</param_name>
-            <param_description>result of 'circshift'.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>circshift</b> computes circular shift.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>circshift</keyword>
+  <short_description>Circular shift</short_description>
+  <syntax>
+    <syntax_item>R = circshift(M, N)</syntax_item>
+    <syntax_item>R = circshift(M, N, DIM)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>M</param_name>
+      <param_description>a variable</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>N</param_name>
+      <param_description>shift</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>DIM</param_name>
+      <param_description>dimension to operate</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description>result of 'circshift'.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>circshift</b> computes circular shift.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[x = [10, 20, 30; 40, 50, 60; 70, 80, 90];
 circshift (x, 1
 circshift (x, -2))]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${elementary_functions}repmat">repmat</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${elementary_functions}reshape">reshape</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}repmat">repmat</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}reshape">reshape</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

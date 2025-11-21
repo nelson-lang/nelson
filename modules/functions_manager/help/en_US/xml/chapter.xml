@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>functions_manager</module_name>
-    <chapter>Functions manager</chapter>
-    <chapter_description>
-        <p
-    >Functions manager provides tools to manage and interact with Nelson's function search path and function types.</p> 
-        <p
-    >It includes commands to add or remove directories from the search path, execute built-in functions, clear built-in functions, evaluate functions, and more.</p> 
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>functions_manager</module_name>
+  <chapter>Functions manager</chapter>
+  <chapter_description>
+    <p
+    >Functions manager provides tools to manage and interact with Nelson's function search path and function types.</p>
+    <p
+    >It includes commands to add or remove directories from the search path, execute built-in functions, clear built-in functions, evaluate functions, and more.</p>
+    <p
     >Utilities are available to check for the existence of built-in, macro, or mex functions.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

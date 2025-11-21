@@ -1,54 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>waitforbuttonpress</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>waitforbuttonpress</keyword>
+  <short_description
   >Attendre un clic ou une pression sur une touche.</short_description>
-    <syntax>
-        <syntax_item>w = waitforbuttonpress()</syntax_item>
-    </syntax>
-    <param_output>
-        <param_output_item>
-            <param_name>w</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>w = waitforbuttonpress()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>w</param_name>
+      <param_description
       >Une valeur double scalaire : 0 pour un clic de souris, 1 pour une pression sur une touche.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >w = waitforbuttonpress()</b> met en pause l'exécution du code jusqu'à ce que l'utilisateur interagisse avec la figure actuelle en cliquant sur un bouton de la souris ou en appuyant sur une touche.
-        </p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data runnable="adv-cli">
-<![CDATA[cf = gcf();
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >w = waitforbuttonpress()</b> met en pause l'exécution du code jusqu'à ce que l'utilisateur interagisse avec la figure actuelle en cliquant sur un bouton de la souris ou en appuyant sur une touche.          </p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[cf = gcf();
 w = waitforbuttonpress;
-axes;]]>
-            </example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${graphics}figure">figure</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${graphics}gcf">gcf</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.7.0</history_version>
-            <history_description>Version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+axes;]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}figure">figure</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}gcf">gcf</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description>Version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

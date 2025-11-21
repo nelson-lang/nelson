@@ -1,53 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>sleep</keyword>
-    <short_description>Met en pause l'exécution du code.</short_description>
-    <syntax>
-        <syntax_item>sleep(sec)</syntax_item>
-    </syntax>
-    <param_input>
-                <param_input_item>
-                        <param_name>n</param_name>
-                        <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>sleep</keyword>
+  <short_description>Met en pause l'exécution du code.</short_description>
+  <syntax>
+    <syntax_item>sleep(sec)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description
       >un double : durée de la pause en secondes (nombre décimal).</param_description>
-                </param_input_item>
-    </param_input>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b
       >sleep</b> met en pause l'exécution de Nelson pendant un nombre spécifié de secondes.</p>
-            <p>Une interruption CTRL-C arrête la fonction <b>sleep</b>.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    <p>Une interruption CTRL-C arrête la fonction <b>sleep</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[tic();sleep(1);toc()
 tic();sleep(0.1);toc()
 tic();sleep(0.01);toc()]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${time}tic">tic</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${time}toc">toc</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}tic">tic</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}toc">toc</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

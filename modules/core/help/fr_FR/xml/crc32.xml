@@ -1,99 +1,98 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>crc32</keyword>
-    <short_description>Calcul du CRC32.</short_description>
-    <syntax>
-        <syntax_item>hexa_hash = crc32(str)</syntax_item>
-        <syntax_item>hexa_hash = crc32(filename)</syntax_item>
-        <syntax_item>hexa_hash = crc32(str, '-file')</syntax_item>
-        <syntax_item>hexa_hash = crc32(str, '-string')</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>str</param_name>
-            <param_description
-      >chaîne ou octets : données à hacher</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>crc32</keyword>
+  <short_description>Calcul du CRC32.</short_description>
+  <syntax>
+    <syntax_item>hexa_hash = crc32(str)</syntax_item>
+    <syntax_item>hexa_hash = crc32(filename)</syntax_item>
+    <syntax_item>hexa_hash = crc32(str, '-file')</syntax_item>
+    <syntax_item>hexa_hash = crc32(str, '-string')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>str</param_name>
+      <param_description>chaîne ou octets : données à hacher</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
       >une chaîne : nom de fichier existant : le contenu du fichier sera haché.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'-file' or '-string'</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'-file' or '-string'</param_name>
+      <param_description
       >force le hachage comme contenu de fichier ou de chaîne.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>hexa_hash</param_name>
-            <param_description>entier : valeur CRC32</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-  <p>Calcule la valeur CRC32 d'une chaîne de caractères ou d'un fichier.</p>
-</description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>hexa_hash</param_name>
+      <param_description>entier : valeur CRC32</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Calcule la valeur CRC32 d'une chaîne de caractères ou d'un fichier.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[R = crc32('Nelson')]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[R = crc32({'Hello', 'World'})]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[R = crc32(["Hello"; "World"])]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[R = crc32([modulepath('matio', 'tests'), '/mat/test_char_array_unicode_7.4_GLNX86.mat'])]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[R = crc32([modulepath('matio', 'tests'), '/mat/test_char_array_unicode_7.4_GLNX86.mat'], '-file')]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[R = crc32([modulepath('matio', 'tests'), '/mat/test_char_array_unicode_7.4_GLNX86.mat'], '-string')]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${core}sha256">sha256</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.15.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}sha256">sha256</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

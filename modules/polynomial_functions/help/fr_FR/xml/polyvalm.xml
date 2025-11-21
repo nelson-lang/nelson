@@ -1,56 +1,54 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>polyvalm</keyword>
-    <short_description>Évaluation de polynôme matriciel.</short_description>
-    <syntax>
-        <syntax_item>Y = polyvalm(p, X)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>p</param_name>
-            <param_description
-      >vecteur : coefficients du polynôme</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>X</param_name>
-            <param_description
-      >matrice carrée : matrice d'entrée</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>Y</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>polyvalm</keyword>
+  <short_description>Évaluation de polynôme matriciel.</short_description>
+  <syntax>
+    <syntax_item>Y = polyvalm(p, X)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>vecteur : coefficients du polynôme</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>matrice carrée : matrice d'entrée</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Y</param_name>
+      <param_description
       >vecteur ligne : coefficients polynomiaux de sortie (ou résultat du polynôme matriciel)</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p><b>polyvalm</b> évalue un polynôme matriciel.</p>
-    </description>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>polyvalm</b> évalue un polynôme matriciel.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 R = polyvalm ([1, 2, 3, 4], [3, -4, 1; -2, 0, 2; -1, 4, -3])]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${polynomial_functions}polyval">polyval</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${polynomial_functions}polyval">polyval</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,65 +1,65 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>size</keyword>
-    <short_description>Size of an object.</short_description>
-    <syntax>
-        <syntax_item>s = size(X)</syntax_item>
-        <syntax_item>sdim = size(X, dim)</syntax_item>
-        <syntax_item>vec = size(X, dims)</syntax_item>
-        <syntax_item>[r, c] = size(X)</syntax_item>
-        <syntax_item>[s1, ... , sn] = size(X)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>X</param_name>
-            <param_description>a variable</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>dim</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>size</keyword>
+  <short_description>Size of an object.</short_description>
+  <syntax>
+    <syntax_item>s = size(X)</syntax_item>
+    <syntax_item>sdim = size(X, dim)</syntax_item>
+    <syntax_item>vec = size(X, dims)</syntax_item>
+    <syntax_item>[r, c] = size(X)</syntax_item>
+    <syntax_item>[s1, ... , sn] = size(X)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>a variable</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description
       >a variable: a positive integer to get the dimth dimension.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>dims</param_name>
-            <param_description
-      >a variable: a vector of  positive integer to get the dimth dimensions.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>s</param_name>
-            <param_description
-      > a row vector whose elements contain the length of the corresponding dimension of X.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>sdim</param_name>
-            <param_description>the length of dimension dim.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>vec</param_name>
-            <param_description>length of dimensions dims.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>[r, c]</param_name>
-            <param_description>number of rows and columns.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>[s1, ... , sn]</param_name>
-            <param_description>numbers with integer values.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p />
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+    </param_input_item>
+    <param_input_item>
+      <param_name>dims</param_name>
+      <param_description
+      >a variable: a vector of positive integer to get the dimth dimensions.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description
+      >a row vector whose elements contain the length of the corresponding dimension of X.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>sdim</param_name>
+      <param_description>the length of dimension dim.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>vec</param_name>
+      <param_description>length of dimensions dims.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>[r, c]</param_name>
+      <param_description>number of rows and columns.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>[s1, ... , sn]</param_name>
+      <param_description>numbers with integer values.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p />
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[X = rand(3, 4, 5, 6);
 size(X)
@@ -67,30 +67,30 @@ size(X, 3)
 size(X, [2 4])
 [r, c] =size(X)
 [s1, s2, s3, s4] = size(X)]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[size(cell(4,3))]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${elementary_functions}length">length</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${elementary_functions}ndims">ndims</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}length">length</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}ndims">ndims</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

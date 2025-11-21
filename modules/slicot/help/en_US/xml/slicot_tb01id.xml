@@ -1,84 +1,83 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>slicot_tb01id</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>slicot_tb01id</keyword>
+  <short_description
   >Balancing a system matrix corresponding to a triplet (A, B, C).</short_description>
-    <syntax>
-        <syntax_item
+  <syntax>
+    <syntax_item
     >[MAXRED_OUT, A_OUT, B_OUT, C_OUT, SCALE, INFO] = slicot_tb01id(JOB, MAXRED_IN, A_IN, B_IN, C_IN)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>JOB</param_name>
-            <param_description
-      > = 'A':  All matrices are involved in balancing; = 'B':  B and A matrices are involved in balancing; = 'C':  C and A matrices are involved in balancing; = 'N':  B and C matrices are not involved in balancing.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>MAXRED_IN</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>JOB</param_name>
+      <param_description
+      >= 'A': All matrices are involved in balancing; = 'B': B and A matrices are involved in balancing; = 'C': C and A matrices are involved in balancing; = 'N': B and C matrices are not involved in balancing.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>MAXRED_IN</param_name>
+      <param_description
       >the maximum allowed reduction in the 1-norm of S (in an iteration) if zero rows or columns are encountered.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>A_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>A_IN</param_name>
+      <param_description
       >The leading N-by-N part of this array must contain the system state matrix A.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>B_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>B_IN</param_name>
+      <param_description
       >The leading N-by-M part of this array must contain the system input matrix B.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>C_IN</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>C_IN</param_name>
+      <param_description
       >The leading P-by-N part of this array must contain the system output matrix C.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>MAXRED_OUT</param_name>
-            <param_description
-      > if the 1-norm of the given matrix S is non-zero, the ratio between the 1-norm of the given matrix and the 1-norm of the balanced matrix.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>A_OUT</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>MAXRED_OUT</param_name>
+      <param_description
+      >if the 1-norm of the given matrix S is non-zero, the ratio between the 1-norm of the given matrix and the 1-norm of the balanced matrix.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>A_OUT</param_name>
+      <param_description
       >The leading N-by-N part of this array contains the balanced matrix inv(D)*A*D.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>B_OUT</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>B_OUT</param_name>
+      <param_description
       >The leading N-by-M part of this array contains the balanced matrix inv(D)*B.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>C_OUT</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>C_OUT</param_name>
+      <param_description
       >The leading P-by-N part of this array contains the balanced matrix C*D.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>SCALE</param_name>
-            <param_description
-      >The scaling factors applied to S.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>INFO</param_name>
-            <param_description> = 0:  successful exit.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p
+    </param_output_item>
+    <param_output_item>
+      <param_name>SCALE</param_name>
+      <param_description>The scaling factors applied to S.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>INFO</param_name>
+      <param_description>= 0: successful exit.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
     >To reduce the 1-norm of a system matrix corresponding to the triple (A,B,C), by balancing.</p>
-    </description>
-    <used_function>TB01ID</used_function>
-    <bibliography
+  </description>
+  <used_function>TB01ID</used_function>
+  <bibliography
   >http://slicot.org/objects/software/shared/doc/TB01ID.html</bibliography>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[N = 5;
 M = 2;
@@ -104,15 +103,15 @@ C_IN = [1.0000e+000          0.0          0.0          0.0          0.0;
   6.6640e-001          0.0 -6.2000e-013          0.0          0.0;
           0.0          0.0 -1.0000e-003  1.8960e+006  1.5080e+002];
 [MAXRED_OUT, A_OUT, B_OUT, C_OUT, SCALE, INFO] = slicot_tb01id(JOB, MAXRED_IN, A_IN, B_IN, C_IN)]]></example_item_data>
-        </example_item>
-    </examples>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>initial version</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>SLICOT Documentation</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>SLICOT Documentation</author_item>
+  </authors>
 </xmldoc>

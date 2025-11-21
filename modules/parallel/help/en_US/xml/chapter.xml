@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>parallel</module_name>
-    <chapter>Parallel</chapter>
-    <chapter_description>
-        <p
-    >The parallel module provides tools for running computations asynchronously in the
-            background, managing task scheduling, and retrieving results.</p>
-        <p
-    >It enables Nelson programs to execute functions concurrently, improving efficiency and
-            responsiveness by offloading work to background workers.</p>
-    </chapter_description>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>parallel</module_name>
+  <chapter>Parallel</chapter>
+  <chapter_description>
+    <p
+    >The parallel module provides tools for running computations asynchronously in the background, managing task scheduling, and retrieving results.</p>
+    <p
+    >It enables Nelson programs to execute functions concurrently, improving efficiency and responsiveness by offloading work to background workers.</p>
+  </chapter_description>
 </xmldoc>

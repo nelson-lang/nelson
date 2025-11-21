@@ -1,62 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>arrayfun</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>arrayfun</keyword>
+  <short_description
   >Apply a function to each element of an array.</short_description>
-    <syntax>
-        <syntax_item>B = arrayfun(func, A)</syntax_item>
-        <syntax_item>B = arrayfun(func, A1, ..., An)</syntax_item>
-        <syntax_item>B = arrayfun(..., 'UniformOutput', false)</syntax_item>
-        <syntax_item>[B1, ..., Bm] = arrayfun(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>func</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>B = arrayfun(func, A)</syntax_item>
+    <syntax_item>B = arrayfun(func, A1, ..., An)</syntax_item>
+    <syntax_item>B = arrayfun(..., 'UniformOutput', false)</syntax_item>
+    <syntax_item>[B1, ..., Bm] = arrayfun(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>func</param_name>
+      <param_description
       >function handle to apply on each element. Must return scalar unless 'UniformOutput' is false.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>A, A1, ..., An</param_name>
-            <param_description
-      >input arrays of the same size.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'UniformOutput'</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>A, A1, ..., An</param_name>
+      <param_description>input arrays of the same size.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'UniformOutput'</param_name>
+      <param_description
       >logical scalar. If false, outputs are returned in a cell array.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>B, B1, ..., Bm</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B, B1, ..., Bm</param_name>
+      <param_description
       >outputs of function applied elementwise. Cell array if 'UniformOutput' is false.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>arrayfun(func, A)</b> applies the function <b
-      >func</b> to each element of array <b>A</b>, and returns the result in <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>arrayfun(func, A)</b> applies the function<b
+      >func</b> to each element of array <b>A</b>, and returns the result in<b
       >B</b> with the same size as <b>A</b>.</p>
-            <p>
-                <b>arrayfun(func, A1, ..., An)</b> applies <b
+    <p><b>arrayfun(func, A1, ..., An)</b> applies<b
       >func</b> to corresponding elements of input arrays. All arrays must be the same size.</p>
-                <p>Use the <b>'UniformOutput'</b> option set to <b
+    <p>Use the <b>'UniformOutput'</b> option set to<b
       >false</b> to allow output values that cannot be concatenated into a single array. In this case, the result is a cell array.</p>
-                <p>
-                    <b
+    <p><b
       >[B1, ..., Bm] = arrayfun(...)</b> captures multiple outputs from the applied function.</p>
-                </description>
-                <used_function />
-                <bibliography />
-                <examples>
-                    <example_item>
-                        <example_item_type>nelson</example_item_type>
-                        <example_item_description
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Apply mean to structure field</example_item_description>
-                        <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 S(1).f1 = rand(1, 5);
@@ -64,44 +60,43 @@ S(2).f1 = rand(1, 10);
 S(3).f1 = rand(1, 15);
 means = arrayfun(@(x) mean(x.f1), S);
 ]]></example_item_data>
-                    </example_item>
-                    <example_item>
-                        <example_item_type>nelson</example_item_type>
-                        <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Return multiple outputs from function</example_item_description>
-                        <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 f = @(x) deal(x, x^2);
 [A, B] = arrayfun(f, 1:4);
 ]]></example_item_data>
-                    </example_item>
-                    <example_item>
-                        <example_item_type>nelson</example_item_type>
-                        <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >Return variable-sized outputs in a cell array</example_item_description>
-                        <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 S(1).f1 = rand(3,5);
 S(2).f1 = rand(2,6);
 A = arrayfun(@(x) mean(x.f1), S, 'UniformOutput', false);
 ]]></example_item_data>
-                    </example_item>
-                </examples>
-                <see_also>
-                    <see_also_item>
-                        <link linkend="${data_structures}cellfun">cellfun</link>
-                    </see_also_item>
-                </see_also>
-                <history>
-                    <history_item>
-                        <history_version>1.14.0</history_version>
-                        <history_description
-      >initial version</history_description>
-                    </history_item>
-                </history>
-                <authors>
-                    <author_item>Allan CORNET</author_item>
-                </authors>
-            </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_structures}cellfun">cellfun</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.14.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

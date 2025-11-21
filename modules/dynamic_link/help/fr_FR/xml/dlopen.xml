@@ -1,48 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>dlopen</keyword>
-    <short_description>Charge une bibliothèque dynamique</short_description>
-    <syntax>
-        <syntax_item>lib = dlopen(libraryname)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-        <param_name>libraryname</param_name>
-        <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>dlopen</keyword>
+  <short_description>Charge une bibliothèque dynamique</short_description>
+  <syntax>
+    <syntax_item>lib = dlopen(libraryname)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>libraryname</param_name>
+      <param_description
       >une chaîne : nom de la bibliothèque dynamique.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>lib</param_name>
-            <param_description>un handle dllib.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>dlopen</b> charge une bibliothèque dynamique.</p>
-            <p>
-                <b>dlopen</b> renvoie un handle <b
-      >dllib</b> possédant une propriété <b>Path</b>.</p>
-                <p>
-                    Les méthodes <b>get</b>, <b>ismethod</b>, <b>isprop</b>, <b
-      >disp</b>, <b>delete</b>, <b>isvalid</b>, <b>used</b>, <b>eq</b>, <b
-      >ne</b>, <b>isequal</b>, <b>horzcat</b>, <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>lib</param_name>
+      <param_description>un handle dllib.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>dlopen</b> charge une bibliothèque dynamique.</p>
+    <p><b>dlopen</b> renvoie un handle<b>dllib</b> possédant une propriété <b
+      >Path</b>.</p>
+    <p>Les méthodes <b>get</b>, <b>ismethod</b>, <b>isprop</b>,<b>disp</b>, <b
+      >delete</b>, <b>isvalid</b>, <b>used</b>, <b>eq</b>,<b>ne</b>, <b
+      >isequal</b>, <b>horzcat</b>,<b
       >vertcat</b> sont surchargées pour le type <b>dllib</b>.</p>
-                    <p
+    <p
     >La bibliothèque est d'abord recherchée dans NELSON_LIBRARY_PATH puis dans PATH sous Windows ou LD_LIBRARY_PATH / DYLD_LIBRARY_PATH sur Linux/MacOS.</p>
-                    <p>Le chemin NELSON_LIBRARY_PATH peut être modifié avec <b
-      >setenv</b>.</p>
-                </description>
-                <used_function />
-                <bibliography />
-                <examples>
-                    <example_item>
-                        <example_item_type>nelson</example_item_type>
-                        <example_item_description />
-                        <example_item_data
+    <p>Le chemin NELSON_LIBRARY_PATH peut être modifié avec <b>setenv</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[path_1 = modulepath('dynamic_link', 'builtin');
 lib1 = dlopen(path_1)
@@ -50,26 +46,23 @@ isvalid(lib1)
 dlclose(lib1)
 isvalid(lib1)
 clear lib1]]></example_item_data>
-                    </example_item>
-                </examples>
-                <see_also>
-                    <see_also_item>
-                        <link linkend="${dynamic_link}dlclose">dlclose</link>
-                    </see_also_item>
-                    <see_also_item>
-                        <link
-        linkend="${dynamic_link}dllibisloaded"
-      >dllibisloaded</link>
-                    </see_also_item>
-                </see_also>
-                <history>
-                    <history_item>
-                        <history_version>1.0.0</history_version>
-                        <history_description
-      >version initiale</history_description>
-                    </history_item>
-                </history>
-                <authors>
-                    <author_item>Allan CORNET</author_item>
-                </authors>
-            </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${dynamic_link}dlclose">dlclose</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dynamic_link}dllibisloaded">dllibisloaded</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

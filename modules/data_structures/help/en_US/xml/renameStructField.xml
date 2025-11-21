@@ -1,81 +1,78 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>renameStructField</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>renameStructField</keyword>
+  <short_description
   >Rename field names of a struct or struct array.</short_description>
-    <syntax>
-        <syntax_item>stOut = renameStructField(stIn, newNames)</syntax_item>
-        <syntax_item
+  <syntax>
+    <syntax_item>stOut = renameStructField(stIn, newNames)</syntax_item>
+    <syntax_item
     >stOut = renameStructField(stIn, oldNames, newNames)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>stIn</param_name>
-            <param_description> A struct or struct array.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>newNames</param_name>
-            <param_description
-      >a row vector characters, string array or cell array of strings representing the new field names.
-When used as the second argument, it must have the same number of elements as the number of fields in stIn.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>oldNames</param_name>
-            <param_description
-      >a row vector characters, string array or cell array of strings representing the existing field names to rename.
-Ignored silently if the field name is not present in stIn.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>stOut</param_name>
-            <param_description>A struct or struct array.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>stIn</param_name>
+      <param_description>A struct or struct array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>newNames</param_name>
+      <param_description
+      >a row vector characters, string array or cell array of strings representing the new field names. When used as the second argument, it must have the same number of elements as the number of fields in stIn.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>oldNames</param_name>
+      <param_description
+      >a row vector characters, string array or cell array of strings representing the existing field names to rename. Ignored silently if the field name is not present in stIn.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>stOut</param_name>
+      <param_description>A struct or struct array.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >renameStructField</b> renames the field names of a struct or struct array.</p>
-            <p
+    <p
     >It supports renaming all field names at once or renaming selected field names individually.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[date_st = struct('day', 15, 'month' ,'August','year', 1974)
 date_st = renameStructField(date_st, {'Day', 'Month', 'Year'})]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[date_st = struct('day', 15, 'month' ,'August','year', 1974)
 date_st = renameStructField(date_st, 'day', 'jour')]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${data_structures}struct">struct</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${data_structures}rmfield">rmfield</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.15.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_structures}struct">struct</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_structures}rmfield">rmfield</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

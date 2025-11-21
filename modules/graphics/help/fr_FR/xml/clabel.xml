@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <module_name>graphics</module_name>
-    <keyword>clabel</keyword>
-    <short_description>Étiquetage des contours</short_description>
-<syntax>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>graphics</module_name>
+  <keyword>clabel</keyword>
+  <short_description>Étiquetage des contours</short_description>
+  <syntax>
     <syntax_item>clabel(C,h)</syntax_item>
     <syntax_item>clabel(C,h,v)</syntax_item>
     <syntax_item>clabel(C)</syntax_item>
@@ -13,13 +13,12 @@
     <syntax_item>tl = clabel(...)</syntax_item>
     <syntax_item>clabel(...,Name,Value)</syntax_item>
   </syntax>
-
   <param_input>
     <param_input_item>
       <param_name>C</param_name>
       <param_description>
-        <p>Matrice Contour retournée par <b>contour</b>, <b>contourf</b>, ou <b
-          >contour3</b>. Si vous passez un objet contour <b
+        <p>Matrice Contour retournée par <b>contour</b>, <b>contourf</b>, ou<b
+          >contour3</b>. Si vous passez un objet contour<b
           >h</b>, vous pouvez passer <b>[]</b> pour <b>C</b>.</p>
       </param_description>
     </param_input_item>
@@ -39,7 +38,6 @@
       </param_description>
     </param_input_item>
   </param_input>
-
   <param_output>
     <param_output_item>
       <param_name>t</param_name>
@@ -52,97 +50,93 @@
       <param_name>tl</param_name>
       <param_description>
         <p
-        >Objets Text et ligne créés lorsque des marqueurs droits sont utilisés (pour l'utilisation de style <b
+        >Objets Text et ligne créés lorsque des marqueurs droits sont utilisés (pour l'utilisation de style<b
           >clabel(C)</b>).</p>
       </param_description>
     </param_output_item>
   </param_output>
-
   <description>
-    <p>La fonction <b
+    <p>La fonction<b
       >clabel</b> insère des étiquettes dans les graphiques de contours :</p>
     <ul>
-      <li>Fournir une matrice de contour <b>C</b> et un objet de contour <b
+      <li>Fournir une matrice de contour <b>C</b> et un objet de contour<b
         >h</b> pour étiqueter le texte tourné le long des lignes de contour.</li>
-      <li>Fournir uniquement <b
+      <li>Fournir uniquement<b
         >C</b> pour ajouter des étiquettes droites et des marqueurs '+' aux emplacements de contour.</li>
-      <li>Passer un vecteur de niveaux <b
+      <li>Passer un vecteur de niveaux<b
         >v</b> pour étiqueter uniquement des valeurs de contour spécifiques.</li>
       <li
       >Utiliser des paires Name,Value pour contrôler l'apparence du texte (un sous-ensemble des propriétés Text, plus <b
         >LabelSpacing</b>).</li>
     </ul>
   </description>
-
   <examples>
     <example_item>
       <example_item_description
       >Étiqueter les niveaux de contour (de base).</example_item_description>
-      <example_item_data runnable="adv-cli" language="matlab">
-<![CDATA[figure();
+      <example_item_data
+        runnable="adv-cli"
+        language="matlab"
+      ><![CDATA[figure();
 [x,y,z] = peaks;
 [C,h] = contour(x,y,z);
-clabel(C,h)]]>
-      </example_item_data>
+clabel(C,h)]]></example_item_data>
       <example_item_img
         src="../../images/clabel_1.svg"
         align="middle"
         generate="true"
       />
     </example_item>
-
     <example_item>
       <example_item_description
       >Étiqueter des niveaux de contour spécifiques.</example_item_description>
-      <example_item_data runnable="adv-cli" language="matlab">
-<![CDATA[figure();
+      <example_item_data
+        runnable="adv-cli"
+        language="matlab"
+      ><![CDATA[figure();
 [x,y,z] = peaks;
 [C,h] = contour(x,y,z);
 v = [2,6];
-clabel(C,h,v)]]>
-      </example_item_data>
+clabel(C,h,v)]]></example_item_data>
       <example_item_img
         src="../../images/clabel_2.svg"
         align="middle"
         generate="true"
       />
-
     </example_item>
-
     <example_item>
       <example_item_description
       >Définir les propriétés des étiquettes de contour avec des paires Name,Value.</example_item_description>
-      <example_item_data runnable="adv-cli" language="matlab">
-<![CDATA[figure();
+      <example_item_data
+        runnable="adv-cli"
+        language="matlab"
+      ><![CDATA[figure();
 [x,y,z] = peaks;
 [C,h] = contour(x,y,z);
-clabel(C,h,'FontSize',15,'Color','red')]]>
-      </example_item_data>
-           <example_item_img
+clabel(C,h,'FontSize',15,'Color','red')]]></example_item_data>
+      <example_item_img
         src="../../images/clabel_3.svg"
         align="middle"
         generate="true"
       />
- 
     </example_item>
-
     <example_item>
       <example_item_description
       >Étiqueter en utilisant uniquement la matrice de contour (étiquettes droites).</example_item_description>
-      <example_item_data runnable="adv-cli" language="matlab">
-<![CDATA[figure();
+      <example_item_data
+        runnable="adv-cli"
+        language="matlab"
+      ><![CDATA[figure();
 [x,y,z] = peaks;
 C = contour(x,y,z);
-clabel(C)]]>
-      </example_item_data>
-            <example_item_img
+clabel(C)]]></example_item_data>
+      <example_item_img
         src="../../images/clabel_4.svg"
         align="middle"
         generate="true"
       />
     </example_item>
   </examples>
-
   <see_also>
     <see_also_item>
       <link linkend="${graphics}contour">contour</link>
@@ -150,18 +144,16 @@ clabel(C)]]>
     <see_also_item>
       <link linkend="${graphics}contourf">contourf</link>
     </see_also_item>
-       <see_also_item>
+    <see_also_item>
       <link linkend="${graphics}contourf">contourc</link>
     </see_also_item>
-   </see_also>
-
+  </see_also>
   <history>
     <history_item>
       <history_version>1.15.0</history_version>
       <history_description>version initiale</history_description>
     </history_item>
   </history>
-
   <authors>
     <author_item>Allan CORNET</author_item>
   </authors>

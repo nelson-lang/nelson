@@ -1,106 +1,83 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>writetable</keyword>
-    <short_description>Écrire une table dans un fichier.</short_description>
-    <syntax>
-        <syntax_item>writetable(T)</syntax_item>
-        <syntax_item>writetable(T, filename)</syntax_item>
-        <syntax_item>writetable(..., Name, Value)</syntax_item>
-    </syntax>
-    <param_input>
-                <param_input_item>
-                        <param_name>T</param_name>
-                        <param_description
-      >Une table à écrire dans un fichier.</param_description>
-                </param_input_item>
-                <param_input_item>
-                        <param_name>filename</param_name>
-                        <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>writetable</keyword>
+  <short_description>Écrire une table dans un fichier.</short_description>
+  <syntax>
+    <syntax_item>writetable(T)</syntax_item>
+    <syntax_item>writetable(T, filename)</syntax_item>
+    <syntax_item>writetable(..., Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>T</param_name>
+      <param_description>Une table à écrire dans un fichier.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
       >Une chaîne spécifiant le nom du fichier de destination.</param_description>
-                </param_input_item>
-    </param_input>
-    <description>
-      <p>
-        <b>writetable(T)</b> écrit la table <b
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>writetable(T)</b> écrit la table<b
       >T</b> dans un fichier texte délimité par des virgules.</p>
-        <p
-    >Le nom de fichier est dérivé du nom de la variable de la table dans l'espace de travail, avec l'extension <code
-      >.txt</code> ajoutée.</p>
-        <p
-    >Si le nom de fichier ne peut pas être dérivé du nom de la table, le nom de fichier par défaut <code
-      >table.txt</code> est utilisé.</p>
-        <p>Formats de sortie pris en charge :</p>
-            <ul>
-                <li>
-                    <b>Text files:</b> Each variable in <b
+    <p
+    >Le nom de fichier est dérivé du nom de la variable de la table dans l'espace de travail, avec l'extension<code
+      >.txt</code>ajoutée.</p>
+    <p
+    >Si le nom de fichier ne peut pas être dérivé du nom de la table, le nom de fichier par défaut<code
+      >table.txt</code>est utilisé.</p>
+    <p>Formats de sortie pris en charge :</p>
+    <ul>
+      <li><b>Text files:</b> Each variable in<b
         >T</b> becomes a column, and variable names serve as column headers in the first line.</li>
-                    <li>
-                        <b>Fichiers XML :</b> chaque variable de <b
+      <li><b>Fichiers XML :</b> chaque variable de<b
         >T</b> devient un nœud XML, les noms de variables servant de noms d'éléments.</li>
-                    </ul>
-                    <p
-    >Pour préciser explicitement le nom du fichier, utilisez <b
+    </ul>
+    <p>Pour préciser explicitement le nom du fichier, utilisez <b
       >writetable(T, filename)</b>. Le format de fichier est déterminé par l'extension :</p>
-                    <ul>
-                                <li>
-                            <b>.txt</b>, <b>.dat</b>, <b
-        >.csv</b> : fichiers texte délimités.</li>
-                            <li>
-                                <b>.xml</b> : fichiers XML.</li>
-                            </ul>
-                            <p>
-                                <b>Additional options:</b> Use <b
+    <ul>
+      <li><b>.txt</b>, <b>.dat</b>,<b>.csv</b> : fichiers texte délimités.</li>
+      <li><b>.xml</b> : fichiers XML.</li>
+    </ul>
+    <p><b>Additional options:</b> Use<b
       >writetable(..., Name, Value)</b> for customization:</p>
-                                <ul>
-                                    <li>
-                                                <b
-        >WriteRowNames :</b> inclure les noms de ligne dans le fichier de sortie (par défaut : <code
+    <ul>
+      <li><b
+        >WriteRowNames :</b> inclure les noms de ligne dans le fichier de sortie (par défaut :<code
         >false</code>).</li>
-                                                <li>
-                                                    <b
-        >FileType :</b> spécifier le format de fichier (<code
-        >'text'</code> ou <code>'xml'</code>).</li>
-                                                    <li>
-                                                        <b
-        >WriteVariableNames :</b> inclure les noms de variables comme en-têtes de colonne dans les fichiers texte (par défaut : <code
+      <li><b>FileType :</b> spécifier le format de fichier (<code
+        >'text'</code>ou<code>'xml'</code>).</li>
+      <li><b
+        >WriteVariableNames :</b> inclure les noms de variables comme en-têtes de colonne dans les fichiers texte (par défaut :<code
         >true</code>).</li>
-                                                        <li>
-                                                            <b
-        >WriteMode :</b> spécifier le mode d'écriture (<code
+      <li><b>WriteMode :</b> spécifier le mode d'écriture (<code
         >'overwrite'</code> ou <code>'append'</code>).</li>
-                                                            <li>
-                                                                <b
+      <li><b
         >Delimiter :</b> définir le délimiteur de champ pour les fichiers texte (<code
         >','</code>, <code>'\t'</code>, etc.).</li>
-                                                                <li>
-                                                                    <b
+      <li><b
         >QuoteStrings :</b> contrôler la façon dont le texte est cité dans les fichiers texte (<code
         >'minimal'</code>, <code>'all'</code> ou <code>'none'</code>).</li>
-                                                                    <li>
-                                                                        <b
-        >AttributeSuffix :</b> spécifier le suffixe d'attribut pour les fichiers XML (par défaut : <code
+      <li><b
+        >AttributeSuffix :</b> spécifier le suffixe d'attribut pour les fichiers XML (par défaut :<code
         >'Attribute'</code>).</li>
-                                                                        <li>
-                                                                            <b
-        >RowNodeName :</b> spécifier le nom du nœud de ligne XML (par défaut : <code
+      <li><b
+        >RowNodeName :</b> spécifier le nom du nœud de ligne XML (par défaut :<code
         >'row'</code>).</li>
-                                                                            <li>
-                                                                                <b
-        >TableNodeName :</b> spécifier le nom du nœud racine XML (par défaut : <code
+      <li><b
+        >TableNodeName :</b> spécifier le nom du nœud racine XML (par défaut :<code
         >'table'</code>).</li>
-                                                                    </ul>
-                                                                </description>
-                                                                <examples>
-                                                                    <example_item
-    >
-                                                                        <example_item_type
-      >nelson</example_item_type>
-                                                                        <example_item_description
-      >Examples demonstrating various usages of <b
+    </ul>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Examples demonstrating various usages of<b
         >writetable</b>.</example_item_description>
-                                                                        <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[T = table([1; 2; 3], {'A'; 'B'; 'C'}, [10.5; 20.7; 30.2], 'VariableNames', {'ID', 'Name', 'Value'});
 T.Value_Attribute = {'High'; 'Medium'; 'Low'};
@@ -116,27 +93,20 @@ writetable(T, 'data.xml', 'RowNodeName', 'record', 'TableNodeName', 'dataset')
 
 % Append to existing file with row names
 writetable(T, 'data.txt', 'WriteMode', 'append', 'WriteRowNames', true)]]></example_item_data>
-                                                                    </example_item>
-                                                                </examples>
-                                                                <see_also>
-                                                                    <see_also_item
-    >
-                                                                        <link
-        linkend="${table}table"
-      >table</link>
-                                                                    </see_also_item>
-                                                                </see_also>
-                                                                <history>
-                                                                    <history_item
-    >
-                                                                        <history_version
-      >1.10.0</history_version>
-                                                                        <history_description
-      >version initiale.</history_description>
-                                                                    </history_item>
-                                                                </history>
-                                                                <authors>
-                                                                    <author_item
-    >Allan CORNET</author_item>
-                                                                </authors>
-                                                            </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.10.0</history_version>
+      <history_description>version initiale.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

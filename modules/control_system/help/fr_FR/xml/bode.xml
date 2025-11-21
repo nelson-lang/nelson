@@ -1,88 +1,86 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>bode</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bode</keyword>
+  <short_description
   >Diagramme de Bode de la réponse en fréquence, données de magnitude et de phase.</short_description>
-    <syntax>
-        <syntax_item>bode()</syntax_item>
-        <syntax_item>bode(H)</syntax_item>
-        <syntax_item>bode(H, wIn)</syntax_item>
-        <syntax_item>bode(H, w, lineSpec)</syntax_item>
-        <syntax_item>[magnitude, phase, w] = bode(H)</syntax_item>
-        <syntax_item>[magnitude, phase, w] = bode(H, wIn)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>H</param_name>
-            <param_description>un modèle lti.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>wIn</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>bode()</syntax_item>
+    <syntax_item>bode(H)</syntax_item>
+    <syntax_item>bode(H, wIn)</syntax_item>
+    <syntax_item>bode(H, w, lineSpec)</syntax_item>
+    <syntax_item>[magnitude, phase, w] = bode(H)</syntax_item>
+    <syntax_item>[magnitude, phase, w] = bode(H, wIn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>H</param_name>
+      <param_description>un modèle lti.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>wIn</param_name>
+      <param_description
       >une cellule {wmin, wmax} ou un vecteur [wmin:wmax].</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>lineSpec</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>lineSpec</param_name>
+      <param_description
       >Style de ligne, marqueur et couleur.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>magnitude</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>magnitude</param_name>
+      <param_description
       >Amplitude : taille 1 x 1 x k (SISO).</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>phase</param_name>
-            <param_description>Phase: size 1 x 1 x k (SISO).</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>w</param_name>
-            <param_description>Frequencies: a vector: 1 x k.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >bode(sys)</b> generates a Bode plot illustrating the frequency response of a dynamic system model, denoted as <b
-      >sys.</b>
-        </p>
-        <p
+    </param_output_item>
+    <param_output_item>
+      <param_name>phase</param_name>
+      <param_description>Phase: size 1 x 1 x k (SISO).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>w</param_name>
+      <param_description>Frequencies: a vector: 1 x k.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >bode(sys)</b> generates a Bode plot illustrating the frequency response of a dynamic system model, denoted as<b
+      >sys.</b></p>
+    <p
     >This plot visually represents the system's response in terms of both magnitude (measured in decibels, dB) and phase (measured in degrees) across varying frequencies.</p>
-        <p
+    <p
     >The specific frequency points on the plot are automatically determined by <b
       >bode</b> based on the system's inherent dynamics.</p>
-    </description>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[H = tf([1 0.1 7.5],[1 0.12 9 0 0]);
 bode(H,{1 10}, '-.')]]></example_item_data>
-            <example_item_img
+      <example_item_img
         src="../images/bode1.svg"
         align="middle"
         generate="true"
       />
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${graphics}plot">plot</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}plot">plot</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

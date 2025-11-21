@@ -1,89 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>abcdchk</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>abcdchk</keyword>
+  <short_description
   >Verifies the dimensional compatibility of matrices A, B, C, and D.</short_description>
-    <syntax>
-        <syntax_item>[msg, A, B, C, D] = abcdchk(a, b, c, d)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>a (n x n)</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>[msg, A, B, C, D] = abcdchk(a, b, c, d)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>a (n x n)</param_name>
+      <param_description
       >Represents the system's state-transition matrix. It describes how the system's internal state evolves over time.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>b (n x m)</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>b (n x m)</param_name>
+      <param_description
       >Describes the input-to-state mapping. It shows how control inputs affect the change in the system's state.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>c (p x n)</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>c (p x n)</param_name>
+      <param_description
       >Represents the state-to-output mapping. It shows how the system's state variables are related to the system's outputs.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>d (p x m)</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>d (p x m)</param_name>
+      <param_description
       >Describes the direct feedthrough from inputs to outputs. In many systems, this matrix is zero because there is no direct feedthrough.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>msg</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>msg</param_name>
+      <param_description
       >Returns an empty struct if matrix dimensions are consistent. Otherwise it returns the associated error message.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>a (n x n)</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>a (n x n)</param_name>
+      <param_description
       >Represents the system's state-transition matrix. It describes how the system's internal state evolves over time.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>b (n x m)</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>b (n x m)</param_name>
+      <param_description
       >Describes the input-to-state mapping. It shows how control inputs affect the change in the system's state.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>c (p x n)</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>c (p x n)</param_name>
+      <param_description
       >Represents the state-to-output mapping. It shows how the system's state variables are related to the system's outputs.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>d (p x m)</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>d (p x m)</param_name>
+      <param_description
       >Describes the direct feedthrough from inputs to outputs. In many systems, this matrix is zero because there is no direct feedthrough.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >abcdchk</b> verify dimensional consistency of the matrices A, B, C, D, E.</p>
-            <p
+    <p
     >It additionally adjusts the dimensions of any empty 0-by-0 matrices to ensure their alignment with the rest.</p>
-        </description>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [0 1; -2 -3];
 B = [0;  1];
 C = [1 0];
 D = 0;
 [msg, AA, BB, CC, DD] = abcdchk(A, B, C, D) ]]></example_item_data>
-            </example_item>
-        </examples>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

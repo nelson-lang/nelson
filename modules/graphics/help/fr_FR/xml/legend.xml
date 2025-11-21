@@ -1,112 +1,109 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>legend</keyword>
-    <short_description>Ajoute une légende aux axes.</short_description>
-    <syntax>
-        <syntax_item>legend()</syntax_item>
-        <syntax_item>legend(label1, ..., labelN)</syntax_item>
-        <syntax_item>legend(labels)</syntax_item>
-        <syntax_item>legend('off')</syntax_item>
-        <syntax_item>legend('hide')</syntax_item>
-        <syntax_item>legend('show')</syntax_item>
-        <syntax_item>legend('toggle')</syntax_item>
-        <syntax_item>legend('boxon')</syntax_item>
-        <syntax_item>legend('boxoff')</syntax_item>
-        <syntax_item>legend(ax, ...)</syntax_item>
-        <syntax_item>legend(..., 'Location', lcn)</syntax_item>
-        <syntax_item>legend(..., propertyName, propertyValue)</syntax_item>
-        <syntax_item>L = legend(...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>label1, ..., labelN</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>legend</keyword>
+  <short_description>Ajoute une légende aux axes.</short_description>
+  <syntax>
+    <syntax_item>legend()</syntax_item>
+    <syntax_item>legend(label1, ..., labelN)</syntax_item>
+    <syntax_item>legend(labels)</syntax_item>
+    <syntax_item>legend('off')</syntax_item>
+    <syntax_item>legend('hide')</syntax_item>
+    <syntax_item>legend('show')</syntax_item>
+    <syntax_item>legend('toggle')</syntax_item>
+    <syntax_item>legend('boxon')</syntax_item>
+    <syntax_item>legend('boxoff')</syntax_item>
+    <syntax_item>legend(ax, ...)</syntax_item>
+    <syntax_item>legend(..., 'Location', lcn)</syntax_item>
+    <syntax_item>legend(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>L = legend(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>label1, ..., labelN</param_name>
+      <param_description
       >Définit les étiquettes de la légende : vecteurs ligne de caractères.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>labels</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>labels</param_name>
+      <param_description
       >Cellule de vecteurs de caractères ou tableau de chaînes.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'off'</param_name>
-            <param_description>Supprime la légende.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'toggle'</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'off'</param_name>
+      <param_description>Supprime la légende.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'toggle'</param_name>
+      <param_description
       >Active/désactive la visibilité de la légende.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'hide'</param_name>
-            <param_description>Masque la légende.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'show'</param_name>
-            <param_description>Affiche la légende.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'boxon'</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'hide'</param_name>
+      <param_description>Masque la légende.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'show'</param_name>
+      <param_description>Affiche la légende.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'boxon'</param_name>
+      <param_description
       >Affiche un encadré autour de la légende.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'boxoff'</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'boxoff'</param_name>
+      <param_description
       >Masque l'encadré autour de la légende.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>ax</param_name>
-            <param_description>Axes à rendre courant.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>lcn</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Axes à rendre courant.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lcn</param_name>
+      <param_description
       > Emplacement de la légende : une chaîne ('NE' par défaut).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyName</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
       >Une chaîne scalaire ou un vecteur ligne de caractères.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>propertyValue</param_name>
-            <param_description>Une valeur.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>L</param_name>
-            <param_description
-      >Un objet graphique : type axes.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>legend</b> crée une légende dans la figure courante.
-        </p>
-        <p>
-            <b>Emplacement de la légende sur le graphique :</b>
-        </p>
-        <p />
-        <p>'northeast' ou 'NE' : En haut à droite (par défaut).</p>
-        <p>'north' ou 'N' : En haut au centre.</p>
-        <p>'south' ou 'S' : En bas au centre.</p>
-        <p>'east' ou 'E' : Au milieu à droite.</p>
-        <p>'west' ou 'W' : Au milieu à gauche.</p>
-        <p>'northwest' ou 'NW' : En haut à gauche.</p>
-        <p>'southeast' ou 'SE' : En bas à droite.</p>
-        <p>'southwest' ou 'SW' : En bas à gauche.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Une valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>L</param_name>
+      <param_description>Un objet graphique : type axes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>legend</b> crée une légende dans la figure courante.          </p>
+    <p>
+      <b>Emplacement de la légende sur le graphique :</b>
+    </p>
+    <p />
+    <p>'northeast' ou 'NE' : En haut à droite (par défaut).</p>
+    <p>'north' ou 'N' : En haut au centre.</p>
+    <p>'south' ou 'S' : En bas au centre.</p>
+    <p>'east' ou 'E' : Au milieu à droite.</p>
+    <p>'west' ou 'W' : Au milieu à gauche.</p>
+    <p>'northwest' ou 'NW' : En haut à gauche.</p>
+    <p>'southeast' ou 'SE' : En bas à droite.</p>
+    <p>'southwest' ou 'SW' : En bas à gauche.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
 x = linspace(0,10);
@@ -116,31 +113,31 @@ ax = gca();
 plot(ax, x, y1);
 plot(ax, x, y2);
 legend('sin(x)', 'cos(x)', 'Location', 'N')]]></example_item_data>
-            <example_item_img
+      <example_item_img
         src="../../images/legend.svg"
         align="middle"
         generate="true"
       />
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${graphics}title">title</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${graphics}text">text</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${graphics}plot">plot</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}title">title</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}text">text</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}plot">plot</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

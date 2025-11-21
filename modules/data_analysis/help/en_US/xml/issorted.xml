@@ -1,54 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>issorted</keyword>
-    <short_description>Determine if array is sorted.</short_description>
-    <syntax>
-        <syntax_item>tf = issorted(A)</syntax_item>
-        <syntax_item>tf = issorted(A, dim)</syntax_item>
-        <syntax_item>tf = issorted(..., direction)</syntax_item>
-        <syntax_item>tf = issorted(A, 'rows')</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>A</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>issorted</keyword>
+  <short_description>Determine if array is sorted.</short_description>
+  <syntax>
+    <syntax_item>tf = issorted(A)</syntax_item>
+    <syntax_item>tf = issorted(A, dim)</syntax_item>
+    <syntax_item>tf = issorted(..., direction)</syntax_item>
+    <syntax_item>tf = issorted(A, 'rows')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description
       >an nelson's variable (double, single, int8, int16, int32, int64, uint8, uint16, uint32, uint64, logical, char, string, cell).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>dim</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description
       >Dimension to operate along: positive integer scalar.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>direction</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>direction</param_name>
+      <param_description
       >Sorting direction: 'ascend' (default) or 'descend'.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'rows'</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'rows'</param_name>
+      <param_description
       >returns true when the elements of the first column of a matrix are sorted.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>tf</param_name>
-            <param_description
-      >a logical: true if array is sorted.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>tf = issorted(A)</b> returns true if the elements of <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>a logical: true if array is sorted.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>tf = issorted(A)</b> returns true if the elements of <b
       >A</b> are sorted in ascending order, and false otherwise.</p>
-        </description>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[x = [1 2 3 4];
 issorted(x) % returns true
@@ -60,20 +58,20 @@ A = [1 2 3; 4 5 6; 7 8 9];
 issorted(A, 'rows') % returns true
 A = [1 2 3; 7 8 9; 4 5 6];
 issorted(A, 'rows') % returns false]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${data_analysis}sort">sort</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}sort">sort</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

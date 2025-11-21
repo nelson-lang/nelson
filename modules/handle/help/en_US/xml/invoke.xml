@@ -1,45 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>invoke</keyword>
-    <short_description>Invoke method on an handle object.</short_description>
-    <syntax>
-        <syntax_item>R = invoke(h)</syntax_item>
-        <syntax_item>R = invoke(h, 'methodname')</syntax_item>
-        <syntax_item
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>invoke</keyword>
+  <short_description>Invoke method on an handle object.</short_description>
+  <syntax>
+    <syntax_item>R = invoke(h)</syntax_item>
+    <syntax_item>R = invoke(h, 'methodname')</syntax_item>
+    <syntax_item
     >R = invoke(h, 'methodname', arg1, arg2, ... , argN)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>h</param_name>
-            <param_description>an handle object.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>R</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>h</param_name>
+      <param_description>an handle object.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description
       >The data type of the return value depends on the invoked method.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >invoke(h)</b> returns a struct with a list of all callable methods.</p>
-            <p>
-                <b
+    <p><b
       >R = invoke(h, 'methodname')</b> calls the method specified by methodname, and returns an output value.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>initial version</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+  </description>
+  <used_function />
+  <bibliography />
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>data_structures</module_name>
-    <chapter>Data structures</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>data_structures</module_name>
+  <chapter>Data structures</chapter>
+  <chapter_description>
+    <p
     >The Data Structures module provides tools for creating, manipulating, and inspecting arrays, cells, and structures in Nelson.</p>
-        <p
+    <p
     >It enables conversion between different data formats, access and modification of fields, application of functions to array elements, and organization of structured data.</p>
-        <p
+    <p
     >This module facilitates flexible handling of complex data, supporting both programmatic operations and dynamic data management.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

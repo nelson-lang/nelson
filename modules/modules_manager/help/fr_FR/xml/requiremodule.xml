@@ -1,60 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-        <language>fr_FR</language>
-        <keyword>requiremodule</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>requiremodule</keyword>
+  <short_description
   >Renvoie une erreur si le module n'est pas chargé dans Nelson.</short_description>
-    <syntax>
-        <syntax_item>requiremodule(module_short_name)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>module_short_name</param_name>
-        <param_description>chaîne : nom court du module.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>
-            <b
+  <syntax>
+    <syntax_item>requiremodule(module_short_name)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>module_short_name</param_name>
+      <param_description>chaîne : nom court du module.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b
       >requiremodule</b> renvoie une erreur si le module demandé n'est pas chargé.</p>
-            <p
+    <p
     >Cette fonction est utile pour vérifier une dépendance sur un autre module.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >See module skeleton for example</example_item_description>
-                <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[ismodule('module_skeleton')
 requiremodule('module_skeleton')
 addmodule([nelsonroot(), '/module_skeleton'], 'module_skeleton')
 ismodule('module_skeleton')
 requiremodule('module_skeleton')]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${modules_manager}ismodule">ismodule</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${modules_manager}removemodule">addmodule</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${modules_manager}getmodules">getmodules</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${modules_manager}ismodule">ismodule</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${modules_manager}removemodule">addmodule</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${modules_manager}getmodules">getmodules</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

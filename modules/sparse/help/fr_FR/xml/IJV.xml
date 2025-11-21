@@ -1,79 +1,78 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>IJV</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>IJV</keyword>
+  <short_description
   >Retourne les triplets I,J,V d'une matrice sparse.</short_description>
-    <syntax>
-        <syntax_item>[iv, jv, vv, m, n, nzmax] = IJV(sp)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>sp</param_name>
-            <param_description>une matrice sparse.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>iv</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>[iv, jv, vv, m, n, nzmax] = IJV(sp)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>sp</param_name>
+      <param_description>une matrice sparse.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>iv</param_name>
+      <param_description
       >un vecteur : indices de lignes des éléments non nuls.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>jv</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>jv</param_name>
+      <param_description
       >un vecteur : indices de colonnes des éléments non nuls.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>vv</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>vv</param_name>
+      <param_description
       >un vecteur : valeurs des éléments non nuls.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>m</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>m</param_name>
+      <param_description
       >une valeur entière : nombre de lignes dans la matrice.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>n</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>n</param_name>
+      <param_description
       >une valeur entière : nombre de colonnes dans la matrice.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>nzmax</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>nzmax</param_name>
+      <param_description
       >une valeur entière : taille réservée pour les éléments non nuls.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>IJV</b> convertit une matrice sparse en son format COO.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>IJV</b> convertit une matrice sparse en son format COO.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[sp = sparse(eye(3,3))
 [IV, JV, VV, m, n, nzmax] = IJV(sp)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${sparse}sparse">sparse</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${sparse}sparse">sparse</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

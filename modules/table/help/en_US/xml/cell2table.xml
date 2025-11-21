@@ -1,66 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>cell2table</keyword>
-    <short_description>Convert cell array to table.</short_description>
-    <syntax>
-        <syntax_item>T = cell2table(C)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>C</param_name>
-            <param_description>2-D cell array.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>T</param_name>
-            <param_description>Table object.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >T = cell2table(C)</b> converts the contents of an m-by-n cell array <b
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>cell2table</keyword>
+  <short_description>Convert cell array to table.</short_description>
+  <syntax>
+    <syntax_item>T = cell2table(C)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>C</param_name>
+      <param_description>2-D cell array.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>T</param_name>
+      <param_description>Table object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>T = cell2table(C)</b> converts the contents of an m-by-n cell array<b
       >C</b> into an m-by-n table.</p>
-            <p
+    <p
     >Each column of the input cell array becomes the data for a corresponding variable in the output table.</p>
-            <p>To generate variable names in the output table, <b
+    <p>To generate variable names in the output table,<b
       >cell2table</b> appends the column numbers to the name of the input array.</p>
-            <p>If the input array does not have a name, <b
-      >cell2table</b> assigns default variable names in the format <b
-      >"Var1", "Var2", ... , "VarN"</b>, where <b
+    <p>If the input array does not have a name,<b
+      >cell2table</b> assigns default variable names in the format<b
+      >"Var1", "Var2", ... , "VarN"</b>, where<b
       >N</b> is the number of columns in the cell array.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[C = {'John', 28, true; 'Alice', 35, false; 'Bob', 42, true};
 % Convert the cell array to a table
 T = cell2table(C)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${table}table2cell">table2cell</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${table}table">table</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.8.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${table}table2cell">table2cell</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.8.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

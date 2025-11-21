@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>validators</module_name>
-    <chapter>Validators</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>validators</module_name>
+  <chapter>Validators</chapter>
+  <chapter_description>
+    <p
     >The Validators module provides tools for enforcing constraints and verifying input values in Nelson.</p>
-        <p
+    <p
     >It supports checking data types, numerical properties, matrix and vector dimensions, text validity, file and folder existence, and logical or numeric conditions.</p>
-        <p
+    <p
     >This module ensures robust input validation, helping to prevent errors, enforce correctness, and improve the reliability of scripts and functions.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

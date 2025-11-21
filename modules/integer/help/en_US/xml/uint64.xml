@@ -1,47 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>uint64</keyword>
-    <short_description>Converts to 64-bit unsigned integer.</short_description>
-    <syntax>
-        <syntax_item>Y = uint64(X)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>X</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>uint64</keyword>
+  <short_description>Converts to 64-bit unsigned integer.</short_description>
+  <syntax>
+    <syntax_item>Y = uint64(X)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
       >a matrix of double, single or integers.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>Y</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Y</param_name>
+      <param_description
       >a matrix of 64-bit unsigned integer.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>uint64</b> converts value to 64-bit unsigned integer type.</p>
-            <p
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>uint64</b> converts value to 64-bit unsigned integer type.</p>
+    <p
     >The value is rounded to the nearest uint64 value on conversion. A value that is above or below the range for an uint64 class is mapped to one of the endpoints of the range [0, 18446744073709551616].</p>
-            <p
+    <p
     >When you create a numeric array of large integers in Nelson, especially when they exceed the maximum precision representable by double (larger than flintmax), Nelson initially stores these values as double-precision floating-point numbers by default.</p>
-            <p
+    <p
     >This default representation can lead to a loss of precision, as floating-point numbers have limited precision.</p>
-            <p
+    <p
     >To maintain the full precision of these large integer values, it's advisable to explicitly convert each scalar element of the array to the int64 or uint64 data type using the i64 or u64 notation (see example).</p>
-            <p
+    <p
     >This way, you ensure that the values are stored with their full precision as 64-bit signed or unsigned integers, respectively, rather than as double-precision floating-point numbers.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [1 12 -120 127 -9e24 9e23]
 B = uint64(A)
@@ -49,26 +48,26 @@ R1 = uint64([72057594035891654 81997179153022975])
 R2 = [72057594035891654u64 81997179153022975u64]
 
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${integer}intmax">intmax</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${integer}intmax">intmin</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${interpreter}numeric_types">numeric types</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${integer}intmax">intmax</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${integer}intmax">intmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}numeric_types">numeric types</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

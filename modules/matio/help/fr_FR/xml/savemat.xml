@@ -1,68 +1,65 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>savemat</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>savemat</keyword>
+  <short_description
   >enregistre les variables de l'espace de travail dans un fichier .mat</short_description>
-    <syntax>
-        <syntax_item>savemat(filename)</syntax_item>
-        <syntax_item>savemat(filename, version, var1, ..., varN)</syntax_item>
-        <syntax_item>savemat(filename, '-append', ...)</syntax_item>
-        <syntax_item>savemat(filename, '-nocompression', ...)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description
-      >une chaîne : nom de fichier .mat.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>var1, ..., varN</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>savemat(filename)</syntax_item>
+    <syntax_item>savemat(filename, version, var1, ..., varN)</syntax_item>
+    <syntax_item>savemat(filename, '-append', ...)</syntax_item>
+    <syntax_item>savemat(filename, '-nocompression', ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>une chaîne : nom de fichier .mat.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>var1, ..., varN</param_name>
+      <param_description
       >une chaîne : noms des variables à enregistrer depuis l'espace de travail de Nelson.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'-v7.3'</param_name>
-            <param_description
-      >format Mat par défaut utilisé.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'-v7'</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'-v7.3'</param_name>
+      <param_description>format Mat par défaut utilisé.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'-v7'</param_name>
+      <param_description
       >format de sortie : version 7 du fichier Mat.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'-v6', '-v4'</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'-v6', '-v4'</param_name>
+      <param_description
       >format de sortie : version 6 ou 4 du fichier Mat.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'-append'</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'-append'</param_name>
+      <param_description
       >ajoute des variables à un fichier .mat existant (uniquement -v7.3).</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>'-nocompression'</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>'-nocompression'</param_name>
+      <param_description
       >désactive la compression du fichier .mat.</param_description>
-        </param_input_item>
-    </param_input>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b
       >savemat</b> enregistre les variables de l'espace de travail dans un fichier .mat.</p>
-            <p
+    <p
     >Les types de données de Nelson sont convertis en équivalents compatibles avec les fichiers Mat.</p>
-        </description>
-        <used_function />
-        <bibliography
+  </description>
+  <used_function />
+  <bibliography
   >Thanks to MATIO library (http://sourceforge.net/projects/matio/).</bibliography>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = ones(3, 4);
 B = 'hello for open mat users';
@@ -79,12 +76,11 @@ who
 A
 B
 ]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description
-      >append variables</example_item_description>
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>append variables</example_item_description>
+      <example_item_data
         runnable="cli"
       ><![CDATA[C = eye(3, 4);
 savemat([tempdir(), 'example_loadmat.mat'], 'C', '-append')
@@ -102,37 +98,37 @@ A
 B
 C
 ]]></example_item_data>
-            </example_item>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description>compression</example_item_description>
-                <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>compression</example_item_description>
+      <example_item_data
         runnable="cli"
       ><![CDATA[C = eye(1000, 1000);
 savemat([tempdir(), 'example_savemat_with_compression.mat'], 'C')
 savemat([tempdir(), 'example_savemat_no_compression.mat'], 'C', '-nocompression')
 with_compression = dir([tempdir(), 'example_savemat_with_compression.mat'])
 no_compression = dir([tempdir(), 'example_savemat_no_compression.mat'])]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${matio}loadmat">loadmat</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${stream_manager}save">save</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${hdf5}savenh5">savenh5</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${matio}loadmat">loadmat</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}save">save</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${hdf5}savenh5">savenh5</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

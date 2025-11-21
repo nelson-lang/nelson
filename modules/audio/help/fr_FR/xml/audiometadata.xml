@@ -1,64 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>audiometadata</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>audiometadata</keyword>
+  <short_description
   >Obtient/Définit les métadonnées du fichier audio.</short_description>
-    <syntax>
-        <syntax_item>info = audiometadata(filename)</syntax_item>
-        <syntax_item
-    >info_previous = audiometadata(filename, info_new)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>info = audiometadata(filename)</syntax_item>
+    <syntax_item>info_previous = audiometadata(filename, info_new)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
       >une chaîne : un nom de fichier audio valide.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>info_new</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>info_new</param_name>
+      <param_description
       >une structure : nouvelles informations sur le fichier audio à définir.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>info</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>info</param_name>
+      <param_description
       >une structure : informations sur le fichier audio.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>info_previous</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>info_previous</param_name>
+      <param_description
       >une structure : informations précédentes sur le fichier audio.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >audiometadata</b> retourne une structure avec les métadonnées d'un fichier audio.</p>
-            <p>
-                <b
+    <p><b
       >audiometadata</b> gère toutes les balises disponibles dans le fichier audio.</p>
-                <p
-    >De nombreux formats audio sont supportés comme OGG, FLAC, WAV, RAW.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    <p>De nombreux formats audio sont supportés comme OGG, FLAC, WAV, RAW.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[wav_file = [modulepath('audio'), '/examples/haha.wav'];
 info = audiometadata(wav_file)]]></example_item_data>
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[wav_file = [modulepath('audio'), '/examples/haha.wav'];
 modified_wav_file = [tempdir(), 'haha_modified_tags.wav'];
@@ -73,15 +69,15 @@ info = audiometadata(modified_wav_file)
 if isfile(modified_wav_file)
   rmfile(modified_wav_file);
 end]]></example_item_data>
-                </example_item>
-            </examples>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>version initiale</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

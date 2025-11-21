@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <module_name>dynamic_link</module_name>
-    <chapter>Liens dynamiques</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>dynamic_link</module_name>
+  <chapter>Liens dynamiques</chapter>
+  <chapter_description>
+    <p
     >Le module Liens dynamiques permet à Nelson de compiler, charger et appeler du code C/C++ et Fortran à l'exécution.</p>
-        <p
+    <p
     >Il prend en charge la génération de gateways, de loaders et la gestion des bibliothèques partagées pour l'intégration de code compilé externe.</p>
-        <p
-    >Par défaut, Nelson ne détecte pas automatiquement un compilateur C/C++ sous Windows. N'oubliez pas d'exécuter une fois <b
+    <p
+    >Par défaut, Nelson ne détecte pas automatiquement un compilateur C/C++ sous Windows. N'oubliez pas d'exécuter une fois<b
       >configuremsvc</b> ou <b>configuremingw</b>.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

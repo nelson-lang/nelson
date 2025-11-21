@@ -56,7 +56,7 @@ function [stSearchResults, baseUrl] = getSearchBase(mainUrl, language, version_s
       error(_('Local help not installed.'));
     end
   else
-    baseUrl = [mainUrl, '/', version_string, '/', language];
+    baseUrl = [mainUrl, '/', language, '/', version_string];
     jsonFile = getCacheFileHelpLang(baseUrl, language);
   end
   try

@@ -1,59 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>sinc</keyword>
-    <short_description>Sinc function.</short_description>
-    <syntax>
-        <syntax_item>c = sinc(m)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>m</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>sinc</keyword>
+  <short_description>Sinc function.</short_description>
+  <syntax>
+    <syntax_item>c = sinc(m)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>m</param_name>
+      <param_description
       >input array: scalar, vector or matrix.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>c</param_name>
-            <param_description>sinc of input</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>c = sinc(m)</b> returns an array <b
-      >c</b> whose elements are the sinc of the elements of the input: <b>m</b>.
-        </p>
-        <p>The sinc function (normalized) is defined as:</p>
-        <latex>\text{sinc}(x) = \begin{cases} 
-        \frac{\sin(\pi x)}{\pi x} &amp; \text{if } x \neq 0 \\
-        1 &amp; \text{if } x = 0
-        \end{cases}</latex>
-        <p
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>c</param_name>
+      <param_description>sinc of input</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>c = sinc(m)</b> returns an array<b
+      >c</b> whose elements are the sinc of the elements of the input: <b
+      >m</b>.</p>
+    <p>The sinc function (normalized) is defined as:</p>
+    <latex
+    >\text{sinc}(x) = \begin{cases} \frac{\sin(\pi x)}{\pi x} &amp; \text{if } x \neq 0 \\ 1 &amp; \text{if } x = 0 \end{cases}</latex>
+    <p
     >The sinc function is the Fourier transform of the rectangular pulse function and appears frequently in signal processing and communications.</p>
-    </description>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[c = sinc(pi)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${trigonometric_functions}sin">sin</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${trigonometric_functions}sin">sin</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

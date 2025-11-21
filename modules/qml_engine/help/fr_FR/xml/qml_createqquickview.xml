@@ -1,56 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>qml_createqquickview</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>qml_createqquickview</keyword>
+  <short_description
   >Charge un fichier QML et crée une fenêtre.</short_description>
-    <syntax>
-        <syntax_item>h = qml_createqquickview(filename)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description
-      >une chaîne : nom de fichier QML.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>h</param_name>
-            <param_description>une poignée (handle) QObject.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>Charge un fichier QML</p>
-        <p>Il crée un composant QML, une fenêtre et charge le fichier .qml.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  <syntax>
+    <syntax_item>h = qml_createqquickview(filename)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>une chaîne : nom de fichier QML.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>une poignée (handle) QObject.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Charge un fichier QML</p>
+    <p>Il crée un composant QML, une fenêtre et charge le fichier .qml.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="false"
       ><![CDATA[ % see examples in [nelsonroot(), '/modules/qml_engine/examples']]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${qml_engine}qml_loadstring">qml_loadstring</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${qml_engine}qml_loadfile">qml_loadfile</link>
-        </see_also_item>
-    </see_also>
-    <history>
-            <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${qml_engine}qml_loadstring">qml_loadstring</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${qml_engine}qml_loadfile">qml_loadfile</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

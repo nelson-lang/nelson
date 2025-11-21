@@ -1,68 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>det</keyword>
-    <short_description>Matrix determinant.</short_description>
-    <syntax>
-        <syntax_item>res = det(x)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>x</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>det</keyword>
+  <short_description>Matrix determinant.</short_description>
+  <syntax>
+    <syntax_item>res = det(x)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x</param_name>
+      <param_description
       >a numeric value: scalar or square matrix (double or single)</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>res</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>res</param_name>
+      <param_description
       >real or complex number (double or single), the determinant base 10.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>res = det(x)</b> returns the determinant of square matrix x.
-        </p>
-        <p>For a</p>
-        <latex>2 \times 2</latex>
-        <p>matrix:</p>
-        <latex
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>res = det(x)</b> returns the determinant of square matrix x.</p>
+    <p>For a</p>
+    <latex>2 \times 2</latex>
+    <p>matrix:</p>
+    <latex
     >\det\begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix} = ad - bc</latex>
-        <p
+    <p
     >For larger matrices, the determinant can be computed using cofactor expansion:</p>
-        <latex>\det(A) = \sum_{j=1}^{n} (-1)^{i+j} a_{ij} M_{ij}</latex>
-        <p>where</p>
-        <latex>M_{ij}</latex>
-        <p>is the minor of element</p>
-        <latex>a_{ij}</latex>
-    </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    <latex>\det(A) = \sum_{j=1}^{n} (-1)^{i+j} a_{ij} M_{ij}</latex>
+    <p>where</p>
+    <latex>M_{ij}</latex>
+    <p>is the minor of element</p>
+    <latex>a_{ij}</latex>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [10 -20 40; -50 20 0; 10 0 30]
 D = det(A)
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${linear_algebra}rcond">rcond</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}rcond">rcond</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

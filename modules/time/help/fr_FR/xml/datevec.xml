@@ -1,70 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>datevec</keyword>
-        <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>datevec</keyword>
+  <short_description
   >Convertit un numéro de date série en vecteur date.</short_description>
-    <syntax>
-        <syntax_item>[Y, M, D, H, MN, S] = datevec(dv)</syntax_item>
-        <syntax_item>V = datevec(dv)</syntax_item>
-    </syntax>
-    <param_input>
-                <param_input_item>
-                        <param_name>dv</param_name>
-                        <param_description
+  <syntax>
+    <syntax_item>[Y, M, D, H, MN, S] = datevec(dv)</syntax_item>
+    <syntax_item>V = datevec(dv)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>dv</param_name>
+      <param_description
       >un scalaire, vecteur ou tableau multidimensionnel : numéro de date série.</param_description>
-                </param_input_item>
-    </param_input>
-    <param_output>
-                <param_output_item>
-                        <param_name>Y, M, D, H, MN, S</param_name>
-                        <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Y, M, D, H, MN, S</param_name>
+      <param_description
       >double : Année, Mois, Jour, Heures, Minutes, Secondes.</param_description>
-                </param_output_item>
-                <param_output_item>
-                        <param_name>V</param_name>
-                        <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>V</param_name>
+      <param_description
       >vecteur de double : [Année, Mois, Jour, Heures, Minutes, Secondes].</param_description>
-                </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >datevec</b> convertit un numéro de date série en vecteur date.</p>
-            <p
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>datevec</b> convertit un numéro de date série en vecteur date.</p>
+    <p
     >Pour mesurer les performances, il est préférable d'utiliser les fonctions tic et toc.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[datevec(now())
 datevec(720840)
 V = datevec([720840, now()])
 [Y, M, D, H, MN, S] = datevec([720840, now()])
 ]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${time}tic">tic</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${time}toc">toc</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}tic">tic</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}toc">toc</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,78 +1,76 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>lsim</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>lsim</keyword>
+  <short_description
   >Trace la réponse temporelle simulée d'un système dynamique à des entrées arbitraires.</short_description>
-    <syntax>
-        <syntax_item>lsim(sys, u, t)</syntax_item>
-        <syntax_item>lsim(sys, u, t, x0)</syntax_item>
-        <syntax_item>[y, tOut, x]  = lsim(SYS, U, T, X0)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>sys</param_name>
-            <param_description>un modèle lti.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>u</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>lsim(sys, u, t)</syntax_item>
+    <syntax_item>lsim(sys, u, t, x0)</syntax_item>
+    <syntax_item>[y, tOut, x]  = lsim(SYS, U, T, X0)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>sys</param_name>
+      <param_description>un modèle lti.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>u</param_name>
+      <param_description
       >Signal d'entrée : matrice ou vecteur.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>t</param_name>
-            <param_description
-      >Échantillons temporels : vecteur.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>x0</param_name>
-            <param_description
-      >Valeurs d'état initiales : vecteur.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>y</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description>Échantillons temporels : vecteur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x0</param_name>
+      <param_description>Valeurs d'état initiales : vecteur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>y</param_name>
+      <param_description
       >Données de réponse simulées : matrice ou vecteur.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>tOut</param_name>
-            <param_description>Vecteur temporel : vecteur.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>x</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>tOut</param_name>
+      <param_description>Vecteur temporel : vecteur.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>x</param_name>
+      <param_description
       >Trajectoires d'état : matrice ou vecteur.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>La fonction <b
-      >lsim(sys, u, t)</b> génère un tracé illustrant la réponse temporelle simulée du modèle de système dynamique <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>La fonction<b
+      >lsim(sys, u, t)</b> génère un tracé illustrant la réponse temporelle simulée du modèle de système dynamique<b
       >sys</b> à l'historique d'entrée (<b>t</b>, <b>u</b>).</p>
-        <p
-    >Les échantillons temporels pour la simulation sont spécifiés par le vecteur <b
+    <p
+    >Les échantillons temporels pour la simulation sont spécifiés par le vecteur<b
       >t</b>.</p>
-        <p>Dans le cas des systèmes à entrée unique, le signal d'entrée <b
+    <p>Dans le cas des systèmes à entrée unique, le signal d'entrée <b
       >u</b> est un vecteur de la même longueur que <b>t</b>.</p>
-        <p>Pour les systèmes à entrées multiples, <b
+    <p>Pour les systèmes à entrées multiples, <b
       >u</b> est un tableau avec des lignes correspondant aux échantillons temporels (length(t)) et des colonnes correspondant aux entrées de <b
       >sys</b>.</p>
-        <p
-    >Une utilisation supplémentaire de la fonction est démontrée par l'exemple <b
-      >lsim(sys, u, t, x0)</b>, où un vecteur <b
+    <p
+    >Une utilisation supplémentaire de la fonction est démontrée par l'exemple<b
+      >lsim(sys, u, t, x0)</b>, où un vecteur<b
       >x0</b> est fourni pour spécifier les valeurs d'état initiales.</p>
-        <p>Cela est particulièrement pertinent lorsque <b
+    <p>Cela est particulièrement pertinent lorsque <b
       >sys</b> est un modèle d'état-espace.</p>
-        <p
+    <p
     >La fonction simule la réponse temporelle du système dynamique pour un signal d'entrée arbitraire et trace les sorties correspondantes.</p>
-    </description>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[A = [-10 -20 -30;1  0  0; 0  1  0];
 B = [1;   0;   0];
@@ -84,16 +82,16 @@ X0 = [0.1 0.1 0.1];
 sys = ss(A, B, C, D);    
 lsim(sys, U, T, X0);
 ]]></example_item_data>
-            <example_item_img
+      <example_item_img
         src="../images/lsim1.svg"
         align="middle"
         generate="true"
       />
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[A = [-1.7  -0.3   1.1;
      -0.2  -1.7   0.6;
@@ -115,28 +113,28 @@ uP = gensig("pulse",3,Tf,Ts);
 u = [uSq uP];
 lsim(sys,u,t)
 ]]></example_item_data>
-            <example_item_img
+      <example_item_img
         src="../images/lsim2.svg"
         align="middle"
         generate="true"
       />
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${control_system}gensig">gensig</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${control_system}step">step</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}gensig">gensig</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}step">step</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

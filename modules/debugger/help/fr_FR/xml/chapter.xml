@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <module_name>debugger</module_name>
-    <chapter>Fonctions de débogage</chapter>
-    <chapter_description>
-        <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>debugger</module_name>
+  <chapter>Fonctions de débogage</chapter>
+  <chapter_description>
+    <p
     >Le module Débogueur de Nelson fournit des fonctions pour inspecter et analyser l'exécution des programmes.</p>
-        <p
+    <p
     >Il est conçu pour aider les utilisateurs à identifier les erreurs, tracer le flux d'exécution et mieux comprendre l'état des variables pendant l'exécution.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

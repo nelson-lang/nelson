@@ -1,64 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>loadenv</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>loadenv</keyword>
+  <short_description
   >Charger les variables d'environnement définies dans des fichiers .env ou des fichiers texte ordinaires.</short_description>
-    <syntax>
-        <syntax_item>loadenv(filename)</syntax_item>
-        <syntax_item>D = loadenv(filename)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>filename</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>loadenv(filename)</syntax_item>
+    <syntax_item>D = loadenv(filename)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
       >chaine de caractères: nom du fichier d'environnement.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>s</param_name>
-            <param_description
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description
       >dictionnaire: les variables d'environnement et leurs valeurs.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-      <p><b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >loadenv(filename)</b> charge les variables d'environnement à partir d'un fichier .env ou texte brut en analysant une paire clé-valeur par ligne et les définit comme variables d'environnement dans l'environnement Nelson.</p>
-      <p><b
+    <p><b
       >D = loadenv(filename)</b> renvoie un dictionnaire contenant les paires clé-valeur analysées. Lorsqu'un argument de sortie est spécifié, loadenv ne modifie pas l'environnement Nelson.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[env_file = [modulepath('os_functions', 'tests'), '/sample.env'];
 D = loadenv(env_file)
 getenv('Key1')
 loadenv(env_file)
 getenv('Key1')]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${os_functions}setenv">setenv</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${os_functions}getenv">getenv</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.15.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${os_functions}setenv">setenv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${os_functions}getenv">getenv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

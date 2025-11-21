@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
-	<language>en_US</language>
-	<keyword>ssselect</keyword>
+  <language>en_US</language>
+  <keyword>ssselect</keyword>
   <short_description>Extract subsystem from larger system.</short_description>
-
   <syntax>
     <syntax_item>sysOut = ssselect(sysIn, INPUTS, OUTPUTS)</syntax_item>
     <syntax_item>sysOut = ssselect(sysIn, INPUTS, OUTPUTS, STATES)</syntax_item>
   </syntax>
-
   <param_input>
     <param_input_item>
       <param_name>sysIn</param_name>
@@ -28,7 +26,6 @@
       <param_description>specified states</param_description>
     </param_input_item>
   </param_input>
-
   <param_output>
     <param_output_item>
       <param_name>sysOut</param_name>
@@ -36,16 +33,14 @@
       >state-space model: subsystem from larger system.</param_description>
     </param_output_item>
   </param_output>
-
   <description>
     <p><b>ssselect</b> extracts subsystem from larger system.</p>
   </description>
-
-<examples>
-  <example_item>
-    <example_item_type>nelson</example_item_type>
-    <example_item_description />
-    <example_item_data
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[A = [33,2,5; 23,200,2; 9,2,45];
 B = [4,5; 12,5; 82,1];
@@ -56,24 +51,20 @@ inputs = 1;
 outputs = 1;
 
 R = ssselect(sys1, inputs, outputs)
-]]>
-    </example_item_data>
-  </example_item>
-</examples>
-
+]]></example_item_data>
+    </example_item>
+  </examples>
   <see_also>
     <see_also_item>
       <link linkend="${control_system}ssdelete">ssdelete</link>
     </see_also_item>
   </see_also>
-
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
   </history>
-
   <authors>
     <author_item>Allan CORNET</author_item>
   </authors>

@@ -1,65 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>QObject_get</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>QObject_get</keyword>
+  <short_description
   >Retrieve a property value from an QObject handle.</short_description>
-    <syntax>
-        <syntax_item>R = get(h, property_name)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>h</param_name>
-            <param_description>an QObject handle.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>property_name</param_name>
-            <param_description>a string: property name.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>R</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>R = get(h, property_name)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>h</param_name>
+      <param_description>an QObject handle.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>property_name</param_name>
+      <param_description>a string: property name.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description
       >The data type of the return value depends on the invoked method.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >R = get(h, property_name)</b> returns the value of property asked.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>R = get(h, property_name)</b> returns the value of property asked.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[h = errordlg();
 h.visible % or get(h, 'visible')
 h.windowTitle % or get(h, 'windowTitle')]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link
-        linkend="${qml_engine}QObject_set"
-      >QObject_set (set)</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${handle}get">get</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${qml_engine}QObject_set">QObject_set (set)</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}get">get</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

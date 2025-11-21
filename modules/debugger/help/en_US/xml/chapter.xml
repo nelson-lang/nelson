@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>debugger</module_name>
-    <chapter>Debugger functions</chapter>
-    <chapter_description>
-        <p
-    >The Debugger module in Nelson provides functions to inspect and analyze program
-            execution.</p>
-        <p
-    >It is designed to help users identify errors, trace the flow of execution, and better
-            understand the state of variables during runtime.</p>
-    </chapter_description>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>debugger</module_name>
+  <chapter>Debugger functions</chapter>
+  <chapter_description>
+    <p
+    >The Debugger module in Nelson provides functions to inspect and analyze program execution.</p>
+    <p
+    >It is designed to help users identify errors, trace the flow of execution, and better understand the state of variables during runtime.</p>
+  </chapter_description>
 </xmldoc>

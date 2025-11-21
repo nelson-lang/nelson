@@ -1,37 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>nzmax</keyword>
-    <short_description>Reserved size for nonzero elements.</short_description>
-    <syntax>
-        <syntax_item>v = nzmax(M)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>M</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nzmax</keyword>
+  <short_description>Reserved size for nonzero elements.</short_description>
+  <syntax>
+    <syntax_item>v = nzmax(M)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>M</param_name>
+      <param_description
       >a matrix: double or logical, sparse or not.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>v</param_name>
-            <param_description>a integer value.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>v</param_name>
+      <param_description>a integer value.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >nzmax</b> returns the amount of storage allocated for nonzero elements.</p>
-        </description>
-        <used_function />
-        <bibliography />
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[I = [1 2 3];
 J = [3 1 2];
@@ -40,23 +39,23 @@ sp = sparse(I, J, V, 5, 4, 10)
 size(sp)
 nnz(sp)
 nzmax(sp)]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${sparse}sparse">sparse</link>
-            </see_also_item>
-            <see_also_item>
-                <link linkend="${sparse}nzmax">nnz</link>
-            </see_also_item>
-        </see_also>
-        <history>
-            <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>initial version</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${sparse}sparse">sparse</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${sparse}nzmax">nnz</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

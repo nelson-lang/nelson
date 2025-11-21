@@ -1,57 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>mag2db</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>mag2db</keyword>
+  <short_description
   >Convertit une magnitude en décibels (dB).</short_description>
-    <syntax>
-        <syntax_item>db = mag2db(mag)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-        <param_name>mag</param_name>
-        <param_description
+  <syntax>
+    <syntax_item>db = mag2db(mag)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>mag</param_name>
+      <param_description
       >tableau d'entrée : scalaire, vecteur ou matrice.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-        <param_name>db</param_name>
-        <param_description
-      >valeurs correspondantes en décibels</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>db</param_name>
+      <param_description>valeurs correspondantes en décibels</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >db = mag2db(mag)</b> convertit les valeurs de magnitude en décibels (dB).</p>
-            <p>La formule de conversion est :</p>
-            <latex>\text{dB} = 20 \log_{10}(\text{magnitude})</latex>
-            <p
+    <p>La formule de conversion est :</p>
+    <latex>\text{dB} = 20 \log_{10}(\text{magnitude})</latex>
+    <p
     >Cette conversion est couramment utilisée en traitement du signal, acoustique et électronique pour exprimer les rapports sur une échelle logarithmique.</p>
-        </description>
-        <examples>
-            <example_item>
-                <example_item_type>nelson</example_item_type>
-                <example_item_description />
-                                <example_item_data
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[DB = mag2db([1, 0.01])]]></example_item_data>
-            </example_item>
-        </examples>
-        <see_also>
-            <see_also_item>
-                <link linkend="${signal_processing}db2mag">db2mag</link>
-            </see_also_item>
-        </see_also>
-        <history>
-                <history_item>
-                <history_version>1.0.0</history_version>
-                <history_description>version initiale</history_description>
-            </history_item>
-        </history>
-        <authors>
-            <author_item>Allan CORNET</author_item>
-        </authors>
-    </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${signal_processing}db2mag">db2mag</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

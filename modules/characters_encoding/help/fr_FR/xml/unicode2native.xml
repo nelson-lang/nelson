@@ -1,75 +1,69 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>unicode2native</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>unicode2native</keyword>
+  <short_description
   >Convertit la représentation de caractères unicode en octets</short_description>
-    <syntax>
-        <syntax_item>bytes = unicode2native(str, charset)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>str</param_name>
-            <param_description
+  <syntax>
+    <syntax_item>bytes = unicode2native(str, charset)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>str</param_name>
+      <param_description
       >une chaîne scalaire ou un tableau de caractères vectoriel.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>charset</param_name>
-            <param_description
+    </param_input_item>
+    <param_input_item>
+      <param_name>charset</param_name>
+      <param_description
       >une chaîne scalaire ou un tableau de caractères vectoriel.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>bytes</param_name>
-            <param_description>un vecteur uint8</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>bytes</param_name>
+      <param_description>un vecteur uint8</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >unicode2native</b> convertit les caractères unicode en un tableau numérique.</p>
-            <p>
-                <b
+    <p><b
       >bytes = unicode2native(str)</b> convertit les caractères unicode en un tableau numérique (le jeu de caractères natif de la machine).</p>
-                <p>
-                    <b
-      >bytes = unicode2native(str, charset)</b> convertit les caractères unicode en un tableau numérique (jeu de caractères <b
+    <p><b
+      >bytes = unicode2native(str, charset)</b> convertit les caractères unicode en un tableau numérique (jeu de caractères<b
       >charset</b> au lieu du jeu de caractères natif).</p>
-                    <p>Liste des jeux de caractères : <a
+    <p>Liste des jeux de caractères :<a
         href="http://www.iana.org/assignments/character-sets/character-sets.xhtml"
       >http://www.iana.org/assignments/character-sets/character-sets.xhtml</a></p>
-                </description>
-                <used_function />
-                <bibliography>ICU library</bibliography>
-                <examples>
-                    <example_item>
-                        <example_item_type>nelson</example_item_type>
-                        <example_item_description />
-                        <example_item_data
+  </description>
+  <used_function />
+  <bibliography>ICU library</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[R = unicode2native('片仮名', 'SHIFT_JIS')]]></example_item_data>
-                    </example_item>
-                </examples>
-                <see_also>
-                    <see_also_item>
-                        <link
-        linkend="${characters_encoding}native2unicode"
-      >native2unicode</link>
-                    </see_also_item>
-                    <see_also_item>
-                        <link linkend="${string}char">char</link>
-                    </see_also_item>
-                </see_also>
-                <history>
-                    <history_item>
-                        <history_version>1.0.0</history_version>
-                        <history_description
-      >version initiale</history_description>
-                    </history_item>
-                </history>
-                <authors>
-                    <author_item>Allan CORNET</author_item>
-                </authors>
-            </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${characters_encoding}native2unicode">native2unicode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${string}char">char</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

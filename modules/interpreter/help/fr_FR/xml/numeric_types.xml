@@ -1,152 +1,151 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>numeric types</keyword>
-    <short_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>numeric types</keyword>
+  <short_description
   >À propos des types entiers et à virgule flottante.</short_description>
-    <description>
-        <p
+  <description>
+    <p
     >Dans Nelson, vous pouvez préciser le type de données d'un littéral numérique en utilisant un suffixe ou un spécificateur de type.</p>
-        <p
+    <p
     >Voici quelques suffixes courants pour spécifier le type des littéraux numériques :</p>
-        <p />
-        <table>
-            <tr>
-                <th>suffixe du littéral</th>
-                <th>type Nelson</th>
-            </tr>
-            <tr>
-                <td>f32</td>
-                <td>single (float simple précision)</td>
-            </tr>
-            <tr>
-                <td>f64</td>
-                <td>double (float double précision)</td>
-            </tr>
-            <tr>
-                <td>i8</td>
-                <td>int8 (entier signé 8 bits)</td>
-            </tr>
-            <tr>
-                <td>i16</td>
-                <td>int16 (entier signé 16 bits)</td>
-            </tr>
-            <tr>
-                <td>i32</td>
-                <td>int32 (entier signé 32 bits)</td>
-            </tr>
-            <tr>
-                <td>i64</td>
-                <td>int64 (entier signé 64 bits)</td>
-            </tr>
-            <tr>
-                <td>u8</td>
-                <td>uint8 (entier non signé 8 bits)</td>
-            </tr>
-            <tr>
-                <td>u16</td>
-                <td>uint16 (entier non signé 16 bits)</td>
-            </tr>
-            <tr>
-                <td>u32</td>
-                <td>uint32 (entier non signé 32 bits)</td>
-            </tr>
-            <tr>
-                <td>u64</td>
-                <td>uint64 (entier non signé 64 bits)</td>
-            </tr>
-        </table>
-        <p />
-        <p
+    <table>
+      <tr>
+        <th>suffixe du littéral</th>
+        <th>type Nelson</th>
+      </tr>
+      <tr>
+        <td>f32</td>
+        <td>single (float simple précision)</td>
+      </tr>
+      <tr>
+        <td>f64</td>
+        <td>double (float double précision)</td>
+      </tr>
+      <tr>
+        <td>i8</td>
+        <td>int8 (entier signé 8 bits)</td>
+      </tr>
+      <tr>
+        <td>i16</td>
+        <td>int16 (entier signé 16 bits)</td>
+      </tr>
+      <tr>
+        <td>i32</td>
+        <td>int32 (entier signé 32 bits)</td>
+      </tr>
+      <tr>
+        <td>i64</td>
+        <td>int64 (entier signé 64 bits)</td>
+      </tr>
+      <tr>
+        <td>u8</td>
+        <td>uint8 (entier non signé 8 bits)</td>
+      </tr>
+      <tr>
+        <td>u16</td>
+        <td>uint16 (entier non signé 16 bits)</td>
+      </tr>
+      <tr>
+        <td>u32</td>
+        <td>uint32 (entier non signé 32 bits)</td>
+      </tr>
+      <tr>
+        <td>u64</td>
+        <td>uint64 (entier non signé 64 bits)</td>
+      </tr>
+    </table>
+    <p />
+    <p
     >i64 : pour spécifier un entier signé 64 bits, vous pouvez utiliser le suffixe i64. exemple : A = 42i64</p>
-        <p
+    <p
     >f32 : pour spécifier un nombre à virgule flottante 32 bits (simple précision), vous pouvez utiliser le suffixe f32. exemple : 3.14f32</p>
-        <p
+    <p
     >Ces suffixes aident Nelson à inférer le type de données correct pour le littéral.</p>
-        <p
+    <p
     >Par défaut, Nelson infère automatiquement le type double et vous n'avez pas besoin de spécifier ce suffixe explicitement. exemple : A = 3.14</p>
-        <p
+    <p
     >Sauf si vous avez des besoins spécifiques ou devez dissiper une ambiguïté entre types, vous n'avez souvent pas besoin de préciser explicitement le type des littéraux numériques.</p>
-        <p
+    <p
     >Cependant, lorsque vous créez un tableau numérique de grands entiers dans Nelson, surtout lorsqu'ils dépassent la précision maximale représentable par double (plus grands que flintmax), Nelson stocke par défaut ces valeurs en double précision à virgule flottante.</p>
-    </description>
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >nombre simple explicite</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 single(3.1415)
 3.1415f32
 ]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >nombre double implicite-explicite</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 3.1415
 3.1415f64
 ]]></example_item_data>
-        </example_item>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
       >valeurs dépassant la précision maximale représentable par double</example_item_description>
-            <example_item_data
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 R1 = uint64([72057594035891654 81997179153022975])
 R2 = [72057594035891654u64 81997179153022975u64]
 ]]></example_item_data>
-        </example_item>
-    </examples>
-    <used_function />
-    <bibliography />
-    <see_also>
-        <see_also_item>
-            <link linkend="${double}double">double</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${single}single">single</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${integer}int8">int8</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${integer}int16">int16</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${integer}int32">int32</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${integer}int64">int64</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${integer}uint8">uint8</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${integer}uint16">uint16</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${integer}uint32">uint32</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${integer}uint64">uint64</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${double}double">double</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${single}single">single</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${integer}int8">int8</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${integer}int16">int16</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${integer}int32">int32</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${integer}int64">int64</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${integer}uint8">uint8</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${integer}uint16">uint16</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${integer}uint32">uint32</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${integer}uint64">uint64</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

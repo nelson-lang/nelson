@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <module_name>fftw</module_name>
-    <chapter>FFTW</chapter>
-    <chapter_description>
-      <p
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>fftw</module_name>
+  <chapter>FFTW</chapter>
+  <chapter_description>
+    <p
     >The FFTW module provides tools for computing fast Fourier transforms in Nelson.</p>
-      <p
+    <p
     >It supports one-dimensional, two-dimensional, and multidimensional transforms, as well as inverse transforms and frequency-domain manipulations.</p>
-      <p
+    <p
     >The module enables efficient spectral analysis and signal processing, leveraging high-performance algorithms for both real and complex data.</p>
-    </chapter_description>
+  </chapter_description>
 </xmldoc>

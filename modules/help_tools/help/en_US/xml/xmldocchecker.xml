@@ -1,85 +1,77 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>xmldocchecker</keyword>
-    <short_description>Checks a xml documentation file.</short_description>
-    <syntax>
-        <syntax_item>xmldocchecker()</syntax_item>
-
-        <syntax_item>xmldocchecker(xmldocfilename)</syntax_item>
-        <syntax_item
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>xmldocchecker</keyword>
+  <short_description>Checks a xml documentation file.</short_description>
+  <syntax>
+    <syntax_item>xmldocchecker()</syntax_item>
+    <syntax_item>xmldocchecker(xmldocfilename)</syntax_item>
+    <syntax_item
     >[state, errors_detected, warnings_detected] = xmldocchecker(xmldocfilename)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>xmldocfilename</param_name>
-            <param_description>a string: xml document.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>state</param_name>
-            <param_description
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>xmldocfilename</param_name>
+      <param_description>a string: xml document.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>state</param_name>
+      <param_description
       >a logical: true if the document is valid, false otherwise.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>errors_detected</param_name>
-            <param_description
-      >a cell of strings: errors detected.</param_description>
-        </param_output_item>
-        <param_output_item>
-            <param_name>warnings_detected</param_name>
-            <param_description
+    </param_output_item>
+    <param_output_item>
+      <param_name>errors_detected</param_name>
+      <param_description>a cell of strings: errors detected.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>warnings_detected</param_name>
+      <param_description
       >a cell of strings: warnings detected.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
-      >xmldocchecker</b> is a tool to check that a xml document is valid.</p>
-            <p
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>xmldocchecker</b> is a tool to check that a xml document is valid.</p>
+    <p
     >Principally used to validate the structure and content of XML files against nelson's help documentation.</p>
-            <p>
-                <b
-      >xmldocchecker()</b> check validity of all XML documentation files.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    <p><b>xmldocchecker()</b> check validity of all XML documentation files.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[xmldocchecker([nelsonroot(),'/module_skeleton/help/en_US/xml/nelson_sum.xml'])]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${xml}xmlchecker">xmlchecker</link>
-                </see_also_item>
-                <see_also_item>
-                    <link linkend="${help_tools}buildhelp">buildhelp</link>
-                </see_also_item>
-                <see_also_item>
-                    <link
-        linkend="${help_tools}buildhelpweb"
-      >buildhelpweb</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>initial version</history_description>
-                </history_item>
-                <history_item>
-                    <history_version>1.15.0</history_version>
-                    <history_description
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${xml}xmlchecker">xmlchecker</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${help_tools}buildhelp">buildhelp</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${help_tools}buildhelpweb">buildhelpweb</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description
       >Use xmlchecker for XML validation.</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

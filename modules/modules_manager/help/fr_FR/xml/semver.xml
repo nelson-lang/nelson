@@ -1,62 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>semver</keyword>
-    <short_description>gestionnaire de versions sémantiques.</short_description>
-    <syntax>
-        <syntax_item>r = semver(version_str, version_range)</syntax_item>
-    </syntax>
-    <param_input>
-        <param_input_item>
-            <param_name>version_str</param_name>
-            <param_description>chaîne : version actuelle.</param_description>
-        </param_input_item>
-        <param_input_item>
-            <param_name>version_range</param_name>
-        <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>semver</keyword>
+  <short_description>gestionnaire de versions sémantiques.</short_description>
+  <syntax>
+    <syntax_item>r = semver(version_str, version_range)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>version_str</param_name>
+      <param_description>chaîne : version actuelle.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>version_range</param_name>
+      <param_description
       >chaîne : version à comparer ou plage de versions.</param_description>
-        </param_input_item>
-    </param_input>
-    <param_output>
-        <param_output_item>
-            <param_name>r</param_name>
-            <param_description>nombre : -1, 0 ou 1.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>nombre : -1, 0 ou 1.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
       >semver</b> compare une chaîne de version à une version simple ou à une plage de versions.</p>
-            <p>Si une plage de versions est utilisée, <b
+    <p>Si une plage de versions est utilisée,<b
       >r</b> retourne 0 (non satisfaite) ou 1 (satisfaite).</p>
-            <p>Si une version simple est utilisée, une valeur de comparaison <b
+    <p>Si une version simple est utilisée, une valeur de comparaison<b
       >r</b> est renvoyée : -1 (inférieur), 0 (égal) ou 1 (supérieur).</p>
-            <p>Opérateurs de plage supportés :</p>
-            <p>
-                <b>=</b> - Égalité</p>
-                <p>
-                    <b>&gt;=</b> - Supérieur ou égal à</p>
-                    <p>
-                        <b>&lt;=</b> - Inférieur ou égal à</p>
-                        <p>
-                            <b>&lt;</b> - Inférieur à</p>
-                            <p>
-                                <b>&gt;</b> - Supérieur à</p>
-                                <p>
-                                    <b>^</b> - Opérateur caret (caret)</p>
-                                    <p>
-                                        <b>~</b> - Opérateur tilde (tilde)</p>
-                                    </description>
-                                    <used_function>semver.c</used_function>
-                                    <bibliography
-  >https://semver.org/</bibliography>
-                                    <examples>
-                                        <example_item>
-                                            <example_item_type
-      >nelson</example_item_type>
-                                            <example_item_description />
-                                            <example_item_data
+    <p>Opérateurs de plage supportés :</p>
+    <p><b>=</b> - Égalité</p>
+    <p><b>&gt;=</b> - Supérieur ou égal à</p>
+    <p><b>&lt;=</b> - Inférieur ou égal à</p>
+    <p><b>&lt;</b> - Inférieur à</p>
+    <p><b>&gt;</b> - Supérieur à</p>
+    <p><b>^</b> - Opérateur caret (caret)</p>
+    <p><b>~</b> - Opérateur tilde (tilde)</p>
+  </description>
+  <used_function>semver.c</used_function>
+  <bibliography>https://semver.org/</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[
 semver('1.5.10', '2.3.0')
@@ -72,29 +62,23 @@ semver('1.2.3', '^1.2.3')
 semver('1.2.2', '^1.2.3')
 semver('1.9.9', '^1.2.3')
 semver('2.0.1', '^1.2.3')]]></example_item_data>
-                                        </example_item>
-                                    </examples>
-                                    <see_also>
-                                        <see_also_item>
-                                            <link
-        linkend="${core}version"
-      >version</link>
-                                        </see_also_item>
-                                        <see_also_item>
-                                            <link
-        linkend="${modules_manager}getmodules"
-      >getmodules</link>
-                                        </see_also_item>
-                                    </see_also>
-                                    <history>
-                                        <history_item>
-                                            <history_version
-      >1.0.0</history_version>
-                                            <history_description
-      >version initiale</history_description>
-                                        </history_item>
-                                    </history>
-                                    <authors>
-                                        <author_item>Allan CORNET</author_item>
-                                    </authors>
-                                </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}version">version</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${modules_manager}getmodules">getmodules</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

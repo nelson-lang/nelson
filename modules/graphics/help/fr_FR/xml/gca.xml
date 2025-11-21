@@ -1,52 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>fr_FR</language>
-    <keyword>gca</keyword>
-    <short_description>Récupère l'objet axes courant.</short_description>
-    <syntax>
-        <syntax_item>ca = gca()</syntax_item>
-    </syntax>
-    <param_output>
-        <param_output_item>
-            <param_name>ca</param_name>
-            <param_description
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>gca</keyword>
+  <short_description>Récupère l'objet axes courant.</short_description>
+  <syntax>
+    <syntax_item>ca = gca()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>ca</param_name>
+      <param_description
       >Un objet graphique : objet axes graphique.</param_description>
-        </param_output_item>
-    </param_output>
-    <description>
-        <p>
-            <b>ca = gca()</b> retourne l'objet axes graphique courant.</p>
-        <p>Si aucun axes n'existe, <b
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>ca = gca()</b> retourne l'objet axes graphique courant.</p>
+    <p>Si aucun axes n'existe, <b
       >gca()</b> crée un axes et retourne son objet graphique.</p>
-    </description>
-    <used_function />
-    <bibliography />
-    <examples>
-        <example_item>
-            <example_item_type>nelson</example_item_type>
-            <example_item_description />
-            <example_item_data
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="adv-cli"
       ><![CDATA[ca = gca()
 isgraphics(ax, 'axes')]]></example_item_data>
-        </example_item>
-    </examples>
-    <see_also>
-        <see_also_item>
-            <link linkend="${graphics}isgraphics">isgraphics</link>
-        </see_also_item>
-        <see_also_item>
-            <link linkend="${graphics}axes">axes</link>
-        </see_also_item>
-    </see_also>
-    <history>
-        <history_item>
-            <history_version>1.0.0</history_version>
-            <history_description>version initiale</history_description>
-        </history_item>
-    </history>
-    <authors>
-        <author_item>Allan CORNET</author_item>
-    </authors>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}isgraphics">isgraphics</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}axes">axes</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
 </xmldoc>

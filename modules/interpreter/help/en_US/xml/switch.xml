@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
-    <copyright>SAME AS NELSON SOFTWARE</copyright>
-    <language>en_US</language>
-    <keyword>switch</keyword>
-    <short_description>switch statement.</short_description>
-    <syntax>
-        <syntax_item
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>switch</keyword>
+  <short_description>switch statement.</short_description>
+  <syntax>
+    <syntax_item
     >switch(expression), case test_expression_1, statements, case test_expression_2, statements, otherwise statements, end</syntax_item>
-    </syntax>
-    <description>
-        <p>
-            <b
+  </syntax>
+  <description>
+    <p><b
       >switch</b> statement is used to selective execute code based on the value of either scalar value or a string.</p>
-            <p>
-                <b>otherwise</b> clause is optional.</p>
-            </description>
-            <used_function />
-            <bibliography />
-            <examples>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description
-      >demo_switch.m</example_item_description>
-                    <example_item_data
+    <p><b>otherwise</b> clause is optional.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>demo_switch.m</example_item_description>
+      <example_item_data
         runnable="cli"
       ><![CDATA[function c = demo_switch(a)
  switch(a)
@@ -35,30 +32,30 @@
   end
 end
 ]]></example_item_data>
-                </example_item>
-                <example_item>
-                    <example_item_type>nelson</example_item_type>
-                    <example_item_description />
-                    <example_item_data
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
         runnable="cli"
       ><![CDATA[demo_switch('hello')
 demo_switch('red')
 demo_switch('?')
 ]]></example_item_data>
-                </example_item>
-            </examples>
-            <see_also>
-                <see_also_item>
-                    <link linkend="${interpreter}for">for</link>
-                </see_also_item>
-            </see_also>
-            <history>
-                <history_item>
-                    <history_version>1.0.0</history_version>
-                    <history_description>initial version</history_description>
-                </history_item>
-            </history>
-            <authors>
-                <author_item>Allan CORNET</author_item>
-            </authors>
-        </xmldoc>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${interpreter}for">for</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
