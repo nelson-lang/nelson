@@ -62,12 +62,13 @@ modules_list = {
 {'parallel', true};
 {'ipc', true};
 {'audio', true};
-{'graphics', true};
-{'graphics_io', true};
-{'image_processing', true};
+{'history_manager', true};
 {'gui', true};
 {'qml_engine', true};
 {'text_editor', true};
+{'graphics', true};
+{'graphics_io', true};
+{'image_processing', true};
 {'webtools', true};
 {'sio_client', true};
 {'dynamic_link', true};
@@ -78,7 +79,6 @@ modules_list = {
 {'com_engine', true};
 {'python_engine', true};
 {'julia_engine', true};
-{'history_manager', true};
 {'debugger', true};
 {'profiler', true};
 {'tests_manager', true};
