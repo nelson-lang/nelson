@@ -29,7 +29,7 @@ function varargout = deployhelp(varargin)
             end
             [status, message] = deployhelp_add(varargin{2}, varargin{3});
             if status
-                [status, message] = refresh_help(varargin{2})
+                [status, message] = refresh_help(varargin{2});
             end
         case 'remove'
             [status, message] = deployhelp_remove(varargin{2});
