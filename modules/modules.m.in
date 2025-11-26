@@ -62,12 +62,13 @@ modules_list = {
 {'parallel', @WITH_PARALLEL_MODULE@};
 {'ipc', @WITH_IPC_MODULE@};
 {'audio', @WITH_AUDIO_MODULE@};
-{'graphics', @WITH_GRAPHICS_MODULE@};
-{'graphics_io', @WITH_GRAPHICS_MODULE@};
-{'image_processing', @WITH_IMAGE_PROCESSING_MODULE@};
+{'history_manager', true};
 {'gui', @WITH_GUI_MODULE@};
 {'qml_engine', @WITH_QML_ENGINE_MODULE@};
 {'text_editor', @WITH_TEXT_EDITOR_MODULE@};
+{'graphics', @WITH_GRAPHICS_MODULE@};
+{'graphics_io', @WITH_GRAPHICS_MODULE@};
+{'image_processing', @WITH_IMAGE_PROCESSING_MODULE@};
 {'webtools', @WITH_WEBTOOLS_MODULE@};
 {'sio_client', @WITH_SIO_CLIENT_MODULE@};
 {'dynamic_link', @WITH_DYNAMIC_LINK_MODULE@};
@@ -78,7 +79,6 @@ modules_list = {
 {'com_engine', false};
 {'python_engine', @WITH_PYTHON_ENGINE_MODULE@};
 {'julia_engine', @WITH_JULIA_ENGINE_MODULE@};
-{'history_manager', true};
 {'debugger', true};
 {'profiler', true};
 {'tests_manager', @WITH_TESTS_MANAGER_MODULE@};
