@@ -41,7 +41,11 @@ function doc(varargin)
   language = getlanguage();
   [stSearchResults, baseUrl] = getSearchBase(mainUrl, language, version_string, islocalhelp);
   url = buildUrl(baseUrl, txt, islocalhelp, stSearchResults);
-  openBrowser(url, islocalhelp);
+  if isSIO
+    sioemit('help', url);
+  else
+    openBrowser(url, islocalhelp);
+  end
 end
 %=============================================================================
 function [stSearchResults, baseUrl] = getSearchBase(mainUrl, language, version_string, islocalhelp)
