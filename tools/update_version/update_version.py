@@ -12,6 +12,7 @@ import argparse
 import subprocess
 import sys
 import json
+import datetime
 
 
 
@@ -218,6 +219,64 @@ def edit_package_json(major, minor, maintenance):
         json.dump(data, outfile, indent=4)
 
 
+def edit_desktop_file(filename, version_str):
+    lines_out = []
+    with open(filename, encoding='utf-8') as f:
+        lines_in = f.readlines()
+        for line in lines_in:
+            line = line.replace('\r\n', '')
+            line = line.replace('\n', '')
+            if line.strip().startswith('X-Nelson-Version='):
+                lines_out.append('X-Nelson-Version=' + version_str)
+            else:
+                lines_out.append(line)
+    with open(filename, 'w', encoding='utf-8') as f:
+        for l in lines_out:
+            f.write(l + '\n')
+
+
+def edit_desktop_files(major, minor, maintenance):
+    version_str = str(major) + '.' + str(minor) + '.' + str(maintenance)
+    for (directory, _, files) in os.walk('./desktop'):
+        for f in files:
+            path = os.path.join(directory, f)
+            if os.path.exists(path) and path.endswith('.desktop'):
+                edit_desktop_file(path, version_str)
+
+
+def edit_appdata_file(filename, version_str, date_str):
+    import re
+    lines_out = []
+    with open(filename, encoding='utf-8') as f:
+        lines_in = f.readlines()
+        for line in lines_in:
+            s = line.replace('\r\n', '').replace('\n', '')
+            # update release element attributes if present on the line
+            if '<release ' in s and 'version=' in s:
+                s = re.sub(r'version="[^"]*"', 'version="' + version_str + '"', s)
+                if 'date=' in s:
+                    s = re.sub(r'date="[^"]*"', 'date="' + date_str + '"', s)
+                else:
+                    # add date attribute if missing
+                    s = s.replace('<release ', '<release date="' + date_str + '" ', 1)
+                lines_out.append(s)
+            else:
+                lines_out.append(s)
+    with open(filename, 'w', encoding='utf-8') as f:
+        for l in lines_out:
+            f.write(l + '\n')
+
+
+def edit_appdata_files(major, minor, maintenance):
+    version_str = str(major) + '.' + str(minor) + '.' + str(maintenance)
+    date_str = datetime.date.today().isoformat()
+    for (directory, _, files) in os.walk('./desktop'):
+        for f in files:
+            path = os.path.join(directory, f)
+            if os.path.exists(path) and path.endswith('.appdata.xml'):
+                edit_appdata_file(path, version_str, date_str)
+
+
 if __name__ == '__main__':
     major = None
     minor = None
@@ -278,4 +337,7 @@ if __name__ == '__main__':
     if update_from_command_line == True:
         edit_package_json(major, minor, maintenance)
     edit_homepage_md(version_str)
+    edit_desktop_files(major, minor, maintenance)
+    edit_appdata_files(major, minor, maintenance)
+
     sys.exit(0)
