@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- [#1493](https://github.com/nelson-lang/nelson/issues/1493) doc funtion no more work on nelson cloud with 1.15.0.
 - [#1492](https://github.com/nelson-lang/nelson/issues/1492) Temporary message appears when help for toolbox is generated.
 
 ## 1.15.0 - (2025-11-21)
