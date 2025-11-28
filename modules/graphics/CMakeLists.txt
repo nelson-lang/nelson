@@ -157,6 +157,11 @@ install(
     DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples
     DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
     FILES_MATCHING
+    PATTERN "*.png")
+install(
+    DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/examples
+    DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
+    FILES_MATCHING
     PATTERN "*.nh5")    
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/resources
