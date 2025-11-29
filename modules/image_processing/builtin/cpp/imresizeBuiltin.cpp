@@ -68,7 +68,9 @@ imresizeBuiltin(int nLhs, const ArrayOfVector& argIn)
     // Accept method as last positional argument (MATLAB style)
     size_t lastArgIndex = argIn.size() - 1;
     bool hasMethodAsLastArg = false;
-    if (lastArgIndex > scaleParamIndex && argIn[lastArgIndex].isRowVectorCharacterArray()) {
+    if (lastArgIndex > scaleParamIndex
+        && (argIn[lastArgIndex].isRowVectorCharacterArray()
+            || argIn[lastArgIndex].isScalarStringArray())) {
         // If the number of remaining args after scaleParamIndex is odd, last one is method
         size_t numOptionArgs = lastArgIndex - (scaleParamIndex + 1) + 1;
         if (numOptionArgs % 2 == 1) {
@@ -85,7 +87,7 @@ imresizeBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(_W("Parameter-value pairs must be complete."));
         }
 
-        if (!argIn[i].isRowVectorCharacterArray()) {
+        if (!argIn[i].isRowVectorCharacterArray() && !argIn[i].isScalarStringArray()) {
             Error(_W("Parameter names must be strings."));
         }
 
@@ -94,7 +96,7 @@ imresizeBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf paramValue = argIn[i + 1];
 
         if (paramName == L"antialiasing") {
-            if (paramValue.isRowVectorCharacterArray()) {
+            if (paramValue.isRowVectorCharacterArray() || paramValue.isScalarStringArray()) {
                 std::wstring antialiasingStr = paramValue.getContentAsWideString();
                 options.antialiasing = parseAntialiasing(antialiasingStr);
             } else if (paramValue.isLogical() || paramValue.isNumeric()) {
@@ -105,7 +107,7 @@ imresizeBuiltin(int nLhs, const ArrayOfVector& argIn)
                 Error(_W("Antialiasing parameter must be a logical value or string."));
             }
         } else if (paramName == L"colormap" && isIndexedImage) {
-            if (!paramValue.isRowVectorCharacterArray()) {
+            if (!paramValue.isRowVectorCharacterArray() && !paramValue.isScalarStringArray()) {
                 Error(_W("Colormap parameter must be a string ('optimized' or 'original')."));
             }
             std::wstring colormapMode = paramValue.getContentAsWideString();
