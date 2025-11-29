@@ -11,8 +11,29 @@
 #include <iostream>
 #include <csignal>
 #include <algorithm>
+#include <vector>
+#include <cstdio>
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#else
+#include <sys/ioctl.h>
+#include <unistd.h>
+#endif
+#ifdef _WIN32
+#ifndef STDIN_FILENO
+#define STDIN_FILENO 0
+#endif
+#ifndef STDOUT_FILENO
+#define STDOUT_FILENO 1
+#endif
+#ifndef STDERR_FILENO
+#define STDERR_FILENO 2
+#endif
+#endif
 #include "nlsBuildConfig.h"
 #include "AdvancedTerminal.hpp"
+#include "replxx/include/replxx.hxx"
 #include "StringHelpers.hpp"
 #include "NelsonHistory.hpp"
 #include "characters_encoding.hpp"
@@ -21,43 +42,161 @@
 #include "CompleterHelper.hpp"
 #endif
 //=============================================================================
+static replxx::Replxx::completions_t
+completionHook(const std::string& buffer, int& contextLen)
+{
+    replxx::Replxx::completions_t completions;
+#if WITH_TEXT_COMPLETION_MODULE
+    std::wstring currentW = utf8_to_wstring(buffer);
+    std::wstring wprefix = getPartialLine(currentW);
+    std::string prefixUtf8 = wstring_to_utf8(wprefix);
+    Nelson::stringVector dictionary = getCompletionDictionary(wprefix);
+
+    std::size_t prefixLen = prefixUtf8.size();
+    contextLen = static_cast<int>(prefixLen <= buffer.size() ? prefixLen : buffer.size());
+    std::string head;
+    if (prefixLen <= buffer.size()) {
+        head = buffer.substr(0, buffer.size() - prefixLen);
+    }
+
+    for (const auto& entry : dictionary) {
+        if (entry.compare(0, prefixLen, prefixUtf8) == 0) {
+            completions.emplace_back(head + entry);
+        }
+    }
+#else
+    (void)buffer;
+    contextLen = 0;
+#endif
+    return completions;
+}
+//=============================================================================
 static void
 intHandler(int dummy = 0)
 {
     Nelson::sigInterrupt(1);
 }
 //=============================================================================
-AdvancedTerminal::AdvancedTerminal()
+AdvancedTerminal::AdvancedTerminal() : repl(), syncedHistorySize(0)
 {
     signal(SIGINT, intHandler);
 #ifndef _MSC_VER
     signal(SIGTSTP, intHandler);
 #endif
+#ifdef _WIN32
+    repl.reset(
+        new replxx::Replxx(std::cin, std::cout, _fileno(stdin), _fileno(stdout), _fileno(stderr)));
+#else
+    repl.reset(new replxx::Replxx(std::cin, std::cout, STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO));
+#endif
+    if (repl) {
+        repl->set_completion_callback(&completionHook);
+        repl->set_indent_multiline(true);
+    }
     atPrompt = false;
 }
 //=============================================================================
 AdvancedTerminal::~AdvancedTerminal() = default;
 //=============================================================================
-linse::completions
-completionHook(std::string_view prefix)
+namespace {
+//=============================================================================
+static size_t
+queryTerminalWidth()
 {
-    linse::completions lc;
-#if WITH_TEXT_COMPLETION_MODULE
-    std::string str(prefix);
-    std::wstring wprefix = utf8_to_wstring(str);
-    wprefix = getPartialLine(wprefix);
-    str = wstring_to_utf8(wprefix);
-    // basic completion
-    stringVector dictionary = getCompletionDictionary(wprefix);
 
-    for (std::size_t i = 0; i < dictionary.size(); ++i) {
-        if (strncmp(str.data(), dictionary[i].c_str(), str.size()) == 0) {
-            lc.add_completion(std::string_view { dictionary[i] }.substr(str.size()));
-        }
+#ifdef _WIN32
+    CONSOLE_SCREEN_BUFFER_INFO info;
+    if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info)) {
+        return static_cast<size_t>(info.srWindow.Right - info.srWindow.Left + 1);
+    }
+#else
+    struct winsize ws
+    { };
+    if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) != -1 && ws.ws_col > 0) {
+        return static_cast<size_t>(ws.ws_col);
     }
 #endif
-    return lc;
+    return DEFAULT_CONSOLE_WIDTH;
 }
+//=============================================================================
+static size_t
+queryTerminalHeight()
+{
+
+#ifdef _WIN32
+    CONSOLE_SCREEN_BUFFER_INFO info;
+    if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info)) {
+        return static_cast<size_t>(info.srWindow.Bottom - info.srWindow.Top + 1);
+    }
+#else
+    struct winsize ws
+    { };
+    if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) != -1 && ws.ws_row > 0) {
+        return static_cast<size_t>(ws.ws_row);
+    }
+#endif
+    return DEFAULT_CONSOLE_HEIGHT;
+}
+//=============================================================================
+static void
+injectNewlineIntoInput()
+{
+#ifdef _WIN32
+    HANDLE stdinHandle = GetStdHandle(STD_INPUT_HANDLE);
+    if (stdinHandle == INVALID_HANDLE_VALUE) {
+        return;
+    }
+    INPUT_RECORD records[2] = {};
+    records[0].EventType = KEY_EVENT;
+    records[0].Event.KeyEvent.bKeyDown = TRUE;
+    records[0].Event.KeyEvent.wVirtualKeyCode = VK_RETURN;
+    records[0].Event.KeyEvent.wVirtualScanCode = MapVirtualKey(VK_RETURN, MAPVK_VK_TO_VSC);
+    records[0].Event.KeyEvent.uChar.UnicodeChar = L'\r';
+    records[1] = records[0];
+    records[1].Event.KeyEvent.bKeyDown = FALSE;
+    DWORD written = 0;
+    WriteConsoleInputW(stdinHandle, records, 2, &written);
+#else
+#ifdef TIOCSTI
+    char ch = '\n';
+    ioctl(STDIN_FILENO, TIOCSTI, &ch);
+#endif
+#endif
+}
+//=============================================================================
+static void
+writeStdoutUtf8(const std::string& msg)
+{
+#ifdef _WIN32
+    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (handle != nullptr && handle != INVALID_HANDLE_VALUE) {
+        std::wstring wide = utf8_to_wstring(msg);
+        DWORD written = 0;
+        WriteConsoleW(handle, wide.c_str(), static_cast<DWORD>(wide.size()), &written, nullptr);
+        return;
+    }
+#endif
+    std::cout << msg;
+    std::cout.flush();
+}
+//=============================================================================
+static void
+writeStderrUtf8(const std::string& msg)
+{
+#ifdef _WIN32
+    HANDLE handle = GetStdHandle(STD_ERROR_HANDLE);
+    if (handle != nullptr && handle != INVALID_HANDLE_VALUE) {
+        std::wstring wide = utf8_to_wstring(msg);
+        DWORD written = 0;
+        WriteConsoleW(handle, wide.c_str(), static_cast<DWORD>(wide.size()), &written, nullptr);
+        return;
+    }
+#endif
+    std::cerr << msg;
+    std::cerr.flush();
+}
+//=============================================================================
+} // namespace
 //=============================================================================
 std::wstring
 AdvancedTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
@@ -66,30 +205,35 @@ AdvancedTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
     if (!prompt.empty()) {
         this->diary.writeMessage(prompt);
     }
-    wstringVector historyContent = Nelson::History::get();
-    for (auto& line : historyContent) {
-        ls.history.add(wstring_to_utf8(line));
-    }
-    ls.completion_callback = linse::word_completion { &completionHook };
-    ls.install_window_change_handler();
-    auto line = ls(wstring_to_utf8(prompt).c_str());
-    std::wstring retLineW = L"";
-    if (line.has_value()) {
-        retLineW = utf8_to_wstring(line.value());
-        if (retLineW.empty()) {
-            retLineW = L"\n";
-        }
-        if (!bIsInput) {
-            Nelson::History::addLine(retLineW);
-        }
-        this->diary.writeMessage(retLineW);
-    } else {
-        ls.clearLine();
-        ls.interruptReadLine(false);
-        retLineW = L"\n";
+    syncHistory();
+
+    std::string promptUtf8 = wstring_to_utf8(prompt);
+    if (!repl) {
         atPrompt = false;
-        return retLineW;
+        return L"\n";
     }
+
+    const char* line = repl->input(promptUtf8);
+    if (line == nullptr || line[0] == 0) {
+        atPrompt = false;
+        return L"\n";
+    }
+
+    std::string utf8Line(line);
+
+    std::string logLineUtf8 = utf8Line;
+    logLineUtf8.push_back('\n');
+    std::wstring retLineW = utf8_to_wstring(logLineUtf8);
+
+    if (!bIsInput) {
+        Nelson::History::addLine(retLineW);
+        ++syncedHistorySize;
+        if (repl && !utf8Line.empty()) {
+            repl->history_add(utf8Line);
+        }
+    }
+
+    this->diary.writeMessage(retLineW);
     if (bIsInput) {
         if (StringHelpers::ends_with(retLineW, L"\n")) {
             retLineW.pop_back();
@@ -122,13 +266,13 @@ AdvancedTerminal::getLine(const std::string& prompt)
 size_t
 AdvancedTerminal::getTerminalWidth()
 {
-    return ls.get_screen_columns();
+    return queryTerminalWidth();
 }
 //=============================================================================
 size_t
 AdvancedTerminal::getTerminalHeight()
 {
-    return ls.get_screen_rows();
+    return queryTerminalHeight();
 }
 //=============================================================================
 void
@@ -136,9 +280,8 @@ AdvancedTerminal::outputMessage(const std::wstring& msg)
 {
     std::string _msg = wstring_to_utf8(msg);
     if (atPrompt) {
-        ls.clearLine();
+        writeStdoutUtf8("\n");
         atPrompt = false;
-        ls.interruptReadLine();
     }
 
     outputMessage(_msg);
@@ -147,7 +290,7 @@ AdvancedTerminal::outputMessage(const std::wstring& msg)
 void
 AdvancedTerminal::outputMessage(const std::string& msg)
 {
-    ls.writeStdout(msg);
+    writeStdoutUtf8(msg);
     this->diary.writeMessage(msg);
 }
 //=============================================================================
@@ -160,7 +303,11 @@ AdvancedTerminal::errorMessage(const std::wstring& msg)
 void
 AdvancedTerminal::errorMessage(const std::string& msg)
 {
-    ls.writeStderr(msg);
+    if (atPrompt) {
+        writeStdoutUtf8("\n");
+        atPrompt = false;
+    }
+    writeStderrUtf8(msg);
     this->diary.writeMessage(msg);
 }
 //=============================================================================
@@ -173,14 +320,20 @@ AdvancedTerminal::warningMessage(const std::wstring& msg)
 void
 AdvancedTerminal::warningMessage(const std::string& msg)
 {
-    ls.writeStdout(msg);
+    if (atPrompt) {
+        writeStdoutUtf8("\n");
+        atPrompt = false;
+    }
+    writeStdoutUtf8(msg);
     this->diary.writeMessage(msg);
 }
 //=============================================================================
 void
 AdvancedTerminal::clearTerminal()
 {
-    ls.clear_screen();
+    if (repl) {
+        repl->clear_screen();
+    }
 }
 //=============================================================================
 bool
@@ -192,7 +345,31 @@ AdvancedTerminal::isAtPrompt()
 void
 AdvancedTerminal::interruptGetLineByEvent()
 {
-    ls.clearLine();
-    ls.interruptReadLine();
+    injectNewlineIntoInput();
+}
+//=============================================================================
+void
+AdvancedTerminal::syncHistory()
+{
+    if (!repl) {
+        return;
+    }
+    Nelson::wstringVector historyContent = Nelson::History::get();
+    if (syncedHistorySize > historyContent.size()) {
+        syncedHistorySize = 0;
+    }
+
+    for (std::size_t i = syncedHistorySize; i < historyContent.size(); ++i) {
+        std::wstring cleanedLine = historyContent[i];
+        while (
+            !cleanedLine.empty() && (cleanedLine.back() == L'\n' || cleanedLine.back() == L'\r')) {
+            cleanedLine.pop_back();
+        }
+        std::string utf8Line = wstring_to_utf8(cleanedLine);
+        if (!utf8Line.empty()) {
+            repl->history_add(utf8Line);
+        }
+    }
+    syncedHistorySize = historyContent.size();
 }
 //=============================================================================

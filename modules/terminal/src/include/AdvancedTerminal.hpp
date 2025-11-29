@@ -9,17 +9,22 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <memory>
 #include <string>
 #include "Interface.hpp"
 #include "nlsTerminal_exports.h"
-#include "linse.hpp"
+// Forward declaration to avoid pulling replxx headers for all consumers.
+namespace replxx {
+class Replxx;
+}
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 class NLSTERMINAL_IMPEXP AdvancedTerminal : public Interface
 {
 private:
-    linse ls;
+    std::unique_ptr<replxx::Replxx> repl;
+    size_t syncedHistorySize;
 
 public:
     AdvancedTerminal();
@@ -75,6 +80,8 @@ public:
 private:
     std::wstring
     getTextLine(const std::wstring& prompt, bool bIsInput);
+    void
+    syncHistory();
     bool atPrompt;
 };
 //=============================================================================

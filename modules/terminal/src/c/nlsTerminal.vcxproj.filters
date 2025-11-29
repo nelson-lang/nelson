@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\replxx">
+      <UniqueIdentifier>{50dc236e-f139-4f0a-8338-394179d503a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\nlsTerminal_exports.h">
@@ -22,9 +25,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\AdvancedTerminal.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\linse.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -37,6 +37,39 @@
     </ClCompile>
     <ClCompile Include="..\cpp\AdvancedTerminal.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\replxx\src\ConvertUTF.cpp">
+      <Filter>Source Files\replxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\replxx\src\wcwidth.cpp">
+      <Filter>Source Files\replxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\replxx\src\conversion.cxx">
+      <Filter>Source Files\replxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\replxx\src\escape.cxx">
+      <Filter>Source Files\replxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\replxx\src\history.cxx">
+      <Filter>Source Files\replxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\replxx\src\prompt.cxx">
+      <Filter>Source Files\replxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\replxx\src\replxx.cxx">
+      <Filter>Source Files\replxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\replxx\src\replxx_impl.cxx">
+      <Filter>Source Files\replxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\replxx\src\terminal.cxx">
+      <Filter>Source Files\replxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\replxx\src\util.cxx">
+      <Filter>Source Files\replxx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\replxx\src\windows.cxx">
+      <Filter>Source Files\replxx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

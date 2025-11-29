@@ -134,13 +134,13 @@ Fork of the popular zip manipulation library found in the zlib distribution.
 
 > <https://github.com/commonmark/cmark//blob/master/COPYING> (BSD)
 
-- Linenoise
+- replxx
 
-Linse is a header-only readline library for C++17.
+A readline and libedit replacement that supports UTF-8, syntax highlighting, hints and Windows and is BSD licensed.
 
-> <https://github.com/wx257osn2/linse>
+> <https://github.com/AmokHuginnsson/replxx>
 
-> <https://github.com/wx257osn2/linse/blob/master/LICENSE>
+> <https://github.com/wx257osn2/linse/blob/master/LICENShttps://github.com/AmokHuginnsson/replxx/blob/master/LICENSE.md> (BSD)
 
 - ICU
 

@@ -13,7 +13,8 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
 file(GLOB TERMINAL_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/BasicTerminal.cpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/AdvancedTerminal.cpp"
-     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/linenoise.cpp")
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/replxx/src/*.cpp"
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/replxx/src/*.cxx")
 list(FILTER TERMINAL_SRC EXCLUDE REGEX
      "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
 # ==============================================================================
@@ -24,6 +25,8 @@ target_include_directories(
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/c
+          ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/replxx/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/replxx/src
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
