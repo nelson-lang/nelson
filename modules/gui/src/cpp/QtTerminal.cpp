@@ -199,8 +199,10 @@ QtTerminal::banner()
             repaint();
         }
     }
+#ifdef _MSC_VER
     fprintf(stdout, "Nelson %s - Copyright (c) 2016-present Allan CORNET (Nelson)\n",
         NELSON_VERSION_STRING);
+#endif
 }
 //=============================================================================
 void
@@ -1313,7 +1315,6 @@ QtTerminal::findNext()
 void
 QtTerminal::insertCompletionImpl(const QString& completion)
 {
-    // Forward vers l'implémentation publique existante.
     insertCompletion(completion);
 }
 //=============================================================================

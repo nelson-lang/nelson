@@ -7,8 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.16.0 - (UNRELEASED)
 
+### Changed
+
+- advanced terminal read line: `linenoise` replaced by `replxx` library.
+
 ### Fixed
 
+- [#1494](https://github.com/nelson-lang/nelson/issues/1494) in adv-cli mode, pasting long lines causes character duplication.
 - [#1493](https://github.com/nelson-lang/nelson/issues/1493) doc funtion no more work on nelson cloud with 1.15.0.
 - [#1492](https://github.com/nelson-lang/nelson/issues/1492) Temporary message appears when help for toolbox is generated.
 - blas, openblas detection in example `run([modulepath('dynamic_link'), '/examples/call_fortran.m'])` on some linux.
