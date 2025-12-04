@@ -33,9 +33,6 @@
     <ClInclude Include="..\..\src\include\IsValidFieldname.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\include\nlsConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\include\StringToClass.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

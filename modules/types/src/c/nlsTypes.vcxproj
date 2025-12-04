@@ -214,7 +214,6 @@
     <ClInclude Include="..\..\src\include\Data.hpp" />
     <ClInclude Include="..\..\src\include\Dimensions.hpp" />
     <ClInclude Include="..\..\src\include\IsValidFieldname.hpp" />
-    <ClInclude Include="..\..\src\include\nlsConfig.h" />
     <ClInclude Include="..\..\src\include\nlsTypes_exports.h" />
     <ClInclude Include="..\..\src\include\SparseDynamicFunctions.hpp" />
     <ClInclude Include="..\..\src\include\StringToClass.hpp" />

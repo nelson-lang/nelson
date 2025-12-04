@@ -105,7 +105,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -126,7 +127,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -151,7 +153,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -177,12 +180,14 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\getBuiltin.cpp" />
+    <ClCompile Include="..\cpp\cancelBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_displayBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
@@ -238,6 +243,7 @@
     <ClInclude Include="..\include\deleteBuiltin.hpp" />
     <ClInclude Include="..\include\generic_eq_handleBuiltin.hpp" />
     <ClInclude Include="..\include\getBuiltin.hpp" />
+    <ClInclude Include="..\include\cancelBuiltin.hpp" />
     <ClInclude Include="..\include\handle_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\handle_eqBuiltin.hpp" />
     <ClInclude Include="..\include\handle_fieldnamesBuiltin.hpp" />

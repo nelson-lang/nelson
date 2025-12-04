@@ -131,6 +131,12 @@ public:
         return this->withWatcher;
     }
     //=============================================================================
+    void
+    addCleanupFunction(ArrayOf& task)
+    {
+        cleanupTasks.push_back(task);
+    }
+    //=============================================================================
 private:
     std::string
     getCompleteName();
@@ -140,6 +146,10 @@ private:
 
     ArrayOfVector
     evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, int nargout);
+
+    ArrayOfVector cleanupTasks;
+    void
+    onCleanup(Evaluator* eval);
 
     bool isScript;
     bool withWatcher;

@@ -8,4 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 addgateway(modulepath('interpreter', 'builtin'), 'interpreter')
+addpath(modulepath('interpreter', 'functions'), '-frozen');
 %=============================================================================
