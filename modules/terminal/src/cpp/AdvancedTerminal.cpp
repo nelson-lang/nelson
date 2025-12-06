@@ -13,7 +13,11 @@
 #include <algorithm>
 #include <vector>
 #include <cstdio>
+#include <unordered_set>
 #ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #else
@@ -48,22 +52,47 @@ completionHook(const std::string& buffer, int& contextLen)
     replxx::Replxx::completions_t completions;
 #if WITH_TEXT_COMPLETION_MODULE
     std::wstring currentW = utf8_to_wstring(buffer);
-    std::wstring wprefix = getPartialLine(currentW);
-    std::string prefixUtf8 = wstring_to_utf8(wprefix);
-    Nelson::stringVector dictionary = getCompletionDictionary(wprefix);
+    std::wstring completionPrefix = currentW;
+    Nelson::wstringVector files, builtin, macros, variables, fields, properties, methods;
 
-    std::size_t prefixLen = prefixUtf8.size();
-    contextLen = static_cast<int>(prefixLen <= buffer.size() ? prefixLen : buffer.size());
-    std::string head;
-    if (prefixLen <= buffer.size()) {
-        head = buffer.substr(0, buffer.size() - prefixLen);
+    if (!computeCompletion(currentW, completionPrefix, files, builtin, macros, variables, fields,
+            properties, methods)) {
+        contextLen = 0;
+        return completions;
     }
 
-    for (const auto& entry : dictionary) {
-        if (entry.compare(0, prefixLen, prefixUtf8) == 0) {
-            completions.emplace_back(head + entry);
+    std::string completionPrefixUtf8 = wstring_to_utf8(completionPrefix);
+    contextLen = static_cast<int>(
+        std::min(completionPrefixUtf8.size(), static_cast<std::size_t>(buffer.size())));
+
+    // For file completions, we need to prepend the directory path
+    // because FileCompleter returns only filenames, not full paths
+    std::wstring filePathPrefix;
+    if (!files.empty()) {
+        size_t lastSep = completionPrefix.find_last_of(L"/\\");
+        if (lastSep != std::wstring::npos) {
+            filePathPrefix = completionPrefix.substr(0, lastSep + 1);
         }
     }
+
+    std::unordered_set<std::string> uniqueEntries;
+    auto appendCategory = [&](const Nelson::wstringVector& source, const std::wstring& prefix) {
+        for (const auto& entry : source) {
+            std::wstring fullEntry = prefix + entry;
+            std::string utf8Entry = wstring_to_utf8(fullEntry);
+            if (uniqueEntries.insert(utf8Entry).second) {
+                completions.emplace_back(std::move(utf8Entry));
+            }
+        }
+    };
+
+    appendCategory(files, filePathPrefix);
+    appendCategory(builtin, L"");
+    appendCategory(macros, L"");
+    appendCategory(variables, L"");
+    appendCategory(fields, L"");
+    appendCategory(properties, L"");
+    appendCategory(methods, L"");
 #else
     (void)buffer;
     contextLen = 0;

@@ -1546,54 +1546,9 @@ Replxx::ReplxxImpl::do_complete_line(bool showCompletions_)
         } else {
             _terminal.clear_screen(Terminal::CLEAR_SCREEN::TO_END);
         }
-        size_t pauseRow = _terminal.get_screen_rows() - 1;
         size_t rowCount = (_completions.size() + columnCount - 1) / columnCount;
         for (size_t row = 0; row < rowCount; ++row) {
-            if (row == pauseRow) {
-                dprintf(_out_fd, "\n--More--");
-                fsync(_out_fd);
-                c = 0;
-                bool doBeep = false;
-                while (c != ' ' && c != Replxx::KEY::ENTER && c != 'y' && c != 'Y' && c != 'n'
-                    && c != 'N' && c != 'q' && c != 'Q' && c != Replxx::KEY::control('C')) {
-                    if (doBeep) {
-                        beep(_err_fd);
-                    }
-                    doBeep = true;
-                    do {
-                        c = read_char();
-                    } while (c == static_cast<char32_t>(-1));
-                }
-                switch (c) {
-                case ' ':
-                case 'y':
-                case 'Y':
-                    dprintf(_out_fd, "\r				\r");
-                    pauseRow += _terminal.get_screen_rows() - 1;
-                    break;
-                case Replxx::KEY::ENTER:
-                    dprintf(_out_fd, "\r				\r");
-                    ++pauseRow;
-                    break;
-                case 'n':
-                case 'N':
-                case 'q':
-                case 'Q':
-                    dprintf(_out_fd, "\r				\r");
-                    stopList = true;
-                    break;
-                case Replxx::KEY::control('C'):
-                    // Display the ^C we got
-                    _terminal.write8("^C", 2);
-                    stopList = true;
-                    break;
-                }
-            } else {
-                _terminal.write8("\n", 1);
-            }
-            if (stopList) {
-                break;
-            }
+            _terminal.write8("\n", 1);
             static UnicodeString const res(ansi_color(Replxx::Color::DEFAULT));
             for (int column = 0; column < columnCount; ++column) {
                 size_t index = (column * rowCount) + row;
