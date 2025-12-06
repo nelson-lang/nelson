@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.16.0 - (UNRELEASED)
 
+### Added
+
+- `onCleanup`: Code executed during function shutdown.
+
 ### Changed
 
 - advanced terminal read line: `linenoise` replaced by `replxx` library.

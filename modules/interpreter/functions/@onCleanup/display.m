@@ -7,6 +7,23 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-rmpath(modulepath('interpreter', 'functions'));
-removegateway(modulepath('interpreter', 'builtin'));
+function display(varargin)
+  onCleanupObj = varargin{1};
+  if nargin == 2
+    name = varargin{2};
+  else
+    name = inputname(1);
+  end
+  currentFormat = format();
+  if ~isempty(name)
+    if strcmp(currentFormat.LineSpacing, 'loose')
+      disp(' ');
+    end
+    disp([name, ' ='])
+  end
+  if strcmp(currentFormat.LineSpacing, 'loose')
+    disp(' ');
+  end
+  disp(onCleanupObj);
+end
 %=============================================================================

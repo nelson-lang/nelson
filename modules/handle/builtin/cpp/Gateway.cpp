@@ -17,6 +17,7 @@
 #include "ispropBuiltin.hpp"
 #include "isvalidBuiltin.hpp"
 #include "methodsBuiltin.hpp"
+#include "cancelBuiltin.hpp"
 #include "propertiesBuiltin.hpp"
 #include "setBuiltin.hpp"
 //=============================================================================
@@ -50,6 +51,7 @@ static const nlsGateway gateway[] = {
     { "properties", (ptrBuiltin)Nelson::HandleGateway::propertiesBuiltin, 1, 1 },
     { "isprop", (ptrBuiltin)Nelson::HandleGateway::ispropBuiltin, 1, 2 },
     { "ismethod", (ptrBuiltin)Nelson::HandleGateway::ismethodBuiltin, 1, 2 },
+    { "cancel", (ptrBuiltin)Nelson::HandleGateway::cancelBuiltin, 0, 1 },
     //=============================================================================
     { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_STR, "vertcat"),
         (ptrBuiltin)Nelson::HandleGateway::handle_vertcatBuiltin, 1, 2, CPP_BUILTIN,

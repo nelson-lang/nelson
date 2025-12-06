@@ -9,19 +9,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "ArrayOf.hpp"
 #include "Evaluator.hpp"
-#include "nlsFunctions_manager_exports.h"
+#include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NLSFUNCTIONS_MANAGER_IMPEXP bool
-ClearBuiltin(const std::wstring& builtinName);
-//=============================================================================
-NLSFUNCTIONS_MANAGER_IMPEXP bool
-ClearAllBuiltin();
-//=============================================================================
-NLSFUNCTIONS_MANAGER_IMPEXP bool
-ClearMacroCache(Evaluator* eval);
+NLSINTERPRETER_IMPEXP bool
+DeleteOnCleanupHandleObject(Evaluator* eval, const ArrayOf& A);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

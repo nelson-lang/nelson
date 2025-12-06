@@ -159,6 +159,7 @@ using wstringVector = std::vector<std::wstring>;
 #define NLS_HANDLE_PYOBJECT_CATEGORY_STR "py"
 #define NLS_HANDLE_JULIA_ENVIRONMENT_CATEGORY_STR "JuliaEnvironment"
 #define NLS_HANDLE_JULIA_CATEGORY_STR "jl"
+#define NLS_HANDLE_ONCLEANUP_CATEGORY_STR "onCleanup"
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -32,6 +32,7 @@
 #include "OverloadHelpers.hpp"
 #include "StringHelpers.hpp"
 #include "LexerContext.hpp"
+#include "OnCleanupObjectHandle.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -117,6 +118,20 @@ MacroFunctionDef::outputArgCount()
         return -1;
     }
     return static_cast<int>(returnVals.size());
+}
+//=============================================================================
+void
+MacroFunctionDef::onCleanup(Evaluator* eval)
+{
+    for (auto task : cleanupTasks) {
+        if (task.isHandle() && task.getHandleClassName() == NLS_HANDLE_ONCLEANUP_CATEGORY_STR) {
+            OnCleanupObjectHandle* obj = (OnCleanupObjectHandle*)task.getContentAsHandleScalar();
+            if (obj && obj->isScoped()) {
+                obj->cleanup(eval);
+            }
+        }
+    }
+    cleanupTasks.clear();
 }
 //=============================================================================
 ArrayOfVector
@@ -303,9 +318,14 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
                 }
             }
         }
+
+        onCleanup(eval);
+
         context->popScope();
         eval->callstack.popDebug();
     } catch (const Exception&) {
+        onCleanup(eval);
+
         internalProfileFunction stack
             = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
         Profiler::getInstance()->toc(tic, stack);

@@ -41,7 +41,9 @@ historyBuiltin_size_one_rhs(
                 if (!lines.empty()) {
                     Interface* io = eval->getInterface();
                     if (io) {
-                        for (size_t k = 0; k < lines.size(); k++) {
+                        for (size_t k = 0; (k < lines.size())
+                             && !NelsonConfiguration::getInstance()->getInterruptPending();
+                             k++) {
                             io->outputMessage(std::to_wstring(k) + L" : " + lines[k] + L"\n");
                         }
                     }
@@ -92,7 +94,9 @@ historyBuiltin_no_rhs(
     if (nLhs == 0) {
         Interface* io = eval->getInterface();
         if (io) {
-            for (size_t k = 0; k < res.size(); k++) {
+            for (size_t k = 0;
+                 k < res.size() && !NelsonConfiguration::getInstance()->getInterruptPending();
+                 k++) {
                 io->outputMessage(std::to_wstring(k + 1) + L" : " + res[k] + L"\n");
             }
         }

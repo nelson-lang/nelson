@@ -108,7 +108,8 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
     <PreLinkEvent>
       <Command>
@@ -138,7 +139,8 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
     <PreLinkEvent>
       <Command>
@@ -173,7 +175,8 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
     <PreLinkEvent>
       <Command>
@@ -209,7 +212,8 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
     <PreLinkEvent>
       <Command>
@@ -223,6 +227,7 @@
     <ClCompile Include="..\cpp\ActionMenu.cpp" />
     <ClCompile Include="..\cpp\AnonymousMacroFunctionDef.cpp" />
     <ClCompile Include="..\cpp\CallbackQueue.cpp" />
+    <ClCompile Include="..\cpp\DeleteOnCleanupHandleObject.cpp" />
     <ClCompile Include="..\cpp\EvaluatorAssignment.cpp" />
     <ClCompile Include="..\cpp\EvaluatorControlExpression.cpp" />
     <ClCompile Include="..\cpp\EvaluatorControlFlow.cpp" />
@@ -231,6 +236,7 @@
     <ClCompile Include="..\cpp\EvaluatorError.cpp" />
     <ClCompile Include="..\cpp\EvaluatorIndexing.cpp" />
     <ClCompile Include="..\cpp\GraphicCallback.cpp" />
+    <ClCompile Include="..\cpp\OnCleanupObjectHandle.cpp" />
     <ClCompile Include="..\cpp\TextToNumber.cpp" />
     <ClCompile Include="..\cpp\AbstractSyntaxTree.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDef.cpp" />
@@ -372,6 +378,7 @@
     <ClInclude Include="..\include\CommandQueue.hpp" />
     <ClInclude Include="..\include\Comments.hpp" />
     <ClInclude Include="..\include\Context.hpp" />
+    <ClInclude Include="..\include\DeleteOnCleanupHandleObject.hpp" />
     <ClInclude Include="..\include\EvaluateBuiltinCatchRuntimeException.hpp" />
     <ClInclude Include="..\include\Evaluator.hpp" />
     <ClInclude Include="..\include\FileFunction.hpp" />
@@ -391,6 +398,7 @@
     <ClInclude Include="..\include\NelsonGateway.hpp" />
     <ClInclude Include="..\include\NelsonReadyNamedMutex.hpp" />
     <ClInclude Include="..\include\nlsInterpreter_exports.h" />
+    <ClInclude Include="..\include\OnCleanupObjectHandle.hpp" />
     <ClInclude Include="..\include\Operators.hpp" />
     <ClInclude Include="..\include\ParseFile.hpp" />
     <ClInclude Include="..\include\ParserInterface.hpp" />
