@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - advanced terminal read line: `linenoise` replaced by `replxx` library.
+- autocomplete functionality has been upgraded in the advanced command-line terminal.
 
 ### Fixed
 

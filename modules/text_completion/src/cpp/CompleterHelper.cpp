@@ -190,6 +190,7 @@ computeCompletion(const std::wstring& line, std::wstring& completionPrefix, wstr
     files = FileCompleter(filepart);
     std::wstring textpart = getPartialLine(completionPrefix);
     if (!filepart.empty() && !files.empty() && (filepart != textpart)) {
+        completionPrefix = filepart;
         showpopup = true;
     } else if (!textpart.empty()) {
         size_t index = completionPrefix.size() - textpart.size();
