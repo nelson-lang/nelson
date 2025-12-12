@@ -13,7 +13,7 @@ function r = vswhere()
     error(_('Not implemented on this platform.'));
   end
   arch = computer('arch');
-  if strcmp(arch, 'win64') == true
+  if (strcmp(arch, 'win64') == true || strcmp(arch, 'woa64') == true) 
     pathvswhere =  [getenv('ProgramFiles(x86)'), '\Microsoft Visual Studio\Installer\vswhere.exe'];
   else
     pathvswhere =  [getenv('ProgramFiles'), '\Microsoft Visual Studio\Installer\vswhere.exe'];

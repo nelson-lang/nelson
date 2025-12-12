@@ -9,7 +9,7 @@
 %=============================================================================
 getpid_symbol = 'getpid';
 if ispc()
-  lib_c_name = ['msvcrt', getdynlibext()];
+  lib_c_name = ['ucrtbase', getdynlibext()];
   libc = dlopen(lib_c_name)
 else
   if isunix()

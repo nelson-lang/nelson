@@ -18,10 +18,14 @@ function [status, message] = configuremingw(mingw_bin_path)
   end
   if isdir(mingw_bin_path)
     arch = computer('arch');
-    if strcmp(arch, 'win64')
+    if strcmp(arch, 'woa64')
       ref_gcc_compiler = [mingw_bin_path, '/', 'x86_64-w64-mingw32-gcc.exe'];
     else
-      ref_gcc_compiler = [mingw_bin_path, '/', 'i686-w64-mingw32-gcc.exe'];
+      if strcmp(arch, 'win64')
+        ref_gcc_compiler = [mingw_bin_path, '/', 'x86_64-w64-mingw32-gcc.exe'];
+      else
+        ref_gcc_compiler = [mingw_bin_path, '/', 'i686-w64-mingw32-gcc.exe'];
+      end
     end
     if isfile(ref_gcc_compiler)
       config.COMPILER_CHOICE = 'mingw';

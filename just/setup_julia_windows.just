@@ -10,8 +10,7 @@ win64: (setup-julia-env "x64")
 win32: (setup-julia-env "win32")
 
 # Setup Julia environment for Windows ARM64
-arm64:
-    @echo Not yet supported
+arm64: (setup-julia-env "ARM64")
 
 # Helper command to setup Julia environment for a given architecture
 [private]

@@ -188,6 +188,8 @@
 #    define RAPIDJSON_ENDIAN RAPIDJSON_LITTLEENDIAN
 #  elif defined(RAPIDJSON_DOXYGEN_RUNNING)
 #    define RAPIDJSON_ENDIAN
+#  elif defined(__aarch64__) || defined(_M_ARM64) || defined(__arm__) || defined(_M_ARM)
+#    define RAPIDJSON_ENDIAN RAPIDJSON_LITTLEENDIAN
 #  else
 #    error Unknown machine endianess detected. User needs to define RAPIDJSON_ENDIAN.   
 #  endif

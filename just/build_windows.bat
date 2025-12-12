@@ -38,8 +38,9 @@ if /i "%~1"=="win32" (
 )
 
 if /i "%~1"=="arm64" (
-    echo Error: ARM64 build is not implemented yet.
-    exit /b 1
+    call ARM64-environment.bat env-only
+    call "%MSBUILD%"\msbuild nelson.sln /p:Configuration=Release /p:Platform=ARM64 /target:"NelSon-gui" /m:4 /p:PreferredToolArchitecture=x64 /p:QTDIR="!QTDIR!" /p:PATH="!PATH!"
+    exit /b !errorlevel!
 )
 
 :: case not handled

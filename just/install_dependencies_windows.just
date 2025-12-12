@@ -13,4 +13,4 @@ win32 *OPTS:
 
 # Install dependencies for Windows ARM64
 arm64 *OPTS:
-    @echo Not yet supported
+    .\tools\install_dependencies\install-windows-arm64.bat {{OPTS}}

@@ -13,5 +13,5 @@ Source: {#RootPath}tools\tests_result\*.*; DestDir: {app}\tools\tests_result\;Co
 Source: {#RootPath}tools\module_CI\*.*; DestDir: {app}\tools\module_CI\;Components: {#COMPONENT_TESTS_MANAGER};
 ;==============================================================================
 Source: {#RootPath}tools\cmake\bin\*.*; DestDir: {app}\tools\cmake\bin\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK};
-Source: {#RootPath}tools\cmake\share\cmake-3.31\*.*; DestDir: {app}\tools\cmake\share\cmake-3.31\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK};
+Source: {#RootPath}tools\cmake\share\cmake-4.2\*.*; DestDir: {app}\tools\cmake\share\cmake-4.2\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK};
 ;==============================================================================

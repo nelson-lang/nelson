@@ -7,11 +7,17 @@
 ; SPDX-License-Identifier: LGPL-3.0-or-later
 ; LICENCE_BLOCK_END
 ;==============================================================================
+#ifdef NELSON_WOA64
+Filename: "{app}\bin\{#BinPath}\vc_redist.arm64.exe"; Parameters: "/q /passive /norestart"; Check: VCRedistNeedsInstall; WorkingDir: "{app}\bin\{#BinPath}"; StatusMsg: Installing VC++ 2022 Redistributables...
+#else
 #ifdef NELSON_X64
 Filename: "{app}\bin\{#BinPath}\vc_redist.x64.exe"; Parameters: "/q /passive /norestart"; Check: VCRedistNeedsInstall; WorkingDir: "{app}\bin\{#BinPath}"; StatusMsg: Installing VC++ 2022 Redistributables...
 #else
 Filename: "{app}\bin\{#BinPath}\vc_redist.x86.exe"; Parameters: "/q /passive /norestart"; Check: VCRedistNeedsInstall; WorkingDir: "{app}\bin\{#BinPath}"; StatusMsg: Installing VC++ 2022 Redistributables...
 #endif
+#endif
 ;==============================================================================
+#ifndef NELSON_WOA64
 Filename: "{app}\bin\{#BinPath}\MSMpiSetup.exe"; Parameters: " -unattend -minimal"; WorkingDir: "{app}\bin\{#BinPath}"; Check: IsAdminInstallMode; Components: {#COMPONENT_MPI};StatusMsg: Installing MS-MPI Redistributables...
+#endif
 ;==============================================================================

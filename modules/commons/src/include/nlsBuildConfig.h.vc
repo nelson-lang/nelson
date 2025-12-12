@@ -13,12 +13,17 @@
 #define NELSON_DOMAIN L"io.github.nelson_lang"
 #define NELSON_APP_ID L"io.github.nelson_lang.Nelson"
 //=============================================================================
+#ifdef _M_ARM64
+#define NLS_LIBRARY_PATH_PREFIX L"bin/arm64"
+#define NLS_RUNTIME_PATH_PREFIX L"bin/arm64"
+#else
 #ifdef _WIN64
 #define NLS_LIBRARY_PATH_PREFIX L"bin/x64"
 #define NLS_RUNTIME_PATH_PREFIX L"bin/x64"
 #else
 #define NLS_LIBRARY_PATH_PREFIX L"bin/win32"
 #define NLS_RUNTIME_PATH_PREFIX L"bin/win32"
+#endif
 #endif
 //=============================================================================
 #define OMP_DEFAULT_THRESHOLD 1000

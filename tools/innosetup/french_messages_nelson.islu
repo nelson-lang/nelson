@@ -65,7 +65,7 @@ french.MESSAGEBOX_DATA_ANALYSIS_REQUIRED=Le module data_analysis doit être sél
 french.MESSAGEBOX_SLICOT_REQUIRED=Le module slicot doit être sélectionné.
 french.MESSAGEBOX_F2C_REQUIRED=Le module f2c doit être sélectionné.
 french.MESSAGEBOX_JSON_REQUIRED=Le module json doit être sélectionné.
-french.MESSAGEBOX_JSON_REQUIRED=Le module xml doit être sélectionné.
+french.MESSAGEBOX_XML_REQUIRED=Le module xml doit être sélectionné.
 french.MESSAGEBOX_HDF5_REQUIRED=Le module hdf5 doit être sélectionné.
 ;==============================================================================
 french.CPU_OPTIMIZATION_FOR_NELSON = Bibliotheque MKL (BLAS, LAPACK, FFTW wrappers) pour Nelson

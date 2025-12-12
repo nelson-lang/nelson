@@ -11,7 +11,9 @@
 Name: {#COMPONENT_NELSON}; Description: Nelson {#APPLICATION_VERSION}; Types: full custom minimal; Flags: fixed;
 ;==============================================================================
 #define COMPONENT_CPU_OPTIMIZATION 'CPU_OPTIMIZATION'
+#ifndef NELSON_WOA64
 Name: {#COMPONENT_CPU_OPTIMIZATION}; Description:{cm:CPU_OPTIMIZATION_FOR_NELSON}; Types: full custom minimal; Flags: fixed;
+#endif
 ;==============================================================================
 #define COMPONENT_SLICOT 'SLICOT'
 Name: {#COMPONENT_SLICOT}; Description:{cm:SLICOT_MODULE}; Types: full custom;

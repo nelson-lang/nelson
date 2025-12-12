@@ -11,5 +11,7 @@
     >Ce module fournit des fonctions pour initialiser, gérer et finaliser des environnements MPI, ainsi que pour effectuer la communication entre processus, à la fois point à point et collective.</p>
     <p
     >Il permet aux programmes Nelson de s'exécuter efficacement sur des systèmes à mémoire distribuée et des clusters.</p>
+    <p
+    >Note : le support MPI n'est pas disponible sur l'architecture Windows on ARM64 (woa64).</p>
   </chapter_description>
 </xmldoc>

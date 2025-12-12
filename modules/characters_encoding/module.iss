@@ -9,9 +9,15 @@
 ;==============================================================================
 #define MODULE_NAME "characters_encoding"
 ;==============================================================================
+#ifdef NELSON_WOA64
+Source: {#RootPath}bin\{#BinPath}\icudt78.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_INTERNATIONALIZATION};
+Source: {#RootPath}bin\{#BinPath}\icuuc78.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_INTERNATIONALIZATION};
+Source: {#RootPath}bin\{#BinPath}\icuin78.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_INTERNATIONALIZATION};
+#else
 Source: {#RootPath}bin\{#BinPath}\icudt74.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_INTERNATIONALIZATION};
 Source: {#RootPath}bin\{#BinPath}\icuuc74.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_INTERNATIONALIZATION};
 Source: {#RootPath}bin\{#BinPath}\icuin74.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_INTERNATIONALIZATION};
+#endif
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsCharacters_encoding.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_INTERNATIONALIZATION};
 Source: {#RootPath}bin\{#BinPath}\libnlsCharacters_encoding_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_INTERNATIONALIZATION};

@@ -10,8 +10,7 @@ win64: (setup-python-env "x64")
 win32: (setup-python-env "win32")
 
 # Setup Python environment for Windows ARM64
-arm64:
-    @echo Not yet supported
+arm64: (setup-python-env "ARM64")
 
 # Helper command to setup Python environment for a given architecture
 [private]

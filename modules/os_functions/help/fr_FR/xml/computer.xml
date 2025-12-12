@@ -21,7 +21,7 @@
     <param_output_item>
       <param_name>c</param_name>
       <param_description
-      >une chaîne : type d'ordinateur : 'PCWIN', 'PCWIN64', 'GLNXA64', 'GLNXA32', 'MACI32', 'MACI64'</param_description>
+      >une chaîne : type d'ordinateur : 'PCWIN', 'PCWIN64', 'PCWOA64', 'GLNXA64', 'GLNXA32', 'MACI32', 'MACI64'</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>maxsize</param_name>
@@ -36,7 +36,7 @@
     <param_output_item>
       <param_name>arch</param_name>
       <param_description
-      >une chaîne : type d'architecture : 'win64', 'win32', 'glnxa64', 'glnxa32', 'maci64', 'maci32'.</param_description>
+      >une chaîne : type d'architecture : 'woa64', 'win64', 'win32', 'glnxa64', 'glnxa32', 'maci64', 'maci32'.</param_description>
     </param_output_item>
   </param_output>
   <description>
@@ -72,6 +72,10 @@ arch = computer('arch')]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>PCWOA64 and woa64 ajoutés</history_description>
     </history_item>
   </history>
   <authors>

@@ -10,8 +10,7 @@ win64: (tests-arch "x64")
 win32: (tests-arch "win32")
 
 # Tests for Windows ARM64 version
-arm64:
-    @echo Not yet supported
+arm64: (tests-arch "ARM64")
 
 # Helper to build for a given architecture
 [private]

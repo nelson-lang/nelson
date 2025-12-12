@@ -21,12 +21,19 @@
 #define APPLICATION_EXE_CLI_NAME "Nelson-cli.exe"
 #define APPLICATION_EXE_ADV_CLI_NAME "Nelson-adv-cli.exe"
 #define APPLICATION_PUBLISHER "Nelson numerical software (Allan CORNET)"
-#ifdef NELSON_X64
+#if defined(NELSON_X64) || defined(NELSON_WOA64)
 #define FULL_APPLICATION_NAME APPLICATION_NAME + "-" + APPLICATION_VERSION + " (64 bits)"
 #else
 #define FULL_APPLICATION_NAME APPLICATION_NAME + "-" + APPLICATION_VERSION + " (32 bits)"
 #endif
-#ifdef NELSON_X64
+#if defined(NELSON_WOA64)
+    #ifdef NELSON_DEBUG
+        #define BOOST_TARGET  "vc145-mt-gd-a64-1_89"
+    #else
+        #define BOOST_TARGET  "vc145-mt-a64-1_89"
+    #endif
+#else
+#if defined(NELSON_X64)
 #ifdef NELSON_DEBUG
 #define BOOST_TARGET  "vc143-mt-gd-x64-1_89"
 #else
@@ -39,13 +46,18 @@
 #define BOOST_TARGET  "vc143-mt-x32-1_89"
 #endif
 #endif
+#endif
 ;==============================================================================
 #define RootPath "../../"
-#ifdef NELSON_X64
-#define BinPath "x64"
+#if defined(NELSON_WOA64)
+    #define BinPath "ARM64"
 #else
-#define BinPath "win32"
-#endif
+    #if defined(NELSON_X64)
+        #define BinPath "x64"
+    #else
+        #define BinPath "win32"
+    #endif
+#endif    
 ;==============================================================================
 [Setup]
 #include "setup.iss"

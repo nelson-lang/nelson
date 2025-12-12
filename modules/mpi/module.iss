@@ -9,9 +9,11 @@
 ;==============================================================================
 #define MODULE_NAME "mpi"
 ;==============================================================================
+#ifndef NELSON_WOA64
 Source: {#RootPath}bin\{#BinPath}\libnlsMpi.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_MPI};
 Source: {#RootPath}bin\{#BinPath}\libnlsMpi_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_MPI};
 Source: {#RootPath}bin\{#BinPath}\MSMpiSetup.exe; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_MPI};
+#endif
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;Components: {#COMPONENT_MPI};
 ;==============================================================================

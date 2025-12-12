@@ -15,7 +15,9 @@ Source: {#RootPath}bin\{#BinPath}\plugins\*; DestDir: {app}\bin\{#BinPath}\plugi
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\qml\*; DestDir: {app}\bin\{#BinPath}\qml; Flags: recursesubdirs;Components: {#COMPONENT_GUI};
 ;==============================================================================
+#ifndef NELSON_WOA64
 Source: {#RootPath}bin\{#BinPath}\d3dcompiler_*.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
+#endif
 #ifdef QT5_USED
 Source: {#RootPath}bin\{#BinPath}\libEGL.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
 Source: {#RootPath}bin\{#BinPath}\libGLESv2.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
@@ -35,7 +37,9 @@ Source: {#RootPath}bin\{#BinPath}\Qt?WebSockets.dll; DestDir: {app}\bin\{#BinPat
 Source: {#RootPath}bin\{#BinPath}\Qt?WebView.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
 Source: {#RootPath}bin\{#BinPath}\Qt?WinExtras.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
 #endif
+#ifndef NELSON_WOA64
 Source: {#RootPath}bin\{#BinPath}\opengl32sw.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
+#endif
 Source: {#RootPath}bin\{#BinPath}\Qt?*.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
 Source: {#RootPath}bin\{#BinPath}\Qt?Concurrent.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
 Source: {#RootPath}bin\{#BinPath}\Qt?Core.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};

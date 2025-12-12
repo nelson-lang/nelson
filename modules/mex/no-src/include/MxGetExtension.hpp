@@ -21,11 +21,15 @@ getMexExtension()
 {
     std::wstring mexext;
 #ifdef _MSC_VER
+#ifdef _M_ARM64
+    mexext = L"nexwoa64";
+#else
 #ifdef _WIN64
     mexext = L"nexw64";
 #else
 #ifdef _WIN32
     mexext = L"nexw32";
+#endif
 #endif
 #endif
 #else

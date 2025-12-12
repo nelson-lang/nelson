@@ -4,6 +4,112 @@ on:
   workflow_call:
 
 jobs:
+  Windows_woa64:
+    name: Windows on ARM 64 bits
+    runs-on: windows-11-arm
+    defaults:
+      run:
+        shell: cmd
+    timeout-minutes: 90
+
+    steps:
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install Inno-setup
+        run: choco install InnoSetup
+
+      - name: Install Just
+        run: choco install just
+
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Get package version
+        uses: myrotvorets/info-from-package-json-action@2.0.1
+        id: json_version
+
+      - name: Update version
+        run: just -f justfile.win update_version
+
+      - name: Install dependencies
+        run: just -f justfile.win install_dependencies::arm64 remove-debug
+
+      - name: Build Nelson
+        run: just -f justfile.win build::arm64
+
+      - name: Set Python Environment for Nelson
+        run: just -f justfile.win setup_python::arm64
+
+      - name: Copy Python in Nelson distribution
+        run: |
+          xcopy %Python_ROOT_DIR% %GITHUB_WORKSPACE%\modules\python_engine\thirdparty\python /E /I /Y
+          del %GITHUB_WORKSPACE%\modules\python_engine\thirdparty\python\python-3*-arm64.exe
+
+      - name: Download module skeleton
+        run: just -f justfile.win get_module_skeleton::arm64
+
+      - name: Build help
+        run: just -f justfile.win build_help::arm64
+
+      - name: Minimal tests
+        continue-on-error: true
+        run: |
+          set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
+          just -f justfile.win minimal_tests::arm64
+
+      - name: Zip Nelson build workspace directory
+        continue-on-error: true
+        # if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+        run: |
+          "C:/Program Files/7-Zip/7z" a -tzip -mx7 %GITHUB_WORKSPACE%/artifacts/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%-arm64-workspace.zip %GITHUB_WORKSPACE% -xr!Release\
+
+      - name: Package Nelson
+        run: just -f justfile.win package::arm64
+
+      - name: Install Nelson with installer
+        run: |
+          %GITHUB_WORKSPACE%/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%-arm64.exe /SP- /VERYSILENT /ALLUSERS /DIR="c:/install/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%"
+
+      - name: creates artifacts directory
+        run: |
+          $null = mkdir %GITHUB_WORKSPACE%/artifacts
+        shell: powershell
+
+      - name: Zip Nelson install directory
+        run: |
+          "C:/Program Files/7-Zip/7z" a -tzip -mx7 %GITHUB_WORKSPACE%/artifacts/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%-ARM64.zip c:/install/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%
+
+      - name: Tests moved in an long path name with space on windows
+        run: |
+          mv "c:/install/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%" "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%"
+
+      - name: Benchs
+        continue-on-error: true
+        run: |
+          set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
+          set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
+          "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/bin/ARM64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/tools/benchmark_all/runbenchmark_all.m"
+
+      - name: Tests
+        continue-on-error: true
+        run: |
+          set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
+          set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
+          "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/bin/ARM64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.m"
+
+      - name: Copy installer in artifacts directory
+        run: mv Nelson-*.exe artifacts
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nelson-github-action-artifacts-windows-arm64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
+          path: artifacts/
+
   Windows_win64:
     name: Windows 64 bits
     runs-on: windows-2025

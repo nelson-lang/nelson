@@ -14,6 +14,7 @@ if fp ~= -1
   fprintf(fp, ['#define GENERATED_INFO', char(10)]);
   compiler = version('-compiler');
   vernumber = version('-number');
+  arch = computer('arch');
   isQt5 = isfile([modulepath('nelson', 'builtin'), '/', 'Qt5Core.dll']);
   isQt6 = isfile([modulepath('nelson','builtin'), '/', 'Qt6Core.dll']);
   if isQt5
@@ -32,7 +33,11 @@ if fp ~= -1
     fprintf(fp, ['#define VS_COMPILER', char(10)]);
   end
   if strcmp(compiler{3}, '64') == true
-    fprintf(fp, ['#define NELSON_X64', char(10)]);
+    if strcmp(arch, 'woa64') == true
+    fprintf(fp, ['#define NELSON_WOA64', char(10)]);
+    else
+      fprintf(fp, ['#define NELSON_X64', char(10)]);
+    end
     fprintf(fp, ['#define WITH_JULIA_ENGINE', char(10)]);
   end
   if strcmp(compiler{2}, 'debug') == true

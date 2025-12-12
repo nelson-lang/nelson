@@ -9,7 +9,6 @@
 //=============================================================================
 #include <boost/interprocess/detail/shared_dir_helpers.hpp>
 #include "StringHelpers.hpp"
-#include <boost/filesystem.hpp>
 #include "RemoveIpcOldFiles.hpp"
 #include "NelsonInterprocess.hpp"
 #include "NelsonPIDs.hpp"
@@ -27,7 +26,7 @@ RemoveIpcOldFiles()
     FileSystemWrapper::Path branch(ipcDirectory);
     bool isDirectory = FileSystemWrapper::Path::is_directory(branch);
     if (isDirectory) {
-        for (boost::filesystem::directory_iterator p(branch.native()), end; p != end; ++p) {
+        for (std::filesystem::directory_iterator p(branch.native()), end; p != end; ++p) {
             FileSystemWrapper::Path filepath(p->path().native());
             std::wstring filename = filepath.filename().wstring();
             if (StringHelpers::starts_with(

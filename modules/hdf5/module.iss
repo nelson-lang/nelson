@@ -17,6 +17,10 @@ Source: {#RootPath}bin\{#BinPath}\zlib1.dll; DestDir: {app}\bin\{#BinPath}\;Comp
 Source: {#RootPath}bin\{#BinPath}\szip.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_HDF5};
 Source: {#RootPath}bin\{#BinPath}\h5dump.exe; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_HDF5};
 Source: {#RootPath}bin\{#BinPath}\h5ls.exe; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_HDF5};
+#ifdef NELSON_WOA64
+Source: {#RootPath}bin\{#BinPath}\hdf5_hl.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_HDF5};
+Source: {#RootPath}bin\{#BinPath}\hdf5_tools.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_HDF5};
+#endif
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;Components: {#COMPONENT_HDF5};
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_HDF5};

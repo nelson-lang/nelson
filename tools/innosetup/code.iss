@@ -233,10 +233,11 @@ end;
 //=============================================================================
 function VCRedistNeedsInstall: Boolean;
 begin
+  Result := False;
 #ifdef NELSON_X64
-  Result := not (VCVersionInstalled(VC_2022_REDIST_X64_MIN));
+//  Result := not (VCVersionInstalled(VC_2022_REDIST_X64_MIN));
 #else
-  Result := not (VCVersionInstalled(VC_2022_REDIST_X86_MIN));
+//  Result := not (VCVersionInstalled(VC_2022_REDIST_X86_MIN));
 #endif
 end;
 //=============================================================================
@@ -324,10 +325,13 @@ function NextButtonClick(CurPageID: Integer): Boolean;
       begin
           if not Is64BitInstallMode then
           begin
+    #ifndef NELSON_WOA64
+      
             if IsWin64() and not IsSilentMode() then
               begin
                 SuppressibleMsgBox(CustomMessage('MESSAGEBOX_X64_VERSION_RECOMMANDED'), mbInformation, MB_OK, MB_OK );
               end;
+    #endif
           end;
       end;
 
@@ -426,12 +430,14 @@ end;
 //=============================================================================
 function InitializeSetup: Boolean;
 begin
+#ifndef NELSON_WOA64
   if IsWin64() and not IsAVX2Supported then
   begin
     SuppressibleMsgBox(CustomMessage('MESSAGEBOX_AVX2_REQUIRED'), mbError, MB_OK, MB_OK);
     Abort;
     Result := False;
   end;
+#endif
   Result := True;
 end;
 //=============================================================================
