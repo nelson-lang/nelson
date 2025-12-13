@@ -25,6 +25,8 @@ assert_isequal(R, REF)
 %=============================================================================
 fevalqueue = pool.FevalQueue;
 cancelAll(fevalqueue);
+% Clear all futures before accessing queue to ensure no concurrent access
+clear c f R REF;
 %=============================================================================
 
 

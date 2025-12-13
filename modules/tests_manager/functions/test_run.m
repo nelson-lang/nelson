@@ -482,31 +482,35 @@ function test_case = create_test_case(filename, classname)
     test_case.status = 'Interactive';
     test_case.skip = true;
   end
-  if ismodule('python_engine')
+  if (ismodule('python_engine') && test_case.options.python_environment_required)
     pe = pyenv();
-    if (test_case.options.python_environment_required && (pe.Version == ""))
-      test_case.status = 'Skip';
-      test_case.skip = true;
-    end
-  else
-    if (test_case.options.python_environment_required)
+    if (pe.Version == "")
       test_case.status = 'Skip';
       test_case.skip = true;
     end
   end
-  if ismodule('julia_engine')
+  if (ismodule('julia_engine') && test_case.options.julia_environment_required)
     je = jlenv();
-    if (test_case.options.julia_environment_required && (je.Version == ""))
-      test_case.status = 'Skip';
-      test_case.skip = true;
+    if je.Version == ""
+      isJuliaCompatible = (computer('arch') ~= "woa64") && (computer('arch') ~= "win32");
+      try
+        if isJuliaCompatible
+          [status, msg] = unix('julia -e "print(Base.julia_cmd()[1])"');
+          if status == 0
+            juliaExecutable = strtrim(msg);
+            if isfile(juliaExecutable)
+              je = jlenv('Version', juliaExecutable);
+            end
+          end
+        end
+      catch
+      end
     end
-  else
-    if (test_case.options.julia_environment_required)
+    if (je.Version == "")
       test_case.status = 'Skip';
       test_case.skip = true;
     end
   end
-  
   test_case.command = 'echo skip';
   test_case.outputfile = '';
   test_case.redirect_err = '';

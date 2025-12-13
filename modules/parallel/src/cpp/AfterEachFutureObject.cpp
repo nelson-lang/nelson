@@ -9,6 +9,8 @@
 //=============================================================================
 #include <vector>
 #include <algorithm>
+#include <thread>
+#include <chrono>
 #include "AfterEachFutureObject.hpp"
 #include "FevalFutureObject.hpp"
 #include "HandleManager.hpp"
@@ -45,6 +47,7 @@ AfterEachFutureObject::afterEach(FunctionDef* funcDef, int nLhs, bool uniformOut
     allFutureResults.resize(futures.size());
 
     while (!allDoOnce(doAfterEach)) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
         for (size_t k = 0; k < futures.size(); ++k) {
             if (futures[k]) {
                 bool isFinished = false;

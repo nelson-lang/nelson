@@ -10,9 +10,13 @@
 UsedUserAreasWarning=false
 PrivilegesRequiredOverridesAllowed=commandline dialog
 ChangesEnvironment=yes
-#ifdef NELSON_X64
+#ifdef NELSON_WOA64
 ArchitecturesAllowed=arm64
 ArchitecturesInstallIn64BitMode=arm64
+#endif
+#ifdef NELSON_X64
+ArchitecturesAllowed=x64compatible
+ArchitecturesInstallIn64BitMode=x64compatible
 #endif
 AppId={{2ED97A2C-CAA6-467F-82D9-02FC564A8950}
 AppName={#APPLICATION_NAME}
