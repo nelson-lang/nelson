@@ -285,7 +285,7 @@ FutureObject::get(const std::wstring& propertyName, ArrayOf& result)
 bool
 FutureObject::cancel()
 {
-    FutureStateGuard guard(stateMutex);
+    FutureStateGuardWrite guard(stateMutex);
     NelsonConfiguration::getInstance()->setInterruptPending(true, this->getID());
     this->endDateTime = getEpoch();
     this->state = THREAD_STATE::FINISHED;
@@ -298,59 +298,73 @@ void
 FutureObject::evaluateFunction(
     FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn, bool changeState)
 {
-    FutureStateGuard guard(stateMutex);
-    _result = ArrayOfVector();
-    this->_nLhs = nLhs;
-    if (this->state == THREAD_STATE::FINISHED
-        || (NelsonConfiguration::getInstance()->getInterruptPending(ID))) {
-        state = THREAD_STATE::FINISHED;
-        endDateTime = (uint64)getEpoch();
-        return;
+    {
+        FutureStateGuardWrite guard(stateMutex);
+        _result = ArrayOfVector();
+        this->_nLhs = nLhs;
+        if (this->state == THREAD_STATE::FINISHED
+            || (NelsonConfiguration::getInstance()->getInterruptPending(ID))) {
+            state = THREAD_STATE::FINISHED;
+            endDateTime = (uint64)getEpoch();
+            return;
+        }
+        try {
+            evaluateInterface = new EvaluateInterface();
+        } catch (std::bad_alloc&) {
+            state = THREAD_STATE::FINISHED;
+            _exception = ERROR_MEMORY_ALLOCATION;
+            endDateTime = (uint64)getEpoch();
+            return;
+        }
+        state = THREAD_STATE::RUNNING;
     }
-    try {
-        evaluateInterface = new EvaluateInterface();
-    } catch (std::bad_alloc&) {
-        state = THREAD_STATE::FINISHED;
-        _exception = ERROR_MEMORY_ALLOCATION;
-        endDateTime = (uint64)getEpoch();
-        return;
-    }
-    state = THREAD_STATE::RUNNING;
 
     auto evaluator = ParallelEvaluator::create(evaluateInterface, ID);
     if (evaluator == nullptr) {
-        if (changeState) {
-            state = THREAD_STATE::FINISHED;
+        {
+            FutureStateGuardWrite guard(stateMutex);
+            if (changeState) {
+                state = THREAD_STATE::FINISHED;
+            }
+            _exception = Exception("Cannot create evaluator.");
+            endDateTime = (uint64)getEpoch();
         }
-        _exception = Exception("Cannot create evaluator.");
-        endDateTime = (uint64)getEpoch();
         return;
     }
 
     if (NelsonConfiguration::getInstance()->getInterruptPending(evaluator->getID())) {
         ParallelEvaluator::destroy(evaluator, true);
-        _exception = Exception("Interrupted");
-        state = THREAD_STATE::FINISHED;
-        endDateTime = (uint64)getEpoch();
+        {
+            FutureStateGuardWrite guard(stateMutex);
+            _exception = Exception("Interrupted");
+            state = THREAD_STATE::FINISHED;
+            endDateTime = (uint64)getEpoch();
+        }
         return;
     }
-    startDateTime = getEpoch();
-    endDateTime = (uint64)0;
+    {
+        FutureStateGuardWrite guard(stateMutex);
+        startDateTime = getEpoch();
+        endDateTime = (uint64)0;
+    }
     try {
         _result = fptr->evaluateFunction(evaluator.get(), argIn, nLhs);
     } catch (Exception& e) {
         _exception = e;
     }
-    if (changeState) {
-        state = THREAD_STATE::FINISHED;
-    }
-    if (NelsonConfiguration::getInstance()->getInterruptPending(evaluator->getID())) {
-        state = THREAD_STATE::FINISHED;
-        _exception = Exception(_W("Execution of the future was cancelled."),
-            L"parallel:fevalqueue:ExecutionCancelled");
+    {
+        FutureStateGuardWrite guard(stateMutex);
+        if (changeState) {
+            state = THREAD_STATE::FINISHED;
+        }
+        if (NelsonConfiguration::getInstance()->getInterruptPending(evaluator->getID())) {
+            state = THREAD_STATE::FINISHED;
+            _exception = Exception(_W("Execution of the future was cancelled."),
+                L"parallel:fevalqueue:ExecutionCancelled");
+        }
+        endDateTime = (uint64)getEpoch();
     }
     ParallelEvaluator::destroy(evaluator, false);
-    endDateTime = (uint64)getEpoch();
 }
 //=============================================================================
 int
@@ -362,36 +376,51 @@ FutureObject::getNumberOfLhs()
 ArrayOfVector
 FutureObject::getResult(bool changeReadState)
 {
+    ArrayOfVector result;
+    {
+        FutureStateGuardRead guard(stateMutex);
+        result = _result;
+    }
     if (changeReadState) {
+        FutureStateGuardWrite guard(stateMutex);
         _wasRead = true;
     }
-    return _result;
+    return result;
 }
 //=============================================================================
 void
 FutureObject::setResult(const ArrayOfVector& result)
 {
+    FutureStateGuardWrite guard(stateMutex);
     _result = result;
 }
 //=============================================================================
 Exception
 FutureObject::getException(bool changeReadState)
 {
+    Exception exception;
+    {
+        FutureStateGuardRead guard(stateMutex);
+        exception = _exception;
+    }
     if (changeReadState) {
+        FutureStateGuardWrite guard(stateMutex);
         _wasRead = true;
     }
-    return _exception;
+    return exception;
 }
 //=============================================================================
 void
 FutureObject::setException(const Exception& e)
 {
+    FutureStateGuardWrite guard(stateMutex);
     _exception = e;
 }
 //=============================================================================
 bool
 FutureObject::wasRead()
 {
+    FutureStateGuardRead guard(stateMutex);
     return _wasRead;
 }
 //=============================================================================

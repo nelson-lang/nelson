@@ -37,7 +37,6 @@ public:
     ~FutureObject();
 
     std::shared_mutex stateMutex;
-    friend class FutureStateGuard;
 
     bool
     isMethod(const std::wstring& methodName) const;

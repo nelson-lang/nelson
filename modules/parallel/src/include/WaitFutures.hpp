@@ -16,15 +16,28 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class FutureStateGuard
+class FutureStateGuardRead
 {
 private:
     std::shared_mutex& mutex;
 
 public:
-    explicit FutureStateGuard(std::shared_mutex& m) : mutex(m) { mutex.lock_shared(); }
-    ~FutureStateGuard() { mutex.unlock_shared(); }
+    explicit FutureStateGuardRead(std::shared_mutex& m) : mutex(m) { mutex.lock_shared(); }
+    ~FutureStateGuardRead() { mutex.unlock_shared(); }
 };
+
+class FutureStateGuardWrite
+{
+private:
+    std::shared_mutex& mutex;
+
+public:
+    explicit FutureStateGuardWrite(std::shared_mutex& m) : mutex(m) { mutex.lock(); }
+    ~FutureStateGuardWrite() { mutex.unlock(); }
+};
+
+// Legacy alias for backward compatibility with read operations
+using FutureStateGuard = FutureStateGuardRead;
 //=============================================================================
 NLSPARALLEL_IMPEXP
 bool

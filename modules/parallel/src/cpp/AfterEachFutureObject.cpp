@@ -13,6 +13,7 @@
 #include "FevalFutureObject.hpp"
 #include "HandleManager.hpp"
 #include "FutureObjectHelpers.hpp"
+#include "WaitFutures.hpp"
 //=============================================================================
 AfterEachFutureObject::AfterEachFutureObject(
     const std::wstring& functionName, const std::vector<FutureObject*>& predecessors)
@@ -45,19 +46,28 @@ AfterEachFutureObject::afterEach(FunctionDef* funcDef, int nLhs, bool uniformOut
 
     while (!allDoOnce(doAfterEach)) {
         for (size_t k = 0; k < futures.size(); ++k) {
-            if (futures[k] && (futures[k]->state == THREAD_STATE::FINISHED)
-                && (doAfterEach[k] == false)) {
-                if (!futures[k]->getException(false).isEmpty()) {
-                    this->setException(futures[k]->getException(false));
-                    this->state = THREAD_STATE::FINISHED;
-                    return;
+            if (futures[k]) {
+                bool isFinished = false;
+                {
+                    FutureStateGuardRead guard(futures[k]->stateMutex);
+                    isFinished = (futures[k]->state == THREAD_STATE::FINISHED);
                 }
-                ArrayOfVector args = futures[k]->getResult(false);
-                this->setResult(ArrayOfVector());
-                this->evaluateFunction(funcDef, nLhs, args, false);
-                allFutureResults[k] = this->getResult(false);
-                this->setResult(ArrayOfVector());
-                doAfterEach[k] = true;
+                if (isFinished && (doAfterEach[k] == false)) {
+                    if (!futures[k]->getException(false).isEmpty()) {
+                        this->setException(futures[k]->getException(false));
+                        {
+                            FutureStateGuardWrite guard(this->stateMutex);
+                            this->state = THREAD_STATE::FINISHED;
+                        }
+                        return;
+                    }
+                    ArrayOfVector args = futures[k]->getResult(false);
+                    this->setResult(ArrayOfVector());
+                    this->evaluateFunction(funcDef, nLhs, args, false);
+                    allFutureResults[k] = this->getResult(false);
+                    this->setResult(ArrayOfVector());
+                    doAfterEach[k] = true;
+                }
             }
         }
     }
@@ -67,11 +77,17 @@ AfterEachFutureObject::afterEach(FunctionDef* funcDef, int nLhs, bool uniformOut
         concat = vertCatArrayOfVector(concat, allFutureResults[k], e);
         if (!e.isEmpty()) {
             this->setException(e);
-            this->state = THREAD_STATE::FINISHED;
+            {
+                FutureStateGuardWrite guard(this->stateMutex);
+                this->state = THREAD_STATE::FINISHED;
+            }
             return;
         }
     }
     this->setResult(concat);
-    this->state = THREAD_STATE::FINISHED;
+    {
+        FutureStateGuardWrite guard(this->stateMutex);
+        this->state = THREAD_STATE::FINISHED;
+    }
 }
 //=============================================================================

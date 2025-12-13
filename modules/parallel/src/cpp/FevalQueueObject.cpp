@@ -11,6 +11,7 @@
 #include "BackgroundPoolObject.hpp"
 #include "FevalQueueObject.hpp"
 #include "HandleManager.hpp"
+#include "WaitFutures.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -80,6 +81,7 @@ FevalQueueObject::searchThreadsByState(THREAD_STATE stateDesired)
     refreshQueue();
     std::vector<nelson_handle> handles;
     for (auto& k : fEvalQueue) {
+        FutureStateGuardRead guard(k->stateMutex);
         if (k->state == stateDesired) {
             nelson_handle asNelsonHandle = k->asNelsonHandle;
             nelson_handle nh = asNelsonHandle;
@@ -136,6 +138,7 @@ FevalQueueObject::refreshQueue()
     }
     fEvalQueue.erase(std::remove_if(fEvalQueue.begin(), fEvalQueue.end(),
                          [](FevalFutureObject* f) {
+                             FutureStateGuardRead guard(f->stateMutex);
                              return f->state != THREAD_STATE::QUEUED
                                  && f->state != THREAD_STATE::RUNNING;
                          }),

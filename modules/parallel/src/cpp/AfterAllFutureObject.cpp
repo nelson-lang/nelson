@@ -59,7 +59,10 @@ AfterAllFutureObject::afterAll(FunctionDef* funcDef, int nLhs, bool uniformOutpu
         }
     } catch (Exception& e) {
         this->setException(e);
-        this->state = THREAD_STATE::FINISHED;
+        {
+            FutureStateGuardWrite guard(this->stateMutex);
+            this->state = THREAD_STATE::FINISHED;
+        }
         if (localEvaluator) {
             ParallelEvaluator::destroy(localEvaluator, false);
         }
