@@ -13,6 +13,7 @@ try
     TESTS_RESULT_DIR = nelsonroot();
   end
   ver_number = version('-number');
+  platform_map.('woa64') = 'win-arm64';
   platform_map.('win64') = 'win-x86-64';
   platform_map.('win32') = 'win-x86-32';
   platform_map.('glnxa64') = 'linux-x86-64';

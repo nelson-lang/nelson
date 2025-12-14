@@ -9,8 +9,7 @@ win64:  (build-help "x64")
 win32:  (build-help "win32")
 
 # Build help/documentation for Windows arm64
-arm64:
-    @echo Not yet supported
+arm64:  (build-help "ARM64")
 
 [private]
 build-help arch:

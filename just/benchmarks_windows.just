@@ -10,8 +10,7 @@ win64: (benchmarks-arch "x64")
 win32: (benchmarks-arch "win32")
 
 # Benchmarks for Windows ARM64 version
-arm64:
-    @echo Not yet supported
+arm64: (benchmarks-arch "ARM64")
 
 # Helper to build for a given architecture
 [private]

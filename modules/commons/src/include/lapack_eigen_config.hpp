@@ -9,7 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) && !defined(_M_ARM64)
 #define EIGEN_USE_MKL
 #define EIGEN_USE_MKL_VML
 #define _NLS_WITH_VML

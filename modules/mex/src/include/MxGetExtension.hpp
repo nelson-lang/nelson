@@ -19,35 +19,33 @@ namespace Nelson {
 static std::wstring
 getMexExtension()
 {
-    std::wstring mexext;
-#ifdef _MSC_VER
-#ifdef _WIN64
-    mexext = L"nexw64";
+#if defined(_MSC_VER) // ----- Windows -----
+#if defined(_M_ARM64)
+    return L"nexwoa64";
+#elif defined(_WIN64)
+    return L"nexw64";
+#elif defined(_WIN32)
+    return L"nexw32";
 #else
-#ifdef _WIN32
-    mexext = L"nexw32";
+    return L"nexw"; // Fallback improbable
 #endif
-#endif
+
+#elif defined(__APPLE__) || defined(__MACH__) // ----- macOS -----
+#if defined(__x86_64__)
+    return L"nexmaci64";
+#elif defined(__arm64__) || defined(__aarch64__)
+    return L"nexmacm1";
 #else
-#if defined(__APPLE__) || defined(__MACH__)
-#ifdef __x86_64__
-    mexext = L"nexmaci64";
+    return L"nexmaci";
+#endif
+
+#else // ----- Linux / Unix -----
+#if defined(__x86_64__)
+    return L"nexa64";
 #else
-#if defined(__arm64__) || defined(__aarch64__)
-    mexext = L"nexmacm1";
-#else
-    mexext = L"nexmaci";
+    return L"nexglx";
 #endif
 #endif
-#else
-#ifdef __x86_64__
-    mexext = L"nexa64";
-#else
-    mexext = L"nexglx";
-#endif
-#endif
-#endif
-    return mexext;
 }
 //=============================================================================
 }

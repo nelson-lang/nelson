@@ -9,6 +9,8 @@
 //=============================================================================
 #include <vector>
 #include <algorithm>
+#include <thread>
+#include <chrono>
 #include "AfterAllFutureObject.hpp"
 #include "FevalFutureObject.hpp"
 #include "HandleManager.hpp"
@@ -43,6 +45,9 @@ AfterAllFutureObject::afterAll(FunctionDef* funcDef, int nLhs, bool uniformOutpu
     bool allFinished = false;
     std::vector<FutureObject*> fevalFutures = this->getPredecessors();
     do {
+        if (!allFinished) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
         allFinished = allFinish(fevalFutures);
     } while (!allFinished);
 
@@ -59,7 +64,10 @@ AfterAllFutureObject::afterAll(FunctionDef* funcDef, int nLhs, bool uniformOutpu
         }
     } catch (Exception& e) {
         this->setException(e);
-        this->state = THREAD_STATE::FINISHED;
+        {
+            FutureStateGuardWrite guard(this->stateMutex);
+            this->state = THREAD_STATE::FINISHED;
+        }
         if (localEvaluator) {
             ParallelEvaluator::destroy(localEvaluator, false);
         }

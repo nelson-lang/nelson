@@ -53,10 +53,14 @@ function varargout = configuremsvc()
   vsinfo_batch = [modulepath('dynamic_link'), '/resources/vcinfo.bat'];
   arch = computer('arch');
   vcvarsbatpath = [vsjson.installationPath,'/VC/Auxiliary/Build'];
-  if strcmp(arch, 'win64')
-    vcvarsbat = 'vcvars64.bat';
+  if strcmp(arch, 'woa64')
+    vcvarsbat = 'vcvarsarm64.bat';
   else
-    vcvarsbat = 'vcvars32.bat';
+    if strcmp(arch, 'win64')
+      vcvarsbat = 'vcvars64.bat';
+    else
+      vcvarsbat = 'vcvars32.bat';
+    end
   end
   vcvarsbatfullfilename = [vcvarsbatpath, '/', vcvarsbat];
   vcinfo_batchpath = [modulepath('dynamic_link'), '/resources'];

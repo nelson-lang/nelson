@@ -36,10 +36,10 @@ Nelson::MexGateway::mexextBuiltin(int nLhs, const ArrayOfVector& argIn)
         Error(_W("Input must be 'all' or \"all\"."));
     }
 
-    wstringVector extensions
-        = { L"nexglx", L"nexa64", L"nexmaci", L"nexmaci64", L"nexmacm1", L"nexw32", L"nexw64" };
+    wstringVector extensions = { L"nexglx", L"nexa64", L"nexmaci", L"nexmaci64", L"nexmacm1",
+        L"nexw32", L"nexw64", L"nexwoa64" };
     wstringVector archs
-        = { L"glnx86", L"glnxa64", L"maci", L"maci64", L"macm1", L"win32", L"win64" };
+        = { L"glnx86", L"glnxa64", L"maci", L"maci64", L"macm1", L"win32", L"win64", L"woa64" };
 
     ArrayOfVector ext(extensions.size());
     ArrayOfVector arch(extensions.size());

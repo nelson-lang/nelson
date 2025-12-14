@@ -64,10 +64,14 @@ std::wstring
 GetArchitecture()
 {
     if (IsPcPlatform()) {
+#ifdef _M_ARM64
+        return std::wstring(L"woa64");
+#else
 #ifdef _WIN64
         return std::wstring(L"win64");
 #else
         return std::wstring(L"win32");
+#endif
 #endif
     }
     if (IsMacPlatform()) {
@@ -90,10 +94,14 @@ std::wstring
 GetArchitectureType()
 {
     if (IsPcPlatform()) {
+#ifdef _M_ARM64
+        return std::wstring(L"PCWOA64");
+#else
 #ifdef _WIN64
         return std::wstring(L"PCWIN64");
 #else
         return std::wstring(L"PCWIN");
+#endif
 #endif
     }
     if (IsMacPlatform()) {

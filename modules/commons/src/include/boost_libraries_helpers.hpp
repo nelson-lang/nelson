@@ -11,19 +11,39 @@
 //=============================================================================
 #define CAT_3_STRINGS(S1, S2, S3) S1 S2 S3
 //=============================================================================
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
+//=============================================================================
+#if defined(_M_ARM64)
+#define BOOST_TOOLSET "vc145"
+#else
+#define BOOST_TOOLSET "vc143"
+#endif
+//=============================================================================
 #ifdef _DEBUG
-#ifdef _WIN64
-#define BOOST_TARGET "vc143-mt-gd-x64-1_89"
+/* multithreaded + debug */
+#if defined(_M_ARM64)
+/* no debug available on arm64 */
+#define BOOST_RUNTIME "-mt"
 #else
-#define BOOST_TARGET "vc143-mt-gd-x32-1_89"
+#define BOOST_RUNTIME "-mt-gd"
 #endif
 #else
-#ifdef _WIN64
-#define BOOST_TARGET "vc143-mt-x64-1_89"
+/* multithreaded (release) */
+#define BOOST_RUNTIME "-mt"
+#endif
+//=============================================================================
+#if defined(_M_ARM64)
+#define BOOST_ARCH "-a64-1_89"
+#elif defined(_WIN64)
+#define BOOST_ARCH "-x64-1_89"
 #else
-#define BOOST_TARGET "vc143-mt-x32-1_89"
+#define BOOST_ARCH "-x32-1_89"
 #endif
-#endif
+//=============================================================================
+#define BOOST_TARGET BOOST_TOOLSET BOOST_RUNTIME BOOST_ARCH
+//=============================================================================
+#else
+/* Non-MSVC toolchains: BOOST_TARGET intentionally left undefined.
+   If you need targets for other toolchains, add branches here. */
 #endif
 //=============================================================================

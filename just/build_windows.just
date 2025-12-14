@@ -10,8 +10,7 @@ win64: (build-arch "win64")
 win32: (build-arch "win32")
 
 # Build Windows ARM64 version
-arm64:
-    @echo Not yet supported
+arm64: (build-arch "ARM64")
 
 # Helper to build for a given architecture
 [private]

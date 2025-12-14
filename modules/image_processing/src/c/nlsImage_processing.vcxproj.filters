@@ -43,12 +43,6 @@
     <ClCompile Include="..\cpp\ImageRotation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\UnitsConversionHelpers.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\GOScalarAlphaProperty.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\ImageResize.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

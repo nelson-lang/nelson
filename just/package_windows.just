@@ -10,8 +10,7 @@ win64: (package "x64")
 win32: (package "win32")
 
 # Package Windows ARM64 version
-arm64:
-    @echo Not yet supported
+arm64: (package "ARM64")
 
 # Helper to package Nelson for a given architecture
 [private]

@@ -10,8 +10,7 @@ win64: (get-skeleton "x64")
 win32: (get-skeleton "win32")
 
 # Get module skeleton for Windows ARM64
-arm64:
-    @echo Not yet supported
+arm64: (get-skeleton "ARM64")
 
 # Helper command to get module skeleton for given architecture
 [private]

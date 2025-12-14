@@ -8,6 +8,10 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 matver = {'-v4', '-v6', '-v7', '-v7.3'};
+arch = computer('arch');
+if strcmp(arch, 'woa64')
+  matver(1) = []; % '-v4' is not supported on Windows on ARM64
+end
 %=============================================================================
 R = eye(3, 4);
 R_REF = R;

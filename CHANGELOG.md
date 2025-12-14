@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Support for Windows on ARM64, including build and installer.
 - `onCleanup`: Code executed during function shutdown.
 
 ### Changed

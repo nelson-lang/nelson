@@ -29,7 +29,7 @@ Please file issues on this repository if you have questions, concerns, or sugges
   - NixOS (DONE v1.11.0)
   - Ubuntu 24.04 ARM64 (DONE v1.11.0)
   - etc.
-- Integration of Windows ARM64 support
+- Integration of Windows ARM64 support (DONE v1.16.0)
 - Performance optimization for increased speed
 - Code factorization for improved maintainability
 - Expansion of compatible functions

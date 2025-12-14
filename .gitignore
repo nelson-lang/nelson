@@ -89,16 +89,20 @@ bin/macos/*-exec
 /modules/qml_engine/nlsQml_engine_automoc.dir/
 /modules/text_editor/nlsText_editor_automoc.dir/
 /modules/*/builtin/c/x64
+/modules/*/builtin/c/ARM64
 /modules/*/builtin/c/Debug
 /modules/*/builtin/c/Release
 /modules/*/builtin/c/Intel_SSA
 /modules/*/builtin/c/r000sc
 /modules/*/no-src/c/x64
+/modules/*/no-src/c/ARM64
 /modules/*/no-src/c/Debug
 /modules/*/no-src/c/Release
 /modules/*/no-builtin/c/x64
+/modules/*/no-builtin/c/ARM64
 /modules/*/no-builtin/c/Debug
 /modules/*/no-builtin/c/Release
+/modules/*/src/c/ARM64
 /modules/*/src/c/x64
 /modules/*/src/c/Debug
 /modules/*/src/c/Release
@@ -110,6 +114,7 @@ bin/macos/*-exec
 /modules/*/*_automoc.cpp
 /modules/gui/nlsGui_automoc.dir
 /modules/*/src/c/*/x64
+/modules/*/src/c/*/ARM64
 /modules/*/src/c/*/Debug
 /modules/*/src/c/*/Release
 /modules/commons/src/include/Nelson_VERSION.h
@@ -143,9 +148,11 @@ modules/main/help/*/md/gpl-3.0.md
 # Main CLI and GUI files
 #==============================================================================
 /modules/main/nelson_sio_cli/x64
+/modules/main/nelson_sio_cli/ARM64
 /modules/main/nelson_sio_cli/Debug
 /modules/main/nelson_sio_cli/Release
 /modules/main/nelson_cli/x64
+/modules/main/nelson_cli/ARM64
 /modules/main/nelson_cli/Debug
 /modules/main/nelson_cli/Release
 /modules/main/nelson_cli/Intel_SSA
@@ -153,12 +160,14 @@ modules/main/help/*/md/gpl-3.0.md
 /modules/main/nelson_cli/My Inspector XE Results - Nelson-cli/
 /modules/main/nelson_adv_cli/My Inspector XE Results - Nelson-cli/
 /modules/main/nelson_adv_cli/x64
+/modules/main/nelson_adv_cli/ARM64
 /modules/main/nelson_adv_cli/Debug
 /modules/main/nelson_adv_cli/Release
 /modules/main/nelson_adv_cli/Intel_SSA
 /modules/main/nelson_adv_cli/*/r000sc
 /modules/main/nelson_adv_cli/My Inspector XE Results - Nelson-cli/
 /modules/main/nelson_gui/x64
+/modules/main/nelson_gui/ARM64
 /modules/main/nelson_gui/Debug
 /modules/main/nelson_gui/Release
 /modules/main/nelson_gui/Intel_SSA

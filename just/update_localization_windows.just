@@ -10,8 +10,7 @@ win64: (update-localization "x64")
 win32: (update-localization "win32")
 
 # Update localization for Windows ARM64
-arm64:
-    @echo Not yet supported
+arm64: (update-localization "ARM64")
 
 # Helper command to update localization for a given architecture
 [private]

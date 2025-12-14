@@ -90,6 +90,10 @@ function executablePath = getExecutablePathFromWindowsRegistry(vstr)
     error(_('valid version or executable filename expected.'));
   end
   pyversion = sprintf('%d.%d', V(1:2));
+  arch = computer('arch');
+  if strcmp(arch, 'woa64')
+    pyversion = [pyversion,'-arm64'];
+  end
   try
     executablePath = winqueryreg('HKCU', ['SOFTWARE\Python\PythonCore\', pyversion, '\InstallPath'], 'ExecutablePath');
   catch

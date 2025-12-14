@@ -35,7 +35,9 @@ ComputeNelsonBinariesPath(std::wstring& errorMessage)
     // ../prefix/lib/nelson or ../nelson/bin/arch  --> nelson libraries path
     std::wstring prefixBinaryPath = L"NOT_MANAGED";
 #ifdef _MSC_VER
-#ifdef _WIN64
+#ifdef _M_ARM64
+    prefixBinaryPath = L"/bin/ARM64";
+#elif _WIN64
     prefixBinaryPath = L"/bin/x64";
 #else
     prefixBinaryPath = L"/bin/win32";

@@ -14,7 +14,7 @@ st = mexext('all');
 assert_istrue(isstruct(st));
 names = fieldnames(st);
 assert_isequal(names, {'ext'; 'arch'});
-assert_isequal(size(st), [7, 1]);
+assert_isequal(size(st), [8, 1]);
 %=============================================================================
 if strcmp(computer('arch') , 'win64')
   assert_isequal(mexext(), 'nexw64') 
@@ -22,5 +22,9 @@ end
 %=============================================================================
 if strcmp(computer('arch') , 'win32')
   assert_isequal(mexext(), 'nexw32') 
+end
+%=============================================================================
+if strcmp(computer('arch') , 'woa64')
+  assert_isequal(mexext(), 'nexwoa64') 
 end
 %=============================================================================

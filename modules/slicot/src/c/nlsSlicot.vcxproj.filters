@@ -30,240 +30,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />
-    <None Include="..\fortran\AB01ND.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\AB01OD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\AB04MD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\AB07ND.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\AB08ND.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\AB08NX.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\AG08BD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\AG08BY.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MA02AD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MA02BD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MA02CD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MA02ED.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MA02GD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MA02HD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB01PD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB01QD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB01RD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB01SD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB01UY.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB02MD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB02PD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB02VD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB03MY.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB03OD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB03OY.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB03PD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB03PY.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB03QD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB03QX.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB03QY.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB03RD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB03RX.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB03RY.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB04GD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB04MD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB04ND.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB04NY.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB04OD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB04OY.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB05OD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MB05OY.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\MC01TD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB01BD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB01BX.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB01BY.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB02MR.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB02MV.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB02OD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB02OU.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB02OV.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB02OW.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB02OY.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB03MD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB03MV.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB03MW.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB03MX.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB03MY.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB03OD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB03OR.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB03OT.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB03OV.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB03OY.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB04MD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB04MR.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB04MU.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB04MW.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB04MY.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB04PX.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB04QD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB04QR.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB04QU.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB04QY.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SB10JD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SELECT.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SG02AD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\SLCT_DLATZM.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\TB01ID.f">
-      <Filter>Fortran Files</Filter>
-    </None>
-    <None Include="..\fortran\TB01XD.f">
-      <Filter>Fortran Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc">
@@ -275,6 +41,240 @@
       <Filter>Fortran Files</Filter>
     </CustomBuild>
     <CustomBuild Include="..\fortran\TG01AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB01ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB01OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB04MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB07ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB08ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AB08NX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AG08BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\AG08BY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02CD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02ED.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02GD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MA02HD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01QD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01RD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01SD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB01UY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB02VD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03MY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03OY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03PD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03PY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03QD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03QX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03QY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03RD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03RX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB03RY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04GD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04ND.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04NY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB04OY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB05OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MB05OY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\MC01TD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB01BD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB01BX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB01BY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02MR.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02MV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02OU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02OV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02OW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB02OY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03MV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03MW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03MX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03MY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03OD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03OR.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03OT.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03OV.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB03OY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04MD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04MR.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04MU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04MW.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04MY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04PX.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04QD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04QR.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04QU.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB04QY.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SB10JD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SELECT.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SG02AD.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\SLCT_DLATZM.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01ID.f">
+      <Filter>Fortran Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\fortran\TB01XD.f">
       <Filter>Fortran Files</Filter>
     </CustomBuild>
   </ItemGroup>

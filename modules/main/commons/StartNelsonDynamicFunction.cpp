@@ -36,6 +36,15 @@ IsWindows10OrGreater()
     return false;
 }
 //=============================================================================
+#if defined(_M_ARM64) || defined(__aarch64__)
+
+// ARM64 does not support AVX2 (NEON only)
+static bool
+isAVX2Supported()
+{
+    return true;
+}
+#else
 static bool
 isAVX2Supported()
 {
@@ -53,6 +62,7 @@ isAVX2Supported()
     // AVX2 is indicated by bit 5 of EBX
     return (cpuInfo[1] & (1 << 5)) != 0;
 }
+#endif
 //=============================================================================
 static bool
 initEngineDynamicLibrary()

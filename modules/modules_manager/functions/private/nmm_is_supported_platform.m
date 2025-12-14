@@ -10,7 +10,7 @@
 function [r, msg] = nmm_is_supported_platform(plaforms)
   r = false;
   msg = sprintf(_('Platform not supported: %s'), sprintf('%s ', string(plaforms')));
-  validPlatforms = ["all", "win32" , "win64", "maci64", "maci32", "glnxa64", "glnxa32"];
+  validPlatforms = ["all", "win32" , "woa64", "win64", "maci64", "maci32", "glnxa64", "glnxa32"];
   if all(contains(plaforms, validPlatforms))
     currentArch = computer('arch');
   else

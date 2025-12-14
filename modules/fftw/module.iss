@@ -9,8 +9,13 @@
 ;==============================================================================
 #define MODULE_NAME "fftw"
 ;==============================================================================
+#ifdef NELSON_WOA64
+Source: {#RootPath}bin\{#BinPath}\libfftw3f.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_FFTW} 
+Source: {#RootPath}bin\{#BinPath}\libfftw3.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_FFTW}
+#else
 Source: {#RootPath}bin\{#BinPath}\mkl\libfftw3f-3.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_CPU_OPTIMIZATION} and {#COMPONENT_FFTW} 
 Source: {#RootPath}bin\{#BinPath}\mkl\libfftw3-3.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_CPU_OPTIMIZATION} and {#COMPONENT_FFTW}
+#endif
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsFftw.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_FFTW}
 Source: {#RootPath}bin\{#BinPath}\libnlsFftw_builtin.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_FFTW}
