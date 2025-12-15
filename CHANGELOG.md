@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#1492](https://github.com/nelson-lang/nelson/issues/1492) Temporary message appears when help for toolbox is generated.
 - blas, openblas detection in example `run([modulepath('dynamic_link'), '/examples/call_fortran.m'])` on some linux.
 - `imresize` did not support scalar string array as input arguments.
+- [#1505](https://github.com/nelson-lang/nelson/issues/1505) update CMake 4.2 and ICU 78.1 on Windows
 
 ## 1.15.0 - (2025-11-21)
 
