@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Install dependencies
         run: |
@@ -76,7 +76,7 @@ jobs:
           mv benchmark_all*.* artifacts
           mv nelson-*.deb artifacts
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: nelson-github-action-artifacts-linux-${{ matrix.os }}-${{ matrix.arch }}-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
           path: artifacts/
