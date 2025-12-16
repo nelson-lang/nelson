@@ -40,7 +40,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Install dependencies
         run: $GITHUB_WORKSPACE/tools/install_dependencies/${{ matrix.config.script }}
@@ -102,7 +102,7 @@ jobs:
           fi
           mv nelson-*.tar.gz artifacts
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: nelson-github-action-artifacts-${{ matrix.config.name }}-${{ matrix.config.arch }}-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
           path: artifacts/
