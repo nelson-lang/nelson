@@ -203,43 +203,6 @@ procedure AfterNelsonInstall();
 				SaveStringsToFile(LanguageFileName, LanguageFileLines, False);
 			end;
 	end;
-
-#IFDEF UNICODE
-  #DEFINE AW "W"
-#ELSE
-  #DEFINE AW "A"
-#ENDIF
-type
-  INSTALLSTATE = Longint;
-const
-  INSTALLSTATE_INVALIDARG = -2;  // An invalid parameter was passed to the function.
-  INSTALLSTATE_UNKNOWN = -1;     // The product is neither advertised or installed.
-  INSTALLSTATE_ADVERTISED = 1;   // The product is advertised but not installed.
-  INSTALLSTATE_ABSENT = 2;       // The product is installed for a different user.
-  INSTALLSTATE_DEFAULT = 5;      // The product is installed for the current user.
-
-  // Visual C++ 2022 Redistributable v14.44.35211.00
-  VC_2022_REDIST_X86_MIN = '{582EA838-9199-3518-A05C-DB09462F68EC}';
-  VC_2022_REDIST_X64_MIN = '{d8bbe9f9-7c5b-42c6-b715-9ee898a2e515}';
-  VC_2022_REDIST_ARM64_MIN = '{B062C604-B930-483A-874E-301A4E0310C4}';
-//=============================================================================
-function MsiQueryProductState(szProduct: string): INSTALLSTATE; 
-  external 'MsiQueryProductState{#AW}@msi.dll stdcall';
-//=============================================================================
-function VCVersionInstalled(const ProductID: string): Boolean;
-begin
-  Result := MsiQueryProductState(ProductID) = INSTALLSTATE_DEFAULT;
-end;
-//=============================================================================
-function VCRedistNeedsInstall: Boolean;
-begin
-  Result := False;
-#ifdef NELSON_X64
-//  Result := not (VCVersionInstalled(VC_2022_REDIST_X64_MIN));
-#else
-//  Result := not (VCVersionInstalled(VC_2022_REDIST_X86_MIN));
-#endif
-end;
 //=============================================================================
 Procedure URLLabelOnClick(Sender: TObject);
 var
