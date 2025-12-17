@@ -46,6 +46,7 @@ target_include_directories(
 target_link_libraries(
   ${module_library_name}
   PRIVATE
+    nlsInterpreter
     nlsCharacters_encoding
     nlsCommons
     nlsError_manager

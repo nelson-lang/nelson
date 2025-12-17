@@ -23,6 +23,7 @@
 #include "ProcessEventsDynamicFunction.hpp"
 #include "NelsonConfiguration.hpp"
 #include "CallbackQueue.hpp"
+#include "TimerQueue.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -863,6 +864,7 @@ Evaluator::block(AbstractSyntaxTreePtr t)
                 if (ID == 0) {
                     NelsonConfiguration::getInstance()->setInterruptPending(false, ID);
                     CallbackQueue::getInstance()->clear();
+                    TimerQueue::getInstance()->clear();
                     setState(NLS_STATE_ABORT);
                     Error(MSG_CTRL_C_DETECTED);
                 } else {

@@ -1,5 +1,5 @@
 %=============================================================================
-% Copyright (c) 2016-present Allan CORNET (Nelson)
+% Copyright (c) 2016-present Allan CORNET
 %=============================================================================
 % This file is part of Nelson.
 %=============================================================================
@@ -9,20 +9,30 @@
 %=============================================================================
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
-clear('all')
+clear all;
+%=============================================================================
+N_ITER  = 50000;            % Number of iterations
+STABILIZATION_DELAY = 5;   % Seconds to wait before second memory check
+%=============================================================================
+% INITIAL MEMORY SNAPSHOT
+%=============================================================================
 [u1, s1] = memory();
 %=============================================================================
-addpath([modulepath('stream_manager', 'tests'), '/loadsavebin']);
-for i=1:50000
+addpath(fullfile(modulepath('stream_manager', 'tests'), 'loadsavebin'));
+for i = 1:N_ITER
   typeofbin(201);
 end
+% Allow garbage collector and system allocator to settle
+sleep(STABILIZATION_DELAY);
 %=============================================================================
-sleep(5);
-%=============================================================================
-% it is not a good practice to compare memory because mac, linux, win have not same behavior. 
+% MEMORY MEASUREMENT
 %=============================================================================
 [u2, s2] = memory();
-r = u2.MemUsedNelson - u1.MemUsedNelson;
-disp(r)
-assert_istrue(r < 6300000)
+delta_mem = u2.MemUsedNelson - u1.MemUsedNelson;
+disp(['Memory difference after ', num2str(N_ITER), ...
+' iterations: ', num2str(delta_mem), ' bytes']);
+%=============================================================================
+max_allowed = 126.0 * N_ITER;  % ~6300000 for 50000 iterations
+%=============================================================================
+assert_istrue(delta_mem < max_allowed);
 %=============================================================================

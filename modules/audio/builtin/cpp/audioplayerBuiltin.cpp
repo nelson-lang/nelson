@@ -13,6 +13,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,11 +30,12 @@ Nelson::AudioGateway::audioplayerBuiltin(int nLhs, const ArrayOfVector& argIn)
     AudioplayerObject* objPlayer = nullptr;
     std::wstring errorMessage = _W("Cannot create audioplayer handle.");
     bool res = false;
+    bool haveEventLoop = NelsonConfiguration::getInstance()->haveEventsLoop();
     switch (argIn.size()) {
     case 2: {
         ArrayOf param2 = argIn[1];
         int sampleRate = param2.getContentAsInteger32Scalar();
-        objPlayer = new AudioplayerObject();
+        objPlayer = new AudioplayerObject(haveEventLoop);
         res = objPlayer->setSamples(argIn[0], sampleRate, errorMessage);
     } break;
     case 3: {
@@ -41,7 +43,7 @@ Nelson::AudioGateway::audioplayerBuiltin(int nLhs, const ArrayOfVector& argIn)
         int sampleRate = param2.getContentAsInteger32Scalar();
         ArrayOf param3 = argIn[2];
         int bitsPerSample = param3.getContentAsInteger32Scalar();
-        objPlayer = new AudioplayerObject();
+        objPlayer = new AudioplayerObject(haveEventLoop);
         res = objPlayer->setSamples(argIn[0], sampleRate, bitsPerSample, errorMessage);
     } break;
     case 4: {
@@ -51,7 +53,7 @@ Nelson::AudioGateway::audioplayerBuiltin(int nLhs, const ArrayOfVector& argIn)
         int bitsPerSample = param3.getContentAsInteger32Scalar();
         ArrayOf param4 = argIn[3];
         int deviceID = param4.getContentAsInteger32Scalar();
-        objPlayer = new AudioplayerObject();
+        objPlayer = new AudioplayerObject(haveEventLoop);
         res = objPlayer->setSamples(argIn[0], sampleRate, bitsPerSample, deviceID, errorMessage);
     } break;
     default: {

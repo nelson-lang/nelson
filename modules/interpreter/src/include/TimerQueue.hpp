@@ -7,30 +7,46 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "drawnowBuiltin.hpp"
-#include "DrawNow.hpp"
-#include "InputOutputArgumentsCheckers.hpp"
-#include "CallbackQueue.hpp"
-#include "TimerQueue.hpp"
+#pragma once
+//=============================================================================
+#include <mutex>
+#include <vector>
+#include "TimerCallback.hpp"
+#include "nlsInterpreter_exports.h"
 #include "Evaluator.hpp"
-#include "NelsonConfiguration.hpp"
 //=============================================================================
-namespace Nelson::GraphicsGateway {
+namespace Nelson {
 //=============================================================================
-ArrayOfVector
-drawnowBuiltin(int nLhs, const ArrayOfVector& argIn)
+class NLSINTERPRETER_IMPEXP TimerQueue
 {
-    ArrayOfVector retval = {};
-    nargincheck(argIn, 0);
-    nargoutcheck(nLhs, 0, 0);
+private:
+    static TimerQueue* m_pInstance;
+    std::mutex m_mutex;
+    std::vector<TimerCallback> waitingCallbacks;
+    std::vector<TimerCallback> inProgressCallbacks;
 
-    Evaluator* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
-    CallbackQueue::getInstance()->processCallback(eval);
-    TimerQueue::getInstance()->processCallback(eval);
-    drawNow();
+    TimerQueue();
+    TimerQueue(const TimerQueue&) = delete;
+    TimerQueue&
+    operator=(const TimerQueue&)
+        = delete;
 
-    return retval;
-}
+public:
+    void
+    clear();
+    bool
+    isEmpty();
+    void
+    add(const TimerCallback& timerCallback);
+
+    ~TimerQueue();
+    static TimerQueue*
+    getInstance();
+    static void
+    destroy();
+    bool
+    processCallback(Evaluator* eval);
+};
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

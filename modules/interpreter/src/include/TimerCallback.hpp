@@ -7,30 +7,31 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "drawnowBuiltin.hpp"
-#include "DrawNow.hpp"
-#include "InputOutputArgumentsCheckers.hpp"
-#include "CallbackQueue.hpp"
-#include "TimerQueue.hpp"
+#pragma once
+//=============================================================================
+#include "nlsInterpreter_exports.h"
 #include "Evaluator.hpp"
-#include "NelsonConfiguration.hpp"
 //=============================================================================
-namespace Nelson::GraphicsGateway {
+namespace Nelson {
 //=============================================================================
-ArrayOfVector
-drawnowBuiltin(int nLhs, const ArrayOfVector& argIn)
+class NLSINTERPRETER_IMPEXP TimerCallback
 {
-    ArrayOfVector retval = {};
-    nargincheck(argIn, 0);
-    nargoutcheck(nLhs, 0, 0);
+private:
+    ArrayOf callbackAsArrayOf;
+    bool running = false;
 
-    Evaluator* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
-    CallbackQueue::getInstance()->processCallback(eval);
-    TimerQueue::getInstance()->processCallback(eval);
-    drawNow();
-
-    return retval;
-}
+public:
+    TimerCallback() {};
+    TimerCallback(const ArrayOf& _callbackAsArrayOf) : callbackAsArrayOf(_callbackAsArrayOf) {};
+    ~TimerCallback() {};
+    bool
+    execute(Evaluator* eval);
+    bool
+    operator==(const TimerCallback& other) const
+    {
+        return this->callbackAsArrayOf.getDataPointer() == other.callbackAsArrayOf.getDataPointer();
+    }
+};
 //=============================================================================
 }
 //=============================================================================
