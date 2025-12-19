@@ -330,7 +330,7 @@
     <ClCompile Include="..\cpp\AbstractSyntaxTreeHelpers.cpp" />
     <ClCompile Include="..\cpp\ActionMenu.cpp" />
     <ClCompile Include="..\cpp\AnonymousMacroFunctionDef.cpp" />
-    <ClCompile Include="..\cpp\CallbackQueue.cpp" />
+    <ClCompile Include="..\cpp\CallbackBase.cpp" />
     <ClCompile Include="..\cpp\DeleteOnCleanupHandleObject.cpp" />
     <ClCompile Include="..\cpp\EvaluatorAssignment.cpp" />
     <ClCompile Include="..\cpp\EvaluatorControlExpression.cpp" />
@@ -409,8 +409,6 @@
     <ClCompile Include="..\cpp\ProfilerHelpers.cpp" />
     <ClCompile Include="..\cpp\Scope.cpp" />
     <ClCompile Include="..\cpp\StackEntry.cpp" />
-    <ClCompile Include="..\cpp\TimerCallback.cpp" />
-    <ClCompile Include="..\cpp\TimerQueue.cpp" />
     <ClCompile Include="..\cpp\VariablesTable.cpp" />
     <ClCompile Include="..\FileWatcher\FileWatcher.cpp" />
     <ClCompile Include="..\FileWatcher\FileWatcherWin32.cpp" />
@@ -480,6 +478,7 @@
     <ClInclude Include="..\include\AnonymousMacroFunctionDef.hpp" />
     <ClInclude Include="..\include\BuiltInFunctionDef.hpp" />
     <ClInclude Include="..\include\BuiltInFunctionDefManager.hpp" />
+    <ClInclude Include="..\include\CallbackBase.hpp" />
     <ClInclude Include="..\include\CallbackQueue.hpp" />
     <ClInclude Include="..\include\CallStack.hpp" />
     <ClInclude Include="..\include\CheckIfWhileCondition.hpp" />
@@ -516,10 +515,12 @@
     <ClInclude Include="..\include\PositionScript.hpp" />
     <ClInclude Include="..\include\ProcessEventsDynamicFunction.hpp" />
     <ClInclude Include="..\include\ProfilerHelpers.hpp" />
+    <ClInclude Include="..\include\QueueCommon.hpp" />
+    <ClInclude Include="..\include\QueueProcessing.hpp" />
     <ClInclude Include="..\include\Scope.hpp" />
     <ClInclude Include="..\include\StackEntry.hpp" />
-    <ClInclude Include="..\include\TimerCallback.hpp" />
-    <ClInclude Include="..\include\TimerQueue.hpp" />
+    <ClInclude Include="..\include\EventCallback.hpp" />
+    <ClInclude Include="..\include\EventQueue.hpp" />
     <ClInclude Include="..\include\VariablesTable.hpp" />
   </ItemGroup>
   <ItemGroup>

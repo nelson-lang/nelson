@@ -9,7 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "GraphicCallback.hpp"
+#include "EventCallback.hpp"
 #include "nlsInterpreter_exports.h"
 #include "Evaluator.hpp"
 #include "QueueCommon.hpp"
@@ -17,39 +17,15 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-namespace detail {
-    struct GraphicCallbackQueueTraits : QueueDefaultTraits<GraphicCallback>
-    {
-        static bool
-        canInterrupt(const GraphicCallback& running, const GraphicCallback&)
-        {
-            return running.isInterruptible();
-        }
-
-        static bool
-        shouldDropWaitingWhenBusy(const GraphicCallback& waiting)
-        {
-            return waiting.getBusyActionState() == BUSY_ACTION::CANCEL;
-        }
-
-        static bool
-        execute(GraphicCallback& callback, Evaluator* eval)
-        {
-            return callback.execute(eval);
-        }
-    };
-} // namespace detail
-//=============================================================================
-class NLSINTERPRETER_IMPEXP CallbackQueue
-    : public SingletonHelper<CallbackQueue>,
-      private detail::QueueCommon<GraphicCallback, detail::GraphicCallbackQueueTraits>
+class NLSINTERPRETER_IMPEXP EventQueue : public SingletonHelper<EventQueue>,
+                                         private detail::QueueCommon<EventCallback>
 {
-    friend class SingletonHelper<CallbackQueue>;
+    friend class SingletonHelper<EventQueue>;
 
 private:
-    using Base = detail::QueueCommon<GraphicCallback, detail::GraphicCallbackQueueTraits>;
+    using Base = detail::QueueCommon<EventCallback>;
     // storage & synchronization handled by Base
-    CallbackQueue() = default;
+    EventQueue() = default;
 
 public:
     void
@@ -63,9 +39,9 @@ public:
         return empty();
     }
     void
-    add(const GraphicCallback& graphicCallback)
+    add(const EventCallback& eventCallback)
     {
-        enqueue(graphicCallback);
+        enqueue(eventCallback);
     }
     bool
     processCallback(Evaluator* eval)
@@ -75,7 +51,7 @@ public:
         }
         return process(eval);
     }
-    ~CallbackQueue() { clearAllQueues(); }
+    ~EventQueue() { clearAllQueues(); }
 };
 //=============================================================================
 } // namespace Nelson

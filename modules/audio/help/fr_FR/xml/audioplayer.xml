@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>audioplayer</keyword>
-  <short_description>Audio player objet.</short_description>
+  <short_description>Objet audioplayer.</short_description>
   <syntax>
     <syntax_item>playerObj = audioplayer(y, fs)</syntax_item>
     <syntax_item>playerObj = audioplayer(y, fs, nbits)</syntax_item>
@@ -34,7 +34,7 @@
   <param_output>
     <param_output_item>
       <param_name>playerObj</param_name>
-      <param_description>audioplayer object</param_description>
+      <param_description>audioplayer objet</param_description>
     </param_output_item>
   </param_output>
   <description>
@@ -182,7 +182,7 @@ play(playObj)
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
+      <history_description>version initiale</history_description>
     </history_item>
     <history_item>
       <history_version>1.16.0</history_version>

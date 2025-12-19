@@ -14,20 +14,28 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class NLSINTERPRETER_IMPEXP TimerCallback
+class NLSINTERPRETER_IMPEXP CallbackBase
 {
-private:
+protected:
     ArrayOf callbackAsArrayOf;
     bool running = false;
 
+    bool
+    executeCallbackImpl(Evaluator* eval);
+
 public:
-    TimerCallback() {};
-    TimerCallback(const ArrayOf& _callbackAsArrayOf) : callbackAsArrayOf(_callbackAsArrayOf) {};
-    ~TimerCallback() {};
+    CallbackBase() {};
+    CallbackBase(const ArrayOf& _callbackAsArrayOf) : callbackAsArrayOf(_callbackAsArrayOf) {};
+    virtual ~CallbackBase() {};
+
     bool
-    execute(Evaluator* eval);
+    execute(Evaluator* eval)
+    {
+        return executeCallbackImpl(eval);
+    }
+
     bool
-    operator==(const TimerCallback& other) const
+    operator==(const CallbackBase& other) const
     {
         return this->callbackAsArrayOf.getDataPointer() == other.callbackAsArrayOf.getDataPointer();
     }

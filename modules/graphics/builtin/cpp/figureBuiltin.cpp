@@ -19,10 +19,7 @@
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOCallbackProperty.hpp"
-#include "CallbackQueue.hpp"
-#include "TimerQueue.hpp"
-#include "Evaluator.hpp"
-#include "NelsonConfiguration.hpp"
+#include "QueueProcessing.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================
@@ -33,9 +30,7 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval = {};
 
-    Evaluator* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
-    CallbackQueue::getInstance()->processCallback(eval);
-    TimerQueue::getInstance()->processCallback(eval);
+    processPendingCallbacksAndTimers();
 
     int64 currentFigureID;
     if (argIn.size() == 0) {

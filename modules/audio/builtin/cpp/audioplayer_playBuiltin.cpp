@@ -16,7 +16,7 @@
 #include "ProcessEventsDynamicFunction.hpp"
 #include "NelsonConfiguration.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "TimerQueue.hpp"
+#include "QueueProcessing.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -75,7 +75,7 @@ audioplayer_playCommonBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& ar
     }
     if (blocking) {
         do {
-            TimerQueue::getInstance()->processCallback(eval);
+            processPendingCallbacksAndTimers(eval);
             if (eval->haveEventsLoop()) {
                 ProcessEventsDynamicFunctionWithoutWait();
             }

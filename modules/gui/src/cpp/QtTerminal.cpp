@@ -60,7 +60,7 @@
 #include "WorkspaceBrowser.hpp"
 #include "QtWorkspaceBrowser.h"
 #include "CallbackQueue.hpp"
-#include "TimerQueue.hpp"
+#include "EventQueue.hpp"
 #include "VariablesEditor.hpp"
 #include "QtTerminalCompleter.h"
 //=============================================================================
@@ -290,7 +290,7 @@ QtTerminal::getLine(const std::wstring& prompt)
     }
     eval->commandQueue.clear();
     Nelson::CallbackQueue::getInstance()->clear();
-    Nelson::TimerQueue::getInstance()->clear();
+    Nelson::EventQueue::getInstance()->clear();
 
     bool wasInterruptedByAction = false;
 
@@ -305,7 +305,7 @@ QtTerminal::getLine(const std::wstring& prompt)
         }
 
         if (!eval->commandQueue.isEmpty() || !Nelson::CallbackQueue::getInstance()->isEmpty()
-            || !Nelson::TimerQueue::getInstance()->isEmpty()) {
+            || !Nelson::EventQueue::getInstance()->isEmpty()) {
             wasInterruptedByAction = true;
             break;
         }

@@ -7,13 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "TimerCallback.hpp"
+#include "CallbackBase.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
-TimerCallback::execute(Evaluator* eval)
+CallbackBase::executeCallbackImpl(Evaluator* eval)
 {
     running = true;
 
@@ -21,19 +21,6 @@ TimerCallback::execute(Evaluator* eval)
         running = false;
         return false;
     }
-
-    auto executeCallback = [&](const std::function<void()>& callback) {
-        try {
-            callback();
-            running = false;
-            return true;
-        } catch (const Exception& e) {
-            eval->setLastErrorException(e);
-            eval->getInterface()->errorMessage(e.getFormattedErrorMessage());
-            running = false;
-            return false;
-        }
-    };
 
     if (callbackAsArrayOf.isCell()) {
         size_t nbElements = callbackAsArrayOf.getElementCount();
@@ -55,18 +42,23 @@ TimerCallback::execute(Evaluator* eval)
         } catch (const Exception& e) {
             eval->getInterface()->errorMessage(e.getFormattedErrorMessage());
             eval->setLastErrorException(e);
+            running = false;
             return false;
         }
+        running = false;
         return true;
     } else if (callbackAsArrayOf.isRowVectorCharacterArray()
         || callbackAsArrayOf.isScalarStringArray()) {
         std::wstring callbackString = callbackAsArrayOf.getContentAsWideCharactersPointer();
         callbackString += L"\n";
         try {
-            return eval->evaluateString(callbackString, true);
+            bool result = eval->evaluateString(callbackString, true);
+            running = false;
+            return result;
         } catch (const Exception& e) {
             eval->getInterface()->errorMessage(e.getFormattedErrorMessage());
             eval->setLastErrorException(e);
+            running = false;
             return false;
         }
     }

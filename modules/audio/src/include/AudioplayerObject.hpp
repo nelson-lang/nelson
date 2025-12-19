@@ -136,6 +136,12 @@ private:
     paPlayCallback(const void* inputBuffer, void* outputBuffer, unsigned long framesPerBuffer,
         const PaStreamCallbackTimeInfo* timeInfo, PaStreamCallbackFlags statusFlags,
         void* userData);
+
+    void
+    enqueueCallback(const ArrayOf& callbackArrayOf);
+
+    bool
+    isFunctionHandleCallbackValid(const ArrayOf& callbackArrayOf);
 };
 //=============================================================================
 } // namespace Nelson

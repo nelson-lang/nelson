@@ -337,6 +337,7 @@
     <ClInclude Include="..\include\nlsCommons_exports.h" />
     <ClInclude Include="..\include\ParallelSort.hpp" />
     <ClInclude Include="..\include\ParallelTransform.hpp" />
+    <ClInclude Include="..\include\SingletonHelper.hpp" />
     <ClInclude Include="..\include\StringHelpers.hpp" />
     <ClInclude Include="..\include\UuidHelpers.hpp" />
   </ItemGroup>

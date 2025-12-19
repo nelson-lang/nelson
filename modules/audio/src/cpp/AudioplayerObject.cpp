@@ -15,8 +15,8 @@
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
-#include "TimerCallback.hpp"
-#include "TimerQueue.hpp"
+#include "EventCallback.hpp"
+#include "EventQueue.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -338,8 +338,7 @@ AudioplayerObject::set(
                           errorMessage = _W("Cannot set StartFcn without event loop.");
                           return false;
                       }
-                      if (!propertyValue.isFunctionHandle() && propertyValue.isScalarStringArray()
-                          && propertyValue.isRowVectorCharacterArray()) {
+                      if (!isFunctionHandleCallbackValid(propertyValue)) {
                           errorMessage = _W("StartFcn must be a function handle.");
                           return false;
                       }
@@ -353,8 +352,7 @@ AudioplayerObject::set(
                           errorMessage = _W("Cannot set StopFcn without event loop.");
                           return false;
                       }
-                      if (!propertyValue.isFunctionHandle() && propertyValue.isScalarStringArray()
-                          && propertyValue.isRowVectorCharacterArray()) {
+                      if (!isFunctionHandleCallbackValid(propertyValue)) {
                           errorMessage = _W("StopFcn must be a function handle.");
                           return false;
                       }
@@ -368,8 +366,7 @@ AudioplayerObject::set(
                           errorMessage = _W("Cannot set TimerFcn without event loop.");
                           return false;
                       }
-                      if (!propertyValue.isFunctionHandle() && propertyValue.isScalarStringArray()
-                          && propertyValue.isRowVectorCharacterArray()) {
+                      if (!isFunctionHandleCallbackValid(propertyValue)) {
                           errorMessage = _W("TimerFcn must be a function handle.");
                           return false;
                       }
@@ -395,7 +392,7 @@ AudioplayerObject::set(
         return it->second();
     }
 
-    errorMessage = _W("Property not writeable:") + propertyName;
+    errorMessage = _W("Property not writeable: ") + propertyName;
     return false;
 }
 //=============================================================================
@@ -588,22 +585,7 @@ AudioplayerObject::paPlayCallback(const void* inputBuffer, void* outputBuffer,
         }
 
         if (timerEnabled && (data->_CurrentSample % periodSamples == 0)) {
-            if (!data->timerFunc.isEmpty()) {
-                if (data->timerFunc.isScalarStringArray()
-                    || data->timerFunc.isRowVectorCharacterArray()) {
-                    TimerQueue::getInstance()->add(TimerCallback(data->timerFunc));
-                } else if (data->timerFunc.isFunctionHandle()) {
-                    size_t nbElements = 3;
-                    ArrayOf* elements
-                        = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbElements);
-                    elements[0] = data->timerFunc;
-                    elements[1] = ArrayOf::handleConstructor(data);
-                    elements[2] = ArrayOf::emptyConstructor(0, 0);
-                    ArrayOf callbackAsArrayOf
-                        = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, nbElements), elements);
-                    TimerQueue::getInstance()->add(TimerCallback(callbackAsArrayOf));
-                }
-            }
+            data->enqueueCallback(data->timerFunc);
         }
         data->_CurrentSample++;
     }
@@ -611,22 +593,7 @@ AudioplayerObject::paPlayCallback(const void* inputBuffer, void* outputBuffer,
         data->_CurrentSample = data->lastSample;
         data->_Running = false;
         data->paStream = nullptr;
-
-        if (!data->stopFunc.isEmpty()) {
-            if (data->stopFunc.isScalarStringArray()
-                || data->stopFunc.isRowVectorCharacterArray()) {
-                TimerQueue::getInstance()->add(TimerCallback(data->stopFunc));
-            } else if (data->stopFunc.isFunctionHandle()) {
-                size_t nbElements = 3;
-                ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbElements);
-                elements[0] = data->stopFunc;
-                elements[1] = ArrayOf::handleConstructor(data);
-                elements[2] = ArrayOf::emptyConstructor(0, 0);
-                ArrayOf callbackAsArrayOf
-                    = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, nbElements), elements);
-                TimerQueue::getInstance()->add(TimerCallback(callbackAsArrayOf));
-            }
-        }
+        data->enqueueCallback(data->stopFunc);
         return 1;
     }
     return 0;
@@ -641,20 +608,7 @@ AudioplayerObject::getStream()
 bool
 AudioplayerObject::play(int start, int end)
 {
-    if (!startFunc.isEmpty()) {
-        if (startFunc.isScalarStringArray() || startFunc.isRowVectorCharacterArray()) {
-            TimerQueue::getInstance()->add(TimerCallback(startFunc));
-        } else if (startFunc.isFunctionHandle()) {
-            size_t nbElements = 3;
-            ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbElements);
-            elements[0] = startFunc;
-            elements[1] = ArrayOf::handleConstructor(this);
-            elements[2] = ArrayOf::emptyConstructor(0, 0);
-            ArrayOf callbackAsArrayOf
-                = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, nbElements), elements);
-            TimerQueue::getInstance()->add(TimerCallback(callbackAsArrayOf));
-        }
-    }
+    enqueueCallback(startFunc);
     firstSample = start;
     if (end == 0) {
         lastSample = _TotalSamples;
@@ -725,6 +679,36 @@ AudioplayerObject::stop()
         paStream = nullptr;
     }
     return true;
+}
+//=============================================================================
+void
+AudioplayerObject::enqueueCallback(const ArrayOf& callbackArrayOf)
+{
+    if (!callbackArrayOf.isEmpty()) {
+        if (callbackArrayOf.isScalarStringArray() || callbackArrayOf.isRowVectorCharacterArray()) {
+            EventQueue::getInstance()->add(EventCallback(callbackArrayOf));
+        } else if (callbackArrayOf.isFunctionHandle()) {
+            size_t nbElements = 3;
+            ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbElements);
+            elements[0] = callbackArrayOf;
+            elements[1] = ArrayOf::handleConstructor(this);
+            elements[2] = ArrayOf::emptyConstructor(0, 0);
+            EventQueue::getInstance()->add(
+                EventCallback(ArrayOf(NLS_CELL_ARRAY, Dimensions(1, nbElements), elements)));
+        }
+    }
+}
+//=============================================================================
+bool
+AudioplayerObject::isFunctionHandleCallbackValid(const ArrayOf& callbackArrayOf)
+{
+    if (callbackArrayOf.isScalarStringArray() || callbackArrayOf.isRowVectorCharacterArray()) {
+        return true;
+    }
+    if (callbackArrayOf.isFunctionHandle()) {
+        return true;
+    }
+    return false;
 }
 //=============================================================================
 } // namespace Nelson

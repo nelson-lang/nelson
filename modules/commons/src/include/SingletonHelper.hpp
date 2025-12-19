@@ -9,43 +9,47 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <mutex>
-#include <vector>
-#include "TimerCallback.hpp"
-#include "nlsInterpreter_exports.h"
-#include "Evaluator.hpp"
-//=============================================================================
 namespace Nelson {
 //=============================================================================
-class NLSINTERPRETER_IMPEXP TimerQueue
+template <typename T> class SingletonHelper
 {
-private:
-    static TimerQueue* m_pInstance;
-    std::mutex m_mutex;
-    std::vector<TimerCallback> waitingCallbacks;
-    std::vector<TimerCallback> inProgressCallbacks;
-
-    TimerQueue();
-    TimerQueue(const TimerQueue&) = delete;
-    TimerQueue&
-    operator=(const TimerQueue&)
+protected:
+    SingletonHelper() = default;
+    SingletonHelper(const SingletonHelper&) = delete;
+    SingletonHelper&
+    operator=(const SingletonHelper&)
         = delete;
 
 public:
-    void
-    clear();
-    bool
-    isEmpty();
-    void
-    add(const TimerCallback& timerCallback);
+    static T*&
+    getInstancePtr()
+    {
+        static T* m_pInstance = nullptr;
+        return m_pInstance;
+    }
 
-    ~TimerQueue();
-    static TimerQueue*
-    getInstance();
+public:
+    static T*
+    getInstance()
+    {
+        T*& instance = getInstancePtr();
+        if (instance == nullptr) {
+            instance = new T();
+        }
+        return instance;
+    }
+
     static void
-    destroy();
-    bool
-    processCallback(Evaluator* eval);
+    destroy()
+    {
+        T*& instance = getInstancePtr();
+        if (instance != nullptr) {
+            delete instance;
+            instance = nullptr;
+        }
+    }
+
+    virtual ~SingletonHelper() = default;
 };
 //=============================================================================
 } // namespace Nelson

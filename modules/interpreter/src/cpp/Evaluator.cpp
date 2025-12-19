@@ -36,7 +36,7 @@
 #include "Interface.hpp"
 #include "NelsonReadyNamedMutex.hpp"
 #include "CallbackQueue.hpp"
-#include "TimerQueue.hpp"
+#include "EventQueue.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -406,7 +406,8 @@ Evaluator::evalCLI()
         if (!bpActive) {
             clearStacks();
         }
-        if (TimerQueue::getInstance()->processCallback(this)) {
+
+        if (EventQueue::getInstance()->processCallback(this)) {
             return;
         }
         if (CallbackQueue::getInstance()->processCallback(this)) {
