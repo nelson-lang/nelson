@@ -46,6 +46,7 @@ target_include_directories(
 target_link_libraries(
   ${module_library_name}
   PRIVATE
+    nlsInterpreter
     nlsCharacters_encoding
     nlsCommons
     nlsError_manager
@@ -78,6 +79,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${PORTAUDIO_INCLUDE_DIRS}
           ${SNDFILE_INCLUDE_DIRS})
 # ==============================================================================

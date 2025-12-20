@@ -45,6 +45,7 @@ static DWORD const ENABLE_VIRTUAL_TERMINAL_PROCESSING = 4;
 #include "NelsonConfiguration.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
 #include "CallbackQueue.hpp"
+#include "EventQueue.hpp"
 
 using namespace std;
 
@@ -669,7 +670,8 @@ Terminal::wait_for_input(int long timeout_)
             }
             event = WaitForMultipleObjects(
                 static_cast<DWORD>(handles.size()), handles.data(), false, 0);
-            if (!eval->commandQueue.isEmpty() || !Nelson::CallbackQueue::getInstance()->isEmpty()) {
+            if (!eval->commandQueue.isEmpty() || !Nelson::CallbackQueue::getInstance()->isEmpty()
+                || !Nelson::EventQueue::getInstance()->isEmpty()) {
                 stopInputBuffer = false;
                 return static_cast<EVENT_TYPE>(EVENT_TYPE::MESSAGE);
             }

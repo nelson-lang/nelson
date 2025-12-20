@@ -7,44 +7,25 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "CommandQueue.hpp"
+#pragma once
+//=============================================================================
+#include "CallbackQueue.hpp"
+#include "EventQueue.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-CommandQueue::CommandQueue() = default;
-//=============================================================================
-CommandQueue::~CommandQueue() { this->clearPending(); }
-//=============================================================================
-bool
-CommandQueue::isEmpty()
+inline void
+processPendingCallbacksAndTimers(Evaluator* eval = nullptr)
 {
-    return this->empty();
-}
-//=============================================================================
-void
-CommandQueue::add(const std::wstring& cmdline, bool bIsPriority)
-{
-    if (bIsPriority) {
-        this->enqueueFront(cmdline);
-    } else {
-        this->enqueue(cmdline);
+    if (eval == nullptr) {
+        eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
     }
-}
-//=============================================================================
-void
-CommandQueue::clear()
-{
-    this->clearPending();
-}
-//=============================================================================
-bool
-CommandQueue::get(std::wstring& cmd)
-{
-    if (this->tryPopBack(cmd)) {
-        return true;
+    if (eval == nullptr) {
+        return;
     }
-    cmd.clear();
-    return false;
+    CallbackQueue::getInstance()->processCallback(eval);
+    EventQueue::getInstance()->processCallback(eval);
 }
 //=============================================================================
 } // namespace Nelson

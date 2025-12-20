@@ -7,25 +7,20 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "drawnowBuiltin.hpp"
-#include "DrawNow.hpp"
-#include "InputOutputArgumentsCheckers.hpp"
-#include "QueueProcessing.hpp"
+#pragma once
 //=============================================================================
-namespace Nelson::GraphicsGateway {
+#include "nlsInterpreter_exports.h"
+#include "CallbackBase.hpp"
 //=============================================================================
-ArrayOfVector
-drawnowBuiltin(int nLhs, const ArrayOfVector& argIn)
+namespace Nelson {
+//=============================================================================
+class NLSINTERPRETER_IMPEXP EventCallback : public CallbackBase
 {
-    ArrayOfVector retval = {};
-    nargincheck(argIn, 0);
-    nargoutcheck(nLhs, 0, 0);
-
-    processPendingCallbacksAndTimers();
-    drawNow();
-
-    return retval;
-}
+public:
+    EventCallback() {};
+    EventCallback(const ArrayOf& _callbackAsArrayOf) : CallbackBase(_callbackAsArrayOf) {};
+    ~EventCallback() {};
+};
 //=============================================================================
 }
 //=============================================================================

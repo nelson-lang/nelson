@@ -20,7 +20,7 @@ namespace Nelson {
 class NLSAUDIO_IMPEXP AudioplayerObject : public HandleGenericObject
 {
 public:
-    AudioplayerObject();
+    AudioplayerObject(bool withEventLoop);
     ~AudioplayerObject() override;
     bool
     isWriteableProperty(const std::wstring& propertyName);
@@ -85,6 +85,13 @@ private:
     uint32 firstSample;
     uint32 lastSample;
 
+    ArrayOf startFunc;
+    ArrayOf stopFunc;
+    ArrayOf timerFunc;
+    double timerPeriodSeconds;
+
+    bool mainEvaluatorHasEventsLoop = false;
+
     // setter
     bool
     setSampleRate(int sr);
@@ -115,6 +122,13 @@ private:
     PaStream*
     getStream();
 
+    ArrayOf
+    getStartFcn();
+    ArrayOf
+    getStopFcn();
+    ArrayOf
+    getTimerFcn();
+
     PaStreamParameters outputStreamParameters;
 
     // callback
@@ -122,6 +136,12 @@ private:
     paPlayCallback(const void* inputBuffer, void* outputBuffer, unsigned long framesPerBuffer,
         const PaStreamCallbackTimeInfo* timeInfo, PaStreamCallbackFlags statusFlags,
         void* userData);
+
+    void
+    enqueueCallback(const ArrayOf& callbackArrayOf);
+
+    bool
+    isFunctionHandleCallbackValid(const ArrayOf& callbackArrayOf);
 };
 //=============================================================================
 } // namespace Nelson

@@ -23,6 +23,10 @@ REF = '  1×1 handle [audioplayer]
 	CurrentSample: 	0
 	TotalSamples: 	44100
 	Running: 	off
+	StartFcn: 	''''
+	StopFcn: 	''''
+	TimerFcn: 	''''
+	TimerPeriod: 	0.050000
 	Tag: 	''''
 	UserData: 	[]
 	Type: 	''audioplayer''
@@ -30,7 +34,7 @@ REF = '  1×1 handle [audioplayer]
 assert_isequal(R, REF)
 %=============================================================================
 R = evalc('display(playObj)');
-REF = '
+REF =  '
 playObj =
 
   1×1 handle [audioplayer] 
@@ -42,6 +46,10 @@ playObj =
 	CurrentSample: 	0
 	TotalSamples: 	44100
 	Running: 	off
+	StartFcn: 	''''
+	StopFcn: 	''''
+	TimerFcn: 	''''
+	TimerPeriod: 	0.050000
 	Tag: 	''''
 	UserData: 	[]
 	Type: 	''audioplayer''

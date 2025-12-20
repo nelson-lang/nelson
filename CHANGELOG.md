@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support for Windows on ARM64, including build and installer.
 - `onCleanup`: Code executed during function shutdown.
+- `TimerFcn`, `StartFcn`, `StopFcn` callbacks for audioplayer.
 
 ### Changed
 

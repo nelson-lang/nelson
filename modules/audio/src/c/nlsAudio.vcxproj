@@ -273,6 +273,9 @@
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
+      <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\operators\src\c\nlsOperators.vcxproj">
       <Project>{1d03d6f8-862d-4aff-9857-cd73cb9b3d8b}</Project>
     </ProjectReference>

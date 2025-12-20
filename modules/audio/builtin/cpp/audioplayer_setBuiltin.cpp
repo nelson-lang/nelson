@@ -35,7 +35,7 @@ Nelson::AudioGateway::audioplayer_setBuiltin(int nLhs, const ArrayOfVector& argI
         Error(_W("Cannot set a read only property."));
     }
     std::wstring errorMessage;
-    if (objPlayer->set(propertyName, param3, errorMessage)) {
+    if (!objPlayer->set(propertyName, param3, errorMessage)) {
         Error(errorMessage);
     }
     return retval;

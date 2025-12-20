@@ -10,7 +10,7 @@
 #pragma once
 //=============================================================================
 #include "nlsInterpreter_exports.h"
-#include "Evaluator.hpp"
+#include "CallbackBase.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -20,35 +20,25 @@ enum BUSY_ACTION
     CANCEL
 };
 //=============================================================================
-class NLSINTERPRETER_IMPEXP GraphicCallback
+class NLSINTERPRETER_IMPEXP GraphicCallback : public CallbackBase
 {
 private:
-    ArrayOf callbackAsArrayOf;
     bool interruptible = true;
-
-    bool running = false;
     BUSY_ACTION busyAction = BUSY_ACTION::QUEUE;
 
 public:
     GraphicCallback() {};
-    GraphicCallback(bool _interruptible, BUSY_ACTION _busyAction, ArrayOf& _callbackAsArrayOf)
-        : callbackAsArrayOf(_callbackAsArrayOf)
+    GraphicCallback(bool _interruptible, BUSY_ACTION _busyAction, const ArrayOf& _callbackAsArrayOf)
+        : CallbackBase(_callbackAsArrayOf)
     {
         interruptible = _interruptible;
         busyAction = _busyAction;
     };
     ~GraphicCallback() {};
     bool
-    isInterruptible();
-    bool
-    execute(Evaluator* eval);
+    isInterruptible() const;
     BUSY_ACTION
-    getBusyActionState();
-    bool
-    operator==(const GraphicCallback& other) const
-    {
-        return this->callbackAsArrayOf.getDataPointer() == other.callbackAsArrayOf.getDataPointer();
-    }
+    getBusyActionState() const;
 };
 //=============================================================================
 }

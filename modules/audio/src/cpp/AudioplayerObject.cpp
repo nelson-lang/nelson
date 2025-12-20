@@ -14,18 +14,25 @@
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "AnonymousMacroFunctionDef.hpp"
+#include "EventCallback.hpp"
+#include "EventQueue.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-AudioplayerObject::AudioplayerObject()
+AudioplayerObject::AudioplayerObject(bool withEventLoop)
     : HandleGenericObject(NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR, this, false)
 {
+    mainEvaluatorHasEventsLoop = withEventLoop;
+
     firstSample = 0;
     lastSample = 0;
     outputStreamParameters.device = 0;
 
     propertiesNames = { L"SampleRate", L"BitsPerSample", L"NumberOfChannels", L"DeviceID",
-        L"CurrentSample", L"TotalSamples", L"Running", L"Tag", L"UserData", L"Type" };
+        L"CurrentSample", L"TotalSamples", L"Running", L"Tag", L"UserData", L"Type", L"StartFcn",
+        L"StopFcn", L"TimerFcn", L"TimerPeriod" };
+
     int defaultOutput = Pa_GetDefaultOutputDevice();
     const PaDeviceInfo* pdi = Pa_GetDeviceInfo(defaultOutput);
     if (pdi) {
@@ -39,6 +46,7 @@ AudioplayerObject::AudioplayerObject()
         _Tag.clear();
         _UserData = ArrayOf::emptyConstructor();
         _Type = NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR;
+        timerPeriodSeconds = 0.0500;
     }
     paStream = nullptr;
 }
@@ -46,6 +54,7 @@ AudioplayerObject::AudioplayerObject()
 AudioplayerObject::~AudioplayerObject()
 {
     stop();
+    mainEvaluatorHasEventsLoop = false;
     propertiesNames.clear();
     _SampleRate = 0;
     _BitsPerSample = 0;
@@ -58,42 +67,15 @@ AudioplayerObject::~AudioplayerObject()
     _UserData = ArrayOf::emptyConstructor();
     _Type = NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR;
     paStream = nullptr;
+    timerPeriodSeconds = 0.;
 }
 //=============================================================================
 bool
 AudioplayerObject::isWriteableProperty(const std::wstring& propertyName)
 {
-    if (propertyName == L"SampleRate") {
-        return true;
-    }
-    if (propertyName == L"BitsPerSample") {
-        return false;
-    }
-    if (propertyName == L"NumberOfChannels") {
-        return false;
-    }
-    if (propertyName == L"DeviceID") {
-        return false;
-    }
-    if (propertyName == L"CurrentSample") {
-        return false;
-    }
-    if (propertyName == L"TotalSamples") {
-        return false;
-    }
-    if (propertyName == L"Running") {
-        return true;
-    }
-    if (propertyName == L"Tag") {
-        return true;
-    }
-    if (propertyName == L"UserData") {
-        return true;
-    }
-    if (propertyName == L"Type") {
-        return false;
-    }
-    return false;
+    static const std::unordered_set<std::wstring> writeableProperties = { L"SampleRate", L"Running",
+        L"Tag", L"UserData", L"StartFcn", L"StopFcn", L"TimerFcn", L"TimerPeriod" };
+    return writeableProperties.find(propertyName) != writeableProperties.end();
 }
 //=============================================================================
 int
@@ -156,6 +138,24 @@ AudioplayerObject::getType()
     return _Type;
 }
 //=============================================================================
+Nelson::ArrayOf
+AudioplayerObject::getStartFcn()
+{
+    return startFunc;
+}
+//=============================================================================
+Nelson::ArrayOf
+AudioplayerObject::getStopFcn()
+{
+    return stopFunc;
+}
+//=============================================================================
+Nelson::ArrayOf
+AudioplayerObject::getTimerFcn()
+{
+    return timerFunc;
+}
+//=============================================================================
 bool
 AudioplayerObject::setSampleRate(int sr)
 {
@@ -185,47 +185,73 @@ AudioplayerObject::setUserData(const Nelson::ArrayOf& userData)
     return true;
 }
 //=============================================================================
+static std::wstring
+FunctionToWideString(const ArrayOf& _data)
+{
+    if (_data.isEmpty()) {
+        return L"''";
+    } else if (_data.isFunctionHandle()) {
+        function_handle fh = _data.getContentAsFunctionHandle();
+        AnonymousMacroFunctionDef* anonymousFunction
+            = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
+        return utf8_to_wstring(anonymousFunction->getDefinition());
+    } else if (_data.isCell()) {
+        Dimensions dims = _data.getDimensions();
+        return L"{" + dims.toWideString() + L" cell}";
+    } else if (_data.isRowVectorCharacterArray() || _data.isScalarStringArray()) {
+        std::wstring callbackString
+            = std::wstring(L"'") + _data.getContentAsWideCharactersPointer() + std::wstring(L"'");
+        return callbackString;
+    }
+    return L"";
+}
+//=============================================================================
 bool
 AudioplayerObject::disp(Interface* io)
 {
-    if (io) {
-        std::wstring valueToDisp;
-        io->outputMessage(L"\n");
-        valueToDisp = std::to_wstring(getSampleRate());
-        io->outputMessage(L"\tSampleRate: \t" + valueToDisp + L"\n");
-        valueToDisp = std::to_wstring(getBitsPerSample());
-        io->outputMessage(L"\tBitsPerSample: \t" + valueToDisp + L"\n");
-        valueToDisp = std::to_wstring(getNumberOfChannels());
-        io->outputMessage(L"\tNumberOfChannels: \t" + valueToDisp + L"\n");
-        valueToDisp = std::to_wstring(getDeviceID());
-        io->outputMessage(L"\tDeviceID: \t" + valueToDisp + L"\n");
-        valueToDisp = std::to_wstring(getCurrentSample());
-        io->outputMessage(L"\tCurrentSample: \t" + valueToDisp + L"\n");
-        valueToDisp = std::to_wstring(getTotalSamples());
-        io->outputMessage(L"\tTotalSamples: \t" + valueToDisp + L"\n");
-        if (getRunning()) {
-            valueToDisp = L"on";
-        } else {
-            valueToDisp = L"off";
-        }
-        io->outputMessage(L"\tRunning: \t" + valueToDisp + L"\n");
-        valueToDisp = getTag();
-        io->outputMessage(L"\tTag: \t'" + valueToDisp + L"'\n");
-        if (_UserData.isEmpty(true)) {
-            valueToDisp = L"[]";
-        } else {
-            Dimensions dimsUserData = _UserData.getDimensions();
-            std::string userDataClassName;
-            ClassName(_UserData, userDataClassName);
-            valueToDisp
-                = utf8_to_wstring("[" + userDataClassName + "] - size: " + dimsUserData.toString());
-        }
-        io->outputMessage(L"\tUserData: \t" + valueToDisp + L"\n");
-        valueToDisp = utf8_to_wstring(getType());
-        io->outputMessage(L"\tType: \t'" + valueToDisp + L"'\n");
-        return true;
+    if (!io)
+        return false;
+
+    struct DisplayItem
+    {
+        const wchar_t* label;
+        std::function<std::wstring()> getter;
+    };
+
+    std::vector<DisplayItem> items = {
+        { L"SampleRate", [this] { return std::to_wstring(getSampleRate()); } },
+        { L"BitsPerSample", [this] { return std::to_wstring(getBitsPerSample()); } },
+        { L"NumberOfChannels", [this] { return std::to_wstring(getNumberOfChannels()); } },
+        { L"DeviceID", [this] { return std::to_wstring(getDeviceID()); } },
+        { L"CurrentSample", [this] { return std::to_wstring(getCurrentSample()); } },
+        { L"TotalSamples", [this] { return std::to_wstring(getTotalSamples()); } },
+        { L"Running", [this] { return getRunning() ? L"on" : L"off"; } },
+        { L"StartFcn", [this] { return FunctionToWideString(getStartFcn()); } },
+        { L"StopFcn", [this] { return FunctionToWideString(getStopFcn()); } },
+        { L"TimerFcn", [this] { return FunctionToWideString(getTimerFcn()); } },
+        { L"TimerPeriod", [this] { return std::to_wstring(timerPeriodSeconds); } },
+        { L"Tag", [this] { return L"'" + getTag() + L"'"; } },
+        { L"UserData",
+            [this] {
+                if (_UserData.isEmpty(true))
+                    return L"[]";
+                Dimensions dimsUserData = _UserData.getDimensions();
+                std::string userDataClassName;
+                ClassName(_UserData, userDataClassName);
+                const std::string input
+                    = "[" + userDataClassName + "] - size: " + dimsUserData.toString();
+                std::wstring temp = utf8_to_wstring(input);
+                return temp.c_str();
+            } },
+        { L"Type", [this] { return L"'" + utf8_to_wstring(getType()) + L"'"; } },
+    };
+
+    io->outputMessage(L"\n");
+    for (const auto& item : items) {
+        std::wstring value = item.getter();
+        io->outputMessage(L"\t" + std::wstring(item.label) + L": \t" + value + L"\n");
     }
-    return false;
+    return true;
 }
 //=============================================================================
 wstringVector
@@ -262,48 +288,32 @@ AudioplayerObject::getMethods()
 bool
 AudioplayerObject::get(const std::wstring& propertyName, ArrayOf& res)
 {
-    if (propertyName == L"SampleRate") {
-        res = ArrayOf::doubleConstructor(getSampleRate());
-        return true;
-    }
-    if (propertyName == L"BitsPerSample") {
-        res = ArrayOf::doubleConstructor(getBitsPerSample());
-        return true;
-    }
-    if (propertyName == L"NumberOfChannels") {
-        res = ArrayOf::doubleConstructor(getNumberOfChannels());
-        return true;
-    }
-    if (propertyName == L"DeviceID") {
-        res = ArrayOf::doubleConstructor(getDeviceID());
-        return true;
-    }
-    if (propertyName == L"CurrentSample") {
-        res = ArrayOf::doubleConstructor(getCurrentSample());
-        return true;
-    }
-    if (propertyName == L"TotalSamples") {
-        res = ArrayOf::doubleConstructor(getTotalSamples());
-        return true;
-    }
-    if (propertyName == L"Running") {
-        if (getRunning()) {
-            res = ArrayOf::characterArrayConstructor(L"on");
-        } else {
-            res = ArrayOf::characterArrayConstructor(L"off");
-        }
-        return true;
-    }
-    if (propertyName == L"Tag") {
-        res = ArrayOf::characterArrayConstructor(getTag());
-        return true;
-    }
-    if (propertyName == L"UserData") {
-        res = getUserData();
-        return true;
-    }
-    if (propertyName == L"Type") {
-        res = ArrayOf::characterArrayConstructor(getType());
+    using Getter = std::function<ArrayOf()>;
+    static const std::unordered_map<std::wstring, Getter> getters = {
+        { L"SampleRate", [this]() { return ArrayOf::doubleConstructor(getSampleRate()); } },
+        { L"BitsPerSample", [this]() { return ArrayOf::doubleConstructor(getBitsPerSample()); } },
+        { L"NumberOfChannels",
+            [this]() { return ArrayOf::doubleConstructor(getNumberOfChannels()); } },
+        { L"DeviceID", [this]() { return ArrayOf::doubleConstructor(getDeviceID()); } },
+        { L"CurrentSample", [this]() { return ArrayOf::doubleConstructor(getCurrentSample()); } },
+        { L"TotalSamples", [this]() { return ArrayOf::doubleConstructor(getTotalSamples()); } },
+        { L"Running",
+            [this]() {
+                return getRunning() ? ArrayOf::characterArrayConstructor(L"on")
+                                    : ArrayOf::characterArrayConstructor(L"off");
+            } },
+        { L"Tag", [this]() { return ArrayOf::characterArrayConstructor(getTag()); } },
+        { L"UserData", [this]() { return getUserData(); } },
+        { L"Type", [this]() { return ArrayOf::characterArrayConstructor(getType()); } },
+        { L"StartFcn", [this]() { return getStartFcn(); } },
+        { L"StopFcn", [this]() { return getStopFcn(); } },
+        { L"TimerFcn", [this]() { return getTimerFcn(); } },
+        { L"TimerPeriod", [this]() { return ArrayOf::doubleConstructor(timerPeriodSeconds); } }
+    };
+
+    auto it = getters.find(propertyName);
+    if (it != getters.end()) {
+        res = it->second();
         return true;
     }
     return false;
@@ -313,36 +323,76 @@ bool
 AudioplayerObject::set(
     const std::wstring& propertyName, const ArrayOf& propertyValue, std::wstring& errorMessage)
 {
-    if (propertyName == L"SampleRate") {
-        return true;
+    using Setter = std::function<bool()>;
+    static const std::unordered_map<std::wstring, Setter> setters
+        = { { L"SampleRate",
+                [&]() {
+                    return setSampleRate(
+                        static_cast<int>(propertyValue.getContentAsDoubleScalar()));
+                } },
+              { L"Tag", [&]() { return setTag(propertyValue.getContentAsWideString()); } },
+              { L"UserData", [&]() { return setUserData(propertyValue); } },
+              { L"StartFcn",
+                  [&]() {
+                      if (!mainEvaluatorHasEventsLoop) {
+                          errorMessage = _W("Cannot set StartFcn without event loop.");
+                          return false;
+                      }
+                      if (!isFunctionHandleCallbackValid(propertyValue)) {
+                          errorMessage = _W("StartFcn must be a function handle.");
+                          return false;
+                      }
+                      startFunc = propertyValue;
+                      startFunc.ensureSingleOwner();
+                      return true;
+                  } },
+              { L"StopFcn",
+                  [&]() {
+                      if (!mainEvaluatorHasEventsLoop) {
+                          errorMessage = _W("Cannot set StopFcn without event loop.");
+                          return false;
+                      }
+                      if (!isFunctionHandleCallbackValid(propertyValue)) {
+                          errorMessage = _W("StopFcn must be a function handle.");
+                          return false;
+                      }
+                      stopFunc = propertyValue;
+                      stopFunc.ensureSingleOwner();
+                      return true;
+                  } },
+              { L"TimerFcn",
+                  [&]() {
+                      if (!mainEvaluatorHasEventsLoop) {
+                          errorMessage = _W("Cannot set TimerFcn without event loop.");
+                          return false;
+                      }
+                      if (!isFunctionHandleCallbackValid(propertyValue)) {
+                          errorMessage = _W("TimerFcn must be a function handle.");
+                          return false;
+                      }
+                      timerFunc = propertyValue;
+                      timerFunc.ensureSingleOwner();
+                      return true;
+                  } },
+              { L"TimerPeriod", [&]() {
+                   if (propertyValue.isScalar() && propertyValue.isDoubleType(true)) {
+                       double doubleValue = propertyValue.getContentAsDoubleScalar();
+                       if (doubleValue <= 0.002 || !std::isfinite(doubleValue)) {
+                           return false;
+                       }
+                       timerPeriodSeconds = doubleValue;
+                       return true;
+                   }
+                   return false;
+               } } };
+
+    auto it = setters.find(propertyName);
+    if (it != setters.end()) {
+        errorMessage.clear();
+        return it->second();
     }
-    if (propertyName == L"BitsPerSample") {
-        return true;
-    }
-    if (propertyName == L"NumberOfChannels") {
-        return true;
-    }
-    if (propertyName == L"DeviceID") {
-        return true;
-    }
-    if (propertyName == L"CurrentSample") {
-        return true;
-    }
-    if (propertyName == L"TotalSamples") {
-        return true;
-    }
-    if (propertyName == L"Tag") {
-        std::wstring value = propertyValue.getContentAsWideString();
-        setTag(value);
-        return true;
-    }
-    if (propertyName == L"UserData") {
-        setUserData(propertyValue);
-        return true;
-    }
-    if (propertyName == L"Type") {
-        return true;
-    }
+
+    errorMessage = _W("Property not writeable: ") + propertyName;
     return false;
 }
 //=============================================================================
@@ -447,6 +497,18 @@ AudioplayerObject::paPlayCallback(const void* inputBuffer, void* outputBuffer,
     PaStreamCallbackFlags statusFlags, void* userData)
 {
     auto* data = static_cast<AudioplayerObject*>(userData);
+    const bool timerEnabled
+        = (!data->timerFunc.isEmpty() && data->timerPeriodSeconds > 0.0 && data->_SampleRate > 0);
+
+    size_t periodSamples = 0;
+    if (timerEnabled) {
+        periodSamples = static_cast<size_t>(
+            data->timerPeriodSeconds * static_cast<double>(data->_SampleRate));
+        if (periodSamples == 0) {
+            periodSamples = 1;
+        }
+    }
+
     data->_Running = true;
     auto* outAsSingle = static_cast<single*>(outputBuffer);
     int8* outAsInt8 = static_cast<int8*>(outputBuffer);
@@ -521,12 +583,17 @@ AudioplayerObject::paPlayCallback(const void* inputBuffer, void* outputBuffer,
                 }
             }
         }
+
+        if (timerEnabled && (data->_CurrentSample % periodSamples == 0)) {
+            data->enqueueCallback(data->timerFunc);
+        }
         data->_CurrentSample++;
     }
     if (static_cast<uint32>(data->_CurrentSample) >= data->lastSample) {
         data->_CurrentSample = data->lastSample;
         data->_Running = false;
         data->paStream = nullptr;
+        data->enqueueCallback(data->stopFunc);
         return 1;
     }
     return 0;
@@ -541,6 +608,7 @@ AudioplayerObject::getStream()
 bool
 AudioplayerObject::play(int start, int end)
 {
+    enqueueCallback(startFunc);
     firstSample = start;
     if (end == 0) {
         lastSample = _TotalSamples;
@@ -611,6 +679,36 @@ AudioplayerObject::stop()
         paStream = nullptr;
     }
     return true;
+}
+//=============================================================================
+void
+AudioplayerObject::enqueueCallback(const ArrayOf& callbackArrayOf)
+{
+    if (!callbackArrayOf.isEmpty()) {
+        if (callbackArrayOf.isScalarStringArray() || callbackArrayOf.isRowVectorCharacterArray()) {
+            EventQueue::getInstance()->add(EventCallback(callbackArrayOf));
+        } else if (callbackArrayOf.isFunctionHandle()) {
+            size_t nbElements = 3;
+            ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbElements);
+            elements[0] = callbackArrayOf;
+            elements[1] = ArrayOf::handleConstructor(this);
+            elements[2] = ArrayOf::emptyConstructor(0, 0);
+            EventQueue::getInstance()->add(
+                EventCallback(ArrayOf(NLS_CELL_ARRAY, Dimensions(1, nbElements), elements)));
+        }
+    }
+}
+//=============================================================================
+bool
+AudioplayerObject::isFunctionHandleCallbackValid(const ArrayOf& callbackArrayOf)
+{
+    if (callbackArrayOf.isScalarStringArray() || callbackArrayOf.isRowVectorCharacterArray()) {
+        return true;
+    }
+    if (callbackArrayOf.isFunctionHandle()) {
+        return true;
+    }
+    return false;
 }
 //=============================================================================
 } // namespace Nelson

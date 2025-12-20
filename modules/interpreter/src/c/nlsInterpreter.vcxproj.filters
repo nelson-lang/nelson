@@ -211,9 +211,6 @@
     <ClCompile Include="..\cpp\operators\FunctionHandleOperator.cpp">
       <Filter>Source Files\Operators</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\CallbackQueue.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\GraphicCallback.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -242,6 +239,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\DeleteOnCleanupHandleObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\CallbackBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -422,6 +422,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\DeleteOnCleanupHandleObject.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EventCallback.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EventQueue.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\QueueCommon.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\QueueProcessing.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\CallbackBase.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

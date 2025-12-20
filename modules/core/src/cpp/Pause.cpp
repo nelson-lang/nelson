@@ -12,7 +12,7 @@
 #include "Pause.hpp"
 #include "NelsonConfiguration.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
-#include "CallbackQueue.hpp"
+#include "QueueProcessing.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -23,7 +23,7 @@ Pause(Evaluator* eval, double seconds)
         while (!NelsonConfiguration::getInstance()->getInterruptPending(eval->getID())) {
             std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
             if (eval && eval->haveEventsLoop()) {
-                CallbackQueue::getInstance()->processCallback(eval);
+                processPendingCallbacksAndTimers(eval);
                 ProcessEventsDynamicFunctionWithoutWait();
             }
         }
@@ -40,7 +40,7 @@ Pause(Evaluator* eval, double seconds)
             std::chrono::nanoseconds difftime = (current_time - begin_time);
             bContinue = !(difftime.count() > int64(seconds * 1e9));
             if (eval != nullptr && eval->haveEventsLoop()) {
-                CallbackQueue::getInstance()->processCallback(eval);
+                processPendingCallbacksAndTimers(eval);
                 ProcessEventsDynamicFunctionWithoutWait();
             }
         } while (!NelsonConfiguration::getInstance()->getInterruptPending(eval->getID())

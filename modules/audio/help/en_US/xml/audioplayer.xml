@@ -43,6 +43,90 @@
     <p>audioplayer object uses global scope and need to be deleted by user.</p>
     <p><b
       >audioplayer</b> can play multichannels data if your sound card supports it.</p>
+    <p><b>Properties of audioplayer</b>:</p>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Type / Values</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>SampleRate</td>
+        <td>positive scalar</td>
+        <td
+        >Sample rate in Hz. Set via Fs when creating the object; adjustable afterward.</td>
+      </tr>
+      <tr>
+        <td>BitsPerSample</td>
+        <td>Read-only: 8, 16, 24</td>
+        <td>Bits per sample, determined by the nBits argument.</td>
+      </tr>
+      <tr>
+        <td>NumChannels</td>
+        <td>Read-only: 1, 2</td>
+        <td>Mono (1) or stereo (2) channel count reported by the player.</td>
+      </tr>
+      <tr>
+        <td>DeviceID</td>
+        <td>Read-only: integer</td>
+        <td>Audio device identifier supplied via the ID argument.</td>
+      </tr>
+      <tr>
+        <td>CurrentSample</td>
+        <td>Read-only: positive integer</td>
+        <td
+        >Sample currently playing; when idle, the next sample that play/resume will use.</td>
+      </tr>
+      <tr>
+        <td>TotalSamples</td>
+        <td>Read-only: nonnegative integer</td>
+        <td>Total number of samples in the audio data.</td>
+      </tr>
+      <tr>
+        <td>Running</td>
+        <td>Read-only: 'off' or 'on'</td>
+        <td>Status of the audio player.</td>
+      </tr>
+      <tr>
+        <td>StartFcn</td>
+        <td>character vector or function handle</td>
+        <td
+        >Callback executed at playback start; first arguments are the audioplayer and an event struct.</td>
+      </tr>
+      <tr>
+        <td>StopFcn</td>
+        <td>character vector or function handle</td>
+        <td
+        >Callback executed when playback ends; first arguments are the audioplayer and an event struct.</td>
+      </tr>
+      <tr>
+        <td>TimerFcn</td>
+        <td>character vector or function handle</td>
+        <td
+        >Callback executed periodically during playback; interval controlled by TimerPeriod.</td>
+      </tr>
+      <tr>
+        <td>TimerPeriod</td>
+        <td>0.05 (default) or positive scalar</td>
+        <td>Seconds between TimerFcn callbacks.</td>
+      </tr>
+      <tr>
+        <td>Tag</td>
+        <td>string scalar or character vector</td>
+        <td>Label for the audioplayer object.</td>
+      </tr>
+      <tr>
+        <td>UserData</td>
+        <td>[] (default) or any data type</td>
+        <td>Arbitrary user-defined data stored with the object.</td>
+      </tr>
+      <tr>
+        <td>Type</td>
+        <td>Read-only: 'audioplayer'</td>
+        <td>Class name identifier for the object.</td>
+      </tr>
+    </table>
+
   </description>
   <used_function />
   <bibliography />
@@ -59,6 +143,21 @@ sleep(2)
 delete(playObj)
 playObj]]></example_item_data>
     </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Callback example</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[signal = rand(2, 44100) - 0.5;
+playObj = audioplayer(signal, 44100, 16);
+playObj.StartFcn = @(src, event) disp('Playback started');
+playObj.StopFcn = @(src, event) disp('Playback stopped');
+playObj
+play(playObj)
+]]></example_item_data>
+    </example_item>
+
   </examples>
   <see_also>
     <see_also_item>
@@ -82,6 +181,12 @@ playObj]]></example_item_data>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description
+      >Callback StartFcn, StopFcn, TimerFcn added</history_description>
+    </history_item>
+
   </history>
   <authors>
     <author_item>Allan CORNET</author_item>

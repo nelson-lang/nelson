@@ -18,6 +18,7 @@
 #include "MakeValidFieldname.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
+#include <filesystem>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -35,51 +36,77 @@ revertFieldname(const std::wstring& fieldname, const std::wstring& defaultPrefix
     return modifiedFieldname;
 }
 //=============================================================================
+#if WITH_TAGLIB
+static bool
+openAudioFile(const std::wstring& filename, TagLib::FileRef& f, std::wstring& errorMessage)
+{
+    // Check if file exists
+    if (!std::filesystem::exists(filename)) {
+        errorMessage = _W("File not found.");
+        return false;
+    }
+
+    // Check if file is readable
+    if (!std::filesystem::is_regular_file(filename)) {
+        errorMessage = _W("Invalid file path.");
+        return false;
+    }
+
+#ifdef _MSC_VER
+    f = TagLib::FileRef(filename.c_str());
+#else
+    f = TagLib::FileRef(wstring_to_utf8(filename).c_str());
+#endif
+
+    if (f.isNull()) {
+        errorMessage = _W("Unsupported audio format or corrupted file.");
+        return false;
+    }
+
+    if (!f.tag()) {
+        errorMessage = _W("No tags available in this audio file.");
+        return false;
+    }
+
+    return true;
+}
+#endif
+//=============================================================================
 bool
 AudioFileMetaData(const std::wstring& filename, wstringVector& fieldnames,
     wstringVector& fiedvalues, std::wstring& errorMessage)
 {
     errorMessage.clear();
 #if WITH_TAGLIB
-#ifdef _MSC_VER
-    TagLib::FileRef f(filename.c_str());
-#else
-    TagLib::FileRef f(wstring_to_utf8(filename).c_str());
-#endif
-    if (!f.isNull() && f.tag()) {
-        TagLib::PropertyMap tags = f.file()->properties();
-        // map used to remove duplicated fields
-        std::map<std::wstring, std::wstring> map;
-        for (TagLib::PropertyMap::ConstIterator i = tags.begin(); i != tags.end(); ++i) {
-            std::wstring name = MakeValidFieldname(i->first.toWString());
-            std::wstring content;
-            for (const auto& j : i->second) {
-                if (content.empty()) {
-                    content = j.toWString();
-                } else {
-                    content = content + L"\n" + j.toWString();
-                }
+    TagLib::FileRef f;
+    if (!openAudioFile(filename, f, errorMessage)) {
+        return false;
+    }
+
+    TagLib::PropertyMap tags = f.file()->properties();
+    // map used to remove duplicated fields
+    std::map<std::wstring, std::wstring> map;
+    for (TagLib::PropertyMap::ConstIterator i = tags.begin(); i != tags.end(); ++i) {
+        std::wstring name = MakeValidFieldname(i->first.toWString());
+        std::wstring content;
+        for (const auto& j : i->second) {
+            if (content.empty()) {
+                content = j.toWString();
+            } else {
+                content = content + L"\n" + j.toWString();
             }
-            map[name] = content;
         }
-        for (auto& it : map) {
-            fieldnames.push_back(it.first);
-            fiedvalues.push_back(it.second);
-        }
-        return true;
+        map[name] = content;
     }
-    if (f.isNull()) {
-        errorMessage = _W("Invalid filename.");
-        return false;
+    for (auto& it : map) {
+        fieldnames.push_back(it.first);
+        fiedvalues.push_back(it.second);
     }
-    if (!f.tag()) {
-        errorMessage = _W("No tags available.");
-        return false;
-    }
+    return true;
 #else
     errorMessage = _W("Taglib not available.");
-#endif
     return false;
+#endif
 }
 //=============================================================================
 bool
@@ -88,45 +115,40 @@ setAudioFileMetaData(const std::wstring& filename, wstringVector fieldnames,
 {
     errorMessage.clear();
 #if WITH_TAGLIB
-#ifdef _MSC_VER
-    TagLib::FileRef f(filename.c_str());
-#else
-    TagLib::FileRef f(wstring_to_utf8(filename).c_str());
-#endif
-    if (!f.isNull() && f.tag()) {
-        TagLib::PropertyMap tags = f.file()->properties();
-        for (size_t k = 0; k < fieldnames.size(); k++) {
-            TagLib::PropertyMap::ConstIterator found1 = tags.find(fieldnames[k]);
-            TagLib::PropertyMap::ConstIterator found2 = tags.find(revertFieldname(fieldnames[k]));
-            if (found1 != tags.end() || found2 != tags.end()) {
-                if (found1 != tags.end()) {
-                    tags.replace(fieldnames[k], TagLib::String(fieldvalues[k]));
-                } else {
-                    tags.replace(revertFieldname(fieldnames[k]), TagLib::String(fieldvalues[k]));
-                }
+    if (fieldnames.size() != fieldvalues.size()) {
+        errorMessage = _W("Field names and values size mismatch.");
+        return false;
+    }
+
+    TagLib::FileRef f;
+    if (!openAudioFile(filename, f, errorMessage)) {
+        return false;
+    }
+
+    TagLib::PropertyMap tags = f.file()->properties();
+    for (size_t k = 0; k < fieldnames.size(); k++) {
+        TagLib::PropertyMap::ConstIterator found1 = tags.find(fieldnames[k]);
+        TagLib::PropertyMap::ConstIterator found2 = tags.find(revertFieldname(fieldnames[k]));
+        if (found1 != tags.end() || found2 != tags.end()) {
+            if (found1 != tags.end()) {
+                tags.replace(fieldnames[k], TagLib::String(fieldvalues[k]));
             } else {
-                tags.insert(fieldnames[k], TagLib::String(fieldvalues[k]));
+                tags.replace(revertFieldname(fieldnames[k]), TagLib::String(fieldvalues[k]));
             }
+        } else {
+            tags.insert(fieldnames[k], TagLib::String(fieldvalues[k]));
         }
-        f.file()->setProperties(tags);
-        if (f.save()) {
-            return true;
-        }
-        errorMessage = _W("Cannot save file.");
-        return false;
     }
-    if (f.isNull()) {
-        errorMessage = _W("Invalid filename.");
-        return false;
+    f.file()->setProperties(tags);
+    if (f.save()) {
+        return true;
     }
-    if (!f.tag()) {
-        errorMessage = _W("No tags available.");
-        return false;
-    }
+    errorMessage = _W("Cannot save file.");
+    return false;
 #else
     errorMessage = _W("Taglib not available.");
-#endif
     return false;
+#endif
 }
 //=============================================================================
 bool
@@ -135,42 +157,33 @@ deleteAudioFileMetaData(
 {
     errorMessage.clear();
 #if WITH_TAGLIB
-#ifdef _MSC_VER
-    TagLib::FileRef f(filename.c_str());
-#else
-    TagLib::FileRef f(wstring_to_utf8(filename).c_str());
-#endif
-    if (!f.isNull() && f.tag()) {
-        TagLib::PropertyMap tags = f.file()->properties();
-        TagLib::PropertyMap::ConstIterator found1 = tags.find(fieldname);
-        TagLib::PropertyMap::ConstIterator found2 = tags.find(revertFieldname(fieldname));
-        if (found1 != tags.end() || found2 != tags.end()) {
-            if (found1 != tags.end()) {
-                tags.erase(fieldname);
-            } else {
-                tags.erase(revertFieldname(fieldname));
-            }
-            f.file()->setProperties(tags);
-            if (f.save()) {
-                return true;
-            }
-            errorMessage = _W("Cannot save file.");
-            return false;
-        }
-    } else {
-        if (f.isNull()) {
-            errorMessage = _W("Invalid filename.");
-            return false;
-        }
-        if (!f.tag()) {
-            errorMessage = _W("No tags available.");
-            return false;
-        }
+    TagLib::FileRef f;
+    if (!openAudioFile(filename, f, errorMessage)) {
+        return false;
     }
+
+    TagLib::PropertyMap tags = f.file()->properties();
+    TagLib::PropertyMap::ConstIterator found1 = tags.find(fieldname);
+    TagLib::PropertyMap::ConstIterator found2 = tags.find(revertFieldname(fieldname));
+    if (found1 != tags.end() || found2 != tags.end()) {
+        if (found1 != tags.end()) {
+            tags.erase(fieldname);
+        } else {
+            tags.erase(revertFieldname(fieldname));
+        }
+        f.file()->setProperties(tags);
+        if (f.save()) {
+            return true;
+        }
+        errorMessage = _W("Cannot save file.");
+        return false;
+    }
+    errorMessage = _W("Field not found in metadata.");
+    return false;
 #else
     errorMessage = _W("Taglib not available.");
-#endif
     return false;
+#endif
 }
 //=============================================================================
 } // namespace Nelson
