@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>recordblocking</keyword>
+  <short_description
+  >Enregistrer de l'audio dans un objet audiorecorder ; bloquer le contrôle jusqu'à la fin de l'enregistrement.</short_description>
+  <syntax>
+    <syntax_item>recordblocking(recorderObj, length)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>recorderObj</param_name>
+      <param_description
+      >objet audiorecorder : objet enregistreur audio créé par <b
+        >audiorecorder</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>length</param_name>
+      <param_description
+      >double : durée de l'enregistrement en secondes.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b
+      >recordblocking(recorderObj, length)</b> enregistre l'audio à partir d'un périphérique d'entrée pendant le nombre de secondes spécifié. Cette méthode ne rend pas le contrôle tant que l'enregistrement n'est pas terminé.
+    </p>
+    <p>
+      L'objet <b
+      >audiorecorder</b> définit la fréquence d'échantillonnage, la profondeur en bits et d'autres propriétés de l'enregistrement.
+    </p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Enregistrer 5 secondes de votre voix avec un microphone, et la lire</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+myVoice = audiorecorder;
+disp('Start speaking.');
+recordblocking(myVoice, 5);
+disp('End of recording. Playing back ...');
+play(myVoice);
+      ]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${audio}audiorecorder">audiorecorder</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}play">play</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}recordblocking">recordblocking</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}pause">pause</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}resume">resume</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}stop">stop</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -23,7 +23,7 @@ ArrayOfVector
 Nelson::XmlGateway::xmlprettyprintBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 0, -1);
+    nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 0);
     bool formatSpace = true;
     std::wstring errorMessage;

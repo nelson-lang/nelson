@@ -51,32 +51,16 @@ MpiCommToHandle(MPI_Comm mpicomm)
 bool
 MPICommHandleDelete(const ArrayOf& A)
 {
-    bool res = false;
-    if (A.isHandle()) {
-        if (!A.isEmpty()) {
-            Dimensions dims = A.getDimensions();
-            auto* qp = (nelson_handle*)A.getDataPointer();
-            indexType elementCount = dims.getElementCount();
-            for (indexType k = 0; k < elementCount; k++) {
-                nelson_handle hl = qp[k];
-                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
-                if (hlObj) {
-                    if (hlObj->getCategory() != NLS_HANDLE_MPI_COMM_CATEGORY_STR) {
-                        Error(_W("MPI_Comm handle expected."));
-                    }
-                    auto* mpicommhandleobj = (MPI_CommHandleObject*)hlObj;
-                    auto* obj = static_cast<MPI_CommObject*>(mpicommhandleobj->getPointer());
-                    delete obj;
-                    delete mpicommhandleobj;
-                    HandleManager::getInstance()->removeHandle(hl);
-                    res = true;
-                }
-            }
-        } else {
-            Error(_W("MPI_Comm valid handle expected."));
+    auto deleter = [](MPI_CommHandleObject* mpicommhandleobj) {
+        if (mpicommhandleobj) {
+            auto* obj = static_cast<MPI_CommObject*>(mpicommhandleobj->getPointer());
+            delete obj;
+            delete mpicommhandleobj;
         }
-    }
-    return res;
+    };
+
+    return DeleteHandleObjects<MPI_CommHandleObject>(A, NLS_HANDLE_MPI_COMM_CATEGORY_STR,
+        _W("MPI_Comm handle expected."), _W("MPI_Comm valid handle expected."), deleter);
 }
 //=============================================================================
 } // namespace Nelson

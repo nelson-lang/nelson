@@ -129,7 +129,6 @@
         <td>Identifiant du nom de la classe pour l'objet.</td>
       </tr>
     </table>
-
   </description>
   <used_function />
   <bibliography />
@@ -146,7 +145,6 @@ sleep(2)
 delete(playObj)
 playObj]]></example_item_data>
     </example_item>
-
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description>Exemple de callback</example_item_description>
@@ -160,7 +158,6 @@ playObj
 play(playObj)
 ]]></example_item_data>
     </example_item>
-
   </examples>
   <see_also>
     <see_also_item>

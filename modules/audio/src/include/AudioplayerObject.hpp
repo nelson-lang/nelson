@@ -70,6 +70,7 @@ public:
 
 private:
     wstringVector propertiesNames;
+    wstringVector methodsNames;
     ArrayOf audioData;
     int _SampleRate;
     int _BitsPerSample;

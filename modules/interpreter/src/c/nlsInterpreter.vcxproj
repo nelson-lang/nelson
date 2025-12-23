@@ -331,6 +331,7 @@
     <ClCompile Include="..\cpp\ActionMenu.cpp" />
     <ClCompile Include="..\cpp\AnonymousMacroFunctionDef.cpp" />
     <ClCompile Include="..\cpp\CallbackBase.cpp" />
+    <ClCompile Include="..\cpp\ClearHandle.cpp" />
     <ClCompile Include="..\cpp\DeleteOnCleanupHandleObject.cpp" />
     <ClCompile Include="..\cpp\EvaluatorAssignment.cpp" />
     <ClCompile Include="..\cpp\EvaluatorControlExpression.cpp" />
@@ -482,6 +483,7 @@
     <ClInclude Include="..\include\CallbackQueue.hpp" />
     <ClInclude Include="..\include\CallStack.hpp" />
     <ClInclude Include="..\include\CheckIfWhileCondition.hpp" />
+    <ClInclude Include="..\include\ClearHandle.hpp" />
     <ClInclude Include="..\include\CommandQueue.hpp" />
     <ClInclude Include="..\include\Comments.hpp" />
     <ClInclude Include="..\include\Context.hpp" />

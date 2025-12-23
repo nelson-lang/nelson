@@ -13,6 +13,7 @@
 #include <fmt/xchar.h>
 #include "PyKeyMatch.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "PythonObjectHandle.hpp"
 #include "PyObjectHelpers.hpp"
 #include "StringHelpers.hpp"

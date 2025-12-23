@@ -299,10 +299,12 @@
     <ClCompile Include="..\cpp\AudioHelpers.cpp" />
     <ClCompile Include="..\cpp\AudioplayerObject.cpp" />
     <ClCompile Include="..\cpp\AudioRead.cpp" />
+    <ClCompile Include="..\cpp\AudiorecorderObject.cpp" />
     <ClCompile Include="..\cpp\AudioSupportedFormats.cpp" />
     <ClCompile Include="..\cpp\AudioWrite.cpp" />
     <ClCompile Include="..\cpp\Beep.cpp" />
     <ClCompile Include="..\cpp\DeleteAudioplayerHandleObject.cpp" />
+    <ClCompile Include="..\cpp\DeleteAudiorecorderHandleObject.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -312,10 +314,12 @@
     <ClInclude Include="..\include\AudioHelpers.hpp" />
     <ClInclude Include="..\include\AudioplayerObject.hpp" />
     <ClInclude Include="..\include\AudioRead.hpp" />
+    <ClInclude Include="..\include\AudiorecorderObject.hpp" />
     <ClInclude Include="..\include\AudioSupportedFormats.hpp" />
     <ClInclude Include="..\include\AudioWrite.hpp" />
     <ClInclude Include="..\include\Beep.hpp" />
     <ClInclude Include="..\include\DeleteAudioplayerHandleObject.hpp" />
+    <ClInclude Include="..\include\DeleteAudiorecorderHandleObject.hpp" />
     <ClInclude Include="..\include\nlsAudio_exports.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

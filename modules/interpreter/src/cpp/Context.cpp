@@ -21,6 +21,7 @@
 #include "PathFunctionIndexerManager.hpp"
 #include "Error.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "HandleManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -96,7 +97,8 @@ Context::popScope()
     if (scopestack.size() == 1) {
         Error(ERROR_POP_GLOBAL_SCOPE);
     }
-    delete scopestack.back();
+    Scope* sc = scopestack.back();
+    delete sc;
     scopestack.pop_back();
 }
 //=============================================================================

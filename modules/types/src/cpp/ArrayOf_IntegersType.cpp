@@ -383,13 +383,62 @@ ArrayOf::integerRangeConstructor(indexType minval, indexType stepsize, indexType
     return ArrayOf(classC, Cdim, rp);
 }
 //=============================================================================
+template <class T>
+ArrayOf
+matrix2dConstructor(NelsonType type, indexType m, indexType n)
+{
+    Dimensions dim(m, n);
+    T* data = static_cast<T*>(
+        ArrayOf::allocateArrayOf(type, dim.getElementCount(), stringVector(), true));
+    return ArrayOf(type, dim, data);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::int8Matrix2dConstructor(indexType m, indexType n)
+{
+    return matrix2dConstructor<int8>(NLS_INT8, m, n);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::uint8Matrix2dConstructor(indexType m, indexType n)
+{
+    return matrix2dConstructor<uint8>(NLS_UINT8, m, n);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::int16Matrix2dConstructor(indexType m, indexType n)
+{
+    return matrix2dConstructor<int16>(NLS_INT16, m, n);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::uint16Matrix2dConstructor(indexType m, indexType n)
+{
+    return matrix2dConstructor<uint16>(NLS_UINT16, m, n);
+}
+//=============================================================================
 ArrayOf
 ArrayOf::int32Matrix2dConstructor(indexType m, indexType n)
 {
-    Dimensions dim(m, n);
-    int32* data = static_cast<int32*>(
-        allocateArrayOf(NLS_INT32, dim.getElementCount(), stringVector(), true));
-    return ArrayOf(NLS_INT32, dim, data);
+    return matrix2dConstructor<int32>(NLS_INT32, m, n);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::uint32Matrix2dConstructor(indexType m, indexType n)
+{
+    return matrix2dConstructor<uint32>(NLS_UINT32, m, n);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::int64Matrix2dConstructor(indexType m, indexType n)
+{
+    return matrix2dConstructor<int64>(NLS_INT64, m, n);
+}
+//=============================================================================
+ArrayOf
+ArrayOf::uint64Matrix2dConstructor(indexType m, indexType n)
+{
+    return matrix2dConstructor<uint64>(NLS_UINT64, m, n);
 }
 //=============================================================================
 } // namespace Nelson

@@ -22,50 +22,32 @@ namespace Nelson {
 bool
 DeleteQObjectHandleObject(const ArrayOf& A)
 {
-    bool res = false;
-    if (A.isHandle()) {
-        if (!A.isEmpty()) {
-            Dimensions dims = A.getDimensions();
-            nelson_handle* qp = (nelson_handle*)A.getDataPointer();
-            indexType elementCount = dims.getElementCount();
-            for (indexType k = 0; k < elementCount; k++) {
-                nelson_handle hl = qp[k];
-                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
-                if (hlObj) {
-                    if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-                        Error(_W("QObject handle expected."));
-                    }
-                    QObjectHandleObject* qmlhandleobj = static_cast<QObjectHandleObject*>(hlObj);
-                    void* ptr = qmlhandleobj->getPointer();
-                    if (ptr) {
-                        QObject* qobj = static_cast<QObject*>(ptr);
-                        QObject* qobjMainWindow = static_cast<QObject*>(GetMainGuiObject());
-                        if (qobj == qobjMainWindow) {
-                            qmlhandleobj->setPointer(nullptr);
-                        } else {
-                            int idx = qobj->metaObject()->indexOfProperty("visible");
-                            if (idx != -1) {
-                                qobj->setProperty("visible", QVariant(false));
-                            }
-                            if (qobj->isWindowType()) {
-                                QWindow* w = static_cast<QWindow*>(qobj);
-                                w->destroy();
-                            } else {
-                                qobj->deleteLater();
-                            }
-                        }
-                        qmlhandleobj->setPointer(nullptr);
-                    }
-                    delete qmlhandleobj;
-                    HandleManager::getInstance()->removeHandle(hl);
-                    res = true;
+    auto deleter = [](QObjectHandleObject* qmlhandleobj) {
+        void* ptr = qmlhandleobj->getPointer();
+        if (ptr) {
+            QObject* qobj = static_cast<QObject*>(ptr);
+            QObject* qobjMainWindow = static_cast<QObject*>(GetMainGuiObject());
+            if (qobj == qobjMainWindow) {
+                qmlhandleobj->setPointer(nullptr);
+            } else {
+                int idx = qobj->metaObject()->indexOfProperty("visible");
+                if (idx != -1) {
+                    qobj->setProperty("visible", QVariant(false));
                 }
+                if (qobj->isWindowType()) {
+                    QWindow* w = static_cast<QWindow*>(qobj);
+                    w->destroy();
+                } else {
+                    qobj->deleteLater();
+                }
+                qmlhandleobj->setPointer(nullptr);
             }
-        } else {
-            Error(_W("QObject scalar handle expected."));
         }
-    }
-    return res;
+        delete qmlhandleobj;
+    };
+
+    return DeleteHandleObjects<QObjectHandleObject>(A, NLS_HANDLE_QOBJECT_CATEGORY_STR,
+        _W("QObject handle expected."), _W("QObject scalar handle expected."), deleter);
 }
 //=============================================================================
 }
