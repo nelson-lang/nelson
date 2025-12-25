@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>getaudiodata</keyword>
+  <short_description
+  >Store recorded audio signal in numeric array.</short_description>
+  <syntax>
+    <syntax_item>y = getaudiodata(recorder)</syntax_item>
+    <syntax_item>y = getaudiodata(recorder, dataType)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>recorder</param_name>
+      <param_description
+      >audiorecorder object: audio recorder object created by <b
+        >audiorecorder</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dataType</param_name>
+      <param_description>
+        string or character vector: data type of output audio signal. Valid values: 'double' (default), 'single', 'int16', 'int8', 'uint8'.
+      </param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>y</param_name>
+      <param_description
+      >numeric array: audio signal data. Number of columns depends on channel count.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>getaudiodata</b> returns recorded audio data from an <b
+      >audiorecorder</b> object as a numeric array.
+    </p>
+    <p>
+      <b
+      >y = getaudiodata(recorder)</b> returns the audio data as a double array.
+    </p>
+    <p>
+      <b
+      >y = getaudiodata(recorder, dataType)</b> returns the audio data converted to the specified data type.
+    </p>
+    <p>
+      The number of columns in <b
+      >y</b> matches the number of channels in the recording (1 for mono, 2 for stereo).
+    </p>
+    <p>
+      The value range of <b>y</b> depends on <b>dataType</b>:
+    </p>
+    <table>
+      <tr>
+        <th>Data Type</th>
+        <th>Sample Value Range</th>
+      </tr>
+      <tr>
+        <td>int8</td>
+        <td>-128 to 127</td>
+      </tr>
+      <tr>
+        <td>uint8</td>
+        <td>0 to 255</td>
+      </tr>
+      <tr>
+        <td>int16</td>
+        <td>-32,768 to 32,767</td>
+      </tr>
+      <tr>
+        <td>single or double</td>
+        <td>-1 to 1</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Get Data from Audio Recorder Object</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+recObj = audiorecorder;
+disp('Start speaking.')
+recordblocking(recObj, 5);
+disp('End of Recording.');
+doubleArray = getaudiodata(recObj);
+plot(doubleArray);
+title('Audio Signal (double)');
+      ]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Get audio as int8 array</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+recObj = audiorecorder;
+recordblocking(recObj, 2);
+int8Array = getaudiodata(recObj, 'int8');
+plot(int8Array);
+title('Audio Signal (int8)');
+      ]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${audio}audiorecorder">audiorecorder</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

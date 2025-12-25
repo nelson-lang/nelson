@@ -64,7 +64,7 @@ Nelson::RandomGateway::randiBuiltin(int nLhs, const ArrayOfVector& argIn)
                 ArrayOf szVec = szArg;
                 szVec.promoteType(NLS_DOUBLE);
                 double* ptr = (double*)szVec.getDataPointer();
-                for (ompIndexType k = 0; k < szVec.getElementCount(); k++) {
+                for (ompIndexType k = 0; k < (ompIndexType)szVec.getElementCount(); k++) {
                     dims[k] = (indexType)ptr[k];
                 }
                 argIdx++;

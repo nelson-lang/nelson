@@ -22,6 +22,14 @@ namespace Nelson {
 //=============================================================================
 AudioplayerObject::AudioplayerObject(bool withEventLoop)
     : HandleGenericObject(NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR, this, false)
+    , _SampleRate(0)
+    , _BitsPerSample(0)
+    , _NumberOfChannels(0)
+    , _DeviceID(-1)
+    , _CurrentSample(0)
+    , _TotalSamples(0)
+    , _Running(false)
+    , timerPeriodSeconds(0.0)
 {
     mainEvaluatorHasEventsLoop = withEventLoop;
 
@@ -29,20 +37,16 @@ AudioplayerObject::AudioplayerObject(bool withEventLoop)
     lastSample = 0;
     outputStreamParameters.device = 0;
 
-    propertiesNames = { L"SampleRate", L"BitsPerSample", L"NumberOfChannels", L"DeviceID",
-        L"CurrentSample", L"TotalSamples", L"Running", L"Tag", L"UserData", L"Type", L"StartFcn",
-        L"StopFcn", L"TimerFcn", L"TimerPeriod" };
+    propertiesNames = { L"SampleRate", L"BitsPerSample", L"NumChannels", L"DeviceID",
+        L"CurrentSample", L"TotalSamples", L"Running", L"StartFcn", L"StopFcn", L"TimerFcn",
+        L"TimerPeriod", L"Tag", L"UserData", L"Type" };
+
+    methodsNames = { L"pause", L"playblocking", L"isplaying", L"play", L"resume", L"stop" };
 
     int defaultOutput = Pa_GetDefaultOutputDevice();
     const PaDeviceInfo* pdi = Pa_GetDeviceInfo(defaultOutput);
     if (pdi) {
         _SampleRate = (int)pdi->defaultSampleRate;
-        _BitsPerSample = 0;
-        _NumberOfChannels = 0;
-        _DeviceID = -1;
-        _CurrentSample = 0;
-        _TotalSamples = 0;
-        _Running = false;
         _Tag.clear();
         _UserData = ArrayOf::emptyConstructor();
         _Type = NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR;
@@ -221,7 +225,7 @@ AudioplayerObject::disp(Interface* io)
     std::vector<DisplayItem> items = {
         { L"SampleRate", [this] { return std::to_wstring(getSampleRate()); } },
         { L"BitsPerSample", [this] { return std::to_wstring(getBitsPerSample()); } },
-        { L"NumberOfChannels", [this] { return std::to_wstring(getNumberOfChannels()); } },
+        { L"NumChannels", [this] { return std::to_wstring(getNumberOfChannels()); } },
         { L"DeviceID", [this] { return std::to_wstring(getDeviceID()); } },
         { L"CurrentSample", [this] { return std::to_wstring(getCurrentSample()); } },
         { L"TotalSamples", [this] { return std::to_wstring(getTotalSamples()); } },
@@ -282,7 +286,7 @@ AudioplayerObject::getProperties()
 wstringVector
 AudioplayerObject::getMethods()
 {
-    return {};
+    return methodsNames;
 }
 //=============================================================================
 bool
@@ -292,8 +296,7 @@ AudioplayerObject::get(const std::wstring& propertyName, ArrayOf& res)
     static const std::unordered_map<std::wstring, Getter> getters = {
         { L"SampleRate", [this]() { return ArrayOf::doubleConstructor(getSampleRate()); } },
         { L"BitsPerSample", [this]() { return ArrayOf::doubleConstructor(getBitsPerSample()); } },
-        { L"NumberOfChannels",
-            [this]() { return ArrayOf::doubleConstructor(getNumberOfChannels()); } },
+        { L"NumChannels", [this]() { return ArrayOf::doubleConstructor(getNumberOfChannels()); } },
         { L"DeviceID", [this]() { return ArrayOf::doubleConstructor(getDeviceID()); } },
         { L"CurrentSample", [this]() { return ArrayOf::doubleConstructor(getCurrentSample()); } },
         { L"TotalSamples", [this]() { return ArrayOf::doubleConstructor(getTotalSamples()); } },

@@ -11,7 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support for Windows on ARM64, including build and installer.
 - `onCleanup`: Code executed during function shutdown.
-- `TimerFcn`, `StartFcn`, `StopFcn` callbacks for audioplayer.
+- [#188](https://github.com/nelson-lang/nelson/issues/188) `audiorecorder`: Object for recording audio.
+- `getaudiodata`: Store recorded audio signal in numeric array.
+- `isrecording`: Determine if recording is in progress.
+- `record`: Record audio to audiorecorder object.
+- `recordblocking`: Record audio and block until complete.
+- `getplayer`: Create associated audioplayer object.
+- `TimerFcn`, `StartFcn`, `StopFcn` callbacks for audioplayer, audiorecorder.
+- `rms`: Root Mean Square (RMS) of array elements.
 
 ### Changed
 

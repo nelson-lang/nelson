@@ -17,8 +17,6 @@
 #include "Types.hpp"
 #include "nlsTypes_exports.h"
 #include "ArrayOf.hpp"
-#include "Error.hpp"
-#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -33,6 +31,7 @@ private:
 
 public:
     HandleGenericObject(const std::string& _category, void* _ptr, bool isScoped);
+
     virtual ~HandleGenericObject() = default;
 
     virtual std::string

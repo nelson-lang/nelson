@@ -18,7 +18,7 @@ REF = '  1×1 handle [audioplayer]
 
 	SampleRate: 	44100
 	BitsPerSample: 	16
-	NumberOfChannels: 	2
+	NumChannels: 	2
 	DeviceID: 	-1
 	CurrentSample: 	0
 	TotalSamples: 	44100
@@ -41,7 +41,7 @@ playObj =
 
 	SampleRate: 	44100
 	BitsPerSample: 	16
-	NumberOfChannels: 	2
+	NumChannels: 	2
 	DeviceID: 	-1
 	CurrentSample: 	0
 	TotalSamples: 	44100

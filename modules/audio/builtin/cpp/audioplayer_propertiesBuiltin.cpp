@@ -15,6 +15,7 @@
 #include "HandleManager.hpp"
 #include "NelsonPrint.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,13 +33,18 @@ Nelson::AudioGateway::audioplayer_propertiesBuiltin(int nLhs, const ArrayOfVecto
     wstringVector fieldnames = objPlayer->fieldnames();
     if (nLhs == 0) {
         std::wstring msg;
+        if (NelsonConfiguration::getInstance()->getLineSpacingDisplay() == NLS_LINE_SPACING_LOOSE) {
+            msg = L"\n";
+        }
         if (fieldnames.empty()) {
-            msg = _W("No property for class: audioplayer.") + L"\n";
+            msg = msg + _W("No property for class: audioplayer.") + L"\n";
         } else {
-            msg = _W("Properties for class: audioplayer:") + L"\n\n";
+            msg = msg + _W("Properties for class: audioplayer:") + L"\n\n";
             for (auto& fieldname : fieldnames) {
                 msg = msg + std::wstring(L"\t") + fieldname + std::wstring(L"\n");
             }
+        }
+        if (NelsonConfiguration::getInstance()->getLineSpacingDisplay() == NLS_LINE_SPACING_LOOSE) {
             msg = msg + std::wstring(L"\n");
         }
         NelsonPrint(msg);

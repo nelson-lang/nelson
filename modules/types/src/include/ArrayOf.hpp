@@ -801,14 +801,6 @@ public:
      */
     static ArrayOf
     singleRowVectorConstructor(std::vector<single>& values);
-
-    /**
-     * int32 matrix constructor - Construct an NLS_INT32 object
-     * that is a (row, columns) matrix with the given length.
-     */
-    static ArrayOf
-    int32Matrix2dConstructor(indexType m, indexType n);
-
     /**
      * Double matrix constructor - Construct an NLS_DOUBLE object
      * that is a (row, columns) matrix with the given length.
@@ -822,6 +814,62 @@ public:
      */
     static ArrayOf
     singleMatrix2dConstructor(indexType m, indexType n);
+
+    /**
+     * int8 matrix constructor - Construct an NLS_INT8 object
+     * that is a (row, columns) matrix with the given length.
+     */
+    static ArrayOf
+    int8Matrix2dConstructor(indexType m, indexType n);
+
+    /**
+     * uint8 matrix constructor - Construct an NLS_UINT8 object
+     * that is a (row, columns) matrix with the given length.
+     */
+    static ArrayOf
+    uint8Matrix2dConstructor(indexType m, indexType n);
+
+    /**
+     * int16 matrix constructor - Construct an NLS_INT16 object
+     * that is a (row, columns) matrix with the given length.
+     */
+    static ArrayOf
+    int16Matrix2dConstructor(indexType m, indexType n);
+
+    /**
+     * uint16 matrix constructor - Construct an NLS_UINT16 object
+     * that is a (row, columns) matrix with the given length.
+     */
+    static ArrayOf
+    uint16Matrix2dConstructor(indexType m, indexType n);
+
+    /**
+     * int32 matrix constructor - Construct an NLS_INT32 object
+     * that is a (row, columns) matrix with the given length.
+     */
+    static ArrayOf
+    int32Matrix2dConstructor(indexType m, indexType n);
+
+    /**
+     * uint32 matrix constructor - Construct an NLS_INT32 object
+     * that is a (row, columns) matrix with the given length.
+     */
+    static ArrayOf
+    uint32Matrix2dConstructor(indexType m, indexType n);
+
+    /**
+     * int64 matrix constructor - Construct an NLS_INT64 object
+     * that is a (row, columns) matrix with the given length.
+     */
+    static ArrayOf
+    int64Matrix2dConstructor(indexType m, indexType n);
+
+    /**
+     * uint64 matrix constructor - Construct an NLS_UINT64 object
+     * that is a (row, columns) matrix with the given length.
+     */
+    static ArrayOf
+    uint64Matrix2dConstructor(indexType m, indexType n);
 
     /**
      * Construct a NLS_INT32 or NLS_INT64 (on x64 platform) vector (either

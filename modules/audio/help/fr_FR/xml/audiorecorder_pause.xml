@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>audiorecorder_pause</keyword>
+  <short_description>Met en pause un objet audiorecorder.</short_description>
+  <syntax>
+    <syntax_item>pause(recObj)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>recObj</param_name>
+      <param_description>un objet audiorecorder.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>pause</b> met en pause un objet audiorecorder.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[recObj = audiorecorder();
+      resume(recObj);
+pause(recObj)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${audio}audiorecorder">audiorecorder</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}stop">stop</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

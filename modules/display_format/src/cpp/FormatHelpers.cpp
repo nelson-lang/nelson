@@ -115,6 +115,10 @@ static std::wstring
 formatReal(T val, const FormatDisplayInformation& formatInfo)
 {
     std::wstring result;
+    if (std::isnan(val)) {
+        // force NaN representation
+        val = std::nan("NaN");
+    }
     if (val == 0) {
         result = fmt::sprintf(
             formatInfo.formatReal, formatInfo.widthReal, formatInfo.decimalsReal, 0.);
@@ -128,6 +132,7 @@ formatReal(T val, const FormatDisplayInformation& formatInfo)
                 result = fmt::sprintf(
                     formatInfo.formatReal, formatInfo.widthReal, formatInfo.decimalsReal, val);
             } else {
+
                 result = fmt::sprintf(formatInfo.formatReal, formatInfo.widthReal, val);
             }
         }

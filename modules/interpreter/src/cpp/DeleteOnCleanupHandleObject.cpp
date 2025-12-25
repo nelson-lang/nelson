@@ -11,40 +11,21 @@
 #include "OnCleanupObjectHandle.hpp"
 #include "HandleManager.hpp"
 #include "i18n.hpp"
-#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
 DeleteOnCleanupHandleObject(Evaluator* eval, const ArrayOf& A)
 {
-    bool res = false;
-    if (A.isHandle()) {
-        if (!A.isEmpty()) {
-            Dimensions dims = A.getDimensions();
-            nelson_handle* qp = (nelson_handle*)(A.getDataPointer());
-            size_t elementCount = static_cast<size_t>(dims.getElementCount());
-            for (size_t k = 0; k < elementCount; k++) {
-                nelson_handle hl = qp[k];
-                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
-                if (hlObj) {
-                    if (hlObj->getCategory() != NLS_HANDLE_ONCLEANUP_CATEGORY_STR) {
-                        Error(_W("onCleanup handle expected."));
-                    }
-                    auto* obj = (OnCleanupObjectHandle*)hlObj;
-                    if (obj) {
-                        obj->cleanup(eval);
-                    }
-                    delete obj;
-                    HandleManager::getInstance()->removeHandle(hl);
-                    res = true;
-                }
-            }
-        } else {
-            Error(_W("onCleanup valid handle expected."));
+    auto deleter = [eval](OnCleanupObjectHandle* obj) {
+        if (obj) {
+            obj->cleanup(eval);
+            delete obj;
         }
-    }
-    return res;
+    };
+
+    return DeleteHandleObjects<OnCleanupObjectHandle>(A, NLS_HANDLE_ONCLEANUP_CATEGORY_STR,
+        _W("onCleanup handle expected."), _W("onCleanup valid handle expected."), deleter);
 }
 //=============================================================================
 } // namespace Nelson

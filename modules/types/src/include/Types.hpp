@@ -144,6 +144,7 @@ using wstringVector = std::vector<std::wstring>;
 #define NLS_UNKNOWN_STR "unknown"
 //=============================================================================
 #define NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR "audioplayer"
+#define NLS_HANDLE_AUDIORECORDER_CATEGORY_STR "audiorecorder"
 #define NLS_HANDLE_COM_CATEGORY_STR "COM"
 #define NLS_HANDLE_DLSYM_CATEGORY_STR "dlsym"
 #define NLS_HANDLE_DLLIB_CATEGORY_STR "dllib"

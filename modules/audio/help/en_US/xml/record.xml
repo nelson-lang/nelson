@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>record</keyword>
+  <short_description>Record audio to audiorecorder object.</short_description>
+  <syntax>
+    <syntax_item>record(recorderObj)</syntax_item>
+    <syntax_item>record(recorderObj, length)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>recorderObj</param_name>
+      <param_description
+      >audiorecorder object: audio recorder object created by <b
+        >audiorecorder</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>length</param_name>
+      <param_description
+      >double: duration of recording in seconds.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b
+      >record(recorderObj)</b> starts recording audio from an input device using the specified <b
+      >audiorecorder</b> object.
+    </p>
+    <p>
+      <b
+      >record(recorderObj, length)</b> records audio for the specified number of seconds.
+    </p>
+    <p>
+      The <b
+      >audiorecorder</b> object defines the sample rate, bit depth, and other properties of the recording.
+    </p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Record 5 seconds of your speech with a microphone</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+myVoice = audiorecorder;
+myVoice.StartFcn = 'disp(''Start speaking.'')';
+myVoice.StopFcn = 'disp(''End of recording.'')';
+record(myVoice, 5);
+play(myVoice);
+      ]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${audio}audiorecorder">audiorecorder</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}play">play</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}recordblocking">recordblocking</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}pause">pause</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}resume">resume</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${audio}stop">stop</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

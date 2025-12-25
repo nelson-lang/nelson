@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>rms</keyword>
+  <short_description
+  > Valeur quadratique moyenne (RMS) des éléments d'un tableau.</short_description>
+  <syntax>
+    <syntax_item>y = rms(x)</syntax_item>
+    <syntax_item>y = rms(x, dim)</syntax_item>
+    <syntax_item>y = rms(x, vecdim)</syntax_item>
+    <syntax_item>y = rms(x, 'all')</syntax_item>
+    <syntax_item>y = rms(x, dim, type)</syntax_item>
+    <syntax_item>y = rms(x, 'all', type)</syntax_item>
+    <syntax_item>y = rms(x, dim, type, nanflag)</syntax_item>
+    <syntax_item>y = rms(x, 'all', type, nanflag)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x</param_name>
+      <param_description>
+        Tableau d'entrée, spécifié comme un vecteur, une matrice ou un tableau multidimensionnel : types single, double, logique, entier<br
+        />
+      </param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description
+      >Dimension sur laquelle opérer, spécifiée comme un scalaire entier positif.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'all'</param_name>
+      <param_description>
+        Opérer sur tous les éléments de x, en retournant la valeur RMS de tous les éléments.
+      </param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description
+      >Type de données à utiliser dans le calcul : 'double', 'native'</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nanflag</param_name>
+      <param_description>
+        Condition de valeur manquante, spécifiée comme : 'includenan', 'includemissing', 'omitnan', 'omitmissing'</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>y</param_name>
+      <param_description
+      >Valeur(s) quadratique(s) moyenne(s), retournée(s) sous forme de scalaire, vecteur ou tableau.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >rms</b> renvoie la valeur quadratique moyenne (RMS) des éléments du tableau d'entrée.</p>
+    <p>
+      <ul>
+        <li>Si <b>x</b> est un vecteur, <b>y</b> est un scalaire.</li>
+        <li>Si <b>x</b> est une matrice, <b
+          >y</b> est un vecteur ligne contenant la valeur RMS pour chaque colonne (par défaut).</li>
+        <li>Si <b>x</b> est un tableau multidimensionnel, <b
+          >y</b> contient les valeurs RMS calculées le long de la première dimension du tableau dont la taille n'est pas égale à 1, sauf si une autre dimension est spécifiée.</li>
+      </ul>
+    </p>
+    <p>
+      La valeur quadratique moyenne d'un tableau x est:
+      <center>
+        <latex
+        >\mathrm{RMS}(x) = \sqrt{ \frac{1}{N} \sum_{n=1}^{N} |x_n|^2 }</latex>
+      </center>
+      où la sommation est effectuée le long de la ou des dimensions spécifiées, et N est le nombre d'éléments le long de ces dimensions.
+    </p>
+    <p>
+      <b
+      >Gestion des NaN :</b> Par défaut, les valeurs NaN sont incluses. Utilisez 'omitnan' ou 'omitmissing' pour ignorer les NaN.
+    </p>
+    <p>
+      <b>Gestion du type :</b> Si <b
+      >type</b> est 'native', le calcul et la sortie utilisent la même classe que l'entrée (par exemple, une entrée entière renvoie une sortie entière).
+    </p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Valeur RMS d'un vecteur</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+t = 0:0.001:1-0.001;
+x = cos(2*pi*100*t);
+y = rms(x)
+% y = 0.7071
+      ]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Valeurs RMS des colonnes d'une matrice</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+x = [4 -5 1; 2 3 5; -9 1 7];
+y = rms(x)
+% y = [5.8023 3.4157 5.0000]
+      ]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Valeurs RMS des lignes d'une matrice</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+x = [6 4 23 -3; 9 -10 4 11; 2 8 -5 1];
+y = rms(x,2)
+% y = [12.1450; 8.9163; 4.8477]
+      ]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >RMS en excluant les valeurs manquantes</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+x = [1.77 -0.005 nan -2.95; nan 0.34 nan 0.19];
+y = rms(x,"omitnan")
+% y = [1.7700 0.2404 nan 2.0903]
+      ]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >RMS avec entrée entière et sortie native</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+M = uint8([10:30:70;20:30:80;30:30:90]);
+R = rms(M, 'native')
+% R est de classe uint8
+      ]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}conv">conv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}max">max</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}min">min</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

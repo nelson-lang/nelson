@@ -126,7 +126,6 @@
         <td>Class name identifier for the object.</td>
       </tr>
     </table>
-
   </description>
   <used_function />
   <bibliography />
@@ -143,7 +142,6 @@ sleep(2)
 delete(playObj)
 playObj]]></example_item_data>
     </example_item>
-
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description>Callback example</example_item_description>
@@ -157,7 +155,6 @@ playObj
 play(playObj)
 ]]></example_item_data>
     </example_item>
-
   </examples>
   <see_also>
     <see_also_item>
@@ -186,7 +183,6 @@ play(playObj)
       <history_description
       >Callback StartFcn, StopFcn, TimerFcn added</history_description>
     </history_item>
-
   </history>
   <authors>
     <author_item>Allan CORNET</author_item>
