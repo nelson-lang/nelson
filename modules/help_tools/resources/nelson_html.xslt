@@ -362,7 +362,7 @@
                                     <img src="{$imgsrc}" align="{example_item_img/@align}" alt="Example illustration" style="width:960px;height:580px;display:block;margin:12px auto;background:#fff;border:1px solid #e2e8f0;border-radius:4px;box-shadow:0 1px 4px rgba(44,82,130,0.07);object-fit:contain;"/>
                                 </xsl:when>
                                 <xsl:otherwise>
-                                    <img src="{$imgsrc}" align="{example_item_img/@align}" alt="Example illustration" style="width:100%;height:auto;display:block;margin:12px 0;background:#f9fafb;border:1px solid #e2e8f0;border-radius:4px;box-shadow:0 1px 4px rgba(44,82,130,0.07);object-fit:contain;"/>
+                                    <img src="{$imgsrc}" align="{example_item_img/@align}" alt="Example illustration" style="max-width:960px;max-height:580px;display:block;margin:12px 0;background:#f9fafb;border:1px solid #e2e8f0;border-radius:4px;box-shadow:0 1px 4px rgba(44,82,130,0.07);object-fit:contain;"/>
                                 </xsl:otherwise>
                             </xsl:choose>
                         </xsl:if>
