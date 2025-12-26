@@ -1,6 +1,6 @@
 <img src="banner_homepage.png" alt="banner" style="display:block; margin-left:auto; margin-right:auto;" />
 
-### Nelson 1.15.0.0
+### Nelson 1.16.0.0
 
 The main homepage for Nelson can be found at [https://nelson-lang.github.io/nelson-website/](https://nelson-lang.github.io/nelson-website/).
 

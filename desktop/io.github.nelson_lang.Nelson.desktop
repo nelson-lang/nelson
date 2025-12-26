@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Nelson
-X-Nelson-Version=1.15.0
+X-Nelson-Version=1.16.0
 Version=1.0
 Comment=Nelson is a matrix and array programming language providing a powerful open computing environment for engineering and scientific applications, using modern C/C++ libraries (Boost, Eigen, etc.) and other state-of-the-art numerical libraries.
 Comment[fr]=Nelson est un langage de programmation de matrices et tableaux fournissant un puissant environnement de calcul ouvert pour les applications d'ingénierie et scientifiques, utilisant des bibliothèques modernes en C/C++ (Boost, Eigen, etc.) ainsi que d'autres bibliothèques numériques de pointe.
