@@ -33,7 +33,7 @@
   </param_output>
   <description>
     <p><b
-      >[lower, upper] = bandwidth(A)</b> retourne les largeurs de bande inférieure<b
+      >[lower, upper] = bandwidth(A)</b> retourne les largeurs de bande inférieure <b
       >lower</b> et supérieure <b>upper</b> de la matrice <b>A</b>.</p>
   </description>
   <used_function />

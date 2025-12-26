@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description><b
-    >asecd</b> computes the inverse secant of argument in degrees for each element of<b
+    >asecd</b> computes the inverse secant of argument in degrees for each element of <b
     >x</b>.</description>
   <used_function />
   <bibliography />

@@ -38,7 +38,7 @@
     <p><b
       >assert_isequal</b> raises an error if the computed value is not equal to the expected value.</p>
     <p
-    >This function performs strict equality testing that checks for same type, same dimensions, and same values comparisons. It uses the same logic as the<b
+    >This function performs strict equality testing that checks for same type, same dimensions, and same values comparisons. It uses the same logic as the <b
       >isequaln</b> function.</p>
     <p
     >Unlike standard equality operators, this function properly handles NaN values, considering them equal when both values contain NaN in the same positions.</p>

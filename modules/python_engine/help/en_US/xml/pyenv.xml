@@ -24,7 +24,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Use<b
+    <p>Use <b
       >pyenv</b> to modify the default version or execution mode of the Python interpreter, ensuring these adjustments persist across various Nelson sessions.</p>
     <p>The value set by<b>pyenv</b> is persistent across Nelson sessions.</p>
     <p />
@@ -47,7 +47,7 @@
     <p><b>__NELSON_PYTHON_HOME__</b>: example "/usr"</p>
     <p>All environment variables must exist and valid to be considered.</p>
     <p />
-    <p>On Windows, the<b
+    <p>On Windows, the <b
       >pyenv('Version', '3.11')</b> function searches the Windows Registry for the Python version associated with the specified version. It first looks in the HKCU environment, and if not found, it searches in HKLM.</p>
   </description>
   <used_function />

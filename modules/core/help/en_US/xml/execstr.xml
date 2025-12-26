@@ -25,8 +25,8 @@
   </param_output>
   <description>
     <p><b>execstr</b> executes Nelson instructions given in a string.</p>
-    <p><b>execstr(str, 'nocatch')</b> is equivalent to<b>execstr(str)</b></p>
-    <p><b>execstr</b> can be used as alternative to<b
+    <p><b>execstr(str, 'nocatch')</b> is equivalent to <b>execstr(str)</b></p>
+    <p><b>execstr</b> can be used as alternative to <b
       >try ... catch ... end</b> block.</p>
   </description>
   <used_function />

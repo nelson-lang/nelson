@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>k = dcgain(sys)</b> computes the DC gain<b
+    <p><b>k = dcgain(sys)</b> computes the DC gain <b
       >k</b> of the LTI model sys.</p>
   </description>
   <examples>

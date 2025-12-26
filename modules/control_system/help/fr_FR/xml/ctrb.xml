@@ -34,7 +34,7 @@
     <p
     >La contrôlabilité dans un système dynamique fait référence à la capacité du système à être guidé vers n'importe quel état souhaité dans un délai fini grâce à l'application de signaux de contrôle appropriés.</p>
     <p>Cette propriété est communément connue sous le nom d'accessibilité.</p>
-    <p>La fonction<b
+    <p>La fonction <b
       >ctrb</b> est utilisée pour calculer une matrice de contrôlabilité, soit à partir des matrices d'état, soit à partir d'un modèle d'espace d'état.</p>
     <p
     >La matrice résultante sert d'outil pour évaluer et confirmer la contrôlabilité du système.</p>

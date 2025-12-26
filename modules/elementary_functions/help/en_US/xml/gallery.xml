@@ -70,14 +70,14 @@
     <param_output_item>
       <param_name>beta</param_name>
       <param_description
-      >determinant or scalar output for families that return it explicitly (for example<b
+      >determinant or scalar output for families that return it explicitly (for example <b
         >ipjfact</b> returns determinant<code>beta</code>)</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>The<b
+    <p>The <b
       >gallery</b> function returns a collection of standard test matrices and generated data used to illustrate numerical linear algebra concepts, test algorithms, and reproduce textbook examples.</p>
-    <p>Use the<b
+    <p>Use the <b
       >matrixname</b> argument to select a family; additional parameters (sizes, vectors, options) depend on the chosen family.</p>
     <p
     >Typical uses: study eigenvalue sensitivity and conditioning, exercise solvers with structured matrices (Toeplitz, Hankel, circulant), generate random or specially structured matrices with prescribed singular/eigenvalue properties, or obtain canonical examples for teaching and tests.</p>

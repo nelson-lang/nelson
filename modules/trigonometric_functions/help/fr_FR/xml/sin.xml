@@ -21,7 +21,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>sin</b> calcule le sinus en radians pour chaque élément de<b
+    <p><b>sin</b> calcule le sinus en radians pour chaque élément de <b
       >x</b>.</p>
     <p>La fonction sinus est définie comme :</p>
     <latex>\sin(x) = \frac{e^{ix} - e^{-ix}}{2i}</latex>

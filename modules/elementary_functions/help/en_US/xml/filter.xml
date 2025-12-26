@@ -36,7 +36,7 @@
     <p
     >This transfer function is defined by the coefficients of the numerator (<b
       >b</b>) and denominator (<b>a</b>).</p>
-    <p>If the first coefficient of<b
+    <p>If the first coefficient of <b
       >a</b> (a(1)) is not equal to 1, the filter normalizes the coefficients by a(1). It is crucial for a(1) to be nonzero.</p>
     <p>When<b
       >x</b> is a vector, the function returns a vector of the same size as<b

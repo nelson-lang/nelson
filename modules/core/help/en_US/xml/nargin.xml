@@ -28,7 +28,7 @@
   </param_output>
   <description>
     <p><b>nargin</b> returns the number of input arguments of an function.</p>
-    <p>If the last input argument of the function is<b
+    <p>If the last input argument of the function is <b
       >varargin</b> the returned value is negative.</p>
   </description>
   <used_function />

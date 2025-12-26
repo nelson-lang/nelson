@@ -64,7 +64,7 @@
       >scatter3(x, y, z)</b> génère un nuage de points en plaçant des marqueurs circulaires aux coordonnées définies par les vecteurs <b
       >x</b>,<b>y</b> et <b>z</b>.</p>
     <p
-    >Si vous souhaitez afficher un seul ensemble de données, assurez-vous que<b
+    >Si vous souhaitez afficher un seul ensemble de données, assurez-vous que <b
       >x</b>, <b>y</b> et <b>z</b> sont des vecteurs de même longueur.</p>
     <p
     >Pour visualiser plusieurs ensembles de données sur un même axe, vous pouvez utiliser une matrice pour <b
@@ -83,7 +83,7 @@
           <b>AlphaData</b>
         </td>
         <td
-        >Transparence de la face du marqueur, 1 (par défaut) ou tableau de même taille que<b
+        >Transparence de la face du marqueur, 1 (par défaut) ou tableau de même taille que <b
           >XData</b></td>
       </tr>
       <tr>

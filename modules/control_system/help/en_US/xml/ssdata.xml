@@ -40,11 +40,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>The function <b>ssdata(sys)</b> retrieves the matrix data<b>A</b>, <b
-      >B</b>, <b>C</b>,<b
-      >D</b> from the state-space model (LTI array) represented by<b
+    <p>The function <b>ssdata(sys)</b> retrieves the matrix data <b>A</b>, <b
+      >B</b>, <b>C</b>, <b
+      >D</b> from the state-space model (LTI array) represented by <b
       >sys</b>.</p>
-    <p>If<b
+    <p>If <b
       >sys</b> is initially in the form of a transfer function or zero-pole-gain model (LTI array), it is automatically converted to the state-space representation before extracting the matrix data.</p>
   </description>
   <examples>

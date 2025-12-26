@@ -41,7 +41,7 @@
     <param_output_item>
       <param_name>t</param_name>
       <param_description>
-        <p>Text objects created by <b>clabel</b>. The<b
+        <p>Text objects created by <b>clabel</b>. The <b
           >String</b> properties contain the contour values displayed.</p>
       </param_description>
     </param_output_item>

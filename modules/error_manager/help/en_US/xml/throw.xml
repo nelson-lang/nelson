@@ -15,7 +15,7 @@
   </param_input>
   <description>
     <p><b
-      >throw(MException)</b> throws an exception based on the information contained in the<b
+      >throw(MException)</b> throws an exception based on the information contained in the <b
       >MException</b> object, exception.</p>
   </description>
   <used_function />

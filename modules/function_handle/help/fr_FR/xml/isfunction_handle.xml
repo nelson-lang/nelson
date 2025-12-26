@@ -23,7 +23,7 @@
   </param_output>
   <description>
     <p><b>l = isfunction_handle(func_handle)</b> vérifie si<b
-      >func_handle</b> est un function handle et renvoie<b
+      >func_handle</b> est un function handle et renvoie <b
       >true</b> si c'est le cas.</p>
   </description>
   <used_function />

@@ -31,7 +31,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>C = unique(A)</b> renvoie les éléments uniques du tableau<b
+    <p><b>C = unique(A)</b> renvoie les éléments uniques du tableau <b
       >A</b> dans l'ordre trié.</p>
     <p><b>C = unique(A, 'rows')</b> considère chaque ligne de <b
       >A</b> comme une entité unique et renvoie les lignes uniques dans l'ordre trié.</p>
@@ -44,7 +44,7 @@
       >A = C(ic)</b>.</p>
     <p>Pour une matrice ou un tableau <b>A</b>, les relations sont <b
       >C = A(ia)</b> et <b>A(:) = C(ic)</b>.</p>
-    <p>Si l'option 'rows' est utilisée, les relations sont<b
+    <p>Si l'option 'rows' est utilisée, les relations sont <b
       >C = A(ia, :)</b> et <b>A = C(ic, :)</b>.</p>
   </description>
   <used_function>std::sort, std::unique (stl)</used_function>

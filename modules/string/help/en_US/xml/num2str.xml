@@ -35,7 +35,7 @@
   <description>
     <p><b>num2str</b> converts numbers to character array.</p>
     <p><b
-      >num2str</b> trims any leading spaces from a character array. For better control over the results, use<b
+      >num2str</b> trims any leading spaces from a character array. For better control over the results, use <b
       >sprintf</b>.</p>
   </description>
   <used_function />

@@ -28,7 +28,7 @@
   </param_output>
   <description>
     <p><b
-      >polyint</b> renvoie l'intégrale du polynôme représenté par les coefficients de<b
+      >polyint</b> renvoie l'intégrale du polynôme représenté par les coefficients de <b
       >p</b> en utilisant une constante d'intégration <b
       >k</b> (0 par défaut).</p>
   </description>

@@ -48,9 +48,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>plot(Y)</b> trace les colonnes de<b
+    <p><b>plot(Y)</b> trace les colonnes de <b
       >Y</b> en fonction de leur indice.</p>
-    <p><b>plot(X, Y)</b> trace la courbe définie par la paire<b>X</b> et <b
+    <p><b>plot(X, Y)</b> trace la courbe définie par la paire <b>X</b> et <b
       >Y</b>.</p>
     <p><b
       >go = plot(...)</b> retourne un vecteur colonne d'objets graphiques de type ligne. </p>

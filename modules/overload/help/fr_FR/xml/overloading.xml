@@ -18,7 +18,7 @@
       >-</b> est associé à la fonction minus.m).</p>
     <p
     >Vous pouvez surcharger n'importe quel opérateur en créant un fichier M avec le nom approprié dans le répertoire de la classe.</p>
-    <p>Par exemple, si <b>A</b> ou <b>B</b> est un objet de type<b
+    <p>Par exemple, si <b>A</b> ou <b>B</b> est un objet de type <b
       >classname</b>, l'expression <b
       >A              - B</b> déclenche un appel à la fonction <b
       >@classname/minus.m</b>, si elle existe.</p>

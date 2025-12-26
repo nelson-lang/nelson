@@ -47,7 +47,7 @@
   <description>
     <p><b>S = orderfields(S1)</b> sorts the fields in<b
       >S1</b> alphabetically by their names, considering uppercase letters before lowercase ones, and digits and underscores are also accounted for.</p>
-    <p><b>S = orderfields(S1,S2)</b> returns a copy of<b
+    <p><b>S = orderfields(S1,S2)</b> returns a copy of <b
       >S1</b> with its fields rearranged to match the order of fields in<b
       >S2</b>.Both <b>S1</b> and <b>S2</b> must share the same field names.</p>
     <p><b

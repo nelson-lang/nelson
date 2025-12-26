@@ -21,14 +21,14 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>S = table2struct(T)</b> converts the table<b
+    <p><b>S = table2struct(T)</b> converts the table <b
       >T</b> into a structure array <b>S</b>, where each variable in<b
       >T</b> is represented as a field in <b>S</b>.</p>
     <p>If <b>T</b> is an m-by-n table,<b
       >S</b> will be an m-by-1 structure array with n fields.</p>
     <p>the output <b>S</b> will not contain any table properties from<b
       >T.Properties</b>.</p>
-    <p><b>S = table2struct(T, "ToScalar", true)</b> converts the table<b
+    <p><b>S = table2struct(T, "ToScalar", true)</b> converts the table <b
       >T</b> into a scalar structure <b>S</b>, where each variable in<b
       >T</b> becomes a field in <b>S</b>.</p>
     <p>If <b>T</b> is an m-by-n table,<b

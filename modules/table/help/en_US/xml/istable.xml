@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>tf = istable(A)</b> returns <b>true</b> if<b>A</b> is a table, and <b
+    <p><b>tf = istable(A)</b> returns <b>true</b> if <b>A</b> is a table, and <b
       >false</b> if it is not.</p>
   </description>
   <used_function />

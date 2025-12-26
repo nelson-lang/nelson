@@ -18,9 +18,8 @@
     </param_input_item>
     <param_input_item>
       <param_name>dataType</param_name>
-      <param_description>
-        chaîne de caractères ou vecteur de caractères : type de données du signal audio de sortie. Valeurs valides : 'double' (par défaut), 'single', 'int16', 'int8', 'uint8'.
-      </param_description>
+      <param_description
+      >chaîne de caractères ou vecteur de caractères : type de données du signal audio de sortie. Valeurs valides : 'double' (par défaut), 'single', 'int16', 'int8', 'uint8'.        </param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -31,25 +30,16 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>
-      <b
+    <p><b
       >getaudiodata</b> renvoie les données audio enregistrées à partir d'un objet <b
-      >audiorecorder</b> sous forme de tableau numérique.
-    </p>
-    <p>
-      <b
-      >y = getaudiodata(recorder)</b> renvoie les données audio sous forme de tableau double.
-    </p>
-    <p>
-      <b
-      >y = getaudiodata(recorder, dataType)</b> renvoie les données audio converties au type de données spécifié.
-    </p>
+      >audiorecorder</b> sous forme de tableau numérique.      </p>
+    <p><b
+      >y = getaudiodata(recorder)</b> renvoie les données audio sous forme de tableau double.      </p>
+    <p><b
+      >y = getaudiodata(recorder, dataType)</b> renvoie les données audio converties au type de données spécifié.      </p>
     <p>Le nombre de colonnes dans <b
-      >y</b> correspond au nombre de canaux dans l'enregistrement (1 pour mono, 2 pour stéréo).
-    </p>
-    <p>
-      La plage de valeurs de <b>y</b> dépend de <b>dataType</b> :
-    </p>
+      >y</b> correspond au nombre de canaux dans l'enregistrement (1 pour mono, 2 pour stéréo).      </p>
+    <p>La plage de valeurs de <b>y</b> dépend de <b>dataType</b> :      </p>
     <table>
       <tr>
         <th>Type de données</th>

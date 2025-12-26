@@ -28,7 +28,7 @@
   </param_output>
   <description>
     <p><b
-      >d = configureDictionary(keyType, valueType)</b> initializes an empty dictionary that enforces keys of type<b
+      >d = configureDictionary(keyType, valueType)</b> initializes an empty dictionary that enforces keys of type <b
       >keyType</b> and values of type <b>valueType</b>.</p>
   </description>
   <used_function />

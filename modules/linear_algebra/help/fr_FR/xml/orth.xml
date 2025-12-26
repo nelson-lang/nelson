@@ -28,7 +28,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>O = orth(A)</b> retourne une base orthonormée de l'image (range) de<b
+    <p><b>O = orth(A)</b> retourne une base orthonormée de l'image (range) de <b
       >A</b>.</p>
   </description>
   <used_function />

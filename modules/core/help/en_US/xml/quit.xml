@@ -20,9 +20,9 @@
       >quit('force')</b> disregards the finish.m script and immediately concludes Nelson.</p>
     <p
     >Employ this syntax when you need to override the finish script, ensuring a smooth exit in case the script poses obstacles to quitting.</p>
-    <p>When you utilize<b
+    <p>When you utilize <b
       >quit(code)</b>, Nelson exits with the specified value as the exit code.</p>
-    <p>If you append "force" to this command<b
+    <p>If you append "force" to this command <b
       >quit(code, 'force')</b> it enforces an immediate termination, bypassing finish.m and incorporating the provided exit code.</p>
     <p
     >The exit code, denoted by "code" and specified as a signed integer, determines the status of Nelson termination.</p>

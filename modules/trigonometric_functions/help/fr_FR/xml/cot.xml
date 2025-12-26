@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>cot</b> calcule la cotangente d'un angle pour chaque élément de<b
+    <p><b>cot</b> calcule la cotangente d'un angle pour chaque élément de <b
       >x</b>.</p>
   </description>
   <used_function />

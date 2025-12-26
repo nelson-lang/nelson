@@ -41,7 +41,7 @@
     <p>Si l'un de ces arguments est plus grand que la taille de <b>X</b>,<b
       >X</b> est redimensionné et complété par des zéros.</p>
     <p>Si<b
-      >X</b> est un tableau multidimensionnel, chaque sous-matrice bidimensionnelle de<b
+      >X</b> est un tableau multidimensionnel, chaque sous-matrice bidimensionnelle de <b
       >X</b> est traitée séparément.</p>
   </description>
   <used_function />

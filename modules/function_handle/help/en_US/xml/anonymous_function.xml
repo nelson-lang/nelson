@@ -20,12 +20,12 @@
     <p
     >These components are similar to the body and argument list of any regular function.</p>
     <p />
-    <p>At the beginning of this syntax statement, you'll notice the<b
+    <p>At the beginning of this syntax statement, you'll notice the <b
       >@</b> sign.</p>
     <p>This<b>@</b> sign is the operator that constructs a function handle.</p>
     <p
     >Creating a function handle for an anonymous function allows you to invoke the function and is useful when passing your anonymous function as an argument to another function.</p>
-    <p>The<b
+    <p>The <b
       >@</b> sign is a necessary part of the anonymous function definition.</p>
     <p />
     <p

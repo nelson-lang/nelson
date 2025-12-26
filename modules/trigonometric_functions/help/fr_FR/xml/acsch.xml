@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description><b
-    >acsch</b> calcule la cosécante hyperbolique inverse pour chaque élément de<b
+    >acsch</b> calcule la cosécante hyperbolique inverse pour chaque élément de <b
     >x</b>.</description>
   <used_function />
   <bibliography />

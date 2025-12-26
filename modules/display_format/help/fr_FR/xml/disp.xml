@@ -15,7 +15,7 @@
   </param_input>
   <description>
     <p><b>disp(V)</b> affiche la valeur de la variable <b>V</b>.</p>
-    <p><b>disp</b> utilise le réglage courant de<b
+    <p><b>disp</b> utilise le réglage courant de <b
       >format</b> pour afficher les valeurs numériques.</p>
   </description>
   <used_function />

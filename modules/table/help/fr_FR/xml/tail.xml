@@ -25,7 +25,7 @@
   </param_output>
   <description>
     <p><b
-      >tail(A)</b> affiche les huit dernières lignes d'un tableau, ou de la table<b
+      >tail(A)</b> affiche les huit dernières lignes d'un tableau, ou de la table <b
       >A</b> dans la fenêtre de commande sans l'assigner à une variable.</p>
     <p><b>tail(A, k)</b> affiche les k dernières lignes de A.</p>
     <p><b>B = tail(...)</b> renvoie les lignes spécifiées de <b

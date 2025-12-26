@@ -8,7 +8,7 @@
     <syntax_item>while test_expression, statements, end</syntax_item>
   </syntax>
   <description>
-    <p>La boucle<b
+    <p>La boucle <b
       >while</b> exécute un ensemble d'instructions tant que la condition de test reste <b
       >true</b>.</p>
   </description>

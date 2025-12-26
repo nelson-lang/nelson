@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>coth</b> calcule la cotangente hyperbolique pour chaque élément de<b
+    <p><b>coth</b> calcule la cotangente hyperbolique pour chaque élément de <b
       >x</b>.</p>
   </description>
   <used_function />

@@ -126,9 +126,9 @@
       </table>
     </p>
     <p>if <b>fwrite</b> fails, it returns a negative value.</p>
-    <p>if<b
+    <p>if <b
       >fwrite</b> succeeds, it returns the number of elements written successfully.</p>
-    <p>if<b
+    <p>if <b
       >fwrite</b> writes characters, it returns the number of characters written successfully and not the number of elements.</p>
   </description>
   <used_function />

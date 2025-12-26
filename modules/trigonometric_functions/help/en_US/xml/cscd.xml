@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description><b
-    >cscd</b> computes the cosecant of argument in degrees for each element of<b
+    >cscd</b> computes the cosecant of argument in degrees for each element of <b
     >x</b>.</description>
   <used_function />
   <bibliography />

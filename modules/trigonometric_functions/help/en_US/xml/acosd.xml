@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description><b
-    >atand</b> computes the inverse cosine in degrees for each element of<b
+    >atand</b> computes the inverse cosine in degrees for each element of <b
     >x</b>.</description>
   <used_function />
   <bibliography />

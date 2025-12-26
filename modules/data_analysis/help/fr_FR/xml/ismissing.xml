@@ -21,7 +21,7 @@
   </param_output>
   <description>
     <p><b
-      >ismissing</b> renvoie un tableau logique qui est vrai lorsque les éléments de M sont des valeurs<b
+      >ismissing</b> renvoie un tableau logique qui est vrai lorsque les éléments de M sont des valeurs <b
       >manquantes</b>.</p>
     <p>Les données manquantes sont définies comme :</p>
     <p><b>NaN</b> pour double ou single</p>

@@ -15,10 +15,10 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>qml_addpluginpath</b> ajoute<b
+    <p><b>qml_addpluginpath</b> ajoute <b
       >path</b> comme répertoire où le moteur recherche les plugins natifs.</p>
-    <p>Par défaut, la liste ne contient que<b
-      >.</b>. Le chemin nouvellement ajouté sera placé en tête de<b
+    <p>Par défaut, la liste ne contient que <b
+      >.</b>. Le chemin nouvellement ajouté sera placé en tête de <b
       >qml_pluginpathlist</b>.</p>
   </description>
   <used_function />

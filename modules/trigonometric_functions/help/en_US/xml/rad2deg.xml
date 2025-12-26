@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description><b
-    >d = rad2deg(r)</b> converts angle units from radians to degrees for each element of<b
+    >d = rad2deg(r)</b> converts angle units from radians to degrees for each element of <b
     >r</b>.</description>
   <used_function />
   <bibliography />

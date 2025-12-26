@@ -31,7 +31,7 @@
   </param_output>
   <description><b
     >isequaln</b> returns true if x1 and x2 are the same size and same values; otherwise, it returns false.<b
-    >isequaln</b> compares real and imaginary parts of numeric arrays. NaN (Not a Number) values are considered to be<b
+    >isequaln</b> compares real and imaginary parts of numeric arrays. NaN (Not a Number) values are considered to be <b
     >equal</b> to other elements.</description>
   <used_function />
   <bibliography />

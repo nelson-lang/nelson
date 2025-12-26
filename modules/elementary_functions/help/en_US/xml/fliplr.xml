@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>fliplr</b> return an new array of<b>A</b> flipped left to right.</p>
+    <p><b>fliplr</b> return an new array of <b>A</b> flipped left to right.</p>
   </description>
   <used_function />
   <bibliography />

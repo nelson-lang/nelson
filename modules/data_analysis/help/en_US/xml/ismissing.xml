@@ -21,7 +21,7 @@
   </param_output>
   <description>
     <p><b
-      >ismissing</b> returns a logical array which is true where elements of M are<b
+      >ismissing</b> returns a logical array which is true where elements of M are <b
       >missing</b> values.</p>
     <p>missing data are defined as:</p>
     <p><b>NaN</b> for double or single</p>

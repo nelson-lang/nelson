@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description><b
-    >asinh</b> calcule le sinus hyperbolique inverse en radians pour chaque élément de<b
+    >asinh</b> calcule le sinus hyperbolique inverse en radians pour chaque élément de <b
     >x</b>.</description>
   <used_function />
   <bibliography />

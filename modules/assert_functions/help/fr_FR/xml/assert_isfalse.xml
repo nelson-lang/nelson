@@ -41,7 +41,7 @@
       >assert_isfalse</b> lève une erreur si la valeur d'entrée est vraie.</p>
     <p
     >Cette fonction lève également une erreur si l'entrée n'est pas une valeur logique, garantissant la sécurité de type.</p>
-    <p>Lorsque le paramètre optionnel<b
+    <p>Lorsque le paramètre optionnel <b
       >err_msg</b> est fourni, il sera utilisé comme message d'erreur à la place du message par défaut en cas d'échec de l'assertion.</p>
     <p
     >Cette fonction est utile dans les tests unitaires pour vérifier que des conditions sont fausses ou que des opérations logiques retournent le résultat faux attendu.</p>

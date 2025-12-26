@@ -28,7 +28,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>ismodule</b> retourne<b>true</b> si le module est chargé, sinon <b
+    <p><b>ismodule</b> retourne <b>true</b> si le module est chargé, sinon <b
       >false</b>.</p>
   </description>
   <used_function />

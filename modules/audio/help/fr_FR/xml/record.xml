@@ -23,19 +23,13 @@
     </param_input_item>
   </param_input>
   <description>
-    <p>
-      <b
+    <p><b
       >record(recorderObj)</b> démarre l'enregistrement audio à partir d'un périphérique d'entrée en utilisant l'objet <b
-      >audiorecorder</b> spécifié.
-    </p>
-    <p>
-      <b
-      >record(recorderObj, length)</b> enregistre l'audio pendant le nombre de secondes spécifié.
-    </p>
-    <p>
-      L'objet <b
-      >audiorecorder</b> définit la fréquence d'échantillonnage, la profondeur en bits et d'autres propriétés de l'enregistrement.
-    </p>
+      >audiorecorder</b> spécifié.      </p>
+    <p><b
+      >record(recorderObj, length)</b> enregistre l'audio pendant le nombre de secondes spécifié.      </p>
+    <p>        L'objet <b
+      >audiorecorder</b> définit la fréquence d'échantillonnage, la profondeur en bits et d'autres propriétés de l'enregistrement.      </p>
   </description>
   <used_function />
   <bibliography />

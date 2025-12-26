@@ -32,7 +32,7 @@
       >waitfor</b> returns immediately.</p>
     <p><b
       >waitfor(obj, propertyName)</b> halts execution until the specified property of the object changes or the object is closed. For example,<b
-      >waitfor(hFig, 'UserData')</b> pauses execution until the 'UserData' property of<b
+      >waitfor(hFig, 'UserData')</b> pauses execution until the 'UserData' property of <b
       >hFig</b> changes. If the specified property name is invalid, an error stops execution.</p>
     <p><b
       >waitfor(obj, propertyName, propertyValue)</b> pauses execution until the specified property of the object changes to the given value. If the property is already equal to propvalue when<b

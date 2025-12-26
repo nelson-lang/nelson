@@ -33,7 +33,7 @@
     <p>La fonction <b
       >obsv</b> est conçue pour calculer la matrice d'observabilité des systèmes d'état.</p>
     <p>Étant donné une matrice Nx par Nx <b
-      >A</b> représentant la dynamique du système et une matrice Ny par Nx C spécifiant la sortie, l'appel de fonction<b
+      >A</b> représentant la dynamique du système et une matrice Ny par Nx C spécifiant la sortie, l'appel de fonction <b
       >obsv(A, C)</b> génère la matrice d'observabilité.</p>
     <p />
     <p

@@ -218,14 +218,33 @@ formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, b
             } else {
                 if (c == ' ') {
                     size_t j = i + 1;
+                    // Skip all whitespace after the space
                     while (j < buffer.size()
                         && (buffer[j] == ' ' || buffer[j] == '\n' || buffer[j] == '\r'
                             || buffer[j] == '\t'))
                         ++j;
+                    bool nextStartsBoldTag = startsWithBoldTag(buffer, j);
+                    if (nextStartsBoldTag) {
+                        compact += ' ';
+                        last_space = true;
+                        continue;
+                    }
+                    // --- fix: insert space between adjacent </b> and <b> tags if missing ---
+                    if (compact.size() >= 4 && compact.compare(compact.size() - 4, 4, "</b>") == 0
+                        && j < buffer.size() && startsWithOpeningBoldTag(buffer, j)) {
+                        compact += ' ';
+                        last_space = true;
+                        continue;
+                    }
+                    // --- end fix ---
+                    if (j < buffer.size() && buffer[j] == '<') {
+                        compact += ' ';
+                        last_space = true;
+                        continue;
+                    }
                     char nextNonSpace = (j < buffer.size()) ? buffer[j] : 0;
                     char prevOut = compact.empty() ? 0 : compact.back();
                     bool prevEndsClosingBold = endsWithClosingBold(compact);
-                    bool nextStartsBoldTag = startsWithBoldTag(buffer, j);
                     if ((nextNonSpace == '<' && !nextStartsBoldTag)
                         || (prevOut == '>' && !prevEndsClosingBold)) {
                         last_space = false;
@@ -236,6 +255,28 @@ formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, b
                         last_space = true;
                     }
                 } else {
+                    // remove all spaces between tags
+                    if (c == '>' && i + 1 < buffer.size()) {
+                        size_t k = i + 1;
+                        while (k < buffer.size()
+                            && (buffer[k] == ' ' || buffer[k] == '\n' || buffer[k] == '\r'
+                                || buffer[k] == '\t'))
+                            ++k;
+                        if (k < buffer.size() && buffer[k] == '<') {
+                            compact += '>';
+                            i = k - 1;
+                            continue;
+                        }
+                    }
+                    // --- fix: insert space between adjacent </b> and <b> tags if missing ---
+                    if (compact.size() >= 4 && compact.compare(compact.size() - 4, 4, "</b>") == 0
+                        && startsWithOpeningBoldTag(buffer, i)) {
+                        // Only insert a space if not already present
+                        if (compact.back() != ' ') {
+                            compact += ' ';
+                        }
+                    }
+                    // --- end fix ---
                     compact += c;
                     last_space = false;
                 }

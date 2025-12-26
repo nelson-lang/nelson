@@ -21,7 +21,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>isfile(name)</b> returns <b>true</b> if<b>name</b> is a file.</p>
+    <p><b>isfile(name)</b> returns <b>true</b> if <b>name</b> is a file.</p>
   </description>
   <used_function />
   <bibliography />

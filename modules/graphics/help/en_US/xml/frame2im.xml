@@ -34,10 +34,10 @@
   </param_output>
   <description>
     <p><b
-      >RGB = frame2im(F)</b> extracts the truecolor (RGB) image from the movie frame<b
+      >RGB = frame2im(F)</b> extracts the truecolor (RGB) image from the movie frame <b
       >F</b>.</p>
-    <p><b>[X, map] = frame2im(F)</b> retrieves the indexed image<b
-      >X</b> and its corresponding colormap map from the movie frame<b
+    <p><b>[X, map] = frame2im(F)</b> retrieves the indexed image <b
+      >X</b> and its corresponding colormap map from the movie frame <b
       >F</b>.</p>
   </description>
   <used_function />

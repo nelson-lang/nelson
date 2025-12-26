@@ -21,7 +21,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>cosd</b> computes the cosine in degree for each element of<b
+    <p><b>cosd</b> computes the cosine in degree for each element of <b
       >x</b>.</p>
   </description>
   <used_function />

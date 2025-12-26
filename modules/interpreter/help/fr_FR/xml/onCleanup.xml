@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>onCleanup</keyword>
   <short_description
-  > Tâches de nettoyage à la fin de l'exécution d'une fonction</short_description>
+  >Tâches de nettoyage à la fin de l'exécution d'une fonction</short_description>
   <syntax>
     <syntax_item>onCleanup(function_handle)</syntax_item>
     <syntax_item>obj = onCleanup(function_handle)</syntax_item>
@@ -32,7 +32,7 @@
   <used_function />
   <bibliography />
   <examples>
-  <example_item>
+    <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
       <example_item_data

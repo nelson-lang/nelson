@@ -24,7 +24,7 @@
   <description>
     <p><b
       >imax = intmax(classname)</b> le plus grand entier pouvant être représenté pour un type entier.</p>
-    <p>Les valeurs prises en charge pour la chaîne<b>classname</b> sont :</p>
+    <p>Les valeurs prises en charge pour la chaîne <b>classname</b> sont :</p>
     <p>'int8'</p>
     <p>'uint8'</p>
     <p>'int16'</p>

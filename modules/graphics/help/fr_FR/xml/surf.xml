@@ -52,87 +52,268 @@
       <param_description>Un objet graphique : type surface.</param_description>
     </param_output_item>
   </param_output>
-  <description><p><b
-      >surf</b> crée un tracé de surface 3D. Il peut être utilisé pour tracer des données sous forme de          matrice ou de fonction de deux variables. </p>          <p
-    >Vous pouvez personnaliser l'apparence du tracé en utilisant diverses options telles que la couleur, l'éclairage et l'ombrage.</p><p
-    >Par exemple, vous pouvez utiliser l'option colormap pour changer la couleur de la surface, et l'option FaceLighting pour modifier l'éclairage de la surface.</p>          <p
-    >Propriétés :</p>         
-      <table><tr><th>Propriété</th><th>Description</th></tr><tr><td><b
-          >AlphaData</b></td><td
-        >Données de transparence : tableau de même taille que ZData ou 1 (par défaut).</td></tr><tr
-      ><td><b>AlphaDataMapping</b></td><td
-        >Interprétation des valeurs AlphaData : 'direct', 'none' ou 'scaled' (par défaut).</td></tr><tr
-      ><td><b>AmbientStrength</b></td><td
-        >Intensité de la lumière ambiante : scalaire dans [0, 1].</td></tr><tr
-      ><td><b>BackFaceLighting</b></td><td
-        >Éclairage des faces lorsque les normales pointent à l'opposé de la caméra : 'unlit', 'lit' ou 'reverselit' (par défaut).</td></tr><tr
-      ><td><b>CData</b></td><td
-        >Couleurs des sommets : tableau 2D ou 3D.</td></tr><tr><td><b
-          >CDataMapping</b></td><td
-        >Méthode de mappage des couleurs : 'direct', 'scaled' (par défaut).</td></tr><tr
-      ><td><b>CDataMode</b></td><td
-        >Mode de sélection pour CData : 'manual', 'auto' (par défaut).</td></tr><tr
-      ><td><b>Children</b></td><td>actuellement non utilisé : []</td></tr><tr
-      ><td><b>DiffuseStrength</b></td><td
-        >Intensité de la lumière diffuse : scalaire dans [0, 1].</td></tr><tr
-      ><td><b>EdgeAlpha</b></td><td
-        >Transparence des arêtes : valeur scalaire dans [0, 1].</td></tr><tr><td
-        ><b>EdgeColor</b></td><td
-        >Couleur des arêtes : triplets RGB.</td></tr><tr><td><b
-          >EdgeLighting</b></td><td
-        >Effet des objets lumineux sur les arêtes : 'flat', 'gouraud' ou 'none' (par défaut).</td></tr><tr
-      ><td><b>FaceAlpha</b></td><td
-        >Transparence de la face : scalaire dans [0, 1].</td></tr><tr><td><b
-          >FaceColor</b></td><td>Couleur de la face : triplet RGB.</td></tr><tr
-      ><td><b>FaceLighting</b></td><td
-        >Effet des objets lumineux sur les faces : 'gouraud', 'none' ou 'flat' (par défaut).</td></tr><tr
-      ><td><b>LineStyle</b></td><td
-        >Style de ligne : '--', ':', '-.', 'none' ou '-' (par défaut).</td></tr><tr
-      ><td><b>LineWidth</b></td><td
-        >Épaisseur de ligne : valeur positive, 0.5 (par défaut).</td></tr><tr
-      ><td><b>Marker</b></td><td
-        >Symbole du marqueur : 'o' (cercle), '+' (plus), '*' (astérisque), '.' (point), 'x' (croix), '_' (ligne horizontale), '|' (ligne verticale), 'square', 'diamond', '^' (triangle vers le haut), 'v' (triangle vers le bas), '' (triangle vers la droite), '' (triangle vers la gauche), 'pentagram', 'hexagram', 'none' (par défaut).</td></tr><tr
-      ><td><b>MarkerEdgeColor</b></td><td
-        >Couleur du contour du marqueur : triplet RGB.</td></tr><tr><td><b
-          >MarkerFaceColor</b></td><td
-        >Couleur de remplissage du marqueur : triplet RGB.</td></tr><tr><td><b
-          >MarkerSize</b></td><td
-        >Taille du marqueur : valeur scalaire positive.</td></tr><tr><td><b
-          >MeshStyle</b></td><td
-        >Arêtes à afficher : 'row', 'column' ou 'both' (par défaut).</td></tr><tr
-      ><td><b>Parent</b></td><td>Parent : objet axes.</td></tr><tr><td><b
-          >SpecularColorReflectance</b></td><td
-        >Couleur des reflets spéculaires : scalaire dans [0, 1].</td></tr><tr
-      ><td><b>SpecularExponent</b></td><td
-        >Taille de la tache spéculaire : scalaire supérieur ou égal à 1.</td></tr><tr
-      ><td><b>SpecularStrength</b></td><td
-        >Intensité du reflet spéculaire : scalaire dans [0, 1].</td></tr><tr><td
-        ><b>Tag</b></td><td
-        >Identifiant de l'objet : vecteur de caractères, chaîne ou '' (par défaut).</td></tr><tr
-      ><td><b>Type</b></td><td>Type d'objet graphique : 'surface'.</td></tr><tr
-      ><td><b>UserData</b></td><td
-        >Données utilisateur : tableau ou [] (par défaut).</td></tr><tr><td><b
-          >VertexNormals</b></td><td
-        >Vecteurs normaux pour chaque sommet de la surface : tableau m-par-n-par-3 ou [] (par défaut).</td></tr><tr
-      ><td><b>Visible</b></td><td
-        >État de visibilité : 'off' ou 'on' (par défaut).</td></tr><tr><td><b
-          >XData</b></td><td
-        >Données des coordonnées x : vecteur ou matrice.</td></tr><tr><td><b
-          >XDataMode</b></td><td
-        >Mode de sélection pour XData : 'manual' ou 'auto'.</td></tr><tr><td><b
-          >YData</b></td><td
-        >Données des coordonnées y : vecteur ou matrice.</td></tr><tr><td><b
-          >YDataMode</b></td><td
-        >Mode de sélection pour YData : 'manual' ou 'auto'.</td></tr><tr><td><b
-          >ZData</b></td><td
-        >Données des coordonnées z : vecteur ou matrice.</td></tr><tr><td><b
-          >CreateFcn</b></td><td
-        >Callback (fonction, chaîne ou cellule) appelée lors de la création de l'objet. Définir cette propriété sur un composant existant n'a aucun effet.</td></tr><tr
-      ><td><b>DeleteFcn</b></td><td
-        >Callback (fonction, chaîne ou cellule) appelée lors de la suppression de l'objet.</td></tr><tr
-      ><td><b>BeingDeleted</b></td><td
-        >Indique que l'objet est en cours de suppression.</td></tr></table><p
-    >Certaines propriétés sont disponibles uniquement pour compatibilité et n'ont actuellement aucun effet sur la surface.</p>   </description>
+  <description>
+    <p><b
+      >surf</b> crée un tracé de surface 3D. Il peut être utilisé pour tracer des données sous forme de matrice ou de fonction de deux variables. </p>
+    <p
+    >Vous pouvez personnaliser l'apparence du tracé en utilisant diverses options telles que la couleur, l'éclairage et l'ombrage.</p>
+    <p
+    >Par exemple, vous pouvez utiliser l'option colormap pour changer la couleur de la surface, et l'option FaceLighting pour modifier l'éclairage de la surface.</p>
+    <p>Propriétés :</p>
+    <table>
+      <tr>
+        <th>Propriété</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>
+          <b>AlphaData</b>
+        </td>
+        <td
+        >Données de transparence : tableau de même taille que ZData ou 1 (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>AlphaDataMapping</b>
+        </td>
+        <td
+        >Interprétation des valeurs AlphaData : 'direct', 'none' ou 'scaled' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>AmbientStrength</b>
+        </td>
+        <td>Intensité de la lumière ambiante : scalaire dans [0, 1].</td>
+      </tr>
+      <tr>
+        <td>
+          <b>BackFaceLighting</b>
+        </td>
+        <td
+        >Éclairage des faces lorsque les normales pointent à l'opposé de la caméra : 'unlit', 'lit' ou 'reverselit' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CData</b>
+        </td>
+        <td>Couleurs des sommets : tableau 2D ou 3D.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CDataMapping</b>
+        </td>
+        <td
+        >Méthode de mappage des couleurs : 'direct', 'scaled' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CDataMode</b>
+        </td>
+        <td>Mode de sélection pour CData : 'manual', 'auto' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Children</b>
+        </td>
+        <td>actuellement non utilisé : []</td>
+      </tr>
+      <tr>
+        <td>
+          <b>DiffuseStrength</b>
+        </td>
+        <td>Intensité de la lumière diffuse : scalaire dans [0, 1].</td>
+      </tr>
+      <tr>
+        <td>
+          <b>EdgeAlpha</b>
+        </td>
+        <td>Transparence des arêtes : valeur scalaire dans [0, 1].</td>
+      </tr>
+      <tr>
+        <td>
+          <b>EdgeColor</b>
+        </td>
+        <td>Couleur des arêtes : triplets RGB.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>EdgeLighting</b>
+        </td>
+        <td
+        >Effet des objets lumineux sur les arêtes : 'flat', 'gouraud' ou 'none' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>FaceAlpha</b>
+        </td>
+        <td>Transparence de la face : scalaire dans [0, 1].</td>
+      </tr>
+      <tr>
+        <td>
+          <b>FaceColor</b>
+        </td>
+        <td>Couleur de la face : triplet RGB.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>FaceLighting</b>
+        </td>
+        <td
+        >Effet des objets lumineux sur les faces : 'gouraud', 'none' ou 'flat' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>LineStyle</b>
+        </td>
+        <td>Style de ligne : '--', ':', '-.', 'none' ou '-' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>LineWidth</b>
+        </td>
+        <td>Épaisseur de ligne : valeur positive, 0.5 (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Marker</b>
+        </td>
+        <td
+        >Symbole du marqueur : 'o' (cercle), '+' (plus), '*' (astérisque), '.' (point), 'x' (croix), '_' (ligne horizontale), '|' (ligne verticale), 'square', 'diamond', '^' (triangle vers le haut), 'v' (triangle vers le bas), '' (triangle vers la droite), '' (triangle vers la gauche), 'pentagram', 'hexagram', 'none' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>MarkerEdgeColor</b>
+        </td>
+        <td>Couleur du contour du marqueur : triplet RGB.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>MarkerFaceColor</b>
+        </td>
+        <td>Couleur de remplissage du marqueur : triplet RGB.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>MarkerSize</b>
+        </td>
+        <td>Taille du marqueur : valeur scalaire positive.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>MeshStyle</b>
+        </td>
+        <td>Arêtes à afficher : 'row', 'column' ou 'both' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Parent</b>
+        </td>
+        <td>Parent : objet axes.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>SpecularColorReflectance</b>
+        </td>
+        <td>Couleur des reflets spéculaires : scalaire dans [0, 1].</td>
+      </tr>
+      <tr>
+        <td>
+          <b>SpecularExponent</b>
+        </td>
+        <td>Taille de la tache spéculaire : scalaire supérieur ou égal à 1.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>SpecularStrength</b>
+        </td>
+        <td>Intensité du reflet spéculaire : scalaire dans [0, 1].</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Tag</b>
+        </td>
+        <td
+        >Identifiant de l'objet : vecteur de caractères, chaîne ou '' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Type</b>
+        </td>
+        <td>Type d'objet graphique : 'surface'.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>UserData</b>
+        </td>
+        <td>Données utilisateur : tableau ou [] (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>VertexNormals</b>
+        </td>
+        <td
+        >Vecteurs normaux pour chaque sommet de la surface : tableau m-par-n-par-3 ou [] (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Visible</b>
+        </td>
+        <td>État de visibilité : 'off' ou 'on' (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XData</b>
+        </td>
+        <td>Données des coordonnées x : vecteur ou matrice.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>XDataMode</b>
+        </td>
+        <td>Mode de sélection pour XData : 'manual' ou 'auto'.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YData</b>
+        </td>
+        <td>Données des coordonnées y : vecteur ou matrice.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>YDataMode</b>
+        </td>
+        <td>Mode de sélection pour YData : 'manual' ou 'auto'.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>ZData</b>
+        </td>
+        <td>Données des coordonnées z : vecteur ou matrice.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>CreateFcn</b>
+        </td>
+        <td
+        >Callback (fonction, chaîne ou cellule) appelée lors de la création de l'objet. Définir cette propriété sur un composant existant n'a aucun effet.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>DeleteFcn</b>
+        </td>
+        <td
+        >Callback (fonction, chaîne ou cellule) appelée lors de la suppression de l'objet.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>BeingDeleted</b>
+        </td>
+        <td>Indique que l'objet est en cours de suppression.</td>
+      </tr>
+    </table>
+    <p
+    >Certaines propriétés sont disponibles uniquement pour compatibilité et n'ont actuellement aucun effet sur la surface.</p>
+  </description>
   <used_function />
   <bibliography />
   <examples>

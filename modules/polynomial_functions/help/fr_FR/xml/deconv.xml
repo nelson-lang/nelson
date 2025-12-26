@@ -30,7 +30,7 @@
   <description>
     <p><b>[q, r] = deconv(b, a)</b> effectue la déconvolution du vecteur<b
       >b</b> par le vecteur <b>a</b> en utilisant la division longue.</p>
-    <p>Elle renvoie le quotient <b>q</b> et le reste <b>r</b> tels que<b
+    <p>Elle renvoie le quotient <b>q</b> et le reste <b>r</b> tels que <b
       >b = conv(a, q) + r</b>.</p>
     <p
     >Dans le contexte des coefficients polynomiaux, la déconvolution des vecteurs<b

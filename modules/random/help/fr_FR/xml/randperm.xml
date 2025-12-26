@@ -28,7 +28,7 @@
   </param_output>
   <description>
     <p><b
-      >p = randperm(n)</b> renvoie un vecteur ligne contenant une permutation aléatoire de<b
+      >p = randperm(n)</b> renvoie un vecteur ligne contenant une permutation aléatoire de <b
       >1:n</b>.</p>
   </description>
   <used_function />

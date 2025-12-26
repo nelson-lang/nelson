@@ -24,7 +24,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>C = A || B</b> effectue une opération logique<b
+    <p><b>C = A || B</b> effectue une opération logique <b
       >OR</b> : le second opérande n'est évalué que lorsque le résultat ne peut pas être déterminé par le premier opérande.</p>
   </description>
   <used_function />

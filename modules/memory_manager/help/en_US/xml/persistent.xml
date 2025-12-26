@@ -16,7 +16,7 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>persistent</b> defines a variable defined by his name<b
+    <p><b>persistent</b> defines a variable defined by his name <b
       >variable_name</b> as persistent in a function.</p>
     <p
     >Before to use a persistent variable, it is necessary to initializ value.</p>

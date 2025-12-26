@@ -26,7 +26,7 @@
   </param_output>
   <description>
     <p><b
-      >d = atan2d(y, x)</b> returns the four-quadrant inverse tangent (tan-1) of<b
+      >d = atan2d(y, x)</b> returns the four-quadrant inverse tangent (tan-1) of <b
       >y</b> and <b>x</b>, which must be real.</p>
   </description>
   <used_function />

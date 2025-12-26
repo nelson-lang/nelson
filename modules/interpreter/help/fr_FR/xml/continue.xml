@@ -9,7 +9,7 @@
   </syntax>
   <description>
     <p>              L'instruction<b
-      >continue</b> peut être utilisée à l'intérieur d'une boucle<b
+      >continue</b> peut être utilisée à l'intérieur d'une boucle <b
       >for</b> ou <b>while</b>.</p>
     <p>L'instruction <b
       >continue</b> est utilisée pour transférer le contrôle à l'itération suivante d'une boucle.</p>

@@ -34,7 +34,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>conv</b> renvoie la convolution des vecteurs<b>u</b> et <b>v</b>.</p>
+    <p><b>conv</b> renvoie la convolution des vecteurs <b>u</b> et <b>v</b>.</p>
   </description>
   <used_function />
   <bibliography />

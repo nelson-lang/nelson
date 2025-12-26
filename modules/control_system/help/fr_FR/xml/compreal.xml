@@ -50,7 +50,7 @@
       >[A, B, C, D, E] = compreal(numerator, denominator)</b> calcule une réalisation d'espace d'état représentée par les matrices A, B, C, D et E.</p>
     <p>La matrice <b
       >E</b> est une matrice vide (matrice identité) lorsqu'il y a au moins autant de pôles que de zéros.</p>
-    <p>Cependant, si le nombre de zéros dépasse celui des pôles, la matrice<b
+    <p>Cependant, si le nombre de zéros dépasse celui des pôles, la matrice <b
       >E</b> devient singulière.</p>
   </description>
   <examples>

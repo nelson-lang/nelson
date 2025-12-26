@@ -61,10 +61,10 @@
     <p><b
       >stairs(Y)</b> function is used to generate such graphs by plotting the elements of the vector<b
       >Y.</b></p>
-    <p>If<b
+    <p>If <b
       >Y</b> is a matrix, it draws one line for each column, with the color of the lines determined by the ColorOrder property of the axes.</p>
     <p>In the case of a vector<b
-      >Y</b>, the x-axis scale spans from 1 to the length of<b
+      >Y</b>, the x-axis scale spans from 1 to the length of <b
       >Y</b>, while for a matrix<b
       >Y</b>, the x-axis scale ranges from 1 to the number of rows in<b
       >Y</b>.</p>

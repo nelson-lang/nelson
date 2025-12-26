@@ -40,10 +40,10 @@
   </param_output>
   <description>
     <p><b>jlrunfile(filenam)</b> function executes Julia file.</p>
-    <p>As the<b
-      >jlrun</b> function, variables generated in the Julia workspace through the<b
+    <p>As the <b
+      >jlrun</b> function, variables generated in the Julia workspace through the <b
       >jlrunfile</b> function do persist.</p>
-    <p>The code<b
+    <p>The code <b
       >outvars = jlrunfile(file, outputs, jlName1, jlValue2, ..., jlNameN, jlValueN)</b> executes the code with one or more name-value pair arguments.</p>
   </description>
   <used_function />

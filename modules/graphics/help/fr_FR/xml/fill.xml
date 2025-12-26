@@ -51,7 +51,7 @@
       >X</b> et <b>Y</b>, et remplit la forme avec la couleur <b>C</b>.</p>
     <p><b
       >fill(..., PropertyName, PropertyValue, ...)</b> définit des propriétés optionnelles pour l'objet fill/patch à l'aide de paires nom-valeur.</p>
-    <p><b>go = fill(...)</b> retourne le handle<b
+    <p><b>go = fill(...)</b> retourne le handle <b
       >go</b> de l'objet patch créé.</p>
     <p>Paires Nom-Valeur de propriétés :</p>
     <p />

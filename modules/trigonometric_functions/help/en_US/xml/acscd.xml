@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description><b
-    >acscd</b> computes the inverse cosecant of argument in degrees for each element of<b
+    >acscd</b> computes the inverse cosecant of argument in degrees for each element of <b
     >x</b>.</description>
   <used_function />
   <bibliography />

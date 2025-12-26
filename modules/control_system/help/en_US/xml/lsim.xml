@@ -45,20 +45,20 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>The function<b
-      >lsim(sys, u, t)</b> generates a plot illustrating the simulated time response of the dynamic system model<b
+    <p>The function <b
+      >lsim(sys, u, t)</b> generates a plot illustrating the simulated time response of the dynamic system model <b
       >sys</b> to the input history (<b>t</b>, <b>u</b>).</p>
-    <p>The time samples for the simulation are specified by the vector<b
+    <p>The time samples for the simulation are specified by the vector <b
       >t</b>.</p>
-    <p>In the case of single-input systems, the input signal<b
+    <p>In the case of single-input systems, the input signal <b
       >u</b> is a vector with the same length as <b>t</b>.</p>
     <p>For multi-input systems,<b
-      >u</b> is an array with rows corresponding to time samples (length(t)) and columns corresponding to inputs to<b
+      >u</b> is an array with rows corresponding to time samples (length(t)) and columns corresponding to inputs to <b
       >sys</b>.</p>
-    <p>An additional usage of the function is demonstrated by the example<b
-      >lsim(sys, u, t, x0)</b>, where a vector<b
+    <p>An additional usage of the function is demonstrated by the example <b
+      >lsim(sys, u, t, x0)</b>, where a vector <b
       >x0</b> is provided to specify initial state values.</p>
-    <p>This is particularly relevant when<b>sys</b> is a state-space model.</p>
+    <p>This is particularly relevant when <b>sys</b> is a state-space model.</p>
   </description>
   <examples>
     <example_item>

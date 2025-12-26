@@ -23,10 +23,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>tail(A)</b> displays the last eight rows of an array, or table<b
+    <p><b>tail(A)</b> displays the last eight rows of an array, or table <b
       >A</b> in the Command Window without assigning it to a variable.</p>
     <p><b>tail(A, k)</b> displays the last k rows of A.</p>
-    <p><b>B = tail(...)</b> returns the specified rows of<b
+    <p><b>B = tail(...)</b> returns the specified rows of <b
       >A</b> for any of the previous syntaxes, with<b
       >B</b> having the same data type as <b>A</b>.</p>
   </description>

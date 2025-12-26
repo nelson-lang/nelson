@@ -25,7 +25,7 @@
   </param_output>
   <description>
     <p><b
-      >T = subspace(A, B)</b> finds the angle between two subspaces specified by the columns of<b
+      >T = subspace(A, B)</b> finds the angle between two subspaces specified by the columns of <b
       >A</b> and <b>B</b>.</p>
   </description>
   <used_function />

@@ -21,7 +21,7 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>writetable(T)</b> writes the table<b
+    <p><b>writetable(T)</b> writes the table <b
       >T</b> to a comma-delimited text file.</p>
     <p
     >The file name is derived from the table's workspace variable name, with the <code

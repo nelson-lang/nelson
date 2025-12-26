@@ -19,7 +19,7 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>varislock</b> returns true if<b
+    <p><b>varislock</b> returns true if <b
       >variable_name</b> has been declared as locked variable and false otherwise.</p>
   </description>
   <used_function />

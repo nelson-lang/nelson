@@ -30,7 +30,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>isfield(A)</b> returns true if <b>name</b> is a fieldname of<b
+    <p><b>isfield(A)</b> returns true if <b>name</b> is a fieldname of <b
       >S</b>.</p>
   </description>
   <used_function />

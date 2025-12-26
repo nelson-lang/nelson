@@ -43,7 +43,7 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>imwrite(A, filename)</b> écrit les données d'image<b
+    <p><b>imwrite(A, filename)</b> écrit les données d'image <b
       >A</b> dans le fichier spécifié par <b>filename</b>.</p>
     <p />
     <p>Noms de propriétés :</p>

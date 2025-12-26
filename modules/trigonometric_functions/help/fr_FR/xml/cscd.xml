@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description><b
-    >cscd</b> calcule la cosécante de l'argument en degrés pour chaque élément de<b
+    >cscd</b> calcule la cosécante de l'argument en degrés pour chaque élément de <b
     >x</b>.</description>
   <used_function />
   <bibliography />

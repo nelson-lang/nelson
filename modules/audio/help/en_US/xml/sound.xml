@@ -28,8 +28,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>sound</b> plays audio signal<b
-      >y</b> to the speaker at sample rate of <b>Fs</b> hertz and uses<b
+    <p><b>sound</b> plays audio signal <b
+      >y</b> to the speaker at sample rate of <b>Fs</b> hertz and uses <b
       >nBits</b> bits per sample.</p>
   </description>
   <used_function />

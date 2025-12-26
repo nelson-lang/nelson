@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description><b
-    >acotd</b> computes the inverse cotangent of angle for each element of<b
+    >acotd</b> computes the inverse cotangent of angle for each element of <b
     >x</b> in degrees.</description>
   <used_function />
   <bibliography />

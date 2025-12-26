@@ -50,7 +50,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>The<b
+    <p>The <b
       >dlqr</b> function is designed to minimize a quadratic cost function associated with a discrete linear time-invariant state-space system model.</p>
   </description>
   <examples>

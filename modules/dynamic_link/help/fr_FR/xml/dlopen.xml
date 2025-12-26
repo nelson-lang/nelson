@@ -22,7 +22,7 @@
   </param_output>
   <description>
     <p><b>dlopen</b> charge une bibliothèque dynamique.</p>
-    <p><b>dlopen</b> renvoie un handle<b>dllib</b> possédant une propriété <b
+    <p><b>dlopen</b> renvoie un handle <b>dllib</b> possédant une propriété <b
       >Path</b>.</p>
     <p>Les méthodes <b>get</b>, <b>ismethod</b>, <b>isprop</b>,<b>disp</b>, <b
       >delete</b>, <b>isvalid</b>, <b>used</b>, <b>eq</b>,<b>ne</b>, <b

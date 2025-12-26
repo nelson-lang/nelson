@@ -22,8 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>C = table2cell(T)</b> convertit la table<b
-      >T</b> en un tableau de cellules <b>C</b>, où chaque variable de<b
+    <p><b>C = table2cell(T)</b> convertit la table <b
+      >T</b> en un tableau de cellules <b>C</b>, où chaque variable de <b
       >T</b> est transformée en une colonne de cellules dans <b>C</b>.</p>
     <p>La sortie <b>C</b> n'inclut aucune propriété de <b>T.Properties</b>.</p>
     <p>Si <b

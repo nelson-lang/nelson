@@ -22,8 +22,8 @@
   </param_output>
   <description>
     <p><b
-      >sys = append(sys1, sys2, ..., sysN)</b> combine les entrées et sorties des modèles<b
-      >sys1</b> à <b>sysN</b>, créant un modèle augmenté représenté par<b
+      >sys = append(sys1, sys2, ..., sysN)</b> combine les entrées et sorties des modèles <b
+      >sys1</b> à <b>sysN</b>, créant un modèle augmenté représenté par <b
       >sys</b>.</p>
   </description>
   <examples>

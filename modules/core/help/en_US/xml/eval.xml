@@ -30,7 +30,7 @@
   </param_output>
   <description>
     <p><b>eval</b> executes Nelson instructions given in a string.</p>
-    <p>Please use <b>try catch end</b> block instead than<b
+    <p>Please use <b>try catch end</b> block instead than <b
       >eval</b>, if you need to capture an error message for higher performance.</p>
   </description>
   <used_function />

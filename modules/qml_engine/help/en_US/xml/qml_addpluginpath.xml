@@ -18,7 +18,7 @@
     <p><b>qml_addpluginpath</b> adds<b
       >path</b> as a directory where the engine searches for native plugins.</p>
     <p>By default, the list contains only<b
-      >.</b>. The newly added path will be first in the<b
+      >.</b>. The newly added path will be first in the <b
       >qml_pluginpathlist</b>.</p>
   </description>
   <used_function />

@@ -43,11 +43,11 @@
       >hist</b>, elle organise les éléments du vecteur <b
       >Y</b> en 10 intervalles également espacés et fournit le nombre d'éléments dans chaque intervalle sous forme de vecteur ligne.</p>
     <p><b>hist(Y, x)</b> avec un vecteur<b
-      >x</b>, la fonction retourne la distribution des valeurs de<b
-      >Y</b> parmi des intervalles déterminés par la longueur de<b
+      >x</b>, la fonction retourne la distribution des valeurs de <b
+      >Y</b> parmi des intervalles déterminés par la longueur de <b
       >x</b>, avec des centres spécifiés par les valeurs de <b>x</b>.</p>
     <p>Par exemple, si <b>x</b> est un vecteur de 5 éléments,<b
-      >hist</b> classera les éléments de<b
+      >hist</b> classera les éléments de <b
       >Y</b> dans cinq intervalles, chacun centré sur l'axe des x aux valeurs spécifiées dans <b
       >x</b>.</p>
     <p>Lorsque vous utilisez <b

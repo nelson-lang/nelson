@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>csch</b> computes the hyperbolic cotangent for each element of<b
+    <p><b>csch</b> computes the hyperbolic cotangent for each element of <b
       >x</b>.</p>
   </description>
   <used_function />
