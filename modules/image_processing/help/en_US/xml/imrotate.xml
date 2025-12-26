@@ -39,7 +39,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>The<b
+    <p>The <b
       >imrotate</b> function rotates an image by the specified angle around its center point. The rotation is performed using the specified interpolation method.</p>
     <p
     >The function supports various image formats including grayscale and RGB color images. The output image maintains the same data type as the input image.</p>

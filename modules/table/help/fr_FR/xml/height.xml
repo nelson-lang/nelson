@@ -21,7 +21,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>H = height(T)</b> renvoie le nombre de lignes dans la table<b
+    <p><b>H = height(T)</b> renvoie le nombre de lignes dans la table <b
       >T</b>.</p>
     <p>La fonction <b>height(T)</b> est équivalente à<b
       >size(T, 1)</b>, qui fournit également le nombre de lignes de la table.</p>

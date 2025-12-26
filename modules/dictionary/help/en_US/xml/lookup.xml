@@ -33,7 +33,7 @@
     <p><b
       >value = lookup(d, key)</b> retrieves the value associated with the given key in dictionary d.</p>
     <p>If the key does not exist, an error is raised.</p>
-    <p><b>value = lookup(d, key)</b> is equivalent to<b>value = d[key]</b>.</p>
+    <p><b>value = lookup(d, key)</b> is equivalent to <b>value = d[key]</b>.</p>
     <p><b
       >value = lookup(d, key, 'FallbackValue', fallback)</b> specifies a fallback value to return if the key is not found in d.</p>
     <p><b

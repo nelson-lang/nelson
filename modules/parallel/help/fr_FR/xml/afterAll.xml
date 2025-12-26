@@ -36,8 +36,8 @@
     <p>La fonction <b
       >fcn</b> est automatiquement exécutée une fois que tous les éléments du tableau Future <b
       >F</b> sont terminés.</p>
-    <p>Si l'un des éléments de<b>F</b> rencontre une erreur, la propriété <b
-      >Error</b> de<b>B</b> contient l'erreur.</p>
+    <p>Si l'un des éléments de <b>F</b> rencontre une erreur, la propriété <b
+      >Error</b> de <b>B</b> contient l'erreur.</p>
   </description>
   <used_function />
   <bibliography />

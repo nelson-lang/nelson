@@ -123,7 +123,6 @@ disp(daspect('mode'))
         align="middle"
         generate="true"
       />
-
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
@@ -143,7 +142,6 @@ disp(d)
         align="middle"
         generate="true"
       />
-
     </example_item>
   </examples>
   <see_also>

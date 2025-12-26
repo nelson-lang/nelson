@@ -22,8 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>tf = isConfigured(d)</b> renvoie un logique<b
-      >true</b> si le dictionnaire spécifié est configuré, et un logique<b
+    <p><b>tf = isConfigured(d)</b> renvoie un logique <b
+      >true</b> si le dictionnaire spécifié est configuré, et un logique <b
       >false</b> s'il ne l'est pas.</p>
     <p
     >Un dictionnaire est considéré comme configuré lorsqu'il a des types assignés pour ses clés et ses valeurs. L'ajout d'entrées à un dictionnaire non configuré le configure.</p>

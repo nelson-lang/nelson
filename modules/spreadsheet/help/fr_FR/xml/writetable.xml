@@ -21,7 +21,7 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>writetable(T)</b> écrit la table<b
+    <p><b>writetable(T)</b> écrit la table <b
       >T</b> dans un fichier texte délimité par des virgules.</p>
     <p
     >Le nom de fichier est dérivé du nom de la variable de la table dans l'espace de travail, avec l'extension<code
@@ -33,7 +33,7 @@
     <ul>
       <li><b>Text files:</b> Each variable in<b
         >T</b> becomes a column, and variable names serve as column headers in the first line.</li>
-      <li><b>Fichiers XML :</b> chaque variable de<b
+      <li><b>Fichiers XML :</b> chaque variable de <b
         >T</b> devient un nœud XML, les noms de variables servant de noms d'éléments.</li>
     </ul>
     <p>Pour préciser explicitement le nom du fichier, utilisez <b
@@ -42,7 +42,7 @@
       <li><b>.txt</b>, <b>.dat</b>,<b>.csv</b> : fichiers texte délimités.</li>
       <li><b>.xml</b> : fichiers XML.</li>
     </ul>
-    <p><b>Additional options:</b> Use<b
+    <p><b>Additional options:</b> Use <b
       >writetable(..., Name, Value)</b> for customization:</p>
     <ul>
       <li><b
@@ -75,7 +75,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Examples demonstrating various usages of<b
+      <example_item_description>Examples demonstrating various usages of <b
         >writetable</b>.</example_item_description>
       <example_item_data
         runnable="cli"

@@ -18,9 +18,8 @@
     </param_input_item>
     <param_input_item>
       <param_name>dataType</param_name>
-      <param_description>
-        string or character vector: data type of output audio signal. Valid values: 'double' (default), 'single', 'int16', 'int8', 'uint8'.
-      </param_description>
+      <param_description
+      >string or character vector: data type of output audio signal. Valid values: 'double' (default), 'single', 'int16', 'int8', 'uint8'.        </param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -31,25 +30,15 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>
-      <b>getaudiodata</b> returns recorded audio data from an <b
-      >audiorecorder</b> object as a numeric array.
-    </p>
-    <p>
-      <b
-      >y = getaudiodata(recorder)</b> returns the audio data as a double array.
-    </p>
-    <p>
-      <b
-      >y = getaudiodata(recorder, dataType)</b> returns the audio data converted to the specified data type.
-    </p>
-    <p>
-      The number of columns in <b
-      >y</b> matches the number of channels in the recording (1 for mono, 2 for stereo).
-    </p>
-    <p>
-      The value range of <b>y</b> depends on <b>dataType</b>:
-    </p>
+    <p><b>getaudiodata</b> returns recorded audio data from an <b
+      >audiorecorder</b> object as a numeric array.      </p>
+    <p><b
+      >y = getaudiodata(recorder)</b> returns the audio data as a double array.      </p>
+    <p><b
+      >y = getaudiodata(recorder, dataType)</b> returns the audio data converted to the specified data type.      </p>
+    <p>The number of columns in <b
+      >y</b> matches the number of channels in the recording (1 for mono, 2 for stereo).      </p>
+    <p>The value range of <b>y</b> depends on <b>dataType</b>:      </p>
     <table>
       <tr>
         <th>Data Type</th>

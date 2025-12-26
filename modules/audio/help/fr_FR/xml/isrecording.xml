@@ -24,11 +24,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>
-      <b
+    <p><b
       >isrecording(recorder)</b> détermine si l'enregistrement est en cours pour l'objet <b
-      >audiorecorder</b> spécifié.
-    </p>
+      >audiorecorder</b> spécifié.      </p>
   </description>
   <used_function />
   <bibliography />

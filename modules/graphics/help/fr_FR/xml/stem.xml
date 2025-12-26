@@ -62,7 +62,7 @@
     <p><b>X</b> et<b
       >Y</b> peuvent être des vecteurs ou des matrices de même taille.</p>
     <p><b>X</b> peut être un vecteur ligne ou colonne, et<b
-      >Y</b> doit être une matrice ayant le même nombre de lignes que la longueur de<b
+      >Y</b> doit être une matrice ayant le même nombre de lignes que la longueur de <b
       >X</b>.</p>
     <p
     >Si vous souhaitez spécifier si le cercle à l'extrémité de chaque tige doit être rempli, vous pouvez utiliser <b

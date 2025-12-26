@@ -23,11 +23,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>
-      <b>getplayer(recorder)</b> creates the <b
+    <p><b>getplayer(recorder)</b> creates the <b
       >audioplayer</b> object associated with the specified <b
-      >audiorecorder</b> object.
-    </p>
+      >audiorecorder</b> object.      </p>
   </description>
   <used_function />
   <bibliography />

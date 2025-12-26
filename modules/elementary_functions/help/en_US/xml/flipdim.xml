@@ -24,9 +24,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>flipdim</b> return an new array of<b
+    <p><b>flipdim</b> return an new array of <b
       >A</b> flipped about the dimension <b>dim</b>.</p>
-    <p><b>flipdim</b> is similar to<b
+    <p><b>flipdim</b> is similar to <b
       >flip</b> and available for compatibility with old existing scripts.</p>
   </description>
   <used_function />

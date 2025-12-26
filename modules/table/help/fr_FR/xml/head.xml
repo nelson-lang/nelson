@@ -25,7 +25,7 @@
   </param_output>
   <description>
     <p><b
-      >head(A)</b> affiche les huit premières lignes d'un tableau, ou de la table<b
+      >head(A)</b> affiche les huit premières lignes d'un tableau, ou de la table <b
       >A</b> dans la fenêtre de commande sans l'assigner à une variable.</p>
     <p><b>head(A, k)</b> affiche les k premières lignes de A.</p>
     <p><b>B = head(...)</b> renvoie les lignes spécifiées de <b

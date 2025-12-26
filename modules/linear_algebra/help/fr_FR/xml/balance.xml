@@ -39,7 +39,7 @@
   </param_output>
   <description>
     <p><b>B = balance(A)</b> retourne la matrice équilibrée <b>B</b>.</p>
-    <p><b>B = balance(A, 'noperm')</b> met à l'échelle<b
+    <p><b>B = balance(A, 'noperm')</b> met à l'échelle <b
       >A</b> sans permuter ses lignes et colonnes.</p>
   </description>
   <used_function

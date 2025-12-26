@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>sech</b> computes the Hyperbolic secant for each element of<b
+    <p><b>sech</b> computes the Hyperbolic secant for each element of <b
       >x</b>.</p>
   </description>
   <used_function />

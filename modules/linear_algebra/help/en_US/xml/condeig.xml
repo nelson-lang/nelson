@@ -24,7 +24,7 @@
   </param_output>
   <description>
     <p><b
-      >C = condeig(A)</b> returns a vector of condition numbers for the eigenvalues of<b
+      >C = condeig(A)</b> returns a vector of condition numbers for the eigenvalues of <b
       >A</b>.</p>
   </description>
   <used_function />

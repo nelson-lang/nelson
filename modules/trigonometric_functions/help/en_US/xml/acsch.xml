@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description><b
-    >acsch</b> computes the inverse hyperbolic cosecant for each element of<b
+    >acsch</b> computes the inverse hyperbolic cosecant for each element of <b
     >x</b>.</description>
   <used_function />
   <bibliography />

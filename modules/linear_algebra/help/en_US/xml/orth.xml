@@ -27,7 +27,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>O = orth(A)</b> returns an orthonormal basis for the range of<b
+    <p><b>O = orth(A)</b> returns an orthonormal basis for the range of <b
       >A</b>.</p>
   </description>
   <used_function />

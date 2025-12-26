@@ -27,7 +27,7 @@
   </param_output>
   <description>
     <p><b
-      >ipermute</b> permute les dimensions d'un tableau (dans l'ordre inverse de<b
+      >ipermute</b> permute les dimensions d'un tableau (dans l'ordre inverse de <b
       >permute</b>).</p>
   </description>
   <used_function />

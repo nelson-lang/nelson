@@ -58,7 +58,7 @@
       >minreal</b> réduit les modèles d'état en éliminant les états non contrôlables ou non observables.</p>
     <p
     >Dans les fonctions de transfert ou modèles zéro‑pôle‑gain, il annule les paires pôles‑zéros. Le modèle résultant maintient les mêmes caractéristiques de réponse que le modèle original mais avec un ordre minimal.</p>
-    <p>Lorsque vous utilisez<b
+    <p>Lorsque vous utilisez <b
       >sysOut = minreal(sysIn, tol)</b>, vous pouvez personnaliser la tolérance pour l'élimination des états ou l'annulation des pôles-zéros.</p>
     <p
     >La tolérance par défaut est fixée à sqrt(eps), et l'augmentation de cette valeur entraîne des annulations plus agressives, simplifiant potentiellement davantage le modèle.</p>

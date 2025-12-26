@@ -30,7 +30,7 @@
   <description>
     <p><b>evalc</b> executes Nelson instructions given in a string.</p>
     <p>console display is redirected into a variable.</p>
-    <p>diary, more, and input are disabled when<b>evalc</b> is used.</p>
+    <p>diary, more, and input are disabled when <b>evalc</b> is used.</p>
   </description>
   <used_function />
   <bibliography />

@@ -41,28 +41,28 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>The function<b
+    <p>The function <b
       >gensig(type, tau)</b> creates a periodic signal with unit amplitude, characterized by the specified type and period.</p>
-    <p>The resulting signal, denoted as<b
+    <p>The resulting signal, denoted as <b
       >u</b>, and its corresponding time vector,<b
-      >t</b>, can be utilized for simulating the time response of a single-input dynamic system using<b
+      >t</b>, can be utilized for simulating the time response of a single-input dynamic system using <b
       >lsim</b>.</p>
     <p
-    >For multi-input systems, you can generate signals by making repeated calls to<b
-      >gensig</b> and then assemble the resulting<b
-      >u</b> vectors into a matrix. When simulating a dynamic system model with<b
-      >u</b> and <b>t</b>, note that the software interprets the time vector<b
+    >For multi-input systems, you can generate signals by making repeated calls to <b
+      >gensig</b> and then assemble the resulting <b
+      >u</b> vectors into a matrix. When simulating a dynamic system model with <b
+      >u</b> and <b>t</b>, note that the software interprets the time vector <b
       >t</b> with units based on the TimeUnit property of the model.</p>
-    <p>To generate a signal with a specific duration <b>Tf</b>, use<b
+    <p>To generate a signal with a specific duration <b>Tf</b>, use <b
       >[u, t] = gensig(type, tau, Tf)</b>.</p>
-    <p>The time vector <b>t</b> spans from 0 to<b>Tf</b> in increments of <b
+    <p>The time vector <b>t</b> spans from 0 to <b>Tf</b> in increments of <b
       >tau/64</b>.</p>
-    <p>For a signal with a defined sample time <b>Ts</b>, employ<b
+    <p>For a signal with a defined sample time <b>Ts</b>, employ <b
       >[u, t] = gensig(type, tau, Tf, Ts)</b>.</p>
-    <p>In this case, the time vector <b>t</b> ranges from 0 to<b
+    <p>In this case, the time vector <b>t</b> ranges from 0 to <b
       >Tf</b> in increments of <b>Ts</b>.</p>
     <p
-    >This syntax is particularly useful for generating signals tailored for discrete-time model simulations, where<b
+    >This syntax is particularly useful for generating signals tailored for discrete-time model simulations, where <b
       >Ts</b> corresponds to the sample time of the model.</p>
   </description>
   <examples>

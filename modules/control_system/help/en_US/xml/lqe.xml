@@ -55,7 +55,7 @@
   </param_output>
   <description>
     <p
-    >The function computes the optimal steady-state feedback gain matrix, denoted as<b
+    >The function computes the optimal steady-state feedback gain matrix, denoted as <b
       >L</b>, minimizing a quadratic cost function for a linear discrete state-space system model.</p>
   </description>
   <examples>

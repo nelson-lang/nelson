@@ -26,7 +26,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>[Z, gain] = zero(sys)</b> returns the zero-pole-gain of<b>sys</b>.</p>
+    <p><b>[Z, gain] = zero(sys)</b> returns the zero-pole-gain of <b
+      >sys</b>.</p>
   </description>
   <examples>
     <example_item>

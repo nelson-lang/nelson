@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>acot</b> computes the cotangent of angle for each element of<b
+    <p><b>acot</b> computes the cotangent of angle for each element of <b
       >x</b>.</p>
   </description>
   <used_function />

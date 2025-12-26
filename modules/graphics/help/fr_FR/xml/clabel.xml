@@ -50,7 +50,7 @@
       <param_name>tl</param_name>
       <param_description>
         <p
-        >Objets Text et ligne créés lorsque des marqueurs droits sont utilisés (pour l'utilisation de style<b
+        >Objets Text et ligne créés lorsque des marqueurs droits sont utilisés (pour l'utilisation de style <b
           >clabel(C)</b>).</p>
       </param_description>
     </param_output_item>

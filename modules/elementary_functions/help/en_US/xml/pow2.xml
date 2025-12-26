@@ -27,7 +27,7 @@
   </param_output>
   <description>
     <p><b>Y = pow2(E)</b> computes 2 to the power of <b>E</b>.</p>
-    <p><b>Y = pow2(X, E)</b> computes X times 2 to the power of<b>E</b>.</p>
+    <p><b>Y = pow2(X, E)</b> computes X times 2 to the power of <b>E</b>.</p>
   </description>
   <used_function />
   <bibliography />

@@ -71,7 +71,7 @@
     <param_output_item>
       <param_name>beta</param_name>
       <param_description
-      >détérminant ou sortie scalaire pour les familles qui le retournent explicitement (par exemple<b
+      >détérminant ou sortie scalaire pour les familles qui le retournent explicitement (par exemple <b
         >ipjfact</b> retourne le déterminant<code
         >beta</code>)</param_description>
     </param_output_item>

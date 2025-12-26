@@ -32,7 +32,7 @@
   </param_output>
   <description>
     <p><b
-      >TB = renamevars(TA, varsNames, newNames)</b> renomme les variables dans la table<b
+      >TB = renamevars(TA, varsNames, newNames)</b> renomme les variables dans la table <b
       >TA</b> telles que spécifiées par<b
       >varsNames</b> et leur assigne les nouveaux noms fournis dans<b
       >newNames</b>.</p>

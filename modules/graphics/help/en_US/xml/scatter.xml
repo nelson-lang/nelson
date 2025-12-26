@@ -78,7 +78,7 @@
           <b>AlphaData</b>
         </td>
         <td>Marker face transparency, 1 (default) or array the same size as <b
-          >                                        XData</b></td>
+          >XData</b></td>
       </tr>
       <tr>
         <td>
@@ -175,8 +175,8 @@
           <b>MarkerFaceAlpha</b>
         </td>
         <td
-        >Marker face transparency: scalar in range [0,1], 'flat or 1 (default). To assign distinct transparency values to the faces of each point in a plot, set the AlphaData property to a vector matching the size of the<b
-          >XData</b> property and set the<b>MarkerFaceAlpha</b> property to <b
+        >Marker face transparency: scalar in range [0,1], 'flat or 1 (default). To assign distinct transparency values to the faces of each point in a plot, set the AlphaData property to a vector matching the size of the <b
+          >XData</b> property and set the <b>MarkerFaceAlpha</b> property to <b
           >'flat'</b>.</td>
       </tr>
       <tr>

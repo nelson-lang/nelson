@@ -10,7 +10,7 @@
     <syntax_item>for variable, statements, end</syntax_item>
   </syntax>
   <description>
-    <p>La boucle<b
+    <p>La boucle <b
       >for</b> exécute un ensemble d'instructions avec une variable d'indice parcourant chaque élément d'un vecteur.</p>
     <p><b>parfor</b> est actuellement un alias du mot-clé <b>for</b>.</p>
   </description>

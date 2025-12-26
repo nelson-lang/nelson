@@ -30,8 +30,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>[T, B] = bdschur(A, CONDMAX)</b> calculates a transformation matrix<b
-      >T</b>, where<b
+    <p><b>[T, B] = bdschur(A, CONDMAX)</b> calculates a transformation matrix <b
+      >T</b>, where <b
       >B = T \ A * T</b> results in a block diagonal matrix with each block being a quasi upper-triangular Schur matrix, ensuring the diagonalization of matrix A while preserving certain structural properties.</p>
   </description>
   <used_function>MB03RD</used_function>

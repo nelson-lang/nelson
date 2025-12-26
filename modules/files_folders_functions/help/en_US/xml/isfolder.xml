@@ -22,7 +22,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>isfolder(dirname)</b> returns <b>true</b> if<b
+    <p><b>isfolder(dirname)</b> returns <b>true</b> if <b
       >dirname</b> is a directory.</p>
   </description>
   <used_function />

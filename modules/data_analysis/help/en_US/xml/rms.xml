@@ -18,10 +18,9 @@
   <param_input>
     <param_input_item>
       <param_name>x</param_name>
-      <param_description>
-        Input array, specified as a vector, matrix, or multidimensional array: single, double, logical, integer types<br
-        />
-      </param_description>
+      <param_description
+      >Input array, specified as a vector, matrix, or multidimensional array: single, double, logical, integer types <br
+        /></param_description>
     </param_input_item>
     <param_input_item>
       <param_name>dim</param_name>
@@ -30,9 +29,8 @@
     </param_input_item>
     <param_input_item>
       <param_name>'all'</param_name>
-      <param_description>
-        Operate on all elements of x, returning the RMS value of all elements.
-      </param_description>
+      <param_description
+      >Operate on all elements of x, returning the RMS value of all elements.        </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>type</param_name>
@@ -41,8 +39,8 @@
     </param_input_item>
     <param_input_item>
       <param_name>nanflag</param_name>
-      <param_description>
-        Missing value condition, specified as: 'includenan', 'includemissing', 'omitnan', 'omitmissing'</param_description>
+      <param_description
+      >Missing value condition, specified as: 'includenan', 'includemissing', 'omitnan', 'omitmissing'</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -64,20 +62,12 @@
           >y</b> contains the RMS values computed along the first array dimension whose size does not equal 1, unless another dimension is specified.</li>
       </ul>
     </p>
-    <p>
-      The root mean square value of an array x is:<br />
-        <latex
-      >\mathrm{RMS}(x) = \sqrt{ \frac{1}{N} \sum_{n=1}^{N} |x_n|^2 }</latex>
-      where the summation is performed along the specified dimension(s), and N is the number of elements along those dimensions.
-    </p>
-    <p>
-      <b
-      >NaN Handling:</b> By default, NaN values are included. Use 'omitnan' or 'omitmissing' to ignore NaNs.
-    </p>
-    <p>
-      <b>Type Handling:</b> If <b
-      >type</b> is 'native', the computation and output use the same class as the input (e.g., integer input returns integer output).
-    </p>
+    <p>The root mean square value of an array x is:<br /><latex
+      >\mathrm{RMS}(x) = \sqrt{ \frac{1}{N} \sum_{n=1}^{N} |x_n|^2 }</latex>where the summation is performed along the specified dimension(s), and N is the number of elements along those dimensions.      </p>
+    <p><b
+      >NaN Handling:</b> By default, NaN values are included. Use 'omitnan' or 'omitmissing' to ignore NaNs.      </p>
+    <p><b>Type Handling:</b> If <b
+      >type</b> is 'native', the computation and output use the same class as the input (e.g., integer input returns integer output).      </p>
   </description>
   <used_function />
   <bibliography />

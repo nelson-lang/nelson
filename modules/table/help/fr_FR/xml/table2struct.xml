@@ -22,16 +22,16 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>S = table2struct(T)</b> convertit la table<b
-      >T</b> en un tableau de structures <b>S</b>, où chaque variable de<b
+    <p><b>S = table2struct(T)</b> convertit la table <b
+      >T</b> en un tableau de structures <b>S</b>, où chaque variable de <b
       >T</b> est représentée comme un champ dans <b>S</b>.</p>
     <p>Si <b>T</b> est une table m-by-n,<b
       >S</b> sera un tableau de structures m-by-1 avec n champs.</p>
-    <p>La sortie<b
-      >S</b> ne contiendra pas les propriétés de table provenant de<b
+    <p>La sortie <b
+      >S</b> ne contiendra pas les propriétés de table provenant de <b
       >T.Properties</b>.</p>
-    <p><b>S = table2struct(T, "ToScalar", true)</b> convertit la table<b
-      >T</b> en une structure scalaire <b>S</b>, où chaque variable de<b
+    <p><b>S = table2struct(T, "ToScalar", true)</b> convertit la table <b
+      >T</b> en une structure scalaire <b>S</b>, où chaque variable de <b
       >T</b> devient un champ dans <b>S</b>.</p>
     <p>Si <b>T</b> est une table m-by-n,<b
       >S</b> contiendra n champs, et chaque champ aura m lignes.</p>

@@ -36,7 +36,7 @@
   </param_output>
   <description>
     <p><b>norm</b> computes the norm of a vector or a matrix.</p>
-    <p>Frobenius norm of M is equal to<b>sqrt (sum (diag (M' * M)))</b> .</p>
+    <p>Frobenius norm of M is equal to <b>sqrt (sum (diag (M' * M)))</b> .</p>
   </description>
   <used_function />
   <bibliography />

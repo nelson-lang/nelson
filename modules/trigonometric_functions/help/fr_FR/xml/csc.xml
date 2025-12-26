@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description><b
-    >csc</b> calcule la cosécante de l'argument en radians pour chaque élément de<b
+    >csc</b> calcule la cosécante de l'argument en radians pour chaque élément de <b
     >x</b>.</description>
   <used_function />
   <bibliography />

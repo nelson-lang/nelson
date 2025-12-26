@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description><b
-    >cotd</b> calcule la cotangente de l'argument en degrés pour chaque élément de<b
+    >cotd</b> calcule la cotangente de l'argument en degrés pour chaque élément de <b
     >x</b>.</description>
   <used_function />
   <bibliography />

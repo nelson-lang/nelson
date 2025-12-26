@@ -25,7 +25,7 @@
     </param_output_item>
   </param_output>
   <description><b
-    >ipermute</b> permutes the dimensions of an array (in inverse order of<b
+    >ipermute</b> permutes the dimensions of an array (in inverse order of <b
     >permute</b>).</description>
   <used_function />
   <bibliography />

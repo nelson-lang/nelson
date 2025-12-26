@@ -30,7 +30,7 @@
     <p><b
       >h = hour(t)</b> extrait la composante heures de chaque date et heure spécifiées dans<b
       >t</b>.</p>
-    <p>La sortie<b
+    <p>La sortie <b
       >h</b> est un tableau de double contenant des valeurs entières comprises entre 0 et 23.</p>
   </description>
   <used_function />

@@ -33,10 +33,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>The function<b
-      >sysc = d2c(sysd)</b> transforms a discrete-time dynamic system model<b
+    <p>The function <b
+      >sysc = d2c(sysd)</b> transforms a discrete-time dynamic system model <b
       >sysd</b> into a continuous-time model, employing zero-order hold on the inputs.</p>
-    <p>For instance, you can use<b
+    <p>For instance, you can use <b
       >sysc = d2c(sysd, method)</b> to explicitly define the conversion method.</p>
   </description>
   <examples>

@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description><b
-    >secd</b> calcule la sécante de l'argument en degrés pour chaque élément de<b
+    >secd</b> calcule la sécante de l'argument en degrés pour chaque élément de <b
     >x</b>.</description>
   <used_function />
   <bibliography />

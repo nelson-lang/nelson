@@ -25,7 +25,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>flipdim</b> renvoie un nouveau tableau de<b
+    <p><b>flipdim</b> renvoie un nouveau tableau de <b
       >A</b> inversé selon la dimension <b>dim</b>.</p>
     <p><b>flipdim</b> est similaire à<b
       >flip</b> et reste disponible pour compatibilité avec d'anciens scripts.</p>

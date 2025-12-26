@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description><b
-    >asec</b> calcule la sécante inverse de l'argument en radians pour chaque élément de<b
+    >asec</b> calcule la sécante inverse de l'argument en radians pour chaque élément de <b
     >x</b>.</description>
   <used_function />
   <bibliography />

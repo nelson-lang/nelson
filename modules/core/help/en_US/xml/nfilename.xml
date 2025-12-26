@@ -27,7 +27,7 @@
     >With the input argument 'fullpathext', the string includes the directory part of the macro filename, and the filename extension.</p>
     <p
     >With the input argument 'fullpath', the string includes the directory part of the macro filename, but not the extension.</p>
-    <p><b>mfilename</b> is an alias on<b
+    <p><b>mfilename</b> is an alias on <b
       >nfilename</b> added for basic script compatibility.</p>
   </description>
   <used_function />

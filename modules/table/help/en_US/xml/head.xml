@@ -23,10 +23,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>head(A)</b> displays the first eight rows of an array, or table<b
+    <p><b>head(A)</b> displays the first eight rows of an array, or table <b
       >A</b> in the Command Window without assigning it to a variable.</p>
     <p><b>head(A, k)</b> displays the first k rows of A.</p>
-    <p><b>B = head(...)</b> returns the specified rows of<b
+    <p><b>B = head(...)</b> returns the specified rows of <b
       >A</b> for any of the previous syntaxes, with<b
       >B</b> having the same data type as <b>A</b>.</p>
   </description>

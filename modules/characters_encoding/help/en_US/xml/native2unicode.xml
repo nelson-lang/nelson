@@ -30,7 +30,7 @@
     <p><b
       >str = native2unicode(bytes)</b> converts an uint8 vector to unicode characters (using the native character set of the machine).</p>
     <p><b
-      >str = native2unicode(bytes, charset)</b> converts an uint8 vector to unicode characters (character set<b
+      >str = native2unicode(bytes, charset)</b> converts an uint8 vector to unicode characters (character set <b
       >charset</b> instead of the native character set).</p>
     <p>List of characters set:<a
         href="https://www.iana.org/assignments/character-sets/character-sets.xhtml"

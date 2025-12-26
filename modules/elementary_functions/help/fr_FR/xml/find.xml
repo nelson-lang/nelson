@@ -53,7 +53,7 @@
   </param_output>
   <description>
     <p><b
-      >K = find(M)</b> renvoie un vecteur contenant les indices linéaires de chaque élément non nul de<b
+      >K = find(M)</b> renvoie un vecteur contenant les indices linéaires de chaque élément non nul de <b
       >M</b>.</p>
   </description>
   <used_function />

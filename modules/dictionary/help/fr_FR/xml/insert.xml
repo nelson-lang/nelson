@@ -36,7 +36,7 @@
   </param_output>
   <description>
     <p><b
-      >db = insert(da, key, value)</b> ajoute la paire clé-valeur au dictionnaire<b
+      >db = insert(da, key, value)</b> ajoute la paire clé-valeur au dictionnaire <b
       >da</b>.</p>
     <p>Si la clé existe déjà, sa valeur est mise à jour.</p>
     <p><b>d = insert(d, key, value)</b> équivaut à<b>d[key] = value</b>.</p>

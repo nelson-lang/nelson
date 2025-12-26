@@ -22,19 +22,13 @@
     </param_input_item>
   </param_input>
   <description>
-    <p>
-      <b
+    <p><b
       >record(recorderObj)</b> starts recording audio from an input device using the specified <b
-      >audiorecorder</b> object.
-    </p>
-    <p>
-      <b
-      >record(recorderObj, length)</b> records audio for the specified number of seconds.
-    </p>
-    <p>
-      The <b
-      >audiorecorder</b> object defines the sample rate, bit depth, and other properties of the recording.
-    </p>
+      >audiorecorder</b> object.      </p>
+    <p><b
+      >record(recorderObj, length)</b> records audio for the specified number of seconds.      </p>
+    <p>The <b
+      >audiorecorder</b> object defines the sample rate, bit depth, and other properties of the recording.      </p>
   </description>
   <used_function />
   <bibliography />

@@ -27,9 +27,9 @@
   <description>
     <p><b>tf = keyMatch(A, B)</b> renvoie <b>true</b> si les tableaux<b
       >A</b> et<b
-      >B</b> ont des classes, propriétés, dimensions et valeurs identiques, et renvoie<b
+      >B</b> ont des classes, propriétés, dimensions et valeurs identiques, et renvoie <b
       >false</b> sinon.</p>
-    <p>Pour les classes personnalisées, la surcharge de<b
+    <p>Pour les classes personnalisées, la surcharge de <b
       >keyMatch</b> peut être nécessaire pour assurer une équivalence précise.</p>
   </description>
   <used_function />

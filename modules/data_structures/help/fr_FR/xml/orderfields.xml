@@ -47,9 +47,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>S = orderfields(S1)</b> trie les champs de<b
+    <p><b>S = orderfields(S1)</b> trie les champs de <b
       >S1</b> par ordre alphabétique selon leurs noms, en considérant les majuscules avant les minuscules; les chiffres et underscores sont également pris en compte.</p>
-    <p><b>S = orderfields(S1,S2)</b> renvoie une copie de<b
+    <p><b>S = orderfields(S1,S2)</b> renvoie une copie de <b
       >S1</b> avec ses champs réorganisés pour correspondre à l'ordre des champs de <b
       >S2</b>. Les deux structures <b>S1</b> et <b
       >S2</b> doivent partager les mêmes noms de champs.</p>

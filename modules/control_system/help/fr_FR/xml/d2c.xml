@@ -33,8 +33,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>La fonction<b
-      >sysc = d2c(sysd)</b> transforme un modèle de système dynamique en temps discret<b
+    <p>La fonction <b
+      >sysc = d2c(sysd)</b> transforme un modèle de système dynamique en temps discret <b
       >sysd</b> en un modèle en temps continu, en utilisant un maintien d'ordre zéro sur les entrées.</p>
     <p>Par exemple, vous pouvez utiliser <b
       >sysc = d2c(sysd, method)</b> pour définir explicitement la méthode de conversion.</p>

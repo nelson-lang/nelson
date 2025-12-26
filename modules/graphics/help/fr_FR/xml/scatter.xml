@@ -60,7 +60,7 @@
       >scatter(x, y)</b> génère un nuage de points en plaçant des marqueurs circulaires aux coordonnées définies par les vecteurs <b
       >x</b> et<b>y</b>.</p>
     <p
-    >Si vous souhaitez afficher un seul ensemble de données, assurez-vous que<b
+    >Si vous souhaitez afficher un seul ensemble de données, assurez-vous que <b
       >x</b> et <b>y</b> sont des vecteurs de même longueur.</p>
     <p
     >Pour visualiser plusieurs ensembles de données sur un même axe, vous pouvez utiliser une matrice pour <b
@@ -164,7 +164,7 @@
           <b>MarkerEdgeAlpha</b>
         </td>
         <td
-        >Transparence du contour du marqueur : scalaire dans [0,1], 'flat' ou 1 (par défaut). Pour attribuer des valeurs de transparence distinctes aux contours de chaque point, définissez la propriété AlphaData comme un vecteur de la même taille que<b
+        >Transparence du contour du marqueur : scalaire dans [0,1], 'flat' ou 1 (par défaut). Pour attribuer des valeurs de transparence distinctes aux contours de chaque point, définissez la propriété AlphaData comme un vecteur de la même taille que <b
           >XData</b> et la propriété <b>MarkerEdgeAlpha</b> à<b>'flat'</b>.</td>
       </tr>
       <tr>
@@ -178,7 +178,7 @@
           <b>MarkerFaceAlpha</b>
         </td>
         <td
-        >Transparence du remplissage du marqueur : scalaire dans [0,1], 'flat' ou 1 (par défaut). Pour attribuer des valeurs de transparence distinctes aux faces de chaque point, définissez la propriété AlphaData comme un vecteur de la même taille que<b
+        >Transparence du remplissage du marqueur : scalaire dans [0,1], 'flat' ou 1 (par défaut). Pour attribuer des valeurs de transparence distinctes aux faces de chaque point, définissez la propriété AlphaData comme un vecteur de la même taille que <b
           >XData</b> et la propriété <b>MarkerFaceAlpha</b> à<b>'flat'</b>.</td>
       </tr>
       <tr>

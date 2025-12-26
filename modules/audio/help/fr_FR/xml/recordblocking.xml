@@ -22,14 +22,10 @@
     </param_input_item>
   </param_input>
   <description>
-    <p>
-      <b
-      >recordblocking(recorderObj, length)</b> enregistre l'audio à partir d'un périphérique d'entrée pendant le nombre de secondes spécifié. Cette méthode ne rend pas le contrôle tant que l'enregistrement n'est pas terminé.
-    </p>
-    <p>
-      L'objet <b
-      >audiorecorder</b> définit la fréquence d'échantillonnage, la profondeur en bits et d'autres propriétés de l'enregistrement.
-    </p>
+    <p><b
+      >recordblocking(recorderObj, length)</b> enregistre l'audio à partir d'un périphérique d'entrée pendant le nombre de secondes spécifié. Cette méthode ne rend pas le contrôle tant que l'enregistrement n'est pas terminé.      </p>
+    <p>        L'objet <b
+      >audiorecorder</b> définit la fréquence d'échantillonnage, la profondeur en bits et d'autres propriétés de l'enregistrement.      </p>
   </description>
   <used_function />
   <bibliography />

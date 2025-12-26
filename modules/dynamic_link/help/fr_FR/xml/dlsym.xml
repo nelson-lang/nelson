@@ -38,7 +38,7 @@
   <description>
     <p><b
       >dlsym</b> récupère l'adresse d'une fonction exportée en tant que handle dlsym.</p>
-    <p>Si le<b
+    <p>Si le <b
       >symbolname</b> n'est pas trouvé, Nelson tente de trouver des variantes du nom selon ces règles (dans cet ordre) :</p>
     <p>
       <b>_symbolname</b>

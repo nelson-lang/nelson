@@ -83,7 +83,7 @@
     <p><b
       >&lt;--GUI MODE--&gt;</b> This test will be executed by nelson-gui executable.</p>
     <p><b
-      >&lt;--CHECK REF--&gt;</b> This test will compare .ref available in same directory with output generated. see<b
+      >&lt;--CHECK REF--&gt;</b> This test will compare .ref available in same directory with output generated. see <b
       >test_makeref</b> to generate .ref file.</p>
     <p><b
       >&lt;--ENGLISH IMPOSED--&gt;</b> This test will be executed with the en_US language.</p>

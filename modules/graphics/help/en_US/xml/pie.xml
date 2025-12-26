@@ -40,19 +40,19 @@
   </param_output>
   <description>
     <p><b
-      >pie(X)</b> generates a pie chart based on the data in the array variable<b
+      >pie(X)</b> generates a pie chart based on the data in the array variable <b
       >X</b>.</p>
     <p>In cases where the sum of the elements in<b
       >X</b> is less than or equal to 1, the values in<b
       >X</b> directly represent the proportional areas of the pie slices.</p>
-    <p>If the sum of<b
+    <p>If the sum of <b
       >X</b> is less than 1, the pie chart displays only a partial pie.</p>
-    <p>Alternatively, if the sum of<b
-      >X</b> exceeds 1, the function normalizes the values by dividing each element by the sum of<b
+    <p>Alternatively, if the sum of <b
+      >X</b> exceeds 1, the function normalizes the values by dividing each element by the sum of <b
       >X</b>.</p>
     <p
     >This normalization ensures that the pie chart accurately reflects the relative proportions of the data.</p>
-    <p>In situations where<b
+    <p>In situations where <b
       >X</b> is a categorical variable, each slice of the pie corresponds to a category, and the area of each slice is determined by the ratio of the number of elements in the category to the total number of elements in<b
       >X</b>.</p>
   </description>

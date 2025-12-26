@@ -47,7 +47,7 @@
       >pyrun</b>, les variables générées dans l'espace Python par<b
       >pyrunfile</b> ne persistent pas. Ainsi, les appels suivants à<b
       >pyrunfile</b> ne pourront pas accéder à ces variables.</p>
-    <p>Le code<b
+    <p>Le code <b
       >outvars = pyrunfile(file, outputs, pyName1, pyValue2, ..., pyNameN, pyValueN)</b> exécute le code avec une ou plusieurs paires nom-valeur en entrée.</p>
     <p>Limitation connue :</p>
     <p>Les fonctions <b>pyrun</b> et<b

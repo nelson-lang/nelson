@@ -31,14 +31,14 @@
   </param_output>
   <description>
     <p>La fonction <b
-      >filter(b, a, x)</b> applique une fonction de transfert rationnelle pour filtrer le tableau de données d'entrée<b
+      >filter(b, a, x)</b> applique une fonction de transfert rationnelle pour filtrer le tableau de données d'entrée <b
       >x</b>.</p>
     <p
     >Cette fonction de transfert est définie par les coefficients du numérateur (<b
       >b</b>) et du dénominateur (<b>a</b>).</p>
-    <p>Si le premier coefficient de<b
+    <p>Si le premier coefficient de <b
       >a</b> (a(1)) est différent de 1, le filtre normalise les coefficients par a(1). Il est essentiel que a(1) soit non nul.</p>
-    <p>Lorsque<b
+    <p>Lorsque <b
       >x</b> est un vecteur, la fonction renvoie un vecteur de même taille contenant les données filtrées.</p>
   </description>
   <used_function />

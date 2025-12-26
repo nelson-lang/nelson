@@ -40,7 +40,7 @@
     <p><b>assert_istrue</b> raises an error if the input value is false.</p>
     <p
     >This function also raises an error if the input is not a logical value, ensuring type safety.</p>
-    <p>When the optional<b
+    <p>When the optional <b
       >err_msg</b> parameter is provided, it will be used as the error message instead of the default message when the assertion fails.</p>
     <p
     >This function is essential in unit testing to verify that conditions are true or that logical operations return the expected true result.</p>

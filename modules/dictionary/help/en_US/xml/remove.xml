@@ -26,7 +26,7 @@
   <description>
     <p><b
       >db = remove(da, key)</b> deletes the entry associated with the key from dictionary da.</p>
-    <p><b>d = remove(d, key)</b> is equivalent to<b>d[key] = []</b>.</p>
+    <p><b>d = remove(d, key)</b> is equivalent to <b>d[key] = []</b>.</p>
   </description>
   <used_function />
   <bibliography />

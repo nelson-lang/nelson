@@ -41,7 +41,7 @@
       >vecnorm</b> retourne la norme de chaque colonne.</p>
     <p>Pour les tableaux multidimensionnels, <b
       >vecnorm</b> retourne la norme le long de la première dimension du tableau dont la taille n'est pas égale à 1.</p>
-    <p>Pour calculer la norme p généralisée du vecteur, utilisez la syntaxe<b
+    <p>Pour calculer la norme p généralisée du vecteur, utilisez la syntaxe <b
       >N = vecnorm(A, p)</b>.</p>
     <p
     >Pour opérer le long d'une dimension spécifique dim, la fonction peut être appelée comme <b

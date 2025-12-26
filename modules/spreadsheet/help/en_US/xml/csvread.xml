@@ -40,7 +40,7 @@
       >R1</b> and<b
       >C1</b>. For example, R1=0, C1=0 indicates the first value in the file.</p>
     <p
-    >To set row and column offsets without defining a delimiter, use an empty character as a placeholder, like<b
+    >To set row and column offsets without defining a delimiter, use an empty character as a placeholder, like <b
       >M = csvread(filename, 3, 1)</b>.</p>
     <p><b
       >M = csvread(filename)</b> read a comma-separated value (CSV) formatted file into matrix<b

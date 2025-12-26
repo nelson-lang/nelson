@@ -65,7 +65,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>The<b
+    <p>The <b
       >imresize</b> function resizes an image by a specified scale factor or to a specified output size. It supports grayscale, RGB, binary images, as well as indexed images with colormaps.</p>
     <p
     >For numeric and logical images, the default interpolation method is 'bicubic'.</p>

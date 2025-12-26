@@ -28,7 +28,7 @@
   </param_output>
   <description>
     <p><b>nargout</b> returns the number of output arguments of an function.</p>
-    <p>If the last output argument of the function is<b
+    <p>If the last output argument of the function is <b
       >varargout</b> the returned value is negative.</p>
   </description>
   <used_function />

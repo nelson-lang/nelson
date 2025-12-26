@@ -28,8 +28,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>Y = fftn(X, sz)</b> complète <b>X</b> par des zéros ou tronque<b
-      >X</b> pour créer un tableau multidimensionnel de taille<b
+    <p><b>Y = fftn(X, sz)</b> complète <b>X</b> par des zéros ou tronque <b
+      >X</b> pour créer un tableau multidimensionnel de taille <b
       >sz</b> avant d'effectuer la transformée.</p>
     <p>La taille du résultat <b>Y</b> est <b>sz</b>.</p>
     <p><b

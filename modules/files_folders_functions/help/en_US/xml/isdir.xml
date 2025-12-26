@@ -22,7 +22,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>isdir(dirname)</b> returns <b>true</b> if<b
+    <p><b>isdir(dirname)</b> returns <b>true</b> if <b
       >dirname</b> is a directory.</p>
     <p><b>isdir</b> and <b>isfolder</b> are same.</p>
   </description>

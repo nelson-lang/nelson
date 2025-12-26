@@ -56,7 +56,7 @@
     <p><b
       >waterfall</b> creates a waterfall plot, which is a mesh plot with a partial curtain along the y dimension.</p>
     <p>This results in a 'waterfall' effect.</p>
-    <p>The function takes the same input arguments as the<b
+    <p>The function takes the same input arguments as the <b
       >mesh</b> function.</p>
   </description>
   <used_function />

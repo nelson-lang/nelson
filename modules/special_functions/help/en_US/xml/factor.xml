@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>f = factor(n)</b> returns a row vector with the prime factors of<b
+    <p><b>f = factor(n)</b> returns a row vector with the prime factors of <b
       >n</b>.</p>
     <p>Vector <b>f</b> is of the same data type as <b>n</b>.</p>
   </description>

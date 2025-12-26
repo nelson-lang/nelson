@@ -26,7 +26,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>dsort</b> organise les pôles en temps discret dans le vecteur<b
+    <p><b>dsort</b> organise les pôles en temps discret dans le vecteur <b
       >p</b> dans un ordre décroissant basé sur leur magnitude, les pôles instables prenant la priorité au début de la liste triée.</p>
   </description>
   <examples>

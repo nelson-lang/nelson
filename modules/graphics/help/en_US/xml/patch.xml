@@ -72,7 +72,7 @@
       >patch(..., PropertyName, PropertyValue, ...)</b> sets optional properties for the patch object using name-value pairs.</p>
     <p><b
       >patch('Faces', F, 'Vertices', V)</b> creates one or more polygons .</p>
-    <p><b>go = patch(...)</b> returns the handle<b
+    <p><b>go = patch(...)</b> returns the handle <b
       >go</b> to the created patch object.</p>
     <p>Property Name-Value Pairs:</p>
     <p />
@@ -96,7 +96,7 @@
     <p><b>'Parent'</b>: handle of the parent object for the patch. Default:<b
       >gca()</b>.</p>
     <p><b
-      >'Vertices'</b>: matrix of vertex coordinates. The matrix must have size N-by-2 or N-by-3, where N is the number of vertices. Default: the vertex coordinates are specified by the<b
+      >'Vertices'</b>: matrix of vertex coordinates. The matrix must have size N-by-2 or N-by-3, where N is the number of vertices. Default: the vertex coordinates are specified by the <b
       >X</b>, <b>Y</b>, and <b>Z</b> input arguments.</p>
     <p><b
       >CreateFcn</b> Callback (function handle, string or cell) called when object is created. Set this property on an existing component has no effect.</p>

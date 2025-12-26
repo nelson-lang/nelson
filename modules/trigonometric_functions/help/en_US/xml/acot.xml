@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description><b
-    >acot</b> computes the inverse cotangent of angle for each element of<b
+    >acot</b> computes the inverse cotangent of angle for each element of <b
     >x</b>.</description>
   <used_function />
   <bibliography />

@@ -25,7 +25,7 @@
     <p />
     <p
     >Dans certains cas, des commandes spécifiques dans le callback en cours invitent Nelson à traiter les callbacks en attente dans la file.</p>
-    <p>Lorsque Nelson rencontre l'une de ces commandes comme<b>drawnow</b>, <b
+    <p>Lorsque Nelson rencontre l'une de ces commandes comme <b>drawnow</b>, <b
       >figure</b>, <b>waitfor</b> ou<b
       >pause</b>, il évalue si une interruption doit avoir lieu.</p>
     <p />

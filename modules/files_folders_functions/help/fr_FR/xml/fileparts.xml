@@ -21,17 +21,17 @@
   <param_output>
     <param_output_item>
       <param_name>p</param_name>
-      <param_description>a string: chemin du répertoire de<b
+      <param_description>a string: chemin du répertoire de <b
         >fullpath</b>.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>f</param_name>
-      <param_description>a string: nom de fichier sans extension de<b
+      <param_description>a string: nom de fichier sans extension de <b
         >fullpath</b>.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>e</param_name>
-      <param_description>a string: extension de<b
+      <param_description>a string: extension de <b
         >fullpath</b>.</param_description>
     </param_output_item>
   </param_output>

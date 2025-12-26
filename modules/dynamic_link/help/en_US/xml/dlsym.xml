@@ -38,7 +38,7 @@
   <description>
     <p><b
       >dlsym</b> retrieves the address of an exported function as an dlsym handle.</p>
-    <p>if<b
+    <p>if <b
       >symbolname</b> not found, nelson try to find symbol equivalent based on these rules and in this order:</p>
     <p>
       <b>_symbolname</b>

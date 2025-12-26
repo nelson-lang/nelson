@@ -27,7 +27,7 @@
   </param_output>
   <description>
     <p><b
-      >p = randperm(n)</b> returns a row vector containing a random permutation of<b
+      >p = randperm(n)</b> returns a row vector containing a random permutation of <b
       >1:n</b>.</p>
   </description>
   <used_function />

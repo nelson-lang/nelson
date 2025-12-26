@@ -34,7 +34,7 @@
   </param_input>
   <description>
     <p><b>audiowrite</b> writes an audio file.</p>
-    <p>More than 26 files format supported. See<b
+    <p>More than 26 files format supported. See <b
       >audiosupportedformats</b> function to have all supported formats.</p>
   </description>
   <used_function />

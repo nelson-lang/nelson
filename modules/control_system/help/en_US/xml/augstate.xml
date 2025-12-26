@@ -22,7 +22,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>The function<b
+    <p>The function <b
       >sysa = augstate(sys)</b> adds the state vector to the outputs of a state-space model.</p>
   </description>
   <examples>
