@@ -19,11 +19,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `getplayer`: Create associated audioplayer object.
 - `TimerFcn`, `StartFcn`, `StopFcn` callbacks for audioplayer, audiorecorder.
 - `rms`: Root Mean Square (RMS) of array elements.
+- `daspect`: Control data unit length along each axis.
+- `pbaspect`: Control relative lengths of each axis.
 
 ### Changed
 
 - advanced terminal read line: `linenoise` replaced by `replxx` library.
 - autocomplete functionality has been upgraded in the advanced command-line terminal.
+- enhance axis limit handling and normalization for axis, `DataAspectRatio` improved.
 
 ### Fixed
 

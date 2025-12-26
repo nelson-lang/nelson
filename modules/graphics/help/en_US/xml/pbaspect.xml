@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>graphics</module_name>
+  <keyword>pbaspect</keyword>
+  <short_description
+  >Control relative lengths of each axis in the plot box.</short_description>
+  <syntax>
+    <syntax_item>pbaspect(ratio)</syntax_item>
+    <syntax_item>pb = pbaspect()</syntax_item>
+    <syntax_item>pbaspect('auto')</syntax_item>
+    <syntax_item>pbaspect('manual')</syntax_item>
+    <syntax_item>m = pbaspect('mode')</syntax_item>
+    <syntax_item>pbaspect(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ratio</param_name>
+      <param_description>
+        <p
+        >Three-element vector of positive values specifying the relative lengths of the x, y, and z axes in the plot box.</p>
+      </param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'auto'</param_name>
+      <param_description>
+        <p>Set the plot box aspect ratio mode to automatic.</p>
+      </param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'manual'</param_name>
+      <param_description>
+        <p>Set the plot box aspect ratio mode to manual.</p>
+      </param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'mode'</param_name>
+      <param_description>
+        <p
+        >Query the current plot box aspect ratio mode ('auto' or 'manual').</p>
+      </param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>
+        <p>Target axes object. If not specified, uses current axes.</p>
+      </param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>pb</param_name>
+      <param_description>
+        <p
+        >Three-element vector representing the current plot box aspect ratio.</p>
+      </param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>m</param_name>
+      <param_description>
+        <p>Current plot box aspect ratio mode: 'auto' or 'manual'.</p>
+      </param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >pbaspect</b> controls the relative lengths of the x, y, and z axes in the plot box.</p>
+    <p><b
+      >pbaspect(ratio)</b> sets the plot box aspect ratio for the current axes. <b
+      >ratio</b> is a three-element vector of positive values. For example, [3 1 1] means the x-axis is three times as long as the y- and z-axes.</p>
+    <p><b
+      >pb = pbaspect()</b> returns the current plot box aspect ratio as a three-element vector.</p>
+    <p><b
+      >pbaspect('auto')</b> sets the plot box aspect ratio mode to automatic, enabling the axes to choose the ratio.</p>
+    <p><b
+      >pbaspect('manual')</b> sets the mode to manual and uses the ratio stored in the axes.</p>
+    <p><b
+      >m = pbaspect('mode')</b> returns the current mode, either 'auto' or 'manual'.</p>
+    <p><b>pbaspect(ax, ...)</b> operates on the axes specified by <b
+      >ax</b> instead of the current axes.</p>
+    <p
+    >Setting the plot box aspect ratio disables the stretch-to-fill behavior of the axes.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_description
+      >Use equal axis lengths</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+x = linspace(0,10,100);
+y = sin(x);
+plot(x, y)
+pbaspect([1 1 1])
+]]></example_item_data>
+      <example_item_img
+        src="../../images/pbaspect_1.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_description
+      >Use different axis lengths</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+[x, y] = meshgrid(-2:0.2:2);
+z = x .* exp(-x.^2 - y.^2);
+surf(x, y, z)
+pbaspect([2 1 1])
+disp(pbaspect('mode'))
+]]></example_item_data>
+      <example_item_img
+        src="../../images/pbaspect_2.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_description
+      >Revert back to default plot box aspect ratio</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+X = rand(100,1);
+Y = rand(100,1);
+Z = rand(100,1);
+scatter3(X, Y, Z)
+pbaspect([3 2 1])
+pbaspect('auto')
+]]></example_item_data>
+      <example_item_img
+        src="../../images/pbaspect_3.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_description
+      >Query plot box aspect ratio</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+[x, y] = meshgrid(-2:0.2:2);
+z = x .* exp(-x.^2 - y.^2);
+surf(x, y, z)
+pb = pbaspect()
+disp(pb)
+]]></example_item_data>
+      <example_item_img
+        src="../../images/pbaspect_4.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_description
+      >Set plot box aspect ratio for specific axes object</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = figure();
+ax1 = subplot(2, 1, 1);
+plot(ax1, 1:10)
+ax2 = subplot(2, 1, 2);
+plot(ax2, 1:10)
+pbaspect(ax2, [2 2 1])
+]]></example_item_data>
+      <example_item_img
+        src="../../images/pbaspect_5.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}daspect">daspect</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}axis">axis</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}xlim">xlim</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}ylim">ylim</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}zlim">zlim</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

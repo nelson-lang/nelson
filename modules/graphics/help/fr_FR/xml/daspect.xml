@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>daspect</keyword>
+  <short_description
+  >Contrôler la longueur des unités de données le long de chaque axe.</short_description>
+  <syntax>
+    <syntax_item>daspect(ratio)</syntax_item>
+    <syntax_item>d = daspect()</syntax_item>
+    <syntax_item>daspect('auto')</syntax_item>
+    <syntax_item>daspect('manual')</syntax_item>
+    <syntax_item>m = daspect('mode')</syntax_item>
+    <syntax_item>daspect(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ratio</param_name>
+      <param_description
+      >Vecteur à trois éléments de valeurs positives spécifiant les longueurs relatives des unités de données le long des axes x, y et z.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'auto'</param_name>
+      <param_description
+      >Définir le mode du rapport d'aspect des données sur automatique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'manual'</param_name>
+      <param_description
+      >Définir le mode du rapport d'aspect des données sur manuel.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'mode'</param_name>
+      <param_description
+      >Interroger le mode actuel du rapport d'aspect des données ('auto' ou 'manual').</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description
+      >Objet des axes cibles. Si non spécifié, utilise les axes actuels.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>d</param_name>
+      <param_description
+      >Three-element vector representing the current data aspect ratio.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>m</param_name>
+      <param_description
+      >Mode actuel du rapport d'aspect des données : 'auto' ou 'manual'.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >daspect</b> contrôle les longueurs relatives des unités de données le long des axes x, y et z.</p>
+    <p><b
+      >daspect(ratio)</b> définit le rapport d'aspect des données pour les axes actuels. <b
+      >ratio</b> est un vecteur à trois éléments de valeurs positives. Par exemple, [1 2 3] signifie que la longueur de 0 à 1 le long de l'axe x est égale à la longueur de 0 à 2 le long de l'axe y et de 0 à 3 le long de l'axe z.</p>
+    <p><b
+      >d = daspect()</b> renvoie le rapport d'aspect des données actuel sous forme de vecteur à trois éléments.</p>
+    <p><b
+      >daspect('auto')</b> définit le mode du rapport d'aspect des données sur automatique, permettant aux axes de choisir le rapport.</p>
+    <p><b
+      >daspect('manual')</b> définit le mode sur manuel et utilise le rapport stocké dans les axes.</p>
+    <p><b
+      >m = daspect('mode')</b> renvoie le mode actuel, soit 'auto' soit 'manual'.</p>
+    <p><b>daspect(ax, ...)</b> agit sur les axes spécifiés par <b
+      >ax</b> au lieu des axes actuels.</p>
+    <p
+    >Définir le rapport d'aspect des données désactive le comportement d'étirement pour remplir les axes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      > Étirez X par rapport à Y</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+plot(-5:5, (-5:5).^2)
+daspect([2 1 1])]]></example_item_data>
+      <example_item_img
+        src="../../images/daspect_1.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Définir des longueurs d'unités de données différentes pour chaque axe</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+sphere(40);
+daspect([2 1 0.5]) 
+]]></example_item_data>
+      <example_item_img
+        src="../../images/daspect_2.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Basculer entre les modes de rapport d'aspect manuel et automatique</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+[X, Y, Z] = sphere(30);
+surf(X, Y, Z)
+daspect([2 1 1])
+disp(daspect('mode'))
+daspect('auto')
+disp(daspect('mode'))
+]]></example_item_data>
+      <example_item_img
+        src="../../images/daspect_3.svg"
+        align="middle"
+        generate="true"
+      />
+
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Interroger le rapport d'aspect des données actuel</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+[x, y] = meshgrid(-2:0.2:2);
+z = x .* exp(-x.^2 - y.^2);
+surf(x, y, z)
+d = daspect()
+disp(d)
+]]></example_item_data>
+      <example_item_img
+        src="../../images/daspect_4.svg"
+        align="middle"
+        generate="true"
+      />
+
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}pbaspect">pbaspect</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}axis">axis</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}xlim">xlim</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}ylim">ylim</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}zlim">zlim</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

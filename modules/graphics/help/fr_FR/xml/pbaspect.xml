@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>graphics</module_name>
+  <keyword>pbaspect</keyword>
+  <short_description
+  >Contrôler les longueurs relatives de chaque axe dans la boîte de tracé.</short_description>
+  <syntax>
+    <syntax_item>pbaspect(ratio)</syntax_item>
+    <syntax_item>pb = pbaspect()</syntax_item>
+    <syntax_item>pbaspect('auto')</syntax_item>
+    <syntax_item>pbaspect('manual')</syntax_item>
+    <syntax_item>m = pbaspect('mode')</syntax_item>
+    <syntax_item>pbaspect(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ratio</param_name>
+      <param_description>
+        <p
+        >Vecteur à trois éléments de valeurs positives spécifiant les longueurs relatives des axes x, y et z dans la boîte de tracé.</p>
+      </param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'auto'</param_name>
+      <param_description>
+        <p
+        >Définir le mode du rapport d'aspect de la boîte de tracé sur automatique.</p>
+      </param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'manual'</param_name>
+      <param_description>
+        <p
+        >Définir le mode du rapport d'aspect de la boîte de tracé sur manuel.</p>
+      </param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'mode'</param_name>
+      <param_description>
+        <p
+        >Interroger le mode actuel du rapport d'aspect de la boîte de tracé ('auto' ou 'manual').</p>
+      </param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>
+        <p>Objet des axes cibles. Si non spécifié, utilise les axes actuels.</p>
+      </param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>pb</param_name>
+      <param_description>
+        <p
+        >Vecteur à trois éléments représentant le rapport d'aspect actuel de la boîte de tracé.</p>
+      </param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>m</param_name>
+      <param_description>
+        <p
+        >Mode actuel du rapport d'aspect de la boîte de tracé : 'auto' ou 'manual'.</p>
+      </param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >pbaspect</b> contrôle les longueurs relatives des axes x, y et z dans la boîte de tracé.</p>
+    <p><b
+      >pbaspect(ratio)</b> définit le rapport d'aspect de la boîte de tracé pour les axes actuels. <b
+      >ratio</b> est un vecteur à trois éléments de valeurs positives. Par exemple, [3 1 1] signifie que l'axe x est trois fois plus long que les axes y et z.</p>
+    <p><b
+      >pb = pbaspect()</b> renvoie le rapport d'aspect actuel de la boîte de tracé sous forme de vecteur à trois éléments.</p>
+    <p><b
+      >pbaspect('auto')</b> définit le mode du rapport d'aspect de la boîte de tracé sur automatique, permettant aux axes de choisir le rapport.</p>
+    <p><b
+      >pbaspect('manual')</b> définit le mode sur manuel et utilise le rapport stocké dans les axes.</p>
+    <p><b
+      >m = pbaspect('mode')</b> renvoie le mode actuel, soit 'auto' soit 'manual'.</p>
+    <p><b>pbaspect(ax, ...)</b> agit sur les axes spécifiés par <b
+      >ax</b> au lieu des axes actuels.</p>
+    <p
+    >Définir le rapport d'aspect de la boîte de tracé désactive le comportement d'étirement pour remplir les axes.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_description
+      >Utiliser des longueurs d'axes égales</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+x = linspace(0,10,100);
+y = sin(x);
+plot(x, y)
+pbaspect([1 1 1])
+]]></example_item_data>
+      <example_item_img
+        src="../../images/pbaspect_1.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_description
+      >Utiliser des longueurs d'axes différentes</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+[x, y] = meshgrid(-2:0.2:2);
+z = x .* exp(-x.^2 - y.^2);
+surf(x, y, z)
+pbaspect([2 1 1])
+disp(pbaspect('mode'))
+]]></example_item_data>
+      <example_item_img
+        src="../../images/pbaspect_2.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_description
+      >Revenir au rapport d'aspect par défaut de la boîte de tracé</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+X = rand(100,1);
+Y = rand(100,1);
+Z = rand(100,1);
+scatter3(X, Y, Z)
+pbaspect([3 2 1])
+pbaspect('auto')
+]]></example_item_data>
+      <example_item_img
+        src="../../images/pbaspect_3.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_description
+      >Interroger le rapport d'aspect de la boîte de tracé</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+[x, y] = meshgrid(-2:0.2:2);
+z = x .* exp(-x.^2 - y.^2);
+surf(x, y, z)
+pb = pbaspect()
+disp(pb)
+]]></example_item_data>
+      <example_item_img
+        src="../../images/pbaspect_4.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_description
+      >Définir le rapport d'aspect de la boîte de tracé pour un objet axes spécifique</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = figure();
+ax1 = subplot(2, 1, 1);
+plot(ax1, 1:10)
+ax2 = subplot(2, 1, 2);
+plot(ax2, 1:10)
+pbaspect(ax2, [2 2 1])
+]]></example_item_data>
+      <example_item_img
+        src="../../images/pbaspect_5.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}daspect">daspect</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}axis">axis</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}xlim">xlim</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}ylim">ylim</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}zlim">zlim</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

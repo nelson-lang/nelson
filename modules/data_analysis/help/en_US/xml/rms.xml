@@ -66,10 +66,8 @@
     </p>
     <p>
       The root mean square value of an array x is:<br />
-      <center>
         <latex
-        >\mathrm{RMS}(x) = \sqrt{ \frac{1}{N} \sum_{n=1}^{N} |x_n|^2 }</latex>
-      </center>
+      >\mathrm{RMS}(x) = \sqrt{ \frac{1}{N} \sum_{n=1}^{N} |x_n|^2 }</latex>
       where the summation is performed along the specified dimension(s), and N is the number of elements along those dimensions.
     </p>
     <p>

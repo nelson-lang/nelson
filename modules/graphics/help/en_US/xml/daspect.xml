@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>daspect</keyword>
+  <short_description
+  >Control data unit length along each axis.</short_description>
+  <syntax>
+    <syntax_item>daspect(ratio)</syntax_item>
+    <syntax_item>d = daspect()</syntax_item>
+    <syntax_item>daspect('auto')</syntax_item>
+    <syntax_item>daspect('manual')</syntax_item>
+    <syntax_item>m = daspect('mode')</syntax_item>
+    <syntax_item>daspect(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ratio</param_name>
+      <param_description
+      >Three-element vector of positive values specifying the relative lengths of data units along the x, y, and z axes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'auto'</param_name>
+      <param_description
+      >Set the data aspect ratio mode to automatic.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'manual'</param_name>
+      <param_description
+      >Set the data aspect ratio mode to manual.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'mode'</param_name>
+      <param_description
+      >Query the current data aspect ratio mode ('auto' or 'manual').</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description
+      >Target axes object. If not specified, uses current axes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>d</param_name>
+      <param_description
+      >Three-element vector representing the current data aspect ratio.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>m</param_name>
+      <param_description
+      >Current data aspect ratio mode: 'auto' or 'manual'.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >daspect</b> controls the relative lengths of data units along the x, y, and z axes.</p>
+    <p><b>daspect(ratio)</b> sets the data aspect ratio for the current axes. <b
+      >ratio</b> is a three-element vector of positive values. For example, [1 2 3] means the length from 0 to 1 along the x-axis equals the length from 0 to 2 along the y-axis and 0 to 3 along the z-axis.</p>
+    <p><b
+      >d = daspect()</b> returns the current data aspect ratio as a three-element vector.</p>
+    <p><b
+      >daspect('auto')</b> sets the data aspect ratio mode to automatic, enabling the axes to choose the ratio.</p>
+    <p><b
+      >daspect('manual')</b> sets the mode to manual and uses the ratio stored in the axes.</p>
+    <p><b
+      >m = daspect('mode')</b> returns the current mode, either 'auto' or 'manual'.</p>
+    <p><b>daspect(ax, ...)</b> operates on the axes specified by <b
+      >ax</b> instead of the current axes.</p>
+    <p
+    >Setting the data aspect ratio disables the stretch-to-fill behavior of the axes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >stretch X relative to Y</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+plot(-5:5, (-5:5).^2)
+daspect([2 1 1])]]></example_item_data>
+      <example_item_img
+        src="../../images/daspect_1.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Set different data unit lengths for each axis</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+sphere(40);
+daspect([2 1 0.5]) 
+]]></example_item_data>
+      <example_item_img
+        src="../../images/daspect_2.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Switch between manual and auto aspect ratio modes</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+[X, Y, Z] = sphere(30);
+surf(X, Y, Z)
+daspect([2 1 1])
+disp(daspect('mode'))
+daspect('auto')
+disp(daspect('mode'))
+]]></example_item_data>
+      <example_item_img
+        src="../../images/daspect_3.svg"
+        align="middle"
+        generate="true"
+      />
+
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Query the current data aspect ratio</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+[x, y] = meshgrid(-2:0.2:2);
+z = x .* exp(-x.^2 - y.^2);
+surf(x, y, z)
+d = daspect()
+disp(d)
+]]></example_item_data>
+      <example_item_img
+        src="../../images/daspect_4.svg"
+        align="middle"
+        generate="true"
+      />
+
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}pbaspect">pbaspect</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}axis">axis</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}xlim">xlim</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}ylim">ylim</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}zlim">zlim</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
