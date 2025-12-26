@@ -9,33 +9,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Support for Windows on ARM64, including build and installer.
-- `onCleanup`: Code executed during function shutdown.
-- [#188](https://github.com/nelson-lang/nelson/issues/188) `audiorecorder`: Object for recording audio.
-- `getaudiodata`: Store recorded audio signal in numeric array.
-- `isrecording`: Determine if recording is in progress.
-- `record`: Record audio to audiorecorder object.
-- `recordblocking`: Record audio and block until complete.
-- `getplayer`: Create associated audioplayer object.
-- `TimerFcn`, `StartFcn`, `StopFcn` callbacks for audioplayer, audiorecorder.
-- `rms`: Root Mean Square (RMS) of array elements.
-- `daspect`: Control data unit length along each axis.
-- `pbaspect`: Control relative lengths of each axis.
+- Windows ARM64 support: build and installer available.
+- `onCleanup`: Execute code during function shutdown.
+- [#188](https://github.com/nelson-lang/nelson/issues/188) `audiorecorder`: Record audio.
+- `getaudiodata`: Retrieve recorded audio as a numeric array.
+- `isrecording`: Check if audio recording is in progress.
+- `record`: Record audio to an `audiorecorder` object.
+- `recordblocking`: Record audio and block until completion.
+- `getplayer`: Create an associated `audioplayer` object.
+- `TimerFcn`, `StartFcn`, `StopFcn` callbacks for `audioplayer` and `audiorecorder`.
+- `rms`: Compute root mean square of array elements.
+- `daspect`: Set data unit length along each axis.
+- `pbaspect`: Set relative axis lengths.
 
 ### Changed
 
-- advanced terminal read line: `linenoise` replaced by `replxx` library.
-- autocomplete functionality has been upgraded in the advanced command-line terminal.
-- enhance axis limit handling and normalization for axis, `DataAspectRatio` improved.
+- Advanced terminal: `linenoise` replaced by `replxx` for improved line editing.
+- Autocomplete: Upgraded functionality in advanced command-line terminal.
+- Axis handling: Enhanced axis limit normalization and improved `DataAspectRatio`.
 
 ### Fixed
 
-- [#1494](https://github.com/nelson-lang/nelson/issues/1494) in adv-cli mode, pasting long lines causes character duplication.
-- [#1493](https://github.com/nelson-lang/nelson/issues/1493) doc funtion no more work on nelson cloud with 1.15.0.
-- [#1492](https://github.com/nelson-lang/nelson/issues/1492) Temporary message appears when help for toolbox is generated.
-- blas, openblas detection in example `run([modulepath('dynamic_link'), '/examples/call_fortran.m'])` on some linux.
-- `imresize` did not support scalar string array as input arguments.
-- [#1505](https://github.com/nelson-lang/nelson/issues/1505) update CMake 4.2 and ICU 78.1 on Windows
+- [#1494](https://github.com/nelson-lang/nelson/issues/1494): In advanced CLI mode, pasting long lines no longer causes character duplication.
+- [#1493](https://github.com/nelson-lang/nelson/issues/1493): `doc` function works again on Nelson Cloud (regression in 1.15.0).
+- [#1492](https://github.com/nelson-lang/nelson/issues/1492): Temporary message removed when generating toolbox help.
+- BLAS/OpenBLAS detection improved in example `run([modulepath('dynamic_link'), '/examples/call_fortran.m'])` on some Linux systems.
+- `imresize`: Now supports scalar string arrays as input arguments.
+- [#1505](https://github.com/nelson-lang/nelson/issues/1505): Updated CMake to 4.2 and ICU to 78.1 on Windows
 
 ## 1.15.0 - (2025-11-21)
 
