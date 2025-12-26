@@ -1346,71 +1346,201 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
 void
 GOAxis::handlePlotBoxFlags()
 {
+    // Get axis limit modes
     bool xflag = isAuto(GO_X_LIM_MODE_PROPERTY_NAME_STR);
     bool yflag = isAuto(GO_Y_LIM_MODE_PROPERTY_NAME_STR);
     bool zflag = isAuto(GO_Z_LIM_MODE_PROPERTY_NAME_STR);
 
-    bool axesauto = xflag && yflag && zflag;
     bool darauto = isAuto(GO_DATA_ASPECT_RATIO_MODE_PROPERTY_NAME_STR);
     bool pbaauto = isAuto(GO_PLOT_BOX_ASPECT_RATIO_MODE_PROPERTY_NAME_STR);
-    bool onemanual
-        = (!xflag && yflag && zflag) || (xflag && !yflag && zflag) || (xflag && yflag && !zflag);
 
+    // Get current view to determine 2D vs 3D
+    double azimuth, elevation;
+    getView(azimuth, elevation);
+    bool is2D = (elevation == 90);
+
+    // Get axis limits and ranges
     std::vector<double> limits(getAxisLimits());
-    double xrange = limits[1] - limits[0];
-    double yrange = limits[3] - limits[2];
-    double zrange = limits[5] - limits[4];
-    double minrange = std::min(xrange, std::min(yrange, zrange));
-    double maxrange = std::max(xrange, std::max(yrange, zrange));
-    std::vector<double> pba(findVectorDoubleProperty(GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR));
-    double xratio = pba[0];
-    double yratio = pba[1];
-    double zratio = pba[2];
-    double minratio = std::min(xratio, std::min(yratio, zratio));
-    xratio /= minratio;
-    yratio /= minratio;
-    zratio /= minratio;
-    std::vector<double> dar(findVectorDoubleProperty(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR));
-    double xscale = dar[0];
-    double yscale = dar[1];
-    double zscale = dar[2];
-    double minscale = std::min(xscale, std::min(yscale, zscale));
-    xscale /= minscale;
-    yscale /= minscale;
-    zscale /= minscale;
+    double dx = limits[1] - limits[0];
+    double dy = limits[3] - limits[2];
+    double dz = limits[5] - limits[4];
 
-    if (darauto && pbaauto) {
-        setThreeVectorDefault(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR, 1, 1, 1);
-        setThreeVectorDefault(GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR, xrange / minrange,
-            yrange / minrange, zrange / minrange);
-    } else if (darauto && !pbaauto) {
-        setThreeVectorDefault(GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR, xratio, yratio, zratio);
-        setThreeVectorDefault(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR, xrange / xratio,
-            yrange / yratio, zrange / zratio);
-    } else if (!darauto && pbaauto) {
-        setThreeVectorDefault(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR, xscale, yscale, zscale);
-    } else {
-        if (axesauto) {
-            rerange(limits[0], limits[1], xratio / xscale * maxrange);
-            rerange(limits[2], limits[3], yratio / yscale * maxrange);
-            rerange(limits[4], limits[5], zratio / zscale * maxrange);
+    // Ensure positive ranges
+    if (!(dx > 0))
+        dx = 1.0;
+    if (!(dy > 0))
+        dy = 1.0;
+    if (!(dz > 0))
+        dz = 1.0;
+
+    // Get aspect ratios
+    std::vector<double> dar(findVectorDoubleProperty(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR));
+    std::vector<double> pba(findVectorDoubleProperty(GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR));
+
+    // Helper to normalize aspect ratios
+    auto normalizeAspectRatio = [](std::vector<double>& aspect) {
+        double minv = std::min(
+            { std::max(aspect[0], 1e-12), std::max(aspect[1], 1e-12), std::max(aspect[2], 1e-12) });
+        if (minv <= 0)
+            minv = 1.0;
+        aspect[0] /= minv;
+        aspect[1] /= minv;
+        aspect[2] /= minv;
+    };
+
+    if (is2D) {
+        // 2D MODE
+        double minrange = std::min({ dx, dy, dz });
+        double maxrange = std::max({ dx, dy, dz });
+
+        if (darauto && pbaauto) {
+            setThreeVectorDefault(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR, 1, 1, 1);
+            setThreeVectorDefault(GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR, dx / minrange,
+                dy / minrange, dz / minrange);
+            return;
+        }
+
+        normalizeAspectRatio(dar);
+        normalizeAspectRatio(pba);
+
+        if (darauto && !pbaauto) {
+            setThreeVectorDefault(
+                GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR, pba[0], pba[1], pba[2]);
+            setThreeVectorDefault(
+                GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR, dx / pba[0], dy / pba[1], dz / pba[2]);
+            return;
+        }
+
+        if (!darauto && pbaauto) {
+            setThreeVectorDefault(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR, dar[0], dar[1], dar[2]);
+            return;
+        }
+
+        // Both manual
+        setThreeVectorDefault(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR, dar[0], dar[1], dar[2]);
+        setThreeVectorDefault(GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR, pba[0], pba[1], pba[2]);
+
+        bool allAuto = xflag && yflag && zflag;
+        bool oneManual = (!xflag && yflag && zflag) || (xflag && !yflag && zflag)
+            || (xflag && yflag && !zflag);
+
+        if (allAuto) {
+            rerange(limits[0], limits[1], pba[0] / dar[0] * maxrange);
+            rerange(limits[2], limits[3], pba[1] / dar[1] * maxrange);
+            rerange(limits[4], limits[5], pba[2] / dar[2] * maxrange);
             setAxisLimits(limits);
-        } else if (onemanual) {
+        } else if (oneManual) {
             if (!xflag) {
-                rerange(limits[2], limits[3], yratio / yscale * xrange);
-                rerange(limits[4], limits[5], zratio / zscale * xrange);
-                setAxisLimits(limits);
+                rerange(limits[2], limits[3], pba[1] / dar[1] * dx);
+                rerange(limits[4], limits[5], pba[2] / dar[2] * dx);
             } else if (!yflag) {
-                rerange(limits[0], limits[1], xratio / xscale * yrange);
-                rerange(limits[4], limits[5], zratio / zscale * yrange);
-                setAxisLimits(limits);
+                rerange(limits[0], limits[1], pba[0] / dar[0] * dy);
+                rerange(limits[4], limits[5], pba[2] / dar[2] * dy);
             } else if (!zflag) {
-                rerange(limits[0], limits[1], xratio / xscale * zrange);
-                rerange(limits[2], limits[3], yratio / yscale * zrange);
-                setAxisLimits(limits);
+                rerange(limits[0], limits[1], pba[0] / dar[0] * dz);
+                rerange(limits[2], limits[3], pba[1] / dar[1] * dz);
             }
+            setAxisLimits(limits);
+        }
+    } else {
+        // 3D MODE
+        if (darauto) {
+            if (pbaauto) {
+                // Both auto: set plotboxaspectratio to [1 1 1]
+                setThreeVectorDefault(GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR, 1, 1, 1);
+                pba = { 1, 1, 1 };
+            }
+            // Normalize dataaspectratio based on plotboxaspectratio and axis lengths
+            normalizeAspectRatio(pba);
+            dar[0] = dx / pba[0];
+            dar[1] = dy / pba[1];
+            dar[2] = dz / pba[2];
+            normalizeAspectRatio(dar);
+            setThreeVectorDefault(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR, dar[0], dar[1], dar[2]);
+            return;
+        }
+
+        if (pbaauto) {
+            // Only DAR manual: normalize plotboxaspectratio based on dataaspectratio and axis
+            // lengths
+            normalizeAspectRatio(dar);
+            pba[0] = dx / dar[0];
+            pba[1] = dy / dar[1];
+            pba[2] = dz / dar[2];
+            normalizeAspectRatio(pba);
+            setThreeVectorDefault(
+                GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR, pba[0], pba[1], pba[2]);
+            return;
+        }
+
+        // Both manual: adjust axis limits if any are auto
+        normalizeAspectRatio(dar);
+        normalizeAspectRatio(pba);
+
+        int autoCount = (xflag ? 1 : 0) + (yflag ? 1 : 0) + (zflag ? 1 : 0);
+
+        if (autoCount == 0) {
+            // All manual: normalize plotboxaspectratio
+            pba[0] = dx / dar[0];
+            pba[1] = dy / dar[1];
+            pba[2] = dz / dar[2];
+            normalizeAspectRatio(pba);
+            setThreeVectorDefault(
+                GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR, pba[0], pba[1], pba[2]);
+            return;
+        }
+
+        // Calculate scale factor based on manual axes
+        double scale = -std::numeric_limits<double>::infinity();
+
+        auto updateScale = [&](double dlim, double pba_i, double da_i) {
+            double val = dlim / (pba_i * da_i);
+            if (val > scale)
+                scale = val;
+        };
+
+        if (autoCount == 3) {
+            // All auto: use all axes to determine scale
+            updateScale(dx, pba[0], dar[0]);
+            updateScale(dy, pba[1], dar[1]);
+            updateScale(dz, pba[2], dar[2]);
         } else {
-            // IGNORE
+            // Use manual axes to determine scale
+            if (!xflag)
+                updateScale(dx, pba[0], dar[0]);
+            if (!yflag)
+                updateScale(dy, pba[1], dar[1]);
+            if (!zflag)
+                updateScale(dz, pba[2], dar[2]);
+        }
+
+        // Ensure valid scale
+        if (!std::isfinite(scale) || scale <= 0) {
+            scale = 1.0 / std::min({ pba[0] * dar[0], pba[1] * dar[1], pba[2] * dar[2] });
+        }
+
+        // Apply scale to auto axes
+        std::vector<double> xlim = findVectorDoubleProperty(GO_X_LIM_PROPERTY_NAME_STR);
+        std::vector<double> ylim = findVectorDoubleProperty(GO_Y_LIM_PROPERTY_NAME_STR);
+        std::vector<double> zlim = findVectorDoubleProperty(GO_Z_LIM_PROPERTY_NAME_STR);
+
+        if (xflag) {
+            double d = scale * pba[0] * dar[0];
+            double c = 0.5 * (xlim[0] + xlim[1]);
+            setTwoVectorDefault(GO_X_LIM_PROPERTY_NAME_STR, c - d / 2.0, c + d / 2.0);
+            setRestrictedStringDefault(GO_X_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
+        }
+        if (yflag) {
+            double d = scale * pba[1] * dar[1];
+            double c = 0.5 * (ylim[0] + ylim[1]);
+            setTwoVectorDefault(GO_Y_LIM_PROPERTY_NAME_STR, c - d / 2.0, c + d / 2.0);
+            setRestrictedStringDefault(GO_Y_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
+        }
+        if (zflag) {
+            double d = scale * pba[2] * dar[2];
+            double c = 0.5 * (zlim[0] + zlim[1]);
+            setTwoVectorDefault(GO_Z_LIM_PROPERTY_NAME_STR, c - d / 2.0, c + d / 2.0);
+            setRestrictedStringDefault(GO_Z_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
         }
     }
 }
@@ -1985,7 +2115,7 @@ GOAxis::updateState()
         lbl = static_cast<GOGObjectsProperty*>(findProperty(GO_TITLE_PROPERTY_NAME_STR));
         if (!lbl->data().empty()) {
             GraphicsObject* fp = findGraphicsObject(lbl->data()[0], false);
-            if (!lbl->data().empty()) {
+            if (fp) {
                 GraphicsObject* fp = findGraphicsObject(lbl->data()[0]);
                 GOOnOffProperty* fv = static_cast<GOOnOffProperty*>(
                     fp->findProperty(GO_VISIBLE_PROPERTY_NAME_STR, false));
@@ -2182,6 +2312,8 @@ GOAxis::setupProjection(RenderInterface& gc)
         double maxratio = std::max(xratio, yratio);
         rerange(xmin, xmax, maxratio * position[2]);
         rerange(ymin, ymax, maxratio * position[3]);
+        rerange(zmin, zmax, maxratio * position[3]);
+        setAxisLimits(limits);
     }
     gc.project(xmin, xmax, ymin, ymax, -zmax, -zmin);
     gc.viewport(position[0], position[1], position[2], position[3]);

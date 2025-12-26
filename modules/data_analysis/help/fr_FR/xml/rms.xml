@@ -66,10 +66,8 @@
     </p>
     <p>
       La valeur quadratique moyenne d'un tableau x est:
-      <center>
         <latex
-        >\mathrm{RMS}(x) = \sqrt{ \frac{1}{N} \sum_{n=1}^{N} |x_n|^2 }</latex>
-      </center>
+      >\mathrm{RMS}(x) = \sqrt{ \frac{1}{N} \sum_{n=1}^{N} |x_n|^2 }</latex>
       où la sommation est effectuée le long de la ou des dimensions spécifiées, et N est le nombre d'éléments le long de ces dimensions.
     </p>
     <p>

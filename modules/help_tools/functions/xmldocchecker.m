@@ -26,9 +26,15 @@ function varargout = xmldocchecker(varargin)
                             xmlfile = [help_path, xmlfiles(j).name];
                             switch nargout()
                             case 0
-                                xmldocchecker(xmlfile);
-                                msg = sprintf(_('XML documentation file "%s" is valid.'), xmlfile);
-                                disp(msg);
+                                try
+                                  xmldocchecker(xmlfile);
+                                  msg = sprintf(_('XML documentation file "%s" is valid.'), xmlfile);
+                                  disp(msg);
+                                catch ME
+                                    msg = sprintf(_('XML documentation file "%s" is invalid.'), xmlfile);
+                                    disp(msg);
+                                    throw(ME);
+                                end
                             case 1
                                 state = xmldocchecker(xmlfile);
                                 if ~state
