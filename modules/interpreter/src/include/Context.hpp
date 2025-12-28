@@ -156,13 +156,19 @@ public:
     /**
      * Get the global scope off the top of the scope stack.
      */
-    Scope*
-    getGlobalScope();
+    inline Scope*
+    getGlobalScope()
+    {
+        return scopestack.empty() ? nullptr : scopestack.front();
+    }
     /**
      * Get the current (active) scope
      */
-    Scope*
-    getCurrentScope();
+    inline Scope*
+    getCurrentScope()
+    {
+        return scopestack.empty() ? nullptr : scopestack.back();
+    }
     /**
      * Print the context.
      */
@@ -171,19 +177,28 @@ public:
     /**
      * Increment the loop depth counter in the local scope.
      */
-    void
-    enterLoop();
+    inline void
+    enterLoop()
+    {
+        scopestack.back()->enterLoop();
+    }
     /**
      * Decrement the loop depth counter in the local scope.
      */
-    void
-    exitLoop();
+    inline void
+    exitLoop()
+    {
+        scopestack.back()->exitLoop();
+    }
     /**
      * Returns true if the current (local) scope indicates a
      * non-zero loop depth.
      */
-    bool
-    inLoop();
+    inline bool
+    inLoop()
+    {
+        return scopestack.back()->inLoop();
+    }
     /**
      * Returns true if the given variable is global.
      */

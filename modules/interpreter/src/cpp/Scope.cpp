@@ -22,29 +22,29 @@
 namespace Nelson {
 //=============================================================================
 Scope::Scope(const Scope& scopeOrigin)
+    : name(scopeOrigin.name)
+    , loopLevel(0)
+    , filename(scopeOrigin.filename)
+    , isInMacro(scopeOrigin.isInMacro)
+    , directory(scopeOrigin.directory)
 {
-    name = scopeOrigin.name;
-    loopLevel = 0;
-    filename = scopeOrigin.filename;
-    isInMacro = scopeOrigin.isInMacro;
-    directory = scopeOrigin.directory;
 }
 //=============================================================================
 Scope::Scope(const std::string& scopeName)
+    : name(scopeName)
+    , loopLevel(0)
+    , filename(L"")
+    , directory(L"")
+    , isInMacro(false)
 {
-    name = scopeName;
-    loopLevel = 0;
-    filename = L"";
-    directory = L"";
-    isInMacro = false;
 }
 //=============================================================================
 Scope::Scope(const std::string& scopeName, const std::wstring& fullfilename)
+    : name(scopeName)
+    , loopLevel(0)
+    , filename(fullfilename)
+    , isInMacro(StringHelpers::ends_with(fullfilename, L".m"))
 {
-    name = scopeName;
-    loopLevel = 0;
-    filename = fullfilename;
-    isInMacro = StringHelpers::ends_with(filename, L".m");
     FileSystemWrapper::Path fullPath(fullfilename);
     directory = fullPath.parent_path().generic_wstring();
     std::wstring privateStr = L"/private";
@@ -94,12 +94,6 @@ Scope::lookupVariable(const std::string& varName, ArrayOf& val)
     return found;
 }
 //=============================================================================
-std::string
-Scope::getName()
-{
-    return name;
-}
-//=============================================================================
 bool
 Scope::insertVariable(const std::string& varName, const ArrayOf& var)
 {
@@ -114,24 +108,6 @@ Scope::printMe()
 void
 Scope::printData()
 {
-}
-//=============================================================================
-void
-Scope::enterLoop()
-{
-    loopLevel++;
-}
-//=============================================================================
-void
-Scope::exitLoop()
-{
-    loopLevel--;
-}
-//=============================================================================
-bool
-Scope::inLoop()
-{
-    return (loopLevel > 0);
 }
 //=============================================================================
 void
@@ -216,8 +192,9 @@ Scope::getVariablesList(bool withPersistent, stringVector& list)
 void
 Scope::getVariablesList(bool withPersistent, wstringVector& list)
 {
-    stringVector ulist = variablesTab.getVariablesList(withPersistent);
+    const stringVector& ulist = variablesTab.getVariablesList(withPersistent);
     list.clear();
+    list.reserve(ulist.size());
     for (const auto& k : ulist) {
         list.emplace_back(utf8_to_wstring(k));
     }
