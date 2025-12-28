@@ -11,6 +11,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 //=============================================================================
+#include <functional>
 #include "Evaluator.hpp"
 #include "Profiler.hpp"
 #include "IsValidVariableName.hpp"

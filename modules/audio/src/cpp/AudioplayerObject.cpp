@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <functional>
 #include "AudioplayerObject.hpp"
 #include "AudioDevInfo.hpp"
 #include "ClassName.hpp"

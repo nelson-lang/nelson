@@ -98,8 +98,8 @@ Context::popScope()
         Error(ERROR_POP_GLOBAL_SCOPE);
     }
     Scope* sc = scopestack.back();
-    delete sc;
     scopestack.pop_back();
+    delete sc;
 }
 //=============================================================================
 void
