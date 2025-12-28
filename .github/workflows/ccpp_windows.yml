@@ -56,12 +56,12 @@ jobs:
       - name: creates artifacts directory
         run: |
           if not exist "%GITHUB_WORKSPACE%\artifacts" mkdir "%GITHUB_WORKSPACE%\artifacts"
+      - name: Package Nelson
+        run: just -f justfile.win package::arm64
       - name: Zip Nelson build workspace directory
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
         run: |
           "C:/Program Files/7-Zip/7z" a -tzip -mx7 %GITHUB_WORKSPACE%/artifacts/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%-arm64-workspace.zip %GITHUB_WORKSPACE% -xr!Release\
-      - name: Package Nelson
-        run: just -f justfile.win package::arm64
       - name: Copy installer in artifacts directory
         run: move "%GITHUB_WORKSPACE%\Nelson-*.exe" "%GITHUB_WORKSPACE%\artifacts\"
       - uses: actions/upload-artifact@v6
@@ -172,12 +172,12 @@ jobs:
       - name: creates artifacts directory
         run: |
           if not exist "%GITHUB_WORKSPACE%\artifacts" mkdir "%GITHUB_WORKSPACE%\artifacts"
+      - name: Package Nelson
+        run: just -f justfile.win package::win64
       - name: Zip Nelson build workspace directory
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
         run: |
           "C:/Program Files/7-Zip/7z" a -tzip -mx7 %GITHUB_WORKSPACE%/artifacts/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%-x86-64-workspace.zip %GITHUB_WORKSPACE% -xr!Release\
-      - name: Package Nelson
-        run: just -f justfile.win package::win64
       - name: Copy installer in artifacts directory
         run: move "%GITHUB_WORKSPACE%\Nelson-*.exe" "%GITHUB_WORKSPACE%\artifacts\"
       - uses: actions/upload-artifact@v6
@@ -298,12 +298,12 @@ jobs:
       - name: creates artifacts directory
         run: |
           if not exist "%GITHUB_WORKSPACE%\artifacts" mkdir "%GITHUB_WORKSPACE%\artifacts"
+      - name: Package Nelson
+        run: just -f justfile.win package::win32
       - name: Zip Nelson build workspace directory
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
         run: |
           "C:/Program Files/7-Zip/7z" a -tzip -mx7 %GITHUB_WORKSPACE%/artifacts/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%-x86-32-workspace.zip %GITHUB_WORKSPACE% -xr!Release\
-      - name: Package Nelson
-        run: just -f justfile.win package::win32
       - name: Copy installer in artifacts directory
         run: move "%GITHUB_WORKSPACE%\Nelson-*.exe" "%GITHUB_WORKSPACE%\artifacts\"
       - uses: actions/upload-artifact@v6
