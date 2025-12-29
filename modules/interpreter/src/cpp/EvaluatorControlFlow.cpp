@@ -224,8 +224,9 @@ Evaluator::whileStatement(AbstractSyntaxTreePtr t)
 //=============================================================================
 // Generic ForLoopHelper with stride support. Used by typed helpers below.
 template <class T>
-void ForLoopHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass, const T* indexSet,
-                   indexType count, indexType stride, const std::string& indexName, Evaluator* eval)
+void
+ForLoopHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass, const T* indexSet,
+    indexType count, indexType stride, const std::string& indexName, Evaluator* eval)
 {
     Scope* scope = eval->getContext()->getCurrentScope();
     if (scope->isLockedVariable(indexName)) {
@@ -234,7 +235,8 @@ void ForLoopHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass, const
     for (indexType m = 0; m < count; ++m) {
         ArrayOf* vp = scope->lookupVariable(indexName);
         if ((!vp) || (vp->getDataClass() != indexClass) || (!vp->isScalar())) {
-            scope->insertVariable(indexName, ArrayOf(indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, 1)));
+            scope->insertVariable(indexName,
+                ArrayOf(indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, 1)));
             vp = scope->lookupVariable(indexName);
         }
         T* dst = (T*)vp->getReadWriteDataPointer();
@@ -335,11 +337,13 @@ ForStatemenMatrixGenericHelper(AbstractSyntaxTreePtr codeBlock, ArrayOf& indexSe
     }
 }
 //=============================================================================
-class ContextLoopLocker {
-  Context* m_context;
+class ContextLoopLocker
+{
+    Context* m_context;
+
 public:
-  ContextLoopLocker(Context* a): m_context(a) {m_context->enterLoop();}
-  ~ContextLoopLocker() {m_context->exitLoop();}
+    ContextLoopLocker(Context* a) : m_context(a) { m_context->enterLoop(); }
+    ~ContextLoopLocker() { m_context->exitLoop(); }
 };
 //=============================================================================
 // This function handles the for statement for row vectors.
@@ -376,8 +380,9 @@ Evaluator::forStatement(AbstractSyntaxTreePtr t)
     }
     AbstractSyntaxTreePtr codeBlock = t->right;
     const bool isRowVector = indexSet.isRowVector();
-    const indexType elementCount = isRowVector ? indexSet.getElementCount()
-                                         : (indexSet.isColumnVector() ? 1 : indexSet.getColumns());
+    const indexType elementCount = isRowVector
+        ? indexSet.getElementCount()
+        : (indexSet.isColumnVector() ? 1 : indexSet.getColumns());
 
     ContextLoopLocker loopLocker(context);
     if (isRowVector) {
