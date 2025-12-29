@@ -236,7 +236,8 @@ ForLoopHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass, const T* i
         ArrayOf* vp = scope->lookupVariable(indexName);
         if ((!vp) || (vp->getDataClass() != indexClass) || (!vp->isScalar())) {
             scope->insertVariable(indexName,
-                ArrayOf(indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, 1)));
+                ArrayOf(
+                    indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, stride)));
             vp = scope->lookupVariable(indexName);
         }
         T* dst = (T*)vp->getReadWriteDataPointer();

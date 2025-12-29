@@ -33,8 +33,8 @@ private:
             detail.emplace_back(_detail);
             id.emplace_back(_id);
         } else {
-            context[IDX].assign(_context);
-            detail[IDX].assign(_detail);
+            context[IDX] = std::move(_context);
+            detail[IDX] = std::move(_detail);
             id[IDX] = _id;
         }
         IDX++;
@@ -94,21 +94,18 @@ public:
     [[nodiscard]] const std::string&
     getLastContext() const noexcept
     {
-        assert(IDX > 0);
         return context[IDX - 1];
     }
     //=============================================================================
     const std::string&
     getLastDetail() const noexcept
     {
-        assert(IDX > 0);
         return detail[IDX - 1];
     }
     //=============================================================================
     size_t
     getLastID() const noexcept
     {
-        assert(IDX > 0);
         return id[IDX - 1];
     }
     //=============================================================================

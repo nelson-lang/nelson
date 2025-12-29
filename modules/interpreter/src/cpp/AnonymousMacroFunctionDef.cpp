@@ -169,8 +169,7 @@ AnonymousMacroFunctionDef::evaluateFunction(
     Context* context = eval->getContext();
     context->pushScope(this->getName());
 
-    std::string filenameUtf8 = "";
-    eval->callstack.pushDebug(filenameUtf8, this->getName());
+    eval->callstack.pushDebug("", this->getName());
     stringVector inputNames;
     inputNames.reserve(inputs.size());
     for (const auto& input : inputs) {
