@@ -36,6 +36,9 @@ ClassToString(NelsonType classType)
 std::wstring
 ClassToStringW(NelsonType classType)
 {
+    if (classType < 0 || classType > typeNames.size()) {
+        return utf8_to_wstring(NLS_UNKNOWN_STR);
+    }
     return utf8_to_wstring(typeNames[classType]);
 }
 //=============================================================================

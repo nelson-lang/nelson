@@ -82,7 +82,7 @@ inline void
 ArrayOf::deleteContents()
 {
     if (dp) {
-        if (dp->deleteCopy() <= 1) {
+        if (dp->deleteCopy() == 1) {
             delete dp;
         }
         dp = nullptr;
@@ -1210,6 +1210,15 @@ ArrayOf::copyElements(indexType srcIndex, void* dstPtr, indexType dstIndex, inde
             for (indexType j = 0; j < (indexType)fieldCount; j++) {
                 qp[(dstIndex + i) * fieldCount + j] = sp[(srcIndex + i) * fieldCount + j];
             }
+        }
+    } break;
+    case NLS_HANDLE: {
+        // Copy handles element-by-element to be explicit and avoid any
+        // potential alignment/representation assumptions of memcpy.
+        const nelson_handle* sp = (const nelson_handle*)dp->getData();
+        nelson_handle* qp = (nelson_handle*)dstPtr;
+        for (indexType i = 0; i < count; ++i) {
+            qp[dstIndex + i] = sp[srcIndex + i];
         }
     } break;
     case NLS_SCOMPLEX:

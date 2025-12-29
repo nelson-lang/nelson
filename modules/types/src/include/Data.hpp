@@ -12,6 +12,7 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "nlsTypes_exports.h"
+#include <atomic>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -44,7 +45,7 @@ private:
     /**
      * Number of owners for the data block.
      */
-    indexType owners;
+    std::atomic<indexType> owners;
     /**
      * The dimensions of the data block.
      */

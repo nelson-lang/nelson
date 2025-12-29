@@ -15,6 +15,10 @@ clear f
 nLhs = 1;
 f1 = str2func('@(x) x * 10');
 for idx = 1:100
+  if ~ishandle(pool)
+    warning('Recreating background pool');
+    % pool = backgroundPool();
+  end
   f(idx) = parfeval(pool, f1, nLhs, idx);
 end
 f2 = str2func('@(x) x / 10');

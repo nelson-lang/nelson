@@ -9,6 +9,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <utility>
+#include <atomic>
 //=============================================================================
 #include "Data.hpp"
 #include "SparseDynamicFunctions.hpp"
@@ -27,7 +28,7 @@ Data::~Data() { freeDataBlock(); }
 Data*
 Data::getCopy()
 {
-    owners++;
+    owners.fetch_add(1, std::memory_order_relaxed);
     return this;
 }
 //=============================================================================
@@ -35,7 +36,7 @@ Data*
 Data::putData(
     NelsonType aClass, const Dimensions& dims, void* s, bool sparseflag, const stringVector& fields)
 {
-    if ((owners <= 1)) {
+    if ((owners.load() <= 1)) {
         freeDataBlock();
         cp = s;
         dataClass = aClass;
@@ -71,7 +72,7 @@ Data::promoteStructToFunctionHandle()
 indexType
 Data::deleteCopy()
 {
-    return owners--;
+    return owners.fetch_sub(1, std::memory_order_acq_rel);
 }
 //=============================================================================
 const void*
@@ -126,7 +127,7 @@ Data::setClassTypeName(const std::string& typeName)
 indexType
 Data::numberOfOwners() const
 {
-    return owners;
+    return owners.load(std::memory_order_relaxed);
 }
 //=============================================================================
 void
