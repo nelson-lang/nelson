@@ -76,27 +76,40 @@ namespace Nelson {
 void
 Evaluator::ifStatement(AbstractSyntaxTreePtr t)
 {
-    callstack.pushID((size_t)t->getContext());
-    AbstractSyntaxTreePtr elseOrElseIf = t->right;
-
-    if (!conditionedStatement(t)) {
-        if (elseOrElseIf != nullptr && elseOrElseIf->opNum == OP_ELSEIFBLOCK) {
-            AbstractSyntaxTreePtr s = elseOrElseIf->down;
-            while (s != nullptr) {
-                if (conditionedStatement(s)) {
-                    callstack.popID();
-                    return;
-                }
-                s = s->right;
+    struct CallStackGuard
+    {
+        CallStack& cs;
+        bool active;
+        explicit CallStackGuard(CallStack& c, size_t id) : cs(c), active(true) { cs.pushID(id); }
+        ~CallStackGuard()
+        {
+            if (active) {
+                cs.popID();
             }
-            elseOrElseIf = elseOrElseIf->right;
         }
-        if (elseOrElseIf != nullptr) {
-            block(elseOrElseIf);
-        }
+        CallStackGuard(const CallStackGuard&) = delete;
+        CallStackGuard&
+        operator=(const CallStackGuard&)
+            = delete;
+    } guard(callstack, static_cast<size_t>(t->getContext()));
+
+    if (conditionedStatement(t)) {
+        return;
     }
 
-    callstack.popID();
+    AbstractSyntaxTreePtr nextBlock = t->right;
+    if (nextBlock != nullptr && nextBlock->opNum == OP_ELSEIFBLOCK) {
+        for (AbstractSyntaxTreePtr s = nextBlock->down; s != nullptr; s = s->right) {
+            if (conditionedStatement(s)) {
+                return;
+            }
+        }
+        nextBlock = nextBlock->right;
+    }
+
+    if (nextBlock != nullptr) {
+        block(nextBlock);
+    }
 }
 //=============================================================================
 //!
@@ -209,66 +222,29 @@ Evaluator::whileStatement(AbstractSyntaxTreePtr t)
 // with the values it is to take
 //!
 //=============================================================================
+// Generic ForLoopHelper with stride support. Used by typed helpers below.
 template <class T>
-void
-ForStatementRowVectorComplexHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass,
-    ArrayOf& indexSet, indexType elementCount, const std::string& indexVarName, Evaluator* eval)
+void ForLoopHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass, const T* indexSet,
+                   indexType count, indexType stride, const std::string& indexName, Evaluator* eval)
 {
-    const T* data = (const T*)indexSet.getDataPointer();
     Scope* scope = eval->getContext()->getCurrentScope();
-    if (scope->isLockedVariable(indexVarName)) {
+    if (scope->isLockedVariable(indexName)) {
         Error(_W("Redefining permanent variable."));
     }
-    for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
-        ArrayOf* ptrVariable = scope->lookupVariable(indexVarName);
-        if ((ptrVariable == nullptr) || (ptrVariable->getDataClass() != indexClass)
-            || (!ptrVariable->isScalar())) {
-            scope->insertVariable(indexVarName,
-                ArrayOf(indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, 1)));
-            ptrVariable = scope->lookupVariable(indexVarName);
+    for (indexType m = 0; m < count; ++m) {
+        ArrayOf* vp = scope->lookupVariable(indexName);
+        if ((!vp) || (vp->getDataClass() != indexClass) || (!vp->isScalar())) {
+            scope->insertVariable(indexName, ArrayOf(indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, 1)));
+            vp = scope->lookupVariable(indexName);
         }
-        ((T*)ptrVariable->getReadWriteDataPointer())[0] = data[2 * elementNumber];
-        ((T*)ptrVariable->getReadWriteDataPointer())[1] = data[2 * elementNumber + 1];
-
-        eval->block(codeBlock);
-
-        if (eval->getState() == NLS_STATE_BREAK) {
-            eval->resetState();
-            break;
+        T* dst = (T*)vp->getReadWriteDataPointer();
+        // copy with stride
+        dst[0] = indexSet[m * stride];
+        if (stride == 2) {
+            dst[1] = indexSet[m * stride + 1];
         }
-        if (eval->getState() == NLS_STATE_RETURN || eval->getState() == NLS_STATE_ABORT
-            || eval->isQuitOrForceQuitState()) {
-            break;
-        }
-        if (eval->getState() == NLS_STATE_CONTINUE) {
-            eval->resetState();
-        }
-    }
-}
-//=============================================================================
-// This function handles the row vector case for complex types.
-template <class T>
-void
-ForStatementRowVectorHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass,
-    ArrayOf& indexSet, indexType elementCount, const std::string& indexVarName, Evaluator* eval)
-{
-    const T* data = static_cast<const T*>(indexSet.getDataPointer());
-    Scope* scope = eval->getContext()->getCurrentScope();
-    if (scope->isLockedVariable(indexVarName)) {
-        Error(_W("Redefining permanent variable."));
-    }
-    for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
-        ArrayOf* ptrVariable = scope->lookupVariable(indexVarName);
-        if ((ptrVariable == nullptr) || (ptrVariable->getDataClass() != indexClass)
-            || (!ptrVariable->isScalar())) {
-            scope->insertVariable(indexVarName,
-                ArrayOf(indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, 1)));
-            ptrVariable = scope->lookupVariable(indexVarName);
-        }
-        ((T*)ptrVariable->getReadWriteDataPointer())[0] = data[elementNumber];
         eval->block(codeBlock);
         int st = eval->getState();
-
         if (st == NLS_STATE_BREAK) {
             eval->resetState();
             break;
@@ -280,6 +256,27 @@ ForStatementRowVectorHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexCla
             eval->resetState();
         }
     }
+}
+//=============================================================================
+// This function handles the row vector case for complex types.
+template <class T>
+void
+ForStatementRowVectorComplexHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass,
+    ArrayOf& indexSet, indexType elementCount, const std::string& indexVarName, Evaluator* eval)
+{
+    const T* data = (const T*)indexSet.getDataPointer();
+    // stride = 2 for complex (real, imag) pairs
+    ForLoopHelper<T>(codeBlock, indexClass, data, elementCount, 2, indexVarName, eval);
+}
+//=============================================================================
+template <class T>
+void
+ForStatementRowVectorHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass,
+    ArrayOf& indexSet, indexType elementCount, const std::string& indexVarName, Evaluator* eval)
+{
+    const T* data = static_cast<const T*>(indexSet.getDataPointer());
+    // stride = 1 for scalar elements
+    ForLoopHelper<T>(codeBlock, indexClass, data, elementCount, 1, indexVarName, eval);
 }
 //=============================================================================
 // This function handles the row vector case for non-complex types.
@@ -338,6 +335,13 @@ ForStatemenMatrixGenericHelper(AbstractSyntaxTreePtr codeBlock, ArrayOf& indexSe
     }
 }
 //=============================================================================
+class ContextLoopLocker {
+  Context* m_context;
+public:
+  ContextLoopLocker(Context* a): m_context(a) {m_context->enterLoop();}
+  ~ContextLoopLocker() {m_context->exitLoop();}
+};
+//=============================================================================
 // This function handles the for statement for row vectors.
 void
 Evaluator::forStatement(AbstractSyntaxTreePtr t)
@@ -350,7 +354,19 @@ Evaluator::forStatement(AbstractSyntaxTreePtr t)
     callstack.pushID((size_t)t->getContext());
 
     const std::string& indexVarName = t->text;
-    ArrayOf indexSet = expression(t->down);
+    // Support the three forms of for-loop:
+    // 1) for (var = expr)
+    // 2) for var = expr
+    // 3) for var   (pre-initialized variable used as index set)
+    ArrayOf indexSet;
+    if (t->down != nullptr) {
+        indexSet = expression(t->down);
+    } else {
+        // No RHS expression: use the current value of the loop variable
+        if (!context->lookupVariable(indexVarName, indexSet)) {
+            Error(_W("Index variable used in for statement must be defined."));
+        }
+    }
     if (indexSet.isEmpty()) {
         callstack.popID();
         return;
@@ -359,12 +375,11 @@ Evaluator::forStatement(AbstractSyntaxTreePtr t)
         Error(_W("Valid variable name expected."));
     }
     AbstractSyntaxTreePtr codeBlock = t->right;
-    bool isRowVector = indexSet.isRowVector();
-    indexType elementCount = isRowVector ? indexSet.getElementCount()
+    const bool isRowVector = indexSet.isRowVector();
+    const indexType elementCount = isRowVector ? indexSet.getElementCount()
                                          : (indexSet.isColumnVector() ? 1 : indexSet.getColumns());
 
-    context->enterLoop();
-
+    ContextLoopLocker loopLocker(context);
     if (isRowVector) {
         switch (indexSet.getDataClass()) {
         case NLS_LOGICAL:
@@ -432,7 +447,6 @@ Evaluator::forStatement(AbstractSyntaxTreePtr t)
         ForStatemenMatrixGenericHelper(codeBlock, indexSet, elementCount, indexVarName, this);
     }
 
-    context->exitLoop();
     callstack.popID();
 }
 //=============================================================================
@@ -852,17 +866,27 @@ Evaluator::block(AbstractSyntaxTreePtr t)
         return;
 
     try {
-        AbstractSyntaxTreePtr s = t->down;
+        // Collect children once to avoid walking linked AST pointers repeatedly.
+        std::vector<AbstractSyntaxTreePtr> children;
+        for (AbstractSyntaxTreePtr cur = t->down; cur != nullptr; cur = cur->right) {
+            children.push_back(cur);
+        }
+
         if (state < NLS_STATE_QUIT)
             resetState();
 
-        while (s != nullptr) {
+        NelsonConfiguration* cfg = NelsonConfiguration::getInstance();
+
+        for (size_t i = 0; i < children.size(); ++i) {
+            AbstractSyntaxTreePtr s = children[i];
+
             if (state >= NLS_STATE_QUIT && state != NLS_STATE_CANCEL_QUIT)
                 break;
 
-            if (NelsonConfiguration::getInstance()->getInterruptPending(ID)) {
+            // Check interrupt pending via cached pointer
+            if (cfg->getInterruptPending(ID)) {
                 if (ID == 0) {
-                    NelsonConfiguration::getInstance()->setInterruptPending(false, ID);
+                    cfg->setInterruptPending(false, ID);
                     CallbackQueue::getInstance()->clear();
                     EventQueue::getInstance()->clear();
                     setState(NLS_STATE_ABORT);
@@ -880,7 +904,6 @@ Evaluator::block(AbstractSyntaxTreePtr t)
                 || state == NLS_STATE_ABORT || isQuitOrForceQuitState()) {
                 break;
             }
-            s = s->right;
         }
     } catch (Exception& e) {
         if (!e.isEmpty()) {

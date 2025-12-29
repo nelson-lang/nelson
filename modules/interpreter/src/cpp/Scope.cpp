@@ -31,11 +31,7 @@ Scope::Scope(const Scope& scopeOrigin)
 }
 //=============================================================================
 Scope::Scope(const std::string& scopeName)
-    : name(scopeName)
-    , loopLevel(0)
-    , filename(L"")
-    , directory(L"")
-    , isInMacro(false)
+    : name(scopeName), loopLevel(0), filename(L""), directory(L""), isInMacro(false)
 {
 }
 //=============================================================================

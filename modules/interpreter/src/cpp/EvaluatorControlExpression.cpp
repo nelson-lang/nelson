@@ -47,7 +47,8 @@ ArrayOf
 Evaluator::expressionOperator(AbstractSyntaxTreePtr t)
 {
     ArrayOf retval;
-    uint64 ticProfiling = Profiler::getInstance()->tic();
+    Profiler* profiler = Profiler::getInstance();
+    uint64 ticProfiling = profiler->tic();
     std::string operatorName;
     switch (t->opNum) {
     case OP_COLON:
@@ -275,7 +276,7 @@ Evaluator::expressionOperator(AbstractSyntaxTreePtr t)
     if (ticProfiling != 0 && !operatorName.empty()) {
         internalProfileFunction stack
             = computeProfileStack(this, operatorName, utf8_to_wstring(callstack.getLastContext()));
-        Profiler::getInstance()->toc(ticProfiling, stack);
+        profiler->toc(ticProfiling, stack);
     }
     return retval;
 }
@@ -289,7 +290,7 @@ Evaluator::expressionReserved(AbstractSyntaxTreePtr t)
         if (endStack.empty()) {
             Error(ERROR_END_ILLEGAL);
         }
-        endData enddatat(endStack.back());
+        const endData& enddatat = endStack.back();
         retval = EndReference(enddatat.endArray, (indexType)enddatat.index, enddatat.count);
     } else {
         Error(ERROR_UNRECOGNIZED_NODE);

@@ -25,67 +25,60 @@ namespace Nelson {
 ArrayOf
 Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
 {
-    Dimensions rhsDimensions;
-    ArrayOfVector m;
-    rhsDimensions = r.getDimensions();
-    if (t->opNum == (OP_PARENS)) {
-        m = expressionList(t->down, r);
-        if (m.size() == 0) {
+    switch (t->opNum) {
+    case OP_PARENS: {
+        ArrayOfVector m = expressionList(t->down, r);
+        if (m.empty()) {
             Error(ERROR_INDEX_EXPRESSION_EXPECTED);
-        } else if (m.size() == 1) {
+        }
+        if (m.size() == 1) {
             if (r.isClassType()) {
                 Error(ERROR_NEED_OVERLOAD);
-            } else {
-                try {
-                    return (r.getVectorSubset(m[0]));
-                } catch (const Exception&) {
-                    return (ArrayOf::emptyConstructor());
-                }
             }
-        } else {
             try {
-                return (r.getNDimSubset(m));
+                return r.getVectorSubset(m[0]);
             } catch (const Exception&) {
-                return (ArrayOf::emptyConstructor());
+                return ArrayOf::emptyConstructor();
             }
         }
+        try {
+            return r.getNDimSubset(m);
+        } catch (const Exception&) {
+            return ArrayOf::emptyConstructor();
+        }
     }
-    if (t->opNum == (OP_BRACES)) {
-        m = expressionList(t->down, r);
-        if (m.size() == 0) {
+    case OP_BRACES: {
+        ArrayOfVector m = expressionList(t->down, r);
+        if (m.empty()) {
             Error(ERROR_INDEX_EXPRESSION_EXPECTED);
-        } else if (m.size() == 1) {
+        }
+        if (m.size() == 1) {
             try {
-                return (r.getVectorContents(m[0]));
+                return r.getVectorContents(m[0]);
             } catch (const Exception&) {
-                return (ArrayOf::emptyConstructor());
-            }
-        } else {
-            try {
-                return (r.getNDimContents(m));
-            } catch (const Exception&) {
-                return (ArrayOf::emptyConstructor());
+                return ArrayOf::emptyConstructor();
             }
         }
+        try {
+            return r.getNDimContents(m);
+        } catch (const Exception&) {
+            return ArrayOf::emptyConstructor();
+        }
     }
-    if (t->opNum == (OP_DOT)) {
+    case OP_DOT: {
         try {
             if (r.isGraphicsObject()) {
                 ArrayOfVector params;
                 ArrayOfVector rv = getHandle(r, t->down->text, params);
-                if (rv.size() > 0) {
-                    return rv[0];
-                } else {
-                    return (ArrayOf::emptyConstructor());
-                }
+                return rv.empty() ? ArrayOf::emptyConstructor() : rv[0];
             }
-            return (r.getField(t->down->text));
+            return r.getField(t->down->text);
         } catch (const Exception&) {
-            return (ArrayOf::emptyConstructor());
+            return ArrayOf::emptyConstructor();
         }
     }
-    if (t->opNum == (OP_DOTDYN)) {
-        std::string field = "";
+    case OP_DOTDYN: {
+        std::string field;
         try {
             ArrayOf fname(expression(t->down));
             field = fname.getContentAsCString();
@@ -93,13 +86,14 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
             Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
         }
         try {
-            ArrayOf R = r.getField(field);
-            return R;
+            return r.getField(field);
         } catch (const Exception&) {
-            return (ArrayOf::emptyConstructor());
+            return ArrayOf::emptyConstructor();
         }
     }
-    return (ArrayOf::emptyConstructor());
+    default:
+        return ArrayOf::emptyConstructor();
+    }
 }
 //=============================================================================
 //!

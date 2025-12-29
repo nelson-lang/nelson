@@ -11,7 +11,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 //=============================================================================
-#include <functional>
 #include "Evaluator.hpp"
 #include "Profiler.hpp"
 #include "IsValidVariableName.hpp"
@@ -230,182 +229,170 @@ Evaluator::simpleAssignClass(const ArrayOf& r, const stringVector& subtypes,
 void
 Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& value)
 {
-    auto callStackGuard = [&](auto&& func) {
-        callstack.pushID(static_cast<size_t>(t->getContext()));
-        try {
-            func();
-        } catch (...) {
-            callstack.popID();
-            throw;
+    struct CallStackGuard
+    {
+        CallStack& cs;
+        bool active;
+        explicit CallStackGuard(CallStack& c, size_t id) : cs(c), active(true) { cs.pushID(id); }
+        ~CallStackGuard()
+        {
+            if (active) {
+                cs.popID();
+            }
         }
-        callstack.popID();
+        CallStackGuard(const CallStackGuard&) = delete;
+        CallStackGuard&
+        operator=(const CallStackGuard&)
+            = delete;
+    } guard(callstack, static_cast<size_t>(t->getContext()));
+
+    auto calculateRhsDimensions = [&]() -> Dimensions {
+        if (!r.isEmpty()) {
+            return r.getDimensions();
+        }
+        if (t->opNum != OP_BRACES) {
+            return value[0].getDimensions();
+        }
+        Dimensions dims;
+        dims.makeScalar();
+        return dims;
     };
 
-    callStackGuard([&]() {
-        // Initialize dimensions based on context
-        auto calculateRhsDimensions = [&]() -> Dimensions {
-            if (!r.isEmpty()) {
-                return r.getDimensions();
-            } else if (t->opNum != OP_BRACES) {
-                return value[0].getDimensions();
-            } else {
-                Dimensions dims;
-                dims.makeScalar();
-                return dims;
-            }
-        };
+    Dimensions rhsDimensions = calculateRhsDimensions();
+    (void)rhsDimensions; // currently calculated for potential future use
 
-        Dimensions rhsDimensions = calculateRhsDimensions();
-
-        // Helper lambda to create cell array from expressions
-        auto createCellArrayFromExpressions = [&](const ArrayOfVector& expressions) -> ArrayOf {
-            if (expressions.empty()) {
-                Error(ERROR_INDEX_EXPRESSION_EXPECTED);
-            }
-
-            ArrayOf* elements = static_cast<ArrayOf*>(
-                ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, expressions.size()));
-            ArrayOf cell(NLS_CELL_ARRAY, Dimensions(1, expressions.size()), elements);
-
-            for (size_t k = 0; k < expressions.size(); k++) {
-                elements[k] = expressions[k];
-            }
-
-            return cell;
-        };
-
-        // Helper lambda for class type assignment
-        auto handleClassTypeAssignment
-            = [&](const std::string& subtype, const ArrayOfVector& expressions) {
-                  stringVector subtypes = { subtype };
-                  ArrayOfVector subsindices;
-
-                  ArrayOf cell = createCellArrayFromExpressions(expressions);
-                  subsindices.push_back(cell);
-
-                  ArrayOfVector res = simpleAssignClass(r, subtypes, subsindices, value);
-                  if (res.empty()) {
-                      Error(_("Assignment operation failed."));
-                  }
-                  r = res[0];
-              };
-
-        // Handler lambdas for each operation type
-        auto handleParensAssignment = [&]() {
-            ArrayOfVector expressions = expressionList(t->down, r);
-
-            if (r.isClassType()) {
-                handleClassTypeAssignment("()", expressions);
-                return;
-            }
-
-            if (expressions.empty()) {
-                Error(ERROR_INDEX_EXPRESSION_EXPECTED);
-            } else if (expressions.size() == 1) {
-                r.setVectorSubset(expressions[0], value[0]);
-            } else {
-                r.setNDimSubset(expressions, value[0]);
-            }
-        };
-
-        auto handleBracesAssignment = [&]() {
-            ArrayOfVector expressions = expressionList(t->down, r);
-
-            if (r.isClassType()) {
-                handleClassTypeAssignment("{}", expressions);
-                return;
-            }
-
-            if (expressions.empty()) {
-                Error(ERROR_INDEX_EXPRESSION_EXPECTED);
-            } else if (expressions.size() == 1) {
-                r.setVectorContentsAsList(expressions[0], value);
-            } else {
-                r.setNDimContentsAsList(expressions, value);
-            }
-        };
-
-        auto handleDotAssignment = [&]() {
-            const std::string fieldname = t->down->text;
-
-            if (r.isClassType()) {
-                stringVector subtypes = { "." };
-                ArrayOfVector subsindices;
-                subsindices.push_back(ArrayOf::characterArrayConstructor(fieldname));
-
-                ArrayOfVector res = simpleAssignClass(r, subtypes, subsindices, value);
-                if (res.size() != 1) {
-                    Error(_("Invalid LHS."));
-                }
-                r = res[0];
-                return;
-            }
-
-            if (r.isHandle() || r.isGraphicsObject()) {
-                setHandle(r, fieldname, value);
-            } else if (r.isStruct() || r.isEmpty()) {
-                r.setFieldAsList(fieldname, value);
-            } else {
-                Error(ERROR_ASSIGN_TO_NON_STRUCT);
-            }
-        };
-
-        auto handleDynamicDotAssignment = [&]() {
-            std::string fieldname;
-            try {
-                ArrayOf fname = expression(t->down);
-                fieldname = fname.getContentAsCString();
-            } catch (const Exception&) {
-                Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
-            }
-
-            if (r.isClassType()) {
-                stringVector subtypes = { "." };
-                ArrayOfVector subsindices;
-                subsindices.push_back(ArrayOf::characterArrayConstructor(fieldname));
-
-                ArrayOfVector res = simpleAssignClass(r, subtypes, subsindices, value);
-                if (res.size() != 1) {
-                    Error(_("Invalid LHS."));
-                }
-                r = res[0];
-            } else if (r.isHandle()) {
-                setHandle(r, fieldname, value);
-            } else {
-                r.setFieldAsList(fieldname, value);
-            }
-        };
-
-        // Operation dispatch using lambdas in a map-like structure
-        static const std::unordered_map<int, std::function<void()>> operationHandlers
-            = { { OP_PARENS, [=]() { handleParensAssignment(); } },
-                  { OP_BRACES, [=]() { handleBracesAssignment(); } },
-                  { OP_DOT, [=]() { handleDotAssignment(); } },
-                  { OP_DOTDYN, [=]() { handleDynamicDotAssignment(); } } };
-
-        // Execute the appropriate handler
-        auto it = operationHandlers.find(t->opNum);
-        if (it != operationHandlers.end()) {
-            // Create new lambda to capture current context
-            switch (t->opNum) {
-            case OP_PARENS:
-                handleParensAssignment();
-                break;
-            case OP_BRACES:
-                handleBracesAssignment();
-                break;
-            case OP_DOT:
-                handleDotAssignment();
-                break;
-            case OP_DOTDYN:
-                handleDynamicDotAssignment();
-                break;
-            default:
-                // No operation needed for other cases
-                break;
-            }
+    auto createCellArrayFromExpressions = [&](const ArrayOfVector& expressions) -> ArrayOf {
+        if (expressions.empty()) {
+            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
         }
-    });
+
+        ArrayOf* elements
+            = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, expressions.size()));
+        ArrayOf cell(NLS_CELL_ARRAY, Dimensions(1, expressions.size()), elements);
+
+        for (size_t k = 0; k < expressions.size(); k++) {
+            elements[k] = expressions[k];
+        }
+
+        return cell;
+    };
+
+    auto handleClassTypeAssignment
+        = [&](const std::string& subtype, const ArrayOfVector& expressions) {
+              stringVector subtypes = { subtype };
+              ArrayOfVector subsindices;
+
+              ArrayOf cell = createCellArrayFromExpressions(expressions);
+              subsindices.push_back(cell);
+
+              ArrayOfVector res = simpleAssignClass(r, subtypes, subsindices, value);
+              if (res.empty()) {
+                  Error(_("Assignment operation failed."));
+              }
+              r = res[0];
+          };
+
+    auto handleParensAssignment = [&]() {
+        ArrayOfVector expressions = expressionList(t->down, r);
+
+        if (r.isClassType()) {
+            handleClassTypeAssignment("()", expressions);
+            return;
+        }
+
+        if (expressions.empty()) {
+            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
+        } else if (expressions.size() == 1) {
+            r.setVectorSubset(expressions[0], value[0]);
+        } else {
+            r.setNDimSubset(expressions, value[0]);
+        }
+    };
+
+    auto handleBracesAssignment = [&]() {
+        ArrayOfVector expressions = expressionList(t->down, r);
+
+        if (r.isClassType()) {
+            handleClassTypeAssignment("{}", expressions);
+            return;
+        }
+
+        if (expressions.empty()) {
+            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
+        } else if (expressions.size() == 1) {
+            r.setVectorContentsAsList(expressions[0], value);
+        } else {
+            r.setNDimContentsAsList(expressions, value);
+        }
+    };
+
+    auto handleDotAssignment = [&]() {
+        const std::string fieldname = t->down->text;
+
+        if (r.isClassType()) {
+            stringVector subtypes = { "." };
+            ArrayOfVector subsindices;
+            subsindices.push_back(ArrayOf::characterArrayConstructor(fieldname));
+
+            ArrayOfVector res = simpleAssignClass(r, subtypes, subsindices, value);
+            if (res.size() != 1) {
+                Error(_("Invalid LHS."));
+            }
+            r = res[0];
+            return;
+        }
+
+        if (r.isHandle() || r.isGraphicsObject()) {
+            setHandle(r, fieldname, value);
+        } else if (r.isStruct() || r.isEmpty()) {
+            r.setFieldAsList(fieldname, value);
+        } else {
+            Error(ERROR_ASSIGN_TO_NON_STRUCT);
+        }
+    };
+
+    auto handleDynamicDotAssignment = [&]() {
+        std::string fieldname;
+        try {
+            ArrayOf fname = expression(t->down);
+            fieldname = fname.getContentAsCString();
+        } catch (const Exception&) {
+            Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
+        }
+
+        if (r.isClassType()) {
+            stringVector subtypes = { "." };
+            ArrayOfVector subsindices;
+            subsindices.push_back(ArrayOf::characterArrayConstructor(fieldname));
+
+            ArrayOfVector res = simpleAssignClass(r, subtypes, subsindices, value);
+            if (res.size() != 1) {
+                Error(_("Invalid LHS."));
+            }
+            r = res[0];
+        } else if (r.isHandle()) {
+            setHandle(r, fieldname, value);
+        } else {
+            r.setFieldAsList(fieldname, value);
+        }
+    };
+
+    switch (t->opNum) {
+    case OP_PARENS:
+        handleParensAssignment();
+        break;
+    case OP_BRACES:
+        handleBracesAssignment();
+        break;
+    case OP_DOT:
+        handleDotAssignment();
+        break;
+    case OP_DOTDYN:
+        handleDynamicDotAssignment();
+        break;
+    default:
+        break;
+    }
 }
 //=============================================================================
 } // namespace Nelson
