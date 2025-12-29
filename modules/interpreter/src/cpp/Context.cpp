@@ -30,8 +30,8 @@ Context::Context()
     bypassstack.reserve(1024);
     currentrecursiondepth = DEFAULT_RECURSION_FUNCTION_CALL;
     scopestack.reserve(DEFAULT_RECURSION_FUNCTION_CALL);
-    pushScope("global");
-    pushScope("base");
+    scopestack.emplace_back(new Scope("global"));
+    scopestack.emplace_back(new Scope("base"));
 }
 //=============================================================================
 Context::~Context()
@@ -40,18 +40,6 @@ Context::~Context()
         delete scopestack.back();
         scopestack.pop_back();
     }
-}
-//=============================================================================
-Scope*
-Context::getCurrentScope()
-{
-    return scopestack.empty() ? nullptr : scopestack.back();
-}
-//=============================================================================
-Scope*
-Context::getGlobalScope()
-{
-    return scopestack.empty() ? nullptr : scopestack.front();
 }
 //=============================================================================
 void
@@ -98,8 +86,8 @@ Context::popScope()
         Error(ERROR_POP_GLOBAL_SCOPE);
     }
     Scope* sc = scopestack.back();
-    delete sc;
     scopestack.pop_back();
+    delete sc;
 }
 //=============================================================================
 void
@@ -111,38 +99,33 @@ Context::insertVariableLocally(const std::string& varName, const ArrayOf& var)
 bool
 Context::insertVariable(const std::string& varName, const ArrayOf& var)
 {
-    Scope* active = nullptr;
-    std::string mapName;
     Scope* backScope = scopestack.back();
-    Scope* frontScope = scopestack.front();
-    if (backScope->isVariablePersistent(varName)) {
-        mapName = backScope->getMangledName(varName);
-        active = frontScope;
-    } else if (backScope->isVariableGlobal(varName)) {
-        mapName = varName;
-        active = frontScope;
-    } else {
+    // Fast path: local variable (most common case)
+    if (!backScope->isVariablePersistent(varName) && !backScope->isVariableGlobal(varName)) {
         return backScope->insertVariable(varName, var);
     }
-    return active->insertVariable(mapName, var);
+    // Slow path: persistent or global variable
+    Scope* frontScope = scopestack.front();
+    if (backScope->isVariablePersistent(varName)) {
+        return frontScope->insertVariable(backScope->getMangledName(varName), var);
+    }
+    return frontScope->insertVariable(varName, var);
 }
 //=============================================================================
 ArrayOf*
 Context::lookupVariable(const std::string& varName)
 {
-    Scope* active;
-    std::string mapName;
     Scope* back = scopestack.back();
-    if (back->isVariablePersistent(varName)) {
-        mapName = back->getMangledName(varName);
-        active = scopestack.front();
-    } else if (back->isVariableGlobal(varName)) {
-        mapName = varName;
-        active = scopestack.front();
-    } else {
+    // Fast path: local variable (most common case)
+    if (!back->isVariablePersistent(varName) && !back->isVariableGlobal(varName)) {
         return back->lookupVariable(varName);
     }
-    return active->lookupVariable(mapName);
+    // Slow path: persistent or global variable
+    Scope* front = scopestack.front();
+    if (back->isVariablePersistent(varName)) {
+        return front->lookupVariable(back->getMangledName(varName));
+    }
+    return front->lookupVariable(varName);
 }
 //=============================================================================
 bool
@@ -150,7 +133,7 @@ Context::lookupVariable(const std::string& varName, ArrayOf& var)
 {
     ArrayOf* res = lookupVariable(varName);
     if (res != nullptr) {
-        var = res[0];
+        var = *res;
         return true;
     }
     return false;
@@ -165,17 +148,17 @@ Context::isVariable(const std::wstring& varname)
 bool
 Context::isVariable(const std::string& varname)
 {
-    Scope* active;
     Scope* back = scopestack.back();
-    if (back->isVariablePersistent(varname)) {
-        /*std::string mapName = */ back->getMangledName(varname);
-        active = scopestack.front();
-    } else if (back->isVariableGlobal(varname)) {
-        active = scopestack.front();
-    } else {
+    // Fast path: local variable (most common case)
+    if (!back->isVariablePersistent(varname) && !back->isVariableGlobal(varname)) {
         return back->isVariable(varname);
     }
-    return active->isVariable(varname);
+    // Slow path: persistent or global variable
+    Scope* front = scopestack.front();
+    if (back->isVariablePersistent(varname)) {
+        return front->isVariable(back->getMangledName(varname));
+    }
+    return front->isVariable(varname);
 }
 //=============================================================================
 bool
@@ -268,24 +251,6 @@ Context::printMe()
 }
 //=============================================================================
 void
-Context::enterLoop()
-{
-    scopestack.back()->enterLoop();
-}
-//=============================================================================
-void
-Context::exitLoop()
-{
-    scopestack.back()->exitLoop();
-}
-//=============================================================================
-bool
-Context::inLoop()
-{
-    return scopestack.back()->inLoop();
-}
-//=============================================================================
-void
 Context::addPersistentVariable(const std::string& var)
 {
     Scope* back = scopestack.back();
@@ -295,9 +260,11 @@ Context::addPersistentVariable(const std::string& var)
     // Delete global variables with this name
     front->deleteVariable(var);
     back->addPersistentVariablePointer(var);
+    // Check and create if needed in one lookup
+    std::string mangledName = back->getMangledName(var);
     ArrayOf v;
-    if (!front->lookupVariable(back->getMangledName(var), v)) {
-        front->insertVariable(back->getMangledName(var), ArrayOf::emptyConstructor());
+    if (!front->lookupVariable(mangledName, v)) {
+        front->insertVariable(mangledName, ArrayOf::emptyConstructor());
     }
 }
 //=============================================================================
@@ -312,7 +279,7 @@ Context::addGlobalVariable(const std::string& var)
     front->deleteVariable(back->getMangledName(var));
     // Add a point in the local scope to the global variable
     back->addGlobalVariablePointer(var);
-    // Make sure the variable exists
+    // Check and create if needed in one lookup
     ArrayOf v;
     if (!front->lookupVariable(var, v)) {
         front->insertVariable(var, ArrayOf::emptyConstructor());

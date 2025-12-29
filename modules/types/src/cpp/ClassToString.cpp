@@ -27,7 +27,7 @@ static std::vector<std::string> typeNames
 std::string
 ClassToString(NelsonType classType)
 {
-    if (classType < 0 || classType > typeNames.size()) {
+    if (classType < 0 || classType >= typeNames.size()) {
         return NLS_UNKNOWN_STR;
     }
     return typeNames[classType];
@@ -36,7 +36,7 @@ ClassToString(NelsonType classType)
 std::wstring
 ClassToStringW(NelsonType classType)
 {
-    return utf8_to_wstring(typeNames[classType]);
+    return utf8_to_wstring(ClassToString(classType));
 }
 //=============================================================================
 } // namespace Nelson

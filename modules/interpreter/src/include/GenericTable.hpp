@@ -9,67 +9,37 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <cstring>
-#include <utility>
+#include <unordered_map>
+#include <list>
 #include <vector>
-#include <functional>
+#include <shared_mutex>
 #include <mutex>
 #include "Types.hpp"
-//=============================================================================
-#define SYMTAB 8192
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 template <class KEY_TYPE, class T> class GenericTable
 {
 private:
-    std::mutex m_mutex;
-    //=============================================================================
+    mutable std::shared_mutex m_mutex;
     using value_type = T;
-    //=============================================================================
-    struct Entry
-    {
-        KEY_TYPE key;
-        value_type val;
-        Entry* next;
-        Entry(KEY_TYPE k, value_type v, Entry* n) : key(std::move(k)), val(v), next(n) { }
-    };
-    //=============================================================================
-    Entry* hashTable[SYMTAB];
-    //=============================================================================
-    size_t
-    hashKey(const KEY_TYPE& key)
-    {
-        std::hash<KEY_TYPE> hash_fn;
-        return hash_fn(key);
-    }
+    using ListType = std::list<std::pair<KEY_TYPE, value_type>>;
+    using ListIterator = typename ListType::iterator;
+
+    ListType m_list;
+    std::unordered_map<KEY_TYPE, ListIterator> m_map;
     //=============================================================================
 public:
-    GenericTable() { memset(hashTable, 0, sizeof(Entry*) * SYMTAB); }
-    //=============================================================================
-    ~GenericTable()
-    {
-        for (auto& i : hashTable) {
-            Entry* ptr = i;
-            while (ptr) {
-                Entry* nxt = ptr->next;
-                delete ptr;
-                ptr = nxt;
-            }
-        }
-    }
+    GenericTable() = default;
+    ~GenericTable() = default;
     //=============================================================================
     value_type*
     findSymbol(const KEY_TYPE& key)
     {
-        std::scoped_lock<std::mutex> lock { m_mutex };
-        size_t i = hashKey(key) % SYMTAB; // Hash
-        Entry* ptr = hashTable[i];
-        while (ptr) {
-            if (ptr->key == key) {
-                return (&ptr->val);
-            }
-            ptr = ptr->next;
+        std::shared_lock lock { m_mutex };
+        auto it = m_map.find(key);
+        if (it != m_map.end()) {
+            return &(it->second->second);
         }
         return nullptr;
     }
@@ -77,68 +47,35 @@ public:
     void
     deleteSymbol(const KEY_TYPE& key)
     {
-        std::scoped_lock<std::mutex> lock { m_mutex };
-        size_t i = hashKey(key) % SYMTAB; // Hash
-        Entry* ptr = hashTable[i];
-        if (!ptr) {
-            return;
-        }
-        // Check for the first element in the table matching
-        // the key.
-        if (ptr->key == key) {
-            hashTable[i] = ptr->next;
-            delete ptr;
-            ptr = nullptr;
-            return;
-        }
-        // No - its not, set a next pointer
-        Entry* nxt = ptr->next;
-        while (nxt != nullptr) {
-            if (nxt->key == key) {
-                ptr->next = nxt->next;
-                delete nxt;
-                nxt = nullptr;
-                return;
-            }
-            nxt = nxt->next;
-            ptr = ptr->next;
+        std::unique_lock lock { m_mutex };
+        auto it = m_map.find(key);
+        if (it != m_map.end()) {
+            m_list.erase(it->second);
+            m_map.erase(it);
         }
     }
     //=============================================================================
     void
     insertSymbol(const KEY_TYPE& key, const value_type& val)
     {
-        std::scoped_lock<std::mutex> lock { m_mutex };
-        size_t i = hashKey(key) % SYMTAB;
-        Entry* ptr = hashTable[i];
-        if (!ptr) {
-            hashTable[i] = new Entry(key, val, nullptr);
-            return;
+        std::unique_lock lock { m_mutex };
+        auto it = m_map.find(key);
+        if (it != m_map.end()) {
+            it->second->second = val;
+        } else {
+            m_list.emplace_back(key, val);
+            m_map[key] = std::prev(m_list.end());
         }
-        while (ptr) {
-            if (ptr->key == key) {
-                ptr->val = val;
-                return;
-            }
-            ptr = ptr->next;
-        }
-        hashTable[i] = new Entry(key, val, hashTable[i]);
     }
     //=============================================================================
     std::vector<KEY_TYPE>
     getAllSymbols()
     {
-        std::scoped_lock<std::mutex> lock { m_mutex };
+        std::shared_lock lock { m_mutex };
         std::vector<KEY_TYPE> retlist;
-        for (auto& i : hashTable) {
-            if (i != nullptr) {
-                Entry* ptr;
-                ptr = i;
-                while (ptr != nullptr) {
-                    retlist.push_back(ptr->key);
-                    ptr = ptr->next;
-                }
-            }
+        retlist.reserve(m_list.size());
+        for (const auto& [key, val] : m_list) {
+            retlist.push_back(key);
         }
         return retlist;
     }

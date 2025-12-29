@@ -181,23 +181,36 @@ public:
     /**
      * Get the name of the scope.
      */
-    std::string
-    getName();
-    /**
-     * Increment the loop counter.
-     */
-    void
-    enterLoop();
-    /**
-     * Decrement the loop counter.
-     */
-    void
-    exitLoop();
+    inline std::string
+    getName()
+    {
+        return name;
+    }
     /**
      * Test the loop counter.
      */
-    bool
-    inLoop();
+    inline bool
+    inLoop()
+    {
+        return (loopLevel > 0);
+    }
+
+    /**
+     * Increment the loop counter.
+     */
+    inline void
+    enterLoop()
+    {
+        loopLevel++;
+    }
+    /**
+     * Decrement the loop counter.
+     */
+    inline void
+    exitLoop()
+    {
+        loopLevel--;
+    }
 
     /* Get symbols list*/
     void

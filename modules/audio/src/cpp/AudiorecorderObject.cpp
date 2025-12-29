@@ -8,6 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <map>
+#include <functional>
+#include <unordered_map>
 #include "AudiorecorderObject.hpp"
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"

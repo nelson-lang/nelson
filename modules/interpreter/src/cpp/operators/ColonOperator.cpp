@@ -94,6 +94,7 @@ Evaluator::colonUnitOperator(const ArrayOf& A, const ArrayOf& B)
     bool isSparse = false;
 
     ArrayOfVector argIn;
+    argIn.reserve(2);
     argIn.push_back(A);
     argIn.push_back(B);
 
@@ -138,6 +139,7 @@ Evaluator::colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
     bool isSparse = false;
 
     ArrayOfVector argIn;
+    argIn.reserve(3);
     argIn.push_back(A);
     argIn.push_back(B);
     argIn.push_back(C);

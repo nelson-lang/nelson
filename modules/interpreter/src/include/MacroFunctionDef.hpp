@@ -14,6 +14,8 @@
 #include "FunctionDef.hpp"
 #include "nlsInterpreter_exports.h"
 #include "LexerContext.hpp"
+#include "Context.hpp"
+#include "ParserState.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -146,6 +148,42 @@ private:
 
     ArrayOfVector
     evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, int nargout);
+
+    void
+    insertLocalFunctions(Context* context);
+
+    void
+    setInputArgumentNames(Context* context, const ArrayOfVector& inputs);
+
+    void
+    bindInputs(Context* context, const ArrayOfVector& inputs);
+
+    ArrayOfVector
+    prepareOutputs(Context* context, int nargout);
+
+    void
+    resetCodeStorage();
+
+    FILE*
+    openSourceFile();
+
+    ParserState
+    parseSource(Evaluator* eval, FILE* fr, AbstractSyntaxTreePtrVector& ptAstCode);
+
+    ParserState
+    parseOverloadEndFunction(Evaluator* eval, FILE* fr, AbstractSyntaxTreePtrVector& ptAstCode);
+
+    ParserState
+    parseRegularFile(Evaluator* eval, FILE* fr, AbstractSyntaxTreePtrVector& ptAstCode);
+
+    LexerContext&
+    getOrCreateLexerContext(Evaluator* eval, LexerContext& localContext);
+
+    void
+    assignParsedResult(ParserState pstate);
+
+    void
+    validateFunctionNamesAndFilename();
 
     ArrayOfVector cleanupTasks;
     void

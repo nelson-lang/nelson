@@ -22,8 +22,9 @@ Evaluator::dotRightDivideOperator(AbstractSyntaxTreePtr t)
 {
     callstack.pushID((size_t)t->getContext());
     ArrayOfVector args;
-    args << expression(t->down);
-    args << expression(t->down->right);
+    args.reserve(2);
+    args.push_back(expression(t->down));
+    args.push_back(expression(t->down->right));
     ArrayOf retval = this->dotRightDivideOperator(args);
     callstack.popID();
     return retval;
