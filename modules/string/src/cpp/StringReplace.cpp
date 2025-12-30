@@ -420,15 +420,11 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
 std::wstring
 Replace(const std::wstring& originStr, const std::wstring& subStr, const std::wstring& replaceStr)
 {
-    std::wstring result;
-    if (subStr.empty()) {
-        for (wchar_t c : originStr) {
-            result = result + replaceStr + c;
-        }
-        result = result + replaceStr;
-        return result;
-    }
-    result = originStr;
+    // ⚡ Bolt: This function was simplified by removing special handling for the
+    // empty `subStr` case. That logic is now centralized in `StringHelpers::replace_all`,
+    // which is more efficient and corrects a regression from the first patch.
+    // This change makes the code cleaner and avoids redundancy.
+    std::wstring result = originStr;
     StringHelpers::replace_all(result, subStr, replaceStr);
     return result;
 }

@@ -155,6 +155,34 @@ template <class T>
 void
 replace_all(T& str, const T& from, const T& to, size_t npos)
 {
+    if (from.empty()) {
+        if (to.empty()) {
+            return; // Avoid infinite loop
+        }
+        T result;
+        result.reserve((str.length() + 1) * to.length() + str.length());
+        for (const auto& c : str) {
+            result.append(to);
+            result += c;
+        }
+        result.append(to);
+        str = result;
+        return;
+    }
+
+    if (to.length() > from.length()) {
+        int occurrences = 0;
+        size_t pos = 0;
+        while ((pos = str.find(from, pos)) != npos) {
+            occurrences++;
+            pos += from.length();
+        }
+
+        if (occurrences > 0) {
+            str.reserve(str.length() + occurrences * (to.length() - from.length()));
+        }
+    }
+
     size_t start_pos = 0;
     while ((start_pos = str.find(from, start_pos)) != npos) {
         str.replace(start_pos, from.length(), to);
