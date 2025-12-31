@@ -27,9 +27,9 @@ unsortedRemoveDuplicates(stringVector& values)
     std::set<std::string> seenStrings;
     auto itr = begin(values);
     while (itr != end(values)) {
-        if (seenStrings.find(*itr) != end(seenStrings))
+        if (seenStrings.find(*itr) != end(seenStrings)) {
             itr = values.erase(itr);
-        else {
+        } else {
             seenStrings.insert(*itr);
             itr++;
         }

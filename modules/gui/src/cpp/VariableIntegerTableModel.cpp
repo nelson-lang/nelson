@@ -1042,8 +1042,9 @@ VariableIntegerTableModel::isStructureCompatible(const ArrayOf& value)
 bool
 VariableIntegerTableModel::insertRowAt(int row)
 {
-    if (row < 0 || row > m_rows)
+    if (row < 0 || row > m_rows) {
         return false;
+    }
 
     saveCurrentStateForUndo();
 
@@ -1102,8 +1103,9 @@ VariableIntegerTableModel::insertRowAt(int row)
 bool
 VariableIntegerTableModel::insertColumnAt(int col)
 {
-    if (col < 0 || col > m_cols)
+    if (col < 0 || col > m_cols) {
         return false;
+    }
 
     saveCurrentStateForUndo();
 
@@ -1197,8 +1199,9 @@ VariableIntegerTableModel::deleteRowAt(int row)
         for (int c = 0; c < cols; ++c) {
             int k = 0;
             for (int r = 0; r < m_rows; ++r) {
-                if (r == row)
+                if (r == row) {
                     continue;
+                }
 
                 size_t srcIdx = (r + c * m_rows) * elementSize;
                 size_t dstIdx = (k + c * newRows) * elementSize;
@@ -1253,8 +1256,9 @@ VariableIntegerTableModel::deleteColumnAt(int col)
 
         int k = 0;
         for (int c = 0; c < m_cols; ++c) {
-            if (c == col)
+            if (c == col) {
                 continue;
+            }
 
             for (int r = 0; r < rows; ++r) {
                 size_t srcIdx = (r + c * rows) * elementSize;

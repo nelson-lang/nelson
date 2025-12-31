@@ -417,9 +417,11 @@ RealLU(int nrows, int ncols, T* l, T* u, T* a,
 #if WITH_OPENMP
 #pragma omp parallel for private(i, j) if (urows > OMP_DEFAULT_THRESHOLD)
 #endif
-        for (i = 0; i < urows; i++)
-            for (j = i; j < ucols; j++)
+        for (i = 0; i < urows; i++) {
+            for (j = i; j < ucols; j++) {
                 u[i + j * urows] = a[i + j * nrows];
+            }
+        }
     } else {
         ompIndexType lrows = nrows;
         ompIndexType lcols = nrows;
@@ -438,9 +440,11 @@ RealLU(int nrows, int ncols, T* l, T* u, T* a,
 #if WITH_OPENMP
 #pragma omp parallel for private(i, j) if (nrows > OMP_DEFAULT_THRESHOLD)
 #endif
-        for (i = 0; i < nrows; i++)
-            for (j = i; j < ncols; j++)
+        for (i = 0; i < nrows; i++) {
+            for (j = i; j < ncols; j++) {
                 u[i + j * urows] = a[i + j * nrows];
+            }
+        }
     }
     if (fullpivot) {
         delete[] fullpivot;

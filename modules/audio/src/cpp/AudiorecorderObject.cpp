@@ -163,22 +163,24 @@ AudiorecorderObject::setConfig(
     _CurrentSample = 0;
     // configure input stream parameters for PortAudio
     int dev = deviceID;
-    if (dev < 0)
+    if (dev < 0) {
         dev = Pa_GetDefaultInputDevice();
+    }
     const PaDeviceInfo* pdi = Pa_GetDeviceInfo(dev);
     if (pdi) {
         inputStreamParameters.device = dev;
         inputStreamParameters.channelCount
             = (_NumberOfChannels > 0) ? _NumberOfChannels : static_cast<int>(pdi->maxInputChannels);
         // choose sample format
-        if (_BitsPerSample == 32)
+        if (_BitsPerSample == 32) {
             inputStreamParameters.sampleFormat = paFloat32;
-        else if (_BitsPerSample == 16)
+        } else if (_BitsPerSample == 16) {
             inputStreamParameters.sampleFormat = paInt16;
-        else if (_BitsPerSample == 8)
+        } else if (_BitsPerSample == 8) {
             inputStreamParameters.sampleFormat = paInt8;
-        else
+        } else {
             inputStreamParameters.sampleFormat = paFloat32;
+        }
         inputStreamParameters.suggestedLatency = pdi->defaultLowInputLatency;
         inputStreamParameters.hostApiSpecificStreamInfo = nullptr;
     } else {
@@ -218,8 +220,9 @@ FunctionToWideString(const ArrayOf& _data)
 bool
 AudiorecorderObject::disp(Interface* io)
 {
-    if (!io)
+    if (!io) {
         return false;
+    }
 
     struct DisplayItem
     {
@@ -242,8 +245,9 @@ AudiorecorderObject::disp(Interface* io)
         { L"Tag", [this] { return L"'" + _Tag + L"'"; } },
         { L"UserData",
             [this] {
-                if (_UserData.isEmpty(true))
+                if (_UserData.isEmpty(true)) {
                     return L"[]";
+                }
                 Dimensions dimsUserData = _UserData.getDimensions();
                 std::string userDataClassName;
                 ClassName(_UserData, userDataClassName);
@@ -424,11 +428,13 @@ AudiorecorderObject::set(
 static void
 TriggerTimerIfNeeded(AudiorecorderObject* data)
 {
-    if (!data)
+    if (!data) {
         return;
+    }
 
-    if (data->getTimerFcn().isEmpty())
+    if (data->getTimerFcn().isEmpty()) {
         return;
+    }
 
     if (!data->isFunctionHandleCallbackValid(data->getTimerFcn())) {
         return;
@@ -683,18 +689,21 @@ AudiorecorderObject::getRecordedData(NelsonType destinationType)
 
     // helper lambdas for clamping
     auto clampLong = [](long v, long lo, long hi) -> long {
-        if (v < lo)
+        if (v < lo) {
             return lo;
-        if (v > hi)
+        }
+        if (v > hi) {
             return hi;
+        }
         return v;
     };
 
     switch (destinationType) {
     case NLS_DOUBLE: {
         ArrayOf out = ArrayOf::doubleMatrix2dConstructor(rows, cols);
-        if (out.getElementCount() == 0)
+        if (out.getElementCount() == 0) {
             return out;
+        }
         void* dstptr = out.getReadWriteDataPointer();
         double* dst = static_cast<double*>(dstptr);
         for (int s = 0; s < rows; ++s) {
@@ -713,8 +722,9 @@ AudiorecorderObject::getRecordedData(NelsonType destinationType)
     }
     case NLS_SINGLE: {
         ArrayOf out = ArrayOf::singleMatrix2dConstructor(rows, cols);
-        if (out.getElementCount() == 0)
+        if (out.getElementCount() == 0) {
             return out;
+        }
         void* dstptr = out.getReadWriteDataPointer();
         single* dst = static_cast<single*>(dstptr);
         for (int s = 0; s < rows; ++s) {
@@ -733,8 +743,9 @@ AudiorecorderObject::getRecordedData(NelsonType destinationType)
     }
     case NLS_INT16: {
         ArrayOf out = ArrayOf::int16Matrix2dConstructor(rows, cols);
-        if (out.getElementCount() == 0)
+        if (out.getElementCount() == 0) {
             return out;
+        }
         void* dstptr = out.getReadWriteDataPointer();
         int16* dst = static_cast<int16*>(dstptr);
         for (int s = 0; s < rows; ++s) {
@@ -756,8 +767,9 @@ AudiorecorderObject::getRecordedData(NelsonType destinationType)
     }
     case NLS_INT8: {
         ArrayOf out = ArrayOf::int8Matrix2dConstructor(rows, cols);
-        if (out.getElementCount() == 0)
+        if (out.getElementCount() == 0) {
             return out;
+        }
         void* dstptr = out.getReadWriteDataPointer();
         int8* dst = static_cast<int8*>(dstptr);
         for (int s = 0; s < rows; ++s) {
@@ -779,8 +791,9 @@ AudiorecorderObject::getRecordedData(NelsonType destinationType)
     }
     case NLS_UINT8: {
         ArrayOf out = ArrayOf::uint8Matrix2dConstructor(rows, cols);
-        if (out.getElementCount() == 0)
+        if (out.getElementCount() == 0) {
             return out;
+        }
         void* dstptr = out.getReadWriteDataPointer();
         uint8* dst = static_cast<uint8*>(dstptr);
         for (int s = 0; s < rows; ++s) {
@@ -803,8 +816,9 @@ AudiorecorderObject::getRecordedData(NelsonType destinationType)
     default: {
         // fallback to single precision if unknown type
         ArrayOf out = ArrayOf::singleMatrix2dConstructor(rows, cols);
-        if (out.getElementCount() == 0)
+        if (out.getElementCount() == 0) {
             return out;
+        }
         void* dstptr = out.getReadWriteDataPointer();
         single* dst = static_cast<single*>(dstptr);
         for (int s = 0; s < rows; ++s) {

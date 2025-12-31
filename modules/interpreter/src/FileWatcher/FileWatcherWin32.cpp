@@ -49,8 +49,9 @@ to_str(const WAPI_STR& str)
 #ifdef WIN_USE_WSTR
     std::string ret(str.length(), '0');
 
-    for (size_t i = 0; i < str.length(); ++i)
+    for (size_t i = 0; i < str.length(); ++i) {
         ret[i] = (char)str[i];
+    }
 
     return ret;
 #else
@@ -128,8 +129,9 @@ WatchCallback(DWORD dwErrorCode, DWORD dwNumberOfBytesTransfered, LPOVERLAPPED l
             }
 #endif
 
-            if (!pWatch->mStopNow)
+            if (!pWatch->mStopNow) {
                 pWatch->mFileWatcher->handleAction(pWatch, szFile, pNotify->Action);
+            }
 
         } while (pNotify->NextEntryOffset != 0);
     }
@@ -227,8 +229,9 @@ FileWatcherWin32::addWatch(const String& directory, FileWatchListener* watcher, 
     WatchStruct* watch = CreateWatch(directory.c_str(), recursive,
         FILE_NOTIFY_CHANGE_CREATION | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_FILE_NAME);
 
-    if (!watch)
+    if (!watch) {
         throw FileNotFoundException(directory);
+    }
 
     watch->mWatchid = watchid;
     watch->mFileWatcher = this;
@@ -261,8 +264,9 @@ FileWatcherWin32::removeWatch(WatchID watchid)
 {
     WatchMap::iterator iter = mWatches.find(watchid);
 
-    if (iter == mWatches.end())
+    if (iter == mWatches.end()) {
         return;
+    }
 
     WatchStruct* watch = iter->second;
     mWatches.erase(iter);

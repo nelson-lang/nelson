@@ -684,10 +684,12 @@ QString
 VariableDoubleTableModel::formatDisplayValue(double value) const
 {
     // Handle special values
-    if (std::isnan(value))
+    if (std::isnan(value)) {
         return "NaN";
-    if (std::isinf(value))
+    }
+    if (std::isinf(value)) {
         return value > 0 ? "Inf" : "-Inf";
+    }
 
     // Format normal values
     if (value == 0.0) {
@@ -958,8 +960,9 @@ VariableDoubleTableModel::isStructureCompatible(const ArrayOf& value)
 bool
 VariableDoubleTableModel::insertRowAt(int row)
 {
-    if (row < 0 || row > m_rows)
+    if (row < 0 || row > m_rows) {
         return false;
+    }
 
     saveCurrentStateForUndo();
 
@@ -977,13 +980,15 @@ VariableDoubleTableModel::insertRowAt(int row)
                 = reinterpret_cast<std::complex<double>*>((double*)m_array.getDataPointer());
 
             for (int c = 0; c < cols; ++c) {
-                for (int r = 0; r < row; ++r)
+                for (int r = 0; r < row; ++r) {
                     dst[r + c * newRows] = src[r + c * m_rows];
+                }
 
                 dst[row + c * newRows] = std::complex<double>(0.0, 0.0);
 
-                for (int r = row; r < m_rows; ++r)
+                for (int r = row; r < m_rows; ++r) {
                     dst[r + 1 + c * newRows] = src[r + c * m_rows];
+                }
             }
 
             newArray = ArrayOf(NLS_DCOMPLEX, newDims, ptr);
@@ -993,13 +998,15 @@ VariableDoubleTableModel::insertRowAt(int row)
             double* src = (double*)(m_array.getDataPointer());
 
             for (int c = 0; c < cols; ++c) {
-                for (int r = 0; r < row; ++r)
+                for (int r = 0; r < row; ++r) {
                     dst[r + c * newRows] = src[r + c * m_rows];
+                }
 
                 dst[row + c * newRows] = 0.0;
 
-                for (int r = row; r < m_rows; ++r)
+                for (int r = row; r < m_rows; ++r) {
                     dst[r + 1 + c * newRows] = src[r + c * m_rows];
+                }
             }
 
             newArray = ArrayOf(NLS_DOUBLE, newDims, ptr);
@@ -1021,8 +1028,9 @@ VariableDoubleTableModel::insertRowAt(int row)
 bool
 VariableDoubleTableModel::insertColumnAt(int col)
 {
-    if (col < 0 || col > m_cols)
+    if (col < 0 || col > m_cols) {
         return false;
+    }
     saveCurrentStateForUndo();
 
     int newCols = m_cols + 1;
@@ -1038,16 +1046,21 @@ VariableDoubleTableModel::insertColumnAt(int col)
             std::complex<double>* src
                 = reinterpret_cast<std::complex<double>*>((double*)m_array.getDataPointer());
 
-            for (int c = 0; c < col; ++c)
-                for (int r = 0; r < rows; ++r)
+            for (int c = 0; c < col; ++c) {
+                for (int r = 0; r < rows; ++r) {
                     dst[r + c * rows] = src[r + c * rows];
+                }
+            }
 
-            for (int r = 0; r < rows; ++r)
+            for (int r = 0; r < rows; ++r) {
                 dst[r + col * rows] = std::complex<double>(0.0, 0.0);
+            }
 
-            for (int c = col; c < m_cols; ++c)
-                for (int r = 0; r < rows; ++r)
+            for (int c = col; c < m_cols; ++c) {
+                for (int r = 0; r < rows; ++r) {
                     dst[r + (c + 1) * rows] = src[r + c * rows];
+                }
+            }
 
             newArray = ArrayOf(NLS_DCOMPLEX, newDims, ptr);
         } else {
@@ -1055,16 +1068,21 @@ VariableDoubleTableModel::insertColumnAt(int col)
             double* dst = ptr;
             double* src = (double*)(m_array.getDataPointer());
 
-            for (int c = 0; c < col; ++c)
-                for (int r = 0; r < rows; ++r)
+            for (int c = 0; c < col; ++c) {
+                for (int r = 0; r < rows; ++r) {
                     dst[r + c * rows] = src[r + c * rows];
+                }
+            }
 
-            for (int r = 0; r < rows; ++r)
+            for (int r = 0; r < rows; ++r) {
                 dst[r + col * rows] = 0.0;
+            }
 
-            for (int c = col; c < m_cols; ++c)
-                for (int r = 0; r < rows; ++r)
+            for (int c = col; c < m_cols; ++c) {
+                for (int r = 0; r < rows; ++r) {
                     dst[r + (c + 1) * rows] = src[r + c * rows];
+                }
+            }
 
             newArray = ArrayOf(NLS_DOUBLE, newDims, ptr);
         }
@@ -1109,8 +1127,9 @@ VariableDoubleTableModel::deleteRowAt(int row)
             for (int c = 0; c < cols; ++c) {
                 int k = 0;
                 for (int r = 0; r < m_rows; ++r) {
-                    if (r == row)
+                    if (r == row) {
                         continue;
+                    }
                     dst[k++ + c * newRows] = src[r + c * m_rows];
                 }
             }
@@ -1124,8 +1143,9 @@ VariableDoubleTableModel::deleteRowAt(int row)
             for (int c = 0; c < cols; ++c) {
                 int k = 0;
                 for (int r = 0; r < m_rows; ++r) {
-                    if (r == row)
+                    if (r == row) {
                         continue;
+                    }
                     dst[k++ + c * newRows] = src[r + c * m_rows];
                 }
             }
@@ -1172,10 +1192,12 @@ VariableDoubleTableModel::deleteColumnAt(int col)
 
             int k = 0;
             for (int c = 0; c < m_cols; ++c) {
-                if (c == col)
+                if (c == col) {
                     continue;
-                for (int r = 0; r < rows; ++r)
+                }
+                for (int r = 0; r < rows; ++r) {
                     dst[r + k * rows] = src[r + c * rows];
+                }
                 ++k;
             }
 
@@ -1187,10 +1209,12 @@ VariableDoubleTableModel::deleteColumnAt(int col)
 
             int k = 0;
             for (int c = 0; c < m_cols; ++c) {
-                if (c == col)
+                if (c == col) {
                     continue;
-                for (int r = 0; r < rows; ++r)
+                }
+                for (int r = 0; r < rows; ++r) {
                     dst[r + k * rows] = src[r + c * rows];
+                }
                 ++k;
             }
 

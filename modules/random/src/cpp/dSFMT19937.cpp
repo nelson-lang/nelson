@@ -25,8 +25,9 @@ static bool ziggurat_initialized = false;
 static void
 zigset()
 {
-    if (ziggurat_initialized)
+    if (ziggurat_initialized) {
         return;
+    }
 
     double z[N + 1];
     z[N] = R;
@@ -55,16 +56,19 @@ zigset()
 static double
 RNOR_dSFMT(dsfmt_t* state)
 {
-    if (!ziggurat_initialized)
+    if (!ziggurat_initialized) {
         zigset();
+    }
 
     int j = (int)(dsfmt_genrand_close_open(state) * N) + 1;
     double u = 2.0 * dsfmt_genrand_close_open(state) - 1.0;
 
-    if (j < 1)
+    if (j < 1) {
         j = 1;
-    if (j > N)
+    }
+    if (j > N) {
         j = N;
+    }
 
     if (std::abs(u) < wn[j - 1]) {
         return u * fn[j - 1];

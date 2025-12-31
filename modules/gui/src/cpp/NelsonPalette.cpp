@@ -87,8 +87,9 @@ detectDarkMode()
     QColor windowColor = palette.color(QPalette::Window);
     bool dark = windowTextColor.toHsl().value() > windowColor.toHsl().value();
 
-    if (dark)
+    if (dark) {
         return true;
+    }
 
 // Fallbacks
 #if _MSC_VER

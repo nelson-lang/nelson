@@ -184,8 +184,9 @@ get_link_type(cmark_node* node)
         link_text = node->first_child;
         cmark_consolidate_text_nodes(link_text);
 
-        if (!link_text)
+        if (!link_text) {
             return NO_LINK;
+        }
 
         realurl = (char*)url;
         realurllen = (int)url_len;

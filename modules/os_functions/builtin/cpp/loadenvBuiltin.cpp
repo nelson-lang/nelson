@@ -35,8 +35,9 @@ Nelson::OsFunctionsGateway::loadenvBuiltin(Evaluator* eval, int nLhs, const Arra
     } catch (const std::exception& ex) {
         errorMessage = utf8_to_wstring(std::string("Exception: ")) + utf8_to_wstring(ex.what());
     } catch (...) {
-        if (errorMessage.empty())
+        if (errorMessage.empty()) {
             errorMessage = _W("Unknown error while loading environment");
+        }
     }
 
     if (!errorMessage.empty()) {

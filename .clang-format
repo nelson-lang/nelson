@@ -1,4 +1,3 @@
-
 ---
 BasedOnStyle: WebKit
 AlwaysBreakAfterReturnType: All
@@ -10,6 +9,5 @@ Standard: Cpp11
 TabWidth: '4'
 UseTab: Never
 SortIncludes: 'false'
-
-...
+InsertBraces: 'true'
 

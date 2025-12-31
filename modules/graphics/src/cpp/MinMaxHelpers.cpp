@@ -22,13 +22,14 @@ findVectorMin(const std::vector<double>& v)
 #pragma omp parallel for reduction(min : min) if (v.size() > OMP_DEFAULT_THRESHOLD)
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)v.size(); i++) {
-        if (std::isfinite(v[i]))
+        if (std::isfinite(v[i])) {
             if (first) {
                 first = false;
                 min = v[i];
             } else if (v[i] < min) {
                 min = v[i];
             }
+        }
     }
     return min;
 }
@@ -42,13 +43,14 @@ findVectorMax(const std::vector<double>& v)
 #pragma omp parallel for reduction(max : max) if (v.size() > OMP_DEFAULT_THRESHOLD)
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)v.size(); i++) {
-        if (std::isfinite(v[i]))
+        if (std::isfinite(v[i])) {
             if (first) {
                 first = false;
                 max = v[i];
             } else if (v[i] > max) {
                 max = v[i];
             }
+        }
     }
     return max;
 }
@@ -69,13 +71,14 @@ ArrayOfMin(const ArrayOf& a)
 #pragma omp parallel for reduction(min : min) if (len > OMP_DEFAULT_THRESHOLD)
 #endif
     for (indexType i = 0; i < len; i++) {
-        if (std::isfinite(v[i]))
+        if (std::isfinite(v[i])) {
             if (first) {
                 first = false;
                 min = v[i];
             } else if (v[i] < min) {
                 min = v[i];
             }
+        }
     }
     return min;
 }
@@ -96,13 +99,14 @@ ArrayOfMax(const ArrayOf& a)
 #pragma omp parallel for reduction(max : max) if (len > OMP_DEFAULT_THRESHOLD)
 #endif
     for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
-        if (std::isfinite(v[i]))
+        if (std::isfinite(v[i])) {
             if (first) {
                 first = false;
                 max = v[i];
             } else if (v[i] > max) {
                 max = v[i];
             }
+        }
     }
     return max;
 }

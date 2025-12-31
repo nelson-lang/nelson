@@ -6,10 +6,11 @@
 unsigned long
 get_coef(unsigned long* pf, unsigned int deg)
 {
-    if ((pf[deg >> 5] & (LSB << (deg & 0x1ful))) != 0)
+    if ((pf[deg >> 5] & (LSB << (deg & 0x1ful))) != 0) {
         return (1);
-    else
+    } else {
         return (0);
+    }
 }
 
 void
@@ -17,8 +18,9 @@ copy_state(mt19937_state* target_state, mt19937_state* state)
 {
     int i;
 
-    for (i = 0; i < _MT19937_N; i++)
+    for (i = 0; i < _MT19937_N; i++) {
         target_state->key[i] = state->key[i];
+    }
 
     target_state->pos = state->pos;
 }
@@ -53,19 +55,25 @@ add_state(mt19937_state* state1, mt19937_state* state2)
     int i, pt1 = state1->pos, pt2 = state2->pos;
 
     if (pt2 - pt1 >= 0) {
-        for (i = 0; i < _MT19937_N - pt2; i++)
+        for (i = 0; i < _MT19937_N - pt2; i++) {
             state1->key[i + pt1] ^= state2->key[i + pt2];
-        for (; i < _MT19937_N - pt1; i++)
+        }
+        for (; i < _MT19937_N - pt1; i++) {
             state1->key[i + pt1] ^= state2->key[i + (pt2 - _MT19937_N)];
-        for (; i < _MT19937_N; i++)
+        }
+        for (; i < _MT19937_N; i++) {
             state1->key[i + (pt1 - _MT19937_N)] ^= state2->key[i + (pt2 - _MT19937_N)];
+        }
     } else {
-        for (i = 0; i < _MT19937_N - pt1; i++)
+        for (i = 0; i < _MT19937_N - pt1; i++) {
             state1->key[i + pt1] ^= state2->key[i + pt2];
-        for (; i < _MT19937_N - pt2; i++)
+        }
+        for (; i < _MT19937_N - pt2; i++) {
             state1->key[i + (pt1 - _MT19937_N)] ^= state2->key[i + pt2];
-        for (; i < _MT19937_N; i++)
+        }
+        for (; i < _MT19937_N; i++) {
             state1->key[i + (pt1 - _MT19937_N)] ^= state2->key[i + (pt2 - _MT19937_N)];
+        }
     }
 }
 
@@ -78,28 +86,32 @@ horner1(unsigned long* pf, mt19937_state* state)
 
     temp = (mt19937_state*)calloc(1, sizeof(mt19937_state));
 
-    while (get_coef(pf, i) == 0)
+    while (get_coef(pf, i) == 0) {
         i--;
+    }
 
     if (i > 0) {
         copy_state(temp, state);
         gen_next(temp);
         i--;
         for (; i > 0; i--) {
-            if (get_coef(pf, i) != 0)
+            if (get_coef(pf, i) != 0) {
                 add_state(temp, state);
-            else
+            } else {
                 ;
+            }
             gen_next(temp);
         }
-        if (get_coef(pf, 0) != 0)
+        if (get_coef(pf, 0) != 0) {
             add_state(temp, state);
-        else
+        } else {
             ;
-    } else if (i == 0)
+        }
+    } else if (i == 0) {
         copy_state(temp, state);
-    else
+    } else {
         ;
+    }
 
     copy_state(state, temp);
     free(temp);

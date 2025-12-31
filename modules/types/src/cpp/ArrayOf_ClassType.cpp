@@ -88,13 +88,14 @@ ArrayOf::classConstructor(
          */
         indexType length = dims.getElementCount();
         indexType offset = 0;
-        for (j = 0; j < length; j++)
+        for (j = 0; j < length; j++) {
             for (i = 0; i < (indexType)fNames.size(); i++) {
                 ArrayOf rval = values[i];
                 rptr = (const ArrayOf*)rval.dp->getData();
                 qp[offset] = rval;
                 offset++;
             }
+        }
         ArrayOf res = ArrayOf(NLS_CLASS_ARRAY, dims, qp, false, fNames);
         res.setClassType(classTypeName);
         return res;

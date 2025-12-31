@@ -238,8 +238,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket1Semicolon2Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_SHIFT;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket1Semicolon2or3or5Dispatch);
     }
@@ -247,8 +248,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket1Semicolon3Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_META;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket1Semicolon2or3or5Dispatch);
     }
@@ -256,8 +258,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket1Semicolon5Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_CONTROL;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket1Semicolon2or3or5Dispatch);
     }
@@ -273,8 +276,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket1SemicolonRoutine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket1SemicolonDispatch);
     }
 
@@ -287,8 +291,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket15Semicolon2Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_SHIFT;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket15Semicolon2Dispatch);
     }
@@ -302,8 +307,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket15Semicolon5Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_CONTROL;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket15Semicolon5Dispatch);
     }
@@ -317,8 +323,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket15SemicolonRoutine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket15SemicolonDispatch);
     }
 
@@ -329,8 +336,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket15Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket15Dispatch);
     }
 
@@ -343,8 +351,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket17Semicolon2Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_SHIFT;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket17Semicolon2Dispatch);
     }
@@ -358,8 +367,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket17Semicolon5Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_CONTROL;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket17Semicolon5Dispatch);
     }
@@ -373,8 +383,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket17SemicolonRoutine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket17SemicolonDispatch);
     }
 
@@ -385,8 +396,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket17Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket17Dispatch);
     }
 
@@ -399,8 +411,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket18Semicolon2Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_SHIFT;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket18Semicolon2Dispatch);
     }
@@ -414,8 +427,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket18Semicolon5Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_CONTROL;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket18Semicolon5Dispatch);
     }
@@ -429,8 +443,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket18SemicolonRoutine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket18SemicolonDispatch);
     }
 
@@ -441,8 +456,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket18Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket18Dispatch);
     }
 
@@ -455,8 +471,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket19Semicolon2Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_SHIFT;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket19Semicolon2Dispatch);
     }
@@ -470,8 +487,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket19Semicolon5Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_CONTROL;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket19Semicolon5Dispatch);
     }
@@ -485,8 +503,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket19SemicolonRoutine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket19SemicolonDispatch);
     }
 
@@ -497,8 +516,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket19Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket19Dispatch);
     }
 
@@ -521,8 +541,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket20Semicolon2Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_SHIFT;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket20Semicolon2Dispatch);
     }
@@ -536,8 +557,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket20Semicolon5Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_CONTROL;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket20Semicolon5Dispatch);
     }
@@ -551,8 +573,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket20SemicolonRoutine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket20SemicolonDispatch);
     }
 
@@ -563,8 +586,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket200Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket200Dispatch);
     }
 
@@ -575,8 +599,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket201Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket201Dispatch);
     }
 
@@ -588,8 +613,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket20Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket20Dispatch);
     }
 
@@ -602,8 +628,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket21Semicolon2Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_SHIFT;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket21Semicolon2Dispatch);
     }
@@ -617,8 +644,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket21Semicolon5Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_CONTROL;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket21Semicolon5Dispatch);
     }
@@ -632,8 +660,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket21SemicolonRoutine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket21SemicolonDispatch);
     }
 
@@ -644,8 +673,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket21Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket21Dispatch);
     }
 
@@ -658,8 +688,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket23Semicolon2Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_SHIFT;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket23Semicolon2Dispatch);
     }
@@ -673,8 +704,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket23Semicolon5Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_CONTROL;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket23Semicolon5Dispatch);
     }
@@ -688,8 +720,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket23SemicolonRoutine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket23SemicolonDispatch);
     }
 
@@ -700,8 +733,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket23Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket23Dispatch);
     }
 
@@ -714,8 +748,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket24Semicolon2Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_SHIFT;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket24Semicolon2Dispatch);
     }
@@ -729,8 +764,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket24Semicolon5Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_CONTROL;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket24Semicolon5Dispatch);
     }
@@ -744,8 +780,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket24SemicolonRoutine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket24SemicolonDispatch);
     }
 
@@ -756,8 +793,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket24Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket24Dispatch);
     }
 
@@ -791,8 +829,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket5Semicolon5Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_CONTROL;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket5Semicolon5Dispatch);
     }
@@ -804,8 +843,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket5SemicolonRoutine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket5SemicolonDispatch);
     }
 
@@ -823,8 +863,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket6Semicolon5Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         thisKeyMetaCtrl |= Replxx::KEY::BASE_CONTROL;
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket6Semicolon5Dispatch);
     }
@@ -836,8 +877,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket6SemicolonRoutine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket6SemicolonDispatch);
     }
 
@@ -868,64 +910,72 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracket1Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket1Dispatch);
     }
     static char32_t
     escLeftBracket2Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket2Dispatch);
     }
     static char32_t
     escLeftBracket3Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket3Dispatch);
     }
     static char32_t
     escLeftBracket4Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket4Dispatch);
     }
     static char32_t
     escLeftBracket5Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket5Dispatch);
     }
     static char32_t
     escLeftBracket6Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket6Dispatch);
     }
     static char32_t
     escLeftBracket7Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket7Dispatch);
     }
     static char32_t
     escLeftBracket8Routine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracket8Dispatch);
     }
     static char32_t
@@ -960,16 +1010,18 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escLeftBracketRoutine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escLeftBracketDispatch);
     }
     static char32_t
     escORoutine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escODispatch);
     }
     static char32_t
@@ -984,8 +1036,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
     escRoutine(int in_fd_, int err_fd_, char32_t c)
     {
         c = read_unicode_character(in_fd_);
-        if (c == 0)
+        if (c == 0) {
             return 0;
+        }
         return doDispatch(in_fd_, err_fd_, c, escDispatch);
     }
     static CharacterDispatchRoutine initialRoutines[]
@@ -1000,8 +1053,9 @@ namespace EscapeSequenceProcessing { // move these out of global namespace
         thisKeyMetaCtrl = Replxx::KEY::BASE_META;
         if (c == 0x1B) { // another ESC, stay in ESC processing mode
             c = read_unicode_character(in_fd_);
-            if (c == 0)
+            if (c == 0) {
                 return 0;
+            }
             return doDispatch(in_fd_, err_fd_, c, escDispatch);
         }
         return doDispatch(in_fd_, err_fd_, c, initialDispatch);

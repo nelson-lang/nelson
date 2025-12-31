@@ -67,8 +67,9 @@ Nelson::MarkdownString(
 
     // Parse the markdown into a cmark node
     cmark_node* doc = cmark_parse_document(markdown, inputMarkdownString.length(), options);
-    if (!doc)
+    if (!doc) {
         return false;
+    }
 
     // Render the document node as HTML
     char* html = cmark_render_html(doc, options);
@@ -76,8 +77,9 @@ Nelson::MarkdownString(
     // Clean up the cmark node
     cmark_node_free(doc);
 
-    if (!html)
+    if (!html) {
         return false;
+    }
 
     // Assign the returned HTML to the output parameter
     outputHtmlString = html;

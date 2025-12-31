@@ -107,16 +107,20 @@ parseYearWithPivot(int year, int pivotYear)
 static bool
 isValidDate(int year, int month, int day)
 {
-    if (month < 1 || month > 12)
+    if (month < 1 || month > 12) {
         return false;
-    if (day < 1 || day > 31)
+    }
+    if (day < 1 || day > 31) {
         return false;
-    if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30)
+    }
+    if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30) {
         return false;
+    }
     if (month == 2) {
         bool isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-        if (day > (isLeapYear ? 29 : 28))
+        if (day > (isLeapYear ? 29 : 28)) {
             return false;
+        }
     }
     return true;
 }
@@ -128,12 +132,14 @@ splitString(const std::wstring& str, const std::wstring& delims)
     std::wstring::size_type beg = 0;
     for (auto end = str.find_first_of(delims); end != std::wstring::npos;
          end = str.find_first_of(delims, beg)) {
-        if (end > beg)
+        if (end > beg) {
             tokens.push_back(str.substr(beg, end - beg));
+        }
         beg = end + 1;
     }
-    if (beg < str.length())
+    if (beg < str.length()) {
         tokens.push_back(str.substr(beg));
+    }
     return tokens;
 }
 //=============================================================================
@@ -241,8 +247,9 @@ getDateFormatInfoList(bool withPivot)
                         hour += 12;
                     }
                 }
-                if ((m[4] == L"AM" || m[4] == L"am") && hour == 12)
+                if ((m[4] == L"AM" || m[4] == L"am") && hour == 12) {
                     hour = 0;
+                }
                 int year = withPivot ? parseYearWithPivot(currentYear, pivotYear) : currentYear;
                 return DateNumber(year, 1, days, hour, std::stoi(m[2]), std::stoi(m[3]));
             } },

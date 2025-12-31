@@ -30,8 +30,9 @@ div_floor(long long a, long long b) noexcept
 {
     long long q = a / b;
     long long r = a % b;
-    if ((r != 0) && ((r < 0) != (b < 0)))
+    if ((r != 0) && ((r < 0) != (b < 0))) {
         --q;
+    }
     return q;
 }
 
@@ -91,8 +92,9 @@ weekday_from_ymd(long long y, unsigned m, unsigned d) noexcept
     long long days = days_from_civil(y, m, d); // days since 1970-01-01
     // 1970-01-01 was a Thursday. (0 => Sunday)
     long long w = (days + 4) % 7;
-    if (w < 0)
+    if (w < 0) {
         w += 7;
+    }
     return static_cast<unsigned>(w);
 }
 

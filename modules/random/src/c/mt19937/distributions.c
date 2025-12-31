@@ -156,10 +156,12 @@ rk_standard_gamma(rk_state* state, double shape)
 
             V = V * V * V;
             U = rk_double(state);
-            if (U < 1.0 - 0.0331 * (X * X) * (X * X))
+            if (U < 1.0 - 0.0331 * (X * X) * (X * X)) {
                 return (b * V);
-            if (log(U) < 0.5 * X * X + b * (1. - V + log(V)))
+            }
+            if (log(U) < 0.5 * X * X + b * (1. - V + log(V))) {
                 return (b * V);
+            }
         }
     }
 }
@@ -275,40 +277,47 @@ Step10:
     nrq = n * r * q;
     u = rk_double(state) * p4;
     v = rk_double(state);
-    if (u > p1)
+    if (u > p1) {
         goto Step20;
+    }
     y = (long)floor(xm - p1 * v + u);
     goto Step60;
 
 Step20:
-    if (u > p2)
+    if (u > p2) {
         goto Step30;
+    }
     x = xl + (u - p1) / c;
     v = v * c + 1.0 - fabs(m - x + 0.5) / p1;
-    if (v > 1.0)
+    if (v > 1.0) {
         goto Step10;
+    }
     y = (long)floor(x);
     goto Step50;
 
 Step30:
-    if (u > p3)
+    if (u > p3) {
         goto Step40;
+    }
     y = (long)floor(xl + log(v) / laml);
-    if (y < 0)
+    if (y < 0) {
         goto Step10;
+    }
     v = v * (u - p2) * laml;
     goto Step50;
 
 Step40:
     y = (int)floor(xr - log(v) / lamr);
-    if (y > n)
+    if (y > n) {
         goto Step10;
+    }
     v = v * (u - p3) * lamr;
 
 Step50:
     k = labs(y - m);
-    if ((k > 20) && (k < ((nrq) / 2.0 - 1)))
+    if ((k > 20) && (k < ((nrq) / 2.0 - 1))) {
         goto Step52;
+    }
 
     s = r / q;
     a = s * (n + 1);
@@ -322,8 +331,9 @@ Step50:
             F /= (a / i - s);
         }
     } else {
-        if (v > F)
+        if (v > F) {
             goto Step10;
+        }
         goto Step60;
     }
 
@@ -331,10 +341,12 @@ Step52:
     rho = (k / (nrq)) * ((k * (k / 3.0 + 0.625) + 0.16666666666666666) / nrq + 0.5);
     t = -k * k / (2 * nrq);
     A = log(v);
-    if (A < (t - rho))
+    if (A < (t - rho)) {
         goto Step60;
-    if (A > (t + rho))
+    }
+    if (A > (t + rho)) {
         goto Step10;
+    }
 
     x1 = y + 1;
     f1 = m + 1;
@@ -713,12 +725,14 @@ rk_hypergeometric_hyp(rk_state* state, long good, long bad, long sample)
         U = rk_double(state);
         Y -= (long)floor(U + Y / (d1 + K));
         K--;
-        if (K == 0)
+        if (K == 0) {
             break;
+        }
     }
     Z = (long)(d2 - Y);
-    if (good > bad)
+    if (good > bad) {
         Z = sample - Z;
+    }
     return Z;
 }
 
@@ -755,8 +769,9 @@ rk_hypergeometric_hrua(rk_state* state, long good, long bad, long sample)
         W = d6 + d8 * (Y - 0.5) / X;
 
         /* fast rejection: */
-        if ((W < 0.0) || (W >= d11))
+        if ((W < 0.0) || (W >= d11)) {
             continue;
+        }
 
         Z = (long)floor(W);
         T = d10
@@ -764,24 +779,29 @@ rk_hypergeometric_hrua(rk_state* state, long good, long bad, long sample)
                 + loggam(maxgoodbad - m + Z + 1));
 
         /* fast acceptance: */
-        if ((X * (4.0 - X) - 3.0) <= T)
+        if ((X * (4.0 - X) - 3.0) <= T) {
             break;
+        }
 
         /* fast rejection: */
-        if (X * (X - T) >= 1)
+        if (X * (X - T) >= 1) {
             continue;
+        }
 
-        if (2.0 * log(X) <= T)
+        if (2.0 * log(X) <= T) {
             break; /* acceptance */
+        }
     }
 
     /* this is a correction to HRUA* by Ivan Frohne in rv.py */
-    if (good > bad)
+    if (good > bad) {
         Z = m - Z;
+    }
 
     /* another fix from rv.py to allow sample to exceed popsize/2 */
-    if (m < sample)
+    if (m < sample) {
         Z = good - Z;
+    }
 
     return Z;
 }

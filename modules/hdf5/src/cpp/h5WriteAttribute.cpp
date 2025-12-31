@@ -50,9 +50,9 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
     if (!fileExistPreviously) {
         Error(_W("file does not exist."));
     } else {
-        if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str()))
+        if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str())) {
             Error(_W("HDF5 format file expected."));
-        else {
+        } else {
             fid = H5Fopen(
                 wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDWR, H5P_DEFAULT);
         }
@@ -97,9 +97,9 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
         Error(error);
     }
     hid_t att_id = H5I_INVALID_HID;
-    if (H5Aexists(obj_id, wstring_to_utf8(attributeName).c_str()))
+    if (H5Aexists(obj_id, wstring_to_utf8(attributeName).c_str())) {
         att_id = H5Aopen(obj_id, wstring_to_utf8(attributeName).c_str(), H5P_DEFAULT);
-    else {
+    } else {
         att_id = H5Acreate(obj_id, wstring_to_utf8(attributeName).c_str(), type_id, dspace_id,
             H5P_DEFAULT, H5P_DEFAULT);
     }

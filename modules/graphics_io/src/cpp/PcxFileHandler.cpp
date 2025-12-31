@@ -168,8 +168,9 @@ PcxFileHandler::loadPCX(const QString& filePath)
                     int count = byte & 0x3F;
                     quint8 value = static_cast<quint8>(imageData[dataIndex++]);
                     for (int i = 0; i < count; ++i) {
-                        if (x < width)
+                        if (x < width) {
                             image.setPixelColor(x++, y, palette[value]);
+                        }
                     }
                 } else {
                     image.setPixelColor(x++, y, palette[byte]);
@@ -195,22 +196,24 @@ PcxFileHandler::loadPCX(const QString& filePath)
                         quint8 value = static_cast<quint8>(imageData[dataIndex++]);
                         for (int i = 0; i < count; ++i) {
                             if (x < width) {
-                                if (p == 0)
+                                if (p == 0) {
                                     red[x] = value;
-                                else if (p == 1)
+                                } else if (p == 1) {
                                     green[x] = value;
-                                else
+                                } else {
                                     blue[x] = value;
+                                }
                                 x++;
                             }
                         }
                     } else {
-                        if (p == 0)
+                        if (p == 0) {
                             red[x] = byte;
-                        else if (p == 1)
+                        } else if (p == 1) {
                             green[x] = byte;
-                        else
+                        } else {
                             blue[x] = byte;
+                        }
                         x++;
                     }
                 }
@@ -347,8 +350,9 @@ PcxFileHandler::savePCX(const QString& filePath, const QImage& image)
                         break;
                     }
                 }
-                if (!isMonochrome)
+                if (!isMonochrome) {
                     break;
+                }
             }
             if (isMonochrome) {
                 convertedImage = image.convertToFormat(QImage::Format_Mono);

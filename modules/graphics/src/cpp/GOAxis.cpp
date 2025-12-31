@@ -1366,12 +1366,15 @@ GOAxis::handlePlotBoxFlags()
     double dz = limits[5] - limits[4];
 
     // Ensure positive ranges
-    if (!(dx > 0))
+    if (!(dx > 0)) {
         dx = 1.0;
-    if (!(dy > 0))
+    }
+    if (!(dy > 0)) {
         dy = 1.0;
-    if (!(dz > 0))
+    }
+    if (!(dz > 0)) {
         dz = 1.0;
+    }
 
     // Get aspect ratios
     std::vector<double> dar(findVectorDoubleProperty(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR));
@@ -1381,8 +1384,9 @@ GOAxis::handlePlotBoxFlags()
     auto normalizeAspectRatio = [](std::vector<double>& aspect) {
         double minv = std::min(
             { std::max(aspect[0], 1e-12), std::max(aspect[1], 1e-12), std::max(aspect[2], 1e-12) });
-        if (minv <= 0)
+        if (minv <= 0) {
             minv = 1.0;
+        }
         aspect[0] /= minv;
         aspect[1] /= minv;
         aspect[2] /= minv;
@@ -1495,8 +1499,9 @@ GOAxis::handlePlotBoxFlags()
 
         auto updateScale = [&](double dlim, double pba_i, double da_i) {
             double val = dlim / (pba_i * da_i);
-            if (val > scale)
+            if (val > scale) {
                 scale = val;
+            }
         };
 
         if (autoCount == 3) {
@@ -1506,12 +1511,15 @@ GOAxis::handlePlotBoxFlags()
             updateScale(dz, pba[2], dar[2]);
         } else {
             // Use manual axes to determine scale
-            if (!xflag)
+            if (!xflag) {
                 updateScale(dx, pba[0], dar[0]);
-            if (!yflag)
+            }
+            if (!yflag) {
                 updateScale(dy, pba[1], dar[1]);
-            if (!zflag)
+            }
+            if (!zflag) {
                 updateScale(dz, pba[2], dar[2]);
+            }
         }
 
         // Ensure valid scale
@@ -2058,10 +2066,12 @@ GOAxis::updateState()
     bool cflag = isAuto(GO_C_LIM_MODE_PROPERTY_NAME_STR);
     updateLimits(xflag, yflag, zflag, aflag, cflag);
 
-    if (hasChanged(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR))
+    if (hasChanged(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR)) {
         toManual(GO_DATA_ASPECT_RATIO_MODE_PROPERTY_NAME_STR);
-    if (hasChanged(GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR))
+    }
+    if (hasChanged(GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR)) {
         toManual(GO_PLOT_BOX_ASPECT_RATIO_MODE_PROPERTY_NAME_STR);
+    }
 
     handlePlotBoxFlags();
 
@@ -2457,8 +2467,9 @@ GOAxis::updateCamera()
     double azimuthRadians = azimuth * M_PI / 180.;
     double elevationRadians = elevation * M_PI / 180.;
 
-    if (hasChanged(GO_CAMERA_TARGET_PROPERTY_NAME_STR))
+    if (hasChanged(GO_CAMERA_TARGET_PROPERTY_NAME_STR)) {
         toManual(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR);
+    }
 
     std::vector<double> cameraCenter(3);
     if (isAuto(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR)) {

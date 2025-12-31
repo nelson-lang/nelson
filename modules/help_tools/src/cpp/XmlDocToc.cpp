@@ -81,8 +81,9 @@ assembleToc(const std::vector<XMLDOCFILES>& xmlDocFiles, DOCUMENT_OUTPUT outputD
     for (const auto& xmlDocFile : xmlDocFiles) {
         std::wstring chapterTitle = std::get<2>(xmlDocFile);
         std::vector<XMLDOCFILE> docFiles = std::get<4>(xmlDocFile);
-        if (docFiles.empty())
+        if (docFiles.empty()) {
             continue;
+        }
 
         xmlNodePtr section_node = xmlNewChild(root_node, nullptr, BAD_CAST "section", nullptr);
         xmlNewProp(section_node, BAD_CAST "name", BAD_CAST wstring_to_utf8(chapterTitle).c_str());

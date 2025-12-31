@@ -53,9 +53,9 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
     if (!fileExistPreviously) {
         Error(_W("file does not exist."));
     }
-    if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str()))
+    if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str())) {
         Error(_W("HDF5 format file expected."));
-    else {
+    } else {
         fid = H5Fopen(
             wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
     }

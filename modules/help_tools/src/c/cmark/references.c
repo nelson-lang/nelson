@@ -27,11 +27,13 @@ normalize_reference(cmark_mem* mem, cmark_chunk* ref)
     cmark_strbuf normalized = CMARK_BUF_INIT(mem);
     unsigned char* result;
 
-    if (ref == NULL)
+    if (ref == NULL) {
         return NULL;
+    }
 
-    if (ref->len == 0)
+    if (ref->len == 0) {
         return NULL;
+    }
 
     cmark_utf8proc_case_fold(&normalized, ref->data, ref->len);
     cmark_strbuf_trim(&normalized);
@@ -56,8 +58,9 @@ cmark_reference_create(
     unsigned char* reflabel = normalize_reference(map->mem, label);
 
     /* empty reference name, or composed from only whitespace */
-    if (reflabel == NULL)
+    if (reflabel == NULL) {
         return;
+    }
 
     assert(map->sorted == NULL);
 
@@ -68,10 +71,12 @@ cmark_reference_create(
     ref->age = map->size;
     ref->next = map->refs;
 
-    if (ref->url != NULL)
+    if (ref->url != NULL) {
         ref->size += (int)strlen((char*)ref->url);
-    if (ref->title != NULL)
+    }
+    if (ref->title != NULL) {
         ref->size += (int)strlen((char*)ref->title);
+    }
 
     map->refs = ref;
     map->size++;
@@ -114,8 +119,9 @@ sort_references(cmark_reference_map* map)
     qsort(sorted, size, sizeof(cmark_reference*), refcmp);
 
     for (i = 1; i < size; i++) {
-        if (labelcmp(sorted[i]->label, sorted[last]->label) != 0)
+        if (labelcmp(sorted[i]->label, sorted[last]->label) != 0) {
             sorted[++last] = sorted[i];
+        }
     }
     map->sorted = sorted;
     map->size = last + 1;
@@ -130,18 +136,22 @@ cmark_reference_lookup(cmark_reference_map* map, cmark_chunk* label)
     cmark_reference* r = NULL;
     unsigned char* norm;
 
-    if (label->len < 1 || label->len > MAX_LINK_LABEL_LENGTH)
+    if (label->len < 1 || label->len > MAX_LINK_LABEL_LENGTH) {
         return NULL;
+    }
 
-    if (map == NULL || !map->size)
+    if (map == NULL || !map->size) {
         return NULL;
+    }
 
     norm = normalize_reference(map->mem, label);
-    if (norm == NULL)
+    if (norm == NULL) {
         return NULL;
+    }
 
-    if (!map->sorted)
+    if (!map->sorted) {
         sort_references(map);
+    }
 
     ref = (cmark_reference**)bsearch(
         norm, map->sorted, map->size, sizeof(cmark_reference*), refsearch);
@@ -150,8 +160,9 @@ cmark_reference_lookup(cmark_reference_map* map, cmark_chunk* label)
     if (ref != NULL) {
         r = ref[0];
         /* Check for expansion limit */
-        if (map->max_ref_size && r->size > map->max_ref_size - map->ref_size)
+        if (map->max_ref_size && r->size > map->max_ref_size - map->ref_size) {
             return NULL;
+        }
         map->ref_size += r->size;
     }
 
@@ -163,8 +174,9 @@ cmark_reference_map_free(cmark_reference_map* map)
 {
     cmark_reference* ref;
 
-    if (map == NULL)
+    if (map == NULL) {
         return;
+    }
 
     ref = map->refs;
     while (ref) {

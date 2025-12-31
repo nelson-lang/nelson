@@ -37,16 +37,17 @@ validateDelimiter(const std::wstring& delimiter, writeTableOptions& options)
         return false;
     }
 
-    if (delimiter == L"comma" || delimiter == L",")
+    if (delimiter == L"comma" || delimiter == L",") {
         options._Delimiter = ',';
-    else if (delimiter == L"space" || delimiter == L" ")
+    } else if (delimiter == L"space" || delimiter == L" ") {
         options._Delimiter = ' ';
-    else if (delimiter == L"tab" || delimiter == L"\\t")
+    } else if (delimiter == L"tab" || delimiter == L"\\t") {
         options._Delimiter = '\t';
-    else if (delimiter == L"semi" || delimiter == L";")
+    } else if (delimiter == L"semi" || delimiter == L";") {
         options._Delimiter = ';';
-    else if (delimiter == L"bar" || delimiter == L"|")
+    } else if (delimiter == L"bar" || delimiter == L"|") {
         options._Delimiter = ';';
+    }
 
     return true;
 }
@@ -58,12 +59,15 @@ determineFileType(const std::wstring& filename, const std::string& specifiedType
         ? filename.substr(filename.rfind(L'.'))
         : L"";
 
-    if (extension == L".xml")
+    if (extension == L".xml") {
         return "xml";
-    if (extension == L".txt" || extension == L".csv" || extension == L".dat")
+    }
+    if (extension == L".txt" || extension == L".csv" || extension == L".dat") {
         return "text";
-    if (!specifiedType.empty())
+    }
+    if (!specifiedType.empty()) {
         return specifiedType;
+    }
 
     Error(_W("Unrecognized file extension."));
     return "";

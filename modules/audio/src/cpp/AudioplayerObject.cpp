@@ -214,8 +214,9 @@ FunctionToWideString(const ArrayOf& _data)
 bool
 AudioplayerObject::disp(Interface* io)
 {
-    if (!io)
+    if (!io) {
         return false;
+    }
 
     struct DisplayItem
     {
@@ -238,8 +239,9 @@ AudioplayerObject::disp(Interface* io)
         { L"Tag", [this] { return L"'" + getTag() + L"'"; } },
         { L"UserData",
             [this] {
-                if (_UserData.isEmpty(true))
+                if (_UserData.isEmpty(true)) {
                     return L"[]";
+                }
                 Dimensions dimsUserData = _UserData.getDimensions();
                 std::string userDataClassName;
                 ClassName(_UserData, userDataClassName);

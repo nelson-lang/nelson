@@ -41,10 +41,12 @@ gcd_wrapper(T a, T b) noexcept
 {
     long long aa = static_cast<long long>(a);
     long long bb = static_cast<long long>(b);
-    if (aa < 0)
+    if (aa < 0) {
         aa = -aa;
-    if (bb < 0)
+    }
+    if (bb < 0) {
         bb = -bb;
+    }
     long long g = std::gcd(aa, bb);
     return static_cast<T>(g);
 }

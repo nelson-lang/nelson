@@ -147,8 +147,9 @@ void
 GOScatterSeries::paintMe(RenderInterface& gc)
 {
     // Check if the scatter series is visible. If not, exit early.
-    if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR))
+    if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {
         return;
+    }
 
     // Set the line width for rendering based on the corresponding property.
     double width(findScalarDoubleProperty(GO_LINE_WIDTH_PROPERTY_NAME_STR));

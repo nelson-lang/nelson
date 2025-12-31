@@ -45,8 +45,9 @@ runCommandCaptureOutput(const std::string& cmd)
 #else
     FILE* pipe = popen(cmd.c_str(), "r");
 #endif
-    if (!pipe)
+    if (!pipe) {
         return result;
+    }
     char buffer[4096];
     while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
         result.append(buffer);
@@ -185,8 +186,9 @@ DynamicLinkLibraryObject::getAvailableSymbols(std::string& errorMessage)
             if (rva >= va && rva < va + sz) {
                 size_t off
                     = static_cast<size_t>(sec.PointerToRawData) + static_cast<size_t>(rva - va);
-                if (off < data.size())
+                if (off < data.size()) {
                     return off;
+                }
                 return std::string::npos;
             }
         }
@@ -210,11 +212,13 @@ DynamicLinkLibraryObject::getAvailableSymbols(std::string& errorMessage)
     for (DWORD i = 0; i < numberOfNames; ++i) {
         DWORD nameRVA = *reinterpret_cast<const DWORD*>(data.data() + namesOff + i * sizeof(DWORD));
         size_t nameOff = rva_to_offset(nameRVA);
-        if (nameOff == std::string::npos || nameOff >= data.size())
+        if (nameOff == std::string::npos || nameOff >= data.size()) {
             continue;
+        }
         const char* s = reinterpret_cast<const char*>(data.data() + nameOff);
-        if (s)
+        if (s) {
             symbols.push_back(std::string(s));
+        }
     }
     std::sort(symbols.begin(), symbols.end());
     symbols.erase(std::unique(symbols.begin(), symbols.end()), symbols.end());
@@ -242,18 +246,22 @@ DynamicLinkLibraryObject::getAvailableSymbols(std::string& errorMessage)
     std::string line;
     while (std::getline(iss, line)) {
         // attempt to extract last token which is symbol name for nm
-        if (line.empty())
+        if (line.empty()) {
             continue;
+        }
         // trim
-        while (!line.empty() && (line.back() == '\r' || line.back() == '\n'))
+        while (!line.empty() && (line.back() == '\r' || line.back() == '\n')) {
             line.pop_back();
+        }
         std::istringstream ls(line);
         std::vector<std::string> parts;
         std::string tok;
-        while (ls >> tok)
+        while (ls >> tok) {
             parts.push_back(tok);
-        if (parts.empty())
+        }
+        if (parts.empty()) {
             continue;
+        }
         std::string sym;
         // For objdump -T, symbol is last column too
         sym = parts.back();
@@ -262,8 +270,9 @@ DynamicLinkLibraryObject::getAvailableSymbols(std::string& errorMessage)
             // on some systems exported symbols have leading underscore; keep as-is
         }
         // basic validation: symbol should be alnum or punctuation
-        if (!sym.empty())
+        if (!sym.empty()) {
             symbols.push_back(sym);
+        }
     }
     // unique and sort
     std::sort(symbols.begin(), symbols.end());

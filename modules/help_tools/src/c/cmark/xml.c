@@ -285,14 +285,17 @@ escape_xml(cmark_strbuf* ob, const unsigned char* src, bufsize_t size)
 
     while (i < size) {
         org = i;
-        while (i < size && (esc = XML_ESCAPE_TABLE[src[i]]) == 0)
+        while (i < size && (esc = XML_ESCAPE_TABLE[src[i]]) == 0) {
             i++;
+        }
 
-        if (i > org)
+        if (i > org) {
             cmark_strbuf_put(ob, src + org, i - org);
+        }
 
-        if (i >= size)
+        if (i >= size) {
             break;
+        }
 
         if (esc == 9) {
             // To replace U+FFFE and U+FFFF with U+FFFD, only the last byte has to
@@ -314,8 +317,9 @@ escape_xml(cmark_strbuf* ob, const unsigned char* src, bufsize_t size)
 static void
 escape_xml_str(cmark_strbuf* dest, const unsigned char* source)
 {
-    if (source)
+    if (source) {
         escape_xml(dest, source, (bufsize_t)strlen((char*)source));
+    }
 }
 
 struct render_state

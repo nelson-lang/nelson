@@ -391,8 +391,9 @@ read_unicode_character(int in_fd_)
             nread = read(in_fd_, &c, 1);
         } while ((nread == -1) && (errno == EINTR));
 
-        if (nread <= 0)
+        if (nread <= 0) {
             return 0;
+        }
         if (c <= 0x7F || locale::is8BitEncoding) { // short circuit ASCII
             utf8Count = 0;
             return c;

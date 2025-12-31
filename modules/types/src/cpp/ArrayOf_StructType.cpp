@@ -141,7 +141,7 @@ ArrayOf::structConstructor(const stringVector& fNames, const ArrayOfVector& valu
          */
         indexType length = dims.getElementCount();
         indexType offset = 0;
-        for (j = 0; j < length; j++)
+        for (j = 0; j < length; j++) {
             for (i = 0; i < (indexType)fNames.size(); i++) {
                 ArrayOf rval = values[i];
                 rptr = (const ArrayOf*)rval.dp->getData();
@@ -156,6 +156,7 @@ ArrayOf::structConstructor(const stringVector& fNames, const ArrayOfVector& valu
                 }
                 offset++;
             }
+        }
         return ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, fNames);
     } catch (const Exception&) {
         ArrayOf* rp = (ArrayOf*)qp;

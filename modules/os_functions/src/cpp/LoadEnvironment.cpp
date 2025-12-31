@@ -38,8 +38,9 @@ LoadEnvironment(const std::wstring& filename, bool applyToEnv, std::wstring& err
             // trim whitespace
             const std::wstring ws = L" \t\r\n";
             auto start = s.find_first_not_of(ws);
-            if (start == std::wstring::npos)
+            if (start == std::wstring::npos) {
                 return L"";
+            }
             auto end = s.find_last_not_of(ws);
             s = s.substr(start, end - start + 1);
             // remove matching surrounding single or double quotes
@@ -54,8 +55,9 @@ LoadEnvironment(const std::wstring& filename, bool applyToEnv, std::wstring& err
 
         for (const auto& key : keys) {
             auto valueOpt = envManager.get_value_as<std::string>(key);
-            if (!valueOpt.has_value())
+            if (!valueOpt.has_value()) {
                 continue;
+            }
             std::wstring wkey = utf8_to_wstring(key);
             std::wstring val = utf8_to_wstring(valueOpt.value());
             val = trim_and_unquote(val);

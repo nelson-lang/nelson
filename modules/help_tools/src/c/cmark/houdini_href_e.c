@@ -310,15 +310,18 @@ houdini_escape_href(cmark_strbuf* ob, const uint8_t* src, bufsize_t size)
 
     while (i < size) {
         org = i;
-        while (i < size && HREF_SAFE[src[i]] != 0)
+        while (i < size && HREF_SAFE[src[i]] != 0) {
             i++;
+        }
 
-        if (likely(i > org))
+        if (likely(i > org)) {
             cmark_strbuf_put(ob, src + org, i - org);
+        }
 
         /* escaping */
-        if (i >= size)
+        if (i >= size) {
             break;
+        }
 
         switch (src[i]) {
         /* amp appears all the time in URLs, but needs

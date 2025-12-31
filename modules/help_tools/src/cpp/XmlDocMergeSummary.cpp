@@ -70,12 +70,15 @@ ProcessKeywordNode(xmlNodePtr keywordNode, KeywordInfo& keyword)
         result = true;
     }
 
-    if (name)
+    if (name) {
         xmlFree(name);
-    if (link)
+    }
+    if (link) {
         xmlFree(link);
-    if (description)
+    }
+    if (description) {
         xmlFree(description);
+    }
 
     return result;
 }

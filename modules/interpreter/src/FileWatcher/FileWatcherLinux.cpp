@@ -50,8 +50,9 @@ struct WatchStruct
 FileWatcherLinux::FileWatcherLinux()
 {
     mFD = inotify_init();
-    if (mFD < 0)
+    if (mFD < 0) {
         fprintf(stderr, "Error: %s\n", strerror(errno));
+    }
 
     mTimeOut.tv_sec = 0;
     mTimeOut.tv_usec = 0;
@@ -77,10 +78,11 @@ FileWatcherLinux::addWatch(const String& directory, FileWatchListener* watcher, 
     int wd = inotify_add_watch(mFD, directory.c_str(),
         IN_CLOSE_WRITE | IN_MOVED_TO | IN_CREATE | IN_MOVED_FROM | IN_DELETE);
     if (wd < 0) {
-        if (errno == ENOENT)
+        if (errno == ENOENT) {
             throw FileNotFoundException(directory);
-        else
+        } else {
             throw Exception(strerror(errno));
+        }
 
         //			fprintf (stderr, "Error: %s\n", strerror(errno));
         //			return -1;
@@ -116,8 +118,9 @@ FileWatcherLinux::removeWatch(WatchID watchid)
 {
     WatchMap::iterator iter = mWatches.find(watchid);
 
-    if (iter == mWatches.end())
+    if (iter == mWatches.end()) {
         return;
+    }
 
     WatchStruct* watch = iter->second;
     mWatches.erase(iter);
@@ -157,8 +160,9 @@ FileWatcherLinux::update()
 void
 FileWatcherLinux::handleAction(WatchStruct* watch, const String& filename, unsigned long action)
 {
-    if (!watch->mListener)
+    if (!watch->mListener) {
         return;
+    }
 
     if (filename.empty()) {
         return;

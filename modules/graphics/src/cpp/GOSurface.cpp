@@ -166,19 +166,24 @@ GOSurface::buildQuadsNoTexMap(
     indexType rows = zdata.getRows();
     indexType cols = zdata.getColumns();
     if (cp->isEqual(GO_PROPERTY_VALUE_INTERP_STR)
-        && ((img.height() < rows) || (img.width() < cols)))
+        && ((img.height() < rows) || (img.width() < cols))) {
         return retval;
+    }
     if (ap->isEqual(GO_PROPERTY_VALUE_INTERP_STR)
-        && ((img.height() < rows) || (img.width() < cols)))
+        && ((img.height() < rows) || (img.width() < cols))) {
         return retval;
+    }
     if (cp->isEqual(GO_PROPERTY_VALUE_FLAT_STR)
-        && ((img.height() < rows - 1) || (img.width() < cols - 1)))
+        && ((img.height() < rows - 1) || (img.width() < cols - 1))) {
         return retval;
+    }
     if (ap->isEqual(GO_PROPERTY_VALUE_FLAT_STR)
-        && ((img.height() < rows - 1) || (img.width() < cols - 1)))
+        && ((img.height() < rows - 1) || (img.width() < cols - 1))) {
         return retval;
-    if (cp->isEqual(GO_PROPERTY_VALUE_NONE_STR))
+    }
+    if (cp->isEqual(GO_PROPERTY_VALUE_NONE_STR)) {
         return retval;
+    }
     QRgb* dummyline = nullptr;
     if (cp->isEqual(GO_PROPERTY_VALUE_COLORSPEC_STR) || ap->isEqual(GO_PROPERTY_VALUE_SCALAR_STR)) {
         dummyline = new QRgb[cols];
@@ -186,19 +191,22 @@ GOSurface::buildQuadsNoTexMap(
         double g = 0;
         double b = 0;
         double alphaval = 1.0;
-        if (ap->isEqual(GO_PROPERTY_VALUE_SCALAR_STR))
+        if (ap->isEqual(GO_PROPERTY_VALUE_SCALAR_STR)) {
             alphaval = ap->scalar();
+        }
         if (cp->isEqual(GO_PROPERTY_VALUE_COLORSPEC_STR)) {
             std::vector<double> p(cp->colorSpec());
-            if (p[0] == -1)
+            if (p[0] == -1) {
                 return retval;
+            }
             r = p[0];
             g = p[1];
             b = p[2];
         }
-        for (indexType i = 0; i < cols; i++)
+        for (indexType i = 0; i < cols; i++) {
             dummyline[i]
                 = qRgba((int)(255 * r), (int)(255 * g), (int)(255 * b), (int)(255 * alphaval));
+        }
     }
     for (int i = 0; i < rows - 1; i++) {
         QRgb *cbits1 = nullptr, *cbits2 = nullptr, *abits1 = nullptr, *abits2 = nullptr;
@@ -246,8 +254,9 @@ GOSurface::buildQuadsNoTexMap(
         }
         retval.push_back(linequads);
     }
-    if (cp->isEqual(GO_PROPERTY_VALUE_COLORSPEC_STR) || ap->isEqual(GO_PROPERTY_VALUE_SCALAR_STR))
+    if (cp->isEqual(GO_PROPERTY_VALUE_COLORSPEC_STR) || ap->isEqual(GO_PROPERTY_VALUE_SCALAR_STR)) {
         delete[] dummyline;
+    }
     return retval;
 }
 //=============================================================================

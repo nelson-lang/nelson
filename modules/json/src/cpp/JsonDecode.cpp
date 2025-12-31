@@ -71,12 +71,15 @@ findCommonJsonVariableType(JsonVariable& jsVar)
     const size_t total = jsVar.vectorJsonVariable.size();
 
     // Now check for homogeneous types in order of most restrictive to least
-    if (typeCount[1] == total)
+    if (typeCount[1] == total) {
         return JSON_TO_NELSON_LOGICAL;
-    if (typeCount[3] == total)
+    }
+    if (typeCount[3] == total) {
         return JSON_TO_NELSON_STRUCT;
-    if (typeCount[0] + typeCount[2] == total)
+    }
+    if (typeCount[0] + typeCount[2] == total) {
         return (typeCount[0] > 0) ? JSON_TO_NELSON_DOUBLE : JSON_TO_NELSON_EMPTY_MATRIX;
+    }
 
     // If we got here, it's a mixed type
     return JSON_TO_NELSON_UNDEFINED;
@@ -464,8 +467,9 @@ importElement(ondemand::value& value, JsonVariable& jsVar)
                             }
                         }
 
-                        if (!dimensionsMatch)
+                        if (!dimensionsMatch) {
                             break;
+                        }
                     }
 
                     if (!dimensionsMatch) {
@@ -522,8 +526,9 @@ importElement(ondemand::value& value, JsonVariable& jsVar)
 
             for (auto field : obj) {
                 auto key_result = field.unescaped_key();
-                if (key_result.error())
+                if (key_result.error()) {
                     continue;
+                }
 
                 std::string key = MakeValidFieldname(std::string(key_result.value()));
                 auto valVar = new JsonVariable();

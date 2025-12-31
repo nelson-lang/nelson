@@ -306,8 +306,9 @@ QtVariablesEditor::openVariable(const QString& variableName)
             connect(tableView->horizontalHeader(), &QHeaderView::sectionDoubleClicked, this,
                 [tableView](int logicalIndex) {
                     auto* model = qobject_cast<VariableTableTableModel*>(tableView->model());
-                    if (!model)
+                    if (!model) {
                         return;
+                    }
 
                     QString current
                         = model->headerData(logicalIndex, Qt::Horizontal, Qt::DisplayRole)
@@ -394,12 +395,14 @@ QtVariablesEditor::openVariable(const QString& variableName)
 
         connect(tableView->horizontalHeader(), &QHeaderView::sectionDoubleClicked, this,
             [tableView](int logicalIndex) {
-                if (logicalIndex == 0)
+                if (logicalIndex == 0) {
                     return; // Skip the index column
+                }
 
                 auto* model = qobject_cast<VariableStructTableModel*>(tableView->model());
-                if (!model)
+                if (!model) {
                     return;
+                }
 
                 QString currentName
                     = model->headerData(logicalIndex, Qt::Horizontal, Qt::DisplayRole).toString();
@@ -975,8 +978,9 @@ QtVariablesEditor::pasteDataFromClipboard()
             // Sort selected indexes to get the top-left corner
             std::sort(selectedIndexes.begin(), selectedIndexes.end(),
                 [](const QModelIndex& a, const QModelIndex& b) {
-                    if (a.row() != b.row())
+                    if (a.row() != b.row()) {
                         return a.row() < b.row();
+                    }
                     return a.column() < b.column();
                 });
             startRow = selectedIndexes.first().row();
@@ -1698,8 +1702,9 @@ QtVariablesEditor::pasteExcelDataFromClipboard()
         if (!selectedIndexes.isEmpty()) {
             std::sort(selectedIndexes.begin(), selectedIndexes.end(),
                 [](const QModelIndex& a, const QModelIndex& b) {
-                    if (a.row() != b.row())
+                    if (a.row() != b.row()) {
                         return a.row() < b.row();
+                    }
                     return a.column() < b.column();
                 });
             startRow = selectedIndexes.first().row();
@@ -1896,8 +1901,9 @@ void
 QtVariablesEditor::undo()
 {
     QWidget* currentWidget = m_tabWidget->currentWidget();
-    if (!currentWidget)
+    if (!currentWidget) {
         return;
+    }
 
     if (auto* tableView = qobject_cast<QTableView*>(currentWidget)) {
         if (auto* model = qobject_cast<VariableAbstractTableModel*>(tableView->model())) {
@@ -1914,8 +1920,9 @@ void
 QtVariablesEditor::redo()
 {
     QWidget* currentWidget = m_tabWidget->currentWidget();
-    if (!currentWidget)
+    if (!currentWidget) {
         return;
+    }
 
     if (auto* tableView = qobject_cast<QTableView*>(currentWidget)) {
         if (auto* model = qobject_cast<VariableAbstractTableModel*>(tableView->model())) {

@@ -40,8 +40,9 @@ static inline void
 cmark_chunk_rtrim(cmark_chunk* c)
 {
     while (c->len > 0) {
-        if (!cmark_isspace(c->data[c->len - 1]))
+        if (!cmark_isspace(c->data[c->len - 1])) {
             break;
+        }
 
         c->len--;
     }

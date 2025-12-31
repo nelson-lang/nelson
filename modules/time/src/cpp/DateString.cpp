@@ -289,8 +289,9 @@ DateString(std::vector<double> epochValues, const Dimensions& dimensionsIn, bool
                     noHMNS = false;
                 }
             }
-            if (!hasDateVector)
+            if (!hasDateVector) {
                 break;
+            }
         }
     }
 

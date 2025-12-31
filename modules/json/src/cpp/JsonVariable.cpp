@@ -40,15 +40,18 @@ JsonVariable::JsonVariable(const JsonVariable& other) { deepCopyFrom(other); }
 void
 JsonVariable::clear()
 {
-    for (auto& kv : scalarMap)
+    for (auto& kv : scalarMap) {
         delete kv.second;
+    }
     scalarMap.clear();
-    for (auto ptr : vectorJsonVariable)
+    for (auto ptr : vectorJsonVariable) {
         delete ptr;
+    }
     vectorJsonVariable.clear();
     for (auto& kv : map) {
-        for (auto ptr : kv.second)
+        for (auto ptr : kv.second) {
             delete ptr;
+        }
         kv.second.clear();
     }
     map.clear();

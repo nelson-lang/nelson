@@ -241,9 +241,9 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                         case 'G': {
                             single dumpAsFloat;
                             resf = fscanf(filepointer, dp, &dumpAsFloat);
-                            if (resf == EOF || resf == 0)
+                            if (resf == EOF || resf == 0) {
                                 bContinue = false;
-                            else {
+                            } else {
                                 if (outType == AS_NONE) {
                                     outType = AS_DOUBLE;
                                 } else {

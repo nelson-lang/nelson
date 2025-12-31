@@ -34,8 +34,9 @@ xmlStructuredErrorHandler(void* ctx, xmlError* error)
 #endif
 {
     XmlErrorAccumulator* acc = reinterpret_cast<XmlErrorAccumulator*>(ctx);
-    if (!acc || !error)
+    if (!acc || !error) {
         return;
+    }
     std::wstring msg = utf8_to_wstring(error->message ? error->message : "");
     msg += L" [line " + std::to_wstring(error->line) + L", col " + std::to_wstring(error->int2)
         + L"]";
@@ -80,8 +81,9 @@ xmlDocXsdChecker(const std::wstring& xmlFilename, const std::wstring& xsdFilenam
         xmlContent.c_str(), static_cast<int>(xmlContent.size()), xmlFileUtf8.c_str(), NULL, 0);
     if (!doc) {
         errorMessage.push_back(_W("Failed to parse XML file: ") + xmlFilename);
-        for (const auto& msg : errorAccumulator.errors)
+        for (const auto& msg : errorAccumulator.errors) {
             errorMessage.push_back(msg);
+        }
         xmlSetStructuredErrorFunc(NULL, NULL);
         return false;
     }

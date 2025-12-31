@@ -77,10 +77,12 @@ inline double
 lanczosKernel(double x, int a)
 {
     // Lanczos resampling kernel, used for high-quality interpolation
-    if (x == 0.0)
+    if (x == 0.0) {
         return 1.0;
-    if (std::abs(x) >= a)
+    }
+    if (std::abs(x) >= a) {
         return 0.0;
+    }
 
     double pix = M_PI * x;
     return a * std::sin(pix) * std::sin(pix / a) / (pix * pix);
