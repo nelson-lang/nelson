@@ -86,10 +86,11 @@ interpolateAndRotate(const T* inputData, T* outputData, size_t width, size_t hei
     // Precompute constants for bicubic interpolation
     auto cubicWeight = [](double x) {
         x = std::abs(x);
-        if (x <= 1.0)
+        if (x <= 1.0) {
             return 1.5 * x * x * x - 2.5 * x * x + 1.0;
-        else if (x < 2.0)
+        } else if (x < 2.0) {
             return -0.5 * x * x * x + 2.5 * x * x - 4.0 * x + 2.0;
+        }
         return 0.0;
     };
 
@@ -171,8 +172,9 @@ interpolateAndRotate(const T* inputData, T* outputData, size_t width, size_t hei
                         int yi = y0 + ky;
 
                         // Skip if y is out of bounds
-                        if (yi < 0 || yi >= static_cast<int>(height))
+                        if (yi < 0 || yi >= static_cast<int>(height)) {
                             continue;
+                        }
 
                         double wy = cubicWeight(fy - (ky - 1));
 
@@ -180,8 +182,9 @@ interpolateAndRotate(const T* inputData, T* outputData, size_t width, size_t hei
                             int xi = x0 + kx;
 
                             // Skip if x is out of bounds
-                            if (xi < 0 || xi >= static_cast<int>(width))
+                            if (xi < 0 || xi >= static_cast<int>(width)) {
                                 continue;
+                            }
 
                             double wx = cubicWeight(fx - (kx - 1));
                             double weight = wx * wy;

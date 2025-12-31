@@ -37,8 +37,9 @@ public:
 
             line = trim(line);
 
-            if (line.empty() || line[0] == '#')
+            if (line.empty() || line[0] == '#') {
                 continue;
+            }
 
             size_t equal_pos = line.find('=');
 
@@ -186,11 +187,13 @@ private:
         for (size_t i = 0; i < value.size(); ++i) {
             char c = value[i];
 
-            if (c == '"')
+            if (c == '"') {
                 in_quotes = !in_quotes;
+            }
 
-            if (!in_quotes && c == '#')
+            if (!in_quotes && c == '#') {
                 break;
+            }
 
             cleaned += c;
         }

@@ -153,8 +153,9 @@ BufferedFileWatcher::update()
             switch (cmd.Type) {
             case AddWatch: {
                 auto ret = m_watcher.addWatch(cmd.path, cmd.Add.watcher, cmd.Add.recursive);
-                if (cmd.Add.target != NULL)
+                if (cmd.Add.target != NULL) {
                     *cmd.Add.target = ret;
+                }
                 break;
             }
             case RemoveWatchID:

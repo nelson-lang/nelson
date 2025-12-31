@@ -133,8 +133,9 @@ void
 GOText::paintMe(RenderInterface& gc)
 {
     updateState();
-    if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR))
+    if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {
         return;
+    }
     GOAxis* axis = getParentAxis();
     if (!axis) {
         return;

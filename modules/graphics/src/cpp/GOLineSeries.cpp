@@ -157,8 +157,9 @@ GOLineSeries::updateState()
 void
 GOLineSeries::paintMe(RenderInterface& gc)
 {
-    if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR))
+    if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {
         return;
+    }
     double width(findScalarDoubleProperty(GO_LINE_WIDTH_PROPERTY_NAME_STR));
     gc.lineWidth(width);
     GOColorProperty* lc = (GOColorProperty*)findProperty(GO_COLOR_PROPERTY_NAME_STR);
@@ -201,8 +202,9 @@ GOLineSeries::paintMe(RenderInterface& gc)
             }
             gc.lineSeries(local_mxs, local_mys, local_mzs);
             while ((n < mxs.size())
-                && !(std::isfinite(mxs[n]) && std::isfinite(mys[n]) && (std::isfinite(mzs[n]))))
+                && !(std::isfinite(mxs[n]) && std::isfinite(mys[n]) && (std::isfinite(mzs[n])))) {
                 n++;
+            }
         }
     }
     GOColorProperty* ec

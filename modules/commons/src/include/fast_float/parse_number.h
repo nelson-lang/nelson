@@ -47,8 +47,10 @@ namespace detail {
                             break;
                         } else if (!((UC('a') <= *ptr && *ptr <= UC('z'))
                                        || (UC('A') <= *ptr && *ptr <= UC('Z'))
-                                       || (UC('0') <= *ptr && *ptr <= UC('9')) || *ptr == UC('_')))
+                                       || (UC('0') <= *ptr && *ptr <= UC('9'))
+                                       || *ptr == UC('_'))) {
                             break; // forbidden char, not nan(n-char-seq-opt)
+                        }
                     }
                 }
                 return answer;
@@ -270,8 +272,9 @@ from_chars_advanced(parsed_number_string_t<UC>& pns, T& value) noexcept
     answer.ptr = pns.lastmatch;
 
     if (!pns.too_many_digits
-        && clinger_fast_path_impl(pns.mantissa, pns.exponent, pns.negative, value))
+        && clinger_fast_path_impl(pns.mantissa, pns.exponent, pns.negative, value)) {
         return answer;
+    }
 
     adjusted_mantissa am = compute_float<binary_format<T>>(pns.exponent, pns.mantissa);
     if (pns.too_many_digits && am.power2 >= 0) {
@@ -353,8 +356,9 @@ FASTFLOAT_CONSTEXPR20 inline double
 integer_times_pow10(uint64_t mantissa, int decimal_exponent) noexcept
 {
     double value;
-    if (clinger_fast_path_impl(mantissa, decimal_exponent, false, value))
+    if (clinger_fast_path_impl(mantissa, decimal_exponent, false, value)) {
         return value;
+    }
 
     adjusted_mantissa am = compute_float<binary_format<double>>(decimal_exponent, mantissa);
     to_float(false, am, value);
@@ -368,8 +372,9 @@ integer_times_pow10(int64_t mantissa, int decimal_exponent) noexcept
     const uint64_t m = static_cast<uint64_t>(is_negative ? -mantissa : mantissa);
 
     double value;
-    if (clinger_fast_path_impl(m, decimal_exponent, is_negative, value))
+    if (clinger_fast_path_impl(m, decimal_exponent, is_negative, value)) {
         return value;
+    }
 
     adjusted_mantissa am = compute_float<binary_format<double>>(decimal_exponent, m);
     to_float(is_negative, am, value);

@@ -110,8 +110,6 @@ EvaluateCommand(Evaluator* eval, int nLhs, const std::wstring& command,
         }
     } else {
         if (nLhs == 0) {
-            bool autostop = eval->AutoStop();
-            eval->AutoStop(false);
             Context* context = eval->getContext();
             try {
                 context->bypassScope(scopeValue);
@@ -121,12 +119,9 @@ EvaluateCommand(Evaluator* eval, int nLhs, const std::wstring& command,
                 context->restoreBypassedScopes();
                 eval->evaluateString(catchCommand, false);
             }
-            eval->AutoStop(true);
         } else {
             std::wstring preparedCommand = prepareVariablesReturned(nLhs, command);
             std::wstring preparedCatchCommand = prepareVariablesReturned(nLhs, catchCommand);
-            bool autostop = eval->AutoStop();
-            eval->AutoStop(false);
             Context* context = eval->getContext();
             try {
                 context->bypassScope(scopeValue);
@@ -138,7 +133,6 @@ EvaluateCommand(Evaluator* eval, int nLhs, const std::wstring& command,
                 eval->evaluateString(preparedCatchCommand, false);
                 retval = retrieveVariablesReturned(eval, nLhs);
             }
-            eval->AutoStop(true);
             if (retval.size() != static_cast<size_t>(nLhs)) {
                 Error(_W("Invalid use of statement list."));
             }

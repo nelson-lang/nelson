@@ -868,10 +868,12 @@ VariableTableTableModel::formatStructForDisplay(const ArrayOf& cellArray) const
         if (cellArray.isScalar() && !cellArray.isSparse()) {
             std::complex<single> val = cellArray.getContentAsSingleComplexScalar();
             auto formatPart = [](float v, const QString& suffix = "") -> QString {
-                if (std::isnan(v))
+                if (std::isnan(v)) {
                     return "NaN" + suffix;
-                if (std::isinf(v))
+                }
+                if (std::isinf(v)) {
                     return (v > 0 ? "Inf" : "-Inf") + suffix;
+                }
                 return QString::number(v, 'g', 6) + suffix;
             };
 
@@ -915,10 +917,12 @@ VariableTableTableModel::formatStructForDisplay(const ArrayOf& cellArray) const
         if (cellArray.isScalar() && !cellArray.isSparse()) {
             std::complex<double> val = cellArray.getContentAsDoubleComplexScalar();
             auto formatPart = [](double v, const QString& suffix = "") -> QString {
-                if (std::isnan(v))
+                if (std::isnan(v)) {
                     return "NaN" + suffix;
-                if (std::isinf(v))
+                }
+                if (std::isinf(v)) {
                     return (v > 0 ? "Inf" : "-Inf") + suffix;
+                }
                 return QString::number(v, 'g', 6) + suffix;
             };
 
@@ -1059,10 +1063,12 @@ VariableTableTableModel::formatCellForEdit(const ArrayOf& cellArray) const
         if (cellArray.isScalar() && !cellArray.isSparse()) {
             std::complex<single> val = cellArray.getContentAsSingleComplexScalar();
             auto formatPart = [](float v, const QString& suffix = "") -> QString {
-                if (std::isnan(v))
+                if (std::isnan(v)) {
                     return "NaN" + suffix;
-                if (std::isinf(v))
+                }
+                if (std::isinf(v)) {
                     return (v > 0 ? "Inf" : "-Inf") + suffix;
+                }
                 return QString::number(v, 'g', 6) + suffix;
             };
 
@@ -1099,10 +1105,12 @@ VariableTableTableModel::formatCellForEdit(const ArrayOf& cellArray) const
         if (cellArray.isScalar() && !cellArray.isSparse()) {
             std::complex<double> val = cellArray.getContentAsDoubleComplexScalar();
             auto formatPart = [](double v, const QString& suffix = "") -> QString {
-                if (std::isnan(v))
+                if (std::isnan(v)) {
                     return "NaN" + suffix;
-                if (std::isinf(v))
+                }
+                if (std::isinf(v)) {
                     return (v > 0 ? "Inf" : "-Inf") + suffix;
+                }
                 return QString::number(v, 'g', 6) + suffix;
             };
 

@@ -26,8 +26,9 @@ static inline std::wstring_view
 stringTrimView(const std::wstring& str)
 {
     auto start = str.find_first_not_of(L' ');
-    if (start == std::wstring::npos)
+    if (start == std::wstring::npos) {
         return std::wstring_view();
+    }
     auto end = str.find_last_not_of(L' ');
     return std::wstring_view(str.data() + start, end - start + 1);
 }

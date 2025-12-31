@@ -294,32 +294,45 @@ DrawSymbol(RenderInterface& gc, RenderInterface::SymbolType symb, double x, doub
 RenderInterface::SymbolType
 StringToSymbol(const std::wstring& symbolName)
 {
-    if (symbolName == L"+")
+    if (symbolName == L"+") {
         return RenderInterface::Plus;
-    if (symbolName == L"o")
+    }
+    if (symbolName == L"o") {
         return RenderInterface::Circle;
-    if (symbolName == L"*")
+    }
+    if (symbolName == L"*") {
         return RenderInterface::Star;
-    if (symbolName == L".")
+    }
+    if (symbolName == L".") {
         return RenderInterface::Dot;
-    if (symbolName == L"x")
+    }
+    if (symbolName == L"x") {
         return RenderInterface::Times;
-    if ((symbolName == GO_PROPERTY_VALUE_SQUARE_STR) || (symbolName == L"s"))
+    }
+    if ((symbolName == GO_PROPERTY_VALUE_SQUARE_STR) || (symbolName == L"s")) {
         return RenderInterface::Square;
-    if ((symbolName == GO_PROPERTY_VALUE_DIAMOND_STR) || (symbolName == L"d"))
+    }
+    if ((symbolName == GO_PROPERTY_VALUE_DIAMOND_STR) || (symbolName == L"d")) {
         return RenderInterface::Diamond;
-    if (symbolName == L"^")
+    }
+    if (symbolName == L"^") {
         return RenderInterface::Up;
-    if (symbolName == L"v")
+    }
+    if (symbolName == L"v") {
         return RenderInterface::Down;
-    if (symbolName == L">")
+    }
+    if (symbolName == L">") {
         return RenderInterface::Right;
-    if (symbolName == L"<")
+    }
+    if (symbolName == L"<") {
         return RenderInterface::Left;
-    if ((symbolName == GO_PROPERTY_VALUE_HEXAGRAM_STR) || (symbolName == L"h"))
+    }
+    if ((symbolName == GO_PROPERTY_VALUE_HEXAGRAM_STR) || (symbolName == L"h")) {
         return RenderInterface::Hexagram;
-    if ((symbolName == GO_PROPERTY_VALUE_PENTAGRAM_STR) || (symbolName == L"p"))
+    }
+    if ((symbolName == GO_PROPERTY_VALUE_PENTAGRAM_STR) || (symbolName == L"p")) {
         return RenderInterface::Pentagram;
+    }
 
     return RenderInterface::None;
 }

@@ -65,23 +65,8 @@ class NLSINTERPRETER_IMPEXP Evaluator
      */
     Interface* io;
 
-    /**
-     * autostop storage flag
-     */
-    bool autostop;
-    /**
-     * When this flag is active, autostop does nothing.
-     */
-
     int exitCode = 0;
 
-    // The debug stack - this stack tracks our current location
-    // in each file, as well as the files themselves.
-
-    std::vector<StackEntry> bpStack;
-    bool inStepMode;
-    int lineNumber;
-    StackEntry stepTrap;
     bool bpActive;
 
     bool InCLI;
@@ -113,26 +98,6 @@ public:
     Context*
     getContext();
 
-    bool debugActive;
-
-    void
-    dbstep(int linecount);
-    void
-    handleDebug(int fullcontext);
-    void
-    debugCLI();
-
-    void
-    addBreakpoint(StackEntry& bp);
-    bool
-    adjustBreakpoint(StackEntry& bp, bool dbstep);
-    void
-    adjustBreakpoints();
-    void
-    listBreakpoints();
-    void
-    deleteBreakpoint(int number);
-
     stringVector
     getCallers(bool includeCurrent);
 
@@ -149,13 +114,6 @@ public:
      * Destruct the Evaluator object.
      */
     ~Evaluator();
-    /**
-     * Push the given location ID onto the stack
-     */
-    bool
-    AutoStop();
-    void
-    AutoStop(bool a);
 
     void
     clearStacks();
@@ -609,6 +567,8 @@ public:
     std::wstring
     getCurrentFunctionNameW();
 
+    void
+    resetDebugDepth();
     int
     getDebugDepth();
     void

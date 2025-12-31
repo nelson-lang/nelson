@@ -164,11 +164,13 @@ PathFunctionIndexer::getFunctionsName(const std::wstring& prefix, bool withPriva
 
     for (const auto& mapAllFile : mapAllFiles) {
         const FileFunction* ff = mapAllFile.second;
-        if (!ff)
+        if (!ff) {
             continue;
+        }
 
-        if (!withPrivate && ff->isPrivate())
+        if (!withPrivate && ff->isPrivate()) {
             continue;
+        }
 
         const std::wstring& name = ff->getName();
         if (!hasPrefix || StringHelpers::starts_with(name, prefix)) {
@@ -226,8 +228,9 @@ PathFunctionIndexer::rehash(
 {
     try {
         const FileSystemWrapper::Path path(pathToScan);
-        if (!path.is_directory())
+        if (!path.is_directory()) {
             return;
+        }
 
         // Pre-compute commonly used values
         const std::wstring mexExt = L"." + getMexExtension();
@@ -259,12 +262,14 @@ PathFunctionIndexer::rehash(
             const bool isMacro = (ext == macroExt);
             const bool isMex = (ext == mexExt);
 
-            if (!(isMacro || isMex))
+            if (!(isMacro || isMex)) {
                 continue;
+            }
 
             const std::wstring stemName = current.stem().generic_wstring();
-            if (!isSupportedFuncFilename(stemName))
+            if (!isSupportedFuncFilename(stemName)) {
                 continue;
+            }
 
             const std::wstring name = getFunctionName(objectName, stemName);
             const std::wstring pathName = prefix.empty()
@@ -296,8 +301,9 @@ PathFunctionIndexer::rehash(
 void
 PathFunctionIndexer::rehash()
 {
-    if (_path.empty())
+    if (_path.empty()) {
         return;
+    }
 
     // Clear existing data
     for (const auto& pair : mapAllFiles) {
@@ -324,8 +330,9 @@ PathFunctionIndexer::findFuncName(const std::string& functionName, std::wstring&
         }
     }
 
-    if (!withWatcher)
+    if (!withWatcher) {
         return false;
+    }
 
     // Cache the converted function name to avoid repeated conversions
     const std::wstring wFunctionName = utf8_to_wstring(functionName);

@@ -294,15 +294,18 @@ houdini_escape_html(cmark_strbuf* ob, const uint8_t* src, bufsize_t size, int se
 
     while (i < size) {
         org = i;
-        while (i < size && (esc = HTML_ESCAPE_TABLE[src[i]]) == 0)
+        while (i < size && (esc = HTML_ESCAPE_TABLE[src[i]]) == 0) {
             i++;
+        }
 
-        if (i > org)
+        if (i > org) {
             cmark_strbuf_put(ob, src + org, i - org);
+        }
 
         /* escaping */
-        if (unlikely(i >= size))
+        if (unlikely(i >= size)) {
             break;
+        }
 
         /* The forward slash is only escaped in secure mode */
         if ((src[i] == '/' || src[i] == '\'') && !secure) {

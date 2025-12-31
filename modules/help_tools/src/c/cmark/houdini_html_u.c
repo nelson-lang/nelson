@@ -29,20 +29,23 @@ S_lookup(int i, int low, int hi, const unsigned char* s, int len, bufsize_t* siz
     int ent_len = ENT_NAME_SIZE(value);
     int min_len = len < ent_len ? len : ent_len;
     int cmp = strncmp((const char*)s, (const char*)ent_name, min_len);
-    if (cmp == 0)
+    if (cmp == 0) {
         cmp = len - ent_len;
+    }
     if (cmp == 0) {
         *size_out = ENT_REPL_SIZE(value);
         return ent_name + ent_len;
     } else if (cmp <= 0 && i > low) {
         j = i - ((i - low) / 2);
-        if (j == i)
+        if (j == i) {
             j -= 1;
+        }
         return S_lookup(j, low, i - 1, s, len, size_out);
     } else if (cmp > 0 && i < hi) {
         j = i + ((hi - i) / 2);
-        if (j == i)
+        if (j == i) {
             j += 1;
+        }
         return S_lookup(j, i + 1, hi, s, len, size_out);
     } else {
         return NULL;
@@ -106,12 +109,14 @@ houdini_unescape_ent(cmark_strbuf* ob, const uint8_t* src, bufsize_t size)
     }
 
     else {
-        if (size > ENT_MAX_LENGTH)
+        if (size > ENT_MAX_LENGTH) {
             size = ENT_MAX_LENGTH;
+        }
 
         for (i = ENT_MIN_LENGTH; i < size; ++i) {
-            if (src[i] == ' ')
+            if (src[i] == ' ') {
                 break;
+            }
 
             if (src[i] == ';') {
                 bufsize_t size;
@@ -137,13 +142,15 @@ houdini_unescape_html(cmark_strbuf* ob, const uint8_t* src, bufsize_t size)
 
     while (i < size) {
         org = i;
-        while (i < size && src[i] != '&')
+        while (i < size && src[i] != '&') {
             i++;
+        }
 
         if (likely(i > org)) {
             if (unlikely(org == 0)) {
-                if (i >= size)
+                if (i >= size) {
                     return 0;
+                }
 
                 cmark_strbuf_grow(ob, HOUDINI_UNESCAPED_SIZE(size));
             }
@@ -152,8 +159,9 @@ houdini_unescape_html(cmark_strbuf* ob, const uint8_t* src, bufsize_t size)
         }
 
         /* escaping */
-        if (i >= size)
+        if (i >= size) {
             break;
+        }
 
         i++;
 
@@ -161,8 +169,9 @@ houdini_unescape_html(cmark_strbuf* ob, const uint8_t* src, bufsize_t size)
         i += ent;
 
         /* not really an entity */
-        if (ent == 0)
+        if (ent == 0) {
             cmark_strbuf_putc(ob, '&');
+        }
     }
 
     return 1;
@@ -171,6 +180,7 @@ houdini_unescape_html(cmark_strbuf* ob, const uint8_t* src, bufsize_t size)
 void
 houdini_unescape_html_f(cmark_strbuf* ob, const uint8_t* src, bufsize_t size)
 {
-    if (!houdini_unescape_html(ob, src, size))
+    if (!houdini_unescape_html(ob, src, size)) {
         cmark_strbuf_put(ob, src, size);
+    }
 }

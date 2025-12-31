@@ -22,8 +22,9 @@ mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
     mwIndex index = (mwIndex)mxGetScalar(prhs[1]);
     int fieldnumber = (int)mxGetScalar(prhs[2]);
     pOut = mxGetFieldByNumber(prhs[0], index, fieldnumber);
-    if (pOut == NULL)
+    if (pOut == NULL) {
         pOut = mxCreateLogicalScalar(false);
+    }
     plhs[0] = pOut;
 }
 //=============================================================================

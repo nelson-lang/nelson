@@ -870,8 +870,9 @@ VariableStringTableModel::isStructureCompatible(const ArrayOf& value)
 bool
 VariableStringTableModel::insertRowAt(int row)
 {
-    if (row < 0 || row > m_rows)
+    if (row < 0 || row > m_rows) {
         return false;
+    }
     saveCurrentStateForUndo();
 
     int newRows = m_rows + 1;
@@ -888,13 +889,15 @@ VariableStringTableModel::insertRowAt(int row)
         ArrayOf* src = (ArrayOf*)(m_array.getDataPointer());
 
         for (int c = 0; c < cols; ++c) {
-            for (int r = 0; r < row; ++r)
+            for (int r = 0; r < row; ++r) {
                 dst[r + c * newRows] = src[r + c * m_rows];
+            }
 
             dst[row + c * newRows] = ArrayOf::doubleConstructor(std::nan(""));
 
-            for (int r = row; r < m_rows; ++r)
+            for (int r = row; r < m_rows; ++r) {
                 dst[r + 1 + c * newRows] = src[r + c * m_rows];
+            }
         }
 
         newArray = ArrayOf(NLS_STRING_ARRAY, newDims, ptr);
@@ -915,8 +918,9 @@ VariableStringTableModel::insertRowAt(int row)
 bool
 VariableStringTableModel::insertColumnAt(int col)
 {
-    if (col < 0 || col > m_cols)
+    if (col < 0 || col > m_cols) {
         return false;
+    }
     saveCurrentStateForUndo();
 
     int newCols = m_cols + 1;
@@ -930,16 +934,21 @@ VariableStringTableModel::insertColumnAt(int col)
         ArrayOf* dst = ptr;
         ArrayOf* src = (ArrayOf*)(m_array.getDataPointer());
 
-        for (int c = 0; c < col; ++c)
-            for (int r = 0; r < rows; ++r)
+        for (int c = 0; c < col; ++c) {
+            for (int r = 0; r < rows; ++r) {
                 dst[r + c * rows] = src[r + c * rows];
+            }
+        }
 
-        for (int r = 0; r < rows; ++r)
+        for (int r = 0; r < rows; ++r) {
             dst[r + col * rows] = ArrayOf::doubleConstructor(std::nan(""));
+        }
 
-        for (int c = col; c < m_cols; ++c)
-            for (int r = 0; r < rows; ++r)
+        for (int c = col; c < m_cols; ++c) {
+            for (int r = 0; r < rows; ++r) {
                 dst[r + (c + 1) * rows] = src[r + c * rows];
+            }
+        }
 
         newArray = ArrayOf(NLS_STRING_ARRAY, newDims, ptr);
 
@@ -981,8 +990,9 @@ VariableStringTableModel::deleteRowAt(int row)
         for (int c = 0; c < cols; ++c) {
             int k = 0;
             for (int r = 0; r < m_rows; ++r) {
-                if (r == row)
+                if (r == row) {
                     continue;
+                }
                 dst[k++ + c * newRows] = src[r + c * m_rows];
             }
         }
@@ -1026,10 +1036,12 @@ VariableStringTableModel::deleteColumnAt(int col)
 
         int k = 0;
         for (int c = 0; c < m_cols; ++c) {
-            if (c == col)
+            if (c == col) {
                 continue;
-            for (int r = 0; r < rows; ++r)
+            }
+            for (int r = 0; r < rows; ++r) {
                 dst[r + k * rows] = src[r + c * rows];
+            }
             ++k;
         }
 

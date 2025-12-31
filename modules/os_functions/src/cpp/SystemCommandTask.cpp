@@ -29,8 +29,9 @@ static std::string
 get_last_error_message()
 {
     DWORD errorMessageID = ::GetLastError();
-    if (errorMessageID == 0)
+    if (errorMessageID == 0) {
         return {};
+    }
     LPSTR messageBuffer = nullptr;
     size_t size = FormatMessageA(
         FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
@@ -161,8 +162,9 @@ SystemCommandTask::executeDetachedProcess(const std::wstring& cmd)
     if (p1 != std::wstring::npos) {
         // find first space after cmd.exe
         pos = commandLine.find(L' ', p1);
-        if (pos == std::wstring::npos)
+        if (pos == std::wstring::npos) {
             pos = commandLine.size();
+        }
         appName = L"cmd.exe";
         if (pos < commandLine.size()) {
             args = commandLine.substr(pos + 1);
@@ -202,8 +204,9 @@ SystemCommandTask::executeDetachedProcess(const std::wstring& cmd)
     }
     if (pid == 0) {
         // child: detach
-        if (setsid() < 0)
+        if (setsid() < 0) {
             _exitCode = -1;
+        }
         // redirect stdin to /dev/null to avoid blocking on interactive commands
         FILE* in = fopen("/dev/null", "r");
         if (in) {
@@ -234,10 +237,12 @@ SystemCommandTask::executeAttachedProcess(const std::wstring& cmd,
     HANDLE hErr = CreateFileW(tempErrorFile.wstring().c_str(), GENERIC_WRITE, FILE_SHARE_READ,
         nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
     if (hOut == INVALID_HANDLE_VALUE || hErr == INVALID_HANDLE_VALUE) {
-        if (hOut != INVALID_HANDLE_VALUE)
+        if (hOut != INVALID_HANDLE_VALUE) {
             CloseHandle(hOut);
-        if (hErr != INVALID_HANDLE_VALUE)
+        }
+        if (hErr != INVALID_HANDLE_VALUE) {
             CloseHandle(hErr);
+        }
         _exitCode = -1;
         _message = L"Cannot open temp files for redirect.";
         return;
@@ -269,8 +274,10 @@ SystemCommandTask::executeAttachedProcess(const std::wstring& cmd,
     BOOL ok = CreateProcessW(
         nullptr, &commandLine[0], nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &pi);
     if (!ok) {
-        if (hIn != nullptr && hIn != INVALID_HANDLE_VALUE && hIn != GetStdHandle(STD_INPUT_HANDLE))
+        if (hIn != nullptr && hIn != INVALID_HANDLE_VALUE
+            && hIn != GetStdHandle(STD_INPUT_HANDLE)) {
             CloseHandle(hIn);
+        }
         CloseHandle(hOut);
         CloseHandle(hErr);
         _exitCode = -1;
@@ -278,8 +285,9 @@ SystemCommandTask::executeAttachedProcess(const std::wstring& cmd,
         return;
     }
     // we can close our copies of the handles; child has its own inherited handles
-    if (hIn != nullptr && hIn != INVALID_HANDLE_VALUE && hIn != GetStdHandle(STD_INPUT_HANDLE))
+    if (hIn != nullptr && hIn != INVALID_HANDLE_VALUE && hIn != GetStdHandle(STD_INPUT_HANDLE)) {
         CloseHandle(hIn);
+    }
     CloseHandle(hOut);
     CloseHandle(hErr);
 
@@ -317,8 +325,9 @@ SystemCommandTask::executeAttachedProcess(const std::wstring& cmd,
         FILE* out = fopen(tempOutputFile.string().c_str(), "w");
         FILE* err = fopen(tempErrorFile.string().c_str(), "w");
         // consider missing out/err/in an error
-        if (!out || !err || !in)
+        if (!out || !err || !in) {
             _exitCode = -1;
+        }
         if (in) {
             dup2(fileno(in), STDIN_FILENO);
             fclose(in);
@@ -354,8 +363,9 @@ void
 SystemCommandTask::monitorChildProcess(PROCESS_CHILD& childProcess, uint64 timeout)
 {
 #ifdef _WIN32
-    if (!childProcess.valid())
+    if (!childProcess.valid()) {
         return;
+    }
     while (!_terminate) {
         DWORD res = WaitForSingleObject(childProcess.processHandle, 0);
         if (res == WAIT_OBJECT_0) {
@@ -379,8 +389,9 @@ SystemCommandTask::monitorChildProcess(PROCESS_CHILD& childProcess, uint64 timeo
         TerminateProcess(childProcess.processHandle, (UINT)_exitCode);
     }
 #else
-    if (!childProcess.valid())
+    if (!childProcess.valid()) {
         return;
+    }
     int status = 0;
     while (!_terminate) {
         pid_t r = waitpid(childProcess.pid, &status, WNOHANG);

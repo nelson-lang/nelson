@@ -25,8 +25,9 @@ struct
     bool
     operator()(const T& a, const T& b)
     {
-        if (std::isnan(a) && !std::isnan(b))
+        if (std::isnan(a) && !std::isnan(b)) {
             return true;
+        }
         return a > b;
     }
 } comparisonRealGreater;

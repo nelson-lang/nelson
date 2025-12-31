@@ -54,10 +54,11 @@ Permute(
 
     if (arrayIn.is2D()) {
         bool isTranspose = true;
-        for (int i = 2; i < dimsIn.getLength(); i++)
+        for (int i = 2; i < dimsIn.getLength(); i++) {
             if (permutationVector[i] != (i + 1)) {
                 isTranspose = false;
             }
+        }
         if (permutationVector[0] != 2) {
             isTranspose = false;
         }

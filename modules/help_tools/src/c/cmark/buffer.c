@@ -27,8 +27,9 @@ cmark_strbuf_init(cmark_mem* mem, cmark_strbuf* buf, bufsize_t initial_size)
     buf->size = 0;
     buf->ptr = cmark_strbuf__initbuf;
 
-    if (initial_size > 0)
+    if (initial_size > 0) {
         cmark_strbuf_grow(buf, initial_size);
+    }
 }
 
 static inline void
@@ -42,8 +43,9 @@ cmark_strbuf_grow(cmark_strbuf* buf, bufsize_t target_size)
 {
     assert(target_size > 0);
 
-    if (target_size < buf->asize)
+    if (target_size < buf->asize) {
         return;
+    }
 
     if (target_size > (bufsize_t)(INT32_MAX / 2)) {
         fprintf(stderr, "[cmark] cmark_strbuf_grow requests buffer with size > %d, aborting\n",
@@ -64,11 +66,13 @@ cmark_strbuf_grow(cmark_strbuf* buf, bufsize_t target_size)
 void
 cmark_strbuf_free(cmark_strbuf* buf)
 {
-    if (!buf)
+    if (!buf) {
         return;
+    }
 
-    if (buf->ptr != cmark_strbuf__initbuf)
+    if (buf->ptr != cmark_strbuf__initbuf) {
         buf->mem->free(buf->ptr);
+    }
 
     cmark_strbuf_init(buf->mem, buf, 0);
 }
@@ -78,8 +82,9 @@ cmark_strbuf_clear(cmark_strbuf* buf)
 {
     buf->size = 0;
 
-    if (buf->asize > 0)
+    if (buf->asize > 0) {
         buf->ptr[0] = '\0';
+    }
 }
 
 void
@@ -89,8 +94,9 @@ cmark_strbuf_set(cmark_strbuf* buf, const unsigned char* data, bufsize_t len)
         cmark_strbuf_clear(buf);
     } else {
         if (data != buf->ptr) {
-            if (len >= buf->asize)
+            if (len >= buf->asize) {
                 cmark_strbuf_grow(buf, len);
+            }
             memmove(buf->ptr, data, len);
         }
         buf->size = len;
@@ -109,8 +115,9 @@ cmark_strbuf_putc(cmark_strbuf* buf, int c)
 void
 cmark_strbuf_put(cmark_strbuf* buf, const unsigned char* data, bufsize_t len)
 {
-    if (len <= 0)
+    if (len <= 0) {
         return;
+    }
 
     S_strbuf_grow_by(buf, len);
     memmove(buf->ptr + buf->size, data, len);
@@ -141,8 +148,9 @@ cmark_strbuf_detach(cmark_strbuf* buf)
 void
 cmark_strbuf_truncate(cmark_strbuf* buf, bufsize_t len)
 {
-    if (len < 0)
+    if (len < 0) {
         len = 0;
+    }
 
     if (len < buf->size) {
         buf->size = len;
@@ -154,11 +162,13 @@ void
 cmark_strbuf_drop(cmark_strbuf* buf, bufsize_t n)
 {
     if (n > 0) {
-        if (n > buf->size)
+        if (n > buf->size) {
             n = buf->size;
+        }
         buf->size = buf->size - n;
-        if (buf->size)
+        if (buf->size) {
             memmove(buf->ptr, buf->ptr + n, buf->size);
+        }
 
         buf->ptr[buf->size] = '\0';
     }
@@ -167,12 +177,14 @@ cmark_strbuf_drop(cmark_strbuf* buf, bufsize_t n)
 void
 cmark_strbuf_rtrim(cmark_strbuf* buf)
 {
-    if (!buf->size)
+    if (!buf->size) {
         return;
+    }
 
     while (buf->size > 0) {
-        if (!cmark_isspace(buf->ptr[buf->size - 1]))
+        if (!cmark_isspace(buf->ptr[buf->size - 1])) {
             break;
+        }
 
         buf->size--;
     }
@@ -185,11 +197,13 @@ cmark_strbuf_trim(cmark_strbuf* buf)
 {
     bufsize_t i = 0;
 
-    if (!buf->size)
+    if (!buf->size) {
         return;
+    }
 
-    while (i < buf->size && cmark_isspace(buf->ptr[i]))
+    while (i < buf->size && cmark_isspace(buf->ptr[i])) {
         i++;
+    }
 
     cmark_strbuf_drop(buf, i);
 
@@ -226,8 +240,9 @@ cmark_strbuf_unescape(cmark_strbuf* buf)
     bufsize_t r, w;
 
     for (r = 0, w = 0; r < buf->size; ++r) {
-        if (buf->ptr[r] == '\\' && cmark_ispunct(buf->ptr[r + 1]))
+        if (buf->ptr[r] == '\\' && cmark_ispunct(buf->ptr[r + 1])) {
             r++;
+        }
 
         buf->ptr[w++] = buf->ptr[r];
     }

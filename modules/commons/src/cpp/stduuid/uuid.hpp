@@ -76,12 +76,15 @@ namespace detail {
     [[nodiscard]] constexpr inline unsigned char
     hex2char(TChar const ch) noexcept
     {
-        if (ch >= static_cast<TChar>('0') && ch <= static_cast<TChar>('9'))
+        if (ch >= static_cast<TChar>('0') && ch <= static_cast<TChar>('9')) {
             return static_cast<unsigned char>(ch - static_cast<TChar>('0'));
-        if (ch >= static_cast<TChar>('a') && ch <= static_cast<TChar>('f'))
+        }
+        if (ch >= static_cast<TChar>('a') && ch <= static_cast<TChar>('f')) {
             return static_cast<unsigned char>(10 + ch - static_cast<TChar>('a'));
-        if (ch >= static_cast<TChar>('A') && ch <= static_cast<TChar>('F'))
+        }
+        if (ch >= static_cast<TChar>('A') && ch <= static_cast<TChar>('F')) {
             return static_cast<unsigned char>(10 + ch - static_cast<TChar>('A'));
+        }
         return 0;
     }
 
@@ -98,8 +101,9 @@ namespace detail {
     [[nodiscard]] constexpr std::basic_string_view<TChar>
     to_string_view(TChar const* str) noexcept
     {
-        if (str)
+        if (str) {
             return str;
+        }
         return {};
     }
 
@@ -403,46 +407,51 @@ public:
 
     template <typename ForwardIterator> explicit uuid(ForwardIterator first, ForwardIterator last)
     {
-        if (std::distance(first, last) == 16)
+        if (std::distance(first, last) == 16) {
             std::copy(first, last, std::begin(data));
+        }
     }
 
     [[nodiscard]] constexpr uuid_variant
     variant() const noexcept
     {
-        if ((data[8] & 0x80) == 0x00)
+        if ((data[8] & 0x80) == 0x00) {
             return uuid_variant::ncs;
-        else if ((data[8] & 0xC0) == 0x80)
+        } else if ((data[8] & 0xC0) == 0x80) {
             return uuid_variant::rfc;
-        else if ((data[8] & 0xE0) == 0xC0)
+        } else if ((data[8] & 0xE0) == 0xC0) {
             return uuid_variant::microsoft;
-        else
+        } else {
             return uuid_variant::reserved;
+        }
     }
 
     [[nodiscard]] constexpr uuid_version
     version() const noexcept
     {
-        if ((data[6] & 0xF0) == 0x10)
+        if ((data[6] & 0xF0) == 0x10) {
             return uuid_version::time_based;
-        else if ((data[6] & 0xF0) == 0x20)
+        } else if ((data[6] & 0xF0) == 0x20) {
             return uuid_version::dce_security;
-        else if ((data[6] & 0xF0) == 0x30)
+        } else if ((data[6] & 0xF0) == 0x30) {
             return uuid_version::name_based_md5;
-        else if ((data[6] & 0xF0) == 0x40)
+        } else if ((data[6] & 0xF0) == 0x40) {
             return uuid_version::random_number_based;
-        else if ((data[6] & 0xF0) == 0x50)
+        } else if ((data[6] & 0xF0) == 0x50) {
             return uuid_version::name_based_sha1;
-        else
+        } else {
             return uuid_version::none;
+        }
     }
 
     [[nodiscard]] constexpr bool
     is_nil() const noexcept
     {
-        for (size_t i = 0; i < data.size(); ++i)
-            if (data[i] != 0)
+        for (size_t i = 0; i < data.size(); ++i) {
+            if (data[i] != 0) {
                 return false;
+            }
+        }
         return true;
     }
 
@@ -467,17 +476,21 @@ public:
         size_t hasBraces = 0;
         size_t index = 0;
 
-        if (str.empty())
+        if (str.empty()) {
             return false;
+        }
 
-        if (str.front() == '{')
+        if (str.front() == '{') {
             hasBraces = 1;
-        if (hasBraces && str.back() != '}')
+        }
+        if (hasBraces && str.back() != '}') {
             return false;
+        }
 
         for (size_t i = hasBraces; i < str.size() - hasBraces; ++i) {
-            if (str[i] == '-')
+            if (str[i] == '-') {
                 continue;
+            }
 
             if (index >= 16 || !detail::is_hex(str[i])) {
                 return false;
@@ -509,17 +522,21 @@ public:
 
         std::array<uint8_t, 16> data { { 0 } };
 
-        if (str.empty())
+        if (str.empty()) {
             return {};
+        }
 
-        if (str.front() == '{')
+        if (str.front() == '{') {
             hasBraces = 1;
-        if (hasBraces && str.back() != '}')
+        }
+        if (hasBraces && str.back() != '}') {
             return {};
+        }
 
         for (size_t i = hasBraces; i < str.size() - hasBraces; ++i) {
-            if (str[i] == '-')
+            if (str[i] == '-') {
                 continue;
+            }
 
             if (index >= 16 || !detail::is_hex(str[i])) {
                 return {};
@@ -711,8 +728,9 @@ public:
     operator()()
     {
         alignas(uint32_t) uint8_t bytes[16];
-        for (int i = 0; i < 16; i += 4)
+        for (int i = 0; i < 16; i += 4) {
             *reinterpret_cast<uint32_t*>(bytes + i) = distribution(*generator);
+        }
 
         // variant must be 10xxxxxx
         bytes[8] &= 0xBF;
@@ -812,13 +830,15 @@ class uuid_time_generator
 #ifdef _WIN32
         DWORD len = 0;
         auto ret = GetAdaptersInfo(nullptr, &len);
-        if (ret != ERROR_BUFFER_OVERFLOW)
+        if (ret != ERROR_BUFFER_OVERFLOW) {
             return false;
+        }
         std::vector<unsigned char> buf(len);
         auto pips = reinterpret_cast<PIP_ADAPTER_INFO>(&buf.front());
         ret = GetAdaptersInfo(pips, &len);
-        if (ret != ERROR_SUCCESS)
+        if (ret != ERROR_SUCCESS) {
             return false;
+        }
         mac_address addr;
         std::copy(pips->Address, pips->Address + 6, std::begin(addr));
         device_address = addr;

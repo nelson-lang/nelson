@@ -191,8 +191,9 @@ cmark_clean_autolink(cmark_mem* mem, cmark_chunk* url, int is_email)
 
     cmark_chunk_trim(url);
 
-    if (is_email)
+    if (is_email) {
         cmark_strbuf_puts(&buf, "mailto:");
+    }
 
     houdini_unescape_html_f(&buf, url->data, url->len);
     return cmark_strbuf_detach(&buf);
@@ -324,8 +325,9 @@ count_newlines(subject* subj, bufsize_t from, bufsize_t len, int* since_newline)
         }
     }
 
-    if (!nls)
+    if (!nls) {
         return 0;
+    }
 
     *since_newline = since_nl;
     return nls;
@@ -544,8 +546,9 @@ static void print_delimiters(subject *subj)
 static void
 remove_delimiter(subject* subj, delimiter* delim)
 {
-    if (delim == NULL)
+    if (delim == NULL) {
         return;
+    }
     if (delim->next == NULL) {
         // end of list:
         assert(delim == subj->last_delim);
@@ -563,8 +566,9 @@ static void
 pop_bracket(subject* subj)
 {
     bracket* b;
-    if (subj->last_bracket == NULL)
+    if (subj->last_bracket == NULL) {
         return;
+    }
     b = subj->last_bracket;
     subj->last_bracket = subj->last_bracket->previous;
     subj->mem->free(b);
@@ -908,8 +912,9 @@ handle_entity(subject* subj)
 
     len = houdini_unescape_ent(&ent, subj->input.data + subj->pos, subj->input.len - subj->pos);
 
-    if (len <= 0)
+    if (len <= 0) {
         return make_str(subj, subj->pos - 1, subj->pos - 1, cmark_chunk_literal("&"));
+    }
 
     subj->pos += len;
     return make_str_from_buf(subj, subj->pos - 1 - len, subj->pos - 1, &ent);
@@ -1113,16 +1118,18 @@ manual_scan_link_url_2(cmark_chunk* input, bufsize_t offset, cmark_chunk* output
     size_t nb_p = 0;
 
     while (i < input->len) {
-        if (input->data[i] == '\\' && i + 1 < input->len && cmark_ispunct(input->data[i + 1]))
+        if (input->data[i] == '\\' && i + 1 < input->len && cmark_ispunct(input->data[i + 1])) {
             i += 2;
-        else if (input->data[i] == '(') {
+        } else if (input->data[i] == '(') {
             ++nb_p;
             ++i;
-            if (nb_p > 32)
+            if (nb_p > 32) {
                 return -1;
+            }
         } else if (input->data[i] == ')') {
-            if (nb_p == 0)
+            if (nb_p == 0) {
                 break;
+            }
             --nb_p;
             ++i;
         } else if (cmark_isspace(input->data[i])) {
@@ -1135,8 +1142,9 @@ manual_scan_link_url_2(cmark_chunk* input, bufsize_t offset, cmark_chunk* output
         }
     }
 
-    if (i >= input->len || nb_p != 0)
+    if (i >= input->len || nb_p != 0) {
         return -1;
+    }
 
     {
         cmark_chunk result = { input->data + offset, i - offset };
@@ -1156,19 +1164,21 @@ manual_scan_link_url(cmark_chunk* input, bufsize_t offset, cmark_chunk* output)
             if (input->data[i] == '>') {
                 ++i;
                 break;
-            } else if (input->data[i] == '\\')
+            } else if (input->data[i] == '\\') {
                 i += 2;
-            else if (input->data[i] == '\n' || input->data[i] == '<')
+            } else if (input->data[i] == '\n' || input->data[i] == '<') {
                 return -1;
-            else
+            } else {
                 ++i;
+            }
         }
     } else {
         return manual_scan_link_url_2(input, offset, output);
     }
 
-    if (i >= input->len)
+    if (i >= input->len) {
         return -1;
+    }
 
     {
         cmark_chunk result = { input->data + offset + 1, i - 2 - offset };
@@ -1616,10 +1626,12 @@ subject_find_special_char(subject* subj, int options)
     bufsize_t n = subj->pos + 1;
 
     while (n < subj->input.len) {
-        if (SPECIAL_CHARS[subj->input.data[n]])
+        if (SPECIAL_CHARS[subj->input.data[n]]) {
             return n;
-        if (options & CMARK_OPT_SMART && SMART_PUNCT_CHARS[subj->input.data[n]])
+        }
+        if (options & CMARK_OPT_SMART && SMART_PUNCT_CHARS[subj->input.data[n]]) {
             return n;
+        }
         n++;
     }
 
@@ -1718,8 +1730,9 @@ cmark_parse_inlines(cmark_mem* mem, cmark_node* parent, cmark_reference_map* ref
         &content, refmap);
     cmark_chunk_rtrim(&subj.input);
 
-    while (!is_eof(&subj) && parse_inline(&subj, parent, options))
+    while (!is_eof(&subj) && parse_inline(&subj, parent, options)) {
         ;
+    }
 
     process_emphasis(&subj, 0);
     // free bracket and delim stack
@@ -1760,8 +1773,9 @@ cmark_parse_reference_inline(cmark_mem* mem, cmark_chunk* input, cmark_reference
     subject_from_buf(mem, -1, 0, &subj, input, NULL);
 
     // parse label:
-    if (!link_label(&subj, &lab) || lab.len == 0)
+    if (!link_label(&subj, &lab) || lab.len == 0) {
         return 0;
+    }
 
     // colon:
     if (peek_char(&subj) == ':') {

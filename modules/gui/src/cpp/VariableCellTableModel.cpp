@@ -1271,8 +1271,9 @@ VariableCellTableModel::isValidSelectionForExtraction(const QModelIndexList& sel
 bool
 VariableCellTableModel::insertRowAt(int row)
 {
-    if (row < 0 || row > m_rows)
+    if (row < 0 || row > m_rows) {
         return false;
+    }
     saveCurrentStateForUndo();
 
     int newRows = m_rows + 1;
@@ -1290,13 +1291,15 @@ VariableCellTableModel::insertRowAt(int row)
 
         Dimensions dimsEmpty(0, 0);
         for (int c = 0; c < cols; ++c) {
-            for (int r = 0; r < row; ++r)
+            for (int r = 0; r < row; ++r) {
                 dst[r + c * newRows] = src[r + c * m_rows];
+            }
 
             dst[row + c * newRows] = ArrayOf::emptyConstructor(dimsEmpty);
 
-            for (int r = row; r < m_rows; ++r)
+            for (int r = row; r < m_rows; ++r) {
                 dst[r + 1 + c * newRows] = src[r + c * m_rows];
+            }
         }
 
         newArray = ArrayOf(NLS_CELL_ARRAY, newDims, ptr);
@@ -1315,8 +1318,9 @@ VariableCellTableModel::insertRowAt(int row)
 bool
 VariableCellTableModel::insertColumnAt(int col)
 {
-    if (col < 0 || col > m_cols)
+    if (col < 0 || col > m_cols) {
         return false;
+    }
     saveCurrentStateForUndo();
 
     int newCols = m_cols + 1;
@@ -1330,17 +1334,22 @@ VariableCellTableModel::insertColumnAt(int col)
         ArrayOf* dst = ptr;
         ArrayOf* src = (ArrayOf*)(m_array.getDataPointer());
 
-        for (int c = 0; c < col; ++c)
-            for (int r = 0; r < rows; ++r)
+        for (int c = 0; c < col; ++c) {
+            for (int r = 0; r < rows; ++r) {
                 dst[r + c * rows] = src[r + c * rows];
+            }
+        }
 
         Dimensions dimsEmpty(0, 0);
-        for (int r = 0; r < rows; ++r)
+        for (int r = 0; r < rows; ++r) {
             dst[r + col * rows] = ArrayOf::emptyConstructor(dimsEmpty);
+        }
 
-        for (int c = col; c < m_cols; ++c)
-            for (int r = 0; r < rows; ++r)
+        for (int c = col; c < m_cols; ++c) {
+            for (int r = 0; r < rows; ++r) {
                 dst[r + (c + 1) * rows] = src[r + c * rows];
+            }
+        }
 
         newArray = ArrayOf(NLS_CELL_ARRAY, newDims, ptr);
 
@@ -1382,8 +1391,9 @@ VariableCellTableModel::deleteRowAt(int row)
         for (int c = 0; c < cols; ++c) {
             int k = 0;
             for (int r = 0; r < m_rows; ++r) {
-                if (r == row)
+                if (r == row) {
                     continue;
+                }
                 dst[k++ + c * newRows] = src[r + c * m_rows];
             }
         }
@@ -1426,10 +1436,12 @@ VariableCellTableModel::deleteColumnAt(int col)
 
         int k = 0;
         for (int c = 0; c < m_cols; ++c) {
-            if (c == col)
+            if (c == col) {
                 continue;
-            for (int r = 0; r < rows; ++r)
+            }
+            for (int r = 0; r < rows; ++r) {
                 dst[r + k * rows] = src[r + c * rows];
+            }
             ++k;
         }
 

@@ -325,8 +325,9 @@ dateToUserFormatString(std::vector<double> epochValues, const Dimensions& dimens
                     break;
                 }
             }
-            if (!hasDateVector)
+            if (!hasDateVector) {
                 break;
+            }
         }
     }
     if (hasDateVector) {

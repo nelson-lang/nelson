@@ -155,17 +155,19 @@ ArrayOf::toOrdinalType()
         const logical* rp = (const logical*)dp->getData();
         int indexCount = 0;
         indexType len = getElementCount();
-        for (ompIndexType i = 0; i < (ompIndexType)len; i++)
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             if (rp[i] != 0) {
                 indexCount++;
             }
+        }
         // Allocate space to hold the new type.
         indexType* lp = new_with_exception<indexType>(indexCount, false);
         indexType* qp = lp;
-        for (ompIndexType i = 0; i < (ompIndexType)len; i++)
+        for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             if (rp[i] != 0) {
                 *qp++ = (indexType)(i + 1);
             }
+        }
         // Reset our data pointer to the new vector.
         Dimensions dimensions;
         if (isRowVector()) {
@@ -1378,10 +1380,11 @@ DoCountNNZReal(const void* dp, indexType len)
     indexType accum = 0;
     const T* cp = static_cast<const T*>(dp);
     OMP_PARALLEL_FOR_LOOP(len)
-    for (ompIndexType i = 0; i < (ompIndexType)len; i++)
+    for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
         if (cp[i]) {
             accum++;
         }
+    }
     return accum;
 }
 //=============================================================================
@@ -1392,10 +1395,11 @@ DoCountNNZComplex(const void* dp, indexType len)
     indexType accum = 0;
     const T* cp = static_cast<const T*>(dp);
     OMP_PARALLEL_FOR_LOOP(len)
-    for (ompIndexType i = 0; i < (ompIndexType)len; i++)
+    for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
         if (cp[2 * i] || cp[2 * i + 1]) {
             accum++;
         }
+    }
     return accum;
 }
 //=============================================================================
@@ -1536,8 +1540,9 @@ ProcessNDimIndexes(bool preserveColons, Dimensions& dims, ArrayOfVector& index, 
             outDims[i] = dims[i];
         } else if (isColon) {
             indexType* buildcolon = new_with_exception<indexType>(dims[i], false);
-            for (int j = 1; j <= dims[i]; j++)
+            for (int j = 1; j <= dims[i]; j++) {
                 buildcolon[j - 1] = (indexType)j;
+            }
             outndx[i] = buildcolon;
             outDims[i] = dims[i];
         } else if (index[i].isEmpty()) {

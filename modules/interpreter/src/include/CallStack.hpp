@@ -26,15 +26,15 @@ private:
     size_t IDX = 0;
     //=============================================================================
     void
-    pushEntry(std::string_view _context, std::string_view _detail, size_t _id) noexcept
+    pushEntry(std::string_view _context, std::string_view _detail, size_t _id)
     {
         if (IDX >= context.size()) {
             context.emplace_back(_context);
             detail.emplace_back(_detail);
             id.emplace_back(_id);
         } else {
-            context[IDX] = std::move(_context);
-            detail[IDX] = std::move(_detail);
+            context[IDX].assign(_context);
+            detail[IDX].assign(_detail);
             id[IDX] = _id;
         }
         IDX++;
@@ -97,13 +97,13 @@ public:
         return context[IDX - 1];
     }
     //=============================================================================
-    const std::string&
+    [[nodiscard]] const std::string&
     getLastDetail() const noexcept
     {
         return detail[IDX - 1];
     }
     //=============================================================================
-    size_t
+    [[nodiscard]] size_t
     getLastID() const noexcept
     {
         return id[IDX - 1];
@@ -125,7 +125,7 @@ public:
     pushID(size_t _id)
     {
         if (IDX == 0) {
-            pushEntry(std::string_view("base"), std::string_view("base"), _id);
+            pushEntry("base", "base", _id);
         } else {
             pushEntry(context[IDX - 1], detail[IDX - 1], _id);
         }

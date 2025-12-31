@@ -888,8 +888,9 @@ replxx_debug_dump_print_codes(void)
     dprintf(_out_fd,
         "replxx key codes debugging mode.\n"
         "Press keys to see scan codes. Type 'quit' at any time to exit.\n");
-    if (enableRawMode() == -1)
+    if (enableRawMode() == -1) {
         return;
+    }
     memset(quit, ' ', 4);
     while (1) {
         char c;
@@ -900,12 +901,14 @@ replxx_debug_dump_print_codes(void)
 #else
         nread = read(STDIN_FILENO, &c, 1);
 #endif
-        if (nread <= 0)
+        if (nread <= 0) {
             continue;
+        }
         memmove(quit, quit + 1, sizeof(quit) - 1); /* shift string to left. */
         quit[sizeof(quit) - 1] = c; /* Insert current char on the right. */
-        if (memcmp(quit, "quit", sizeof(quit)) == 0)
+        if (memcmp(quit, "quit", sizeof(quit)) == 0) {
             break;
+        }
 
         dprintf(
             _out_fd, "'%c' %02x (%d) (type quit to exit)\n", isprint(c) ? c : '?', (int)c, (int)c);

@@ -67,8 +67,9 @@ public:
     operator<<(std::ostream& os, const LaggedFibonacci607Engine& eng)
     {
         os << eng.idx_;
-        for (size_t i = 0; i < k; ++i)
+        for (size_t i = 0; i < k; ++i) {
             os << ' ' << eng.state_[i];
+        }
         return os;
     }
     //=============================================================================
@@ -76,8 +77,9 @@ public:
     operator>>(std::istream& is, LaggedFibonacci607Engine& eng)
     {
         is >> eng.idx_;
-        for (size_t i = 0; i < k; ++i)
+        for (size_t i = 0; i < k; ++i) {
             is >> eng.state_[i];
+        }
         return is;
     }
     //=============================================================================

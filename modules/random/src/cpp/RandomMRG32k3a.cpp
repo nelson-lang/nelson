@@ -34,8 +34,9 @@ static bool ziggurat_initialized = false;
 static void
 zigset()
 {
-    if (ziggurat_initialized)
+    if (ziggurat_initialized) {
         return;
+    }
 
     // For n=256, zn = 3.6542 (from Cleve Moler's blog)
     double z[N + 1];
@@ -78,17 +79,20 @@ zigset()
 static double
 RNOR(RandomMRG32k3a* rng)
 {
-    if (!ziggurat_initialized)
+    if (!ziggurat_initialized) {
         zigset();
+    }
 
     // actual implementation: randi(256) and 2*rand-1
     int j = (int)(rng->nextUniform() * N) + 1; // randi(256) - 1 to 256
     double u = 2.0 * rng->nextUniform() - 1.0; // 2*rand-1
 
-    if (j < 1)
+    if (j < 1) {
         j = 1;
-    if (j > N)
+    }
+    if (j > N) {
         j = N;
+    }
 
     // Check if u falls in the core of the jth section
     // Most sigma values are > 0.98, this succeeds 98.5% of the time
@@ -179,8 +183,9 @@ RandomMRG32k3a::nextUniform()
         p1 = a12 * s11 - a13n * s10;
         k = static_cast<long>(p1 / m1);
         p1 -= k * m1;
-        if (p1 < 0.0)
+        if (p1 < 0.0) {
             p1 += m1;
+        }
         s10 = s11;
         s11 = s12;
         s12 = p1;
@@ -189,18 +194,20 @@ RandomMRG32k3a::nextUniform()
         p2 = a21 * s22 - a23n * s20;
         k = static_cast<long>(p2 / m2);
         p2 -= k * m2;
-        if (p2 < 0.0)
+        if (p2 < 0.0) {
             p2 += m2;
+        }
         s20 = s21;
         s21 = s22;
         s22 = p2;
 
         /* Combination */
         if (i == 0) { // Store the first value
-            if (p1 <= p2)
+            if (p1 <= p2) {
                 result = ((p1 - p2 + m1) * norm);
-            else
+            } else {
                 result = ((p1 - p2) * norm);
+            }
         }
         // Skip the second value (i == 1)
     }

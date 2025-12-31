@@ -94,8 +94,9 @@ struct WatchStruct
 
         int fd = open(name.c_str(), O_RDONLY | O_EVTONLY);
 
-        if (fd == -1)
+        if (fd == -1) {
             throw FileNotFoundException(name);
+        }
 
         ++mChangeListCount;
 
@@ -115,8 +116,9 @@ struct WatchStruct
         qsort(mChangeList + 1, mChangeListCount, sizeof(KEvent), comparator);
 
         // handle action
-        if (imitEvents)
+        if (imitEvents) {
             handleAction(name, Actions::Add);
+        }
     }
 
     void
@@ -128,8 +130,9 @@ struct WatchStruct
         target.udata = &tempEntry;
         KEvent* ke = (KEvent*)bsearch(
             &target, &mChangeList, mChangeListCount + 1, sizeof(KEvent), comparator);
-        if (!ke)
+        if (!ke) {
             throw FileNotFoundException(name);
+        }
 
         tempEntry.mFilename = 0;
 
@@ -147,8 +150,9 @@ struct WatchStruct
         qsort(mChangeList + 1, mChangeListCount, sizeof(KEvent), comparator);
 
         // handle action
-        if (imitEvents)
+        if (imitEvents) {
             handleAction(name, Actions::Delete);
+        }
     }
 
     // called when the directory is actually changed
@@ -161,8 +165,9 @@ struct WatchStruct
         // if missing file, call removeFile
         // if timestamp modified, call handleAction(filename, ACTION_MODIFIED);
         DIR* dir = opendir(mDirName.c_str());
-        if (!dir)
+        if (!dir) {
             return;
+        }
 
         struct dirent* dentry;
         KEvent* ke = &mChangeList[1];
@@ -172,8 +177,9 @@ struct WatchStruct
         while ((dentry = readdir(dir)) != NULL) {
             String fname = mDirName + "/" + dentry->d_name;
             stat(fname.c_str(), &attrib);
-            if (!S_ISREG(attrib.st_mode))
+            if (!S_ISREG(attrib.st_mode)) {
                 continue;
+            }
 
             if (ke <= &mChangeList[mChangeListCount]) {
                 entry = (EntryStruct*)ke->udata;
@@ -232,16 +238,18 @@ struct WatchStruct
 
         // scan directory and call addFile(name, false) on each file
         DIR* dir = opendir(mDirName.c_str());
-        if (!dir)
+        if (!dir) {
             throw FileNotFoundException(mDirName);
+        }
 
         struct dirent* entry;
         struct stat attrib;
         while ((entry = readdir(dir)) != NULL) {
             String fname = (mDirName + "/" + String(entry->d_name));
             stat(fname.c_str(), &attrib);
-            if (S_ISREG(attrib.st_mode))
+            if (S_ISREG(attrib.st_mode)) {
                 addFile(fname, false);
+            }
             // else
             //	fprintf(stderr, "NOT ADDED: %s (%d)\n", fname.c_str(), attrib.st_mode);
 
@@ -284,9 +292,9 @@ FileWatcherOSX::update()
         while ((nev = kevent(mDescriptor, (KEvent*)&(watch->mChangeList),
                     watch->mChangeListCount + 1, &event, 1, &mTimeOut))
             != 0) {
-            if (nev == -1)
+            if (nev == -1) {
                 perror("kevent");
-            else if (nev > 0) {
+            } else if (nev > 0) {
                 EntryStruct* entry = 0;
                 if ((entry = (EntryStruct*)event.udata) != 0) {
 
@@ -375,8 +383,9 @@ FileWatcherOSX::addWatch(const String& startDirectory, FileWatchListener* watche
 
             // scan directory and call addFile(name, false) on each file
             DIR* dir = opendir(currentDirectory.c_str());
-            if (!dir)
+            if (!dir) {
                 throw FileNotFoundException(currentDirectory);
+            }
 
             if (currentDirectory != startDirectory) {
                 WatchStruct* watch = new WatchStruct(++mLastWatchID, currentDirectory, watcher);
@@ -391,8 +400,9 @@ FileWatcherOSX::addWatch(const String& startDirectory, FileWatchListener* watche
                 stat(fullFilepath.c_str(), &attrib);
                 if (S_ISDIR(attrib.st_mode)) {
                     if ((filename != ".") && (filename != "..") && (filename != ".svn")
-                        && (filename != ".git"))
+                        && (filename != ".git")) {
                         directoryStack.push(fullFilepath);
+                    }
                 }
             }
 
@@ -423,8 +433,9 @@ FileWatcherOSX::removeWatch(WatchID watchid)
 {
     WatchMap::iterator iter = mWatches.find(watchid);
 
-    if (iter == mWatches.end())
+    if (iter == mWatches.end()) {
         return;
+    }
 
     WatchStruct* watch = iter->second;
     mWatches.erase(iter);

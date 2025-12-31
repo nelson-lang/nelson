@@ -57,15 +57,17 @@ CpuTime()
 #else
         id = (clockid_t)-1;
 #endif
-        if (id != (clockid_t)-1 && clock_gettime(id, &ts) != -1)
+        if (id != (clockid_t)-1 && clock_gettime(id, &ts) != -1) {
             return (double)ts.tv_sec + (double)ts.tv_nsec / 1000000000.0;
+        }
     }
 #endif
 #if defined(RUSAGE_SELF)
     {
         struct rusage rusage;
-        if (getrusage(RUSAGE_SELF, &rusage) != -1)
+        if (getrusage(RUSAGE_SELF, &rusage) != -1) {
             return (double)rusage.ru_utime.tv_sec + (double)rusage.ru_utime.tv_usec / 1000000.0;
+        }
     }
 #endif
 #if defined(_SC_CLK_TCK)

@@ -1110,8 +1110,9 @@ Eigen_DeleteSparseMatrixCols(
     // Count remaining columns
     indexType keepCols = 0;
     for (indexType j = 0; j < cols; ++j) {
-        if (!dmap[j])
+        if (!dmap[j]) {
             keepCols++;
+        }
     }
     if (keepCols == 0) {
         // No columns left -> return nullptr, caller will set dims accordingly
@@ -1126,8 +1127,9 @@ Eigen_DeleteSparseMatrixCols(
         tripletList.reserve(spSrc ? spSrc->nonZeros() : 0);
         indexType newCol = 0;
         for (indexType j = 0; j < cols; ++j) {
-            if (dmap[j])
+            if (dmap[j]) {
                 continue;
+            }
             if (spSrc) {
                 for (typename Eigen::SparseMatrix<logical, 0, signedIndexType>::InnerIterator it(
                          *spSrc, j);
@@ -1155,8 +1157,9 @@ Eigen_DeleteSparseMatrixCols(
         tripletList.reserve(spSrc ? spSrc->nonZeros() : 0);
         indexType newCol = 0;
         for (indexType j = 0; j < cols; ++j) {
-            if (dmap[j])
+            if (dmap[j]) {
                 continue;
+            }
             if (spSrc) {
                 for (typename Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(
                          *spSrc, j);
@@ -1184,8 +1187,9 @@ Eigen_DeleteSparseMatrixCols(
         tripletList.reserve(spSrc ? spSrc->nonZeros() : 0);
         indexType newCol = 0;
         for (indexType j = 0; j < cols; ++j) {
-            if (dmap[j])
+            if (dmap[j]) {
                 continue;
+            }
             if (spSrc) {
                 for (typename Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator
                          it(*spSrc, j);
@@ -1222,8 +1226,9 @@ Eigen_DeleteSparseMatrixRows(
     // Count remaining rows
     indexType keepRows = 0;
     for (indexType i = 0; i < rows; ++i) {
-        if (!dmap[i])
+        if (!dmap[i]) {
             keepRows++;
+        }
     }
     if (keepRows == 0) {
         // No rows left -> return nullptr, caller will set dims accordingly
@@ -1357,8 +1362,9 @@ Eigen_DeleteSparseMatrixVectorSubset(NelsonType dclass, indexType& rows, indexTy
     // Count remaining elements
     indexType newSize = 0;
     for (indexType i = 0; i < N; ++i) {
-        if (!delmap[i])
+        if (!delmap[i]) {
             newSize++;
+        }
     }
     // Determine new dimensions following dense semantics
     bool isScalar = (oldRows == 1 && oldCols == 1);
@@ -1411,8 +1417,9 @@ Eigen_DeleteSparseMatrixVectorSubset(NelsonType dclass, indexType& rows, indexTy
         tripletList.reserve(newSize);
         indexType t = 0;
         for (indexType k = 0; k < N; ++k) {
-            if (delmap[k])
+            if (delmap[k]) {
                 continue;
+            }
             indexType I = k % oldRows;
             indexType J = k / oldRows;
             logical v = spSrc->coeff(I, J);
@@ -1444,8 +1451,9 @@ Eigen_DeleteSparseMatrixVectorSubset(NelsonType dclass, indexType& rows, indexTy
         tripletList.reserve(newSize);
         indexType t = 0;
         for (indexType k = 0; k < N; ++k) {
-            if (delmap[k])
+            if (delmap[k]) {
                 continue;
+            }
             indexType I = k % oldRows;
             indexType J = k / oldRows;
             double v = spSrc->coeff(I, J);
@@ -1476,8 +1484,9 @@ Eigen_DeleteSparseMatrixVectorSubset(NelsonType dclass, indexType& rows, indexTy
         tripletList.reserve(newSize);
         indexType t = 0;
         for (indexType k = 0; k < N; ++k) {
-            if (delmap[k])
+            if (delmap[k]) {
                 continue;
+            }
             indexType I = k % oldRows;
             indexType J = k / oldRows;
             doublecomplex v = spSrc->coeff(I, J);

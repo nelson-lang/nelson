@@ -30,8 +30,9 @@ constexpr std::size_t STANDARD_BLOCK_SIZE = 1024 * 1024; // 1MB
 inline void
 normalize_eol_inplace(std::string& str, const std::string& target_eol)
 {
-    if (str.empty())
+    if (str.empty()) {
         return;
+    }
 
     // Step 1: Replace \r\n with \n (more efficient using reserve)
     size_t crlf_count = 0;

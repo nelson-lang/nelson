@@ -52,14 +52,10 @@ Evaluator::Evaluator(Context* aContext, Interface* aInterface, bool haveEventsLo
     depth = 0;
     _haveEventsLoop = haveEventsLoop;
     io = aInterface;
-    autostop = true;
     InCLI = false;
-    debugActive = false;
-    inStepMode = false;
     bpActive = false;
     clearStacks();
     commandLineArguments.clear();
-    lineNumber = 0;
 }
 //=============================================================================
 // Destructor: Cleans up the Evaluator by clearing stacks and resetting exceptions.
@@ -370,18 +366,13 @@ Evaluator::buildPrompt()
 {
     std::wstring prompt;
     if (depth > 0) {
-        if (bpActive) {
-            prompt = std::to_wstring(depth) + L"D>> ";
-        } else {
-            prompt = std::to_wstring(depth) + L">> ";
-        }
-    } else {
-        if (bpActive) {
-            prompt = L"D>> ";
-        } else {
-            prompt = L">> ";
-        }
+        prompt += std::to_wstring(depth);
     }
+
+    if (bpActive) {
+        prompt += L"D";
+    }
+    prompt += L">> ";
     return prompt;
 }
 //=============================================================================
@@ -517,6 +508,7 @@ Evaluator::evalCLI()
             commandLine.clear();
         }
         InCLI = true;
+
         if (!commandLine.empty()) {
             size_t stackdepth = callstack.size();
             if (lexerContext.lineNumber > 1) {

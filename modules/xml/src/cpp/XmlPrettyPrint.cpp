@@ -59,11 +59,13 @@ preserveExampleItemDataBlocks(std::string& buffer, std::vector<PreservedXmlBlock
     size_t counter = 0;
     while (true) {
         size_t start = buffer.find(startTag, searchPos);
-        if (start == std::string::npos)
+        if (start == std::string::npos) {
             break;
+        }
         size_t end = buffer.find(endTag, start);
-        if (end == std::string::npos)
+        if (end == std::string::npos) {
             break;
+        }
         end += endTag.size();
         PreservedXmlBlock block;
         block.placeholder = "<!--NELSON_XML_PRESERVE_" + std::to_string(counter++) + "-->";
@@ -89,8 +91,9 @@ restoreExampleItemDataBlocks(
 static bool
 startsWithOpeningBoldTag(const std::string& text, size_t pos)
 {
-    if (pos >= text.size() || text[pos] != '<')
+    if (pos >= text.size() || text[pos] != '<') {
         return false;
+    }
     return text.compare(pos, 3, "<b>") == 0 || text.compare(pos, 3, "<b ") == 0;
 }
 
@@ -207,8 +210,9 @@ formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, b
                 continue;
             }
             // normalize whitespace chars to space
-            if (c == '\n' || c == '\r' || c == '\t')
+            if (c == '\n' || c == '\r' || c == '\t') {
                 c = ' ';
+            }
 
             if (in_quote) {
                 // inside quotes preserve spaces/newlines-as-space exactly
@@ -221,8 +225,9 @@ formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, b
                     // Skip all whitespace after the space
                     while (j < buffer.size()
                         && (buffer[j] == ' ' || buffer[j] == '\n' || buffer[j] == '\r'
-                            || buffer[j] == '\t'))
+                            || buffer[j] == '\t')) {
                         ++j;
+                    }
                     bool nextStartsBoldTag = startsWithBoldTag(buffer, j);
                     if (nextStartsBoldTag) {
                         compact += ' ';
@@ -260,8 +265,9 @@ formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, b
                         size_t k = i + 1;
                         while (k < buffer.size()
                             && (buffer[k] == ' ' || buffer[k] == '\n' || buffer[k] == '\r'
-                                || buffer[k] == '\t'))
+                                || buffer[k] == '\t')) {
                             ++k;
+                        }
                         if (k < buffer.size() && buffer[k] == '<') {
                             compact += '>';
                             i = k - 1;
@@ -284,11 +290,13 @@ formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, b
         }
         // trim leading/trailing spaces
         size_t start = 0;
-        while (start < compact.size() && compact[start] == ' ')
+        while (start < compact.size() && compact[start] == ' ') {
             ++start;
+        }
         size_t end = compact.size();
-        while (end > start && compact[end - 1] == ' ')
+        while (end > start && compact[end - 1] == ' ') {
             --end;
+        }
         return compact.substr(start, end - start);
     }
 
@@ -356,17 +364,20 @@ XmlPrettyPrint(
     }
     for (const auto& xmlFile : xmlFiles) {
         std::string xmlContent = readXmlFile(xmlFile, errorMessage);
-        if (!errorMessage.empty())
+        if (!errorMessage.empty()) {
             return;
+        }
 
         std::string xmlFileUtf8 = wstring_to_utf8(xmlFile);
         std::string formattedXml
             = formatXmlString(xmlContent, xmlFileUtf8, formatSpace, errorMessage);
-        if (!errorMessage.empty())
+        if (!errorMessage.empty()) {
             return;
+        }
 
-        if (!saveString(xmlFile, formattedXml, errorMessage))
+        if (!saveString(xmlFile, formattedXml, errorMessage)) {
             return;
+        }
     }
 }
 //=============================================================================

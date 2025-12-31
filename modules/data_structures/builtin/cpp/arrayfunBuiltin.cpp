@@ -185,10 +185,12 @@ Nelson::DataStructuresGateway::arrayfunBuiltin(
         }
     }
 
-    if (hasUniformArg)
+    if (hasUniformArg) {
         nbInputs -= 2;
-    if (hasErrorHandler)
+    }
+    if (hasErrorHandler) {
         nbInputs -= 2;
+    }
 
     if (nbInputs < 2) {
         Error(_W("Function handle and at least one array are required."));
@@ -217,17 +219,20 @@ Nelson::DataStructuresGateway::arrayfunBuiltin(
     for (size_t i = 1; i < nbInputs; ++i) {
         const ArrayOf& in = argIn[i];
         std::vector<indexType> inputDims = in.getDimensions().getAsVector();
-        if (inputDims.empty())
+        if (inputDims.empty()) {
             continue;
+        }
 
         if (dimsVector.empty()) {
             dimsVector.insert(dimsVector.end(), inputDims.begin(), inputDims.end());
         } else {
-            if (dimsVector.size() != inputDims.size())
+            if (dimsVector.size() != inputDims.size()) {
                 Error(ERROR_SAME_SIZE_EXPECTED);
+            }
             for (size_t i = 0; i < dimsVector.size(); ++i) {
-                if (inputDims[i] != dimsVector[i])
+                if (inputDims[i] != dimsVector[i]) {
                     Error(ERROR_SAME_SIZE_EXPECTED);
+                }
             }
         }
     }

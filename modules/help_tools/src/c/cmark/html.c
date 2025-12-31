@@ -24,8 +24,9 @@ escape_html(cmark_strbuf* dest, const unsigned char* source, bufsize_t length)
 static inline void
 cr(cmark_strbuf* html)
 {
-    if (html->size && html->ptr[html->size - 1] != '\n')
+    if (html->size && html->ptr[html->size - 1] != '\n') {
         cmark_strbuf_putc(html, '\n');
+    }
 }
 
 struct render_state

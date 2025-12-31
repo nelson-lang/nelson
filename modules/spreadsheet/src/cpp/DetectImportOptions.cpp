@@ -357,8 +357,9 @@ detectEmptyLineRule(const std::vector<std::string>& lines, detectImportOptions& 
 static bool
 isNumeric(const std::string& str)
 {
-    if (str.empty())
+    if (str.empty()) {
         return false;
+    }
     fast_float::parse_options options { fast_float::chars_format::fortran };
 
     double val;
@@ -379,12 +380,14 @@ isNumeric(const std::string& str)
 static bool
 isPotentialHeader(const std::string& str)
 {
-    if (str.empty())
+    if (str.empty()) {
         return false;
+    }
 
     // Check if it's not purely numeric
-    if (isNumeric(str))
+    if (isNumeric(str)) {
         return false;
+    }
 
     // Check for presence of letters or special characters
     bool hasLetters = false;
@@ -426,8 +429,9 @@ detectColumnsAndRowNames(std::vector<std::string>& lines, const std::string& del
         }
     }
 
-    if (parsedLines.empty() || maxColumns == 0)
+    if (parsedLines.empty() || maxColumns == 0) {
         return;
+    }
 
     std::vector<std::string> columnNames;
     // Detect column headers

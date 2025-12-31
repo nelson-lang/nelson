@@ -296,10 +296,12 @@ ForStatemenRowVectorGenericHelper(AbstractSyntaxTreePtr codeBlock, ArrayOf& inde
         }
         eval->block(codeBlock);
         int st = eval->getState();
-        if (st == NLS_STATE_RETURN || st == NLS_STATE_ABORT || eval->isQuitOrForceQuitState())
+        if (st == NLS_STATE_RETURN || st == NLS_STATE_ABORT || eval->isQuitOrForceQuitState()) {
             break;
-        if (st == NLS_STATE_CONTINUE)
+        }
+        if (st == NLS_STATE_CONTINUE) {
             eval->resetState();
+        }
         if (st == NLS_STATE_BREAK) {
             eval->resetState();
             break;
@@ -549,8 +551,6 @@ Evaluator::testCaseStatement(AbstractSyntaxTreePtr t, const ArrayOf& s)
 void
 Evaluator::tryStatement(AbstractSyntaxTreePtr t)
 {
-    bool autostop_save = autostop;
-    autostop = false;
     size_t stackdepth = callstack.size();
 
     try {
@@ -568,13 +568,10 @@ Evaluator::tryStatement(AbstractSyntaxTreePtr t)
                 t = t->down;
             }
             if (t != nullptr) {
-                autostop = autostop_save;
                 block(t);
             }
         }
     }
-
-    autostop = autostop_save;
 }
 //=============================================================================
 //!
@@ -662,11 +659,13 @@ Evaluator::switchStatement(AbstractSyntaxTreePtr t)
 void
 Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
 {
-    if (t == nullptr)
+    if (t == nullptr) {
         return;
+    }
 
-    if (haveEventsLoop())
+    if (haveEventsLoop()) {
         ProcessEventsDynamicFunctionWithoutWait();
+    }
     if (!commandQueue.isEmpty()) {
         std::wstring cmd;
         commandQueue.get(cmd);
@@ -675,7 +674,6 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
 
     callstack.pushID((size_t)t->getContext());
 
-    handleDebug(t->getContext());
     if (t->isEmpty()) {
         callstack.popID();
         return;
@@ -721,8 +719,9 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
                     try {
                         m = rhsExpression(t->down);
                     } catch (Exception& e) {
-                        if (!e.matches(ERROR_EMPTY_EXPRESSION))
+                        if (!e.matches(ERROR_EMPTY_EXPRESSION)) {
                             throw;
+                        }
                     }
                 } else {
                     m = rhsExpression(t->down);
@@ -733,8 +732,9 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
             } else {
                 b = m[0];
                 if (printIt && state < NLS_STATE_QUIT) {
-                    if (b.name().empty())
+                    if (b.name().empty()) {
                         bUpdateAns = true;
+                    }
                     for (size_t j = 0; j < m.size(); j++) {
                         if (m.size() > 1) {
                             std::string message = fmt::format(_("\n{} of {}:\n"),
@@ -750,8 +750,9 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
             callstack.popID();
             return;
         }
-        if (bUpdateAns)
+        if (bUpdateAns) {
             context->insertVariable("ans", b);
+        }
         callstack.popID();
         return;
     }
@@ -771,12 +772,14 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
             ifStatement(t->down);
             break;
         case NLS_KEYWORD_BREAK:
-            if (context->inLoop())
+            if (context->inLoop()) {
                 state = NLS_STATE_BREAK;
+            }
             break;
         case NLS_KEYWORD_CONTINUE:
-            if (context->inLoop())
+            if (context->inLoop()) {
                 state = NLS_STATE_CONTINUE;
+            }
             break;
         case NLS_KEYWORD_RETURN:
             state = NLS_STATE_RETURN;
@@ -794,8 +797,9 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
         case NLS_KEYWORD_KEYBOARD:
             depth++;
             evalCLI();
-            if (state < NLS_STATE_QUIT)
+            if (state < NLS_STATE_QUIT) {
                 resetState();
+            }
             depth--;
             break;
         case NLS_KEYWORD_ENDFUNCTION:
@@ -856,20 +860,23 @@ Evaluator::statement(AbstractSyntaxTreePtr t)
             break;
         }
     } catch (const Exception&) {
-        if (popNeeded)
+        if (popNeeded) {
             callstack.popID();
+        }
         throw;
     }
-    if (popNeeded)
+    if (popNeeded) {
         callstack.popID();
+    }
 }
 //=============================================================================
 // This function executes a block of code represented by an AbstractSyntaxTree.
 void
 Evaluator::block(AbstractSyntaxTreePtr t)
 {
-    if (!t)
+    if (!t) {
         return;
+    }
 
     try {
         // Collect children once to avoid walking linked AST pointers repeatedly.
@@ -878,16 +885,18 @@ Evaluator::block(AbstractSyntaxTreePtr t)
             children.push_back(cur);
         }
 
-        if (state < NLS_STATE_QUIT)
+        if (state < NLS_STATE_QUIT) {
             resetState();
+        }
 
         NelsonConfiguration* cfg = NelsonConfiguration::getInstance();
 
         for (size_t i = 0; i < children.size(); ++i) {
             AbstractSyntaxTreePtr s = children[i];
 
-            if (state >= NLS_STATE_QUIT && state != NLS_STATE_CANCEL_QUIT)
+            if (state >= NLS_STATE_QUIT && state != NLS_STATE_CANCEL_QUIT) {
                 break;
+            }
 
             // Check interrupt pending via cached pointer
             if (cfg->getInterruptPending(ID)) {

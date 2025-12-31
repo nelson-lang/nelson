@@ -684,10 +684,12 @@ QString
 VariableSingleTableModel::formatDisplayValue(single value) const
 {
     // Handle special values
-    if (std::isnan(value))
+    if (std::isnan(value)) {
         return "NaN";
-    if (std::isinf(value))
+    }
+    if (std::isinf(value)) {
         return value > 0 ? "Inf" : "-Inf";
+    }
 
     // Format normal values
     if (value == 0.0) {
@@ -958,8 +960,9 @@ VariableSingleTableModel::isStructureCompatible(const ArrayOf& value)
 bool
 VariableSingleTableModel::insertRowAt(int row)
 {
-    if (row < 0 || row > m_rows)
+    if (row < 0 || row > m_rows) {
         return false;
+    }
 
     saveCurrentStateForUndo();
 
@@ -977,13 +980,15 @@ VariableSingleTableModel::insertRowAt(int row)
                 = reinterpret_cast<std::complex<single>*>((single*)m_array.getDataPointer());
 
             for (int c = 0; c < cols; ++c) {
-                for (int r = 0; r < row; ++r)
+                for (int r = 0; r < row; ++r) {
                     dst[r + c * newRows] = src[r + c * m_rows];
+                }
 
                 dst[row + c * newRows] = std::complex<single>(0.0, 0.0);
 
-                for (int r = row; r < m_rows; ++r)
+                for (int r = row; r < m_rows; ++r) {
                     dst[r + 1 + c * newRows] = src[r + c * m_rows];
+                }
             }
 
             newArray = ArrayOf(NLS_SCOMPLEX, newDims, ptr);
@@ -993,13 +998,15 @@ VariableSingleTableModel::insertRowAt(int row)
             single* src = (single*)(m_array.getDataPointer());
 
             for (int c = 0; c < cols; ++c) {
-                for (int r = 0; r < row; ++r)
+                for (int r = 0; r < row; ++r) {
                     dst[r + c * newRows] = src[r + c * m_rows];
+                }
 
                 dst[row + c * newRows] = 0.0;
 
-                for (int r = row; r < m_rows; ++r)
+                for (int r = row; r < m_rows; ++r) {
                     dst[r + 1 + c * newRows] = src[r + c * m_rows];
+                }
             }
 
             newArray = ArrayOf(NLS_SINGLE, newDims, ptr);
@@ -1021,8 +1028,9 @@ VariableSingleTableModel::insertRowAt(int row)
 bool
 VariableSingleTableModel::insertColumnAt(int col)
 {
-    if (col < 0 || col > m_cols)
+    if (col < 0 || col > m_cols) {
         return false;
+    }
     saveCurrentStateForUndo();
 
     int newCols = m_cols + 1;
@@ -1038,16 +1046,21 @@ VariableSingleTableModel::insertColumnAt(int col)
             std::complex<single>* src
                 = reinterpret_cast<std::complex<single>*>((single*)m_array.getDataPointer());
 
-            for (int c = 0; c < col; ++c)
-                for (int r = 0; r < rows; ++r)
+            for (int c = 0; c < col; ++c) {
+                for (int r = 0; r < rows; ++r) {
                     dst[r + c * rows] = src[r + c * rows];
+                }
+            }
 
-            for (int r = 0; r < rows; ++r)
+            for (int r = 0; r < rows; ++r) {
                 dst[r + col * rows] = std::complex<single>(0.0, 0.0);
+            }
 
-            for (int c = col; c < m_cols; ++c)
-                for (int r = 0; r < rows; ++r)
+            for (int c = col; c < m_cols; ++c) {
+                for (int r = 0; r < rows; ++r) {
                     dst[r + (c + 1) * rows] = src[r + c * rows];
+                }
+            }
 
             newArray = ArrayOf(NLS_SCOMPLEX, newDims, ptr);
         } else {
@@ -1055,16 +1068,21 @@ VariableSingleTableModel::insertColumnAt(int col)
             single* dst = ptr;
             single* src = (single*)(m_array.getDataPointer());
 
-            for (int c = 0; c < col; ++c)
-                for (int r = 0; r < rows; ++r)
+            for (int c = 0; c < col; ++c) {
+                for (int r = 0; r < rows; ++r) {
                     dst[r + c * rows] = src[r + c * rows];
+                }
+            }
 
-            for (int r = 0; r < rows; ++r)
+            for (int r = 0; r < rows; ++r) {
                 dst[r + col * rows] = 0.0;
+            }
 
-            for (int c = col; c < m_cols; ++c)
-                for (int r = 0; r < rows; ++r)
+            for (int c = col; c < m_cols; ++c) {
+                for (int r = 0; r < rows; ++r) {
                     dst[r + (c + 1) * rows] = src[r + c * rows];
+                }
+            }
 
             newArray = ArrayOf(NLS_SINGLE, newDims, ptr);
         }
@@ -1109,8 +1127,9 @@ VariableSingleTableModel::deleteRowAt(int row)
             for (int c = 0; c < cols; ++c) {
                 int k = 0;
                 for (int r = 0; r < m_rows; ++r) {
-                    if (r == row)
+                    if (r == row) {
                         continue;
+                    }
                     dst[k++ + c * newRows] = src[r + c * m_rows];
                 }
             }
@@ -1124,8 +1143,9 @@ VariableSingleTableModel::deleteRowAt(int row)
             for (int c = 0; c < cols; ++c) {
                 int k = 0;
                 for (int r = 0; r < m_rows; ++r) {
-                    if (r == row)
+                    if (r == row) {
                         continue;
+                    }
                     dst[k++ + c * newRows] = src[r + c * m_rows];
                 }
             }
@@ -1172,10 +1192,12 @@ VariableSingleTableModel::deleteColumnAt(int col)
 
             int k = 0;
             for (int c = 0; c < m_cols; ++c) {
-                if (c == col)
+                if (c == col) {
                     continue;
-                for (int r = 0; r < rows; ++r)
+                }
+                for (int r = 0; r < rows; ++r) {
                     dst[r + k * rows] = src[r + c * rows];
+                }
                 ++k;
             }
 
@@ -1187,10 +1209,12 @@ VariableSingleTableModel::deleteColumnAt(int col)
 
             int k = 0;
             for (int c = 0; c < m_cols; ++c) {
-                if (c == col)
+                if (c == col) {
                     continue;
-                for (int r = 0; r < rows; ++r)
+                }
+                for (int r = 0; r < rows; ++r) {
                     dst[r + k * rows] = src[r + c * rows];
+                }
                 ++k;
             }
 

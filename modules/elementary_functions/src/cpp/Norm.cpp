@@ -175,8 +175,9 @@ NormPInfComplexMatrix(const ArrayOf& arrayIn)
         if (matArrayIn.allFinite()) {
             for (int i = 0; i < matArrayIn.rows(); ++i) {
                 T cn = matArrayIn.row(i).template lpNorm<1>();
-                if (cn > maxValue)
+                if (cn > maxValue) {
                     maxValue = cn;
+                }
             }
         } else {
             maxValue = std::numeric_limits<T>::infinity();
@@ -202,8 +203,9 @@ NormPInfMatrix(const ArrayOf& arrayIn)
         if (matArrayIn.allFinite()) {
             for (int i = 0; i < matArrayIn.rows(); ++i) {
                 T cn = matArrayIn.row(i).template lpNorm<1>();
-                if (cn > maxValue)
+                if (cn > maxValue) {
                     maxValue = cn;
+                }
             }
         } else {
             maxValue = std::numeric_limits<T>::infinity();

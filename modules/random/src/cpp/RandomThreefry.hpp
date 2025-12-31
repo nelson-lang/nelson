@@ -45,8 +45,9 @@ public:
     {
         std::vector<uint32_t> state_vec(17, 0);
         // First 8 elements are zeros
-        for (int i = 0; i < 8; ++i)
+        for (int i = 0; i < 8; ++i) {
             state_vec[i] = 0;
+        }
 
         // Elements 8-15 contain the current counter and key state
         // The counter is incremented as random numbers are generated
@@ -71,8 +72,9 @@ public:
     void
     setState(const uint32_t* _state, size_t len) override
     {
-        if (!_state || len < 17)
+        if (!_state || len < 17) {
             return;
+        }
 
         // Restore the counter state from the state vector
         uint32_t counter_increment = _state[9] - seed_value;
@@ -94,8 +96,9 @@ public:
         state.uinteger = 0;
 
         // Update buffer for compatibility
-        for (size_t i = 0; i < 16 && i < len; ++i)
+        for (size_t i = 0; i < 16 && i < len; ++i) {
             buffer[i] = _state[i];
+        }
     }
     //=============================================================================
     void
@@ -122,16 +125,18 @@ public:
         ctr.v[3] = 0;
 
         // Initialize buffer for compatibility
-        for (int i = 0; i < 16; ++i)
+        for (int i = 0; i < 16; ++i) {
             buffer[i] = 0;
+        }
     }
     //=============================================================================
     void
     getValuesAsDouble(double* ar, indexType nbElements, indexType lastDim,
         RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL) override
     {
-        if (!ar || nbElements == 0 || lastDim == 0)
+        if (!ar || nbElements == 0 || lastDim == 0) {
             return;
+        }
 
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
@@ -165,8 +170,9 @@ public:
                         double v = (val2 >> 11) * (1.0 / (1ULL << 53));
 
                         // Ensure u is not zero to avoid log(0)
-                        if (u < 1e-100)
+                        if (u < 1e-100) {
                             u = 1e-100;
+                        }
 
                         double mag = sqrt(-2.0 * log(u));
                         ar[k * lastDim + l] = mag * cos(2.0 * M_PI * v);
@@ -185,8 +191,9 @@ public:
     getValuesAsSingle(single* ar, indexType nbElements, indexType lastDim,
         RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL) override
     {
-        if (!ar || nbElements == 0 || lastDim == 0)
+        if (!ar || nbElements == 0 || lastDim == 0) {
             return;
+        }
 
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
@@ -220,8 +227,9 @@ public:
                         float v = static_cast<single>(val2) * (1.0f / (1ULL << 32));
 
                         // Ensure u is not zero to avoid log(0)
-                        if (u < 1e-7f)
+                        if (u < 1e-7f) {
                             u = 1e-7f;
+                        }
 
                         float mag = sqrtf(-2.0f * logf(u));
                         ar[k * lastDim + l] = mag * cosf(2.0f * static_cast<float>(M_PI) * v);

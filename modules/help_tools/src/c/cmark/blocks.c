@@ -53,10 +53,11 @@ S_type(const cmark_node* node)
 static void
 S_set_last_line_blank(cmark_node* node, bool is_blank)
 {
-    if (is_blank)
+    if (is_blank) {
         node->flags |= CMARK_NODE__LAST_LINE_BLANK;
-    else
+    } else {
         node->flags &= ~CMARK_NODE__LAST_LINE_BLANK;
+    }
 }
 
 static void
@@ -234,8 +235,9 @@ remove_trailing_blank_lines(cmark_strbuf* ln)
     for (i = ln->size - 1; i >= 0; --i) {
         c = ln->ptr[i];
 
-        if (c != ' ' && c != '\t' && !S_is_line_end_char(c))
+        if (c != ' ' && c != '\t' && !S_is_line_end_char(c)) {
             break;
+        }
     }
 
     if (i < 0) {
@@ -246,8 +248,9 @@ remove_trailing_blank_lines(cmark_strbuf* ln)
     for (; i < ln->size; ++i) {
         c = ln->ptr[i];
 
-        if (!S_is_line_end_char(c))
+        if (!S_is_line_end_char(c)) {
             continue;
+        }
 
         cmark_strbuf_truncate(ln, i);
         break;
@@ -310,10 +313,12 @@ finalize(cmark_parser* parser, cmark_node* b)
         || (S_type(b) == CMARK_NODE_HEADING && b->as.heading.setext)) {
         b->end_line = parser->line_number;
         b->end_column = parser->curline.size;
-        if (b->end_column && parser->curline.ptr[b->end_column - 1] == '\n')
+        if (b->end_column && parser->curline.ptr[b->end_column - 1] == '\n') {
             b->end_column -= 1;
-        if (b->end_column && parser->curline.ptr[b->end_column - 1] == '\r')
+        }
+        if (b->end_column && parser->curline.ptr[b->end_column - 1] == '\r') {
             b->end_column -= 1;
+        }
     } else {
         b->end_line = parser->line_number - 1;
         b->end_column = parser->last_line_length;
@@ -341,8 +346,9 @@ finalize(cmark_parser* parser, cmark_node* b)
         } else {
             // first line of contents becomes info
             for (pos = 0; pos < node_content->size; ++pos) {
-                if (S_is_line_end_char(node_content->ptr[pos]))
+                if (S_is_line_end_char(node_content->ptr[pos])) {
                     break;
+                }
             }
             assert(pos < node_content->size);
 
@@ -356,10 +362,12 @@ finalize(cmark_parser* parser, cmark_node* b)
                 b->as.code.info = cmark_strbuf_detach(&tmp);
             }
 
-            if (node_content->ptr[pos] == '\r')
+            if (node_content->ptr[pos] == '\r') {
                 pos += 1;
-            if (node_content->ptr[pos] == '\n')
+            }
+            if (node_content->ptr[pos] == '\n') {
                 pos += 1;
+            }
             cmark_strbuf_drop(node_content, pos);
         }
         b->len = node_content->size;
@@ -568,10 +576,11 @@ finalize_document(cmark_parser* parser)
 
     // Limit total size of extra content created from reference links to
     // document size to avoid superlinear growth. Always allow 100KB.
-    if (parser->total_size > 100000)
+    if (parser->total_size > 100000) {
         parser->refmap->max_ref_size = parser->total_size;
-    else
+    } else {
         parser->refmap->max_ref_size = 100000;
+    }
 
     process_inlines(parser->mem, parser->root, parser->refmap, parser->options);
 
@@ -626,10 +635,11 @@ S_parser_feed(cmark_parser* parser, const unsigned char* buffer, size_t len, boo
     const unsigned char* end = buffer + len;
     static const uint8_t repl[] = { 239, 191, 189 };
 
-    if (len > UINT_MAX - parser->total_size)
+    if (len > UINT_MAX - parser->total_size) {
         parser->total_size = UINT_MAX;
-    else
+    } else {
         parser->total_size += (int)len;
+    }
 
     // Skip UTF-8 BOM if present; see #334
     if (parser->line_number == 0 && parser->column == 0 && len >= 3 && *buffer == 0xEF
@@ -687,11 +697,13 @@ S_parser_feed(cmark_parser* parser, const unsigned char* buffer, size_t len, boo
                 // skip over line ending characters
                 if (*buffer == '\r') {
                     buffer++;
-                    if (buffer == end)
+                    if (buffer == end) {
                         parser->last_buffer_ended_with_cr = true;
+                    }
                 }
-                if (buffer < end && *buffer == '\n')
+                if (buffer < end && *buffer == '\n') {
                     buffer++;
+                }
             }
         }
     }
@@ -706,8 +718,9 @@ chop_trailing_hashtags(cmark_chunk* ch)
     orig_n = n = ch->len - 1;
 
     // if string ends in space followed by #s, remove these:
-    while (n >= 0 && peek_at(ch, n) == '#')
+    while (n >= 0 && peek_at(ch, n) == '#') {
         n--;
+    }
 
     // Check for a space before the final #s:
     if (n != orig_n && n >= 0 && S_is_space_or_tab(peek_at(ch, n))) {
@@ -961,8 +974,9 @@ check_open_blocks(cmark_parser* parser, cmark_chunk* input, bool* all_matched)
 
         switch (cont_type) {
         case CMARK_NODE_BLOCK_QUOTE:
-            if (!parse_block_quote_prefix(parser, input))
+            if (!parse_block_quote_prefix(parser, input)) {
                 goto done;
+            }
             break;
         case CMARK_NODE_LIST:
             // Avoid quadratic behavior caused by iterating deeply nested lists
@@ -989,23 +1003,27 @@ check_open_blocks(cmark_parser* parser, cmark_chunk* input, bool* all_matched)
             }
             break;
         case CMARK_NODE_ITEM:
-            if (!parse_node_item_prefix(parser, input, container))
+            if (!parse_node_item_prefix(parser, input, container)) {
                 goto done;
+            }
             break;
         case CMARK_NODE_CODE_BLOCK:
-            if (!parse_code_block_prefix(parser, input, container, &should_continue))
+            if (!parse_code_block_prefix(parser, input, container, &should_continue)) {
                 goto done;
+            }
             break;
         case CMARK_NODE_HEADING:
             // a heading can never contain more than one line
             goto done;
         case CMARK_NODE_HTML_BLOCK:
-            if (!parse_html_block_prefix(parser, container))
+            if (!parse_html_block_prefix(parser, container)) {
                 goto done;
+            }
             break;
         case CMARK_NODE_PARAGRAPH:
-            if (parser->blank)
+            if (parser->blank) {
                 goto done;
+            }
             break;
         default:
             break;
@@ -1202,8 +1220,9 @@ add_text_to_container(cmark_parser* parser, cmark_node* container,
 
     S_find_first_nonspace(parser, input);
 
-    if (parser->blank && container->last_child)
+    if (parser->blank && container->last_child) {
         S_set_last_line_blank(container->last_child, true);
+    }
 
     // block quote lines are never blank as they start with >
     // and we don't count blanks in fenced code for purposes of tight/loose
@@ -1305,16 +1324,18 @@ S_process_line(cmark_parser* parser, const unsigned char* buffer, bufsize_t byte
     cmark_node* container;
     cmark_chunk input;
 
-    if (parser->options & CMARK_OPT_VALIDATE_UTF8)
+    if (parser->options & CMARK_OPT_VALIDATE_UTF8) {
         cmark_utf8proc_check(&parser->curline, buffer, bytes);
-    else
+    } else {
         cmark_strbuf_put(&parser->curline, buffer, bytes);
+    }
 
     bytes = parser->curline.size;
 
     // ensure line ends with a newline:
-    if (bytes == 0 || !S_is_line_end_char(parser->curline.ptr[bytes - 1]))
+    if (bytes == 0 || !S_is_line_end_char(parser->curline.ptr[bytes - 1])) {
         cmark_strbuf_putc(&parser->curline, '\n');
+    }
 
     parser->offset = 0;
     parser->column = 0;
@@ -1332,8 +1353,9 @@ S_process_line(cmark_parser* parser, const unsigned char* buffer, bufsize_t byte
 
     last_matched_container = check_open_blocks(parser, &input, &all_matched);
 
-    if (!last_matched_container)
+    if (!last_matched_container) {
         goto finished;
+    }
 
     container = last_matched_container;
 
@@ -1343,10 +1365,12 @@ S_process_line(cmark_parser* parser, const unsigned char* buffer, bufsize_t byte
 
 finished:
     parser->last_line_length = input.len;
-    if (parser->last_line_length && input.data[parser->last_line_length - 1] == '\n')
+    if (parser->last_line_length && input.data[parser->last_line_length - 1] == '\n') {
         parser->last_line_length -= 1;
-    if (parser->last_line_length && input.data[parser->last_line_length - 1] == '\r')
+    }
+    if (parser->last_line_length && input.data[parser->last_line_length - 1] == '\r') {
         parser->last_line_length -= 1;
+    }
 
     cmark_strbuf_clear(&parser->curline);
 }

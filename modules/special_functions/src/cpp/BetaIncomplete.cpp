@@ -49,8 +49,9 @@ betacf(T a, T b, T x)
     T qam = a - (T)1.0;
     T c = (T)1.0;
     T d = (T)1.0 - qab * x / qap;
-    if (std::fabs(d) < FPMIN)
+    if (std::fabs(d) < FPMIN) {
         d = FPMIN;
+    }
     d = (T)1.0 / d;
     T h = d;
 
@@ -59,22 +60,26 @@ betacf(T a, T b, T x)
         // even step
         T aa = (T)m * (b - (T)m) * x / ((qam + (T)m2) * (a + (T)m2));
         d = (T)1.0 + aa * d;
-        if (std::fabs(d) < FPMIN)
+        if (std::fabs(d) < FPMIN) {
             d = FPMIN;
+        }
         c = (T)1.0 + aa / c;
-        if (std::fabs(c) < FPMIN)
+        if (std::fabs(c) < FPMIN) {
             c = FPMIN;
+        }
         d = (T)1.0 / d;
         h *= d * c;
 
         // odd step
         aa = -(a + (T)m) * (qab + (T)m) * x / ((a + (T)m2) * (qap + (T)m2));
         d = (T)1.0 + aa * d;
-        if (std::fabs(d) < FPMIN)
+        if (std::fabs(d) < FPMIN) {
             d = FPMIN;
+        }
         c = (T)1.0 + aa / c;
-        if (std::fabs(c) < FPMIN)
+        if (std::fabs(c) < FPMIN) {
             c = FPMIN;
+        }
         d = (T)1.0 / d;
         T del = d * c;
         h *= del;
@@ -92,10 +97,12 @@ static T
 ibeta(T a, T b, T x)
 {
     // Regularized incomplete beta function I_x(a,b)
-    if (x <= (T)0.0)
+    if (x <= (T)0.0) {
         return (T)0.0;
-    if (x >= (T)1.0)
+    }
+    if (x >= (T)1.0) {
         return (T)1.0;
+    }
 
     // Handle infinite parameters to avoid NaN from lgamma(inf)-lgamma(inf)
     if (std::isinf(a) && a > 0) {

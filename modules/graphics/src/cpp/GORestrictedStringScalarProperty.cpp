@@ -27,8 +27,9 @@ GORestrictedStringScalarProperty::scalar(double scal)
 ArrayOf
 GORestrictedStringScalarProperty::get()
 {
-    if (!isEqual(GO_PROPERTY_VALUE_SCALAR_STR))
+    if (!isEqual(GO_PROPERTY_VALUE_SCALAR_STR)) {
         return GORestrictedStringProperty::get();
+    }
     return ArrayOf::doubleConstructor(_scalar);
 }
 //=============================================================================

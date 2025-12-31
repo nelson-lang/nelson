@@ -425,8 +425,9 @@ IsEqualNaN(Evaluator* eval, const ArrayOfVector& args, NelsonType commonType, bo
         if (_commonType == NLS_STRING_ARRAY && (firstElement.getDataClass() == NLS_CHAR)) {
             firstElement = ArrayOf::stringArrayConstructor(firstElement.getContentAsWideString());
         } else {
-            if (firstElement.getDataClass() != _commonType)
+            if (firstElement.getDataClass() != _commonType) {
                 firstElement.promoteType(_commonType);
+            }
             if (!firstElement.isSparse() && isSparse) {
                 firstElement.makeSparse();
             }
@@ -443,8 +444,9 @@ IsEqualNaN(Evaluator* eval, const ArrayOfVector& args, NelsonType commonType, bo
                 secondElement
                     = ArrayOf::stringArrayConstructor(secondElement.getContentAsWideString());
             } else {
-                if (secondElement.getDataClass() != _commonType)
+                if (secondElement.getDataClass() != _commonType) {
                     secondElement.promoteType(_commonType);
+                }
                 if (!secondElement.isSparse() && isSparse) {
                     secondElement.makeSparse();
                 }

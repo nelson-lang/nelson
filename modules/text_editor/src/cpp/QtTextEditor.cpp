@@ -890,14 +890,16 @@ QtTextEditor::documentWasModified()
 void
 QtTextEditor::updateCursorPosition()
 {
-    if (!statusLabel)
+    if (!statusLabel) {
         return;
+    }
     int line = getCurrentLineNumber();
     QTextCursor cursor = currentEditor()->textCursor();
     int col = cursor.positionInBlock() + 1;
     QString enc = currentEncoding();
-    if (enc.isEmpty())
+    if (enc.isEmpty()) {
         enc = "UTF-8";
+    }
     statusLabel->setText(QString("Ln %1, Col %2 | %3").arg(line).arg(col).arg(enc));
 }
 //=============================================================================
@@ -1201,8 +1203,9 @@ QtTextEditor::dropEvent(QDropEvent* event)
     if (event->mimeData()->hasUrls()) {
         QList<QUrl> urls = event->mimeData()->urls();
         for (const QUrl& url : urls) {
-            if (!url.isLocalFile())
+            if (!url.isLocalFile()) {
                 continue;
+            }
             QString local = url.toLocalFile();
             if (!local.isEmpty()) {
                 loadOrCreateFile(local);

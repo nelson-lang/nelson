@@ -778,8 +778,9 @@ GOWindow::findContainingAxis(GOFigure* fig, int x, int y)
                 return nullptr;
             }
             if ((x >= position[0]) && (x < (position[0] + position[2])) && (y >= position[1])
-                && (y < (position[1] + position[3])))
+                && (y < (position[1] + position[3]))) {
                 return (GOAxis*)hp;
+            }
         }
     }
     return nullptr;

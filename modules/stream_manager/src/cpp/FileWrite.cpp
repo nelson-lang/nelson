@@ -84,19 +84,21 @@ countUtf8CodePointsUpTo(const std::string& s, size_t bytes)
         unsigned char c = static_cast<unsigned char>(s[i]);
         size_t cpLen = 0;
 
-        if ((c & 0x80) == 0x00)
+        if ((c & 0x80) == 0x00) {
             cpLen = 1;
-        else if ((c & 0xE0) == 0xC0)
+        } else if ((c & 0xE0) == 0xC0) {
             cpLen = 2;
-        else if ((c & 0xF0) == 0xE0)
+        } else if ((c & 0xF0) == 0xE0) {
             cpLen = 3;
-        else if ((c & 0xF8) == 0xF0)
+        } else if ((c & 0xF8) == 0xF0) {
             cpLen = 4;
-        else
+        } else {
             break; // invalid leading byte
+        }
 
-        if (i + cpLen > n)
+        if (i + cpLen > n) {
             break;
+        }
 
         bool valid = true;
         for (size_t k = 1; k < cpLen; ++k) {
@@ -107,16 +109,20 @@ countUtf8CodePointsUpTo(const std::string& s, size_t bytes)
             }
         }
 
-        if (!valid)
+        if (!valid) {
             break;
+        }
 
         // reject simple overlong forms (stricter)
-        if (cpLen == 2 && (c & 0x1E) == 0)
+        if (cpLen == 2 && (c & 0x1E) == 0) {
             break;
-        if (cpLen == 3 && (c == 0xE0 && (static_cast<unsigned char>(s[i + 1]) & 0x20) == 0))
+        }
+        if (cpLen == 3 && (c == 0xE0 && (static_cast<unsigned char>(s[i + 1]) & 0x20) == 0)) {
             break;
-        if (cpLen == 4 && (c == 0xF0 && (static_cast<unsigned char>(s[i + 1]) & 0x30) == 0))
+        }
+        if (cpLen == 4 && (c == 0xF0 && (static_cast<unsigned char>(s[i + 1]) & 0x30) == 0)) {
             break;
+        }
 
         ++count;
         i += cpLen;
@@ -180,10 +186,11 @@ writeToInterface(File* fp, ArrayOf& toWrite, NelsonType /*destClass*/, size_t sk
         }
     }
 
-    if (name == L"stdout")
+    if (name == L"stdout") {
         io->outputMessage(str);
-    else
+    } else {
         io->errorMessage(str);
+    }
 
     // For interface, report number of bytes written (as before)
     sizeWritten = static_cast<int>(wstr.size());
@@ -305,10 +312,12 @@ writeBinaryData(FILE* filepointer, ArrayOf& toWrite, NelsonType destClass, bool 
 int
 computeApproxCharCount(size_t writtenBytes, size_t totalBytes, size_t totalChars)
 {
-    if (totalBytes == 0)
+    if (totalBytes == 0) {
         return 0;
-    if (writtenBytes >= totalBytes)
+    }
+    if (writtenBytes >= totalBytes) {
         return static_cast<int>(totalChars);
+    }
 
     double ratio = static_cast<double>(writtenBytes) / static_cast<double>(totalBytes);
     return static_cast<int>(std::floor(ratio * static_cast<double>(totalChars)));
