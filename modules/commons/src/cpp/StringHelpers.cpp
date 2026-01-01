@@ -189,10 +189,19 @@ replace_all(T& str, const T& from, const T& to, size_t npos)
     }
 
     T result;
-    if (to.length() > from.length()) {
-        result.reserve(str.length() + positions.size() * (to.length() - from.length()));
+    const size_t originalLength = str.length();
+    const size_t fromLength = from.length();
+    const size_t toLength = to.length();
+    const size_t occurrences = positions.size();
+
+    size_t finalLength;
+    if (toLength >= fromLength) {
+        finalLength = originalLength + occurrences * (toLength - fromLength);
+    } else {
+        finalLength = originalLength - occurrences * (fromLength - toLength);
     }
 
+    result.reserve(finalLength);
     size_t last_pos = 0;
     for(size_t current_pos : positions) {
         result.append(str, last_pos, current_pos - last_pos);
