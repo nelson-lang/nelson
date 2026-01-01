@@ -203,7 +203,7 @@ replace_all(T& str, const T& from, const T& to, size_t npos)
 
     result.reserve(finalLength);
     size_t last_pos = 0;
-    for(size_t current_pos : positions) {
+    for (size_t current_pos : positions) {
         result.append(str, last_pos, current_pos - last_pos);
         result.append(to);
         last_pos = current_pos + from.length();
