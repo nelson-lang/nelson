@@ -170,16 +170,18 @@ replace_all(T& str, const T& from, const T& to, size_t npos)
         return;
     }
 
-    // ⚡ Bolt: This implementation was optimized to reduce redundant string searches.
-    // Instead of iterating to count occurrences and then iterating again to replace,
-    // this version finds all occurrences in a single pass, stores their positions,
-    // and then constructs the new string. This is particularly efficient when the
-    // replacement string is longer than the search string, as it avoids multiple
-    // reallocations and searches.
+    if (to.length() <= from.length()) {
+        size_t start_pos = 0;
+        while ((start_pos = str.find(from, start_pos)) != npos) {
+            str.replace(start_pos, from.length(), to);
+            start_pos += to.length();
+        }
+        return;
+    }
 
     std::vector<size_t> positions;
     size_t pos = str.find(from, 0);
-    while(pos != npos) {
+    while (pos != npos) {
         positions.push_back(pos);
         pos = str.find(from, pos + from.length());
     }
@@ -189,19 +191,8 @@ replace_all(T& str, const T& from, const T& to, size_t npos)
     }
 
     T result;
-    const size_t originalLength = str.length();
-    const size_t fromLength = from.length();
-    const size_t toLength = to.length();
-    const size_t occurrences = positions.size();
+    result.reserve(str.length() + positions.size() * (to.length() - from.length()));
 
-    size_t finalLength;
-    if (toLength >= fromLength) {
-        finalLength = originalLength + occurrences * (toLength - fromLength);
-    } else {
-        finalLength = originalLength - occurrences * (fromLength - toLength);
-    }
-
-    result.reserve(finalLength);
     size_t last_pos = 0;
     for (size_t current_pos : positions) {
         result.append(str, last_pos, current_pos - last_pos);
