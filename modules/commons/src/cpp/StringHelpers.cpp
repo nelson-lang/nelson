@@ -170,24 +170,38 @@ replace_all(T& str, const T& from, const T& to, size_t npos)
         return;
     }
 
-    if (to.length() > from.length()) {
-        int occurrences = 0;
-        size_t pos = 0;
-        while ((pos = str.find(from, pos)) != npos) {
-            occurrences++;
-            pos += from.length();
+    if (to.length() <= from.length()) {
+        size_t start_pos = 0;
+        while ((start_pos = str.find(from, start_pos)) != npos) {
+            str.replace(start_pos, from.length(), to);
+            start_pos += to.length();
         }
-
-        if (occurrences > 0) {
-            str.reserve(str.length() + occurrences * (to.length() - from.length()));
-        }
+        return;
     }
 
-    size_t start_pos = 0;
-    while ((start_pos = str.find(from, start_pos)) != npos) {
-        str.replace(start_pos, from.length(), to);
-        start_pos += to.length();
+    std::vector<size_t> positions;
+    size_t pos = str.find(from, 0);
+    while (pos != npos) {
+        positions.push_back(pos);
+        pos = str.find(from, pos + from.length());
     }
+
+    if (positions.empty()) {
+        return;
+    }
+
+    T result;
+    result.reserve(str.length() + positions.size() * (to.length() - from.length()));
+
+    size_t last_pos = 0;
+    for (size_t current_pos : positions) {
+        result.append(str, last_pos, current_pos - last_pos);
+        result.append(to);
+        last_pos = current_pos + from.length();
+    }
+    result.append(str, last_pos, str.length() - last_pos);
+
+    str = result;
 }
 //=============================================================================
 bool
