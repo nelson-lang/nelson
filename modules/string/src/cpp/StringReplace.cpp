@@ -139,25 +139,59 @@ std::wstring
 stringReplace(const std::wstring& originStr, const std::wstring& subStr,
     const std::wstring& replaceStr, bool doOverlaps)
 {
-    std::wstring modifiedString = originStr;
-    size_t start = 0;
     if (!doOverlaps) {
-        bool replacementDone = false;
-        size_t offset = 1 + replaceStr.length() - subStr.length();
-        while ((start = modifiedString.find(subStr, start)) != std::string::npos) {
-            modifiedString.replace(start, subStr.length(), replaceStr);
-            start += offset;
-            replacementDone = true;
+        if (subStr.empty()) {
+            return originStr;
         }
-        if (replacementDone) {
-            return modifiedString;
+        // ⚡ Bolt: This implementation is optimized for performance by avoiding multiple
+        // reallocations, which is a common bottleneck in string replacement operations.
+        // The key improvements are:
+        //
+        // 1. Pre-calculating occurrences: Instead of replacing in a loop, we first
+        //    find all occurrences of `subStr` and store their positions. This avoids
+        //    modifying the string while iterating over it.
+        //
+        // 2. Pre-allocating memory: We calculate the exact size of the final string
+        //    and use `result.reserve()` to allocate the required memory upfront. This
+        //    prevents multiple costly reallocations that would otherwise occur if the
+        //    `replaceStr` is longer than the `subStr`.
+        //
+        // 3. Single-pass construction: The final string is built in a single pass
+        //    by appending the parts of the original string and the replacement string.
+        //
+        // This approach is significantly more efficient than a simple loop of `replace()`
+        // calls, especially for large strings or frequent replacement operations.
+        std::vector<size_t> positions;
+        size_t pos = originStr.find(subStr, 0);
+        while (pos != std::wstring::npos) {
+            positions.push_back(pos);
+            pos = originStr.find(subStr, pos + subStr.length());
         }
+
+        if (positions.empty()) {
+            return originStr;
+        }
+
+        std::wstring result;
+        result.reserve(
+            originStr.length() + positions.size() * (replaceStr.length() - subStr.length()));
+
+        size_t last_pos = 0;
+        for (size_t current_pos : positions) {
+            result.append(originStr, last_pos, current_pos - last_pos);
+            result.append(replaceStr);
+            last_pos = current_pos + subStr.length();
+        }
+        result.append(originStr, last_pos, originStr.length() - last_pos);
+
+        return result;
     } else {
+        std::wstring modifiedString = originStr;
         if (subStr.empty()) {
             return originStr;
         }
         std::vector<size_t> indexSubStr, lengthSubStr;
-        start = -1;
+        size_t start = -1;
         int64 offset = 0;
         int64 offsetIncr = replaceStr.length() - subStr.length();
         while ((start = modifiedString.find(subStr, start + 1)) != std::string::npos) {
