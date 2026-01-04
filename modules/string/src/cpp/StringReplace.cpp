@@ -423,10 +423,27 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
 std::wstring
 Replace(const std::wstring& originStr, const std::wstring& subStr, const std::wstring& replaceStr)
 {
-    // ⚡ Bolt: This function was simplified by removing special handling for the
-    // empty `subStr` case. That logic is now centralized in `StringHelpers::replace_all`,
-    // which is more efficient and corrects a regression from the first patch.
-    // This change makes the code cleaner and avoids redundancy.
+    // ⚡ Bolt: This function contains a fast path to handle the specific edge case
+    // where the search string (`subStr`) is empty. This avoids a performance issue
+    // in the generic `StringHelpers::replace_all` function by pre-allocating memory
+    // and building the result string in a single pass, which is significantly
+    // more efficient.
+    if (subStr.empty()) {
+        if (replaceStr.empty()) {
+            return originStr;
+        }
+        if (originStr.empty()) {
+            return replaceStr;
+        }
+        std::wstring result;
+        result.reserve(originStr.length() + (originStr.length() + 1) * replaceStr.length());
+        for (const auto& c : originStr) {
+            result.append(replaceStr);
+            result += c;
+        }
+        result.append(replaceStr);
+        return result;
+    }
     std::wstring result = originStr;
     StringHelpers::replace_all(result, subStr, replaceStr);
     return result;
