@@ -365,12 +365,8 @@ std::wstring
 Evaluator::buildPrompt()
 {
     std::wstring prompt;
-    if (depth > 0) {
-        prompt += std::to_wstring(depth);
-    }
-
     if (bpActive) {
-        prompt += L"D";
+        prompt += L"K";
     }
     prompt += L">> ";
     return prompt;
@@ -522,6 +518,25 @@ Evaluator::evalCLI()
             while (callstack.size() > stackdepth) {
                 callstack.pop_back();
             }
+            if (this->getState() == NLS_STATE_DEBUG_QUIT_ALL) {
+                bpActive = false;
+                InCLI = false;
+                return;
+            }
+
+            if (this->getState() == NLS_STATE_DEBUG_QUIT) {
+                InCLI = false;
+                return;
+            }
+
+            if (this->getState() == NLS_STATE_DEBUG_STEP) {
+                InCLI = false;
+                return;
+            }
+            if (this->getState() == NLS_STATE_DEBUG_CONTINUE) {
+                InCLI = false;
+                return;
+            }
             if (!evalResult || isQuitOrForceQuitState() || this->getState() == NLS_STATE_ABORT) {
                 InCLI = false;
                 return;
@@ -543,6 +558,16 @@ Evaluator::isSafeToAutoTerminateCLI()
     // Allow termination if we're only missing 'end' keywords
     // This handles cases like incomplete if/for/while blocks
     return (lexerContext.inStatement >= 0 && !lexerContext.inFunction);
+}
+//=============================================================================
+void
+Evaluator::debugCLI()
+{
+    depth++;
+    bpActive = true;
+    evalCLI();
+    bpActive = false;
+    depth--;
 }
 //=============================================================================
 // Checks if the evaluator has an event loop.

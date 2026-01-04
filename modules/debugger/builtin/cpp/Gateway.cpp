@@ -9,6 +9,11 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "dbstackBuiltin.hpp"
+#include "dbcontBuiltin.hpp"
+#include "dbstopBuiltin.hpp"
+#include "dbquitBuiltin.hpp"
+#include "dbstepBuiltin.hpp"
+#include "dbclearBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -17,6 +22,17 @@ const std::wstring gatewayName = L"debugger";
 static const nlsGateway gateway[] = {
     { "dbstack", (ptrBuiltin)Nelson::DebuggerGateway::dbstackBuiltin, -1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "dbstop", (ptrBuiltin)Nelson::DebuggerGateway::dbstopBuiltin, 0, 4,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "dbcont", (ptrBuiltin)Nelson::DebuggerGateway::dbcontBuiltin, -1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "dbquit", (ptrBuiltin)Nelson::DebuggerGateway::dbquitBuiltin, -1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "dbstep", (ptrBuiltin)Nelson::DebuggerGateway::dbstepBuiltin, -1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "dbclear", (ptrBuiltin)Nelson::DebuggerGateway::dbclearBuiltin, -1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

@@ -10,7 +10,10 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <vector>
+#include <set>
+#include <map>
+#include <optional>
+
 #include "nlsInterpreter_exports.h"
 #include "AbstractSyntaxTree.hpp"
 #include "ArrayOf.hpp"
@@ -34,10 +37,25 @@ enum State
     NLS_STATE_QUIT = 4,
     NLS_STATE_FORCE_QUIT = 5,
     NLS_STATE_CANCEL_QUIT = 6,
-    NLS_STATE_ABORT = 7
+    NLS_STATE_ABORT = 7,
+    NLS_STATE_DEBUG_CONTINUE = 8,
+    NLS_STATE_DEBUG_STEP = 9,
+    NLS_STATE_DEBUG_QUIT = 10,
+    NLS_STATE_DEBUG_QUIT_ALL = 11,
 };
 
 class Context;
+
+class Breakpoint
+{
+public:
+    std::wstring filename;
+    std::string functionName;
+    size_t line;
+    bool enabled = true;
+    bool stepMode = false;
+    size_t maxLines = 0;
+};
 
 /**
  * This is the class that implements the interpreter - it generally
@@ -45,6 +63,8 @@ class Context;
  */
 class NLSINTERPRETER_IMPEXP Evaluator
 {
+    std::vector<Breakpoint> breakpoints;
+
     wstringVector commandLineArguments;
 
     /**
@@ -67,8 +87,6 @@ class NLSINTERPRETER_IMPEXP Evaluator
 
     int exitCode = 0;
 
-    bool bpActive;
-
     bool InCLI;
 
     bool bEchoMode = true;
@@ -76,6 +94,28 @@ class NLSINTERPRETER_IMPEXP Evaluator
     bool bQuietMode = false;
 
 public:
+    bool bpActive = false;
+
+    bool stepMode = false;
+
+    std::optional<Breakpoint> stepBreakpoint;
+
+    bool
+    isBreakpointActive()
+    {
+        return bpActive;
+    }
+
+    void
+    addBreakpoint(const Breakpoint& bp);
+    void
+    clearBreakpoints();
+    bool
+    stepBreakpointExists(const Breakpoint& bp);
+
+    bool
+    onBreakpoint(AbstractSyntaxTreePtr t);
+
     LexerContext lexerContext;
 
     size_t
@@ -537,6 +577,10 @@ public:
      */
     void
     evalCLI();
+
+    void
+    debugCLI();
+
     /**
      * The workhorse routine - "evaluate" the contents of a string
      * and execute it.
@@ -838,6 +882,12 @@ private:
     rhsExpressionDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs);
     void
     rhsExpressionDynDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs);
+
+    size_t
+    getLinePosition(AbstractSyntaxTreePtr t);
+
+    size_t
+    getMaxLinePosition(AbstractSyntaxTreePtr t);
 };
 NLSINTERPRETER_IMPEXP void
 sigInterrupt(int arg);

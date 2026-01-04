@@ -849,6 +849,39 @@ Evaluator::statement(AbstractSyntaxTreePtr t)
         callstack.pushID((size_t)t->getContext());
         popNeeded = true;
 
+        if (onBreakpoint(t)) {
+
+            while (true) {
+                debugCLI();
+
+                if (state == NLS_STATE_ABORT) {
+                    bpActive = false;
+                    return;
+                }
+
+                if (state == NLS_STATE_DEBUG_QUIT_ALL) {
+                    bpActive = false;
+                    state = NLS_STATE_ABORT;
+                    return;
+                }
+
+                if (state == NLS_STATE_DEBUG_QUIT) {
+                    callstack.popID();
+                    state = NLS_STATE_ABORT;
+                    return;
+                }
+                if (state == NLS_STATE_DEBUG_CONTINUE || state == NLS_STATE_DEBUG_STEP) {
+                    if (state == NLS_STATE_DEBUG_STEP) {
+                        bpActive = true;
+                    } else {
+                        bpActive = false;
+                    }
+                    state = NLS_STATE_OK;
+                    break;
+                }
+            }
+        }
+
         switch (t->opNum) {
         case OP_QSTATEMENT:
             statementType(t->down, false);

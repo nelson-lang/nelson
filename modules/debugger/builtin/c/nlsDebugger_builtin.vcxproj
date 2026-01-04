@@ -293,7 +293,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\dbclearBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dbcontBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dbquitBuiltin.cpp" />
     <ClCompile Include="..\cpp\dbstackBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dbstepBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dbstopBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
@@ -301,7 +306,12 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\dbclearBuiltin.hpp" />
+    <ClInclude Include="..\include\dbcontBuiltin.hpp" />
+    <ClInclude Include="..\include\dbquitBuiltin.hpp" />
     <ClInclude Include="..\include\dbstackBuiltin.hpp" />
+    <ClInclude Include="..\include\dbstepBuiltin.hpp" />
+    <ClInclude Include="..\include\dbstopBuiltin.hpp" />
     <ClInclude Include="..\include\nlsDebugger_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>
