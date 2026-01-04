@@ -24,7 +24,6 @@ Nelson::DebuggerGateway::dbquitBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         if (argAll != L"all") {
             Error(_W("'all' expected."));
         }
-        eval->bpActive = false;
         eval->setState(NLS_STATE_DEBUG_QUIT_ALL);
     } else {
         eval->setState(NLS_STATE_DEBUG_QUIT);

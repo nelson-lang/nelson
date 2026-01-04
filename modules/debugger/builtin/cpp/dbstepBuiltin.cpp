@@ -53,7 +53,7 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             eval->setState(NLS_STATE_DEBUG_CONTINUE);
         }
         eval->stepBreakpoint.reset();
-    }    
+    }
     return {};
 }
 //=============================================================================

@@ -519,12 +519,18 @@ Evaluator::evalCLI()
                 callstack.pop_back();
             }
             if (this->getState() == NLS_STATE_DEBUG_QUIT_ALL) {
+                // Quit all debug levels - reset depth and exit all debugCLI calls
+                // Breakpoints remain in effect (MATLAB compatible behavior)
+                depth = 0;
                 bpActive = false;
                 InCLI = false;
                 return;
             }
 
             if (this->getState() == NLS_STATE_DEBUG_QUIT) {
+                // Quit current debug level only
+                // The debugCLI() caller will decrement depth and handle bpActive
+                depth--;
                 InCLI = false;
                 return;
             }
@@ -538,6 +544,12 @@ Evaluator::evalCLI()
                 return;
             }
             if (!evalResult || isQuitOrForceQuitState() || this->getState() == NLS_STATE_ABORT) {
+                // If ABORT occurred during command evaluation in a debug session,
+                // it means a nested function was aborted (dbquit). Reset state and continue.
+                if (this->getState() == NLS_STATE_ABORT && bpActive) {
+                    resetState();
+                    continue; // Continue the debug CLI loop
+                }
                 InCLI = false;
                 return;
             }
@@ -564,9 +576,11 @@ void
 Evaluator::debugCLI()
 {
     depth++;
+    bool previousBpActive = bpActive;
     bpActive = true;
     evalCLI();
-    bpActive = false;
+    // Restore previous bpActive state for nested debug sessions
+    bpActive = previousBpActive;
     depth--;
 }
 //=============================================================================

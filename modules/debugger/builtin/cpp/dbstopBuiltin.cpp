@@ -28,8 +28,8 @@ static size_t
 getLineNumberFromCode(AbstractSyntaxTreePtr code, size_t lineNumber);
 //=============================================================================
 static void
-dbstopInAt(Evaluator* eval,
-    const std::wstring& functioOrFilename, size_t position, std::wstring& errorMessage);
+dbstopInAt(Evaluator* eval, const std::wstring& functioOrFilename, size_t position,
+    std::wstring& errorMessage);
 //=============================================================================
 ArrayOfVector
 Nelson::DebuggerGateway::dbstopBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
@@ -41,7 +41,7 @@ Nelson::DebuggerGateway::dbstopBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     if (argIn.size() == 3) {
         Error("Wrong number of input arguments.");
     }
-    
+
     std::wstring inArg = argIn[0].getContentAsWideString();
     if (inArg != L"in") {
         Error("Second argument must be 'in'.");
@@ -57,8 +57,8 @@ Nelson::DebuggerGateway::dbstopBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         std::wstring posArg = argIn[3].getContentAsWideString();
         size_t idx = 0;
         position = static_cast<size_t>(std::stoul(posArg, &idx));
-        if (idx != posArg.size() || position == 0) { 
-          Error(_W("Invalid position argument."));
+        if (idx != posArg.size() || position == 0) {
+            Error(_W("Invalid position argument."));
         }
     }
 
@@ -73,7 +73,8 @@ Nelson::DebuggerGateway::dbstopBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 }
 //=============================================================================
 void
-dbstopInAt(Evaluator *eval, const std::wstring& functioOrFilename, size_t position, std::wstring& errorMessage)
+dbstopInAt(Evaluator* eval, const std::wstring& functioOrFilename, size_t position,
+    std::wstring& errorMessage)
 {
     bool isSimpleQuoted = StringHelpers::starts_with(functioOrFilename, L"'")
         && StringHelpers::ends_with(functioOrFilename, L"'");
@@ -102,9 +103,8 @@ dbstopInAt(Evaluator *eval, const std::wstring& functioOrFilename, size_t positi
     } else {
         ParserState state = ParseFile(eval, functioOrFilename);
         if (state != ScriptBlock) {
-            errorMessage =
-            _W("Cannot set breakpoint: unable to parse script file '") + functioOrFilename
-                + L"'.";
+            errorMessage = _W("Cannot set breakpoint: unable to parse script file '")
+                + functioOrFilename + L"'.";
         }
         code = getParsedScriptBlock();
         breakpoint.filename = functioOrFilename;
