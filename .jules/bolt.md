@@ -1,0 +1,3 @@
+## 2024-07-25 - Unstable Test Environment
+**Learning:** The test environment for this repository is extremely memory-constrained. Tests that involve large string allocations, especially the empty string replacement tests, will fail with an OOM `Killed` error, even with the original, unmodified code. This makes it impossible to validate any changes to the string module.
+**Action:** Before attempting any optimizations in the string module, I must first find a way to stabilize the test environment. This might involve disabling the memory-intensive tests, refactoring them to use smaller strings, or finding a way to increase the memory available to the test runner.
