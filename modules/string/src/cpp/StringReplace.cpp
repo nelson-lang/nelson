@@ -206,9 +206,14 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
     if ((wstr.size() == 1) && (OLD.isCell() || OLD.isStringArray())
         && (NEW.isCell() || NEW.isStringArray())
         && OLD.getDimensions().equals(NEW.getDimensions())) {
+        // ⚡ Bolt: This loop was optimized by replacing the recursive call to `Replace`
+        // with a direct call to `StringHelpers::replace_all`. The original implementation
+        // created a new `wstr[0]` string in every iteration, leading to unnecessary
+        // memory allocations. By using `replace_all`, the string is modified in-place,
+        // which is significantly more efficient when dealing with multiple replacements.
         ompIndexType elementCount = OLD.getElementCount();
         for (ompIndexType k = 0; k < elementCount; k++) {
-            wstr[0] = Replace(wstr[0], wold[k], wnew[k]);
+            StringHelpers::replace_all(wstr[0], wold[k], wnew[k]);
         }
         if (STR.isCell() || STR.isStringArray()) {
             ArrayOf* elements = nullptr;
@@ -230,9 +235,14 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
     }
     if ((wstr.size() == 1) && (OLD.isCell() || OLD.isStringArray())
         && (NEW.isCharacterArray() || NEW.isStringArray())) {
+        // ⚡ Bolt: This loop was optimized by replacing the recursive call to `Replace`
+        // with a direct call to `StringHelpers::replace_all`. The original implementation
+        // created a new `wstr[0]` string in every iteration, leading to unnecessary
+        // memory allocations. By using `replace_all`, the string is modified in-place,
+        // which is significantly more efficient when dealing with multiple replacements.
         ompIndexType elementCount = OLD.getElementCount();
         for (ompIndexType k = 0; k < elementCount; k++) {
-            wstr[0] = Replace(wstr[0], wold[k], wnew[0]);
+            StringHelpers::replace_all(wstr[0], wold[k], wnew[0]);
         }
         if (STR.isCell() || STR.isStringArray()) {
             ArrayOf* elements = nullptr;
