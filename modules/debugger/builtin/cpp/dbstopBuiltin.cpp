@@ -25,7 +25,7 @@ getMaxLineInSubtreeDown(AbstractSyntaxTreePtr t);
 static size_t
 getMaxLineFromChain(AbstractSyntaxTreePtr t);
 static size_t
-getLineNumberFromCode(AbstractSyntaxTreePtr code, size_t lineNumber);
+getLineNumberFromCode(AbstractSyntaxTreePtr code, size_t lineNumber, size_t maxLinesInFile);
 //=============================================================================
 static void
 dbstopInAt(Evaluator* eval, const std::wstring& functioOrFilename, size_t position,
@@ -88,32 +88,81 @@ dbstopInAt(Evaluator* eval, const std::wstring& functioOrFilename, size_t positi
 
     Breakpoint breakpoint;
     AbstractSyntaxTreePtr code = nullptr;
+    size_t maxLinesInFile = 0;
+
+    // Check for subfunction syntax: mainfunction>subfunction
+    std::wstring mainFunctionName = functioOrFilename;
+    std::wstring subFunctionName;
+    size_t separatorPos = functioOrFilename.find(L'>');
+    if (separatorPos != std::wstring::npos) {
+        mainFunctionName = functioOrFilename.substr(0, separatorPos);
+        subFunctionName = functioOrFilename.substr(separatorPos + 1);
+    }
 
     FunctionDef* funcDef = nullptr;
-    std::string asFunctionName = wstring_to_utf8(functioOrFilename);
+    std::string asFunctionName = wstring_to_utf8(mainFunctionName);
+    std::string asSubFunctionName = wstring_to_utf8(subFunctionName);
+
     if (eval->lookupFunction(asFunctionName, funcDef)) {
         if (funcDef->type() != NLS_MACRO_FUNCTION) {
             Error(_W("Breakpoints can only be set in macro functions."));
         }
         funcDef->updateCode();
         MacroFunctionDef* mFuncDef = static_cast<MacroFunctionDef*>(funcDef);
-        code = mFuncDef->code;
-        breakpoint.filename = funcDef->getFilename();
-        breakpoint.functionName = asFunctionName;
+
+        // If subfunction is specified, find it in the nextFunction chain
+        if (!subFunctionName.empty()) {
+            MacroFunctionDef* targetFunc = nullptr;
+            MacroFunctionDef* searchFunc = mFuncDef->nextFunction;
+            while (searchFunc != nullptr) {
+                if (searchFunc->getName() == asSubFunctionName) {
+                    targetFunc = searchFunc;
+                    break;
+                }
+                searchFunc = searchFunc->nextFunction;
+            }
+            if (targetFunc == nullptr) {
+                errorMessage = _W("Cannot find subfunction '") + subFunctionName + L"' in '"
+                    + mainFunctionName + L"'.";
+                return;
+            }
+            code = targetFunc->code;
+            breakpoint.filename = funcDef->getFilename();
+            breakpoint.functionName = asSubFunctionName;
+        } else {
+            code = mFuncDef->code;
+            breakpoint.filename = funcDef->getFilename();
+            breakpoint.functionName = asFunctionName;
+        }
+
+        // Calculate max lines in file by traversing all functions in the file
+        // (including local/subfunctions linked via nextFunction)
+        maxLinesInFile = getMaxLineFromChain(mFuncDef->code);
+        MacroFunctionDef* nextFunc = mFuncDef->nextFunction;
+        while (nextFunc != nullptr) {
+            size_t nextFuncMax = getMaxLineFromChain(nextFunc->code);
+            if (nextFuncMax > maxLinesInFile) {
+                maxLinesInFile = nextFuncMax;
+            }
+            nextFunc = nextFunc->nextFunction;
+        }
     } else {
-        ParserState state = ParseFile(eval, functioOrFilename);
+        ParserState state = ParseFile(eval, mainFunctionName);
         if (state != ScriptBlock) {
             errorMessage = _W("Cannot set breakpoint: unable to parse script file '")
-                + functioOrFilename + L"'.";
+                + mainFunctionName + L"'.";
+            return;
         }
         code = getParsedScriptBlock();
-        breakpoint.filename = functioOrFilename;
+        breakpoint.filename = mainFunctionName;
+        maxLinesInFile = getMaxLineFromChain(code);
     }
 
-    size_t adjustedLineNumber = getLineNumberFromCode(code, position);
+    size_t adjustedLineNumber = getLineNumberFromCode(code, position, maxLinesInFile);
 
     if (adjustedLineNumber == 0) {
-        Error(_W("Cannot set breakpoint: invalid line number."));
+        Error(_W("Setting or clearing breakpoints past the start of the last expression is not "
+                 "supported."));
     }
     breakpoint.line = adjustedLineNumber;
     breakpoint.maxLines = getMaxLineFromChain(code);
@@ -188,7 +237,7 @@ getMaxLineFromChain(AbstractSyntaxTreePtr t)
 }
 //=============================================================================
 size_t
-getLineNumberFromCode(AbstractSyntaxTreePtr code, size_t lineNumber)
+getLineNumberFromCode(AbstractSyntaxTreePtr code, size_t lineNumber, size_t maxLinesInFile)
 {
     if (code == nullptr || lineNumber == 0) {
         return 0;
@@ -265,8 +314,8 @@ getLineNumberFromCode(AbstractSyntaxTreePtr code, size_t lineNumber)
                 return statementRanges[i + 1].first;
             }
 
-            // No next statement - invalid
-            return 0;
+            // Line is within the last statement but not on its start - return the statement start
+            return stmtStart;
         }
     }
 
@@ -277,7 +326,15 @@ getLineNumberFromCode(AbstractSyntaxTreePtr code, size_t lineNumber)
         }
     }
 
-    // No valid line found
+    // Line is after all statements in this function/script
+    // Check if the line is still within the file bounds (for files with multiple functions)
+    if (lineNumber <= maxLinesInFile) {
+        // Return the last statement's start line - this allows setting breakpoints
+        // on lines between functions or after the function ends but within the file
+        return statementRanges.back().first;
+    }
+
+    // Line is past the end of the file - invalid
     return 0;
 }
 //=============================================================================

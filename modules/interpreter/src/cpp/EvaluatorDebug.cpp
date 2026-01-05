@@ -26,6 +26,10 @@ namespace Nelson {
 void
 Evaluator::resetDebugDepth()
 {
+    // Restore any bypassed scopes before resetting
+    if (depth > 0) {
+        context->restoreBypassedScopes();
+    }
     depth = 0;
 }
 //=============================================================================
@@ -135,6 +139,12 @@ Evaluator::clearBreakpoints()
 bool
 Evaluator::stepBreakpointExists(const Breakpoint& bp)
 {
+    for (const auto& breakpoint : breakpoints) {
+        if ((breakpoint.filename == bp.filename) && (breakpoint.functionName == bp.functionName)
+            && (breakpoint.line == bp.line) && breakpoint.stepMode) {
+            return true;
+        }
+    }
     return false;
 }
 //=============================================================================
@@ -154,23 +164,181 @@ Evaluator::onBreakpoint(AbstractSyntaxTreePtr t)
         filename = utf8_to_wstring(callstack.getLastContext());
     }
 
-    for (auto breakpoint : breakpoints) {
-        if ((breakpoint.filename == filename)
-            && (breakpoint.functionName == context->getCurrentScope()->getName())
-            && (breakpoint.line == currentLine)) {
-            stepBreakpoint = breakpoint;
+    std::string currentFunctionName = context->getCurrentScope()->getName();
+    int currentCallStackSize = static_cast<int>(callstack.size());
+
+    // Note: Step-out breakpoints are handled separately in checkStepOutAfterFunctionReturn()
+    // which is called after function calls complete, allowing us to stop at the call site.
+
+    // Check for regular and step-in breakpoints
+    for (auto it = breakpoints.begin(); it != breakpoints.end(); ++it) {
+        // Skip step-out breakpoints - they are handled after function returns
+        if (it->stepOut) {
+            continue;
+        }
+        if ((it->filename == filename) && (it->functionName == currentFunctionName)
+            && (it->line == currentLine)) {
+            // Store the breakpoint info
+            Breakpoint matchedBp = *it;
+            matchedBp.maxLines = maxLine;
+            stepBreakpoint = matchedBp;
+            // Remove step-mode breakpoints after they trigger (they are temporary)
+            if (it->stepMode) {
+                breakpoints.erase(it);
+            }
             return true;
         }
     }
-    // Try with empty function name (global scope)
-    for (auto breakpoint : breakpoints) {
-        if ((breakpoint.filename == filename) && (breakpoint.functionName == "")
-            && (breakpoint.line == currentLine)) {
-            stepBreakpoint = breakpoint;
+
+    // Try with empty function name (global scope / scripts)
+    for (auto it = breakpoints.begin(); it != breakpoints.end(); ++it) {
+        // Skip step-out breakpoints
+        if (it->stepOut) {
+            continue;
+        }
+        if ((it->filename == filename) && (it->functionName.empty()) && (it->line == currentLine)) {
+            Breakpoint matchedBp = *it;
+            matchedBp.maxLines = maxLine;
+            stepBreakpoint = matchedBp;
+            if (it->stepMode) {
+                breakpoints.erase(it);
+            }
             return true;
+        }
+    }
+
+    // For step-into: when entering a new function, check if we should break
+    // This handles the case when we step into a called function
+    for (auto it = breakpoints.begin(); it != breakpoints.end(); ++it) {
+        if (it->stepMode && it->stepInto) {
+            // If we're at a different file or function than the step breakpoint,
+            // it means we've stepped into a new function
+            if (it->filename != filename || it->functionName != currentFunctionName) {
+                // We've entered a new function - break at first executable line
+                Breakpoint matchedBp;
+                matchedBp.filename = filename;
+                matchedBp.functionName = currentFunctionName;
+                matchedBp.line = currentLine;
+                matchedBp.maxLines = maxLine;
+                matchedBp.enabled = true;
+                matchedBp.stepMode = false;
+                stepBreakpoint = matchedBp;
+                // Remove the consumed step-into breakpoint
+                breakpoints.erase(it);
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+//=============================================================================
+bool
+Evaluator::checkStepOutAfterFunctionReturn(AbstractSyntaxTreePtr t)
+{
+    // This method is called after a function call returns to check if we should
+    // break due to a step-out breakpoint. This allows us to stop at the call site
+    // (like MATLAB) rather than at the next statement.
+    if (breakpoints.empty()) {
+        return false;
+    }
+
+    size_t currentLine = getLinePosition(t);
+    size_t maxLine = getMaxLinePosition(t);
+
+    std::wstring filename = context->getCurrentScope()->getFilename();
+    if (filename.empty()) {
+        filename = utf8_to_wstring(callstack.getLastContext());
+    }
+
+    std::string currentFunctionName = context->getCurrentScope()->getName();
+    int currentCallStackSize = static_cast<int>(callstack.size());
+
+    // Check for step out breakpoints
+    for (auto it = breakpoints.begin(); it != breakpoints.end(); ++it) {
+        if (it->stepMode && it->stepOut) {
+            // Step out triggers when we've returned to the caller function
+            bool leftFunction = (it->functionName != currentFunctionName);
+            bool atOrBelowTargetDepth
+                = (it->targetDepth < 0) || (currentCallStackSize <= it->targetDepth);
+
+            if (leftFunction && atOrBelowTargetDepth) {
+                // Store breakpoint info before removing
+                Breakpoint matchedBp;
+                matchedBp.filename = filename;
+                matchedBp.functionName = currentFunctionName;
+                matchedBp.line = currentLine;
+                matchedBp.maxLines = maxLine;
+                matchedBp.enabled = true;
+                matchedBp.stepMode = false;
+                stepBreakpoint = matchedBp;
+                // Remove the consumed step-out breakpoint
+                breakpoints.erase(it);
+                return true;
+            }
         }
     }
     return false;
+}
+//=============================================================================
+bool
+Evaluator::dbUp(int n)
+{
+    if (n <= 0) {
+        return false;
+    }
+
+    // Get available scope count (excluding global scope at index 0)
+    size_t availableScopes = context->getScopeStackSize();
+    if (availableScopes <= 2) {
+        // Already at base workspace (only global and base scopes)
+        return false;
+    }
+
+    // Calculate how many scopes we can actually bypass
+    // We need to keep at least global (index 0) and base (index 1) scopes
+    int maxBypass = static_cast<int>(availableScopes) - 2;
+    int currentBypass = getDebugDepth();
+    int newBypass = currentBypass + n;
+
+    if (newBypass > maxBypass) {
+        newBypass = maxBypass;
+    }
+
+    int toBypass = newBypass - currentBypass;
+    if (toBypass > 0) {
+        context->bypassScope(toBypass);
+        depth = newBypass;
+    }
+
+    return toBypass > 0;
+}
+//=============================================================================
+bool
+Evaluator::dbDown(int n)
+{
+    if (n <= 0) {
+        return false;
+    }
+
+    int currentBypass = getDebugDepth();
+    if (currentBypass == 0) {
+        // Already at the original (deepest) workspace
+        return false;
+    }
+
+    int toRestore = n;
+    if (toRestore > currentBypass) {
+        toRestore = currentBypass;
+    }
+
+    // Restore scopes one by one
+    for (int i = 0; i < toRestore; ++i) {
+        context->restoreBypassedScopes(1);
+    }
+    depth = currentBypass - toRestore;
+
+    return toRestore > 0;
 }
 //=============================================================================
 } // namespace Nelson

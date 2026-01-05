@@ -14,6 +14,8 @@
 #include "dbquitBuiltin.hpp"
 #include "dbstepBuiltin.hpp"
 #include "dbclearBuiltin.hpp"
+#include "dbdownBuiltin.hpp"
+#include "dbupBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,7 +34,9 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "dbclear", (ptrBuiltin)Nelson::DebuggerGateway::dbclearBuiltin, -1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
-
+    { "dbdown", (ptrBuiltin)Nelson::DebuggerGateway::dbdownBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "dbup", (ptrBuiltin)Nelson::DebuggerGateway::dbupBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

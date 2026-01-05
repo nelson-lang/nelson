@@ -190,6 +190,14 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
             eval->resetState();
         }
         if (state == NLS_STATE_ABORT) {
+            context->popScope();
+            eval->callstack.popDebug();
+            return scalarArrayOfToArrayOfVector(ArrayOf::emptyConstructor());
+        }
+        // Handle quit/exit - don't try to prepare outputs
+        if (state == NLS_STATE_QUIT || state == NLS_STATE_FORCE_QUIT) {
+            context->popScope();
+            eval->callstack.popDebug();
             return scalarArrayOfToArrayOfVector(ArrayOf::emptyConstructor());
         }
 

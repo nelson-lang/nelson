@@ -170,6 +170,22 @@ public:
         return scopestack.empty() ? nullptr : scopestack.back();
     }
     /**
+     * Get the size of the scope stack
+     */
+    inline size_t
+    getScopeStackSize()
+    {
+        return scopestack.size();
+    }
+    /**
+     * Get the number of bypassed scopes
+     */
+    inline size_t
+    getBypassedScopeCount()
+    {
+        return bypassstack.size();
+    }
+    /**
      * Print the context.
      */
     void
@@ -215,6 +231,9 @@ public:
 
     void
     restoreBypassedScopes();
+
+    void
+    restoreBypassedScopes(int count);
 
     Scope*
     getCallerScope();

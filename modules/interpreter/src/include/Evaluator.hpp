@@ -54,7 +54,10 @@ public:
     size_t line;
     bool enabled = true;
     bool stepMode = false;
+    bool stepInto = false;
+    bool stepOut = false;
     size_t maxLines = 0;
+    int targetDepth = -1; // Used for step out: callstack depth to stop at
 };
 
 /**
@@ -115,6 +118,14 @@ public:
 
     bool
     onBreakpoint(AbstractSyntaxTreePtr t);
+
+    bool
+    checkStepOutAfterFunctionReturn(AbstractSyntaxTreePtr t);
+
+    bool
+    dbDown(int n);
+    bool
+    dbUp(int n);
 
     LexerContext lexerContext;
 

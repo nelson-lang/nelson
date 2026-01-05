@@ -859,6 +859,13 @@ Evaluator::statement(AbstractSyntaxTreePtr t)
                     return;
                 }
 
+                // Handle quit/exit command during debug session
+                if (state == NLS_STATE_QUIT || state == NLS_STATE_FORCE_QUIT) {
+                    bpActive = false;
+                    resetDebugDepth();
+                    return;
+                }
+
                 if (state == NLS_STATE_DEBUG_QUIT_ALL) {
                     bpActive = false;
                     state = NLS_STATE_ABORT;
