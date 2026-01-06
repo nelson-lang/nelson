@@ -13,6 +13,8 @@
 #include "QtEditPane.h"
 #include "QtTextEdit.h"
 #include "QtTextIndent.h"
+#include "QtDebugStackPanel.h"
+#include "QtBreakpointPanel.h"
 #include <QtCore/QFileSystemWatcher>
 #include <QtGui/QDragEnterEvent>
 #include <QtGui/QDropEvent>
@@ -20,6 +22,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QDockWidget>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,7 +31,7 @@ using namespace Nelson;
 class QtTextEditor : public QMainWindow
 {
     Q_OBJECT
-    QMenu *fileMenu, *editMenu;
+    QMenu *fileMenu, *editMenu, *debugMenu;
     QToolBar *editToolBar, *fileToolBar;
     QAction *newAction, *openAction, *saveAction, *saveAsAction, *saveAllAction, *quitAction;
     QAction *closeAction, *closeAllAction;
@@ -52,6 +55,21 @@ class QtTextEditor : public QMainWindow
     QAction* stopRunAction;
     QAction* evaluateSelectionAction;
 
+    // Debug actions
+    QAction* dbStepAction;
+    QAction* dbStepInAction;
+    QAction* dbStepOutAction;
+    QAction* dbContinueAction;
+
+    // Debug panels
+    QDockWidget* debugStackDock;
+    QtDebugStackPanel* debugStackPanel;
+    QDockWidget* breakpointDock;
+    QtBreakpointPanel* breakpointPanel;
+
+    QAction* showDebugStackAction;
+    QAction* showBreakpointsPanelAction;
+
     QAction* helpOnSelectionAction;
     QAction* smartIndentAction;
 
@@ -64,6 +82,13 @@ class QtTextEditor : public QMainWindow
     QString lastSearch;
     bool lastSearchCaseSensitive;
 
+    // Debug state tracking
+    QTimer* debugStateTimer;
+    bool lastDebugState = false;
+    std::wstring lastDebugFilename;
+    size_t lastDebugLine = 0;
+    QColor debugLineColor = QColor(255, 255, 0, 128); // Default semi-transparent yellow
+
 public:
     QtTextEditor(Evaluator* eval);
     ~QtTextEditor();
@@ -71,6 +96,9 @@ public:
     loadOrCreateFile(const QString& filename);
     void
     contextMenuEvent(QContextMenuEvent* event);
+
+    void
+    updateDebugLineHighlight();
 
     void
     createTabUntitledWithText(const QString& text);
@@ -120,6 +148,11 @@ private:
     writeSettings();
     void
     updateFont();
+
+    QColor
+    getDebugLineColor();
+    void
+    setDebugLineColor(const QColor& color);
 
     void
     dragEnterEvent(QDragEnterEvent* event);
@@ -194,6 +227,19 @@ private Q_SLOTS:
     stopRun();
     void
     helpOnSelection();
+
+    // Debug slots
+    void
+    dbStep();
+    void
+    dbStepIn();
+    void
+    dbStepOut();
+    void
+    dbContinue();
+    void
+    checkDebugState();
+
     void
     smartIndent();
 

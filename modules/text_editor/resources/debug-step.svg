@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Debug Step icon for Nelson -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- Step over arrow -->
+  <path d="M 8,32 L 8,24 L 24,24 L 24,16 L 40,28 L 24,40 L 24,32 Z" 
+        fill="#4a90d9" stroke="#2e5a8a" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Line indicator -->
+  <rect x="8" y="10" width="32" height="4" rx="2" fill="#888888"/>
+</svg>

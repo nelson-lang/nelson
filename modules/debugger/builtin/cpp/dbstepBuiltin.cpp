@@ -52,6 +52,9 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     if (!eval->isBreakpointActive()) {
         Error(_W("Debugger is not active."));
     }
+    if (!(eval->stepBreakpoint.has_value())) {
+        Error(_W("No step breakpoint is set."));
+    }
 
     eval->stepMode = true;
     const Breakpoint& currentStepBreakPoint = *eval->stepBreakpoint;

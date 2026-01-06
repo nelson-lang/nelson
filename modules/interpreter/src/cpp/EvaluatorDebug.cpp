@@ -137,6 +137,47 @@ Evaluator::clearBreakpoints()
 }
 //=============================================================================
 bool
+Evaluator::removeBreakpoint(const std::wstring& filename, size_t line)
+{
+    for (auto it = breakpoints.begin(); it != breakpoints.end(); ++it) {
+        if ((it->filename == filename) && (it->line == line) && !it->stepMode) {
+            breakpoints.erase(it);
+            return true;
+        }
+    }
+    return false;
+}
+//=============================================================================
+std::vector<Breakpoint>
+Evaluator::getBreakpoints() const
+{
+    return breakpoints;
+}
+//=============================================================================
+std::vector<size_t>
+Evaluator::getBreakpointLines(const std::wstring& filename) const
+{
+    std::vector<size_t> lines;
+    for (const auto& bp : breakpoints) {
+        if ((bp.filename == filename) && bp.enabled && !bp.stepMode) {
+            lines.push_back(bp.line);
+        }
+    }
+    return lines;
+}
+//=============================================================================
+bool
+Evaluator::hasBreakpoint(const std::wstring& filename, size_t line) const
+{
+    for (const auto& bp : breakpoints) {
+        if ((bp.filename == filename) && (bp.line == line) && bp.enabled && !bp.stepMode) {
+            return true;
+        }
+    }
+    return false;
+}
+//=============================================================================
+bool
 Evaluator::stepBreakpointExists(const Breakpoint& bp)
 {
     for (const auto& breakpoint : breakpoints) {

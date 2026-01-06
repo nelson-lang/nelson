@@ -9,52 +9,36 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <QtWidgets/QCompleter>
 #include <QtWidgets/QWidget>
-#include "QtHighlighter.h"
+#include <QtCore/QSet>
 #include "QtTextEdit.h"
 #include "Evaluator.hpp"
 //=============================================================================
-class QCompleter;
-class QtBreakpointArea;
-//=============================================================================
 using namespace Nelson;
 //=============================================================================
-class QtEditPane : public QWidget
+class QtBreakpointArea : public QWidget
 {
     Q_OBJECT
-    QtTextEdit* textEditor;
-    QString currentFilename;
-    QString currentEncoding;
-
 public:
-    QtEditPane(Evaluator* eval = nullptr);
-    ~QtEditPane();
-    QtTextEdit*
-    getEditor();
-    void
-    setFileName(const QString& filename);
-    QString
-    getFileName();
-    QString
-    getEncoding();
-    void
-    setEncoding(const QString& encoding);
+    QtBreakpointArea(QtTextEdit* textEditor, Evaluator* eval);
 
-    QtBreakpointArea*
-    getBreakpointArea();
+    void
+    setFilename(const QString& filename);
+
+    QString
+    getFilename() const;
 
     void
     refreshBreakpoints();
 
     void
-    setDebugLine(int line);
+    toggleBreakpoint(int line);
 
-    void
-    clearDebugLine();
+    bool
+    hasBreakpoint(int line) const;
 
-    int
-    getDebugLine() const;
+    QSet<int>
+    getBreakpointLines() const;
 
     void
     setExecutionLine(int line);
@@ -65,10 +49,25 @@ public:
     int
     getExecutionLine() const;
 
+protected:
+    void
+    paintEvent(QPaintEvent* paintEvent) override;
+
+    void
+    mousePressEvent(QMouseEvent* event) override;
+
 private:
-    Highlighter* highlight;
-    QCompleter* completer;
-    QtBreakpointArea* breakpointArea;
+    QtTextEdit* tEditor;
     Evaluator* nlsEvaluator;
+    QString currentFilename;
+    QSet<int> breakpointLines;
+    int currentExecutionLine = -1;
+
+    int
+    lineNumberAtPosition(int y) const;
+
+signals:
+    void
+    breakpointToggled(int line, bool added);
 };
 //=============================================================================

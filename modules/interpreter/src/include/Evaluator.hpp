@@ -114,6 +114,14 @@ public:
     void
     clearBreakpoints();
     bool
+    removeBreakpoint(const std::wstring& filename, size_t line);
+    std::vector<Breakpoint>
+    getBreakpoints() const;
+    std::vector<size_t>
+    getBreakpointLines(const std::wstring& filename) const;
+    bool
+    hasBreakpoint(const std::wstring& filename, size_t line) const;
+    bool
     stepBreakpointExists(const Breakpoint& bp);
 
     bool

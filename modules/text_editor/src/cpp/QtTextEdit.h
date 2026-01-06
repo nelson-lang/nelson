@@ -41,8 +41,24 @@ public:
     void
     insertFromMimeData(const QMimeData* source) override;
 
+    // Debug line highlighting
+    void
+    setDebugLine(int line);
+    void
+    clearDebugLine();
+    int
+    getDebugLine() const;
+    void
+    setDebugLineColor(const QColor& color);
+
 private:
     QCompleter* qCompleter;
+    int currentDebugLine = -1;
+    QColor debugLineColor = QColor(255, 255, 0, 128); // Default semi-transparent yellow
+
+    void
+    updateDebugLineHighlight();
+
     [[nodiscard]] QString
     textUnderCursor() const;
     QAbstractItemModel*

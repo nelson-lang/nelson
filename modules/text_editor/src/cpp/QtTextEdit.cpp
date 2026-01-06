@@ -13,6 +13,7 @@
 #include "i18n.hpp"
 #include <QtCore/QStringListModel>
 #include <QtGui/QKeyEvent>
+#include <QtGui/QTextBlock>
 #include <QtWidgets/QAbstractItemView>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCompleter>
@@ -336,5 +337,60 @@ QtTextEdit::wheelEvent(QWheelEvent* wheelEvent)
     } else {
         QTextEdit::wheelEvent(wheelEvent);
     }
+}
+//=============================================================================
+void
+QtTextEdit::setDebugLine(int line)
+{
+    currentDebugLine = line;
+    updateDebugLineHighlight();
+}
+//=============================================================================
+void
+QtTextEdit::clearDebugLine()
+{
+    currentDebugLine = -1;
+    updateDebugLineHighlight();
+}
+//=============================================================================
+int
+QtTextEdit::getDebugLine() const
+{
+    return currentDebugLine;
+}
+//=============================================================================
+void
+QtTextEdit::setDebugLineColor(const QColor& color)
+{
+    debugLineColor = color;
+    if (currentDebugLine > 0) {
+        updateDebugLineHighlight();
+    }
+}
+//=============================================================================
+void
+QtTextEdit::updateDebugLineHighlight()
+{
+    QList<QTextEdit::ExtraSelection> extraSelections;
+
+    if (currentDebugLine > 0) {
+        QTextEdit::ExtraSelection selection;
+
+        // Use configurable color for debug line
+        selection.format.setBackground(debugLineColor);
+        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+
+        // Move cursor to the debug line
+        QTextBlock block = document()->findBlockByLineNumber(currentDebugLine - 1);
+        if (block.isValid()) {
+            QTextCursor cursor(block);
+            selection.cursor = cursor;
+            selection.cursor.clearSelection();
+            extraSelections.append(selection);
+        }
+    }
+
+    setExtraSelections(extraSelections);
+    viewport()->update();
 }
 //=============================================================================
