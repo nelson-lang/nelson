@@ -9,15 +9,22 @@
 //=============================================================================
 #include "QtBreakpointArea.h"
 #include <QtCore/QRectF>
+#include <QtCore/QFileInfo>
 #include <QtGui/QPainter>
 #include <QtGui/QTextBlock>
 #include <QtGui/QTextLayout>
 #include <QtGui/QMouseEvent>
 #include <QtWidgets/QScrollBar>
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
+#include <QtCore/QRegularExpression>
 #include "QStringConverter.hpp"
 //=============================================================================
 static const int BREAKPOINT_AREA_WIDTH = 16;
 static const int BREAKPOINT_MARKER_RADIUS = 5;
+//=============================================================================
+static std::string
+extractFunctionNameAtLine(const QString& filename, int lineNumber);
 //=============================================================================
 QtBreakpointArea::QtBreakpointArea(QtTextEdit* textEditor, Evaluator* eval)
     : QWidget(), tEditor(textEditor), nlsEvaluator(eval)
@@ -35,7 +42,9 @@ QtBreakpointArea::QtBreakpointArea(QtTextEdit* textEditor, Evaluator* eval)
 void
 QtBreakpointArea::setFilename(const QString& filename)
 {
-    currentFilename = filename;
+    // Ensure we store absolute path for consistent breakpoint matching
+    QFileInfo fileInfo(filename);
+    currentFilename = fileInfo.absoluteFilePath();
     refreshBreakpoints();
 }
 //=============================================================================
@@ -78,15 +87,38 @@ QtBreakpointArea::toggleBreakpoint(int line)
     } else {
         // Add breakpoint
         if (nlsEvaluator) {
+            std::wstring wfilename = Nelson::QStringTowstring(currentFilename);
+
+            // Adjust line number to nearest executable statement using Evaluator method
+            size_t adjustedLine = static_cast<size_t>(line);
+            std::wstring errorMessage;
+            if (!nlsEvaluator->adjustBreakpointLine(
+                    wfilename, static_cast<size_t>(line), adjustedLine, errorMessage)) {
+                // If adjustment fails, use the original line (might be a script with no parsing)
+                adjustedLine = static_cast<size_t>(line);
+            }
+
             Breakpoint bp;
             bp.filename = wfilename;
-            bp.line = static_cast<size_t>(line);
+            bp.line = adjustedLine;
             bp.enabled = true;
             bp.stepMode = false;
+            // Try to extract function name from the file
+            bp.functionName = extractFunctionNameAtLine(currentFilename, line);
             nlsEvaluator->addBreakpoint(bp);
+
+            // Update UI to show breakpoint at adjusted line if different
+            if (adjustedLine != static_cast<size_t>(line)) {
+                breakpointLines.insert(static_cast<int>(adjustedLine));
+                emit breakpointToggled(static_cast<int>(adjustedLine), true);
+            } else {
+                breakpointLines.insert(line);
+                emit breakpointToggled(line, true);
+            }
+        } else {
+            breakpointLines.insert(line);
+            emit breakpointToggled(line, true);
         }
-        breakpointLines.insert(line);
-        emit breakpointToggled(line, true);
     }
     update();
 }
@@ -216,5 +248,39 @@ QtBreakpointArea::mousePressEvent(QMouseEvent* event)
         }
     }
     QWidget::mousePressEvent(event);
+}
+//=============================================================================
+// Helper function to extract function name from file at a given line
+std::string
+extractFunctionNameAtLine(const QString& filename, int lineNumber)
+{
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        return "";
+    }
+
+    QTextStream in(&file);
+    QStringList lines;
+    while (!in.atEnd()) {
+        lines.append(in.readLine());
+    }
+    file.close();
+
+    if (lineNumber < 1 || lineNumber > lines.size()) {
+        return "";
+    }
+
+    // Look backwards from the target line to find the nearest function definition
+    QRegularExpression funcPattern("^\\s*function\\s+(?:\\[.*?\\]\\s*=\\s*|\\w+\\s*=\\s*)?(\\w+)");
+
+    for (int i = lineNumber - 1; i >= 0; i--) {
+        QRegularExpressionMatch match = funcPattern.match(lines[i]);
+        if (match.hasMatch()) {
+            QString funcName = match.captured(1);
+            return funcName.toStdString();
+        }
+    }
+
+    return "";
 }
 //=============================================================================

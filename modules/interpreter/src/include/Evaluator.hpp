@@ -125,6 +125,10 @@ public:
     stepBreakpointExists(const Breakpoint& bp);
 
     bool
+    adjustBreakpointLine(const std::wstring& filename, size_t requestedLine, size_t& adjustedLine,
+        std::wstring& errorMessage);
+
+    bool
     onBreakpoint(AbstractSyntaxTreePtr t);
 
     bool

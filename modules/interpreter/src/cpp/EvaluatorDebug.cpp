@@ -20,8 +20,17 @@
 #include "MacroFunctionDef.hpp"
 #include "Warning.hpp"
 #include "characters_encoding.hpp"
+#include "ParseFile.hpp"
+#include "ParserInterface.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static size_t
+getMaxLineFromChainHelper(
+    AbstractSyntaxTreePtr t, std::function<size_t(AbstractSyntaxTreePtr)> getLineFunc);
+static size_t
+getLineNumberFromCode(AbstractSyntaxTreePtr code, size_t lineNumber, size_t maxLinesInFile,
+    std::function<size_t(AbstractSyntaxTreePtr)> getLineFunc);
 //=============================================================================
 void
 Evaluator::resetDebugDepth()
@@ -380,6 +389,205 @@ Evaluator::dbDown(int n)
     depth = currentBypass - toRestore;
 
     return toRestore > 0;
+}
+//=============================================================================
+bool
+Evaluator::adjustBreakpointLine(const std::wstring& filename, size_t requestedLine,
+    size_t& adjustedLine, std::wstring& errorMessage)
+{
+    adjustedLine = 0;
+    errorMessage.clear();
+
+    if (filename.empty() || requestedLine == 0) {
+        errorMessage = _W("Invalid parameters for breakpoint adjustment");
+        return false;
+    }
+
+    // Create lambda to use existing getLinePosition method
+    auto getLineFunc
+        = [this](AbstractSyntaxTreePtr t) -> size_t { return this->getLinePosition(t); };
+
+    AbstractSyntaxTreePtr code = nullptr;
+    size_t maxLinesInFile = 0;
+
+    // Try to lookup as a function first
+    FunctionDef* funcDef = nullptr;
+    std::string asFunctionName = wstring_to_utf8(filename);
+
+    if (lookupFunction(asFunctionName, funcDef)) {
+        if (funcDef->type() != NLS_MACRO_FUNCTION) {
+            errorMessage = _W("Breakpoints can only be set in macro functions.");
+            return false;
+        }
+        funcDef->updateCode();
+        MacroFunctionDef* mFuncDef = static_cast<MacroFunctionDef*>(funcDef);
+
+        code = mFuncDef->code;
+
+        // Calculate max lines in file by traversing all functions in the file
+        maxLinesInFile = getMaxLineFromChainHelper(mFuncDef->code, getLineFunc);
+        MacroFunctionDef* nextFunc = mFuncDef->nextFunction;
+        while (nextFunc != nullptr) {
+            size_t nextFuncMax = getMaxLineFromChainHelper(nextFunc->code, getLineFunc);
+            if (nextFuncMax > maxLinesInFile) {
+                maxLinesInFile = nextFuncMax;
+            }
+            nextFunc = nextFunc->nextFunction;
+        }
+    } else {
+        // Try to parse as a script file
+        ParserState state = ParseFile(this, filename);
+        if (state != ScriptBlock) {
+            errorMessage
+                = _W("Cannot adjust breakpoint: unable to parse script file '") + filename + L"'.";
+            return false;
+        }
+        code = getParsedScriptBlock();
+        maxLinesInFile = getMaxLineFromChainHelper(code, getLineFunc);
+    }
+
+    adjustedLine = getLineNumberFromCode(code, requestedLine, maxLinesInFile, getLineFunc);
+
+    if (adjustedLine == 0) {
+        errorMessage = _W("Cannot set breakpoint at line ") + std::to_wstring(requestedLine)
+            + L": no executable statement found.";
+        return false;
+    }
+
+    return true;
+}
+//=============================================================================
+// Helper function to get max line from a node and ALL its children (down+right chain)
+size_t
+getMaxLineFromChainHelper(
+    AbstractSyntaxTreePtr t, std::function<size_t(AbstractSyntaxTreePtr)> getLineFunc)
+{
+    if (t == nullptr) {
+        return 0;
+    }
+
+    size_t maxLine = getLineFunc(t);
+
+    // Get max from the down subtree
+    if (t->down != nullptr) {
+        size_t downMax = getMaxLineFromChainHelper(t->down, getLineFunc);
+        if (downMax > maxLine) {
+            maxLine = downMax;
+        }
+    }
+
+    // Get max from right siblings at this level
+    if (t->right != nullptr) {
+        size_t rightMax = getMaxLineFromChainHelper(t->right, getLineFunc);
+        if (rightMax > maxLine) {
+            maxLine = rightMax;
+        }
+    }
+
+    return maxLine;
+}
+//=============================================================================
+size_t
+getLineNumberFromCode(AbstractSyntaxTreePtr code, size_t lineNumber, size_t maxLinesInFile,
+    std::function<size_t(AbstractSyntaxTreePtr)> getLineFunc)
+{
+    if (code == nullptr || lineNumber == 0) {
+        return 0;
+    }
+
+    // Start from the first statement
+    AbstractSyntaxTreePtr current = code;
+    if (code->opNum == OP_BLOCK && code->down != nullptr) {
+        current = code->down;
+    }
+
+    // Collect all statements and their line ranges, in order
+    std::vector<std::pair<size_t, size_t>> statementRanges; // (startLine, endLine)
+    AbstractSyntaxTreePtr stmt = current;
+    while (stmt != nullptr) {
+        size_t startLine = getLineFunc(stmt);
+
+        // Sometimes the statement node itself has the end line, not the start line
+        // Check if down child has an earlier line
+        if (stmt->down != nullptr) {
+            size_t downStartLine = getLineFunc(stmt->down);
+            if (downStartLine > 0 && downStartLine < startLine) {
+                startLine = downStartLine;
+            }
+        }
+
+        // Calculate end line: traverse only the down subtree of this statement
+        // Don't traverse stmt->right as that's the next statement
+        size_t endLine = startLine;
+        if (stmt->down != nullptr) {
+            // Get max line from the entire down chain (including right siblings within the
+            // expression)
+            size_t downMax = getMaxLineFromChainHelper(stmt->down, getLineFunc);
+            if (downMax > endLine) {
+                endLine = downMax;
+            }
+        }
+
+        // Also check the statement node itself for endLine
+        size_t stmtLine = getLineFunc(stmt);
+        if (stmtLine > endLine) {
+            endLine = stmtLine;
+        }
+
+        if (startLine > 0) {
+            statementRanges.push_back(std::make_pair(startLine, endLine));
+        }
+
+        // Move to next statement
+        stmt = stmt->right;
+    }
+
+    if (statementRanges.empty()) {
+        return 0;
+    }
+
+    // Find which statement contains the requested line
+    for (size_t i = 0; i < statementRanges.size(); ++i) {
+        size_t stmtStart = statementRanges[i].first;
+        size_t stmtEnd = statementRanges[i].second;
+
+        // Check if the requested line falls within this statement
+        if (lineNumber >= stmtStart && lineNumber <= stmtEnd) {
+            // Check if this is the start line of the statement
+            if (lineNumber == stmtStart) {
+                // Breakpoint on the first line of the statement - keep it there
+                return stmtStart;
+            }
+
+            // Breakpoint is on a line within a multi-line statement (not the first line)
+            // Adapt it to the next statement
+            if (i + 1 < statementRanges.size()) {
+                // Return the start of the next statement
+                return statementRanges[i + 1].first;
+            }
+
+            // Line is within the last statement but not on its start - return the statement start
+            return stmtStart;
+        }
+    }
+
+    // Line is not within any statement - find the next executable line
+    for (const auto& range : statementRanges) {
+        if (range.first > lineNumber) {
+            return range.first;
+        }
+    }
+
+    // Line is after all statements in this function/script
+    // Check if the line is still within the file bounds (for files with multiple functions)
+    if (lineNumber <= maxLinesInFile) {
+        // Return the last statement's start line - this allows setting breakpoints
+        // on lines between functions or after the function ends but within the file
+        return statementRanges.back().first;
+    }
+
+    // Line is past the end of the file - invalid
+    return 0;
 }
 //=============================================================================
 } // namespace Nelson

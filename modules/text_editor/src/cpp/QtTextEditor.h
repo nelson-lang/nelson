@@ -87,6 +87,7 @@ class QtTextEditor : public QMainWindow
     bool lastDebugState = false;
     std::wstring lastDebugFilename;
     size_t lastDebugLine = 0;
+    size_t lastBreakpointCount = 0;
     QColor debugLineColor = QColor(255, 255, 0, 128); // Default semi-transparent yellow
 
 public:
