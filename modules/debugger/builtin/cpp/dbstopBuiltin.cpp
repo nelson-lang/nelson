@@ -15,6 +15,7 @@
 #include "MacroFunctionDef.hpp"
 #include "ParserInterface.hpp"
 #include "StringHelpers.hpp"
+#include "PathFunctionIndexerManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -130,19 +131,37 @@ dbstopInAt(Evaluator* eval, const std::wstring& functioOrFilename, size_t positi
         breakpoint.functionName = asSubFunctionName;
     } else {
         // Simple case: just function or file name
-        breakpoint.filename = mainFunctionName;
-
         FunctionDef* funcDef = nullptr;
         std::string asFunctionName = wstring_to_utf8(mainFunctionName);
         if (eval->lookupFunction(asFunctionName, funcDef)) {
-            breakpoint.functionName = asFunctionName;
+            // Found as a function - but check if it's a script-like macro function
+            breakpoint.filename = funcDef->getFilename();
+
+            // For now, treat all found functions as scripts (don't store function name)
+            // because they execute in the base/calling context
+            breakpoint.functionName = "";
+        } else {
+            // It's a script file name - try to resolve it using PathFunctionIndexerManager
+            std::wstring resolvedFilename;
+            if (PathFunctionIndexerManager::getInstance()->find(asFunctionName, resolvedFilename)) {
+                // File found in path
+                breakpoint.filename = resolvedFilename;
+            } else {
+                // File not found in path, use the name as-is (it might be a full path)
+                breakpoint.filename = mainFunctionName;
+            }
+            // Scripts execute in the global scope, so leave functionName empty
+            breakpoint.functionName = "";
         }
     }
 
     // Use Evaluator's line adjustment method
     size_t adjustedLineNumber;
     std::wstring adjustError;
-    if (!eval->adjustBreakpointLine(mainFunctionName, position, adjustedLineNumber, adjustError)) {
+    // For subfunctions, use the full syntax (mainfunction>subfunction) to get correct line numbers
+    std::wstring functionNameForLineAdjustment = functioOrFilename;
+    if (!eval->adjustBreakpointLine(
+            functionNameForLineAdjustment, position, adjustedLineNumber, adjustError)) {
         errorMessage = adjustError;
         return;
     }

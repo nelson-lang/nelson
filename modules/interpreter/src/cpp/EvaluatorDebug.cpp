@@ -11,8 +11,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 //=============================================================================
-#define FMT_HEADER_ONLY
-#include <fmt/core.h>
 #include <functional>
 #include "i18n.hpp"
 #include "Evaluator.hpp"
@@ -22,8 +20,16 @@
 #include "characters_encoding.hpp"
 #include "ParseFile.hpp"
 #include "ParserInterface.hpp"
+#include "PathFunctionIndexerManager.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static inline std::wstring
+normalizePath(const std::wstring& path);
+static inline std::wstring
+getBasename(const std::wstring& path);
+static inline bool
+filenamesMatch(const std::wstring& path1, const std::wstring& path2);
 //=============================================================================
 static size_t
 getMaxLineFromChainHelper(
@@ -31,6 +37,8 @@ getMaxLineFromChainHelper(
 static size_t
 getLineNumberFromCode(AbstractSyntaxTreePtr code, size_t lineNumber, size_t maxLinesInFile,
     std::function<size_t(AbstractSyntaxTreePtr)> getLineFunc);
+static size_t
+getLinePositionFromSubtreeHelper(AbstractSyntaxTreePtr t);
 //=============================================================================
 void
 Evaluator::resetDebugDepth()
@@ -84,6 +92,25 @@ Evaluator::getLinePosition(AbstractSyntaxTreePtr t)
         linePosition = 1;
     }
 
+    // For statement nodes (OP_RSTATEMENT, OP_QSTATEMENT), check if they contain control flow
+    // keywords Control flow statements (for, while, if, switch) have their context set to the end
+    // line, but we want breakpoints to stop at the keyword line (start of the statement)
+    if (t->opNum == OP_RSTATEMENT || t->opNum == OP_QSTATEMENT) {
+        if (t->down != nullptr && t->down->type == reserved_node) {
+            // Check if the child is a control flow keyword
+            if (t->down->tokenNumber == NLS_KEYWORD_FOR || t->down->tokenNumber == NLS_KEYWORD_WHILE
+                || t->down->tokenNumber == NLS_KEYWORD_IF
+                || t->down->tokenNumber == NLS_KEYWORD_SWITCH) {
+                // For control statements, get the line from the control statement's child
+                if (t->down->down != nullptr) {
+                    // Get the earliest line from the control statement's body/condition
+                    size_t childLine = getLinePositionFromSubtreeHelper(t->down->down);
+                    return childLine;
+                }
+            }
+        }
+    }
+
     return linePosition;
 }
 //=============================================================================
@@ -127,6 +154,13 @@ Evaluator::getMaxLinePosition(AbstractSyntaxTreePtr t)
 void
 Evaluator::addBreakpoint(const Breakpoint& bp)
 {
+    // Step-mode breakpoints are temporary and unique, never treat them as duplicates
+    if (bp.stepMode) {
+        breakpoints.push_back(bp);
+        return;
+    }
+
+    // For persistent breakpoints, check for duplicates
     bool haveAlreadyBreak = false;
     for (auto breakpoint : breakpoints) {
         if ((breakpoint.filename == bp.filename) && (breakpoint.functionName == bp.functionName)
@@ -143,6 +177,22 @@ void
 Evaluator::clearBreakpoints()
 {
     breakpoints.clear();
+}
+//=============================================================================
+void
+Evaluator::clearStepBreakpoints()
+{
+    if (breakpoints.empty()) {
+        return;
+    }
+    auto it = breakpoints.begin();
+    while (it != breakpoints.end()) {
+        if (it->stepMode) {
+            it = breakpoints.erase(it);
+        } else {
+            ++it;
+        }
+    }
 }
 //=============================================================================
 bool
@@ -201,7 +251,39 @@ Evaluator::stepBreakpointExists(const Breakpoint& bp)
 bool
 Evaluator::onBreakpoint(AbstractSyntaxTreePtr t)
 {
-    if (breakpoints.empty()) {
+    // Fast path: if we are in step-next mode and the line changed, break immediately
+    if (bpActive && stepMode && stepBreakpoint.has_value() && stepBreakpoint->stepNext) {
+        const Breakpoint& sb = *stepBreakpoint;
+        std::wstring sbFile = sb.filename;
+        if (!sbFile.empty() && filenamesMatch(sbFile, context->getCurrentScope()->getFilename())) {
+            std::string currentFunction = context->getCurrentScope()->getName();
+            if (!sb.stepInto && !sb.functionName.empty() && sb.functionName != currentFunction) {
+                // Stay in the same function unless step-into was requested
+                goto skip_fast_path;
+            }
+            size_t currentLineFast = getLinePosition(t);
+            if (currentLineFast != sb.fromLine) {
+                Breakpoint matched = sb;
+                matched.line = currentLineFast;
+                matched.stepMode = false;
+                matched.stepNext = false; // disable further fast-path hits until user steps again
+                stepBreakpoint = matched;
+                // Remove any pending step-next temporary breakpoints now that we've hit one
+                auto tmpIt = breakpoints.begin();
+                while (tmpIt != breakpoints.end()) {
+                    if (tmpIt->stepMode && tmpIt->stepNext) {
+                        tmpIt = breakpoints.erase(tmpIt);
+                    } else {
+                        ++tmpIt;
+                    }
+                }
+                return true;
+            }
+        }
+    }
+skip_fast_path:
+
+    if (breakpoints.empty() && !bpActive) {
         return false;
     }
 
@@ -220,17 +302,61 @@ Evaluator::onBreakpoint(AbstractSyntaxTreePtr t)
     // Note: Step-out breakpoints are handled separately in checkStepOutAfterFunctionReturn()
     // which is called after function calls complete, allowing us to stop at the call site.
 
-    // Check for regular and step-in breakpoints
+    // First: handle step-next breakpoints (break at first executed line after 'fromLine')
+    for (auto it = breakpoints.begin(); it != breakpoints.end(); ++it) {
+        if (!(it->stepMode && it->stepNext)) {
+            continue;
+        }
+
+        // Step-next should be file-scoped; optionally also stay in the same function unless
+        // stepInto
+        if (!filenamesMatch(it->filename, filename)) {
+            continue;
+        }
+        if (!(it->stepInto || it->functionName.empty()
+                || it->functionName == currentFunctionName)) {
+            continue;
+        }
+
+        // Break on any line different from the origin. This covers forward steps and loop backs.
+        if (currentLine != it->fromLine) {
+            Breakpoint matchedBp;
+            matchedBp.filename = filename;
+            matchedBp.functionName = currentFunctionName; // carry current context for dbstack
+            matchedBp.line = currentLine;
+            matchedBp.maxLines = maxLine;
+            matchedBp.enabled = true;
+            matchedBp.stepMode = false;
+            matchedBp.stepNext = true; // preserve step-next intent for fast path
+            matchedBp.fromLine = it->fromLine;
+            stepBreakpoint = matchedBp;
+            breakpoints.erase(it);
+            return true;
+        }
+    }
+
+    // Check for regular and step-in breakpoints (exact line match)
     for (auto it = breakpoints.begin(); it != breakpoints.end(); ++it) {
         // Skip step-out breakpoints - they are handled after function returns
         if (it->stepOut) {
             continue;
         }
-        if ((it->filename == filename) && (it->functionName == currentFunctionName)
-            && (it->line == currentLine)) {
+        bool lineMatch = it->line == currentLine;
+        if (it->stepMode) {
+            // For step breakpoints, allow triggering when currentLine has advanced past the
+            // recorded line (helps for control-flow statements where getLinePosition returns the
+            // earliest child line).
+            lineMatch = currentLine >= it->line;
+        }
+        if (filenamesMatch(it->filename, filename) && (it->functionName == currentFunctionName)
+            && lineMatch) {
             // Store the breakpoint info
             Breakpoint matchedBp = *it;
             matchedBp.maxLines = maxLine;
+            // For step-mode breakpoints, update to the actual current line
+            if (it->stepMode) {
+                matchedBp.line = currentLine;
+            }
             stepBreakpoint = matchedBp;
             // Remove step-mode breakpoints after they trigger (they are temporary)
             if (it->stepMode) {
@@ -246,9 +372,19 @@ Evaluator::onBreakpoint(AbstractSyntaxTreePtr t)
         if (it->stepOut) {
             continue;
         }
-        if ((it->filename == filename) && (it->functionName.empty()) && (it->line == currentLine)) {
+        bool lineMatch = it->line == currentLine;
+        if (it->stepMode) {
+            lineMatch = currentLine >= it->line;
+        }
+        if (filenamesMatch(it->filename, filename) && (it->functionName.empty()) && lineMatch) {
             Breakpoint matchedBp = *it;
             matchedBp.maxLines = maxLine;
+            // For scripts, use empty function name in stepBreakpoint
+            matchedBp.functionName = "";
+            // For step-mode breakpoints, update to the actual current line
+            if (it->stepMode) {
+                matchedBp.line = currentLine;
+            }
             stepBreakpoint = matchedBp;
             if (it->stepMode) {
                 breakpoints.erase(it);
@@ -263,7 +399,8 @@ Evaluator::onBreakpoint(AbstractSyntaxTreePtr t)
         if (it->stepMode && it->stepInto) {
             // If we're at a different file or function than the step breakpoint,
             // it means we've stepped into a new function
-            if (it->filename != filename || it->functionName != currentFunctionName) {
+            if (!filenamesMatch(it->filename, filename)
+                || it->functionName != currentFunctionName) {
                 // We've entered a new function - break at first executable line
                 Breakpoint matchedBp;
                 matchedBp.filename = filename;
@@ -300,6 +437,9 @@ Evaluator::checkStepOutAfterFunctionReturn(AbstractSyntaxTreePtr t)
     if (filename.empty()) {
         filename = utf8_to_wstring(callstack.getLastContext());
     }
+
+    // Normalize filename for comparison
+    std::wstring normalizedFilename = normalizePath(filename);
 
     std::string currentFunctionName = context->getCurrentScope()->getName();
     int currentCallStackSize = static_cast<int>(callstack.size());
@@ -436,10 +576,19 @@ Evaluator::adjustBreakpointLine(const std::wstring& filename, size_t requestedLi
         }
     } else {
         // Try to parse as a script file
-        ParserState state = ParseFile(this, filename);
+        // First try to resolve it via the path in case it's just a name without full path
+        std::wstring resolvedFilename = filename;
+        std::string fileAsString = wstring_to_utf8(filename);
+        std::wstring filenameCopy = filename;
+        if (PathFunctionIndexerManager::getInstance()->find(fileAsString, resolvedFilename)) {
+            // File found in path - use the resolved path
+            filenameCopy = resolvedFilename;
+        }
+
+        ParserState state = ParseFile(this, filenameCopy);
         if (state != ScriptBlock) {
-            errorMessage
-                = _W("Cannot adjust breakpoint: unable to parse script file '") + filename + L"'.";
+            errorMessage = _W("Cannot adjust breakpoint: unable to parse script file '")
+                + filenameCopy + L"'.";
             return false;
         }
         code = getParsedScriptBlock();
@@ -553,21 +702,9 @@ getLineNumberFromCode(AbstractSyntaxTreePtr code, size_t lineNumber, size_t maxL
 
         // Check if the requested line falls within this statement
         if (lineNumber >= stmtStart && lineNumber <= stmtEnd) {
-            // Check if this is the start line of the statement
-            if (lineNumber == stmtStart) {
-                // Breakpoint on the first line of the statement - keep it there
-                return stmtStart;
-            }
-
-            // Breakpoint is on a line within a multi-line statement (not the first line)
-            // Adapt it to the next statement
-            if (i + 1 < statementRanges.size()) {
-                // Return the start of the next statement
-                return statementRanges[i + 1].first;
-            }
-
-            // Line is within the last statement but not on its start - return the statement start
-            return stmtStart;
+            // Allow setting breakpoint on the requested line if it's within an executable statement
+            // This enables breakpoints on lines within for loops, if blocks, etc.
+            return lineNumber;
         }
     }
 
@@ -588,6 +725,81 @@ getLineNumberFromCode(AbstractSyntaxTreePtr code, size_t lineNumber, size_t maxL
 
     // Line is past the end of the file - invalid
     return 0;
+}
+//=============================================================================
+// Helper function to normalize paths for comparison (convert backslashes to forward slashes)
+inline std::wstring
+normalizePath(const std::wstring& path)
+{
+    std::wstring normalized = path;
+    std::replace(normalized.begin(), normalized.end(), L'\\', L'/');
+    return normalized;
+}
+//=============================================================================
+// Helper function to extract basename from a path
+inline std::wstring
+getBasename(const std::wstring& path)
+{
+    size_t lastSlash = path.find_last_of(L"/\\");
+    if (lastSlash == std::wstring::npos) {
+        return path;
+    }
+    return path.substr(lastSlash + 1);
+}
+//=============================================================================
+// Helper function to check if filenames match (by full path or basename)
+inline bool
+filenamesMatch(const std::wstring& path1, const std::wstring& path2)
+{
+    std::wstring normalized1 = normalizePath(path1);
+    std::wstring normalized2 = normalizePath(path2);
+
+    // First try exact match
+    if (normalized1 == normalized2) {
+        return true;
+    }
+
+    // Fallback: compare basenames (handles cases where one is a full path and one is just a name)
+    std::wstring basename1 = getBasename(normalized1);
+    std::wstring basename2 = getBasename(normalized2);
+    return basename1 == basename2;
+}
+//=============================================================================
+// Helper function to get the earliest line number in a subtree
+size_t
+getLinePositionFromSubtreeHelper(AbstractSyntaxTreePtr t)
+{
+    if (t == nullptr) {
+        return 0;
+    }
+
+    // Get line from current node's context (raw, without special handling)
+    int contextValue = t->getContext();
+    size_t currentLine = static_cast<size_t>(contextValue & 0x0000FFFF);
+    if (currentLine == 0 && contextValue > 0) {
+        currentLine = static_cast<size_t>(contextValue);
+    } else if (contextValue == 0) {
+        currentLine = 1;
+    }
+
+    // Recursively find the earliest line in children
+    size_t earliestLine = currentLine;
+
+    if (t->down != nullptr) {
+        size_t downLine = getLinePositionFromSubtreeHelper(t->down);
+        if (downLine > 0 && (earliestLine == 0 || downLine < earliestLine)) {
+            earliestLine = downLine;
+        }
+    }
+
+    if (t->right != nullptr) {
+        size_t rightLine = getLinePositionFromSubtreeHelper(t->right);
+        if (rightLine > 0 && (earliestLine == 0 || rightLine < earliestLine)) {
+            earliestLine = rightLine;
+        }
+    }
+
+    return earliestLine;
 }
 //=============================================================================
 } // namespace Nelson

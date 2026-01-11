@@ -7,11 +7,21 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
 #include "dbstepBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "characters_encoding.hpp"
+#include <cstdlib>
+#include <cstdio>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
+static size_t
+findNextExecutableLine(Evaluator* eval, const Breakpoint& currentBp, size_t startLine);
+//=============================================================================
+
 ArrayOfVector
 Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
@@ -53,6 +63,10 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         Error(_W("Debugger is not active."));
     }
     if (!(eval->stepBreakpoint.has_value())) {
+        // If no step breakpoint is set but we're active, we might be at a persistent
+        // user breakpoint that wasn't properly matched. Try to create one from current context.
+        // If that also fails, then the script has truly finished.
+        eval->bpActive = false;
         Error(_W("No step breakpoint is set."));
     }
 
@@ -60,23 +74,24 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     const Breakpoint& currentStepBreakPoint = *eval->stepBreakpoint;
     switch (mode) {
     case Mode::In: {
-        // dbstep in: step to next line, and if that line contains a call to another
-        // Nelson code file function, step into that function's first executable line.
-        if (currentStepBreakPoint.line + steps <= currentStepBreakPoint.maxLines) {
-            Breakpoint stepBp;
-            stepBp.filename = currentStepBreakPoint.filename;
-            stepBp.functionName = currentStepBreakPoint.functionName;
-            stepBp.maxLines = currentStepBreakPoint.maxLines;
-            stepBp.enabled = true;
-            stepBp.line = currentStepBreakPoint.line + steps;
-            stepBp.stepMode = true;
-            stepBp.stepInto = true; // Mark for stepping into function calls
-            eval->addBreakpoint(stepBp);
-            eval->setState(NLS_STATE_DEBUG_STEP);
-        } else {
-            eval->setState(NLS_STATE_DEBUG_CONTINUE);
-        }
-        eval->stepBreakpoint.reset();
+        // dbstep in: break at first executed line after current, and allow stepping into functions.
+        // Use stepNext to avoid landing on non-executed branches.
+        Breakpoint stepBp;
+        stepBp.filename = currentStepBreakPoint.filename;
+        // For scripts and robustness, always use empty functionName for stepNext
+        stepBp.functionName = "";
+        stepBp.maxLines = currentStepBreakPoint.maxLines;
+        stepBp.enabled = true;
+        stepBp.line = 0; // not used for stepNext
+        stepBp.stepMode = true;
+        stepBp.stepNext = true;
+        stepBp.stepInto = true;
+        // Start after current line
+        stepBp.fromLine = currentStepBreakPoint.line;
+        eval->addBreakpoint(stepBp);
+        eval->setState(NLS_STATE_DEBUG_STEP);
+        // Don't reset stepBreakpoint - it will be updated by onBreakpoint() when we hit the next
+        // line
     } break;
     case Mode::Out: {
         // dbstep out: run the rest of the current function and pause just after leaving.
@@ -93,23 +108,59 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         stepBp.targetDepth = static_cast<int>(eval->callstack.size()) - 1;
         eval->addBreakpoint(stepBp);
         eval->setState(NLS_STATE_DEBUG_CONTINUE);
-        eval->stepBreakpoint.reset();
+        // Don't reset stepBreakpoint - it will be updated by onBreakpoint() when we return
     } break;
     case Mode::Normal: {
-        if (currentStepBreakPoint.line + steps <= currentStepBreakPoint.maxLines) {
+        if (steps == 1) {
+            // Always use stepNext to properly handle all control flow (loops, conditionals)
+            // This ensures we break at the next executed line, regardless of source order
             Breakpoint stepBp;
             stepBp.filename = currentStepBreakPoint.filename;
+            // Stay in the current function for plain dbstep; dbstep in uses stepInto instead
             stepBp.functionName = currentStepBreakPoint.functionName;
             stepBp.maxLines = currentStepBreakPoint.maxLines;
             stepBp.enabled = true;
-            stepBp.line = currentStepBreakPoint.line + steps;
+            stepBp.line = 0;
             stepBp.stepMode = true;
+            stepBp.stepNext = true;
+            stepBp.fromLine = currentStepBreakPoint.line;
             eval->addBreakpoint(stepBp);
+            if (std::getenv("NELSON_DEBUG_STEP_TRACE")) {
+                std::printf("[dbstep] set stepNext file=%s, fromLine=%zu\n",
+                    wstring_to_utf8(stepBp.filename).c_str(), stepBp.fromLine);
+            }
             eval->setState(NLS_STATE_DEBUG_STEP);
+            // Don't set bpActive false - it should remain true for stepping
         } else {
-            eval->setState(NLS_STATE_DEBUG_CONTINUE);
+            // Fallback for multi-step: scan forward for executable lines
+            size_t nextLine = currentStepBreakPoint.line + steps;
+            size_t actualNextLine = nextLine;
+            std::wstring errorMsg;
+            size_t adjustedLine = 0;
+            while (actualNextLine <= currentStepBreakPoint.maxLines) {
+                if (eval->adjustBreakpointLine(
+                        currentStepBreakPoint.filename, actualNextLine, adjustedLine, errorMsg)) {
+                    break;
+                }
+                actualNextLine++;
+            }
+            if (actualNextLine <= currentStepBreakPoint.maxLines) {
+                Breakpoint stepBp;
+                stepBp.filename = currentStepBreakPoint.filename;
+                stepBp.functionName = currentStepBreakPoint.functionName;
+                stepBp.maxLines = currentStepBreakPoint.maxLines;
+                stepBp.enabled = true;
+                stepBp.line = adjustedLine;
+                stepBp.stepMode = true;
+                eval->addBreakpoint(stepBp);
+                eval->setState(NLS_STATE_DEBUG_STEP);
+            } else {
+                eval->bpActive = false;
+                eval->setState(NLS_STATE_DEBUG_CONTINUE);
+            }
+            // Don't reset stepBreakpoint - it will be updated by onBreakpoint() when we hit the
+            // next line
         }
-        eval->stepBreakpoint.reset();
     } break;
     default: {
         Error(_W("Unknown mode for dbstep."));

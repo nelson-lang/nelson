@@ -37,6 +37,7 @@
 #include "NelsonReadyNamedMutex.hpp"
 #include "CallbackQueue.hpp"
 #include "EventQueue.hpp"
+#include "ProcessEventsDynamicFunction.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -365,7 +366,7 @@ std::wstring
 Evaluator::buildPrompt()
 {
     std::wstring prompt;
-    if (bpActive) {
+    if (isBreakpointActive()) {
         prompt += L"K";
     }
     prompt += L">> ";
@@ -408,6 +409,17 @@ Evaluator::evalCLI()
                 setNamedMutexNelsonReady();
                 doOnce = false;
             }
+
+            // Before showing prompt: if in debug mode but there is no active execution frame,
+            // exit debug mode so prompt shows >> instead of K>>. This also cleans up any stale
+            // step context that could leave the CLI stuck in K>> after script completion.
+            if (bpActive && callstack.size() <= 1) {
+                bpActive = false;
+                stepMode = false;
+                stepBreakpoint.reset();
+                clearStepBreakpoints();
+            }
+
             commandLine = io->getLine(buildPrompt());
             if (commandLine.empty()) {
                 InCLI = false;
@@ -578,9 +590,32 @@ Evaluator::debugCLI()
     depth++;
     bool previousBpActive = bpActive;
     bpActive = true;
+    // Force immediate UI update so text editor shows current debug line
+    if (haveEventsLoop()) {
+        ProcessEventsDynamicFunctionWithoutWait();
+    }
     evalCLI();
-    // Restore previous bpActive state for nested debug sessions
-    bpActive = previousBpActive;
+    // After evalCLI() returns, check if debug mode should be exited:
+    // - If a debug command set bpActive to false, keep it false
+    // - If script finished without active breakpoint, exit debug mode
+    // - Otherwise restore previous state for nested sessions
+    if (!bpActive) {
+        // Debug command (e.g., dbstep or dbcont) already disabled debug mode
+        // Keep it false
+        // Clean up any leftover temporary step breakpoints
+        clearStepBreakpoints();
+    } else if (callstack.size() <= 1) {
+        // Script has finished (callstack empty or minimal), exit debug mode
+        bpActive = false;
+        // Clean up any leftover temporary step breakpoints
+        clearStepBreakpoints();
+    } else {
+        // Nested debug session still active, restore previous state
+        bpActive = previousBpActive;
+    }
+    stepMode = false;
+    // Don't reset stepBreakpoint here - it should persist until the next breakpoint is hit
+    // or execution finishes. It will be updated by onBreakpoint() on the next statement.
     depth--;
 }
 //=============================================================================

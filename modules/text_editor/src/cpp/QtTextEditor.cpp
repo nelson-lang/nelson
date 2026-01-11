@@ -495,7 +495,6 @@ QtTextEditor::createToolBars()
     editToolBar->addAction(runFileAction);
     editToolBar->addAction(stopRunAction);
     editToolBar->addSeparator();
-    editToolBar->addAction(dbContinueAction);
     editToolBar->addAction(dbStepAction);
     editToolBar->addAction(dbStepInAction);
     editToolBar->addAction(dbStepOutAction);
@@ -1285,9 +1284,9 @@ QtTextEditor::gotoLine()
 void
 QtTextEditor::runFile()
 {
-    // If at a breakpoint, treat as pause/stop
+    // If at a breakpoint, treat click as Continue
     if (nlsEvaluator->isBreakpointActive()) {
-        NelsonConfiguration::getInstance()->setInterruptPending(true, nlsEvaluator->getID());
+        dbContinue();
         return;
     }
 
@@ -1308,7 +1307,10 @@ QtTextEditor::runFile()
 void
 QtTextEditor::stopRun()
 {
-    if (!nlsEvaluator->getInterface()->isAtPrompt()) {
+    // If debugging, issue a dbquit; otherwise interrupt running interpreter
+    if (nlsEvaluator->isBreakpointActive()) {
+        nlsEvaluator->addCommandToQueue(L"dbquit", true);
+    } else if (!nlsEvaluator->getInterface()->isAtPrompt()) {
         NelsonConfiguration::getInstance()->setInterruptPending(true, nlsEvaluator->getID());
     }
 }
@@ -1317,7 +1319,7 @@ void
 QtTextEditor::dbStep()
 {
     if (nlsEvaluator->isBreakpointActive()) {
-        postCommand(L"dbstep");
+        nlsEvaluator->addCommandToQueue(L"dbstep", true);
     }
 }
 //=============================================================================
@@ -1325,7 +1327,7 @@ void
 QtTextEditor::dbStepIn()
 {
     if (nlsEvaluator->isBreakpointActive()) {
-        postCommand(L"dbstep in");
+        nlsEvaluator->addCommandToQueue(L"dbstep in", true);
     }
 }
 //=============================================================================
@@ -1333,7 +1335,7 @@ void
 QtTextEditor::dbStepOut()
 {
     if (nlsEvaluator->isBreakpointActive()) {
-        postCommand(L"dbstep out");
+        nlsEvaluator->addCommandToQueue(L"dbstep out", true);
     }
 }
 //=============================================================================
@@ -1341,7 +1343,7 @@ void
 QtTextEditor::dbContinue()
 {
     if (nlsEvaluator->isBreakpointActive()) {
-        postCommand(L"dbcont");
+        nlsEvaluator->addCommandToQueue(L"dbcont", true);
     }
 }
 //=============================================================================
@@ -1396,8 +1398,8 @@ QtTextEditor::checkDebugState()
     }
 
     // Manage button states based on interpreter state
-    // Stop button: disabled at prompt, enabled when running
-    stopRunAction->setEnabled(!atPrompt);
+    // Stop button: enabled when running or paused in debugger
+    stopRunAction->setEnabled(currentDebugActive || !atPrompt);
 
     // Debug step buttons: only enabled when at breakpoint
     dbStepAction->setEnabled(currentDebugActive);
@@ -1405,22 +1407,21 @@ QtTextEditor::checkDebugState()
     dbStepOutAction->setEnabled(currentDebugActive);
     dbContinueAction->setEnabled(currentDebugActive);
 
-    // Run file button: enabled at prompt, disabled/replaced by pause when at breakpoint
-    if (atPrompt) {
+    // Run file button doubles as Continue when stopped in debugger
+    if (currentDebugActive) {
+        runFileAction->setText(TR("&Continue"));
+        QString fileNameIcon = Nelson::wstringToQString(
+            textEditorRootPath + std::wstring(L"/resources/debug-continue.svg"));
+        runFileAction->setIcon(QIcon(fileNameIcon));
+        runFileAction->setToolTip(TR("Continue execution (F5)"));
+        runFileAction->setEnabled(true);
+    } else if (atPrompt) {
         // At prompt: show "Run file" button
         runFileAction->setText(TR("&Run file"));
         QString fileNameIcon = Nelson::wstringToQString(
             textEditorRootPath + std::wstring(L"/resources/run-file-start.svg"));
         runFileAction->setIcon(QIcon(fileNameIcon));
         runFileAction->setToolTip(TR("Run file"));
-        runFileAction->setEnabled(true);
-    } else if (currentDebugActive) {
-        // At breakpoint: show "Pause" button (disable Run File, enable by dbStep actions)
-        runFileAction->setText(TR("&Pause"));
-        QString fileNameIcon = Nelson::wstringToQString(
-            textEditorRootPath + std::wstring(L"/resources/debug-continue.svg"));
-        runFileAction->setIcon(QIcon(fileNameIcon));
-        runFileAction->setToolTip(TR("Pause execution"));
         runFileAction->setEnabled(true);
     } else {
         // Execution in progress (not at prompt, not at breakpoint)

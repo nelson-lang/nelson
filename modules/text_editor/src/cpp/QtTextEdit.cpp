@@ -257,10 +257,10 @@ QtTextEdit::comment()
     QTextCursor textPosition(lineOne);
     textPosition.beginEditBlock();
     while (textPosition.position() < lineTwo.position()) {
-        textPosition.insertText("// ");
+        textPosition.insertText("% ");
         textPosition.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor);
     }
-    textPosition.insertText("// ");
+    textPosition.insertText("% ");
     textPosition.endEditBlock();
 }
 //=============================================================================

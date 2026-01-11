@@ -54,10 +54,12 @@ public:
     size_t line;
     bool enabled = true;
     bool stepMode = false;
+    bool stepNext = false; // When true, break on first executed line after 'fromLine'
     bool stepInto = false;
     bool stepOut = false;
     size_t maxLines = 0;
     int targetDepth = -1; // Used for step out: callstack depth to stop at
+    size_t fromLine = 0; // Used for stepNext: starting line to search after
 };
 
 /**
@@ -113,6 +115,8 @@ public:
     addBreakpoint(const Breakpoint& bp);
     void
     clearBreakpoints();
+    void
+    clearStepBreakpoints();
     bool
     removeBreakpoint(const std::wstring& filename, size_t line);
     std::vector<Breakpoint>

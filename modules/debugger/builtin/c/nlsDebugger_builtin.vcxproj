@@ -298,6 +298,7 @@
     <ClCompile Include="..\cpp\dbdownBuiltin.cpp" />
     <ClCompile Include="..\cpp\dbquitBuiltin.cpp" />
     <ClCompile Include="..\cpp\dbstackBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dbstatusBuitin.cpp" />
     <ClCompile Include="..\cpp\dbstepBuiltin.cpp" />
     <ClCompile Include="..\cpp\dbstopBuiltin.cpp" />
     <ClCompile Include="..\cpp\dbupBuiltin.cpp" />
@@ -313,6 +314,7 @@
     <ClInclude Include="..\include\dbdownBuiltin.hpp" />
     <ClInclude Include="..\include\dbquitBuiltin.hpp" />
     <ClInclude Include="..\include\dbstackBuiltin.hpp" />
+    <ClInclude Include="..\include\dbstatusBuiltin.hpp" />
     <ClInclude Include="..\include\dbstepBuiltin.hpp" />
     <ClInclude Include="..\include\dbstopBuiltin.hpp" />
     <ClInclude Include="..\include\dbupBuiltin.hpp" />

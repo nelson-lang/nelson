@@ -846,7 +846,22 @@ Evaluator::statement(AbstractSyntaxTreePtr t)
 {
     bool popNeeded = false;
     try {
-        callstack.pushID((size_t)t->getContext());
+        // For control flow statements (for, while, if, switch), use the corrected line number
+        // instead of the node's context which points to the end keyword
+        size_t contextToPush = (size_t)t->getContext();
+        if (t->opNum == OP_RSTATEMENT || t->opNum == OP_QSTATEMENT) {
+            if (t->down != nullptr && t->down->type == reserved_node) {
+                if (t->down->tokenNumber == NLS_KEYWORD_FOR
+                    || t->down->tokenNumber == NLS_KEYWORD_WHILE
+                    || t->down->tokenNumber == NLS_KEYWORD_IF
+                    || t->down->tokenNumber == NLS_KEYWORD_SWITCH) {
+                    // Get the corrected line position using getLinePosition
+                    contextToPush = getLinePosition(t);
+                }
+            }
+        }
+
+        callstack.pushID(contextToPush);
         popNeeded = true;
 
         if (onBreakpoint(t)) {
