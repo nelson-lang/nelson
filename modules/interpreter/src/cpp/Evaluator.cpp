@@ -366,6 +366,12 @@ std::wstring
 Evaluator::buildPrompt()
 {
     std::wstring prompt;
+    if (std::getenv("NELSON_DEBUG_PROMPT")) {
+        std::printf("[PROMPT] bpActive=%d state=%d stepMode=%d stepBp=%d callstack=%zu file='%s'\n",
+            bpActive, static_cast<int>(state), stepMode, stepBreakpoint.has_value(),
+            callstack.size(), wstring_to_utf8(context->getCurrentScope()->getFilename()).c_str());
+        std::fflush(stdout);
+    }
     if (isBreakpointActive()) {
         prompt += L"K";
     }
@@ -410,10 +416,34 @@ Evaluator::evalCLI()
                 doOnce = false;
             }
 
+            if (std::getenv("NELSON_DEBUG_PROMPT")) {
+                std::printf("[PROMPT] before prompt bpActive=%d state=%d callstack=%zu file='%s' "
+                            "stepBp=%d stepMode=%d\n",
+                    bpActive, static_cast<int>(state), callstack.size(),
+                    wstring_to_utf8(context->getCurrentScope()->getFilename()).c_str(),
+                    stepBreakpoint.has_value(), stepMode);
+                std::fflush(stdout);
+            }
+
             // Before showing prompt: if in debug mode but there is no active execution frame,
             // exit debug mode so prompt shows >> instead of K>>. This also cleans up any stale
             // step context that could leave the CLI stuck in K>> after script completion.
-            if (bpActive && callstack.size() <= 1) {
+            // Check multiple conditions that indicate we should exit debug mode:
+            // 1. Callstack is minimal (no functions executing) - BUT only if NOT at an active
+            // breakpoint
+            // 2. We have a step breakpoint but the current filename is empty (not in any file)
+            // 3. Step mode is active but we're at base scope with no file
+            bool noExecutionFrame = callstack.size() <= 1;
+            bool notInFile = context->getCurrentScope()->getFilename().empty();
+            bool staleDebugState = stepBreakpoint.has_value() && notInFile;
+            // If there is no execution frame, always leave debug mode; this runs after scripts
+            // finish.
+            if (bpActive && noExecutionFrame) {
+                if (std::getenv("NELSON_DEBUG_PROMPT")) {
+                    std::printf("[PROMPT] clearing bpActive due to no execution frame (stale=%d)\n",
+                        staleDebugState);
+                    std::fflush(stdout);
+                }
                 bpActive = false;
                 stepMode = false;
                 stepBreakpoint.reset();
@@ -590,6 +620,11 @@ Evaluator::debugCLI()
     depth++;
     bool previousBpActive = bpActive;
     bpActive = true;
+    if (std::getenv("NELSON_DEBUG_PROMPT")) {
+        std::printf("[PROMPT] enter debugCLI bpActive=%d prev=%d state=%d callstack=%zu\n",
+            bpActive, previousBpActive, static_cast<int>(state), callstack.size());
+        std::fflush(stdout);
+    }
     // Force immediate UI update so text editor shows current debug line
     if (haveEventsLoop()) {
         ProcessEventsDynamicFunctionWithoutWait();
@@ -603,19 +638,24 @@ Evaluator::debugCLI()
         // Debug command (e.g., dbstep or dbcont) already disabled debug mode
         // Keep it false
         // Clean up any leftover temporary step breakpoints
+        stepBreakpoint.reset();
         clearStepBreakpoints();
     } else if (callstack.size() <= 1) {
         // Script has finished (callstack empty or minimal), exit debug mode
         bpActive = false;
         // Clean up any leftover temporary step breakpoints
+        stepBreakpoint.reset();
         clearStepBreakpoints();
     } else {
         // Nested debug session still active, restore previous state
         bpActive = previousBpActive;
     }
     stepMode = false;
-    // Don't reset stepBreakpoint here - it should persist until the next breakpoint is hit
-    // or execution finishes. It will be updated by onBreakpoint() on the next statement.
+    if (std::getenv("NELSON_DEBUG_PROMPT")) {
+        std::printf("[PROMPT] exit debugCLI bpActive=%d state=%d callstack=%zu\n", bpActive,
+            static_cast<int>(state), callstack.size());
+        std::fflush(stdout);
+    }
     depth--;
 }
 //=============================================================================

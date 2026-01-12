@@ -12,6 +12,8 @@
 #endif
 //=============================================================================
 #include <functional>
+#include <cstdlib>
+#include <cstdio>
 #include "i18n.hpp"
 #include "Evaluator.hpp"
 #include "Error.hpp"
@@ -251,18 +253,35 @@ Evaluator::stepBreakpointExists(const Breakpoint& bp)
 bool
 Evaluator::onBreakpoint(AbstractSyntaxTreePtr t)
 {
+    std::string currentFunctionName = context->getCurrentScope()->getName();
+    int currentCallStackSize = static_cast<int>(callstack.size());
     // Fast path: if we are in step-next mode and the line changed, break immediately
     if (bpActive && stepMode && stepBreakpoint.has_value() && stepBreakpoint->stepNext) {
         const Breakpoint& sb = *stepBreakpoint;
         std::wstring sbFile = sb.filename;
         if (!sbFile.empty() && filenamesMatch(sbFile, context->getCurrentScope()->getFilename())) {
             std::string currentFunction = context->getCurrentScope()->getName();
-            if (!sb.stepInto && !sb.functionName.empty() && sb.functionName != currentFunction) {
-                // Stay in the same function unless step-into was requested
+            // For step-over: ONLY break in the same function (no depth check to avoid confusion)
+            bool inSameFunction = !sb.functionName.empty() && sb.functionName == currentFunction;
+            bool shouldBreak = sb.stepInto || inSameFunction;
+
+            if (!shouldBreak) {
+                if (std::getenv("NELSON_DEBUG_STEP_TRACE")) {
+                    std::printf("[stepNext-fast] skip currentFn=%s bpFn=%s depth=%d target=%d\n",
+                        currentFunction.c_str(), sb.functionName.c_str(), currentCallStackSize,
+                        sb.targetDepth);
+                }
                 goto skip_fast_path;
             }
             size_t currentLineFast = getLinePosition(t);
             if (currentLineFast != sb.fromLine) {
+                if (std::getenv("NELSON_DEBUG_STEP_TRACE")) {
+                    std::printf("[stepNext-fast] hit file=%s currentFn=%s bpFn=%s from=%zu at=%zu "
+                                "depth=%d targetDepth=%d\n",
+                        wstring_to_utf8(sbFile).c_str(), currentFunction.c_str(),
+                        sb.functionName.c_str(), sb.fromLine, currentLineFast, currentCallStackSize,
+                        sb.targetDepth);
+                }
                 Breakpoint matched = sb;
                 matched.line = currentLineFast;
                 matched.stepMode = false;
@@ -296,8 +315,23 @@ skip_fast_path:
         filename = utf8_to_wstring(callstack.getLastContext());
     }
 
-    std::string currentFunctionName = context->getCurrentScope()->getName();
-    int currentCallStackSize = static_cast<int>(callstack.size());
+    // Debug: log when we have breakpoints but they don't match
+    if (!breakpoints.empty()) {
+        std::printf("[DEBUG-BP] At line=%zu in fn='%s', file='%s'\n", currentLine,
+            currentFunctionName.c_str(), wstring_to_utf8(filename).c_str());
+        for (size_t i = 0; i < breakpoints.size(); ++i) {
+            const auto& bp = breakpoints[i];
+            bool fnMatch = (bp.functionName == currentFunctionName);
+            bool fileMatch = filenamesMatch(bp.filename, filename);
+            bool lineMatch = (bp.line == currentLine);
+            const char* fnStr = fnMatch ? "Y" : "N";
+            const char* lineStr = lineMatch ? "Y" : "N";
+            const char* fileStr = fileMatch ? "Y" : "N";
+            std::printf("  [%zu] fn='%s'(%s) line=%zu(%s) fileMatch=%s stepMode=%d\n", i,
+                bp.functionName.c_str(), fnStr, bp.line, lineStr, fileStr, bp.stepMode);
+        }
+        std::fflush(stdout);
+    }
 
     // Note: Step-out breakpoints are handled separately in checkStepOutAfterFunctionReturn()
     // which is called after function calls complete, allowing us to stop at the call site.
@@ -313,18 +347,34 @@ skip_fast_path:
         if (!filenamesMatch(it->filename, filename)) {
             continue;
         }
-        if (!(it->stepInto || it->functionName.empty()
-                || it->functionName == currentFunctionName)) {
+        // For step-over: ONLY break in the same function (no depth check to avoid confusion)
+        bool inSameFunction = !it->functionName.empty() && it->functionName == currentFunctionName;
+        bool shouldBreak = it->stepInto || inSameFunction;
+
+        if (!shouldBreak) {
+            if (std::getenv("NELSON_DEBUG_STEP_TRACE")) {
+                std::printf("[stepNext] skip currentFn=%s bpFn=%s depth=%d target=%d\n",
+                    currentFunctionName.c_str(), it->functionName.c_str(), currentCallStackSize,
+                    it->targetDepth);
+            }
             continue;
         }
 
         // Break on any line different from the origin. This covers forward steps and loop backs.
         if (currentLine != it->fromLine) {
+            if (std::getenv("NELSON_DEBUG_STEP_TRACE")) {
+                std::printf("[stepNext] hit file=%s currentFn=%s bpFn=%s from=%zu at=%zu depth=%d "
+                            "targetDepth=%d\n",
+                    wstring_to_utf8(filename).c_str(), currentFunctionName.c_str(),
+                    it->functionName.c_str(), it->fromLine, currentLine, currentCallStackSize,
+                    it->targetDepth);
+            }
             Breakpoint matchedBp;
             matchedBp.filename = filename;
             matchedBp.functionName = currentFunctionName; // carry current context for dbstack
             matchedBp.line = currentLine;
             matchedBp.maxLines = maxLine;
+            matchedBp.targetDepth = it->targetDepth;
             matchedBp.enabled = true;
             matchedBp.stepMode = false;
             matchedBp.stepNext = true; // preserve step-next intent for fast path
@@ -347,6 +397,12 @@ skip_fast_path:
             // recorded line (helps for control-flow statements where getLinePosition returns the
             // earliest child line).
             lineMatch = currentLine >= it->line;
+        }
+        if (std::getenv("NELSON_DEBUG_BREAKPOINTS")) {
+            std::printf("    Checking non-empty fn bp: fileMatch=%d fnMatch=%d lineMatch=%d\n",
+                filenamesMatch(it->filename, filename), (it->functionName == currentFunctionName),
+                lineMatch);
+            std::fflush(stdout);
         }
         if (filenamesMatch(it->filename, filename) && (it->functionName == currentFunctionName)
             && lineMatch) {
@@ -376,7 +432,16 @@ skip_fast_path:
         if (it->stepMode) {
             lineMatch = currentLine >= it->line;
         }
+        if (std::getenv("NELSON_DEBUG_BREAKPOINTS")) {
+            std::printf("    Checking empty fn bp: fileMatch=%d emptyFn=%d lineMatch=%d\n",
+                filenamesMatch(it->filename, filename), it->functionName.empty(), lineMatch);
+            std::fflush(stdout);
+        }
         if (filenamesMatch(it->filename, filename) && (it->functionName.empty()) && lineMatch) {
+            if (std::getenv("NELSON_DEBUG_BREAKPOINTS")) {
+                std::printf("    MATCH! Returning true for empty fn breakpoint\n");
+                std::fflush(stdout);
+            }
             Breakpoint matchedBp = *it;
             matchedBp.maxLines = maxLine;
             // For scripts, use empty function name in stepBreakpoint
@@ -444,7 +509,7 @@ Evaluator::checkStepOutAfterFunctionReturn(AbstractSyntaxTreePtr t)
     std::string currentFunctionName = context->getCurrentScope()->getName();
     int currentCallStackSize = static_cast<int>(callstack.size());
 
-    // Check for step out breakpoints
+    // Check for step out breakpoints AND step-next breakpoints that have returned to caller
     for (auto it = breakpoints.begin(); it != breakpoints.end(); ++it) {
         if (it->stepMode && it->stepOut) {
             // Step out triggers when we've returned to the caller function
@@ -463,6 +528,36 @@ Evaluator::checkStepOutAfterFunctionReturn(AbstractSyntaxTreePtr t)
                 matchedBp.stepMode = false;
                 stepBreakpoint = matchedBp;
                 // Remove the consumed step-out breakpoint
+                breakpoints.erase(it);
+                return true;
+            }
+        } else if (it->stepMode && it->stepNext && !it->stepInto) {
+            // Step-next should also break when returning to a caller function
+            // Check if we've left the function we were stepping in
+            bool leftFunction
+                = !it->functionName.empty() && (it->functionName != currentFunctionName);
+            // Check if we're at a shallower call depth (returned up the stack)
+            // Since depth numbering is inconsistent, we check if depth is significantly less
+            bool returnedToShallower
+                = (it->targetDepth > 0) && (currentCallStackSize < it->targetDepth - 2);
+
+            if (leftFunction && returnedToShallower) {
+                if (true) {
+                    std::printf("[stepReturn] returned from %s to %s, depth=%d target=%d, breaking "
+                                "at line %zu\n",
+                        it->functionName.c_str(), currentFunctionName.c_str(), currentCallStackSize,
+                        it->targetDepth, currentLine);
+                }
+                // Store breakpoint info before removing
+                Breakpoint matchedBp;
+                matchedBp.filename = filename;
+                matchedBp.functionName = currentFunctionName;
+                matchedBp.line = currentLine;
+                matchedBp.maxLines = maxLine;
+                matchedBp.enabled = true;
+                matchedBp.stepMode = false;
+                stepBreakpoint = matchedBp;
+                // Remove the consumed step-next breakpoint
                 breakpoints.erase(it);
                 return true;
             }
@@ -551,9 +646,21 @@ Evaluator::adjustBreakpointLine(const std::wstring& filename, size_t requestedLi
     size_t maxLinesInFile = 0;
 
     // Try to lookup as a function first
+    // Extract just the filename (without path) for function lookup
     FunctionDef* funcDef = nullptr;
-    std::string asFunctionName = wstring_to_utf8(filename);
+    std::wstring basename = filename;
+    size_t lastSlash = filename.find_last_of(L"/\\");
+    if (lastSlash != std::wstring::npos) {
+        basename = filename.substr(lastSlash + 1);
+    }
+    // Remove .m extension for function lookup
+    std::wstring functionName = basename;
+    if (functionName.length() > 2 && functionName.substr(functionName.length() - 2) == L".m") {
+        functionName = functionName.substr(0, functionName.length() - 2);
+    }
+    std::string asFunctionName = wstring_to_utf8(functionName);
 
+    // Try to lookup as a function first
     if (lookupFunction(asFunctionName, funcDef)) {
         if (funcDef->type() != NLS_MACRO_FUNCTION) {
             errorMessage = _W("Breakpoints can only be set in macro functions.");
@@ -562,26 +669,47 @@ Evaluator::adjustBreakpointLine(const std::wstring& filename, size_t requestedLi
         funcDef->updateCode();
         MacroFunctionDef* mFuncDef = static_cast<MacroFunctionDef*>(funcDef);
 
-        code = mFuncDef->code;
-
         // Calculate max lines in file by traversing all functions in the file
-        maxLinesInFile = getMaxLineFromChainHelper(mFuncDef->code, getLineFunc);
-        MacroFunctionDef* nextFunc = mFuncDef->nextFunction;
-        while (nextFunc != nullptr) {
-            size_t nextFuncMax = getMaxLineFromChainHelper(nextFunc->code, getLineFunc);
-            if (nextFuncMax > maxLinesInFile) {
-                maxLinesInFile = nextFuncMax;
+        // and find which function contains the requested line
+        maxLinesInFile = 0;
+        MacroFunctionDef* targetFunc = nullptr;
+        MacroFunctionDef* currentFunc = mFuncDef;
+
+        while (currentFunc != nullptr) {
+            size_t funcMax = getMaxLineFromChainHelper(currentFunc->code, getLineFunc);
+            if (funcMax > maxLinesInFile) {
+                maxLinesInFile = funcMax;
             }
-            nextFunc = nextFunc->nextFunction;
+
+            // Check if this function might contain the requested line
+            size_t funcMin = 0;
+            if (currentFunc->code != nullptr) {
+                funcMin = getLineFunc(currentFunc->code);
+            }
+
+            // If this function's range includes the requested line, or we haven't found any
+            // function yet
+            if ((funcMin > 0 && funcMin <= requestedLine && requestedLine <= funcMax)
+                || (targetFunc == nullptr && funcMax > 0)) {
+                targetFunc = currentFunc;
+            }
+
+            currentFunc = currentFunc->nextFunction;
+        }
+
+        if (targetFunc != nullptr) {
+            code = targetFunc->code;
+        } else {
+            errorMessage = _W("Cannot locate function for breakpoint at line ")
+                + std::to_wstring(requestedLine);
+            return false;
         }
     } else {
-        // Try to parse as a script file
-        // First try to resolve it via the path in case it's just a name without full path
+        // Function not found - try to parse as a script file
         std::wstring resolvedFilename = filename;
         std::string fileAsString = wstring_to_utf8(filename);
         std::wstring filenameCopy = filename;
         if (PathFunctionIndexerManager::getInstance()->find(fileAsString, resolvedFilename)) {
-            // File found in path - use the resolved path
             filenameCopy = resolvedFilename;
         }
 
@@ -650,7 +778,7 @@ getLineNumberFromCode(AbstractSyntaxTreePtr code, size_t lineNumber, size_t maxL
         current = code->down;
     }
 
-    // Collect all statements and their line ranges, in order
+    // First: Collect all top-level statements and their line ranges
     std::vector<std::pair<size_t, size_t>> statementRanges; // (startLine, endLine)
     AbstractSyntaxTreePtr stmt = current;
     while (stmt != nullptr) {
@@ -695,15 +823,120 @@ getLineNumberFromCode(AbstractSyntaxTreePtr code, size_t lineNumber, size_t maxL
         return 0;
     }
 
-    // Find which statement contains the requested line
+    // Second: Search the ENTIRE AST to see if the requested line starts any STATEMENT
+    // Only consider actual statement nodes (OP_RSTATEMENT, OP_QSTATEMENT) that are
+    // top-level statements (i.e., start lines in statementRanges), to avoid matching
+    // internal expression nodes like array elements.
+    std::function<size_t(AbstractSyntaxTreePtr)> findStatementAtLine
+        = [&](AbstractSyntaxTreePtr node) -> size_t {
+        if (node == nullptr) {
+            return 0;
+        }
+
+        size_t nodeStartLine = getLineFunc(node);
+
+        // If this node starts at the requested line and is an actual statement, check if it's
+        // top-level
+        if (nodeStartLine == lineNumber) {
+            if (node->opNum == OP_RSTATEMENT || node->opNum == OP_QSTATEMENT) {
+                // Only accept if this is a top-level statement start line
+                for (const auto& range : statementRanges) {
+                    if (range.first == lineNumber) {
+                        return lineNumber; // This is a top-level statement
+                    }
+                }
+                // Not a top-level statement - it's an internal node, skip it
+            }
+        }
+
+        // Recursively check children
+        if (node->down != nullptr) {
+            size_t result = findStatementAtLine(node->down);
+            if (result > 0) {
+                return result;
+            }
+        }
+
+        if (node->right != nullptr) {
+            size_t result = findStatementAtLine(node->right);
+            if (result > 0) {
+                return result;
+            }
+        }
+
+        return 0;
+    };
+
+    // Check entire tree for top-level statements starting at the requested line
+    size_t foundLine = findStatementAtLine(current);
+    if (foundLine > 0) {
+        return foundLine;
+    }
+
+    // Alternative: Search deeper for statements that might be inside function definitions
+    // Only accept actual statement nodes (OP_RSTATEMENT, OP_QSTATEMENT) at top-level in
+    // sub-functions
+    std::function<size_t(AbstractSyntaxTreePtr)> findStatementInSubtree
+        = [&](AbstractSyntaxTreePtr node) -> size_t {
+        if (node == nullptr) {
+            return 0;
+        }
+
+        size_t nodeStartLine = getLineFunc(node);
+
+        // Only return if this is an actual statement node at the requested line
+        if (nodeStartLine == lineNumber) {
+            if (node->opNum == OP_RSTATEMENT || node->opNum == OP_QSTATEMENT) {
+                return lineNumber;
+            }
+        }
+
+        // Check all children recursively
+        if (node->down != nullptr) {
+            size_t result = findStatementInSubtree(node->down);
+            if (result > 0) {
+                return result;
+            }
+        }
+
+        if (node->right != nullptr) {
+            size_t result = findStatementInSubtree(node->right);
+            if (result > 0) {
+                return result;
+            }
+        }
+
+        return 0;
+    };
+
+    // Try deeper search
+    foundLine = findStatementInSubtree(code);
+    if (foundLine > 0) {
+        return foundLine;
+    }
+
+    // Third: If no statement found at the requested line, check if it falls within
+    // a multi-line statement. If it does and it's not at the start, move to the end line.
+    // BUT: Skip absorption for large multi-line blocks (>5 lines, likely functions/control
+    // structures). For large blocks, just return the requested line if it exists (don't absorb to
+    // end).
     for (size_t i = 0; i < statementRanges.size(); ++i) {
         size_t stmtStart = statementRanges[i].first;
         size_t stmtEnd = statementRanges[i].second;
 
         // Check if the requested line falls within this statement
         if (lineNumber >= stmtStart && lineNumber <= stmtEnd) {
-            // Allow setting breakpoint on the requested line if it's within an executable statement
-            // This enables breakpoints on lines within for loops, if blocks, etc.
+            // For large blocks (>5 lines), don't absorb - just accept the line as-is
+            if (stmtEnd - stmtStart > 5) {
+                return lineNumber;
+            }
+
+            // Multi-line statement with requested line not at start - use end line
+            // This handles array definitions like [1; 2; 3; 4]
+            if (stmtStart < stmtEnd && lineNumber > stmtStart) {
+                return stmtEnd;
+            }
+            // Single-line or at the start
             return lineNumber;
         }
     }

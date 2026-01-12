@@ -30,6 +30,7 @@ Nelson::DebuggerGateway::dbclearBuiltin(Evaluator* eval, int nLhs, const ArrayOf
 
     if (argIn.size() == 1 && argIn[0].getContentAsWideString() == L"all") {
         eval->clearBreakpoints();
+        return {};
     }
     size_t position = parsePositionArgument(argIn);
     std::wstring target = argIn[1].getContentAsWideString();

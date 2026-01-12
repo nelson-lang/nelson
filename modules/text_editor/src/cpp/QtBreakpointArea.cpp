@@ -68,6 +68,74 @@ QtBreakpointArea::refreshBreakpoints()
     update();
 }
 //=============================================================================
+bool
+QtBreakpointArea::isValidBreakpointLine(int lineNumber)
+{
+    // Check if line is valid for breakpoint placement (not empty, not commented)
+    QTextDocument* doc = tEditor->document();
+    if (!doc) {
+        return false;
+    }
+
+    QTextBlock block = doc->findBlockByLineNumber(lineNumber - 1);
+    if (!block.isValid()) {
+        return false;
+    }
+
+    QString text = block.text().trimmed();
+
+    // Empty lines cannot have breakpoints
+    if (text.isEmpty()) {
+        return false;
+    }
+
+    // Check if line is commented (starts with %)
+    if (text.startsWith('%')) {
+        return false;
+    }
+
+    // Check for inline comments that make the whole line a comment
+    int commentPos = text.indexOf('%');
+    if (commentPos != -1 && commentPos == 0) {
+        return false;
+    }
+
+    return true;
+}
+//=============================================================================
+int
+QtBreakpointArea::findNextValidBreakpointLine(int lineNumber)
+{
+    // Search forward for the next valid breakpoint line
+    // Use evaluator to find the proper executable line (handles multi-line statements)
+    QTextDocument* doc = tEditor->document();
+    if (!doc) {
+        return -1;
+    }
+
+    int totalLines = doc->blockCount();
+    std::wstring wfilename = Nelson::QStringTowstring(currentFilename);
+
+    for (int i = lineNumber; i <= totalLines; ++i) {
+        if (isValidBreakpointLine(i)) {
+            // Try to adjust the line to get the actual executable line
+            if (nlsEvaluator) {
+                size_t adjustedLine = static_cast<size_t>(i);
+                std::wstring errorMessage;
+                if (nlsEvaluator->adjustBreakpointLine(
+                        wfilename, static_cast<size_t>(i), adjustedLine, errorMessage)) {
+                    // Return the adjusted line number
+                    return static_cast<int>(adjustedLine);
+                }
+            }
+            // If no evaluator or adjustment fails, return the line as-is
+            return i;
+        }
+    }
+
+    return -1; // No valid line found
+}
+//=============================================================================
 void
 QtBreakpointArea::toggleBreakpoint(int line)
 {
@@ -77,6 +145,35 @@ QtBreakpointArea::toggleBreakpoint(int line)
 
     std::wstring wfilename = Nelson::QStringTowstring(currentFilename);
 
+    // First, try to use the evaluator to adjust the line (handles multi-line statements)
+    if (nlsEvaluator) {
+        size_t adjustedLine = static_cast<size_t>(line);
+        std::wstring errorMessage;
+        if (nlsEvaluator->adjustBreakpointLine(
+                wfilename, static_cast<size_t>(line), adjustedLine, errorMessage)) {
+            // Successfully adjusted - use this line
+            line = static_cast<int>(adjustedLine);
+        } else {
+            // Adjustment failed - check if line is at least textually valid
+            if (!isValidBreakpointLine(line)) {
+                // Try to find the next valid line
+                line = findNextValidBreakpointLine(line);
+                if (line <= 0) {
+                    // No valid line found
+                    return;
+                }
+            }
+        }
+    } else {
+        // No evaluator - fall back to text-based validation
+        if (!isValidBreakpointLine(line)) {
+            line = findNextValidBreakpointLine(line);
+            if (line <= 0) {
+                return;
+            }
+        }
+    }
+
     if (breakpointLines.contains(line)) {
         // Remove breakpoint
         if (nlsEvaluator) {
@@ -85,36 +182,19 @@ QtBreakpointArea::toggleBreakpoint(int line)
         breakpointLines.remove(line);
         emit breakpointToggled(line, false);
     } else {
-        // Add breakpoint
+        // Add breakpoint - line is already adjusted above
         if (nlsEvaluator) {
-            std::wstring wfilename = Nelson::QStringTowstring(currentFilename);
-
-            // Adjust line number to nearest executable statement using Evaluator method
-            size_t adjustedLine = static_cast<size_t>(line);
-            std::wstring errorMessage;
-            if (!nlsEvaluator->adjustBreakpointLine(
-                    wfilename, static_cast<size_t>(line), adjustedLine, errorMessage)) {
-                // If adjustment fails, use the original line (might be a script with no parsing)
-                adjustedLine = static_cast<size_t>(line);
-            }
-
             Breakpoint bp;
             bp.filename = wfilename;
-            bp.line = adjustedLine;
+            bp.line = static_cast<size_t>(line);
             bp.enabled = true;
             bp.stepMode = false;
             // Try to extract function name from the file
             bp.functionName = extractFunctionNameAtLine(currentFilename, line);
             nlsEvaluator->addBreakpoint(bp);
 
-            // Update UI to show breakpoint at adjusted line if different
-            if (adjustedLine != static_cast<size_t>(line)) {
-                breakpointLines.insert(static_cast<int>(adjustedLine));
-                emit breakpointToggled(static_cast<int>(adjustedLine), true);
-            } else {
-                breakpointLines.insert(line);
-                emit breakpointToggled(line, true);
-            }
+            breakpointLines.insert(line);
+            emit breakpointToggled(line, true);
         } else {
             breakpointLines.insert(line);
             emit breakpointToggled(line, true);

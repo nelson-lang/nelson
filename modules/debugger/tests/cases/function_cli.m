@@ -16,6 +16,7 @@ function  function_cli()
     c = a + b;
     disp("Sum: " + string(c));
    fun1(1)
+   disp('last in function_cli')
 end
 
 function fun1(x)
@@ -23,6 +24,7 @@ function fun1(x)
     y = x * 2;
     disp("y = " + string(y));
     fun2(x, y);
+   disp('last in fun1')
 end
 
 function fun2(x, y)
@@ -37,4 +39,5 @@ function fun2(x, y)
         end
         disp("Loop k = " + string(k));
     end
+  disp('last in fun2')
 end

@@ -157,12 +157,10 @@ dbstopInAt(Evaluator* eval, const std::wstring& functioOrFilename, size_t positi
         FunctionDef* funcDef = nullptr;
         std::string asFunctionName = wstring_to_utf8(mainFunctionName);
         if (eval->lookupFunction(asFunctionName, funcDef)) {
-            // Found as a function - but check if it's a script-like macro function
+            // Found as a function
             breakpoint.filename = funcDef->getFilename();
-
-            // For now, treat all found functions as scripts (don't store function name)
-            // because they execute in the base/calling context
-            breakpoint.functionName = "";
+            // Store the function name so breakpoint matching works correctly
+            breakpoint.functionName = asFunctionName;
         } else {
             // It's a script file name - try to resolve it using PathFunctionIndexerManager
             std::wstring resolvedFilename;

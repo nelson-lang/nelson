@@ -86,6 +86,8 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         stepBp.stepMode = true;
         stepBp.stepNext = true;
         stepBp.stepInto = true;
+        // For step-into, allow breaking in deeper functions; depth check is not needed
+        stepBp.targetDepth = -1;
         // Start after current line
         stepBp.fromLine = currentStepBreakPoint.line;
         eval->addBreakpoint(stepBp);
@@ -118,11 +120,21 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             stepBp.filename = currentStepBreakPoint.filename;
             // Stay in the current function for plain dbstep; dbstep in uses stepInto instead
             stepBp.functionName = currentStepBreakPoint.functionName;
+            if (stepBp.functionName.empty()) {
+                // If missing, default to current scope to ensure step-over behavior
+                stepBp.functionName = eval->getContext()->getCurrentScope()->getName();
+                if (stepBp.functionName.empty()) {
+                    // As a last fallback, use the function name from the current breakpoint
+                    stepBp.functionName = currentStepBreakPoint.functionName;
+                }
+            }
             stepBp.maxLines = currentStepBreakPoint.maxLines;
             stepBp.enabled = true;
             stepBp.line = 0;
             stepBp.stepMode = true;
             stepBp.stepNext = true;
+            // Stop in this function or when callstack unwinds back to this depth (step-over)
+            stepBp.targetDepth = static_cast<int>(eval->callstack.size());
             stepBp.fromLine = currentStepBreakPoint.line;
             eval->addBreakpoint(stepBp);
             if (std::getenv("NELSON_DEBUG_STEP_TRACE")) {

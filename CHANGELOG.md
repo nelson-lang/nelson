@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.17.0 - (UNRELEASED)
+
+### Added
+
+- Debugger support with breakpoint management: `dbstop`, `dbstep`, `dbcont`, `dbquit`, `dbclear`, `dbdown`, `dbup`, `dbstatus`.
+- Interactive debugging commands in the text editor
+- Step execution (step into, step over, continue)
+- Stack inspection and variable evaluation during debugging
+
 ## 1.16.0 - (2025-12-27)
 
 ### Added

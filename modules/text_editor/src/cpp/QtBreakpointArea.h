@@ -37,6 +37,12 @@ public:
     bool
     hasBreakpoint(int line) const;
 
+    bool
+    isValidBreakpointLine(int lineNumber);
+
+    int
+    findNextValidBreakpointLine(int lineNumber);
+
     QSet<int>
     getBreakpointLines() const;
 
