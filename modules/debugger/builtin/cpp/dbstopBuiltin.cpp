@@ -19,53 +19,76 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
+static size_t
+parsePositionArgument(const ArrayOfVector& argIn);
 static void
 dbstopInAt(Evaluator* eval, const std::wstring& functioOrFilename, size_t position,
     std::wstring& errorMessage);
+static void
+applyBreakpointStruct(Evaluator* eval, const ArrayOf& bpStruct, std::wstring& errorMessage);
 //=============================================================================
 ArrayOfVector
 Nelson::DebuggerGateway::dbstopBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     // dbstop in file
     // dbstop in file at location
-    nargincheck(argIn, 2, 4);
+    // dbstop(struct)
+
+    nargincheck(argIn, 1, 4);
     nargoutcheck(nLhs, 0, 0);
+    std::wstring errorMessage;
+    if (argIn.size() == 1) {
+        applyBreakpointStruct(eval, argIn[0], errorMessage);
+        if (!errorMessage.empty()) {
+            Error(errorMessage);
+        }
+        return {};
+    }
+
     if (argIn.size() == 3) {
         Error("Wrong number of input arguments.");
     }
 
-    std::wstring inArg = argIn[0].getContentAsWideString();
-    if (inArg != L"in") {
+    if (argIn[0].getContentAsWideString() != L"in") {
         Error("Second argument must be 'in'.");
     }
 
-    size_t position = 1;
+    size_t position = parsePositionArgument(argIn);
+    std::wstring target = argIn[1].getContentAsWideString();
 
-    if (argIn.size() == 4) {
-        std::wstring atArg = argIn[2].getContentAsWideString();
-        if (atArg != L"at") {
-            Error(_W("Third argument must be 'at'."));
-        }
-        std::wstring posArg = argIn[3].getContentAsWideString();
-        size_t idx = 0;
-        try {
-            position = static_cast<size_t>(std::stoul(posArg, &idx));
-            if (idx != posArg.size()) {
-                Error(_W("Invalid position argument."));
-            }
-        } catch (...) {
-            Error(_W("Invalid position argument."));
-        }
-    }
-
-    std::wstring functioOrFilename = argIn[1].getContentAsWideString();
-
-    std::wstring errorMessage;
-    dbstopInAt(eval, functioOrFilename, position, errorMessage);
+    dbstopInAt(eval, target, position, errorMessage);
     if (!errorMessage.empty()) {
         Error(errorMessage);
     }
+
     return {};
+}
+//=============================================================================
+size_t
+parsePositionArgument(const ArrayOfVector& argIn)
+{
+    if (argIn.size() != 4) {
+        return 1;
+    }
+
+    if (argIn[2].getContentAsWideString() != L"at") {
+        Error(_W("Third argument must be 'at'."));
+    }
+
+    std::wstring posArg = argIn[3].getContentAsWideString();
+    size_t idx = 0;
+
+    try {
+        size_t pos = std::stoul(posArg, &idx);
+        if (idx != posArg.size()) {
+            Error(_W("Invalid position argument."));
+        }
+        return pos;
+    } catch (...) {
+        Error(_W("Invalid position argument."));
+    }
+
+    return 1; // unreachable
 }
 //=============================================================================
 void
@@ -168,5 +191,40 @@ dbstopInAt(Evaluator* eval, const std::wstring& functioOrFilename, size_t positi
 
     breakpoint.line = adjustedLineNumber;
     eval->addBreakpoint(breakpoint);
+}
+//=============================================================================
+void
+applyBreakpointStruct(Evaluator* eval, const ArrayOf& bpStruct, std::wstring& errorMessage)
+{
+    if (!bpStruct.isStruct()) {
+        errorMessage = _W("Argument must be breakpoint struct.");
+        return;
+    }
+
+    stringVector names = bpStruct.getFieldNames();
+    if (names.size() != 3 || names[0] != "name" || names[1] != "file" || names[2] != "line") {
+        errorMessage = _W("Invalid breakpoint struct.");
+        return;
+    }
+
+    ArrayOfVector files = bpStruct.getFieldAsList("file");
+    ArrayOfVector lines = bpStruct.getFieldAsList("line");
+
+    size_t count = bpStruct.getDimensions().getElementCount();
+    for (size_t i = 0; i < count; ++i) {
+        ArrayOf lineArray = lines[i];
+        if (!lineArray.isNumeric() || !lineArray.isRowVector()) {
+            errorMessage = _W("Invalid line number in breakpoint struct.");
+            return;
+        }
+
+        std::vector<size_t> lines = lineArray.getContentAsIndexVector();
+        for (auto line : lines) {
+            dbstopInAt(eval, files[i].getContentAsWideString(), line, errorMessage);
+            if (!errorMessage.empty()) {
+                return;
+            }
+        }
+    }
 }
 //=============================================================================

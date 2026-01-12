@@ -51,7 +51,7 @@ class Breakpoint
 public:
     std::wstring filename;
     std::string functionName;
-    size_t line;
+    size_t line = 0;
     bool enabled = true;
     bool stepMode = false;
     bool stepNext = false; // When true, break on first executed line after 'fromLine'

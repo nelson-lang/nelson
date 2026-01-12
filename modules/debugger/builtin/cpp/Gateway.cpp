@@ -38,7 +38,7 @@ static const nlsGateway gateway[] = {
     { "dbdown", (ptrBuiltin)Nelson::DebuggerGateway::dbdownBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "dbup", (ptrBuiltin)Nelson::DebuggerGateway::dbupBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "dbstatus", (ptrBuiltin)Nelson::DebuggerGateway::dbstatusBuiltin, 0, 1,
+    { "dbstatus", (ptrBuiltin)Nelson::DebuggerGateway::dbstatusBuiltin, -1, 0,
         CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
