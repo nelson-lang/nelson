@@ -274,7 +274,8 @@ Evaluator::onBreakpoint(AbstractSyntaxTreePtr t)
                 goto skip_fast_path;
             }
             size_t currentLineFast = getLinePosition(t);
-            if (currentLineFast != sb.fromLine) {
+            // Skip if fromLine is 0 (uninitialized/invalid) to avoid matching line 1
+            if (sb.fromLine != 0 && currentLineFast != sb.fromLine) {
                 if (std::getenv("NELSON_DEBUG_STEP_TRACE")) {
                     std::printf("[stepNext-fast] hit file=%s currentFn=%s bpFn=%s from=%zu at=%zu "
                                 "depth=%d targetDepth=%d\n",
@@ -361,7 +362,8 @@ skip_fast_path:
         }
 
         // Break on any line different from the origin. This covers forward steps and loop backs.
-        if (currentLine != it->fromLine) {
+        // Skip if fromLine is 0 (uninitialized/invalid) to avoid matching line 1
+        if (it->fromLine != 0 && currentLine != it->fromLine) {
             if (std::getenv("NELSON_DEBUG_STEP_TRACE")) {
                 std::printf("[stepNext] hit file=%s currentFn=%s bpFn=%s from=%zu at=%zu depth=%d "
                             "targetDepth=%d\n",
@@ -426,6 +428,11 @@ skip_fast_path:
     for (auto it = breakpoints.begin(); it != breakpoints.end(); ++it) {
         // Skip step-out breakpoints
         if (it->stepOut) {
+            continue;
+        }
+        // Skip stepNext breakpoints - they should have been handled above and have
+        // explicit function name filtering to prevent stepping into other functions
+        if (it->stepNext) {
             continue;
         }
         bool lineMatch = it->line == currentLine;
@@ -532,21 +539,20 @@ Evaluator::checkStepOutAfterFunctionReturn(AbstractSyntaxTreePtr t)
                 return true;
             }
         } else if (it->stepMode && it->stepNext && !it->stepInto) {
-            // Step-next should also break when returning to a caller function
-            // Check if we've left the function we were stepping in
-            bool leftFunction
-                = !it->functionName.empty() && (it->functionName != currentFunctionName);
-            // Check if we're at a shallower call depth (returned up the stack)
-            // Since depth numbering is inconsistent, we check if depth is significantly less
-            bool returnedToShallower
-                = (it->targetDepth > 0) && (currentCallStackSize < it->targetDepth - 2);
+            // Step-next should break when returning to the original function from a subfunction
+            // Check if we're back in the function where stepping started
+            bool inTargetFunction
+                = !it->functionName.empty() && (it->functionName == currentFunctionName);
+            // Only break when at the same or deeper depth - never when shallower
+            // If we're shallower, we've left the function entirely and shouldn't break here
+            bool atValidDepth = (it->targetDepth > 0) && (currentCallStackSize >= it->targetDepth);
 
-            if (leftFunction && returnedToShallower) {
+            if (inTargetFunction && atValidDepth) {
                 if (true) {
-                    std::printf("[stepReturn] returned from %s to %s, depth=%d target=%d, breaking "
+                    std::printf("[stepReturn] returned to %s, depth=%d target=%d, breaking "
                                 "at line %zu\n",
-                        it->functionName.c_str(), currentFunctionName.c_str(), currentCallStackSize,
-                        it->targetDepth, currentLine);
+                        currentFunctionName.c_str(), currentCallStackSize, it->targetDepth,
+                        currentLine);
                 }
                 // Store breakpoint info before removing
                 Breakpoint matchedBp;

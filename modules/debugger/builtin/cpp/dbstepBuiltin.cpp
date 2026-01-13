@@ -133,13 +133,15 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             stepBp.line = 0;
             stepBp.stepMode = true;
             stepBp.stepNext = true;
+            stepBp.stepInto = false; // Explicitly disable step-into for step-over behavior
             // Stop in this function or when callstack unwinds back to this depth (step-over)
             stepBp.targetDepth = static_cast<int>(eval->callstack.size());
             stepBp.fromLine = currentStepBreakPoint.line;
             eval->addBreakpoint(stepBp);
             if (std::getenv("NELSON_DEBUG_STEP_TRACE")) {
-                std::printf("[dbstep] set stepNext file=%s, fromLine=%zu\n",
-                    wstring_to_utf8(stepBp.filename).c_str(), stepBp.fromLine);
+                std::printf("[dbstep] set stepNext file=%s, fromLine=%zu, fn=%s, depth=%zu\n",
+                    wstring_to_utf8(stepBp.filename).c_str(), stepBp.fromLine,
+                    stepBp.functionName.c_str(), eval->callstack.size());
             }
             eval->setState(NLS_STATE_DEBUG_STEP);
             // Don't set bpActive false - it should remain true for stepping
