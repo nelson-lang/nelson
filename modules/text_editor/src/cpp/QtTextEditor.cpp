@@ -1402,10 +1402,10 @@ QtTextEditor::checkDebugState()
     stopRunAction->setEnabled(currentDebugActive || !atPrompt);
 
     // Debug step buttons: only enabled when at breakpoint
-    dbStepAction->setEnabled(currentDebugActive);
-    dbStepInAction->setEnabled(currentDebugActive);
-    dbStepOutAction->setEnabled(currentDebugActive);
-    dbContinueAction->setEnabled(currentDebugActive);
+    dbStepAction->setEnabled(currentDebugActive && atPrompt);
+    dbStepInAction->setEnabled(currentDebugActive && atPrompt);
+    dbStepOutAction->setEnabled(currentDebugActive && atPrompt);
+    dbContinueAction->setEnabled(currentDebugActive && atPrompt);
 
     // Run file button doubles as Continue when stopped in debugger
     if (currentDebugActive) {

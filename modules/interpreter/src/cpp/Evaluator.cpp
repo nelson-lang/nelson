@@ -366,12 +366,6 @@ std::wstring
 Evaluator::buildPrompt()
 {
     std::wstring prompt;
-    if (std::getenv("NELSON_DEBUG_PROMPT")) {
-        std::printf("[PROMPT] bpActive=%d state=%d stepMode=%d stepBp=%d callstack=%zu file='%s'\n",
-            bpActive, static_cast<int>(state), stepMode, stepBreakpoint.has_value(),
-            callstack.size(), wstring_to_utf8(context->getCurrentScope()->getFilename()).c_str());
-        std::fflush(stdout);
-    }
     if (isBreakpointActive()) {
         prompt += L"K";
     }
@@ -416,15 +410,6 @@ Evaluator::evalCLI()
                 doOnce = false;
             }
 
-            if (std::getenv("NELSON_DEBUG_PROMPT")) {
-                std::printf("[PROMPT] before prompt bpActive=%d state=%d callstack=%zu file='%s' "
-                            "stepBp=%d stepMode=%d\n",
-                    bpActive, static_cast<int>(state), callstack.size(),
-                    wstring_to_utf8(context->getCurrentScope()->getFilename()).c_str(),
-                    stepBreakpoint.has_value(), stepMode);
-                std::fflush(stdout);
-            }
-
             // Before showing prompt: if in debug mode but there is no active execution frame,
             // exit debug mode so prompt shows >> instead of K>>. This also cleans up any stale
             // step context that could leave the CLI stuck in K>> after script completion.
@@ -439,11 +424,6 @@ Evaluator::evalCLI()
             // If there is no execution frame, always leave debug mode; this runs after scripts
             // finish.
             if (bpActive && noExecutionFrame) {
-                if (std::getenv("NELSON_DEBUG_PROMPT")) {
-                    std::printf("[PROMPT] clearing bpActive due to no execution frame (stale=%d)\n",
-                        staleDebugState);
-                    std::fflush(stdout);
-                }
                 bpActive = false;
                 stepMode = false;
                 stepBreakpoint.reset();
@@ -620,11 +600,6 @@ Evaluator::debugCLI()
     depth++;
     bool previousBpActive = bpActive;
     bpActive = true;
-    if (std::getenv("NELSON_DEBUG_PROMPT")) {
-        std::printf("[PROMPT] enter debugCLI bpActive=%d prev=%d state=%d callstack=%zu\n",
-            bpActive, previousBpActive, static_cast<int>(state), callstack.size());
-        std::fflush(stdout);
-    }
     // Force immediate UI update so text editor shows current debug line
     if (haveEventsLoop()) {
         ProcessEventsDynamicFunctionWithoutWait();
@@ -651,11 +626,6 @@ Evaluator::debugCLI()
         bpActive = previousBpActive;
     }
     stepMode = false;
-    if (std::getenv("NELSON_DEBUG_PROMPT")) {
-        std::printf("[PROMPT] exit debugCLI bpActive=%d state=%d callstack=%zu\n", bpActive,
-            static_cast<int>(state), callstack.size());
-        std::fflush(stdout);
-    }
     depth--;
 }
 //=============================================================================

@@ -7,21 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#ifdef _MSC_VER
-#define _CRT_SECURE_NO_WARNINGS
-#endif
 #include "dbstepBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "characters_encoding.hpp"
-#include <cstdlib>
-#include <cstdio>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static size_t
-findNextExecutableLine(Evaluator* eval, const Breakpoint& currentBp, size_t startLine);
-//=============================================================================
-
 ArrayOfVector
 Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
@@ -138,11 +129,6 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             stepBp.targetDepth = static_cast<int>(eval->callstack.size());
             stepBp.fromLine = currentStepBreakPoint.line;
             eval->addBreakpoint(stepBp);
-            if (std::getenv("NELSON_DEBUG_STEP_TRACE")) {
-                std::printf("[dbstep] set stepNext file=%s, fromLine=%zu, fn=%s, depth=%zu\n",
-                    wstring_to_utf8(stepBp.filename).c_str(), stepBp.fromLine,
-                    stepBp.functionName.c_str(), eval->callstack.size());
-            }
             eval->setState(NLS_STATE_DEBUG_STEP);
             // Don't set bpActive false - it should remain true for stepping
         } else {

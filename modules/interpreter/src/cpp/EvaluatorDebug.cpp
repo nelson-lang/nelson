@@ -266,23 +266,11 @@ Evaluator::onBreakpoint(AbstractSyntaxTreePtr t)
             bool shouldBreak = sb.stepInto || inSameFunction;
 
             if (!shouldBreak) {
-                if (std::getenv("NELSON_DEBUG_STEP_TRACE")) {
-                    std::printf("[stepNext-fast] skip currentFn=%s bpFn=%s depth=%d target=%d\n",
-                        currentFunction.c_str(), sb.functionName.c_str(), currentCallStackSize,
-                        sb.targetDepth);
-                }
                 goto skip_fast_path;
             }
             size_t currentLineFast = getLinePosition(t);
             // Skip if fromLine is 0 (uninitialized/invalid) to avoid matching line 1
             if (sb.fromLine != 0 && currentLineFast != sb.fromLine) {
-                if (std::getenv("NELSON_DEBUG_STEP_TRACE")) {
-                    std::printf("[stepNext-fast] hit file=%s currentFn=%s bpFn=%s from=%zu at=%zu "
-                                "depth=%d targetDepth=%d\n",
-                        wstring_to_utf8(sbFile).c_str(), currentFunction.c_str(),
-                        sb.functionName.c_str(), sb.fromLine, currentLineFast, currentCallStackSize,
-                        sb.targetDepth);
-                }
                 Breakpoint matched = sb;
                 matched.line = currentLineFast;
                 matched.stepMode = false;
@@ -316,24 +304,6 @@ skip_fast_path:
         filename = utf8_to_wstring(callstack.getLastContext());
     }
 
-    // Debug: log when we have breakpoints but they don't match
-    if (!breakpoints.empty()) {
-        std::printf("[DEBUG-BP] At line=%zu in fn='%s', file='%s'\n", currentLine,
-            currentFunctionName.c_str(), wstring_to_utf8(filename).c_str());
-        for (size_t i = 0; i < breakpoints.size(); ++i) {
-            const auto& bp = breakpoints[i];
-            bool fnMatch = (bp.functionName == currentFunctionName);
-            bool fileMatch = filenamesMatch(bp.filename, filename);
-            bool lineMatch = (bp.line == currentLine);
-            const char* fnStr = fnMatch ? "Y" : "N";
-            const char* lineStr = lineMatch ? "Y" : "N";
-            const char* fileStr = fileMatch ? "Y" : "N";
-            std::printf("  [%zu] fn='%s'(%s) line=%zu(%s) fileMatch=%s stepMode=%d\n", i,
-                bp.functionName.c_str(), fnStr, bp.line, lineStr, fileStr, bp.stepMode);
-        }
-        std::fflush(stdout);
-    }
-
     // Note: Step-out breakpoints are handled separately in checkStepOutAfterFunctionReturn()
     // which is called after function calls complete, allowing us to stop at the call site.
 
@@ -353,24 +323,12 @@ skip_fast_path:
         bool shouldBreak = it->stepInto || inSameFunction;
 
         if (!shouldBreak) {
-            if (std::getenv("NELSON_DEBUG_STEP_TRACE")) {
-                std::printf("[stepNext] skip currentFn=%s bpFn=%s depth=%d target=%d\n",
-                    currentFunctionName.c_str(), it->functionName.c_str(), currentCallStackSize,
-                    it->targetDepth);
-            }
             continue;
         }
 
         // Break on any line different from the origin. This covers forward steps and loop backs.
         // Skip if fromLine is 0 (uninitialized/invalid) to avoid matching line 1
         if (it->fromLine != 0 && currentLine != it->fromLine) {
-            if (std::getenv("NELSON_DEBUG_STEP_TRACE")) {
-                std::printf("[stepNext] hit file=%s currentFn=%s bpFn=%s from=%zu at=%zu depth=%d "
-                            "targetDepth=%d\n",
-                    wstring_to_utf8(filename).c_str(), currentFunctionName.c_str(),
-                    it->functionName.c_str(), it->fromLine, currentLine, currentCallStackSize,
-                    it->targetDepth);
-            }
             Breakpoint matchedBp;
             matchedBp.filename = filename;
             matchedBp.functionName = currentFunctionName; // carry current context for dbstack
@@ -399,12 +357,6 @@ skip_fast_path:
             // recorded line (helps for control-flow statements where getLinePosition returns the
             // earliest child line).
             lineMatch = currentLine >= it->line;
-        }
-        if (std::getenv("NELSON_DEBUG_BREAKPOINTS")) {
-            std::printf("    Checking non-empty fn bp: fileMatch=%d fnMatch=%d lineMatch=%d\n",
-                filenamesMatch(it->filename, filename), (it->functionName == currentFunctionName),
-                lineMatch);
-            std::fflush(stdout);
         }
         if (filenamesMatch(it->filename, filename) && (it->functionName == currentFunctionName)
             && lineMatch) {
@@ -439,16 +391,7 @@ skip_fast_path:
         if (it->stepMode) {
             lineMatch = currentLine >= it->line;
         }
-        if (std::getenv("NELSON_DEBUG_BREAKPOINTS")) {
-            std::printf("    Checking empty fn bp: fileMatch=%d emptyFn=%d lineMatch=%d\n",
-                filenamesMatch(it->filename, filename), it->functionName.empty(), lineMatch);
-            std::fflush(stdout);
-        }
         if (filenamesMatch(it->filename, filename) && (it->functionName.empty()) && lineMatch) {
-            if (std::getenv("NELSON_DEBUG_BREAKPOINTS")) {
-                std::printf("    MATCH! Returning true for empty fn breakpoint\n");
-                std::fflush(stdout);
-            }
             Breakpoint matchedBp = *it;
             matchedBp.maxLines = maxLine;
             // For scripts, use empty function name in stepBreakpoint
@@ -548,12 +491,6 @@ Evaluator::checkStepOutAfterFunctionReturn(AbstractSyntaxTreePtr t)
             bool atValidDepth = (it->targetDepth > 0) && (currentCallStackSize >= it->targetDepth);
 
             if (inTargetFunction && atValidDepth) {
-                if (true) {
-                    std::printf("[stepReturn] returned to %s, depth=%d target=%d, breaking "
-                                "at line %zu\n",
-                        currentFunctionName.c_str(), currentCallStackSize, it->targetDepth,
-                        currentLine);
-                }
                 // Store breakpoint info before removing
                 Breakpoint matchedBp;
                 matchedBp.filename = filename;
@@ -651,13 +588,21 @@ Evaluator::adjustBreakpointLine(const std::wstring& filename, size_t requestedLi
     AbstractSyntaxTreePtr code = nullptr;
     size_t maxLinesInFile = 0;
 
+    // Check for subfunction syntax: mainfunction>subfunction
+    std::wstring mainFunctionName = filename;
+    std::wstring subFunctionName;
+    size_t separatorPos = filename.find(L'>');
+    if (separatorPos != std::wstring::npos) {
+        mainFunctionName = filename.substr(0, separatorPos);
+        subFunctionName = filename.substr(separatorPos + 1);
+    }
+
     // Try to lookup as a function first
-    // Extract just the filename (without path) for function lookup
     FunctionDef* funcDef = nullptr;
-    std::wstring basename = filename;
-    size_t lastSlash = filename.find_last_of(L"/\\");
+    std::wstring basename = mainFunctionName;
+    size_t lastSlash = mainFunctionName.find_last_of(L"/\\");
     if (lastSlash != std::wstring::npos) {
-        basename = filename.substr(lastSlash + 1);
+        basename = mainFunctionName.substr(lastSlash + 1);
     }
     // Remove .m extension for function lookup
     std::wstring functionName = basename;
@@ -675,46 +620,71 @@ Evaluator::adjustBreakpointLine(const std::wstring& filename, size_t requestedLi
         funcDef->updateCode();
         MacroFunctionDef* mFuncDef = static_cast<MacroFunctionDef*>(funcDef);
 
-        // Calculate max lines in file by traversing all functions in the file
-        // and find which function contains the requested line
-        maxLinesInFile = 0;
-        MacroFunctionDef* targetFunc = nullptr;
-        MacroFunctionDef* currentFunc = mFuncDef;
+        // If subfunction is specified, find it in the chain
+        if (!subFunctionName.empty()) {
+            std::string asSubFunctionName = wstring_to_utf8(subFunctionName);
+            MacroFunctionDef* targetFunc = nullptr;
+            MacroFunctionDef* searchFunc = mFuncDef->nextFunction;
 
-        while (currentFunc != nullptr) {
-            size_t funcMax = getMaxLineFromChainHelper(currentFunc->code, getLineFunc);
-            if (funcMax > maxLinesInFile) {
-                maxLinesInFile = funcMax;
+            while (searchFunc != nullptr) {
+                if (searchFunc->getName() == asSubFunctionName) {
+                    targetFunc = searchFunc;
+                    break;
+                }
+                searchFunc = searchFunc->nextFunction;
             }
 
-            // Check if this function might contain the requested line
-            size_t funcMin = 0;
-            if (currentFunc->code != nullptr) {
-                funcMin = getLineFunc(currentFunc->code);
+            if (targetFunc == nullptr) {
+                errorMessage = _W("Cannot find subfunction '") + subFunctionName + L"' in '"
+                    + mainFunctionName + L"'.";
+                return false;
             }
 
-            // If this function's range includes the requested line, or we haven't found any
-            // function yet
-            if ((funcMin > 0 && funcMin <= requestedLine && requestedLine <= funcMax)
-                || (targetFunc == nullptr && funcMax > 0)) {
-                targetFunc = currentFunc;
-            }
-
-            currentFunc = currentFunc->nextFunction;
-        }
-
-        if (targetFunc != nullptr) {
+            // Use the subfunction's code for line adjustment
             code = targetFunc->code;
+            maxLinesInFile = getMaxLineFromChainHelper(code, getLineFunc);
         } else {
-            errorMessage = _W("Cannot locate function for breakpoint at line ")
-                + std::to_wstring(requestedLine);
-            return false;
+            // No subfunction specified - calculate max lines in file by traversing all functions
+            // and find which function contains the requested line
+            maxLinesInFile = 0;
+            MacroFunctionDef* targetFunc = nullptr;
+            MacroFunctionDef* currentFunc = mFuncDef;
+
+            while (currentFunc != nullptr) {
+                size_t funcMax = getMaxLineFromChainHelper(currentFunc->code, getLineFunc);
+                if (funcMax > maxLinesInFile) {
+                    maxLinesInFile = funcMax;
+                }
+
+                // Check if this function might contain the requested line
+                size_t funcMin = 0;
+                if (currentFunc->code != nullptr) {
+                    funcMin = getLineFunc(currentFunc->code);
+                }
+
+                // If this function's range includes the requested line, or we haven't found any
+                // function yet
+                if ((funcMin > 0 && funcMin <= requestedLine && requestedLine <= funcMax)
+                    || (targetFunc == nullptr && funcMax > 0)) {
+                    targetFunc = currentFunc;
+                }
+
+                currentFunc = currentFunc->nextFunction;
+            }
+
+            if (targetFunc != nullptr) {
+                code = targetFunc->code;
+            } else {
+                errorMessage = _W("Cannot locate function for breakpoint at line ")
+                    + std::to_wstring(requestedLine);
+                return false;
+            }
         }
     } else {
         // Function not found - try to parse as a script file
-        std::wstring resolvedFilename = filename;
-        std::string fileAsString = wstring_to_utf8(filename);
-        std::wstring filenameCopy = filename;
+        std::wstring resolvedFilename = mainFunctionName;
+        std::string fileAsString = wstring_to_utf8(mainFunctionName);
+        std::wstring filenameCopy = mainFunctionName;
         if (PathFunctionIndexerManager::getInstance()->find(fileAsString, resolvedFilename)) {
             filenameCopy = resolvedFilename;
         }
