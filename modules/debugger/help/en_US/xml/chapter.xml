@@ -9,5 +9,7 @@
     >The Debugger module in Nelson provides functions to inspect and analyze program execution.</p>
     <p
     >It is designed to help users identify errors, trace the flow of execution, and better understand the state of variables during runtime.</p>
+    <p
+    >Text editor support debugging features integrate with these functions to provide a seamless debugging experience.</p>
   </chapter_description>
 </xmldoc>

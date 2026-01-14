@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>dbclear</keyword>
+  <short_description
+  >Supprimer les points d'arrêt lors du débogage.</short_description>
+
+  <syntax>
+    <syntax_item>dbclear all</syntax_item>
+    <syntax_item>dbclear in file</syntax_item>
+    <syntax_item>dbclear in file at location</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>file</param_name>
+      <param_description>
+        Nom du fichier dans lequel les points d'arrêt doivent être supprimés, spécifié en tant que vecteur de caractères ou chaîne de caractères.
+        Un marqueur de fichier (&gt;) peut être utilisé pour spécifier une fonction locale ou imbriquée.
+      </param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>location</param_name>
+      <param_description>
+        Numéro de ligne, numéro de ligne avec indice de fonction anonyme (par exemple, 3@2), ou nom de fonction locale
+        du point d'arrêt à supprimer.
+      </param_description>
+    </param_input_item>
+
+  </param_input>
+
+  <description>
+    <p>
+      <b
+      >dbclear</b> supprime les points d'arrêt définis pour le débogage. Vous pouvez supprimer tous les points d'arrêt,
+      les points d'arrêt dans un fichier spécifique, les points d'arrêt à un emplacement spécifique.
+    </p>
+    <p>
+      <b
+      >dbclear all</b> supprime tous les points d'arrêt dans tous les fichiers et pour toutes les conditions.
+    </p>
+    <p>
+      <b
+      >dbclear in file</b> supprime tous les points d'arrêt dans le fichier spécifié.
+    </p>
+    <p>
+      <b
+      >dbclear in file at location</b> supprime le point d'arrêt à l'emplacement spécifié dans le fichier.
+    </p>
+  </description>
+
+  <used_function />
+
+  <bibliography />
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Supprimer tous les points d'arrêt dans un fichier.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+dbstop in buggy at 2
+dbstop in buggy at 3
+dbstatus
+dbclear in buggy
+dbstatus
+]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Supprimer un point d'arrêt à un emplacement spécifique.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+dbstop in buggy at 2
+dbstop in buggy at 3
+dbclear in buggy at 3
+dbstatus
+]]></example_item_data>
+    </example_item>
+ 
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${debugger}dbstop">dbstop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstatus">dbstatus</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbquit">dbquit</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstack">dbstack</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}filemarker">filemarker</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

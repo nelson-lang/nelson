@@ -9,5 +9,7 @@
     >Le module Débogueur de Nelson fournit des fonctions pour inspecter et analyser l'exécution des programmes.</p>
     <p
     >Il est conçu pour aider les utilisateurs à identifier les erreurs, tracer le flux d'exécution et mieux comprendre l'état des variables pendant l'exécution.</p>
+    <p
+    >Les fonctionnalités de débogage prises en charge par l'éditeur de texte s'intègrent à ces fonctions pour offrir une expérience de débogage transparente.</p>
   </chapter_description>
 </xmldoc>

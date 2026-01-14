@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>dbstatus</keyword>
+  <short_description>List all breakpoints during debugging.</short_description>
+
+  <syntax>
+    <syntax_item>dbstatus</syntax_item>
+    <syntax_item>b = dbstatus()</syntax_item>
+  </syntax>
+
+  <param_output>
+    <param_output_item>
+       <param_name>b</param_name>
+      <param_description>
+        Structure array listing breakpoints currently in effect.
+      </param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>dbstatus</b> lists all breakpoints currently set.
+    </p>
+    <p>
+      Assigning the output to a variable <b
+      >b</b> allows you to save and restore breakpoints later 
+      using <b>dbstop(b)</b>.
+    </p>
+    <p>
+      The output structure array <b>b</b> contains one element per file with
+      breakpoints. Each element contains:
+    <ul>
+          <li><b>name</b>: Function name</li>
+          <li><b>file</b>: Full path to file containing breakpoints</li>
+          <li><b>line</b>: Vector of breakpoint line numbers</li>
+        </ul>
+    </p>
+  </description>
+
+  <used_function />
+
+  <bibliography />
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        List all breakpoints in effect.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+dbstop in myfile
+dbstatus
+]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Save current breakpoints and restore them later.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+b = dbstatus();
+save saved_breakpoints b
+dbclear all
+load saved_breakpoints
+dbstop(b)
+]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${debugger}dbstop">dbstop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbclear">dbclear</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbquit">dbquit</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstack">dbstack</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

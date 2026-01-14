@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>dbstop</keyword>
+  <short_description
+  >Définir des points d'arrêt pour le débogage.</short_description>
+
+  <syntax>
+    <syntax_item>dbstop in file</syntax_item>
+    <syntax_item>dbstop in file at location</syntax_item>
+    <syntax_item>dbstop(b)</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>file</param_name>
+      <param_description>
+        nom du fichier où le point d'arrêt est défini, spécifié en tant que vecteur de caractères
+        ou chaîne de caractères. Le fichier doit être accessible dans le chemin de recherche ou dans
+        le dossier courant. Un marqueur de fichier (&gt;) peut être utilisé pour spécifier une fonction locale.
+      </param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>location</param_name>
+      <param_description>
+        emplacement du point d'arrêt dans le fichier. un numéro de ligne.
+      </param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>b</param_name>
+      <param_description>
+        tableau de structures précédemment renvoyé par <b
+        >dbstatus</b>, contenant
+        les points d'arrêt sauvegardés à restaurer.
+      </param_description>
+    </param_input_item>
+  </param_input>
+
+  <description>
+    <p>
+      <b
+      >dbstop</b> définit des points d'arrêt dans les programmes pour le débogage interactif.
+      Lorsque l'exécution atteint un point d'arrêt, l'exécution est suspendue et l'interpréteur
+      entre en mode débogage.
+    </p>
+
+    <p>
+      Les points d'arrêt peuvent être définis dans des fichiers spécifiques ou à des emplacements spécifiques.
+    </p>
+
+    <p>
+      Cette fonction ne peut être appelée que depuis la ligne de commande.
+    </p>
+  </description>
+
+  <used_function />
+
+  <bibliography />
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Suspendre l'exécution à la première ligne exécutable d'une fonction.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+function z = buggy(x)
+  n = length(x);
+  z = (1:n) / x';
+end
+
+dbstop in buggy
+buggy(1:5)
+]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Définir un point d'arrêt à une fonction locale.
+      </example_item_description>
+      <example_item_data><![CDATA[
+dbstop in myfile>myfunc
+]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Restaurer les points d'arrêt précédemment sauvegardés.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+b = dbstatus();
+dbclear all
+dbstop(b)
+]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${debugger}dbclear">dbclear</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbcont">dbcont</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbquit">dbquit</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstatus">dbstatus</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstack">dbstack</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

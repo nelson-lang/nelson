@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>dbquit</keyword>
+  <short_description>Quit debug mode.</short_description>
+
+  <syntax>
+    <syntax_item>dbquit</syntax_item>
+    <syntax_item>dbquit all</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>all</param_name>
+      <param_description>
+        optional keyword to quit debug mode for all paused functions.
+      </param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b>dbquit</b> terminates debug mode. The command window returns to the
+      standard prompt (<code>&gt;&gt;</code>). The file being executed is not
+      completed and no output arguments are returned. All breakpoints remain
+      active.
+    </p>
+    <p>
+      If the debugger is active in more than one function, <b>dbquit</b> exits
+      debug mode only for the currently active function. Other paused functions
+      remain in debug mode until <b>dbquit</b> is called again.
+    </p>
+    <p>
+      If execution is paused in a function that was reached by stepping into
+      another function, <b>dbquit</b> terminates debugging for both functions.
+    </p>
+    <p>
+      <b>dbquit all</b> terminates debugging for all files simultaneously.
+    </p>
+    <p>
+      This function can only be called from the command line while debugging.
+    </p>
+  </description>
+
+  <used_function />
+
+  <bibliography />
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Quit debugging for the active function.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+function z = buggy(x)
+  n = length(x);
+  z = (1:n) / x';
+end
+
+dbstop in buggy
+buggy(5)
+dbquit
+]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Quit debugging for all paused functions.
+      </example_item_description>
+      <example_item_data><![CDATA[
+dbquit all
+]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${debugger}dbcont">dbcont</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbclear">dbclear</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstack">dbstack</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstatus">dbstatus</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstop">dbstop</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

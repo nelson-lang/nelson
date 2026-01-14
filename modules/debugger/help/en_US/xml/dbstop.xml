@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>dbstop</keyword>
+  <short_description>Set breakpoints for debugging.</short_description>
+
+  <syntax>
+    <syntax_item>dbstop in file</syntax_item>
+    <syntax_item>dbstop in file at location</syntax_item>
+    <syntax_item>dbstop(b)</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>file</param_name>
+      <param_description>
+        file name where the breakpoint is set, specified as a character vector
+        or string scalar. The file must be accessible on the search path or in
+        the current folder. A filemarker (&gt;) can be used to specify a local
+        function.
+      </param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>location</param_name>
+      <param_description>
+        breakpoint location in the file. a line number.
+      </param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>b</param_name>
+      <param_description>
+        structure array previously returned by <b>dbstatus</b>, containing
+        saved breakpoints to restore.
+      </param_description>
+    </param_input_item>
+  </param_input>
+
+  <description>
+    <p>
+      <b>dbstop</b> sets breakpoints in programs for interactive debugging.
+      When execution reaches a breakpoint, execution pauses and the interpreter
+      enters debug mode.
+    </p>
+
+    <p>
+      Breakpoints can be set at specific files or at specific locations.
+    </p>
+
+    <p>
+      This function can only be called from the command line.
+    </p>
+  </description>
+
+  <used_function />
+
+  <bibliography />
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Pause execution at the first executable line of a function.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+function z = buggy(x)
+  n = length(x);
+  z = (1:n) / x';
+end
+
+dbstop in buggy
+buggy(1:5)
+]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Set a breakpoint at a local function.
+      </example_item_description>
+      <example_item_data><![CDATA[
+dbstop in myfile>myfunc
+]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Restore previously saved breakpoints.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+b = dbstatus();
+dbclear all
+dbstop(b)
+]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${debugger}dbclear">dbclear</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbcont">dbcont</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbquit">dbquit</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstatus">dbstatus</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstack">dbstack</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>dbup</keyword>
+  <short_description
+  > Monter dans la pile d'appels en mode débogage.</short_description>
+
+  <syntax>
+    <syntax_item>dbup</syntax_item>
+    <syntax_item>dbup n</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>
+        entier positif scalaire spécifiant le nombre de niveaux à monter dans la pile d'appels.
+      </param_description>
+    </param_input_item>
+  </param_input>
+
+  <description>
+    <p>
+      <b
+      >dbup</b>  change le contexte de l'espace de travail et de la fonction courante pour celui de la
+      fonction ou du script appelant en mode débogage. Cela permet d'inspecter l'espace de travail
+      de l'appelant pour comprendre comment les arguments d'entrée ont été produits.
+    </p>
+    <p>
+      Chaque appel à <b
+      >dbup</b> monte d'un niveau dans la pile d'appels, s'arrêtant à l'espace de travail de base. L'exécution peut continuer
+      sans revenir à la ligne en pause de l'espace de travail.
+    </p>
+    <p>
+      <b>dbup n</b> est équivalent à exécuter <b>dbup</b> <i>n</i> fois.
+    </p>
+    <p>
+      Cette fonction ne peut être appelée que depuis la ligne de commande en mode débogage.
+    </p>
+  </description>
+
+  <used_function />
+
+  <bibliography />
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+         Voir l'espace de travail d'une fonction appelante lors du débogage.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+function n = myfile(x)
+  n = myfunc(x - 1);
+end
+
+function z = myfunc(y)
+  z = 2 / y;
+end
+
+dbstop in myfile>myfunc
+myfile(1)
+dbup
+whos
+]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+         Monter plusieurs niveaux dans la pile d'appels en une seule étape.
+      </example_item_description>
+      <example_item_data><![CDATA[
+dbup 2
+]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${debugger}dbdown">dbdown</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstack">dbstack</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${memory_manager}whos">whos</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

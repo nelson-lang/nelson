@@ -9,17 +9,19 @@
 %=============================================================================
 %<--INTERACTIVE TEST-->
 %=============================================================================
-TEST_CONDITION = true;
-while TEST_CONDITION
-    disp('Inside while loop');
-    disp('next line');
-    TEST_CONDITION = true;
-end
-disp('After while loop');
-%=============================================================================
-% addpath([modulepath('debugger', 'tests'), '/cases/']);
-% dbclear all
-% dbstop in while_cli at 12
-% while_cli
-% do a breakpoint within the while loop with text editor
-%=============================================================================
+addpath([modulepath('debugger', 'tests'), '/cases/']);
+dbstop('in','dbstep_in_out>myfunction')
+dbstep_in_out(1)
+whos
+%   Name      Size            Bytes  Class   Attributes
+%   y         1×1                8  double
+dbup
+% In workspace belonging to dbstep_in_out
+whos
+%   Name      Size            Bytes  Class   Attributes
+%   x         1×1                8  double
+dbdown
+% In workspace belonging to myfunction
+whos
+%   Name      Size            Bytes  Class   Attributes
+%   y         1×1                8  double

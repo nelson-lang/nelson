@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>dbcont</keyword>
+  <short_description
+  >Reprendre l'exécution après un point d'arrêt.</short_description>
+
+  <syntax>
+    <syntax_item>dbcont</syntax_item>
+  </syntax>
+
+  <description>
+    <p>
+      <b
+      >dbcont</b> reprend l'exécution du fichier après une pause à un point d'arrêt.
+      L'exécution continue jusqu'à ce qu'un autre point d'arrêt soit rencontré, qu'une condition de pause soit remplie,
+      qu'une erreur se produise ou que l'exécution se termine avec succès.
+    </p>
+    <p>
+      Utilisez <b
+      >dbcont</b> pour continuer l'exécution après avoir examiné les variables de l'espace de travail ou débogué le code.
+    </p>
+    <p>
+      Remarque : Si vous souhaitez modifier un fichier pendant le débogage, il est recommandé de quitter d'abord
+      le mode débogage en utilisant <b
+      >dbquit</b> pour éviter un comportement inattendu.
+    </p>
+  </description>
+
+  <used_function />
+
+  <bibliography />
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Reprendre l'exécution après un point d'arrêt dans une fonction.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+function z = buggy(x)
+  n = length(x);
+  z = (1:n) / x';
+end
+
+dbstop in buggy at 2
+buggy(5)
+dbcont
+]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${debugger}dbquit">dbquit</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbclear">dbclear</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstatus">dbstatus</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstop">dbstop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstep">dbstep</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

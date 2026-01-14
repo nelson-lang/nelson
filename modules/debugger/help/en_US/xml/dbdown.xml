@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>dbdown</keyword>
+  <short_description>Move down the call stack in debug mode.</short_description>
+
+  <syntax>
+    <syntax_item>dbdown</syntax_item>
+    <syntax_item>dbdown n</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>
+        positive integer scalar specifying the number of levels to move down on the call stack.
+      </param_description>
+    </param_input_item>
+  </param_input>
+
+  <description>
+    <p>
+      <b
+      >dbdown</b> changes the current workspace and function context to that of the
+      called function or script while in debug mode. This command is the opposite of
+      <b>dbup</b> and can only be used after at least one call to <b>dbup</b>.
+    </p>
+    <p>
+      Each call to <b
+      >dbdown</b> moves one level down the call stack, stopping at the
+      workspace and function context where execution is paused. Execution can continue
+      without returning to the paused line.
+    </p>
+    <p>
+      <b>dbdown n</b> is equivalent to executing <b>dbdown</b> <i>n</i> times.
+    </p>
+    <p>
+      This function can only be called from the command line while debugging.
+    </p>
+  </description>
+
+  <used_function />
+
+  <bibliography />
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Move between calling and called function workspaces while debugging.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+function n = myfile(x)
+  n = myfunc(x - 1);
+end
+
+function z = myfunc(y)
+  z = 2 / y;
+end
+
+dbstop in myfile>myfunc
+myfile(1)
+whos
+dbup
+whos
+dbdown
+whos
+]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Move down multiple levels on the call stack in one step.
+      </example_item_description>
+      <example_item_data><![CDATA[
+dbdown 2
+]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${debugger}dbup">dbup</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstack">dbstack</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${memory_manager}whos">whos</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
