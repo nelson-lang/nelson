@@ -254,7 +254,6 @@ bool
 Evaluator::onBreakpoint(AbstractSyntaxTreePtr t)
 {
     std::string currentFunctionName = context->getCurrentScope()->getName();
-    int currentCallStackSize = static_cast<int>(callstack.size());
     // Fast path: if we are in step-next mode and the line changed, break immediately
     if (bpActive && stepMode && stepBreakpoint.has_value() && stepBreakpoint->stepNext) {
         const Breakpoint& sb = *stepBreakpoint;

@@ -125,16 +125,6 @@ QtBreakpointPanel::onCellClicked(int row, int column)
 
     // If clicking on enabled checkbox, handle it
     if (column == 0) {
-        QWidget* widget = breakpointTable->cellWidget(row, 0);
-        if (widget) {
-            QCheckBox* checkbox = widget->findChild<QCheckBox*>();
-            if (checkbox) {
-                // Toggle enabled state
-                // For now, we just track the UI state
-                // In a full implementation, we'd need to extend Breakpoint struct
-                // to support enabled/disabled and update the evaluator
-            }
-        }
         return;
     }
 

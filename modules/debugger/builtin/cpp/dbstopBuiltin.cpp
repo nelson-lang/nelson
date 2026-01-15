@@ -216,8 +216,7 @@ applyBreakpointStruct(Evaluator* eval, const ArrayOf& bpStruct, std::wstring& er
             return;
         }
 
-        std::vector<indexType> lines = lineArray.getContentAsIndexVector();
-        for (auto line : lines) {
+        for (auto line : lineArray.getContentAsIndexVector()) {
             dbstopInAt(eval, files[i].getContentAsWideString(), (size_t)line, errorMessage);
             if (!errorMessage.empty()) {
                 return;

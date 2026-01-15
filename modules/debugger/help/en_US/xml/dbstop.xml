@@ -52,6 +52,11 @@
     <p>
       This function can only be called from the command line.
     </p>
+    <p
+    >Text editor support debugging features integrate with these functions to provide a seamless debugging experience.</p>
+    <p> See also the <link
+        linkend="${text_editor}debugging_workflow"
+      >Debugging Workflow</link> for an overview of debugging in Nelson.</p>
   </description>
 
   <used_function />

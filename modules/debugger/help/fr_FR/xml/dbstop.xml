@@ -54,6 +54,11 @@
     <p>
       Cette fonction ne peut être appelée que depuis la ligne de commande.
     </p>
+   <p
+    >Les fonctionnalités de débogage prises en charge par l'éditeur de texte s'intègrent à ces fonctions pour offrir une expérience de débogage transparente.</p>
+   <p>Voir également le <link
+        linkend="${text_editor}debugging_workflow"
+      >Flux de travail de débogage</link> pour un aperçu du débogage dans Nelson.</p>
   </description>
 
   <used_function />

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>débogage</keyword>
+  
+  <short_description
+  >Flux de travail de débogage pour les fichiers de code Nelson.</short_description>
+
+  <description>
+    <p>
+      Le débogueur Nelson fournit des outils interactifs pour diagnostiquer et corriger
+      les problèmes dans les scripts et les fonctions en contrôlant l'exécution et
+      en inspectant l'état du programme.
+    </p>
+
+    <p>
+      Un flux de travail typique de débogage consiste à préparer le code,
+      à interrompre l'exécution à des emplacements spécifiques, à examiner les valeurs des variables,
+      à exécuter les instructions pas à pas, et à reprendre ou arrêter l'exécution.
+    </p>
+
+    <p>
+      Avant de commencer une session de débogage, assurez-vous que tous les fichiers de code
+      sont enregistrés et accessibles depuis le dossier actuel ou le chemin de recherche.
+      Les modifications non enregistrées peuvent ne pas être prises en compte lors de l'exécution du code
+      depuis la ligne de commande.
+    </p>
+
+    <p>
+      L'exécution peut être interrompue en définissant des points d'arrêt ou en interrompant
+      un programme en cours d'exécution. Lorsque l'exécution est interrompue, Nelson entre en mode débogage
+      et l'invite de commande change pour indiquer que le débogueur
+      a le contrôle.
+    </p>
+
+    <p>
+      Pendant que l'exécution est interrompue, la ligne courante n'a pas encore été
+      exécutée. Vous pouvez inspecter les variables dans l'espace de travail actuel,
+      exécuter le code ligne par ligne, entrer ou sortir des fonctions, ou
+      continuer l'exécution jusqu'au prochain point d'arrêt.
+    </p>
+
+    <p>
+      Chaque fonction a son propre espace de travail. Lorsqu'on entre dans une fonction,
+      l'espace de travail actif change pour refléter le contexte de la fonction.
+    </p>
+
+    <p>
+      Après avoir identifié le problème, terminez la session de débogage pour revenir
+      au mode d'exécution normal. La fin de la session restaure l'invite de commande standard
+      et efface le contexte du débogueur.
+    </p>
+  </description>
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      > Crée demo_debugger.m pour des exemples de débogage.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[n = 50;
+r = rand(n,1);
+plot(r)
+
+m = mean(r);
+hold on
+plot([0,n],[m,m])
+hold off
+title("Mean of Random Uniform Data")]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Définissez un point d'arrêt dans la fonction demo_debugger. Cliquez sur la marge gauche à côté du numéro de ligne pour basculer un point d'arrêt.</example_item_description>
+      <example_item_img
+        src="../../images/set_breakpoint.png"
+        align="middle"
+        generate="false"
+      />
+     </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Démarrez le débogage en appelant la fonction demo_debugger depuis la ligne de commande ou le bouton "Exécuter le fichier".</example_item_description>
+      <example_item_img
+        src="../../images/stop_at_breakpoint.png"
+        align="middle"
+        generate="false"
+      />
+    </example_item>
+  </examples>
+
+  <see_also>
+     <see_also_item>
+      <link linkend="${text_editor}edit">edit</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstop">dbstop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstep">dbstep</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbcont">dbcont</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbquit">dbquit</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstatus">dbstatus</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>Version initiale</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

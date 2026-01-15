@@ -987,12 +987,10 @@ void
 QtTextEditor::addTab()
 {
     QtEditPane* editPane = new QtEditPane(nlsEvaluator);
-    if (editPane) {
-        editPane->setFileName(DEFAULT_FILENAME);
-        tab->addTab(editPane, DEFAULT_FILENAME);
-        tab->setCurrentIndex(tab->count() - 1);
-        updateFont();
-    }
+    editPane->setFileName(DEFAULT_FILENAME);
+    tab->addTab(editPane, DEFAULT_FILENAME);
+    tab->setCurrentIndex(tab->count() - 1);
+    updateFont();
 }
 //=============================================================================
 void
@@ -1680,40 +1678,25 @@ QtTextEditor::updateDebugLineHighlight()
         QString debugFilename = wstringToQString(bp.filename);
         int debugLine = static_cast<int>(bp.line);
 
+        // Normalize the path for comparison
+        QFileInfo debugFileInfo(debugFilename);
+        QString debugAbsolutePath = debugFileInfo.absoluteFilePath();
+
         // Find the tab with the matching filename and highlight the line
         bool found = false;
         for (int i = 0; i < tab->count(); ++i) {
             QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
-            if (pane && pane->getFileName() == debugFilename) {
-                pane->setDebugLine(debugLine);
-                pane->setExecutionLine(debugLine);
-                // Switch to this tab
-                tab->setCurrentIndex(i);
-                // Scroll to the debug line
-                if (pane->getEditor()) {
-                    QTextBlock block
-                        = pane->getEditor()->document()->findBlockByLineNumber(debugLine - 1);
-                    if (block.isValid()) {
-                        QTextCursor cursor(block);
-                        pane->getEditor()->setTextCursor(cursor);
-                        pane->getEditor()->ensureCursorVisible();
-                    }
-                }
-                found = true;
-                break;
-            }
-        }
+            if (pane) {
+                // Compare absolute paths to ensure we find the right file
+                QFileInfo openFileInfo(pane->getFileName());
+                QString openAbsolutePath = openFileInfo.absoluteFilePath();
 
-        // If file not open, try to open it
-        if (!found && !debugFilename.isEmpty() && QFile::exists(debugFilename)) {
-            loadFile(debugFilename);
-            // After loading, find the tab and highlight
-            for (int i = 0; i < tab->count(); ++i) {
-                QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
-                if (pane && pane->getFileName() == debugFilename) {
+                if (openAbsolutePath == debugAbsolutePath) {
                     pane->setDebugLine(debugLine);
                     pane->setExecutionLine(debugLine);
+                    // Switch to this tab
                     tab->setCurrentIndex(i);
+                    // Scroll to the debug line
                     if (pane->getEditor()) {
                         QTextBlock block
                             = pane->getEditor()->document()->findBlockByLineNumber(debugLine - 1);
@@ -1723,7 +1706,37 @@ QtTextEditor::updateDebugLineHighlight()
                             pane->getEditor()->ensureCursorVisible();
                         }
                     }
+                    found = true;
                     break;
+                }
+            }
+        }
+
+        // If file not open, try to open it ONLY if it wasn't found in any tab
+        if (!found && !debugFilename.isEmpty() && QFile::exists(debugAbsolutePath)) {
+            loadFile(debugAbsolutePath);
+            // After loading, find the tab and highlight
+            for (int i = 0; i < tab->count(); ++i) {
+                QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
+                if (pane) {
+                    QFileInfo openFileInfo(pane->getFileName());
+                    QString openAbsolutePath = openFileInfo.absoluteFilePath();
+
+                    if (openAbsolutePath == debugAbsolutePath) {
+                        pane->setDebugLine(debugLine);
+                        pane->setExecutionLine(debugLine);
+                        tab->setCurrentIndex(i);
+                        if (pane->getEditor()) {
+                            QTextBlock block = pane->getEditor()->document()->findBlockByLineNumber(
+                                debugLine - 1);
+                            if (block.isValid()) {
+                                QTextCursor cursor(block);
+                                pane->getEditor()->setTextCursor(cursor);
+                                pane->getEditor()->ensureCursorVisible();
+                            }
+                        }
+                        break;
+                    }
                 }
             }
         }
