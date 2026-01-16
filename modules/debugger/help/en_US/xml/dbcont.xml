@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>dbcont</keyword>
+  <short_description
+  >Resume execution from a paused breakpoint.</short_description>
+
+  <syntax>
+    <syntax_item>dbcont</syntax_item>
+  </syntax>
+
+  <description>
+    <p>
+      <b>dbcont</b> resumes execution of file after pausing at a breakpoint.
+      Execution continues until another breakpoint is encountered, a pause condition is met,
+      an error occurs, or execution completes successfully.
+    </p>
+    <p>
+      Use <b
+      >dbcont</b> to continue execution after examining workspace variables or debugging code.
+    </p>
+    <p>
+      Note: If you want to edit a file during debugging, it is recommended to first exit
+      debug mode using <b>dbquit</b> to avoid unexpected behavior.
+    </p>
+  </description>
+
+  <used_function />
+
+  <bibliography />
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Resume execution after a breakpoint in a function.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+function z = buggy(x)
+  n = length(x);
+  z = (1:n) / x';
+end
+
+dbstop in buggy at 2
+buggy(5)
+dbcont
+]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${debugger}dbquit">dbquit</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbclear">dbclear</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstatus">dbstatus</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstop">dbstop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstep">dbstep</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -63,6 +63,24 @@
     <ClCompile Include="..\cpp\SmartIndent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\QtBreakpointArea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\moc_QtBreakpointArea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\QtDebugStackPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\moc_QtDebugStackPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\QtBreakpointPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\moc_QtBreakpointPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\cpp\dllMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -93,6 +111,15 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="..\cpp\QtBreakpointArea.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\cpp\QtDebugStackPanel.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\cpp\QtBreakpointPanel.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
     <CustomBuild Include="..\cpp\QtEditPane.h">
       <Filter>Header Files</Filter>
     </CustomBuild>

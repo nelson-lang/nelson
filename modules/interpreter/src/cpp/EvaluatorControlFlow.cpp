@@ -146,10 +146,64 @@ Evaluator::whileStatement(AbstractSyntaxTreePtr t)
     AbstractSyntaxTreePtr codeBlock;
     bool conditionTrue;
     bool breakEncountered;
-    callstack.pushID((size_t)t->getContext());
+    // Use corrected line (while keyword) so dbstack/stepping point at the condition line
+    size_t whileLine = getLinePosition(t);
+    callstack.pushID(whileLine);
+
+    // Helper to handle breakpoints at the while condition line (each evaluation pass)
+    auto handleConditionBreakpoint = [&]() -> bool {
+        if (onBreakpoint(t)) {
+            bpActive = true;
+            while (true) {
+                debugCLI();
+
+                if (state == NLS_STATE_ABORT) {
+                    bpActive = false;
+                    callstack.popID();
+                    return true;
+                }
+
+                if (state == NLS_STATE_QUIT || state == NLS_STATE_FORCE_QUIT) {
+                    bpActive = false;
+                    resetDebugDepth();
+                    callstack.popID();
+                    return true;
+                }
+
+                if (state == NLS_STATE_DEBUG_QUIT_ALL) {
+                    bpActive = false;
+                    state = NLS_STATE_ABORT;
+                    callstack.popID();
+                    return true;
+                }
+
+                if (state == NLS_STATE_DEBUG_QUIT) {
+                    callstack.popID();
+                    state = NLS_STATE_ABORT;
+                    return true;
+                }
+                if (state == NLS_STATE_DEBUG_CONTINUE || state == NLS_STATE_DEBUG_STEP) {
+                    if (state == NLS_STATE_DEBUG_STEP) {
+                        bpActive = true;
+                    } else {
+                        bpActive = false;
+                    }
+                    state = NLS_STATE_OK;
+                    break;
+                }
+            }
+        }
+        return false;
+    };
+
     testCondition = t;
     codeBlock = t->right;
     breakEncountered = false;
+    // Breakpoint before first condition evaluation
+    if (handleConditionBreakpoint()) {
+        return;
+    }
+
     condVar = expression(testCondition);
     conditionTrue = checkIfWhileCondition(condVar);
     context->enterLoop();
@@ -163,6 +217,10 @@ Evaluator::whileStatement(AbstractSyntaxTreePtr t)
         }
         breakEncountered = (state == NLS_STATE_BREAK);
         if (!breakEncountered) {
+            // Breakpoint on each subsequent condition evaluation
+            if (handleConditionBreakpoint()) {
+                return;
+            }
             condVar = expression(testCondition);
             conditionTrue = checkIfWhileCondition(condVar);
         } else {
@@ -846,8 +904,66 @@ Evaluator::statement(AbstractSyntaxTreePtr t)
 {
     bool popNeeded = false;
     try {
-        callstack.pushID((size_t)t->getContext());
+        // For control flow statements (for, while, if, switch), use the corrected line number
+        // instead of the node's context which points to the end keyword
+        size_t contextToPush = (size_t)t->getContext();
+        if (t->opNum == OP_RSTATEMENT || t->opNum == OP_QSTATEMENT) {
+            if (t->down != nullptr && t->down->type == reserved_node) {
+                if (t->down->tokenNumber == NLS_KEYWORD_FOR
+                    || t->down->tokenNumber == NLS_KEYWORD_WHILE
+                    || t->down->tokenNumber == NLS_KEYWORD_IF
+                    || t->down->tokenNumber == NLS_KEYWORD_SWITCH) {
+                    // Get the corrected line position using getLinePosition
+                    contextToPush = getLinePosition(t);
+                }
+            }
+        }
+
+        callstack.pushID(contextToPush);
         popNeeded = true;
+
+        if (onBreakpoint(t)) {
+
+            // Ensure debug prompt shows breakpoint mode on first entry
+            bpActive = true;
+
+            while (true) {
+                debugCLI();
+
+                if (state == NLS_STATE_ABORT) {
+                    bpActive = false;
+                    return;
+                }
+
+                // Handle quit/exit command during debug session
+                if (state == NLS_STATE_QUIT || state == NLS_STATE_FORCE_QUIT) {
+                    bpActive = false;
+                    resetDebugDepth();
+                    return;
+                }
+
+                if (state == NLS_STATE_DEBUG_QUIT_ALL) {
+                    bpActive = false;
+                    state = NLS_STATE_ABORT;
+                    return;
+                }
+
+                if (state == NLS_STATE_DEBUG_QUIT) {
+                    callstack.popID();
+                    state = NLS_STATE_ABORT;
+                    return;
+                }
+                if (state == NLS_STATE_DEBUG_CONTINUE || state == NLS_STATE_DEBUG_STEP) {
+                    if (state == NLS_STATE_DEBUG_STEP) {
+                        bpActive = true;
+                    } else {
+                        bpActive = false;
+                    }
+                    state = NLS_STATE_OK;
+                    break;
+                }
+            }
+        }
 
         switch (t->opNum) {
         case OP_QSTATEMENT:

@@ -76,7 +76,7 @@ ArrayOf::singleRowVectorConstructor(indexType len)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::singleComplexRowVectorConstructor(std::vector<std::complex<single>>& values)
+ArrayOf::singleComplexRowVectorConstructor(const std::vector<std::complex<single>>& values)
 {
     const size_t count = values.size();
     single* data
@@ -86,7 +86,7 @@ ArrayOf::singleComplexRowVectorConstructor(std::vector<std::complex<single>>& va
 }
 //=============================================================================
 ArrayOf
-ArrayOf::singleRowVectorConstructor(std::vector<single>& values)
+ArrayOf::singleRowVectorConstructor(const std::vector<single>& values)
 {
     const size_t count = values.size();
     single* data = static_cast<single*>(allocateArrayOf(NLS_SINGLE, count, stringVector(), false));

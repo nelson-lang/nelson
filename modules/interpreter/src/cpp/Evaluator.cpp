@@ -37,6 +37,7 @@
 #include "NelsonReadyNamedMutex.hpp"
 #include "CallbackQueue.hpp"
 #include "EventQueue.hpp"
+#include "ProcessEventsDynamicFunction.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -365,12 +366,8 @@ std::wstring
 Evaluator::buildPrompt()
 {
     std::wstring prompt;
-    if (depth > 0) {
-        prompt += std::to_wstring(depth);
-    }
-
-    if (bpActive) {
-        prompt += L"D";
+    if (isBreakpointActive()) {
+        prompt += L"K";
     }
     prompt += L">> ";
     return prompt;
@@ -412,6 +409,26 @@ Evaluator::evalCLI()
                 setNamedMutexNelsonReady();
                 doOnce = false;
             }
+
+            // Before showing prompt: if in debug mode but there is no active execution frame,
+            // exit debug mode so prompt shows >> instead of K>>. This also cleans up any stale
+            // step context that could leave the CLI stuck in K>> after script completion.
+            // Check multiple conditions that indicate we should exit debug mode:
+            // 1. Callstack is minimal (no functions executing) - BUT only if NOT at an active
+            // breakpoint
+            // 2. We have a step breakpoint but the current filename is empty (not in any file)
+            // 3. Step mode is active but we're at base scope with no file
+            bool noExecutionFrame = callstack.size() <= 1;
+            bool notInFile = context->getCurrentScope()->getFilename().empty();
+            // If there is no execution frame, always leave debug mode; this runs after scripts
+            // finish.
+            if (bpActive && noExecutionFrame) {
+                bpActive = false;
+                stepMode = false;
+                stepBreakpoint.reset();
+                clearStepBreakpoints();
+            }
+
             commandLine = io->getLine(buildPrompt());
             if (commandLine.empty()) {
                 InCLI = false;
@@ -522,7 +539,38 @@ Evaluator::evalCLI()
             while (callstack.size() > stackdepth) {
                 callstack.pop_back();
             }
+            if (this->getState() == NLS_STATE_DEBUG_QUIT_ALL) {
+                // Quit all debug levels - reset depth and exit all debugCLI calls
+                // Breakpoints remain in effect (MATLAB compatible behavior)
+                depth = 0;
+                bpActive = false;
+                InCLI = false;
+                return;
+            }
+
+            if (this->getState() == NLS_STATE_DEBUG_QUIT) {
+                // Quit current debug level only
+                // The debugCLI() caller will decrement depth and handle bpActive
+                depth--;
+                InCLI = false;
+                return;
+            }
+
+            if (this->getState() == NLS_STATE_DEBUG_STEP) {
+                InCLI = false;
+                return;
+            }
+            if (this->getState() == NLS_STATE_DEBUG_CONTINUE) {
+                InCLI = false;
+                return;
+            }
             if (!evalResult || isQuitOrForceQuitState() || this->getState() == NLS_STATE_ABORT) {
+                // If ABORT occurred during command evaluation in a debug session,
+                // it means a nested function was aborted (dbquit). Reset state and continue.
+                if (this->getState() == NLS_STATE_ABORT && bpActive) {
+                    resetState();
+                    continue; // Continue the debug CLI loop
+                }
                 InCLI = false;
                 return;
             }
@@ -543,6 +591,41 @@ Evaluator::isSafeToAutoTerminateCLI()
     // Allow termination if we're only missing 'end' keywords
     // This handles cases like incomplete if/for/while blocks
     return (lexerContext.inStatement >= 0 && !lexerContext.inFunction);
+}
+//=============================================================================
+void
+Evaluator::debugCLI()
+{
+    depth++;
+    bool previousBpActive = bpActive;
+    bpActive = true;
+    // Force immediate UI update so text editor shows current debug line
+    if (haveEventsLoop()) {
+        ProcessEventsDynamicFunctionWithoutWait();
+    }
+    evalCLI();
+    // After evalCLI() returns, check if debug mode should be exited:
+    // - If a debug command set bpActive to false, keep it false
+    // - If script finished without active breakpoint, exit debug mode
+    // - Otherwise restore previous state for nested sessions
+    if (!bpActive) {
+        // Debug command (e.g., dbstep or dbcont) already disabled debug mode
+        // Keep it false
+        // Clean up any leftover temporary step breakpoints
+        stepBreakpoint.reset();
+        clearStepBreakpoints();
+    } else if (callstack.size() <= 1) {
+        // Script has finished (callstack empty or minimal), exit debug mode
+        bpActive = false;
+        // Clean up any leftover temporary step breakpoints
+        stepBreakpoint.reset();
+        clearStepBreakpoints();
+    } else {
+        // Nested debug session still active, restore previous state
+        bpActive = previousBpActive;
+    }
+    stepMode = false;
+    depth--;
 }
 //=============================================================================
 // Checks if the evaluator has an event loop.

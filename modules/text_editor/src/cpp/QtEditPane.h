@@ -13,8 +13,12 @@
 #include <QtWidgets/QWidget>
 #include "QtHighlighter.h"
 #include "QtTextEdit.h"
+#include "Evaluator.hpp"
 //=============================================================================
 class QCompleter;
+class QtBreakpointArea;
+//=============================================================================
+using namespace Nelson;
 //=============================================================================
 class QtEditPane : public QWidget
 {
@@ -24,7 +28,7 @@ class QtEditPane : public QWidget
     QString currentEncoding;
 
 public:
-    QtEditPane();
+    QtEditPane(Evaluator* eval = nullptr);
     ~QtEditPane();
     QtTextEdit*
     getEditor();
@@ -37,8 +41,34 @@ public:
     void
     setEncoding(const QString& encoding);
 
+    QtBreakpointArea*
+    getBreakpointArea();
+
+    void
+    refreshBreakpoints();
+
+    void
+    setDebugLine(int line);
+
+    void
+    clearDebugLine();
+
+    int
+    getDebugLine() const;
+
+    void
+    setExecutionLine(int line);
+
+    void
+    clearExecutionLine();
+
+    int
+    getExecutionLine() const;
+
 private:
     Highlighter* highlight;
     QCompleter* completer;
+    QtBreakpointArea* breakpointArea;
+    Evaluator* nlsEvaluator;
 };
 //=============================================================================

@@ -772,14 +772,14 @@ public:
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    doubleRowVectorConstructor(std::vector<double>& values);
+    doubleRowVectorConstructor(const std::vector<double>& values);
 
     /**
      * Double complex vector constructor - Construct an NLS_DCOMPLEX object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    doubleComplexRowVectorConstructor(std::vector<std::complex<double>>& values);
+    doubleComplexRowVectorConstructor(const std::vector<std::complex<double>>& values);
 
     /**
      * Single vector constructor - Construct an NLS_SINGLE object
@@ -793,14 +793,15 @@ public:
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    singleComplexRowVectorConstructor(std::vector<std::complex<single>>& values);
+    singleComplexRowVectorConstructor(const std::vector<std::complex<single>>& values);
 
     /**
      * single vector constructor - Construct an NLS_SINGLE object
      * that is a (row) vector with the given length.
      */
     static ArrayOf
-    singleRowVectorConstructor(std::vector<single>& values);
+    singleRowVectorConstructor(const std::vector<single>& values);
+
     /**
      * Double matrix constructor - Construct an NLS_DOUBLE object
      * that is a (row, columns) matrix with the given length.

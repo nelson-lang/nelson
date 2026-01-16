@@ -13,8 +13,10 @@
 #include <QtCore/QUrl>
 #include <QtCore/QTextStream>
 #include <QtCore/QSettings>
+#include <QtCore/QTimer>
 #include <QtGui/QClipboard>
 #include <QtGui/QKeyEvent>
+#include <QtGui/QTextBlock>
 #include <QtGui/QTextDocumentFragment>
 #include <QtGui/QPainter>
 #include <QtPrintSupport/QPrintDialog>
@@ -42,6 +44,7 @@
 #include "PostCommand.hpp"
 #include "ModulesManager.hpp"
 #include "QStringConverter.hpp"
+#include "QtBreakpointArea.h"
 #include "QtLineNumber.h"
 #include "QtTextIndent.h"
 #include "QtTranslation.hpp"
@@ -58,6 +61,7 @@ using namespace Nelson;
 //=============================================================================
 #define DEFAULT_FILENAME "untitled.m"
 #define DEFAULT_DELAY_MSG 1500
+#define DEBUG_STATE_CHECK_INTERVAL 200
 //=============================================================================
 QtTextEditor::QtTextEditor(Evaluator* eval)
 {
@@ -81,6 +85,107 @@ QtTextEditor::QtTextEditor(Evaluator* eval)
     connect(tab, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     addTab();
     setPalette(getNelsonPalette());
+
+    // Create debug panels
+    debugStackPanel = new QtDebugStackPanel(nlsEvaluator, this);
+    debugStackDock = new QDockWidget(tr("Call Stack"), this);
+    debugStackDock->setWidget(debugStackPanel);
+    debugStackDock->setAllowedAreas(
+        Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+    addDockWidget(Qt::BottomDockWidgetArea, debugStackDock);
+    debugStackDock->hide(); // Hidden by default
+
+    breakpointPanel = new QtBreakpointPanel(nlsEvaluator, this);
+    breakpointDock = new QDockWidget(tr("Breakpoints"), this);
+    breakpointDock->setWidget(breakpointPanel);
+    breakpointDock->setAllowedAreas(
+        Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+    addDockWidget(Qt::RightDockWidgetArea, breakpointDock);
+    breakpointDock->hide(); // Hidden by default
+
+    // Connect panel signals
+    connect(debugStackPanel, &QtDebugStackPanel::frameClicked, this,
+        [this](const QString& filename, int line) {
+            loadFile(filename);
+            // Find the tab and go to line
+            for (int i = 0; i < tab->count(); ++i) {
+                QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
+                if (pane && pane->getFileName() == filename) {
+                    tab->setCurrentIndex(i);
+                    if (pane->getEditor()) {
+                        QTextBlock block
+                            = pane->getEditor()->document()->findBlockByLineNumber(line - 1);
+                        if (block.isValid()) {
+                            QTextCursor cursor(block);
+                            pane->getEditor()->setTextCursor(cursor);
+                            pane->getEditor()->ensureCursorVisible();
+                        }
+                    }
+                    break;
+                }
+            }
+        });
+
+    connect(breakpointPanel, &QtBreakpointPanel::breakpointClicked, this,
+        [this](const QString& filename, int line) {
+            // Check if file is already open
+            QFileInfo requestedFile(filename);
+            QString requestedPath = requestedFile.absoluteFilePath();
+
+            bool fileFound = false;
+            for (int i = 0; i < tab->count(); ++i) {
+                QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
+                if (pane) {
+                    QFileInfo openFile(pane->getFileName());
+                    if (openFile.absoluteFilePath() == requestedPath) {
+                        // File already open, just switch to it
+                        tab->setCurrentIndex(i);
+                        fileFound = true;
+                        break;
+                    }
+                }
+            }
+
+            // If not already open, load it
+            if (!fileFound) {
+                loadFile(filename);
+            }
+
+            // Navigate to the breakpoint line
+            if (currentEditor()) {
+                QTextBlock block = currentEditor()->document()->findBlockByLineNumber(line - 1);
+                if (block.isValid()) {
+                    QTextCursor cursor(block);
+                    currentEditor()->setTextCursor(cursor);
+                    currentEditor()->ensureCursorVisible();
+                    currentEditor()->setFocus();
+                }
+            }
+        });
+
+    connect(breakpointPanel, &QtBreakpointPanel::breakpointsChanged, this, [this]() {
+        // Refresh all breakpoint areas
+        for (int i = 0; i < tab->count(); ++i) {
+            QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
+            if (pane) {
+                pane->refreshBreakpoints();
+            }
+        }
+    });
+
+    // Connect view actions to dock widgets
+    connect(showDebugStackAction, &QAction::toggled, debugStackDock, &QDockWidget::setVisible);
+    connect(debugStackDock, &QDockWidget::visibilityChanged, showDebugStackAction,
+        &QAction::setChecked);
+    connect(
+        showBreakpointsPanelAction, &QAction::toggled, breakpointDock, &QDockWidget::setVisible);
+    connect(breakpointDock, &QDockWidget::visibilityChanged, showBreakpointsPanelAction,
+        &QAction::setChecked);
+
+    // Setup timer for debug state checking
+    debugStateTimer = new QTimer(this);
+    connect(debugStateTimer, SIGNAL(timeout()), this, SLOT(checkDebugState()));
+    debugStateTimer->start(DEBUG_STATE_CHECK_INTERVAL);
 }
 //=============================================================================
 void
@@ -167,11 +272,13 @@ QtTextEditor::createActions()
     undoAction = new QAction(QIcon(fileNameIcon), TR("&Undo"), this);
     undoAction->setShortcut(Qt::Key_Z | Qt::CTRL);
     connect(undoAction, SIGNAL(triggered()), this, SLOT(undo()));
+    undoAction->setEnabled(false);
     fileNameIcon
         = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/edit-redo.svg"));
     redoAction = new QAction(QIcon(fileNameIcon), TR("&Redo"), this);
     redoAction->setShortcut(Qt::Key_Y | Qt::CTRL);
     connect(redoAction, SIGNAL(triggered()), this, SLOT(redo()));
+    redoAction->setEnabled(false);
     fileNameIcon = Nelson::wstringToQString(
         textEditorRootPath + std::wstring(L"/resources/format-text-bold.svg"));
     fontAction = new QAction(QIcon(fileNameIcon), TR("&Font"), this);
@@ -195,6 +302,7 @@ QtTextEditor::createActions()
         textEditorRootPath + std::wstring(L"/resources/stop-interpreter.svg"));
     stopRunAction = new QAction(QIcon(fileNameIcon), TR("&Stop execution"), this);
     connect(stopRunAction, SIGNAL(triggered()), this, SLOT(stopRun()));
+    stopRunAction->setEnabled(false); // Initially disabled (at prompt)
     fileNameIcon = Nelson::wstringToQString(
                        Nelson::NelsonConfiguration::getInstance()->getNelsonRootDirectory())
         + QString("/resources/help-icon.svg");
@@ -215,6 +323,39 @@ QtTextEditor::createActions()
     exportToAction = new QAction(QIcon(fileNameIcon), TR("Export to PDF ..."), this);
     connect(exportToAction, SIGNAL(triggered()), this, SLOT(onExportToAction()));
 
+    // Debug actions
+    fileNameIcon
+        = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/debug-step.svg"));
+    dbStepAction = new QAction(QIcon(fileNameIcon), TR("Step"), this);
+    dbStepAction->setShortcut(Qt::Key_F10);
+    dbStepAction->setToolTip(TR("Step (F10)"));
+    connect(dbStepAction, SIGNAL(triggered()), this, SLOT(dbStep()));
+    dbStepAction->setEnabled(false);
+
+    fileNameIcon = Nelson::wstringToQString(
+        textEditorRootPath + std::wstring(L"/resources/debug-step-in.svg"));
+    dbStepInAction = new QAction(QIcon(fileNameIcon), TR("Step In"), this);
+    dbStepInAction->setShortcut(Qt::Key_F11);
+    dbStepInAction->setToolTip(TR("Step In (F11)"));
+    connect(dbStepInAction, SIGNAL(triggered()), this, SLOT(dbStepIn()));
+    dbStepInAction->setEnabled(false);
+
+    fileNameIcon = Nelson::wstringToQString(
+        textEditorRootPath + std::wstring(L"/resources/debug-step-out.svg"));
+    dbStepOutAction = new QAction(QIcon(fileNameIcon), TR("Step Out"), this);
+    dbStepOutAction->setShortcut(Qt::Key_F11 | Qt::SHIFT);
+    dbStepOutAction->setToolTip(TR("Step Out (Shift+F11)"));
+    connect(dbStepOutAction, SIGNAL(triggered()), this, SLOT(dbStepOut()));
+    dbStepOutAction->setEnabled(false);
+
+    fileNameIcon = Nelson::wstringToQString(
+        textEditorRootPath + std::wstring(L"/resources/debug-continue.svg"));
+    dbContinueAction = new QAction(QIcon(fileNameIcon), TR("Continue"), this);
+    dbContinueAction->setShortcut(Qt::Key_F5);
+    dbContinueAction->setToolTip(TR("Continue (F5)"));
+    connect(dbContinueAction, SIGNAL(triggered()), this, SLOT(dbContinue()));
+    dbContinueAction->setEnabled(false);
+
     // Find actions
     findAction = new QAction(TR("Find..."), this);
     findAction->setShortcut(QKeySequence::Find);
@@ -229,6 +370,13 @@ QtTextEditor::createActions()
     findPreviousAction->setShortcut(QKeySequence::FindPrevious);
     connect(findPreviousAction, SIGNAL(triggered()), this, SLOT(findPrevious()));
     findPreviousAction->setEnabled(!lastSearch.isEmpty());
+
+    // View actions for panels (connections done after dock widgets are created)
+    showDebugStackAction = new QAction(TR("Show Call Stack"), this);
+    showDebugStackAction->setCheckable(true);
+
+    showBreakpointsPanelAction = new QAction(TR("Show Breakpoints"), this);
+    showBreakpointsPanelAction->setCheckable(true);
 }
 
 //=============================================================================
@@ -282,6 +430,19 @@ QtTextEditor::createMenus()
         editMenu->addAction(findPreviousAction);
     }
 
+    // Debug menu
+    debugMenu = menuBar()->addMenu(TR("&Debug"));
+    debugMenu->addAction(runFileAction);
+    debugMenu->addAction(stopRunAction);
+    debugMenu->addSeparator();
+    debugMenu->addAction(dbContinueAction);
+    debugMenu->addAction(dbStepAction);
+    debugMenu->addAction(dbStepInAction);
+    debugMenu->addAction(dbStepOutAction);
+    debugMenu->addSeparator();
+    debugMenu->addAction(showDebugStackAction);
+    debugMenu->addAction(showBreakpointsPanelAction);
+
     contextMenu = new QMenu();
     contextMenu->addAction(copyFullPathAction);
     contextMenu->addSeparator();
@@ -333,6 +494,10 @@ QtTextEditor::createToolBars()
     editToolBar->addSeparator();
     editToolBar->addAction(runFileAction);
     editToolBar->addAction(stopRunAction);
+    editToolBar->addSeparator();
+    editToolBar->addAction(dbStepAction);
+    editToolBar->addAction(dbStepInAction);
+    editToolBar->addAction(dbStepOutAction);
     editToolBar->addSeparator();
     editToolBar->addAction(fontAction);
 }
@@ -656,7 +821,7 @@ QtTextEditor::readSettings()
 {
     QPoint pos;
     QSize size;
-    TextEditorLoadPreferences(m_font, pos, size, recentFilenames);
+    TextEditorLoadPreferences(m_font, pos, size, recentFilenames, debugLineColor);
     resize(size);
     move(pos);
     updateFont();
@@ -665,7 +830,7 @@ QtTextEditor::readSettings()
 void
 QtTextEditor::writeSettings()
 {
-    TextEditorSavePreferences(m_font, pos(), size(), recentFilenames);
+    TextEditorSavePreferences(m_font, pos(), size(), recentFilenames, debugLineColor);
 }
 //=============================================================================
 void
@@ -675,6 +840,25 @@ QtTextEditor::updateFont()
         QWidget* p = tab->widget(i);
         QtEditPane* te = qobject_cast<QtEditPane*>(p);
         te->setFont(m_font);
+    }
+}
+//=============================================================================
+QColor
+QtTextEditor::getDebugLineColor()
+{
+    return debugLineColor;
+}
+//=============================================================================
+void
+QtTextEditor::setDebugLineColor(const QColor& color)
+{
+    debugLineColor = color;
+    // Update all open editors
+    for (int i = 0; i < tab->count(); i++) {
+        QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
+        if (pane && pane->getEditor()) {
+            pane->getEditor()->setDebugLineColor(color);
+        }
     }
 }
 //=============================================================================
@@ -802,13 +986,11 @@ QtTextEditor::createTabUntitledWithText(const QString& text)
 void
 QtTextEditor::addTab()
 {
-    QtEditPane* editPane = new QtEditPane();
-    if (editPane) {
-        editPane->setFileName(DEFAULT_FILENAME);
-        tab->addTab(editPane, DEFAULT_FILENAME);
-        tab->setCurrentIndex(tab->count() - 1);
-        updateFont();
-    }
+    QtEditPane* editPane = new QtEditPane(nlsEvaluator);
+    editPane->setFileName(DEFAULT_FILENAME);
+    tab->addTab(editPane, DEFAULT_FILENAME);
+    tab->setCurrentIndex(tab->count() - 1);
+    updateFont();
 }
 //=============================================================================
 void
@@ -859,6 +1041,14 @@ QtTextEditor::tabChanged(int indexTab)
         currentEditor()->document(), SIGNAL(contentsChanged()), this, SLOT(documentWasModified()));
     // connect cursor position change to update status
     connect(currentEditor(), SIGNAL(cursorPositionChanged()), this, SLOT(updateCursorPosition()));
+    // Connect undo/redo availability signals
+    connect(currentEditor()->document(), SIGNAL(undoAvailable(bool)), undoAction,
+        SLOT(setEnabled(bool)));
+    connect(currentEditor()->document(), SIGNAL(redoAvailable(bool)), redoAction,
+        SLOT(setEnabled(bool)));
+    // Update initial undo/redo state
+    undoAction->setEnabled(currentEditor()->document()->isUndoAvailable());
+    redoAction->setEnabled(currentEditor()->document()->isRedoAvailable());
     updateTitles();
     prevEdit = currentEditor();
     QString filename = currentFilename();
@@ -958,6 +1148,12 @@ QtTextEditor::contextMenuEvent(QContextMenuEvent* event)
     QString clipboardText = Clipboard->text();
     if (pasteAction) {
         pasteAction->setEnabled(!clipboardText.isEmpty());
+    }
+
+    // Update undo/redo state
+    if (currentEditor()) {
+        undoAction->setEnabled(currentEditor()->document()->isUndoAvailable());
+        redoAction->setEnabled(currentEditor()->document()->isRedoAvailable());
     }
 
     // Update Find actions state
@@ -1086,12 +1282,20 @@ QtTextEditor::gotoLine()
 void
 QtTextEditor::runFile()
 {
+    // If at a breakpoint, treat click as Continue
+    if (nlsEvaluator->isBreakpointActive()) {
+        dbContinue();
+        return;
+    }
+
     if (nlsEvaluator->getInterface()->isAtPrompt()) {
         if (currentEditor()->document()->isModified() || currentEditor()->document()->isEmpty()) {
             save();
         }
         std::wstring filename = QStringTowstring(currentFilename());
         postCommand(std::wstring(L"run('") + filename + std::wstring(L"')"));
+        // Immediately update button states when execution starts
+        checkDebugState();
     } else {
         QMessageBox::warning(
             this, _("Run file ...").c_str(), _("Interpreter currently runs.").c_str());
@@ -1101,8 +1305,125 @@ QtTextEditor::runFile()
 void
 QtTextEditor::stopRun()
 {
-    if (!nlsEvaluator->getInterface()->isAtPrompt()) {
+    // If debugging, issue a dbquit; otherwise interrupt running interpreter
+    if (nlsEvaluator->isBreakpointActive()) {
+        nlsEvaluator->addCommandToQueue(L"dbquit", true);
+    } else if (!nlsEvaluator->getInterface()->isAtPrompt()) {
         NelsonConfiguration::getInstance()->setInterruptPending(true, nlsEvaluator->getID());
+    }
+}
+//=============================================================================
+void
+QtTextEditor::dbStep()
+{
+    if (nlsEvaluator->isBreakpointActive()) {
+        nlsEvaluator->addCommandToQueue(L"dbstep", true);
+    }
+}
+//=============================================================================
+void
+QtTextEditor::dbStepIn()
+{
+    if (nlsEvaluator->isBreakpointActive()) {
+        nlsEvaluator->addCommandToQueue(L"dbstep in", true);
+    }
+}
+//=============================================================================
+void
+QtTextEditor::dbStepOut()
+{
+    if (nlsEvaluator->isBreakpointActive()) {
+        nlsEvaluator->addCommandToQueue(L"dbstep out", true);
+    }
+}
+//=============================================================================
+void
+QtTextEditor::dbContinue()
+{
+    if (nlsEvaluator->isBreakpointActive()) {
+        nlsEvaluator->addCommandToQueue(L"dbcont", true);
+    }
+}
+//=============================================================================
+void
+QtTextEditor::checkDebugState()
+{
+    if (!nlsEvaluator) {
+        return;
+    }
+
+    bool currentDebugActive = nlsEvaluator->isBreakpointActive();
+    bool atPrompt = nlsEvaluator->getInterface()->isAtPrompt();
+    std::wstring currentFilename;
+    size_t currentLine = 0;
+
+    if (currentDebugActive && nlsEvaluator->stepBreakpoint) {
+        currentFilename = nlsEvaluator->stepBreakpoint.value().filename;
+        currentLine = nlsEvaluator->stepBreakpoint.value().line;
+    }
+
+    // Check if breakpoint list changed (e.g., via dbstop command)
+    size_t currentBreakpointCount = nlsEvaluator->getBreakpoints().size();
+    bool breakpointsChanged = (currentBreakpointCount != lastBreakpointCount);
+    if (breakpointsChanged) {
+        lastBreakpointCount = currentBreakpointCount;
+        breakpointPanel->refreshBreakpoints();
+        // Refresh all editor breakpoint areas
+        for (int i = 0; i < tab->count(); ++i) {
+            QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
+            if (pane) {
+                pane->refreshBreakpoints();
+            }
+        }
+    }
+
+    // Check if debug state changed
+    bool stateChanged = (currentDebugActive != lastDebugState)
+        || (currentFilename != lastDebugFilename) || (currentLine != lastDebugLine);
+
+    if (stateChanged) {
+        lastDebugState = currentDebugActive;
+        lastDebugFilename = currentFilename;
+        lastDebugLine = currentLine;
+        updateDebugLineHighlight();
+
+        // Refresh debug panels
+        if (currentDebugActive) {
+            debugStackPanel->refreshStack();
+        } else {
+            debugStackPanel->clear();
+        }
+    }
+
+    // Manage button states based on interpreter state
+    // Stop button: enabled when running or paused in debugger
+    stopRunAction->setEnabled(currentDebugActive || !atPrompt);
+
+    // Debug step buttons: only enabled when at breakpoint
+    dbStepAction->setEnabled(currentDebugActive && atPrompt);
+    dbStepInAction->setEnabled(currentDebugActive && atPrompt);
+    dbStepOutAction->setEnabled(currentDebugActive && atPrompt);
+    dbContinueAction->setEnabled(currentDebugActive && atPrompt);
+
+    // Run file button doubles as Continue when stopped in debugger
+    if (currentDebugActive) {
+        runFileAction->setText(TR("&Continue"));
+        QString fileNameIcon = Nelson::wstringToQString(
+            textEditorRootPath + std::wstring(L"/resources/debug-continue.svg"));
+        runFileAction->setIcon(QIcon(fileNameIcon));
+        runFileAction->setToolTip(TR("Continue execution (F5)"));
+        runFileAction->setEnabled(true);
+    } else if (atPrompt) {
+        // At prompt: show "Run file" button
+        runFileAction->setText(TR("&Run file"));
+        QString fileNameIcon = Nelson::wstringToQString(
+            textEditorRootPath + std::wstring(L"/resources/run-file-start.svg"));
+        runFileAction->setIcon(QIcon(fileNameIcon));
+        runFileAction->setToolTip(TR("Run file"));
+        runFileAction->setEnabled(true);
+    } else {
+        // Execution in progress (not at prompt, not at breakpoint)
+        runFileAction->setEnabled(false);
     }
 }
 //=============================================================================
@@ -1335,6 +1656,89 @@ QtTextEditor::findNext()
         found = currentEditor()->find(lastSearch, flags);
         if (!found) {
             QApplication::beep();
+        }
+    }
+}
+//=============================================================================
+void
+QtTextEditor::updateDebugLineHighlight()
+{
+    // Clear all debug highlights and execution arrows first
+    for (int i = 0; i < tab->count(); ++i) {
+        QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
+        if (pane) {
+            pane->clearDebugLine();
+            pane->clearExecutionLine();
+        }
+    }
+
+    // Check if we're stopped at a breakpoint
+    if (nlsEvaluator && nlsEvaluator->isBreakpointActive() && nlsEvaluator->stepBreakpoint) {
+        const Breakpoint& bp = nlsEvaluator->stepBreakpoint.value();
+        QString debugFilename = wstringToQString(bp.filename);
+        int debugLine = static_cast<int>(bp.line);
+
+        // Normalize the path for comparison
+        QFileInfo debugFileInfo(debugFilename);
+        QString debugAbsolutePath = debugFileInfo.absoluteFilePath();
+
+        // Find the tab with the matching filename and highlight the line
+        bool found = false;
+        for (int i = 0; i < tab->count(); ++i) {
+            QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
+            if (pane) {
+                // Compare absolute paths to ensure we find the right file
+                QFileInfo openFileInfo(pane->getFileName());
+                QString openAbsolutePath = openFileInfo.absoluteFilePath();
+
+                if (openAbsolutePath == debugAbsolutePath) {
+                    pane->setDebugLine(debugLine);
+                    pane->setExecutionLine(debugLine);
+                    // Switch to this tab
+                    tab->setCurrentIndex(i);
+                    // Scroll to the debug line
+                    if (pane->getEditor()) {
+                        QTextBlock block
+                            = pane->getEditor()->document()->findBlockByLineNumber(debugLine - 1);
+                        if (block.isValid()) {
+                            QTextCursor cursor(block);
+                            pane->getEditor()->setTextCursor(cursor);
+                            pane->getEditor()->ensureCursorVisible();
+                        }
+                    }
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        // If file not open, try to open it ONLY if it wasn't found in any tab
+        if (!found && !debugFilename.isEmpty() && QFile::exists(debugAbsolutePath)) {
+            loadFile(debugAbsolutePath);
+            // After loading, find the tab and highlight
+            for (int i = 0; i < tab->count(); ++i) {
+                QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
+                if (pane) {
+                    QFileInfo openFileInfo(pane->getFileName());
+                    QString openAbsolutePath = openFileInfo.absoluteFilePath();
+
+                    if (openAbsolutePath == debugAbsolutePath) {
+                        pane->setDebugLine(debugLine);
+                        pane->setExecutionLine(debugLine);
+                        tab->setCurrentIndex(i);
+                        if (pane->getEditor()) {
+                            QTextBlock block = pane->getEditor()->document()->findBlockByLineNumber(
+                                debugLine - 1);
+                            if (block.isValid()) {
+                                QTextCursor cursor(block);
+                                pane->getEditor()->setTextCursor(cursor);
+                                pane->getEditor()->ensureCursorVisible();
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
         }
     }
 }

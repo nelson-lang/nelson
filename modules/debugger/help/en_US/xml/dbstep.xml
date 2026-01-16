@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>dbstep</keyword>
+  <short_description
+  >Execute next executable line during debugging.</short_description>
+
+  <syntax>
+    <syntax_item>dbstep</syntax_item>
+    <syntax_item>dbstep in</syntax_item>
+    <syntax_item>dbstep out</syntax_item>
+    <syntax_item>dbstep nlines</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>nlines</param_name>
+      <param_description>
+        Positive integer specifying the number of executable lines to step.
+        Execution pauses at breakpoints encountered along the way.
+      </param_description>
+    </param_input_item>
+  </param_input>
+
+  <description>
+    <p>
+      <b
+      >dbstep</b> executes the next executable line of the current file during debugging,
+      skipping breakpoints in functions called by that line.
+    </p>
+    <p>
+      <b>dbstep in</b> steps into any function called on the current line,
+      pausing at the first executable line of the called function.
+    </p>
+    <p>
+      <b>dbstep out</b> completes execution of the current function and pauses
+      just after returning to the caller. Execution pauses at any breakpoint
+      encountered along the way.
+    </p>
+    <p>
+      <b>dbstep nlines</b> executes the specified number of lines, pausing at
+      any breakpoint encountered.
+    </p>
+    <p>
+      These commands can only be used from the command line while debugging.
+    </p>
+  </description>
+
+  <used_function />
+
+  <bibliography />
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Step over a called function.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+function n = myfile(x)
+  n = myfunction(x-1);
+end
+
+function z = myfunction(y)
+  z = 2/y;
+end
+
+dbstop in myfile
+myfile(2);
+dbstep
+]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Step into a called function.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+dbstop in myfile
+myfile(2);
+dbstep in
+]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Step out of the current function.
+      </example_item_description>
+      <example_item_data><![CDATA[
+dbstep out
+]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Step multiple lines in one command.
+      </example_item_description>
+      <example_item_data><![CDATA[
+dbstep 4
+]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${debugger}dbstop">dbstop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbcont">dbcont</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbquit">dbquit</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstatus">dbstatus</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstack">dbstack</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>debugging workflow</keyword>
+
+  <short_description
+  >Debugging workflow for Nelson code files.</short_description>
+
+  <description>
+    <p>
+      The Nelson debugger provides interactive tools to diagnose and fix
+      problems in scripts and functions by controlling execution and
+      inspecting program state.
+    </p>
+
+    <p>
+      A typical debugging workflow consists of preparing the code,
+      pausing execution at specific locations, examining variable values,
+      stepping through instructions, and resuming or stopping execution.
+    </p>
+
+    <p>
+      Before starting a debugging session, ensure that all code files
+      are saved and accessible from the current folder or search path.
+      Unsaved changes may not be taken into account when running code
+      from the command line.
+    </p>
+
+    <p>
+      Execution can be paused by setting breakpoints or interrupting
+      a running program. When execution is paused, Nelson enters debug
+      mode and the command prompt changes to indicate that the debugger
+      has control.
+    </p>
+
+    <p>
+      While execution is paused, the current line has not yet been
+      executed. You can inspect variables in the current workspace,
+      execute code line by line, step into or out of functions, or
+      continue execution until the next breakpoint.
+    </p>
+
+    <p>
+      Each function has its own workspace. When stepping into a function,
+      the active workspace changes to reflect the function context.
+    </p>
+
+    <p>
+      After identifying the problem, end the debugging session to return
+      to normal execution mode. Ending the session restores the standard
+      command prompt and clears the debugger context.
+    </p>
+  </description>
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Creates demo_debugger.m for debugging examples.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[n = 50;
+r = rand(n,1);
+plot(r)
+
+m = mean(r);
+hold on
+plot([0,n],[m,m])
+hold off
+title("Mean of Random Uniform Data")]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Set a breakpoint in the demo_debugger function. click on the left margin next to the line number to toggle a breakpoint.</example_item_description>
+      <example_item_img
+        src="../../images/set_breakpoint.png"
+        align="middle"
+        generate="false"
+      />
+     </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Start debugging by calling the demo_debugger function from the command line or "Run file" button.</example_item_description>
+      <example_item_img
+        src="../../images/stop_at_breakpoint.png"
+        align="middle"
+        generate="false"
+      />
+    </example_item>
+  </examples>
+
+  <see_also>
+     <see_also_item>
+      <link linkend="${text_editor}edit">edit</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstop">dbstop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstep">dbstep</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbcont">dbcont</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbquit">dbquit</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstatus">dbstatus</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>Initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

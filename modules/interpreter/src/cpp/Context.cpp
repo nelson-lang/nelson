@@ -327,6 +327,21 @@ Context::restoreBypassedScopes()
     bypassstack.clear();
 }
 //=============================================================================
+void
+Context::restoreBypassedScopes(int count)
+{
+    if (count <= 0 || bypassstack.empty()) {
+        return;
+    }
+    // Restore 'count' scopes from bypassstack back to scopestack
+    // bypassstack stores scopes in reverse order (last bypassed is at end)
+    int toRestore = std::min(count, static_cast<int>(bypassstack.size()));
+    for (int i = 0; i < toRestore; ++i) {
+        scopestack.push_back(bypassstack.back());
+        bypassstack.pop_back();
+    }
+}
+//=============================================================================
 Scope*
 Context::getCallerScope()
 {

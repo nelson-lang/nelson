@@ -61,6 +61,7 @@ struct LexerContext
     int placeholderCounter = 0;
     bool pendingNamedArgumentComma = false;
     int pendingCommaContext = 0;
+    bool inDebugCommand = false;
     //=============================================================================
     /*
      * These variables capture the token information

@@ -20,8 +20,8 @@
 using namespace Nelson;
 //=============================================================================
 bool
-TextEditorSavePreferences(
-    QFont currentFont, QPoint pos, QSize sz, Nelson::wstringVector recentFiles)
+TextEditorSavePreferences(QFont currentFont, QPoint pos, QSize sz,
+    Nelson::wstringVector recentFiles, QColor debugLineColor)
 {
     std::wstring prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
     std::wstring editorConfFile
@@ -38,6 +38,10 @@ TextEditorSavePreferences(
     data["POSITION_Y"] = pos.y();
     data["SIZE_X"] = sz.width();
     data["SIZE_Y"] = sz.height();
+    data["DEBUG_LINE_COLOR_R"] = debugLineColor.red();
+    data["DEBUG_LINE_COLOR_G"] = debugLineColor.green();
+    data["DEBUG_LINE_COLOR_B"] = debugLineColor.blue();
+    data["DEBUG_LINE_COLOR_A"] = debugLineColor.alpha();
 
     stringVector utfFilenames;
     for (auto& name : recentFiles) {
@@ -59,8 +63,8 @@ TextEditorSavePreferences(
 }
 //=============================================================================
 bool
-TextEditorLoadPreferences(
-    QFont& currentFont, QPoint& pos, QSize& sz, Nelson::wstringVector& recentFiles)
+TextEditorLoadPreferences(QFont& currentFont, QPoint& pos, QSize& sz,
+    Nelson::wstringVector& recentFiles, QColor& debugLineColor)
 {
     int pref_pos_x = TEXT_EDITOR_DEFAULT_POS_X;
     int pref_pos_y = TEXT_EDITOR_DEFAULT_POS_Y;
@@ -69,6 +73,7 @@ TextEditorLoadPreferences(
     int pref_font_size = -1;
     bool pref_font_fixed_pitch = true;
     std::string pref_font_name = wstring_to_utf8(getDefaultFontName());
+    int debug_r = 255, debug_g = 255, debug_b = 0, debug_a = 128; // Default yellow semi-transparent
     std::wstring prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
     std::wstring editorConfFile
         = prefDir + L"/" + utf8_to_wstring(TEXT_EDITOR_PREFERENCES_FILENAME);
@@ -90,6 +95,12 @@ TextEditorLoadPreferences(
                 pref_pos_y = data["POSITION_Y"];
                 pref_sz_x = data["SIZE_X"];
                 pref_sz_y = data["SIZE_Y"];
+                if (data.contains("DEBUG_LINE_COLOR_R")) {
+                    debug_r = data["DEBUG_LINE_COLOR_R"];
+                    debug_g = data["DEBUG_LINE_COLOR_G"];
+                    debug_b = data["DEBUG_LINE_COLOR_B"];
+                    debug_a = data["DEBUG_LINE_COLOR_A"];
+                }
                 stringVector _recentFiles = data["RECENT_FILES"];
                 for (auto name : _recentFiles) {
                     recentFiles.push_back(utf8_to_wstring(name));
@@ -114,6 +125,7 @@ TextEditorLoadPreferences(
     pos.setY(pref_pos_y);
     sz.setWidth(pref_sz_x);
     sz.setHeight(pref_sz_y);
+    debugLineColor = QColor(debug_r, debug_g, debug_b, debug_a);
     return true;
 }
 //=============================================================================

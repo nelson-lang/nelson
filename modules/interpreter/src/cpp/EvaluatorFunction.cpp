@@ -279,6 +279,33 @@ Evaluator::functionExpression(
                     }
                 }
                 n = funcDef->evaluateFunction(this, m, narg_out);
+                // Check for step-out breakpoint after function returns
+                if (checkStepOutAfterFunctionReturn(t)) {
+                    // Enter debug CLI at the call site
+                    while (true) {
+                        debugCLI();
+                        if (state == NLS_STATE_ABORT || state == NLS_STATE_DEBUG_QUIT_ALL
+                            || state == NLS_STATE_DEBUG_QUIT) {
+                            bpActive = false;
+                            break;
+                        }
+                        // Handle quit/exit command during debug session
+                        if (state == NLS_STATE_QUIT || state == NLS_STATE_FORCE_QUIT) {
+                            bpActive = false;
+                            resetDebugDepth();
+                            break;
+                        }
+                        if (state == NLS_STATE_DEBUG_CONTINUE || state == NLS_STATE_DEBUG_STEP) {
+                            if (state == NLS_STATE_DEBUG_STEP) {
+                                bpActive = true;
+                            } else {
+                                bpActive = false;
+                            }
+                            state = NLS_STATE_OK;
+                            break;
+                        }
+                    }
+                }
             } else {
                 if (funcDef == nullptr) {
                     if (m.size() > 0 && m[0].isHandle() && m[0].isScalar()
@@ -301,6 +328,34 @@ Evaluator::functionExpression(
                     }
                 } else {
                     n = funcDef->evaluateFunction(this, m, narg_out);
+                    // Check for step-out breakpoint after function returns
+                    if (checkStepOutAfterFunctionReturn(t)) {
+                        // Enter debug CLI at the call site
+                        while (true) {
+                            debugCLI();
+                            if (state == NLS_STATE_ABORT || state == NLS_STATE_DEBUG_QUIT_ALL
+                                || state == NLS_STATE_DEBUG_QUIT) {
+                                bpActive = false;
+                                break;
+                            }
+                            // Handle quit/exit command during debug session
+                            if (state == NLS_STATE_QUIT || state == NLS_STATE_FORCE_QUIT) {
+                                bpActive = false;
+                                resetDebugDepth();
+                                break;
+                            }
+                            if (state == NLS_STATE_DEBUG_CONTINUE
+                                || state == NLS_STATE_DEBUG_STEP) {
+                                if (state == NLS_STATE_DEBUG_STEP) {
+                                    bpActive = true;
+                                } else {
+                                    bpActive = false;
+                                }
+                                state = NLS_STATE_OK;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
             InCLI = CLIFlagsave;

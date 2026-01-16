@@ -58,7 +58,7 @@ ArrayOf::doubleConstructor(double aval)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::doubleComplexRowVectorConstructor(std::vector<std::complex<double>>& values)
+ArrayOf::doubleComplexRowVectorConstructor(const std::vector<std::complex<double>>& values)
 {
     const size_t count = values.size();
     double* data
@@ -68,7 +68,7 @@ ArrayOf::doubleComplexRowVectorConstructor(std::vector<std::complex<double>>& va
 }
 //=============================================================================
 ArrayOf
-ArrayOf::doubleRowVectorConstructor(std::vector<double>& values)
+ArrayOf::doubleRowVectorConstructor(const std::vector<double>& values)
 {
     double* data
         = static_cast<double*>(allocateArrayOf(NLS_DOUBLE, values.size(), stringVector(), false));

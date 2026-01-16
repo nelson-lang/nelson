@@ -10,7 +10,10 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <vector>
+#include <set>
+#include <map>
+#include <optional>
+
 #include "nlsInterpreter_exports.h"
 #include "AbstractSyntaxTree.hpp"
 #include "ArrayOf.hpp"
@@ -34,10 +37,30 @@ enum State
     NLS_STATE_QUIT = 4,
     NLS_STATE_FORCE_QUIT = 5,
     NLS_STATE_CANCEL_QUIT = 6,
-    NLS_STATE_ABORT = 7
+    NLS_STATE_ABORT = 7,
+    NLS_STATE_DEBUG_CONTINUE = 8,
+    NLS_STATE_DEBUG_STEP = 9,
+    NLS_STATE_DEBUG_QUIT = 10,
+    NLS_STATE_DEBUG_QUIT_ALL = 11,
 };
 
 class Context;
+
+class Breakpoint
+{
+public:
+    std::wstring filename;
+    std::string functionName;
+    size_t line = 0;
+    bool enabled = true;
+    bool stepMode = false;
+    bool stepNext = false; // When true, break on first executed line after 'fromLine'
+    bool stepInto = false;
+    bool stepOut = false;
+    size_t maxLines = 0;
+    int targetDepth = -1; // Used for step out: callstack depth to stop at
+    size_t fromLine = 0; // Used for stepNext: starting line to search after
+};
 
 /**
  * This is the class that implements the interpreter - it generally
@@ -45,6 +68,8 @@ class Context;
  */
 class NLSINTERPRETER_IMPEXP Evaluator
 {
+    std::vector<Breakpoint> breakpoints;
+
     wstringVector commandLineArguments;
 
     /**
@@ -67,8 +92,6 @@ class NLSINTERPRETER_IMPEXP Evaluator
 
     int exitCode = 0;
 
-    bool bpActive;
-
     bool InCLI;
 
     bool bEchoMode = true;
@@ -76,6 +99,50 @@ class NLSINTERPRETER_IMPEXP Evaluator
     bool bQuietMode = false;
 
 public:
+    bool bpActive = false;
+
+    bool stepMode = false;
+
+    std::optional<Breakpoint> stepBreakpoint;
+
+    bool
+    isBreakpointActive()
+    {
+        return bpActive;
+    }
+
+    void
+    addBreakpoint(const Breakpoint& bp);
+    void
+    clearBreakpoints();
+    void
+    clearStepBreakpoints();
+    bool
+    removeBreakpoint(const std::wstring& filename, size_t line);
+    std::vector<Breakpoint>
+    getBreakpoints() const;
+    std::vector<size_t>
+    getBreakpointLines(const std::wstring& filename) const;
+    bool
+    hasBreakpoint(const std::wstring& filename, size_t line) const;
+    bool
+    stepBreakpointExists(const Breakpoint& bp);
+
+    bool
+    adjustBreakpointLine(const std::wstring& filename, size_t requestedLine, size_t& adjustedLine,
+        std::wstring& errorMessage);
+
+    bool
+    onBreakpoint(AbstractSyntaxTreePtr t);
+
+    bool
+    checkStepOutAfterFunctionReturn(AbstractSyntaxTreePtr t);
+
+    bool
+    dbDown(int n);
+    bool
+    dbUp(int n);
+
     LexerContext lexerContext;
 
     size_t
@@ -537,6 +604,10 @@ public:
      */
     void
     evalCLI();
+
+    void
+    debugCLI();
+
     /**
      * The workhorse routine - "evaluate" the contents of a string
      * and execute it.
@@ -838,6 +909,12 @@ private:
     rhsExpressionDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs);
     void
     rhsExpressionDynDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs);
+
+    size_t
+    getLinePosition(AbstractSyntaxTreePtr t);
+
+    size_t
+    getMaxLinePosition(AbstractSyntaxTreePtr t);
 };
 NLSINTERPRETER_IMPEXP void
 sigInterrupt(int arg);

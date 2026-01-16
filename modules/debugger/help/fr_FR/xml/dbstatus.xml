@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>dbstatus</keyword>
+  <short_description
+  >Lister tous les points d'arrêt lors du débogage.</short_description>
+
+  <syntax>
+    <syntax_item>dbstatus</syntax_item>
+    <syntax_item>b = dbstatus()</syntax_item>
+  </syntax>
+
+  <param_output>
+    <param_output_item>
+      <param_name>b</param_name>
+      <param_description>
+        Tableau de structures listant les points d'arrêt actuellement en vigueur.
+      </param_description>
+    </param_output_item>
+  </param_output>
+
+  <description>
+    <p>
+      <b>dbstatus</b> liste tous les points d'arrêt actuellement définis.
+    </p>
+    <p>
+      L'affectation de la sortie à une variable <b
+      >b</b> vous permet de sauvegarder et de restaurer les points d'arrêt ultérieurement 
+      en utilisant <b>dbstop(b)</b>.
+    </p>
+    <p>
+      Chaque élément de la structure <b>b</b> contient les champs suivants :
+     <ul>
+          <li><b>name</b>:  Nom de la fonction</li>
+          <li><b
+          >file</b>: Chemin complet vers le fichier contenant les points d'arrêt</li>
+          <li><b>line</b>: Vecteur des numéros de ligne des points d'arrêt</li>
+        </ul>
+    </p>
+  </description>
+
+  <used_function />
+
+  <bibliography />
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Lister tous les points d'arrêt en vigueur.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+dbstop in myfile
+dbstatus
+]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Sauvegarder les points d'arrêt actuels et les restaurer ultérieurement.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+b = dbstatus();
+save saved_breakpoints b
+dbclear all
+load saved_breakpoints
+dbstop(b)
+]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${debugger}dbstop">dbstop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbclear">dbclear</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbquit">dbquit</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstack">dbstack</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

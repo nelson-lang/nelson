@@ -348,6 +348,25 @@ isPathCommandShortCut(const std::wstring& wcommand, const std::wstring& wline)
 }
 //=============================================================================
 inline bool
+isDebugCommandShortCut(
+    LexerContext& lexerContext, const std::wstring& wcommand, const std::wstring& wline)
+{
+    std::wstring trimmedLine = StringHelpers::trim_copy(wline);
+    if (StringHelpers::ends_with(trimmedLine, L"\n")) {
+        trimmedLine.pop_back();
+    }
+    if (StringHelpers::starts_with(trimmedLine, wcommand + L" ")) {
+        StringHelpers::replace_first(trimmedLine, wcommand + L" ", L"");
+        StringHelpers::trim(trimmedLine);
+        if (!StringHelpers::starts_with(trimmedLine, L"(")) {
+            lexerContext.inDebugCommand = true;
+            return true;
+        }
+    }
+    return false;
+}
+//=============================================================================
+inline bool
 testSpecialFuncs(LexerContext& lexerContext)
 {
     const std::wstring wline = utf8_to_wstring(std::string(lexerContext.datap));
@@ -355,6 +374,14 @@ testSpecialFuncs(LexerContext& lexerContext)
     // Early return if the first character is not alphabetic
     if (wline.empty() || !iswalpha(wline[0])) {
         return false;
+    }
+
+    // Check for debug commands (dbstop, dbclear)
+    static const std::wstring debugCommands[] = { L"dbstop", L"dbclear" };
+    for (const auto& command : debugCommands) {
+        if (isDebugCommandShortCut(lexerContext, command, wline)) {
+            return true;
+        }
     }
 
     // Check for hardcoded shortcuts
@@ -681,6 +708,28 @@ lexIdentifier(LexerContext& lexerContext)
             LexerException(lexerContext, msg);
         }
         discardChar(lexerContext);
+    }
+    // In debug command mode, include > followed by alphanumeric as part of identifier
+    // This allows dbstop in test>myfunc syntax without quotes
+    if (lexerContext.inDebugCommand && currentChar(lexerContext) == '>') {
+        // Check if next char starts a valid identifier
+        if (lexerContext.datap[1] != '\0'
+            && (isalpha(static_cast<unsigned char>(lexerContext.datap[1]))
+                || lexerContext.datap[1] == '_')) {
+            ident[i++] = currentChar(lexerContext); // include >
+            discardChar(lexerContext);
+            // Continue reading the subfunction name
+            while (testAlphaNumChar(lexerContext) != 0) {
+                ident[i++] = currentChar(lexerContext);
+                if (i > IDENTIFIER_LENGTH_MAX) {
+                    std::string msg
+                        = fmt::format(_("exceeds the Nelson maximum name length of {} characters."),
+                            IDENTIFIER_LENGTH_MAX);
+                    LexerException(lexerContext, msg);
+                }
+                discardChar(lexerContext);
+            }
+        }
     }
     ident[i] = '\0';
     strncpy(lexerContext.tSearch.word, ident, IDENTIFIER_LENGTH_MAX);
@@ -1134,6 +1183,7 @@ lexScanningState(LexerContext& lexerContext)
         if (lexerContext.bracketStackSize == 0) {
             lexerContext.vcFlag = 0;
         }
+        lexerContext.inDebugCommand = false;
         completeContinuation(lexerContext);
         return;
     }
@@ -1143,6 +1193,7 @@ lexScanningState(LexerContext& lexerContext)
             lexerContext.vcFlag = 0;
         }
         lexerContext.lexState = Initial;
+        lexerContext.inDebugCommand = false;
         return;
     }
     if ((match(lexerContext, "\r\n") != 0) || (match(lexerContext, "\n") != 0)) {
@@ -1152,6 +1203,7 @@ lexScanningState(LexerContext& lexerContext)
         if (lexerContext.bracketStackSize == 0) {
             lexerContext.vcFlag = 0;
         }
+        lexerContext.inDebugCommand = false;
         completeContinuation(lexerContext);
         return;
     }
@@ -1386,6 +1438,7 @@ setLexBuffer(LexerContext& lexerContext, const std::string& buffer)
     lexerContext.pendingNamedArgumentComma = false;
     lexerContext.pendingCommaContext = 0;
     lexerContext.previousToken = 0;
+    lexerContext.inDebugCommand = false;
     clearTextBufferLexer(lexerContext);
     lexerContext.textbuffer = static_cast<char*>(calloc(buffer.length() + 1, sizeof(char)));
     lexerContext.datap = lexerContext.textbuffer;
@@ -1409,6 +1462,7 @@ setLexFile(LexerContext& lexerContext, FILE* fp)
     lexerContext.inStatement = 0;
     lexerContext.inFunction = false;
     lexerContext.placeholderCounter = 0;
+    lexerContext.inDebugCommand = false;
     struct stat st;
     clearerr(fp);
 #ifdef _MSC_VER

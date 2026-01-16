@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>dbquit</keyword>
+  <short_description> Quitter le mode débogage.</short_description>
+
+  <syntax>
+    <syntax_item>dbquit</syntax_item>
+    <syntax_item>dbquit all</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>all</param_name>
+      <param_description>
+        mot-clé optionnel pour quitter le mode débogage pour toutes les fonctions en pause.
+      </param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b
+      >dbquit</b> termine le mode débogage. La fenêtre de commande revient à l'invite
+      standard (<code
+      >&gt;&gt;</code>). Le fichier en cours d'exécution n'est pas
+      terminé et aucun argument de sortie n'est renvoyé. Tous les points d'arrêt restent
+      actifs.
+    </p>
+    <p>
+      Si le débogueur est actif dans plus d'une fonction, <b>dbquit</b> quitte
+      le mode débogage uniquement pour la fonction active. Les autres fonctions en pause
+      restent en mode débogage jusqu'à ce que <b
+      >dbquit</b> soit appelé à nouveau.
+    </p>
+    <p>
+      Si l'exécution est en pause dans une fonction atteinte en entrant dans
+      une autre fonction, <b
+      >dbquit</b> termine le débogage pour les deux fonctions.
+    </p>
+    <p>
+      <b
+      >dbquit all</b> termine le débogage pour tous les fichiers simultanément.
+    </p>
+    <p>
+      Cette fonction ne peut être appelée que depuis la ligne de commande en mode débogage.
+    </p>
+  </description>
+
+  <used_function />
+
+  <bibliography />
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+         Quitter le mode débogage pour la fonction active.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+function z = buggy(x)
+  n = length(x);
+  z = (1:n) / x';
+end
+
+dbstop in buggy
+buggy(5)
+dbquit
+]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+         Quitter le mode débogage pour toutes les fonctions en pause.
+      </example_item_description>
+      <example_item_data><![CDATA[
+dbquit all
+]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${debugger}dbcont">dbcont</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbclear">dbclear</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstack">dbstack</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstatus">dbstatus</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstop">dbstop</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

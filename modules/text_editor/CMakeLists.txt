@@ -56,6 +56,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../text_completion/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../debugger/src/include
           ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS})
 # ==============================================================================
 target_link_libraries(
@@ -71,6 +72,7 @@ target_link_libraries(
     nlsModules_manager
     nlsNelson_manager
     nlsText_completion
+    nlsDebugger
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::PrintSupport)

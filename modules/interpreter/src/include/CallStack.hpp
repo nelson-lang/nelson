@@ -48,6 +48,45 @@ public:
         id.reserve(2048);
     }
     //=============================================================================
+    CallStack(const CallStack& other)
+        : context(other.context), detail(other.detail), id(other.id), IDX(other.IDX)
+    {
+    }
+    //=============================================================================
+    CallStack(CallStack&& other) noexcept
+        : context(std::move(other.context))
+        , detail(std::move(other.detail))
+        , id(std::move(other.id))
+        , IDX(other.IDX)
+    {
+        other.IDX = 0;
+    }
+    //=============================================================================
+    CallStack&
+    operator=(const CallStack& other)
+    {
+        if (this != &other) {
+            context = other.context;
+            detail = other.detail;
+            id = other.id;
+            IDX = other.IDX;
+        }
+        return *this;
+    }
+    //=============================================================================
+    CallStack&
+    operator=(CallStack&& other) noexcept
+    {
+        if (this != &other) {
+            context = std::move(other.context);
+            detail = std::move(other.detail);
+            id = std::move(other.id);
+            IDX = other.IDX;
+            other.IDX = 0;
+        }
+        return *this;
+    }
+    //=============================================================================
     ~CallStack() = default;
     //=============================================================================
     void
@@ -94,19 +133,27 @@ public:
     [[nodiscard]] const std::string&
     getLastContext() const noexcept
     {
-        return context[IDX - 1];
+        static const std::string empty {};
+        if (IDX > 0) {
+            return context[IDX - 1];
+        }
+        return empty;
     }
     //=============================================================================
     [[nodiscard]] const std::string&
     getLastDetail() const noexcept
     {
-        return detail[IDX - 1];
+        static const std::string empty {};
+        if (IDX > 0) {
+            return detail[IDX - 1];
+        }
+        return empty;
     }
     //=============================================================================
     [[nodiscard]] size_t
     getLastID() const noexcept
     {
-        return id[IDX - 1];
+        return (IDX > 0) ? id[IDX - 1] : 0;
     }
     //=============================================================================
     void

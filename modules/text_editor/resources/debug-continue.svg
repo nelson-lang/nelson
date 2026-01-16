@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Debug Continue (forward) icon for Nelson -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- Fast-forward double triangles -->
+  <path d="M 6,8 L 26,24 L 6,40 Z" fill="#73d216" stroke="#4e9a06" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M 22,8 L 42,24 L 22,40 Z" fill="#73d216" stroke="#4e9a06" stroke-width="2" stroke-linejoin="round"/>
+</svg>

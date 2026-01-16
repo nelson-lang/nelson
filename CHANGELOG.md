@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.17.0 - (UNRELEASED)
+
+- Debugger Support
+
+  - Full breakpoint management with commands: `dbstop`, `dbstep`, `dbcont`, `dbquit`, `dbclear`, `dbdown`, `dbup`, `dbstatus`.
+  - Support for setting breakpoints at specific files, functions, and lines.
+  - Conditional breakpoints and hit-count breakpoints (if applicable).
+
+- Interactive Debugging in Text Editor
+
+  - Real-time feedback on breakpoints directly within the editor.
+  - Inline variable inspection while stepping through code.
+  - Highlighting of the current execution line.
+
+- Step Execution Controls
+  - Step Into: move into function calls.
+  - Step Over: execute functions without entering them.
+  - Continue: resume execution until the next breakpoint.
+- Stack Inspection & Variable Evaluation
+
+  - Examine the call stack during debugging with `dbup` and `dbdown`.
+  - Evaluate and modify variables in the current workspace.
+  - Inspect function arguments and local variables.
+
+- Enhanced Debugging Experience
+  - Integration with the command-line interface and editor interface.
+  - Improved visibility of function contexts and nested calls.
+
 ## 1.16.0 - (2025-12-27)
 
 ### Added

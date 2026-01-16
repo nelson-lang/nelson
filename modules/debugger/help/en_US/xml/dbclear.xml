@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>dbclear</keyword>
+  <short_description>Remove breakpoints during debugging.</short_description>
+
+  <syntax>
+    <syntax_item>dbclear all</syntax_item>
+    <syntax_item>dbclear in file</syntax_item>
+    <syntax_item>dbclear in file at location</syntax_item>
+  </syntax>
+
+  <param_input>
+    <param_input_item>
+      <param_name>file</param_name>
+      <param_description>
+        File name where breakpoints should be cleared, specified as a character vector or string scalar.
+        A filemarker (&gt;) can be used to specify a local or nested function.
+      </param_description>
+    </param_input_item>
+
+    <param_input_item>
+      <param_name>location</param_name>
+      <param_description>
+        Line number, line number with anonymous function index (e.g., 3@2), or local function name
+        of the breakpoint to clear.
+      </param_description>
+    </param_input_item>
+
+  </param_input>
+
+  <description>
+    <p>
+      <b
+      >dbclear</b> removes breakpoints set for debugging. You can clear all breakpoints,
+      breakpoints in a specific file, breakpoints at a specific location.
+    </p>
+    <p>
+      <b
+      >dbclear all</b> removes all breakpoints in all files and for all conditions.
+    </p>
+    <p>
+      <b>dbclear in file</b> removes all breakpoints in the specified file.
+    </p>
+    <p>
+      <b
+      >dbclear in file at location</b> removes the breakpoint at the specified location in the file.
+    </p>
+  </description>
+
+  <used_function />
+
+  <bibliography />
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Clear all breakpoints in a file.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+dbstop in buggy at 2
+dbstop in buggy at 3
+dbstatus
+dbclear in buggy
+dbstatus
+]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Clear a breakpoint at a specific location.
+      </example_item_description>
+      <example_item_data
+      ><![CDATA[
+dbstop in buggy at 2
+dbstop in buggy at 3
+dbclear in buggy at 3
+dbstatus
+]]></example_item_data>
+    </example_item>
+
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${debugger}dbstop">dbstop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstatus">dbstatus</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbquit">dbquit</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstack">dbstack</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}filemarker">filemarker</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
