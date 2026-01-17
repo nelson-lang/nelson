@@ -17,7 +17,7 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-print_status "Nelson - Installation script for Fedora 41-42 dependencies"
+print_status "Nelson - Installation script for Fedora 41-43 dependencies"
 
 print_status "Updating system packages"
 
