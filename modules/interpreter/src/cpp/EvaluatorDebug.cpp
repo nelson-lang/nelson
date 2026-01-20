@@ -568,6 +568,37 @@ Evaluator::dbDown(int n)
     return toRestore > 0;
 }
 //=============================================================================
+static std::set<size_t>
+getMultilineCommentLines(const std::wstring& source)
+{
+    std::set<size_t> commentLines;
+    bool inComment = false;
+    size_t lineNum = 1;
+    size_t pos = 0;
+    while (pos < source.size()) {
+        // Check for start of multiline comment
+        if (!inComment && source.substr(pos, 2) == L"%{") {
+            inComment = true;
+            pos += 2;
+        }
+        // Check for end of multiline comment
+        if (inComment && source.substr(pos, 2) == L"%}") {
+            inComment = false;
+            pos += 2;
+        }
+        // Mark line as comment if inside block
+        if (inComment) {
+            commentLines.insert(lineNum);
+        }
+        // Advance to next line
+        if (source[pos] == L'\n') {
+            lineNum++;
+        }
+        pos++;
+    }
+    return commentLines;
+}
+//=============================================================================
 bool
 Evaluator::adjustBreakpointLine(const std::wstring& filename, size_t requestedLine,
     size_t& adjustedLine, std::wstring& errorMessage)
@@ -698,7 +729,26 @@ Evaluator::adjustBreakpointLine(const std::wstring& filename, size_t requestedLi
         maxLinesInFile = getMaxLineFromChainHelper(code, getLineFunc);
     }
 
-    adjustedLine = getLineNumberFromCode(code, requestedLine, maxLinesInFile, getLineFunc);
+    // If we have the parsed file contents in lexerContext, use it to detect
+    // %{ ... %} multiline comment blocks and avoid setting breakpoints inside them
+    size_t lineToCheck = requestedLine;
+    if (this->lexerContext.textbuffer != nullptr) {
+        std::wstring src = utf8_to_wstring(this->lexerContext.textbuffer);
+        std::set<size_t> commentLines = getMultilineCommentLines(src);
+        // Skip forward until we find a non-comment line
+        size_t maxTry = maxLinesInFile > 0 ? maxLinesInFile : 10000;
+        size_t tryCount = 0;
+        while (commentLines.count(lineToCheck) && tryCount < maxTry) {
+            lineToCheck++;
+            tryCount++;
+        }
+        if (commentLines.count(lineToCheck)) {
+            errorMessage = _W("Cannot set breakpoint inside multiline comment block");
+            return false;
+        }
+    }
+
+    adjustedLine = getLineNumberFromCode(code, lineToCheck, maxLinesInFile, getLineFunc);
 
     if (adjustedLine == 0) {
         errorMessage = _W("Cannot set breakpoint at line ") + std::to_wstring(requestedLine)

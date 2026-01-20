@@ -460,7 +460,9 @@ Evaluator::evalCLI()
                     std::wstring prompt = L""; // Default continuation prompt
 
                     // Show helpful continuation prompt based on context
-                    if (lexerContext.bracketStackSize > 0) {
+                    if (lexerContext.inMultilineComment) {
+                        prompt = L"%> "; // Multiline comment continuation
+                    } else if (lexerContext.bracketStackSize > 0) {
                         switch (lexerContext.bracketStack[lexerContext.bracketStackSize - 1]) {
                         case '[':
                             prompt = L"[> ";

@@ -51,6 +51,7 @@ private:
     QTextCharFormat macroFormat;
     QTextCharFormat singleLineCommentFormat;
     QTextCharFormat quotationFormat;
+    QTextCharFormat multilineCommentFormat;
 
     bool isEnabled;
     QColor keywordColor;
@@ -59,5 +60,6 @@ private:
     QColor operatorColor;
     QColor singleLineCommentColor;
     QColor quotationColor;
+    QColor multilineCommentColor;
 };
 //=============================================================================

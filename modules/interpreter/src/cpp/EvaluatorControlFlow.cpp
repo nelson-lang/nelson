@@ -24,6 +24,7 @@
 #include "NelsonConfiguration.hpp"
 #include "CallbackQueue.hpp"
 #include "EventQueue.hpp"
+#include <functional>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -281,6 +282,75 @@ Evaluator::whileStatement(AbstractSyntaxTreePtr t)
 //!
 //=============================================================================
 // Generic ForLoopHelper with stride support. Used by typed helpers below.
+//
+// Optimizations introduced:
+//  - conservative AST check to detect whether the loop body can reassign the
+//    index variable or contain function calls that might mutate workspace.
+//  - when the body is "safe" the variable lookup/allocation is hoisted and the
+//    internal ArrayOf pointer is cached across iterations (big win for tight loops).
+//  - semantics preserved: if the body may reassign the index variable we fall
+//    back to the original (safe) codepath.
+//
+// Note: this is a conservative optimization only; it does not attempt to
+// analyze side-effects of called functions. A future patch can add an
+// opt-in parallel path (TBB/OpenMP) once we have explicit guarantees about
+// user code side-effects.
+//=============================================================================
+// Search an AST subtree for an identifier name. Conservative and fast.
+static bool
+findIdentifierInSubtree(AbstractSyntaxTreePtr node, const std::string& name)
+{
+    for (AbstractSyntaxTreePtr cur = node; cur != nullptr; cur = cur->right) {
+        if (cur->type == id_node && cur->text == name) {
+            return true;
+        }
+        if (cur->down && findIdentifierInSubtree(cur->down, name)) {
+            return true;
+        }
+    }
+    return false;
+}
+//=============================================================================
+// Conservatively determine whether the loop body may reassign `varName` or
+// contains function-call constructs (which may have side-effects). If true
+// we must *not* cache the loop variable across iterations.
+static bool
+loopBodyMayModifyIndex(AbstractSyntaxTreePtr node, const std::string& varName)
+{
+    if (!node) {
+        return false;
+    }
+    for (AbstractSyntaxTreePtr cur = node; cur != nullptr; cur = cur->right) {
+        // Direct assignment: check only the LHS entries (do NOT inspect the RHS).
+        // The LHS may be a list (a,b = ...), so iterate sibling LHS nodes but do
+        // not descend into the assignment RHS (which is stored as the parent->right).
+        if (cur->opNum == OP_ASSIGN) {
+            for (AbstractSyntaxTreePtr lhs = cur->down; lhs != nullptr; lhs = lhs->right) {
+                // search only within the LHS subtree (do not follow lhs->right beyond
+                // the LHS list)
+                if (lhs && findIdentifierInSubtree(lhs, varName)) {
+                    return true;
+                }
+            }
+        }
+        // Conservative: function-call nodes may have side-effects (assignin/eval/etc.).
+        // Note: OP_RHS is a normal expression/variable reference and must NOT be
+        // treated as a side-effecting node — doing so produced false-positives
+        // (e.g. `s = s + i;`).
+        if (cur->opNum == OP_SCALL || cur->opNum == OP_MULTICALL) {
+            return true;
+        }
+        // Recurse into children (but avoid re-inspecting the RHS of an assignment
+        // as a sibling of the OP_ASSIGN node; that RHS will be visited via the
+        // parent's right pointer in the caller loop). We still recurse into
+        // expression children for other node types.
+        if (cur->down && loopBodyMayModifyIndex(cur->down, varName)) {
+            return true;
+        }
+    }
+    return false;
+}
+//=============================================================================
 template <class T>
 void
 ForLoopHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass, const T* indexSet,
@@ -290,6 +360,236 @@ ForLoopHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass, const T* i
     if (scope->isLockedVariable(indexName)) {
         Error(_W("Redefining permanent variable."));
     }
+
+    // If the loop body cannot possibly reassign the index variable (conservative
+    // check), we can hoist the lookup/allocation and cache the ArrayOf* pointer
+    // across iterations. This avoids a lookup per-iteration in the hot path.
+    const bool bodyMayModifyIndex = loopBodyMayModifyIndex(codeBlock, indexName);
+
+    // --- Reduction fast-path detector -------------------------------------------------
+    // Detect very common pattern:
+    //   <acc> = <acc> + <index>
+    //   <acc> = <index> + <acc>
+    //   <acc> = <acc> - <index>
+    // Conservative requirements:
+    //  - codeBlock contains a single statement which is a simple assignment
+    //  - LHS is a single identifier (accumulator)
+    //  - RHS contains only the accumulator identifier, the index identifier and
+    //    numeric literals, and uses only + or - operators
+    //  - no function calls, no other identifiers
+    //  - stride == 1 (no complex interleaved data)
+    //  - accumulator exists in scope, is scalar and is a supported numeric type
+    // If all satisfied, perform a native accumulation and write back once.
+    auto detectSimpleReduction = [&](AbstractSyntaxTreePtr block, const std::string& accName,
+                                     const std::string& idxName) -> bool {
+        if (!block || !block->down) {
+            return false;
+        }
+        // single statement only
+        if (block->down->right != nullptr) {
+            return false;
+        }
+        AbstractSyntaxTreePtr stmt = block->down;
+        if (stmt->opNum != OP_ASSIGN) {
+            return false;
+        }
+        // LHS must be single identifier equal to accName
+        AbstractSyntaxTreePtr lhs = stmt->down;
+        if (!lhs || lhs->type != id_node) {
+            return false;
+        }
+        if (lhs->text != accName) {
+            return false;
+        }
+        // RHS is stored as lhs->right
+        AbstractSyntaxTreePtr rhs = lhs->right;
+        if (!rhs) {
+            return false;
+        }
+        // Reject complex data shapes / complex stride
+        if (stride != 1) {
+            return false;
+        }
+        // Reject if RHS contains any function-call nodes
+        std::function<bool(AbstractSyntaxTreePtr)> containsCall
+            = [&](AbstractSyntaxTreePtr n) -> bool {
+            for (AbstractSyntaxTreePtr c = n; c != nullptr; c = c->right) {
+                if (c->opNum == OP_SCALL || c->opNum == OP_MULTICALL) {
+                    return true;
+                }
+                if (c->down && containsCall(c->down)) {
+                    return true;
+                }
+            }
+            return false;
+        };
+        if (containsCall(rhs)) {
+            return false;
+        }
+        // RHS must include both accName and idxName and no other identifier names
+        bool accFound = false;
+        bool idxFound = false;
+        bool otherIdFound = false;
+        std::function<void(AbstractSyntaxTreePtr)> scanIds = [&](AbstractSyntaxTreePtr n) {
+            for (AbstractSyntaxTreePtr c = n; c != nullptr; c = c->right) {
+                if (c->type == id_node) {
+                    if (c->text == accName) {
+                        accFound = true;
+                    } else if (c->text == idxName) {
+                        idxFound = true;
+                    } else {
+                        otherIdFound = true;
+                    }
+                }
+                if (c->down) {
+                    scanIds(c->down);
+                }
+            }
+        };
+        scanIds(rhs);
+        if (!accFound || !idxFound || otherIdFound) {
+            return false;
+        }
+        // Finally, only allow plus/minus operators in the RHS expression tree
+        std::function<bool(AbstractSyntaxTreePtr)> onlyPlusMinus
+            = [&](AbstractSyntaxTreePtr n) -> bool {
+            for (AbstractSyntaxTreePtr c = n; c != nullptr; c = c->right) {
+                if (c->type == non_terminal
+                    && !(c->opNum == OP_PLUS || c->opNum == OP_SUBTRACT || c->opNum == OP_RHS)) {
+                    // allow OP_RHS (identifiers / values) and + / - operators
+                    return false;
+                }
+                if (c->down && !onlyPlusMinus(c->down)) {
+                    return false;
+                }
+            }
+            return true;
+        };
+        if (!onlyPlusMinus(rhs)) {
+            return false;
+        }
+        return true;
+    };
+
+    // Attempt reduction fast-path only when body cannot modify index and the
+    // codeBlock matches the strict reduction pattern.
+    if (!bodyMayModifyIndex
+        && detectSimpleReduction(codeBlock, /*accName*/ std::string(), indexName)) {
+        // NOTE: detectSimpleReduction requires accName; we need to extract it from
+        // the single-statement LHS. Do that here (repeat minimal checks).
+        AbstractSyntaxTreePtr stmt = codeBlock->down;
+        AbstractSyntaxTreePtr lhs = stmt->down;
+        const std::string accName = lhs->text;
+
+        // Lookup accumulator variable; conservative: must exist, be scalar numeric
+        ArrayOf* accVar = scope->lookupVariable(accName);
+        if (accVar && accVar->isScalar()) {
+            const NelsonType accClass = accVar->getDataClass();
+            // Only support a subset of numeric accumulator types for now
+            switch (accClass) {
+            case NLS_DOUBLE: {
+                double accLocal = static_cast<const double*>(accVar->getDataPointer())[0];
+                const T* idxData = indexSet;
+                for (indexType m = 0; m < count; ++m) {
+                    accLocal += static_cast<double>(idxData[m]);
+                }
+                double* dst = (double*)(accVar->getDataPointer());
+                dst[0] = accLocal;
+                return;
+            }
+            case NLS_SINGLE: {
+                single accLocal = static_cast<const single*>(accVar->getDataPointer())[0];
+                const T* idxData = indexSet;
+                for (indexType m = 0; m < count; ++m) {
+                    accLocal += static_cast<single>(idxData[m]);
+                }
+                single* dst = (single*)(accVar->getDataPointer());
+                dst[0] = accLocal;
+                return;
+            }
+            case NLS_INT32: {
+                int32 accLocal = static_cast<const int32*>(accVar->getDataPointer())[0];
+                const T* idxData = indexSet;
+                for (indexType m = 0; m < count; ++m) {
+                    accLocal += static_cast<int32>(idxData[m]);
+                }
+                int32* dst = (int32*)(accVar->getDataPointer());
+                dst[0] = accLocal;
+                return;
+            }
+            case NLS_INT64: {
+                int64 accLocal = static_cast<const int64*>(accVar->getDataPointer())[0];
+                const T* idxData = indexSet;
+                for (indexType m = 0; m < count; ++m) {
+                    accLocal += static_cast<int64>(idxData[m]);
+                }
+                int64* dst = (int64*)(accVar->getDataPointer());
+                dst[0] = accLocal;
+                return;
+            }
+            case NLS_UINT32: {
+                uint32 accLocal = static_cast<const uint32*>(accVar->getDataPointer())[0];
+                const T* idxData = indexSet;
+                for (indexType m = 0; m < count; ++m) {
+                    accLocal += static_cast<uint32>(idxData[m]);
+                }
+                uint32* dst = (uint32*)(accVar->getDataPointer());
+                dst[0] = accLocal;
+                return;
+            }
+            case NLS_UINT64: {
+                uint64 accLocal = static_cast<const uint64*>(accVar->getDataPointer())[0];
+                const T* idxData = indexSet;
+                for (indexType m = 0; m < count; ++m) {
+                    accLocal += static_cast<uint64>(idxData[m]);
+                }
+                uint64* dst = (uint64*)(accVar->getDataPointer());
+                dst[0] = accLocal;
+                return;
+            }
+            default:
+                break;
+            }
+        }
+        // If any precondition fails, fall through to the normal hot path below.
+    }
+
+    if (!bodyMayModifyIndex) {
+        // Hot path: safe to cache
+        ArrayOf* vp = scope->lookupVariable(indexName);
+        if ((!vp) || (vp->getDataClass() != indexClass) || (!vp->isScalar())) {
+            scope->insertVariable(indexName,
+                ArrayOf(
+                    indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, stride)));
+            vp = scope->lookupVariable(indexName);
+        }
+        // Cache data pointer once (valid because body cannot reassign the var)
+        T* dst = static_cast<T*>(vp->getReadWriteDataPointer());
+        for (indexType m = 0; m < count; ++m) {
+            // copy with stride
+            dst[0] = indexSet[m * stride];
+            if (stride == 2) {
+                dst[1] = indexSet[m * stride + 1];
+            }
+            eval->block(codeBlock);
+            int st = eval->getState();
+            if (st == NLS_STATE_BREAK) {
+                eval->resetState();
+                break;
+            }
+            if (st == NLS_STATE_RETURN || st == NLS_STATE_ABORT || eval->isQuitOrForceQuitState()) {
+                break;
+            }
+            if (st == NLS_STATE_CONTINUE) {
+                eval->resetState();
+            }
+        }
+        return;
+    }
+
+    // Fallback: safe, semantics-preserving original behavior when the body
+    // might reassign the index variable (we must re-query the scope each
+    // iteration because user code can replace the variable).
     for (indexType m = 0; m < count; ++m) {
         ArrayOf* vp = scope->lookupVariable(indexName);
         if ((!vp) || (vp->getDataClass() != indexClass) || (!vp->isScalar())) {
@@ -298,7 +598,7 @@ ForLoopHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexClass, const T* i
                     indexClass, Dimensions(1, 1), ArrayOf::allocateArrayOf(indexClass, stride)));
             vp = scope->lookupVariable(indexName);
         }
-        T* dst = (T*)vp->getReadWriteDataPointer();
+        T* dst = static_cast<T*>(vp->getReadWriteDataPointer());
         // copy with stride
         dst[0] = indexSet[m * stride];
         if (stride == 2) {
@@ -424,6 +724,8 @@ Evaluator::forStatement(AbstractSyntaxTreePtr t)
     // 2) for var = expr
     // 3) for var   (pre-initialized variable used as index set)
     ArrayOf indexSet;
+    AbstractSyntaxTreePtr codeBlock = t->right;
+
     if (t->down != nullptr) {
         indexSet = expression(t->down);
     } else {
@@ -439,7 +741,7 @@ Evaluator::forStatement(AbstractSyntaxTreePtr t)
     if (!IsValidVariableName(indexVarName, true)) {
         Error(_W("Valid variable name expected."));
     }
-    AbstractSyntaxTreePtr codeBlock = t->right;
+    codeBlock = t->right;
     const bool isRowVector = indexSet.isRowVector();
     const indexType elementCount = isRowVector
         ? indexSet.getElementCount()

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>comments</keyword>
+
+  <short_description>Add comments to Nelson code.</short_description>
+
+  <syntax>
+    <syntax_item>% comment</syntax_item>
+    <syntax_item>code % inline comment</syntax_item>
+    <syntax_item>%{</syntax_item>
+    <syntax_item>block comment</syntax_item>
+    <syntax_item>%}</syntax_item>
+  </syntax>
+
+  <description>
+    <p>
+      Comments are used to describe code and improve readability.
+      They are ignored during execution.
+    </p>
+
+    <p>
+      Nelson supports single-line comments using the <b>%</b> character
+      and block comments using the <b>%{</b> and <b>%}</b> delimiters.
+    </p>
+
+    <p>
+      Block comment delimiters must appear alone on their respective lines.
+      Any text between them is treated as a comment.
+    </p>
+
+    <p>
+      Multi-line comments are supported by the interpreter, editor,
+      debugger, and <b>headcomments</b>.
+    </p>
+  </description>
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Single-line and inline comments
+      </example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+% Add two numbers
+a = 1;
+b = 2;
+c = a + b; % store result
+]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Block comments
+      </example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+a = magic(3);
+%{
+sum(a)
+diag(a)
+sum(diag(a))
+%}
+disp(a)
+]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${help_tools}headcomments">headcomments</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>Initial version.</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

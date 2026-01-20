@@ -102,13 +102,90 @@ HeadComments(Evaluator* eval, const std::wstring& filename, HEADCOMMENTS_ERROR& 
                     break;
                 }
             }
-            if (isCommentedLine(line)) {
+
+            std::string trimmed = StringHelpers::trim_left_copy(line);
+
+            // Prefer multiline %{ ... %} blocks if present
+            if (StringHelpers::starts_with(trimmed, "%{")) {
+                // Content after opening on same line
+                size_t openPos = trimmed.find("%{");
+                std::string afterOpen = trimmed.substr(openPos + 2);
+                // If closing on same line
+                size_t closePosSame = afterOpen.find("%}");
+                if (closePosSame != std::string::npos) {
+                    std::string content
+                        = StringHelpers::trim_copy(afterOpen.substr(0, closePosSame));
+                    if (!content.empty()) {
+                        comments.push_back(utf8_to_wstring(content));
+                    }
+                } else {
+                    // If there is content after %{ on the same line, include it
+                    std::string firstLineContent = StringHelpers::trim_copy(afterOpen);
+                    if (!firstLineContent.empty()) {
+                        comments.push_back(utf8_to_wstring(firstLineContent));
+                    }
+                    // Read until we find %}
+                    while (!istream.eof()) {
+                        safegetline(istream, line);
+                        std::string tline = StringHelpers::trim_copy(line);
+                        size_t closePos = tline.find("%}");
+                        if (closePos != std::string::npos) {
+                            std::string beforeClose
+                                = StringHelpers::trim_copy(tline.substr(0, closePos));
+                            if (!beforeClose.empty()) {
+                                comments.push_back(utf8_to_wstring(beforeClose));
+                            }
+                            break;
+                        } else {
+                            // Entire line is content of the comment block
+                            comments.push_back(utf8_to_wstring(tline));
+                        }
+                    }
+                }
+            }
+            // Handle single-line comment blocks starting with '%' (existing behavior)
+            else if (isCommentedLine(line)) {
                 comments.push_back(utf8_to_wstring(removeCommentCharacters(line)));
                 while (!istream.eof()) {
                     safegetline(istream, line);
                     if (isCommentedLine(line)) {
                         comments.push_back(utf8_to_wstring(removeCommentCharacters(line)));
                     } else {
+                        // If the next non-comment line is a %{ block, handle it too
+                        std::string nextTrim = StringHelpers::trim_left_copy(line);
+                        if (StringHelpers::starts_with(nextTrim, "%{")) {
+                            // process multiline block starting on this line
+                            std::string afterOpen = nextTrim.substr(nextTrim.find("%{") + 2);
+                            size_t closePosSame = afterOpen.find("%}");
+                            if (closePosSame != std::string::npos) {
+                                std::string content
+                                    = StringHelpers::trim_copy(afterOpen.substr(0, closePosSame));
+                                if (!content.empty()) {
+                                    comments.push_back(utf8_to_wstring(content));
+                                }
+                            } else {
+                                std::string firstLineContent = StringHelpers::trim_copy(afterOpen);
+                                if (!firstLineContent.empty()) {
+                                    comments.push_back(utf8_to_wstring(firstLineContent));
+                                }
+                                // Read until close
+                                while (!istream.eof()) {
+                                    safegetline(istream, line);
+                                    std::string tline = StringHelpers::trim_copy(line);
+                                    size_t closePos = tline.find("%}");
+                                    if (closePos != std::string::npos) {
+                                        std::string beforeClose
+                                            = StringHelpers::trim_copy(tline.substr(0, closePos));
+                                        if (!beforeClose.empty()) {
+                                            comments.push_back(utf8_to_wstring(beforeClose));
+                                        }
+                                        break;
+                                    } else {
+                                        comments.push_back(utf8_to_wstring(tline));
+                                    }
+                                }
+                            }
+                        }
                         break;
                     }
                 }

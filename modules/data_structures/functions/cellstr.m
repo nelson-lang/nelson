@@ -8,27 +8,28 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function ce = cellstr(obj)
-  %## Converts to cell of character array.
-  %### Syntax
-  %    ce = cellstr(A)
-  %### Input argument
-  %A
-  %
-  %       a string, a string array, cell of character array.
-  %
-  %### Output argument
-  %ce
-  %
-  %       a cell of character array.
-  %### Description
-  %<b>cellstr(A)</b> converts to cell of character array.
-  %### Example
-  %<pre>
-  %cellstr('Nelson')
-  %cellstr({'Nelson'})
-  %cellstr({})
-  %</pre>
+  %{## Converts to cell of character array.
+  ### Syntax
+      ce = cellstr(A)
+  ### Input argument
+  A
   
+         a string, a string array, cell of character array.
+  
+  ### Output argument
+  ce
+  
+         a cell of character array.
+  ### Description
+  <b>cellstr(A)</b> converts to cell of character array.
+  ### Example
+  <pre>
+  cellstr('Nelson')
+  cellstr({'Nelson'})
+  cellstr({})
+  </pre>
+  %}
+
   if iscellstr(obj)
     ce = obj;
   elseif isstring(obj)
