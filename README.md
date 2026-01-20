@@ -96,6 +96,10 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
 - **Help Engine**: Generate and view help files in various formats like HTML, Markdown, PDF, or GitBook.
 - **Test Engine**: Validate algorithms using built-in functions, with support for xUnit report export.
 
+### Debugging
+
+- **Debugger**: Interactive debugger with breakpoints, step-in/step-over/step-out, variable inspection, call stack navigation.
+
 ### Profiling & Code Coverage
 
 - **Profiler**: Built-in profiler to analyze and optimize code performance.
@@ -123,11 +127,14 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
 
 [Get it from the Chocolatey Package Manager](https://community.chocolatey.org/packages/nelson)
 
+[Get it from Scoop](https://scoop.sh/#/apps?q=nelson)
+
 ## 📚 **Resources**
 
 - **Homepage:** <https://nelson-lang.github.io/nelson-website/>
 - **GitBook:** <https://nelson-lang.github.io/nelson-gitbook/>
 - **Documentation:** <https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html>
+- **Debugger Reference:** <https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html>
 - **Source code:** <https://github.com/nelson-lang/nelson>
 - **Binaries:** <https://github.com/nelson-lang/nelson/releases>
 - **Docker:** <https://hub.docker.com/r/nelsonsoftware/nelson/>
