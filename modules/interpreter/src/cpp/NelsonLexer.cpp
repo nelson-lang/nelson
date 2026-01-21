@@ -340,6 +340,19 @@ isPathCommandShortCut(const std::wstring& wcommand, const std::wstring& wline)
     if (StringHelpers::starts_with(trimmedLine, wcommand + L" ")) {
         StringHelpers::replace_first(trimmedLine, wcommand + L" ", L"");
         StringHelpers::trim(trimmedLine);
+
+        // Strip any comment from the end (% or %{)
+        size_t commentPos = trimmedLine.find(L'%');
+        if (commentPos != std::wstring::npos) {
+            // Everything before % is the potential path
+            trimmedLine = trimmedLine.substr(0, commentPos);
+            StringHelpers::trim(trimmedLine);
+            // If nothing left after removing comment, not a path command
+            if (trimmedLine.empty()) {
+                return false;
+            }
+        }
+
         bool haveSimpleQuotes = StringHelpers::starts_with(trimmedLine, L"'")
             && StringHelpers::ends_with(trimmedLine, L"'");
         return (haveSimpleQuotes || !StringHelpers::starts_with(trimmedLine, L"("));
@@ -1093,6 +1106,38 @@ fetchComment(LexerContext& lexerContext)
     NextLine(lexerContext);
 }
 //=============================================================================
+static void
+fetchMultilineComment(LexerContext& lexerContext)
+{
+    // Skip the %{
+    lexerContext.datap += 2;
+    lexerContext.inMultilineComment = true;
+
+    // Look for %}
+    while (lexerContext.datap[0] != '\0') {
+        if ((lexerContext.datap[0] == '%') && (lexerContext.datap[1] == '}')) {
+            // Found the end, skip %}
+            lexerContext.datap += 2;
+            lexerContext.inMultilineComment = false;
+            return;
+        }
+        if (isNewline(lexerContext)) {
+            if (match(lexerContext, "\r\n") != 0) {
+                // already consumed by isNewline
+            } else if (match(lexerContext, "\n") != 0) {
+                // already consumed
+            }
+            NextLine(lexerContext);
+        } else {
+            discardChar(lexerContext);
+        }
+    }
+
+    // If we get here, we reached end of buffer without closing %}
+    // In interactive mode, this is expected and we need more input
+    // The inMultilineComment flag will signal this to lexCheckForMoreInput
+}
+//=============================================================================
 inline void
 completeContinuation(LexerContext& lexerContext)
 {
@@ -1147,6 +1192,13 @@ lexScanningState(LexerContext& lexerContext)
     }
     // comments suppported
     if (currentChar(lexerContext) == '%') {
+        // Check for multiline comment %{
+        if (lexerContext.datap[1] == '{') {
+            fetchMultilineComment(lexerContext);
+            setTokenType(lexerContext, WS);
+            return;
+        }
+        // Single-line comment
         fetchComment(lexerContext);
         setTokenType(lexerContext, ENDSTMNT);
         return;
@@ -1301,7 +1353,13 @@ lexInitialState(LexerContext& lexerContext)
     } else if (match(lexerContext, ";") != 0) {
         // nothing
     } else if (currentChar(lexerContext) == '%') {
-        fetchComment(lexerContext);
+        // Check for multiline comment %{
+        if (lexerContext.datap[1] == '{') {
+            fetchMultilineComment(lexerContext);
+        } else {
+            // Single-line comment
+            fetchComment(lexerContext);
+        }
     } else if (testSpecialFuncs(lexerContext)) {
         lexIdentifier(lexerContext);
         lexerContext.lexState = SpecScan;
@@ -1439,6 +1497,7 @@ setLexBuffer(LexerContext& lexerContext, const std::string& buffer)
     lexerContext.pendingCommaContext = 0;
     lexerContext.previousToken = 0;
     lexerContext.inDebugCommand = false;
+    lexerContext.inMultilineComment = false;
     clearTextBufferLexer(lexerContext);
     lexerContext.textbuffer = static_cast<char*>(calloc(buffer.length() + 1, sizeof(char)));
     lexerContext.datap = lexerContext.textbuffer;
@@ -1463,6 +1522,7 @@ setLexFile(LexerContext& lexerContext, FILE* fp)
     lexerContext.inFunction = false;
     lexerContext.placeholderCounter = 0;
     lexerContext.inDebugCommand = false;
+    lexerContext.inMultilineComment = false;
     struct stat st;
     clearerr(fp);
 #ifdef _MSC_VER
@@ -1501,7 +1561,7 @@ lexCheckForMoreInput(LexerContext& lexerContext, int ccount)
             || ((lexerContext.bracketStackSize > 0)
                 && ((lexerContext.bracketStack[lexerContext.bracketStackSize - 1] == '[')
                     || (lexerContext.bracketStack[lexerContext.bracketStackSize - 1] == '{')))
-            || (lexerContext.inBlock != 0));
+            || (lexerContext.inBlock != 0) || lexerContext.inMultilineComment);
     } catch (Exception&) {
         lexerContext.continuationCount = 0;
         return false;

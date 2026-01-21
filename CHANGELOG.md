@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.17.0 - (UNRELEASED)
 
+### Added
+
 - Debugger Support
 
   - Full breakpoint management with commands: `dbstop`, `dbstep`, `dbcont`, `dbquit`, `dbclear`, `dbdown`, `dbup`, `dbstatus`.
@@ -30,8 +32,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Inspect function arguments and local variables.
 
 - Enhanced Debugging Experience
+
   - Integration with the command-line interface and editor interface.
   - Improved visibility of function contexts and nested calls.
+
+- Added support for multi-line comments in the interpreter, editor, debugger, and headcomments.
+
+### Changed
+
+- Reduced interpreter overhead in tight loops.
 
 ## 1.16.0 - (2025-12-27)
 

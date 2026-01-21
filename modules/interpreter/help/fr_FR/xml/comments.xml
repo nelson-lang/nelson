@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>commentaires</keyword>
+
+  <short_description
+  >Ajouter des commentaires au code Nelson.</short_description>
+
+  <syntax>
+    <syntax_item>% commentaire</syntax_item>
+    <syntax_item>code % commentaire en ligne</syntax_item>
+    <syntax_item>%{</syntax_item>
+    <syntax_item>commentaire bloc</syntax_item>
+    <syntax_item>%}</syntax_item>
+  </syntax>
+
+  <description>
+    <p>
+      Les commentaires sont utilisés pour décrire le code et améliorer la lisibilité.
+      Ils sont ignorés lors de l'exécution.
+    </p>
+
+    <p>
+      Nelson prend en charge les commentaires sur une seule ligne en utilisant le caractère <b
+      >%</b>
+      et les commentaires de bloc en utilisant les délimiteurs <b>%{</b> et <b
+      >%}</b>.
+    </p>
+
+    <p>
+      Les délimiteurs de commentaires de bloc doivent apparaître seuls sur leurs lignes respectives.
+      Tout texte entre eux est traité comme un commentaire.
+    </p>
+
+    <p>
+      Les commentaires multilignes sont pris en charge par l'interpréteur, l'éditeur,
+      le débogueur, et la fonction <b>headcomments</b>.
+    </p>
+  </description>
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Commentaires sur une seule ligne et commentaires en ligne
+      </example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+% Ajouter deux nombres
+a = 1;
+b = 2;
+c = a + b; % stocker le résultat
+]]></example_item_data>
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>
+        Commentaires de bloc
+      </example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+a = magic(3);
+%{
+sum(a)
+diag(a)
+sum(diag(a))
+%}
+disp(a)
+]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${help_tools}headcomments">headcomments</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>Version initiale.</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

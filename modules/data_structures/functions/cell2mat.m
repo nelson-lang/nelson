@@ -8,6 +8,20 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = cell2mat(varargin)
+  % Convert cell array to matrix.
+  %   M = cell2mat(C) converts a cell array C into a matrix M.
+  %   The contents of the cells of C must be numeric arrays, character arrays,
+  %   logical arrays, structures, or strings, and all cells must contain
+  %   arrays of the same type. The sizes of the arrays in the cells must be
+  %   compatible so that they can be concatenated to form a single array.
+  %   If C is empty, cell2mat returns an empty matrix.
+  %   If C is a scalar cell containing a numeric array, character array,
+  %   logical array, structure, or string, cell2mat returns the contents of
+  %   that cell.
+  %   Examples:
+  %      C = {[1 2; 3 4], [5,6;7,8]; [9,10;11,12], [13,14;15,16]};
+  %      M = cell2mat(C)
+  %   See also: num2cell, struct2cell, cellfun.
   narginchk(1, 1);
   nargoutchk(0, 1);
   
