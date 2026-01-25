@@ -139,51 +139,54 @@ std::wstring
 stringReplace(const std::wstring& originStr, const std::wstring& subStr,
     const std::wstring& replaceStr, bool doOverlaps)
 {
-    std::wstring modifiedString = originStr;
-    size_t start = 0;
     if (!doOverlaps) {
-        bool replacementDone = false;
-        size_t offset = 1 + replaceStr.length() - subStr.length();
-        while ((start = modifiedString.find(subStr, start)) != std::string::npos) {
-            modifiedString.replace(start, subStr.length(), replaceStr);
-            start += offset;
-            replacementDone = true;
-        }
-        if (replacementDone) {
-            return modifiedString;
-        }
-    } else {
-        if (subStr.empty()) {
-            return originStr;
-        }
-        std::vector<size_t> indexSubStr, lengthSubStr;
-        start = -1;
-        int64 offset = 0;
-        int64 offsetIncr = replaceStr.length() - subStr.length();
-        while ((start = modifiedString.find(subStr, start + 1)) != std::string::npos) {
-            if (indexSubStr.size() == 0) {
-                indexSubStr.push_back(start);
-                lengthSubStr.push_back(subStr.length());
-                offset += offsetIncr;
-            } else {
-                size_t endLastIndex = indexSubStr.back() + replaceStr.length();
-                size_t startIndex = start + (size_t)offset;
-                if (startIndex < endLastIndex) {
-                    lengthSubStr.back() -= endLastIndex - startIndex;
-                    offset += endLastIndex - startIndex;
-                }
-                indexSubStr.push_back(start + (size_t)offset);
-                lengthSubStr.push_back(subStr.length());
-                offset += offsetIncr;
+        // ⚡ Bolt: Use the optimized StringHelpers::replace_all to avoid repeated
+        // memory reallocations that occur when replacing inside a loop. This is
+        // significantly faster, especially when the replacement string is longer
+        // than the search string, as it pre-allocates the final required memory.
+        // This change also corrects a bug in the original non-overlapping
+        // replacement logic, which produced incorrect results in some cases.
+        std::wstring modifiedString = originStr;
+        StringHelpers::replace_all(modifiedString, subStr, replaceStr);
+        return modifiedString;
+    }
+
+    // Overlapping replacement logic (unchanged)
+    if (subStr.empty()) {
+        return originStr;
+    }
+
+    std::wstring modifiedString = originStr;
+    std::vector<size_t> indexSubStr, lengthSubStr;
+    size_t start = -1;
+    int64 offset = 0;
+    int64 offsetIncr = static_cast<int64>(replaceStr.length()) - static_cast<int64>(subStr.length());
+
+    while ((start = modifiedString.find(subStr, start + 1)) != std::string::npos) {
+        if (indexSubStr.empty()) {
+            indexSubStr.push_back(start);
+            lengthSubStr.push_back(subStr.length());
+            offset += offsetIncr;
+        } else {
+            size_t endLastIndex = indexSubStr.back() + replaceStr.length();
+            size_t startIndex = start + static_cast<size_t>(offset);
+            if (startIndex < endLastIndex) {
+                lengthSubStr.back() -= (endLastIndex - startIndex);
+                offset += (endLastIndex - startIndex);
             }
-        }
-        if (indexSubStr.size()) {
-            for (size_t i = 0; i < indexSubStr.size(); i++) {
-                modifiedString.replace(indexSubStr[i], lengthSubStr[i], replaceStr);
-            }
-            return modifiedString;
+            indexSubStr.push_back(start + static_cast<size_t>(offset));
+            lengthSubStr.push_back(subStr.length());
+            offset += offsetIncr;
         }
     }
+
+    if (!indexSubStr.empty()) {
+        for (size_t i = 0; i < indexSubStr.size(); i++) {
+            modifiedString.replace(indexSubStr[i], lengthSubStr[i], replaceStr);
+        }
+        return modifiedString;
+    }
+
     return originStr;
 }
 //=============================================================================
@@ -420,10 +423,27 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
 std::wstring
 Replace(const std::wstring& originStr, const std::wstring& subStr, const std::wstring& replaceStr)
 {
-    // ⚡ Bolt: This function was simplified by removing special handling for the
-    // empty `subStr` case. That logic is now centralized in `StringHelpers::replace_all`,
-    // which is more efficient and corrects a regression from the first patch.
-    // This change makes the code cleaner and avoids redundancy.
+    // ⚡ Bolt: This function contains a fast path to handle the specific edge case
+    // where the search string (`subStr`) is empty. This avoids a performance issue
+    // in the generic `StringHelpers::replace_all` function by pre-allocating memory
+    // and building the result string in a single pass, which is significantly
+    // more efficient.
+    if (subStr.empty()) {
+        if (replaceStr.empty()) {
+            return originStr;
+        }
+        if (originStr.empty()) {
+            return replaceStr;
+        }
+        std::wstring result;
+        result.reserve(originStr.length() + (originStr.length() + 1) * replaceStr.length());
+        for (const auto& c : originStr) {
+            result.append(replaceStr);
+            result += c;
+        }
+        result.append(replaceStr);
+        return result;
+    }
     std::wstring result = originStr;
     StringHelpers::replace_all(result, subStr, replaceStr);
     return result;
