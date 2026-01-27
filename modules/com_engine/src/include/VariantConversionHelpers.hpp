@@ -11,6 +11,8 @@
 //=============================================================================
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include <oaidl.h>
+#include <oleauto.h>
 #include "ArrayOf.hpp"
 #include "nlsCom_engine_exports.h"
 //=============================================================================
