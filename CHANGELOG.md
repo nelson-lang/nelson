@@ -38,6 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added support for multi-line comments in the interpreter, editor, debugger, and headcomments.
 
+- Dedicated Windows Terminal profile installed for the application.
+
 ### Changed
 
 - Reduced interpreter overhead in tight loops.
