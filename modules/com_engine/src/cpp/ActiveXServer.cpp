@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <Ole2.h>
-#include <atlconv.h>
 #include "ActiveXServer.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -17,6 +16,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+#define W2OLE(x) ((LPOLESTR)(x))
 ComHandleObject*
 ActiveXServer(const std::wstring& progId, const std::wstring& machine)
 {

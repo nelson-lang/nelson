@@ -8,11 +8,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <stdexcept>
-#include <atlconv.h>
 #include "invokeCOM.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 //=============================================================================
+#define W2OLE(x) ((LPOLESTR)(x))
 bool
 invokeCom(int autoType, VARIANT* pvResult, std::wstring& errorMessage, IDispatch* pDisp,
     std::wstring propertyName, int cArgs, VARIANT* pArgs)

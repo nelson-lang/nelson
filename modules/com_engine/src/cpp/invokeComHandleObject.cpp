@@ -9,7 +9,6 @@
 //=============================================================================
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-#include <atlconv.h>
 #include "invokeComHandleObject.hpp"
 #include "ComHandleObject.hpp"
 #include "Error.hpp"

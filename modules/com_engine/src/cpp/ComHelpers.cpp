@@ -9,12 +9,12 @@
 //=============================================================================
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <atlconv.h>
 #include "ComHelpers.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+#define W2OLE(x) ((LPOLESTR)(x))
 bool
 isMethodCom(IDispatch* pDisp, std::wstring methodToSearch)
 {
