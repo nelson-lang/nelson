@@ -419,7 +419,6 @@ Evaluator::evalCLI()
             // 2. We have a step breakpoint but the current filename is empty (not in any file)
             // 3. Step mode is active but we're at base scope with no file
             bool noExecutionFrame = callstack.size() <= 1;
-            bool notInFile = context->getCurrentScope()->getFilename().empty();
             // If there is no execution frame, always leave debug mode; this runs after scripts
             // finish.
             if (bpActive && noExecutionFrame) {
