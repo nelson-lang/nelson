@@ -9,8 +9,8 @@
 //=============================================================================
 #include <unordered_map>
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -119,7 +119,7 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
             for (const std::string& tag : tags) {
                 if (compareTag(line, tag) && firstTagOccurrences[tag]) {
                     if (tagOptions[tag]) {
-                        msg = fmt::sprintf(_W("Duplicated tag detected: %s"), utf8_to_wstring(tag));
+                        msg = utf8_to_wstring(fmt::format(_("Duplicated tag detected: {}"), tag));
                         istream.close();
                         return false;
                     }

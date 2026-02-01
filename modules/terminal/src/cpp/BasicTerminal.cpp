@@ -11,15 +11,15 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #endif
+#define FMT_HEADER_ONLY
+#include <fmt/printf.h>
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include <cstring>
 #include <iostream>
 #include <csignal>
 #include <thread>
 #include <chrono>
-#define FMT_HEADER_ONLY
-#include <fmt/printf.h>
-#include <fmt/format.h>
-#include <fmt/xchar.h>
 #include "BasicTerminal.hpp"
 #include "Evaluator.hpp"
 #include "characters_encoding.hpp"
@@ -134,7 +134,7 @@ BasicTerminal::outputMessage(const std::wstring& msg)
 void
 BasicTerminal::outputMessage(const std::string& msg)
 {
-    fmt::fprintf(stdout, "%s", msg.c_str());
+    fmt::print(stdout, "{0}", msg.c_str());
     this->diary.writeMessage(msg);
 }
 //=============================================================================
@@ -152,7 +152,7 @@ BasicTerminal::errorMessage(const std::string& msg)
         _msg = "\n" + msg;
         atPrompt = false;
     }
-    fmt::fprintf(stderr, "%s", _msg.c_str());
+    fmt::print(stderr, "{0}", _msg.c_str());
     diary.writeMessage(_msg);
 }
 //=============================================================================
@@ -170,7 +170,7 @@ BasicTerminal::warningMessage(const std::string& msg)
         _msg = "\n" + _msg;
         atPrompt = false;
     }
-    fmt::fprintf(stdout, "%s", _msg.c_str());
+    fmt::print(stdout, "{0}", _msg.c_str());
     diary.writeMessage(_msg);
 }
 //=============================================================================

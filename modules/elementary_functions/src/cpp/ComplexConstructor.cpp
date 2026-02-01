@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "ComplexConstructor.hpp"
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"
@@ -155,7 +155,7 @@ ComplexConstructor(const ArrayOf& arrayA)
     case NLS_CHAR:
     case NLS_LOGICAL:
     default: {
-        Error(fmt::sprintf(_("Undefined function '%s_complex'"), ClassName(arrayA)));
+        Error(fmt::format(_("Undefined function '{0}_complex'"), ClassName(arrayA)));
     } break;
     case NLS_DOUBLE:
     case NLS_UINT8:

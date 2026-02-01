@@ -10,8 +10,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "cellfunBuiltin.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "ClassName.hpp"
@@ -365,7 +365,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                     errorFunc = param.getContentAsFunctionHandle();
                     bHaveErrorHandlerArgs = true;
                 } else {
-                    Error(fmt::sprintf(
+                    Error(fmt::format(
                         ERROR_WRONG_ARGUMENT_X_TYPE_FUNCTION_HANDLE_EXPECTED, nbElementsInput));
                 }
             }
@@ -401,7 +401,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                         bHaveErrorHandlerArgs = true;
                     }
                 } else {
-                    Error(fmt::sprintf(
+                    Error(fmt::format(
                         ERROR_WRONG_ARGUMENT_X_TYPE_FUNCTION_HANDLE_EXPECTED, nbElementsInput));
                 }
             }

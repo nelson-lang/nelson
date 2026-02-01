@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "FormatBank.hpp"
@@ -20,25 +19,17 @@ namespace Nelson {
 std::wstring
 formatBank(double number, bool trim)
 {
+    const int width = 13;
     std::wstring result;
-
     if (std::isnan(number)) {
-        std::wstring format = L"%*s";
-        result = fmt::sprintf(format, 13, L"NaN");
+        result = fmt::format(L"{:>{}}", L"NaN", width);
     } else if (std::isinf(number)) {
-        std::wstring format = L"%*s";
-        if (number < 0) {
-            result = fmt::sprintf(format, 13, L"-Inf");
-        } else {
-            result = fmt::sprintf(format, 13, L"Inf");
-        }
+        result = (number < 0) ? fmt::format(L"{:>{}}", L"-Inf", width)
+                              : fmt::format(L"{:>{}}", L"Inf", width);
     } else {
-        std::wstring format = L"%13.2f";
-        result = fmt::sprintf(format, number);
+        result = fmt::format(L"{:13.2f}", number);
     }
-    if (result != L" ") {
-        result = L" " + result;
-    }
+    result = L" " + result;
     if (trim) {
         StringHelpers::trim_left(result);
     }

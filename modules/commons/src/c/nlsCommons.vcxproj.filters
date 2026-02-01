@@ -78,6 +78,9 @@
     <ClInclude Include="..\include\SingletonHelper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\SprintF.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\include\nlsBuildConfig.h.vc" />

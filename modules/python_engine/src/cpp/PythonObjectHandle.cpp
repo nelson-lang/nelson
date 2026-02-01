@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <algorithm>
@@ -106,11 +105,11 @@ PythonObjectHandle::display(Interface* io)
     case PY_NUMPY_TYPE:
     case PY_NOT_MANAGED:
     default: {
-        strFormat = _W("  Python %s:");
+        strFormat = _W("  Python {0}:");
     } break;
     }
 
-    std::wstring msg = fmt::sprintf(strFormat, pyObjTypeName);
+    std::wstring msg = fmt::format(strFormat, pyObjTypeName);
     msg.append(L"\n");
     msg.append(L"\n");
     io->outputMessage(msg);

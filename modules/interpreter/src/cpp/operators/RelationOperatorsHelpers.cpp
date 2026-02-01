@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "RelationOperatorsHelpers.hpp"
@@ -75,7 +74,7 @@ relationalOperator(Evaluator* eval, const std::string& operatorName, const std::
     case NLS_UNKNOWN:
     case NLS_FUNCTION_HANDLE: {
         std::string msg
-            = fmt::sprintf(_("Operator '%s' is not supported for operands of type '%s'."),
+            = fmt::format(_("Operator '{0}' is not supported for operands of type '{1}'."),
                 symbolName, ClassToString(commonType));
         Error(msg, "Nelson:UndefinedFunction");
     } break;

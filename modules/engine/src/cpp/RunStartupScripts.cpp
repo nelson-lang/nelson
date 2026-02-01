@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "FileSystemWrapper.hpp"
@@ -42,7 +41,7 @@ RunStartupScripts(Evaluator* eval)
                 CloseAllFiles();
                 Interface* io = eval->getInterface();
                 eval->setLastErrorException(e);
-                std::wstring errmsg = fmt::sprintf(_W("'%s' failed to run."), wstr);
+                std::wstring errmsg = fmt::format(_W("'{0}' failed to run."), wstr);
                 if (io != nullptr) {
                     io->errorMessage(errmsg);
                     return false;

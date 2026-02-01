@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "Assert_IsEqual.hpp"
@@ -29,9 +28,9 @@ formatMessage(const ArrayOf& computedArray, const ArrayOf& expectedArray)
                 || expectedArray.isEmpty()))) {
         std::wstring computed = computedArray.getContentAsWideString();
         std::wstring expected = expectedArray.getContentAsWideString();
-        message = fmt::sprintf(
-            _W("Assertion failed: expected '%s' and computed '%s' values are different."), expected,
-            computed);
+        message = fmt::format(
+            _W("Assertion failed: expected '{0}' and computed '{1}' values are different."),
+            expected, computed);
     } else {
         if (computedArray.isScalar() && expectedArray.isScalar()) {
             if ((computedArray.getDataClass() == expectedArray.getDataClass())
@@ -40,38 +39,38 @@ formatMessage(const ArrayOf& computedArray, const ArrayOf& expectedArray)
                 case NLS_LOGICAL: {
                     logical computed = computedArray.getContentAsLogicalScalar();
                     logical expected = expectedArray.getContentAsLogicalScalar();
-                    message = fmt::sprintf(_W("Assertion failed: expected (%s) and computed (%s) "
-                                              "values are different."),
+                    message = fmt::format(_W("Assertion failed: expected ({0}) and computed ({1}) "
+                                             "values are different."),
                         expected ? L"true" : L"false", computed ? L"true" : L"false");
                 } break;
                 case NLS_STRING_ARRAY: {
                     std::wstring computed = computedArray.getContentAsWideString();
                     std::wstring expected = expectedArray.getContentAsWideString();
                     message
-                        = fmt::sprintf(_W("Assertion failed: expected \"%s\" and computed \"%s\" "
-                                          "values are different."),
+                        = fmt::format(_W("Assertion failed: expected \"{0}\" and computed \"{1}\" "
+                                         "values are different."),
                             expected, computed);
 
                 } break;
                 case NLS_DOUBLE: {
                     double computed = ArrayOf(computedArray).getContentAsDoubleScalar();
                     double expected = ArrayOf(expectedArray).getContentAsDoubleScalar();
-                    message = fmt::sprintf(_W("Assertion failed: expected (%lg) and computed (%lg) "
-                                              "values are different."),
+                    message = fmt::format(_W("Assertion failed: expected ({0}) and computed ({1}) "
+                                             "values are different."),
                         expected, computed);
                 } break;
                 case NLS_INT32: {
                     int32 computed = ArrayOf(computedArray).getContentAsInteger32Scalar();
                     int32 expected = ArrayOf(expectedArray).getContentAsInteger32Scalar();
-                    message = fmt::sprintf(_W("Assertion failed: expected (%ls) and computed (%ls) "
-                                              " values are different."),
+                    message = fmt::format(_W("Assertion failed: expected ({0}) and computed ({1}) "
+                                             "values are different."),
                         fmt::to_wstring(expected), fmt::to_wstring(computed));
                 } break;
                 case NLS_UINT64: {
                     uint64 computed = ArrayOf(computedArray).getContentAsUnsignedInteger64Scalar();
                     uint64 expected = ArrayOf(expectedArray).getContentAsUnsignedInteger64Scalar();
-                    message = fmt::sprintf(_W("Assertion failed: expected (%s) and computed (%s)  "
-                                              "values are different."),
+                    message = fmt::format(_W("Assertion failed: expected ({0}) and computed ({1}) "
+                                             "values are different."),
                         fmt::to_wstring(expected), fmt::to_wstring(computed));
                 } break;
                 default: {

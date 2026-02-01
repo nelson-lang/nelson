@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "clearBuiltin.hpp"
 #include "Clear.hpp"
 #include "ClearFunction.hpp"
@@ -48,7 +48,7 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     } else {
         for (size_t k = 0; k < argIn.size(); k++) {
             if (!argIn[k].isRowVectorCharacterArray()) {
-                Error(fmt::sprintf(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, k + 1));
+                Error(fmt::format(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, k + 1));
             }
         }
         if (argIn.size() == 1) {

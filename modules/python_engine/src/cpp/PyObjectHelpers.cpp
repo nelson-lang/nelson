@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <algorithm>
@@ -328,7 +327,7 @@ PyGetHashValue(PyObject* pyObject)
     if (!method || !NLSPyCallable_Check(method)) {
         NLSPy_XDECREF(method);
         std::wstring errorMessage
-            = fmt::sprintf(_W("TypeError: unhashable type: '%s'"), TypeName(pyObject));
+            = fmt::format(_W("TypeError: unhashable type: '{0}'"), TypeName(pyObject));
         Error(errorMessage, L"Nelson:Python:PyException");
     }
 

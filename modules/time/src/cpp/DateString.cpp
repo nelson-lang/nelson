@@ -8,10 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <string>
-#define FMT_HEADER_ONLY
-#include <fmt/printf.h>
-#include <fmt/format.h>
-#include <fmt/xchar.h>
+#include "SprintF.hpp"
 #include "DateString.hpp"
 #include "characters_encoding.hpp"
 #include "DateVector.hpp"
@@ -157,60 +154,60 @@ formatDateTimeString(int Y, int M, int D, int H, int MN, int S, const std::wstri
     switch (predefinedFormatOutValue) {
     case 2:
     case 5:
-        return fmt::sprintf(dateFormat, M, D, Y % 100);
+        return sprintf_w_utf8(dateFormat, M, D, Y % 100);
     case 19:
-        return fmt::sprintf(dateFormat, D, M);
+        return sprintf_w_utf8(dateFormat, D, M);
     case 20:
-        return fmt::sprintf(dateFormat, D, M, Y % 100);
+        return sprintf_w_utf8(dateFormat, D, M, Y % 100);
     case 23:
-        return fmt::sprintf(dateFormat, M, D, Y);
+        return sprintf_w_utf8(dateFormat, M, D, Y);
     case 24:
-        return fmt::sprintf(dateFormat, D, M, Y);
+        return sprintf_w_utf8(dateFormat, D, M, Y);
     case 25:
-        return fmt::sprintf(dateFormat, Y % 100, M, D);
+        return sprintf_w_utf8(dateFormat, Y % 100, M, D);
     case 3:
     case 12:
-        return fmt::sprintf(dateFormat, month_str, Y % 100);
+        return sprintf_w_utf8(dateFormat, month_str, Y % 100);
     case 4:
-        return fmt::sprintf(dateFormat, std::toupper(month_str[0]));
+        return sprintf_w_utf8(dateFormat, std::toupper(month_str[0]));
     case 8:
-        return fmt::sprintf(dateFormat, weekday_str);
+        return sprintf_w_utf8(dateFormat, weekday_str);
     case 9:
-        return fmt::sprintf(dateFormat, std::toupper(weekday_str[0]));
+        return sprintf_w_utf8(dateFormat, std::toupper(weekday_str[0]));
     case 10:
-        return fmt::sprintf(dateFormat, Y);
+        return sprintf_w_utf8(dateFormat, Y);
     case 11: {
-        std::wstring res = fmt::sprintf(dateFormat, Y);
+        std::wstring res = sprintf_w_utf8(dateFormat, Y);
         return res.substr(res.length() - 2);
     }
     case 13:
-        return fmt::sprintf(dateFormat, H, MN, S);
+        return sprintf_w_utf8(dateFormat, H, MN, S);
     case 14:
-        return fmt::sprintf(dateFormat, to12HourFormat(H), MN, S, getAMPM(H));
+        return sprintf_w_utf8(dateFormat, to12HourFormat(H), MN, S, getAMPM(H));
     case 16:
-        return fmt::sprintf(dateFormat, to12HourFormat(H), MN, getAMPM(H));
+        return sprintf_w_utf8(dateFormat, to12HourFormat(H), MN, getAMPM(H));
     case 15:
-        return fmt::sprintf(dateFormat, H, MN);
+        return sprintf_w_utf8(dateFormat, H, MN);
     case 17:
     case 18:
-        return fmt::sprintf(dateFormat, getQuarter(M), Y % 100);
+        return sprintf_w_utf8(dateFormat, getQuarter(M), Y % 100);
     case 21:
-        return fmt::sprintf(dateFormat, month_str, D, Y, H, MN, S);
+        return sprintf_w_utf8(dateFormat, month_str, D, Y, H, MN, S);
     case 22:
-        return fmt::sprintf(dateFormat, month_str, D, Y);
+        return sprintf_w_utf8(dateFormat, month_str, D, Y);
     case 28:
-        return fmt::sprintf(dateFormat, month_str, Y);
+        return sprintf_w_utf8(dateFormat, month_str, Y);
     case 26:
     case 29:
     case 30:
     case 31:
-        return fmt::sprintf(dateFormat, Y, M, D, H, MN, S);
+        return sprintf_w_utf8(dateFormat, Y, M, D, H, MN, S);
     case 27:
-        return fmt::sprintf(dateFormat, getQuarter(M), Y);
+        return sprintf_w_utf8(dateFormat, getQuarter(M), Y);
     case 6:
-        return fmt::sprintf(dateFormat, M, D);
+        return sprintf_w_utf8(dateFormat, M, D);
     default:
-        return fmt::sprintf(dateFormat, D, month_str, Y, H, MN, S);
+        return sprintf_w_utf8(dateFormat, D, month_str, Y, H, MN, S);
     }
 }
 //=============================================================================

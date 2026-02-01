@@ -17,6 +17,74 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+namespace {
+    template <class T>
+    void
+    compute_exponent_mantissa(T number, int& exponent, double& mantissa)
+    {
+        exponent = 0;
+        if (number != 0) {
+            double absval = (number < 0 ? -number : number);
+            int logabsval = static_cast<int>(std::floor(log10(absval)));
+            int rem = logabsval % 3;
+            if (rem < 0) {
+                rem += 3;
+            }
+            exponent = logabsval - rem;
+        }
+        mantissa = number / std::pow(static_cast<double>(10), exponent);
+    }
+    //=============================================================================
+    static std::wstring
+    make_exponent_string(int exponent)
+    {
+        std::wstring expStr;
+        expStr.reserve(8);
+        int absExp = exponent;
+        if (exponent >= 0) {
+            expStr = L"e+";
+        } else {
+            absExp = -exponent;
+            expStr = L"e-";
+        }
+        std::wstring exponentAsString = fmt::to_wstring(absExp);
+        if (exponentAsString.length() < 3) {
+            expStr.append(3 - exponentAsString.length(), L'0');
+        }
+        expStr.append(exponentAsString);
+        return expStr;
+    }
+    //=============================================================================
+    static std::pair<std::wstring, std::wstring>
+    make_exponent_components(int exponent)
+    {
+        std::wstring prefix;
+        int absExp = exponent;
+        if (exponent >= 0) {
+            prefix = L"e+";
+        } else {
+            absExp = -exponent;
+            prefix = L"e-";
+        }
+        std::wstring digits = fmt::to_wstring(absExp);
+        if (digits.length() < 3) {
+            digits.insert(0, 3 - digits.length(), L'0');
+        }
+        return { prefix, digits };
+    }
+    //=============================================================================
+    static void
+    trim_leading_spaces(std::wstring& s, size_t max)
+    {
+        size_t removed = 0;
+        while (removed < max && !s.empty() && s.front() == L' ') {
+            s.erase(0, 1);
+            ++removed;
+        }
+    }
+    //=============================================================================
+} // namespace (internal)
+//=============================================================================
 template <class T>
 std::wstring
 formatLongEngineering(T number, bool trim, const std::wstring& zero, const std::wstring& format,
@@ -36,43 +104,21 @@ formatLongEngineering(T number, bool trim, const std::wstring& zero, const std::
         str = std::wstring(widthFull - (size_t)4, L' ') + L"NaN";
     } else {
         int exponent = 0;
-        if (number != 0) {
-            double absval = (number < 0 ? -number : number);
-            int logabsval = static_cast<int>(std::floor(log10(absval)));
-            if (logabsval < 0) {
-                exponent = logabsval - 2 + ((-logabsval + 2) % 3);
-            } else {
-                exponent = logabsval - (logabsval % 3);
-            }
+        double mantissa = 0.0;
+        compute_exponent_mantissa<T>(number, exponent, mantissa);
+        std::wstring mantissaStr = fmt::format(fmt::runtime(format), mantissa);
+        if (mantissaStr.find(L'.') == std::wstring::npos) {
+            mantissaStr += L'.';
         }
-        double mantissa = number / std::pow(static_cast<double>(10), exponent);
-        std::wstring expStr;
-        expStr.reserve(8);
-        if (exponent >= 0) {
-            expStr = L"e+";
-        } else {
-            exponent = -exponent;
-            expStr = L"e-";
-        }
-        std::wstring exponentAsString = fmt::to_wstring(exponent);
-        if (exponentAsString.length() < 3) {
-            expStr.append(3 - exponentAsString.length(), L'0');
-        }
-        str = fmt::sprintf(format, mantissa);
-        size_t pointPos = str.find(L'.');
-        if (pointPos == std::string::npos) {
-            str = str + L".";
-        }
-        int nbZerosToAdd = (int)widthMantissa - (int)str.size() - (int)1;
+        int nbZerosToAdd
+            = static_cast<int>(widthMantissa) - static_cast<int>(mantissaStr.size()) - 1;
         if (nbZerosToAdd > 0) {
-            for (int k = 0; k < nbZerosToAdd; ++k) {
-                str = str + L"0";
-            }
+            mantissaStr.append((size_t)nbZerosToAdd, L'0');
         }
-        str = fmt::sprintf(L"%s%s%s", str, expStr, exponentAsString);
+        std::wstring expFull = make_exponent_string(exponent);
+        str = fmt::format(L"{}{}", mantissaStr, expFull);
         if (mantissa < 0) {
             str = std::wstring(nbBlanksMantissa, L' ') + str;
-
         } else {
             str = std::wstring(nbBlanksMantissa + (size_t)1, L' ') + str;
         }
@@ -87,13 +133,13 @@ std::wstring
 formatLongEng(double number, bool trim)
 {
     return formatLongEngineering<double>(
-        number, trim, L"0.00000000000000e+000", L"%.15g", 3, 17, 26);
+        number, trim, L"0.00000000000000e+000", L"{:.15g}", 3, 17, 26);
 }
 //=============================================================================
 std::wstring
 formatLongEng(single number, bool trim)
 {
-    return formatLongEngineering<single>(number, trim, L"0.000000e+000", L"%.7g", 2, 9, 17);
+    return formatLongEngineering<single>(number, trim, L"0.000000e+000", L"{:.7g}", 2, 9, 17);
 }
 //=============================================================================
 template <class T>
@@ -109,11 +155,7 @@ formatComplexLongEng(T realPart, T imagPart, bool trim, size_t nbMaxBlanks)
     }
     std::wstring imgStr = formatLongEng((T)fabs(imagPart), false);
     if (std::isfinite(imagPart)) {
-        for (size_t k = 0; k < nbMaxBlanks; ++k) {
-            if (imgStr[0] == L' ') {
-                imgStr.erase(0, 1);
-            }
-        }
+        trim_leading_spaces(imgStr, nbMaxBlanks);
     }
     result.append(imgStr);
     result.append(L"i");
@@ -139,39 +181,24 @@ formatShortEngineer(T x, bool trim, const std::wstring& format, size_t width, si
     std::wstring str;
     if (IsInfinite(x)) {
         if (x < 0) {
-            str = fmt::sprintf(L"%*s", width, L"-Inf");
+            str = fmt::format(L"{:>{}}", L"-Inf", width);
         } else {
-            str = fmt::sprintf(L"%*s", width, L"Inf");
+            str = fmt::format(L"{:>{}}", L"Inf", width);
         }
     } else if (IsNaN(x)) {
-        str = fmt::sprintf(L"%*s", width, L"NaN");
+        str = fmt::format(L"{:>{}}", L"NaN", width);
     } else {
         int exponent = 0;
-        if (x != 0) {
-            double absval = (x < 0 ? -x : x);
-            int logabsval = static_cast<int>(std::floor(log10(absval)));
-            if (logabsval < 0) {
-                exponent = logabsval - 2 + ((-logabsval + 2) % 3);
-            } else {
-                exponent = logabsval - (logabsval % 3);
-            }
-        }
-        double mantissa = x / std::pow(static_cast<double>(10), exponent);
-        std::wstring expStr;
-        expStr.reserve(8);
-        if (exponent >= 0) {
-            expStr = L"e+";
+        double mantissa = 0.0;
+        compute_exponent_mantissa<T>(x, exponent, mantissa);
+        auto [expPrefix, expDigits] = make_exponent_components(exponent);
+        str = fmt::format(fmt::runtime(format), mantissa, expPrefix, expDigits);
+        std::wstring integerPart = std::to_wstring(static_cast<int>(mantissa));
+        if (nbBlanks > integerPart.length()) {
+            nbBlanks = nbBlanks - integerPart.length();
         } else {
-            exponent = -exponent;
-            expStr = L"e-";
+            nbBlanks = 0;
         }
-        std::wstring exponentAsString = fmt::to_wstring(exponent);
-        if (exponentAsString.length() < 3) {
-            expStr.append(3 - exponentAsString.length(), L'0');
-        }
-        str = fmt::sprintf(format, mantissa, expStr, exponentAsString);
-        std::wstring integerPart = std::to_wstring(int(mantissa));
-        nbBlanks = nbBlanks - integerPart.length();
         std::wstring blanks(nbBlanks, L' ');
         str = blanks + str;
     }
@@ -184,13 +211,13 @@ formatShortEngineer(T x, bool trim, const std::wstring& format, size_t width, si
 std::wstring
 formatShortEng(double number, bool trim)
 {
-    return formatShortEngineer<double>(number, trim, L"%.4f%s%s", 16, 6);
+    return formatShortEngineer<double>(number, trim, L"{:.4f}{}{}", 16, 6);
 }
 //=============================================================================
 std::wstring
 formatShortEng(single number, bool trim)
 {
-    return formatShortEngineer<single>(number, trim, L"%.4f%s%s", 16, 6);
+    return formatShortEngineer<single>(number, trim, L"{:.4f}{}{}", 16, 6);
 }
 //=============================================================================
 template <class T>
@@ -206,12 +233,7 @@ formatComplexShortEng(T realPart, T imagPart, bool trim)
     }
     if (std::isfinite(imagPart)) {
         std::wstring imgStr = formatShortEng(fabs(imagPart), false);
-        size_t nbMaxBlanks = 3;
-        for (size_t k = 0; k < nbMaxBlanks; ++k) {
-            if (imgStr[0] == L' ') {
-                imgStr.erase(0, 1);
-            }
-        }
+        trim_leading_spaces(imgStr, 3);
         result.append(imgStr);
     } else {
         result.append(formatShortEng(fabs(imagPart), false));

@@ -20,7 +20,6 @@
 #include <QtPrintSupport/QPrintPreviewDialog>
 #include <QtPrintSupport/QPrinter>
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "QtTranslation.hpp"
@@ -52,9 +51,9 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define TITLE_WITH_FIGURE_NUMBER_FORMAT L"Figure %d"
-#define TITLE_WITH_FIGURE_NUMBER_AND_NAME_FORMAT L"Figure %d: %s"
-#define TITLE_WITH_NAME_ONLY_FORMAT L"%s"
+#define TITLE_WITH_FIGURE_NUMBER_FORMAT L"Figure {0}"
+#define TITLE_WITH_FIGURE_NUMBER_AND_NAME_FORMAT L"Figure {0}: {1}"
+#define TITLE_WITH_NAME_ONLY_FORMAT L"{0}"
 //=============================================================================
 GOWindow::GOWindow(int64 ahandle) : QMainWindow()
 {
@@ -70,7 +69,7 @@ GOWindow::GOWindow(int64 ahandle) : QMainWindow()
     handle = ahandle;
     int figureId = handle + 1;
     goFig = new GOFigure(this, figureId);
-    setWindowTitle(wstringToQString(fmt::sprintf(TITLE_WITH_FIGURE_NUMBER_FORMAT, figureId)));
+    setWindowTitle(wstringToQString(fmt::format(TITLE_WITH_FIGURE_NUMBER_FORMAT, figureId)));
     setFocusPolicy(Qt::ClickFocus);
     qtchild = new BaseFigureQt(this, goFig);
     setCentralWidget(qtchild);
@@ -175,14 +174,14 @@ GOWindow::updateState(bool forceUpdate)
         if (withNumberTitle) {
             if (name->data().empty()) {
                 setWindowTitle(
-                    wstringToQString(fmt::sprintf(TITLE_WITH_FIGURE_NUMBER_FORMAT, figureId)));
+                    wstringToQString(fmt::format(TITLE_WITH_FIGURE_NUMBER_FORMAT, figureId)));
             } else {
-                setWindowTitle(wstringToQString(fmt::sprintf(
-                    TITLE_WITH_FIGURE_NUMBER_AND_NAME_FORMAT, figureId, name->data())));
+                setWindowTitle(wstringToQString(
+                    fmt::format(TITLE_WITH_FIGURE_NUMBER_AND_NAME_FORMAT, figureId, name->data())));
             }
         } else {
             setWindowTitle(
-                wstringToQString(fmt::sprintf(TITLE_WITH_NAME_ONLY_FORMAT, name->data())));
+                wstringToQString(fmt::format(TITLE_WITH_NAME_ONLY_FORMAT, name->data())));
         }
         goFig->clearChanged(GO_NAME_PROPERTY_NAME_STR);
         goFig->clearChanged(GO_NUMBER_PROPERTY_NAME_STR);
@@ -424,9 +423,9 @@ GOWindow::updateWindowMenuItems()
             if (withNumberTitle) {
                 if (nameFigure.empty()) {
                     menuItem
-                        = wstringToQString(fmt::sprintf(TITLE_WITH_FIGURE_NUMBER_FORMAT, figureId));
+                        = wstringToQString(fmt::format(TITLE_WITH_FIGURE_NUMBER_FORMAT, figureId));
                 } else {
-                    menuItem = wstringToQString(fmt::sprintf(
+                    menuItem = wstringToQString(fmt::format(
                         TITLE_WITH_FIGURE_NUMBER_AND_NAME_FORMAT, figureId, nameFigure));
                 }
             } else {

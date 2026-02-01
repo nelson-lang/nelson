@@ -11,7 +11,6 @@
 #include <cstdio>
 #include <cwchar>
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "MatrixToString.hpp"
@@ -40,7 +39,7 @@ complexToString(T complexValue, const std::wstring& formatNumber)
                 realPartStr = L"-Inf";
             }
         } else {
-            realPartStr = fmt::sprintf(formatNumber, complexValue.real());
+            realPartStr = fmt::format(fmt::runtime(formatNumber), complexValue.real());
         }
     }
     if (std::isnan(complexValue.imag())) {
@@ -53,7 +52,7 @@ complexToString(T complexValue, const std::wstring& formatNumber)
                 imagPartStr = L"-Inf";
             }
         } else {
-            imagPartStr = fmt::sprintf(formatNumber, complexValue.imag());
+            imagPartStr = fmt::format(fmt::runtime(formatNumber), complexValue.imag());
         }
     }
     if (imagPartStr.compare(L"NaN") == 0 || imagPartStr.compare(L"Inf") == 0
@@ -80,7 +79,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
     if (!A.is2D()) {
         Error(_W("A 2D matrix expected."));
     }
-    std::wstring formatNumber = L"%." + std::to_wstring(precision) + L"g";
+    std::wstring formatNumber = L"{:." + std::to_wstring(precision) + L"g}";
     std::wstring class_name = L"";
     ClassName(A, class_name);
     if (withClass) {
@@ -145,7 +144,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
                                 res = res + L"-Inf" + L" ";
                             }
                         } else {
-                            res = res + fmt::sprintf(formatNumber, val) + L" ";
+                            res = res + fmt::format(fmt::runtime(formatNumber), val) + L" ";
                         }
                     }
                 }
@@ -170,7 +169,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
                                 res = res + L"-Inf" + L" ";
                             }
                         } else {
-                            res = res + fmt::sprintf(formatNumber, val) + L" ";
+                            res = res + fmt::format(fmt::runtime(formatNumber), val) + L" ";
                         }
                     }
                 }

@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <cmath>
@@ -56,7 +55,7 @@ static std::wstring
 formatTick(TEXT_INTERPRETER_FORMAT textFormat, double val, bool scientificNotation)
 {
     if (scientificNotation) {
-        std::wstring label = fmt::sprintf(L"%e", val);
+        std::wstring label = fmt::format(L"{:e}", val);
         if (textFormat == TEXT_INTERPRETER_FORMAT::TEX_MARKUP) {
             wstringVector elements = split(label, L"e");
             if (elements.size() == 2) {
@@ -118,7 +117,7 @@ formatTick(TEXT_INTERPRETER_FORMAT textFormat, double val, bool scientificNotati
         }
         return label;
     } else {
-        std::wstring buffer = fmt::sprintf(L"%f", val);
+        std::wstring buffer = fmt::format(L"{:f}", val);
         while (buffer.back() == L'0') {
             buffer.pop_back();
         }

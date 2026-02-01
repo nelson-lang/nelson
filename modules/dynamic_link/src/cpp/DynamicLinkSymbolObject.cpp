@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include <unordered_map>
 #include "DynamicLinkSymbolObject.hpp"
 #include "StringHelpers.hpp"
@@ -91,7 +91,7 @@ GetFFIType(const std::wstring& type)
     if (ffiTypesMap.count(type) != 0) {
         ret = ffiTypesMap[type];
     } else {
-        Error(fmt::sprintf(_W("import type %s not defined in FFI type table."), type));
+        Error(fmt::format(_W("import type {0} not defined in FFI type table."), type));
     }
     return ret.FFIType;
 }
@@ -103,7 +103,7 @@ DynamicLinkSymbolObject::GetNelsonType(const std::wstring& type)
     if (ffiTypesMap.count(type) != 0) {
         ret = ffiTypesMap[type];
     } else {
-        Error(fmt::sprintf(_W("import type %s not defined in FFI type table."), type));
+        Error(fmt::format(_W("import type {0} not defined in FFI type table."), type));
     }
     return ret.NelsonClass;
 }
@@ -299,11 +299,11 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
                 LibPointerObject* objLibPointer
                     = (LibPointerObject*)params[k].getContentAsHandleScalar();
                 if (objLibPointer->getDataType() != _paramsTypes[k]) {
-                    Error(fmt::sprintf(_W("Invalid type for #%zu input argument: %s expected."),
+                    Error(fmt::format(_W("Invalid type for #{0} input argument: {1} expected."),
                         k + 1, _paramsTypes[k]));
                 }
             } else {
-                Error(fmt::sprintf(_W("Invalid type for #%zu input argument: %s expected."), k + 1,
+                Error(fmt::format(_W("Invalid type for #{0} input argument: {1} expected."), k + 1,
                     _paramsTypes[k]));
             }
         }

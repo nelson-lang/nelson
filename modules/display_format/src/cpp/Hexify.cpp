@@ -9,7 +9,6 @@
 //=============================================================================
 #include "Hexify.hpp"
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 //=============================================================================
@@ -24,7 +23,7 @@ single2hexastr(float d)
     if (std::isnan(d)) {
         return L"ffc00000";
     }
-    return fmt::sprintf(L"%x", *reinterpret_cast<int*>(&d));
+    return fmt::format(L"{:x}", *reinterpret_cast<int*>(&d));
 }
 //=============================================================================
 std::wstring
@@ -36,7 +35,7 @@ double2hexastr(double d)
     if (std::isnan(d)) {
         return L"fff8000000000000";
     }
-    return fmt::sprintf(L"%llx", *reinterpret_cast<unsigned long long*>(&d));
+    return fmt::format(L"{:x}", *reinterpret_cast<unsigned long long*>(&d));
 }
 //=============================================================================
 }

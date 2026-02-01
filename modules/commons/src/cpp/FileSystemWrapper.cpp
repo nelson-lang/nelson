@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <atomic>
@@ -35,17 +34,15 @@ namespace Nelson::FileSystemWrapper {
 auto
 Path::getUniqueID()
 {
-#ifdef _MSC_VER
-    std::wstring uuid;
-    UuidHelpers::generateUuid(uuid);
-#define TMP_NELSON L"%06x"
-    std::wstring result = fmt::sprintf(TMP_NELSON, _getpid()) + L"-" + uuid + L".tmp";
-    return result;
-#else
-#define TMP_NELSON "%06x"
+#define TMP_NELSON "{:06x}"
     std::string uuid;
     UuidHelpers::generateUuid(uuid);
-    std::string result = fmt::sprintf(TMP_NELSON, (int)getpid()) + "-" + uuid + ".tmp";
+
+#ifdef _MSC_VER
+    std::string result = fmt::format(TMP_NELSON, _getpid()) + "-" + uuid + ".tmp";
+    return utf8_to_wstring(result);
+#else
+    std::string result = fmt::format(TMP_NELSON, getpid()) + "-" + uuid + ".tmp";
     return result;
 #endif
 }

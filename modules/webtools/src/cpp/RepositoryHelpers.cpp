@@ -9,7 +9,6 @@
 //=============================================================================
 #include <git2.h>
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "characters_encoding.hpp"
@@ -26,10 +25,9 @@ gitErrorCodeToMessage(int errorCode)
         const git_error* e = giterr_last();
         if (e) {
             std::wstring msg = utf8_to_wstring(e->message);
-            errorMessage
-                = fmt::sprintf(_W("repository error %d/%d: %ls"), errorCode, e->klass, msg);
+            errorMessage = fmt::format(_W("repository error {}/{}: {}"), errorCode, e->klass, msg);
         } else {
-            errorMessage = fmt::sprintf(_W("repository error %d"), errorCode);
+            errorMessage = fmt::format(_W("repository error {}"), errorCode);
         }
     }
     return errorMessage;

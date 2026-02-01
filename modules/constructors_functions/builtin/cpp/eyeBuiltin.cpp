@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "eyeBuiltin.hpp"
@@ -43,10 +42,9 @@ extractDestClassAndSparse(
                 nRhs -= 2;
                 return;
             } else {
-                const std::wstring fmt = std::wstring(ERROR_WRONG_ARGUMENT_X_VALUE);
                 // report a 1-based argument index to the user
                 int humanArgIndex = static_cast<int>(nRhs - 2) + 1;
-                Error(fmt::sprintf(fmt, humanArgIndex));
+                Error(fmt::format(ERROR_WRONG_ARGUMENT_X_VALUE, humanArgIndex));
             }
         }
     }

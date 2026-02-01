@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "NelsonReadyNamedMutex.hpp"
 #ifdef _MSC_VER
 #define WIN32_LEAN_AND_MEAN

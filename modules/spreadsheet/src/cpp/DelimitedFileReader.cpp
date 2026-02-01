@@ -10,7 +10,6 @@
 #include <rapidcsv.h>
 #include <complex>
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <regex>
@@ -208,8 +207,8 @@ delimitedFileReader(const std::wstring& filename, const std::wstring& delimiter,
 #endif
                 {
                     hasFailed = true;
-                    errorMessage = fmt::sprintf(
-                        _W("Unable to parse numeric value at row %d, column %d."), R + 1, C + 1);
+                    errorMessage = fmt::format(
+                        _W("Unable to parse numeric value at row {0}, column {1}."), R + 1, C + 1);
                 }
             }
         }
@@ -234,8 +233,8 @@ delimitedFileReader(const std::wstring& filename, const std::wstring& delimiter,
 #pragma omp critical
 #endif
                 {
-                    errorMessage = fmt::sprintf(
-                        _W("Unable to parse numeric value at row %d, column %d."), R + 1, C + 1);
+                    errorMessage = fmt::format(
+                        _W("Unable to parse numeric value at row {0}, column {1}."), R + 1, C + 1);
                     hasFailed = true;
                 }
             }

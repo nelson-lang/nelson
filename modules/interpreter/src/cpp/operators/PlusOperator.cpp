@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "Addition.hpp"
@@ -191,7 +190,7 @@ Evaluator::plusOperator(const ArrayOfVector& args)
     case NLS_UNKNOWN:
     default: {
         std::string msg
-            = fmt::sprintf(_("Operator '%s' is not supported for operands of type '%s'."), "+",
+            = fmt::format(_("Operator '{0}' is not supported for operands of type '{1}'."), "+",
                 ClassToString(commonType));
         Error(msg, "Nelson:UndefinedFunction");
     } break;

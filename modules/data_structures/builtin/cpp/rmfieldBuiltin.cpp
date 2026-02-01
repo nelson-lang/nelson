@@ -10,8 +10,8 @@
 #include <set>
 #include <algorithm>
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "rmfieldBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -62,7 +62,7 @@ Nelson::DataStructuresGateway::rmfieldBuiltin(int nLhs, const ArrayOfVector& arg
                 }
             }
             if (!have) {
-                Error(fmt::sprintf(_("A field named '%s' doesn't exist."), n));
+                Error(fmt::format(_("A field named '{0}' doesn't exist."), n));
             }
         }
         common = currentNames;

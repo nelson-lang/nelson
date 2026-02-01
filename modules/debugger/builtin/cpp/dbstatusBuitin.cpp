@@ -8,10 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
-
 #include "dbstatusBuiltin.hpp"
 #include "Error.hpp"
 #include "FileSystemWrapper.hpp"
@@ -88,9 +86,9 @@ Nelson::DebuggerGateway::dbstatusBuiltin(Evaluator* eval, int nLhs, const ArrayO
         for (const auto& g : groups) {
             std::wstring formatmsg;
             if (g.lines.size() == 1) {
-                formatmsg = _W("Breakpoint for %s is on line: %s");
+                formatmsg = _W("Breakpoint for {0} is on line: {1}");
             } else {
-                formatmsg = _W("Breakpoints for %s are on lines: %s");
+                formatmsg = _W("Breakpoints for {0} are on lines: {1}");
             }
 
             std::wstring linesStr;
@@ -101,7 +99,7 @@ Nelson::DebuggerGateway::dbstatusBuiltin(Evaluator* eval, int nLhs, const ArrayO
                 }
             }
 
-            std::wstring msg = fmt::sprintf(formatmsg, utf8_to_wstring(g.name), linesStr);
+            std::wstring msg = fmt::format(formatmsg, utf8_to_wstring(g.name), linesStr);
 
             io->outputMessage(msg + L"\n");
         }

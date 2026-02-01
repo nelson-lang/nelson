@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "stringsBuiltin.hpp"
 #include "Error.hpp"
 #include "nlsBuildConfig.h"
@@ -89,7 +89,7 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     ArrayOf arg = argIn[k];
                     double dindex = arg.getContentAsDoubleScalar();
                     if (!std::isfinite(dindex)) {
-                        Error(fmt::sprintf(
+                        Error(fmt::format(
                             ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED, k + 1));
                     }
                     if (dindex < 0) {
@@ -97,15 +97,15 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     }
                     auto index = static_cast<indexType>(dindex);
                     if (static_cast<double>(index) != dindex) {
-                        Error(fmt::sprintf(
+                        Error(fmt::format(
                             ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED, k + 1));
                     }
                     dims.setDimensionLength(k, index);
                 } else {
-                    Error(fmt::sprintf(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, k + 1));
+                    Error(fmt::format(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, k + 1));
                 }
             } else {
-                Error(fmt::sprintf(ERROR_WRONG_ARGUMENT_X_TYPE_DOUBLE_EXPECTED, k + 1));
+                Error(fmt::format(ERROR_WRONG_ARGUMENT_X_TYPE_DOUBLE_EXPECTED, k + 1));
             }
         }
         dims.simplify();

@@ -12,8 +12,8 @@
 #endif
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include <curl/curl.h>
 #include <unordered_map>
 #include "StringHelpers.hpp"
