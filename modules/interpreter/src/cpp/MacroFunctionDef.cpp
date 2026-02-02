@@ -12,7 +12,6 @@
 #endif
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <regex>
@@ -436,7 +435,7 @@ MacroFunctionDef::prepareOutputs(Context* context, int nargout)
             if (!context->lookupVariableLocally(returnVals[i], a)) {
                 if (!warningIssued) {
                     std::wstring message
-                        = fmt::sprintf(_W("Function : '%s'."), utf8_to_wstring(this->getName()));
+                        = fmt::format(_W("Function : '{0}'."), utf8_to_wstring(this->getName()));
                     message = message + L"\n" + WARNING_OUTPUTS_NOT_ASSIGNED;
                     Warning(message);
                     warningIssued = true;
@@ -521,8 +520,8 @@ MacroFunctionDef::openSourceFile()
 #endif
     if (fr == nullptr) {
         int errnum = errno;
-        std::string msg1 = fmt::sprintf(_("Value of errno: %d"), errno);
-        std::string msg2 = fmt::sprintf(_("Error opening file: %s"), strerror(errnum));
+        std::string msg1 = fmt::format(_("Value of errno: {0}"), errno);
+        std::string msg2 = fmt::format(_("Error opening file: {0}"), strerror(errnum));
         Error(_W("Cannot open:") + L" " + this->getFilename() + L"\n" + utf8_to_wstring(msg1)
             + L"\n" + utf8_to_wstring(msg2));
     }
@@ -645,8 +644,8 @@ MacroFunctionDef::validateFunctionNamesAndFilename()
     auto it = std::unique(functionNamesInFile.begin(), functionNamesInFile.end());
     bool isUnique = (it == functionNamesInFile.end());
     if (!isUnique) {
-        std::string msg = fmt::sprintf(
-            _("Function '%s' has already been declared within this scope."), it->c_str());
+        std::string msg
+            = fmt::format(_("Function '{0}' has already been declared within this scope."), *it);
         Error(msg);
     }
     FileSystemWrapper::Path pathFunction(this->getFilename());
@@ -659,8 +658,8 @@ MacroFunctionDef::validateFunctionNamesAndFilename()
     }
     if ((this->getName() != functionNameFromFile) && (functionNameFromFile != "end")) {
         std::string name = this->getName();
-        std::string msg = fmt::sprintf(
-            _("Filename and function name are not same (%s vs %s)."), name, functionNameFromFile);
+        std::string msg = fmt::format(
+            _("Filename and function name are not same ({0} vs {1})."), name, functionNameFromFile);
         Error(msg);
     }
 }

@@ -7,10 +7,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#define FMT_HEADER_ONLY
-#include <fmt/printf.h>
-#include <fmt/format.h>
-#include <fmt/xchar.h>
 #include <cstdio>
 #include <cstring>
 #include <vector>
@@ -19,6 +15,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "PrintfHelper.hpp"
+#include "SprintF.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -130,22 +127,22 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
                     if (!isEmpty) {
                         if (*(np - 1) == L'u') {
                             std::wstring f = StringHelpers::replace_all_copy(dp, L"u", L"llu");
-                            std::wstring tmp = fmt::sprintf(f, data);
+                            std::wstring tmp = sprintf_w_utf8(f, data);
                             std::copy(tmp.begin(), tmp.end(), nbuff);
                             nprn = (int)tmp.size();
                         } else if (*(np - 1) == L'd') {
                             std::wstring f = StringHelpers::replace_all_copy(dp, L"d", L"lld");
-                            std::wstring tmp = fmt::sprintf(f, data);
+                            std::wstring tmp = sprintf_w_utf8(f, data);
                             std::copy(tmp.begin(), tmp.end(), nbuff);
                             nprn = (int)tmp.size();
                         } else {
                             std::wstring tmp;
                             if (*(np - 1) == L'o' && data < 0) {
                                 std::wstring f = StringHelpers::replace_all_copy(dp, L"o", L"e");
-                                tmp = fmt::sprintf(f, (double)data);
+                                tmp = sprintf_w_utf8(f, (double)data);
                             } else {
                                 std::wstring f(dp);
-                                tmp = fmt::sprintf(f, data);
+                                tmp = sprintf_w_utf8(f, data);
                             }
                             std::copy(tmp.begin(), tmp.end(), nbuff);
                             nprn = (int)tmp.size();
@@ -166,7 +163,7 @@ printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstri
                         return false;
                     }
                     if (!isEmpty) {
-                        std::wstring tmp = fmt::sprintf(dp, data);
+                        std::wstring tmp = sprintf_w_utf8(dp, data);
                         std::copy(tmp.begin(), tmp.end(), nbuff);
                         nprn = (int)tmp.size();
                         nbuff[nprn] = 0;

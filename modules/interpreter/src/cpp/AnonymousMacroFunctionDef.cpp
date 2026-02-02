@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "AnonymousMacroFunctionDef.hpp"
@@ -265,8 +264,8 @@ AnonymousMacroFunctionDef::evaluateFunction(
             for (size_t i = 0; i < returnVals.size(); i++) {
                 if (!context->lookupVariableLocally(returnVals[i], a)) {
                     if (!warningIssued) {
-                        std::wstring message = fmt::sprintf(
-                            _W("Function : '%s'."), utf8_to_wstring(this->getName()));
+                        std::wstring message = fmt::format(
+                            _W("Function : '{0}'."), utf8_to_wstring(this->getName()));
                         message = message + L"\n" + WARNING_OUTPUTS_NOT_ASSIGNED;
                         Warning(message);
                         warningIssued = true;

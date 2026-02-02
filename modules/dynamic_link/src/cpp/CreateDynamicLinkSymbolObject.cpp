@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include <algorithm>
 #include <string>
 #include "CreateDynamicLinkLibraryObject.hpp"
@@ -61,11 +61,11 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
         Error(_W("Valid handle expected."));
     }
     if (!DynamicLinkSymbolObject::isValidDataType(returnType)) {
-        Error(fmt::sprintf(_W("Invalid argument type: %s."), returnType));
+        Error(fmt::format(_W("Invalid argument type: {0}."), returnType));
     }
     for (const std::wstring& arg : argumentsType) {
         if (!DynamicLinkSymbolObject::isValidDataType(arg)) {
-            Error(fmt::sprintf(_W("Invalid argument type: %s."), arg));
+            Error(fmt::format(_W("Invalid argument type: {0}."), arg));
         }
     }
     std::wstring symbolUsed = symbol;
@@ -84,12 +84,12 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
         }
         if (symbolsFound.size() > 1) {
             ptr = nullptr;
-            Error(fmt::sprintf(_("Multiple possible symbol name found: %s"),
+            Error(fmt::format(_("Multiple possible symbol name found: {0}"),
                 StringHelpers::join(symbolsFound, ", ")));
         }
     }
     if (!ptr) {
-        Error(fmt::sprintf(_W("Invalid symbol name: %s"), symbol));
+        Error(fmt::format(_W("Invalid symbol name: {0}"), symbol));
     }
 
     DynamicLinkSymbolObject* dlSymbolObject

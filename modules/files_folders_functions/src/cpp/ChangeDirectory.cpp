@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "FileSystemWrapper.hpp"
@@ -63,7 +62,7 @@ ChangeDirectory(const std::wstring& newpath, bool doException, bool trimPath)
         return true;
     }
     if (doException) {
-        std::wstring msg = fmt::sprintf(_W("Cannot change directory '%s'."), pathApplied);
+        std::wstring msg = fmt::format(_W("Cannot change directory '{0}'."), pathApplied);
         Error(msg);
     }
 

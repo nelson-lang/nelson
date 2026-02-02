@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "falseBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -47,7 +47,7 @@ Nelson::LogicalGateway::falseBuiltin(int nLhs, const ArrayOfVector& argIn)
                         dim[1] = 1;
                     }
                 } else {
-                    Error(fmt::sprintf(ERROR_WRONG_ARGUMENT_X_VALUE, pos + 1));
+                    Error(fmt::format(ERROR_WRONG_ARGUMENT_X_VALUE, pos + 1));
                 }
             }
         }

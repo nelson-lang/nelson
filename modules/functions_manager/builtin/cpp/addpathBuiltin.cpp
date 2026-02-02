@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "FileSystemWrapper.hpp"
 #include "addpathBuiltin.hpp"
 #include "Error.hpp"
@@ -51,7 +51,7 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
                 lastpos = argIn.size();
             }
         } else {
-            Error(fmt::sprintf(
+            Error(fmt::format(
                 ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, static_cast<int>(lastpos) + 1));
         }
         if (withOption) {
@@ -73,7 +73,7 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
                     lastpos = argIn.size() - 1;
                 }
             } else {
-                Error(fmt::sprintf(
+                Error(fmt::format(
                     ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, static_cast<int>(lastpos) + 1));
             }
         }
@@ -85,7 +85,7 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
             params.push_back(param.getContentAsWideString());
         } else {
             Error(
-                fmt::sprintf(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, static_cast<int>(k) + 1));
+                fmt::format(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, static_cast<int>(k) + 1));
         }
     }
     std::wstring previousPaths = PathFunctionIndexerManager::getInstance()->getPathNameAsString();

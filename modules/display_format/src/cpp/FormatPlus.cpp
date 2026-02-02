@@ -8,9 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "StringHelpers.hpp"
-#include <fmt/printf.h>
-#include <fmt/format.h>
-#include <fmt/xchar.h>
 #include "IEEEFP.hpp"
 #include "FormatPlus.hpp"
 //=============================================================================

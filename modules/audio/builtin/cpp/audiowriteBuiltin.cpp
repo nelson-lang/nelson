@@ -7,6 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#define FMT_HEADER_ONLY
+#include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "audiowriteBuiltin.hpp"
 #include "AudioWrite.hpp"
 #include "Error.hpp"
@@ -61,10 +64,8 @@ Nelson::AudioGateway::audiowriteBuiltin(int nLhs, const ArrayOfVector& argIn)
             validFieldname = true;
         }
         if (!validFieldname) {
-            wchar_t buffer[4096];
-            swprintf(buffer, 4096, std::wstring(ERROR_WRONG_ARGUMENT_X_VALUE).c_str(),
-                static_cast<int>(i));
-            Error(std::wstring(buffer));
+            std::wstring msg = fmt::format(ERROR_WRONG_ARGUMENT_X_VALUE, static_cast<int>(i));
+            Error(msg);
         }
     }
     wstringVector metadata;

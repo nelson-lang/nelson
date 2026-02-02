@@ -10,7 +10,6 @@
 #include <map>
 #include <utility>
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "GatewaysManager.hpp"
@@ -78,7 +77,7 @@ GatewaysManager::addGateway(
     filename = p.filename().generic_wstring();
     filename = FindDynamicLibraryName(dirname, filename, false);
     if (filename.empty()) {
-        errorMessage = fmt::sprintf(_W("File not found: %s"), p.generic_wstring());
+        errorMessage = fmt::format(_W("File not found: {0}"), p.generic_wstring());
         return false;
     } else {
         FileSystemWrapper::Path currentdirbackup = FileSystemWrapper::Path::current_path();

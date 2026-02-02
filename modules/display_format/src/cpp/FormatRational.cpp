@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "StringHelpers.hpp"
@@ -23,13 +22,12 @@ formatRational(double number, size_t width, size_t lengthWithoutBlanks, bool tri
 {
     std::wstring str;
     if (IsIntegerForm(number)) {
-        str = fmt::sprintf(L"%.f", number);
+        str = fmt::format(L"{:.0f}", number);
         size_t withoutBlanks = (number < 0) ? lengthWithoutBlanks - 2 : lengthWithoutBlanks - 1;
         if (str.length() >= withoutBlanks) {
             str = L"*";
         }
-        str = fmt::sprintf(L"%*s", width, str);
-
+        str = fmt::format(L"{:>{}}", str, width);
     } else if (fabs(number) < 1e-10) {
         if (number < 0) {
             str = floatNumberToApproxRational<double, int64>(fabs(number), lengthWithoutBlanks - 1);
@@ -41,7 +39,7 @@ formatRational(double number, size_t width, size_t lengthWithoutBlanks, bool tri
         if (str.length() >= withoutBlanks) {
             str = L"*";
         }
-        str = fmt::sprintf(L"%*s", width, str);
+        str = fmt::format(L"{:>{}}", str, width);
     } else {
         if (number < 0) {
             str = floatNumberToApproxRational<double, int>(fabs(number), lengthWithoutBlanks - 1);
@@ -49,7 +47,7 @@ formatRational(double number, size_t width, size_t lengthWithoutBlanks, bool tri
         } else {
             str = floatNumberToApproxRational<double, int>(number, lengthWithoutBlanks);
         }
-        str = fmt::sprintf(L"%*s", width, str);
+        str = fmt::format(L"{:>{}}", str, width);
     }
     if (trim) {
         StringHelpers::trim_left(str);

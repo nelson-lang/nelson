@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "Colon.hpp"
@@ -111,7 +110,7 @@ Evaluator::colonUnitOperator(const ArrayOf& A, const ArrayOf& B)
     if (commonType == NLS_UNKNOWN || commonType == NLS_STRUCT_ARRAY
         || commonType == NLS_CELL_ARRAY) {
         std::string msg
-            = fmt::sprintf(_("Operator '%s' is not supported for operands of type '%s'."), ":",
+            = fmt::format(_("Operator '{0}' is not supported for operands of type '{1}'."), ":",
                 ClassToString(commonType));
         Error(msg, "Nelson:UndefinedFunction");
     }
@@ -156,7 +155,7 @@ Evaluator::colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
     if (commonType == NLS_UNKNOWN || commonType == NLS_STRUCT_ARRAY
         || commonType == NLS_CELL_ARRAY) {
         std::string msg
-            = fmt::sprintf(_("Operator '%s' is not supported for operands of type '%s'."), ":",
+            = fmt::format(_("Operator '{0}' is not supported for operands of type '{1}'."), ":",
                 ClassToString(commonType));
         Error(msg, "Nelson:UndefinedFunction");
     }

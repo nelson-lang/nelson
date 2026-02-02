@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "FileSystemWrapper.hpp"
 #include "CopyFile.hpp"
 #include "Error.hpp"
@@ -65,7 +65,7 @@ copyDirectoryRecursively(const FileSystemWrapper::Path& sourceDir,
     if (!FileSystemWrapper::Path::is_directory(sourceDir)) {
         if (!bForce) {
             errorMessage
-                = fmt::sprintf(_W("Source directory %s does not exist or is not a directory."),
+                = fmt::format(_W("Source directory {0} does not exist or is not a directory."),
                     sourceDir.wstring());
             return false;
         }
@@ -73,8 +73,8 @@ copyDirectoryRecursively(const FileSystemWrapper::Path& sourceDir,
     if (!FileSystemWrapper::Path::is_directory(sourceDir)) {
         if (!FileSystemWrapper::Path::create_directory(destinationDir)) {
             if (!bForce) {
-                errorMessage = fmt::sprintf(
-                    _W("Cannot create destination directory %s"), destinationDir.wstring());
+                errorMessage = fmt::format(
+                    _W("Cannot create destination directory {0}"), destinationDir.wstring());
                 return false;
             }
         }

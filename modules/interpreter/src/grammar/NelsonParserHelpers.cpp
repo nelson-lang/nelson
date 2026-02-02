@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "NelsonParserHelpers.hpp"
 #include "LexerInterface.hpp"
 #include "ParserInterface.hpp"
@@ -62,10 +62,10 @@ yyxpt(const std::string& xStr, const ParseRHS& val)
     getLinePosition(val, linenumber, colnumber);
     std::string msg;
     if (getParserFilenameU() == "") {
-        msg = fmt::sprintf(_("Expecting %s"), xStr);
+        msg = fmt::format(_("Expecting {0}"), xStr);
     } else {
-        msg = fmt::sprintf(_("Expecting %s\n\tat line %d, column %d of file %s"), xStr, linenumber,
-            colnumber, getParserFilenameU());
+        msg = fmt::format(_("Expecting {0}\n\tat line {1}, column {2} of file {3}"), xStr,
+            linenumber, colnumber, getParserFilenameU());
     }
     Error(msg);
     return 0;

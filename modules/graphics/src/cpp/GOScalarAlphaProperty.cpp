@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "GOScalarAlphaProperty.hpp"
@@ -40,7 +39,7 @@ GOScalarAlphaProperty::set(ArrayOf num)
         _isFlat = false;
     } else {
         std::wstring message
-            = fmt::sprintf(_W("Value is out of range %f <= value <= %f."), _minValue, _maxValue);
+            = fmt::format(_W("Value is out of range {0} <= value <= {1}."), _minValue, _maxValue);
         Error(message);
     }
 }
@@ -53,7 +52,7 @@ GOScalarAlphaProperty::data(double x)
         _isFlat = false;
     } else {
         std::wstring message
-            = fmt::sprintf(_W("Value is out of range %f <= value <= %f."), _minValue, _maxValue);
+            = fmt::format(_W("Value is out of range {0} <= value <= {1}."), _minValue, _maxValue);
         Error(message);
     }
 }

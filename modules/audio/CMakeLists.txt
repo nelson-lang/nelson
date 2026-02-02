@@ -80,6 +80,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
           ${PORTAUDIO_INCLUDE_DIRS}
           ${SNDFILE_INCLUDE_DIRS})
 # ==============================================================================

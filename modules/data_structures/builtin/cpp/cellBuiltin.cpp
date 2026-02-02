@@ -10,8 +10,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "cellBuiltin.hpp"
 #include "Error.hpp"
 #include "nlsBuildConfig.h"
@@ -98,10 +98,10 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     indexType index = argIn[k].getContentAsScalarIndex(true, true, true);
                     dims.setDimensionLength(k, index);
                 } else {
-                    Error(fmt::sprintf(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, k + 1));
+                    Error(fmt::format(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, k + 1));
                 }
             } else {
-                Error(fmt::sprintf(ERROR_WRONG_ARGUMENT_X_TYPE_DOUBLE_EXPECTED, k + 1));
+                Error(fmt::format(ERROR_WRONG_ARGUMENT_X_TYPE_DOUBLE_EXPECTED, k + 1));
             }
         }
         dims.simplify();

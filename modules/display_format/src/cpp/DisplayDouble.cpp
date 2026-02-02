@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "DisplayDouble.hpp"
@@ -112,38 +111,43 @@ Display2dDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
 
     indexType nominalWidth = getNominalWidth(formatInfo);
     sizeType termWidth = io->getTerminalWidth();
-    indexType colsPerPage
-        = static_cast<indexType>(floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
-    indexType pageCount
-        = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
+    indexType colsPerPage = (nominalWidth > 0) ? static_cast<indexType>(std::max<single>(
+                                1.0f, floor((termWidth - 1) / (static_cast<single>(nominalWidth)))))
+                                               : 1;
+    indexType pageCount = (colsPerPage > 0)
+        ? static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))))
+        : 1;
     bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
     bool continueDisplay = true;
     indexType block_page = 0;
     std::wstring buffer;
+    buffer.reserve(static_cast<size_t>(rows)
+            * static_cast<size_t>(std::max<indexType>(1, colsPerPage))
+            * static_cast<size_t>(std::max<indexType>(1, nominalWidth))
+        + 128);
+    auto config = NelsonConfiguration::getInstance();
+    sizeType termHeight = io->getTerminalHeight();
+    bool isLoose = (currentLineSpacing == NLS_LINE_SPACING_LOOSE);
     for (indexType k = 0; k < pageCount && continueDisplay; k++) {
-        if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
+        if (config->getInterruptPending(evaluatorID)) {
             continueDisplay = false;
             break;
         }
         indexType colsInThisPage = columns - colsPerPage * k;
         colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
 
-        if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+        if (isLoose) {
             if (k > 0) {
                 buffer.append(L"\n");
             }
         }
         if (withColumsHeader) {
             buffer.append(columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage));
-            if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-                buffer.append(L"\n\n");
-            } else {
-                buffer.append(L"\n");
-            }
+            buffer.append(isLoose ? L"\n\n" : L"\n");
         }
 
         for (indexType i = 0; i < rows && continueDisplay; i++) {
-            if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
+            if (config->getInterruptPending(evaluatorID)) {
                 continueDisplay = false;
                 break;
             }
@@ -152,7 +156,7 @@ Display2dDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
                 buffer.append(formatElement(pValues[idx], formatInfo));
             }
             buffer.append(L"\n");
-            if (block_page >= io->getTerminalHeight()) {
+            if (block_page >= termHeight) {
                 io->outputMessage(buffer);
                 buffer.clear();
                 block_page = 0;
@@ -199,9 +203,12 @@ DisplayNdDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
 
     indexType nominalWidth = getNominalWidth(formatInfo);
     const double* pValues = (const double*)A.getDataPointer();
-    if (name.empty() && currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+    bool isLoose = (currentLineSpacing == NLS_LINE_SPACING_LOOSE);
+    if (name.empty() && isLoose) {
         buffer.append(L"\n");
     }
+    auto config = NelsonConfiguration::getInstance();
+    sizeType termHeight = io->getTerminalHeight();
     while (wdims.inside(dims)) {
         if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
             break;
@@ -213,7 +220,7 @@ DisplayNdDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
         }
         buffer.append(name + L"(:,:");
         for (indexType m = 2; m < dims.getLength(); m++) {
-            buffer.append(fmt::sprintf(L",%d", static_cast<int>(wdims[m]) + 1));
+            buffer.append(fmt::format(L",{0:d}", static_cast<int>(wdims[m]) + 1));
         }
         buffer.append(L") =\n");
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
@@ -224,7 +231,7 @@ DisplayNdDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
         bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
         for (int k = 0; k < pageCount && continueDisplay; k++) {
-            if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
+            if (config->getInterruptPending(evaluatorID)) {
                 continueDisplay = false;
                 break;
             }
@@ -233,25 +240,24 @@ DisplayNdDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
             if (withColumsHeader) {
                 std::wstring msg
                     = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
-                if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
+                if (isLoose) {
                     if (k == 0) {
-                        msg = msg + L"\n\n";
+                        msg += L"\n\n";
                     } else {
                         msg = L"\n" + msg + L"\n\n";
                     }
                 } else {
-                    msg = msg + L"\n";
+                    msg += L"\n";
                 }
                 buffer.append(msg);
             }
             for (indexType i = 0; i < rows; i++) {
                 for (indexType j = 0; j < colsInThisPage && continueDisplay; j++) {
                     indexType idx = i + (k * colsPerPage + j) * rows + offset;
-                    std::wstring valueAsString = formatElement(pValues[idx], formatInfo);
-                    buffer.append(valueAsString);
+                    buffer.append(formatElement(pValues[idx], formatInfo));
                 }
                 buffer.append(L"\n");
-                if (block_page >= io->getTerminalHeight()) {
+                if (block_page >= termHeight) {
                     io->outputMessage(buffer);
                     buffer.clear();
                     block_page = 0;
