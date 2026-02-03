@@ -101,7 +101,7 @@ crc32Conversion(const ArrayOf& arg, CRC_CONVERSION_TYPE crcConversion)
         } break;
         }
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE, 1);
     }
     return res;
 }
@@ -128,7 +128,7 @@ Nelson::CoreGateway::crc32Builtin(int nLhs, const ArrayOfVector& argIn)
         } else if (param2 == L"-string") {
             retval << crc32Conversion(argIn[0], CRC_CONVERSION_TYPE::STRING);
         } else {
-            Error(ERROR_WRONG_ARGUMENT_2_TYPE);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE, 2);
         }
     } break;
     default: {

@@ -33,7 +33,7 @@ Nelson::DynamicLinkGateway::dllib_getBuiltin(int nLhs, const ArrayOfVector& argI
     auto* objDllib = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
     ArrayOf res;
     if (!objDllib->get(propertyName, res)) {
-        Error(ERROR_WRONG_ARGUMENT_2_VALUE);
+        raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 2);
     }
     retval << res;
     return retval;

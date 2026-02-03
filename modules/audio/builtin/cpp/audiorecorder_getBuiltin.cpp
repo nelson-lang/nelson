@@ -32,7 +32,7 @@ Nelson::AudioGateway::audiorecorder_getBuiltin(int nLhs, const ArrayOfVector& ar
     auto* objRec = (AudiorecorderObject*)param1.getContentAsHandleScalar();
     ArrayOf res;
     if (!objRec->get(propertyName, res)) {
-        Error(ERROR_WRONG_ARGUMENT_2_VALUE + L" " + propertyName);
+        Error(formatErrorMessage(ERROR_WRONG_ARGUMENT_X_VALUE, 2) + L" " + propertyName);
     }
     retval << res;
     return retval;

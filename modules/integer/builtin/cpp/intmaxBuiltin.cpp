@@ -28,7 +28,7 @@ Nelson::IntegerGateway::intmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
         bool isSupportedInput
             = param1.isRowVectorCharacterArray() || (param1.isStringArray() && param1.isScalar());
         if (!isSupportedInput) {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
         std::wstring classInt = param1.getContentAsWideString();
         if (classInt == L"int8") {

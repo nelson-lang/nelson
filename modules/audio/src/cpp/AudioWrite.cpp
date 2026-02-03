@@ -163,11 +163,11 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
     int BitsPerSample, int BitRate, std::wstring& errorMessage)
 {
     if (!data.isNumeric() || data.isComplex() || data.isSparse()) {
-        errorMessage = ERROR_WRONG_ARGUMENT_1_TYPE;
+        errorMessage = formatErrorMessage(ERROR_WRONG_ARGUMENT_X_TYPE, 1);
         return false;
     }
     if (!isSupportedDataType(data)) {
-        errorMessage = ERROR_WRONG_ARGUMENT_1_TYPE;
+        errorMessage = formatErrorMessage(ERROR_WRONG_ARGUMENT_X_TYPE, 1);
         return false;
     }
     if (data.isEmpty()) {

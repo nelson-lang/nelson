@@ -30,7 +30,7 @@ Nelson::InterpreterGateway::iskeywordBuiltin(int nLhs, const ArrayOfVector& argI
         retval << ArrayOf(NLS_CELL_ARRAY, dims, elements);
     } else {
         if (!argIn[0].isRowVectorCharacterArray()) {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
         std::wstring warg = argIn[0].getContentAsWideString();
         retval << ArrayOf::logicalConstructor(isKeyword(warg));

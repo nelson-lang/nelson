@@ -44,7 +44,7 @@ extractDestClassAndSparse(
             } else {
                 // report a 1-based argument index to the user
                 int humanArgIndex = static_cast<int>(nRhs - 2) + 1;
-                Error(fmt::format(ERROR_WRONG_ARGUMENT_X_VALUE, humanArgIndex));
+                raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, humanArgIndex);
             }
         }
     }

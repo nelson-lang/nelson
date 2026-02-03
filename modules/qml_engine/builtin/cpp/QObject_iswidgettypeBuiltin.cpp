@@ -33,7 +33,7 @@ Nelson::QmlEngineGateway::QObject_iswidgettypeBuiltin(int nLhs, const ArrayOfVec
         }
         retval.push_back(iswidgettypeQObject(param1));
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);
     }
     return retval;
 }

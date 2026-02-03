@@ -90,7 +90,7 @@ getExitCodeFromVariable(const ArrayOfVector& argIn)
         }
 #endif
         if (static_cast<double>(iValue) != dValue) {
-            Error(ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 1);
         }
     } else {
         Error(_("Unknown option."));

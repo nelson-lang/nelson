@@ -41,7 +41,7 @@ Nelson::Julia_engineGateway::jl_invokeBuiltin(Evaluator* eval, int nLhs, const A
 
     JuliaObjectHandle* poh = (JuliaObjectHandle*)hgo;
     if (!poh->invoke(io, methodname, params, nLhs, retval)) {
-        Error(ERROR_WRONG_ARGUMENT_2_VALUE + L" " + methodname);
+        Error(formatErrorMessage(ERROR_WRONG_ARGUMENT_X_VALUE, 2) + L" " + methodname);
     }
     return retval;
 }

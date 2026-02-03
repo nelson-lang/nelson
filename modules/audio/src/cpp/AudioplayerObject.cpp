@@ -14,6 +14,7 @@
 #include "ComplexTranspose.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
+#include "Error.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
 #include "EventCallback.hpp"
@@ -428,7 +429,7 @@ AudioplayerObject::setSamples(const ArrayOf& data, int SampleRate, int BitsPerSa
     const PaDeviceInfo* pdi_output = Pa_GetDeviceInfo(outputIndex);
     if (pdi_output) {
         if (!data.isNumeric() || data.isComplex() || data.isSparse()) {
-            errorMessage = ERROR_WRONG_ARGUMENT_1_TYPE;
+            errorMessage = formatErrorMessage(ERROR_WRONG_ARGUMENT_X_TYPE, 1);
             return false;
         }
         if (data.isEmpty()) {

@@ -1263,7 +1263,7 @@ ArrayOf::getContentAsScalarIndex(
 {
     indexType idx = 0;
     if (getElementCount() != 1) {
-        Error(ERROR_SCALAR_EXPECTED);
+        Error(ERROR_SIZE_SCALAR_EXPECTED);
     }
     double valueAsDouble;
     ArrayOf P;

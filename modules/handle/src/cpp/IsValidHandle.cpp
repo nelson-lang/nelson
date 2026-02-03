@@ -44,7 +44,7 @@ IsValidHandle(const ArrayOf& A)
             res = ArrayOf::emptyConstructor(dimsA);
         }
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);
     }
     return res;
 }

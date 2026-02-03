@@ -155,7 +155,7 @@ ComplexConstructor(const ArrayOf& arrayA)
     case NLS_CHAR:
     case NLS_LOGICAL:
     default: {
-        Error(fmt::format(_("Undefined function '{0}_complex'"), ClassName(arrayA)));
+        raiseError(_W("Undefined function '{0}_complex'"), utf8_to_wstring(ClassName(arrayA)));
     } break;
     case NLS_DOUBLE:
     case NLS_UINT8:

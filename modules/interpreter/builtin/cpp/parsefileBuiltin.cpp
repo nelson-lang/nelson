@@ -28,7 +28,7 @@ Nelson::InterpreterGateway::parsefileBuiltin(Evaluator* eval, int nLhs, const Ar
     if (argIn[0].isRowVectorCharacterArray()) {
         filename = argIn[0].getContentAsWideString();
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
     }
     ParserState parserState = ParseFile(eval, filename);
     switch (parserState) {

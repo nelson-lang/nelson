@@ -23,7 +23,7 @@ Nelson::MemoryGateway::varunlockBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     nargoutcheck(nLhs, 0, 0);
     nargincheck(argIn, 2, 2);
     if (!argIn[0].isRowVectorCharacterArray()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
     }
     std::string scopename = argIn[0].getContentAsCString();
     if (!((scopename == "global") || (scopename == "base") || (scopename == "caller")
@@ -32,7 +32,7 @@ Nelson::MemoryGateway::varunlockBuiltin(Evaluator* eval, int nLhs, const ArrayOf
                  "expected."));
     }
     if (!argIn[1].isRowVectorCharacterArray()) {
-        Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
     }
     std::string varname = argIn[1].getContentAsCString();
     if (!IsValidVariableName(varname)) {

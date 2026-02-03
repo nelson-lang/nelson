@@ -45,12 +45,12 @@ checkArgument(Evaluator* eval, const ArrayOf& arg, bool& withCompleteNames, int&
             value = static_cast<double>(param1.getContentAsSingleScalar());
         } break;
         default: {
-            Error(ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 1);
         } break;
         }
         int intValue = static_cast<int>(value);
         if (static_cast<double>(intValue) != value) {
-            Error(ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 1);
         }
         nbOmits = intValue + 1;
         isNbOmits = true;

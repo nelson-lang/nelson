@@ -37,7 +37,7 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             arg1.setClassType(newType);
             retval << arg1;
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRUCT_ARRAY_STR);
         }
     } else {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

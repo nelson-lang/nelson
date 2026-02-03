@@ -114,6 +114,8 @@ enum NelsonType
 using stringVector = std::vector<std::string>;
 using wstringVector = std::vector<std::wstring>;
 //=============================================================================
+#define _T(x) L x
+//=============================================================================
 #define NLS_SPARSE_STR "sparse"
 #define NLS_CELL_ARRAY_STR "cell"
 #define NLS_STRUCT_ARRAY_STR "struct"

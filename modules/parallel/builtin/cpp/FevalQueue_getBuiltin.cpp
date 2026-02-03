@@ -32,7 +32,7 @@ Nelson::ParallelGateway::FevalQueue_getBuiltin(int nLhs, const ArrayOfVector& ar
     auto* objFevalQueue = (FevalQueueObject*)param1.getContentAsHandleScalar();
     ArrayOf res;
     if (!objFevalQueue->get(propertyName, res)) {
-        Error(ERROR_WRONG_ARGUMENT_2_VALUE + L" " + propertyName);
+        Error(formatErrorMessage(ERROR_WRONG_ARGUMENT_X_VALUE, 2) + L" " + propertyName);
     }
     retval << res;
     return retval;

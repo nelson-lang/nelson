@@ -35,10 +35,11 @@ Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const A
             if (IsErrorStruct(arg1, e)) {
                 eval->setLastErrorException(e);
             } else {
-                Error(ERROR_WRONG_ARGUMENT_2_VALUE);
+                raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 2);
             }
         } else {
-            Error(ERROR_WRONG_ARGUMENT_2_TYPE + _W("a structure or the string 'reset' expected."));
+            Error(formatErrorMessage(ERROR_WRONG_ARGUMENT_X_TYPE, 2)
+                + _W("a structure or the string 'reset' expected."));
         }
     }
     Exception lasterror = eval->getLastErrorException();

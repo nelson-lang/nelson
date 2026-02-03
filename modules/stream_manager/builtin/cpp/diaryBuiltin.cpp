@@ -37,7 +37,7 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 }
             }
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
     } else if (argIn.empty()) {
         nargoutcheck(nLhs, 0, 0);

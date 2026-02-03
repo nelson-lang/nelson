@@ -241,11 +241,11 @@ Norm(const ArrayOf& arrayIn, double p)
 {
     ArrayOf res;
     if (!arrayIn.is2D()) {
-        Error(ERROR_WRONG_ARGUMENT_1_SIZE_2D_MATRIX_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_SIZE_2D_MATRIX_EXPECTED, 1);
     }
 
     if (!ispNormValid(p) && !(arrayIn.isVector() || arrayIn.isScalar())) {
-        Error(ERROR_WRONG_ARGUMENT_2_VALUE);
+        raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 2);
     }
     double normResultAsDouble = 0;
     single normResultAsSingle = 0;
@@ -327,7 +327,7 @@ Norm(const ArrayOf& arrayIn, double p)
                     res = ArrayOf::doubleConstructor(normResultAsDouble);
                 }
             } else {
-                Error(ERROR_WRONG_ARGUMENT_2_VALUE);
+                raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 2);
             }
         }
     }
@@ -339,7 +339,7 @@ NormFrobenius(const ArrayOf& arrayIn)
 {
     ArrayOf res;
     if (!arrayIn.is2D()) {
-        Error(ERROR_WRONG_ARGUMENT_1_SIZE_2D_MATRIX_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_SIZE_2D_MATRIX_EXPECTED, 1);
     }
     double normResultAsDouble = 0;
     single normResultAsSingle = 0;

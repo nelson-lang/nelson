@@ -28,7 +28,7 @@ Nelson::AssertFunctionsGateway::assert_istrueBuiltin(int nLhs, const ArrayOfVect
     }
     ArrayOf param1 = argIn[0];
     if (!param1.isLogical()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_LOGICAL_STR);
     }
     if (!param1.isScalar()) {
         Error(ERROR_SIZE_SCALAR_EXPECTED);

@@ -62,7 +62,7 @@ Nelson::DataStructuresGateway::rmfieldBuiltin(int nLhs, const ArrayOfVector& arg
                 }
             }
             if (!have) {
-                Error(fmt::format(_("A field named '{0}' doesn't exist."), n));
+                raiseError(_W("A field named '{0}' doesn't exist."), utf8_to_wstring(n));
             }
         }
         common = currentNames;

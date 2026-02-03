@@ -54,8 +54,9 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
     } else if (argSourceDirs.isCell()) {
         listOfDirectories = argSourceDirs.getContentAsWideStringVector(true);
     } else {
-        return returnValueOrError(
-            nLhs, false, ERROR_WRONG_ARGUMENT_1_TYPE_CELL_OF_STRINGS_EXPECTED);
+        return returnValueOrError(nLhs, false,
+            formatErrorMessage(
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, ERROR_TYPE_CELL_OF_STRINGS));
     }
     bool permissionDenied;
     for (const auto& listOfDirectorie : listOfDirectories) {

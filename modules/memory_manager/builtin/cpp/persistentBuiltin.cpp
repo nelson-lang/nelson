@@ -16,6 +16,7 @@
 #include "IsValidVariableName.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -30,7 +31,7 @@ Nelson::MemoryGateway::persistentBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     for (size_t k = 0; k < argIn.size(); k++) {
         if (!argIn[k].isRowVectorCharacterArray()) {
-            Error(fmt::format(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, k + 1));
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, k + 1, NLS_STRING_ARRAY_STR);
         }
         std::string arg = argIn[k].getContentAsCString();
         if (!IsValidVariableName(arg)) {

@@ -33,13 +33,13 @@ Nelson::XmlGateway::xmlprettyprintBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else if (argIn[0].isCellArrayOfCharacterVectors() || argIn[0].isStringArray()) {
         xmlFilesOrDirectories = argIn[0].getContentAsWideStringVector();
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_CELL_OF_STRINGS_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, ERROR_TYPE_CELL_OF_STRINGS);
     }
     if (argIn.size() > 1) {
         if (argIn[1].isLogical()) {
             formatSpace = argIn[1].getContentAsLogicalScalar();
         } else {
-            Error(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
         }
     }
 

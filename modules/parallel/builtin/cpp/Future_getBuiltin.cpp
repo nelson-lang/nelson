@@ -42,7 +42,7 @@ Nelson::ParallelGateway::Future_getBuiltin(Evaluator* eval, int nLhs, const Arra
             auto* objFevalFuture = (FevalFutureObject*)hlObj;
             ArrayOf res;
             if (!objFevalFuture->get(propertyName, res)) {
-                Error(ERROR_WRONG_ARGUMENT_2_VALUE + L" " + propertyName);
+                Error(formatErrorMessage(ERROR_WRONG_ARGUMENT_X_VALUE, 2) + L" " + propertyName);
             }
             if (propertyName == L"Function") {
                 FunctionDef* funcDef = nullptr;

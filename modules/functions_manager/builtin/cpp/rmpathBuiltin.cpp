@@ -35,7 +35,7 @@ Nelson::FunctionsGateway::rmpathBuiltin(Evaluator* eval, int nLhs, const ArrayOf
             Warning(_W("Warning: Not a directory:") + L" " + pathToRemove + L"\n");
         }
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
     }
     if (nLhs == 1) {
         retval << ArrayOf::characterArrayConstructor(previousPaths);

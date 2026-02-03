@@ -104,7 +104,7 @@ Nelson::ConstructorsGateway::onesBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (argIn[0].isNumeric() && !argIn[0].isSparse()) {
                 if (argIn[0].isRowVector()) {
                     if (argIn[0].isEmpty()) {
-                        Error(ERROR_WRONG_ARGUMENT_1_SIZE_ROW_VECTOR_EXPECTED);
+                        raiseError(ERROR_WRONG_ARGUMENT_X_SIZE_ROW_VECTOR_EXPECTED, 1);
                     }
                     if (argIn[0].getElementCount() < Nelson::maxDims) {
                         ArrayOf dimVector(argIn[0]);
@@ -122,10 +122,10 @@ Nelson::ConstructorsGateway::onesBuiltin(int nLhs, const ArrayOfVector& argIn)
                             + std::to_wstring(Nelson::maxDims) + L".");
                     }
                 } else {
-                    Error(ERROR_WRONG_ARGUMENT_1_SIZE_ROW_VECTOR_EXPECTED);
+                    raiseError(ERROR_WRONG_ARGUMENT_X_SIZE_ROW_VECTOR_EXPECTED, 1);
                 }
             } else {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE_NUMERIC_EXPECTED);
+                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED, 1);
             }
         } else {
             for (sizeType k = 0; k < nRhs; k++) {

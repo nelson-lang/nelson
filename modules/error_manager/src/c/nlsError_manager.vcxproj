@@ -280,6 +280,7 @@
     <ClInclude Include="..\include\ErrorToStruct.hpp" />
     <ClInclude Include="..\include\Messages.hpp" />
     <ClInclude Include="..\include\MException.hpp" />
+    <ClInclude Include="..\include\PredefinedErrorMessages.hpp" />
     <ClInclude Include="..\include\WarningIds.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -37,7 +37,7 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(int nLhs, const ArrayOfVector& arg
                              "'extension' expected."));
                 }
             } else {
-                Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
             }
         } else {
             nargoutcheck(nLhs, 0, 3);
@@ -45,7 +45,7 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(int nLhs, const ArrayOfVector& arg
         if (argIn[0].isRowVectorCharacterArray()) {
             wpath = argIn[0].getContentAsWideString();
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
         std::wstring respath;
         std::wstring resfilename;

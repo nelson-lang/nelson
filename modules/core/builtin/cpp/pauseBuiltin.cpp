@@ -72,7 +72,7 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                     return retval;
                 }
             } else {
-                Error(ERROR_WRONG_ARGUMENT_1_VALUE);
+                raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 1);
             }
         } else if (param1.isNumeric()) {
             if (nLhs == 1) {

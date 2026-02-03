@@ -50,7 +50,7 @@ Nelson::TimeGateway::timeitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     AnonymousMacroFunctionDef* funcDef = nullptr;
     function_handle fh = argIn[0].getContentAsFunctionHandle();
     if (fh.anonymousHandle == nullptr) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_FUNCTION_HANDLE_STR);
     }
     if (fh.anonymousHandle != nullptr) {
         funcDef = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);

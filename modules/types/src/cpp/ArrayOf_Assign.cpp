@@ -939,7 +939,7 @@ void
 ArrayOf::setValueAtIndex(uint64 index, const ArrayOf& scalarValue)
 {
     if (!scalarValue.isScalar()) {
-        Error(ERROR_SCALAR_EXPECTED);
+        Error(ERROR_SIZE_SCALAR_EXPECTED);
     }
     auto length = static_cast<uint64>(this->getElementCount());
     if (index >= length) {

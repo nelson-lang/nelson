@@ -38,7 +38,7 @@ Nelson::OsFunctionsGateway::computerBuiltin(int nLhs, const ArrayOfVector& argIn
     } else if (argIn.size() == 1) {
         nargoutcheck(nLhs, 0, 1);
         if (!argIn[0].isRowVectorCharacterArray()) {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
         std::wstring warg = argIn[0].getContentAsWideString();
         if (warg.compare(L"arch") != 0) {

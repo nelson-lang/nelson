@@ -34,7 +34,7 @@ Nelson::StringGateway::startsWithBuiltin(int nLhs, const ArrayOfVector& argIn)
             ArrayOf param3 = argIn[2];
             std::wstring fieldname = param3.getContentAsWideString();
             if (fieldname != L"IgnoreCase") {
-                Error(fmt::format(ERROR_WRONG_ARGUMENT_X_VALUE, 3));
+                raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 3);
             }
             ArrayOf param4 = argIn[3];
             logical fieldvalue = param4.getContentAsLogicalScalar();
@@ -42,7 +42,7 @@ Nelson::StringGateway::startsWithBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
         retval << StringStartsWith(A, B, bCaseSensitive);
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
     }
     return retval;
 }

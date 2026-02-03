@@ -16,6 +16,7 @@
 #include "PathFunctionIndexerManager.hpp"
 #include "Warning.hpp"
 #include "i18n.hpp"
+#include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -51,8 +52,8 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
                 lastpos = argIn.size();
             }
         } else {
-            Error(fmt::format(
-                ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, static_cast<int>(lastpos) + 1));
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, static_cast<int>(lastpos) + 1,
+                NLS_STRING_ARRAY_STR);
         }
         if (withOption) {
             lastpos = argIn.size() - 2;
@@ -73,8 +74,8 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
                     lastpos = argIn.size() - 1;
                 }
             } else {
-                Error(fmt::format(
-                    ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, static_cast<int>(lastpos) + 1));
+                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, static_cast<int>(lastpos) + 1,
+                    NLS_STRING_ARRAY_STR);
             }
         }
     }
@@ -84,8 +85,8 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param.isRowVectorCharacterArray()) {
             params.push_back(param.getContentAsWideString());
         } else {
-            Error(
-                fmt::format(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, static_cast<int>(k) + 1));
+            Error(fmt::format(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, static_cast<int>(k) + 1,
+                utf8_to_wstring(NLS_STRING_ARRAY_STR)));
         }
     }
     std::wstring previousPaths = PathFunctionIndexerManager::getInstance()->getPathNameAsString();

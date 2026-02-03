@@ -35,7 +35,7 @@ Nelson::StringGateway::containsBuiltin(int nLhs, const ArrayOfVector& argIn)
             ArrayOf param3 = argIn[2];
             std::wstring fieldname = param3.getContentAsWideString();
             if (fieldname != L"IgnoreCase") {
-                Error(fmt::format(ERROR_WRONG_ARGUMENT_X_VALUE, 3));
+                raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 3);
             }
             ArrayOf param4 = argIn[3];
             logical fieldvalue = param4.getContentAsLogicalScalar();

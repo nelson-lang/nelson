@@ -33,7 +33,7 @@ Nelson::ElementaryFunctionsGateway::normBuiltin(int nLhs, const ArrayOfVector& a
                     if (param == L"fro") {
                         retval << NormFrobenius(argIn[0]);
                     } else {
-                        Error(ERROR_WRONG_ARGUMENT_2_VALUE);
+                        raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 2);
                     }
                 } else {
                     ArrayOf param = argIn[1];
@@ -45,7 +45,7 @@ Nelson::ElementaryFunctionsGateway::normBuiltin(int nLhs, const ArrayOfVector& a
             }
         }
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE, 1);
     }
 
     return retval;

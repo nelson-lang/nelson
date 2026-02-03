@@ -41,7 +41,7 @@ Nelson::Python_engineGateway::py_invokeBuiltin(
         io = eval->getInterface();
     }
     if (!poh->invoke(io, methodname, params, nLhs, retval)) {
-        Error(ERROR_WRONG_ARGUMENT_2_VALUE + L" " + methodname);
+        Error(formatErrorMessage(ERROR_WRONG_ARGUMENT_X_VALUE, 2) + L" " + methodname);
     }
     return retval;
 }

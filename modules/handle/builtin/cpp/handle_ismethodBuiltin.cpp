@@ -25,7 +25,7 @@ Nelson::HandleGateway::handle_ismethodBuiltin(int nLhs, const ArrayOfVector& arg
         std::wstring methodName = argIn[1].getContentAsWideString();
         retval << ArrayOf::logicalConstructor(param1.isHandleMethod(methodName));
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_FUNCTION_HANDLE_STR);
     }
     return retval;
 }

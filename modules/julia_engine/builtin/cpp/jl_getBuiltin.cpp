@@ -28,7 +28,7 @@ Nelson::Julia_engineGateway::jl_getBuiltin(int nLhs, const ArrayOfVector& argIn)
         JuliaObjectHandle* jlh = (JuliaObjectHandle*)hgo;
         ArrayOf res;
         if (!jlh->get(methodName, res)) {
-            Error(ERROR_WRONG_ARGUMENT_2_VALUE + L" " + methodName);
+            Error(formatErrorMessage(ERROR_WRONG_ARGUMENT_X_VALUE, 2) + L" " + methodName);
         }
         retval << res;
     }

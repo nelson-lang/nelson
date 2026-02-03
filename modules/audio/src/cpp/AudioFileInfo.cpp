@@ -22,6 +22,7 @@
 #include "AudioFileInfo.hpp"
 #include "characters_encoding.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -210,7 +211,7 @@ AudioFileInfo(const std::wstring& filename, std::wstring& errorMessage)
     file = sf_open(ufilename.c_str(), SFM_READ, &sfinfo);
 #endif
     if (file == nullptr) {
-        errorMessage = ERROR_WRONG_ARGUMENT_1_VALUE;
+        errorMessage = formatErrorMessage(ERROR_WRONG_ARGUMENT_X_VALUE, 1);
         return res;
     }
     std::wstring CompressionMethod = getCompressionMethodAsString(sfinfo.format);

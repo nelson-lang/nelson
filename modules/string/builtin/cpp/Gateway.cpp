@@ -44,6 +44,7 @@
 #include "isletterBuiltin.hpp"
 #include "joinBuiltin.hpp"
 #include "strjustBuiltin.hpp"
+#include "formatStringBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -90,6 +91,7 @@ static const nlsGateway gateway[] = {
     { "isletter", (ptrBuiltin)Nelson::StringGateway::isletterBuiltin, 1, 1 },
     { "join", (ptrBuiltin)Nelson::StringGateway::joinBuiltin, 1, -2 },
     { "strjust", (ptrBuiltin)Nelson::StringGateway::strjustBuiltin, 1, 2 },
+    { "formatString", (ptrBuiltin)Nelson::StringGateway::formatStringBuiltin, 1, -1 },
 };
 //=============================================================================
 NLSGATEWAYFUNC(gateway)

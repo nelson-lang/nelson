@@ -38,7 +38,7 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                     _W("Wrong value for #1 argument, \'fullpathext\' or  \'fullpath\' expected."));
             }
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
     }
     FileSystemWrapper::Path path(GetCurrentNFilenameW(eval));

@@ -35,7 +35,7 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
                 eval->setLastWarningException(newLastWarning);
             }
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
     } break;
     case 2: {
@@ -45,13 +45,13 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
         if (arg1.isRowVectorCharacterArray()) {
             message = arg1.getContentAsWideString();
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
         ArrayOf arg2 = argIn[1];
         if (arg2.isRowVectorCharacterArray()) {
             identifier = arg2.getContentAsWideString();
         } else {
-            Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
         }
         Exception newLastWarning(message, identifier);
         eval->setLastWarningException(newLastWarning);

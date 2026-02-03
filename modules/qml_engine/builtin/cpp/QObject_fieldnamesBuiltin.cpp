@@ -34,7 +34,7 @@ Nelson::QmlEngineGateway::QObject_fieldnamesBuiltin(int nLhs, const ArrayOfVecto
     }
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);
     }
     wstringVector fieldnames;
     fieldnamesQObjectHandleObject(param1, fullList, fieldnames);

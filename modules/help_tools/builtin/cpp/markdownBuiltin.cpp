@@ -65,7 +65,7 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if (param1.isRowVectorCharacterArray() || param1.isScalarStringArray()) {
             stringInput = param1.getContentAsWideString();
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
 
         std::wstring stringOutput;

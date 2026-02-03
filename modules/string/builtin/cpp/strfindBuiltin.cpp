@@ -34,18 +34,18 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
                 Error(_W("'ForceCellOutput' expected as third input argument."));
             }
         } else {
-            Error(ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 3, NLS_STRING_ARRAY_STR);
         }
         if (param4.isScalar() && param4.isLogical()) {
             forceAsCell = (param4.getContentAsLogicalScalar() != 0u);
         } else {
-            Error(ERROR_WRONG_ARGUMENT_4_TYPE_LOGICAL_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 4, NLS_LOGICAL_STR);
         }
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
     if (!(A.isRowVectorCharacterArray() || A.isStringArray() || A.isCell() || A.isNumeric())) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
     }
     if (A.isRowVectorCharacterArray() || A.isStringArray() || A.isCell() || A.isNumeric()) {
         if (B.isRowVectorCharacterArray() || (B.isStringArray() && B.isScalar()) || B.isNumeric()) {

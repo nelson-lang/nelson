@@ -21,6 +21,7 @@
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -45,7 +46,7 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
     file = sf_open(ufilename.c_str(), SFM_READ, &sfinfo);
 #endif
     if (file == nullptr) {
-        errorMessage = ERROR_WRONG_ARGUMENT_1_VALUE;
+        errorMessage = formatErrorMessage(ERROR_WRONG_ARGUMENT_X_VALUE, 1);
         return retval;
     }
     if (dstart < 1 || dstart > dend) {

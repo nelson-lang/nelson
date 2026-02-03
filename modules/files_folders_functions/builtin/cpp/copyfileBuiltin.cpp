@@ -46,7 +46,7 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(int nLhs, const ArrayOfVector& argI
             wstringVector src = arg1.getContentAsWideStringVector(true);
             bRes = CopyFiles(src, dest, bForce, errorMessage);
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
         }
         if (nLhs == 0) {
             if (!bRes) {

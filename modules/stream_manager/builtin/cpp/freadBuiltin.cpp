@@ -61,11 +61,11 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
             Error(_W("Wrong value for #3 argument: not supported precision."));
         }
     } else {
-        Error(ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 3, NLS_STRING_ARRAY_STR);
     }
     if (param1.isDoubleType()) {
         if (!param2.isNumeric()) {
-            Error(ERROR_WRONG_ARGUMENT_2_TYPE_NUMERIC_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED, 2);
         }
         bool bSizeIs2D = param2.is2D() && !param2.isScalar();
         int64 isize = 0;
@@ -79,14 +79,14 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
             double m = dValues[0];
             double n = dValues[1];
             if (std::isinf(m)) {
-                Error(ERROR_WRONG_ARGUMENT_2_INVALID_VECTOR_SIZE);
+                raiseError(ERROR_WRONG_ARGUMENT_X_INVALID_VECTOR_SIZE, 2);
             }
             im = static_cast<int64>(m);
             if (std::isinf(n)) {
                 if (n > 0) {
                     isize = -1;
                 } else {
-                    Error(ERROR_WRONG_ARGUMENT_2_INVALID_VECTOR_SIZE);
+                    raiseError(ERROR_WRONG_ARGUMENT_X_INVALID_VECTOR_SIZE, 2);
                 }
             } else {
                 in = static_cast<int64>(n);
@@ -98,7 +98,7 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                 if (dsize > 0) {
                     isize = -1;
                 } else {
-                    Error(ERROR_WRONG_ARGUMENT_2_INVALID_VECTOR_SIZE);
+                    raiseError(ERROR_WRONG_ARGUMENT_X_INVALID_VECTOR_SIZE, 2);
                 }
             } else {
                 isize = static_cast<int64>(dsize);

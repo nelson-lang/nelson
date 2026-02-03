@@ -23,10 +23,10 @@ VertCatSparseLogical(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;
     if (!A.isSparseLogicalType()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_LOGICAL_STR);
     }
     if (!B.isSparseLogicalType()) {
-        Error(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_SPARSE_LOGICAL_STR);
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);

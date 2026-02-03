@@ -23,7 +23,7 @@ Nelson::HandleGateway::handle_displayBuiltin(Evaluator* eval, int nLhs, const Ar
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);
     }
     Interface* io = eval->getInterface();
     std::wstring name;

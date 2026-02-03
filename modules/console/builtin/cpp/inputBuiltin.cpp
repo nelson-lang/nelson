@@ -25,13 +25,13 @@ Nelson::ConsoleGateway::inputBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     if (argIn[0].isRowVectorCharacterArray()) {
         param1 = argIn[0].getContentAsWideString();
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
     }
     if (argIn.size() > 1) {
         if (argIn[1].isRowVectorCharacterArray()) {
             param2 = argIn[1].getContentAsWideString();
         } else {
-            Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
         }
         if (param2.compare(L"s") != 0) {
             Error(_W("Unrecognized option. \"s\" expected."));

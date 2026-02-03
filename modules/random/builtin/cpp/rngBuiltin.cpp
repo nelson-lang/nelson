@@ -99,7 +99,7 @@ Nelson::RandomGateway::rngBuiltin(int nLhs, const ArrayOfVector& argIn)
             RngSetEngine(s, genname);
             RngSetState(elements[2]);
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE);
+            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE, 1);
         }
     } break;
     case 2: {

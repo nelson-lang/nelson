@@ -61,11 +61,11 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
         Error(_W("Valid handle expected."));
     }
     if (!DynamicLinkSymbolObject::isValidDataType(returnType)) {
-        Error(fmt::format(_W("Invalid argument type: {0}."), returnType));
+        raiseError(_W("Invalid argument type: {0}."), returnType);
     }
     for (const std::wstring& arg : argumentsType) {
         if (!DynamicLinkSymbolObject::isValidDataType(arg)) {
-            Error(fmt::format(_W("Invalid argument type: {0}."), arg));
+            raiseError(_W("Invalid argument type: {0}."), arg);
         }
     }
     std::wstring symbolUsed = symbol;
@@ -84,12 +84,12 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
         }
         if (symbolsFound.size() > 1) {
             ptr = nullptr;
-            Error(fmt::format(_("Multiple possible symbol name found: {0}"),
-                StringHelpers::join(symbolsFound, ", ")));
+            raiseError(_W("Multiple possible symbol name found: {0}"),
+                utf8_to_wstring(StringHelpers::join(symbolsFound, ", ")));
         }
     }
     if (!ptr) {
-        Error(fmt::format(_W("Invalid symbol name: {0}"), symbol));
+        raiseError(_W("Invalid symbol name: {0}"), symbol);
     }
 
     DynamicLinkSymbolObject* dlSymbolObject

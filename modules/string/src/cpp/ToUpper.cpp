@@ -37,7 +37,7 @@ ToUpper(const ArrayOf& A, bool& needToOverload)
         indexType elementCount = A.getElementCount();
         for (indexType k = 0; k < elementCount; k++) {
             if (!element[k].isRowVectorCharacterArray()) {
-                Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
+                raiseError(ERROR_TYPE_X_EXPECTED, ERROR_TYPE_CELL_OF_STRINGS);
             }
             element[k]
                 = ArrayOf::characterArrayConstructor(ToUpper(element[k].getContentAsWideString()));
