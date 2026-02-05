@@ -40,7 +40,8 @@ Nelson::CoreGateway::nargoutBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         } else if (param1.isFunctionHandle()) {
             function_handle fh = param1.getContentAsFunctionHandle();
             if (fh.anonymousHandle == nullptr) {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_FUNCTION_HANDLE_STR);
+                raiseError(L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_FUNCTION_HANDLE_STR);
             }
             AnonymousMacroFunctionDef* anonymousFunction
                 = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
@@ -53,7 +54,9 @@ Nelson::CoreGateway::nargoutBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 }
             }
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_FUNCTION_HANDLE_EXPECTED, 1);
+            raiseError(
+                L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_FUNCTION_HANDLE_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_FUNCTION_HANDLE_EXPECTED, 1);
         }
     }
     return retval;

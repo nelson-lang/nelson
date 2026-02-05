@@ -33,7 +33,8 @@ Nelson::CoreGateway::maxNumCompThreadsBuiltin(int nLhs, const ArrayOfVector& arg
             if (str == L"automatic") {
                 setDefaultMaxNumCompThreads();
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 1);
+                raiseError(
+                    L"Nelson:core:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 1);
             }
         } else {
             indexType N = param1.getContentAsScalarIndex(false);

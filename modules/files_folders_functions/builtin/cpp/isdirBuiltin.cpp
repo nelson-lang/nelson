@@ -64,7 +64,9 @@ Nelson::FilesFoldersGateway::isdirBuiltin(int nLhs, const ArrayOfVector& argIn)
         retval << ArrayOf::logicalConstructor(false);
         return retval;
     }
-    raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
+    raiseError(
+        L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED",
+        ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
     return retval;
 }
 //=============================================================================

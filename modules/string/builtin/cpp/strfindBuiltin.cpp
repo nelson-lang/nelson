@@ -34,18 +34,21 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
                 Error(_W("'ForceCellOutput' expected as third input argument."));
             }
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 3, NLS_STRING_ARRAY_STR);
+            raiseError(L"Nelson:string:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 3, NLS_STRING_ARRAY_STR);
         }
         if (param4.isScalar() && param4.isLogical()) {
             forceAsCell = (param4.getContentAsLogicalScalar() != 0u);
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 4, NLS_LOGICAL_STR);
+            raiseError(L"Nelson:string:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 4, NLS_LOGICAL_STR);
         }
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
     if (!(A.isRowVectorCharacterArray() || A.isStringArray() || A.isCell() || A.isNumeric())) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
+        raiseError(L"Nelson:string:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
     }
     if (A.isRowVectorCharacterArray() || A.isStringArray() || A.isCell() || A.isNumeric()) {
         if (B.isRowVectorCharacterArray() || (B.isStringArray() && B.isScalar()) || B.isNumeric()) {

@@ -36,14 +36,16 @@ Nelson::TimeGateway::calendarBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf param1 = argIn[0];
         uint64 cyear = param1.getContentAsUnsignedInteger64Scalar();
         if (cyear < 1400 || cyear > 9999) {
-            raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 1);
+            raiseError(
+                L"Nelson:time:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 1);
         }
         ArrayOf param2 = argIn[1];
         int32 cmonth = param2.getContentAsInteger32Scalar();
         if (cmonth > 0 && cmonth < 13) {
             cal = new Calendar(cyear, (uint8)cmonth);
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+            raiseError(
+                L"Nelson:time:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 2);
         }
     } break;
     default: {

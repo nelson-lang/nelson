@@ -65,7 +65,8 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if (param1.isRowVectorCharacterArray() || param1.isScalarStringArray()) {
             stringInput = param1.getContentAsWideString();
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError(L"Nelson:help_tools:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
 
         std::wstring stringOutput;

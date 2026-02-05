@@ -26,7 +26,9 @@ Nelson::ConstructorsGateway::epsBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         if (argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_DCOMPLEX) {
             if (!argIn[0].isScalar()) {
-                raiseError(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 1);
+                raiseError(
+                    L"Nelson:constructors_functions:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 1);
             }
             auto* pV = (double*)argIn[0].getDataPointer();
             double dV = pV[0];
@@ -34,7 +36,9 @@ Nelson::ConstructorsGateway::epsBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if (argIn[0].getDataClass() == NLS_SINGLE
             || argIn[0].getDataClass() == NLS_SCOMPLEX) {
             if (!argIn[0].isScalar()) {
-                raiseError(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 1);
+                raiseError(
+                    L"Nelson:constructors_functions:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 1);
             }
             auto* pV = (single*)argIn[0].getDataPointer();
             single dV = pV[0];

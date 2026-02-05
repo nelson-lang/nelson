@@ -33,7 +33,8 @@ Nelson::FunctionHandleGateway::func2strBuiltin(int nLhs, const ArrayOfVector& ar
             Error(_W("Invalid anonymous function."));
         }
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_FUNCTION_HANDLE_STR);
+        raiseError(L"Nelson:function_handle:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_FUNCTION_HANDLE_STR);
     }
     return retval;
 }

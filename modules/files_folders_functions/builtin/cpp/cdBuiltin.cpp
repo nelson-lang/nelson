@@ -44,7 +44,8 @@ Nelson::FilesFoldersGateway::cdBuiltin(int nLhs, const ArrayOfVector& argIn)
                 retval << res;
             }
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
     }
     return retval;

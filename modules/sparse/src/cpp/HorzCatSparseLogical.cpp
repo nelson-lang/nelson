@@ -21,10 +21,12 @@ HorzCatSparseLogical(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;
     if (!A.isSparseLogicalType()) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_LOGICAL_STR);
+        raiseError(L"Nelson:sparse:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_LOGICAL_STR);
     }
     if (!B.isSparseLogicalType()) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_SPARSE_LOGICAL_STR);
+        raiseError(L"Nelson:sparse:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_SPARSE_LOGICAL_STR);
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);

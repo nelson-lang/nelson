@@ -34,7 +34,8 @@ Nelson::DataStructuresGateway::fieldnamesBuiltin(int nLhs, const ArrayOfVector& 
                 retval << ArrayOf::toCellArrayOfCharacterColumnVectors(fieldnames);
             }
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRUCT_ARRAY_STR);
+            raiseError(L"Nelson:data_structures:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRUCT_ARRAY_STR);
         }
     }
     return retval;

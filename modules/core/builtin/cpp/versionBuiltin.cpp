@@ -37,7 +37,8 @@ Nelson::CoreGateway::versionBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (argIn[0].isRowVectorCharacterArray()) {
             option = argIn[0].getContentAsWideString();
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError(L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
         if (option == L"-semantic") {
             retval << ArrayOf::characterArrayConstructor(NELSON_SEMANTIC_VERSION_STRING);

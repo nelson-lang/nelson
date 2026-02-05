@@ -155,7 +155,8 @@ ComplexConstructor(const ArrayOf& arrayA)
     case NLS_CHAR:
     case NLS_LOGICAL:
     default: {
-        raiseError(_W("Undefined function '{0}_complex'"), utf8_to_wstring(ClassName(arrayA)));
+        raiseError(L"Nelson:elementary_functions:ERROR_UNDEFINED_FUNCTION_COMPLEX",
+            _W("Undefined function '{0}_complex'"), utf8_to_wstring(ClassName(arrayA)));
     } break;
     case NLS_DOUBLE:
     case NLS_UINT8:

@@ -91,7 +91,8 @@ GetFFIType(const std::wstring& type)
     if (ffiTypesMap.count(type) != 0) {
         ret = ffiTypesMap[type];
     } else {
-        raiseError(_W("import type {0} not defined in FFI type table."), type);
+        raiseError(L"Nelson:dynamic_link:ERROR_IMPORT_TYPE_NOT_DEFINED",
+            _W("import type {0} not defined in FFI type table."), type);
     }
     return ret.FFIType;
 }
@@ -103,7 +104,8 @@ DynamicLinkSymbolObject::GetNelsonType(const std::wstring& type)
     if (ffiTypesMap.count(type) != 0) {
         ret = ffiTypesMap[type];
     } else {
-        raiseError(_W("import type {0} not defined in FFI type table."), type);
+        raiseError(L"Nelson:dynamic_link:ERROR_IMPORT_TYPE_NOT_DEFINED",
+            _W("import type {0} not defined in FFI type table."), type);
     }
     return ret.NelsonClass;
 }
@@ -299,11 +301,13 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
                 LibPointerObject* objLibPointer
                     = (LibPointerObject*)params[k].getContentAsHandleScalar();
                 if (objLibPointer->getDataType() != _paramsTypes[k]) {
-                    raiseError(_W("Invalid type for #{0} input argument: {1} expected."), k + 1,
+                    raiseError(L"Nelson:dynamic_link:ERROR_INVALID_ARGUMENT_TYPE",
+                        _W("Invalid type for #{0} input argument: {1} expected."), k + 1,
                         _paramsTypes[k]);
                 }
             } else {
-                raiseError(_W("Invalid type for #{0} input argument: {1} expected."), k + 1,
+                raiseError(L"Nelson:dynamic_link:ERROR_INVALID_ARGUMENT_TYPE",
+                    _W("Invalid type for #{0} input argument: {1} expected."), k + 1,
                     _paramsTypes[k]);
             }
         }

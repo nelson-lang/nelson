@@ -30,7 +30,8 @@ Nelson::HandleGateway::handle_propertiesBuiltin(int nLhs, const ArrayOfVector& a
             Error(_W("Invalid handle."));
         }
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);
+        raiseError(L"Nelson:handle:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);
     }
     return retval;
 }

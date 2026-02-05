@@ -107,7 +107,8 @@ classnameComHandle(const ArrayOf& A, stringVector& classname)
 {
     classname.clear();
     if (!A.isHandle()) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);
+        raiseError(L"Nelson:com_engine:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);
     }
     std::string className;
     ClassName(A, className);

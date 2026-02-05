@@ -51,7 +51,8 @@ runBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     if (argIn[2].isLogical()) {
         bChangeDir = (argIn[2].getContentAsLogicalScalar() == 0) ? false : true;
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_LOGICAL_STR);
+        raiseError(L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_LOGICAL_STR);
     }
     if (argIn[1].isRowVectorCharacterArray()) {
         std::wstring arg2 = argIn[1].getContentAsWideString();
@@ -61,15 +62,18 @@ runBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         } else if (arg2.compare(L"nocatch") == 0) {
             bErrorCatch = false;
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+            raiseError(
+                L"Nelson:core:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 2);
         }
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+        raiseError(L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
     }
     if (argIn[0].isRowVectorCharacterArray()) {
         wpath = argIn[0].getContentAsWideString();
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+        raiseError(L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
     }
     return runBuiltinCommon(eval, wpath, bErrorCatch, bChangeDir);
 }
@@ -92,16 +96,18 @@ runBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             } else if (arg2.compare(L"nocatch") == 0) {
                 bErrorCatch = false;
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+                raiseError(
+                    L"Nelson:core:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 2);
             }
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE, 2);
+            raiseError(L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE", ERROR_WRONG_ARGUMENT_X_TYPE, 2);
         }
     }
     if (argIn[0].isRowVectorCharacterArray()) {
         wpath = argIn[0].getContentAsWideString();
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+        raiseError(L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
     }
     return runBuiltinCommon(eval, wpath, bErrorCatch, bChangeDir);
 }
@@ -114,7 +120,8 @@ runBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     if (argIn[0].isRowVectorCharacterArray()) {
         wpath = argIn[0].getContentAsWideString();
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+        raiseError(L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
     }
     return runBuiltinCommon(eval, wpath, false, true);
 }

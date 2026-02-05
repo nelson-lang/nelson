@@ -44,7 +44,8 @@ IsValidHandle(const ArrayOf& A)
             res = ArrayOf::emptyConstructor(dimsA);
         }
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);
+        raiseError(L"Nelson:handle:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);
     }
     return res;
 }

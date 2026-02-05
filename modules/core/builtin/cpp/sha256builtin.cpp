@@ -102,7 +102,7 @@ sha256Conversion(const ArrayOf& arg, SHA256_CONVERSION_TYPE sha256Conversion)
         } break;
         }
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE, 1);
+        raiseError(L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE", ERROR_WRONG_ARGUMENT_X_TYPE, 1);
     }
     return res;
 }
@@ -129,7 +129,7 @@ Nelson::CoreGateway::sha256Builtin(int nLhs, const ArrayOfVector& argIn)
         } else if (param2 == L"-string") {
             retval << sha256Conversion(argIn[0], SHA256_CONVERSION_TYPE::STRING);
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE, 2);
+            raiseError(L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE", ERROR_WRONG_ARGUMENT_X_TYPE, 2);
         }
     } break;
     default: {

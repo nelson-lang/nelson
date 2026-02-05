@@ -37,7 +37,8 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(int nLhs, const ArrayOfVector& arg
                              "'extension' expected."));
                 }
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
+                raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
             }
         } else {
             nargoutcheck(nLhs, 0, 3);
@@ -45,7 +46,8 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(int nLhs, const ArrayOfVector& arg
         if (argIn[0].isRowVectorCharacterArray()) {
             wpath = argIn[0].getContentAsWideString();
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
         std::wstring respath;
         std::wstring resfilename;

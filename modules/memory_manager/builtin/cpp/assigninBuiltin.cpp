@@ -22,7 +22,8 @@ Nelson::MemoryGateway::assigninBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     nargoutcheck(nLhs, 0, 0);
     nargincheck(argIn, 3, 3);
     if (!argIn[0].isRowVectorCharacterArray()) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+        raiseError(L"Nelson:memory_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
     }
     std::string scopename = argIn[0].getContentAsCString();
     if (!((scopename == "global") || (scopename == "base") || (scopename == "caller")
@@ -31,7 +32,8 @@ Nelson::MemoryGateway::assigninBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                  "expected."));
     }
     if (!argIn[1].isRowVectorCharacterArray()) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
+        raiseError(L"Nelson:memory_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
     }
     std::string varname = argIn[1].getContentAsCString();
     if (!IsValidVariableName(varname)) {

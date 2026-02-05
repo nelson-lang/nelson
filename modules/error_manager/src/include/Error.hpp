@@ -51,13 +51,13 @@ namespace detail {
 // Variadic template - converts all args to wstring
 template <typename... Args>
 inline void
-raiseError(const std::wstring& messageID, const Args&... args)
+raiseError(const std::wstring& messageID, const std::wstring& messageFormat, const Args&... args)
 {
     std::vector<std::wstring> argVec;
     // Fold expression: convert each argument using toWideString
     (..., argVec.push_back(detail::toWideString(args)));
 
-    std::wstring formatted = detail::formatToWideStringImpl(messageID, argVec);
+    std::wstring formatted = detail::formatToWideStringImpl(messageFormat, argVec);
     Error(formatted, messageID, false);
 }
 //=============================================================================

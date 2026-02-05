@@ -48,7 +48,8 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     } else {
         for (size_t k = 0; k < argIn.size(); k++) {
             if (!argIn[k].isRowVectorCharacterArray()) {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, k + 1, NLS_STRING_ARRAY_STR);
+                raiseError(L"Nelson:memory_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, k + 1, NLS_STRING_ARRAY_STR);
             }
         }
         if (argIn.size() == 1) {

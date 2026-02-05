@@ -52,7 +52,8 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
                 lastpos = argIn.size();
             }
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, static_cast<int>(lastpos) + 1,
+            raiseError(L"Nelson:functions_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, static_cast<int>(lastpos) + 1,
                 NLS_STRING_ARRAY_STR);
         }
         if (withOption) {
@@ -74,7 +75,8 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
                     lastpos = argIn.size() - 1;
                 }
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, static_cast<int>(lastpos) + 1,
+                raiseError(L"Nelson:functions_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, static_cast<int>(lastpos) + 1,
                     NLS_STRING_ARRAY_STR);
             }
         }

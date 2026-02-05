@@ -152,7 +152,8 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
+                raiseError(L"Nelson:mpi:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
             }
             packMPI(I, buffer, bufsize, packpos, comm);
             packMPI(J, buffer, bufsize, packpos, comm);
@@ -211,7 +212,8 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
+                raiseError(L"Nelson:mpi:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
             }
             packMPI(I, buffer, bufsize, packpos, comm);
             packMPI(J, buffer, bufsize, packpos, comm);
@@ -234,7 +236,8 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
+                raiseError(L"Nelson:mpi:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
             }
             packMPI(I, buffer, bufsize, packpos, comm);
             packMPI(J, buffer, bufsize, packpos, comm);
@@ -490,7 +493,8 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
+                raiseError(L"Nelson:mpi:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
             }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);
@@ -526,7 +530,8 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
+                raiseError(L"Nelson:mpi:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
             }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);
@@ -546,7 +551,8 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
+                raiseError(L"Nelson:mpi:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
             }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);

@@ -63,7 +63,8 @@ Nelson::StreamGateway::fcloseBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(_W("Wrong value for #1: 'all' expected."));
         }
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_DOUBLE_EXPECTED, 1);
+        raiseError(L"Nelson:stream:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_DOUBLE_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_DOUBLE_EXPECTED, 1);
     }
     return retval;
 }

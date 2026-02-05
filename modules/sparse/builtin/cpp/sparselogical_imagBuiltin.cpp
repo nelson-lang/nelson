@@ -22,10 +22,12 @@ Nelson::SparseGateway::sparselogical_imagBuiltin(int nLhs, const ArrayOfVector& 
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     if (!argIn[0].isSparse()) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_LOGICAL_STR);
+        raiseError(L"Nelson:sparse:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_LOGICAL_STR);
     }
     if (!argIn[0].isLogical()) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_LOGICAL_STR);
+        raiseError(L"Nelson:sparse:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_LOGICAL_STR);
     }
     retval << SparseImagPart(argIn[0]);
     return retval;

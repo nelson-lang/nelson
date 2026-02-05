@@ -33,7 +33,8 @@ Nelson::ModulesManagerGateway::ismoduleBuiltin(int nLhs, const ArrayOfVector& ar
     if (argIn[0].isRowVectorCharacterArray() || (argIn[0].isStringArray() && argIn[0].isScalar())) {
         moduleshortname = argIn[0].getContentAsWideString();
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+        raiseError(L"Nelson:modules:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
     }
 
     bool bRes = checkIsProtected ? IsProtectedModuleName(moduleshortname)

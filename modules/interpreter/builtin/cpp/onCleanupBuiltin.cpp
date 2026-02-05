@@ -24,7 +24,8 @@ Nelson::InterpreterGateway::onCleanupBuiltin(Evaluator* eval, int nLhs, const Ar
     // Validate argument type
     const ArrayOf& functionArray = argIn[0];
     if (!functionArray.isFunctionHandle()) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_FUNCTION_HANDLE_STR);
+        raiseError(L"Nelson:interpreter:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_FUNCTION_HANDLE_STR);
     }
 
     // Create onCleanup handle

@@ -41,7 +41,8 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         if (argIn[0].isRowVectorCharacterArray()) {
             param1 = argIn[0].getContentAsWideString();
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError(L"Nelson:memory_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
         if (param1.compare(L"global") == 0) {
             scope = eval->getContext()->getGlobalScope();

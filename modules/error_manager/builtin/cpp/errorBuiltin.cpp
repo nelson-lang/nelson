@@ -36,7 +36,8 @@ Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLhs, const Array
                 eval->setLastErrorException(e);
                 throw e;
             }
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError(L"Nelson:error_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
     } else {
         // nargin == 2

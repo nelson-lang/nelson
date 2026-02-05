@@ -38,11 +38,13 @@ Nelson::DisplayFormatGateway::echoBuiltin(Evaluator* eval, int nLhs, const Array
             } else if (arg == L"off") {
                 bMode = false;
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 1);
+                raiseError(L"Nelson:display_format:ERROR_WRONG_ARGUMENT_X_VALUE",
+                    ERROR_WRONG_ARGUMENT_X_VALUE, 1);
             }
             eval->setEchoMode(bMode);
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError(L"Nelson:display_format:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
     } else {
         Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);

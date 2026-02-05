@@ -25,7 +25,8 @@ Nelson::InterpreterGateway::parsestringBuiltin(
     if (argIn[0].isRowVectorCharacterArray()) {
         command = argIn[0].getContentAsCString();
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+        raiseError(L"Nelson:interpreter:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
     }
     ParserState parserState = ParseError;
     Exception previousException(eval->getLastErrorException());

@@ -33,7 +33,8 @@ Nelson::DynamicLinkGateway::dlsym_getBuiltin(int nLhs, const ArrayOfVector& argI
     auto* objDlsym = static_cast<DynamicLinkSymbolObject*>(param1.getContentAsHandleScalar());
     ArrayOf res;
     if (!objDlsym->get(propertyName, res)) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+        raiseError(
+            L"Nelson:dynamic_link:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 2);
     }
     retval << res;
     return retval;

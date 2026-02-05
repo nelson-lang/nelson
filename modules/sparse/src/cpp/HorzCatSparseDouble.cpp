@@ -21,10 +21,12 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;
     if (!A.isSparseDoubleType()) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_DOUBLE_STR);
+        raiseError(L"Nelson:sparse:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_DOUBLE_STR);
     }
     if (!B.isSparseDoubleType()) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_SPARSE_DOUBLE_STR);
+        raiseError(L"Nelson:sparse:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_SPARSE_DOUBLE_STR);
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);

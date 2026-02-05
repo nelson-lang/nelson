@@ -22,10 +22,12 @@ Nelson::DataStructuresGateway::namedargs2cellBuiltin(int nLhs, const ArrayOfVect
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
     if (!param1.isStruct()) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRUCT_ARRAY_STR);
+        raiseError(L"Nelson:data_structures:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRUCT_ARRAY_STR);
     }
     if (!param1.isScalar()) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 1);
+        raiseError(L"Nelson:data_structures:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 1);
     }
     stringVector fieldnames = param1.getFieldNames();
     ArrayOf* elements

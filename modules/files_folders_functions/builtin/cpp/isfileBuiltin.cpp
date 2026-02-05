@@ -54,14 +54,18 @@ Nelson::FilesFoldersGateway::isfileBuiltin(int nLhs, const ArrayOfVector& argIn)
                     bmat[k] = static_cast<Nelson::logical>(bIsFile);
                 } else {
                     delete[] bmat;
-                    raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
+                    raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_"
+                               L"OR_CELL_EXPECTED",
+                        ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
                 }
             }
             ArrayOf res = ArrayOf(NLS_LOGICAL, dim, bmat, false);
             retval << res;
         }
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
+        raiseError(
+            L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
     }
     return retval;
 }

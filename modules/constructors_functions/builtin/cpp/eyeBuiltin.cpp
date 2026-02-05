@@ -44,7 +44,8 @@ extractDestClassAndSparse(
             } else {
                 // report a 1-based argument index to the user
                 int humanArgIndex = static_cast<int>(nRhs - 2) + 1;
-                raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, humanArgIndex);
+                raiseError(L"Nelson:constructors_functions:ERROR_WRONG_ARGUMENT_X_VALUE",
+                    ERROR_WRONG_ARGUMENT_X_VALUE, humanArgIndex);
             }
         }
     }

@@ -27,7 +27,8 @@ Nelson::ModulesManagerGateway::toolboxdirBuiltin(int nLhs, const ArrayOfVector& 
     if (argIn[0].isRowVectorCharacterArray()) {
         moduleshortname = argIn[0].getContentAsWideString();
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+        raiseError(L"Nelson:modules:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
     }
     if (IsExistingModuleName(moduleshortname)) {
         retval << ArrayOf::characterArrayConstructor(GetModulePath(moduleshortname));

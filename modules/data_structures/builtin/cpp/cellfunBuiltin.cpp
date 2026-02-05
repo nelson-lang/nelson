@@ -365,7 +365,8 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                     errorFunc = param.getContentAsFunctionHandle();
                     bHaveErrorHandlerArgs = true;
                 } else {
-                    raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, nbElementsInput,
+                    raiseError(L"Nelson:data_structures:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                        ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, nbElementsInput,
                         NLS_FUNCTION_HANDLE_STR);
                 }
             }
@@ -401,7 +402,8 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                         bHaveErrorHandlerArgs = true;
                     }
                 } else {
-                    raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, nbElementsInput,
+                    raiseError(L"Nelson:data_structures:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                        ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, nbElementsInput,
                         NLS_FUNCTION_HANDLE_STR);
                 }
             }

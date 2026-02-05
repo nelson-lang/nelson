@@ -53,7 +53,8 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
             Error(_W("Wrong value for #3 argument: not supported precision."));
         }
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 3, NLS_STRING_ARRAY_STR);
+        raiseError(L"Nelson:stream:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 3, NLS_STRING_ARRAY_STR);
     }
     ArrayOf param1 = argIn[0];
     if (param1.isDoubleType()) {
@@ -106,7 +107,8 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
             Error(_W("Wrong value for #1 argument: a valid file ID expected."));
         }
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_DOUBLE_STR);
+        raiseError(L"Nelson:stream:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_DOUBLE_STR);
     }
     return retval;
 }

@@ -23,7 +23,8 @@ Nelson::HandleGateway::handle_deleteBuiltin(Evaluator* eval, int nLhs, const Arr
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle()) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);
+        raiseError(L"Nelson:handle:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);
     }
     HandleDelete(eval, param1);
     return retval;

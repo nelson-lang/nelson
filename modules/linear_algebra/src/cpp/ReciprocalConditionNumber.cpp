@@ -61,7 +61,8 @@ ReciprocalConditionNumber_Double(const ArrayOf& A, bool precionWarning)
             delete[] ipiv;
             ipiv = nullptr;
             if (info < 0) {
-                raiseError(_W("LAPACK_dgetrf error code: {0}."), info);
+                raiseError(L"Nelson:linear_algebra:ERROR_LAPACK_DGETRF",
+                    _W("LAPACK_dgetrf error code: {0}."), info);
             }
             info = 0;
             double* work = new_with_exception<double>(4 * n, false);
@@ -76,7 +77,8 @@ ReciprocalConditionNumber_Double(const ArrayOf& A, bool precionWarning)
             if (res < DBL_EPSILON && precionWarning) {
                 Warning("Nelson:singularMatrix", _("Matrix is singular to working precision."));
             } else if (info < 0 && info != -5) {
-                raiseError(_W("LAPACK_dgecon error code: {0}."), info);
+                raiseError(L"Nelson:linear_algebra:ERROR_LAPACK_DGECON",
+                    _W("LAPACK_dgecon error code: {0}."), info);
             }
             rcond = ArrayOf::doubleConstructor(res);
         }
@@ -120,7 +122,8 @@ ReciprocalConditionNumber_DoubleComplex(ArrayOf A, bool precionWarning)
             delete[] ipiv;
             ipiv = nullptr;
             if (info < 0) {
-                raiseError(_W("LAPACK_zgetrf error code: {0}."), info);
+                raiseError(L"Nelson:linear_algebra:ERROR_LAPACK_ZGETRF",
+                    _W("LAPACK_zgetrf error code: {0}."), info);
             }
             info = 0;
             doublecomplex* work = new_with_exception<doublecomplex>(4 * n, false);
@@ -134,7 +137,8 @@ ReciprocalConditionNumber_DoubleComplex(ArrayOf A, bool precionWarning)
             if (res < DBL_EPSILON && precionWarning) {
                 Warning("Nelson:singularMatrix", _("Matrix is singular to working precision."));
             } else if (info < 0 && info != -5) {
-                raiseError(_W("LAPACK_zgecon error code: {0}."), info);
+                raiseError(L"Nelson:linear_algebra:ERROR_LAPACK_ZGECON",
+                    _W("LAPACK_zgecon error code: {0}."), info);
             }
             rcond = ArrayOf::doubleConstructor(res);
         }
@@ -178,7 +182,8 @@ ReciprocalConditionNumber_Single(const ArrayOf& A, bool precionWarning)
             delete[] ipiv;
             ipiv = nullptr;
             if (info < 0) {
-                raiseError(_W("LAPACK_sgetrf error code: {0}."), info);
+                raiseError(L"Nelson:linear_algebra:ERROR_LAPACK_SGETRF",
+                    _W("LAPACK_sgetrf error code: {0}."), info);
             }
             info = 0;
             single* work = new_with_exception<single>(4 * n, false);
@@ -193,7 +198,8 @@ ReciprocalConditionNumber_Single(const ArrayOf& A, bool precionWarning)
             if (res < FLT_EPSILON && precionWarning) {
                 Warning("Nelson:singularMatrix", _("Matrix is singular to working precision."));
             } else if (info < 0 && info != -5) {
-                raiseError(_W("LAPACK_sgecon error code: {0}."), info);
+                raiseError(L"Nelson:linear_algebra:ERROR_LAPACK_SGECON",
+                    _W("LAPACK_sgecon error code: {0}."), info);
             }
             rcond = ArrayOf::singleConstructor(res);
         }
@@ -239,7 +245,8 @@ ReciprocalConditionNumber_SingleComplex(const ArrayOf& A, bool precionWarning)
             delete[] ipiv;
             ipiv = nullptr;
             if (info < 0) {
-                raiseError(_W("LAPACK_cgetrf error code: {0}."), info);
+                raiseError(L"Nelson:linear_algebra:ERROR_LAPACK_CGETRF",
+                    _W("LAPACK_cgetrf error code: {0}."), info);
             }
             info = 0;
             singlecomplex* work = new_with_exception<singlecomplex>(4 * n, false);
@@ -253,7 +260,8 @@ ReciprocalConditionNumber_SingleComplex(const ArrayOf& A, bool precionWarning)
             if (res < FLT_EPSILON && precionWarning) {
                 Warning("Nelson:singularMatrix", _("Matrix is singular to working precision."));
             } else if (info < 0 && info != -5) {
-                raiseError(_W("LAPACK_cgecon error code: {0}."), info);
+                raiseError(L"Nelson:linear_algebra:ERROR_LAPACK_CGECON",
+                    _W("LAPACK_cgecon error code: {0}."), info);
             }
             rcond = ArrayOf::singleConstructor(res);
         }

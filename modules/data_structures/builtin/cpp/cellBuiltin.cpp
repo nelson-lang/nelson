@@ -64,7 +64,8 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     for (indexType k = 0; k < argIn[0].getElementCount(); k++) {
                         double _dIndex = dindex[k];
                         if (!std::isfinite(_dIndex)) {
-                            raiseError(
+                            raiseError(L"Nelson:data_structures:ERROR_WRONG_ARGUMENT_X_FINITE_"
+                                       L"VECTOR_INTEGER_VALUE_EXPECTED",
                                 ERROR_WRONG_ARGUMENT_X_FINITE_VECTOR_INTEGER_VALUE_EXPECTED, 1);
                         }
                         if (_dIndex < 0) {
@@ -72,7 +73,8 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                         }
                         auto index = static_cast<indexType>(_dIndex);
                         if (static_cast<double>(index) != _dIndex) {
-                            raiseError(
+                            raiseError(L"Nelson:data_structures:ERROR_WRONG_ARGUMENT_X_FINITE_"
+                                       L"VECTOR_INTEGER_VALUE_EXPECTED",
                                 ERROR_WRONG_ARGUMENT_X_FINITE_VECTOR_INTEGER_VALUE_EXPECTED, 1);
                         }
                         dims.setDimensionLength(k, index);
@@ -87,10 +89,13 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     retval << ArrayOf(NLS_CELL_ARRAY, dims, elements);
                 }
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_OR_ROW_VECTOR_EXPECTED, 1);
+                raiseError(L"Nelson:data_structures:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_OR_ROW_"
+                           L"VECTOR_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_OR_ROW_VECTOR_EXPECTED, 1);
             }
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_DOUBLE_STR);
+            raiseError(L"Nelson:data_structures:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_DOUBLE_STR);
         }
     } else {
         Dimensions dims(argIn.size());
@@ -100,10 +105,13 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     indexType index = argIn[k].getContentAsScalarIndex(true, true, true);
                     dims.setDimensionLength(k, index);
                 } else {
-                    raiseError(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, k + 1);
+                    raiseError(
+                        L"Nelson:data_structures:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
+                        ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, k + 1);
                 }
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, k + 1, NLS_DOUBLE_STR);
+                raiseError(L"Nelson:data_structures:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, k + 1, NLS_DOUBLE_STR);
             }
         }
         dims.simplify();

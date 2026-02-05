@@ -43,7 +43,8 @@ Nelson::ParallelGateway::afterAllBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     function_handle fh = param2.getContentAsFunctionHandle();
     if (fh.anonymousHandle == nullptr) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_FUNCTION_HANDLE_STR);
+        raiseError(L"Nelson:parallel:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_FUNCTION_HANDLE_STR);
     }
     FunctionDef* funcDef = nullptr;
     ArrayOfVector args;

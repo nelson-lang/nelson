@@ -22,10 +22,12 @@ ArrayOf
 VertCatHandle(const ArrayOf& A, const ArrayOf& B)
 {
     if (!A.isHandle()) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);
+        raiseError(L"Nelson:handle:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);
     }
     if (!B.isHandle()) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_HANDLE_STR);
+        raiseError(L"Nelson:handle:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_HANDLE_STR);
     }
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();

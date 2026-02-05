@@ -47,7 +47,8 @@ Nelson::LogicalGateway::falseBuiltin(int nLhs, const ArrayOfVector& argIn)
                         dim[1] = 1;
                     }
                 } else {
-                    raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, pos + 1);
+                    raiseError(L"Nelson:logical:ERROR_WRONG_ARGUMENT_X_VALUE",
+                        ERROR_WRONG_ARGUMENT_X_VALUE, pos + 1);
                 }
             }
         }

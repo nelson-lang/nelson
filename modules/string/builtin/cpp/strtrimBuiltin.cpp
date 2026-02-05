@@ -24,7 +24,8 @@ Nelson::StringGateway::strtrimBuiltin(int nLhs, const ArrayOfVector& argIn)
     bool needToOverload;
     ArrayOf res = StringTrim(A, needToOverload);
     if (needToOverload) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
+        raiseError(L"Nelson:string:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
     } else {
         retval << res;
     }

@@ -22,7 +22,8 @@ Nelson::DataStructuresGateway::struct2cellBuiltin(int nLhs, const ArrayOfVector&
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
     if (!param1.isStruct()) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRUCT_ARRAY_STR);
+        raiseError(L"Nelson:data_structures:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRUCT_ARRAY_STR);
     }
     stringVector fieldnames = param1.getFieldNames();
     size_t nbFields = fieldnames.size();

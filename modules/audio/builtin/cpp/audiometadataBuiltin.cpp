@@ -36,10 +36,12 @@ Nelson::AudioGateway::audiometadataBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
         if (!param2.isStruct()) {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED, 2);
+            raiseError(L"Nelson:audio:ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED, 2);
         }
         if (!param2.isScalar()) {
-            raiseError(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 2);
+            raiseError(L"Nelson:audio:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 2);
         }
         stringVector currentFieldnames = param2.getFieldNames();
         wstringVector wcurrentFieldname;
@@ -58,7 +60,8 @@ Nelson::AudioGateway::audiometadataBuiltin(int nLhs, const ArrayOfVector& argIn)
                     }
                 }
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+                raiseError(
+                    L"Nelson:audio:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 2);
             }
         }
         currentFieldnames.clear();

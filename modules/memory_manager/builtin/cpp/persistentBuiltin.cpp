@@ -31,7 +31,8 @@ Nelson::MemoryGateway::persistentBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     for (size_t k = 0; k < argIn.size(); k++) {
         if (!argIn[k].isRowVectorCharacterArray()) {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, k + 1, NLS_STRING_ARRAY_STR);
+            raiseError(L"Nelson:memory_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, k + 1, NLS_STRING_ARRAY_STR);
         }
         std::string arg = argIn[k].getContentAsCString();
         if (!IsValidVariableName(arg)) {

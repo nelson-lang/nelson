@@ -59,7 +59,8 @@ StringTrim(const ArrayOf& A, bool& needToOverload)
         indexType elementCount = A.getElementCount();
         for (indexType k = 0; k < elementCount; k++) {
             if (!element[k].isRowVectorCharacterArray()) {
-                raiseError(ERROR_TYPE_X_EXPECTED, ERROR_TYPE_CELL_OF_STRINGS);
+                raiseError(L"Nelson:string:ERROR_TYPE_X_EXPECTED", ERROR_TYPE_X_EXPECTED,
+                    ERROR_TYPE_CELL_OF_STRINGS);
             }
             std::wstring str = element[k].getContentAsWideString();
             element[k] = ArrayOf::characterArrayConstructor(Trim(str));

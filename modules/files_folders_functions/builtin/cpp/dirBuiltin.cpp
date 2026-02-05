@@ -37,18 +37,21 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     } break;
     case 2: {
         if (!argIn[1].isRowVectorCharacterArray()) {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
+            raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
         }
         woption = argIn[1].getContentAsWideString();
         if (woption == L"-s") {
             bSubDirectories = true;
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+            raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_VALUE",
+                ERROR_WRONG_ARGUMENT_X_VALUE, 2);
         }
     }
     case 1: {
         if (!argIn[0].isRowVectorCharacterArray()) {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
         wpath = argIn[0].getContentAsWideString();
     } break;

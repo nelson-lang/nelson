@@ -28,14 +28,16 @@ Nelson::GuiGateway::uigetdirBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (argIn[0].isRowVectorCharacterArray()) {
             pathOrigin = argIn[0].getContentAsWideString();
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError(L"Nelson:gui:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
     }
     if (argIn.size() > 1) {
         if (argIn[1].isRowVectorCharacterArray()) {
             title = argIn[1].getContentAsWideString();
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
+            raiseError(L"Nelson:gui:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
         }
     }
     bool bCancelled = UiGetDirectory(pathOrigin, title, pathSelected);

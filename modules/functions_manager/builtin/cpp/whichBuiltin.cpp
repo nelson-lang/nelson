@@ -47,7 +47,8 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
                 retval << ArrayOf::characterArrayConstructor(Which(functionname));
             }
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError(L"Nelson:functions_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
     } else {
         // case argIn.size() == 2
@@ -56,14 +57,16 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
             || (argIn[0].isStringArray() && argIn[0].isScalar())) {
             functionname = argIn[0].getContentAsCString();
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError(L"Nelson:functions_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
         std::wstring wparam2;
         if (argIn[1].isRowVectorCharacterArray()
             || (argIn[1].isStringArray() && argIn[1].isScalar())) {
             wparam2 = argIn[1].getContentAsWideString();
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
+            raiseError(L"Nelson:functions_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
         }
         if (wparam2 == L"-all") {
             wstringVector res = WhichAll(functionname);

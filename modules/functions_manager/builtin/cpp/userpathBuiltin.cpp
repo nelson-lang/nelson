@@ -37,7 +37,8 @@ Nelson::FunctionsGateway::userpathBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
             }
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError(L"Nelson:functions_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
     } else {
         nargincheck(argIn, 0, 0);

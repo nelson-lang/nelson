@@ -23,7 +23,8 @@ Nelson::FunctionHandleGateway::function_handle_fieldnamesBuiltin(
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
     // we do not allow to display the fields
-    raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRUCT_ARRAY_STR);
+    raiseError(L"Nelson:function_handle:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+        ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRUCT_ARRAY_STR);
     return retval;
 }
 //=============================================================================

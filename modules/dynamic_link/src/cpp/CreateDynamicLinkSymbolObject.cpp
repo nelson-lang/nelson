@@ -61,11 +61,13 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
         Error(_W("Valid handle expected."));
     }
     if (!DynamicLinkSymbolObject::isValidDataType(returnType)) {
-        raiseError(_W("Invalid argument type: {0}."), returnType);
+        raiseError(L"Nelson:dynamic_link:ERROR_INVALID_ARGUMENT_TYPE",
+            _W("Invalid argument type: {0}."), returnType);
     }
     for (const std::wstring& arg : argumentsType) {
         if (!DynamicLinkSymbolObject::isValidDataType(arg)) {
-            raiseError(_W("Invalid argument type: {0}."), arg);
+            raiseError(L"Nelson:dynamic_link:ERROR_INVALID_ARGUMENT_TYPE",
+                _W("Invalid argument type: {0}."), arg);
         }
     }
     std::wstring symbolUsed = symbol;
@@ -84,12 +86,14 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
         }
         if (symbolsFound.size() > 1) {
             ptr = nullptr;
-            raiseError(_W("Multiple possible symbol name found: {0}"),
+            raiseError(L"Nelson:dynamic_link:ERROR_MULTIPLE_POSSIBLE_SYMBOL_NAME_FOUND",
+                _W("Multiple possible symbol name found: {0}"),
                 utf8_to_wstring(StringHelpers::join(symbolsFound, ", ")));
         }
     }
     if (!ptr) {
-        raiseError(_W("Invalid symbol name: {0}"), symbol);
+        raiseError(L"Nelson:dynamic_link:ERROR_INVALID_SYMBOL_NAME", _W("Invalid symbol name: {0}"),
+            symbol);
     }
 
     DynamicLinkSymbolObject* dlSymbolObject

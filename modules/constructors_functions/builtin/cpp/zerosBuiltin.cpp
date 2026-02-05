@@ -104,7 +104,9 @@ Nelson::ConstructorsGateway::zerosBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (argIn[0].isNumeric() && !argIn[0].isSparse()) {
                 if (argIn[0].isRowVector()) {
                     if (argIn[0].isEmpty()) {
-                        raiseError(ERROR_WRONG_ARGUMENT_X_SIZE_ROW_VECTOR_EXPECTED, 1);
+                        raiseError(L"Nelson:constructors_functions:ERROR_WRONG_ARGUMENT_X_SIZE_ROW_"
+                                   L"VECTOR_EXPECTED",
+                            ERROR_WRONG_ARGUMENT_X_SIZE_ROW_VECTOR_EXPECTED, 1);
                     }
                     if (argIn[0].getElementCount() < Nelson::maxDims) {
                         ArrayOf dimVector(argIn[0]);
@@ -122,10 +124,14 @@ Nelson::ConstructorsGateway::zerosBuiltin(int nLhs, const ArrayOfVector& argIn)
                             + std::to_wstring(Nelson::maxDims) + L".");
                     }
                 } else {
-                    raiseError(ERROR_WRONG_ARGUMENT_X_SIZE_ROW_VECTOR_EXPECTED, 1);
+                    raiseError(L"Nelson:constructors_functions:ERROR_WRONG_ARGUMENT_X_SIZE_ROW_"
+                               L"VECTOR_EXPECTED",
+                        ERROR_WRONG_ARGUMENT_X_SIZE_ROW_VECTOR_EXPECTED, 1);
                 }
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED, 1);
+                raiseError(
+                    L"Nelson:constructors_functions:ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED, 1);
             }
         } else {
             for (sizeType k = 0; k < nRhs; k++) {

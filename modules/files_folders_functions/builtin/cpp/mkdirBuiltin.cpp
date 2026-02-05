@@ -27,13 +27,15 @@ Nelson::FilesFoldersGateway::mkdirBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (argIn[1].isRowVectorCharacterArray() || argIn[1].isScalarStringArray()) {
                 newDir = argIn[1].getContentAsWideString();
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
+                raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
             }
         }
         if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
             parentDir = argIn[0].getContentAsWideString();
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_LOGICAL_STR);
+            raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_LOGICAL_STR);
         }
         std::wstring message;
         bool bOK = false;

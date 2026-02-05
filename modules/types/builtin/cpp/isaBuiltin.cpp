@@ -25,7 +25,8 @@ Nelson::TypeGateway::isaBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     if (!(param2.isRowVectorCharacterArray() || param2.isScalarStringArray())) {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
+        raiseError(L"Nelson:types:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
     }
     std::string classnameExpected = param2.getContentAsCString();
     if (classnameExpected == "numeric") {

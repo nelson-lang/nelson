@@ -77,10 +77,12 @@ historyBuiltin_size_one_rhs(
         } else if (str == L"removeexit") {
             retval << ArrayOf::logicalConstructor(ptrHistoryManager->getRemoveExit());
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_VALUE",
+                ERROR_WRONG_ARGUMENT_X_VALUE, 2);
         }
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE, 1);
+        raiseError(
+            L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE", ERROR_WRONG_ARGUMENT_X_TYPE, 1);
     }
     return retval;
 }
@@ -120,21 +122,29 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                 if (arg2.getDataClass() == NLS_DOUBLE) {
                     double dvalue = arg2.getContentAsDoubleScalar();
                     if (!std::isfinite(dvalue)) {
-                        raiseError(ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_"
+                                   L"INTEGER_VALUE_EXPECTED",
+                            ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED, 2);
                     }
                     if (dvalue < 0) {
-                        raiseError(ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED, 2);
+                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_"
+                                   L"EXPECTED",
+                            ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED, 2);
                     }
                     auto ivalue = static_cast<size_t>(dvalue);
                     if (static_cast<double>(ivalue) != dvalue) {
-                        raiseError(ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_"
+                                   L"VALUE_EXPECTED",
+                            ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
                     }
                     ptrHistoryManager->setLastNCommandsSize(ivalue);
                 } else {
-                    raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_DOUBLE_STR);
+                    raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                        ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_DOUBLE_STR);
                 }
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 2);
+                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 2);
             }
         } else if (str == L"enable_save") {
             nargoutcheck(nLhs, 0, 0);
@@ -143,10 +153,12 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     logical bEnable = arg2.getContentAsLogicalScalar();
                     ptrHistoryManager->setSaveEnabled(bEnable ? true : false);
                 } else {
-                    raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
+                    raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                        ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
                 }
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 2);
+                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 2);
             }
         } else if (str == L"delete") {
             nargoutcheck(nLhs, 0, 0);
@@ -154,14 +166,20 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                 if (arg2.isScalar()) {
                     double dvalue = arg2.getContentAsDoubleScalar();
                     if (!std::isfinite(dvalue)) {
-                        raiseError(ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_"
+                                   L"INTEGER_VALUE_EXPECTED",
+                            ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED, 2);
                     }
                     if (dvalue < 0) {
-                        raiseError(ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED, 2);
+                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_"
+                                   L"EXPECTED",
+                            ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED, 2);
                     }
                     auto ivalue = static_cast<size_t>(dvalue);
                     if (static_cast<double>(ivalue) != dvalue) {
-                        raiseError(ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_"
+                                   L"VALUE_EXPECTED",
+                            ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
                     }
                     ptrHistoryManager->remove(ivalue);
                 } else {
@@ -172,33 +190,45 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                         double dvalue1 = dvalues[0];
                         double dvalue2 = dvalues[1] + 1;
                         if (!std::isfinite(dvalue1) || !std::isfinite(dvalue2)) {
-                            raiseError(
+                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_FINITE_"
+                                       L"SCALAR_INTEGER_VALUE_EXPECTED",
                                 ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED, 2);
                         }
                         if (dvalue1 < 0 || dvalue2 < 0) {
-                            raiseError(ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED, 2);
+                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_POSITIVE_"
+                                       L"VALUE_EXPECTED",
+                                ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED, 2);
                         }
                         auto ivalue1 = static_cast<size_t>(dvalue1);
                         auto ivalue2 = static_cast<size_t>(dvalue2);
                         if ((static_cast<double>(ivalue1) != dvalue1)
                             || (static_cast<double>(ivalue2) != dvalue2)) {
-                            raiseError(ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_"
+                                       L"INTEGER_VALUE_EXPECTED",
+                                ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
                         }
                         if (ivalue2 <= ivalue1) {
-                            raiseError(ERROR_WRONG_ARGUMENT_X_A_MUST_BE_HIGHER_THAN_B, 2);
+                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_A_MUST_BE_"
+                                       L"HIGHER_THAN_B",
+                                ERROR_WRONG_ARGUMENT_X_A_MUST_BE_HIGHER_THAN_B, 2);
                         }
                         if ((ivalue1 >= ptrHistoryManager->getCurrentSize())
                             || (ivalue2 >= ptrHistoryManager->getCurrentSize())) {
-                            raiseError(ERROR_WRONG_ARGUMENT_X_A_MUST_BE_HIGHER_THAN_B, 2);
+                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_A_MUST_BE_"
+                                       L"HIGHER_THAN_B",
+                                ERROR_WRONG_ARGUMENT_X_A_MUST_BE_HIGHER_THAN_B, 2);
                         } else {
                             ptrHistoryManager->remove(ivalue1, ivalue2);
                         }
                     } else {
-                        raiseError(ERROR_WRONG_ARGUMENT_X_SIZE_A_B_VECTOR_EXPECTED, 2);
+                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SIZE_A_B_VECTOR_"
+                                   L"EXPECTED",
+                            ERROR_WRONG_ARGUMENT_X_SIZE_A_B_VECTOR_EXPECTED, 2);
                     }
                 }
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_DOUBLE_STR);
+                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_DOUBLE_STR);
             }
         } else if (str == L"append") {
             nargoutcheck(nLhs, 0, 0);
@@ -212,7 +242,9 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     ptrHistoryManager->appendLine(arg[k].getContentAsWideString());
                 }
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 2);
+                raiseError(
+                    L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 2);
             }
         } else if (str == L"filename") {
             nargoutcheck(nLhs, 0, 0);
@@ -220,7 +252,8 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->setFilename(filename);
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
+                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
             }
         } else if (str == L"load") {
             nargoutcheck(nLhs, 0, 0);
@@ -228,7 +261,8 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->loadFromFile(filename);
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
+                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
             }
         } else if (str == L"save") {
             nargoutcheck(nLhs, 0, 0);
@@ -236,7 +270,8 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->saveToFile(filename);
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
+                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
             }
         } else if (str == L"duplicated") {
             nargoutcheck(nLhs, 0, 0);
@@ -245,10 +280,12 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     logical bDuplicated = arg2.getContentAsLogicalScalar();
                     ptrHistoryManager->setAllowDuplicatedLines(bDuplicated ? true : false);
                 } else {
-                    raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
+                    raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                        ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
                 }
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
+                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
             }
         } else if (str == L"removeexit") {
             nargoutcheck(nLhs, 0, 0);
@@ -257,10 +294,12 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     logical bRemove = arg2.getContentAsLogicalScalar();
                     ptrHistoryManager->setRemoveExit(bRemove ? true : false);
                 } else {
-                    raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
+                    raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                        ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
                 }
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
+                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
             }
         } else if (str == L"get") {
             nargoutcheck(nLhs, 0, 1);
@@ -268,14 +307,20 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                 if (arg2.isScalar()) {
                     double dvalue = arg2.getContentAsDoubleScalar();
                     if (!std::isfinite(dvalue)) {
-                        raiseError(ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_"
+                                   L"VALUE_EXPECTED",
+                            ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
                     }
                     if (dvalue < 0) {
-                        raiseError(ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED, 2);
+                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_"
+                                   L"EXPECTED",
+                            ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED, 2);
                     }
                     auto ivalue = static_cast<size_t>(dvalue);
                     if (static_cast<double>(ivalue) != dvalue) {
-                        raiseError(ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_"
+                                   L"VALUE_EXPECTED",
+                            ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
                     }
                     std::wstring line = ptrHistoryManager->get(ivalue);
                     retval << ArrayOf::characterArrayConstructor(line);
@@ -287,29 +332,41 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                         double dvalue1 = dvalues[0];
                         double dvalue2 = dvalues[1] + 1;
                         if (!std::isfinite(dvalue1) || !std::isfinite(dvalue2)) {
-                            raiseError(ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_"
+                                       L"INTEGER_VALUE_EXPECTED",
+                                ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
                         }
                         if (dvalue1 < 0 || dvalue2 < 0) {
-                            raiseError(ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED, 2);
+                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_POSITIVE_"
+                                       L"VALUE_EXPECTED",
+                                ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED, 2);
                         }
                         auto ivalue1 = static_cast<size_t>(dvalue1);
                         auto ivalue2 = static_cast<size_t>(dvalue2);
                         if ((static_cast<double>(ivalue1) != dvalue1)
                             || (static_cast<double>(ivalue2) != dvalue2)) {
-                            raiseError(ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_"
+                                       L"INTEGER_VALUE_EXPECTED",
+                                ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
                         }
                         if (ivalue2 <= ivalue1) {
-                            raiseError(ERROR_WRONG_ARGUMENT_X_A_MUST_BE_HIGHER_THAN_B, 2);
+                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_A_MUST_BE_"
+                                       L"HIGHER_THAN_B",
+                                ERROR_WRONG_ARGUMENT_X_A_MUST_BE_HIGHER_THAN_B, 2);
                         }
                         if ((ivalue1 >= ptrHistoryManager->getCurrentSize())
                             || (ivalue2 >= ptrHistoryManager->getCurrentSize())) {
-                            raiseError(ERROR_WRONG_ARGUMENT_X_A_MUST_BE_HIGHER_THAN_B, 2);
+                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_A_MUST_BE_"
+                                       L"HIGHER_THAN_B",
+                                ERROR_WRONG_ARGUMENT_X_A_MUST_BE_HIGHER_THAN_B, 2);
                         } else {
                             wstringVector res = ptrHistoryManager->get(ivalue1, ivalue2);
                             retval << ArrayOf::toCellArrayOfCharacterColumnVectors(res);
                         }
                     } else {
-                        raiseError(ERROR_WRONG_ARGUMENT_X_SIZE_A_B_VECTOR_EXPECTED, 2);
+                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SIZE_A_B_VECTOR_"
+                                   L"EXPECTED",
+                            ERROR_WRONG_ARGUMENT_X_SIZE_A_B_VECTOR_EXPECTED, 2);
                     }
                 }
             } else if (str == L"saveafter") {
@@ -318,30 +375,42 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     if (arg2.getDataClass() == NLS_DOUBLE) {
                         double dvalue = arg2.getContentAsDoubleScalar();
                         if (!std::isfinite(dvalue)) {
-                            raiseError(ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_"
+                                       L"INTEGER_VALUE_EXPECTED",
+                                ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
                         }
                         if (dvalue < 0) {
-                            raiseError(ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_"
+                                       L"INTEGER_VALUE_EXPECTED",
+                                ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
                         }
                         auto ivalue = static_cast<size_t>(dvalue);
                         if (static_cast<double>(ivalue) != dvalue) {
-                            raiseError(ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_"
+                                       L"INTEGER_VALUE_EXPECTED",
+                                ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
                         }
                         ptrHistoryManager->setSaveAfterNCommands(ivalue);
                     } else {
-                        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_DOUBLE_STR);
+                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_DOUBLE_STR);
                     }
                 } else {
-                    raiseError(ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 2);
+                    raiseError(
+                        L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
+                        ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 2);
                 }
             } else {
-                raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 1);
+                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_VALUE",
+                    ERROR_WRONG_ARGUMENT_X_VALUE, 1);
             }
         } else {
-            raiseError(ERROR_WRONG_ARGUMENT_X_VALUE, 1);
+            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_VALUE",
+                ERROR_WRONG_ARGUMENT_X_VALUE, 1);
         }
     } else {
-        raiseError(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
     }
     return retval;
 }
