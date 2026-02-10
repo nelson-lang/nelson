@@ -24,7 +24,8 @@ Nelson::ModulesManagerGateway::usermodulesdirBuiltin(int nLhs, const ArrayOfVect
     nargoutcheck(nLhs, 0, 1);
     std::wstring externalModulesPath = GetExternalModulesPath();
     if (!FileSystemWrapper::Path::is_directory(externalModulesPath)) {
-        Error(_W("Impossible to get external modules directory."));
+        raiseError(L"Nelson:modules_manager:ERROR_IMPOSSIBLE_TO_GET_EXTERNAL_MODULES_DIRECTORY",
+            ERROR_IMPOSSIBLE_TO_GET_EXTERNAL_MODULES_DIRECTORY);
     }
     retval << ArrayOf::characterArrayConstructor(externalModulesPath);
     return retval;

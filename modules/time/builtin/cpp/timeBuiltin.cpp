@@ -32,7 +32,8 @@ Nelson::TimeGateway::timeBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if (param1 == L"s") {
             retval << ArrayOf::doubleConstructor(TimeAsSeconds());
         } else {
-            Error(_W("Argument #2: 'ns' or 's' expected."));
+            raiseError(L"Nelson:time:ERROR_ARGUMENT_2_NS_OR_S_EXPECTED",
+                ERROR_ARGUMENT_2_NS_OR_S_EXPECTED);
         }
     } break;
     }

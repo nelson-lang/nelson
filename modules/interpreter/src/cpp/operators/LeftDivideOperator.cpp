@@ -14,6 +14,7 @@
 #include "OverloadHelpers.hpp"
 #include "OverloadRequired.hpp"
 #include "FindCommonType.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -58,14 +59,16 @@ Evaluator::leftDivideOperator(const ArrayOfVector& args)
         if (A.isIntegerType()) {
             bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
             if (!isCompatible) {
-                Error(_W("Integers can only be combined with integers of the same class, or scalar "
-                         "doubles."));
+                raiseError(L"Nelson:interpreter:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_"
+                           L"OF_THE_SAME_CLASS_OR_SCALAR",
+                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OF_THE_SAME_CLASS_OR_SCALAR);
             }
         } else if (B.isIntegerType()) {
             bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
             if (!isCompatible) {
-                Error(_W("Integers can only be combined with integers of the same class, or scalar "
-                         "doubles."));
+                raiseError(L"Nelson:interpreter:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_"
+                           L"OF_THE_SAME_CLASS_OR_SCALAR",
+                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OF_THE_SAME_CLASS_OR_SCALAR);
             }
         } else if (commonType <= NLS_CHAR) {
             NelsonType _commonType = commonType;

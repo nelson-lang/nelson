@@ -43,12 +43,18 @@ Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLhs, const Array
         // nargin == 2
         identifier = argIn[0].getContentAsWideString();
         if (!isValidMExceptionIdentifier(identifier)) {
-            Error(_W("First input argument must be a valid message identifier."));
+            raiseError(L"Nelson:error_manager:ERROR_FIRST_INPUT_ARGUMENT_MUST_BE_A_VALID_MESSAGE_"
+                       L"IDENTIFIER",
+                ERROR_FIRST_INPUT_ARGUMENT_MUST_BE_A_VALID_MESSAGE_IDENTIFIER);
         }
         message = argIn[1].getContentAsWideString();
     }
     if (message != L"") {
-        Error(message, identifier);
+        if (identifier.empty()) {
+            Error(message, L"");
+        } else {
+            Error(message, identifier);
+        }
     }
     return retval;
 }

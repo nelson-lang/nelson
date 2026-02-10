@@ -16,6 +16,8 @@
 #include "ParserInterface.hpp"
 #include "StringHelpers.hpp"
 #include "PathFunctionIndexerManager.hpp"
+#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -40,17 +42,19 @@ Nelson::DebuggerGateway::dbstopBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     if (argIn.size() == 1) {
         applyBreakpointStruct(eval, argIn[0], errorMessage);
         if (!errorMessage.empty()) {
-            Error(errorMessage);
+            Error(errorMessage, L"Nelson:debugger:ERROR_BREAKPOINT_STRUCT_ERROR");
         }
         return {};
     }
 
     if (argIn.size() == 3) {
-        Error("Wrong number of input arguments.");
+        raiseError(
+            L"Nelson:debugger:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
 
     if (argIn[0].getContentAsWideString() != L"in") {
-        Error("Second argument must be 'in'.");
+        raiseError(
+            L"Nelson:debugger:ERROR_SECOND_ARGUMENT_MUST_BE_IN", ERROR_SECOND_ARGUMENT_MUST_BE_IN);
     }
 
     size_t position = parsePositionArgument(argIn);
@@ -58,7 +62,7 @@ Nelson::DebuggerGateway::dbstopBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 
     dbstopInAt(eval, target, position, errorMessage);
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:debugger:dbstop");
     }
 
     return {};
@@ -72,7 +76,8 @@ parsePositionArgument(const ArrayOfVector& argIn)
     }
 
     if (argIn[2].getContentAsWideString() != L"at") {
-        Error(_W("Third argument must be 'at'."));
+        raiseError(
+            L"Nelson:debugger:ERROR_THIRD_ARGUMENT_MUST_BE_AT", ERROR_THIRD_ARGUMENT_MUST_BE_AT);
     }
 
     std::wstring posArg = argIn[3].getContentAsWideString();
@@ -81,11 +86,13 @@ parsePositionArgument(const ArrayOfVector& argIn)
     try {
         size_t pos = std::stoul(posArg, &idx);
         if (idx != posArg.size()) {
-            Error(_W("Invalid position argument."));
+            raiseError(L"Nelson:debugger:ERROR_INVALID_POSITION_ARGUMENT",
+                ERROR_INVALID_POSITION_ARGUMENT);
         }
         return pos;
     } catch (...) {
-        Error(_W("Invalid position argument."));
+        raiseError(
+            L"Nelson:debugger:ERROR_INVALID_POSITION_ARGUMENT", ERROR_INVALID_POSITION_ARGUMENT);
     }
 
     return 1; // unreachable
@@ -128,7 +135,8 @@ dbstopInAt(Evaluator* eval, const std::wstring& functioOrFilename, size_t positi
         }
 
         if (funcDef->type() != NLS_MACRO_FUNCTION) {
-            Error(_W("Breakpoints can only be set in macro functions."));
+            raiseError(L"Nelson:debugger:ERROR_BREAKPOINTS_ONLY_IN_MACRO_FUNCTIONS",
+                ERROR_BREAKPOINTS_ONLY_IN_MACRO_FUNCTIONS);
         }
 
         funcDef->updateCode();

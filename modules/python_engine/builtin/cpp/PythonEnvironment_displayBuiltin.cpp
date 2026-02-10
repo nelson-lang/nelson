@@ -10,10 +10,10 @@
 #include "PythonEnvironment_displayBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "DisplayVariableHelpers.hpp"
-
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PythonEnvironment.hpp"
 //=============================================================================
@@ -41,7 +41,8 @@ Nelson::Python_engineGateway::PythonEnvironment_displayBuiltin(
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("PythonEnvironment object expected."));
+        raiseError(L"Nelson:python_engine:ERROR_PYTHON_ENVIRONMENT_OBJECT_EXPECTED",
+            ERROR_PYTHON_ENVIRONMENT_OBJECT_EXPECTED);
     }
     return retval;
 }

@@ -16,6 +16,7 @@
 #include "i18n.hpp"
 #include "Exception.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -145,12 +146,14 @@ checkDimensions(const ArrayOf& A, const ArrayOf& B)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsB = B.getDimensions();
         if (dimsA.getLength() != dimsB.getLength()) {
-            Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
+            raiseError(L"Nelson:operators:ERROR_DIMENSIONS_NOT_CONSISTENT",
+                ERROR_DIMENSIONS_NOT_CONSISTENT);
         }
         for (indexType k = 0; k < dimsA.getLength(); k++) {
             if (k != 1) {
                 if (dimsA.getDimensionLength(k) != dimsB.getDimensionLength(k)) {
-                    Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
+                    raiseError(L"Nelson:operators:ERROR_DIMENSIONS_NOT_CONSISTENT",
+                        ERROR_DIMENSIONS_NOT_CONSISTENT);
                 }
             }
         }
@@ -178,7 +181,8 @@ static ArrayOf
 HorzCatClass(const ArrayOf& A, const ArrayOf& B)
 {
     if (A.getClassType() != B.getClassType()) {
-        Error(_("Same class type expected."));
+        raiseError(
+            L"Nelson:operators:ERROR_SAME_CLASS_TYPE_EXPECTED", ERROR_SAME_CLASS_TYPE_EXPECTED);
     }
     stringVector fieldnamesA = A.getFieldNames();
     indexType newColumnsSize = A.getColumns() + B.getColumns();
@@ -207,11 +211,12 @@ HorzCatStruct(const ArrayOf& A, const ArrayOf& B)
     stringVector fieldnamesA = A.getFieldNames();
     stringVector fieldnamesB = B.getFieldNames();
     if (fieldnamesA.size() != fieldnamesB.size()) {
-        Error(ERROR_FIELDNAMES_MUST_MATCH);
+        raiseError(L"Nelson:operators:ERROR_FIELDNAMES_MUST_MATCH", ERROR_FIELDNAMES_MUST_MATCH);
     }
     for (size_t k = 0; k < fieldnamesA.size(); k++) {
         if (fieldnamesA[k] != fieldnamesB[k]) {
-            Error(ERROR_FIELDNAMES_MUST_MATCH);
+            raiseError(
+                L"Nelson:operators:ERROR_FIELDNAMES_MUST_MATCH", ERROR_FIELDNAMES_MUST_MATCH);
         }
     }
     indexType newColumnsSize = A.getColumns() + B.getColumns();

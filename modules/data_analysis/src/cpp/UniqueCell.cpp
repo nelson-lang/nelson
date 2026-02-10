@@ -14,6 +14,7 @@
 #include "Exception.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ParallelSort.hpp"
 //=============================================================================
 namespace Nelson {
@@ -28,8 +29,8 @@ UniqueCellOneLhs(const ArrayOf& input)
     try {
         values = input.getContentAsWideStringVector(false);
     } catch (Exception&) {
-        Error(_W("The input must be a cell array containing character vectors."),
-            L"Nelson:UNIQUE:InputClass");
+        raiseError(L"Nelson:data_analysis:ERROR_UNIQUE_INPUT_MUST_BE_CELL_OF_CHARACTER_VECTORS",
+            ERROR_UNIQUE_INPUT_MUST_BE_CELL_OF_CHARACTER_VECTORS);
     }
     parallelSort(values);
     values.erase(std::unique(values.begin(), values.end()), values.end());
@@ -88,8 +89,8 @@ UniqueCellTwoLhs(const ArrayOf& input)
         cellsEntry[i].n = i;
     }
     if (isNotCellString) {
-        Error(_W("The input must be a cell array containing character vectors."),
-            L"Nelson:UNIQUE:InputClass");
+        raiseError(L"Nelson:data_analysis:ERROR_UNIQUE_INPUT_MUST_BE_CELL_OF_CHARACTER_VECTORS",
+            ERROR_UNIQUE_INPUT_MUST_BE_CELL_OF_CHARACTER_VECTORS);
     }
     parallelSort(cellsEntry);
     cellsEntry.erase(std::unique(cellsEntry.begin(), cellsEntry.end()), cellsEntry.end());
@@ -124,8 +125,8 @@ UniqueCellThreeLhs(const ArrayOf& input)
         if (sp[i].isCharacterArray()) {
             buf[i].x = sp[i].getContentAsWideString();
         } else {
-            Error(_W("The input must be a cell array containing character vectors."),
-                L"Nelson:UNIQUE:InputClass");
+            raiseError(L"Nelson:data_analysis:ERROR_UNIQUE_INPUT_MUST_BE_CELL_OF_CHARACTER_VECTORS",
+                ERROR_UNIQUE_INPUT_MUST_BE_CELL_OF_CHARACTER_VECTORS);
         }
         buf[i].n = i;
     }

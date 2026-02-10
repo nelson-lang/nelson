@@ -13,6 +13,7 @@
 #include "SparseDynamicFunctions.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -80,16 +81,18 @@ ArrayOf::makeSparse()
         || (dp->dataClass == NLS_LOGICAL)) {
         ensureSingleOwner();
     } else {
-        Error(_W("Cannot make sparse."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_MAKE_SPARSE", ERROR_CANNOT_MAKE_SPARSE);
     }
     if (isSparse()) {
         return;
     }
     if (isReferenceType() || isCharacterArray()) {
-        Error(_W("Cannot make strings or reference types sparse."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_MAKE_STRINGS_OR_REFERENCE_TYPES_SPARSE",
+            ERROR_CANNOT_MAKE_STRINGS_OR_REFERENCE_TYPES_SPARSE);
     }
     if (!is2D()) {
-        Error(_W("Cannot make n-dimensional arrays sparse."));
+        raiseError(
+            L"Nelson:types:ERROR_CANNOT_MAKE_ND_ARRAYS_SPARSE", ERROR_CANNOT_MAKE_ND_ARRAYS_SPARSE);
     }
     if (isEmpty()) {
         void* cp = ArrayOf::allocateArrayOf(dp->dataClass, 0, stringVector(), true);

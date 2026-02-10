@@ -33,15 +33,20 @@ Nelson::OsFunctionsGateway::loadenvBuiltin(Evaluator* eval, int nLhs, const Arra
     try {
         result = LoadEnvironment(filename, applyToEnv, errorMessage);
     } catch (const std::exception& ex) {
-        errorMessage = utf8_to_wstring(std::string("Exception: ")) + utf8_to_wstring(ex.what());
+        raiseError(
+            L"Nelson:os_functions:ERROR_EXCEPTION", ERROR_EXCEPTION, utf8_to_wstring(ex.what()));
+        return retval;
+
     } catch (...) {
         if (errorMessage.empty()) {
-            errorMessage = _W("Unknown error while loading environment");
+            raiseError(L"Nelson:os_functions:ERROR_UNKNOWN_ERROR_LOADING_ENVIRONMENT",
+                ERROR_UNKNOWN_ERROR_LOADING_ENVIRONMENT);
+            return retval;
         }
     }
 
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        raiseError(L"Nelson:os_functions:ERROR_EXCEPTION", ERROR_EXCEPTION, errorMessage);
         return retval;
     }
 
@@ -57,11 +62,13 @@ Nelson::OsFunctionsGateway::loadenvBuiltin(Evaluator* eval, int nLhs, const Arra
 
         FunctionDef* funcDef = nullptr;
         if (!eval) {
-            Error(_W("Evaluator is not initialized."));
+            raiseError(L"Nelson:os_functions:ERROR_EVALUATOR_IS_NOT_INITIALIZED",
+                ERROR_EVALUATOR_IS_NOT_INITIALIZED);
         }
         Context* context = eval->getContext();
         if (!context) {
-            Error(_W("Context is not initialized."));
+            raiseError(L"Nelson:os_functions:ERROR_CONTEXT_IS_NOT_INITIALIZED",
+                ERROR_CONTEXT_IS_NOT_INITIALIZED);
         }
         if (context->lookupFunction("dictionary", funcDef)) {
             ArrayOfVector args;
@@ -69,7 +76,9 @@ Nelson::OsFunctionsGateway::loadenvBuiltin(Evaluator* eval, int nLhs, const Arra
             args << ArrayOf::stringArrayConstructor(values, Dimensions(values.size(), 1));
             return funcDef->evaluateFunction(eval, args, 1);
         } else {
-            Error(_W("Function 'dictionary' not found in the current context."));
+            raiseError(
+                L"Nelson:os_functions:ERROR_FUNCTION_DICTIONARY_NOT_FOUND_IN_THE_CURRENT_CONTEXT",
+                ERROR_FUNCTION_DICTIONARY_NOT_FOUND_IN_THE_CURRENT_CONTEXT);
         }
     }
     return retval;

@@ -24,7 +24,8 @@ Nelson::FunctionsGateway::builtinBuiltin(Evaluator* eval, int nLhs, const ArrayO
     ArrayOf param1 = argIn[0];
     std::string fname = argIn[0].getContentAsCString();
     if (!context->lookupFunction(fname, funcDef, true)) {
-        Error(_W("function \'") + utf8_to_wstring(fname) + _W("\' is not a builtin."));
+        raiseError(L"Nelson:functions_manager:BUILTIN_FUNCTION_EXPECTED",
+            ERROR_BUILTIN_FUNCTION_EXPECTED, utf8_to_wstring(fname));
     }
     ArrayOfVector newarg(argIn);
     newarg.pop_front();

@@ -10,6 +10,7 @@
 #include "classBuiltin.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -26,7 +27,8 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     } else if (argIn.size() == 2) {
         Context* ctx = eval->getContext();
         if (ctx->getCurrentScope()->getName() == "base") {
-            Error(_W("This declaration is only allowed from a class constructor."));
+            raiseError(L"Nelson:types:ERROR_DECLARATION_ONLY_ALLOWED_FROM_CLASS_CONSTRUCTOR",
+                ERROR_DECLARATION_ONLY_ALLOWED_FROM_CLASS_CONSTRUCTOR);
         }
         ArrayOf arg1 = ArrayOf(argIn[0]);
         if (arg1.getDataClass() == NLS_STRUCT_ARRAY) {
@@ -41,7 +43,7 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                 ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRUCT_ARRAY_STR);
         }
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:types:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

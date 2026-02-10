@@ -14,6 +14,7 @@
 #include "FileSystemWrapper.hpp"
 #include "MacroFunctionDef.hpp"
 #include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -40,10 +41,12 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
                         auto* fm = (MacroFunctionDef*)funcDef;
                         filename = fm->getFilename();
                     } else {
-                        Error(_W("built-in have no comments."));
+                        raiseError(L"Nelson:help_tools:ERROR_BUILTIN_HAVE_NO_COMMENTS",
+                            ERROR_BUILTIN_HAVE_NO_COMMENTS);
                     }
                 } else {
-                    Error(_W("function does not exist."));
+                    raiseError(L"Nelson:help_tools:ERROR_FUNCTION_DOES_NOT_EXIST",
+                        ERROR_FUNCTION_DOES_NOT_EXIST);
                 }
             }
         } else if (arg1.isFunctionHandle()) {
@@ -52,13 +55,15 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
             std::string name = fun->getName();
 
             if (!eval->getContext()->lookupFunction(name, fun)) {
-                Error(_W("function does not exist."));
+                raiseError(L"Nelson:help_tools:ERROR_FUNCTION_DOES_NOT_EXIST",
+                    ERROR_FUNCTION_DOES_NOT_EXIST);
             }
             if (fun->type() == NLS_MACRO_FUNCTION) {
                 auto* fm = (MacroFunctionDef*)fun;
                 filename = fm->getFilename();
             } else {
-                Error(_W("built-in, mex, anonymous function have no comments."));
+                raiseError(L"Nelson:help_tools:ERROR_NO_COMMENTS_BUILTIN_MEX_ANONYMOUS",
+                    ERROR_NO_COMMENTS_BUILTIN_MEX_ANONYMOUS);
             }
         }
         HEADCOMMENTS_ERROR err = HEADCOMMENTS_ERROR::MACRO_OK;
@@ -77,10 +82,11 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
             }
         } break;
         case HEADCOMMENTS_ERROR::NOT_A_MACRO: {
-            Error(_W("A valid function expected."));
+            raiseError(
+                L"Nelson:help_tools:ERROR_VALID_FUNCTION_EXPECTED", ERROR_VALID_FUNCTION_EXPECTED);
         } break;
         case HEADCOMMENTS_ERROR::FILE_NOT_EXIST: {
-            Error(_W("File does not exist."));
+            raiseError(L"Nelson:help_tools:ERROR_FILE_DOES_NOT_EXIST", ERROR_FILE_DOES_NOT_EXIST);
         } break;
         }
     }

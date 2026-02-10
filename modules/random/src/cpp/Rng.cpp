@@ -20,6 +20,7 @@
 #include "RandomThreefry.hpp"
 #include "Rng_helpers.hpp"
 #include "NelsonConfiguration.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -29,7 +30,8 @@ RngGetType()
     auto* randEngine
         = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
     if (randEngine == nullptr) {
-        Error(_W("random engine not initialized."));
+        raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
+            ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
     }
     return randEngine->getGeneratorName();
 }
@@ -40,7 +42,8 @@ RngSetSeed(double seed)
     auto* randEngine
         = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
     if (randEngine == nullptr) {
-        Error(_W("random engine not initialized."));
+        raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
+            ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
     }
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
 
@@ -61,7 +64,8 @@ RngSetSeed(double seed)
         randEngineTwister64->setSeed(static_cast<uint64>(seed));
     } break;
     default: {
-        Error(_W("random engine not managed."));
+        raiseError(
+            L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_MANAGED", ERROR_RANDOM_ENGINE_NOT_MANAGED);
     } break;
     }
 }
@@ -72,7 +76,8 @@ RngGetSeed()
     auto* randEngine
         = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
     if (randEngine == nullptr) {
-        Error(_W("random engine not initialized."));
+        raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
+            ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
     }
 
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
@@ -102,7 +107,8 @@ RngGetState()
     auto* randEngine
         = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
     if (randEngine == nullptr) {
-        Error(_W("random engine not initialized."));
+        raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
+            ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
     }
 
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
@@ -175,7 +181,8 @@ RngSetDefault()
         }
     }
     if (NelsonConfiguration::getInstance()->getRandomEngine() == nullptr) {
-        Error(_W("random engine not initialized."));
+        raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
+            ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
     }
 }
 //=============================================================================
@@ -183,7 +190,8 @@ void
 RngShuffle()
 {
     if (NelsonConfiguration::getInstance()->getRandomEngine() == nullptr) {
-        Error(_W("random engine not initialized."));
+        raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
+            ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
     }
     auto* randEngine
         = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
@@ -245,10 +253,12 @@ bool
 RngSetEngine(double seed, const std::wstring& engineName)
 {
     if (NelsonConfiguration::getInstance()->getRandomEngine() == nullptr) {
-        Error(_W("random engine not initialized."));
+        raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
+            ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
     }
     if (!isRngType(engineName)) {
-        Error(_W("A valid generator expected."));
+        raiseError(
+            L"Nelson:random:ERROR_A_VALID_GENERATOR_EXPECTED", ERROR_A_VALID_GENERATOR_EXPECTED);
     }
     RngDelete();
     RNG_TYPE newrngtype = getRngType(engineName);
@@ -285,7 +295,8 @@ RngSetEngine(double seed, const std::wstring& engineName)
     } break;
     }
     if (NelsonConfiguration::getInstance()->getRandomEngine() == nullptr) {
-        Error(_W("random engine not initialized."));
+        raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
+            ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
     }
     RngSetSeed(seed);
     return false;
@@ -313,14 +324,13 @@ RngSetState(const ArrayOf& st)
 
     auto isValidState = [&](NelsonType expectedType) -> bool {
         if (stClass != expectedType) {
-            Error(_W("type of state must be ")
-                + (expectedType == NLS_UINT32 ? L"uint32." : L"uint64."));
+            raiseError(L"Nelson:random:ERROR_TYPE_OF_STATE_MUST_BE", ERROR_TYPE_OF_STATE_MUST_BE,
+                (expectedType == NLS_UINT32 ? std::wstring(L"uint32.") : std::wstring(L"uint64.")));
             return false;
         }
         if (!st.isVector() || st.getElementCount() != randEngine->getStateSize()) {
-            std::wstring msg = _W("dimensions of state must be") + L" "
-                + std::to_wstring(randEngine->getStateSize()) + std::wstring(L"x1.");
-            Error(msg);
+            raiseError(L"Nelson:random:ERROR_DIMENSIONS_OF_STATE_MUST_BE",
+                ERROR_DIMENSIONS_OF_STATE_MUST_BE, std::to_wstring(randEngine->getStateSize()));
             return false;
         }
         return true;

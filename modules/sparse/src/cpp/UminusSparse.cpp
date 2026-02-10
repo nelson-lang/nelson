@@ -13,6 +13,8 @@
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 #include "SparseType.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
@@ -55,7 +57,8 @@ sparsedouble_uminus(const ArrayOf& a)
         return ArrayOf(NLS_DCOMPLEX, a.getDimensions(), res, true);
     } break;
     default: {
-        Error(_("Cannot do uminus with current type") + " '" + ClassName(a) + "'.");
+        raiseError(L"Nelson:sparse:ERROR_CANNOT_DO_UMINUS_WITH_CURRENT_TYPE",
+            ERROR_CANNOT_DO_UMINUS_WITH_CURRENT_TYPE, utf8_to_wstring(ClassName(a)));
     } break;
     }
     return {};

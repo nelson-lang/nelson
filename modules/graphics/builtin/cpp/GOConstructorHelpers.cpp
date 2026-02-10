@@ -12,6 +12,7 @@
 #include "GOPropertyValues.hpp"
 #include "GOHelpers.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "Exception.hpp"
 #include "i18n.hpp"
 #include "GOFiguresManager.hpp"
@@ -78,11 +79,14 @@ processProperties(GraphicsObject* fp, ArrayOfVector& t, bool& isAutoParent, bool
                     hasGroupAsParent = hp->isType(GO_PROPERTY_VALUE_HGGROUP_STR);
                 }
                 if (!fp->isWritable(propname) && fp->haveProperty(propname)) {
-                    Error(_W("Property is readable only: ") + propname);
+                    raiseError(L"Nelson:graphics:ERROR_PROPERTY_IS_READABLE_ONLY",
+                        ERROR_PROPERTY_IS_READABLE_ONLY, propname);
                 }
                 fp->findProperty(propname)->set(propvalue);
             } catch (const Exception& e) {
-                Error(_W("Got error for property:") + L" " + propname + L"\n" + e.what());
+                std::wstring msg
+                    = ERROR_GOT_ERROR_FOR_PROPERTY + L" " + propname + L"\n" + e.what();
+                Error(msg, L"Nelson:graphics:ERROR_GOT_ERROR_FOR_PROPERTY");
             }
         }
         t.pop_front();
@@ -131,10 +135,11 @@ attachToGroupParent(GraphicsObject* fp, go_handle thisHandle)
             children.push_back(thisHandle);
             cp->data(children);
         } else {
-            Error(_W("hggroup expected."));
+            raiseError(L"Nelson:graphics:ERROR_HGGROUP_EXPECTED", ERROR_HGGROUP_EXPECTED);
         }
     } else {
-        Error(_W("Parent should have only one graphics object."));
+        raiseError(L"Nelson:graphics:ERROR_PARENT_SHOULD_HAVE_ONLY_ONE_GRAPHICS_OBJECT",
+            ERROR_PARENT_SHOULD_HAVE_ONLY_ONE_GRAPHICS_OBJECT);
     }
 }
 //=============================================================================

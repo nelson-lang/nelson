@@ -10,6 +10,8 @@
 #include <algorithm>
 #include "slicot_sb10jdBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -111,28 +113,28 @@ Nelson::SlicotGateway::slicot_sb10jdBuiltin(int nLhs, const ArrayOfVector& argIn
     // CHECK INPUT VARIABLES DIMENSIONS
     Dimensions dimsA_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsA.equals(dimsA_expected)) {
-        Error(_("Input argument #1: wrong size.") + " " + dimsA_expected.toString() + " "
-            + "expected" + ".");
+        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
+            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 1, dimsA_expected.toWideString());
     }
     Dimensions dimsB_expected(std::max(1, (int)A.getColumns()), (int)B.getRows());
     if (!dimsB.equals(dimsB_expected)) {
-        Error(_("Input argument #2: wrong size.") + " " + dimsB_expected.toString() + " "
-            + "expected" + ".");
+        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
+            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 2, dimsB_expected.toWideString());
     }
     Dimensions dimsC_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsC.equals(dimsC_expected)) {
-        Error(_("Input argument #3: wrong size.") + " " + dimsC_expected.toString() + " "
-            + "expected" + ".");
+        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
+            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 3, dimsC_expected.toWideString());
     }
     Dimensions dimsD_expected(std::max(1, (int)C.getColumns()), (int)B.getRows());
     if (!dimsD.equals(dimsD_expected)) {
-        Error(_("Input argument #4: wrong size.") + " " + dimsD_expected.toString() + " "
-            + "expected" + ".");
+        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
+            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 4, dimsD_expected.toWideString());
     }
     Dimensions dimsE_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsE.equals(dimsE_expected)) {
-        Error(_("Input argument #5: wrong size.") + " " + dimsE_expected.toString() + " "
-            + "expected" + ".");
+        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
+            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 5, dimsE_expected.toWideString());
     }
     // CALL EXTERN FUNCTION
     try {
@@ -140,7 +142,7 @@ Nelson::SlicotGateway::slicot_sb10jdBuiltin(int nLhs, const ArrayOfVector& argIn
             LDC_ptr, D_output_ptr, LDD_ptr, E_output_ptr, LDE_ptr, NSYS_output_ptr, DWORK_ptr,
             LDWORK_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        Error("sb10jd function fails.");
+        raiseError(L"Nelson:slicot:ERROR_SB10JD_FUNCTION_FAILS", ERROR_SB10JD_FUNCTION_FAILS);
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

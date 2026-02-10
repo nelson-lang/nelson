@@ -64,10 +64,10 @@ Nelson::CoreGateway::versionBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
             retval << vectRes;
         } else {
-            Error(_W("Unknow option."));
+            raiseError(L"Nelson:core:ERROR_UNKNOWN_OPTION", ERROR_UNKNOWN_OPTION);
         }
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:core:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

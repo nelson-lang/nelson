@@ -10,6 +10,7 @@
 #include "onCleanup_cancelBuiltin.hpp"
 #include "OnCleanupObjectHandle.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "usedHandle.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -22,7 +23,8 @@ Nelson::InterpreterGateway::onCleanup_cancelBuiltin(int nLhs, const ArrayOfVecto
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != NLS_HANDLE_ONCLEANUP_CATEGORY_STR) {
-        Error(_W("onCleanup handle expected."));
+        raiseError(
+            L"Nelson:interpreter:ERROR_ONCLEANUP_HANDLE_EXPECTED", ERROR_ONCLEANUP_HANDLE_EXPECTED);
     }
     auto* obj = (OnCleanupObjectHandle*)param1.getContentAsHandleScalar();
     if (obj) {

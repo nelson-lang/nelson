@@ -18,6 +18,7 @@
 #include "AnonymousMacroFunctionDef.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -43,7 +44,7 @@ h5SaveFunctionHandle(hid_t fid, const std::string& location, const std::string& 
 
     function_handle fh = VariableValue.getContentAsFunctionHandle();
     if (!fh.anonymousHandle) {
-        Error(_("Invalid function handle."));
+        raiseError(L"Nelson:hdf5:ERROR_INVALID_FUNCTION_HANDLE", ERROR_INVALID_FUNCTION_HANDLE);
     }
     AnonymousMacroFunctionDef* anonymousFunction
         = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);

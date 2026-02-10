@@ -43,7 +43,7 @@ Nelson::CoreGateway::maxNumCompThreadsBuiltin(int nLhs, const ArrayOfVector& arg
         retval << ArrayOf::doubleConstructor(static_cast<double>(currentValue));
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:core:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;

@@ -57,7 +57,8 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                 filename = argIn[1].getContentAsWideString();
                 start++;
             } else {
-                Error(_W("filename expected after '-file'."));
+                raiseError(L"Nelson:memory_manager:ERROR_FILENAME_EXPECTED_AFTER_FILE",
+                    ERROR_FILENAME_EXPECTED_AFTER_FILE);
             }
         } else {
             names.push_back(wstring_to_utf8(param1));
@@ -65,7 +66,8 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         for (indexType k = start; k < (indexType)argIn.size(); ++k) {
             std::string param = argIn[k].getContentAsCString();
             if (param.compare("-file") == 0) {
-                Error(_W("-file must be the first argument."));
+                raiseError(L"Nelson:memory_manager:ERROR_FILE_MUST_BE_THE_FIRST_ARGUMENT",
+                    ERROR_FILE_MUST_BE_THE_FIRST_ARGUMENT);
             }
             names.push_back(param);
         }
@@ -164,7 +166,8 @@ Who(Evaluator* eval, const std::wstring& filename, const stringVector& names, bo
     funcDef = nullptr;
     if (!PathFunctionIndexerManager::getInstance()->find(whoFileFunctionName, funcDef)) {
         if (!BuiltInFunctionDefManager::getInstance()->find(whoFileFunctionName, funcDef)) {
-            Error(_W("who file function expected."));
+            raiseError(L"Nelson:memory_manager:ERROR_WHO_FILE_FUNCTION_EXPECTED",
+                ERROR_WHO_FILE_FUNCTION_EXPECTED);
         }
     }
     ArrayOfVector inputArguments;

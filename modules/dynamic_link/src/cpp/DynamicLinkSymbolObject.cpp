@@ -15,10 +15,10 @@
 #include "StringHelpers.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "HandleManager.hpp"
 #include "IsValidHandle.hpp"
 #include "LibPointerObject.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -92,7 +92,7 @@ GetFFIType(const std::wstring& type)
         ret = ffiTypesMap[type];
     } else {
         raiseError(L"Nelson:dynamic_link:ERROR_IMPORT_TYPE_NOT_DEFINED",
-            _W("import type {0} not defined in FFI type table."), type);
+            ERROR_IMPORT_TYPE_NOT_DEFINED, type);
     }
     return ret.FFIType;
 }
@@ -105,7 +105,7 @@ DynamicLinkSymbolObject::GetNelsonType(const std::wstring& type)
         ret = ffiTypesMap[type];
     } else {
         raiseError(L"Nelson:dynamic_link:ERROR_IMPORT_TYPE_NOT_DEFINED",
-            _W("import type {0} not defined in FFI type table."), type);
+            ERROR_IMPORT_TYPE_NOT_DEFINED, type);
     }
     return ret.NelsonClass;
 }
@@ -130,7 +130,8 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(const ArrayOf& dllibObject, voi
     }
     for (const std::wstring& param : _paramsTypes) {
         if (param == L"void") {
-            Error(_W("'void' not allowed as input type."));
+            raiseError(L"Nelson:dynamic_link:ERROR_VOID_NOT_ALLOWED_AS_INPUT_TYPE",
+                ERROR_VOID_NOT_ALLOWED_AS_INPUT_TYPE);
         }
         if (StringHelpers::ends_with(param, L"Ptr")) {
             _nArgOut++;
@@ -140,7 +141,8 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(const ArrayOf& dllibObject, voi
     buildPrototype();
     ffi_type** args = (ffi_type**)malloc(sizeof(ffi_type*) * _paramsTypes.size());
     if (!args) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:dynamic_link:ERROR_MEMORY_ALLOCATION_MESSAGE",
+            ERROR_MEMORY_ALLOCATION_MESSAGE);
     } else {
         size_t i = 0;
         for (const std::wstring& param : _paramsTypes) {
@@ -149,7 +151,8 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(const ArrayOf& dllibObject, voi
         if (ffi_prep_cif(&_cif, FFI_DEFAULT_ABI, (unsigned int)paramsTypes.size(),
                 GetFFIType(_returnType), args)
             != FFI_OK) {
-            Error(_W("Unable to import function through FFI."));
+            raiseError(L"Nelson:dynamic_link:ERROR_UNABLE_TO_IMPORT_FUNCTION_FFI",
+                ERROR_UNABLE_TO_IMPORT_FUNCTION_FFI);
         }
     }
 }
@@ -287,28 +290,29 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
     ArrayOf isValidAsArray = IsValidHandle(_dllibObject);
     logical isValid = isValidAsArray.getContentAsLogicalScalar();
     if (!isValid) {
-        Error(_W("dllib valid handle expected."));
+        raiseError(L"Nelson:dynamic_link:ERROR_DLLIB_VALID_HANDLE_EXPECTED",
+            ERROR_DLLIB_VALID_HANDLE_EXPECTED);
     }
     if (params.size() != _nArgIn) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:dynamic_link:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     for (size_t k = 0; k < params.size(); k++) {
         if (GetNelsonType(_paramsTypes[k]) != params[k].getDataClass()) {
             if (params[k].getDataClass() == NLS_HANDLE) {
                 if (params[k].getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                    Error(_W("libpointer handle expected."));
+                    raiseError(L"Nelson:dynamic_link:ERROR_LIBPOINTER_HANDLE_EXPECTED",
+                        ERROR_LIBPOINTER_HANDLE_EXPECTED);
                 }
                 LibPointerObject* objLibPointer
                     = (LibPointerObject*)params[k].getContentAsHandleScalar();
                 if (objLibPointer->getDataType() != _paramsTypes[k]) {
-                    raiseError(L"Nelson:dynamic_link:ERROR_INVALID_ARGUMENT_TYPE",
-                        _W("Invalid type for #{0} input argument: {1} expected."), k + 1,
-                        _paramsTypes[k]);
+                    raiseError(L"Nelson:dynamic_link:ERROR_INVALID_TYPE_FOR_LIKE_INPUT_ARGUMENT",
+                        ERROR_INVALID_TYPE_FOR_LIKE_INPUT_ARGUMENT, k + 1, _paramsTypes[k]);
                 }
             } else {
-                raiseError(L"Nelson:dynamic_link:ERROR_INVALID_ARGUMENT_TYPE",
-                    _W("Invalid type for #{0} input argument: {1} expected."), k + 1,
-                    _paramsTypes[k]);
+                raiseError(L"Nelson:dynamic_link:ERROR_INVALID_TYPE_FOR_LIKE_INPUT_ARGUMENT",
+                    ERROR_INVALID_TYPE_FOR_LIKE_INPUT_ARGUMENT, k + 1, _paramsTypes[k]);
             }
         }
     }
@@ -341,7 +345,8 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
     for (size_t i = 0; i < params.size(); i++) {
         if (params[i].getDataClass() == NLS_HANDLE) {
             if (params[i].getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                Error(_W("libpointer handle expected."));
+                raiseError(L"Nelson:dynamic_link:ERROR_LIBPOINTER_HANDLE_EXPECTED",
+                    ERROR_LIBPOINTER_HANDLE_EXPECTED);
             }
             LibPointerObject* objLibPointer
                 = (LibPointerObject*)params[i].getContentAsHandleScalar();
@@ -466,7 +471,8 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
         if (StringHelpers::ends_with(_paramsTypes[i], L"Ptr")) {
             if (params[i].getDataClass() == NLS_HANDLE) {
                 if (params[i].getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                    Error(_W("libpointer handle expected."));
+                    raiseError(L"Nelson:dynamic_link:ERROR_LIBPOINTER_HANDLE_EXPECTED",
+                        ERROR_LIBPOINTER_HANDLE_EXPECTED);
                 }
                 LibPointerObject* objLibPointer
                     = (LibPointerObject*)params[i].getContentAsHandleScalar();

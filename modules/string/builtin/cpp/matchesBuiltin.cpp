@@ -22,7 +22,7 @@ Nelson::StringGateway::matchesBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     if (argIn.size() != 2 && argIn.size() != 4) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:string:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
 
     bool ignoreCase = false;
@@ -30,7 +30,8 @@ Nelson::StringGateway::matchesBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf param3 = argIn[2];
         std::wstring fieldname = param3.getContentAsWideString();
         if (fieldname != L"IgnoreCase") {
-            Error(_W("Wrong value for #3: 'IgnoreCase' expected."));
+            raiseError(L"Nelson:string:ERROR_WRONG_VALUE_ARG3_IGNORECASE_EXPECTED",
+                ERROR_WRONG_VALUE_ARG3_IGNORECASE_EXPECTED);
         }
         ArrayOf param4 = argIn[3];
         ignoreCase = (param4.getContentAsLogicalScalar() != 0u);

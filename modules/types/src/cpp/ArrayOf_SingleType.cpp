@@ -11,6 +11,7 @@
 #include "Data.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include <cstring>
 //=============================================================================
 namespace Nelson {
@@ -119,7 +120,8 @@ ArrayOf::getContentAsSingleScalar(bool arrayAsScalar, bool checkIsIntegerValue) 
 
     if (isComplex() || isReferenceType() || isCharacterArray() || isSparse() || isEmpty()
         || (!arrayAsScalar && !isScalar())) {
-        Error(_W("Expected a real value scalar."));
+        raiseError(
+            L"Nelson:types:ERROR_EXPECTED_A_REAL_VALUE_SCALAR", ERROR_EXPECTED_A_REAL_VALUE_SCALAR);
     }
     if (getDataClass() != NLS_SINGLE) {
         single* qp = nullptr;
@@ -137,7 +139,8 @@ ArrayOf::getContentAsSingleScalar(bool arrayAsScalar, bool checkIsIntegerValue) 
     if (checkIsIntegerValue) {
         single f = std::floor(value);
         if (std::abs(f - value) >= std::numeric_limits<double>::epsilon()) {
-            Error(_W("A real integer value scalar expected."));
+            raiseError(L"Nelson:types:ERROR_A_REAL_INTEGER_VALUE_SCALAR_EXPECTED",
+                ERROR_A_REAL_INTEGER_VALUE_SCALAR_EXPECTED);
         }
     }
     return value;
@@ -147,7 +150,8 @@ std::complex<single>
 ArrayOf::getContentAsSingleComplexScalar(bool arrayAsScalar) const
 {
     if (isReferenceType() || isCharacterArray() || isEmpty() || (!arrayAsScalar && !isScalar())) {
-        Error(_W("Expected a real valued scalar"));
+        raiseError(L"Nelson:types:ERROR_EXPECTED_A_REAL_VALUED_SCALAR",
+            ERROR_EXPECTED_A_REAL_VALUED_SCALAR);
     }
     if (getDataClass() != NLS_SCOMPLEX) {
         ArrayOf P(*this);

@@ -17,6 +17,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -37,18 +38,21 @@ RightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
             if (dimsB.getColumns() == 1 && dimsB.is2D()) {
                 return ArrayOf::emptyConstructor(Dimensions(1, 0));
             }
-            Error(_("Size mismatch on arguments to arithmetic operator") + " " + "/");
+            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ON_ARGUMENTS_TO_ARITHMETIC_OPERATOR",
+                ERROR_SIZE_MISMATCH_ON_ARGUMENTS_TO_ARITHMETIC_OPERATOR, L"/");
         }
         dimsA.simplify();
         dimsB.simplify();
         if (dimsA.getColumns() != dimsB.getColumns()) {
-            Error(_("Size mismatch on arguments to arithmetic operator") + " " + "/");
+            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ON_ARGUMENTS_TO_ARITHMETIC_OPERATOR",
+                ERROR_SIZE_MISMATCH_ON_ARGUMENTS_TO_ARITHMETIC_OPERATOR, L"/");
         }
         if (dimsA.equals(dimsB)) {
             return A;
         }
         if (dimsA.getLength() > 2 || dimsB.getLength() > 2) {
-            Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
+            raiseError(L"Nelson:operators:ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED",
+                ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
         }
         if (dimsA[0] != 0 && dimsB[0] != 0) {
             NelsonType commonClass = A.getDataClass();
@@ -57,7 +61,8 @@ RightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
                 commonClass, dimsC.getElementCount(), stringVector(), true);
             return ArrayOf(commonClass, dimsC, pT, false);
         }
-        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "/");
+        raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ON_ARGUMENTS_TO_ARITHMETIC_OPERATOR",
+            ERROR_SIZE_MISMATCH_ON_ARGUMENTS_TO_ARITHMETIC_OPERATOR, L"/");
     }
 
     if (B.isScalar()) {

@@ -57,7 +57,7 @@ Nelson::CoreGateway::featureBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (methodMap.count(fieldname) == 1) {
             retval << (methodMap[fieldname])();
         } else {
-            Error(_W("Wrong value for #1 argument."));
+            raiseError(L"Nelson:core:ERROR_WRONG_VALUE_ARG1", ERROR_WRONG_VALUE_ARG1);
         }
     } else {
         ArrayOf fieldvalue = argIn[1];
@@ -70,7 +70,7 @@ Nelson::CoreGateway::featureBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (methodMap.count(fieldname) == 1) {
             retval << (methodMap[fieldname])(fieldvalue);
         } else {
-            Error(_W("Wrong value for #1 argument."));
+            raiseError(L"Nelson:core:ERROR_WRONG_VALUE_ARG1", ERROR_WRONG_VALUE_ARG1);
         }
     }
     return retval;

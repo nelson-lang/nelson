@@ -10,6 +10,7 @@
 #include "MPI_CommHandleObject.hpp"
 #include "HandleManager.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -26,7 +27,7 @@ HandleToMpiComm(const ArrayOf& A)
 {
     MPI_Comm commReturned = MPI_COMM_NULL;
     if (A.getHandleCategory() != NLS_HANDLE_MPI_COMM_CATEGORY_STR) {
-        Error(_W("MPI_Comm handle expected."));
+        raiseError(L"Nelson:mpi:ERROR_MPI_COMM_HANDLE_EXPECTED", ERROR_MPI_COMM_HANDLE_EXPECTED);
     }
     auto* mpicommhandleobj = (MPI_CommHandleObject*)A.getContentAsHandleScalar();
     if (mpicommhandleobj != nullptr) {
@@ -34,10 +35,12 @@ HandleToMpiComm(const ArrayOf& A)
         if (obj != nullptr) {
             commReturned = obj->getComm();
         } else {
-            Error(_W("MPI_Comm valid handle expected."));
+            raiseError(L"Nelson:mpi:ERROR_MPI_COMM_VALID_HANDLE_EXPECTED",
+                ERROR_MPI_COMM_VALID_HANDLE_EXPECTED);
         }
     } else {
-        Error(_W("MPI_Comm valid handle expected."));
+        raiseError(L"Nelson:mpi:ERROR_MPI_COMM_VALID_HANDLE_EXPECTED",
+            ERROR_MPI_COMM_VALID_HANDLE_EXPECTED);
     }
     return commReturned;
 }
@@ -60,7 +63,7 @@ MPICommHandleDelete(const ArrayOf& A)
     };
 
     return DeleteHandleObjects<MPI_CommHandleObject>(A, NLS_HANDLE_MPI_COMM_CATEGORY_STR,
-        _W("MPI_Comm handle expected."), _W("MPI_Comm valid handle expected."), deleter);
+        ERROR_MPI_COMM_HANDLE_EXPECTED, ERROR_MPI_COMM_VALID_HANDLE_EXPECTED, deleter);
 }
 //=============================================================================
 } // namespace Nelson

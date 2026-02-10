@@ -58,14 +58,15 @@ Nelson::HandleGateway::handle_invokeBuiltin(Evaluator* eval, int nLhs, const Arr
                     }
                 }
                 if (!doOverload) {
-                    std::string msg = functionNameGetHandle + " " + _("not defined.");
-                    Error(msg);
+                    raiseError(L"Nelson:handle:ERROR_X_NOT_DEFINED", ERROR_X_NOT_DEFINED,
+                        utf8_to_wstring(functionNameGetHandle));
                 }
             } else {
-                Error(_W("Invalid handle."));
+                raiseError(
+                    L"Nelson:handle:ERROR_INVALID_NELSON_HANDLE", ERROR_INVALID_NELSON_HANDLE);
             }
         } else {
-            Error(_W("Invalid handle."));
+            raiseError(L"Nelson:handle:ERROR_INVALID_NELSON_HANDLE", ERROR_INVALID_NELSON_HANDLE);
         }
     } else {
         if (nLhs > 0) {

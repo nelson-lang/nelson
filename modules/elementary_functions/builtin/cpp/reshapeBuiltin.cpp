@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,10 +25,14 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(int nLhs, const ArrayOfVector
     ArrayOf M = argIn[0];
     Dimensions dims;
     if (M.isClassType()) {
-        Error(_W("Undefined function 'reshape' for input arguments of overloaded type."));
+        raiseError(
+            L"Nelson:elementary_functions:ERROR_RESHAPE_OPERATION_NOT_ALLOWED_FOR_OVERLOADED_TYPE",
+            ERROR_RESHAPE_OPERATION_NOT_ALLOWED_FOR_OVERLOADED_TYPE);
     }
     if (M.isFunctionHandle()) {
-        Error(_W("Undefined function 'reshape' for input arguments of type 'function_handle'."));
+        raiseError(L"Nelson:elementary_functions:ERROR_RESHAPE_OPERATION_NOT_ALLOWED_FOR_FUNCTION_"
+                   L"HANDLE_TYPE",
+            ERROR_RESHAPE_OPERATION_NOT_ALLOWED_FOR_FUNCTION_HANDLE_TYPE);
     }
     if (argIn.size() == 2 && (!argIn[1].isScalar())) {
         ArrayOf v = argIn[1];
@@ -35,17 +40,21 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(int nLhs, const ArrayOfVector
         auto* dp = (double*)v.getDataPointer();
         for (indexType i = 0; i < v.getElementCount(); i++) {
             if (!std::isfinite(dp[i])) {
-                Error(_W("finite value expected."));
+                raiseError(L"Nelson:elementary_functions:ERROR_FINITE_VALUE_EXPECTED",
+                    ERROR_FINITE_VALUE_EXPECTED);
             }
             if (dp[i] != dp[i]) {
-                Error(_W("finite value expected."));
+                raiseError(L"Nelson:elementary_functions:ERROR_FINITE_VALUE_EXPECTED",
+                    ERROR_FINITE_VALUE_EXPECTED);
             }
             auto ivalue = static_cast<int64>(dp[i]);
             if (static_cast<double>(ivalue) != dp[i]) {
-                Error(_W("real integer expected."));
+                raiseError(L"Nelson:elementary_functions:ERROR_REAL_INTEGER_EXPECTED",
+                    ERROR_REAL_INTEGER_EXPECTED);
             }
             if (ivalue < 0) {
-                Error(_W("real positive integer expected."));
+                raiseError(L"Nelson:elementary_functions:ERROR_REAL_POSITIVE_INTEGER_EXPECTED",
+                    ERROR_REAL_POSITIVE_INTEGER_EXPECTED);
             }
             dims[i] = static_cast<indexType>(ivalue);
         }
@@ -67,7 +76,9 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(int nLhs, const ArrayOfVector
             for (size_t i = 1; i < argIn.size(); i++) {
                 if (bHaveAnEmptyMatrix) {
                     if (argIn[i].isEmpty()) {
-                        Error(_W("only one unknown dimension allowed."));
+                        raiseError(
+                            L"Nelson:elementary_functions:ERROR_ONLY_ONE_UNKNOWN_DIMENSION_ALLOWED",
+                            ERROR_ONLY_ONE_UNKNOWN_DIMENSION_ALLOWED);
                     }
                 } else {
                     if (argIn[i].isEmpty()) {
@@ -90,24 +101,30 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(int nLhs, const ArrayOfVector
                 double rest = static_cast<double>(nbElementsM)
                     / static_cast<double>(dims.getElementCount());
                 if (!std::isfinite(rest)) {
-                    Error(_W("finite value expected."));
+                    raiseError(L"Nelson:elementary_functions:ERROR_FINITE_VALUE_EXPECTED",
+                        ERROR_FINITE_VALUE_EXPECTED);
                 }
                 if (rest != rest) {
-                    Error(_W("finite value expected."));
+                    raiseError(L"Nelson:elementary_functions:ERROR_FINITE_VALUE_EXPECTED",
+                        ERROR_FINITE_VALUE_EXPECTED);
                 }
                 auto ivalue = static_cast<int64>(rest);
                 if (static_cast<double>(ivalue) != rest) {
-                    Error(_W("real integer expected."));
+                    raiseError(L"Nelson:elementary_functions:ERROR_REAL_INTEGER_EXPECTED",
+                        ERROR_REAL_INTEGER_EXPECTED);
                 }
                 if (ivalue < 0) {
-                    Error(_W("real positive integer expected."));
+                    raiseError(L"Nelson:elementary_functions:ERROR_REAL_POSITIVE_INTEGER_EXPECTED",
+                        ERROR_REAL_POSITIVE_INTEGER_EXPECTED);
                 }
                 dims[idxEmptyPosition] = static_cast<indexType>(ivalue);
             }
         }
     }
     if (dims.getElementCount() != M.getElementCount()) {
-        Error(_W("Reshape operation cannot change the number of elements in array."));
+        raiseError(
+            L"Nelson:elementary_functions:ERROR_RESHAPE_OPERATION_CANNOT_CHANGE_NUMBER_OF_ELEMENTS",
+            ERROR_RESHAPE_OPERATION_CANNOT_CHANGE_NUMBER_OF_ELEMENTS);
     }
     M.reshape(dims);
     retval << M;

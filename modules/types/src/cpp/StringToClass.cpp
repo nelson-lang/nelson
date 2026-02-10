@@ -11,6 +11,7 @@
 #include "StringToClass.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -60,7 +61,8 @@ StringToClass(const std::string& classname)
     bool haveError;
     NelsonType destClass = StringToClass(classname, haveError);
     if (haveError) {
-        Error(_W("input must be a valid class name."));
+        raiseError(L"Nelson:types:ERROR_INPUT_MUST_BE_A_VALID_CLASS_NAME",
+            ERROR_INPUT_MUST_BE_A_VALID_CLASS_NAME);
     }
     return destClass;
 }

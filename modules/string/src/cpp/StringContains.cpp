@@ -10,6 +10,7 @@
 #include "StringContains.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -85,7 +86,8 @@ StringContains(const ArrayOf& A, const ArrayOf& Pattern, bool bCaseSensitive)
             }
             res = ArrayOf(NLS_LOGICAL, dimA, result);
         } else {
-            Error(_W("char vector or cell of strings expected."));
+            raiseError(L"Nelson:string:ERROR_CHAR_VECTOR_OR_CELL_EXPECTED",
+                ERROR_CHAR_VECTOR_OR_CELL_EXPECTED);
         }
     }
     return res;

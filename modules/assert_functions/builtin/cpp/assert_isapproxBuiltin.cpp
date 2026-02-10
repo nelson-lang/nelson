@@ -32,7 +32,7 @@ Nelson::AssertFunctionsGateway::assert_isapproxBuiltin(
     bool bRes = Assert_IsApprox(eval, param1, param2, precision, msg);
     if (nLhs == 0) {
         if (!bRes) {
-            Error(msg);
+            Error(msg, L"Nelson:assert_functions:ERROR_ASSERTION_FAILED");
         }
     } else {
         retval << ArrayOf::logicalConstructor(bRes);

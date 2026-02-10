@@ -13,6 +13,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -49,14 +50,14 @@ HandleGenericObject*
 ArrayOf::getContentAsHandleScalar() const
 {
     if (!isHandle()) {
-        Error(_W("Expected a handle scalar."));
+        raiseError(L"Nelson:types:ERROR_EXPECTED_HANDLE_SCALAR", ERROR_EXPECTED_HANDLE_SCALAR);
     }
     if (!isScalar()) {
-        Error(_W("Expected a handle scalar."));
+        raiseError(L"Nelson:types:ERROR_EXPECTED_HANDLE_SCALAR", ERROR_EXPECTED_HANDLE_SCALAR);
     }
     auto* qp = (nelson_handle*)dp->getData();
     if (qp == nullptr) {
-        Error(_W("Expected a valid handle."));
+        raiseError(L"Nelson:types:ERROR_EXPECTED_VALID_HANDLE", ERROR_EXPECTED_VALID_HANDLE);
     }
     nelson_handle hl = 0L;
     if (qp != nullptr) {
@@ -88,7 +89,7 @@ bool
 ArrayOf::isHandleMethod(const std::wstring& methodName) const
 {
     if (!isHandle()) {
-        Error(_W("Expected a handle."));
+        raiseError(L"Nelson:types:ERROR_EXPECTED_A_HANDLE", ERROR_EXPECTED_A_HANDLE);
     }
     auto* ptr = (nelson_handle*)getDataPointer();
     indexType nbElements = getElementCount();
@@ -114,7 +115,7 @@ std::string
 ArrayOf::getHandleCategory() const
 {
     if (!isHandle()) {
-        Error(_W("Expected a handle."));
+        raiseError(L"Nelson:types:ERROR_EXPECTED_A_HANDLE", ERROR_EXPECTED_A_HANDLE);
     }
     auto* qp = (nelson_handle*)dp->getData();
     if (qp == nullptr) {
@@ -140,7 +141,7 @@ std::string
 ArrayOf::getHandleClassName() const
 {
     if (!isHandle()) {
-        Error(_W("Expected a handle."));
+        raiseError(L"Nelson:types:ERROR_EXPECTED_A_HANDLE", ERROR_EXPECTED_A_HANDLE);
     }
     auto* qp = (nelson_handle*)dp->getData();
     if (qp == nullptr) {

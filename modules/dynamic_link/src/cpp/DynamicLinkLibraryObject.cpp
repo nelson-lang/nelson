@@ -25,6 +25,7 @@
 #include "GetCurrentDirectory.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 
 #ifdef _MSC_VER
 #define NOMINMAX
@@ -82,25 +83,29 @@ DynamicLinkLibraryObject::DynamicLinkLibraryObject(const std::wstring& libraryPa
             std::string libpath = wstring_to_utf8(_libraryPath);
             library_handle h = load_dynamic_library(libpath);
             if (!h) {
-                Error(utf8_to_wstring(get_dynamic_library_error()));
+                raiseError(L"Nelson:dynamic_link:ERROR_CANNOT_LOAD_LIBRARY",
+                    ERROR_CANNOT_LOAD_LIBRARY, utf8_to_wstring(get_dynamic_library_error()));
             } else {
                 _shared_library = h;
             }
         } else {
-            Error(_W("Cannot load library: ") + libraryPath);
+            raiseError(L"Nelson:dynamic_link:ERROR_CANNOT_LOAD_LIBRARY", ERROR_CANNOT_LOAD_LIBRARY,
+                libraryPath);
         }
     } else {
         // ../path/ppp/libNelson.so
         try {
             dirPath = fs::absolute(dirPath);
         } catch (const fs::filesystem_error&) {
-            Error(_W("Cannot load library: ") + libraryPath);
+            raiseError(L"Nelson:dynamic_link:ERROR_CANNOT_LOAD_LIBRARY", ERROR_CANNOT_LOAD_LIBRARY,
+                libraryPath);
         }
         filePath = dirPath / fs::path(filename);
         std::string libpath = wstring_to_utf8(filePath.generic_wstring());
         library_handle h = load_dynamic_library(libpath);
         if (!h) {
-            Error(utf8_to_wstring(get_dynamic_library_error()));
+            raiseError(L"Nelson:dynamic_link:ERROR_CANNOT_LOAD_LIBRARY", ERROR_CANNOT_LOAD_LIBRARY,
+                utf8_to_wstring(get_dynamic_library_error()));
         } else {
             _shared_library = h;
             _libraryPath = filePath.generic_wstring();

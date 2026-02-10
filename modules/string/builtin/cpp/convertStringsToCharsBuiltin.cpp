@@ -10,6 +10,7 @@
 #include "ConvertStringsToChars.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "convertStringsToCharsBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -18,7 +19,8 @@ ArrayOfVector
 Nelson::StringGateway::convertStringsToCharsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (nLhs > (int)argIn.size()) {
-        Error(_W("Number of Input arguments must the same as output."));
+        raiseError(L"Nelson:string:ERROR_NUMBER_INPUT_ARGS_MUST_MATCH_OUTPUT",
+            ERROR_NUMBER_INPUT_ARGS_MUST_MATCH_OUTPUT);
     }
     return ConvertStringsToChars(argIn);
 }

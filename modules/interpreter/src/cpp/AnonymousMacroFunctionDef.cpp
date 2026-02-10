@@ -160,7 +160,12 @@ AnonymousMacroFunctionDef::evaluateFunction(
             ? _("Undefined function.")
             : _("Undefined variable or function:") + functionHandleContent;
         std::string id = "Nelson:UndefinedFunction";
-        Error(msg, id);
+        if (functionHandleContent.empty()) {
+            raiseError(L"Nelson:interpreter:UndefinedFunction", ERROR_UNDEFINED_FUNCTION_NO_NAME);
+        } else {
+            raiseError(L"Nelson:interpreter:UndefinedFunctionOrVariable",
+                ERROR_UNDEFINED_FUNCTION_OR_VARIABLE, utf8_to_wstring(functionHandleContent));
+        }
     }
     updateCode(nargout);
     ArrayOfVector outputs;
@@ -184,7 +189,8 @@ AnonymousMacroFunctionDef::evaluateFunction(
         if (inputs.size() > arguments.size()) {
             context->popScope();
             eval->callstack.popDebug();
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            raiseError(L"Nelson:interpreter:ERROR_WRONG_NUMBERS_INPUT_ARGS",
+                ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
         minCount = (inputs.size() < arguments.size()) ? inputs.size() : arguments.size();
         for (size_t i = 0; i < minCount; i++) {
@@ -202,7 +208,8 @@ AnonymousMacroFunctionDef::evaluateFunction(
         if (inputCount < nbArgumentsWithoutVarArgIn) {
             context->popScope();
             eval->callstack.popDebug();
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            raiseError(L"Nelson:interpreter:ERROR_WRONG_NUMBERS_INPUT_ARGS",
+                ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
         context->getCurrentScope()->setNargIn(static_cast<int>(inputCount));
         // Get the number of explicit arguments
@@ -364,7 +371,8 @@ AnonymousMacroFunctionDef::updateCode(int nLhs)
     if (pstate == ParserState::ParseError) {
         AbstractSyntaxTree::deleteReferences(ptAstCode);
         AbstractSyntaxTree::clearReferences();
-        Error(_W("a valid function definition expected."));
+        raiseError(L"Nelson:interpreter:ERROR_A_VALID_FUNCTION_DEFINITION_EXPECTED",
+            ERROR_A_VALID_FUNCTION_DEFINITION_EXPECTED);
     }
 
     MacroFunctionDef* macroFunctionDef = getParsedFunctionDef();
@@ -374,7 +382,8 @@ AnonymousMacroFunctionDef::updateCode(int nLhs)
             macroFunctionDef->code = nullptr;
             delete macroFunctionDef;
             macroFunctionDef = nullptr;
-            Error("simple expression expected.");
+            raiseError(L"Nelson:interpreter:ERROR_SIMPLE_EXPRESSION_EXPECTED",
+                ERROR_SIMPLE_EXPRESSION_EXPECTED);
             return false;
         }
         this->code = macroFunctionDef->code;

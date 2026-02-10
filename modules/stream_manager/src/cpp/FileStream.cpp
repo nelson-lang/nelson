@@ -14,6 +14,7 @@
 #include "FileStream.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -26,7 +27,8 @@ FileStream::FileStream(const std::wstring& filename, const std::wstring& accessm
     fp = fopen(wstring_to_utf8(filename).c_str(), wstring_to_utf8(accessmode).c_str());
 #endif
     if (fp == nullptr) {
-        Error(_W("Unable to open file: ") + filename);
+        raiseError(L"Nelson:stream_manager:ERROR_UNABLE_TO_OPEN_FILE", ERROR_UNABLE_TO_OPEN_FILE,
+            filename);
     }
     autoclose = true;
 }

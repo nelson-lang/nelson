@@ -10,6 +10,7 @@
 #include "py_getBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "nlsBuildConfig.h"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PythonObjectHandle.hpp"
@@ -28,7 +29,8 @@ Nelson::Python_engineGateway::py_getBuiltin(int nLhs, const ArrayOfVector& argIn
         PythonObjectHandle* poh = (PythonObjectHandle*)hgo;
         ArrayOf res;
         if (!poh->get(methodName, res)) {
-            Error(formatErrorMessage(ERROR_WRONG_ARGUMENT_X_VALUE, 2) + L" " + methodName);
+            raiseError(L"Nelson:python_engine:ERROR_WRONG_ARGUMENT_X_VALUE",
+                ERROR_WRONG_ARGUMENT_X_VALUE, 2);
         }
         retval << res;
     }

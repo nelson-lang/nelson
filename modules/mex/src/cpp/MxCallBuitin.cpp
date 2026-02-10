@@ -20,6 +20,7 @@
 #include "mex.h"
 #include "MxHelpers.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using MexFuncPtr = void (*)(int, mxArray**, int, const mxArray**);
 //=============================================================================
@@ -35,7 +36,7 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
             mxArgsIn = static_cast<mxArray**>(mxMalloc(sizeof(mxArray*) * argIn.size()));
         }
     } catch (const std::bad_alloc&) {
-        Nelson::Error(ERROR_MEMORY_ALLOCATION);
+        Nelson::raiseError(L"Nelson:mex:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     int nlhs = (int)argIn.size();
     int lhsCount = (nargout < 1) ? 1 : nargout;
@@ -64,7 +65,7 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
         }
         mxFree(mxArgsIn);
         mxArgsIn = nullptr;
-        Nelson::Error(ERROR_MEMORY_ALLOCATION);
+        Nelson::raiseError(L"Nelson:mex:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
 
     if (mxArgsIn != nullptr) {
@@ -92,7 +93,7 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
             mxFree(mxArgsOut);
             mxArgsOut = nullptr;
         }
-        Nelson::Error(e.what());
+        Nelson::Error(Nelson::utf8_to_wstring(e.what()), L"Nelson:mex:ERROR_UNCAUGHT_EXCEPTION");
     } catch (Nelson::Exception& e) {
         if (mxArgsIn != nullptr) {
             for (size_t i = 0; i < argIn.size(); i++) {

@@ -11,6 +11,7 @@
 #include "InputOutputArgumentsCheckers.hpp"
 #include "i18n.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ImageRotation.hpp"
 //=============================================================================
 namespace Nelson::ImageProcessingGateway {
@@ -27,22 +28,26 @@ imrotateBuiltin(int nLhs, const ArrayOfVector& argIn)
     // Extract input image
     ArrayOf inputImage = argIn[0];
     if (!inputImage.isNumeric() && !inputImage.isLogical()) {
-        Error(_("Input image must be numeric or logical."));
+        raiseError(L"Nelson:image_processing:ERROR_INPUT_IMAGE_MUST_BE_NUMERIC_OR_LOGICAL",
+            ERROR_INPUT_IMAGE_MUST_BE_NUMERIC_OR_LOGICAL);
     }
 
     // Extract dimensions
     Dimensions dims = inputImage.getDimensions();
     if (inputImage.isSparse() || dims.getLength() > 3) {
-        Error(_("Input image must be 2-D."));
+        raiseError(
+            L"Nelson:image_processing:ERROR_INPUT_IMAGE_MUST_BE_2D", ERROR_INPUT_IMAGE_MUST_BE_2D);
     }
 
     // Extract rotation angle
     if (!argIn[1].isNumeric() || !argIn[1].isScalar()) {
-        Error(_("Angle must be a numeric scalar."));
+        raiseError(L"Nelson:image_processing:ERROR_ANGLE_MUST_BE_NUMERIC_SCALAR",
+            ERROR_ANGLE_MUST_BE_NUMERIC_SCALAR);
     }
     double angle = argIn[1].getContentAsDoubleScalar();
     if (!std::isfinite(angle)) {
-        Error(_("Angle must be a finite value."));
+        raiseError(
+            L"Nelson:image_processing:ERROR_ANGLE_MUST_BE_FINITE", ERROR_ANGLE_MUST_BE_FINITE);
     }
 
     // Default interpolation method: "nearest"
@@ -58,7 +63,9 @@ imrotateBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else if (methodAsString == L"bicubic") {
         method = InterpolationMethod::Bicubic;
     } else {
-        Error(_("Interpolation method must be 'nearest', 'bilinear', or 'bicubic'."));
+        raiseError(
+            L"Nelson:image_processing:ERROR_INTERPOLATION_METHOD_MUST_BE_NEAREST_BILINEAR_BICUBIC",
+            ERROR_INTERPOLATION_METHOD_MUST_BE_NEAREST_BILINEAR_BICUBIC);
     }
 
     // Default bounding box: "loose"
@@ -73,7 +80,8 @@ imrotateBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else if (bbox == L"crop") {
         boundingBox = BoundingBox::Crop;
     } else {
-        Error(_("Bounding box must be 'loose' or 'crop'."));
+        raiseError(L"Nelson:image_processing:ERROR_BOUNDING_BOX_MUST_BE_LOOSE_OR_CROP",
+            ERROR_BOUNDING_BOX_MUST_BE_LOOSE_OR_CROP);
     }
     ArrayOfVector retval;
     retval << ImageRotation(inputImage, angle, method, boundingBox);

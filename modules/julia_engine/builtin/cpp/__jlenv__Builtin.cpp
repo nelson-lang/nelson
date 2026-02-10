@@ -13,6 +13,7 @@
 #include "nlsBuildConfig.h"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "JuliaEnvironment.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -33,7 +34,8 @@ Nelson::Julia_engineGateway::__jlenv__Builtin(int nLhs, const ArrayOfVector& arg
         juliaEnvironment->setHome(argIn[3].getContentAsWideString());
         juliaEnvironment->saveCurrentState();
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:julia_engine:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
 
     ArrayOfVector retval;

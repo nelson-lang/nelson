@@ -31,7 +31,8 @@ Nelson::StringGateway::formatStringBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 1);
     bool isFirstArgValid = argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray();
     if (!isFirstArgValid) {
-        Error(_W("First argument must be a character array or string."));
+        raiseError(L"Nelson:string:ERROR_FIRST_ARGUMENT_MUST_BE_CHARACTER_ARRAY_OR_STRING",
+            ERROR_FIRST_ARGUMENT_MUST_BE_CHARACTER_ARRAY_OR_STRING);
     }
     ArrayOfVector retval;
     std::wstring formatStr = argIn[0].getContentAsWideString();
@@ -42,61 +43,71 @@ Nelson::StringGateway::formatStringBuiltin(int nLhs, const ArrayOfVector& argIn)
         switch (a.getDataClass()) {
         case NLS_LOGICAL: {
             if (a.numel() != 1) {
-                Error(_W("Logical argument must be a scalar."), L"Nelson:LogicalArgumentExpected");
+                raiseError(L"Nelson:string:ERROR_LOGICAL_ARGUMENT_MUST_BE_SCALAR",
+                    ERROR_LOGICAL_ARGUMENT_MUST_BE_SCALAR);
             }
             res = (a.getContentAsLogicalScalar() != 0) ? L"true" : L"false";
         } break;
         case NLS_INT8: {
             if (a.numel() != 1) {
-                Error(_W("Integer argument must be a scalar."), L"Nelson:IntegerArgumentExpected");
+                raiseError(L"Nelson:string:ERROR_INTEGER_ARGUMENT_MUST_BE_SCALAR",
+                    ERROR_INTEGER_ARGUMENT_MUST_BE_SCALAR);
             }
             res = std::to_wstring(a.getContentAsInteger8Scalar());
         } break;
         case NLS_UINT8: {
             if (a.numel() != 1) {
-                Error(_W("Integer argument must be a scalar."), L"Nelson:IntegerArgumentExpected");
+                raiseError(L"Nelson:string:ERROR_INTEGER_ARGUMENT_MUST_BE_SCALAR",
+                    ERROR_INTEGER_ARGUMENT_MUST_BE_SCALAR);
             }
             res = std::to_wstring(a.getContentAsUnsignedInteger8Scalar());
         } break;
         case NLS_INT16: {
             if (a.numel() != 1) {
-                Error(_W("Integer argument must be a scalar."), L"Nelson:IntegerArgumentExpected");
+                raiseError(L"Nelson:string:ERROR_INTEGER_ARGUMENT_MUST_BE_SCALAR",
+                    ERROR_INTEGER_ARGUMENT_MUST_BE_SCALAR);
             }
             res = std::to_wstring(a.getContentAsInteger16Scalar());
         } break;
         case NLS_UINT16: {
             if (a.numel() != 1) {
-                Error(_W("Integer argument must be a scalar."), L"Nelson:IntegerArgumentExpected");
+                raiseError(L"Nelson:string:ERROR_INTEGER_ARGUMENT_MUST_BE_SCALAR",
+                    ERROR_INTEGER_ARGUMENT_MUST_BE_SCALAR);
             }
             res = std::to_wstring(a.getContentAsUnsignedInteger16Scalar());
         } break;
         case NLS_INT32: {
             if (a.numel() != 1) {
-                Error(_W("Integer argument must be a scalar."), L"Nelson:IntegerArgumentExpected");
+                raiseError(L"Nelson:string:ERROR_INTEGER_ARGUMENT_MUST_BE_SCALAR",
+                    ERROR_INTEGER_ARGUMENT_MUST_BE_SCALAR);
             }
             res = std::to_wstring(a.getContentAsInteger32Scalar());
         } break;
         case NLS_UINT32: {
             if (a.numel() != 1) {
-                Error(_W("Integer argument must be a scalar."), L"Nelson:IntegerArgumentExpected");
+                raiseError(L"Nelson:string:ERROR_INTEGER_ARGUMENT_MUST_BE_SCALAR",
+                    ERROR_INTEGER_ARGUMENT_MUST_BE_SCALAR);
             }
             res = std::to_wstring(a.getContentAsUnsignedInteger32Scalar());
         } break;
         case NLS_INT64: {
             if (a.numel() != 1) {
-                Error(_W("Integer argument must be a scalar."), L"Nelson:IntegerArgumentExpected");
+                raiseError(L"Nelson:string:ERROR_INTEGER_ARGUMENT_MUST_BE_SCALAR",
+                    ERROR_INTEGER_ARGUMENT_MUST_BE_SCALAR);
             }
             res = std::to_wstring(a.getContentAsInteger64Scalar());
         } break;
         case NLS_UINT64: {
             if (a.numel() != 1) {
-                Error(_W("Integer argument must be a scalar."), L"Nelson:IntegerArgumentExpected");
+                raiseError(L"Nelson:string:ERROR_INTEGER_ARGUMENT_MUST_BE_SCALAR",
+                    ERROR_INTEGER_ARGUMENT_MUST_BE_SCALAR);
             }
             res = std::to_wstring(a.getContentAsUnsignedInteger64Scalar());
         } break;
         case NLS_SINGLE: {
             if (a.numel() != 1) {
-                Error(_W("Numeric argument must be a scalar."), L"Nelson:NumericArgumentExpected");
+                raiseError(L"Nelson:string:ERROR_NUMERIC_ARGUMENT_MUST_BE_SCALAR",
+                    ERROR_NUMERIC_ARGUMENT_MUST_BE_SCALAR);
             }
             double dv = static_cast<double>(a.getContentAsSingleScalar());
             if (std::isfinite(dv) && std::floor(dv) == dv) {
@@ -112,7 +123,8 @@ Nelson::StringGateway::formatStringBuiltin(int nLhs, const ArrayOfVector& argIn)
         } break;
         case NLS_DOUBLE: {
             if (a.numel() != 1) {
-                Error(_W("Numeric argument must be a scalar."), L"Nelson:NumericArgumentExpected");
+                raiseError(L"Nelson:string:ERROR_NUMERIC_ARGUMENT_MUST_BE_SCALAR",
+                    ERROR_NUMERIC_ARGUMENT_MUST_BE_SCALAR);
             }
             double dv = a.getContentAsDoubleScalar();
             if (std::isfinite(dv) && std::floor(dv) == dv) {
@@ -127,13 +139,15 @@ Nelson::StringGateway::formatStringBuiltin(int nLhs, const ArrayOfVector& argIn)
         } break;
         case NLS_CHAR: {
             if (!a.isRowVectorCharacterArray()) {
-                Error(_W("Character argument must be a row character vector."));
+                raiseError(L"Nelson:string:ERROR_CHARACTER_ARGUMENT_MUST_BE_ROW_VECTOR",
+                    ERROR_CHARACTER_ARGUMENT_MUST_BE_ROW_VECTOR);
             }
             res = a.getContentAsWideString();
         } break;
         case NLS_STRING_ARRAY: {
             if (!a.isScalarStringArray()) {
-                Error(_W("String argument must be a scalar string."));
+                raiseError(L"Nelson:string:ERROR_STRING_ARGUMENT_MUST_BE_SCALAR",
+                    ERROR_STRING_ARGUMENT_MUST_BE_SCALAR);
             }
             res = a.getContentAsWideString();
         } break;
@@ -144,7 +158,8 @@ Nelson::StringGateway::formatStringBuiltin(int nLhs, const ArrayOfVector& argIn)
         case NLS_HANDLE:
         case NLS_GO_HANDLE:
         default: {
-            Error(_W("Unsupported argument type for formatString."));
+            raiseError(L"Nelson:string:ERROR_UNSUPPORTED_ARGUMENT_TYPE_FOR_FORMATSTRING",
+                ERROR_UNSUPPORTED_ARGUMENT_TYPE_FOR_FORMATSTRING);
         } break;
         }
         return res;
@@ -176,12 +191,14 @@ formatToWideStringImpl(
                 // find closing '}'
                 size_t j = fmt.find(L'}', i + 1);
                 if (j == std::wstring::npos) {
-                    Error(_W("Invalid format string."));
+                    raiseError(
+                        L"Nelson:string:ERROR_INVALID_FORMAT_STRING", ERROR_INVALID_FORMAT_STRING);
                 }
                 std::wstring inner = fmt.substr(i + 1, j - (i + 1));
                 if (inner.empty()) {
                     if (argIndex >= args.size()) {
-                        Error(_W("Not enough arguments for format string."));
+                        raiseError(L"Nelson:string:ERROR_NOT_ENOUGH_ARGUMENTS_FOR_FORMAT_STRING",
+                            ERROR_NOT_ENOUGH_ARGUMENTS_FOR_FORMAT_STRING);
                     }
                     out += args[argIndex++];
                 } else {
@@ -193,10 +210,12 @@ formatToWideStringImpl(
                         try {
                             idx = std::stoul(inner);
                         } catch (...) {
-                            Error(_W("Invalid format string."));
+                            raiseError(L"Nelson:string:ERROR_INVALID_FORMAT_STRING",
+                                ERROR_INVALID_FORMAT_STRING);
                         }
                         if (idx >= args.size()) {
-                            Error(_W("Wrong format argument index."));
+                            raiseError(L"Nelson:string:ERROR_WRONG_FORMAT_ARGUMENT_INDEX",
+                                ERROR_WRONG_FORMAT_ARGUMENT_INDEX);
                         }
                         out += args[idx];
                     } else {
@@ -211,7 +230,8 @@ formatToWideStringImpl(
                 out.push_back(L'}');
                 i += 2;
             } else {
-                Error(_W("Invalid format string."));
+                raiseError(
+                    L"Nelson:string:ERROR_INVALID_FORMAT_STRING", ERROR_INVALID_FORMAT_STRING);
             }
         } else {
             out.push_back(c);

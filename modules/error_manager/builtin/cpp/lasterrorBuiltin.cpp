@@ -28,7 +28,9 @@ Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const A
             if (str == L"reset") {
                 eval->setLastErrorException(Exception());
             } else {
-                Error(_W("Wrong value for #2 input argument.") + _W("'reset' expected."));
+                raiseError(
+                    L"Nelson:error_manager:ERROR_WRONG_VALUE_FOR_2_INPUT_ARGUMENT_X_EXPECTED",
+                    ERROR_WRONG_VALUE_FOR_2_INPUT_ARGUMENT_X_EXPECTED, "reset");
             }
         } else if (arg1.isStruct()) {
             Exception e;
@@ -39,8 +41,8 @@ Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const A
                     ERROR_WRONG_ARGUMENT_X_VALUE, 2);
             }
         } else {
-            Error(formatErrorMessage(ERROR_WRONG_ARGUMENT_X_TYPE, 2)
-                + _W("a structure or the string 'reset' expected."));
+            raiseError(L"Nelson:error_manager:ERROR_WRONG_ARGUMENT_X_TYPE",
+                ERROR_WRONG_ARGUMENT_X_TYPE, 2);
         }
     }
     Exception lasterror = eval->getLastErrorException();

@@ -38,13 +38,16 @@ Nelson::DataStructuresGateway::cell2structBuiltin(int nLhs, const ArrayOfVector&
         dim = param3.getContentAsScalarIndex(false) - 1;
     }
     if (dim > 1) {
-        Error(_W("Not yet implemented with dim > 2"));
+        raiseError(L"Nelson:data_structures:ERROR_NOT_YET_IMPLEMENTED_WITH_DIM_GT_2",
+            ERROR_NOT_YET_IMPLEMENTED_WITH_DIM_GT_2);
     }
     Dimensions dims1 = param1.getDimensions();
     //    if (fieldnames.size() != 1)
     if (!param1.isEmpty()) {
         if (dims1[dim] != fieldnames.size()) {
-            Error(_W("Number of field names must match number of fields in new structure."));
+            raiseError(L"Nelson:data_structures:ERROR_NUMBER_OF_FIELD_NAMES_MUST_MATCH_NUMBER_OF_"
+                       L"FIELDS_IN_NEW_STRUCT",
+                ERROR_NUMBER_OF_FIELD_NAMES_MUST_MATCH_NUMBER_OF_FIELDS_IN_NEW_STRUCT);
         }
     }
     auto* arg = (ArrayOf*)(param1.getDataPointer());

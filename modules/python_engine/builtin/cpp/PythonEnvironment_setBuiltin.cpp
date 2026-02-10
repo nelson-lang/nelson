@@ -13,6 +13,8 @@
 #include "HandleGenericObject.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PythonEnvironment.hpp"
+#include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,11 +26,12 @@ Nelson::Python_engineGateway::PythonEnvironment_setBuiltin(int nLhs, const Array
     ArrayOf param1 = argIn[0];
 
     if (param1.getHandleCategory() != NLS_HANDLE_PYTHON_ENVIRONMENT_CATEGORY_STR) {
-        Error(_W("PythonEnvironment object expected."));
+        raiseError(L"Nelson:python_engine:ERROR_PYTHON_ENVIRONMENT_OBJECT_EXPECTED",
+            ERROR_PYTHON_ENVIRONMENT_OBJECT_EXPECTED);
     }
 
-    std::wstring msg = _W("Unable to set property of class 'PythonEnvironment' it is read-only.");
-    Error(msg, L"Nelson:class:SetProhibited");
+    raiseError(L"Nelson:python_engine:ERROR_UNABLE_TO_SET_PROPERTY_PYTHON_ENVIRONMENT",
+        ERROR_UNABLE_TO_SET_PROPERTY_PYTHON_ENVIRONMENT);
 
     return {};
 }

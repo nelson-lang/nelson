@@ -31,10 +31,11 @@ Nelson::MemoryGateway::globalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         }
         std::string arg = argIn[k].getContentAsCString();
         if (!IsValidVariableName(arg)) {
-            Error(_W("Argument must contain a valid variable name."));
+            raiseError(L"Nelson:memory_manager:ERROR_ARGUMENT_MUST_CONTAIN_A_VALID_VARIABLE_NAME",
+                ERROR_ARGUMENT_MUST_CONTAIN_A_VALID_VARIABLE_NAME);
         }
         if (context->isLockedVariable(arg)) {
-            Error(_W("variable is locked."));
+            raiseError(L"Nelson:memory_manager:ERROR_VARIABLE_IS_LOCKED", ERROR_VARIABLE_IS_LOCKED);
         }
     }
     for (const auto& k : argIn) {

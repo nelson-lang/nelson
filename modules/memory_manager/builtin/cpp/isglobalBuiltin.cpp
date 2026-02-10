@@ -29,7 +29,8 @@ Nelson::MemoryGateway::isglobalBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     }
     std::string arg = argIn[0].getContentAsCString();
     if (!IsValidVariableName(arg)) {
-        Error(_W("Argument must contain a valid variable name."));
+        raiseError(L"Nelson:memory_manager:ERROR_ARGUMENT_MUST_CONTAIN_A_VALID_VARIABLE_NAME",
+            ERROR_ARGUMENT_MUST_CONTAIN_A_VALID_VARIABLE_NAME);
     }
     bool bIsGlobal = globalScope->isVariable(arg);
     ArrayOfVector retval;

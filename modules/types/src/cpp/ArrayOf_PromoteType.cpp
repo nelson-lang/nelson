@@ -22,6 +22,7 @@
 #include "omp_for_loop.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -245,7 +246,8 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             || ((dstClass == NLS_STRUCT_ARRAY) && (dp->dataClass == NLS_FUNCTION_HANDLE));
         if ((dstClass == NLS_STRING_ARRAY) || (dstClass == NLS_CELL_ARRAY)
             || (dp->dataClass <= NLS_CHAR && dstClass > NLS_CHAR) && !allowedCases) {
-            Error(_W("Cannot convert base types to reference types."));
+            raiseError(L"Nelson:types:ERROR_CANNOT_CONVERT_BASE_TYPES_TO_REFERENCE_TYPES",
+                ERROR_CANNOT_CONVERT_BASE_TYPES_TO_REFERENCE_TYPES);
         }
     }
 
@@ -268,32 +270,37 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
         if (dstClass == NLS_HANDLE) {
             return;
         }
-        Error(_W("Cannot convert handle-arrays to any other type."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_CONVERT_HANDLE_ARRAYS_TO_ANY_OTHER_TYPE",
+            ERROR_CANNOT_CONVERT_HANDLE_ARRAYS_TO_ANY_OTHER_TYPE);
     } break;
     case NLS_GO_HANDLE: {
         if (dstClass == NLS_GO_HANDLE) {
             return;
         }
-        Error(_W("Cannot convert graphic handle-arrays to any other type."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_CONVERT_GRAPHIC_HANDLE_ARRAYS_TO_ANY_OTHER_TYPE",
+            ERROR_CANNOT_CONVERT_GRAPHIC_HANDLE_ARRAYS_TO_ANY_OTHER_TYPE);
     } break;
     case NLS_CELL_ARRAY: {
         if (dstClass == NLS_CELL_ARRAY) {
             return;
         }
-        Error(_W("Cannot convert cell-arrays to any other type."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_CONVERT_CELL_ARRAYS_TO_ANY_OTHER_TYPE",
+            ERROR_CANNOT_CONVERT_CELL_ARRAYS_TO_ANY_OTHER_TYPE);
 
     } break;
     case NLS_FUNCTION_HANDLE: {
         if (dstClass == NLS_STRUCT_ARRAY) {
             return;
         }
-        Error(_W("Cannot convert function_handle to any other type."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_CONVERT_FUNCTION_HANDLE_TO_ANY_OTHER_TYPE",
+            ERROR_CANNOT_CONVERT_FUNCTION_HANDLE_TO_ANY_OTHER_TYPE);
 
     } break;
     case NLS_CLASS_ARRAY: {
         if (dstClass == NLS_CLASS_ARRAY) {
             if (dp->getClassTypeName() != getClassType()) {
-                Error(_W("Cannot combine classes with different types."));
+                raiseError(L"Nelson:types:ERROR_CANNOT_COMBINE_CLASSES_WITH_DIFFERENT_TYPES",
+                    ERROR_CANNOT_COMBINE_CLASSES_WITH_DIFFERENT_TYPES);
             }
             return;
         }
@@ -301,16 +308,17 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dp->promoteClassToStruct();
             return;
         }
-        Error(_W("Cannot convert class to any other type."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_CONVERT_CLASS_TO_ANY_OTHER_TYPE",
+            ERROR_CANNOT_CONVERT_CLASS_TO_ANY_OTHER_TYPE);
     } break;
     case NLS_STRUCT_ARRAY: {
         if (dstClass == NLS_STRUCT_ARRAY) {
             // TODO: Generalize this code to allow for one more field in destination
             // than in source...
             if (dp->fieldNames.size() > fNames.size()) {
-                Error(_W("Cannot combine structures with different fields if the "
-                         "combination "
-                         "requires fields to be deleted from one of the structures."));
+                raiseError(
+                    L"Nelson:types:ERROR_CANNOT_COMBINE_STRUCTURES_DIFFERENT_FIELDS_DELETIONS",
+                    ERROR_CANNOT_COMBINE_STRUCTURES_DIFFERENT_FIELDS_DELETIONS);
             }
             // We are promoting a struct array to a struct array.
             // To do so, we have to make sure that the field names work out.
@@ -329,9 +337,9 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             }
             // Now, matchCount should be equal to the size of fieldNames
             if (matchCount != dp->fieldNames.size()) {
-                Error(_W("Cannot combine structures with different fields if the "
-                         "combination "
-                         "requires fields to be deleted from one of the structures."));
+                raiseError(
+                    L"Nelson:types:ERROR_CANNOT_COMBINE_STRUCTURES_DIFFERENT_FIELDS_DELETIONS",
+                    ERROR_CANNOT_COMBINE_STRUCTURES_DIFFERENT_FIELDS_DELETIONS);
             }
             void* dstPtr = allocateArrayOf(dp->dataClass, getElementCount(), fNames, false);
             const ArrayOf* src_rp = (const ArrayOf*)dp->getData();
@@ -359,14 +367,16 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             return;
         }
 
-        Error(_W("Cannot convert struct-arrays to any other type."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_CONVERT_STRUCT_ARRAYS_TO_ANY_OTHER_TYPE",
+            ERROR_CANNOT_CONVERT_STRUCT_ARRAYS_TO_ANY_OTHER_TYPE);
 
     } break;
     case NLS_STRING_ARRAY: {
         if (dstClass == NLS_STRING_ARRAY) {
             return;
         }
-        Error(_W("Cannot convert string-arrays to any other type."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_CONVERT_STRING_ARRAYS_TO_ANY_OTHER_TYPE",
+            ERROR_CANNOT_CONVERT_STRING_ARRAYS_TO_ANY_OTHER_TYPE);
 
     } break;
     case NLS_LOGICAL: {
@@ -415,7 +425,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = static_cast<void*>(promoteAsReal<logical, charType>(dstClass, sp, count));
         } break;
         default: {
-            Error(_("Type not managed."));
+            raiseError(L"Nelson:types:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
         } break;
         }
     } break;
@@ -472,7 +482,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<uint8, charType>(dstClass, sp, count);
         } break;
         default: {
-            Error(_("Type not managed."));
+            raiseError(L"Nelson:types:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
         } break;
         }
     } break;
@@ -529,7 +539,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsComplex<int8, charType>(dstClass, sp, count);
         } break;
         default: {
-            Error(_("Type not managed."));
+            raiseError(L"Nelson:types:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
         } break;
         }
     } break;
@@ -586,7 +596,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<uint16, charType>(dstClass, sp, count);
         } break;
         default: {
-            Error(_("Type not managed."));
+            raiseError(L"Nelson:types:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
         } break;
         }
     } break;
@@ -643,7 +653,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<int16, charType>(dstClass, sp, count);
         } break;
         default: {
-            Error(_("Type not managed."));
+            raiseError(L"Nelson:types:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
         } break;
         }
     } break;
@@ -700,7 +710,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<uint32, charType>(dstClass, sp, count);
         } break;
         default: {
-            Error(_("Type not managed."));
+            raiseError(L"Nelson:types:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
         } break;
         }
     } break;
@@ -757,7 +767,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<int32, charType>(dstClass, sp, count);
         } break;
         default: {
-            Error(_("Type not managed."));
+            raiseError(L"Nelson:types:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
         } break;
         }
     } break;
@@ -814,7 +824,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<uint64, charType>(dstClass, sp, count);
         } break;
         default: {
-            Error(_("Type not managed."));
+            raiseError(L"Nelson:types:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
         } break;
         }
     } break;
@@ -871,7 +881,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<int64, charType>(dstClass, sp, count);
         } break;
         default: {
-            Error(_("Type not managed."));
+            raiseError(L"Nelson:types:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
         } break;
         }
     } break;
@@ -929,7 +939,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<single, charType>(dstClass, sp, count);
         } break;
         default: {
-            Error(_("Type not managed."));
+            raiseError(L"Nelson:types:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
         } break;
         }
     } break;
@@ -987,7 +997,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<double, charType>(dstClass, sp, count);
         } break;
         default: {
-            Error(_("Type not managed."));
+            raiseError(L"Nelson:types:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
         } break;
         }
     } break;
@@ -1037,7 +1047,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteComplexAsReal<single, charType>(dstClass, sp, count);
         } break;
         default: {
-            Error(_("Type not managed."));
+            raiseError(L"Nelson:types:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
         } break;
         }
     } break;
@@ -1087,7 +1097,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteComplexAsReal<double, charType>(dstClass, sp, count);
         } break;
         default: {
-            Error(_("Type not managed."));
+            raiseError(L"Nelson:types:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
         } break;
         }
     } break;
@@ -1145,7 +1155,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             return;
         } break;
         default: {
-            Error(_("Type not managed."));
+            raiseError(L"Nelson:types:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
         } break;
         }
     } break;
@@ -1177,12 +1187,12 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             return;
         } break;
         default: {
-            Error(_("Type not managed."));
+            raiseError(L"Nelson:types:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
         } break;
         }
     } break;
     default: {
-        Error(_W("Type not managed."));
+        raiseError(L"Nelson:types:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     } break;
     }
     dp = dp->putData(dstClass, dp->dimensions, dstPtr);

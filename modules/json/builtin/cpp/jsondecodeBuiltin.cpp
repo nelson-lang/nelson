@@ -12,6 +12,8 @@
 #include "JsonDecode.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "OverloadRequired.hpp"
+#include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -43,7 +45,8 @@ Nelson::JsonGateway::jsondecodeBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
 
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        raiseError(L"Nelson:json:ERROR_CANNOT_DECODE_JSON", ERROR_CANNOT_DECODE_JSON,
+            utf8_to_wstring(errorMessage));
     }
     retval << res;
     return retval;

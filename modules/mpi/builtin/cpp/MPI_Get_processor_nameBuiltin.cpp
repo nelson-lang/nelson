@@ -10,6 +10,7 @@
 #include "MPI_Get_processor_nameBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include <mpi.h>
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -24,7 +25,8 @@ Nelson::MpiGateway::MPI_Get_processor_nameBuiltin(int nLhs, const ArrayOfVector&
     int flag = 0;
     MPI_Initialized(&flag);
     if (flag == 0) {
-        Error(_W("Attempting to use an MPI routine before initializing MPI."));
+        raiseError(L"Nelson:mpi:ERROR_ATTEMPTING_TO_USE_AN_MPI_ROUTINE_BEFORE_INITIALIZING_MPI",
+            ERROR_ATTEMPTING_TO_USE_AN_MPI_ROUTINE_BEFORE_INITIALIZING_MPI);
     }
     std::string processorName;
     char argv[MPI_MAX_PROCESSOR_NAME];

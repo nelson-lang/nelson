@@ -13,6 +13,7 @@
 #include "i18n.hpp"
 #include "PythonObjectHandle.hpp"
 #include "PyObjectHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -127,7 +128,8 @@ arrayOfToPyObject(const ArrayOf& A)
     case NLS_GO_HANDLE:
     case NLS_UNKNOWN:
     default: {
-        Error(_W("Conversion to Python is not supported."));
+        raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
+            ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
     } break;
     }
     return pyObj;
@@ -138,7 +140,8 @@ convertDoubleArray(const ArrayOf& A)
 {
     PyObject* pyObj = nullptr;
     if (A.isSparse()) {
-        Error(_W("Conversion to Python is not supported."));
+        raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
+            ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
     }
     if (A.isScalar()) {
         pyObj = NLSPyFloat_FromDouble(A.getContentAsDoubleScalar());
@@ -171,7 +174,8 @@ convertDoubleComplexArray(const ArrayOf& A)
 {
     PyObject* pyObj = nullptr;
     if (A.isSparse()) {
-        Error(_W("Conversion to Python is not supported."));
+        raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
+            ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
     }
     if (A.isScalar()) {
         std::complex<double> cplx = A.getContentAsDoubleComplexScalar();
@@ -206,7 +210,8 @@ convertLogicalArray(const ArrayOf& A)
 {
     PyObject* pyObj = nullptr;
     if (A.isSparse()) {
-        Error(_W("Conversion to Python is not supported."));
+        raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
+            ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
     }
     if (A.isScalar()) {
         pyObj = NLSPyBool_FromLong(A.getContentAsLogicalScalar());
@@ -260,7 +265,8 @@ convertCharactersArray(const ArrayOf& A)
         std::string str = wstring_to_utf8(wstr);
         pyObj = NLSPyUnicode_FromString(str.c_str());
     } else {
-        Error(_W("Conversion of 'char' to Python is only supported for 1-N vectors."));
+        raiseError(L"Nelson:Python:ERROR_PYTHON_CHAR_CONVERSION_1N_VECTORS",
+            ERROR_PYTHON_CHAR_CONVERSION_1N_VECTORS);
     }
 
     return pyObj;
@@ -271,7 +277,8 @@ convertStringArray(const ArrayOf& A)
 {
     PyObject* pyObj = nullptr;
     if (!A.isScalar()) {
-        Error(_W("Conversion to Python is not supported."));
+        raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
+            ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
     }
     auto* elements = (ArrayOf*)A.getDataPointer();
     if (elements[0].isCharacterArray()) {
@@ -291,7 +298,8 @@ convertStructArray(const ArrayOf& A)
 {
     PyObject* pyObj = nullptr;
     if (!A.isScalar()) {
-        Error(_W("Conversion to Python is not supported."));
+        raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
+            ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
     }
     pyObj = NLSPyDict_New();
     stringVector names = A.getFieldNames();
@@ -307,7 +315,8 @@ convertCellArray(const ArrayOf& A)
 {
     PyObject* pyObj = nullptr;
     if (!A.isRowVector()) {
-        Error(_W("Conversion to Python is not supported."));
+        raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
+            ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
     }
     ArrayOf* elements = (ArrayOf*)A.getDataPointer();
     pyObj = NLSPyTuple_New(A.getElementCount());
@@ -328,7 +337,8 @@ convertHandleArray(const ArrayOf& A)
         NLSPy_INCREF(pyObj);
         return pyObj;
     }
-    Error(_W("Conversion to Python is not supported."));
+    raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
+        ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
     return pyObj;
 }
 //=============================================================================
@@ -341,11 +351,13 @@ convertClassArray(const ArrayOf& A)
         stringVector fieldnames = A.getFieldNames();
         auto it = std::find(fieldnames.begin(), fieldnames.end(), "map");
         if (it == fieldnames.end()) {
-            Error(_W("Invalid dictionary."));
+            raiseError(
+                L"Nelson:Python:ERROR_PYTHON_INVALID_DICTIONARY", ERROR_PYTHON_INVALID_DICTIONARY);
         }
         it = std::find(fieldnames.begin(), fieldnames.end(), "allKeys");
         if (it == fieldnames.end()) {
-            Error(_W("Invalid dictionary."));
+            raiseError(
+                L"Nelson:Python:ERROR_PYTHON_INVALID_DICTIONARY", ERROR_PYTHON_INVALID_DICTIONARY);
         }
         ArrayOf map = A.getField("map");
         stringVector mapHash = map.getFieldNames();
@@ -360,7 +372,7 @@ convertClassArray(const ArrayOf& A)
                     arrayOfToPyObject(map.getField(mapHash[k])));
             }
         } else {
-            Error(_("Type not managed."));
+            raiseError(L"Nelson:Python:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
         }
         return pyObj;
     }
@@ -373,7 +385,8 @@ convertClassArray(const ArrayOf& A)
         }
         return pyObj;
     }
-    Error(_W("Conversion to Python is not supported."));
+    raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
+        ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
     return pyObj;
 }
 //=============================================================================
@@ -381,7 +394,8 @@ PyObject*
 rowVectorToPyArray(const void* ptrValues, size_t len, const char* dataType)
 {
     if (strcmp(dataType, "?") == 0) {
-        Error(_W("Type not supported"));
+        raiseError(
+            L"Nelson:Python:ERROR_PYTHON_TYPE_NOT_SUPPORTED", ERROR_PYTHON_TYPE_NOT_SUPPORTED);
     }
 
     PyObject* arrayModule = NLSPyImport_ImportModule("array");
@@ -450,7 +464,8 @@ rowVectorToPyArray(const void* ptrValues, size_t len, const char* dataType)
             NLSPy_DECREF(args);
             NLSPy_DECREF(arrayConstructor);
             NLSPy_DECREF(arrayModule);
-            Error(_W("Type not supported"));
+            raiseError(
+                L"Nelson:Python:ERROR_PYTHON_TYPE_NOT_SUPPORTED", ERROR_PYTHON_TYPE_NOT_SUPPORTED);
             return NULL;
         }
         NLSPyObject_CallMethodOneItem(pyArray, "append", "(O)", item);
@@ -509,7 +524,7 @@ getTypeSize(NelsonType nelsonType)
         sz = sizeof(logical);
     } break;
     default: {
-        Error(_W("Type not managed."));
+        raiseError(L"Nelson:Python:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     }
     }
     return sz;
@@ -521,7 +536,7 @@ arrayToMemoryView(const void* data, NelsonType nelsonType, const Dimensions& dim
     Py_buffer pyBuffer;
     pyBuffer.format = nelsonTypeToTypeCode(nelsonType);
     if (strcmp(pyBuffer.format, "") == 0) {
-        Error(_W("Type not managed."));
+        raiseError(L"Nelson:Python:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     }
     pyBuffer.ndim = (int)dims.getLength();
 
@@ -533,7 +548,8 @@ arrayToMemoryView(const void* data, NelsonType nelsonType, const Dimensions& dim
 
     void* ptr = (void*)ArrayOf::allocateArrayOf(nelsonType, dims.getElementCount());
     if (!ptr) {
-        Error(_W("Cannot create MemoryView."));
+        raiseError(L"Nelson:Python:ERROR_PYTHON_CANNOT_CREATE_MEMORYVIEW",
+            ERROR_PYTHON_CANNOT_CREATE_MEMORYVIEW);
         return nullptr;
     }
 
@@ -555,7 +571,8 @@ arrayToMemoryView(const void* data, NelsonType nelsonType, const Dimensions& dim
     PyObject* memoryView = NLSPyMemoryView_FromBuffer(&pyBuffer);
     if (!memoryView) {
         ArrayOf r = ArrayOf(nelsonType, dims, ptr);
-        Error(_W("Cannot create MemoryView."));
+        raiseError(L"Nelson:Python:ERROR_PYTHON_CANNOT_CREATE_MEMORYVIEW",
+            ERROR_PYTHON_CANNOT_CREATE_MEMORYVIEW);
     }
     return memoryView;
 }
@@ -567,7 +584,8 @@ PyMemoryViewToArrayOf(PyObject* pyObject)
 
     Py_buffer pyBuffer;
     if (NLSPyObject_GetBuffer(pyObject, &pyBuffer, PyBUF_FORMAT | PyBUF_STRIDES) == -1) {
-        Error(_W("Failed to get buffer from memory view."));
+        raiseError(L"Nelson:Python:ERROR_PYTHON_FAILED_TO_GET_BUFFER_FROM_MEMORY_VIEW",
+            ERROR_PYTHON_FAILED_TO_GET_BUFFER_FROM_MEMORY_VIEW);
     }
     size_t nbElements = pyBuffer.len / pyBuffer.itemsize;
 
@@ -621,7 +639,8 @@ PyMemoryViewToArrayOf(PyObject* pyObject)
     } break;
     }
 
-    Error(_W("Unsupported data format."));
+    raiseError(L"Nelson:Python:ERROR_PYTHON_UNSUPPORTED_DATA_FORMAT",
+        ERROR_PYTHON_UNSUPPORTED_DATA_FORMAT);
 
     return res;
 }
@@ -736,7 +755,7 @@ PyArrayArrayToArrayOf(PyObject* pyObject)
         return PyArrayArrayToIntegerArrayOf<int64>(nelsonType, pyObject, vectorSize);
     } break;
     default: {
-        Error(_W("Type not managed."));
+        raiseError(L"Nelson:Python:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     } break;
     }
     return {};

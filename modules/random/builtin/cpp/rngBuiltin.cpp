@@ -10,9 +10,9 @@
 #include "rngBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "Rng.hpp"
 #include "Rng_helpers.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -44,7 +44,8 @@ Nelson::RandomGateway::rngBuiltin(int nLhs, const ArrayOfVector& argIn)
     switch (argIn.size()) {
     case 0: {
         if (!haveRandomEngine()) {
-            Error(_W("random engine not initialized."));
+            raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
+                ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
         }
         retval << backupCurrentRng();
     } break;
@@ -67,7 +68,8 @@ Nelson::RandomGateway::rngBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
             }
             if (!((param == L"default") || (param == L"shuffle") || (param == L"enginelist"))) {
-                Error(_W("'default', 'shuffle' or 'enginelist' expected."));
+                raiseError(L"Nelson:random:ERROR_DEFAULT_SHUFFLE_OR_ENGINELIST_EXPECTED",
+                    ERROR_DEFAULT_SHUFFLE_OR_ENGINELIST_EXPECTED);
             }
             if (param == L"default") {
                 RngSetDefault();
@@ -110,7 +112,8 @@ Nelson::RandomGateway::rngBuiltin(int nLhs, const ArrayOfVector& argIn)
             double s = arg1.getContentAsDoubleScalar();
             std::wstring genname = arg2.getContentAsWideString();
             if (!isRngType(genname)) {
-                Error(_W("A valid generator name expected."));
+                raiseError(L"Nelson:random:ERROR_A_VALID_GENERATOR_EXPECTED",
+                    ERROR_A_VALID_GENERATOR_EXPECTED);
             }
             ArrayOf backupCurrentRngStruct;
             if (nLhs == 1) {
@@ -123,11 +126,12 @@ Nelson::RandomGateway::rngBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if (arg1.isRowVectorCharacterArray() && arg2.isRowVectorCharacterArray()) {
             std::wstring param = arg1.getContentAsWideString();
             if (param != L"shuffle") {
-                Error(_W("'shuffle' expected."));
+                raiseError(L"Nelson:random:ERROR_RNG_SHUFFLE_EXPECTED", ERROR_RNG_SHUFFLE_EXPECTED);
             }
             std::wstring genname = arg2.getContentAsWideString();
             if (!isRngType(genname)) {
-                Error(_W("A valid generator name expected."));
+                raiseError(L"Nelson:random:ERROR_A_VALID_GENERATOR_EXPECTED",
+                    ERROR_A_VALID_GENERATOR_EXPECTED);
             }
             ArrayOf backupCurrentRngStruct;
             if (nLhs == 1) {
@@ -139,11 +143,11 @@ Nelson::RandomGateway::rngBuiltin(int nLhs, const ArrayOfVector& argIn)
                 retval << backupCurrentRngStruct;
             }
         } else {
-            Error(ERROR_WRONG_ARGUMENTS_TYPE);
+            raiseError(L"Nelson:random:ERROR_WRONG_ARGUMENTS_TYPE", ERROR_WRONG_ARGUMENTS_TYPE);
         }
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:random:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;
@@ -184,7 +188,8 @@ splitRngStruct(const ArrayOf& structRng)
             return elements;
         }
     }
-    Error(_W("Must contain generator settings captured previously."));
+    raiseError(L"Nelson:random:ERROR_MUST_CONTAIN_GENERATOR_SETTINGS_CAPTURED_PREVIOUSLY",
+        ERROR_MUST_CONTAIN_GENERATOR_SETTINGS_CAPTURED_PREVIOUSLY);
     return elements;
 }
 //=============================================================================

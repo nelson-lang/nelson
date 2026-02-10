@@ -15,6 +15,7 @@
 #include "i18n.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson::DataAnalysisGateway {
 //=============================================================================
@@ -32,7 +33,8 @@ getCumulativeArgument(const ArrayOfVector& argIn, int pos, bool& withNaN, bool& 
         reverse = false;
     } else {
         std::string msg = fmt::format(_("Wrong value for #{0} argument."), pos);
-        Error(msg);
+        raiseError(L"Nelson:data_analysis:ERROR_WRONG_ARGUMENT_X_VALUE",
+            ERROR_WRONG_ARGUMENT_X_VALUE, utf8_to_wstring(msg));
     }
 }
 //=============================================================================
@@ -69,7 +71,8 @@ cumulativeFunctionBuiltin(int nLhs, const ArrayOfVector& argIn, std::string cumu
             std::wstring wstr1 = argIn[1].getContentAsWideString();
             std::wstring wstr2 = argIn[2].getContentAsWideString();
             if (wstr1 == wstr2) {
-                Error(_W("Wrong value for #3 argument."));
+                raiseError(L"Nelson:data_analysis:ERROR_WRONG_ARGUMENT_X_VALUE",
+                    ERROR_WRONG_ARGUMENT_X_VALUE, L"3");
             }
             getCumulativeArgument(argIn, 1, withNaN, reverse);
             getCumulativeArgument(argIn, 2, withNaN, reverse);
@@ -83,13 +86,15 @@ cumulativeFunctionBuiltin(int nLhs, const ArrayOfVector& argIn, std::string cumu
         std::wstring wstr1 = argIn[2].getContentAsWideString();
         std::wstring wstr2 = argIn[3].getContentAsWideString();
         if (wstr1 == wstr2) {
-            Error(_W("Wrong value for #3 argument."));
+            raiseError(L"Nelson:data_analysis:ERROR_WRONG_ARGUMENT_X_VALUE",
+                ERROR_WRONG_ARGUMENT_X_VALUE, L"3");
         }
         getCumulativeArgument(argIn, 2, withNaN, reverse);
         getCumulativeArgument(argIn, 3, withNaN, reverse);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:data_analysis:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
 

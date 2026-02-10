@@ -11,6 +11,7 @@
 #include "profileBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "Profiler.hpp"
 #include "ModulesManager.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -54,7 +55,7 @@ getSortArgument(const ArrayOfVector& argIn, bool& validOption)
             validOption = true;
         }
         if (!validOption) {
-            Error(_W("option not managed."));
+            raiseError(L"Nelson:profiler:ERROR_OPTION_NOT_MANAGED", ERROR_OPTION_NOT_MANAGED);
         }
     }
     return sortOption;
@@ -173,7 +174,7 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
             ArrayOf param3 = argIn[2];
             nbLinesToDisplay = param3.getContentAsInteger32Scalar(true);
             if (nbLinesToDisplay < 1) {
-                Error(_W("Invalid value."));
+                raiseError(L"Nelson:profiler:ERROR_INVALID_VALUE", ERROR_INVALID_VALUE);
             }
         }
 
@@ -201,7 +202,7 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
 
     if (!validOption) {
-        Error(_W("option not managed."));
+        raiseError(L"Nelson:profiler:ERROR_OPTION_NOT_MANAGED", ERROR_OPTION_NOT_MANAGED);
     }
     return retval;
 }

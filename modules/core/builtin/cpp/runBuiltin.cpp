@@ -139,7 +139,7 @@ Nelson::CoreGateway::runBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
     if (argIn.size() == 3) {
         return runBuiltinThreeRhs(eval, nLhs, argIn);
     }
-    Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    raiseError(L"Nelson:core:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
 
     return retval;
 }

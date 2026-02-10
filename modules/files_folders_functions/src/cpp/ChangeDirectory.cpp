@@ -13,6 +13,7 @@
 #include "FileSystemWrapper.hpp"
 #include "ChangeDirectory.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "PathFunctionIndexerManager.hpp"
@@ -62,8 +63,8 @@ ChangeDirectory(const std::wstring& newpath, bool doException, bool trimPath)
         return true;
     }
     if (doException) {
-        std::wstring msg = fmt::format(_W("Cannot change directory '{0}'."), pathApplied);
-        Error(msg);
+        raiseError(L"Nelson:files_folders_functions:ERROR_CANNOT_CHANGE_DIRECTORY",
+            ERROR_CANNOT_CHANGE_DIRECTORY, pathApplied);
     }
 
     return false;

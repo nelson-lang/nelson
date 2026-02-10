@@ -12,6 +12,8 @@
 #include "InputOutputArgumentsCheckers.hpp"
 #include "ReadCell.hpp"
 #include "DetectImportOptions.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -48,13 +50,15 @@ Nelson::SpreadsheetGateway::readcellBuiltin(int nLhs, const ArrayOfVector& argIn
         options.DataLines.push_back(1);
         options.DataLines.push_back(std::numeric_limits<double>::infinity());
         if (!errorMessage.empty()) {
-            Error(errorMessage);
+            raiseError(L"Nelson:spreadsheet:ERROR_READCELL_ERROR", ERROR_READCELL_ERROR,
+                utf8_to_wstring(errorMessage));
         }
     }
 
     retval << ReadCell(filename, options, errorMessage);
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        raiseError(L"Nelson:spreadsheet:ERROR_READCELL_ERROR", ERROR_READCELL_ERROR,
+            utf8_to_wstring(errorMessage));
     }
     return retval;
 }

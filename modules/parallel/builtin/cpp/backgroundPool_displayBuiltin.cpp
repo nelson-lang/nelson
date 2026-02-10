@@ -11,6 +11,7 @@
 #include "BackgroundPoolObject.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "DisplayVariableHelpers.hpp"
@@ -35,14 +36,16 @@ Nelson::ParallelGateway::backgroundPool_displayBuiltin(
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_BACKGROUNDPOOL_CATEGORY_STR) {
-                Error(_W("backgroundPool handle expected."));
+                raiseError(L"Nelson:parallel:ERROR_BACKGROUNDPOOL_HANDLE_EXPECTED",
+                    ERROR_BACKGROUNDPOOL_HANDLE_EXPECTED);
             }
             auto* backgroundPoolObject = (BackgroundPoolObject*)param1.getContentAsHandleScalar();
             backgroundPoolObject->display(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("backgroundPool handle expected."));
+        raiseError(L"Nelson:parallel:ERROR_BACKGROUNDPOOL_HANDLE_EXPECTED",
+            ERROR_BACKGROUNDPOOL_HANDLE_EXPECTED);
     }
     return retval;
 }

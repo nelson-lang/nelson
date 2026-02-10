@@ -50,7 +50,8 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
     } else if ((arg == L"l") || (arg == L"ieee-le")) {
         bIsLittleEndian = true;
     } else {
-        Error(_W("Wrong value for machine format."));
+        raiseError(L"Nelson:stream_manager:ERROR_WRONG_VALUE_FOR_MACHINE_FORMAT",
+            ERROR_WRONG_VALUE_FOR_MACHINE_FORMAT);
     }
     skipSize = static_cast<size_t>(param4.getContentAsScalarIndex());
     if (param3.isRowVectorCharacterArray()) {
@@ -58,7 +59,8 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
         bool bOK = false;
         classDest = precisionFromString(precisionStr, bOK);
         if (!bOK) {
-            Error(_W("Wrong value for #3 argument: not supported precision."));
+            raiseError(L"Nelson:stream_manager:ERROR_WRONG_VALUE_ARG3_NOT_SUPPORTED_PRECISION",
+                ERROR_WRONG_VALUE_ARG3_NOT_SUPPORTED_PRECISION);
         }
     } else {
         raiseError(L"Nelson:stream:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
@@ -112,7 +114,8 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
         auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
         auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
         if (fm == nullptr) {
-            Error(_W("Problem with file manager."));
+            raiseError(
+                L"Nelson:stream:ERROR_PROBLEM_WITH_FILE_MANAGER", ERROR_PROBLEM_WITH_FILE_MANAGER);
         }
         if (fm->isOpened(iValue)) {
             File* f = fm->getFile(iValue);
@@ -150,13 +153,16 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                     retval << ArrayOf::doubleConstructor(sizeReallyRead);
                 }
             } else {
-                Error(_W("Problem to read data."));
+                raiseError(L"Nelson:stream_manager:ERROR_PROBLEM_TO_READ_DATA",
+                    ERROR_PROBLEM_TO_READ_DATA);
             }
         } else {
-            Error(_W("Invalid file identifier."));
+            raiseError(L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER",
+                ERROR_INVALID_FILE_IDENTIFIER);
         }
     } else {
-        Error(_W("Invalid file identifier."));
+        raiseError(
+            L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER", ERROR_INVALID_FILE_IDENTIFIER);
     }
     return retval;
 }
@@ -247,7 +253,7 @@ Nelson::StreamGateway::freadBuiltin(int nLhs, const ArrayOfVector& argIn)
     case 5:
         return freadBuiltinFiveRhs(nLhs, argIn);
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:stream:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     ArrayOfVector retval;

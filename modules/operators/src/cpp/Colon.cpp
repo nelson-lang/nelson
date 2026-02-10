@@ -16,6 +16,7 @@
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 #include "ClassName.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -165,7 +166,7 @@ real_colon(NelsonType destinationClass, T low, T high, T step)
                 return ArrayOf::emptyConstructor(dims);
             }
         }
-        Error(_W("Invalid range."));
+        raiseError(L"Nelson:operators:ERROR_INVALID_RANGE", ERROR_INVALID_RANGE);
     }
     if (low < high) {
         if (step < 0) {

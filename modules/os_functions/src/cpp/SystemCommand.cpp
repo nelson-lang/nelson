@@ -87,7 +87,8 @@ SystemCommand(const std::wstring& command, uint64 timeout, bool withEventsLoop, 
 
     auto results = ParallelSystemCommand(commands, timeouts, withEventsLoop, evaluatorID);
     if (results.size() != 1) {
-        Error(_W("system does not return result."));
+        raiseError(
+            L"Nelson:os:ERROR_SYSTEM_DOES_NOT_RETURN_RESULT", ERROR_SYSTEM_DOES_NOT_RETURN_RESULT);
     }
     return results[0];
 }
@@ -125,7 +126,7 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
                 taskList[k]->evaluateCommand(commands[k], timeouts[k]);
             });
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:os:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     }
 

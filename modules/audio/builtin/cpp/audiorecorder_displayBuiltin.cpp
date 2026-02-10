@@ -32,14 +32,16 @@ Nelson::AudioGateway::audiorecorder_dispBuiltin(
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-                Error(_W("audiorecorder handle expected."));
+                raiseError(L"Nelson:audio:ERROR_AUDIORECORDER_HANDLE_EXPECTED",
+                    ERROR_AUDIORECORDER_HANDLE_EXPECTED);
             }
             auto* objPlayer = (AudiorecorderObject*)param1.getContentAsHandleScalar();
             objPlayer->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("audiorecorder handle expected."));
+        raiseError(L"Nelson:audio:ERROR_AUDIORECORDER_HANDLE_EXPECTED",
+            ERROR_AUDIORECORDER_HANDLE_EXPECTED);
     }
     return retval;
 }
@@ -61,14 +63,16 @@ Nelson::AudioGateway::audiorecorder_displayBuiltin(
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-                Error(_W("audiorecorder handle expected."));
+                raiseError(L"Nelson:audio:ERROR_AUDIORECORDER_HANDLE_EXPECTED",
+                    ERROR_AUDIORECORDER_HANDLE_EXPECTED);
             }
             auto* objPlayer = (AudiorecorderObject*)param1.getContentAsHandleScalar();
             objPlayer->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("audiorecorder handle expected."));
+        raiseError(L"Nelson:audio:ERROR_AUDIORECORDER_HANDLE_EXPECTED",
+            ERROR_AUDIORECORDER_HANDLE_EXPECTED);
     }
     return retval;
 }

@@ -10,6 +10,7 @@
 #include "Assert_IsApprox.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -30,23 +31,27 @@ Assert_IsApprox(Evaluator* eval, const ArrayOf& computedArray, const ArrayOf& ex
             try {
                 ArrayOfVector resVect = funcDef->evaluateFunction(eval, argInCopy, 1);
                 if (resVect.size() != 1) {
-                    Error(_W("isapprox returns more than one output argument."));
+                    raiseError(
+                        L"Nelson:assert_functions:ERROR_ISAPPROX_RETURNS_MORE_THAN_ONE_OUTPUT_ARG",
+                        ERROR_ISAPPROX_RETURNS_MORE_THAN_ONE_OUTPUT_ARG);
                 }
                 ArrayOf r = resVect[0];
                 if (r.isScalar() && r.isLogical()) {
                     bRes = r.getContentAsLogicalScalar() ? true : false;
                 } else {
-                    Error(_W("isapprox must return an logical."));
+                    raiseError(L"Nelson:assert_functions:ERROR_ISAPPROX_MUST_RETURN_LOGICAL",
+                        ERROR_ISAPPROX_MUST_RETURN_LOGICAL);
                 }
             } catch (const Exception&) {
                 throw;
             }
         }
     } else {
-        Error("isapprox function not found.");
+        raiseError(L"Nelson:assert_functions:ERROR_ISAPPROX_FUNCTION_NOT_FOUND",
+            ERROR_ISAPPROX_FUNCTION_NOT_FOUND);
     }
     if (!bRes) {
-        msg = _W("Assertion failed: expected and computed values are too different.");
+        msg = ERROR_ASSERTION_VALUES_TOO_DIFFERENT;
     } else {
         msg.clear();
     }

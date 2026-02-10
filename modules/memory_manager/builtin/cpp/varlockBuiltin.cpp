@@ -29,8 +29,9 @@ Nelson::MemoryGateway::varlockBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     std::string scopename = argIn[0].getContentAsCString();
     if (!((scopename == "global") || (scopename == "base") || (scopename == "caller")
             || (scopename == "local"))) {
-        Error(_W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' "
-                 "expected."));
+        raiseError(L"Nelson:memory_manager:ERROR_1_ARGUMENT_MUST_CONTAIN_A_STRING_GLOBAL_BASE_"
+                   L"LOCAL_OR_CALLER",
+            ERROR_1_ARGUMENT_MUST_CONTAIN_A_STRING_GLOBAL_BASE_LOCAL_OR_CALLER);
     }
     Context* context = eval->getContext();
     Scope* scope = nullptr;
@@ -52,10 +53,12 @@ Nelson::MemoryGateway::varlockBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     }
     std::string varname = argIn[1].getContentAsCString();
     if (!IsValidVariableName(varname)) {
-        Error(_W("#2 Argument must contain a valid variable name."));
+        raiseError(L"Nelson:memory_manager:ERROR_2_ARGUMENT_MUST_CONTAIN_A_VALID_VARIABLE_NAME",
+            ERROR_2_ARGUMENT_MUST_CONTAIN_A_VALID_VARIABLE_NAME);
     }
     if ((scope != nullptr) && !scope->isVariable(varname)) {
-        Error(_W("#2 Argument must be an existing variable name."));
+        raiseError(L"Nelson:memory_manager:ERROR_2_ARGUMENT_MUST_BE_AN_EXISTING_VARIABLE_NAME",
+            ERROR_2_ARGUMENT_MUST_BE_AN_EXISTING_VARIABLE_NAME);
     }
     LockVariable(varname, scope);
     return retval;

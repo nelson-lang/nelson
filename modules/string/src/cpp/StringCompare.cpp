@@ -139,8 +139,8 @@ StringCompareSameTypes(const ArrayOf& A, const ArrayOf& B, bool bCaseSensitive, 
             }
             return ArrayOf(NLS_LOGICAL, dimC, Cp);
         } else {
-            Error(_W("Inputs must be the same size or either one can be a scalar."),
-                L"Nelson:strcmp:InputsSizeMismatch");
+            raiseError(L"Nelson:string:ERROR_INPUTS_MUST_BE_SAME_SIZE_OR_SCALAR",
+                ERROR_INPUTS_MUST_BE_SAME_SIZE_OR_SCALAR);
         }
     }
     return {};
@@ -196,8 +196,8 @@ StringCompareMixedTypes(const ArrayOf& A, const ArrayOf& B, bool bCaseSensitive,
             || (A.isCell() && A.isScalar()) || (B.isCell() && B.isScalar()) || dimsA.equals(dimsB);
     }
     if (!checkDims) {
-        Error(_W("Inputs must be the same size or either one can be a scalar."),
-            L"Nelson:strcmp:InputsSizeMismatch");
+        raiseError(L"Nelson:string:ERROR_INPUTS_MUST_BE_SAME_SIZE_OR_SCALAR",
+            ERROR_INPUTS_MUST_BE_SAME_SIZE_OR_SCALAR);
     }
     size_t Clen;
     Dimensions dimC;
@@ -249,8 +249,8 @@ StringCompareEmpty(const ArrayOf& A, const ArrayOf& B, bool bCaseSensitive, inde
     } else if (dimB.isSquare()) {
         dim = dimA;
     } else {
-        Error(_W("Inputs must be the same size or either one can be a scalar."),
-            L"Nelson:strcmp:InputsSizeMismatch");
+        raiseError(L"Nelson:string:ERROR_INPUTS_MUST_BE_SAME_SIZE_OR_SCALAR",
+            ERROR_INPUTS_MUST_BE_SAME_SIZE_OR_SCALAR);
     }
 
     charType* Cp

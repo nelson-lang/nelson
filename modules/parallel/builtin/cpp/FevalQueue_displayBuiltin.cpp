@@ -11,6 +11,7 @@
 #include "FevalQueueObject.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "DisplayVariableHelpers.hpp"
@@ -35,14 +36,16 @@ Nelson::ParallelGateway::FevalQueue_displayBuiltin(
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_FEVALQUEUE_CATEGORY_STR) {
-                Error(_W("FevalQueue handle expected."));
+                raiseError(L"Nelson:parallel:ERROR_FEVALQUEUE_HANDLE_EXPECTED",
+                    ERROR_FEVALQUEUE_HANDLE_EXPECTED);
             }
             auto* fevalQueueObject = (FevalQueueObject*)param1.getContentAsHandleScalar();
             fevalQueueObject->display(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("FevalQueue handle expected."));
+        raiseError(
+            L"Nelson:parallel:ERROR_FEVALQUEUE_HANDLE_EXPECTED", ERROR_FEVALQUEUE_HANDLE_EXPECTED);
     }
     return retval;
 }

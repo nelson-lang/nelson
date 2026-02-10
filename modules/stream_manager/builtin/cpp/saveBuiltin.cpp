@@ -63,13 +63,15 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                 version = param;
                 forceAsMat = true;
             } else {
-                Error(_W("Valid option expected."));
+                raiseError(L"Nelson:stream_manager:ERROR_VALID_OPTION_EXPECTED",
+                    ERROR_VALID_OPTION_EXPECTED);
             }
         } else {
             if (IsValidVariableName(param)) {
                 names.push_back(param);
             } else {
-                Error(_W("Valid variable name expected."));
+                raiseError(L"Nelson:stream_manager:ERROR_VALID_VARIABLE_NAME_EXPECTED",
+                    ERROR_VALID_VARIABLE_NAME_EXPECTED);
             }
         }
     }
@@ -95,13 +97,15 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         saveFunctionName = "savemat";
     }
     if (saveFunctionName.empty()) {
-        Error(_W("save function expected."));
+        raiseError(
+            L"Nelson:stream_manager:ERROR_SAVE_FUNCTION_EXPECTED", ERROR_SAVE_FUNCTION_EXPECTED);
     }
 
     FunctionDef* funcDef = nullptr;
     if (!PathFunctionIndexerManager::getInstance()->find(saveFunctionName, funcDef)) {
         if (!BuiltInFunctionDefManager::getInstance()->find(saveFunctionName, funcDef)) {
-            Error(_W("load function expected."));
+            raiseError(L"Nelson:stream_manager:ERROR_LOAD_FUNCTION_EXPECTED",
+                ERROR_LOAD_FUNCTION_EXPECTED);
         }
     }
 

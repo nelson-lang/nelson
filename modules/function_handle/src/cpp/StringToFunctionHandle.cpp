@@ -16,6 +16,7 @@
 #include "AnonymousMacroFunctionDef.hpp"
 #include "StringHelpers.hpp"
 #include "ParserInterface.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -55,7 +56,8 @@ StringToFunctionHandle(Evaluator* eval, const std::string& functionName)
         if (t->down && t->down->down) {
             t = t->down->down;
         } else {
-            Error(_("A valid function handle expected."), "Nelson:dispatcher:invalidFunctionName");
+            raiseError(
+                L"Nelson:dispatcher:ERROR_INVALID_FUNCTION_HANDLE", ERROR_INVALID_FUNCTION_HANDLE);
         }
         if (t->opNum == OP_FUNCTION_HANDLE_NAMED) {
             std::string content;
@@ -63,16 +65,16 @@ StringToFunctionHandle(Evaluator* eval, const std::string& functionName)
                 content = t->down->text;
             }
             if (content.empty()) {
-                Error(_("A valid function handle expected."),
-                    "Nelson:dispatcher:invalidFunctionName");
+                raiseError(L"Nelson:dispatcher:ERROR_INVALID_FUNCTION_HANDLE",
+                    ERROR_INVALID_FUNCTION_HANDLE);
             }
             createFunctionHandleNamed(content, functionHandle);
         } else if (t->opNum == OP_FUNCTION_HANDLE_ANONYMOUS) {
             AbstractSyntaxTreePtr code = nullptr;
             stringVector arguments;
             if (!t->down) {
-                Error(_("A valid function handle expected."),
-                    "Nelson:dispatcher:invalidFunctionName");
+                raiseError(L"Nelson:dispatcher:ERROR_INVALID_FUNCTION_HANDLE",
+                    ERROR_INVALID_FUNCTION_HANDLE);
             }
             if (t->down->right == nullptr) {
                 if (t->down) {
@@ -96,8 +98,8 @@ StringToFunctionHandle(Evaluator* eval, const std::string& functionName)
                 content = code->toString(true);
             }
             if (content.empty()) {
-                Error(_("A valid function handle expected."),
-                    "Nelson:dispatcher:invalidFunctionName");
+                raiseError(L"Nelson:dispatcher:ERROR_INVALID_FUNCTION_HANDLE",
+                    ERROR_INVALID_FUNCTION_HANDLE);
             }
             if (isValidNelsonFunctionName(content)) {
                 createFunctionHandleNamed(content, functionHandle);
@@ -110,7 +112,8 @@ StringToFunctionHandle(Evaluator* eval, const std::string& functionName)
     case FuncDef:
     case ParseError:
     default: {
-        Error(_("A valid function handle expected."), "Nelson:dispatcher:invalidFunctionName");
+        raiseError(
+            L"Nelson:dispatcher:ERROR_INVALID_FUNCTION_HANDLE", ERROR_INVALID_FUNCTION_HANDLE);
     } break;
     }
     return functionHandle;
@@ -178,7 +181,8 @@ createFunctionHandleNamed(const std::string& name, function_handle& functionHand
     if (cp) {
         functionHandle.anonymousHandle = reinterpret_cast<nelson_handle*>(cp);
     } else {
-        Error(_("A valid function name expected."), "Nelson:dispatcher:invalidFunctionName");
+        raiseError(L"Nelson:dispatcher:ERROR_VALID_FUNCTION_NAME_EXPECTED",
+            ERROR_VALID_FUNCTION_NAME_EXPECTED);
     }
 }
 //=============================================================================
@@ -222,7 +226,8 @@ createFunctionHandleAnonymous(const std::string& content, const stringVector& ar
     if (cp) {
         functionHandle.anonymousHandle = reinterpret_cast<nelson_handle*>(cp);
     } else {
-        Error(_("A valid function name expected."), "Nelson:dispatcher:invalidFunctionName");
+        raiseError(L"Nelson:dispatcher:ERROR_VALID_FUNCTION_NAME_EXPECTED",
+            ERROR_VALID_FUNCTION_NAME_EXPECTED);
     }
 }
 //=============================================================================

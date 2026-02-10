@@ -10,6 +10,7 @@
 #include "ArrayOf.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,7 +28,8 @@ ArrayOf::getContentAsFunctionHandle() const
         ArrayOf anonymousHandle = this->getField("handle");
         fh.anonymousHandle = (nelson_handle*)anonymousHandle.getContentAsUnsignedInteger64Scalar();
     } else {
-        Error(_W("Expected a function_handle."));
+        raiseError(
+            L"Nelson:types:ERROR_EXPECTED_A_FUNCTION_HANDLE", ERROR_EXPECTED_A_FUNCTION_HANDLE);
     }
     return fh;
 }

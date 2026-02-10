@@ -35,7 +35,8 @@ LibPointerObject::LibPointerObject(const std::wstring& DataType)
 {
     initializeCommon();
     if (!DynamicLinkSymbolObject::isValidDataType(DataType)) {
-        Error(_W("Invalid argument type:") + DataType);
+        raiseError(L"Nelson:dynamic_link:ERROR_INVALID_ARGUMENT_TYPE", ERROR_INVALID_ARGUMENT_TYPE,
+            DataType);
     }
     this->_DataType = DataType;
     _currentType = DynamicLinkSymbolObject::GetNelsonType(DataType);
@@ -58,7 +59,8 @@ LibPointerObject::LibPointerObject(const std::wstring& DataType, ArrayOf Value)
 {
     initializeCommon();
     if (!DynamicLinkSymbolObject::isValidDataType(DataType)) {
-        Error(_W("Invalid argument type:") + DataType);
+        raiseError(L"Nelson:dynamic_link:ERROR_INVALID_ARGUMENT_TYPE", ERROR_INVALID_ARGUMENT_TYPE,
+            DataType);
     }
     this->_DataType = DataType;
     if (DataType == L"voidPtr") {
@@ -72,12 +74,14 @@ LibPointerObject::LibPointerObject(const std::wstring& DataType, ArrayOf Value)
     _dimY = _initialDimY;
     if (!StringHelpers::ends_with(DataType, L"Ptr")) {
         if (_currentType != Value.getDataClass()) {
-            Error(_W("Invalid #2 argument type expected:") + DataType);
+            raiseError(L"Nelson:dynamic_link:ERROR_INVALID_ARG2_TYPE_EXPECTED",
+                ERROR_INVALID_ARG2_TYPE_EXPECTED, DataType);
         }
     }
     if (!StringHelpers::ends_with(DataType, L"Ptr")
         && (Value.getElementCount() > 1 || Value.getElementCount() == 0)) {
-        Error(_W("Invalid #2 argument scalar expected."));
+        raiseError(L"Nelson:dynamic_link:ERROR_INVALID_ARG2_SCALAR_EXPECTED",
+            ERROR_INVALID_ARG2_SCALAR_EXPECTED);
     }
     _voidPointer = ArrayOf::allocateArrayOf(
         Value.getDataClass(), Value.getElementCount(), stringVector(), true);
@@ -181,14 +185,17 @@ LibPointerObject::plus(indexType offset)
 {
     LibPointerObject* newPtr = nullptr;
     if (_dimX == -1 || _dimY == -1 || _currentType == NLS_UNKNOWN) {
-        Error(_W("The datatype and size of the value must be defined."));
+        raiseError(L"Nelson:dynamic_link:ERROR_DATATYPE_AND_SIZE_MUST_BE_DEFINED",
+            ERROR_DATATYPE_AND_SIZE_MUST_BE_DEFINED);
     }
     if ((_dimX * _dimY) < offset) {
-        Error(_W("Offset must not be greater than the size of the pointer."));
+        raiseError(L"Nelson:dynamic_link:ERROR_OFFSET_MUST_NOT_BE_GREATER_THAN_SIZE",
+            ERROR_OFFSET_MUST_NOT_BE_GREATER_THAN_SIZE);
     }
     void* incrementedPtr = nullptr;
     if (_voidPointer == nullptr) {
-        Error(_W("null pointer cannot be incremented."));
+        raiseError(L"Nelson:dynamic_link:ERROR_NULL_POINTER_CANNOT_BE_INCREMENTED",
+            ERROR_NULL_POINTER_CANNOT_BE_INCREMENTED);
     }
     if (_DataType == L"logical") {
         incrementedPtr = static_cast<uint8*>(_voidPointer) + offset;
@@ -233,7 +240,8 @@ LibPointerObject::plus(indexType offset)
         incrementedPtr = static_cast<wchar_t*>(_voidPointer) + offset;
     }
     if (_DataType == L"void") {
-        Error(_W("void cannot be incremented."));
+        raiseError(L"Nelson:dynamic_link:ERROR_VOID_CANNOT_BE_INCREMENTED",
+            ERROR_VOID_CANNOT_BE_INCREMENTED);
     }
     if (_DataType == L"logicalPtr") {
         incrementedPtr = static_cast<uint8*>(_voidPointer) + offset;
@@ -272,20 +280,24 @@ LibPointerObject::plus(indexType offset)
         incrementedPtr = static_cast<double*>(_voidPointer) + offset;
     }
     if (_DataType == L"voidPtr") {
-        Error(_W("voidPtr cannot be incremented."));
+        raiseError(L"Nelson:dynamic_link:ERROR_VOIDPTR_CANNOT_BE_INCREMENTED",
+            ERROR_VOIDPTR_CANNOT_BE_INCREMENTED);
     }
     if (_DataType == L"libpointer") {
-        Error(_W("libpointer cannot be incremented."));
+        raiseError(L"Nelson:dynamic_link:ERROR_LIBPOINTER_CANNOT_BE_INCREMENTED",
+            ERROR_LIBPOINTER_CANNOT_BE_INCREMENTED);
     }
     if (incrementedPtr == nullptr) {
-        Error(_DataType + L" " + _W("cannot be incremented."));
+        raiseError(L"Nelson:dynamic_link:ERROR_CANNOT_BE_INCREMENTED", ERROR_CANNOT_BE_INCREMENTED,
+            _DataType);
     }
     try {
         newPtr = new LibPointerObject(incrementedPtr, _DataType, _currentType);
         newPtr->_initialDimX = _initialDimX;
         newPtr->_initialDimY = _initialDimY;
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:dynamic_link:ERROR_MEMORY_ALLOCATION_MESSAGE",
+            ERROR_MEMORY_ALLOCATION_MESSAGE);
     }
     return newPtr;
 }
@@ -300,12 +312,13 @@ void
 LibPointerObject::setDataType(const std::wstring& dataType)
 {
     if (!DynamicLinkSymbolObject::isValidDataType(dataType)) {
-        Error(_W("Invalid type."));
+        raiseError(L"Nelson:dynamic_link:ERROR_INVALID_TYPE", ERROR_INVALID_TYPE);
     }
     if (_DataType == L"voidPtr" || _DataType.empty()) {
         _currentType = DynamicLinkSymbolObject::GetNelsonType(dataType);
     } else {
-        Error(_W("Incompatible types") + L" " + _DataType + L" --> " + dataType);
+        raiseError(L"Nelson:dynamic_link:ERROR_INCOMPATIBLE_TYPES", ERROR_INCOMPATIBLE_TYPES,
+            _DataType, dataType);
     }
     _DataType = dataType;
 }
@@ -314,7 +327,8 @@ void
 LibPointerObject::reshape(indexType dimX, indexType dimY)
 {
     if (!StringHelpers::ends_with(_DataType, L"Ptr")) {
-        Error(_W("Only numericPtr can be reshaped."));
+        raiseError(L"Nelson:dynamic_link:ERROR_ONLY_NUMERICPTR_CAN_BE_RESHAPED",
+            ERROR_ONLY_NUMERICPTR_CAN_BE_RESHAPED);
     }
     _dimX = static_cast<long int>(dimX);
     _dimY = static_cast<long int>(dimY);
@@ -345,7 +359,8 @@ LibPointerObject::get(const std::wstring& propertyName, ArrayOf& res)
     }
     if (propertyName == L"Value") {
         if (_dimX == -1 || _dimY == -1 || _currentType == NLS_UNKNOWN || _voidPointer == nullptr) {
-            Error(_W("The datatype and size of the value must be defined."));
+            raiseError(L"Nelson:dynamic_link:ERROR_DATATYPE_AND_SIZE_MUST_BE_DEFINED",
+                ERROR_DATATYPE_AND_SIZE_MUST_BE_DEFINED);
         }
         void* copyPointer
             = ArrayOf::allocateArrayOf(_currentType, _dimX * _dimY, stringVector(), true);

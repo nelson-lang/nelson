@@ -16,6 +16,7 @@
 #include "Types.hpp"
 #include "nlsTypes_exports.h"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -57,7 +58,8 @@ DeleteHandleObjects(
         return false;
     }
     if (A.isEmpty()) {
-        Error(validHandleExpectedMsg);
+        raiseError(L"Nelson:types:ERROR_VALID_HANDLE_EXPECTED", ERROR_VALID_HANDLE_EXPECTED,
+            validHandleExpectedMsg);
         return false;
     }
 
@@ -73,7 +75,8 @@ DeleteHandleObjects(
             continue;
         }
         if (hlObj->getCategory() != expectedCategory) {
-            Error(handleExpectedMsg);
+            raiseError(
+                L"Nelson:types:ERROR_HANDLE_EXPECTED", ERROR_HANDLE_EXPECTED, handleExpectedMsg);
             continue;
         }
         auto* obj = dynamic_cast<T*>(hlObj);

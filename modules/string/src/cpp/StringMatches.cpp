@@ -11,6 +11,7 @@
 #include "StringMatches.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -30,14 +31,18 @@ StringMatches(ArrayOf A, ArrayOf B, bool ignoreCase)
     bool isSupportedA
         = (A.isRowVectorCharacterArray() || A.isStringArray() || A.isCellArrayOfCharacterVectors());
     if (!isSupportedA) {
-        Error(_W("Wrong type for argument #1: string array or character vector or cell array of "
-                 "character vectors expected."));
+        raiseError(L"Nelson:string:ERROR_WRONG_TYPE_FOR_ARGUMENT_X_STRING_ARRAY_OR_CHARACTER_"
+                   L"VECTOR_OR_CELL_ARRAY_EXPECTED",
+            ERROR_WRONG_TYPE_FOR_ARGUMENT_X_STRING_ARRAY_OR_CHARACTER_VECTOR_OR_CELL_ARRAY_EXPECTED,
+            1);
     }
     bool isSupportedB
         = (B.isRowVectorCharacterArray() || B.isStringArray() || B.isCellArrayOfCharacterVectors());
     if (!isSupportedB) {
-        Error(_W("Wrong type for argument #2: string array or character vector or cell array of "
-                 "character vectors expected."));
+        raiseError(L"Nelson:string:ERROR_WRONG_TYPE_FOR_ARGUMENT_X_STRING_ARRAY_OR_CHARACTER_"
+                   L"VECTOR_OR_CELL_ARRAY_EXPECTED",
+            ERROR_WRONG_TYPE_FOR_ARGUMENT_X_STRING_ARRAY_OR_CHARACTER_VECTOR_OR_CELL_ARRAY_EXPECTED,
+            2);
     }
     if ((A.isCell() && A.isEmpty()) || (B.isCell() && B.isEmpty())
         || (A.isStringArray() && A.isEmpty()) || (B.isStringArray() && B.isEmpty())) {

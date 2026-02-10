@@ -13,6 +13,7 @@
 #include "GORoot.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -35,7 +36,7 @@ Nelson::GraphicsGateway::graphics_object_propertiesBuiltin(
         fp = (GraphicsObject*)findGOFigure(handle);
     }
     if (!fp) {
-        Error(_W("Invalid handle."));
+        raiseError(L"Nelson:graphics:ERROR_INVALID_NELSON_HANDLE", ERROR_INVALID_NELSON_HANDLE);
     }
     std::vector<std::wstring> propertyNames = fp->getVisibleFieldnames();
     if (nLhs == 0) {

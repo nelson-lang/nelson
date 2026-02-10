@@ -15,6 +15,7 @@
 #include "FilesManager.hpp"
 #include "NelsonConfiguration.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,17 +29,20 @@ Nelson::StreamGateway::ftellBuiltin(int nLhs, const ArrayOfVector& argIn)
     auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
-        Error(_W("Problem with file manager."));
+        raiseError(
+            L"Nelson:stream:ERROR_PROBLEM_WITH_FILE_MANAGER", ERROR_PROBLEM_WITH_FILE_MANAGER);
     }
     if (fm->isOpened(iValue)) {
         File* f = fm->getFile(iValue);
         if (f == nullptr) {
-            Error(_W("Invalid file identifier."));
+            raiseError(L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER",
+                ERROR_INVALID_FILE_IDENTIFIER);
         }
         auto dpos = static_cast<double>(FileTell(f));
         retval << ArrayOf::doubleConstructor(dpos);
     } else {
-        Error(_W("Invalid file identifier."));
+        raiseError(
+            L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER", ERROR_INVALID_FILE_IDENTIFIER);
     }
     return retval;
 }

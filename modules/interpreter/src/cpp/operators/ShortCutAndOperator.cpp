@@ -13,7 +13,9 @@
 #include "FindCommonType.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "Operators.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -34,15 +36,20 @@ shortCutAndOperatorImpl(Evaluator* eval, AbstractSyntaxTreePtr t)
 {
     ArrayOf A = eval->expression(t->down);
     if (!A.isScalar()) {
-        Error(_W("Operand to && operator must be convertible to logical scalar values."));
+        raiseError(L"Nelson:interpreter:ERROR_OPERAND_TO_OPERATOR_MUST_BE_CONVERTIBLE_TO_LOGICAL_"
+                   L"SCALAR_VALUES",
+            ERROR_OPERAND_TO_OPERATOR_MUST_BE_CONVERTIBLE_TO_LOGICAL_SCALAR_VALUES);
     }
     if (A.isComplex()) {
-        Error(_("Complex values cannot converted to logicals."));
+        raiseError(L"Nelson:interpreter:ERROR_COMPLEX_VALUES_CANNOT_CONVERTED_TO_LOGICALS",
+            ERROR_COMPLEX_VALUES_CANNOT_CONVERTED_TO_LOGICALS);
     }
     try {
         A.promoteType(NLS_LOGICAL);
     } catch (const Exception&) {
-        Error(_W("Operand to && operator must be convertible to logical scalar values."));
+        raiseError(L"Nelson:interpreter:ERROR_OPERAND_TO_OPERATOR_MUST_BE_CONVERTIBLE_TO_LOGICAL_"
+                   L"SCALAR_VALUES",
+            ERROR_OPERAND_TO_OPERATOR_MUST_BE_CONVERTIBLE_TO_LOGICAL_SCALAR_VALUES);
     }
     bool a = A.getContentAsLogicalScalar() != 0U;
     if (!a) {
@@ -50,15 +57,20 @@ shortCutAndOperatorImpl(Evaluator* eval, AbstractSyntaxTreePtr t)
     }
     ArrayOf B = eval->expression(t->down->right);
     if (!B.isScalar()) {
-        Error(_W("Operand to && operator must be convertible to logical scalar values."));
+        raiseError(L"Nelson:interpreter:ERROR_OPERAND_TO_OPERATOR_MUST_BE_CONVERTIBLE_TO_LOGICAL_"
+                   L"SCALAR_VALUES",
+            ERROR_OPERAND_TO_OPERATOR_MUST_BE_CONVERTIBLE_TO_LOGICAL_SCALAR_VALUES);
     }
     if (B.isComplex()) {
-        Error(_("Complex values cannot converted to logicals."));
+        raiseError(L"Nelson:interpreter:ERROR_COMPLEX_VALUES_CANNOT_CONVERTED_TO_LOGICALS",
+            ERROR_COMPLEX_VALUES_CANNOT_CONVERTED_TO_LOGICALS);
     }
     try {
         B.promoteType(NLS_LOGICAL);
     } catch (const Exception&) {
-        Error(_W("Operand to && operator must be convertible to logical scalar values."));
+        raiseError(L"Nelson:interpreter:ERROR_OPERAND_TO_OPERATOR_MUST_BE_CONVERTIBLE_TO_LOGICAL_"
+                   L"SCALAR_VALUES",
+            ERROR_OPERAND_TO_OPERATOR_MUST_BE_CONVERTIBLE_TO_LOGICAL_SCALAR_VALUES);
     }
     return ArrayOf::logicalConstructor(B.getContentAsLogicalScalar() != 0U);
 }

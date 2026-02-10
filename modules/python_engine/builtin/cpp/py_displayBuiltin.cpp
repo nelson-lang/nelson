@@ -10,6 +10,7 @@
 #include "py_displayBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PythonObjectHandle.hpp"
 #include "DisplayVariableHelpers.hpp"
@@ -26,7 +27,8 @@ Nelson::Python_engineGateway::py_displayBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (!eval) {
-        Error(_W("Evaluator not available."));
+        raiseError(
+            L"Nelson:python_engine:ERROR_EVALUATOR_NOT_AVAILABLE", ERROR_EVALUATOR_NOT_AVAILABLE);
     }
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 0);
@@ -49,7 +51,8 @@ Nelson::Python_engineGateway::py_displayBuiltin(
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("Python object expected."));
+        raiseError(
+            L"Nelson:python_engine:ERROR_PYTHON_OBJECT_EXPECTED", ERROR_PYTHON_OBJECT_EXPECTED);
     }
     return retval;
 }

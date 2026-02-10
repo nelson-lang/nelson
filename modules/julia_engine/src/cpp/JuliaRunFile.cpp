@@ -15,6 +15,7 @@
 #include "i18n.hpp"
 #include "JuliaTypesHelpers.hpp"
 #include "FileSystemWrapper.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,17 +25,19 @@ JuliaRunFile(Interface* io, bool haveEventsLoop, const std::wstring& filename,
     const ArrayOfVector& values)
 {
     if (!initializeJuliaEngine()) {
-        Error(_W("Julia engine not initialized."));
+        raiseError(L"Nelson:julia_engine:ERROR_JULIA_ENGINE_NOT_INITIALIZED",
+            ERROR_JULIA_ENGINE_NOT_INITIALIZED);
     }
 
     FileSystemWrapper::Path scriptPath(filename);
     if (!scriptPath.is_regular_file()) {
-        Error(_W("File not found: ") + filename);
+        raiseError(
+            L"Nelson:julia_engine:ERROR_FILENAME_NOT_FOUND", ERROR_FILENAME_NOT_FOUND, filename);
     }
 
     jl_module_t* jl_main_module = (jl_module_t*)NLSjl_eval_string("Main");
     if (!jl_main_module) {
-        Error(_W("Main module not found."));
+        raiseError(L"Nelson:julia_engine:ERROR_MAIN_MODULE_NOT_FOUND", ERROR_MAIN_MODULE_NOT_FOUND);
     }
 
     ArrayOfVector retval;
@@ -64,11 +67,12 @@ JuliaRunFile(Interface* io, bool haveEventsLoop, const std::wstring& filename,
                         error_msg += "\n" + txt;
                     }
                 }
-                error_msg = _("Error in Julia: ") + "\n" + error_msg;
-                Error(error_msg);
+                raiseError(L"Nelson:julia_engine:ERROR_IN_JULIA", ERROR_IN_JULIA,
+                    utf8_to_wstring(error_msg));
                 return {};
             }
-            Error(_W("Cannot convert Nelson variable to Julia."));
+            raiseError(L"Nelson:julia_engine:ERROR_CANNOT_CONVERT_NELSON_VARIABLE_TO_JULIA",
+                ERROR_CANNOT_CONVERT_NELSON_VARIABLE_TO_JULIA);
             return {};
         }
     }
@@ -96,8 +100,8 @@ JuliaRunFile(Interface* io, bool haveEventsLoop, const std::wstring& filename,
                     error_msg += "\n" + txt;
                 }
             }
-            error_msg = _("Error in Julia: ") + "\n" + error_msg;
-            Error(error_msg);
+            raiseError(
+                L"Nelson:julia_engine:ERROR_IN_JULIA", ERROR_IN_JULIA, utf8_to_wstring(error_msg));
             return {};
         }
     }
@@ -112,7 +116,8 @@ JuliaRunFile(Interface* io, bool haveEventsLoop, const std::wstring& filename,
             std::string name = wstring_to_utf8(variableName);
             jl_value_t* x_value = NLSjl_get_global(jl_main_module, NLSjl_symbol(name.c_str()));
             if (!x_value) {
-                Error(_W("Variable not found: ") + variableName);
+                raiseError(L"Nelson:julia_engine:ERROR_VARIABLE_NOT_FOUND",
+                    ERROR_VARIABLE_NOT_FOUND, variableName);
             }
             retval << jl_value_tToArrayOf(x_value);
         }

@@ -16,6 +16,7 @@
 #include "FileSystemWrapper.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -108,17 +109,17 @@ WhosMatioFile(
         = FileSystemWrapper::Path::is_regular_file(mat_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            Error(_W("Permission denied."));
+            raiseError(L"Nelson:matio:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
         }
     }
     if (!fileExistPreviously) {
-        Error(_W("File does not exist."));
+        raiseError(L"Nelson:matio:ERROR_FILE_DOES_NOT_EXIST", ERROR_FILE_DOES_NOT_EXIST);
     }
 
     std::string utf8filename = wstring_to_utf8(filename);
     mat_t* matfile = Mat_Open(utf8filename.c_str(), MAT_ACC_RDONLY);
     if (!matfile) {
-        Error(_W("Valid .mat file expected."));
+        raiseError(L"Nelson:matio:ERROR_VALID_MAT_FILE_EXPECTED", ERROR_VALID_MAT_FILE_EXPECTED);
     }
     stringVector variableNamesInFile;
     size_t nVars = 0;
@@ -165,8 +166,8 @@ WhosMatioFile(
         matvar_t* matVariable = Mat_VarRead(matfile, name.c_str());
         if (matVariable == nullptr) {
             Mat_Close(matfile);
-            std::string msg = _("Cannot read variable:") + std::string(" ") + name;
-            Error(msg);
+            raiseError(L"Nelson:matio:ERROR_CANNOT_READ_VARIABLE", ERROR_CANNOT_READ_VARIABLE,
+                utf8_to_wstring(name));
             return {};
         }
         _names.push_back(name);

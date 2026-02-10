@@ -14,6 +14,7 @@
 #include "ClassName.hpp"
 #include "MatrixCheck.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "NewWithException.hpp"
 //=============================================================================
@@ -132,12 +133,17 @@ Modulo(ArrayOf A, ArrayOf B)
     indexType Clen = 0;
     Dimensions Cdim;
     if (!A.isNumeric() || !B.isNumeric()) {
-        Error(_W("Input arguments must be numeric."));
+        raiseError(L"Nelson:elementary_functions:ERROR_INPUT_ARGUMENTS_MUST_BE_NUMERIC",
+            ERROR_INPUT_ARGUMENTS_MUST_BE_NUMERIC);
     } else if (A.isComplex() || B.isComplex()) {
-        Error(_("Undefined function 'mod' for complex input argument."));
+        raiseError(
+            L"Nelson:elementary_functions:ERROR_UNDEFINED_FUNCTION_MOD_FOR_COMPLEX_INPUT_ARGUMENT",
+            ERROR_UNDEFINED_FUNCTION_MOD_FOR_COMPLEX_INPUT_ARGUMENT);
     } else if (A.isIntegerType() || B.isIntegerType()) {
         if (A.isSparse() || B.isSparse()) {
-            Error(_("Undefined function 'mod' for sparse input argument."));
+            raiseError(L"Nelson:elementary_functions:ERROR_UNDEFINED_FUNCTION_MOD_FOR_SPARSE_INPUT_"
+                       L"ARGUMENT",
+                ERROR_UNDEFINED_FUNCTION_MOD_FOR_SPARSE_INPUT_ARGUMENT);
         }
         VectorCheck(A, B, "mod");
         computeEntries(A, B, Astride, Bstride, Clen, Cdim);
@@ -195,16 +201,21 @@ Modulo(ArrayOf A, ArrayOf B)
                     (uint64*)B.getDataPointer(), Bstride);
             } break;
             default: {
-                Error(_("Integers type not managed."));
+                raiseError(L"Nelson:elementary_functions:ERROR_INTEGERS_TYPE_NOT_MANAGED",
+                    ERROR_INTEGERS_TYPE_NOT_MANAGED);
             } break;
             }
             M = ArrayOf(classA, Cdim, Cp);
         } else {
-            Error(_("Integers must be combined with integers of the same class."));
+            raiseError(L"Nelson:elementary_functions:ERROR_INTEGERS_MUST_BE_COMBINED_WITH_INTEGERS_"
+                       L"OF_THE_SAME_CLASS",
+                ERROR_INTEGERS_MUST_BE_COMBINED_WITH_INTEGERS_OF_THE_SAME_CLASS);
         }
     } else {
         if (A.isSparse() || B.isSparse()) {
-            Error(_("Undefined function 'mod' for sparse input argument."));
+            raiseError(L"Nelson:elementary_functions:ERROR_UNDEFINED_FUNCTION_MOD_FOR_SPARSE_INPUT_"
+                       L"ARGUMENT",
+                ERROR_UNDEFINED_FUNCTION_MOD_FOR_SPARSE_INPUT_ARGUMENT);
         }
         VectorCheck(A, B, "mod");
         computeEntries(A, B, Astride, Bstride, Clen, Cdim);

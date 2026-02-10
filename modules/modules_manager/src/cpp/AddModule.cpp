@@ -10,6 +10,7 @@
 #include "AddModule.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "FindDynamicLibraryName.hpp"
 #include "ModulesHelpers.hpp"
@@ -40,24 +41,27 @@ AddModule(Evaluator* eval, const std::wstring& modulerootpath, const std::wstrin
             } else {
                 if ((IsExistingModuleName(moduleshortname)
                         && IsExistingModulePath(_modulerootpath))) {
-                    Error(
-                        moduleshortname + _W(": This module is already used: ") + moduleshortname);
+                    raiseError(L"Nelson:modules_manager:ModuleAlreadyUsed",
+                        ERROR_MODULE_ALREADY_USED, moduleshortname);
+
+                } else if (IsExistingModuleName(moduleshortname)) {
+                    raiseError(L"Nelson:modules_manager:ERROR_AN_EXISTING_MODULE_WITH_THE_SAME_"
+                               L"NAME_ALREADY_USED",
+                        ERROR_AN_EXISTING_MODULE_WITH_THE_SAME_NAME_ALREADY_USED, moduleshortname);
                 } else {
-                    if (IsExistingModuleName(moduleshortname)) {
-                        Error(_W("An existing module with the same name already used: ")
-                            + moduleshortname);
-                    }
-                    if (IsExistingModulePath(_modulerootpath)) {
-                        Error(_W("An existing module with the same path already defined: \n")
-                            + _modulerootpath);
-                    }
+                    raiseError(L"Nelson:modules_manager:ERROR_AN_EXISTING_MODULE_WITH_THE_SAME_"
+                               L"PATH_ALREADY_DEFINED",
+                        ERROR_AN_EXISTING_MODULE_WITH_THE_SAME_PATH_ALREADY_DEFINED,
+                        _modulerootpath);
                 }
             }
         } else {
-            Error(_W("startup.m does not exist") + L" (" + moduleshortname + L").");
+            raiseError(L"Nelson:modules_manager:ERROR_STARTUP_M_DOES_NOT_EXIST",
+                ERROR_STARTUP_M_DOES_NOT_EXIST, moduleshortname);
         }
     } else {
-        Error(_W("An existing module root path expected") + L" (" + moduleshortname + L")");
+        raiseError(L"Nelson:modules_manager:ERROR_AN_EXISTING_MODULE_ROOT_PATH_EXPECTED",
+            ERROR_AN_EXISTING_MODULE_ROOT_PATH_EXPECTED, moduleshortname);
     }
 }
 //=============================================================================

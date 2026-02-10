@@ -31,7 +31,7 @@ Nelson::ModulesManagerGateway::gatewayinfoBuiltin(int nLhs, const ArrayOfVector&
             retval << ArrayOf::characterArrayConstructor(moduleName);
             retval << ArrayOf::toCellArrayOfCharacterColumnVectors(builtinList);
         } else {
-            Error(errorMessage);
+            Error(errorMessage, L"Nelson:modules_manager:gatewayinfo");
         }
     } else {
         raiseError(L"Nelson:modules:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",

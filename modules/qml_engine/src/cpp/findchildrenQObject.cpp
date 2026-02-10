@@ -25,12 +25,13 @@ findchildrenQObject(const ArrayOf& H, const std::wstring& fieldname, bool bRecur
     res.promoteType(NLS_HANDLE);
     HandleGenericObject* hlObj = H.getContentAsHandleScalar();
     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        Error(_W("QObject handle expected."));
+        raiseError(L"Nelson:qml:ERROR_QOBJECT_HANDLE_EXPECTED", ERROR_QOBJECT_HANDLE_EXPECTED);
     }
     QObjectHandleObject* qmlhandleobj = static_cast<QObjectHandleObject*>(hlObj);
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        Error(_W("QObject valid handle expected."));
+        raiseError(
+            L"Nelson:qml:ERROR_QOBJECT_VALID_HANDLE_EXPECTED", ERROR_QOBJECT_VALID_HANDLE_EXPECTED);
     }
     QObject* qobj = static_cast<QObject*>(ptr);
     Qt::FindChildOption option = Qt::FindDirectChildrenOnly;
@@ -52,7 +53,7 @@ findchildrenQObject(const ArrayOf& H, const std::wstring& fieldname, bool bRecur
                     qmlHandle = new QObjectHandleObject(qobjfound[k]);
                 } catch (const std::bad_alloc&) {
                     qmlHandle = nullptr;
-                    Error(ERROR_MEMORY_ALLOCATION);
+                    raiseError(L"Nelson:qml:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
                 }
                 nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
             }

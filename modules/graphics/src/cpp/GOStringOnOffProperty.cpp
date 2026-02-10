@@ -10,6 +10,7 @@
 #include "GOStringOnOffProperty.hpp"
 #include "GOPropertyValues.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -37,11 +38,13 @@ GOOnOffProperty::set(ArrayOf arg)
         return;
     }
     if (!arg.isRowVectorCharacterArray() && !(arg.isStringArray() && arg.isScalar())) {
-        Error(_W("Expecting a string for property."));
+        raiseError(L"Nelson:graphics:ERROR_EXPECTING_A_STRING_FOR_PROPERTY",
+            ERROR_EXPECTING_A_STRING_FOR_PROPERTY);
     }
     std::wstring tst(arg.getContentAsWideString());
     if (std::find(m_dictionary.begin(), m_dictionary.end(), tst) == m_dictionary.end()) {
-        Error(_W("Illegal selection for property."));
+        raiseError(L"Nelson:graphics:ERROR_ILLEGAL_SELECTION_FOR_PROPERTY",
+            ERROR_ILLEGAL_SELECTION_FOR_PROPERTY);
     }
     GOStringProperty::set(arg);
 }

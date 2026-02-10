@@ -10,6 +10,7 @@
 #include "getfieldBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "OverloadRequired.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -36,7 +37,8 @@ Nelson::DataStructuresGateway::getfieldBuiltin(int nLhs, const ArrayOfVector& ar
             retval << rv[0];
         }
     } else {
-        Error(_W("Wrong type for argument #1. struct expected."));
+        raiseError(L"Nelson:data_structures:ERROR_WRONG_TYPE_ARG1_STRUCT_EXPECTED",
+            ERROR_WRONG_TYPE_ARG1_STRUCT_EXPECTED);
     }
     return retval;
 }

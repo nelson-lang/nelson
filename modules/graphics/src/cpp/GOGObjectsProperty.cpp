@@ -13,6 +13,7 @@
 #include "GORoot.hpp"
 #include "GOHelpers.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -51,7 +52,8 @@ GOGObjectsProperty::set(ArrayOf arg)
         return;
     }
     if (!arg.isGraphicsObject()) {
-        Error(_W("Expecting handle for property."));
+        raiseError(L"Nelson:graphics:ERROR_EXPECTING_HANDLE_FOR_PROPERTY",
+            ERROR_EXPECTING_HANDLE_FOR_PROPERTY);
     }
     const int64* dp = static_cast<const int64*>(
         const_cast<void*>(static_cast<const void*>(arg.getDataPointer())));

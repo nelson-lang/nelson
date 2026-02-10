@@ -26,7 +26,8 @@ Nelson::CoreGateway::narginBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     if (argIn.empty()) {
         Context* context = eval->getContext();
         if (context->getCurrentScope()->getName() == "base") {
-            Error(_W("not allowed in base scope."));
+            raiseError(L"Nelson:core:ERROR_NARGIN_NOT_ALLOWED_IN_BASE_SCOPE",
+                ERROR_NARGIN_NOT_ALLOWED_IN_BASE_SCOPE);
         } else {
             int nargin = context->getCurrentScope()->getNargIn();
             retval << ArrayOf::doubleConstructor(nargin);

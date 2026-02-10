@@ -12,6 +12,7 @@
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
 #include "characters_encoding.hpp"
@@ -47,7 +48,7 @@ GOCallbackProperty::buildGraphicCallback(GraphicsObject* go, const std::wstring&
         elements[2] = ArrayOf::classConstructor(className, fieldnames, fieldvalues);
         callbackAsArrayOf = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, nbElements), elements);
     } else {
-        Error(_("Case not yet managed."));
+        raiseError(L"Nelson:graphics:ERROR_CASE_NOT_YET_MANAGED", ERROR_CASE_NOT_YET_MANAGED);
     }
     GraphicCallback graphicCallback(
         go->stringCheck(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR),
@@ -169,9 +170,9 @@ GOCallbackProperty::set(ArrayOf arg)
     }
 
     if (!isSupportedType) {
-        std::wstring msg = _W("Callback value must be a character vector, a function handle, or a "
-                              "cell array containing character vector or function handle.");
-        Error(msg);
+        raiseError(L"Nelson:graphics:ERROR_CALLBACK_VALUE_MUST_BE_CHARACTER_VECTOR_FUNCTION_HANDLE_"
+                   L"OR_CELL_ARRAY",
+            ERROR_CALLBACK_VALUE_MUST_BE_CHARACTER_VECTOR_FUNCTION_HANDLE_OR_CELL_ARRAY);
     }
     GOArrayOfProperty::set(arg);
 }

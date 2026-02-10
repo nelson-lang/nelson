@@ -21,6 +21,8 @@
 #include "ClassName.hpp"
 #include "ReciprocalConditionNumber.hpp"
 #include "NewWithException.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -225,7 +227,8 @@ InverseMatrix(const ArrayOf& A, bool& needToOverload)
         return {};
     }
     if (!A.isSquare()) {
-        Error(_("Square matrix expected."));
+        raiseError(
+            L"Nelson:linear_algebra:ERROR_SQUARE_MATRIX_EXPECTED", ERROR_SQUARE_MATRIX_EXPECTED);
     }
     if (A.isEmpty()) {
         ArrayOf RES(A);

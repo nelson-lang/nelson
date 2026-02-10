@@ -11,6 +11,7 @@
 #include "BackgroundPoolObject.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "characters_encoding.hpp"
 #include "FevalFutureObject.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -25,14 +26,17 @@ Nelson::ParallelGateway::parfevalBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval(1);
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle()) {
-        Error(_W("backgroundPool handle expected."));
+        raiseError(L"Nelson:parallel:ERROR_BACKGROUNDPOOL_HANDLE_EXPECTED",
+            ERROR_BACKGROUNDPOOL_HANDLE_EXPECTED);
     }
     if (param1.getHandleCategory() != NLS_HANDLE_BACKGROUNDPOOL_CATEGORY_STR) {
-        Error(_W("backgroundPool handle expected."));
+        raiseError(L"Nelson:parallel:ERROR_BACKGROUNDPOOL_HANDLE_EXPECTED",
+            ERROR_BACKGROUNDPOOL_HANDLE_EXPECTED);
     }
     ArrayOf param2 = argIn[1];
     if (!param2.isFunctionHandle()) {
-        Error(_W("function handle handle expected."));
+        raiseError(L"Nelson:parallel:ERROR_FUNCTION_HANDLE_HANDLE_EXPECTED",
+            ERROR_FUNCTION_HANDLE_HANDLE_EXPECTED);
     }
     function_handle fh = param2.getContentAsFunctionHandle();
     if (fh.anonymousHandle == nullptr) {
@@ -48,26 +52,29 @@ Nelson::ParallelGateway::parfevalBuiltin(int nLhs, const ArrayOfVector& argIn)
         funcDef = (FunctionDef*)fh.anonymousHandle;
     }
     if (!funcDef) {
-        Error(_W("Invalid anonymous function."));
+        raiseError(
+            L"Nelson:parallel:ERROR_INVALID_ANONYMOUS_FUNCTION", ERROR_INVALID_ANONYMOUS_FUNCTION);
     }
     ArrayOf param3 = argIn[2];
     bool isReal = param3.getDataClass() == NLS_DOUBLE || param3.getDataClass() == NLS_SINGLE;
     if (!isReal) {
-        Error(_W("integer value expected."));
+        raiseError(L"Nelson:parallel:ERROR_INTEGER_VALUE_EXPECTED", ERROR_INTEGER_VALUE_EXPECTED);
     }
     double value = param3.getContentAsDoubleScalar();
     int ivalue = (int)(value);
     if (value != (double)ivalue) {
-        Error(_W("integer value expected."));
+        raiseError(L"Nelson:parallel:ERROR_INTEGER_VALUE_EXPECTED", ERROR_INTEGER_VALUE_EXPECTED);
     }
     if (ivalue < 0) {
-        Error(_W("non negative value expected."));
+        raiseError(L"Nelson:parallel:ERROR_NON_NEGATIVE_VALUE_EXPECTED",
+            ERROR_NON_NEGATIVE_VALUE_EXPECTED);
     }
     auto* backgroundPoolObject = (BackgroundPoolObject*)param1.getContentAsHandleScalar();
     if (backgroundPoolObject) {
         retval << backgroundPoolObject->feval(funcDef, ivalue, args);
     } else {
-        Error(_W("Invalid backgroundPool handle."));
+        raiseError(L"Nelson:parallel:ERROR_INVALID_BACKGROUNDPOOL_HANDLE",
+            ERROR_INVALID_BACKGROUNDPOOL_HANDLE);
     }
     return retval;
 }

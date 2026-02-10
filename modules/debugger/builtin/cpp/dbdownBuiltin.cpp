@@ -10,6 +10,7 @@
 #include "dbdownBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -21,18 +22,19 @@ Nelson::DebuggerGateway::dbdownBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     nargincheck(argIn, 0, 1);
     nargoutcheck(nLhs, 0, 0);
     if (!eval) {
-        Error(_W("Evaluator is null."), _W("dbdown:InvalidEvaluator"));
+        raiseError(L"Nelson:debugger:ERROR_EVALUATOR_IS_NULL", ERROR_EVALUATOR_IS_NULL);
     }
 
     if (!eval->isBreakpointActive()) {
-        Error(_W("No active breakpoint."));
+        raiseError(L"Nelson:debugger:ERROR_NO_ACTIVE_BREAKPOINT", ERROR_NO_ACTIVE_BREAKPOINT);
     }
 
     int N = 1;
     if (argIn.size() == 1) {
         N = argIn[0].getContentAsInteger32Scalar();
         if (N < 1) {
-            Error(_W("N must be a positive integer."), _W("dbdown:InvalidInput"));
+            raiseError(L"Nelson:debugger:ERROR_N_MUST_BE_POSITIVE_INTEGER",
+                ERROR_N_MUST_BE_POSITIVE_INTEGER);
         }
     }
 

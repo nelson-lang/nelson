@@ -10,6 +10,7 @@
 #include "Validators.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ValidatorsInternal.hpp"
 //=============================================================================
 namespace Nelson {
@@ -18,9 +19,7 @@ static void
 checkArgumentPosition(const ArrayOfVector& args, int argPosition)
 {
     if (argPosition < 0 || argPosition >= args.size()) {
-        std::wstring msg = _W("Invalid input argument position.");
-        std::wstring id = L"Nelson:validators:invalidInputPosition";
-        Error(msg, id);
+        raiseError(L"Nelson:validators:ERROR_INVALID_INPUT_POSITION", ERROR_INVALID_INPUT_POSITION);
     }
 }
 //=============================================================================

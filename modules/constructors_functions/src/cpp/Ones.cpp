@@ -116,7 +116,8 @@ Ones(Dimensions& dims, NelsonType cl)
         return realOnes<charType>(cl, dp, dims);
     } break;
     default:
-        Error(ERROR_TYPE_NOT_SUPPORTED);
+        raiseError(
+            L"Nelson:constructors_functions:ERROR_TYPE_NOT_SUPPORTED", ERROR_TYPE_NOT_SUPPORTED);
     }
     return {};
 }

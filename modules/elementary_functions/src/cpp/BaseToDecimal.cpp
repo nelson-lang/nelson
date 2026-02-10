@@ -12,6 +12,7 @@
 #include "StringHelpers.hpp"
 #include <unordered_map>
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "Exception.hpp"
 #include "BaseToDecimal.hpp"
@@ -34,7 +35,8 @@ base2dec(const std::wstring& wstr, int base)
     wchar_t* str = nullptr;
     res = wcstoull(wstr.c_str(), &str, base);
     if (wcslen(str) > 0) {
-        Error(_W("Cannot convert: ") + wstr);
+        raiseError(L"Nelson:elementary_functions:ERROR_CANNOT_CONVERT_TO_STR_WITH_VALUE",
+            ERROR_CANNOT_CONVERT_TO_STR_WITH_VALUE, wstr);
     }
     return res;
 }
@@ -61,11 +63,13 @@ BaseToDecimal(ArrayOf& A, ArrayOf& Base, bool& needToOverload)
     double dbase = Base.getContentAsDoubleScalar();
     double fbase = std::floor(dbase);
     if (dbase != fbase) {
-        Error(_W("The base must be an integer value between 2 and 36."));
+        raiseError(L"Nelson:elementary_functions:ERROR_BASE_MUST_BE_INTEGER_BETWEEN_2_AND_36",
+            ERROR_BASE_MUST_BE_INTEGER_BETWEEN_2_AND_36);
     }
     int ibase = static_cast<int>(fbase);
     if (ibase < 2 || ibase > 36) {
-        Error(_W("The base must be an integer value between 2 and 36."));
+        raiseError(L"Nelson:elementary_functions:ERROR_BASE_MUST_BE_INTEGER_BETWEEN_2_AND_36",
+            ERROR_BASE_MUST_BE_INTEGER_BETWEEN_2_AND_36);
     }
     if (lastBase != ibase) {
         baseConverted.clear();
@@ -83,7 +87,8 @@ BaseToDecimal(ArrayOf& A, ArrayOf& Base, bool& needToOverload)
                 elements.push_back(A.getContentAsWideString());
             } else {
                 if (A.isNdArrayCharacterType()) {
-                    Error(_W("2D char array expected."));
+                    raiseError(L"Nelson:elementary_functions:ERROR_2D_CHAR_ARRAY_EXPECTED",
+                        ERROR_2D_CHAR_ARRAY_EXPECTED);
                 }
                 bool dummy;
                 ArrayOf Transposed = Transpose(A, dummy);

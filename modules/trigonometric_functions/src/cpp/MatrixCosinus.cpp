@@ -14,6 +14,7 @@
 #include "MatrixCosinus.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 template <class T>
@@ -49,7 +50,8 @@ MatrixCos(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
     if (!A.isSquare()) {
-        Error(_("Square matrix expected."));
+        raiseError(L"Nelson:trigonometric_functions:ERROR_SQUARE_MATRIX_EXPECTED",
+            ERROR_SQUARE_MATRIX_EXPECTED);
     }
     if (A.isEmpty()) {
         ArrayOf R(A);

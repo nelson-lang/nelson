@@ -30,19 +30,22 @@ Nelson::ComEngineGateway::actxserverBuiltin(int nLhs, const ArrayOfVector& argIn
     case 3: {
         std::wstring type = argIn[2].getContentAsWideString();
         if (!(type == L"machine")) {
-            Error(_W("'machine' value expected."));
+            raiseError(
+                L"Nelson:com_engine:ERROR_MACHINE_VALUE_EXPECTED", ERROR_MACHINE_VALUE_EXPECTED);
         }
         progid = argIn[0].getContentAsWideString();
     } break;
     case 2:
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:com_engine:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     ComHandleObject* comhandle = ActiveXServer(progid, machine);
     retval << ArrayOf::handleConstructor(comhandle);
 #else
-    Error(_W("Not implemented on this platform."));
+    raiseError(
+        L"Nelson:com_engine:ERROR_NOT_IMPLEMENTED_ON_PLATFORM", ERROR_NOT_IMPLEMENTED_ON_PLATFORM);
 #endif
     return retval;
 }

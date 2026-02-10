@@ -249,7 +249,7 @@ getContentAsScalar(
     if (M.getDataClass() != destinationClass && !M.isSparse()) {
         if (M.isEmpty() || M.isComplex() || M.isReferenceType() || M.isCharacterArray()
             || (!arrayAsScalar && !M.isScalar())) {
-            Error(ERROR_SIZE_SCALAR_EXPECTED);
+            raiseError(L"Nelson:types:ERROR_SIZE_SCALAR_EXPECTED", ERROR_SIZE_SCALAR_EXPECTED);
         }
         ArrayOf P(M);
         P.promoteType(destinationClass);
@@ -258,7 +258,8 @@ getContentAsScalar(
         if (checkIsIntegerValue) {
             double f = M.getContentAsDoubleScalar(arrayAsScalar, false);
             if (std::abs(f - value) >= std::numeric_limits<double>::epsilon()) {
-                Error(_W("A real integer value scalar expected."));
+                raiseError(L"Nelson:types:ERROR_A_REAL_INTEGER_VALUE_SCALAR_EXPECTED",
+                    ERROR_A_REAL_INTEGER_VALUE_SCALAR_EXPECTED);
             }
         }
     } else {

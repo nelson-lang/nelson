@@ -13,6 +13,7 @@
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "OverloadRequired.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -41,7 +42,8 @@ Nelson::StringGateway::strjustBuiltin(int nLhs, const ArrayOfVector& argIn)
             } else if (style == L"right") {
                 side = STRINGJUSTIFY::NLS_JUSTIFY_RIGHT;
             } else {
-                Error(_W("Wrong value for #2 argument: 'left', 'right', 'center' expected."));
+                raiseError(L"Nelson:string:ERROR_WRONG_VALUE_ARG2_LEFT_RIGHT_CENTER_EXPECTED",
+                    ERROR_WRONG_VALUE_ARG2_LEFT_RIGHT_CENTER_EXPECTED);
             }
         }
         retval << StringJustify(A, side);

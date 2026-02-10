@@ -51,19 +51,21 @@ Nelson::HelpToolsGateway::htmltopdfBuiltin(int nLhs, const ArrayOfVector& argIn)
             pdffile.open(pdfname.generic_string());
 #endif
             if (!pdffile.is_open()) {
-                Error(_W("Cannot not open destination file."));
+                raiseError(L"Nelson:help_tools:ERROR_CANNOT_OPEN_DESTINATION_FILE",
+                    ERROR_CANNOT_OPEN_DESTINATION_FILE);
             }
             pdffile.close();
             if (!HtmlFileToPdfFile(param1, param2)) {
-                Error(_W("pdf file not generated."));
+                raiseError(L"Nelson:help_tools:ERROR_PDF_NOT_GENERATED", ERROR_PDF_NOT_GENERATED);
             }
         } break;
         default: {
-            Error(_W("pdf cannot generated in this engine mode."));
+            raiseError(L"Nelson:help_tools:ERROR_PDF_CANNOT_GENERATE_IN_ENGINE_MODE",
+                ERROR_PDF_CANNOT_GENERATE_IN_ENGINE_MODE);
         } break;
         }
     } else {
-        Error(ERROR_WRONG_ARGUMENTS_TYPE);
+        raiseError(L"Nelson:help_tools:ERROR_WRONG_ARGUMENTS_TYPE", ERROR_WRONG_ARGUMENTS_TYPE);
     }
     return retval;
 }

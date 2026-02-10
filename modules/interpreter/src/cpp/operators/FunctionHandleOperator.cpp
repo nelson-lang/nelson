@@ -12,6 +12,8 @@
 #include "AnonymousMacroFunctionDef.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -33,7 +35,8 @@ Evaluator::functionHandleNamedOperator(AbstractSyntaxTreePtr t)
     if (cp) {
         functionHandle.anonymousHandle = reinterpret_cast<nelson_handle*>(cp);
     } else {
-        Error(_("A valid function name expected."), "Nelson:dispatcher:invalidFunctionName");
+        raiseError(L"Nelson:interpreter:ERROR_A_VALID_FUNCTION_NAME_EXPECTED",
+            ERROR_A_VALID_FUNCTION_NAME_EXPECTED);
     }
     ArrayOf retval = ArrayOf::functionHandleConstructor(functionHandle);
     callstack.popID();
@@ -81,7 +84,8 @@ Evaluator::functionHandleAnonymousOperator(AbstractSyntaxTreePtr t)
     if (cp) {
         functionHandle.anonymousHandle = reinterpret_cast<nelson_handle*>(cp);
     } else {
-        Error(_("A valid function name expected."), "Nelson:dispatcher:invalidFunctionName");
+        raiseError(L"Nelson:interpreter:ERROR_A_VALID_FUNCTION_NAME_EXPECTED",
+            ERROR_A_VALID_FUNCTION_NAME_EXPECTED);
     }
     ArrayOf retval = ArrayOf::functionHandleConstructor(functionHandle);
     callstack.popID();

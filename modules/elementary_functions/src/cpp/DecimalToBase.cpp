@@ -20,6 +20,7 @@
 #include "DecimalToBase.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -98,7 +99,8 @@ dec2base(T* values, size_t len, size_t base, size_t ndigits, bool isSigned, size
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> mat(values, 1, len);
     if (isSigned) {
         if (!(mat.array() >= (T)0.).all()) {
-            Error(_W("An array of integers values, 0 <= D <= flintmax expected."));
+            raiseError(L"Nelson:elementary_functions:ERROR_ARRAY_OF_INTEGERS_EXPECTED",
+                ERROR_ARRAY_OF_INTEGERS_EXPECTED);
         }
     }
     maxValue = mat.maxCoeff();
@@ -136,16 +138,20 @@ DecimalToBase(ArrayOf& A, ArrayOf& Base, ArrayOf& Ndigits, bool& needToOverload)
     double dbase = Base.getContentAsDoubleScalar();
     double fbase = std::floor(dbase);
     if (dbase != fbase) {
-        Error(_W("The base must be an integer value between 2 and 36."));
+        raiseError(L"Nelson:elementary_functions:ERROR_BASE_MUST_BE_INTEGER_BETWEEN_2_AND_36",
+            ERROR_BASE_MUST_BE_INTEGER_BETWEEN_2_AND_36);
     }
     auto ibase = static_cast<size_t>(fbase);
     if (ibase < 2 || ibase > 36) {
-        Error(_W("The base must be an integer value between 2 and 36."));
+        raiseError(L"Nelson:elementary_functions:ERROR_BASE_MUST_BE_INTEGER_BETWEEN_2_AND_36",
+            ERROR_BASE_MUST_BE_INTEGER_BETWEEN_2_AND_36);
     }
     double ddigits = Ndigits.getContentAsDoubleScalar();
     double fdigits = std::floor(ddigits);
     if ((ddigits != fdigits) || (ddigits < 0)) {
-        Error(_W("#3 parameter: positive integer value expected."));
+        raiseError(
+            L"Nelson:elementary_functions:ERROR_THIRD_PARAMETER_POSITIVE_INTEGER_VALUE_EXPECTED",
+            ERROR_THIRD_PARAMETER_POSITIVE_INTEGER_VALUE_EXPECTED);
     }
     auto ndigits = static_cast<size_t>(fdigits);
     if (ibase != lastBase) {
@@ -198,7 +204,8 @@ DecimalToBase(ArrayOf& A, ArrayOf& Base, ArrayOf& Ndigits, bool& needToOverload)
         auto* ptr
             = static_cast<single*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
         if (!A.isIntegerValue() || !A.isPositive()) {
-            Error(_W("An array of integers values, 0 <= D <= flintmax expected."));
+            raiseError(L"Nelson:elementary_functions:ERROR_ARRAY_OF_INTEGERS_EXPECTED",
+                ERROR_ARRAY_OF_INTEGERS_EXPECTED);
         }
         vs = dec2base<single>(
             ptr, (size_t)dimsA.getElementCount(), ibase, ndigits, true, commonSize);
@@ -207,19 +214,23 @@ DecimalToBase(ArrayOf& A, ArrayOf& Base, ArrayOf& Ndigits, bool& needToOverload)
         auto* ptr
             = static_cast<double*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
         if (!A.isIntegerValue() || !A.isPositive()) {
-            Error(_W("An array of integers values, 0 <= D <= flintmax expected."));
+            raiseError(L"Nelson:elementary_functions:ERROR_ARRAY_OF_INTEGERS_EXPECTED",
+                ERROR_ARRAY_OF_INTEGERS_EXPECTED);
         }
         vs = dec2base<double>(
             ptr, (size_t)dimsA.getElementCount(), ibase, ndigits, true, commonSize);
     } break;
     case NLS_SCOMPLEX: {
-        Error(_W("An array of integers values, 0 <= D <= flintmax expected."));
+        raiseError(L"Nelson:elementary_functions:ERROR_ARRAY_OF_INTEGERS_EXPECTED",
+            ERROR_ARRAY_OF_INTEGERS_EXPECTED);
     } break;
     case NLS_DCOMPLEX: {
-        Error(_W("An array of integers values, 0 <= D <= flintmax expected."));
+        raiseError(L"Nelson:elementary_functions:ERROR_ARRAY_OF_INTEGERS_EXPECTED",
+            ERROR_ARRAY_OF_INTEGERS_EXPECTED);
     } break;
     case NLS_LOGICAL: {
-        Error(_W("An array of integers values, 0 <= D <= flintmax expected."));
+        raiseError(L"Nelson:elementary_functions:ERROR_ARRAY_OF_INTEGERS_EXPECTED",
+            ERROR_ARRAY_OF_INTEGERS_EXPECTED);
     } break;
     default: {
         needToOverload = true;

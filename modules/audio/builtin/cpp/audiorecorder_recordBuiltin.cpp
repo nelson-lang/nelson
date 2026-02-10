@@ -31,18 +31,22 @@ Nelson::AudioGateway::audiorecorder_recordblockingBuiltin(
     ArrayOf handleArray = argIn[0];
     ArrayOf param2 = argIn[1];
     if (handleArray.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-        Error(_W("audiorecorder handle expected."));
+        raiseError(L"Nelson:audio:ERROR_AUDIORECORDER_HANDLE_EXPECTED",
+            ERROR_AUDIORECORDER_HANDLE_EXPECTED);
     }
     if (!param2.isScalar() || !param2.isNumeric()) {
-        Error(_W("duration in seconds expected."));
+        raiseError(
+            L"Nelson:audio:ERROR_DURATION_IN_SECONDS_EXPECTED", ERROR_DURATION_IN_SECONDS_EXPECTED);
     }
     double duration = param2.getContentAsDoubleScalar();
     if (duration <= 0) {
-        Error(_W("duration > 0 expected."));
+        raiseError(
+            L"Nelson:audio:ERROR_DURATION_GT_ZERO_EXPECTED", ERROR_DURATION_GT_ZERO_EXPECTED);
     }
     auto* objRec = (AudiorecorderObject*)handleArray.getContentAsHandleScalar();
     if (!objRec) {
-        Error(_W("Invalid audiorecorder handle."));
+        raiseError(
+            L"Nelson:audio:ERROR_INVALID_AUDIORECORDER_HANDLE", ERROR_INVALID_AUDIORECORDER_HANDLE);
     }
     objRec->start();
     objRec->record(duration);
@@ -66,21 +70,25 @@ Nelson::AudioGateway::audiorecorder_recordBuiltin(
     nargoutcheck(nLhs, 0, 0);
     ArrayOf handleArray = argIn[0];
     if (handleArray.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-        Error(_W("audiorecorder handle expected."));
+        raiseError(L"Nelson:audio:ERROR_AUDIORECORDER_HANDLE_EXPECTED",
+            ERROR_AUDIORECORDER_HANDLE_EXPECTED);
     }
     auto* objRec = (AudiorecorderObject*)handleArray.getContentAsHandleScalar();
     if (!objRec) {
-        Error(_W("Invalid audiorecorder handle."));
+        raiseError(
+            L"Nelson:audio:ERROR_INVALID_AUDIORECORDER_HANDLE", ERROR_INVALID_AUDIORECORDER_HANDLE);
     }
     double duration = -1.0;
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
         if (!param2.isScalar() || !param2.isNumeric()) {
-            Error(_W("duration in seconds expected."));
+            raiseError(L"Nelson:audio:ERROR_DURATION_IN_SECONDS_EXPECTED",
+                ERROR_DURATION_IN_SECONDS_EXPECTED);
         }
         duration = param2.getContentAsDoubleScalar();
         if (duration <= 0) {
-            Error(_W("duration > 0 expected."));
+            raiseError(
+                L"Nelson:audio:ERROR_DURATION_GT_ZERO_EXPECTED", ERROR_DURATION_GT_ZERO_EXPECTED);
         }
     }
     objRec->start();

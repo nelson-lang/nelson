@@ -19,6 +19,7 @@
 #include "QVariantArrayOf.hpp"
 #include "QObjectHandleObject.hpp"
 #include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -31,16 +32,19 @@ invokeQObject(const ArrayOf& A, const std::wstring& wmethodname, const ArrayOfVe
     ArrayOf res;
     haveReturnValue = false;
     if (params.size() > NB_PARAMS_MAX) {
-        Error(_W("Only 10 input parameters expected."));
+        raiseError(L"Nelson:qml_engine:ERROR_ONLY_10_INPUT_PARAMETERS_EXPECTED",
+            ERROR_ONLY_10_INPUT_PARAMETERS_EXPECTED);
     }
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        Error(_W("QObject handle expected."));
+        raiseError(
+            L"Nelson:qml_engine:ERROR_QOBJECT_HANDLE_EXPECTED", ERROR_QOBJECT_HANDLE_EXPECTED);
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        Error(_W("QObject valid handle expected."));
+        raiseError(L"Nelson:qml_engine:ERROR_QOBJECT_VALID_HANDLE_EXPECTED",
+            ERROR_QOBJECT_VALID_HANDLE_EXPECTED);
     }
     QObject* qobj = (QObject*)ptr;
     const QMetaObject* metaObject = qobj->metaObject();
@@ -87,10 +91,10 @@ invokeQObject(const ArrayOf& A, const std::wstring& wmethodname, const ArrayOfVe
             }
         }
         if (!ok) {
-            Error(_W("Invalid parameters"));
+            raiseError(L"Nelson:qml_engine:ERROR_INVALID_PARAMETERS", ERROR_INVALID_PARAMETERS);
         }
     } else {
-        Error(_W("method not found."));
+        raiseError(L"Nelson:qml_engine:ERROR_METHOD_NOT_FOUND", ERROR_METHOD_NOT_FOUND);
     }
     return res;
 }

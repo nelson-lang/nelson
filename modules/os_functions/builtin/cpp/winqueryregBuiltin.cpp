@@ -10,9 +10,10 @@
 #include "winqueryregBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "WindowsQueryRegistry.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "WindowsQueryRegistry.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,12 +29,13 @@ Nelson::OsFunctionsGateway::winqueryregBuiltin(int nLhs, const ArrayOfVector& ar
         std::wstring rootkey = argIn[0].getContentAsWideString();
         std::wstring subkey = argIn[1].getContentAsWideString();
         if (rootkey == L"name") {
-            Error(_W("'name' argument requires 3 input arguments."));
+            raiseError(L"Nelson:os_functions:ERROR_NAME_ARGUMENT_REQUIRES_3_INPUT_ARGUMENTS",
+                ERROR_NAME_ARGUMENT_REQUIRES_3_INPUT_ARGUMENTS);
         }
         std::wstring errorMessage;
         ArrayOf res = windowsQueryRegistryValueName(rootkey, subkey, L"", errorMessage);
         if (!errorMessage.empty()) {
-            Error(errorMessage);
+            Error(errorMessage, L"Nelson:os_functions:winqueryreg");
         }
         retval << res;
     } break;
@@ -51,16 +53,18 @@ Nelson::OsFunctionsGateway::winqueryregBuiltin(int nLhs, const ArrayOfVector& ar
             res = windowsQueryRegistryValueName(rootkey, subkey, valname, errorMessage);
         }
         if (!errorMessage.empty()) {
-            Error(errorMessage);
+            Error(errorMessage, L"Nelson:os_functions:winqueryreg");
         }
         retval << res;
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:os_functions:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
 #else
-    Error(_W("Not implemented on this platform."));
+    raiseError(L"Nelson:os_functions:ERROR_NOT_IMPLEMENTED_ON_PLATFORM",
+        ERROR_NOT_IMPLEMENTED_ON_PLATFORM);
 #endif
     return retval;
 }

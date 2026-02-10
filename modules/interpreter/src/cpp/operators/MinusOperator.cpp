@@ -18,6 +18,8 @@
 #include "FindCommonType.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -55,7 +57,8 @@ Evaluator::minusOperator(const ArrayOfVector& args)
     }
     if (isSparse
         && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX && commonType != NLS_LOGICAL)) {
-        Error(_("Attempt to convert to unimplemented sparse type"), "Nelson:UnableToConvert");
+        raiseError(L"Nelson:interpreter:ERROR_ATTEMPT_TO_CONVERT_TO_UNIMPLEMENTED_SPARSE_TYPE",
+            ERROR_ATTEMPT_TO_CONVERT_TO_UNIMPLEMENTED_SPARSE_TYPE);
     }
 
     if (isComplex && (commonType == NLS_DOUBLE)) {
@@ -85,18 +88,18 @@ Evaluator::minusOperator(const ArrayOfVector& args)
             if (A.isIntegerType()) {
                 bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
                 if (!isCompatible) {
-                    Error(_W(
-                        "Integers can only be combined with integers of the same class, or scalar "
-                        "doubles."));
+                    raiseError(L"Nelson:interpreter:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_"
+                               L"INTEGERS_OF_THE_SAME_CLASS_OR_SCALAR",
+                        ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OF_THE_SAME_CLASS_OR_SCALAR);
                 }
                 A.promoteType(commonType);
                 B.promoteType(commonType);
             } else if (B.isIntegerType()) {
                 bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
                 if (!isCompatible) {
-                    Error(_W(
-                        "Integers can only be combined with integers of the same class, or scalar "
-                        "doubles."));
+                    raiseError(L"Nelson:interpreter:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_"
+                               L"INTEGERS_OF_THE_SAME_CLASS_OR_SCALAR",
+                        ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OF_THE_SAME_CLASS_OR_SCALAR);
                 }
                 A.promoteType(commonType);
                 B.promoteType(commonType);
@@ -189,10 +192,8 @@ Evaluator::minusOperator(const ArrayOfVector& args)
 
     case NLS_UNKNOWN:
     default: {
-        std::string msg
-            = fmt::format(_("Operator '{0}' is not supported for operands of type '{1}'."), "-",
-                ClassToString(commonType));
-        Error(msg, "Nelson:UndefinedFunction");
+        raiseError(L"Nelson:interpreter:ERROR_OPERATOR_NOT_SUPPORTED", ERROR_OPERATOR_NOT_SUPPORTED,
+            L"-", utf8_to_wstring(ClassToString(commonType)));
     } break;
     }
     return res;

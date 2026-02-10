@@ -26,7 +26,8 @@ Nelson::CoreGateway::nargoutBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     if (argIn.empty()) {
         Context* context = eval->getContext();
         if (context->getCurrentScope()->getName() == "base") {
-            Error(_W("not allowed in base scope."));
+            raiseError(L"Nelson:core:ERROR_NARGOUT_NOT_ALLOWED_IN_BASE_SCOPE",
+                ERROR_NARGOUT_NOT_ALLOWED_IN_BASE_SCOPE);
         } else {
             int nargout = context->getCurrentScope()->getNargOut();
             retval << ArrayOf::doubleConstructor(nargout);

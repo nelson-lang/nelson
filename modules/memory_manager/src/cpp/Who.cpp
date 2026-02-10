@@ -12,6 +12,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "ParallelSort.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -33,7 +34,7 @@ Who(Evaluator* eval, SCOPE_LEVEL scopeLevel, bool withPersistent)
         scope = eval->getContext()->getCurrentScope();
     } break;
     default: {
-        Error(_W("Wrong scope."));
+        raiseError(L"Nelson:memory_manager:ERROR_WRONG_SCOPE", ERROR_WRONG_SCOPE);
     } break;
     }
     return Who(eval, scope, withPersistent);

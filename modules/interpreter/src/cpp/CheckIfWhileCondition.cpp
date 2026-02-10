@@ -11,6 +11,7 @@
 #include <Eigen/Sparse>
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -69,10 +70,13 @@ checkIfWhileCondition(const ArrayOf& A)
 
             } break;
             case NLS_DCOMPLEX: {
-                Error(_W("Complex cannot be converted to logical."));
+                raiseError(L"Nelson:interpreter:ERROR_COMPLEX_CANNOT_BE_CONVERTED_TO_LOGICAL",
+                    ERROR_COMPLEX_CANNOT_BE_CONVERTED_TO_LOGICAL);
             } break;
             default: {
-                Error(_W("Unable to convert variable type to test for if/while statement"));
+                raiseError(L"Nelson:interpreter:ERROR_UNABLE_TO_CONVERT_VARIABLE_TYPE_TO_TEST_FOR_"
+                           L"IF_WHILE_STATEMENT",
+                    ERROR_UNABLE_TO_CONVERT_VARIABLE_TYPE_TO_TEST_FOR_IF_WHILE_STATEMENT);
             } break;
             }
         } else {
@@ -115,10 +119,13 @@ checkIfWhileCondition(const ArrayOf& A)
             } break;
             case NLS_SCOMPLEX:
             case NLS_DCOMPLEX: {
-                Error(_W("Complex cannot be converted to logical."));
+                raiseError(L"Nelson:interpreter:ERROR_COMPLEX_CANNOT_BE_CONVERTED_TO_LOGICAL",
+                    ERROR_COMPLEX_CANNOT_BE_CONVERTED_TO_LOGICAL);
             } break;
             default: {
-                Error(_W("Unable to convert variable type to test for if/while statement"));
+                raiseError(L"Nelson:interpreter:ERROR_UNABLE_TO_CONVERT_VARIABLE_TYPE_TO_TEST_FOR_"
+                           L"IF_WHILE_STATEMENT",
+                    ERROR_UNABLE_TO_CONVERT_VARIABLE_TYPE_TO_TEST_FOR_IF_WHILE_STATEMENT);
             } break;
             }
         }

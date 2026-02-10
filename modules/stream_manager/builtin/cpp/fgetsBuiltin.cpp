@@ -15,6 +15,7 @@
 #include "FilesManager.hpp"
 #include "NelsonConfiguration.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -33,18 +34,21 @@ Nelson::StreamGateway::fgetsBuiltin(int nLhs, const ArrayOfVector& argIn)
                 nbCharacters = -1;
             }
         } else {
-            Error(_W("Second argument must be greater than zero."));
+            raiseError(L"Nelson:stream:ERROR_SECOND_ARGUMENT_MUST_BE_GREATER_THAN_ZERO",
+                ERROR_SECOND_ARGUMENT_MUST_BE_GREATER_THAN_ZERO);
         }
     }
     ArrayOf param1 = argIn[0];
     if (param1.isDoubleType()) {
         auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
         if (fm == nullptr) {
-            Error(_W("Problem with file manager."));
+            raiseError(
+                L"Nelson:stream:ERROR_PROBLEM_WITH_FILE_MANAGER", ERROR_PROBLEM_WITH_FILE_MANAGER);
         }
         auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
         if (fm->isStdStream(iValue)) {
-            Error(_W("Not implemented for requested file identifier."));
+            raiseError(L"Nelson:stream:ERROR_NOT_IMPLEMENTED_FOR_REQUESTED_FILEID",
+                ERROR_NOT_IMPLEMENTED_FOR_REQUESTED_FILEID);
         }
         if (fm->isOpened(iValue)) {
             File* f = fm->getFile(iValue);
@@ -55,10 +59,10 @@ Nelson::StreamGateway::fgetsBuiltin(int nLhs, const ArrayOfVector& argIn)
                 retval << ArrayOf::doubleConstructor(-1);
             }
         } else {
-            Error(_W("Invalid file identifier."));
+            raiseError(L"Nelson:stream:ERROR_INVALID_FILEID", ERROR_INVALID_FILEID);
         }
     } else {
-        Error(_W("Invalid file identifier."));
+        raiseError(L"Nelson:stream:ERROR_INVALID_FILEID", ERROR_INVALID_FILEID);
     }
     return retval;
 }

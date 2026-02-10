@@ -26,6 +26,7 @@
 #include "Evaluator.hpp"
 #include "NelsonConfiguration.hpp"
 #include "Error.hpp"
+#include "characters_encoding.hpp"
 //===================================================================================
 class MainGuiObjectSingleton
 {
@@ -121,7 +122,7 @@ QtMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString
     } break;
     case QtCriticalMsg:
     case QtFatalMsg: {
-        Error(str);
+        Error(utf8_to_wstring(str), L"Nelson:gui:QtFatalMsg");
     } break;
     }
 }

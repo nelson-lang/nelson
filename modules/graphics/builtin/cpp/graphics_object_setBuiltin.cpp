@@ -13,6 +13,8 @@
 #include "GOPropertyValues.hpp"
 #include "GraphicsObject.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "Exception.hpp"
 #include "GOGObjectsProperty.hpp"
@@ -35,7 +37,8 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 3);
 
     if (!argIn[0].isGraphicsObject()) {
-        Error(_W("Expected graphics object(s)."));
+        raiseError(
+            L"Nelson:graphics:ERROR_EXPECTED_GRAPHICS_OBJECT_S", ERROR_EXPECTED_GRAPHICS_OBJECT_S);
     }
     nelson_handle* gobjects = (nelson_handle*)(argIn[0].getDataPointer());
     indexType nbElements = argIn[0].getElementCount();
@@ -49,7 +52,7 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
             fp = static_cast<GraphicsObject*>(findGOFigure(gobjects[k]));
         }
         if (!fp) {
-            Error(_W("Invalid handle."));
+            raiseError(L"Nelson:graphics:ERROR_INVALID_NELSON_HANDLE", ERROR_INVALID_NELSON_HANDLE);
         }
         int ptr = 1;
         while (argIn.size() >= (ptr + 2)) {
@@ -63,12 +66,15 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
                     GOGenericProperty* hp = fp->findProperty(propname);
                     if (hp) {
                         if (!fp->isWritable(propname) && fp->haveProperty(propname)) {
-                            Error(_W("Property is readable only: ") + propname);
+                            raiseError(L"Nelson:graphics:ERROR_PROPERTY_IS_READABLE_ONLY",
+                                ERROR_PROPERTY_IS_READABLE_ONLY, propname);
                         }
                         hp->set(argIn[ptr + 1]);
                     }
                 } catch (const Exception& e) {
-                    Error(_W("Got error for property:") + L" " + propname + L"\n" + e.what());
+                    std::wstring msg
+                        = ERROR_GOT_ERROR_FOR_PROPERTY + L" " + propname + L"\n" + e.what();
+                    Error(msg, L"Nelson:graphics:ERROR_GOT_ERROR_FOR_PROPERTY");
                 }
             }
             ptr += 2;

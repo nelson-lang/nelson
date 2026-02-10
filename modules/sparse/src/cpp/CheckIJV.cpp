@@ -10,6 +10,7 @@
 #include "CheckIJV.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -29,21 +30,24 @@ CheckIJV(
         } else if (ilen == olen) {
             istride = 1;
         } else {
-            Error(_W("in I, J, V format, all three vectors must be the same size or be scalars."));
+            raiseError(L"Nelson:sparse:ERROR_IJV_VECTORS_MUST_BE_SAME_SIZE_OR_SCALARS",
+                ERROR_IJV_VECTORS_MUST_BE_SAME_SIZE_OR_SCALARS);
         }
         if (jlen == 1) {
             jstride = 0;
         } else if (jlen == olen) {
             jstride = 1;
         } else {
-            Error(_W("in I, J, V format, all three vectors must be the same size or be scalars."));
+            raiseError(L"Nelson:sparse:ERROR_IJV_VECTORS_MUST_BE_SAME_SIZE_OR_SCALARS",
+                ERROR_IJV_VECTORS_MUST_BE_SAME_SIZE_OR_SCALARS);
         }
         if (vlen == 1) {
             vstride = 0;
         } else if (vlen == olen) {
             vstride = 1;
         } else {
-            Error(_W("in I, J, V format, all three vectors must be the same size or be scalars."));
+            raiseError(L"Nelson:sparse:ERROR_IJV_VECTORS_MUST_BE_SAME_SIZE_OR_SCALARS",
+                ERROR_IJV_VECTORS_MUST_BE_SAME_SIZE_OR_SCALARS);
         }
     }
     return true;

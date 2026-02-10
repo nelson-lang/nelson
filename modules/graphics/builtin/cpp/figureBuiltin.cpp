@@ -9,6 +9,7 @@
 //=============================================================================
 #include "figureBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "GOFigure.hpp"
 #include "GOFiguresManager.hpp"
@@ -42,14 +43,17 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn[0].isNumeric()) {
         int64 fignum = argIn[0].getContentAsInteger64Scalar();
         if ((fignum <= 0) || (fignum > MAX_FIGS)) {
-            Error(_("figure number is out of range - it must be between 1 and 2147483647."));
+            raiseError(L"Nelson:graphics:ERROR_FIGURE_NUMBER_IS_OUT_OF_RANGE_IT_MUST_BE_BETWEEN_1_"
+                       L"AND_2147483647",
+                ERROR_FIGURE_NUMBER_IS_OUT_OF_RANGE_IT_MUST_BE_BETWEEN_1_AND_2147483647);
         }
         currentFigureID = selectFigure(fignum - 1, false);
         pos = pos + 1;
     } else if (argIn[0].isGraphicsObject()) {
         int64 handle = argIn[0].getContentAsGraphicsObjectScalar();
         if (handle == HANDLE_ROOT_OBJECT || handle >= HANDLE_OFFSET_OBJECT) {
-            Error(_("figure graphics object expected."));
+            raiseError(L"Nelson:graphics:ERROR_FIGURE_GRAPHICS_OBJECT_EXPECTED",
+                ERROR_FIGURE_GRAPHICS_OBJECT_EXPECTED);
         } else {
             currentFigureID = selectFigure(handle, false);
             pos = pos + 1;
@@ -59,7 +63,7 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     GOFigure* fig = findGOFigure(currentFigureID);
     if (!fig) {
-        Error(_W("Invalid Figure handle."));
+        raiseError(L"Nelson:graphics:ERROR_INVALID_FIGURE_HANDLE", ERROR_INVALID_FIGURE_HANDLE);
     }
     if ((argIn.size() - pos) % 2 == 0) {
         GraphicsObject* go = static_cast<GraphicsObject*>(fig);
@@ -68,7 +72,8 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
                 || argIn[k].isRowVectorCharacterArray()) {
                 const std::wstring propertyName = argIn[k].getContentAsWideString();
                 if (!go->isWritable(propertyName) && go->haveProperty(propertyName)) {
-                    Error(_W("Property is readable only: ") + propertyName);
+                    raiseError(L"Nelson:graphics:ERROR_PROPERTY_IS_READABLE_ONLY",
+                        ERROR_PROPERTY_IS_READABLE_ONLY, propertyName);
                 }
                 GOGenericProperty* propertyValue = go->findProperty(propertyName);
                 propertyValue->set(argIn[k + 1]);
@@ -76,7 +81,8 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
         fig->updateState(true);
     } else {
-        Error(_("Wrong number of input parameters."));
+        raiseError(L"Nelson:graphics:ERROR_WRONG_NUMBER_OF_INPUT_PARAMETERS",
+            ERROR_WRONG_NUMBER_OF_INPUT_PARAMETERS);
     }
     retval << ArrayOf::graphicsObjectConstructor(currentFigureID);
 

@@ -26,7 +26,7 @@ Nelson::Hdf5Gateway::h5writeattBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 0);
     indexType nbArgIn = argIn.size();
     if (!(nbArgIn == 4 || nbArgIn == 6)) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:hdf5:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     ArrayOf param1 = argIn[0];
     std::wstring filename = param1.getContentAsWideString();
@@ -41,7 +41,7 @@ Nelson::Hdf5Gateway::h5writeattBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf param5 = argIn[4];
         std::wstring textEncodingComputed = param2.getContentAsWideString();
         if (textEncodingComputed != L"TextEncoding") {
-            Error(_W("'TextEncoding' expected."));
+            raiseError(L"Nelson:hdf5:ERROR_TEXTENCODING_EXPECTED", ERROR_TEXTENCODING_EXPECTED);
         }
         ArrayOf param6 = argIn[5];
         textEncoding = param2.getContentAsWideString();

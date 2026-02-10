@@ -11,6 +11,8 @@
 #include "slicot_sb02odBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -187,28 +189,36 @@ Nelson::SlicotGateway::slicot_sb02odBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {
-        Error(_W("Input argument #1: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_1_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_1_SCALAR_EXPECTED);
     }
     if (!dimsJOBB.isScalar()) {
-        Error(_W("Input argument #2: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_2_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_2_SCALAR_EXPECTED);
     }
     if (!dimsFACT.isScalar()) {
-        Error(_W("Input argument #3: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_3_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_3_SCALAR_EXPECTED);
     }
     if (!dimsUPLO.isScalar()) {
-        Error(_W("Input argument #4: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_4_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_4_SCALAR_EXPECTED);
     }
     if (!dimsJOBL.isScalar()) {
-        Error(_W("Input argument #5: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_5_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_5_SCALAR_EXPECTED);
     }
     if (!dimsSORT.isScalar()) {
-        Error(_W("Input argument #6: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_6_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_6_SCALAR_EXPECTED);
     }
     if (!dimsP.isScalar()) {
-        Error(_W("Input argument #7: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_7_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_7_SCALAR_EXPECTED);
     }
     if (!dimsTOL.isScalar()) {
-        Error(_W("Input argument #13: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_13_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_13_SCALAR_EXPECTED);
     }
     // CALL EXTERN FUNCTION
     try {
@@ -218,7 +228,8 @@ Nelson::SlicotGateway::slicot_sb02odBuiltin(int nLhs, const ArrayOfVector& argIn
             BETA_output_ptr, S_output_ptr, LDS_ptr, T_output_ptr, LDT_ptr, U_output_ptr, LDU_ptr,
             TOL_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr, BWORK_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        Error("sb02od function fails.");
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_SB02OD_FUNCTION_FAILS",
+            ERROR_SLICOT_SB02OD_FUNCTION_FAILS);
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

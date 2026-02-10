@@ -27,7 +27,7 @@ copygraphicsBuiltin(int nLhs, const ArrayOfVector& argIn)
     int64 handle = argIn[0].getContentAsGraphicsObjectScalar();
     GOWindow* f = findGOWindows(handle);
     if (!f) {
-        Error(_W("Invalid handle."));
+        raiseError(L"Nelson:graphics_io:ERROR_INVALID_NELSON_HANDLE", ERROR_INVALID_NELSON_HANDLE);
     }
     f->getGOFigure()->setRenderingStateInvalid(true);
     QClipboard* cb = QApplication::clipboard();

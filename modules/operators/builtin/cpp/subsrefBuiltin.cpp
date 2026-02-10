@@ -11,6 +11,8 @@
 #include "InputOutputArgumentsCheckers.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -21,14 +23,16 @@ Nelson::OperatorsGateway::subsrefBuiltin(Evaluator* eval, int nLhs, const ArrayO
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 1);
     if (!argIn[1].isStruct()) {
-        Error(_W("Wrong type for argument #2. struct expected."));
+        raiseError(L"Nelson:operators:ERROR_WRONG_TYPE_ARG2_STRUCT_EXPECTED",
+            ERROR_WRONG_TYPE_ARG2_STRUCT_EXPECTED);
     }
 
     Context* context = eval->getContext();
     FunctionDef* funcDef = nullptr;
     std::string fname = "__subsref__";
     if (!context->lookupFunction(fname, funcDef)) {
-        Error(_("function \'") + fname + _("\' not available."));
+        raiseError(L"Nelson:operators:ERROR_FUNCTION_NOT_AVAILABLE", ERROR_FUNCTION_NOT_AVAILABLE,
+            utf8_to_wstring(fname));
     }
     try {
         eval->withOverload = false;

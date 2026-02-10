@@ -50,7 +50,7 @@ Nelson::CoreGateway::quitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
                 eval->setState(NLS_STATE_FORCE_QUIT);
                 return retval;
             } else {
-                Error(_("Unknown option."));
+                raiseError(L"Nelson:core:ERROR_UNKNOWN_OPTION", ERROR_UNKNOWN_OPTION);
             }
         }
         iValue = getExitCodeFromVariable(argIn);
@@ -63,14 +63,14 @@ Nelson::CoreGateway::quitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
                            || argIn[1].isRowVectorCharacterArray())
             && (argIn[1].getContentAsWideString() == L"force");
         if (!isForce) {
-            Error(_("Unknown option."));
+            raiseError(L"Nelson:core:ERROR_UNKNOWN_OPTION", ERROR_UNKNOWN_OPTION);
         }
         iValue = getExitCodeFromVariable(argIn);
         eval->setExitCode(iValue);
         eval->setState(NLS_STATE_FORCE_QUIT);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:core:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;
@@ -86,7 +86,8 @@ getExitCodeFromVariable(const ArrayOfVector& argIn)
         iValue = static_cast<int>(dValue);
 #ifndef _MSC_VER
         if (iValue < 0 || iValue > 255) {
-            Error(_("Value between 0 and 255 expected."));
+            raiseError(L"Nelson:core:ERROR_VALUE_BETWEEN_0_255_EXPECTED",
+                ERROR_VALUE_BETWEEN_0_255_EXPECTED);
         }
 #endif
         if (static_cast<double>(iValue) != dValue) {
@@ -94,7 +95,7 @@ getExitCodeFromVariable(const ArrayOfVector& argIn)
                 ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 1);
         }
     } else {
-        Error(_("Unknown option."));
+        raiseError(L"Nelson:core:ERROR_UNKNOWN_OPTION", ERROR_UNKNOWN_OPTION);
     }
     return iValue;
 }

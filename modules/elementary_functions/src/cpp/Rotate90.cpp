@@ -11,6 +11,7 @@
 #include <Eigen/Dense>
 #include "Rotate90.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -99,11 +100,11 @@ ArrayOf
 Rotate90(const ArrayOf& arrayIn, int nbRotations)
 {
     if (arrayIn.isSparse() || !arrayIn.is2D()) {
-        Error(_("Type not managed."));
+        raiseError(L"Nelson:elementary_functions:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     }
 
     if (nbRotations < 0 || nbRotations > 3) {
-        Error(_("Input argument #1: scalar integer value expected."), "Nelson:rot90:kNonInteger");
+        raiseError(L"Nelson:rot90:kNonInteger", ERROR_INPUT_ARGUMENT_1_SCALAR_INTEGER_EXPECTED);
     }
     if (nbRotations == 0) {
         ArrayOf res(arrayIn);
@@ -176,7 +177,7 @@ Rotate90(const ArrayOf& arrayIn, int nbRotations)
             NLS_DCOMPLEX, (double*)arrayIn.getDataPointer(), arrayIn.getDimensions(), nbRotations);
     } break;
     default: {
-        Error(_("Type not managed."));
+        raiseError(L"Nelson:elementary_functions:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     } break;
     }
     return {};

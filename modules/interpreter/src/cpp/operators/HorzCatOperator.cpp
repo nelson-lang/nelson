@@ -18,6 +18,8 @@
 #include "FindCommonConcatenateType.hpp"
 #include "OverloadHelpers.hpp"
 #include "OverloadRequired.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -56,7 +58,8 @@ Evaluator::horzcatOperator(const ArrayOfVector& v)
         if (isSparse
             && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX
                 && commonType != NLS_LOGICAL)) {
-            Error(_("Attempt to convert to unimplemented sparse type"), "Nelson:UnableToConvert");
+            raiseError(L"Nelson:interpreter:ERROR_ATTEMPT_TO_CONVERT_TO_UNIMPLEMENTED_SPARSE_TYPE",
+                ERROR_ATTEMPT_TO_CONVERT_TO_UNIMPLEMENTED_SPARSE_TYPE);
         }
         switch (commonType) {
         case NLS_LOGICAL: {
@@ -108,7 +111,8 @@ Evaluator::horzcatOperator(const ArrayOfVector& v)
         } break;
         case NLS_CHAR: {
             if (isComplex) {
-                Error(_("Complex values cannot be converted to chars."));
+                raiseError(L"Nelson:interpreter:ERROR_COMPLEX_VALUES_CANNOT_BE_CONVERTED_TO_CHARS",
+                    ERROR_COMPLEX_VALUES_CANNOT_BE_CONVERTED_TO_CHARS);
             }
             return HorzCat(v, commonType);
         } break;
@@ -116,10 +120,8 @@ Evaluator::horzcatOperator(const ArrayOfVector& v)
             return stringHorzCat(v, commonType);
         } break;
         case NLS_FUNCTION_HANDLE: {
-            std::string msg = _(
-                "Nonscalar arrays of function handles are not allowed; use cell arrays instead.");
-            std::string id = "Nelson:err_non_scalar_function_handles";
-            Error(msg, id);
+            raiseError(L"Nelson:interpreter:ERROR_NONSCALAR_ARRAYS_OF_FUNCTION_HANDLES_NOT_ALLOWED",
+                ERROR_NONSCALAR_ARRAYS_OF_FUNCTION_HANDLES_NOT_ALLOWED);
         } break;
         case NLS_HANDLE: {
             bool overloadWasFound = false;
@@ -133,10 +135,9 @@ Evaluator::horzcatOperator(const ArrayOfVector& v)
         } break;
         case NLS_UNKNOWN:
         default: {
-            std::string msg
-                = fmt::format(_("Operator '{0}' is not supported for operands of type '{1}'."),
-                    HORZCAT_OPERATOR_STR, ClassToString(commonType));
-            Error(msg, "Nelson:UndefinedFunction");
+            raiseError(L"Nelson:interpreter:ERROR_OPERATOR_NOT_SUPPORTED",
+                ERROR_OPERATOR_NOT_SUPPORTED, utf8_to_wstring(HORZCAT_OPERATOR_STR),
+                utf8_to_wstring(ClassToString(commonType)));
         } break;
         }
     } break;
@@ -153,7 +154,8 @@ stringHorzCat(const ArrayOfVector& v, NelsonType commonType)
             bool needOverload = false;
             _argIn[k] = ArrayOf::toStringArray(v[k], needOverload);
             if (needOverload) {
-                Error(_W("Cannot promote to string array."));
+                raiseError(L"Nelson:interpreter:ERROR_CANNOT_PROMOTE_TO_STRING_ARRAY",
+                    ERROR_CANNOT_PROMOTE_TO_STRING_ARRAY);
             }
         } else {
             _argIn[k] = v[k];

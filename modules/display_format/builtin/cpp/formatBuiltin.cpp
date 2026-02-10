@@ -10,6 +10,7 @@
 #include "formatBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "NelsonConfiguration.hpp"
 #include "ClassName.hpp"
@@ -42,7 +43,8 @@ Nelson::DisplayFormatGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn
             std::wstring param = argIn[0].getContentAsWideString();
             StringHelpers::to_upper(param);
             if (!setDisplayOption(param, L"")) {
-                Error(_W("unexpected format."));
+                raiseError(
+                    L"Nelson:display_format:ERROR_UNEXPECTED_FORMAT", ERROR_UNEXPECTED_FORMAT);
             }
         } else if (ClassName(argIn[0]) == "DisplayFormatOptions") {
             if (argIn[0].isScalar()) {
@@ -51,18 +53,23 @@ Nelson::DisplayFormatGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn
                 std::wstring numericFormatAsString = numericFormat.getContentAsWideString();
                 StringHelpers::to_upper(numericFormatAsString);
                 if (!setDisplayOption(numericFormatAsString, L"")) {
-                    Error(_W("unexpected Numeric Format."));
+                    raiseError(L"Nelson:display_format:ERROR_UNEXPECTED_NUMERIC_FORMAT",
+                        ERROR_UNEXPECTED_NUMERIC_FORMAT);
                 }
                 std::wstring lineSpacingAsString = lineSpacing.getContentAsWideString();
                 StringHelpers::to_upper(lineSpacingAsString);
                 if (!setDisplayOption(lineSpacingAsString, L"")) {
-                    Error(_W("unexpected Line Spacing."));
+                    raiseError(L"Nelson:display_format:ERROR_UNEXPECTED_LINE_SPACING",
+                        ERROR_UNEXPECTED_LINE_SPACING);
                 }
             } else {
-                Error(_W("Wrong size for argument #1. scalar expected"));
+                raiseError(L"Nelson:display_format:ERROR_WRONG_SIZE_ARG1_SCALAR_EXPECTED",
+                    ERROR_WRONG_SIZE_ARG1_SCALAR_EXPECTED);
             }
         } else {
-            Error(_W("Wrong type for argument #1. 'scalar string or row char vector expected"));
+            raiseError(
+                L"Nelson:display_format:ERROR_WRONG_TYPE_ARG1_SCALAR_STRING_OR_ROW_CHAR_EXPECTED",
+                ERROR_WRONG_TYPE_ARG1_SCALAR_STRING_OR_ROW_CHAR_EXPECTED);
         }
     } break;
     case 2: {
@@ -73,17 +80,21 @@ Nelson::DisplayFormatGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn
             param1 = argIn[0].getContentAsWideString();
             StringHelpers::to_upper(param1);
         } else {
-            Error(_W("Wrong type for argument #1. 'scalar string or row char vector expected"));
+            raiseError(
+                L"Nelson:display_format:ERROR_WRONG_TYPE_ARG1_SCALAR_STRING_OR_ROW_CHAR_EXPECTED",
+                ERROR_WRONG_TYPE_ARG1_SCALAR_STRING_OR_ROW_CHAR_EXPECTED);
         }
         if ((argIn[1].isScalar() && argIn[1].isStringArray())
             || argIn[1].isRowVectorCharacterArray()) {
             param2 = argIn[1].getContentAsWideString();
             StringHelpers::to_upper(param2);
         } else {
-            Error(_W("Wrong type for argument #2. 'scalar string or row char vector expected"));
+            raiseError(
+                L"Nelson:display_format:ERROR_WRONG_TYPE_ARG2_SCALAR_STRING_OR_ROW_CHAR_EXPECTED",
+                ERROR_WRONG_TYPE_ARG2_SCALAR_STRING_OR_ROW_CHAR_EXPECTED);
         }
         if (!setDisplayOption(param1, param2)) {
-            Error(_W("unexpected format."));
+            raiseError(L"Nelson:display_format:ERROR_UNEXPECTED_FORMAT", ERROR_UNEXPECTED_FORMAT);
         }
     } break;
     case 0:

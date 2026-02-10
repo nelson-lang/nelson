@@ -11,6 +11,7 @@
 #include "omp_for_loop.hpp"
 #include "Negate.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -30,7 +31,8 @@ Negate(ArrayOf A)
     ArrayOf C;
     NelsonType Aclass;
     if (A.isReferenceType()) {
-        Error(L"Cannot negate non-numeric types.");
+        raiseError(L"Nelson:operators:ERROR_CANNOT_NEGATE_NON_NUMERIC_TYPES",
+            ERROR_CANNOT_NEGATE_NON_NUMERIC_TYPES);
     }
     Aclass = A.getDataClass();
     if (A.isRowVectorCharacterArray()) {

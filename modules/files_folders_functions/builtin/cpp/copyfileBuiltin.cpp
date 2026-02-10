@@ -13,6 +13,7 @@
 #include "Error.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -27,7 +28,7 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(int nLhs, const ArrayOfVector& argI
             if ((arg3 == L"f") || (arg3 == L"F")) {
                 bForce = true;
             } else {
-                Error("'f' expected.");
+                raiseError(L"Nelson:files_folders_functions:ERROR_F_EXPECTED", ERROR_F_EXPECTED);
             }
         }
         bool bRes = false;
@@ -52,7 +53,7 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(int nLhs, const ArrayOfVector& argI
         }
         if (nLhs == 0) {
             if (!bRes) {
-                Error(errorMessage);
+                raiseError(L"Nelson:files_folders_functions:ERROR_FILESYSTEM_ERROR", errorMessage);
             }
         } else {
             retval << ArrayOf::logicalConstructor(bRes);
@@ -62,7 +63,8 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(int nLhs, const ArrayOfVector& argI
             nargoutcheck(nLhs, 0, 2);
         }
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_NUMBERS_INPUT_ARGS",
+            ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

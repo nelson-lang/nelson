@@ -17,6 +17,7 @@
 #include "MatrixCheck.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "StringArrayAddition.hpp"
 #include "AdditionReal.hpp"
 #include "AdditionComplex.hpp"
@@ -30,7 +31,7 @@ Addition(const ArrayOf& A, const ArrayOf& B)
 {
     if ((A.getDataClass() != B.getDataClass())
         || ((A.isSparse() != B.isSparse()) && A.isSparse())) {
-        Error(_("Same types expected."));
+        raiseError(L"Nelson:operators:ERROR_SAME_TYPES_EXPECTED", ERROR_SAME_TYPES_EXPECTED);
     }
     NelsonType commonClass = A.getDataClass();
     ArrayOf res;
@@ -181,7 +182,7 @@ Addition(const ArrayOf& A, const ArrayOf& B)
         }
     } break;
     default: {
-        Error(_W("Type not managed."));
+        raiseError(L"Nelson:operators:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     } break;
     }
     return res;

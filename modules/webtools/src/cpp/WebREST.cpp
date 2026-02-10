@@ -23,6 +23,7 @@
 #include "ResponseCodeToMessage.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ProcessEventsDynamic.hpp"
 #include "FileSystemWrapper.hpp"
 //=============================================================================
@@ -76,7 +77,8 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
     fw = fopen(utfFilename.c_str(), "wb");
 #endif
     if (fw == nullptr) {
-        Error(_W("Cannot create destination file."));
+        raiseError(L"Nelson:webtools:ERROR_CANNOT_CREATE_DESTINATION_FILE",
+            ERROR_CANNOT_CREATE_DESTINATION_FILE);
     }
     FileSystemWrapper::Path p(filename);
     std::string errorMessage;
@@ -89,9 +91,11 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
     if (curlObject == nullptr) {
         fclose(fw);
         if (isWrite) {
-            Error(_W("Cannot initialize webwrite."));
+            raiseError(L"Nelson:webtools:ERROR_CANNOT_INITIALIZE_WEBWRITE",
+                ERROR_CANNOT_INITIALIZE_WEBWRITE);
         } else {
-            Error(_W("Cannot initialize websave."));
+            raiseError(L"Nelson:webtools:ERROR_CANNOT_INITIALIZE_WEBSAVE",
+                ERROR_CANNOT_INITIALIZE_WEBSAVE);
         }
     }
     CURLcode curlCode = setCurlWebOptions(curlObject, options);
@@ -99,7 +103,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
         fclose(fw);
         std::string msg = curl_easy_strerror(curlCode);
         curl_easy_cleanup(curlObject);
-        Error(msg);
+        Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
     }
     if (isWrite) {
         curlCode = setCurlURL(curlObject, wstring_to_utf8(url));
@@ -110,7 +114,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
         fclose(fw);
         std::string msg = curl_easy_strerror(curlCode);
         curl_easy_cleanup(curlObject);
-        Error(msg);
+        Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
     }
 
     if (options.getRequestMethod() == L"auto") {
@@ -120,7 +124,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
                 fclose(fw);
                 std::string msg = curl_easy_strerror(curlCode);
                 curl_easy_cleanup(curlObject);
-                Error(msg);
+                Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
             }
         }
     } else if (options.getRequestMethod() == L"post") {
@@ -129,7 +133,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
             fclose(fw);
             std::string msg = curl_easy_strerror(curlCode);
             curl_easy_cleanup(curlObject);
-            Error(msg);
+            Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
         }
     } else if (options.getRequestMethod() == L"get") {
         // NOTHING TO DO
@@ -139,7 +143,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
             fclose(fw);
             std::string msg = curl_easy_strerror(curlCode);
             curl_easy_cleanup(curlObject);
-            Error(msg);
+            Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
         }
     } else if (options.getRequestMethod() == L"put") {
         curlCode = curl_easy_setopt(curlObject, CURLOPT_CUSTOMREQUEST, "PUT");
@@ -147,7 +151,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
             fclose(fw);
             std::string msg = curl_easy_strerror(curlCode);
             curl_easy_cleanup(curlObject);
-            Error(msg);
+            Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
         }
     } else if (options.getRequestMethod() == L"patch") {
         curlCode = curl_easy_setopt(curlObject, CURLOPT_CUSTOMREQUEST, "PATCH");
@@ -155,7 +159,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
             fclose(fw);
             std::string msg = curl_easy_strerror(curlCode);
             curl_easy_cleanup(curlObject);
-            Error(msg);
+            Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
         }
     }
 
@@ -173,14 +177,14 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
             fclose(fw);
             std::string msg = curl_easy_strerror(curlCode);
             curl_easy_cleanup(curlObject);
-            Error(msg);
+            Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
         }
         curlCode = curl_easy_setopt(curlObject, CURLOPT_SSL_VERIFYPEER, 1L);
         if (curlCode != CURLE_OK) {
             fclose(fw);
             std::string msg = curl_easy_strerror(curlCode);
             curl_easy_cleanup(curlObject);
-            Error(msg);
+            Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
         }
     } else {
         curlCode = curl_easy_setopt(curlObject, CURLOPT_SSL_VERIFYPEER, 0L);
@@ -188,7 +192,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
             fclose(fw);
             std::string msg = curl_easy_strerror(curlCode);
             curl_easy_cleanup(curlObject);
-            Error(msg);
+            Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
         }
     }
 
@@ -197,7 +201,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
         fclose(fw);
         std::string msg = curl_easy_strerror(curlCode);
         curl_easy_cleanup(curlObject);
-        Error(msg);
+        Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
     }
     WriteData writeData;
     writeData.fw = fw;
@@ -207,7 +211,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
         fclose(fw);
         std::string msg = curl_easy_strerror(curlCode);
         curl_easy_cleanup(curlObject);
-        Error(msg);
+        Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
     }
 
     double timeout = options.getTimeout();
@@ -220,7 +224,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
             fclose(fw);
             std::string msg = curl_easy_strerror(curlCode);
             curl_easy_cleanup(curlObject);
-            Error(msg);
+            Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
         }
     }
 
@@ -229,7 +233,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
         fclose(fw);
         std::string msg = curl_easy_strerror(curlCode);
         curl_easy_cleanup(curlObject);
-        Error(msg);
+        Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
     }
 
     curlCode = curl_easy_setopt(curlObject, CURLOPT_FOLLOWLOCATION, 1L);
@@ -237,7 +241,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
         fclose(fw);
         std::string msg = curl_easy_strerror(curlCode);
         curl_easy_cleanup(curlObject);
-        Error(msg);
+        Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
     }
     std::string utfData;
     if (isWrite) {
@@ -251,7 +255,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
             fclose(fw);
             std::string msg = curl_easy_strerror(curlCode);
             curl_easy_cleanup(curlObject);
-            Error(msg);
+            Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
         }
     }
 
@@ -260,7 +264,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
     if (curlCode != CURLE_OK) {
         std::string msg = curl_easy_strerror(curlCode);
         curl_easy_cleanup(curlObject);
-        Error(msg);
+        Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
     }
 
     long response_code;
@@ -268,7 +272,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
     if (curlCode != CURLE_OK) {
         std::string msg = curl_easy_strerror(curlCode);
         curl_easy_cleanup(curlObject);
-        Error(msg);
+        Error(utf8_to_wstring(msg), L"Nelson:webtools:ERROR_CURL_EASY_ERROR");
     }
 
     curl_easy_cleanup(curlObject);
@@ -277,7 +281,7 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
         // remove file if error detected.
         FileSystemWrapper::Path _p = filename;
         FileSystemWrapper::Path::remove(_p);
-        Error(msg);
+        Error(msg, L"Nelson:webtools:ERROR_RESPONSE_CODE_MESSAGE");
     }
     return fullFilename;
 }
@@ -360,7 +364,8 @@ buildHeader(CURL* curlObject, const WebOptions& options)
     size_t nbFields = headerFields.size();
     if (nbFields > 0) {
         if (nbFields % 2) {
-            Error(_W("Invalid HeaderFields size."));
+            raiseError(L"Nelson:webtools:ERROR_INVALID_HEADERFIELDS_SIZE",
+                ERROR_INVALID_HEADERFIELDS_SIZE);
         }
         size_t nbFieldnames = nbFields / 2;
         for (size_t k = 0; k < nbFieldnames; k++) {
@@ -519,7 +524,7 @@ scalarValueToString(CURL* curlObject, ArrayOf& value)
         s = fmt::to_string(v);
     } break;
     default: {
-        Error(_W("Type not managed."));
+        raiseError(L"Nelson:webtools:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     } break;
     }
     return curl_easy_escape(curlObject, s.c_str(), (int)s.size());
@@ -764,7 +769,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         }
     } break;
     default: {
-        Error(_W("Type not managed."));
+        raiseError(L"Nelson:webtools:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     } break;
     }
     return output;

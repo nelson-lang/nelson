@@ -15,6 +15,7 @@
 #include "FilesManager.hpp"
 #include "NelsonConfiguration.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,19 +27,21 @@ Nelson::StreamGateway::frewindBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 0);
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
-        Error(_W("Problem with file manager."));
+        raiseError(
+            L"Nelson:stream:ERROR_PROBLEM_WITH_FILE_MANAGER", ERROR_PROBLEM_WITH_FILE_MANAGER);
     }
     ArrayOf param1 = argIn[0];
     auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
     if (fm->isOpened(iValue)) {
         File* f = fm->getFile(iValue);
         if (f->isInterfaceMethod()) {
-            Error(_W("Rewind failed."));
+            raiseError(L"Nelson:stream_manager:ERROR_REWIND_FAILED", ERROR_REWIND_FAILED);
         } else {
             FileRewind(f);
         }
     } else {
-        Error(_W("Invalid file identifier."));
+        raiseError(
+            L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER", ERROR_INVALID_FILE_IDENTIFIER);
     }
     return retval;
 }

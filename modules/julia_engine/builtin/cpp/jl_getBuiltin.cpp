@@ -13,6 +13,7 @@
 #include "nlsBuildConfig.h"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "JuliaObjectHandle.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,7 +29,8 @@ Nelson::Julia_engineGateway::jl_getBuiltin(int nLhs, const ArrayOfVector& argIn)
         JuliaObjectHandle* jlh = (JuliaObjectHandle*)hgo;
         ArrayOf res;
         if (!jlh->get(methodName, res)) {
-            Error(formatErrorMessage(ERROR_WRONG_ARGUMENT_X_VALUE, 2) + L" " + methodName);
+            raiseError(L"Nelson:julia_engine:ERROR_WRONG_ARGUMENT_X_VALUE",
+                ERROR_WRONG_ARGUMENT_X_VALUE, 2, methodName);
         }
         retval << res;
     }

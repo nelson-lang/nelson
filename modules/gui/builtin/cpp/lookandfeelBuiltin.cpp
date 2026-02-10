@@ -40,7 +40,8 @@ Nelson::GuiGateway::lookandfeelBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
         bool res = SetCurrentLookAndFeel(param1);
         if (!res) {
-            Error(_W("look and feel not applied."));
+            raiseError(
+                L"Nelson:gui:ERROR_LOOK_AND_FEEL_NOT_APPLIED", ERROR_LOOK_AND_FEEL_NOT_APPLIED);
         }
         retval << ArrayOf::characterArrayConstructor(previousLf);
     } break;
@@ -52,11 +53,12 @@ Nelson::GuiGateway::lookandfeelBuiltin(int nLhs, const ArrayOfVector& argIn)
             SetCurrentStyleSheet(param2);
             retval << ArrayOf::characterArrayConstructor(previousStyleSheet);
         } else {
-            Error(_W("\"stylesheet\" expected as first argument."));
+            raiseError(L"Nelson:gui:ERROR_WRONG_VALUE_FOR_1_ARGUMENT_STYLESHEET_EXPECTED",
+                ERROR_WRONG_VALUE_FOR_1_ARGUMENT_STYLESHEET_EXPECTED);
         }
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:gui:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;

@@ -16,6 +16,7 @@
 #include "StringJustify.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 //=============================================================================
@@ -87,7 +88,7 @@ StringJustify(const ArrayOf& stringArrayOf, STRINGJUSTIFY style)
         return cell;
     } break;
     default: {
-        Error(_W("Type not managed."));
+        raiseError(L"Nelson:string:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     } break;
     }
     return {};

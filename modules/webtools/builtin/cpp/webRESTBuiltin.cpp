@@ -39,17 +39,19 @@ Nelson::WebtoolsGateway::webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     std::wstring filename = param3.getContentAsWideString();
     ArrayOf param4 = argIn[3];
     if (!param4.isStruct()) {
-        Error(_W("Wrong type for argument #4. struct expected."));
+        raiseError(L"Nelson:webtools:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 4, std::wstring(L"struct"));
     }
     if (!param4.isScalar()) {
-        Error(_W("Wrong size for argument #4. scalar struct expected."));
+        raiseError(L"Nelson:webtools:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 4);
     }
     stringVector names = param4.getFieldNames();
     ArrayOfVector values;
     for (auto& name : names) {
         ArrayOf paramValue = param4.getField(name);
         if (paramValue.isSparse()) {
-            Error(_W("Sparse not supported."));
+            raiseError(L"Nelson:webtools:ERROR_SPARSE_NOT_SUPPORTED", ERROR_SPARSE_NOT_SUPPORTED);
         }
         if (paramValue.isCharacterArray() || paramValue.isStringArray()) {
             std::wstring val = paramValue.getContentAsWideString();
@@ -57,12 +59,14 @@ Nelson::WebtoolsGateway::webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         } else if (paramValue.isLogical() || paramValue.isNumeric()) {
             values.push_back(paramValue);
         } else {
-            Error(_W("Type not supported. Only char, string, numeric or logical allowed."));
+            raiseError(L"Nelson:webtools:ERROR_TYPE_NOT_SUPPORTED_EXTENDED",
+                ERROR_TYPE_NOT_SUPPORTED_EXTENDED);
         }
     }
     ArrayOf param5 = argIn[4];
     if (ClassName(param5) != "weboptions") {
-        Error(_W("Wrong type for argument #5. weboptions object expected."));
+        raiseError(L"Nelson:webtools:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 5, std::wstring(L"weboptions object"));
     }
     WebOptions options(param5);
     bool haveEventsLoop = eval->haveEventsLoop();

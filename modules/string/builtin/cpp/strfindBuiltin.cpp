@@ -22,7 +22,7 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     if (!(argIn.size() == 2 || argIn.size() == 4)) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:string:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool forceAsCell = false;
     if (argIn.size() == 4) {
@@ -31,7 +31,8 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param3.isRowVectorCharacterArray() || (param3.isStringArray() && param3.isScalar())) {
             std::wstring str = param3.getContentAsWideString();
             if (str != L"ForceCellOutput") {
-                Error(_W("'ForceCellOutput' expected as third input argument."));
+                raiseError(L"Nelson:string:ERROR_FORCECELLOUTPUT_EXPECTED",
+                    ERROR_FORCECELLOUTPUT_EXPECTED);
             }
         } else {
             raiseError(L"Nelson:string:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
@@ -62,7 +63,8 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
                             try {
                                 elements = new ArrayOf[nbElements];
                             } catch (const std::bad_alloc&) {
-                                Error(ERROR_MEMORY_ALLOCATION);
+                                raiseError(L"Nelson:string:ERROR_MEMORY_ALLOCATION",
+                                    ERROR_MEMORY_ALLOCATION);
                             }
                             for (size_t k = 0; k < nbElements; k++) {
                                 // ArrayOf *cellA = (ArrayOf*)(A.getDataPointer());
@@ -75,7 +77,8 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
                                 A.getContentAsWideString(), B.getContentAsWideString());
                         }
                     } else {
-                        Error(_W("Second argument a single string expected."));
+                        raiseError(L"Nelson:string:ERROR_SECOND_ARGUMENT_A_SINGLE_STRING_EXPECTED",
+                            ERROR_SECOND_ARGUMENT_A_SINGLE_STRING_EXPECTED);
                     }
                 } else {
                     retval << ArrayOf::emptyConstructor();
@@ -87,7 +90,7 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
                 try {
                     elements = new ArrayOf[nbElements];
                 } catch (const std::bad_alloc&) {
-                    Error(ERROR_MEMORY_ALLOCATION);
+                    raiseError(L"Nelson:string:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
                 }
                 for (size_t k = 0; k < nbElements; k++) {
                     auto* cellA = (ArrayOf*)(A.getDataPointer());
@@ -97,7 +100,9 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
                                 std::wstring valB = B.getContentAsWideString();
                                 elements[k] = StringFind(cellA[k].getContentAsWideString(), valB);
                             } else {
-                                Error(_W("Second argument a single string expected."));
+                                raiseError(
+                                    L"Nelson:string:ERROR_SECOND_ARGUMENT_A_SINGLE_STRING_EXPECTED",
+                                    ERROR_SECOND_ARGUMENT_A_SINGLE_STRING_EXPECTED);
                             }
                         } else {
                             elements[k] = ArrayOf::emptyConstructor();
@@ -106,8 +111,9 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
                         if (A.isStringArray()) {
                             elements[k] = ArrayOf::emptyConstructor();
                         } else {
-                            Error(_W("First argument must be a cell of strings (or a string) and "
-                                     "second argument a string."));
+                            raiseError(L"Nelson:string:ERROR_FIRST_ARGUMENT_MUST_BE_CELL_OF_"
+                                       L"STRINGS_OR_STRING",
+                                ERROR_FIRST_ARGUMENT_MUST_BE_CELL_OF_STRINGS_OR_STRING);
                         }
                     }
                 }
@@ -116,18 +122,20 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
                 if ((A.isRowVector() && !A.isEmpty()) || A.isScalar() || A.isEmpty(true)) {
                     retval << ArrayOf::emptyConstructor();
                 } else {
-                    Error(_W("Input strings must have one row."));
+                    raiseError(L"Nelson:string:ERROR_INPUT_STRINGS_MUST_HAVE_ONE_ROW",
+                        ERROR_INPUT_STRINGS_MUST_HAVE_ONE_ROW);
                 }
             } else {
-                Error(_W("First argument must be a cell of strings (or a string) and second "
-                         "argument a string."));
+                raiseError(L"Nelson:string:ERROR_FIRST_ARGUMENT_MUST_BE_CELL_OF_STRINGS_OR_STRING",
+                    ERROR_FIRST_ARGUMENT_MUST_BE_CELL_OF_STRINGS_OR_STRING);
             }
         } else {
-            Error(_W("Second argument a single string expected."));
+            raiseError(L"Nelson:string:ERROR_SECOND_ARGUMENT_A_SINGLE_STRING_EXPECTED",
+                ERROR_SECOND_ARGUMENT_A_SINGLE_STRING_EXPECTED);
         }
     } else {
-        Error(_W("First argument must be a cell of strings (or a string) and second argument a "
-                 "string."));
+        raiseError(L"Nelson:string:ERROR_FIRST_ARGUMENT_MUST_BE_CELL_OF_STRINGS_OR_STRING",
+            ERROR_FIRST_ARGUMENT_MUST_BE_CELL_OF_STRINGS_OR_STRING);
     }
     return retval;
 }

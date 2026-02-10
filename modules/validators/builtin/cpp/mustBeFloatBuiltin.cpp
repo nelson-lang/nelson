@@ -12,6 +12,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,7 +27,8 @@ Nelson::ValidatorsGateway::mustBeFloatBuiltin(int nLhs, const ArrayOfVector& arg
         ArrayOf param2 = argIn[1];
         argPos = param2.getContentAsInteger32Scalar();
         if (argPos < 1) {
-            Error(_W("The last argument must be a positive integer."));
+            raiseError(L"Nelson:validators:ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER",
+                ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER);
         }
     }
     mustBeFloat(argIn[0], argPos, true);

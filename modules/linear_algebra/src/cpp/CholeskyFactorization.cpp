@@ -16,6 +16,8 @@
 #include <Eigen/src/misc/lapacke.h>
 #include "CholeskyFactorization.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -126,7 +128,8 @@ CholeskyFactorization(const ArrayOf& A, bool lowerTriangle, bool& needToOverload
         return {};
     }
     if (!A.isSquare()) {
-        Error(_("Square matrix expected."));
+        raiseError(
+            L"Nelson:linear_algebra:ERROR_SQUARE_MATRIX_EXPECTED", ERROR_SQUARE_MATRIX_EXPECTED);
     }
     if (A.isEmpty()) {
         ArrayOf res = ArrayOf::emptyConstructor();
@@ -162,10 +165,12 @@ CholeskyFactorization(const ArrayOf& A, bool lowerTriangle, bool& needToOverload
     }
     if (info != 0) {
         if (info < 0) {
-            Error(_W("One argument had an illegal value."));
+            raiseError(L"Nelson:linear_algebra:ERROR_ONE_ARGUMENT_HAD_AN_ILLEGAL_VALUE",
+                ERROR_ONE_ARGUMENT_HAD_AN_ILLEGAL_VALUE);
         }
         if (info > 0) {
-            Error(_W("Positive finite matrix expected."));
+            raiseError(L"Nelson:linear_algebra:ERROR_POSITIVE_FINITE_MATRIX_EXPECTED",
+                ERROR_POSITIVE_FINITE_MATRIX_EXPECTED);
         }
     }
     return R;

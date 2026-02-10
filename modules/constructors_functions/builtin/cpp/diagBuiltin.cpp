@@ -28,7 +28,8 @@ Nelson::ConstructorsGateway::diagBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         b = argIn[1];
         if (!b.isScalar()) {
-            Error(_W("Second argument must be a scalar."));
+            raiseError(L"Nelson:constructors_functions:ERROR_DIAG_SECOND_ARG_SCALAR_EXPECTED",
+                ERROR_DIAG_SECOND_ARG_SCALAR_EXPECTED);
         }
         b.promoteType(NLS_INT64);
         dp = (int64*)b.getDataPointer();
@@ -37,7 +38,8 @@ Nelson::ConstructorsGateway::diagBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     ArrayOf a = argIn[0];
     if (!a.is2D()) {
-        Error(_W("First argument to 'diag' function must be 2D."));
+        raiseError(L"Nelson:constructors_functions:ERROR_DIAG_FIRST_ARG_2D_EXPECTED",
+            ERROR_DIAG_FIRST_ARG_2D_EXPECTED);
     }
     ArrayOf diag;
     if ((a.getDimensionLength(1) == 1) || (a.getDimensionLength(0) == 1)) {

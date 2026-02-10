@@ -9,6 +9,7 @@
 //=============================================================================
 #include "h5createBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "h5Create.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -31,14 +32,14 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring datasetname = param2.getContentAsWideString();
     ArrayOf param3 = argIn[2];
     if (!param3.isRowVector()) {
-        Error("Row vector expected.");
+        raiseError(L"Nelson:hdf5:ERROR_ROW_VECTOR_EXPECTED", ERROR_ROW_VECTOR_EXPECTED);
     }
     bool isSupportedSizeType = param3.getDataClass() == NLS_DOUBLE && !param3.isNdArrayDoubleType();
     if (!isSupportedSizeType) {
-        Error("double expected.");
+        raiseError(L"Nelson:hdf5:ERROR_DOUBLE_EXPECTED", ERROR_DOUBLE_EXPECTED);
     }
     if (param3.isEmpty()) {
-        Error("row vector expected.");
+        raiseError(L"Nelson:hdf5:ERROR_ROW_VECTOR_EXPECTED", ERROR_ROW_VECTOR_EXPECTED);
     }
     auto* sizePtr = (double*)param3.getDataPointer();
     std::vector<double> sizeData;
@@ -57,7 +58,8 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() > 3) {
         indexType nbOptions = argIn.size() - 3;
         if (nbOptions % 2 != 0) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            raiseError(
+                L"Nelson:hdf5:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
     }
     for (size_t i = 3; i + 1 < argIn.size(); i += 2) {
@@ -86,16 +88,16 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
             } else if (dataTypeStr == L"uint64") {
                 dataType = NLS_UINT64;
             } else {
-                Error(_W("Type not managed."));
+                raiseError(L"Nelson:hdf5:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
             }
         } else if (paramXname.getContentAsWideString() == L"ChunkSize") {
             bool isSupportedSizeType
                 = paramXvalue.getDataClass() == NLS_DOUBLE && !paramXvalue.isNdArrayDoubleType();
             if (!isSupportedSizeType) {
-                Error("double expected.");
+                raiseError(L"Nelson:hdf5:ERROR_DOUBLE_EXPECTED", ERROR_DOUBLE_EXPECTED);
             }
             if (paramXvalue.isEmpty()) {
-                Error("row vector expected.");
+                raiseError(L"Nelson:hdf5:ERROR_ROW_VECTOR_EXPECTED", ERROR_ROW_VECTOR_EXPECTED);
             }
             double* chunkSizePtr = (double*)paramXvalue.getDataPointer();
             indexType nbElements = paramXvalue.getElementCount();
@@ -107,13 +109,14 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
             deflate = (int)paramXvalue.getContentAsScalarIndex(true);
         } else if (paramXname.getContentAsWideString() == L"FillValue") {
             if (!paramXvalue.isScalar()) {
-                Error(_W("Scalar value expected."));
+                raiseError(L"Nelson:hdf5:ERROR_SCALAR_VALUE_EXPECTED", ERROR_SCALAR_VALUE_EXPECTED);
             }
             NelsonType valueClass = paramXvalue.getDataClass();
             bool isSupportedType = (valueClass == NLS_DOUBLE || valueClass == NLS_SINGLE
                 || IS_INTEGER_TYPE(valueClass));
             if (!isSupportedType) {
-                Error(_W("Unsupported value type."));
+                raiseError(
+                    L"Nelson:hdf5:ERROR_UNSUPPORTED_VALUE_TYPE", ERROR_UNSUPPORTED_VALUE_TYPE);
             }
             fillvalue = paramXvalue;
         } else if (paramXname.getContentAsWideString() == L"Fletcher32") {
@@ -125,10 +128,12 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (_textEncoding == L"system" || _textEncoding == L"UTF-8") {
                 textEncoding.assign(_textEncoding);
             } else {
-                Error(_W("Wrong text encoding parameter."));
+                raiseError(L"Nelson:hdf5:ERROR_WRONG_TEXT_ENCODING_PARAMETER",
+                    ERROR_WRONG_TEXT_ENCODING_PARAMETER);
             }
         } else {
-            Error(_W("Invalid parameter."));
+            raiseError(
+                L"Nelson:hdf5:ERROR_INVALID_NELSON_PARAMETER", ERROR_INVALID_NELSON_PARAMETER);
         }
     }
     h5Create(filename, datasetname, sizeData, dataType, chunksize, deflate, fillvalue, fletcher32,

@@ -32,14 +32,15 @@ Nelson::AssertFunctionsGateway::assert_istrueBuiltin(int nLhs, const ArrayOfVect
             ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_LOGICAL_STR);
     }
     if (!param1.isScalar()) {
-        Error(ERROR_SIZE_SCALAR_EXPECTED);
+        raiseError(
+            L"Nelson:assert_functions:ERROR_SIZE_SCALAR_EXPECTED", ERROR_SIZE_SCALAR_EXPECTED);
     }
     logical res = param1.getContentAsLogicalScalar();
     std::wstring msg;
     res = Assert_IsTrue(res, modifiedmsg, msg);
     if (nLhs == 0) {
         if (res == 0) {
-            Error(msg);
+            Error(msg, L"Nelson:assert_functions:ERROR_ASSERTION_FAILED");
         }
     } else {
         retval << ArrayOf::logicalConstructor(res == 0 ? false : true);

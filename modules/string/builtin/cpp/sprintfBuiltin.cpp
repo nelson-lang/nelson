@@ -43,7 +43,7 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             retval << strArr;
             retval << ArrayOf::characterArrayConstructor(error_message);
         } else {
-            Error(error_message);
+            Error(error_message, L"Nelson:string:sprintf");
         }
     } else {
         if (result.empty()) {

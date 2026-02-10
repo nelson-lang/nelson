@@ -34,7 +34,8 @@ Nelson::AudioGateway::beepBuiltin(int nLhs, const ArrayOfVector& argIn)
                 setBeepOff();
             }
         } else {
-            Error(_W("Wrong value for #1 argument."));
+            raiseError(
+                L"Nelson:audio:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 1);
         }
     }
     ArrayOfVector retval(nLhs);

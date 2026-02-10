@@ -26,7 +26,7 @@ Nelson::MpiGateway::MPI_Comm_get_nameBuiltin(int nLhs, const ArrayOfVector& argI
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(_W("MPI must be initialized."));
+        raiseError(L"Nelson:mpi:ERROR_MPI_MUST_BE_INITIALIZED", ERROR_MPI_MUST_BE_INITIALIZED);
     }
     retval << ArrayOf::characterArrayConstructor(getMpiCommName(HandleToMpiComm(argIn[0])));
     return retval;

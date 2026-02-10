@@ -255,7 +255,8 @@ DispQObjectHandleObject(Interface* io, const ArrayOf& A, const std::string& name
         DisplayVariableHeader(io, A, utf8_to_wstring(name), false);
         if (A.isScalar()) {
             if (A.getHandleCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-                Error(_W("QObject handle expected."));
+                raiseError(
+                    L"Nelson:qml:ERROR_QOBJECT_HANDLE_EXPECTED", ERROR_QOBJECT_HANDLE_EXPECTED);
             }
 
             io->outputMessage("\n");
@@ -265,7 +266,7 @@ DispQObjectHandleObject(Interface* io, const ArrayOf& A, const std::string& name
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("QObject handle expected."));
+        raiseError(L"Nelson:qml:ERROR_QOBJECT_HANDLE_EXPECTED", ERROR_QOBJECT_HANDLE_EXPECTED);
     }
 }
 //=============================================================================

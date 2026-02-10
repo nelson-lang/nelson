@@ -59,12 +59,12 @@ Nelson::AudioGateway::audioplayerBuiltin(int nLhs, const ArrayOfVector& argIn)
         res = objPlayer->setSamples(argIn[0], sampleRate, bitsPerSample, deviceID, errorMessage);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:audio:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     if (!res) {
         delete objPlayer;
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:audio:ERROR_AUDIOPLAYER_SET_ERROR");
     } else {
         retval << ArrayOf::handleConstructor(objPlayer);
     }

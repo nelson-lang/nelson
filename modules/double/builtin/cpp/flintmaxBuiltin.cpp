@@ -11,6 +11,7 @@
 #include "flintmaxBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -33,7 +34,8 @@ Nelson::DoubleGateway::flintmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
                 retval << ArrayOf::singleConstructor(intmax);
             }
         } else {
-            Error(_W("#1 'double' or 'single' expected."));
+            raiseError(L"Nelson:double:ERROR_DOUBLE_OR_SINGLE_TYPE_EXPECTED",
+                ERROR_DOUBLE_OR_SINGLE_TYPE_EXPECTED);
         }
     } else if (argIn.size() == 2) {
         if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
@@ -46,13 +48,16 @@ Nelson::DoubleGateway::flintmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
                     single intmax = (1UL << FLT_MANT_DIG);
                     retval << ArrayOf::singleConstructor(intmax);
                 } else {
-                    Error(_("Second argument must a double or single variable."));
+                    raiseError(L"Nelson:double:ERROR_SECOND_ARGUMENT_MUST_BE_DOUBLE_OR_SINGLE",
+                        ERROR_DOUBLE_OR_SINGLE_TYPE_EXPECTED);
                 }
             } else {
-                Error(_("First argument must be 'like'."));
+                raiseError(L"Nelson:double:ERROR_FIRST_ARGUMENT_MUST_BE_LIKE",
+                    ERROR_LIKE_EXPECTED_AT_N_MINUS_2_ARG);
             }
         } else {
-            Error(_("First argument must be 'like'."));
+            raiseError(L"Nelson:double:ERROR_FIRST_ARGUMENT_MUST_BE_LIKE",
+                ERROR_LIKE_EXPECTED_AT_N_MINUS_2_ARG);
         }
     } else {
         double intmax = (1ULL << DBL_MANT_DIG);

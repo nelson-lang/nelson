@@ -11,6 +11,7 @@
 #include "PyRun.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "PythonLibraryWrapper.hpp"
 #include "PythonEnvironment.hpp"
 #include "PythonEngine.hpp"
@@ -68,7 +69,8 @@ PyRunFile(Interface* io, bool haveEventsLoop, const std::wstring& filename,
     initializePythonEngine();
 
     if (names.size() != values.size()) {
-        Error(_W("Same name, value numbers expected."));
+        raiseError(
+            L"Nelson:Python:ERROR_SAME_NAME_VALUE_EXPECTED", ERROR_PYTHON_SAME_NAME_VALUE_EXPECTED);
     }
 
     ArrayOfVector retval = {};

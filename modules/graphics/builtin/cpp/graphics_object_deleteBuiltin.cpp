@@ -9,6 +9,7 @@
 //=============================================================================
 #include "graphics_object_deleteBuiltin.hpp"
 #include "GraphicsObject.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "GOHelpers.hpp"
 #include "GORoot.hpp"
 #include "GOFiguresManager.hpp"
@@ -22,7 +23,8 @@ Nelson::GraphicsGateway::graphics_object_deleteBuiltin(int nLhs, const ArrayOfVe
     nargincheck(argIn, 1, 1);
     int64 handle = argIn[0].getContentAsGraphicsObjectScalar();
     if (handle == HANDLE_ROOT_OBJECT) {
-        Error(_W("Cannot delete root graphics object."));
+        raiseError(L"Nelson:graphics:CANNOT_DELETE_ROOT_GRAPHICS_OBJECT",
+            _W("Cannot delete root graphics object."));
     } else if (handle >= HANDLE_OFFSET_OBJECT) {
         deleteGraphicsObject(handle, true, true);
     } else {

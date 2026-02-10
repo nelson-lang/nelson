@@ -10,10 +10,10 @@
 #include "sparseBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "SparseConstructors.hpp"
 #include "CheckIJV.hpp"
 #include "SparseType.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "OverloadHelpers.hpp"
 #include "OverloadRequired.hpp"
@@ -59,8 +59,8 @@ sparseBuiltinThreeRhs(int nLhs, const ArrayOfVector& argIn)
     ArrayOf J(argIn[1]);
     ArrayOf V(argIn[2]);
     if (I.isComplex() || J.isComplex()) {
-        Error(_W("Sparse matrix indices must be positive integers."),
-            L"Nelson:sparsfcn:nonPositiveIndicesOfSparse");
+        raiseError(L"Nelson:sparse:ERROR_SPARSE_MATRIX_INDICES_MUST_BE_POSITIVE_INTEGERS",
+            ERROR_SPARSE_MATRIX_INDICES_MUST_BE_POSITIVE_INTEGERS);
     }
     if ((V.getDataClass() == NLS_DOUBLE || V.getDataClass() == NLS_DCOMPLEX
             || V.getDataClass() == NLS_LOGICAL)
@@ -70,7 +70,9 @@ sparseBuiltinThreeRhs(int nLhs, const ArrayOfVector& argIn)
             || V.isEmpty()) {
             retval << SparseConstructor(I, J, V);
         } else {
-            Error(_W("in I, J, V format, all three vectors must be the same size or be scalars."));
+            raiseError(L"Nelson:sparse:ERROR_IN_I_J_V_FORMAT_ALL_THREE_VECTORS_MUST_BE_THE_SAME_"
+                       L"SIZE_OR_BE_SCALARS",
+                ERROR_IN_I_J_V_FORMAT_ALL_THREE_VECTORS_MUST_BE_THE_SAME_SIZE_OR_BE_SCALARS);
         }
     } else {
         OverloadRequired("sparse");
@@ -128,7 +130,7 @@ Nelson::SparseGateway::sparseBuiltin(int nLhs, const ArrayOfVector& argIn)
     case 6:
         return sparseBuiltinFiveOrSixRhs(nLhs, argIn);
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:sparse:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;

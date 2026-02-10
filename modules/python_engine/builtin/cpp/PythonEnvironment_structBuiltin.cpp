@@ -10,6 +10,7 @@
 #include "PythonEnvironment_structBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "HandleGenericObject.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PythonEnvironment.hpp"
@@ -24,11 +25,13 @@ Nelson::Python_engineGateway::PythonEnvironment_structBuiltin(int nLhs, const Ar
     ArrayOf param1 = argIn[0];
 
     if (param1.getHandleCategory() != NLS_HANDLE_PYTHON_ENVIRONMENT_CATEGORY_STR) {
-        Error(_W("PythonEnvironment object expected."));
+        raiseError(L"Nelson:python_engine:ERROR_PYTHON_ENVIRONMENT_OBJECT_EXPECTED",
+            ERROR_PYTHON_ENVIRONMENT_OBJECT_EXPECTED);
     }
 
     if (!param1.isScalar()) {
-        Error(_W("Wrong size for argument #1. scalar expected"));
+        raiseError(L"Nelson:python_engine:ERROR_WRONG_SIZE_ARG1_SCALAR_EXPECTED",
+            ERROR_WRONG_SIZE_ARG1_SCALAR_EXPECTED);
     }
 
     PythonEnvironment* pythonEnvironment = PythonEnvironment::getInstance();

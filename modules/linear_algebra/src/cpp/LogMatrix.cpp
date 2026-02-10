@@ -18,6 +18,8 @@
 #include <unsupported/Eigen/MatrixFunctions>
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -34,7 +36,7 @@ logmComplex(ArrayOf& A)
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(
         Rz, (Eigen::Index)R.getRows(), (Eigen::Index)R.getColumns());
     if (!matA.allFinite()) {
-        Error(_("Input must be finite."));
+        raiseError(L"Nelson:linear_algebra:ERROR_INPUT_MUST_BE_FINITE", ERROR_INPUT_MUST_BE_FINITE);
     } else {
         // [V, D] = eig(A);
         // sqrtm = V * diag(log(diag(D))) * inv(V);
@@ -60,11 +62,12 @@ LogMatrix(ArrayOf A)
               || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
-        Error(_("Undefined function 'sqrtm' for input arguments of type") + " '" + ClassName(A)
-            + "'.");
+        raiseError(L"Nelson:linear_algebra:ERROR_UNDEFINED_FUNCTION_FOR_INPUT_ARGUMENTS",
+            ERROR_UNDEFINED_FUNCTION_FOR_INPUT_ARGUMENTS, L"logm", utf8_to_wstring(ClassName(A)));
     }
     if (!A.isSquare()) {
-        Error(_("Square matrix expected."));
+        raiseError(
+            L"Nelson:linear_algebra:ERROR_SQUARE_MATRIX_EXPECTED", ERROR_SQUARE_MATRIX_EXPECTED);
     }
     if (A.isEmpty()) {
         ArrayOf res(A);

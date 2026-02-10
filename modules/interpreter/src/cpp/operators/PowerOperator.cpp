@@ -14,6 +14,7 @@
 #include "OverloadRequired.hpp"
 #include "FindCommonType.hpp"
 #include "IEEEFP.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -57,8 +58,9 @@ Evaluator::powerOperator(const ArrayOfVector& args)
         if (A.isIntegerType()) {
             bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
             if (!isCompatible) {
-                Error(_W("Integers can only be combined with integers of the same class, or scalar "
-                         "doubles."));
+                raiseError(L"Nelson:interpreter:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_"
+                           L"OF_THE_SAME_CLASS_OR_SCALAR",
+                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OF_THE_SAME_CLASS_OR_SCALAR);
             }
             A.promoteType(commonType);
 
@@ -66,7 +68,8 @@ Evaluator::powerOperator(const ArrayOfVector& args)
             indexType elementCount = B.getElementCount();
             bool allIntegerValue = IsIntegerForm(ptrB, elementCount);
             if (!allIntegerValue) {
-                Error(_W("Positive integral powers expected."));
+                raiseError(L"Nelson:interpreter:ERROR_POSITIVE_INTEGRAL_POWERS_EXPECTED",
+                    ERROR_POSITIVE_INTEGRAL_POWERS_EXPECTED);
             }
 
             B.promoteType(commonType);
@@ -74,8 +77,9 @@ Evaluator::powerOperator(const ArrayOfVector& args)
         } else if (B.isIntegerType()) {
             bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
             if (!isCompatible) {
-                Error(_W("Integers can only be combined with integers of the same class, or scalar "
-                         "doubles."));
+                raiseError(L"Nelson:interpreter:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_"
+                           L"OF_THE_SAME_CLASS_OR_SCALAR",
+                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OF_THE_SAME_CLASS_OR_SCALAR);
             }
             A.promoteType(commonType);
             B.promoteType(commonType);

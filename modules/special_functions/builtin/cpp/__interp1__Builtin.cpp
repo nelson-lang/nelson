@@ -9,7 +9,7 @@
 //=============================================================================
 #include "__interp1__Builtin.hpp"
 #include "LinearInterpolation1D.hpp"
-#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -32,7 +32,8 @@ Nelson::SpecialFunctionsGateway::__interp1__Builtin(int nLhs, const ArrayOfVecto
             // vq = interp1(v, xq, 'linear')
             std::wstring methodName = argIn[2].getContentAsWideString();
             if (methodName != L"linear") {
-                Error(_W("'linear' method expected."));
+                raiseError(L"Nelson:special_functions:ERROR_LINEAR_METHOD_EXPECTED",
+                    ERROR_LINEAR_METHOD_EXPECTED);
             }
             retval << LinearInterpolation1D(argIn[0], argIn[1]);
         } else {
@@ -44,7 +45,8 @@ Nelson::SpecialFunctionsGateway::__interp1__Builtin(int nLhs, const ArrayOfVecto
         // vq = interp1(x, v, xq, 'linear')
         std::wstring methodName = argIn[3].getContentAsWideString();
         if (methodName != L"linear") {
-            Error(_W("'linear' method expected."));
+            raiseError(L"Nelson:special_functions:ERROR_LINEAR_METHOD_EXPECTED",
+                ERROR_LINEAR_METHOD_EXPECTED);
         }
         retval << LinearInterpolation1D(argIn[0], argIn[1], argIn[2]);
     } break;

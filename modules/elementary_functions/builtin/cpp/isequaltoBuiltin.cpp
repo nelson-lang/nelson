@@ -15,6 +15,7 @@
 #include "FindCommonType.hpp"
 #include "OverloadHelpers.hpp"
 #include "OverloadRequired.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -42,7 +43,9 @@ Nelson::ElementaryFunctionsGateway::isequaltoBuiltin(
     }
     if (isSparse
         && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX && commonType != NLS_LOGICAL)) {
-        Error(_("Attempt to convert to unimplemented sparse type"), "Nelson:UnableToConvert");
+        raiseError(
+            L"Nelson:elementary_functions:ERROR_ATTEMPT_TO_CONVERT_UNIMPLEMENTED_SPARSE_TYPE",
+            ERROR_ATTEMPT_TO_CONVERT_UNIMPLEMENTED_SPARSE_TYPE);
     }
 
     bool needToOverload = false;

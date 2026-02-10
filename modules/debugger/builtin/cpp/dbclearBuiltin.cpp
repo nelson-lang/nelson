@@ -25,7 +25,8 @@ Nelson::DebuggerGateway::dbclearBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     nargoutcheck(nLhs, 0, 0);
 
     if (argIn.size() == 3) {
-        Error("Wrong number of input arguments.");
+        raiseError(
+            L"Nelson:debugger:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
 
     if (argIn.size() == 1 && argIn[0].getContentAsWideString() == L"all") {
@@ -36,7 +37,8 @@ Nelson::DebuggerGateway::dbclearBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     std::wstring target = argIn[1].getContentAsWideString();
 
     if (!eval->removeBreakpoint(target, position)) {
-        Error(_W("No breakpoint found at specified location."));
+        raiseError(L"Nelson:debugger:ERROR_NO_BREAKPOINT_FOUND_AT_SPECIFIED_LOCATION",
+            ERROR_NO_BREAKPOINT_FOUND_AT_SPECIFIED_LOCATION);
     }
 
     return {};
@@ -50,7 +52,8 @@ parsePositionArgument(const ArrayOfVector& argIn)
     }
 
     if (argIn[2].getContentAsWideString() != L"at") {
-        Error(_W("Third argument must be 'at'."));
+        raiseError(
+            L"Nelson:debugger:ERROR_THIRD_ARGUMENT_MUST_BE_AT", ERROR_THIRD_ARGUMENT_MUST_BE_AT);
     }
 
     std::wstring posArg = argIn[3].getContentAsWideString();
@@ -59,11 +62,13 @@ parsePositionArgument(const ArrayOfVector& argIn)
     try {
         size_t pos = std::stoul(posArg, &idx);
         if (idx != posArg.size()) {
-            Error(_W("Invalid position argument."));
+            raiseError(L"Nelson:debugger:ERROR_INVALID_POSITION_ARGUMENT",
+                ERROR_INVALID_POSITION_ARGUMENT);
         }
         return pos;
     } catch (...) {
-        Error(_W("Invalid position argument."));
+        raiseError(
+            L"Nelson:debugger:ERROR_INVALID_POSITION_ARGUMENT", ERROR_INVALID_POSITION_ARGUMENT);
     }
 
     return 1; // unreachable

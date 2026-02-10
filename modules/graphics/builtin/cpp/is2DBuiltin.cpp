@@ -9,6 +9,7 @@
 //=============================================================================
 #include "is2DBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "GraphicsObject.hpp"
 #include "GOHelpers.hpp"
@@ -27,12 +28,13 @@ is2DBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     if (!argIn[0].isGraphicsObject() || !argIn[0].isScalar()) {
-        Error(_W("Invalid object."));
+        raiseError(L"Nelson:graphics:ERROR_INVALID_OBJECT", ERROR_INVALID_OBJECT);
     }
     int64 handle = argIn[0].getContentAsGraphicsObjectScalar();
     GraphicsObject* gop = findGraphicsObject(handle);
     if (!(gop->getType() == GO_PROPERTY_VALUE_AXES_STR)) {
-        Error(_("axes graphics object expected."));
+        raiseError(L"Nelson:graphics:ERROR_AXES_GRAPHICS_OBJECT_EXPECTED",
+            ERROR_AXES_GRAPHICS_OBJECT_EXPECTED);
     }
     GOAxis* axis = (GOAxis*)gop;
     GOGObjectsProperty* cp = (GOGObjectsProperty*)axis->findProperty(GO_PARENT_PROPERTY_NAME_STR);

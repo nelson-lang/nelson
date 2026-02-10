@@ -23,7 +23,8 @@ Nelson::AudioGateway::audioplayer_ispropBuiltin(int nLhs, const ArrayOfVector& a
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
-        Error(_W("audioplayer handle expected."));
+        raiseError(
+            L"Nelson:audio:ERROR_AUDIOPLAYER_HANDLE_EXPECTED", ERROR_AUDIOPLAYER_HANDLE_EXPECTED);
     }
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();

@@ -32,17 +32,20 @@ GraphicsIoGateway::saveasBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         int64 fignum = argIn[0].getContentAsInteger64Scalar();
         if ((fignum <= 0) || (fignum > MAX_FIGS)) {
-            Error(_("figure number is out of range - it must be between 1 and 2147483647."));
+            raiseError(L"Nelson:graphics_io:ERROR_FIGURE_NUMBER_IS_OUT_OF_RANGE_IT_MUST_BE_BETWEEN_"
+                       L"1_AND_2147483647",
+                ERROR_FIGURE_NUMBER_IS_OUT_OF_RANGE_IT_MUST_BE_BETWEEN_1_AND_2147483647);
         }
         f = getHandleWindow(fignum);
     }
     if (!f) {
-        Error(_W("Invalid handle."));
+        raiseError(L"Nelson:graphics_io:ERROR_INVALID_NELSON_HANDLE", ERROR_INVALID_NELSON_HANDLE);
     }
     std::wstring filename = argIn[1].getContentAsWideString();
     FileSystemWrapper::Path p(filename);
     if (!p.parent_path().is_directory()) {
-        Error(_W("Parent directory does not exist: ") + p.parent_path().generic_wstring());
+        raiseError(L"Nelson:graphics_io:ERROR_PARENT_DIRECTORY_DOES_NOT_EXIST",
+            ERROR_PARENT_DIRECTORY_DOES_NOT_EXIST, p.parent_path().generic_wstring());
     }
     IMAGE_FORMAT formatForced;
     if (p.has_extension()) {
@@ -51,12 +54,14 @@ GraphicsIoGateway::saveasBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (argIn.size() == 3) {
             std::wstring param3 = argIn[2].getContentAsWideString();
             if (!isSupportedImageFormatExtension(param3)) {
-                Error(_W("Unsupported format:") + param3, L"Nelson:saveas:badFormat");
+                raiseError(L"Nelson:graphics_io:ERROR_UNSUPPORTED_FORMAT", ERROR_UNSUPPORTED_FORMAT,
+                    param3);
             }
             formatForced = getExportImageFormatFromString(param3);
         } else {
             if (!isSupportedImageFormatExtension(pathExtension)) {
-                Error(_W("Unsupported format:") + pathExtension, L"Nelson:saveas:badFormat");
+                raiseError(L"Nelson:graphics_io:ERROR_UNSUPPORTED_FORMAT", ERROR_UNSUPPORTED_FORMAT,
+                    pathExtension);
             }
             formatForced = getExportImageFormatFromString(pathExtension);
         }
@@ -64,7 +69,8 @@ GraphicsIoGateway::saveasBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (argIn.size() == 3) {
             std::wstring param3 = argIn[2].getContentAsWideString();
             if (!isSupportedImageFormatExtension(param3)) {
-                Error(_W("Unsupported format:") + param3, L"Nelson:saveas:badFormat");
+                raiseError(L"Nelson:graphics_io:ERROR_UNSUPPORTED_FORMAT", ERROR_UNSUPPORTED_FORMAT,
+                    param3);
             }
             formatForced = getExportImageFormatFromString(param3);
         } else {
@@ -75,10 +81,12 @@ GraphicsIoGateway::saveasBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     bool saved = ExportGraphics(f, filename, formatForced);
     if (!saved) {
-        Error(_W("Impossible to save image."), L"Nelson:saveas:badFormat");
+        raiseError(
+            L"Nelson:graphics_io:ERROR_IMPOSSIBLE_TO_SAVE_IMAGE", ERROR_IMPOSSIBLE_TO_SAVE_IMAGE);
     }
     if (!p.is_regular_file()) {
-        Error(_W("Impossible to save image."), L"Nelson:saveas:filename");
+        raiseError(
+            L"Nelson:graphics_io:ERROR_IMPOSSIBLE_TO_SAVE_IMAGE", ERROR_IMPOSSIBLE_TO_SAVE_IMAGE);
     }
     return retval;
 }

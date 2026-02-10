@@ -40,7 +40,8 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         bool isSupported
             = param2.isCharacterArray() || (param2.isStringArray() && param2.isScalar());
         if (!isSupported) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            raiseError(L"Nelson:stream_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
+                ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         }
         firstArgumentPosition = 1;
     } else if (param1.isRowVectorCharacterArray()
@@ -48,18 +49,20 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         dID = 1;
         firstArgumentPosition = 0;
     } else {
-        Error(_W("valid format expected."));
+        raiseError(
+            L"Nelson:stream_manager:ERROR_VALID_FORMAT_EXPECTED", ERROR_VALID_FORMAT_EXPECTED);
     }
     for (size_t i = firstArgumentPosition; i < argIn.size(); i++) {
         args.push_back(argIn[i]);
     }
     if (!printfFunction(args, errorMessage, result)) {
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:stream_manager:ERROR_PRINTF_ERROR");
     }
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     auto iValue = static_cast<int32>(dID);
     if (fm == nullptr) {
-        Error(_W("Problem with file manager."));
+        raiseError(L"Nelson:stream_manager:ERROR_PROBLEM_WITH_FILE_MANAGER",
+            ERROR_PROBLEM_WITH_FILE_MANAGER);
     }
     size_t len = 0;
     if (fm->isOpened(iValue)) {
@@ -76,7 +79,7 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                 }
                 len = result.length();
             } else {
-                Error(_W("ID not supported."));
+                raiseError(L"Nelson:stream_manager:ERROR_ID_NOT_SUPPORTED", ERROR_ID_NOT_SUPPORTED);
             }
         } else {
             FILE* filepointer = static_cast<FILE*>(f->getFilePointer());
@@ -91,19 +94,21 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                         fprintf(filepointer, "%s", data.c_str());
                         len = data.length();
                     } else {
-                        Error(_W("Cannot use encoding: ") + encoding);
+                        raiseError(L"Nelson:stream_manager:ERROR_CANNOT_USE_ENCODING",
+                            ERROR_CANNOT_USE_ENCODING, encoding);
                     }
                 }
 
             } else {
-                Error(_W("ID not supported."));
+                raiseError(L"Nelson:stream_manager:ERROR_ID_NOT_SUPPORTED", ERROR_ID_NOT_SUPPORTED);
             }
         }
         if (nLhs > 0) {
             retval << ArrayOf::doubleConstructor((double)len);
         }
     } else {
-        Error(_W("Wrong value for #1 argument: a valid file ID expected."));
+        raiseError(L"Nelson:stream_manager:ERROR_INVALID_FILE_ID_EXPECTED",
+            ERROR_INVALID_FILE_ID_EXPECTED);
     }
     return retval;
 }

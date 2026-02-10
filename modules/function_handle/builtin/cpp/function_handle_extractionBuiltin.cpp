@@ -35,13 +35,16 @@ Nelson::FunctionHandleGateway::function_handle_extractionBuiltin(
                 }
                 retval = funcDef->evaluateFunction(eval, m, nLhs);
             } else {
-                Error(_W("Function does not exist."));
+                raiseError(
+                    L"Nelson:function_handle:ERROR_FUNCTION_NOT_FOUND", ERROR_FUNCTION_NOT_FOUND);
             }
         } else {
-            Error(_W("Argument #1 must be a valid function_handle."));
+            raiseError(L"Nelson:function_handle:ERROR_EXPECTED_A_FUNCTION_HANDLE",
+                ERROR_EXPECTED_A_FUNCTION_HANDLE);
         }
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:function_handle:ERROR_WRONG_NUMBERS_INPUT_ARGS",
+            ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

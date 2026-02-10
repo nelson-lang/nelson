@@ -9,6 +9,7 @@
 //=============================================================================
 #include "GOColorProperty.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "GOColorHelpers.hpp"
 #include "GOPropertyValues.hpp"
@@ -29,7 +30,9 @@ GOColorProperty::set(ArrayOf arg)
 {
     GOGenericProperty::set(arg);
     if (!ParseColorToRGB(arg, _data)) {
-        Error(_W("Expecting a color spec: either a color name or a 3-vector or RGB values"));
+        raiseError(L"Nelson:graphics:ERROR_EXPECTING_A_COLOR_SPEC_EITHER_A_COLOR_NAME_OR_A_3_"
+                   L"VECTOR_OR_RGB_VALUES",
+            ERROR_EXPECTING_A_COLOR_SPEC_EITHER_A_COLOR_NAME_OR_A_3_VECTOR_OR_RGB_VALUES);
     }
 }
 //=============================================================================

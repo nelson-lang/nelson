@@ -44,7 +44,7 @@ updatePivotVector(int nrows, int* piv, int p)
     try {
         fullpivot = new int[nrows];
     } catch (std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:linear_algebra:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     OMP_PARALLEL_FOR_LOOP(nrows)
     for (ompIndexType i = 0; i < (ompIndexType)nrows; i++) {
@@ -473,7 +473,8 @@ LUMatrixFactorizationDoubleReal(const ArrayOf& A, int nLhs)
     ArrayOfVector retval;
 
     if (!isAllFinite<double>(A)) {
-        Error(_("Input to LU must not contain NaN or Inf."), "Nelson:lu:matrixWithNaNInf");
+        raiseError(L"Nelson:linear_algebra:ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF",
+            ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF);
     }
     int nrows = (int)A.getRows();
     int ncols = (int)A.getColumns();
@@ -544,12 +545,14 @@ ArrayOfVector
 LUMatrixFactorizationSingleReal(const ArrayOf& A, int nLhs)
 {
     if (!isAllFinite<single>(A)) {
-        Error(_("Input to LU must not contain NaN or Inf."), "Nelson:lu:matrixWithNaNInf");
+        raiseError(L"Nelson:linear_algebra:ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF",
+            ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF);
     }
     ArrayOfVector retval;
 
     if (!isAllFinite<single>(A)) {
-        Error(_("Input to LU must not contain NaN or Inf."), "Nelson:lu:matrixWithNaNInf");
+        raiseError(L"Nelson:linear_algebra:ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF",
+            ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF);
     }
     int nrows = (int)A.getRows();
     int ncols = (int)A.getColumns();
@@ -612,7 +615,8 @@ LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs)
 {
     ArrayOfVector retval;
     if (!isAllFinite<double>(A)) {
-        Error(_("Input to LU must not contain NaN or Inf."), "Nelson:lu:matrixWithNaNInf");
+        raiseError(L"Nelson:linear_algebra:ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF",
+            ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF);
     }
     int nrows = (int)A.getRows();
     int ncols = (int)A.getColumns();
@@ -679,7 +683,8 @@ LUMatrixFactorizationSingleComplex(const ArrayOf& A, int nLhs)
 {
     ArrayOfVector retval;
     if (!isAllFinite<single>(A)) {
-        Error(_("Input to LU must not contain NaN or Inf."), "Nelson:lu:matrixWithNaNInf");
+        raiseError(L"Nelson:linear_algebra:ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF",
+            ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF);
     }
     int nrows = (int)A.getRows();
     int ncols = (int)A.getColumns();

@@ -21,6 +21,7 @@
 #include "BetaIncomplete.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -203,19 +204,24 @@ BetaIncomplete(
     Dimensions dimsMaxYZ = maxDimensions(dimsY, dimsZ);
     Dimensions retDims = maxDimensions(dimsX, dimsMaxYZ);
     if (!(X.isScalar()) && !retDims.equals(X.getDimensions())) {
-        Error(_("Wrong size for #1 argument."));
+        raiseError(L"Nelson:special_functions:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, _W("1"));
     }
     if (!(Y.isScalar()) && !retDims.equals(Y.getDimensions())) {
-        Error(_("Wrong size for #2 argument."));
+        raiseError(L"Nelson:special_functions:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, _W("2"));
     }
     if (!(Z.isScalar()) && !retDims.equals(Z.getDimensions())) {
-        Error(_("Wrong size for #3 argument."));
+        raiseError(L"Nelson:special_functions:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, _W("3"));
     }
     if (!Y.isPositive()) {
-        Error(_("Wrong value for #2 argument. positive value expected."));
+        raiseError(L"Nelson:special_functions:ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED, _W("2"));
     }
     if (!Z.isPositive()) {
-        Error(_("Wrong value for #3 argument. positive value expected."));
+        raiseError(L"Nelson:special_functions:ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED, _W("3"));
     }
     if (X.getDataClass() == NLS_DOUBLE) {
         ArrayOf YY(Y);
@@ -227,7 +233,9 @@ BetaIncomplete(
             (double*)X.getDataPointer(), 1, dimsX.getElementCount());
         bool isBetween0and1 = ((matX.array() >= 0).all() && (matX.array() <= 1).all());
         if (!isBetween0and1) {
-            Error(_("Wrong value for #1 argument. [0, 1] values expected."));
+            raiseError(
+                L"Nelson:special_functions:ERROR_WRONG_VALUE_FOR_1_ARGUMENT_0_1_VALUES_EXPECTED",
+                ERROR_WRONG_VALUE_FOR_1_ARGUMENT_0_1_VALUES_EXPECTED);
         }
         res = BetaIncomplete<double>(retDims, NLS_DOUBLE, maxLen, X, YY, ZZ, isLower);
     } else if (X.getDataClass() == NLS_SINGLE) {
@@ -240,7 +248,9 @@ BetaIncomplete(
             (single*)X.getDataPointer(), 1, dimsX.getElementCount());
         bool isBetween0and1 = ((matX.array() >= 0).all() && (matX.array() <= 1).all());
         if (!isBetween0and1) {
-            Error(_("Wrong value for #1 argument. [0, 1] values expected."));
+            raiseError(
+                L"Nelson:special_functions:ERROR_WRONG_VALUE_FOR_1_ARGUMENT_0_1_VALUES_EXPECTED",
+                ERROR_WRONG_VALUE_FOR_1_ARGUMENT_0_1_VALUES_EXPECTED);
         }
         res = BetaIncomplete<single>(retDims, NLS_SINGLE, maxLen, X, YY, ZZ, isLower);
     } else {

@@ -31,13 +31,15 @@ Nelson::StringGateway::mat2strBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (str == L"class") {
                 withClass = true;
             } else {
-                Error(_W("'class' argument expected."));
+                raiseError(
+                    L"Nelson:string:ERROR_CLASS_ARGUMENT_EXPECTED", ERROR_CLASS_ARGUMENT_EXPECTED);
             }
         }
         if (param2.isNumeric()) {
             defautPrecision = param2.getContentAsScalarIndex();
         } else {
-            Error(_W("Second input argument must be a real positive integers."));
+            raiseError(L"Nelson:string:ERROR_SECOND_INPUT_ARGUMENT_MUST_BE_REAL_POSITIVE_INTEGER",
+                ERROR_SECOND_INPUT_ARGUMENT_MUST_BE_REAL_POSITIVE_INTEGER);
         }
     } else if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
@@ -47,13 +49,15 @@ Nelson::StringGateway::mat2strBuiltin(int nLhs, const ArrayOfVector& argIn)
                 defautPrecision = 15;
                 withClass = true;
             } else {
-                Error(_W("'class' argument expected."));
+                raiseError(
+                    L"Nelson:string:ERROR_CLASS_ARGUMENT_EXPECTED", ERROR_CLASS_ARGUMENT_EXPECTED);
             }
         } else if (param2.isNumeric()) {
             defautPrecision = param2.getContentAsScalarIndex();
             withClass = false;
         } else {
-            Error(_W("Second input argument must be a real positive integers."));
+            raiseError(L"Nelson:string:ERROR_SECOND_INPUT_ARGUMENT_MUST_BE_REAL_POSITIVE_INTEGER",
+                ERROR_SECOND_INPUT_ARGUMENT_MUST_BE_REAL_POSITIVE_INTEGER);
         }
     } else {
         defautPrecision = 15;
@@ -62,10 +66,10 @@ Nelson::StringGateway::mat2strBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf A = argIn[0];
     bool canBeConvert = A.isNumeric() || A.isLogical() || A.isCharacterArray();
     if (!canBeConvert) {
-        Error(_W("An numeric matrix expected."));
+        raiseError(L"Nelson:string:ERROR_NUMERIC_MATRIX_EXPECTED", ERROR_NUMERIC_MATRIX_EXPECTED);
     }
     if (A.isSparse()) {
-        Error(ERROR_TYPE_NOT_SUPPORTED);
+        raiseError(L"Nelson:string:ERROR_TYPE_NOT_SUPPORTED", ERROR_TYPE_NOT_SUPPORTED);
     }
     std::wstring res = MatrixToString(A, defautPrecision, withClass);
     retval << ArrayOf::characterArrayConstructor(res);

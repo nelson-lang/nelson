@@ -30,7 +30,8 @@ Nelson::FunctionHandleGateway::func2strBuiltin(int nLhs, const ArrayOfVector& ar
         if (cp) {
             retval << ArrayOf::characterArrayConstructor(cp->toString());
         } else {
-            Error(_W("Invalid anonymous function."));
+            raiseError(L"Nelson:function_handle:ERROR_INVALID_ANONYMOUS_FUNCTION",
+                ERROR_INVALID_ANONYMOUS_FUNCTION);
         }
     } else {
         raiseError(L"Nelson:function_handle:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",

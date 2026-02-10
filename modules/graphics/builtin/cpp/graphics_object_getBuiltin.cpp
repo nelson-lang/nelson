@@ -9,6 +9,7 @@
 //=============================================================================
 #include "graphics_object_getBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "GraphicsObject.hpp"
 #include "GOHelpers.hpp"
@@ -23,7 +24,7 @@ Nelson::GraphicsGateway::graphics_object_getBuiltin(int nLhs, const ArrayOfVecto
     nargincheck(argIn, 2, 2);
     ArrayOf paramGo1 = argIn[0];
     if (paramGo1.getDataClass() != NLS_GO_HANDLE) {
-        Error(_W("graphics_object expected."));
+        raiseError(L"Nelson:graphics:GRAPHICS_OBJECT_EXPECTED", GRAPHICS_OBJECT_EXPECTED);
     }
     Dimensions dims1 = paramGo1.getDimensions();
     auto* ptrGO1 = (nelson_handle*)paramGo1.getDataPointer();
@@ -41,7 +42,7 @@ Nelson::GraphicsGateway::graphics_object_getBuiltin(int nLhs, const ArrayOfVecto
             fp = (GraphicsObject*)findGOFigure(handle);
         }
         if (!fp) {
-            Error(_W("Invalid handle."));
+            raiseError(L"Nelson:graphics:ERROR_INVALID_NELSON_HANDLE", ERROR_INVALID_NELSON_HANDLE);
         }
         retval << fp->findProperty(propname)->get();
     }

@@ -77,7 +77,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
 {
     std::wstring res;
     if (!A.is2D()) {
-        Error(_W("A 2D matrix expected."));
+        raiseError(L"Nelson:string:ERROR_A_2D_MATRIX_EXPECTED", ERROR_A_2D_MATRIX_EXPECTED);
     }
     std::wstring formatNumber = L"{:." + std::to_wstring(precision) + L"g}";
     std::wstring class_name = L"";
@@ -99,7 +99,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
         }
         switch (A.getDataClass()) {
         default: {
-            Error(ERROR_TYPE_NOT_SUPPORTED);
+            raiseError(L"Nelson:string:ERROR_TYPE_NOT_SUPPORTED_CAP", ERROR_TYPE_NOT_SUPPORTED_CAP);
         } break;
         case NLS_SCOMPLEX: {
             auto* pValue = (single*)A.getDataPointer();

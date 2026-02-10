@@ -37,7 +37,8 @@ Nelson::FunctionsGateway::fevalBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         context->lookupFunction(fname, funcDef);
     }
     if (!funcDef) {
-        Error(_W("Invalid anonymous function."));
+        raiseError(L"Nelson:functions_manager:ERROR_INVALID_ANONYMOUS_FUNCTION",
+            ERROR_INVALID_ANONYMOUS_FUNCTION);
     }
     ArrayOfVector newarg(argIn);
     newarg.pop_front();

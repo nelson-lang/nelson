@@ -14,6 +14,7 @@
 #include "Permute.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "OverloadRequired.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -27,12 +28,15 @@ Nelson::ElementaryFunctionsGateway::permuteBuiltin(int nLhs, const ArrayOfVector
     std::vector<indexType> permutationVector = param2.getContentAsIndexVector();
 
     if (permutationVector.size() < argIn[0].getDimensions().getLength()) {
-        Error(_W("ORDER must have at least N elements for an N-D array."));
+        raiseError(L"Nelson:elementary_functions:ERROR_ORDER_MUST_HAVE_AT_LEAST_N_ELEMENTS_FOR_AN_"
+                   L"ND_ARRAY",
+            ERROR_ORDER_MUST_HAVE_AT_LEAST_N_ELEMENTS_FOR_AN_ND_ARRAY);
     }
     const auto [minPermutationIndex, maxPermutationIndex]
         = std::minmax_element(begin(permutationVector), end(permutationVector));
     if ((*maxPermutationIndex != permutationVector.size()) || (*minPermutationIndex != 1)) {
-        Error(_W("Second argument is not a valid permutation."));
+        raiseError(L"Nelson:elementary_functions:ERROR_SECOND_ARGUMENT_NOT_A_VALID_PERMUTATION",
+            ERROR_SECOND_ARGUMENT_NOT_A_VALID_PERMUTATION);
     }
     bool needToOverload = false;
     ArrayOf res = Permute(argIn[0], permutationVector, needToOverload);

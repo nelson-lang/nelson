@@ -10,9 +10,11 @@
 #include "JuliaEnvironment_setBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "HandleGenericObject.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "JuliaEnvironment.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,11 +26,12 @@ Nelson::Julia_engineGateway::JuliaEnvironment_setBuiltin(int nLhs, const ArrayOf
     ArrayOf param1 = argIn[0];
 
     if (param1.getHandleCategory() != NLS_HANDLE_JULIA_ENVIRONMENT_CATEGORY_STR) {
-        Error(_W("JuliaEnvironment object expected."));
+        raiseError(L"Nelson:julia_engine:ERROR_JULIAENVIRONMENT_OBJECT_EXPECTED",
+            ERROR_JULIAENVIRONMENT_OBJECT_EXPECTED);
     }
 
-    std::wstring msg = _W("Unable to set property of class 'JuliaEnvironment' it is read-only.");
-    Error(msg, L"Nelson:class:SetProhibited");
+    raiseError(L"Nelson:julia_engine:ERROR_UNABLE_TO_SET_PROPERTY_JULIAENVIRONMENT_READONLY",
+        ERROR_UNABLE_TO_SET_PROPERTY_JULIAENVIRONMENT_READONLY);
 
     return {};
 }

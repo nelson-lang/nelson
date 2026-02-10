@@ -10,8 +10,8 @@
 #include "PythonEnvironment_getBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "HandleGenericObject.hpp"
-
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PythonEnvironment.hpp"
 //=============================================================================
@@ -27,14 +27,16 @@ Nelson::Python_engineGateway::PythonEnvironment_getBuiltin(int nLhs, const Array
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval(1);
     if (param1.getHandleCategory() != NLS_HANDLE_PYTHON_ENVIRONMENT_CATEGORY_STR) {
-        Error(_W("PythonEnvironment object expected."));
+        raiseError(L"Nelson:python_engine:ERROR_PYTHON_ENVIRONMENT_OBJECT_EXPECTED",
+            ERROR_PYTHON_ENVIRONMENT_OBJECT_EXPECTED);
     }
 
     ArrayOf res;
     PythonEnvironment* pythonEnvironment = PythonEnvironment::getInstance();
 
     if (!pythonEnvironment->get(propertyName, res)) {
-        Error(formatErrorMessage(ERROR_WRONG_ARGUMENT_X_VALUE, 2) + L" " + propertyName);
+        raiseError(
+            L"Nelson:python_engine:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 2);
     }
     retval << res;
     return retval;

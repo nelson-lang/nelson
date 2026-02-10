@@ -17,6 +17,7 @@
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ErrorToStruct.hpp"
 #include "PathFunctionIndexerManager.hpp"
 #include "characters_encoding.hpp"
@@ -37,7 +38,7 @@ cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* ev
         try {
             elements = new ArrayOf[nbElements];
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:data_structures:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
         for (size_t k = 0; k < nbElements; k++) {
             elements[k] = ArrayOf::emptyConstructor();
@@ -63,12 +64,16 @@ cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* ev
                 ret = fptrHandleError->evaluateFunction(eval, in2, nargout);
             }
             if ((int)ret.size() < nargout) {
-                Error(_W("function returned fewer outputs than expected"));
+                raiseError(
+                    L"Nelson:data_structures:ERROR_FUNCTION_RETURNED_FEWER_OUTPUTS_THAN_EXPECTED",
+                    ERROR_FUNCTION_RETURNED_FEWER_OUTPUTS_THAN_EXPECTED);
             }
         } else {
             ret = fptr->evaluateFunction(eval, input, nargout);
             if ((int)ret.size() < nargout) {
-                Error(_W("function returned fewer outputs than expected"));
+                raiseError(
+                    L"Nelson:data_structures:ERROR_FUNCTION_RETURNED_FEWER_OUTPUTS_THAN_EXPECTED",
+                    ERROR_FUNCTION_RETURNED_FEWER_OUTPUTS_THAN_EXPECTED);
             }
         }
         for (indexType j = 0; j < (indexType)nargout; j++) {
@@ -106,18 +111,23 @@ cellfun_uniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval,
                 ret = fptrHandleError->evaluateFunction(eval, in2, nargout);
             }
             if ((int)ret.size() < nargout) {
-                Error(_W("function returned fewer outputs than expected"));
+                raiseError(
+                    L"Nelson:data_structures:ERROR_FUNCTION_RETURNED_FEWER_OUTPUTS_THAN_EXPECTED",
+                    ERROR_FUNCTION_RETURNED_FEWER_OUTPUTS_THAN_EXPECTED);
             }
         } else {
             ret = fptr->evaluateFunction(eval, input, nargout);
             if ((int)ret.size() < nargout) {
-                Error(_W("function returned fewer outputs than expected"));
+                raiseError(
+                    L"Nelson:data_structures:ERROR_FUNCTION_RETURNED_FEWER_OUTPUTS_THAN_EXPECTED",
+                    ERROR_FUNCTION_RETURNED_FEWER_OUTPUTS_THAN_EXPECTED);
             }
         }
         if (i == 0) {
             for (indexType j = 0; j < (indexType)nargout; j++) {
                 if (!ret[j].isScalar()) {
-                    Error(_W("function returned non-scalar result"));
+                    raiseError(L"Nelson:data_structures:ERROR_FUNCTION_RETURNED_NON_SCALAR_RESULT",
+                        ERROR_FUNCTION_RETURNED_NON_SCALAR_RESULT);
                 }
                 outputs.push_back(ret[j]);
                 outputs[j].resize(argdims);
@@ -335,7 +345,8 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
     ArrayOfVector retval(nLhs);
     nargincheck(argIn, 2);
     if (!argIn[1].isCell()) {
-        Error(_("cellfun works only on cells."), "Nelson:cellfun:InvalidSecondInput");
+        raiseError(L"Nelson:data_structures:ERROR_CELLFUN_WORKS_ONLY_ON_CELLS",
+            ERROR_CELLFUN_WORKS_ONLY_ON_CELLS);
     }
     int nbElementsInput = static_cast<int>(argIn.size());
     bool bHaveErrorHandlerArgs = false;
@@ -357,7 +368,8 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                                 : 0);
                     }
                 } else {
-                    Error(_W("Error wrong type expected."));
+                    raiseError(L"Nelson:data_structures:ERROR_ERROR_WRONG_TYPE_EXPECTED",
+                        ERROR_ERROR_WRONG_TYPE_EXPECTED);
                 }
             } else if (StringHelpers::iequals(argName, L"ErrorHandler")) {
                 ArrayOf param = argIn[(indexType)nbElementsInput - (indexType)1];
@@ -380,7 +392,8 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                 if (argIn[(indexType)nbElementsInput - (indexType)5].isLogical()) {
                     if (argIn[(indexType)nbElementsInput - (indexType)5].isScalar()) {
                         if (bHaveUniformOutputArgs) {
-                            Error(_W("Error already defined."));
+                            raiseError(L"Nelson:data_structures:ERROR_ERROR_ALREADY_DEFINED",
+                                ERROR_ERROR_ALREADY_DEFINED);
                         } else {
                             bHaveUniformOutputArgs = true;
                             isUniformOutput = (argIn[(indexType)nbElementsInput - (indexType)5]
@@ -390,13 +403,15 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                         }
                     }
                 } else {
-                    Error(_W("Error wrong type expected."));
+                    raiseError(L"Nelson:data_structures:ERROR_ERROR_WRONG_TYPE_EXPECTED",
+                        ERROR_ERROR_WRONG_TYPE_EXPECTED);
                 }
             } else if (StringHelpers::iequals(argName, L"ErrorHandler")) {
                 ArrayOf param = argIn[(indexType)nbElementsInput - (indexType)3];
                 if (param.isFunctionHandle()) {
                     if (bHaveErrorHandlerArgs) {
-                        Error(_W("Error already defined."));
+                        raiseError(L"Nelson:data_structures:ERROR_ERROR_ALREADY_DEFINED",
+                            ERROR_ERROR_ALREADY_DEFINED);
                     } else {
                         errorFunc = param.getContentAsFunctionHandle();
                         bHaveErrorHandlerArgs = true;
@@ -418,7 +433,8 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
     ArrayOf param1 = argIn[0];
     FunctionDef* funcDef = nullptr;
     if (!(param1.isRowVectorCharacterArray() || param1.isFunctionHandle())) {
-        Error(_W("wrong type #1"));
+        raiseError(L"Nelson:data_structures:ERROR_WRONG_TYPE_ARG1_STRUCT_EXPECTED",
+            ERROR_WRONG_TYPE_ARG1_STRUCT_EXPECTED);
     } else {
         if (param1.isRowVectorCharacterArray()) {
             std::wstring functionName = param1.getContentAsWideString();
@@ -447,7 +463,8 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                 return isclass_cellfunBuiltin(eval, nLhs, argIn);
             }
             if (!eval->getContext()->lookupFunction(functionName, funcDef)) {
-                Error(_W("A valid function name expected."));
+                raiseError(L"Nelson:data_structures:ERROR_A_VALID_FUNCTION_NAME_EXPECTED",
+                    ERROR_A_VALID_FUNCTION_NAME_EXPECTED);
             }
         } else {
             function_handle fh = param1.getContentAsFunctionHandle();
@@ -455,7 +472,8 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                 funcDef = (FunctionDef*)fh.anonymousHandle;
             }
             if (funcDef == nullptr) {
-                Error(_W("A valid function name expected."));
+                raiseError(L"Nelson:data_structures:ERROR_A_VALID_FUNCTION_NAME_EXPECTED",
+                    ERROR_A_VALID_FUNCTION_NAME_EXPECTED);
             }
         }
     }
@@ -468,11 +486,12 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
             } else {
                 Dimensions dimsCurrentCell = param.getDimensions();
                 if (!dimsCells.equals(dimsCurrentCell)) {
-                    Error(ERROR_SAME_SIZE_EXPECTED);
+                    raiseError(L"Nelson:data_structures:ERROR_SAME_SIZE_EXPECTED",
+                        ERROR_SAME_SIZE_EXPECTED);
                 }
             }
         } else {
-            Error(_W("cell expected."));
+            raiseError(L"Nelson:data_structures:ERROR_CELL_EXPECTED", ERROR_CELL_EXPECTED);
         }
     }
     int nargout = nLhs;

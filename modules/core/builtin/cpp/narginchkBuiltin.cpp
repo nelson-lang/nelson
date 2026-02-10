@@ -22,13 +22,16 @@ Nelson::CoreGateway::narginchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     nargincheck(argIn, 2, 2);
     Context* context = eval->getContext();
     if (context->getCurrentScope()->getName() == "base") {
-        Error(_W("You can only call 'narginchk' from within a Nelson function."));
+        raiseError(L"Nelson:core:ERROR_NARGINCHK_ONLY_FROM_NELSON_FUNCTION",
+            ERROR_NARGINCHK_ONLY_FROM_NELSON_FUNCTION);
     }
     if (!argIn[0].isScalar() || !argIn[0].isNumeric()) {
-        Error(_("Scalar integer value required for #1 argument."));
+        raiseError(L"Nelson:core:ERROR_NARGINCHK_SCALAR_INTEGER_REQUIRED_ARG1",
+            ERROR_NARGINCHK_SCALAR_INTEGER_REQUIRED_ARG1);
     }
     if (!argIn[1].isScalar() || !argIn[1].isNumeric()) {
-        Error(_("Scalar integer value required for #2 argument."));
+        raiseError(L"Nelson:core:ERROR_NARGINCHK_SCALAR_INTEGER_REQUIRED_ARG2",
+            ERROR_NARGINCHK_SCALAR_INTEGER_REQUIRED_ARG2);
     }
     int minArgs = argIn[0].getContentAsInteger32Scalar(false, true);
     bool maxArgsIsInf = false;
@@ -38,13 +41,15 @@ Nelson::CoreGateway::narginchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     }
     int nargin = context->getCurrentScope()->getNargIn();
     if (nargin < minArgs) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS, L"Nelson:narginchk:notEnoughInputs", true);
+        raiseError(L"Nelson:core:ERROR_WRONG_NUMBERS_INPUT_ARGS_NOT_ENOUGH",
+            ERROR_WRONG_NUMBERS_INPUT_ARGS, true);
     }
     if (!maxArgsIsInf) {
         int maxArgs = argIn[1].getContentAsInteger32Scalar(false, true);
 
         if (nargin > maxArgs) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS, L"Nelson:narginchk:tooManyInputs", true);
+            raiseError(L"Nelson:core:ERROR_WRONG_NUMBERS_INPUT_ARGS_TOO_MANY",
+                ERROR_WRONG_NUMBERS_INPUT_ARGS, true);
         }
     }
     return retval;

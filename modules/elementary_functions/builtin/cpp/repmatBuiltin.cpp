@@ -15,6 +15,7 @@
 #include "Error.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -100,7 +101,8 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(int nLhs, const ArrayOfVector&
     NelsonType classx = x.getDataClass();
     bool isNotSupportedType = (classx == NLS_HANDLE || classx == NLS_GO_HANDLE || x.isSparse());
     if (isNotSupportedType) {
-        Error(ERROR_TYPE_NOT_SUPPORTED);
+        raiseError(
+            L"Nelson:elementary_functions:ERROR_TYPE_NOT_SUPPORTED", ERROR_TYPE_NOT_SUPPORTED);
     }
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
@@ -111,14 +113,16 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(int nLhs, const ArrayOfVector&
             if (param2.isRowVector()) {
                 param2.promoteType(NLS_UINT64);
                 if (param2.getElementCount() > maxDims) {
-                    Error(_W("Too many dimensions!"));
+                    raiseError(L"Nelson:elementary_functions:ERROR_TOO_MANY_DIMENSIONS",
+                        ERROR_TOO_MANY_DIMENSIONS);
                 }
                 auto* dp = (uint64*)param2.getDataPointer();
                 for (indexType i = 0; i < param2.getElementCount(); i++) {
                     repcount[i] = (indexType)dp[i];
                 }
             } else {
-                Error(_W("An row vector expected."));
+                raiseError(L"Nelson:elementary_functions:ERROR_AN_ROW_VECTOR_EXPECTED",
+                    ERROR_AN_ROW_VECTOR_EXPECTED);
             }
         }
     } else {

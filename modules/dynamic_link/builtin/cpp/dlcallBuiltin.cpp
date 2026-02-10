@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "dlcallBuiltin.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "DynamicLinkSymbolObject.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -25,7 +26,7 @@ Nelson::DynamicLinkGateway::dlcallBuiltin(Evaluator* eval, int nLhs, const Array
     nargincheck(argIn, 1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != NLS_HANDLE_DLSYM_CATEGORY_STR) {
-        Error(_W("dlsym handle expected."));
+        raiseError(L"Nelson:dynamic_link:ERROR_DLSYM_HANDLE_EXPECTED", ERROR_DLSYM_HANDLE_EXPECTED);
     }
     auto* dlsymObj = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
     ArrayOfVector params;

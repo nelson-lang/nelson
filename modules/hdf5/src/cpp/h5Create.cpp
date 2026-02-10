@@ -15,7 +15,7 @@
 #include "HDF5_helpers.hpp"
 #include "characters_encoding.hpp"
 #include "h5Create.hpp"
-#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "Exception.hpp"
 #include "NewWithException.hpp"
@@ -58,7 +58,7 @@ nelsonClassToHdf5DataType(NelsonType dataType)
         datatype = H5Tcopy(H5T_STD_I8LE);
     } break;
     default: {
-        Error(_("Type not managed."));
+        raiseError(L"Nelson:hdf5:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     } break;
     }
     return datatype;
@@ -120,7 +120,7 @@ setFillValue(const ArrayOf& fillvalue, NelsonType dataType, hid_t dcpl)
         status = H5Pset_fill_value(dcpl, fillType, &value);
     } break;
     default: {
-        Error(_("Type not managed."));
+        raiseError(L"Nelson:hdf5:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     } break;
     }
     return status;
@@ -133,29 +133,34 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
     const std::wstring& textEncoding)
 {
     if (deflate < 0 || deflate > 9) {
-        Error(_W("Valid deflate value expected."));
+        raiseError(
+            L"Nelson:hdf5:ERROR_VALID_DEFLATE_VALUE_EXPECTED", ERROR_VALID_DEFLATE_VALUE_EXPECTED);
     }
     if (filename.empty()) {
-        Error(_W("Valid filename expected."));
+        raiseError(L"Nelson:hdf5:ERROR_VALID_FILENAME_EXPECTED", ERROR_VALID_FILENAME_EXPECTED);
     }
     if (dataSetName.empty()) {
-        Error(_W("Valid data set name expected."));
+        raiseError(
+            L"Nelson:hdf5:ERROR_VALID_DATA_SET_NAME_EXPECTED", ERROR_VALID_DATA_SET_NAME_EXPECTED);
     }
     if ((fletcher32 || shuffle || (deflate > 0)) && chunksize.empty()) {
-        Error(_W("ChunkSize required."));
+        raiseError(L"Nelson:hdf5:ERROR_CHUNKSIZE_REQUIRED", ERROR_CHUNKSIZE_REQUIRED);
     }
     if (!fillvalue.isEmpty()) {
         if (fillvalue.getDataClass() != dataType) {
-            Error(_W("FillValue and data set class must be same."));
+            raiseError(L"Nelson:hdf5:ERROR_FILLVALUE_AND_DATA_SET_CLASS_MUST_BE_SAME",
+                ERROR_FILLVALUE_AND_DATA_SET_CLASS_MUST_BE_SAME);
         }
     }
     if (!chunksize.empty()) {
         if (chunksize.size() != sizeData.size()) {
-            Error(_W("Length ChunkSize and Size must be equal."));
+            raiseError(L"Nelson:hdf5:ERROR_LENGTH_CHUNKSIZE_AND_SIZE_MUST_BE_EQUAL",
+                ERROR_LENGTH_CHUNKSIZE_AND_SIZE_MUST_BE_EQUAL);
         }
         for (size_t k = 0; k < chunksize.size(); k++) {
             if (chunksize[k] - sizeData[k] > 0) {
-                Error(_W("ChunkSize larger than Size."));
+                raiseError(L"Nelson:hdf5:ERROR_CHUNKSIZE_LARGER_THAN_SIZE",
+                    ERROR_CHUNKSIZE_LARGER_THAN_SIZE);
             }
         }
     } else {
@@ -167,7 +172,7 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
             }
         }
         if (haveZeros) {
-            Error(_W("ChunkSize expected."));
+            raiseError(L"Nelson:hdf5:ERROR_CHUNKSIZE_EXPECTED", ERROR_CHUNKSIZE_EXPECTED);
         }
     }
 
@@ -181,7 +186,7 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
         = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            Error(_W("Permission denied."));
+            raiseError(L"Nelson:hdf5:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
         }
     }
     if (!fileExistPreviously) {
@@ -189,19 +194,20 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
             H5P_DEFAULT, H5P_DEFAULT);
     } else {
         if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str())) {
-            Error(_W("HDF5 format file expected."));
+            raiseError(
+                L"Nelson:hdf5:ERROR_HDF5_FORMAT_FILE_EXPECTED", ERROR_HDF5_FORMAT_FILE_EXPECTED);
         } else {
             fid = H5Fopen(
                 wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDWR, H5P_DEFAULT);
         }
     }
     if (fid == H5I_INVALID_HID) {
-        Error(_W("Open file failed."));
+        raiseError(L"Nelson:hdf5:ERROR_OPEN_FILE_FAILED", ERROR_OPEN_FILE_FAILED);
     }
     htri_t exists = H5Lexists(fid, wstring_to_utf8(dataSetName).c_str(), H5P_DEFAULT);
     if (exists) {
         H5Fclose(fid);
-        Error(_W("data set already exists."));
+        raiseError(L"Nelson:hdf5:ERROR_DATA_SET_ALREADY_EXISTS", ERROR_DATA_SET_ALREADY_EXISTS);
     }
 
     /* Create the data space for the data set. */
@@ -239,7 +245,7 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
     delete[] maxdimsAsHsize_t;
     if (space_id == H5I_INVALID_HID) {
         H5Fclose(fid);
-        Error(_W("H5Screate_simple fails."));
+        raiseError(L"Nelson:hdf5:ERROR_H5SCREATE_SIMPLE_FAILS", ERROR_H5SCREATE_SIMPLE_FAILS);
     }
 
     hid_t lcpl = H5Pcreate(H5P_LINK_CREATE);
@@ -267,14 +273,14 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
             delete[] dimsChunk;
             H5Pclose(dcpl);
             H5Fclose(fid);
-            Error(_W("H5Pset_layout fails."));
+            raiseError(L"Nelson:hdf5:ERROR_H5PSET_LAYOUT_FAILS", ERROR_H5PSET_LAYOUT_FAILS);
             return;
         }
         if (H5Pset_chunk(dcpl, (int)sizeData.size(), dimsChunk) == H5I_INVALID_HID) {
             delete[] dimsChunk;
             H5Pclose(dcpl);
             H5Fclose(fid);
-            Error(_W("H5Pset_chunk fails."));
+            raiseError(L"Nelson:hdf5:ERROR_H5PSET_CHUNK_FAILS", ERROR_H5PSET_CHUNK_FAILS);
             return;
         }
         delete[] dimsChunk;
@@ -282,7 +288,7 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
         if (H5Pset_layout(dcpl, H5D_CONTIGUOUS) == H5I_INVALID_HID) {
             H5Pclose(dcpl);
             H5Fclose(fid);
-            Error(_W("H5Pset_layout fails."));
+            raiseError(L"Nelson:hdf5:ERROR_H5PSET_LAYOUT_FAILS", ERROR_H5PSET_LAYOUT_FAILS);
         }
     }
     if (deflate != 0) {
@@ -307,7 +313,7 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
             FileSystemWrapper::Path _p = filename;
             FileSystemWrapper::Path::remove(_p);
         }
-        Error(_W("H5Dcreate fails."));
+        raiseError(L"Nelson:hdf5:ERROR_H5DCREATE_FAILS", ERROR_H5DCREATE_FAILS);
     }
     status = H5Pclose(lcpl);
     status = H5Pclose(dcpl);

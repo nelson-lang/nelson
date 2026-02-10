@@ -10,6 +10,7 @@
 #include "echoBuiltin.hpp"
 #include "Error.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -47,7 +48,8 @@ Nelson::DisplayFormatGateway::echoBuiltin(Evaluator* eval, int nLhs, const Array
                 ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:display_format:ERROR_WRONG_NUMBERS_INPUT_ARGS",
+            ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

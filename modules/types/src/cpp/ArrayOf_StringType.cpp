@@ -83,7 +83,7 @@ ArrayOf::stringArrayConstructorAllMissing(Dimensions& dims)
     try {
         elements = new ArrayOf[nbElements];
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:types:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     for (size_t k = 0; k < nbElements; k++) {
         elements[k] = ArrayOf::doubleConstructor(std::nan(""));
@@ -97,13 +97,13 @@ ArrayOf::stringArrayConstructor(const stringVector& values, const Dimensions& di
     ArrayOf* elements = nullptr;
     size_t nbElements = dims.getElementCount();
     if (nbElements != values.size()) {
-        Error(_W("Invalid dimensions."));
+        raiseError(L"Nelson:types:ERROR_INVALID_DIMENSIONS", ERROR_INVALID_DIMENSIONS);
     }
     if (nbElements > 0) {
         try {
             elements = new ArrayOf[nbElements];
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:types:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
         for (size_t k = 0; k < nbElements; k++) {
             elements[k] = ArrayOf::characterArrayConstructor(values[k]);
@@ -118,13 +118,13 @@ ArrayOf::stringArrayConstructor(const wstringVector& values, const Dimensions& d
     ArrayOf* elements = nullptr;
     size_t nbElements = dims.getElementCount();
     if (nbElements != values.size()) {
-        Error(_W("Invalid dimensions."));
+        raiseError(L"Nelson:types:ERROR_INVALID_DIMENSIONS", ERROR_INVALID_DIMENSIONS);
     }
     if (nbElements > 0) {
         try {
             elements = new ArrayOf[nbElements];
         } catch (std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:types:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
         for (size_t k = 0; k < nbElements; k++) {
             elements[k] = ArrayOf::characterArrayConstructor(values[k]);
@@ -194,7 +194,7 @@ logicalToStringArray(const ArrayOf& m)
     try {
         elements = new ArrayOf[nbElements];
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:types:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     auto* ptr = (logical*)m.getDataPointer();
     for (size_t k = 0; k < nbElements; k++) {
@@ -218,7 +218,7 @@ integerToStringArray(const ArrayOf& m)
     try {
         elements = new ArrayOf[nbElements];
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:types:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     T* ptr = (T*)m.getDataPointer();
     for (size_t k = 0; k < nbElements; k++) {
@@ -239,7 +239,7 @@ complexToStringArray(const ArrayOf& m)
     try {
         elements = new ArrayOf[nbElements];
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:types:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     T* ptr = (T*)m.getDataPointer();
     for (size_t k = 0; k < nbElements * 2; k = k + 2) {
@@ -296,7 +296,7 @@ realToStringArray(const ArrayOf& m)
     try {
         elements = new ArrayOf[nbElements];
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:types:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     T* ptr = (T*)m.getDataPointer();
     for (size_t k = 0; k < nbElements; k++) {
@@ -360,7 +360,7 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
                     elements[k] = ArrayOf::characterArrayConstructor("");
                 }
             } catch (const std::bad_alloc&) {
-                Error(ERROR_MEMORY_ALLOCATION);
+                raiseError(L"Nelson:types:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
             }
             return ArrayOf(NLS_STRING_ARRAY, newDims, elements);
         }
@@ -369,7 +369,7 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
         try {
             elements = new ArrayOf[nbElements];
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:types:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
         return ArrayOf(NLS_STRING_ARRAY, dimsM, elements);
     }
@@ -381,7 +381,7 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
         try {
             elementsOutput = new ArrayOf[nbElements];
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:types:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
         for (size_t k = 0; k < nbElements; k++) {
             bool over;
@@ -408,7 +408,8 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
                         = ArrayOf::characterArrayConstructor(el.getContentAsWideString());
                 }
             } else {
-                Error(_W("Unable to convert supplied object to a string."));
+                raiseError(L"Nelson:types:ERROR_UNABLE_TO_CONVERT_SUPPLIED_OBJECT_TO_A_STRING",
+                    ERROR_UNABLE_TO_CONVERT_SUPPLIED_OBJECT_TO_A_STRING);
             }
         }
         return ArrayOf(NLS_STRING_ARRAY, dimsM, elementsOutput);

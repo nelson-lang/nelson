@@ -11,6 +11,7 @@
 #include "BackgroundPoolObject.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -23,7 +24,8 @@ Nelson::ParallelGateway::backgroundPool_fieldnamesBuiltin(int nLhs, const ArrayO
     ArrayOfVector retval(1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != NLS_HANDLE_BACKGROUNDPOOL_CATEGORY_STR) {
-        Error(_W("backgroundPool handle expected."));
+        raiseError(L"Nelson:parallel:ERROR_BACKGROUNDPOOL_HANDLE_EXPECTED",
+            ERROR_BACKGROUNDPOOL_HANDLE_EXPECTED);
     }
     auto* backgroundPool = (BackgroundPoolObject*)param1.getContentAsHandleScalar();
     wstringVector fieldnames = backgroundPool->fieldnames();

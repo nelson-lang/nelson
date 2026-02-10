@@ -91,7 +91,8 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
                 retval << ArrayOf::toCellArrayOfCharacterColumnVectors(res);
             }
         } else {
-            Error(_W("#2 Argument must be \'-all\' or  \'-module\'."));
+            raiseError(L"Nelson:functions_manager:ERROR_2_ARGUMENT_MUST_BE_ALL_OR_MODULE",
+                ERROR_2_ARGUMENT_MUST_BE_ALL_OR_MODULE);
         }
     }
     return retval;

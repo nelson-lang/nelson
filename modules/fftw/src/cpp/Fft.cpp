@@ -10,7 +10,9 @@
 #include "Fft.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
+#include "characters_encoding.hpp"
 #include "FftHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -19,8 +21,8 @@ ArrayOf
 Fft(const ArrayOf& X, indexType n, indexType dim)
 {
     if (X.isReferenceType() || X.isHandle()) {
-        Error(
-            _("Undefined function 'fft' for input arguments of type") + " '" + ClassName(X) + "'.");
+        raiseError(L"Nelson:fftw:ERROR_UNDEFINED_FUNCTION_FFT_FOR_INPUT_ARGS",
+            ERROR_UNDEFINED_FUNCTION_FFT_FOR_INPUT_ARGS, utf8_to_wstring(ClassName(X)));
     }
     if (X.isScalar() || X.isEmpty()) {
         return ArrayOf(X);

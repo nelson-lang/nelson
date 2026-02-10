@@ -10,6 +10,8 @@
 #include <algorithm>
 #include "slicot_sb04mdBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -98,25 +100,25 @@ Nelson::SlicotGateway::slicot_sb04mdBuiltin(int nLhs, const ArrayOfVector& argIn
     // CHECK INPUT VARIABLES DIMENSIONS
     Dimensions dimsA_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsA.equals(dimsA_expected)) {
-        Error(_("Input argument #1: wrong size.") + " " + dimsA_expected.toString() + " "
-            + "expected" + ".");
+        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_WRONG_SIZE",
+            ERROR_INPUT_ARGUMENT_WRONG_SIZE, 1, dimsA_expected.toWideString());
     }
     Dimensions dimsB_expected(std::max(1, (int)B.getRows()), (int)B.getRows());
     if (!dimsB.equals(dimsB_expected)) {
-        Error(_("Input argument #2: wrong size.") + " " + dimsB_expected.toString() + " "
-            + "expected" + ".");
+        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_WRONG_SIZE",
+            ERROR_INPUT_ARGUMENT_WRONG_SIZE, 2, dimsB_expected.toWideString());
     }
     Dimensions dimsC_expected(std::max(1, (int)A.getColumns()), (int)B.getRows());
     if (!dimsC.equals(dimsC_expected)) {
-        Error(_("Input argument #3: wrong size.") + " " + dimsC_expected.toString() + " "
-            + "expected" + ".");
+        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_WRONG_SIZE",
+            ERROR_INPUT_ARGUMENT_WRONG_SIZE, 3, dimsC_expected.toWideString());
     }
     // CALL EXTERN FUNCTION
     try {
         sb04md_(N_ptr, M_ptr, A_output_ptr, LDA_ptr, B_output_ptr, LDB_ptr, C_output_ptr, LDC_ptr,
             Z_output_ptr, LDZ_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        Error("sb04md function fails.");
+        raiseError(L"Nelson:slicot:ERROR_SB04MD_FAILS", ERROR_SB04MD_FAILS);
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

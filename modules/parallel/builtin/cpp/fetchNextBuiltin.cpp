@@ -10,6 +10,7 @@
 #include "fetchNextBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "FevalFutureFetchNext.hpp"
 #include "FevalFutureObject.hpp"
 #include "AfterAllFutureObject.hpp"
@@ -26,11 +27,13 @@ Nelson::ParallelGateway::fetchNextBuiltin(Evaluator* eval, int nLhs, const Array
 
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle()) {
-        Error(_W("FevalFuture handle expected."));
+        raiseError(L"Nelson:parallel:ERROR_FEVALFUTURE_HANDLE_EXPECTED",
+            ERROR_FEVALFUTURE_HANDLE_EXPECTED);
     }
     bool isSupportedType = (param1.getHandleCategory() == NLS_HANDLE_FEVALFUTURE_CATEGORY_STR);
     if (!isSupportedType) {
-        Error(_W("FevalFuture handle expected."));
+        raiseError(L"Nelson:parallel:ERROR_FEVALFUTURE_HANDLE_EXPECTED",
+            ERROR_FEVALFUTURE_HANDLE_EXPECTED);
     }
 
     double timeout = -1;
@@ -38,11 +41,13 @@ Nelson::ParallelGateway::fetchNextBuiltin(Evaluator* eval, int nLhs, const Array
         ArrayOf param2 = argIn[1];
         bool isReal = param2.getDataClass() == NLS_DOUBLE || param2.getDataClass() == NLS_SINGLE;
         if (!isReal) {
-            Error(_W("a numeric scalar value expected."));
+            raiseError(L"Nelson:parallel:ERROR_A_NUMERIC_SCALAR_VALUE_EXPECTED",
+                ERROR_A_NUMERIC_SCALAR_VALUE_EXPECTED);
         }
         timeout = param2.getContentAsDoubleScalar();
         if (timeout < 0) {
-            Error(_W("non negative value expected."));
+            raiseError(L"Nelson:parallel:ERROR_NON_NEGATIVE_VALUE_EXPECTED",
+                ERROR_NON_NEGATIVE_VALUE_EXPECTED);
         }
     }
     std::vector<FutureObject*> futures = ArrayOfToFutures(param1);

@@ -26,12 +26,13 @@ SetComHandleObject(const ArrayOf& A, const std::wstring& propertyName, const Arr
 {
     ArrayOf res;
     if (A.getHandleCategory() != NLS_HANDLE_COM_CATEGORY_STR) {
-        Error(_W("COM handle expected."));
+        raiseError(L"Nelson:com_engine:ERROR_COM_HANDLE_EXPECTED", ERROR_COM_HANDLE_EXPECTED);
     }
     auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     void* ptr = comhandleobj->getPointer();
     if (ptr == nullptr) {
-        Error(_W("COM valid handle expected."));
+        raiseError(
+            L"Nelson:com_engine:ERROR_COM_VALID_HANDLE_EXPECTED", ERROR_COM_VALID_HANDLE_EXPECTED);
     }
     VARIANT* pVariant = (VARIANT*)ptr;
     VARIANT* pVarResult;
@@ -39,7 +40,7 @@ SetComHandleObject(const ArrayOf& A, const std::wstring& propertyName, const Arr
         pVarResult = new VARIANT;
     } catch (const std::bad_alloc&) {
         pVarResult = nullptr;
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:com_engine:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     VariantInit(pVarResult);
     std::wstring errorMessage;
@@ -48,12 +49,12 @@ SetComHandleObject(const ArrayOf& A, const std::wstring& propertyName, const Arr
         param = new VARIANT();
     } catch (const std::bad_alloc&) {
         delete pVarResult;
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:com_engine:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     VariantInit(param);
     bool bSuccess = NelsonToComVariant(B, param, errorMessage);
     if (!bSuccess) {
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:com_engine:ERROR_COM_MESSAGE");
     }
     errorMessage.clear();
     bSuccess = invokeCom(
@@ -63,12 +64,12 @@ SetComHandleObject(const ArrayOf& A, const std::wstring& propertyName, const Arr
         delete pVarResult;
         pVarResult = nullptr;
         if (!bSuccess) {
-            Error(errorMessage);
+            Error(errorMessage, L"Nelson:com_engine:ERROR_COM_MESSAGE");
         }
     } else {
         delete pVarResult;
         pVarResult = nullptr;
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:com_engine:ERROR_COM_MESSAGE");
     }
 }
 //=============================================================================

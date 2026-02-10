@@ -13,6 +13,7 @@
 #include "HandleGenericObject.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "JuliaEnvironment.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,11 +25,13 @@ Nelson::Julia_engineGateway::JuliaEnvironment_structBuiltin(int nLhs, const Arra
     ArrayOf param1 = argIn[0];
 
     if (param1.getHandleCategory() != NLS_HANDLE_JULIA_ENVIRONMENT_CATEGORY_STR) {
-        Error(_W("JuliaEnvironment object expected."));
+        raiseError(L"Nelson:julia_engine:ERROR_JULIAENVIRONMENT_OBJECT_EXPECTED",
+            ERROR_JULIAENVIRONMENT_OBJECT_EXPECTED);
     }
 
     if (!param1.isScalar()) {
-        Error(_W("Wrong size for argument #1. scalar expected"));
+        raiseError(L"Nelson:julia_engine:ERROR_WRONG_SIZE_ARG1_SCALAR_EXPECTED",
+            ERROR_WRONG_SIZE_ARG1_SCALAR_EXPECTED);
     }
 
     JuliaEnvironment* juliaEnvironment = JuliaEnvironment::getInstance();

@@ -20,6 +20,7 @@
 #include "PythonTypesWrapper.hpp"
 #include "PythonEngine.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -66,7 +67,7 @@ bool
 castRealMethod(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& results)
 {
     if (!pyObject) {
-        Error(_W("Invalid Python object."));
+        raiseError(L"Nelson:Python:ERROR_INVALID_PYTHON_OBJECT", ERROR_INVALID_PYTHON_OBJECT);
     }
 
     PythonType pyType = getPythonType(pyObject);
@@ -255,19 +256,22 @@ castRealMethodListOrTupleType(
                     }
                     k = k + 2;
                 } else {
-                    Error(_W("All Python elements must be convertible as scalar to the "
-                             "requested "
-                             "type."));
+                    raiseError(L"Nelson:Python:PyException",
+                        _W("All Python elements must be convertible as scalar to the "
+                           "requested "
+                           "type."));
                     return false;
                 }
             } else {
-                Error(_W("All Python elements must be convertible as scalar to the requested "
-                         "type."));
+                raiseError(L"Nelson:Python:PyException",
+                    _W("All Python elements must be convertible as scalar to the requested "
+                       "type."));
                 return false;
             }
         } else {
-            Error(_W("All Python elements must be convertible as scalar to the requested "
-                     "type."));
+            raiseError(L"Nelson:Python:PyException",
+                _W("All Python elements must be convertible as scalar to the requested "
+                   "type."));
             return false;
         }
     }
@@ -319,7 +323,7 @@ bool
 castIntegerMethod(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& results)
 {
     if (!pyObject) {
-        Error(_W("Invalid Python object."));
+        raiseError(L"Nelson:Python:ERROR_INVALID_PYTHON_OBJECT", ERROR_INVALID_PYTHON_OBJECT);
     }
     PythonType pyType = getPythonType(pyObject);
     switch (pyType) {
@@ -407,15 +411,17 @@ castIntegerMethod(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& resu
                     T* ptr = (T*)rr[0].getDataPointer();
                     values[i] = ptr[0];
                 } else {
-                    Error(_W("All Python elements must be convertible as scalar to the "
-                             "requested "
-                             "type."));
+                    raiseError(L"Nelson:Python:PyException",
+                        _W("All Python elements must be convertible as scalar to the "
+                           "requested "
+                           "type."));
                     return false;
                 }
             } else {
-                Error(_W("All Python elements must be convertible as scalar to the "
-                         "requested "
-                         "type."));
+                raiseError(L"Nelson:Python:PyException",
+                    _W("All Python elements must be convertible as scalar to the "
+                       "requested "
+                       "type."));
                 return false;
             }
         }
@@ -506,7 +512,7 @@ PythonObjectHandle::invokeCastCellMethod(ArrayOfVector& results)
 {
     PyObject* pyObject = (PyObject*)this->getPointer();
     if (!pyObject) {
-        Error(_W("Invalid Python object."));
+        raiseError(L"Nelson:Python:ERROR_INVALID_PYTHON_OBJECT", ERROR_INVALID_PYTHON_OBJECT);
     }
 
     switch (getPythonType(pyObject)) {
@@ -522,7 +528,8 @@ PythonObjectHandle::invokeCastCellMethod(ArrayOfVector& results)
                 bool needDecreaseReference;
                 elements[i] = PyObjectToArrayOf(item, needDecreaseReference);
             } else {
-                Error(_W("Cannot convert to ") + L"cell");
+                raiseError(
+                    L"Nelson:Python:ERROR_CANNOT_CONVERT_TO", ERROR_CANNOT_CONVERT_TO, L"cell");
             }
         }
         results << res;
@@ -540,7 +547,8 @@ PythonObjectHandle::invokeCastCellMethod(ArrayOfVector& results)
                 bool needDecreaseReference;
                 elements[i] = PyObjectToArrayOf(item, needDecreaseReference);
             } else {
-                Error(_W("Cannot convert to ") + L"cell");
+                raiseError(
+                    L"Nelson:Python:ERROR_CANNOT_CONVERT_TO", ERROR_CANNOT_CONVERT_TO, L"cell");
             }
         }
         results << res;
@@ -559,7 +567,7 @@ PythonObjectHandle::invokeCastCellMethod(ArrayOfVector& results)
     case PY_NUMPY_TYPE:
     case PY_NOT_MANAGED:
     default: {
-        Error(_W("Cannot convert to ") + L"cell");
+        raiseError(L"Nelson:Python:ERROR_CANNOT_CONVERT_TO", ERROR_CANNOT_CONVERT_TO, L"cell");
     } break;
     }
     return false;
@@ -570,7 +578,7 @@ PythonObjectHandle::invokeCastStructMethod(ArrayOfVector& results)
 {
     PyObject* pyObject = (PyObject*)this->getPointer();
     if (!pyObject) {
-        Error(_W("Invalid Python object."));
+        raiseError(L"Nelson:Python:ERROR_INVALID_PYTHON_OBJECT", ERROR_INVALID_PYTHON_OBJECT);
     }
 
     switch (getPythonType(pyObject)) {
@@ -606,7 +614,7 @@ PythonObjectHandle::invokeCastStructMethod(ArrayOfVector& results)
     case PY_NUMPY_TYPE:
     case PY_NOT_MANAGED:
     default: {
-        Error(_W("Cannot convert to ") + L"struct");
+        raiseError(L"Nelson:Python:PyException", _W("Cannot convert to ") + L"struct");
     } break;
     }
     return false;
@@ -617,7 +625,7 @@ PythonObjectHandle::invokeCastNumericMethod(ArrayOfVector& results)
 {
     PyObject* pyObject = (PyObject*)this->getPointer();
     if (!pyObject) {
-        Error(_W("Invalid Python object."));
+        raiseError(L"Nelson:Python:ERROR_INVALID_PYTHON_OBJECT", ERROR_INVALID_PYTHON_OBJECT);
     }
     switch (getPythonType(pyObject)) {
     case PY_MEMORY_VIEW_TYPE: {
@@ -658,7 +666,7 @@ PythonObjectHandle::invokeCastCharMethod(ArrayOfVector& results)
 {
     PyObject* pyObject = (PyObject*)this->getPointer();
     if (!pyObject) {
-        Error(_W("Invalid Python object."));
+        raiseError(L"Nelson:Python:ERROR_INVALID_PYTHON_OBJECT", ERROR_INVALID_PYTHON_OBJECT);
     }
     switch (getPythonType(pyObject)) {
     case PY_STR_TYPE: {
@@ -708,7 +716,8 @@ handleListOrTupleToString(
                     = ArrayOf::characterArrayConstructor(PyObjectToStringRepresentation(item));
             }
         } else {
-            Error(_W("All Python elements must be convertible as scalar to the requested type."));
+            raiseError(L"Nelson:Python:PyException",
+                _W("All Python elements must be convertible as scalar to the requested type."));
             return false;
         }
     }
@@ -722,7 +731,7 @@ PythonObjectHandle::invokeCastStringMethod(ArrayOfVector& results)
 {
     PyObject* pyObject = (PyObject*)this->getPointer();
     if (!pyObject) {
-        Error(_W("Invalid Python object."));
+        raiseError(L"Nelson:Python:ERROR_INVALID_PYTHON_OBJECT", ERROR_INVALID_PYTHON_OBJECT);
         return false;
     }
 

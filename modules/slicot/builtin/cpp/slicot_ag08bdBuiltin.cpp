@@ -11,6 +11,8 @@
 #include "slicot_ag08bdBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -168,31 +170,35 @@ Nelson::SlicotGateway::slicot_ag08bdBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsEQUIL.isScalar()) {
-        Error(_W("Input argument #1: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_1_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_1_SCALAR_EXPECTED);
     }
     if (!dimsM.isScalar()) {
-        Error(_W("Input argument #2: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_2_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_2_SCALAR_EXPECTED);
     }
     if (!dimsP.isScalar()) {
-        Error(_W("Input argument #3: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_3_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_3_SCALAR_EXPECTED);
     }
     Dimensions dimsA_expected(
         std::max(1, (int)L.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsA.equals(dimsA_expected)) {
-        Error(_("Input argument #4: wrong size.") + " " + dimsA_expected.toString() + " "
-            + "expected" + ".");
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_4_WRONG_SIZE",
+            ERROR_SLICOT_INPUT_ARGUMENT_4_WRONG_SIZE, utf8_to_wstring(dimsA_expected.toString()));
     }
     Dimensions dimsE_expected(
         std::max(1, (int)L.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsE.equals(dimsE_expected)) {
-        Error(_("Input argument #5: wrong size.") + " " + dimsE_expected.toString() + " "
-            + "expected" + ".");
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_5_WRONG_SIZE",
+            ERROR_SLICOT_INPUT_ARGUMENT_5_WRONG_SIZE, utf8_to_wstring(dimsE_expected.toString()));
     }
     // DIMENSIONS NOT CHECKED FOR #6 B
     // DIMENSIONS NOT CHECKED FOR #7 C
     // DIMENSIONS NOT CHECKED FOR #8 D
     if (!dimsTOL.isScalar()) {
-        Error(_W("Input argument #9: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_9_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_9_SCALAR_EXPECTED);
     }
     // CALL EXTERN FUNCTION
     try {
@@ -202,7 +208,8 @@ Nelson::SlicotGateway::slicot_ag08bdBuiltin(int nLhs, const ArrayOfVector& argIn
             INFZ_output_ptr, KRONR_output_ptr, INFE_output_ptr, KRONL_output_ptr, TOL_ptr,
             IWORK_ptr, DWORK_ptr, LDWORK_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        Error("ag08bd function fails.");
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_AG08BD_FUNCTION_FAILS",
+            ERROR_SLICOT_AG08BD_FUNCTION_FAILS);
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

@@ -12,6 +12,7 @@
 #include "complex_abs.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -470,7 +471,8 @@ Minimum(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
             BStride = 1;
         }
     } else {
-        Error(_W("Input Arguments must have same size."));
+        raiseError(L"Nelson:data_analysis:ERROR_INPUT_ARGUMENTS_MUST_HAVE_SAME_SIZE",
+            ERROR_INPUT_ARGUMENTS_MUST_HAVE_SAME_SIZE);
     }
 
     ArrayOf res;
@@ -614,7 +616,8 @@ Minimum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOve
     ArrayOfVector retval;
     needToOverload = false;
     if (dim < 1) {
-        Error(_W("Dimension argument must be a positive integer scalar."));
+        raiseError(L"Nelson:data_analysis:ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR",
+            ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR);
     }
     indexType workDim = dim - 1;
     if (A.isSparse()) {

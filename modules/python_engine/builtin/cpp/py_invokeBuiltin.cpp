@@ -10,6 +10,7 @@
 #include "py_invokeBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "nlsBuildConfig.h"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PythonObjectHandle.hpp"
@@ -26,7 +27,8 @@ Nelson::Python_engineGateway::py_invokeBuiltin(
     nargoutcheck(nLhs, 0);
     HandleGenericObject* hgo = argIn[0].getContentAsHandleScalar();
     if (!hgo || hgo->getCategory() != NLS_HANDLE_PYOBJECT_CATEGORY_STR) {
-        Error(_W("Python object expected."));
+        raiseError(
+            L"Nelson:python_engine:ERROR_PYTHON_OBJECT_EXPECTED", ERROR_PYTHON_OBJECT_EXPECTED);
     }
 
     std::wstring methodname = argIn[1].getContentAsWideString();
@@ -41,7 +43,8 @@ Nelson::Python_engineGateway::py_invokeBuiltin(
         io = eval->getInterface();
     }
     if (!poh->invoke(io, methodname, params, nLhs, retval)) {
-        Error(formatErrorMessage(ERROR_WRONG_ARGUMENT_X_VALUE, 2) + L" " + methodname);
+        raiseError(
+            L"Nelson:python_engine:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 2);
     }
     return retval;
 }

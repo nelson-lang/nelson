@@ -19,6 +19,7 @@
 #include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -337,7 +338,7 @@ static ArrayOf
 Truncate(const ArrayOf& arrayIn, TRUNCATE_LEVEL level)
 {
     if (arrayIn.isSparse()) {
-        Error(getNotSupportedTypeMessage(arrayIn, level));
+        Error(getNotSupportedTypeMessage(arrayIn, level), L"Nelson:elementary_functions:truncate");
     }
     switch (arrayIn.getDataClass()) {
     case NLS_SCOMPLEX: {
@@ -444,7 +445,7 @@ Truncate(const ArrayOf& arrayIn, TRUNCATE_LEVEL level)
     case NLS_CLASS_ARRAY:
     case NLS_FUNCTION_HANDLE:
     default: {
-        Error(getNotSupportedTypeMessage(arrayIn, level));
+        Error(getNotSupportedTypeMessage(arrayIn, level), L"Nelson:elementary_functions:truncate");
     } break;
     }
     return {};

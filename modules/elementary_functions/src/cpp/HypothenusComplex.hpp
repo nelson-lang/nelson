@@ -15,6 +15,7 @@
 #include "ArrayOf.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -295,8 +296,9 @@ complex_hypothenuse(NelsonType classDestination, const ArrayOf& A, const ArrayOf
         if (A.isVector() || B.isVector()) {
             if ((A.isRowVector() && B.isRowVector())
                 || (A.isColumnVector() && B.isColumnVector())) {
-                Error(_W("Arrays have incompatible sizes for this operation."),
-                    L"Nelson:sizeDimensionsMustMatch");
+                raiseError(L"Nelson:elementary_functions:ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_"
+                           L"THIS_OPERATION",
+                    ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_OPERATION);
             } else if (A.isRowVector() && B.isColumnVector()) {
                 res = row_column_complex_hypothenuse<T>(classDestination, A, B);
             } else if (A.isColumnVector() && B.isRowVector()) {
@@ -304,38 +306,44 @@ complex_hypothenuse(NelsonType classDestination, const ArrayOf& A, const ArrayOf
             } else if (A.getRows() == B.getRows()) {
                 if (A.isVector()) {
                     if (!B.is2D()) {
-                        Error(_W("Arrays have incompatible sizes for this operation."),
-                            L"Nelson:sizeDimensionsMustMatch");
+                        raiseError(L"Nelson:elementary_functions:ERROR_ARRAYS_HAVE_INCOMPATIBLE_"
+                                   L"SIZES_FOR_THIS_OPERATION",
+                            ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_OPERATION);
                     }
                     res = row_matrix_complex_hypothenuse<T>(classDestination, A, B);
                 } else {
                     if (!A.is2D()) {
-                        Error(_W("Arrays have incompatible sizes for this operation."),
-                            L"Nelson:sizeDimensionsMustMatch");
+                        raiseError(L"Nelson:elementary_functions:ERROR_ARRAYS_HAVE_INCOMPATIBLE_"
+                                   L"SIZES_FOR_THIS_OPERATION",
+                            ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_OPERATION);
                     }
                     res = matrix_row_complex_hypothenuse<T>(classDestination, A, B);
                 }
             } else if (A.getColumns() == B.getColumns()) {
                 if (A.isVector()) {
                     if (!B.is2D()) {
-                        Error(_W("Arrays have incompatible sizes for this operation."),
-                            L"Nelson:sizeDimensionsMustMatch");
+                        raiseError(L"Nelson:elementary_functions:ERROR_ARRAYS_HAVE_INCOMPATIBLE_"
+                                   L"SIZES_FOR_THIS_OPERATION",
+                            ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_OPERATION);
                     }
                     res = column_matrix_complex_hypothenuse<T>(classDestination, A, B);
                 } else {
                     if (!A.is2D()) {
-                        Error(_W("Arrays have incompatible sizes for this operation."),
-                            L"Nelson:sizeDimensionsMustMatch");
+                        raiseError(L"Nelson:elementary_functions:ERROR_ARRAYS_HAVE_INCOMPATIBLE_"
+                                   L"SIZES_FOR_THIS_OPERATION",
+                            ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_OPERATION);
                     }
                     res = matrix_column_complex_hypothenuse<T>(classDestination, A, B);
                 }
             } else {
-                Error(_W("Arrays have incompatible sizes for this operation."),
-                    L"Nelson:sizeDimensionsMustMatch");
+                raiseError(L"Nelson:elementary_functions:ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_"
+                           L"THIS_OPERATION",
+                    ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_OPERATION);
             }
         } else {
-            Error(_W("Arrays have incompatible sizes for this operation."),
-                L"Nelson:sizeDimensionsMustMatch");
+            raiseError(L"Nelson:elementary_functions:ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_"
+                       L"OPERATION",
+                ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_OPERATION);
         }
     }
     return res;

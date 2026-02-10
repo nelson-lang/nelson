@@ -11,6 +11,8 @@
 #include "slicot_mc01tdBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -64,17 +66,20 @@ Nelson::SlicotGateway::slicot_mc01tdBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {
-        Error(_W("Input argument #1: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_1_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_1_SCALAR_EXPECTED);
     }
     if (!dimsDP.isScalar()) {
-        Error(_W("Input argument #2: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_2_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_2_SCALAR_EXPECTED);
     }
     // CALL EXTERN FUNCTION
     try {
         mc01td_(DICO_ptr, DP_output_ptr, P_ptr, STABLE_output_ptr, NZ_output_ptr, DWORK_ptr,
             IWARN_output_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        Error("mc01td function fails.");
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_MC01TD_FUNCTION_FAILS",
+            ERROR_SLICOT_MC01TD_FUNCTION_FAILS);
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

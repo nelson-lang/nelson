@@ -9,6 +9,7 @@
 //=============================================================================
 #include "refreshBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "RefreshFigure.hpp"
 #include "GOFigure.hpp"
@@ -36,7 +37,8 @@ refreshBuiltin(int nLhs, const ArrayOfVector& argIn)
     case 1: {
         bool isScalarGraphicsObject = argIn[0].isGraphicsObject() && argIn[0].isScalar();
         if (!isScalarGraphicsObject) {
-            Error(_("figure graphics object expected."));
+            raiseError(L"Nelson:graphics:ERROR_FIGURE_GRAPHICS_OBJECT_EXPECTED",
+                ERROR_FIGURE_GRAPHICS_OBJECT_EXPECTED);
             return retval;
         }
         handle = argIn[0].getContentAsGraphicsObjectScalar();
@@ -46,7 +48,8 @@ refreshBuiltin(int nLhs, const ArrayOfVector& argIn)
     } break;
     }
     if (handle == HANDLE_ROOT_OBJECT || handle >= HANDLE_OFFSET_OBJECT || handle == NO_FIGURE) {
-        Error(_("figure graphics object expected."));
+        raiseError(L"Nelson:graphics:ERROR_FIGURE_GRAPHICS_OBJECT_EXPECTED",
+            ERROR_FIGURE_GRAPHICS_OBJECT_EXPECTED);
     }
     refreshFigure(handle);
     return retval;

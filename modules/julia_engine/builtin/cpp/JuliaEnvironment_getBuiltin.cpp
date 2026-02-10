@@ -10,9 +10,11 @@
 #include "JuliaEnvironment_getBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "HandleGenericObject.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "JuliaEnvironment.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,14 +28,16 @@ Nelson::Julia_engineGateway::JuliaEnvironment_getBuiltin(int nLhs, const ArrayOf
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval(1);
     if (param1.getHandleCategory() != NLS_HANDLE_JULIA_ENVIRONMENT_CATEGORY_STR) {
-        Error(_W("JuliaEnvironment object expected."));
+        raiseError(L"Nelson:julia_engine:ERROR_JULIAENVIRONMENT_OBJECT_EXPECTED",
+            ERROR_JULIAENVIRONMENT_OBJECT_EXPECTED);
     }
 
     ArrayOf res;
     JuliaEnvironment* juliaEnvironment = JuliaEnvironment::getInstance();
 
     if (!juliaEnvironment->get(propertyName, res)) {
-        Error(formatErrorMessage(ERROR_WRONG_ARGUMENT_X_VALUE, 2) + L" " + propertyName);
+        raiseError(L"Nelson:julia_engine:ERROR_WRONG_ARGUMENT_X_VALUE",
+            ERROR_WRONG_ARGUMENT_X_VALUE, 2, propertyName);
     }
     retval << res;
     return retval;

@@ -10,6 +10,8 @@
 #include "balanceBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "Balance.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -25,18 +27,21 @@ Nelson::LinearAlgebraGateway::balanceBuiltin(int nLhs, const ArrayOfVector& argI
     if (argIn.size() == 2) {
         std::wstring param2Str = argIn[1].getContentAsWideString();
         if (param2Str != L"noperm") {
-            Error(_("Second argument must be 'noperm'."), "Nelson:balance:unknownSecondArgument");
+            raiseError(L"Nelson:linear_algebra:ERROR_BALANCE_UNKNOWN_SECOND_ARGUMENT",
+                ERROR_BALANCE_UNKNOWN_SECOND_ARGUMENT);
         }
         noperm = true;
     }
     retval = Balance(argIn[0], noperm, nLhs, needToOverload);
     if (needToOverload) {
         if (!argIn[0].is2D()) {
-            Error(_("Input must be 2-D."), "Nelson:balance:inputMustBe2D");
+            raiseError(L"Nelson:linear_algebra:ERROR_BALANCE_INPUT_MUST_BE_2D",
+                ERROR_BALANCE_INPUT_MUST_BE_2D);
         } else if (argIn[0].isSparse()) {
-            Error(_("Use balance(full(S))."), "Nelson:balance:noBalanceSparse");
+            raiseError(L"Nelson:linear_algebra:ERROR_BALANCE_NO_BALANCE_SPARSE",
+                ERROR_BALANCE_NO_BALANCE_SPARSE);
         } else {
-            Error(_("First argument must be single or double."), "Nelson:balance:inputType");
+            raiseError(L"Nelson:linear_algebra:ERROR_BALANCE_INPUT_TYPE", ERROR_BALANCE_INPUT_TYPE);
         }
     }
     return retval;

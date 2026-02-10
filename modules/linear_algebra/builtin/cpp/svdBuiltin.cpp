@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "svdBuiltin.hpp"
-#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "OverloadRequired.hpp"
 #include "SVD.hpp"
@@ -34,14 +34,16 @@ Nelson::LinearAlgebraGateway::svdBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (L"econ" == paramAsString) {
                 svdFlag = SVD_FLAG::SVD_ECON;
             } else {
-                Error(_W("svd(X, 0) or svd(X, 'econ') expected."));
+                raiseError(L"Nelson:linear_algebra:ERROR_SVD_X_0_OR_SVD_X_ECON_EXPECTED",
+                    ERROR_SVD_X_0_OR_SVD_X_ECON_EXPECTED);
             }
         } else {
             indexType paramAsIndex = param2.getContentAsScalarIndex(true);
             if (paramAsIndex == 0) {
                 svdFlag = SVD_FLAG::SVD_0;
             } else {
-                Error(_W("svd(X, 0) or svd(X, 'econ') expected."));
+                raiseError(L"Nelson:linear_algebra:ERROR_SVD_X_0_OR_SVD_X_ECON_EXPECTED",
+                    ERROR_SVD_X_0_OR_SVD_X_ECON_EXPECTED);
             }
         }
     }
@@ -69,7 +71,8 @@ Nelson::LinearAlgebraGateway::svdBuiltin(int nLhs, const ArrayOfVector& argIn)
         retval << V;
     } break;
     default:
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError(L"Nelson:linear_algebra:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
+            ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         break;
     }
     return retval;

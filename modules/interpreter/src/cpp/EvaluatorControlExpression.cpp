@@ -258,7 +258,7 @@ Evaluator::expressionOperator(AbstractSyntaxTreePtr t)
             if (!t->text.empty()) {
                 msg = msg + L"\ntext: " + utf8_to_wstring(t->text);
             }
-            Error(msg);
+            Error(msg, L"Nelson:interpreter:ERROR_UNRECOGNIZED_EXPRESSION");
             callstack.popID();
         }
     } break;
@@ -269,7 +269,7 @@ Evaluator::expressionOperator(AbstractSyntaxTreePtr t)
         if (!t->text.empty()) {
             msg = msg + L"\ntext: " + utf8_to_wstring(t->text);
         }
-        Error(msg);
+        Error(msg, L"Nelson:interpreter:ERROR_UNRECOGNIZED_EXPRESSION");
         callstack.popID();
     } break;
     }
@@ -288,12 +288,12 @@ Evaluator::expressionReserved(AbstractSyntaxTreePtr t)
     callstack.pushID((size_t)t->getContext());
     if (t->tokenNumber == NLS_KEYWORD_END) {
         if (endStack.empty()) {
-            Error(ERROR_END_ILLEGAL);
+            raiseError(L"Nelson:interpreter:ERROR_END_ILLEGAL", ERROR_END_ILLEGAL);
         }
         const endData& enddatat = endStack.back();
         retval = EndReference(enddatat.endArray, (indexType)enddatat.index, enddatat.count);
     } else {
-        Error(ERROR_UNRECOGNIZED_NODE);
+        raiseError(L"Nelson:interpreter:ERROR_UNRECOGNIZED_NODE", ERROR_UNRECOGNIZED_NODE);
     }
     callstack.popID();
     return retval;
@@ -406,7 +406,8 @@ Evaluator::expressionList(AbstractSyntaxTreePtr t)
                 m.push_back(i);
             }
         } else if (t->type == non_terminal && t->opNum == (OP_ALL)) {
-            Error(_W("Illegal use of the ':' operator"));
+            raiseError(L"Nelson:interpreter:ERROR_ILLEGAL_USE_OF_THE_OPERATOR",
+                ERROR_ILLEGAL_USE_OF_THE_OPERATOR);
         } else {
             // Call the expression
             m.push_back(expression(t));
@@ -507,7 +508,7 @@ Evaluator::rowDefinition(AbstractSyntaxTreePtr t)
 {
     callstack.pushID((size_t)t->getContext());
     if (t->opNum != OP_SEMICOLON) {
-        Error(ERROR_AST_SYNTAX_ERROR);
+        raiseError(L"Nelson:interpreter:ERROR_AST_SYNTAX_ERROR", ERROR_AST_SYNTAX_ERROR);
     }
     ArrayOfVector retval = expressionList(t->down);
     callstack.popID();
@@ -579,7 +580,7 @@ Evaluator::matrixDefinition(AbstractSyntaxTreePtr t)
 {
     ArrayOfMatrix m;
     if (t->opNum != OP_BRACKETS) {
-        Error(ERROR_AST_SYNTAX_ERROR);
+        raiseError(L"Nelson:interpreter:ERROR_AST_SYNTAX_ERROR", ERROR_AST_SYNTAX_ERROR);
     }
     AbstractSyntaxTreePtr s = t->down;
     callstack.pushID((size_t)s->getContext());
@@ -642,7 +643,7 @@ Evaluator::cellDefinition(AbstractSyntaxTreePtr t)
 {
     ArrayOfMatrix m;
     if (t->opNum != OP_BRACES) {
-        Error(ERROR_AST_SYNTAX_ERROR);
+        raiseError(L"Nelson:interpreter:ERROR_AST_SYNTAX_ERROR", ERROR_AST_SYNTAX_ERROR);
     }
     AbstractSyntaxTreePtr s = t->down;
     callstack.pushID((size_t)s->getContext());

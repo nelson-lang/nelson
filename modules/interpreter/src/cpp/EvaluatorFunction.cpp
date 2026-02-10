@@ -144,7 +144,8 @@ Evaluator::functionExpression(
                         try {
                             keywordNdx = new int[keywords.size()];
                         } catch (std::bad_alloc&) {
-                            Error(ERROR_MEMORY_ALLOCATION);
+                            raiseError(L"Nelson:interpreter:ERROR_MEMORY_ALLOCATION",
+                                ERROR_MEMORY_ALLOCATION);
                         }
                         int maxndx;
                         maxndx = 0;
@@ -157,8 +158,8 @@ Evaluator::functionExpression(
                                     delete[] keywordNdx;
                                     keywordNdx = nullptr;
                                 }
-                                Error(utf8_to_wstring(_("out-of-order argument /") + keywords[i]
-                                    + _(" is not defined in the called function!")));
+                                raiseError(L"Nelson:interpreter:ERROR_OUT_OF_ORDER_ARGUMENT",
+                                    ERROR_OUT_OF_ORDER_ARGUMENT, utf8_to_wstring(keywords[i]));
                             }
                             keywordNdx[i] = ndx;
                             if (ndx > maxndx) {
@@ -238,7 +239,8 @@ Evaluator::functionExpression(
                             return fdef->evaluateFunction(this, inputs, 1);
                         }
                     }
-                    Error(ERROR_ILLEGAL_EXPRESSION_IN_FUNCTION);
+                    raiseError(L"Nelson:interpreter:ERROR_ILLEGAL_EXPRESSION_IN_FUNCTION",
+                        ERROR_ILLEGAL_EXPRESSION_IN_FUNCTION);
                 }
             } else {
                 m = ArrayOfVector();
@@ -314,17 +316,26 @@ Evaluator::functionExpression(
                         if (obj) {
 
                             if (!obj->invokeMethod(this->io, m, narg_out, t->text, n)) {
-                                std::string msg = t->text.empty()
-                                    ? _("Undefined method.")
-                                    : _("Undefined method:") + " " + t->text;
-                                Error(msg);
+
+                                std::string msg = t->text;
+                                if (msg.empty()) {
+                                    raiseError(L"Nelson:interpreter:UNDEFINED_METHOD_NO_NAME",
+                                        ERROR_UNDEFINED_METHOD_NO_NAME);
+                                } else {
+                                    raiseError(L"Nelson:interpreter:UNDEFINED_METHOD",
+                                        ERROR_UNDEFINED_METHOD, utf8_to_wstring(msg));
+                                }
                             }
                         }
                     } else {
-                        std::string msg = t->text.empty()
-                            ? "Undefined variable or function."
-                            : _("Undefined variable or function:") + " " + t->text;
-                        Error(msg);
+                        std::string msg = t->text;
+                        if (msg.empty()) {
+                            raiseError(L"Nelson:interpreter:UndefinedFunctionOrVariable",
+                                ERROR_UNDEFINED_FUNCTION_OR_VARIABLE_NO_NAME);
+                        } else {
+                            raiseError(L"Nelson:interpreter:UndefinedFunctionOrVariable",
+                                ERROR_UNDEFINED_FUNCTION_OR_VARIABLE, utf8_to_wstring(msg));
+                        }
                     }
                 } else {
                     n = funcDef->evaluateFunction(this, m, narg_out);
@@ -407,7 +418,8 @@ Evaluator::functionExpression(
                                 delete[] argTypeMap;
                                 argTypeMap = nullptr;
                             }
-                            Error(ERROR_MUST_HAVE_LVALUE);
+                            raiseError(L"Nelson:interpreter:ERROR_MUST_HAVE_LVALUE",
+                                ERROR_MUST_HAVE_LVALUE);
                             return {};
                         }
                         if (!(p->type == non_terminal && p->opNum == OP_RHS)) {
@@ -415,7 +427,8 @@ Evaluator::functionExpression(
                                 delete[] argTypeMap;
                                 argTypeMap = nullptr;
                             }
-                            Error(ERROR_MUST_HAVE_LVALUE);
+                            raiseError(L"Nelson:interpreter:ERROR_MUST_HAVE_LVALUE",
+                                ERROR_MUST_HAVE_LVALUE);
                             return {};
                         }
                         std::string variableName = p->down->text;
@@ -436,9 +449,12 @@ Evaluator::functionExpression(
                                     argTypeMap = nullptr;
                                 }
                                 if (IsValidVariableName(variableName, true)) {
-                                    Error(_W("Redefining permanent variable."));
+                                    raiseError(
+                                        L"Nelson:interpreter:ERROR_REDEFINING_PERMANENT_VARIABLE",
+                                        ERROR_REDEFINING_PERMANENT_VARIABLE);
                                 }
-                                Error(_W("Valid variable name expected."));
+                                raiseError(L"Nelson:interpreter:ERROR_VALID_VARIABLE_NAME_EXPECTED",
+                                    ERROR_VALID_VARIABLE_NAME_EXPECTED);
                                 return {};
                             }
                         }
@@ -485,7 +501,8 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
                     = getOverloadFunctionName(NLS_FUNCTION_HANDLE_STR, SUBSREF_OPERATOR_STR);
                 bool isFun = lookupFunction(extractionFunctionName, fptr);
                 if (!isFun) {
-                    Error(utf8_to_wstring(_("Undefined function") + " " + extractionFunctionName));
+                    raiseError(L"Nelson:interpreter:ERROR_UNDEFINED_FUNCTION",
+                        ERROR_UNDEFINED_FUNCTION, utf8_to_wstring(extractionFunctionName));
                 }
             } else if (r.isClassType()) {
                 std::string className = r.getClassType();
@@ -493,31 +510,38 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
                     = getOverloadFunctionName(className, SUBSREF_OPERATOR_STR);
                 bool isFun = lookupFunction(extractionFunctionName, fptr);
                 if (!isFun) {
-                    Error(utf8_to_wstring(_("Undefined function") + " " + extractionFunctionName));
+                    raiseError(L"Nelson:interpreter:ERROR_UNDEFINED_FUNCTION",
+                        ERROR_UNDEFINED_FUNCTION, utf8_to_wstring(extractionFunctionName));
                 }
             } else if (r.isCell()) {
                 // C = {rand(3),nan(3),zeros(3),inf(3)}
                 // [a, b, c, d] = C{ : }
                 if (t->opNum != OP_BRACKETS) {
-                    Error(ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
+                    raiseError(L"Nelson:interpreter:ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION",
+                        ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
                 }
                 bDeal = true;
             } else {
-                Error(utf8_to_wstring(_("Undefined function") + " " + fAST->text));
+                raiseError(L"Nelson:interpreter:ERROR_UNDEFINED_FUNCTION", ERROR_UNDEFINED_FUNCTION,
+                    utf8_to_wstring(fAST->text));
             }
         } else {
-            Error(utf8_to_wstring(_("Undefined function") + " " + fAST->text));
+            raiseError(L"Nelson:interpreter:ERROR_UNDEFINED_FUNCTION", ERROR_UNDEFINED_FUNCTION,
+                utf8_to_wstring(fAST->text));
         }
     }
     if (t->opNum != OP_BRACKETS) {
-        Error(ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
+        raiseError(L"Nelson:interpreter:ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION",
+            ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
     }
     s = t->down;
     if (s->opNum != OP_SEMICOLON) {
-        Error(ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
+        raiseError(L"Nelson:interpreter:ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION",
+            ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION);
     }
     if (s->right != nullptr) {
-        Error(ERROR_MULTIPLE_ROWS_NOT_ALLOWED);
+        raiseError(
+            L"Nelson:interpreter:ERROR_MULTIPLE_ROWS_NOT_ALLOWED", ERROR_MULTIPLE_ROWS_NOT_ALLOWED);
     }
     // We have to make multiple passes through the LHS part of the AST.
     // The first pass is to count how many function outputs are actually
@@ -541,16 +565,18 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
         rhsDimensions = r.getDimensions();
         m = expressionList(fAST->down->down, r);
         if (m.size() == 0) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
+            raiseError(L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED",
+                ERROR_INDEX_EXPRESSION_EXPECTED);
         } else if (m.size() == 1) {
             ArrayOfVector m2 = r.getVectorContentsAsList(m[0]);
             if ((indexType)m2.size() < lhsCount) {
-                Error(_W("Insufficient number of outputs."));
+                raiseError(L"Nelson:interpreter:ERROR_INSUFFICIENT_NUMBER_OF_OUTPUTS",
+                    ERROR_INSUFFICIENT_NUMBER_OF_OUTPUTS);
             } else {
                 m = m2;
             }
         } else {
-            Error(_W("Case not managed."));
+            raiseError(L"Nelson:interpreter:ERROR_CASE_NOT_MANAGED", ERROR_CASE_NOT_MANAGED);
         }
     } else {
         CallStack backupCallStack = callstack;
@@ -564,9 +590,11 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
         if (!dropResult) {
             if (!context->insertVariable(s->down->text, cLocal)) {
                 if (IsValidVariableName(s->down->text, true)) {
-                    Error(_W("Redefining permanent variable."));
+                    raiseError(L"Nelson:interpreter:ERROR_REDEFINING_PERMANENT_VARIABLE",
+                        ERROR_REDEFINING_PERMANENT_VARIABLE);
                 }
-                Error(_W("Valid variable name expected."));
+                raiseError(L"Nelson:interpreter:ERROR_VALID_VARIABLE_NAME_EXPECTED",
+                    ERROR_VALID_VARIABLE_NAME_EXPECTED);
             }
             if (printIt) {
                 display(cLocal, s->down->text, false, true);
@@ -604,7 +632,8 @@ Evaluator::specialFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
     FunctionDefPtr val;
     callstack.pushID((size_t)t->getContext());
     if (!lookupFunction(args[0], val)) {
-        Error(utf8_to_wstring(_("unable to resolve ") + args[0] + _(" to a function call")));
+        raiseError(L"Nelson:interpreter:ERROR_UNABLE_TO_RESOLVE", ERROR_UNABLE_TO_RESOLVE,
+            utf8_to_wstring(args[0]));
     }
     bool CLIFlagsave = InCLI;
     InCLI = false;

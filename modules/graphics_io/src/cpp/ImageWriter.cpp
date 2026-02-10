@@ -11,6 +11,7 @@
 #include <QtGui/QImageWriter>
 #include "ImageWriter.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "RealPart.hpp"
 #include "QStringConverter.hpp"
@@ -62,13 +63,15 @@ writePcx(const std::wstring& filename, const ArrayOf& A, const ArrayOf& colorMap
             qImage = imwriteRGBA32(A, alphaMap);
         }
     } else {
-        Error(_W("Image data must be either MxN or MxNx3."));
+        raiseError(L"Nelson:graphics_io:ERROR_IMAGE_DATA_MUST_BE_MxN_OR_MxNx3",
+            ERROR_IMAGE_DATA_MUST_BE_MxN_OR_MxNx3);
         return;
     }
 
     int result = PcxFileHandler::savePCX(wstringToQString(filename), qImage);
     if (result != PcxFileHandler::PCX_ERROR_NONE) {
-        Error(_W("Cannot save image file: ") + filename);
+        raiseError(L"Nelson:graphics_io:ERROR_CANNOT_SAVE_IMAGE_FILE", ERROR_CANNOT_SAVE_IMAGE_FILE,
+            filename);
     }
 }
 //=============================================================================
@@ -97,7 +100,8 @@ writeGif(const std::wstring& filename, bool append, const ArrayOf& A, const Arra
             qImage = imwriteRGBA32(A, alphaMap);
         }
     } else {
-        Error(_W("Image data must be either MxN or MxNx3."));
+        raiseError(L"Nelson:graphics_io:ERROR_IMAGE_DATA_MUST_BE_MxN_OR_MxNx3",
+            ERROR_IMAGE_DATA_MUST_BE_MxN_OR_MxNx3);
     }
     QGifImage gif(QSize(qImage.width(), qImage.height()));
 
@@ -108,7 +112,8 @@ writeGif(const std::wstring& filename, bool append, const ArrayOf& A, const Arra
     }
     gif.addFrame(qImage, delayTime);
     if (!gif.save(wstringToQString(filename))) {
-        Error(_W("Cannot save image file: ") + filename);
+        raiseError(L"Nelson:graphics_io:ERROR_CANNOT_SAVE_IMAGE_FILE", ERROR_CANNOT_SAVE_IMAGE_FILE,
+            filename);
     }
 }
 #endif
@@ -135,11 +140,13 @@ writeTiff(const std::wstring& filename, const ArrayOf& A, const ArrayOf& colorMa
             qImage = imwriteRGBA32(A, alphaMap);
         }
     } else {
-        Error(_W("Image data must be either MxN or MxNx3."));
+        raiseError(L"Nelson:graphics_io:ERROR_IMAGE_DATA_MUST_BE_MxN_OR_MxNx3",
+            ERROR_IMAGE_DATA_MUST_BE_MxN_OR_MxNx3);
     }
     QString errorMessage;
     if (!TiffFileHandler::writeTiff(wstringToQString(filename), qImage, errorMessage)) {
-        Error(_W("Cannot save image file: ") + filename);
+        raiseError(L"Nelson:graphics_io:ERROR_CANNOT_SAVE_IMAGE_FILE", ERROR_CANNOT_SAVE_IMAGE_FILE,
+            filename);
     }
 }
 #endif
@@ -150,7 +157,8 @@ writeImage(const std::wstring& filename, const ArrayOf& A, const ArrayOf& colorM
     const std::map<std::wstring, wstringVector>& nameValue)
 {
     if (!isImageFormatWritable(format)) {
-        Error(_W("Not supported format: ") + format);
+        raiseError(L"Nelson:graphics_io:ERROR_NOT_SUPPORTED_IMAGE_FORMAT",
+            ERROR_NOT_SUPPORTED_IMAGE_FORMAT, format);
     }
 
     FileSystemWrapper::Path pathFileName(filename);
@@ -161,7 +169,8 @@ writeImage(const std::wstring& filename, const ArrayOf& A, const ArrayOf& colorM
 
     QImageWriter imgWriter(wstringToQString(filename));
     if (!imgWriter.canWrite()) {
-        Error(_W("Cannot write ") + filename);
+        raiseError(
+            L"Nelson:graphics_io:ERROR_CANNOT_WRITE_FILE", ERROR_CANNOT_WRITE_FILE, filename);
     }
     imgWriter.setFormat(wstringToQString(format).toUtf8());
     imgWriter.setQuality(quality);
@@ -181,11 +190,13 @@ writeImage(const std::wstring& filename, const ArrayOf& A, const ArrayOf& colorM
             qImage = imwriteRGBA32(A, alphaMap);
         }
     } else {
-        Error(_W("Image data must be either MxN or MxNx3."));
+        raiseError(L"Nelson:graphics_io:ERROR_IMAGE_DATA_MUST_BE_MxN_OR_MxNx3",
+            ERROR_IMAGE_DATA_MUST_BE_MxN_OR_MxNx3);
     }
 
     if (!imgWriter.write(qImage)) {
-        Error(_W("Cannot save image file: ") + filename);
+        raiseError(L"Nelson:graphics_io:ERROR_CANNOT_SAVE_IMAGE_FILE", ERROR_CANNOT_SAVE_IMAGE_FILE,
+            filename);
     }
 }
 //=============================================================================

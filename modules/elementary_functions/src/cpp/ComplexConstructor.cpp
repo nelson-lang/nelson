@@ -14,6 +14,7 @@
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -59,14 +60,17 @@ ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB)
 {
     ArrayOf res;
     if (arrayA.isSparse() || arrayB.isSparse()) {
-        Error(_W("Input arguments must be full."));
+        raiseError(
+            L"Nelson:elementary_functions:ERROR_INPUTS_MUST_BE_FULL", ERROR_INPUTS_MUST_BE_FULL);
     }
     if (!arrayA.isNumeric() || !arrayB.isNumeric()) {
-        Error(_W("Input arguments must be numeric."));
+        raiseError(L"Nelson:elementary_functions:ERROR_INPUT_ARGUMENTS_MUST_BE_NUMERIC",
+            ERROR_INPUT_ARGUMENTS_MUST_BE_NUMERIC);
     }
     if ((arrayA.getDataClass() == NLS_SCOMPLEX) || (arrayA.getDataClass() == NLS_DCOMPLEX)
         || (arrayB.getDataClass() == NLS_SCOMPLEX) || (arrayB.getDataClass() == NLS_DCOMPLEX)) {
-        Error(_W("Input arguments must be real."));
+        raiseError(
+            L"Nelson:elementary_functions:ERROR_INPUTS_MUST_BE_REAL", ERROR_INPUTS_MUST_BE_REAL);
     }
     NelsonType DestinationClass = NLS_DCOMPLEX;
     if ((arrayA.getDataClass() == NLS_SINGLE) || (arrayB.getDataClass() == NLS_SINGLE)) {
@@ -74,7 +78,8 @@ ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB)
     }
     if (!(arrayA.getDimensions().equals(arrayB.getDimensions()) || arrayA.isScalar()
             || arrayB.isScalar())) {
-        Error(_W("Input arguments must have the same size."));
+        raiseError(L"Nelson:elementary_functions:ERROR_INPUT_ARGUMENTS_MUST_HAVE_THE_SAME_SIZE",
+            ERROR_INPUT_ARGUMENTS_MUST_HAVE_THE_SAME_SIZE);
     }
     if (DestinationClass == NLS_SCOMPLEX) {
         arrayA.promoteType(NLS_SINGLE);

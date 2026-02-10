@@ -10,6 +10,7 @@
 #include "WebOptions.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
@@ -17,7 +18,8 @@ namespace Nelson {
 WebOptions::WebOptions(ArrayOf& webOptionsArrayOf)
 {
     if (webOptionsArrayOf.getClassType() != "weboptions") {
-        Error(_W("weboptions object expected."));
+        raiseError(
+            L"Nelson:webtools:ERROR_WEBOPTIONS_OBJECT_EXPECTED", ERROR_WEBOPTIONS_OBJECT_EXPECTED);
     }
     ArrayOf res;
     res = webOptionsArrayOf.getField("CharacterEncoding");

@@ -12,6 +12,7 @@
 #include <limits>
 #include "GOVectorProperty.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -41,7 +42,8 @@ GOVectorProperty::set(ArrayOf num)
         const double* dp = (const double*)asDouble.getDataPointer();
         for (indexType i = 0; i < asDouble.getElementCount(); i++) {
             if (!std::isfinite(dp[i])) {
-                Error(_W("Finite value expected."));
+                raiseError(
+                    L"Nelson:graphics:ERROR_FINITE_VALUE_EXPECTED", ERROR_FINITE_VALUE_EXPECTED);
             }
             values.push_back(dp[i]);
         }
@@ -87,7 +89,8 @@ GOVectorProperty::data(const std::vector<double>& m)
     if (_finiteOnly) {
         for (auto v : m) {
             if (!std::isfinite(v)) {
-                Error(_W("Finite value expected."));
+                raiseError(
+                    L"Nelson:graphics:ERROR_FINITE_VALUE_EXPECTED", ERROR_FINITE_VALUE_EXPECTED);
             }
         }
     }

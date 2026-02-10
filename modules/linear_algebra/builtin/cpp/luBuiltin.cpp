@@ -9,7 +9,7 @@
 //=============================================================================
 #include "luBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "LUMatrixFactorization.hpp"
 //=============================================================================
@@ -24,18 +24,21 @@ Nelson::LinearAlgebraGateway::luBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     ArrayOf A = argIn[0];
     if (!A.is2D()) {
-        Error(_W("Vector or matrix 2D expected."));
+        raiseError(L"Nelson:linear_algebra:ERROR_VECTOR_OR_MATRIX_2D_EXPECTED",
+            ERROR_VECTOR_OR_MATRIX_2D_EXPECTED);
     }
     switch (A.getDataClass()) {
     case NLS_DOUBLE: {
         if (A.isSparse()) {
-            Error(_W("Not yet implemented."));
+            raiseError(
+                L"Nelson:linear_algebra:ERROR_NOT_YET_IMPLEMENTED", ERROR_NOT_YET_IMPLEMENTED);
         }
         retval = LUMatrixFactorizationDoubleReal(A, nLhs);
     } break;
     case NLS_DCOMPLEX: {
         if (A.isSparse()) {
-            Error(_W("Not yet implemented."));
+            raiseError(
+                L"Nelson:linear_algebra:ERROR_NOT_YET_IMPLEMENTED", ERROR_NOT_YET_IMPLEMENTED);
         }
         retval = LUMatrixFactorizationDoubleComplex(A, nLhs);
     } break;
@@ -46,7 +49,8 @@ Nelson::LinearAlgebraGateway::luBuiltin(int nLhs, const ArrayOfVector& argIn)
         retval = LUMatrixFactorizationSingleComplex(A, nLhs);
     } break;
     default: {
-        Error(_W("single or double type expected."));
+        raiseError(L"Nelson:linear_algebra:ERROR_SINGLE_OR_DOUBLE_TYPE_EXPECTED",
+            ERROR_SINGLE_OR_DOUBLE_TYPE_EXPECTED);
     } break;
     }
     return retval;

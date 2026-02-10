@@ -13,6 +13,7 @@
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "OverloadName.hpp"
 //=============================================================================
@@ -28,14 +29,13 @@ Nelson::HandleGateway::handle_fieldnamesBuiltin(
     ArrayOf param1 = argIn[0];
     std::string handleTypeName = param1.getHandleCategory();
     if (handleTypeName == NLS_HANDLE_STR || handleTypeName.empty()) {
-        Error(_W("Invalid handle."));
+        raiseError(L"Nelson:handle:ERROR_VALID_HANDLE_EXPECTED", ERROR_VALID_HANDLE_EXPECTED);
     }
     std::string functionNameGetHandle = getOverloadFunctionName(handleTypeName, "fieldnames");
     Context* context = eval->getContext();
     FunctionDef* funcDef = nullptr;
     if (!context->lookupFunction(functionNameGetHandle, funcDef)) {
-        std::string msg = functionNameGetHandle + " " + _("not defined.");
-        Error(msg);
+        raiseError(L"Nelson:handle:ERROR_FUNCTION_NOT_FOUND", ERROR_FUNCTION_NOT_FOUND);
     }
     if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)) {
         ArrayOfVector argInCopy;
@@ -45,8 +45,7 @@ Nelson::HandleGateway::handle_fieldnamesBuiltin(
         }
         retval = funcDef->evaluateFunction(eval, argInCopy, nLhs);
     } else {
-        std::string msg = functionNameGetHandle + " " + _("not defined.");
-        Error(msg);
+        raiseError(L"Nelson:handle:ERROR_FUNCTION_NOT_FOUND", ERROR_FUNCTION_NOT_FOUND);
     }
     return retval;
 }

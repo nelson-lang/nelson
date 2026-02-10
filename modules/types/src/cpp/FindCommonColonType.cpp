@@ -11,6 +11,7 @@
 #include "ArrayOf.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ClassToString.hpp"
 //=============================================================================
 namespace Nelson {
@@ -95,9 +96,9 @@ findColonCommonType(
         commonType = determineCommonType(argIn);
 
         if (commonType == NLS_UNKNOWN) {
-            Error(
-                _W("Colon operands must be all the same type, or mixed with real scalar doubles."),
-                L"Nelson:colon:mixedCharOperands");
+            raiseError(L"Nelson:types:ERROR_COLON_OPERANDS_MUST_BE_SAME_TYPE_OR_MIXED_WITH_REAL_"
+                       L"SCALAR_DOUBLES",
+                ERROR_COLON_OPERANDS_MUST_BE_SAME_TYPE_OR_MIXED_WITH_REAL_SCALAR_DOUBLES);
         }
     }
     typeName = ClassToString(commonType);
@@ -123,8 +124,8 @@ void
 validateCharacterOperandsForTwoArgs(const ArrayOfVector& argIn)
 {
     if (argIn[0].isCharacterArray() || argIn[1].isCharacterArray()) {
-        Error(_W("For colon operator with char operands, first and last operands must be char."),
-            L"Nelson:colon:mixedCharOperands");
+        raiseError(L"Nelson:types:ERROR_COLON_CHAR_OPERANDS_FIRST_AND_LAST_MUST_BE_CHAR",
+            ERROR_COLON_CHAR_OPERANDS_FIRST_AND_LAST_MUST_BE_CHAR);
     }
 }
 //=============================================================================
@@ -132,8 +133,8 @@ void
 validateCharacterOperandsForThreeArgs(const ArrayOfVector& argIn)
 {
     if (argIn[1].isCharacterArray()) {
-        Error(_W("For colon operator with char operands, first and last operands must be char."),
-            L"Nelson:colon:mixedCharOperands");
+        raiseError(L"Nelson:types:ERROR_COLON_CHAR_OPERANDS_FIRST_AND_LAST_MUST_BE_CHAR",
+            ERROR_COLON_CHAR_OPERANDS_FIRST_AND_LAST_MUST_BE_CHAR);
     }
 }
 //=============================================================================
@@ -182,9 +183,9 @@ getColonCommonBasicType(const ArrayOf& A, const ArrayOf& B)
         }
 
         if (!isSupportedMixedInteger && ((IS_INTEGER_TYPE(classA) || IS_INTEGER_TYPE(classB)))) {
-            Error(_W("Colon operands must be all the same type, or mixed with real double "
-                     "scalar."),
-                L"Nelson:colon:mixedNonDoubleOperands");
+            raiseError(L"Nelson:types:ERROR_COLON_OPERANDS_MUST_BE_ALL_THE_SAME_TYPE_OR_MIXED_WITH_"
+                       L"REAL_DOUBLE_SCALAR",
+                ERROR_COLON_OPERANDS_MUST_BE_ALL_THE_SAME_TYPE_OR_MIXED_WITH_REAL_DOUBLE_SCALAR);
         }
     }
     return getColonCommonType(classA, classB);

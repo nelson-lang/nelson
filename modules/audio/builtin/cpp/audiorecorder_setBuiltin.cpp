@@ -28,12 +28,13 @@ Nelson::AudioGateway::audiorecorder_setBuiltin(int nLhs, const ArrayOfVector& ar
     ArrayOf param3 = argIn[2];
     ArrayOfVector retval;
     if (param1.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-        Error(_W("audiorecorder handle expected."));
+        raiseError(L"Nelson:audio:ERROR_AUDIORECORDER_HANDLE_EXPECTED",
+            ERROR_AUDIORECORDER_HANDLE_EXPECTED);
     }
     auto* objRec = (AudiorecorderObject*)param1.getContentAsHandleScalar();
     std::wstring errorMessage;
     if (!objRec->set(propertyName, param3, errorMessage)) {
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:audio:ERROR_AUDIORECORDER_SET_ERROR");
     }
     return retval;
 }

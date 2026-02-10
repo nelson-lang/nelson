@@ -11,6 +11,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "WaitFutures.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -32,7 +33,8 @@ FutureFetchOutputs(Evaluator* eval, const std::vector<FutureObject*>& futures, b
             if (!_exception.getMessage().empty()) {
                 std::wstring errorMessage = _W("One or more futures resulted in an error.")
                     + L"\n\n" + _exception.getMessage();
-                Error(errorMessage, L"Nelson:parallel:future:ExecutionError");
+                raiseError(L"Nelson:parallel:ERROR_FUTURE_EXECUTION_ERROR",
+                    ERROR_FUTURE_EXECUTION_ERROR, errorMessage);
             }
             if (once) {
                 nLhs = _result.size();
@@ -40,7 +42,8 @@ FutureFetchOutputs(Evaluator* eval, const std::vector<FutureObject*>& futures, b
             } else {
                 if (nLhs != _result.size()) {
                     std::wstring errorMessage = _W("Unable to concatenate outputs.");
-                    Error(errorMessage, L"Nelson:parallel:future:ConcatenateOutputs");
+                    raiseError(L"Nelson:parallel:ERROR_FUTURE_CONCATENATE_OUTPUTS",
+                        ERROR_FUTURE_CONCATENATE_OUTPUTS, errorMessage);
                 }
             }
         }

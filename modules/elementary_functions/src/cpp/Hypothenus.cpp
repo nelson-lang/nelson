@@ -13,6 +13,7 @@
 #include "HypothenusReal.hpp"
 #include "HypothenusComplex.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -30,8 +31,9 @@ Hypothenuse(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
                 res = A;
             }
         } else {
-            Error(_W("Arrays have incompatible sizes for this operation."),
-                L"Nelson:sizeDimensionsMustMatch");
+            raiseError(L"Nelson:elementary_functions:ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_"
+                       L"OPERATION",
+                ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_OPERATION);
         }
         if (res.getDataClass() == NLS_DCOMPLEX) {
             if (res.allReal()) {

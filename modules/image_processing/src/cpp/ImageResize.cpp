@@ -19,6 +19,7 @@
 #include "omp_for_loop.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -342,7 +343,8 @@ ImageResize(const ArrayOf& image, double scale, const ResizeOptions& options)
 {
     // Resize image by a scale factor
     if (scale <= 0.0) {
-        Error(_W("Scale factor must be positive."));
+        raiseError(L"Nelson:image_processing:ERROR_SCALE_FACTOR_MUST_BE_POSITIVE",
+            ERROR_SCALE_FACTOR_MUST_BE_POSITIVE);
     }
 
     Dimensions dims = image.getDimensions();
@@ -369,7 +371,8 @@ ImageResize(const ArrayOf& image, size_t numrows, size_t numcols, const ResizeOp
     size_t channels = (dims.getLength() > 2) ? dims.getDimensionLength(2) : 1;
 
     if (numrows == 0 || numcols == 0) {
-        Error(_W("Output dimensions must be positive."));
+        raiseError(L"Nelson:image_processing:ERROR_OUTPUT_DIMENSIONS_MUST_BE_POSITIVE",
+            ERROR_OUTPUT_DIMENSIONS_MUST_BE_POSITIVE);
     }
 
     // If input and output dimensions are the same, return copy
@@ -460,7 +463,7 @@ ImageResize(const ArrayOf& image, size_t numrows, size_t numcols, const ResizeOp
             options.method, useAntialiasing);
     } break;
     default: {
-        Error(_W("Type not managed."));
+        raiseError(L"Nelson:image_processing:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     } break;
     }
 
@@ -492,13 +495,15 @@ ImageResizeIndexed(const ArrayOf& X, const ArrayOf& map, size_t numrows, size_t 
     // Resize indexed image and its colormap to specific dimensions
     // Validate indexed image
     if (!X.isNumeric()) {
-        Error(_W("Indexed image must be numeric."));
+        raiseError(L"Nelson:image_processing:ERROR_INDEXED_IMAGE_MUST_BE_NUMERIC",
+            ERROR_INDEXED_IMAGE_MUST_BE_NUMERIC);
     }
 
     // Validate colormap
     Dimensions mapDims = map.getDimensions();
     if (mapDims.getColumns() != 3 || !map.isNumeric()) {
-        Error(_W("Colormap must be an Nx3 numeric array."));
+        raiseError(L"Nelson:image_processing:ERROR_COLORMAP_MUST_BE_NX3_NUMERIC_ARRAY",
+            ERROR_COLORMAP_MUST_BE_NX3_NUMERIC_ARRAY);
     }
 
     // For indexed images, we typically use nearest neighbor to preserve indices
@@ -575,8 +580,8 @@ ImageResizeIndexed(const ArrayOf& X, const ArrayOf& map, size_t numrows, size_t 
             }
         } break;
         default:
-            Error(_W("Unsupported data type for indexed image. Must be uint8, uint16, uint32, "
-                     "int8, int16, or int32."));
+            raiseError(L"Nelson:image_processing:ERROR_UNSUPPORTED_INDEXED_IMAGE_TYPE",
+                ERROR_UNSUPPORTED_INDEXED_IMAGE_TYPE);
             break;
         }
 

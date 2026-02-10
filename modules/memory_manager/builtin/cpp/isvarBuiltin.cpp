@@ -41,7 +41,9 @@ Nelson::MemoryGateway::isvarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         } else if (scopeName == L"caller") {
             res = IsVariable(eval, SCOPE_LEVEL::CALLER_SCOPE, varName);
         } else {
-            Error(_W("Argument #1 : 'global', 'base', 'local' or 'caller' expected."));
+            raiseError(
+                L"Nelson:memory_manager:ERROR_ARGUMENT_1_GLOBAL_BASE_LOCAL_OR_CALLER_EXPECTED",
+                ERROR_ARGUMENT_1_GLOBAL_BASE_LOCAL_OR_CALLER_EXPECTED);
         }
         retval << ArrayOf::logicalConstructor(res);
     }

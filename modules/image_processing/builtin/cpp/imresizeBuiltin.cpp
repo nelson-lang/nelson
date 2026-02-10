@@ -11,6 +11,7 @@
 #include "InputOutputArgumentsCheckers.hpp"
 #include "i18n.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ImageResize.hpp"
 #include <string>
 #include <algorithm>
@@ -34,7 +35,8 @@ imresizeBuiltin(int nLhs, const ArrayOfVector& argIn)
     // First argument must be the image
     ArrayOf image = argIn[0];
     if (!image.isNumeric() && !image.isLogical()) {
-        Error(_W("First argument must be a numeric or logical array representing an image."));
+        raiseError(L"Nelson:image_processing:ERROR_FIRST_ARG_IMAGE_NUMERIC_OR_LOGICAL",
+            ERROR_FIRST_ARG_IMAGE_NUMERIC_OR_LOGICAL);
     }
 
     // Check if this is an indexed image (second argument is colormap)
@@ -57,7 +59,8 @@ imresizeBuiltin(int nLhs, const ArrayOfVector& argIn)
     size_t scaleParamIndex = isIndexedImage ? 2 : 1;
 
     if (argIn.size() <= scaleParamIndex) {
-        Error(_W("Scale factor or output size must be provided."));
+        raiseError(L"Nelson:image_processing:ERROR_SCALE_FACTOR_OR_OUTPUT_SIZE_MUST_BE_PROVIDED",
+            ERROR_SCALE_FACTOR_OR_OUTPUT_SIZE_MUST_BE_PROVIDED);
     }
 
     ArrayOf scaleOrSize = argIn[scaleParamIndex];
@@ -84,11 +87,13 @@ imresizeBuiltin(int nLhs, const ArrayOfVector& argIn)
     size_t paramEnd = hasMethodAsLastArg ? lastArgIndex : argIn.size();
     for (size_t i = scaleParamIndex + 1; i < paramEnd; i += 2) {
         if (i + 1 >= paramEnd) {
-            Error(_W("Parameter-value pairs must be complete."));
+            raiseError(L"Nelson:image_processing:ERROR_PARAMETER_VALUE_PAIRS_MUST_BE_COMPLETE",
+                ERROR_PARAMETER_VALUE_PAIRS_MUST_BE_COMPLETE);
         }
 
         if (!argIn[i].isRowVectorCharacterArray() && !argIn[i].isScalarStringArray()) {
-            Error(_W("Parameter names must be strings."));
+            raiseError(L"Nelson:image_processing:ERROR_PARAMETER_NAMES_MUST_BE_STRINGS",
+                ERROR_PARAMETER_NAMES_MUST_BE_STRINGS);
         }
 
         std::wstring paramName = argIn[i].getContentAsWideString();
@@ -104,26 +109,33 @@ imresizeBuiltin(int nLhs, const ArrayOfVector& argIn)
                 options.antialiasing
                     = antialiasingValue ? ResizeAntialiasing::On : ResizeAntialiasing::Off;
             } else {
-                Error(_W("Antialiasing parameter must be a logical value or string."));
+                raiseError(
+                    L"Nelson:image_processing:ERROR_ANTIALIASING_PARAM_MUST_BE_LOGICAL_OR_STRING",
+                    ERROR_ANTIALIASING_PARAM_MUST_BE_LOGICAL_OR_STRING);
             }
         } else if (paramName == L"colormap" && isIndexedImage) {
             if (!paramValue.isRowVectorCharacterArray() && !paramValue.isScalarStringArray()) {
-                Error(_W("Colormap parameter must be a string ('optimized' or 'original')."));
+                raiseError(L"Nelson:image_processing:ERROR_COLORMAP_PARAM_MUST_BE_STRING",
+                    ERROR_COLORMAP_PARAM_MUST_BE_STRING);
             }
             std::wstring colormapMode = paramValue.getContentAsWideString();
             std::transform(
                 colormapMode.begin(), colormapMode.end(), colormapMode.begin(), ::towlower);
             if (colormapMode != L"optimized" && colormapMode != L"original") {
-                Error(_W("Colormap parameter must be 'optimized' or 'original'."));
+                raiseError(
+                    L"Nelson:image_processing:ERROR_COLORMAP_PARAM_MUST_BE_OPTIMIZED_OR_ORIGINAL",
+                    ERROR_COLORMAP_PARAM_MUST_BE_OPTIMIZED_OR_ORIGINAL);
             }
             options.colormapMode = colormapMode;
         } else if (paramName == L"dither" && isIndexedImage) {
             if (!paramValue.isLogical() && !paramValue.isNumeric()) {
-                Error(_W("Dither parameter must be a logical value."));
+                raiseError(L"Nelson:image_processing:ERROR_DITHER_PARAM_MUST_BE_LOGICAL",
+                    ERROR_DITHER_PARAM_MUST_BE_LOGICAL);
             }
             options.dither = paramValue.getContentAsLogicalScalar();
         } else {
-            Error(_W("Unknown parameter: ") + paramName);
+            raiseError(L"Nelson:image_processing:ERROR_UNKNOWN_PARAMETER", ERROR_UNKNOWN_PARAMETER,
+                paramName);
         }
     }
 
@@ -150,7 +162,8 @@ imresizeBuiltin(int nLhs, const ArrayOfVector& argIn)
             // Single scale factor
             double scale = scaleOrSize.getContentAsDoubleScalar();
             if (scale <= 0.0) {
-                Error(_W("Scale factor must be positive."));
+                raiseError(L"Nelson:image_processing:ERROR_SCALE_FACTOR_MUST_BE_POSITIVE",
+                    ERROR_SCALE_FACTOR_MUST_BE_POSITIVE);
             }
 
             if (isIndexedImage) {
@@ -172,7 +185,8 @@ imresizeBuiltin(int nLhs, const ArrayOfVector& argIn)
             bool isNaN2 = std::isnan(scaleData[1]);
 
             if (isNaN1 && isNaN2) {
-                Error(_W("At least one output dimension must be specified (not NaN)."));
+                raiseError(L"Nelson:image_processing:ERROR_AT_LEAST_ONE_OUTPUT_DIMENSION_SPECIFIED",
+                    ERROR_AT_LEAST_ONE_OUTPUT_DIMENSION_SPECIFIED);
             }
 
             Dimensions imageDims = image.getDimensions();
@@ -204,10 +218,13 @@ imresizeBuiltin(int nLhs, const ArrayOfVector& argIn)
                 retval.push_back(resizedImage);
             }
         } else {
-            Error(_W("Scale parameter must be a scalar or 2-element vector."));
+            raiseError(
+                L"Nelson:image_processing:ERROR_SCALE_PARAMETER_MUST_BE_SCALAR_OR_2_ELEMENT_VECTOR",
+                ERROR_SCALE_PARAMETER_MUST_BE_SCALAR_OR_2_ELEMENT_VECTOR);
         }
     } else {
-        Error(_W("Scale parameter must be numeric."));
+        raiseError(L"Nelson:image_processing:ERROR_SCALE_PARAMETER_MUST_BE_NUMERIC",
+            ERROR_SCALE_PARAMETER_MUST_BE_NUMERIC);
     }
 
     return retval;
@@ -233,7 +250,8 @@ parseInterpolationMethod(const std::wstring& method)
     } else if (lowerMethod == L"lanczos3") {
         return ResizeInterpolationMethod::Lanczos3;
     }
-    Error(_W("Unknown interpolation method: ") + method);
+    raiseError(L"Nelson:image_processing:ERROR_UNKNOWN_INTERPOLATION_METHOD",
+        ERROR_UNKNOWN_INTERPOLATION_METHOD, method);
     return ResizeInterpolationMethod::Nearest;
 }
 //=============================================================================
@@ -250,7 +268,8 @@ parseAntialiasing(const std::wstring& antialiasing)
     } else if (lowerAntialiasing == L"false" || lowerAntialiasing == L"off") {
         return ResizeAntialiasing::Off;
     }
-    Error(_W("Antialiasing must be 'true', 'false', 'on', or 'off'."));
+    raiseError(L"Nelson:image_processing:ERROR_ANTIALIASING_MUST_BE_TRUE_FALSE_ON_OFF",
+        ERROR_ANTIALIASING_MUST_BE_TRUE_FALSE_ON_OFF);
     return ResizeAntialiasing::Off;
 }
 //=============================================================================

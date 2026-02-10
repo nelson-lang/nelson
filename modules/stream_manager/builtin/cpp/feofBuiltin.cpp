@@ -25,12 +25,13 @@ Nelson::StreamGateway::feofBuiltin(int nLhs, const ArrayOfVector& argIn)
     FilesManager* fm
         = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
-        Error(_W("Problem with file manager."));
+        raiseError(L"Nelson:stream_manager:ERROR_PROBLEM_WITH_FILE_MANAGER",
+            ERROR_PROBLEM_WITH_FILE_MANAGER);
     }
     ArrayOf param1 = argIn[0];
     int32 iValue = static_cast<int32>(param1.getContentAsDoubleScalar(false));
     if (!fm->isOpened(iValue)) {
-        Error(_W("Invalid file identifier."));
+        raiseError(L"Nelson:stream_manager:ERROR_INVALID_FILEID", ERROR_INVALID_FILEID);
     }
     FILE* fileptr = static_cast<FILE*>(fm->getFilePointer(iValue));
     retval << ArrayOf::doubleConstructor(feof(fileptr));

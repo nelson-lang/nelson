@@ -15,6 +15,7 @@
 #include "GCD.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "IEEEFP.hpp"
 //=============================================================================
 namespace Nelson {
@@ -158,7 +159,8 @@ GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     Dimensions dimsB = B.getDimensions();
     bool supportedDimensions = dimsA.equals(dimsB) || dimsA.isScalar() || dimsB.isScalar();
     if (!supportedDimensions) {
-        Error(_W("Inputs must be the same size."));
+        raiseError(L"Nelson:special_functions:ERROR_INPUTS_MUST_BE_THE_SAME_SIZE",
+            ERROR_INPUTS_MUST_BE_THE_SAME_SIZE);
     }
     switch (A.getDataClass()) {
     case NLS_LOGICAL: {
@@ -297,7 +299,8 @@ GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         bool isIntegerA = IsIntegerForm(ptrA, dimsA.getElementCount()) || A.isEmpty();
         bool isIntegerB = IsIntegerForm(ptrB, dimsB.getElementCount()) || B.isEmpty();
         if (!isIntegerA || !isIntegerB) {
-            Error(_W("Inputs must be real integers."));
+            raiseError(L"Nelson:special_functions:ERROR_INPUTS_MUST_BE_REAL_INTEGERS",
+                ERROR_INPUTS_MUST_BE_REAL_INTEGERS);
         }
         if (dimsA.equals(dimsB)) {
             res = realGCD<single>(NLS_SINGLE, ptrA, ptrB, dimsA);
@@ -315,7 +318,8 @@ GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         bool isIntegerA = IsIntegerForm(ptrA, dimsA.getElementCount()) || A.isEmpty();
         bool isIntegerB = IsIntegerForm(ptrB, dimsB.getElementCount()) || B.isEmpty();
         if (!isIntegerA || !isIntegerB) {
-            Error(_W("Inputs must be real integers."));
+            raiseError(L"Nelson:special_functions:ERROR_INPUTS_MUST_BE_REAL_INTEGERS",
+                ERROR_INPUTS_MUST_BE_REAL_INTEGERS);
         }
         if (dimsA.equals(dimsB)) {
             res = realGCD<double>(NLS_DOUBLE, ptrA, ptrB, dimsA);
@@ -329,7 +333,8 @@ GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     } break;
     case NLS_SCOMPLEX:
     case NLS_DCOMPLEX: {
-        Error(_W("Inputs must be real integers."));
+        raiseError(L"Nelson:special_functions:ERROR_INPUTS_MUST_BE_REAL_INTEGERS",
+            ERROR_INPUTS_MUST_BE_REAL_INTEGERS);
     } break;
     default: {
         needToOverload = true;

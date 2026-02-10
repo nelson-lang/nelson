@@ -24,10 +24,11 @@
 #define YYSTYPE Nelson::ParseRHS
 //=============================================================================
 #include "AbstractSyntaxTree.hpp"
+#include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "characters_encoding.hpp"
 #include "Exception.hpp"
-#include "Error.hpp"
 #include "FileParser.hpp"
 #include "Keywords.hpp"
 #include "LexerInterface.hpp"
@@ -78,7 +79,7 @@ LexerException(LexerContext& lexerContext, const std::string& msg)
         }
     }
 
-    Error(error_message, "Nelson:Lexer");
+    Error(utf8_to_wstring(error_message), L"Nelson:interpreter:Lexer");
 }
 //=============================================================================
 inline void
@@ -419,7 +420,8 @@ testSpecialFuncs(LexerContext& lexerContext)
 
     // Error handling if the keyword length exceeds the max length
     if (keyword.length() > IDENTIFIER_LENGTH_MAX) {
-        Error(_("Maximum name length exceeded."), "Nelson:namelengthmaxexceeded");
+        raiseError(L"Nelson:interpreter:ERROR_MAXIMUM_NAME_LENGTH_EXCEEDED",
+            ERROR_MAXIMUM_NAME_LENGTH_EXCEEDED);
     }
     return false;
 }

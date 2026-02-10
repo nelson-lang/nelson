@@ -35,7 +35,7 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     nargincheck(argIn, 1);
     std::wstring paramFilename = argIn[0].getContentAsWideString();
     if (paramFilename.empty()) {
-        Error(_W("Filename is empty"));
+        raiseError(L"Nelson:stream_manager:ERROR_FILENAME_IS_EMPTY", ERROR_FILENAME_IS_EMPTY);
     }
     wstringVector names;
     bool forceAsMat = false;
@@ -49,13 +49,15 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             } else if (param == L"-nh5" && !forceAsMat) {
                 forceAsNh5 = true;
             } else {
-                Error(_W("Valid option expected."));
+                raiseError(L"Nelson:stream_manager:ERROR_VALID_OPTION_EXPECTED",
+                    ERROR_VALID_OPTION_EXPECTED);
             }
         } else {
             if (IsValidVariableName(param)) {
                 names.push_back(param);
             } else {
-                Error(_W("Valid variable name expected."));
+                raiseError(L"Nelson:stream_manager:ERROR_VALID_VARIABLE_NAME_EXPECTED",
+                    ERROR_VALID_VARIABLE_NAME_EXPECTED);
             }
         }
     }
@@ -68,7 +70,7 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         }
     }
     if (!fileExistPreviously) {
-        Error(_W("File does not exist."));
+        raiseError(L"Nelson:stream_manager:ERROR_FILE_DOES_NOT_EXIST", ERROR_FILE_DOES_NOT_EXIST);
     }
 
     std::string loadFunctionName;
@@ -122,7 +124,8 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     FunctionDef* funcDef = nullptr;
     if (!PathFunctionIndexerManager::getInstance()->find(loadFunctionName, funcDef)) {
         if (!BuiltInFunctionDefManager::getInstance()->find(loadFunctionName, funcDef)) {
-            Error(_W("load function expected."));
+            raiseError(L"Nelson:stream_manager:ERROR_LOAD_FUNCTION_EXPECTED",
+                ERROR_LOAD_FUNCTION_EXPECTED);
         }
     }
     ArrayOfVector inputArguments;

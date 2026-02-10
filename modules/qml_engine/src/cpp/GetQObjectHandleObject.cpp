@@ -26,12 +26,14 @@ GetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName)
     ArrayOf res;
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        Error(_W("QObject handle expected."));
+        raiseError(
+            L"Nelson:qml_engine:ERROR_QOBJECT_HANDLE_EXPECTED", ERROR_QOBJECT_HANDLE_EXPECTED);
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        Error(_W("QObject valid handle expected."));
+        raiseError(L"Nelson:qml_engine:ERROR_QOBJECT_VALID_HANDLE_EXPECTED",
+            ERROR_QOBJECT_VALID_HANDLE_EXPECTED);
     }
     QObject* qobj = (QObject*)ptr;
     if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
@@ -46,12 +48,13 @@ GetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName)
                     qmlHandle = new QObjectHandleObject(qparent);
                 } catch (const std::bad_alloc&) {
                     qmlHandle = nullptr;
-                    Error(ERROR_MEMORY_ALLOCATION);
+                    raiseError(
+                        L"Nelson:qml_engine:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
                 }
                 res = ArrayOf::handleConstructor(qmlHandle);
             }
         } else {
-            Error(_W("No parent."));
+            raiseError(L"Nelson:qml_engine:ERROR_NO_PARENT", ERROR_NO_PARENT);
         }
     } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR)) {
         std::string name = std::string(qobj->metaObject()->className());
@@ -78,7 +81,8 @@ GetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName)
                         qmlHandle = new QObjectHandleObject(childs[k]);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        Error(ERROR_MEMORY_ALLOCATION);
+                        raiseError(
+                            L"Nelson:qml_engine:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
                     }
                     nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }

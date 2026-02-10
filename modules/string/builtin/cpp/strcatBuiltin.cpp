@@ -45,8 +45,8 @@ Nelson::StringGateway::strcatBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if (inputElement.isEmpty()) {
             theInput = ArrayOf::characterArrayConstructor(L"");
         } else if (!theInput.isCharacterArray() && !theInput.isCell()) {
-            Error(_W("All inputs must be strings, character vectors, or cell arrays of character "
-                     "vectors."));
+            raiseError(L"Nelson:string:ERROR_ALL_INPUTS_MUST_BE_STRINGS",
+                ERROR_ALL_INPUTS_MUST_BE_STRINGS);
         }
     }
     if (!containsStringInput && !containsCellOrStringInput) {
@@ -72,8 +72,9 @@ Nelson::StringGateway::strcatBuiltin(int nLhs, const ArrayOfVector& argIn)
                 if (!theInput.isCharacterArray() && !theInput.isScalar()) {
                     Dimensions dims = theInput.getDimensions();
                     if (!dims.equals(dimsOutput)) {
-                        Error(_W(
-                            "All string and cell array inputs must be the same size or scalars."));
+                        raiseError(L"Nelson:string:ERROR_ALL_STRING_AND_CELL_INPUTS_MUST_BE_SAME_"
+                                   L"SIZE_OR_SCALARS",
+                            ERROR_ALL_STRING_AND_CELL_INPUTS_MUST_BE_SAME_SIZE_OR_SCALARS);
                     }
                 }
             }
@@ -126,19 +127,21 @@ Nelson::StringGateway::strcatBuiltin(int nLhs, const ArrayOfVector& argIn)
                             } else if (c.isEmpty()) {
                                 vstr.push_back(L"");
                             } else {
-                                Error(_W("Cell of strings expected."));
+                                raiseError(L"Nelson:string:ERROR_CELL_OF_STRINGS_EXPECTED",
+                                    ERROR_CELL_OF_STRINGS_EXPECTED);
                             }
                         } else if (c.isEmpty()) {
                             vstr.push_back(L"");
                         } else {
-                            Error(_W("Cell of strings expected."));
+                            raiseError(L"Nelson:string:ERROR_CELL_OF_STRINGS_EXPECTED",
+                                ERROR_CELL_OF_STRINGS_EXPECTED);
                         }
                     }
                 }
                 vectorOfStringVector.push_back(vstr);
             } else {
-                Error(_W("All inputs must be strings, character vectors, or cell arrays of "
-                         "character vectors."));
+                raiseError(L"Nelson:string:ERROR_ALL_INPUTS_MUST_BE_STRINGS",
+                    ERROR_ALL_INPUTS_MUST_BE_STRINGS);
             }
         }
 

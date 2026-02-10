@@ -16,6 +16,8 @@
 #include <Eigen/Dense>
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,8 +29,9 @@ TraceMatrix(const ArrayOf& A)
               || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
-        Error(_("Undefined function 'trace' for input arguments of type") + " '" + ClassName(A)
-            + "'.");
+        raiseError(L"Nelson:linear_algebra:ERROR_UNDEFINED_FUNCTION_FOR_INPUT_ARGUMENTS_OF_TYPE",
+            ERROR_UNDEFINED_FUNCTION_FOR_INPUT_ARGUMENTS_OF_TYPE, L"trace",
+            utf8_to_wstring(ClassName(A)));
     }
     if (A.isEmpty()) {
         return ArrayOf::doubleConstructor(0);
@@ -41,7 +44,7 @@ TraceMatrix(const ArrayOf& A)
             return ArrayOf::doubleConstructor(res);
         } // NLS_DCOMPLEX
 
-        auto* Az = reinterpret_cast<doublecomplex*>((single*)A.getDataPointer());
+        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
         Eigen::Map<Eigen::MatrixXcd> matA(
             Az, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
         doublecomplex res = matA.trace();

@@ -10,6 +10,7 @@
 #include "MPI_FinalizeBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include <mpi.h>
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -24,7 +25,7 @@ Nelson::MpiGateway::MPI_FinalizeBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(_W("MPI must be initialized."));
+        raiseError(L"Nelson:mpi:ERROR_MPI_MUST_BE_INITIALIZED", ERROR_MPI_MUST_BE_INITIALIZED);
     }
     int flag = MPI_Finalize();
     retval << ArrayOf::logicalConstructor(flag);

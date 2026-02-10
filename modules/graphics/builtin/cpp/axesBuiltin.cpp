@@ -15,6 +15,7 @@
 #include "GOHelpers.hpp"
 #include "GORoot.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GraphicsObject.hpp"
@@ -59,7 +60,9 @@ axesBuiltin(int nLhs, const ArrayOfVector& argIn)
         int64 handle = (unsigned int)argIn[0].getContentAsGraphicsObjectScalar();
         GraphicsObject* hp = getGraphicsObjectFromGraphicHandle(handle);
         if (!hp->isType(GO_PROPERTY_VALUE_FIGURE_STR)) {
-            Error(_("Single argument to axes function must be handle for a figure."));
+            raiseError(L"Nelson:graphics:ERROR_SINGLE_ARGUMENT_TO_AXES_FUNCTION_MUST_BE_HANDLE_FOR_"
+                       L"A_FIGURE",
+                ERROR_SINGLE_ARGUMENT_TO_AXES_FUNCTION_MUST_BE_HANDLE_FOR_A_FIGURE);
         }
         t.pop_front();
         currentFigureID = handle;
@@ -208,8 +211,9 @@ activateOrCreateAxesFromHandle(int nLhs, const ArrayOfVector& argIn)
             // Create new axes for this figure
             GOFigure* fig = dynamic_cast<GOFigure*>(hp);
             if (!fig) {
-                Error(_("Failed to cast GraphicsObject to GOFigure."));
-                return ArrayOfVector(); // Return an empty result or handle the error appropriately.
+                raiseError(L"Nelson:graphics:ERROR_FAILED_TO_CAST_GRAPHICSOBJECT_TO_GOFIGURE",
+                    ERROR_FAILED_TO_CAST_GRAPHICSOBJECT_TO_GOFIGURE);
+                return ArrayOfVector();
             }
             ArrayOfVector t = setupVector2DProperties();
             int64 newHandle = createNewAxes(fig, handle, t, true);
@@ -220,7 +224,9 @@ activateOrCreateAxesFromHandle(int nLhs, const ArrayOfVector& argIn)
     }
 
     if (!hp->isType(GO_PROPERTY_VALUE_AXES_STR)) {
-        Error(_("Single argument to axes function must be handle for an axes."));
+        raiseError(
+            L"Nelson:graphics:ERROR_SINGLE_ARGUMENT_TO_AXES_FUNCTION_MUST_BE_HANDLE_FOR_AN_AXES",
+            ERROR_SINGLE_ARGUMENT_TO_AXES_FUNCTION_MUST_BE_HANDLE_FOR_AN_AXES);
     }
 
     GOFigure* fig = hp->getParentFigure();

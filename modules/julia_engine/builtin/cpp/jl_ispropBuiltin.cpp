@@ -9,6 +9,7 @@
 //=============================================================================
 #include "jl_ispropBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -20,7 +21,7 @@ Nelson::Julia_engineGateway::jl_ispropBuiltin(int nLhs, const ArrayOfVector& arg
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != NLS_HANDLE_JULIA_CATEGORY_STR) {
-        Error(_W("Julia object expected."));
+        raiseError(L"Nelson:julia_engine:ERROR_JULIA_OBJECT_EXPECTED", ERROR_JULIA_OBJECT_EXPECTED);
     }
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();

@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "issymmetricBuiltin.hpp"
-#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "OverloadRequired.hpp"
 #include "IsSymmetric.hpp"
@@ -37,13 +37,15 @@ Nelson::LinearAlgebraGateway::issymmetricBuiltin(int nLhs, const ArrayOfVector& 
                     skew = false;
                 }
             } else {
-                Error(_W("Second input must be 'skew' or 'nonskew'."));
+                raiseError(L"Nelson:linear_algebra:ERROR_SECOND_INPUT_MUST_BE_SKEW_OR_NONSKEW",
+                    ERROR_SECOND_INPUT_MUST_BE_SKEW_OR_NONSKEW);
             }
         } else {
             withTol = true;
             tol = param2.getContentAsDoubleScalar();
             if (!std::isfinite(tol) || tol < 0.) {
-                Error(_W("Second input must be finite and >= 0."));
+                raiseError(L"Nelson:linear_algebra:ERROR_SECOND_INPUT_MUST_BE_FINITE_AND_0",
+                    ERROR_SECOND_INPUT_MUST_BE_FINITE_AND_0);
             }
         }
     }

@@ -27,7 +27,7 @@ Nelson::MpiGateway::MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(_W("MPI must be initialized."));
+        raiseError(L"Nelson:mpi:ERROR_MPI_MUST_BE_INITIALIZED", ERROR_MPI_MUST_BE_INITIALIZED);
     }
     ArrayOf A = argIn[0];
     ArrayOf tmp = argIn[1];
@@ -50,7 +50,7 @@ Nelson::MpiGateway::MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn)
             free(cp);
             retval << A;
         } else {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:mpi:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     } else {
         int msgsize = 0;
@@ -62,7 +62,7 @@ Nelson::MpiGateway::MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn)
             retval << unpackMPI(cp, msgsize, &packpos, comm);
             free(cp);
         } else {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:mpi:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     }
     return retval;

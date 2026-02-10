@@ -10,6 +10,7 @@
 #include "dbstepBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -48,22 +49,24 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             } else if (modeStr == _W("out")) {
                 mode = Out;
             } else {
-                Error(_W("Invalid string argument for dbstep. Expected 'in' or 'out'."));
+                raiseError(L"Nelson:debugger:ERROR_INVALID_STRING_ARGUMENT_FOR_DBSTEP",
+                    ERROR_INVALID_STRING_ARGUMENT_FOR_DBSTEP);
             }
         } else {
-            Error(_W("Invalid argument type for dbstep. Expected numeric or string."));
+            raiseError(L"Nelson:debugger:ERROR_INVALID_ARG_TYPE_FOR_DBSTEP",
+                ERROR_INVALID_ARG_TYPE_FOR_DBSTEP);
         }
     }
 
     if (!eval->isBreakpointActive()) {
-        Error(_W("Debugger is not active."));
+        raiseError(L"Nelson:debugger:ERROR_DEBUGGER_NOT_ACTIVE", ERROR_DEBUGGER_NOT_ACTIVE);
     }
     if (!(eval->stepBreakpoint.has_value())) {
         // If no step breakpoint is set but we're active, we might be at a persistent
         // user breakpoint that wasn't properly matched. Try to create one from current context.
         // If that also fails, then the script has truly finished.
         eval->bpActive = false;
-        Error(_W("No step breakpoint is set."));
+        raiseError(L"Nelson:debugger:ERROR_NO_STEP_BREAKPOINT_SET", ERROR_NO_STEP_BREAKPOINT_SET);
     }
 
     eval->stepMode = true;
@@ -116,7 +119,7 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         }
     } break;
     default: {
-        Error(_W("Unknown mode for dbstep."));
+        raiseError(L"Nelson:debugger:ERROR_UNKNOWN_MODE_FOR_DBSTEP", ERROR_UNKNOWN_MODE_FOR_DBSTEP);
     }
     }
 

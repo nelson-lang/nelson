@@ -335,15 +335,15 @@ MacroFunctionDef::updateCode()
     if (pstate == ParserState::ParseError) {
         AbstractSyntaxTree::deleteReferences(ptAstCode);
         AbstractSyntaxTree::clearReferences();
-        Error(_W("a valid function definition expected.") + std::wstring(L"\n")
-            + this->getFilename());
+        raiseError(L"Nelson:interpreter:ERROR_A_VALID_FUNCTION_DEFINITION_EXPECTED_WITH_NAME",
+            ERROR_A_VALID_FUNCTION_DEFINITION_EXPECTED_WITH_NAME, this->getFilename());
     }
 
     try {
         assignParsedResult(pstate);
     } catch (const Exception&) {
-        Error(_W("a valid function definition expected.") + std::wstring(L"\n")
-            + this->getFilename());
+        raiseError(L"Nelson:interpreter:ERROR_A_VALID_FUNCTION_DEFINITION_EXPECTED_WITH_NAME",
+            ERROR_A_VALID_FUNCTION_DEFINITION_EXPECTED_WITH_NAME, this->getFilename());
     }
 
     this->ptrAstCodeAsVector = std::move(ptAstCode);
@@ -385,7 +385,8 @@ MacroFunctionDef::bindInputs(Context* context, const ArrayOfVector& inputs)
 {
     if (inputArgCount() != -1) {
         if (inputs.size() > arguments.size()) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            raiseError(L"Nelson:interpreter:ERROR_WRONG_NUMBERS_INPUT_ARGS",
+                ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
         size_t minCount = (inputs.size() < arguments.size()) ? inputs.size() : arguments.size();
         for (size_t i = 0; i < minCount; i++) {
@@ -400,7 +401,8 @@ MacroFunctionDef::bindInputs(Context* context, const ArrayOfVector& inputs)
             nbArgumentsWithoutVarArgIn = nbArgumentsWithoutVarArgIn - 1;
         }
         if (inputCount < nbArgumentsWithoutVarArgIn) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            raiseError(L"Nelson:interpreter:ERROR_WRONG_NUMBERS_INPUT_ARGS",
+                ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
         context->getCurrentScope()->setNargIn(static_cast<int>(inputCount));
         int explicitCount = static_cast<int>(arguments.size()) - 1;
@@ -449,14 +451,18 @@ MacroFunctionDef::prepareOutputs(Context* context, int nargout)
         bool haveVarargout = context->lookupVariableLocally("varargout", varargout);
         if (haveVarargout) {
             if (varargout.getDataClass() != NLS_CELL_ARRAY) {
-                Error(_W("The special variable 'varargout' was not defined as a cell-array."));
+                raiseError(L"Nelson:interpreter:ERROR_THE_SPECIAL_VARIABLE_VARARGOUT_WAS_NOT_"
+                           L"DEFINED_AS_A_CELL_ARRAY",
+                    ERROR_THE_SPECIAL_VARIABLE_VARARGOUT_WAS_NOT_DEFINED_AS_A_CELL_ARRAY);
             }
         }
         indexType varlen = varargout.getElementCount();
         int explicitCount = static_cast<int>(returnVals.size()) - 1;
         bool noArgs = (explicitCount == 0 && varlen == 0);
         if (!noArgs && !haveVarargout) {
-            Error(_W("The special variable 'varargout' was not defined as expected."));
+            raiseError(L"Nelson:interpreter:ERROR_THE_SPECIAL_VARIABLE_VARARGOUT_WAS_NOT_DEFINED_"
+                       L"AS_EXPECTED",
+                ERROR_THE_SPECIAL_VARIABLE_VARARGOUT_WAS_NOT_DEFINED_AS_EXPECTED);
         }
         if (explicitCount == 0 && varlen > 0 && nargout < 2) {
             indexType toFill = 1;
@@ -464,7 +470,9 @@ MacroFunctionDef::prepareOutputs(Context* context, int nargout)
             const ArrayOf* dp = (static_cast<const ArrayOf*>(varargout.getDataPointer()));
             if (static_cast<indexType>(toFill)
                 > static_cast<indexType>(varargout.getElementCount())) {
-                Error(_W("Not enough outputs in varargout to satisfy call."));
+                raiseError(
+                    L"Nelson:interpreter:ERROR_NOT_ENOUGH_OUTPUTS_IN_VARARGOUT_TO_SATISFY_CALL",
+                    ERROR_NOT_ENOUGH_OUTPUTS_IN_VARARGOUT_TO_SATISFY_CALL);
             }
             outputs[0] = dp[0];
             outputs[0].name("");
@@ -486,7 +494,9 @@ MacroFunctionDef::prepareOutputs(Context* context, int nargout)
                 const ArrayOf* dp = (static_cast<const ArrayOf*>(varargout.getDataPointer()));
                 int toFill = nargout - explicitCount;
                 if (static_cast<double>(toFill) > static_cast<double>(varlen)) {
-                    Error(_W("Not enough outputs in varargout to satisfy call."));
+                    raiseError(
+                        L"Nelson:interpreter:ERROR_NOT_ENOUGH_OUTPUTS_IN_VARARGOUT_TO_SATISFY_CALL",
+                        ERROR_NOT_ENOUGH_OUTPUTS_IN_VARARGOUT_TO_SATISFY_CALL);
                 }
                 for (int i = 0; i < toFill; i++) {
                     outputs[explicitCount + i] = dp[i];
@@ -522,8 +532,8 @@ MacroFunctionDef::openSourceFile()
         int errnum = errno;
         std::string msg1 = fmt::format(_("Value of errno: {0}"), errno);
         std::string msg2 = fmt::format(_("Error opening file: {0}"), strerror(errnum));
-        Error(_W("Cannot open:") + L" " + this->getFilename() + L"\n" + utf8_to_wstring(msg1)
-            + L"\n" + utf8_to_wstring(msg2));
+        raiseError(L"Nelson:interpreter:ERROR_CANNOT_OPEN_WITH_FILENAME",
+            ERROR_CANNOT_OPEN_WITH_FILENAME, this->getFilename());
     }
     return fr;
 }
@@ -644,9 +654,8 @@ MacroFunctionDef::validateFunctionNamesAndFilename()
     auto it = std::unique(functionNamesInFile.begin(), functionNamesInFile.end());
     bool isUnique = (it == functionNamesInFile.end());
     if (!isUnique) {
-        std::string msg
-            = fmt::format(_("Function '{0}' has already been declared within this scope."), *it);
-        Error(msg);
+        raiseError(
+            L"Nelson:interpreter:ERROR_FUNCTION_ALREADY_DECLARED", ERROR_FUNCTION_ALREADY_DECLARED);
     }
     FileSystemWrapper::Path pathFunction(this->getFilename());
     const std::string functionNameFromFile = pathFunction.stem().generic_string();
@@ -658,9 +667,9 @@ MacroFunctionDef::validateFunctionNamesAndFilename()
     }
     if ((this->getName() != functionNameFromFile) && (functionNameFromFile != "end")) {
         std::string name = this->getName();
-        std::string msg = fmt::format(
-            _("Filename and function name are not same ({0} vs {1})."), name, functionNameFromFile);
-        Error(msg);
+        raiseError(L"Nelson:interpreter:ERROR_FILENAME_FUNCTION_NAME_MISMATCH",
+            ERROR_FILENAME_FUNCTION_NAME_MISMATCH, utf8_to_wstring(name),
+            utf8_to_wstring(functionNameFromFile));
     }
 }
 //=============================================================================

@@ -19,6 +19,8 @@
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -221,10 +223,9 @@ IsSymmetric(const ArrayOf& A, bool skew, const std::string& functionName)
         res = IsSymmetricWithoutSkew(A, needToOverload);
     }
     if (needToOverload) {
-        std::string errorMessage
-            = fmt::format(_("Undefined function '{}' for input arguments of type '{}'"),
-                functionName, ClassName(A));
-        Error(errorMessage);
+        raiseError(L"Nelson:linear_algebra:ERROR_UNDEFINED_FUNCTION_FOR_INPUT_ARGUMENTS",
+            ERROR_UNDEFINED_FUNCTION_FOR_INPUT_ARGUMENTS, utf8_to_wstring(functionName),
+            utf8_to_wstring(ClassName(A)));
     }
     return res;
 }
@@ -281,10 +282,9 @@ IsSymmetric(const ArrayOf& A, double tol, const std::string& functionName)
     bool needToOverload;
     bool res = IsSymmetric(A, tol, needToOverload);
     if (needToOverload) {
-        std::string errorMessage
-            = fmt::format(_("Undefined function '{}' for input arguments of type '{}'"),
-                functionName, ClassName(A));
-        Error(errorMessage);
+        raiseError(L"Nelson:linear_algebra:ERROR_UNDEFINED_FUNCTION_FOR_INPUT_ARGUMENTS",
+            ERROR_UNDEFINED_FUNCTION_FOR_INPUT_ARGUMENTS, utf8_to_wstring(functionName),
+            utf8_to_wstring(ClassName(A)));
     }
     return res;
 }

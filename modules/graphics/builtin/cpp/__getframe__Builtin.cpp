@@ -12,6 +12,7 @@
 #include "GOHelpers.hpp"
 #include "GOFiguresManager.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "GetFrame.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -27,15 +28,17 @@ __getframe__Builtin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
 
     if (!argIn[0].isGraphicsObject()) {
-        Error(_W("Expected graphics object."));
+        raiseError(
+            L"Nelson:graphics:ERROR_EXPECTED_GRAPHICS_OBJECT", ERROR_EXPECTED_GRAPHICS_OBJECT);
     }
     nelson_handle* gobject = (nelson_handle*)(argIn[0].getDataPointer());
     if (isDeletedGraphicsObject(gobject[0])) {
-        Error(_W("Valid graphics object expected."));
+        raiseError(L"Nelson:graphics:ERROR_VALID_GRAPHICS_OBJECT_EXPECTED",
+            ERROR_VALID_GRAPHICS_OBJECT_EXPECTED);
     }
 
     if (gobject[0] == HANDLE_ROOT_OBJECT || gobject[0] >= HANDLE_OFFSET_OBJECT) {
-        Error("figure object expected.");
+        raiseError(L"Nelson:graphics:ERROR_FIGURE_OBJECT_EXPECTED", ERROR_FIGURE_OBJECT_EXPECTED);
     }
     GOWindow* goWindow = getFigure(gobject[0]);
     ArrayOfVector retval;

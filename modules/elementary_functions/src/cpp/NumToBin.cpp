@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "NumToBin.hpp"
 #include "Transpose.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -26,7 +27,8 @@ NumToBin(ArrayOf A, bool& needToOverload)
         return res;
     }
     if (A.isComplex()) {
-        Error(_W("First argument must be real."));
+        raiseError(L"Nelson:elementary_functions:ERROR_FIRST_ARGUMENT_MUST_BE_REAL",
+            ERROR_FIRST_ARGUMENT_MUST_BE_REAL);
     }
     if (A.isSparse()) {
         A.makeDense();

@@ -17,6 +17,7 @@
 #include "Error.hpp"
 #include "NewWithException.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -166,7 +167,8 @@ integer_mtimes(const ArrayOf& A, const ArrayOf& B)
             ptrC[k] = scalar_scalar_integer_times<T>(ptrA[k], ptrB[0]);
         }
     } else {
-        Error(_W("At least one input argument must be scalar."));
+        raiseError(L"Nelson:operators:ERROR_AT_LEAST_ONE_INPUT_ARGUMENT_MUST_BE_SCALAR",
+            ERROR_AT_LEAST_ONE_INPUT_ARGUMENT_MUST_BE_SCALAR);
     }
     return ArrayOf(A.getDataClass(), Cdim, Cp, false);
 }
@@ -287,7 +289,8 @@ T_mtimes_T(NelsonType realClass, NelsonType complexClass, const ArrayOf& A, cons
     Dimensions dimsB = B.getDimensions();
     bool withScalar = A.isScalar() || B.isScalar();
     if ((dimsA.getLength() > 2 || dimsB.getLength() > 2) && !withScalar) {
-        Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
+        raiseError(L"Nelson:operators:ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED",
+            ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     if (A.isEmpty() || B.isEmpty()) {
         dimsA.simplify();
@@ -327,13 +330,16 @@ T_mtimes_T(NelsonType realClass, NelsonType complexClass, const ArrayOf& A, cons
             res.promoteType(realClass);
             return res;
         }
-        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
+        raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+            ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"*");
     }
     if ((!A.is2D() || !B.is2D()) && !withScalar) {
-        Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
+        raiseError(L"Nelson:operators:ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED",
+            ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     if (isSizeMismatch(A, B)) {
-        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
+        raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+            ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"*");
     }
     if (A.isEmpty()) {
         size_t mA = dimsA.getRows();
@@ -343,7 +349,8 @@ T_mtimes_T(NelsonType realClass, NelsonType complexClass, const ArrayOf& A, cons
                 // [] * X returns []
                 return { B.getDataClass() };
             }
-            Error(_W("using operator '*' \n Matrix dimensions must agree."));
+            raiseError(L"Nelson:operators:ERROR_USING_OPERATOR_N_MATRIX_DIMENSIONS_MUST_AGREE",
+                ERROR_USING_OPERATOR_N_MATRIX_DIMENSIONS_MUST_AGREE);
         }
     }
     if (A.isComplex() || B.isComplex()) {
@@ -363,7 +370,8 @@ integer_mtimes_integer(const ArrayOf& A, const ArrayOf& B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getLength() > 2 || dimsB.getLength() > 2) {
-        Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
+        raiseError(L"Nelson:operators:ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED",
+            ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     if (A.isEmpty() || B.isEmpty()) {
         dimsA.simplify();
@@ -403,13 +411,16 @@ integer_mtimes_integer(const ArrayOf& A, const ArrayOf& B)
             res.promoteType(A.getDataClass());
             return res;
         }
-        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
+        raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+            ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"*");
     }
     if (!A.is2D() || !B.is2D()) {
-        Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
+        raiseError(L"Nelson:operators:ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED",
+            ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     if (isSizeMismatch(A, B)) {
-        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "*");
+        raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+            ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"*");
     }
     if (A.isEmpty()) {
         size_t mA = dimsA.getRows();
@@ -419,7 +430,8 @@ integer_mtimes_integer(const ArrayOf& A, const ArrayOf& B)
                 // [] * X returns []
                 return { B.getDataClass() };
             }
-            Error(_W("using operator '*' \n Matrix dimensions must agree."));
+            raiseError(L"Nelson:operators:ERROR_USING_OPERATOR_N_MATRIX_DIMENSIONS_MUST_AGREE",
+                ERROR_USING_OPERATOR_N_MATRIX_DIMENSIONS_MUST_AGREE);
         }
     }
     return integer_mtimes<T>(A, B);
@@ -471,11 +483,14 @@ matrixMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         if (A.isIntegerType()) {
             bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
             if (!isCompatible) {
-                Error(_W("Integers can only be combined with integers of the same class, or scalar "
-                         "doubles."));
+                raiseError(L"Nelson:operators:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OR_"
+                           L"SCALAR_DOUBLES",
+                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OR_SCALAR_DOUBLES);
             }
             if (B.isComplex()) {
-                Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
+                raiseError(
+                    L"Nelson:operators:ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR",
+                    ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR, L"*");
             }
             ArrayOf AA = A;
             AA.promoteType(B.getDataClass());
@@ -487,11 +502,14 @@ matrixMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         } else if (B.isIntegerType()) {
             bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
             if (!isCompatible) {
-                Error(_W("Integers can only be combined with integers of the same class, or scalar "
-                         "doubles."));
+                raiseError(L"Nelson:operators:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OR_"
+                           L"SCALAR_DOUBLES",
+                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OR_SCALAR_DOUBLES);
             }
             if (A.isComplex()) {
-                Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
+                raiseError(
+                    L"Nelson:operators:ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR",
+                    ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR, L"*");
             }
             ArrayOf BB = B;
             BB.promoteType(A.getDataClass());

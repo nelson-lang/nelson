@@ -69,11 +69,14 @@ DotRightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         if (A.isIntegerType()) {
             bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
             if (!isCompatible) {
-                Error(_W("Integers can only be combined with integers of the same class, or scalar "
-                         "doubles."));
+                raiseError(L"Nelson:operators:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OF_"
+                           L"THE_SAME_CLASS_OR_SCALAR",
+                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OF_THE_SAME_CLASS_OR_SCALAR);
             }
             if (B.isComplex()) {
-                Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
+                raiseError(
+                    L"Nelson:operators:ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR",
+                    ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR, L"*");
             }
             ArrayOf AA = A;
             AA.promoteType(B.getDataClass());
@@ -85,11 +88,14 @@ DotRightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         } else if (B.isIntegerType()) {
             bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
             if (!isCompatible) {
-                Error(_W("Integers can only be combined with integers of the same class, or scalar "
-                         "doubles."));
+                raiseError(L"Nelson:operators:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OF_"
+                           L"THE_SAME_CLASS_OR_SCALAR",
+                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OF_THE_SAME_CLASS_OR_SCALAR);
             }
             if (A.isComplex()) {
-                Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
+                raiseError(
+                    L"Nelson:operators:ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR",
+                    ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR, L"*");
             }
             ArrayOf BB = B;
             BB.promoteType(A.getDataClass());

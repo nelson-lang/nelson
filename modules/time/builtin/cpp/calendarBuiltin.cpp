@@ -49,19 +49,19 @@ Nelson::TimeGateway::calendarBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:time:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     if (cal == nullptr) {
-        Error(_W("Calendar not initialized."));
+        raiseError(L"Nelson:time:ERROR_CALENDAR_NOT_INITIALIZED", ERROR_CALENDAR_NOT_INITIALIZED);
     }
     if (cal->getYear() < 1400 || cal->getYear() > 9999) {
         delete cal;
-        Error(_W("Year value is wrong [1400, 9999] expected."));
+        raiseError(L"Nelson:time:ERROR_YEAR_VALUE_OUT_OF_RANGE", ERROR_YEAR_VALUE_OUT_OF_RANGE);
     }
     if (!(cal->getMonth() > 0 && cal->getMonth() < 13)) {
         delete cal;
-        Error(_W("Month value is wrong [1, 12] expected."));
+        raiseError(L"Nelson:time:ERROR_MONTH_VALUE_OUT_OF_RANGE", ERROR_MONTH_VALUE_OUT_OF_RANGE);
     }
     switch (nLhs) {
     case 0: {
@@ -80,7 +80,7 @@ Nelson::TimeGateway::calendarBuiltin(int nLhs, const ArrayOfVector& argIn)
     } break;
     default: {
         delete cal;
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError(L"Nelson:time:ERROR_WRONG_NUMBERS_OUTPUT_ARGS", ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     } break;
     }
     return retval;

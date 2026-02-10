@@ -11,6 +11,7 @@
 #include "Error.hpp"
 #include "RemoveDirectory.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,25 +27,28 @@ Nelson::FilesFoldersGateway::rmdirBuiltin(int nLhs, const ArrayOfVector& argIn)
             if ((arg2 == L"s") || (arg2 == L"S")) {
                 bbSubfolder = true;
             } else {
-                Error("'s' expected.");
+                raiseError(L"Nelson:files_folders_functions:ERROR_S_EXPECTED", ERROR_S_EXPECTED);
             }
         }
         std::wstring errorMessage;
         bool res = RemoveDirectory(arg1, bbSubfolder, errorMessage);
         if (nLhs == 0) {
             if (static_cast<int>(res) == false) {
-                Error(errorMessage);
+                Error(
+                    errorMessage, L"Nelson:files_folders_functions:ERROR_REMOVE_DIRECTORY_FAILED");
             }
         } else {
             retval << ArrayOf::logicalConstructor(res);
             if (nLhs > 1) {
                 retval << ArrayOf::characterArrayConstructor(errorMessage);
             } else {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
+                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         }
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_NUMBERS_INPUT_ARGS",
+            ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

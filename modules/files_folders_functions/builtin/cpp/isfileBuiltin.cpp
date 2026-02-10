@@ -29,7 +29,8 @@ Nelson::FilesFoldersGateway::isfileBuiltin(int nLhs, const ArrayOfVector& argIn)
         bool permissionDenied;
         bool bIsFile = FileSystemWrapper::Path::is_regular_file(wpath, permissionDenied);
         if (permissionDenied) {
-            Error(_W("Permission denied."));
+            raiseError(
+                L"Nelson:files_folders_functions:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
         }
         retval << ArrayOf::logicalConstructor(bIsFile);
     } else if (argIn[0].getDataClass() == NLS_CELL_ARRAY || argIn[0].isStringArray()) {
@@ -49,7 +50,8 @@ Nelson::FilesFoldersGateway::isfileBuiltin(int nLhs, const ArrayOfVector& argIn)
                     bool bIsFile = FileSystemWrapper::Path::is_regular_file(
                         arg[k].getContentAsWideString(), permissionDenied);
                     if (permissionDenied) {
-                        Error(_W("Permission denied."));
+                        raiseError(L"Nelson:files_folders_functions:ERROR_PERMISSION_DENIED",
+                            ERROR_PERMISSION_DENIED);
                     }
                     bmat[k] = static_cast<Nelson::logical>(bIsFile);
                 } else {

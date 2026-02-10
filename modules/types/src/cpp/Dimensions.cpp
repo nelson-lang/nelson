@@ -15,8 +15,9 @@
 #include <cstdlib>
 #include "Dimensions.hpp"
 #include "Error.hpp"
-#include "characters_encoding.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -28,12 +29,14 @@ Dimensions::Dimensions(const std::vector<indexType>& dimsVector)
 #ifndef NLS_INDEX_TYPE_64
     for (auto k : dimsVector) {
         if (k < 0) {
-            Error(_W("Illegal argument to Dimensions constructor"));
+            raiseError(L"Nelson:types:ERROR_ILLEGAL_ARGUMENT_TO_DIMENSIONS_CONSTRUCTOR",
+                ERROR_ILLEGAL_ARGUMENT_TO_DIMENSIONS_CONSTRUCTOR);
         }
     }
 #else
     if (szVector > maxDims) {
-        Error(_W("Illegal argument to Dimensions constructor"));
+        raiseError(L"Nelson:types:ERROR_ILLEGAL_ARGUMENT_TO_DIMENSIONS_CONSTRUCTOR",
+            ERROR_ILLEGAL_ARGUMENT_TO_DIMENSIONS_CONSTRUCTOR);
     }
 #endif
     reset();
@@ -55,7 +58,8 @@ Dimensions::Dimensions(indexType dimCount)
 {
 #ifndef NLS_INDEX_TYPE_64
     if (dimCount < 0) {
-        Error(_W("Illegal argument to Dimensions constructor"));
+        raiseError(L"Nelson:types:ERROR_ILLEGAL_ARGUMENT_TO_DIMENSIONS_CONSTRUCTOR",
+            ERROR_ILLEGAL_ARGUMENT_TO_DIMENSIONS_CONSTRUCTOR);
     }
 #endif
     reset();
@@ -87,8 +91,8 @@ indexType&
 Dimensions::operator[](indexType i)
 {
     if (i >= maxDims) {
-        Error(_("Too many dimensions! Current limit is") + " " + std::to_string(Nelson::maxDims)
-            + ".");
+        raiseError(L"Nelson:types:ERROR_TOO_MANY_DIMENSIONS_CURRENT_LIMIT",
+            ERROR_TOO_MANY_DIMENSIONS_CURRENT_LIMIT, std::to_wstring(Nelson::maxDims));
     }
     if (i >= length) {
         indexType new_length = i + 1;
@@ -104,12 +108,13 @@ indexType
 Dimensions::getAt(indexType i, bool checkLength) const
 {
     if (i >= maxDims) {
-        Error(_("Too many dimensions! Current limit is") + " " + std::to_string(Nelson::maxDims)
-            + ".");
+        raiseError(L"Nelson:types:ERROR_TOO_MANY_DIMENSIONS_CURRENT_LIMIT",
+            ERROR_TOO_MANY_DIMENSIONS_CURRENT_LIMIT, std::to_wstring(Nelson::maxDims));
     }
     if (checkLength) {
         if (i >= length) {
-            Error(_("Invalid dimension position."));
+            raiseError(
+                L"Nelson:types:ERROR_INVALID_DIMENSION_POSITION", ERROR_INVALID_DIMENSION_POSITION);
         }
     }
     return data[i];
@@ -182,14 +187,16 @@ Dimensions::mapPoint(const Dimensions& point)
     testableDims = (point.length < length) ? point.length : length;
     for (indexType i = 0; i < testableDims; i++) {
         if ((point.data[i] < 0) || (point.data[i] >= data[i])) {
-            Error(_W("Index exceeds dimensions."));
+            raiseError(
+                L"Nelson:types:ERROR_INDEX_EXCEEDS_DIMENSIONS", ERROR_INDEX_EXCEEDS_DIMENSIONS);
         }
         retval += nextCoeff * point.data[i];
         nextCoeff *= data[i];
     }
     for (indexType j = testableDims; j < point.length; j++) {
         if (point.data[j] != 0) {
-            Error(_W("Index exceeds dimensions."));
+            raiseError(
+                L"Nelson:types:ERROR_INDEX_EXCEEDS_DIMENSIONS", ERROR_INDEX_EXCEEDS_DIMENSIONS);
         }
     }
     return retval;

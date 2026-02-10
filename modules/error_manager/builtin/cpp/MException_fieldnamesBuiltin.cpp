@@ -12,6 +12,7 @@
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -25,7 +26,7 @@ Nelson::ErrorManagerGateway::MException_fieldnamesBuiltin(int nLhs, const ArrayO
     if (argIn[0].isClassType() && ClassName(argIn[0]) == "MException") {
         retval << ArrayOf::toCellArrayOfCharacterColumnVectors(argIn[0].getFieldNames());
     } else {
-        Error(_W("MException expected."));
+        raiseError(L"Nelson:error_manager:ERROR_MEXCEPTION_EXPECTED", ERROR_MEXCEPTION_EXPECTED);
     }
     return retval;
 }

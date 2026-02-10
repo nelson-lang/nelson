@@ -29,7 +29,7 @@ std::string
 ArrayOf::getClassType() const
 {
     if (dp->dataClass != NLS_CLASS_ARRAY) {
-        Error(ERROR_TYPE_CLASS_EXPECTED);
+        raiseError(L"Nelson:types:ERROR_TYPE_CLASS_EXPECTED", ERROR_TYPE_CLASS_EXPECTED);
     }
     return dp->getClassTypeName();
 }
@@ -44,7 +44,7 @@ void
 ArrayOf::setClassType(const std::string& classTypeName)
 {
     if (this->getDataClass() != NLS_CLASS_ARRAY) {
-        Error(ERROR_TYPE_CLASS_EXPECTED);
+        raiseError(L"Nelson:types:ERROR_TYPE_CLASS_EXPECTED", ERROR_TYPE_CLASS_EXPECTED);
     }
     dp->setClassTypeName(classTypeName);
 }
@@ -71,8 +71,8 @@ ArrayOf::classConstructor(
     ArrayOf* qp = nullptr;
     try {
         if (fNames.size() != values.size()) {
-            Error(
-                _W("Number of field names must match number of values in structure constructor."));
+            raiseError(L"Nelson:types:ERROR_NUMBER_OF_FIELD_NAMES_MUST_MATCH",
+                ERROR_NUMBER_OF_FIELD_NAMES_MUST_MATCH);
         }
         dims.reset();
         dims[0] = 1;
@@ -126,7 +126,7 @@ ArrayOf::emptyClassConstructor(
     const std::string& className, const stringVector& fNames, Dimensions& dim)
 {
     if (dim.getElementCount() != 0) {
-        Error(_W("Invalid dimensions."));
+        raiseError(L"Nelson:types:ERROR_INVALID_DIMENSIONS", ERROR_INVALID_DIMENSIONS);
     }
     ArrayOf* qp = (ArrayOf*)allocateArrayOf(NLS_CLASS_ARRAY, dim.getElementCount(), fNames, false);
     ArrayOf res = ArrayOf(NLS_CLASS_ARRAY, dim, qp, false, fNames);

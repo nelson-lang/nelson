@@ -32,7 +32,7 @@ TransposeSparseLogical(const ArrayOf& A)
                 spMatA->cols(), spMatA->rows());
         } catch (const std::bad_alloc&) {
             spMatC = nullptr;
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
         *spMatC = spMatA->transpose();
         Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());

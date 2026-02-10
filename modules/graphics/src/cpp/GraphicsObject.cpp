@@ -30,6 +30,7 @@
 #include "GOArrayOfProperty.hpp"
 #include "GOScalarPositiveIntegerValueProperty.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "ParallelSort.hpp"
 #include "StringHelpers.hpp"
@@ -113,7 +114,7 @@ GraphicsObject::findProperty(const std::wstring& name, bool raiseError)
             if (!proposedName.empty()) {
                 msg = msg + L"\n" + _W("Did you mean:") + L" " + proposedName;
             }
-            Error(msg);
+            Error(msg, L"Nelson:graphics:ERROR_PRINTF_ERROR");
         }
         hp = nullptr;
     }
@@ -280,7 +281,8 @@ GraphicsObject::setRestrictedStringScalarDefault(
     GORestrictedStringScalarProperty* hp
         = static_cast<GORestrictedStringScalarProperty*>(findProperty(name));
     if (!hp) {
-        Error(_W("Restricted string/scalar default failed lookup of: ") + L"<" + name + L">");
+        raiseError(L"Nelson:graphics:ERROR_RESTRICTED_STRING_SCALAR_DEFAULT_FAILED_LOOKUP_OF",
+            ERROR_RESTRICTED_STRING_SCALAR_DEFAULT_FAILED_LOOKUP_OF, name);
     }
     hp->data(value);
     hp->scalar(sval);
@@ -293,7 +295,8 @@ GraphicsObject::setRestrictedStringColorDefault(
     GORestrictedStringColorProperty* hp
         = static_cast<GORestrictedStringColorProperty*>(findProperty(name));
     if (!hp) {
-        Error(_W("Restricted string/color default failed lookup of: ") + L"<" + name + L">");
+        raiseError(L"Nelson:graphics:ERROR_RESTRICTED_STRING_COLOR_DEFAULT_FAILED_LOOKUP_OF",
+            ERROR_RESTRICTED_STRING_COLOR_DEFAULT_FAILED_LOOKUP_OF, name);
     }
     hp->data(value);
     hp->colorSpec(red, green, blue);
@@ -304,7 +307,9 @@ GraphicsObject::setRestrictedStringDefault(const std::wstring& name, const std::
 {
     GORestrictedStringProperty* hp = static_cast<GORestrictedStringProperty*>(findProperty(name));
     if (!hp) {
-        Error(_W("Set restricted string default failed lookup of: ") + L"<" + name + L">");
+        std::wstring msg
+            = ERROR_SET_RESTRICTED_STRING_DEFAULT_FAILED_LOOKUP_OF + L"<" + name + L">";
+        raiseError(msg, L"Nelson:graphics:ERROR_SET_RESTRICTED_STRING_DEFAULT_FAILED_LOOKUP_OF");
     }
     hp->data(value);
 }

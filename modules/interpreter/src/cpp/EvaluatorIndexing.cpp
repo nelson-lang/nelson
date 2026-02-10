@@ -29,11 +29,12 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
     case OP_PARENS: {
         ArrayOfVector m = expressionList(t->down, r);
         if (m.empty()) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
+            raiseError(L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED",
+                ERROR_INDEX_EXPRESSION_EXPECTED);
         }
         if (m.size() == 1) {
             if (r.isClassType()) {
-                Error(ERROR_NEED_OVERLOAD);
+                raiseError(L"Nelson:interpreter:ERROR_NEED_OVERLOAD", ERROR_NEED_OVERLOAD);
             }
             try {
                 return r.getVectorSubset(m[0]);
@@ -50,7 +51,8 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
     case OP_BRACES: {
         ArrayOfVector m = expressionList(t->down, r);
         if (m.empty()) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
+            raiseError(L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED",
+                ERROR_INDEX_EXPRESSION_EXPECTED);
         }
         if (m.size() == 1) {
             try {
@@ -83,7 +85,8 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
             ArrayOf fname(expression(t->down));
             field = fname.getContentAsCString();
         } catch (const Exception&) {
-            Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
+            raiseError(L"Nelson:interpreter:ERROR_DYNAMIC_FIELD_STRING_EXPECTED",
+                ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
         }
         try {
             return r.getField(field);
@@ -304,7 +307,9 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
     } else {
         if (lookupFunction(t->text, funcDef)) {
             if (funcDef->outputArgCount() == 0) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS, utf8_to_wstring(funcDef->getName()));
+                raiseError(L"Nelson:interpreter:ERROR_WRONG_NUMBERS_OUTPUT_ARGS_FOR_FUNCTION",
+                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS_FOR_FUNCTION,
+                    utf8_to_wstring(funcDef->getName()));
             }
             m = functionExpression(funcDef, t, 1, false);
             callstack.popID();
@@ -317,14 +322,17 @@ Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
             callstack.popID();
             return m;
         }
-        Error(utf8_to_wstring(_("Undefined variable or function:") + " " + t->text));
+        raiseError(L"Nelson:interpreter:ERROR_UNDEFINED_VARIABLE_OR_FUNCTION",
+            ERROR_UNDEFINED_VARIABLE_OR_FUNCTION, utf8_to_wstring(t->text));
     }
 
     t = t->down;
     while (t != nullptr) {
         rhsDimensions = r.getDimensions();
         if (!rv.empty()) {
-            Error(_W("Cannot reindex an expression that returns multiple values."));
+            raiseError(L"Nelson:interpreter:ERROR_CANNOT_REINDEX_AN_EXPRESSION_THAT_RETURNS_"
+                       L"MULTIPLE_VALUES",
+                ERROR_CANNOT_REINDEX_AN_EXPRESSION_THAT_RETURNS_MULTIPLE_VALUES);
         }
         if (t->opNum == (OP_PARENS)) {
             bool isFinished = false;
@@ -378,7 +386,7 @@ Evaluator::rhsExpressionParens(Dimensions& rhsDimensions, ArrayOfVector& rv,
     }
     if (r.isFunctionHandle()) {
         if (t->right != nullptr && t->right->opNum != OP_PARENS) {
-            Error(_("Invalid indexing."));
+            raiseError(L"Nelson:interpreter:ERROR_INVALID_INDEXING", ERROR_INVALID_INDEXING);
         }
         std::string extractionFunctionName
             = getOverloadFunctionName(NLS_FUNCTION_HANDLE_STR, SUBSREF_OPERATOR_STR);
@@ -401,7 +409,7 @@ Evaluator::rhsExpressionParens(Dimensions& rhsDimensions, ArrayOfVector& rv,
             isFinished = true;
             return;
         }
-        Error(_W("index expected."));
+        raiseError(L"Nelson:interpreter:ERROR_INDEX_EXPECTED", ERROR_INDEX_EXPECTED);
 
     } else if (m.size() == 1) {
         if (r.isClassType()) {
@@ -473,7 +481,8 @@ Evaluator::rhsExpressionBraces(
         }
     }
     if (m.size() == 0) {
-        Error(ERROR_INDEX_EXPRESSION_EXPECTED);
+        raiseError(
+            L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED", ERROR_INDEX_EXPRESSION_EXPECTED);
     } else if (m.size() == 1) {
         if (r.isClassType()) {
             stringVector substype;
@@ -527,7 +536,7 @@ Evaluator::rhsExpressionBraces(
         r = ArrayOf::emptyConstructor();
 
         if (nLhs == 1) {
-            Error(ERROR_EMPTY_EXPRESSION);
+            raiseError(L"Nelson:interpreter:ERROR_EMPTY_EXPRESSION", ERROR_EMPTY_EXPRESSION);
         }
     }
 }
@@ -576,8 +585,8 @@ Evaluator::rhsExpressionDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf
             isValidMethod = isObjectMethod(r, fieldname);
         } catch (const Exception&) {
             if (r.isHandle()) {
-                Error(_("Please define: ")
-                    + getOverloadFunctionName(r.getHandleCategory(), "ismethod"));
+                raiseError(L"Nelson:interpreter:ERROR_PLEASE_DEFINE", ERROR_PLEASE_DEFINE,
+                    utf8_to_wstring(getOverloadFunctionName(r.getHandleCategory(), "ismethod")));
             }
             isValidMethod = false;
         }
@@ -613,7 +622,8 @@ Evaluator::rhsExpressionDynDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, Arra
         ArrayOf fname(expression(t->down));
         field = fname.getContentAsCString();
     } catch (const Exception&) {
-        Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
+        raiseError(L"Nelson:interpreter:ERROR_DYNAMIC_FIELD_STRING_EXPECTED",
+            ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
     }
     if (r.isClassType()) {
         ArrayOfVector v;
@@ -669,10 +679,12 @@ Evaluator::rhsExpressionSimple(AbstractSyntaxTreePtr t)
         return m[0];
     }
     if (!isVar) {
-        Error(utf8_to_wstring(_("Undefined variable:") + " " + t->text));
+        raiseError(L"Nelson:interpreter:ERROR_UNDEFINED_VARIABLE", ERROR_UNDEFINED_VARIABLE,
+            utf8_to_wstring(t->text));
     }
     if (!isFun) {
-        Error(utf8_to_wstring(_("Undefined function:") + " " + t->text));
+        raiseError(L"Nelson:interpreter:ERROR_UNDEFINED_FUNCTION", ERROR_UNDEFINED_FUNCTION,
+            utf8_to_wstring(t->text));
     }
     callstack.popID();
     return r;
@@ -683,7 +695,7 @@ Evaluator::countLeftHandSides(AbstractSyntaxTreePtr t)
 {
     ArrayOf lhs;
     if (t == nullptr) {
-        Error(_W("Syntax error."));
+        raiseError(L"Nelson:interpreter:ERROR_SYNTAX_ERROR", ERROR_SYNTAX_ERROR);
     }
     if (!context->lookupVariable(t->text, lhs)) {
         lhs = ArrayOf::emptyConstructor();
@@ -706,13 +718,15 @@ Evaluator::countLeftHandSides(AbstractSyntaxTreePtr t)
     if (s->opNum == (OP_PARENS)) {
         m = expressionList(s->down, lhs);
         if (m.size() == 0) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
+            raiseError(L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED",
+                ERROR_INDEX_EXPRESSION_EXPECTED);
         }
         if (m.size() == 1) {
             // m[0] should have only one element...
             m[0].toOrdinalType();
             if (m[0].getElementCount() > 1) {
-                Error(ERROR_PARENTHETICAL_EXPRESSION);
+                raiseError(L"Nelson:interpreter:ERROR_PARENTHETICAL_EXPRESSION",
+                    ERROR_PARENTHETICAL_EXPRESSION);
             }
             callstack.popID();
             return (m[0].getElementCount());
@@ -725,7 +739,8 @@ Evaluator::countLeftHandSides(AbstractSyntaxTreePtr t)
             i++;
         }
         if (outputCount > 1) {
-            Error(ERROR_PARENTHETICAL_EXPRESSION);
+            raiseError(L"Nelson:interpreter:ERROR_PARENTHETICAL_EXPRESSION",
+                ERROR_PARENTHETICAL_EXPRESSION);
         }
         callstack.popID();
         return (outputCount);
@@ -733,7 +748,8 @@ Evaluator::countLeftHandSides(AbstractSyntaxTreePtr t)
     if (s->opNum == (OP_BRACES)) {
         m = expressionList(s->down, lhs);
         if (m.size() == 0) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
+            raiseError(L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED",
+                ERROR_INDEX_EXPRESSION_EXPECTED);
         }
         if (m.size() == 1) {
             // m[0] should have only one element...
@@ -773,7 +789,8 @@ Evaluator::extractClass(const ArrayOf& r, const stringVector& subtypes,
         haveFunction = true;
         if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
                 || (funcDef->type() == NLS_MACRO_FUNCTION))) {
-            Error(_W("Type function not valid."));
+            raiseError(
+                L"Nelson:interpreter:ERROR_TYPE_FUNCTION_NOT_VALID", ERROR_TYPE_FUNCTION_NOT_VALID);
         }
         int nLhs = 1;
 

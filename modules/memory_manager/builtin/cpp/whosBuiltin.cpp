@@ -34,7 +34,8 @@ Nelson::MemoryGateway::whosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         if (param == "global") {
             onlyGlobal = true;
         } else if (param == "-file") {
-            Error(_W("filename expected after '-file'."));
+            raiseError(L"Nelson:memory_manager:ERROR_FILENAME_EXPECTED_AFTER_FILE",
+                ERROR_FILENAME_EXPECTED_AFTER_FILE);
         } else {
             names.push_back(param);
         }
@@ -53,7 +54,8 @@ Nelson::MemoryGateway::whosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         for (indexType k = start; k < (indexType)argIn.size(); ++k) {
             std::string param = argIn[k].getContentAsCString();
             if (param == "-file") {
-                Error(_W("-file must be the first argument."));
+                raiseError(L"Nelson:memory_manager:ERROR_FILE_MUST_BE_THE_FIRST_ARGUMENT",
+                    ERROR_FILE_MUST_BE_THE_FIRST_ARGUMENT);
             }
             names.push_back(param);
         }

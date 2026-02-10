@@ -9,6 +9,7 @@
 //=============================================================================
 #include "filepartsBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "FileParts.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -33,8 +34,9 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(int nLhs, const ArrayOfVector& arg
                 } else if (wtype == L"extension") {
                     // OK
                 } else {
-                    Error(_W("Argument #2 must contain a valid string 'path', 'filename' or "
-                             "'extension' expected."));
+                    raiseError(L"Nelson:files_folders_functions:ERROR_ARGUMENT_2_MUST_CONTAIN_"
+                               L"VALID_STRING_PATH_FILENAME_OR_EXTENSION",
+                        ERROR_ARGUMENT_2_MUST_CONTAIN_VALID_STRING_PATH_FILENAME_OR_EXTENSION);
                 }
             } else {
                 raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
@@ -71,7 +73,8 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(int nLhs, const ArrayOfVector& arg
             }
         }
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_NUMBERS_INPUT_ARGS",
+            ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

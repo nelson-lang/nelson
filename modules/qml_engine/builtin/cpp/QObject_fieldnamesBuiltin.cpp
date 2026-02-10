@@ -29,7 +29,8 @@ Nelson::QmlEngineGateway::QObject_fieldnamesBuiltin(int nLhs, const ArrayOfVecto
         if (param2str == L"-full") {
             fullList = true;
         } else {
-            Error(_W("Unrecognized option. \"-full\" expected."));
+            raiseError(L"Nelson:qml_engine:ERROR_UNRECOGNIZED_OPTION", ERROR_UNRECOGNIZED_OPTION,
+                L"-full");
         }
     }
     ArrayOf param1 = argIn[0];

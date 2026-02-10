@@ -13,6 +13,7 @@
 #include "AfterEachFutureObject.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "HandleManager.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -31,7 +32,7 @@ Nelson::ParallelGateway::Future_getBuiltin(Evaluator* eval, int nLhs, const Arra
         || (param1.getHandleCategory() == NLS_HANDLE_AFTERALLFUTURE_CATEGORY_STR)
         || (param1.getHandleCategory() == NLS_HANDLE_AFTEREACHFUTURE_CATEGORY_STR);
     if (!isSupportedFuture) {
-        Error(_W("Future handle expected."));
+        raiseError(L"Nelson:parallel:ERROR_FUTURE_HANDLE_EXPECTED", ERROR_FUTURE_HANDLE_EXPECTED);
     }
 
     auto* ptr = (nelson_handle*)param1.getDataPointer();
@@ -42,7 +43,8 @@ Nelson::ParallelGateway::Future_getBuiltin(Evaluator* eval, int nLhs, const Arra
             auto* objFevalFuture = (FevalFutureObject*)hlObj;
             ArrayOf res;
             if (!objFevalFuture->get(propertyName, res)) {
-                Error(formatErrorMessage(ERROR_WRONG_ARGUMENT_X_VALUE, 2) + L" " + propertyName);
+                raiseError(L"Nelson:parallel:ERROR_WRONG_ARGUMENT_X_VALUE",
+                    ERROR_WRONG_ARGUMENT_X_VALUE, 2);
             }
             if (propertyName == L"Function") {
                 FunctionDef* funcDef = nullptr;

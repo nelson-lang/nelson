@@ -13,6 +13,7 @@
 #include "SparseDynamicFunctions.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "Exception.hpp"
 //=============================================================================
 namespace Nelson {
@@ -130,7 +131,9 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
             if (args[i].isRowVectorCharacterArray()) {
                 std::wstring str = args[i].getContentAsWideString();
                 if (str != L":") {
-                    Error(_W("index must either be real positive integers or logicals."));
+                    raiseError(L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_"
+                               L"LOGICALS",
+                        ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
                 }
                 indexType maxVal = dp->dimensions.getDimensionLength(i);
                 args[i] = ArrayOf::integerRangeConstructor(1, 1, maxVal, false);
@@ -179,7 +182,8 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
         //  Case 3. Two or more singleton references.  Can't do it -
         //	      throw an error.
         if (singletonReferences > 1) {
-            Error(_W("Statement A(...) = [] can only contain one non-colon index."));
+            raiseError(L"Nelson:types:ERROR_STATEMENT_A_CAN_ONLY_CONTAIN_ONE_NON_COLON_INDEX",
+                ERROR_STATEMENT_A_CAN_ONLY_CONTAIN_ONE_NON_COLON_INDEX);
         }
         if (singletonReferences == 0) {
             singletonDimension = -1;
@@ -228,8 +232,9 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
                             dp->dataClass, rows, cols, dp->getData(), deletionMap),
                         true);
                 } else {
-                    Error(_W("sparse matrices do not support deleting "
-                             "n-dimensional planes - Only 2-D"));
+                    raiseError(
+                        L"Nelson:types:ERROR_SPARSE_MATRICES_DO_NOT_SUPPORT_DELETING_ND_PLANES",
+                        ERROR_SPARSE_MATRICES_DO_NOT_SUPPORT_DELETING_ND_PLANES);
                 }
                 delete[] deletionMap;
                 deletionMap = nullptr;

@@ -11,6 +11,7 @@
 #include "triuBuiltin.hpp"
 #include "UpperTrianglePart.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -34,11 +35,14 @@ Nelson::ElementaryFunctionsGateway::triuBuiltin(int nLhs, const ArrayOfVector& a
         double param2AsDouble = param2.getContentAsDoubleScalar();
         offset = (signedIndexType)std::trunc(param2AsDouble);
         if ((double)offset != param2AsDouble) {
-            Error(_W("K-th diagonal input must be an integer scalar."));
+            raiseError(
+                L"Nelson:elementary_functions:ERROR_K_TH_DIAGONAL_INPUT_MUST_BE_AN_INTEGER_SCALAR",
+                ERROR_K_TH_DIAGONAL_INPUT_MUST_BE_AN_INTEGER_SCALAR);
         }
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:elementary_functions:ERROR_WRONG_NUMBERS_INPUT_ARGS",
+            ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     bool needToOverload;

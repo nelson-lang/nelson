@@ -11,6 +11,7 @@
 //=============================================================================
 #include <map>
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -75,7 +76,8 @@ public:
         auto it = graphicsobjects.find(index);
         if (it == graphicsobjects.end()) {
             if (throwError) {
-                Error(_W("Invalid Graphics Object."));
+                raiseError(L"Nelson:graphics:ERROR_INVALID_GRAPHICS_OBJECT",
+                    ERROR_INVALID_GRAPHICS_OBJECT);
             }
             return nullptr;
         }

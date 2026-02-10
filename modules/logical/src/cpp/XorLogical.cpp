@@ -15,6 +15,7 @@
 #include "omp_for_loop.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -56,7 +57,8 @@ XorLogical(const ArrayOf& A, const ArrayOf& B)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsB = B.getDimensions();
         if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
-            Error(_W("Size mismatch on arguments."));
+            raiseError(L"Nelson:logical:ERROR_SIZE_MISMATCH_ON_ARGUMENTS",
+                ERROR_SIZE_MISMATCH_ON_ARGUMENTS);
         }
         if (A.isScalar()) {
             size_t Blen(B.getElementCount());
@@ -75,7 +77,7 @@ XorLogical(const ArrayOf& A, const ArrayOf& B)
             C = ArrayOf(NLS_LOGICAL, A.getDimensions(), Cp);
         }
     } else {
-        Error(_W("Invalid type."));
+        raiseError(L"Nelson:logical:ERROR_INVALID_TYPE", ERROR_INVALID_TYPE);
     }
     return C;
 }

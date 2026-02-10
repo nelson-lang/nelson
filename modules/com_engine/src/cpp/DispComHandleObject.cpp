@@ -43,14 +43,15 @@ DispComHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
             nelson_handle hl = qp[0];
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
             if (hlObj->getCategory() != NLS_HANDLE_COM_CATEGORY_STR) {
-                Error(_W("COM handle expected."));
+                raiseError(
+                    L"Nelson:com_engine:ERROR_COM_HANDLE_EXPECTED", ERROR_COM_HANDLE_EXPECTED);
             }
             auto* comhandleobj = (ComHandleObject*)hlObj;
             DispComHandleObject(io, comhandleobj);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("COM handle expected."));
+        raiseError(L"Nelson:com_engine:ERROR_COM_HANDLE_EXPECTED", ERROR_COM_HANDLE_EXPECTED);
     }
 }
 //=============================================================================

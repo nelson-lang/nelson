@@ -22,6 +22,8 @@
 #include "SubtractionComplex.hpp"
 #include "SubtractionInteger.hpp"
 #include "BinaryOperatorsHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -30,7 +32,7 @@ Subtraction(const ArrayOf& A, const ArrayOf& B)
 {
     if ((A.getDataClass() != B.getDataClass())
         || ((A.isSparse() != B.isSparse()) && A.isSparse())) {
-        Error(_("Same types expected."));
+        raiseError(L"Nelson:operators:ERROR_SAME_TYPES_EXPECTED", ERROR_SAME_TYPES_EXPECTED);
     }
     NelsonType commonClass = A.getDataClass();
     ArrayOf res;
@@ -178,7 +180,7 @@ Subtraction(const ArrayOf& A, const ArrayOf& B)
         }
     } break;
     default: {
-        Error(_W("Type not managed."));
+        raiseError(L"Nelson:operators:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     } break;
     }
     return res;

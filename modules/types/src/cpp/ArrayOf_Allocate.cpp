@@ -10,6 +10,7 @@
 #include "ArrayOf.hpp"
 #include "Types.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "NewWithException.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -55,10 +56,12 @@ ArrayOf::allocateArrayOf(
     } break;
     case NLS_STRUCT_ARRAY: {
         if (!haveValidFieldNames(names)) {
-            Error(_W("Field names must be valid."));
+            raiseError(
+                L"Nelson:types:ERROR_FIELD_NAMES_MUST_BE_VALID", ERROR_FIELD_NAMES_MUST_BE_VALID);
         }
         if (!haveUniqueFieldNames(names)) {
-            Error(_W("Duplicated field detected."));
+            raiseError(
+                L"Nelson:types:ERROR_DUPLICATED_FIELD_DETECTED", ERROR_DUPLICATED_FIELD_DETECTED);
         }
         auto n = static_cast<indexType>(length * names.size());
         auto* dp = new_with_exception<ArrayOf>(n, false);

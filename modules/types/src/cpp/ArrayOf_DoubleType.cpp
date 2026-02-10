@@ -11,6 +11,7 @@
 #include "Data.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include <cstring>
 //=============================================================================
 namespace Nelson {
@@ -104,7 +105,7 @@ std::vector<double>
 ArrayOf::getContentAsDoubleVector() const
 {
     if (isComplex() || isReferenceType() || isCharacterArray() || isSparse()) {
-        Error(_W("Expected a real value."));
+        raiseError(L"Nelson:types:ERROR_EXPECTED_A_REAL_VALUE", ERROR_EXPECTED_A_REAL_VALUE);
     }
     size_t elementCount = getElementCount();
     std::vector<double> values(elementCount);
@@ -127,7 +128,8 @@ ArrayOf::getContentAsDoubleScalar(bool arrayAsScalar, bool checkIsIntegerValue) 
 {
     if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
-        Error(_W("Expected a real value scalar."));
+        raiseError(
+            L"Nelson:types:ERROR_EXPECTED_A_REAL_VALUE_SCALAR", ERROR_EXPECTED_A_REAL_VALUE_SCALAR);
     }
     double value = 0;
     if (getDataClass() == NLS_DOUBLE) {
@@ -142,7 +144,8 @@ ArrayOf::getContentAsDoubleScalar(bool arrayAsScalar, bool checkIsIntegerValue) 
     if (checkIsIntegerValue) {
         double f = std::floor(value);
         if (std::abs(f - value) >= std::numeric_limits<double>::epsilon()) {
-            Error(_W("A real integer value scalar expected."));
+            raiseError(L"Nelson:types:ERROR_A_REAL_INTEGER_VALUE_SCALAR_EXPECTED",
+                ERROR_A_REAL_INTEGER_VALUE_SCALAR_EXPECTED);
         }
     }
     return value;
@@ -153,7 +156,8 @@ ArrayOf::getContentAsDoubleComplexScalar(bool arrayAsScalar) const
 {
     if (isEmpty() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
-        Error(_W("Expected a real valued scalar"));
+        raiseError(L"Nelson:types:ERROR_EXPECTED_A_REAL_VALUED_SCALAR",
+            ERROR_EXPECTED_A_REAL_VALUED_SCALAR);
     }
     const double* qp = nullptr;
     if (getDataClass() != NLS_DCOMPLEX) {

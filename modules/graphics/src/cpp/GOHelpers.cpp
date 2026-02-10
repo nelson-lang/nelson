@@ -11,6 +11,7 @@
 #include <algorithm>
 #include "GOHelpers.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "GOList.hpp"
 #include "GOFiguresManager.hpp"
@@ -48,7 +49,7 @@ checkIdValidity(int64 id)
 {
     bool isValidId = (id >= 0 && id < (int64)std::numeric_limits<int>::max());
     if (!isValidId) {
-        Error(_("Invalid figure id."));
+        raiseError(L"Nelson:graphics:ERROR_INVALID_FIGURE_ID", ERROR_INVALID_FIGURE_ID);
     }
 }
 //=============================================================================
@@ -89,8 +90,9 @@ uniformizeStringVector(const ArrayOf& arg, wstringVector& asWideStringVector)
             elements[k] = ArrayOf::characterArrayConstructor(asWideStringVector[k]);
         }
     } else {
-        Error(_W("The value must be a '|' delimited character vector, string array, or cell array "
-                 "of character vectors."));
+        raiseError(L"Nelson:graphics:ERROR_THE_VALUE_MUST_BE_A_DELIMITED_CHARACTER_VECTOR_STRING_"
+                   L"ARRAY_OR_CELL_ARRAY",
+            ERROR_THE_VALUE_MUST_BE_A_DELIMITED_CHARACTER_VECTOR_STRING_ARRAY_OR_CELL_ARRAY);
     }
     return res;
 }

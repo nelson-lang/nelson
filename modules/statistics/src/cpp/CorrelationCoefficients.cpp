@@ -17,6 +17,7 @@
 #include "RealPart.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -59,7 +60,7 @@ CorrelationCoefficients(const ArrayOf& A, bool& needToOverload)
     }
     Dimensions dimsA = A.getDimensions();
     if (!dimsA.is2D() && !dimsA.isVector()) {
-        Error(_W("Inputs must be 2-D."));
+        raiseError(L"Nelson:statistics:ERROR_INPUTS_MUST_BE_2D", ERROR_INPUTS_MUST_BE_2D);
     }
     switch (A.getDataClass()) {
     case NLS_DOUBLE: {

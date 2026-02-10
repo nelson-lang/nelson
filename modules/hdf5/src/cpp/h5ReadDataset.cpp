@@ -25,6 +25,7 @@
 #include "h5ReadArray.hpp"
 #include "h5ReadReference.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -34,10 +35,11 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
 {
     ArrayOf res;
     if (filename.empty()) {
-        Error(_W("Valid filename expected."));
+        raiseError(L"Nelson:hdf5:ERROR_VALID_FILENAME_EXPECTED", ERROR_VALID_FILENAME_EXPECTED);
     }
     if (dataSetName.empty()) {
-        Error(_W("Valid data set name expected."));
+        raiseError(
+            L"Nelson:hdf5:ERROR_VALID_DATA_SET_NAME_EXPECTED", ERROR_VALID_DATA_SET_NAME_EXPECTED);
     }
     hid_t fid = H5I_INVALID_HID;
     FileSystemWrapper::Path hdf5_filename(filename);
@@ -46,34 +48,37 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
         = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            Error(_W("Permission denied."));
+            raiseError(L"Nelson:hdf5:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
         }
     }
 
     if (!fileExistPreviously) {
-        Error(_W("file does not exist."));
+        raiseError(L"Nelson:hdf5:ERROR_FILE_DOES_NOT_EXIST", ERROR_FILE_DOES_NOT_EXIST);
     }
     if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str())) {
-        Error(_W("HDF5 format file expected."));
+        raiseError(L"Nelson:hdf5:ERROR_HDF5_FORMAT_FILE_EXPECTED", ERROR_HDF5_FORMAT_FILE_EXPECTED);
     } else {
         fid = H5Fopen(
             wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
     }
     if (fid == H5I_INVALID_HID) {
-        Error(_W("Impossible to open hdf5 file."));
+        raiseError(
+            L"Nelson:hdf5:ERROR_IMPOSSIBLE_TO_OPEN_HDF5_FILE", ERROR_IMPOSSIBLE_TO_OPEN_HDF5_FILE);
     }
 
     hid_t dset_id = H5Dopen(fid, wstring_to_utf8(dataSetName).c_str(), H5P_DEFAULT);
     if (dset_id < 0) {
         H5Fclose(fid);
-        Error("Impossible to read data set");
+        raiseError(
+            L"Nelson:hdf5:ERROR_IMPOSSIBLE_TO_READ_DATA_SET", ERROR_IMPOSSIBLE_TO_READ_DATA_SET);
     }
 
     hid_t dspace_id = H5Dget_space(dset_id);
     if (dspace_id < 0) {
         H5Dclose(dset_id);
         H5Fclose(fid);
-        Error("Impossible to read data set");
+        raiseError(
+            L"Nelson:hdf5:ERROR_IMPOSSIBLE_TO_READ_DATA_SET", ERROR_IMPOSSIBLE_TO_READ_DATA_SET);
     }
 
     hid_t type_id = H5Dget_type(dset_id);
@@ -123,7 +128,7 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
     } break;
     }
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:hdf5:h5ReadDataset");
     }
     H5Tclose(type_id);
     H5Dclose(dset_id);

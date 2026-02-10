@@ -34,7 +34,8 @@ Nelson::DoubleGateway::realmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
                 retval << ArrayOf::singleConstructor(realmax);
             }
         } else {
-            Error(_W("#1 'double' or 'single' expected."));
+            raiseError(L"Nelson:double:ERROR_DOUBLE_OR_SINGLE_TYPE_EXPECTED",
+                ERROR_DOUBLE_OR_SINGLE_TYPE_EXPECTED);
         }
     } else {
         double realmax = std::numeric_limits<double>::max();

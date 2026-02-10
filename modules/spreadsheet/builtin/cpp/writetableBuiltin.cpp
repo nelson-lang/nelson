@@ -9,6 +9,7 @@
 //=============================================================================
 #include "writetableBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "WriteTable.hpp"
 //=============================================================================
@@ -69,7 +70,8 @@ determineFileType(const std::wstring& filename, const std::string& specifiedType
         return specifiedType;
     }
 
-    Error(_W("Unrecognized file extension."));
+    raiseError(
+        L"Nelson:spreadsheet:ERROR_UNRECOGNIZED_FILE_EXTENSION", ERROR_UNRECOGNIZED_FILE_EXTENSION);
     return "";
 }
 //=============================================================================
@@ -77,37 +79,43 @@ static void
 validateOptionCombinations(writeTableOptions& options)
 {
     if (options._FileType == "xml" && !options._QuoteStrings.empty()) {
-        Error(_W("QuoteStrings not allowed for xml file type."));
+        raiseError(L"Nelson:spreadsheet:ERROR_QUOTESTRINGS_NOT_ALLOWED_FOR_XML",
+            ERROR_QUOTESTRINGS_NOT_ALLOWED_FOR_XML);
     } else if (options._FileType == "text" && options._QuoteStrings.empty()) {
         options._QuoteStrings = "minimal";
     }
 
     if (options._FileType == "xml" && options._Delimiter != L'\0') {
-        Error(_W("Delimiter not allowed for xml file type."));
+        raiseError(L"Nelson:spreadsheet:ERROR_DELIMITER_NOT_ALLOWED_FOR_XML",
+            ERROR_DELIMITER_NOT_ALLOWED_FOR_XML);
     } else if (options._FileType == "text" && options._Delimiter == L'\0') {
         options._Delimiter = ',';
     }
 
     if (options._FileType == "xml" && !options._WriteMode.empty()) {
-        Error(_W("WriteMode not allowed for xml file type."));
+        raiseError(L"Nelson:spreadsheet:ERROR_WRITEMODE_NOT_ALLOWED_FOR_XML",
+            ERROR_WRITEMODE_NOT_ALLOWED_FOR_XML);
     } else if (options._FileType == "text" && options._WriteMode.empty()) {
         options._WriteMode = "overwrite";
     }
 
     if (options._FileType == "text" && !options._AttributeSuffix.empty()) {
-        Error(_W("AttributeSuffix not allowed for text file type."));
+        raiseError(L"Nelson:spreadsheet:ERROR_ATTRIBUTESUFFIX_NOT_ALLOWED_FOR_TEXT",
+            ERROR_ATTRIBUTESUFFIX_NOT_ALLOWED_FOR_TEXT);
     } else if (options._FileType == "xml" && options._AttributeSuffix.empty()) {
         options._AttributeSuffix = "Attribute";
     }
 
     if (options._FileType == "text" && !options._RowNodeName.empty()) {
-        Error(_W("RowNodeName allowed only for xml file type."));
+        raiseError(L"Nelson:spreadsheet:ERROR_ROWNODE_ALLOWED_ONLY_FOR_XML",
+            ERROR_ROWNODE_ALLOWED_ONLY_FOR_XML);
     } else if (options._FileType == "xml" && options._RowNodeName.empty()) {
         options._RowNodeName = "row";
     }
 
     if (options._FileType == "text" && !options._TableNodeName.empty()) {
-        Error(_W("TableNodeName allowed only for xml file type."));
+        raiseError(L"Nelson:spreadsheet:ERROR_TABLENODE_ALLOWED_ONLY_FOR_XML",
+            ERROR_TABLENODE_ALLOWED_ONLY_FOR_XML);
     } else if (options._FileType == "xml" && options._TableNodeName.empty()) {
         options._TableNodeName = "table";
     }
@@ -121,14 +129,15 @@ parseWriteTableOptions(const ArrayOfVector& argIn, size_t startIdx, writeTableOp
         bool isName
             = nameArrayOf.isScalarStringArray() || (nameArrayOf.isRowVectorCharacterArray());
         if (!isName) {
-            Error(_W("Invalid parameter name. The parameter name must be a non-empty string or "
-                     "character array."));
+            raiseError(
+                L"Nelson:spreadsheet:ERROR_INVALID_PARAMETER_NAME", ERROR_INVALID_PARAMETER_NAME);
         }
         std::wstring name = argIn[k].getContentAsWideString();
         if (name == L"Delimiter") {
             std::wstring delimiter = argIn[k + 1].getContentAsWideString();
             if (!validateDelimiter(delimiter, options)) {
-                Error(_("delimiter not supported."));
+                raiseError(L"Nelson:spreadsheet:ERROR_DELIMITER_NOT_SUPPORTED",
+                    ERROR_DELIMITER_NOT_SUPPORTED);
             }
         } else if (name == L"WriteRowNames") {
             options._WriteRowNames = argIn[k + 1].getContentAsLogicalScalar();
@@ -141,7 +150,8 @@ parseWriteTableOptions(const ArrayOfVector& argIn, size_t startIdx, writeTableOp
             } else if (quoteStrings == L"minimal") {
                 options._QuoteStrings = "minimal";
             } else {
-                Error(_("Quote strings not supported."));
+                raiseError(L"Nelson:spreadsheet:ERROR_QUOTE_STRINGS_NOT_SUPPORTED",
+                    ERROR_QUOTE_STRINGS_NOT_SUPPORTED);
             }
         } else if (name == L"WriteVariableNames") {
             options._WriteVariableNames = argIn[k + 1].getContentAsLogicalScalar();
@@ -149,7 +159,8 @@ parseWriteTableOptions(const ArrayOfVector& argIn, size_t startIdx, writeTableOp
             std::wstring fileType = argIn[k + 1].getContentAsWideString();
             bool isSupportedFileType = (fileType == L"text") || (fileType == L"xml");
             if (!isSupportedFileType) {
-                Error(_("Only text currently supported."));
+                raiseError(L"Nelson:spreadsheet:ERROR_ONLY_TEXT_CURRENTLY_SUPPORTED",
+                    ERROR_ONLY_TEXT_CURRENTLY_SUPPORTED);
             }
         } else if (name == L"WriteMode") {
             std::wstring writeMode = argIn[k + 1].getContentAsWideString();
@@ -158,7 +169,8 @@ parseWriteTableOptions(const ArrayOfVector& argIn, size_t startIdx, writeTableOp
             } else if (writeMode == L"overwrite") {
                 options._WriteMode = "overwrite";
             } else {
-                Error(_("'append' or 'overwrite' expected."));
+                raiseError(L"Nelson:spreadsheet:ERROR_APPEND_OR_OVERWRITE_EXPECTED",
+                    ERROR_APPEND_OR_OVERWRITE_EXPECTED);
             }
         } else if (name == L"RowNodeName") {
             options._RowNodeName = argIn[k + 1].getContentAsCString();
@@ -167,7 +179,8 @@ parseWriteTableOptions(const ArrayOfVector& argIn, size_t startIdx, writeTableOp
         } else if (name == L"AttributeSuffix") {
             options._AttributeSuffix = argIn[k + 1].getContentAsCString();
         } else {
-            Error(_("Property name not supported."));
+            raiseError(L"Nelson:spreadsheet:ERROR_PROPERTY_NAME_NOT_SUPPORTED",
+                ERROR_PROPERTY_NAME_NOT_SUPPORTED);
         }
     }
 }
@@ -188,7 +201,8 @@ Nelson::SpreadsheetGateway::writetableBuiltin(int nLhs, const ArrayOfVector& arg
     ArrayOf T = argIn[0];
     bool isTable = (T.isClassType() && T.getClassType() == "table");
     if (!isTable) {
-        Error(_W("Wrong type for argument #1. table expected."));
+        raiseError(L"Nelson:spreadsheet:ERROR_WRONG_TYPE_ARG1_TABLE_EXPECTED",
+            ERROR_WRONG_TYPE_ARG1_TABLE_EXPECTED);
     }
     std::wstring filename;
     if (argIn.size() > 1) {
@@ -210,7 +224,7 @@ Nelson::SpreadsheetGateway::writetableBuiltin(int nLhs, const ArrayOfVector& arg
 
     WriteTable(T, filename, options, errorMessage);
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        raiseError(L"Nelson:spreadsheet:ERROR_WRITETABLE_ERROR", errorMessage);
     }
     return retval;
 }

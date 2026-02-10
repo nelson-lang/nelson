@@ -13,6 +13,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "HandleManager.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
@@ -68,7 +69,7 @@ FevalFutureFetchNext(
             }
         }
         if (!haveRunnnings) {
-            Error(_W("There are no unread Futures to fetch."));
+            raiseError(L"Nelson:parallel:ERROR_NO_UNREAD_FUTURES", ERROR_NO_UNREAD_FUTURES);
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));

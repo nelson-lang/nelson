@@ -14,6 +14,8 @@
 #include "OverloadRequired.hpp"
 #include "OverloadHelpers.hpp"
 #include "FindCommonType.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -58,7 +60,8 @@ relationalOperator(Evaluator* eval, const std::string& operatorName, const std::
                 B = ArrayOf::toStringArray(B, needToOverload);
             }
             if (needToOverload) {
-                Error(_W("Cannot promote to string array."));
+                raiseError(L"Nelson:interpreter:ERROR_CANNOT_PROMOTE_TO_STRING_ARRAY",
+                    ERROR_CANNOT_PROMOTE_TO_STRING_ARRAY);
             }
         } else {
             A.promoteType(_commonType);
@@ -73,10 +76,8 @@ relationalOperator(Evaluator* eval, const std::string& operatorName, const std::
     switch (commonType) {
     case NLS_UNKNOWN:
     case NLS_FUNCTION_HANDLE: {
-        std::string msg
-            = fmt::format(_("Operator '{0}' is not supported for operands of type '{1}'."),
-                symbolName, ClassToString(commonType));
-        Error(msg, "Nelson:UndefinedFunction");
+        raiseError(L"Nelson:interpreter:ERROR_OPERATOR_NOT_SUPPORTED", ERROR_OPERATOR_NOT_SUPPORTED,
+            utf8_to_wstring(symbolName), utf8_to_wstring(ClassToString(commonType)));
     } break;
     }
     ArrayOfVector retval;

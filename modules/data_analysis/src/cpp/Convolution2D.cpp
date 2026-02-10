@@ -16,6 +16,7 @@
 #include "Convolution2D.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "Decomplexify.hpp"
 #include "complex_multiply.hpp"
 //=============================================================================
@@ -241,22 +242,24 @@ Convolution2D(const ArrayOf& A, const ArrayOf& B, const std::wstring& shape, boo
     ArrayOf res;
     needToOverload = true;
     if (!isSupportedShape(shape)) {
-        Error(_W("shape parameter must be 'full', 'same', or 'valid'."),
-            L"Nelson:conv2:unknownShapeParameter");
+        raiseError(L"Nelson:data_analysis:ERROR_CONV2_UNKNOWN_SHAPE_PARAMETER",
+            ERROR_CONV2_UNKNOWN_SHAPE_PARAMETER);
     }
     if (!isSupportedInputTypes(A)) {
-        Error(_W("Invalid data type: First argument must be numeric or logical."),
-            L"Nelson:conv2:inputType");
+        raiseError(L"Nelson:data_analysis:ERROR_CONV2_INVALID_DATA_TYPE_FIRST",
+            ERROR_CONV2_INVALID_DATA_TYPE_FIRST);
     }
     if (!isSupportedInputTypes(B)) {
-        Error(_W("Invalid data type: First argument must be numeric or logical."),
-            L"Nelson:conv2:inputType");
+        raiseError(L"Nelson:data_analysis:ERROR_CONV2_INVALID_DATA_TYPE_FIRST",
+            ERROR_CONV2_INVALID_DATA_TYPE_FIRST);
     }
     if (!A.is2D() || !B.is2D()) {
-        Error(_W("N-D arrays are not supported."), L"Nelson:conv2:ndArrayInput");
+        raiseError(L"Nelson:data_analysis:ERROR_CONV2_ND_ARRAYS_NOT_SUPPORTED",
+            ERROR_CONV2_ND_ARRAYS_NOT_SUPPORTED);
     }
     if (A.isSparse() || B.isSparse()) {
-        Error(_W("Sparse matrices are not supported."), L"Nelson:conv2:SparseInput");
+        raiseError(L"Nelson:data_analysis:ERROR_CONV2_SPARSE_MATRICES_NOT_SUPPORTED",
+            ERROR_CONV2_SPARSE_MATRICES_NOT_SUPPORTED);
     }
 
     NelsonType intermediateClass;
@@ -300,26 +303,28 @@ Convolution2D(const ArrayOf& u, const ArrayOf& v, const ArrayOf& A, const std::w
     ArrayOf res;
     needToOverload = true;
     if (!isSupportedShape(shape)) {
-        Error(_W("shape parameter must be 'full', 'same', or 'valid'."),
-            L"Nelson:conv2:unknownShapeParameter");
+        raiseError(L"Nelson:data_analysis:ERROR_CONV2_UNKNOWN_SHAPE_PARAMETER",
+            ERROR_CONV2_UNKNOWN_SHAPE_PARAMETER);
     }
     if (!isSupportedInputTypes(u)) {
-        Error(_W("Invalid data type: First argument must be numeric or logical."),
-            L"Nelson:conv2:inputType");
+        raiseError(L"Nelson:data_analysis:ERROR_CONV2_INVALID_DATA_TYPE_FIRST",
+            ERROR_CONV2_INVALID_DATA_TYPE_FIRST);
     }
     if (!isSupportedInputTypes(v)) {
-        Error(_W("Invalid data type: Second argument must be numeric or logical."),
-            L"Nelson:conv2:inputType");
+        raiseError(L"Nelson:data_analysis:ERROR_CONV2_INVALID_DATA_TYPE_SECOND",
+            ERROR_CONV2_INVALID_DATA_TYPE_SECOND);
     }
     if (!isSupportedInputTypes(A)) {
-        Error(_W("Invalid data type: Third argument must be numeric or logical."),
-            L"Nelson:conv2:inputType");
+        raiseError(L"Nelson:data_analysis:ERROR_CONV2_INVALID_DATA_TYPE_THIRD",
+            ERROR_CONV2_INVALID_DATA_TYPE_THIRD);
     }
     if (!u.is2D() || !v.is2D() || !A.is2D()) {
-        Error(_W("N-D arrays are not supported."), L"Nelson:conv2:ndArrayInput");
+        raiseError(L"Nelson:data_analysis:ERROR_CONV2_ND_ARRAYS_NOT_SUPPORTED",
+            ERROR_CONV2_ND_ARRAYS_NOT_SUPPORTED);
     }
     if (u.isSparse() || v.isSparse() || A.isSparse()) {
-        Error(_W("Sparse matrices are not supported."), L"Nelson:conv2:SparseInput");
+        raiseError(L"Nelson:data_analysis:ERROR_CONV2_SPARSE_MATRICES_NOT_SUPPORTED",
+            ERROR_CONV2_SPARSE_MATRICES_NOT_SUPPORTED);
     }
 
     Dimensions newDimsU(u.getElementCount(), 1);

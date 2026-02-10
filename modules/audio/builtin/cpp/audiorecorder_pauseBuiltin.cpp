@@ -25,7 +25,8 @@ Nelson::AudioGateway::audiorecorder_pauseBuiltin(int nLhs, const ArrayOfVector& 
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-        Error(_W("audiorecorder handle expected."));
+        raiseError(L"Nelson:audio:ERROR_AUDIORECORDER_HANDLE_EXPECTED",
+            ERROR_AUDIORECORDER_HANDLE_EXPECTED);
     }
     auto* objRec = (AudiorecorderObject*)param1.getContentAsHandleScalar();
     objRec->pause();

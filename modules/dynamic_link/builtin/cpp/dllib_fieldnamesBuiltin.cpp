@@ -25,7 +25,7 @@ Nelson::DynamicLinkGateway::dllib_fieldnamesBuiltin(int nLhs, const ArrayOfVecto
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != NLS_HANDLE_DLLIB_CATEGORY_STR) {
-        Error(_W("dllib handle expected."));
+        raiseError(L"Nelson:dynamic_link:ERROR_DLLIB_HANDLE_EXPECTED", ERROR_DLLIB_HANDLE_EXPECTED);
     }
     auto* objDllib = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
     retval << ArrayOf::toCellArrayOfCharacterColumnVectors(objDllib->fieldnames());

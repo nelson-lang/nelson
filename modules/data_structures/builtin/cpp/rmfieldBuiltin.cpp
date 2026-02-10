@@ -15,6 +15,7 @@
 #include "rmfieldBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "characters_encoding.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -89,7 +90,8 @@ Nelson::DataStructuresGateway::rmfieldBuiltin(int nLhs, const ArrayOfVector& arg
             retval << st;
         }
     } else {
-        Error(_W("Wrong type for argument #1. struct expected."));
+        raiseError(L"Nelson:data_structures:ERROR_WRONG_TYPE_ARG1_STRUCT_EXPECTED",
+            ERROR_WRONG_TYPE_ARG1_STRUCT_EXPECTED);
     }
     return retval;
 }

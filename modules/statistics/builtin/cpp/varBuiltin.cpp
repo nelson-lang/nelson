@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "varBuiltin.hpp"
-#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "OverloadRequired.hpp"
 #include "Variance.hpp"
@@ -30,14 +30,16 @@ Nelson::StatisticsGateway::varBuiltin(int nLhs, const ArrayOfVector& argIn)
         w = (int)arg2.getContentAsScalarIndex(true);
         bool wValid = (w == 0 || w == 1);
         if (!wValid) {
-            Error(_W("Wrong value for #2 argument."));
+            raiseError(
+                L"Nelson:statistics:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 2);
         }
     }
     if (argIn.size() > 2) {
         ArrayOf arg3 = argIn[2];
         d = (int)arg3.getContentAsScalarIndex(true);
         if (d <= 0) {
-            Error(_W("Wrong value for #3 argument."));
+            raiseError(
+                L"Nelson:statistics:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 3);
         }
     }
     bool needToOverload = false;

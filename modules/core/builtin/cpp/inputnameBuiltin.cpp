@@ -23,17 +23,18 @@ Nelson::CoreGateway::inputnameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     nargincheck(argIn, 1, 1);
     Context* context = eval->getContext();
     if (context->getCurrentScope()->getName() == "base") {
-        Error(_W("Cannot return input name if not in an active function."),
-            L"Nelson:inputname:notInAfunction");
+        raiseError(L"Nelson:core:ERROR_INPUTNAME_NOT_IN_ACTIVE_FUNCTION",
+            ERROR_INPUTNAME_NOT_IN_ACTIVE_FUNCTION);
     }
     double pos = argIn[0].getContentAsDoubleScalar();
     int ipos = (int)pos;
     if ((double)ipos != pos) {
-        Error(_W("Scalar integer value required, but value is not integral."), L"Nelson:IntVal");
+        raiseError(L"Nelson:core:ERROR_SCALAR_INTEGER_VALUE_REQUIRED",
+            ERROR_SCALAR_INTEGER_VALUE_REQUIRED);
     }
     int nargin = context->getCurrentScope()->getNargIn();
     if (ipos > nargin || ipos < 1) {
-        Error(_W("Argument number is not valid."), L"Nelson:inputname:argNumberNotValid");
+        raiseError(L"Nelson:core:ERROR_ARGUMENT_NUMBER_NOT_VALID", ERROR_ARGUMENT_NUMBER_NOT_VALID);
     }
     stringVector inputNames = context->getCurrentScope()->getInputArgumentNames();
     std::string name;

@@ -11,6 +11,7 @@
 #include "profsaveBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "Profiler.hpp"
 #include "ModulesManager.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -61,7 +62,8 @@ Nelson::ProfilerGateway::profsaveBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         ArrayOf param1 = argIn[0];
         if (!param1.isStruct()) {
-            Error(_W("Profile struct expected."));
+            raiseError(
+                L"Nelson:profiler:ERROR_PROFILE_STRUCT_EXPECTED", ERROR_PROFILE_STRUCT_EXPECTED);
         }
         stringVector fieldnames = param1.getFieldNames();
         stringVector expectedNames;
@@ -72,11 +74,13 @@ Nelson::ProfilerGateway::profsaveBuiltin(int nLhs, const ArrayOfVector& argIn)
         expectedNames.push_back("TotalTime");
         expectedNames.push_back("PerCall");
         if (fieldnames.size() != expectedNames.size()) {
-            Error(_W("Profile struct expected."));
+            raiseError(
+                L"Nelson:profiler:ERROR_PROFILE_STRUCT_EXPECTED", ERROR_PROFILE_STRUCT_EXPECTED);
         }
         for (size_t index = 0; index < expectedNames.size(); ++index) {
             if (fieldnames[index] != expectedNames[index]) {
-                Error(_W("Profile struct expected."));
+                raiseError(L"Nelson:profiler:ERROR_PROFILE_STRUCT_EXPECTED",
+                    ERROR_PROFILE_STRUCT_EXPECTED);
             }
         }
         ArrayOfVector functionnames = param1.getFieldAsList("FunctionName");
@@ -100,7 +104,7 @@ Nelson::ProfilerGateway::profsaveBuiltin(int nLhs, const ArrayOfVector& argIn)
     Profiler::getInstance()->save(
         profilerInfo, fullDirname, GetModulePath(L"profiler"), errorMessage);
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:profiler:Save");
     }
     return retval;
 }

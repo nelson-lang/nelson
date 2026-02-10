@@ -25,11 +25,13 @@ ActiveXServer(const std::wstring& progId, const std::wstring& machine)
     ComHandleObject* res = nullptr;
     if (StringHelpers::starts_with(progId, L"{")) {
         if (FAILED(CLSIDFromString(progId.c_str(), &clsApplication))) {
-            Error(_W("Error CLSIDFromString."));
+            raiseError(
+                L"Nelson:com_engine:ERROR_ERROR_CLSID_FROM_STRING", ERROR_ERROR_CLSID_FROM_STRING);
         }
     } else {
         if (FAILED(CLSIDFromProgID(progId.c_str(), &clsApplication))) {
-            Error(_W("Error CLSIDFromProgID."));
+            raiseError(
+                L"Nelson:com_engine:ERROR_ERROR_CLSID_FROM_PROGID", ERROR_ERROR_CLSID_FROM_PROGID);
         }
     }
     if (!machine.empty()) {
@@ -53,20 +55,22 @@ ActiveXServer(const std::wstring& progId, const std::wstring& machine)
         qi.pIID = &IID_IDispatch;
         if (FAILED(CoCreateInstanceEx(
                 clsApplication, nullptr, CLSCTX_REMOTE_SERVER, &ServerInfo, 1, &qi))) {
-            Error(_W("Error CoCreateInstanceEx."));
+            raiseError(L"Nelson:com_engine:ERROR_ERROR_COCREATEINSTANCEEX",
+                ERROR_ERROR_COCREATEINSTANCEEX);
         }
         pdispApplication = (IDispatch*)qi.pItf;
     } else {
         if (FAILED(CoCreateInstance(clsApplication, nullptr, CLSCTX_SERVER, IID_IDispatch,
                 (void**)&pdispApplication))) {
-            Error(_W("Error CoCreateInstanceEx."));
+            raiseError(L"Nelson:com_engine:ERROR_ERROR_COCREATEINSTANCEEX",
+                ERROR_ERROR_COCREATEINSTANCEEX);
         }
     }
     VARIANT* pVariantApplication = nullptr;
     try {
         pVariantApplication = new VARIANT;
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:com_engine:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     VariantInit(pVariantApplication);
     pVariantApplication->vt = VT_DISPATCH;
@@ -89,26 +93,27 @@ GetRunningActiveXServer(const std::wstring& progId)
     LPOLESTR idName = W2OLE(const_cast<wchar_t*>(progId.c_str()));
     if (progId[0] == L'{') {
         if (FAILED(CLSIDFromString(idName, &clsApplication))) {
-            Error(_W("Invalid PROGID."));
+            raiseError(L"Nelson:com_engine:ERROR_INVALID_PROGID", ERROR_INVALID_PROGID);
         }
     } else {
         if (FAILED(CLSIDFromProgID(idName, &clsApplication))) {
-            Error(_W("Invalid PROGID."));
+            raiseError(L"Nelson:com_engine:ERROR_INVALID_PROGID", ERROR_INVALID_PROGID);
         }
     }
     HRESULT hRes = GetActiveObject(clsApplication, nullptr, &pUnknown);
     if (FAILED(hRes)) {
-        Error(_W("Server is not running on this system."));
+        raiseError(L"Nelson:com_engine:ERROR_SERVER_NOT_RUNNING", ERROR_SERVER_NOT_RUNNING);
     }
     hRes = pUnknown->QueryInterface(IID_IDispatch, reinterpret_cast<void**>(&pdispApplication));
     pUnknown->Release();
     if (FAILED(hRes)) {
-        Error(_W("Fails to connect to server."));
+        raiseError(L"Nelson:com_engine:ERROR_FAILS_TO_CONNECT_TO_SERVER",
+            ERROR_FAILS_TO_CONNECT_TO_SERVER);
     }
     try {
         pVariantApplication = new VARIANT;
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:com_engine:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     VariantInit(pVariantApplication);
     pVariantApplication->vt = VT_DISPATCH;
@@ -153,7 +158,7 @@ ActiveXContolList()
     bool found = false;
     if (err != ERROR_SUCCESS) {
         RegCloseKey(hclsid);
-        Error("Cannot read registry.");
+        raiseError(L"Nelson:com_engine:ERROR_CANNOT_READ_REGISTRY", ERROR_CANNOT_READ_REGISTRY);
     }
     wstringVector fieldsName;
     wstringVector fieldsProgId;
@@ -236,7 +241,7 @@ ActiveXServerList()
     bool found = false;
     if (err != ERROR_SUCCESS) {
         RegCloseKey(hclsid);
-        Error("Cannot read registry.");
+        raiseError(L"Nelson:com_engine:ERROR_CANNOT_READ_REGISTRY", ERROR_CANNOT_READ_REGISTRY);
     }
     wstringVector fieldsName;
     wstringVector fieldsProgId;

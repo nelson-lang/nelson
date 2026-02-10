@@ -22,7 +22,8 @@ methodsQObject(QObjectHandleObject* qmlhandleobj, stringVector& methods)
     void* ptr = qmlhandleobj->getPointer();
     methods.clear();
     if (ptr == nullptr) {
-        Error(_W("QObject valid handle expected."));
+        raiseError(
+            L"Nelson:qml:ERROR_QOBJECT_VALID_HANDLE_EXPECTED", ERROR_QOBJECT_VALID_HANDLE_EXPECTED);
     }
     QObject* qobj = (QObject*)ptr;
     const QMetaObject* metaObject = qobj->metaObject();
@@ -47,7 +48,7 @@ methodsQObject(const ArrayOf& A)
 {
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        Error(_W("QObject handle expected."));
+        raiseError(L"Nelson:qml:ERROR_QOBJECT_HANDLE_EXPECTED", ERROR_QOBJECT_HANDLE_EXPECTED);
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     stringVector methodsName;

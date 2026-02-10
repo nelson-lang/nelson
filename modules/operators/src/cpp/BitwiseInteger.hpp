@@ -15,6 +15,7 @@
 #include "IntegerOperations.hpp"
 #include "BitwiseOperators.hpp"
 #include "MatrixCheck.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -308,7 +309,8 @@ integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDestination, c
 
     if (A.isVector() || B.isVector()) {
         if ((A.isRowVector() && B.isRowVector()) || (A.isColumnVector() && B.isColumnVector())) {
-            Error(_("Size mismatch on arguments."));
+            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ON_ARGUMENTS",
+                ERROR_SIZE_MISMATCH_ON_ARGUMENTS);
         }
         if (A.isRowVector() && B.isColumnVector()) {
             return row_column_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
@@ -319,28 +321,33 @@ integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDestination, c
         if (A.getRows() == B.getRows()) {
             if (A.isVector()) {
                 if (!B.is2D()) {
-                    Error(_("Size mismatch on arguments."));
+                    raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ON_ARGUMENTS",
+                        ERROR_SIZE_MISMATCH_ON_ARGUMENTS);
                 }
                 return row_matrix_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
             }
             if (!A.is2D()) {
-                Error(_("Size mismatch on arguments."));
+                raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ON_ARGUMENTS",
+                    ERROR_SIZE_MISMATCH_ON_ARGUMENTS);
             }
             return matrix_row_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
         }
         if (A.getColumns() == B.getColumns()) {
             if (A.isVector()) {
                 if (!B.is2D()) {
-                    Error(_("Size mismatch on arguments."));
+                    raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ON_ARGUMENTS",
+                        ERROR_SIZE_MISMATCH_ON_ARGUMENTS);
                 }
                 return column_matrix_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
             }
             if (!A.is2D()) {
-                Error(_("Size mismatch on arguments."));
+                raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ON_ARGUMENTS",
+                    ERROR_SIZE_MISMATCH_ON_ARGUMENTS);
             }
             return matrix_column_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
         }
-        Error(_("Size mismatch on arguments."));
+        raiseError(
+            L"Nelson:operators:ERROR_SIZE_MISMATCH_ON_ARGUMENTS", ERROR_SIZE_MISMATCH_ON_ARGUMENTS);
     }
     return res;
 }

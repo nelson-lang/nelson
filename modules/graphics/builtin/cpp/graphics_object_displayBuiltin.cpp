@@ -25,7 +25,7 @@ GraphicsGateway::graphics_object_displayBuiltin(
     nargoutcheck(nLhs, 0, 0);
     ArrayOf paramGo = argIn[0];
     if (paramGo.getDataClass() != NLS_GO_HANDLE) {
-        Error(_W("graphics_object expected."));
+        raiseError(L"Nelson:graphics:GRAPHICS_OBJECT_EXPECTED", GRAPHICS_OBJECT_EXPECTED);
     }
     auto* ptrGO = (nelson_handle*)paramGo.getDataPointer();
     std::wstring name;

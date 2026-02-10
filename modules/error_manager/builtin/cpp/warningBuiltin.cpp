@@ -154,7 +154,8 @@ warningBuiltinNoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         retval = warningStruct(getAllWarningState());
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError(L"Nelson:error_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
+            ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     } break;
     }
     return retval;
@@ -171,14 +172,18 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             clearWarningIdsList();
             for (const auto& state : states) {
                 if (!isState(state)) {
-                    Error(_W("Wrong value for #1 argument: valid warning struct expected."));
+                    raiseError(L"Nelson:error_manager:ERROR_WRONG_VALUE_FOR_1_ARGUMENT_VALID_"
+                               L"WARNING_STRUCT_EXPECTED",
+                        ERROR_WRONG_VALUE_FOR_1_ARGUMENT_VALID_WARNING_STRUCT_EXPECTED);
                 }
             }
             for (size_t k = 0; k < identifiers.size(); k++) {
                 setWarningId(identifiers[k], stringToState(states[k]), false);
             }
         } else {
-            Error(_W("Wrong value for #1 argument: valid warning struct expected."));
+            raiseError(L"Nelson:error_manager:ERROR_WRONG_VALUE_FOR_1_ARGUMENT_VALID_WARNING_"
+                       L"STRUCT_EXPECTED",
+                ERROR_WRONG_VALUE_FOR_1_ARGUMENT_VALID_WARNING_STRUCT_EXPECTED);
         }
     } else {
         Exception lastWarning = eval->getLastWarningException();
@@ -196,7 +201,8 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 retval << ArrayOf::characterArrayConstructor(lastWarning.getIdentifier());
             } break;
             default: {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError(L"Nelson:error_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
+                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             } break;
             }
         } else if (isQuery(msg)) {
@@ -208,7 +214,8 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 retval = warningStruct(getAllWarningState());
             } break;
             default: {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError(L"Nelson:error_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
+                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             } break;
             }
         } else if (isState(msg)) {
@@ -222,7 +229,8 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 retval = warningStruct(previousList);
             } break;
             default: {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError(L"Nelson:error_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
+                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             } break;
             }
         } else {
@@ -239,7 +247,8 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 retval << ArrayOf::characterArrayConstructor(lastWarning.getIdentifier());
             } break;
             default: {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError(L"Nelson:error_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
+                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             } break;
             }
         }
@@ -254,7 +263,8 @@ warningBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     std::wstring id = argIn[0].getContentAsWideString();
     std::wstring msg = argIn[1].getContentAsWideString();
     if (isQuery(id)) {
-        Error(_W("warning('query') does not require an second argument."));
+        raiseError(L"Nelson:error_manager:ERROR_WARNING_QUERY_DOES_NOT_REQUIRE_AN_SECOND_ARGUMENT",
+            ERROR_WARNING_QUERY_DOES_NOT_REQUIRE_AN_SECOND_ARGUMENT);
     } else if (isState(id)) {
         WARNING_STATE state = stringToState(id);
         setWarningId(msg, state);
@@ -272,7 +282,8 @@ warningBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             retval << ArrayOf::structConstructor(fieldnames, fieldvalues);
         } break;
         default: {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            raiseError(L"Nelson:error_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
+                ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         } break;
         }
     } else {
@@ -290,7 +301,8 @@ warningBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             retval << ArrayOf::characterArrayConstructor(lastWarning.getIdentifier());
         } break;
         default: {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            raiseError(L"Nelson:error_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
+                ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         } break;
         }
     }
@@ -312,7 +324,8 @@ Nelson::ErrorManagerGateway::warningBuiltin(Evaluator* eval, int nLhs, const Arr
         return warningBuiltinTwoRhs(eval, nLhs, argIn);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:error_manager:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;

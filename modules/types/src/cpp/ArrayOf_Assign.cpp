@@ -446,7 +446,8 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
             = (rightData.getDataClass() == NLS_DOUBLE || rightData.getDataClass() == NLS_DCOMPLEX)
             || (getDataClass() == NLS_CHAR && rightData.getDataClass() == NLS_CHAR);
         if (!deleteAllowed) {
-            Error(_W("Empty matrix of type double expected."));
+            raiseError(L"Nelson:types:ERROR_EMPTY_MATRIX_OF_TYPE_DOUBLE_EXPECTED",
+                ERROR_EMPTY_MATRIX_OF_TYPE_DOUBLE_EXPECTED);
         }
         deleteNDimSubset(index);
         return;
@@ -477,7 +478,8 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 }
             }
             if ((colonDim > 0) && (colonDim < rightData.getDimensions().getLength())) {
-                Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
+                raiseError(L"Nelson:types:ERROR_SIZE_MISMATCH_ASSIGNMENT_A_I1_I2_IN_B",
+                    ERROR_SIZE_MISMATCH_ASSIGNMENT_A_I1_I2_IN_B);
             }
         }
     }
@@ -507,7 +509,8 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         }
         if (isEmpty()) {
             if ((dataCount > rightData.getElementCount()) && !haveColonOperator) {
-                Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
+                raiseError(L"Nelson:types:ERROR_SIZE_MISMATCH_ASSIGNMENT_A_I1_I2_IN_B",
+                    ERROR_SIZE_MISMATCH_ASSIGNMENT_A_I1_I2_IN_B);
             }
         }
         // Next, we compute the dimensions of the right hand side
@@ -524,7 +527,8 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 && (rightData.isRowVector() || rightData.isEmpty())) {
                 advance = 0;
             } else {
-                Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
+                raiseError(L"Nelson:types:ERROR_SIZE_MISMATCH_ASSIGNMENT_A_I1_I2_IN_B",
+                    ERROR_SIZE_MISMATCH_ASSIGNMENT_A_I1_I2_IN_B);
             }
         } else {
             advance = 1;
@@ -535,7 +539,8 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
                 bool needToOverload = false;
                 ArrayOf promute = ArrayOf::toStringArray(rightData, needToOverload);
                 if (needToOverload) {
-                    Error(_W("Cannot promote to string array."));
+                    raiseError(L"Nelson:types:ERROR_CANNOT_PROMOTE_TO_STRING_ARRAY",
+                        ERROR_CANNOT_PROMOTE_TO_STRING_ARRAY);
                 }
                 rightData = promute;
             } else {
@@ -572,7 +577,8 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
             if (!isEmpty() && (rightData.getDataClass() == NLS_STRUCT_ARRAY)
                 && (getDataClass() == NLS_STRUCT_ARRAY)) {
                 if (rightData.isFunctionHandle() && !isFunctionHandle()) {
-                    Error(_W("Cannot promote to function_handle array."));
+                    raiseError(L"Nelson:types:ERROR_CANNOT_PROMOTE_TO_FUNCTION_HANDLE_ARRAY",
+                        ERROR_CANNOT_PROMOTE_TO_FUNCTION_HANDLE_ARRAY);
                 }
                 if (rightData.dp->fieldNames.size() > dp->fieldNames.size()) {
                     promoteType(NLS_STRUCT_ARRAY, rightData.dp->fieldNames);
@@ -583,7 +589,8 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
             if (!isEmpty() && (rightData.getDataClass() == NLS_CLASS_ARRAY)
                 && (getDataClass() == NLS_CLASS_ARRAY)) {
                 if (rightData.getClassType() != getClassType()) {
-                    Error(_W("Cannot promote to class array."));
+                    raiseError(L"Nelson:types:ERROR_CANNOT_PROMOTE_TO_CLASS_ARRAY",
+                        ERROR_CANNOT_PROMOTE_TO_CLASS_ARRAY);
                 }
                 if (rightData.dp->fieldNames.size() > dp->fieldNames.size()) {
                     promoteType(NLS_STRUCT_ARRAY, rightData.dp->fieldNames);
@@ -603,8 +610,8 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
 
         if (isSparse()) {
             if (L > 2) {
-                Error(_W("Multidimensional indexing not legal for sparse "
-                         "arrays in assignment A(I1,I2,...,IN) = B"));
+                raiseError(L"Nelson:types:ERROR_MULTIDIMENSIONAL_INDEXING_NOT_LEGAL_FOR_SPARSE",
+                    ERROR_MULTIDIMENSIONAL_INDEXING_NOT_LEGAL_FOR_SPARSE);
             }
             indexType rows = getDimensionLength(0);
             indexType cols = getDimensionLength(1);
@@ -618,7 +625,8 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
         }
         resize(a);
         if (a.getElementCount() < rightData.getElementCount()) {
-            Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
+            raiseError(L"Nelson:types:ERROR_SIZE_MISMATCH_ASSIGNMENT_A_I1_I2_IN_B",
+                ERROR_SIZE_MISMATCH_ASSIGNMENT_A_I1_I2_IN_B);
         }
         myDims = dp->dimensions;
         // Get a writable data pointer
@@ -768,13 +776,15 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
         }
         bool lhsAndRhsEmpty = isEmpty() && rightData.isEmpty();
         if (!rightData.isEmpty(true) && !lhsAndRhsEmpty && !isIndexAllFalse) {
-            Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
+            raiseError(L"Nelson:types:ERROR_SIZE_MISMATCH_ASSIGNMENT_A_I1_I2_IN_B",
+                ERROR_SIZE_MISMATCH_ASSIGNMENT_A_I1_I2_IN_B);
         }
         bool deleteAllowed
             = (rightData.getDataClass() == NLS_DOUBLE || rightData.getDataClass() == NLS_DCOMPLEX)
             || (getDataClass() == NLS_CHAR && rightData.getDataClass() == NLS_CHAR);
         if (!deleteAllowed) {
-            Error(_W("Empty matrix of type double expected."));
+            raiseError(L"Nelson:types:ERROR_EMPTY_MATRIX_OF_TYPE_DOUBLE_EXPECTED",
+                ERROR_EMPTY_MATRIX_OF_TYPE_DOUBLE_EXPECTED);
         }
         deleteVectorSubset(index);
         return;
@@ -790,7 +800,8 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
                 myDims = rightData.getDimensions();
             }
             if (myDims.getElementCount() != rightData.getElementCount()) {
-                Error(_("Assignment A(:) = B requires A and B to be the same size"));
+                raiseError(L"Nelson:types:ERROR_ASSIGNMENT_A_COLON_B_REQUIRES_SAME_SIZE",
+                    ERROR_ASSIGNMENT_A_COLON_B_REQUIRES_SAME_SIZE);
             }
             dp = rightData.dp->getCopy();
             reshape(myDims);
@@ -819,7 +830,8 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
     } else if (rightData.getElementCount() == index_length) {
         advance = 1;
     } else {
-        Error("Size mismatch in assignment A(I) = B.\n");
+        raiseError(L"Nelson:types:ERROR_SIZE_MISMATCH_ASSIGNMENT_A_I_B",
+            ERROR_SIZE_MISMATCH_ASSIGNMENT_A_I_B);
     }
     // Compute the maximum index;
     indexType max_index = index.getMaxAsIndex();
@@ -831,13 +843,15 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
         bool needToOverload = false;
         ArrayOf promute = ArrayOf::toStringArray(rightData, needToOverload);
         if (needToOverload) {
-            Error(_W("Cannot promote to string array."));
+            raiseError(L"Nelson:types:ERROR_CANNOT_PROMOTE_TO_STRING_ARRAY",
+                ERROR_CANNOT_PROMOTE_TO_STRING_ARRAY);
         }
         rightData = promute;
     } else if (!isEmpty() && (rightData.getDataClass() == NLS_STRUCT_ARRAY)
         && (getDataClass() == NLS_STRUCT_ARRAY)) {
         if (rightData.isFunctionHandle() && !isFunctionHandle()) {
-            Error(_W("Cannot promote to function_handle array."));
+            raiseError(L"Nelson:types:ERROR_CANNOT_PROMOTE_TO_FUNCTION_HANDLE_ARRAY",
+                ERROR_CANNOT_PROMOTE_TO_FUNCTION_HANDLE_ARRAY);
         }
         if (rightData.dp->fieldNames.size() > dp->fieldNames.size()) {
             promoteType(NLS_STRUCT_ARRAY, rightData.dp->fieldNames);
@@ -847,7 +861,8 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
     } else if (!isEmpty() && (rightData.getDataClass() == NLS_CLASS_ARRAY)
         && (getDataClass() == NLS_CLASS_ARRAY)) {
         if (rightData.getClassType() != getClassType()) {
-            Error(_W("Cannot promote to another class type array."));
+            raiseError(L"Nelson:types:ERROR_CANNOT_PROMOTE_TO_ANOTHER_CLASS_TYPE_ARRAY",
+                ERROR_CANNOT_PROMOTE_TO_ANOTHER_CLASS_TYPE_ARRAY);
         }
         if (rightData.dp->fieldNames.size() > dp->fieldNames.size()) {
             promoteType(NLS_CLASS_ARRAY, rightData.dp->fieldNames);
@@ -939,11 +954,12 @@ void
 ArrayOf::setValueAtIndex(uint64 index, const ArrayOf& scalarValue)
 {
     if (!scalarValue.isScalar()) {
-        Error(ERROR_SIZE_SCALAR_EXPECTED);
+        raiseError(L"Nelson:types:ERROR_SIZE_SCALAR_EXPECTED", ERROR_SIZE_SCALAR_EXPECTED);
     }
     auto length = static_cast<uint64>(this->getElementCount());
     if (index >= length) {
-        Error(_W("Index exceeds matrix dimensions."));
+        raiseError(L"Nelson:types:ERROR_INDEX_EXCEEDS_MATRIX_DIMENSIONS",
+            ERROR_INDEX_EXCEEDS_MATRIX_DIMENSIONS);
     }
     // call insertion overloading here for not supported types
     if (isSparse()) {

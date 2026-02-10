@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "getnelsonmodeBuiltin.hpp"
-#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "NelSon_engine_mode.h"
 #include "NelsonConfiguration.hpp"
@@ -46,7 +46,7 @@ Nelson::EngineGateway::getnelsonmodeBuiltin(int nLhs, const ArrayOfVector& argIn
         retval << ArrayOf::characterArrayConstructor("GUI");
     } break;
     default: {
-        Error(_W("unknown mode."));
+        raiseError(L"Nelson:engine:ERROR_UNKNOWN_MODE", ERROR_UNKNOWN_MODE);
     } break;
     }
     return retval;

@@ -16,6 +16,7 @@
 #include "omp_for_loop.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -376,7 +377,7 @@ ImageRotation(
             center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
     } break;
     default: {
-        Error(_W("Type not managed."));
+        raiseError(L"Nelson:image_processing:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     } break;
     }
 
@@ -462,7 +463,7 @@ handleNinetyDegreeRotation(const ArrayOf& image, double angle, BoundingBox bound
             return flip180<logical>(
                 dataClass, dims, channels, planeSize, (logical*)image.getDataPointer());
         default: {
-            Error(_W("Type not managed."));
+            raiseError(L"Nelson:image_processing:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
             return image;
         }
         }
@@ -540,7 +541,7 @@ handleNinetyDegreeRotation(const ArrayOf& image, double angle, BoundingBox bound
         rotate((logical*)image.getDataPointer(), (logical*)result.getDataPointer());
         break;
     default:
-        Error(_W("Type not managed."));
+        raiseError(L"Nelson:image_processing:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
         break;
     }
 

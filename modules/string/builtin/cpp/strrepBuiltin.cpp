@@ -24,7 +24,8 @@ Nelson::StringGateway::strrepBuiltin(int nLhs, const ArrayOfVector& argIn)
     bool needToOverload;
     ArrayOf res = StringReplace(argIn[0], argIn[1], argIn[2], true, needToOverload);
     if (needToOverload) {
-        Error(_W("Invalid input argument(s): cell or string expected."));
+        raiseError(L"Nelson:string:ERROR_INVALID_INPUT_ARGUMENTS_CELL_OR_STRING_EXPECTED",
+            ERROR_INVALID_INPUT_ARGUMENTS_CELL_OR_STRING_EXPECTED);
     } else {
         retval << res;
     }

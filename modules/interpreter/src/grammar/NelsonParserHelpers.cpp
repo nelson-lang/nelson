@@ -17,6 +17,8 @@
 #include "ParserState.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -63,11 +65,11 @@ yyxpt(const std::string& xStr, const ParseRHS& val)
     std::string msg;
     if (getParserFilenameU() == "") {
         msg = fmt::format(_("Expecting {0}"), xStr);
+        raiseError(L"Nelson:interpreter:ERROR_EXPECTING", ERROR_EXPECTING, utf8_to_wstring(xStr));
     } else {
-        msg = fmt::format(_("Expecting {0}\n\tat line {1}, column {2} of file {3}"), xStr,
-            linenumber, colnumber, getParserFilenameU());
+        raiseError(L"Nelson:interpreter:ERROR_EXPECTING_AT", ERROR_EXPECTING_AT, linenumber,
+            colnumber, getParserFilenameW());
     }
-    Error(msg);
     return 0;
 }
 //=============================================================================

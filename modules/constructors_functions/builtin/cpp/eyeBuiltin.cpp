@@ -74,17 +74,22 @@ parseDimensions(const ArrayOfVector& argIn, sizeType nRhs, indexType& n, indexTy
                 delete[] pIndex;
                 return;
             } else {
-                Error(_W("N-dimensional arrays are not supported."));
+                raiseError(
+                    L"Nelson:constructors_functions:ERROR_N_DIMENSIONAL_ARRAYS_NOT_SUPPORTED",
+                    ERROR_N_DIMENSIONAL_ARRAYS_NOT_SUPPORTED);
             }
         } else {
-            Error(_W("Size vector should be a row vector with real elements."));
+            raiseError(
+                L"Nelson:constructors_functions:ERROR_SIZE_VECTOR_ROW_REAL_ELEMENTS_EXPECTED",
+                ERROR_SIZE_VECTOR_ROW_REAL_ELEMENTS_EXPECTED);
         }
     } else if (nRhs == 2) {
         n = argIn[0].getContentAsScalarIndex(true, true, true);
         m = argIn[1].getContentAsScalarIndex(true, true, true);
         return;
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:constructors_functions:ERROR_WRONG_NUMBERS_INPUT_ARGS",
+            ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
 }
 //=============================================================================

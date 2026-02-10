@@ -34,7 +34,9 @@ Nelson::ConstructorsGateway::onesBuiltin(int nLhs, const ArrayOfVector& argIn)
                 if (paramstr == L"like") {
                     ArrayOf lastArg = argIn[argIn.size() - 1];
                     if (lastArg.isSparse()) {
-                        Error(_W("A supported type expected at last argument."));
+                        raiseError(L"Nelson:constructors_functions:ERROR_SUPPORTED_TYPE_EXPECTED_"
+                                   L"LAST_ARGUMENT",
+                            ERROR_SUPPORTED_TYPE_EXPECTED_LAST_ARGUMENT);
                     }
                     switch (lastArg.getDataClass()) {
                     case NLS_LOGICAL:
@@ -77,13 +79,16 @@ Nelson::ConstructorsGateway::onesBuiltin(int nLhs, const ArrayOfVector& argIn)
                         cl = NLS_SCOMPLEX;
                         break;
                     default:
-                        Error(_W("A supported type expected at last argument."));
+                        raiseError(L"Nelson:constructors_functions:ERROR_SUPPORTED_TYPE_EXPECTED_"
+                                   L"LAST_ARGUMENT",
+                            ERROR_SUPPORTED_TYPE_EXPECTED_LAST_ARGUMENT);
                         break;
                     }
                     nRhs = nRhs - 2;
                     bCheckClassName = false;
                 } else {
-                    Error(_W("\'like\' expected at n - 2 argument."));
+                    raiseError(L"Nelson:constructors_functions:ERROR_LIKE_EXPECTED_AT_N_MINUS_2",
+                        ERROR_LIKE_EXPECTED_AT_N_MINUS_2);
                 }
             }
         }
@@ -120,8 +125,10 @@ Nelson::ConstructorsGateway::onesBuiltin(int nLhs, const ArrayOfVector& argIn)
                             dims[1] = dims[0];
                         }
                     } else {
-                        Error(_W("Too many dimensions! Current limit is") + L" "
-                            + std::to_wstring(Nelson::maxDims) + L".");
+                        raiseError(L"Nelson:constructors_functions:ERROR_TOO_MANY_DIMENSIONS_"
+                                   L"CURRENT_LIMIT",
+                            ERROR_TOO_MANY_DIMENSIONS_CURRENT_LIMIT,
+                            std::to_wstring(Nelson::maxDims));
                     }
                 } else {
                     raiseError(L"Nelson:constructors_functions:ERROR_WRONG_ARGUMENT_X_SIZE_ROW_"
@@ -129,9 +136,9 @@ Nelson::ConstructorsGateway::onesBuiltin(int nLhs, const ArrayOfVector& argIn)
                         ERROR_WRONG_ARGUMENT_X_SIZE_ROW_VECTOR_EXPECTED, 1);
                 }
             } else {
-                raiseError(
-                    L"Nelson:constructors_functions:ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED, 1);
+                raiseError(L"Nelson:constructors_functions:ERROR_WRONG_ARGUMENT_X_SIZE_ROW_"
+                           L"VECTOR_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_SIZE_ROW_VECTOR_EXPECTED, 1);
             }
         } else {
             for (sizeType k = 0; k < nRhs; k++) {

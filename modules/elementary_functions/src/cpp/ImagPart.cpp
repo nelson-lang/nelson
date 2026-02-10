@@ -14,6 +14,7 @@
 #include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -22,7 +23,8 @@ ImagPart(const ArrayOf& arrayIn)
 {
     ArrayOf res;
     if (arrayIn.isSparse()) {
-        Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_imag'");
+        raiseError(L"Nelson:elementary_functions:ERROR_UNDEFINED_FUNCTION",
+            ERROR_UNDEFINED_FUNCTION, utf8_to_wstring(ClassName(arrayIn)) + L"_imag");
     }
     switch (arrayIn.getDataClass()) {
     case NLS_SCOMPLEX: {
@@ -55,7 +57,8 @@ ImagPart(const ArrayOf& arrayIn)
     case NLS_CLASS_ARRAY:
     case NLS_FUNCTION_HANDLE:
     default: {
-        Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_imag'");
+        raiseError(L"Nelson:elementary_functions:ERROR_UNDEFINED_FUNCTION",
+            ERROR_UNDEFINED_FUNCTION, utf8_to_wstring(ClassName(arrayIn)) + L"_imag");
     } break;
     case NLS_CHAR:
     case NLS_DOUBLE:

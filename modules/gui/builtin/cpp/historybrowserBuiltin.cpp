@@ -35,7 +35,8 @@ Nelson::GuiGateway::historybrowserBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param == L"sync") {
             HistoryBrowser::synchronizeHistoryBrowser();
         } else {
-            Error(_W("Wrong value for #1 argument."));
+            raiseError(
+                L"Nelson:gui:ERROR_WRONG_VALUE_FOR_1_ARGUMENT", ERROR_WRONG_VALUE_FOR_1_ARGUMENT);
         }
     } break;
     case 2: {
@@ -46,7 +47,8 @@ Nelson::GuiGateway::historybrowserBuiltin(int nLhs, const ArrayOfVector& argIn)
                 if (param2 == L"toggle") {
                     HistoryBrowser::toggleVisibilityHistoryBrowser();
                 } else {
-                    Error(_W("Wrong value for #2 argument."));
+                    raiseError(L"Nelson:gui:ERROR_WRONG_VALUE_FOR_2_ARGUMENT",
+                        ERROR_WRONG_VALUE_FOR_2_ARGUMENT);
                 }
             } else {
                 logical visibility = argIn[1].getContentAsLogicalScalar();
@@ -57,7 +59,8 @@ Nelson::GuiGateway::historybrowserBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
             }
         } else {
-            Error(_W("Wrong value for #1 argument."));
+            raiseError(
+                L"Nelson:gui:ERROR_WRONG_VALUE_FOR_1_ARGUMENT", ERROR_WRONG_VALUE_FOR_1_ARGUMENT);
         }
     } break;
     }

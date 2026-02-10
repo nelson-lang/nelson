@@ -10,9 +10,9 @@
 #include "getmodulesBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ModulesManager.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,7 +32,8 @@ Nelson::ModulesManagerGateway::getmodulesBuiltin(int nLhs, const ArrayOfVector& 
                 ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
         }
         if (param != L"reverse") {
-            Error(_W("Wrong value for #1 argument, \'reverse\' expected."));
+            raiseError(L"Nelson:modules_manager:ERROR_WRONG_VALUE_FOR_1_ARGUMENT_REVERSE_EXPECTED",
+                ERROR_WRONG_VALUE_FOR_1_ARGUMENT_REVERSE_EXPECTED);
         }
         bReverse = true;
     }

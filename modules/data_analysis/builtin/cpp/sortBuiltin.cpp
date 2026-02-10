@@ -46,7 +46,8 @@ isValidMissingPlacement(
             placement = MISSING_PLACEMENT::LAST_PLACEMENT;
             res = true;
         } else {
-            Error(_W("'auto', 'first', or 'last' for 'MissingPlacement' parameter."));
+            raiseError(L"Nelson:data_analysis:ERROR_MISSINGPLACEMENT_EXPECTED_VALUES",
+                ERROR_MISSINGPLACEMENT_EXPECTED_VALUES);
         }
     }
     return res;
@@ -68,7 +69,8 @@ isValidComparisonMethod(
             comparisonMethod = COMPARISON_METHOD::ABS_METHOD;
             res = true;
         } else {
-            Error(_W("'auto', 'real', or 'abs' for 'ComparisonMethod' parameter."));
+            raiseError(L"Nelson:data_analysis:ERROR_COMPARISONMETHOD_EXPECTED_VALUES",
+                ERROR_COMPARISONMETHOD_EXPECTED_VALUES);
         }
     }
     return res;
@@ -90,7 +92,8 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring value;
     switch (argIn.size()) {
     case 0: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:data_analysis:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     case 1: {
         // sort(A)
@@ -106,12 +109,15 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param2.isNumeric()) {
             dim = param2.getContentAsScalarIndex();
             if (dim < 1) {
-                Error(_W("Dimension argument to sort should be positive"));
+                raiseError(L"Nelson:data_analysis:ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_"
+                           L"INTEGER_SCALAR",
+                    ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR);
             }
         } else {
             std::wstring direction = param2.getContentAsWideString();
             if (!isValidDirection(direction, ascend)) {
-                Error(_W("Sort direction must be either the string 'ascend' or 'descend'"));
+                raiseError(L"Nelson:data_analysis:ERROR_SORT_DIRECTION_MUST_BE_ASCEND_OR_DESCEND",
+                    ERROR_SORT_DIRECTION_MUST_BE_ASCEND_OR_DESCEND);
             }
         }
     } break;
@@ -124,12 +130,15 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param2.isNumeric()) {
             dim = param2.getContentAsScalarIndex();
             if (dim < 1) {
-                Error(_W("Dimension argument to sort should be positive"));
+                raiseError(L"Nelson:data_analysis:ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_"
+                           L"INTEGER_SCALAR",
+                    ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR);
             }
             ArrayOf param3 = argIn[2];
             std::wstring direction = param3.getContentAsWideString();
             if (!isValidDirection(direction, ascend)) {
-                Error(_W("Sort direction must be either the string 'ascend' or 'descend'"));
+                raiseError(L"Nelson:data_analysis:ERROR_SORT_DIRECTION_MUST_BE_ASCEND_OR_DESCEND",
+                    ERROR_SORT_DIRECTION_MUST_BE_ASCEND_OR_DESCEND);
             }
         } else {
             name = argIn[1].getContentAsWideString();
@@ -139,7 +148,9 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
                 res = isValidMissingPlacement(name, value, placement);
             }
             if (!res) {
-                Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
+                raiseError(
+                    L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
+                    ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
             }
         }
     } break;
@@ -153,12 +164,15 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param2.isNumeric()) {
             dim = param2.getContentAsScalarIndex();
             if (dim < 1) {
-                Error(_W("Dimension argument to sort should be positive"));
+                raiseError(L"Nelson:data_analysis:ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_"
+                           L"INTEGER_SCALAR",
+                    ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR);
             }
         } else {
             std::wstring direction = param2.getContentAsWideString();
             if (!isValidDirection(direction, ascend)) {
-                Error(_W("Sort direction must be either the string 'ascend' or 'descend'"));
+                raiseError(L"Nelson:data_analysis:ERROR_SORT_DIRECTION_MUST_BE_ASCEND_OR_DESCEND",
+                    ERROR_SORT_DIRECTION_MUST_BE_ASCEND_OR_DESCEND);
             }
         }
         name = argIn[2].getContentAsWideString();
@@ -168,7 +182,8 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
             res = isValidMissingPlacement(name, value, placement);
         }
         if (!res) {
-            Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
+            raiseError(L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
+                ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
         }
     } break;
     case 5: {
@@ -181,11 +196,14 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param2.isNumeric()) {
             dim = param2.getContentAsScalarIndex();
             if (dim < 1) {
-                Error(_W("Dimension argument to sort should be positive"));
+                raiseError(L"Nelson:data_analysis:ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_"
+                           L"INTEGER_SCALAR",
+                    ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR);
             }
             std::wstring direction = argIn[2].getContentAsWideString();
             if (!isValidDirection(direction, ascend)) {
-                Error(_W("Sort direction must be either the string 'ascend' or 'descend'"));
+                raiseError(L"Nelson:data_analysis:ERROR_SORT_DIRECTION_MUST_BE_ASCEND_OR_DESCEND",
+                    ERROR_SORT_DIRECTION_MUST_BE_ASCEND_OR_DESCEND);
             }
 
             name = argIn[2].getContentAsWideString();
@@ -195,7 +213,9 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
                 res = isValidMissingPlacement(name, value, placement);
             }
             if (!res) {
-                Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
+                raiseError(
+                    L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
+                    ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
             }
         } else {
             name = argIn[1].getContentAsWideString();
@@ -205,7 +225,9 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
                 res = isValidMissingPlacement(name, value, placement);
             }
             if (!res) {
-                Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
+                raiseError(
+                    L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
+                    ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
             }
 
             name = argIn[3].getContentAsWideString();
@@ -215,7 +237,9 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
                 res = isValidMissingPlacement(name, value, placement);
             }
             if (!res) {
-                Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
+                raiseError(
+                    L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
+                    ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
             }
         }
     } break;
@@ -229,12 +253,15 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param2.isNumeric()) {
             dim = param2.getContentAsScalarIndex();
             if (dim < 1) {
-                Error(_W("Dimension argument to sort should be positive"));
+                raiseError(L"Nelson:data_analysis:ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_"
+                           L"INTEGER_SCALAR",
+                    ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR);
             }
         } else {
             std::wstring direction = param2.getContentAsWideString();
             if (!isValidDirection(direction, ascend)) {
-                Error(_W("Sort direction must be either the string 'ascend' or 'descend'"));
+                raiseError(L"Nelson:data_analysis:ERROR_SORT_DIRECTION_MUST_BE_ASCEND_OR_DESCEND",
+                    ERROR_SORT_DIRECTION_MUST_BE_ASCEND_OR_DESCEND);
             }
         }
         name = argIn[2].getContentAsWideString();
@@ -244,7 +271,8 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
             res = isValidMissingPlacement(name, value, placement);
         }
         if (!res) {
-            Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
+            raiseError(L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
+                ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
         }
         name = argIn[4].getContentAsWideString();
         value = argIn[5].getContentAsWideString();
@@ -253,7 +281,8 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
             res = isValidMissingPlacement(name, value, placement);
         }
         if (!res) {
-            Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
+            raiseError(L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
+                ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
         }
     } break;
     case 7: {
@@ -263,11 +292,14 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf param2 = argIn[1];
         dim = param2.getContentAsScalarIndex();
         if (dim < 1) {
-            Error(_W("Dimension argument to sort should be positive"));
+            raiseError(
+                L"Nelson:data_analysis:ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR",
+                ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR);
         }
         std::wstring direction = argIn[2].getContentAsWideString();
         if (!isValidDirection(direction, ascend)) {
-            Error(_W("Sort direction must be either the string 'ascend' or 'descend'"));
+            raiseError(L"Nelson:data_analysis:ERROR_SORT_DIRECTION_MUST_BE_ASCEND_OR_DESCEND",
+                ERROR_SORT_DIRECTION_MUST_BE_ASCEND_OR_DESCEND);
         }
         name = argIn[3].getContentAsWideString();
         value = argIn[4].getContentAsWideString();
@@ -276,7 +308,8 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
             res = isValidMissingPlacement(name, value, placement);
         }
         if (!res) {
-            Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
+            raiseError(L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
+                ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
         }
 
         name = argIn[5].getContentAsWideString();
@@ -286,11 +319,13 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
             res = isValidMissingPlacement(name, value, placement);
         }
         if (!res) {
-            Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
+            raiseError(L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
+                ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
         }
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:data_analysis:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
 

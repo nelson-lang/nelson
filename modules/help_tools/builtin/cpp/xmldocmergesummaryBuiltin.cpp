@@ -24,7 +24,7 @@ xmldocmergesummaryBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring errorMessage;
     if (!XmlDocMergeSummary(destinationDirectory, filenames, errorMessage)) {
         retval.push_back(ArrayOf::logicalConstructor(false));
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:help_tools:XMLDOC_MERGE_SUMMARY");
     } else {
         retval.push_back(ArrayOf::logicalConstructor(true));
     }

@@ -20,6 +20,7 @@
 #include "PythonTypesWrapper.hpp"
 #include "PythonEngine.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -358,7 +359,7 @@ PythonObjectHandle::get(const std::wstring& propertyName, ArrayOf& result)
             errorMessage = getPythonStandardError();
             NLSPyErr_Clear();
         }
-        Error(errorMessage, L"Nelson:Python:PyException");
+        Error(errorMessage, L"Nelson:Python:ERROR_CALLING_PROPERTY");
     }
     return true;
 }
@@ -380,7 +381,8 @@ handleUnaryOperator(
 
     PyObject* nameMethod = NLSPyUnicode_FromString(utf8OperatorName.c_str());
     if (!nameMethod) {
-        Error(_W("Failed to create Python method name object."), L"Nelson:Python:PyException");
+        raiseError(L"Nelson:Python:ERROR_FAILED_TO_CREATE_PYTHON_METHOD_NAME_OBJECT",
+            ERROR_FAILED_TO_CREATE_PYTHON_METHOD_NAME_OBJECT);
     }
 
     PyObject* pyObjectResult = NLSPyObject_VectorcallMethod(
@@ -404,7 +406,7 @@ handleUnaryOperator(
             errorMessage = getPythonStandardError();
             NLSPyErr_Clear();
         }
-        Error(errorMessage, L"Nelson:Python:PyException");
+        Error(errorMessage, L"Nelson:Python:ERROR_CALLING_METHOD");
     }
     PythonObjectHandle* pythonObjectHandle = new PythonObjectHandle(pyObjectResult);
     results << ArrayOf::handleConstructor(pythonObjectHandle);
@@ -422,13 +424,15 @@ handleBinaryOperator(PyObject* pyObject, const std::wstring& pythonOperatorName,
 
     PyObject* arg = NLSPy_BuildValue("(O)", p2);
     if (!arg) {
-        Error(_W("Failed to create Python argument tuple."), L"Nelson:Python:PyException");
+        raiseError(L"Nelson:Python:ERROR_FAILED_TO_CREATE_PYTHON_ARGUMENT_TUPLE",
+            ERROR_FAILED_TO_CREATE_PYTHON_ARGUMENT_TUPLE);
         return false;
     }
 
     PyObject* nameMethod = NLSPyUnicode_FromString(wstring_to_utf8(pythonOperatorName).c_str());
     if (!nameMethod) {
-        Error(_W("Failed to create Python method name object."), L"Nelson:Python:PyException");
+        raiseError(L"Nelson:Python:ERROR_FAILED_TO_CREATE_PYTHON_METHOD_NAME_OBJECT",
+            ERROR_FAILED_TO_CREATE_PYTHON_METHOD_NAME_OBJECT);
     }
 
     PyObject* args[2] = { p1, p2 };
@@ -510,7 +514,7 @@ PythonObjectHandle::invokeHashMethod(uint64& hashValue)
     PyObject* pyObject = (PyObject*)this->getPointer();
 
     if (!pyObject) {
-        Error(_W("Invalid Python object."), L"Nelson:Python:PyException");
+        raiseError(L"Nelson:Python:ERROR_INVALID_PYTHON_OBJECT", ERROR_INVALID_PYTHON_OBJECT);
     }
     hashValue = PyGetHashValue(pyObject);
     return true;

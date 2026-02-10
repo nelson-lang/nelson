@@ -20,6 +20,7 @@
 #include "haveNh5Header.hpp"
 #include "Warning.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -34,11 +35,11 @@ h5Load(Evaluator* eval, const std::wstring& filename, const wstringVector& names
         = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            Error(_W("Permission denied."));
+            raiseError(L"Nelson:hdf5:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
         }
     }
     if (!fileExistPreviously) {
-        Error(_W("File does not exist."));
+        raiseError(L"Nelson:hdf5:ERROR_FILE_DOES_NOT_EXIST", ERROR_FILE_DOES_NOT_EXIST);
     }
 
     int16 nh5Version;
@@ -47,18 +48,18 @@ h5Load(Evaluator* eval, const std::wstring& filename, const wstringVector& names
     bool haveHeader = haveNh5Header(hdf5_filename.wstring(), header, nh5Version, nh5Endian);
     if (haveHeader) {
         if (nh5Version != NELSON_HEADER_VERSION) {
-            Error(_W("Invalid file format."));
+            raiseError(L"Nelson:hdf5:ERROR_INVALID_FILE_FORMAT", ERROR_INVALID_FILE_FORMAT);
         }
     }
     hid_t fid
         = H5Fopen(wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
     if (fid == H5I_INVALID_HID) {
-        Error(_W("Open file failed."));
+        raiseError(L"Nelson:hdf5:ERROR_OPEN_FILE_FAILED", ERROR_OPEN_FILE_FAILED);
     }
     if (!haveHeader) {
         if (!isNelsonH5File(fid)) {
             H5Fclose(fid);
-            Error(_W("Invalid file format."));
+            raiseError(L"Nelson:hdf5:ERROR_INVALID_FILE_FORMAT", ERROR_INVALID_FILE_FORMAT);
         }
     }
     stringVector variableNamesInFile = getVariableNames(fid);
@@ -84,8 +85,8 @@ h5Load(Evaluator* eval, const std::wstring& filename, const wstringVector& names
             values.push_back(value);
         } else {
             H5Fclose(fid);
-            std::string msg = _("Cannot read variable:") + std::string(" ") + name;
-            Error(msg);
+            raiseError(L"Nelson:hdf5:ERROR_CANNOT_READ_VARIABLE", ERROR_CANNOT_READ_VARIABLE,
+                utf8_to_wstring(name));
         }
     }
     herr_t status = H5Fclose(fid);

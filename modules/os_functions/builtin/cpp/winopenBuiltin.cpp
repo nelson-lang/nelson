@@ -31,10 +31,12 @@ Nelson::OsFunctionsGateway::winopenBuiltin(int nLhs, const ArrayOfVector& argIn)
             ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
     }
     if (!WinOpen(cmd)) {
-        Error(_W("Filename not associated to an application."));
+        raiseError(L"Nelson:os_functions:ERROR_FILENAME_NOT_ASSOCIATED_TO_AN_APPLICATION",
+            ERROR_FILENAME_NOT_ASSOCIATED_TO_AN_APPLICATION);
     }
 #else
-    Error(_W("Not implemented on this platform."));
+    raiseError(L"Nelson:os_functions:ERROR_NOT_IMPLEMENTED_ON_PLATFORM",
+        ERROR_NOT_IMPLEMENTED_ON_PLATFORM);
 #endif
     return retval;
 }

@@ -11,6 +11,7 @@
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "Exception.hpp"
 #include "NewWithException.hpp"
@@ -36,7 +37,7 @@ toCellArrayOfCharacterVectors(const stringVector& vectorStr, bool bAsColumn)
     try {
         elements = std::make_unique<ArrayOf[]>(nbElements);
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:types:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     for (size_t k = 0; k < nbElements; ++k) {
         elements[k] = ArrayOf::characterArrayConstructor(vectorStr[k]);
@@ -67,7 +68,7 @@ toCellArrayOfCharacterVectors(const wstringVector& vectorStr, bool bAsColumn)
     try {
         elements = std::make_unique<ArrayOf[]>(nbElements);
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:types:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     for (size_t k = 0; k < nbElements; ++k) {
         elements[k] = ArrayOf::characterArrayConstructor(vectorStr[k]);
@@ -159,7 +160,8 @@ ArrayOf::cellConstructor(ArrayOfMatrix& m)
                  * Otherwise, make sure the column counts are all the same...
                  */
                 if (ptr.size() != columnCount) {
-                    Error(_W("Cell definition must have same number of elements in each row"));
+                    raiseError(L"Nelson:types:ERROR_CELL_DEF_MUST_HAVE_SAME_ELEMENTS_PER_ROW",
+                        ERROR_CELL_DEF_MUST_HAVE_SAME_ELEMENTS_PER_ROW);
                 }
             }
             ++i;
@@ -211,13 +213,16 @@ ArrayOf
 ArrayOf::getVectorContents(ArrayOf& indexing)
 {
     if (this->isCell()) {
-        Error(_W("Attempt to apply contents-indexing to non-cell array object."));
+        raiseError(L"Nelson:types:ERROR_ATTEMPT_APPLY_CONTENTS_INDEXING_TO_NON_CELL_ARRAY_OBJECT",
+            ERROR_ATTEMPT_APPLY_CONTENTS_INDEXING_TO_NON_CELL_ARRAY_OBJECT);
     }
     if (indexing.isEmpty()) {
-        Error(_W("Empty contents indexing is not defined."));
+        raiseError(L"Nelson:types:ERROR_EMPTY_CONTENTS_INDEXING_NOT_DEFINED",
+            ERROR_EMPTY_CONTENTS_INDEXING_NOT_DEFINED);
     }
     if (isSparse()) {
-        Error(_W("getVectorContents not supported for sparse arrays."));
+        raiseError(L"Nelson:types:ERROR_GETVECTORCONTENTS_NOT_SUPPORTED_FOR_SPARSE_ARRAYS",
+            ERROR_GETVECTORCONTENTS_NOT_SUPPORTED_FOR_SPARSE_ARRAYS);
     }
     indexing.toOrdinalType();
     //
@@ -227,16 +232,19 @@ ArrayOf::getVectorContents(ArrayOf& indexing)
     //
     // The index HAS to be a scalar for contents-based addressing
     if (indexing.getElementCount() != 1) {
-        Error(_W("Content indexing must return a single value."));
+        raiseError(L"Nelson:types:ERROR_CONTENT_INDEXING_MUST_RETURN_SINGLE_VALUE",
+            ERROR_CONTENT_INDEXING_MUST_RETURN_SINGLE_VALUE);
     }
     auto index_p = static_cast<constIndexPtr>(indexing.dp->getData());
     if (*index_p == 0) {
-        Error(_W("Index exceeds cell array dimensions"));
+        raiseError(L"Nelson:types:ERROR_INDEX_EXCEEDS_CELL_ARRAY_DIMENSIONS",
+            ERROR_INDEX_EXCEEDS_CELL_ARRAY_DIMENSIONS);
     } else {
         indexType ndx = *index_p - 1;
         indexType bound = getElementCount();
         if (ndx >= bound) {
-            Error(_W("Index exceeds cell array dimensions"));
+            raiseError(L"Nelson:types:ERROR_INDEX_EXCEEDS_CELL_ARRAY_DIMENSIONS",
+                ERROR_INDEX_EXCEEDS_CELL_ARRAY_DIMENSIONS);
         }
         const auto* srcPart = static_cast<const ArrayOf*>(dp->getData());
         // Make a source of whatever is in that index, and return it.
@@ -252,10 +260,13 @@ ArrayOf
 ArrayOf::getNDimContents(ArrayOfVector& indexing)
 {
     if (!this->isCell()) {
-        Error(_W("Attempt to apply contents-indexing to non-cell array object."));
+        raiseError(
+            L"Nelson:types:ERROR_ATTEMPT_APPLY_CONTENTS_INDEXING_TO_NON_CELL_ARRAY_OBJECT_VARIANT",
+            ERROR_ATTEMPT_APPLY_CONTENTS_INDEXING_TO_NON_CELL_ARRAY_OBJECT_VARIANT);
     }
     if (isSparse()) {
-        Error(_W("getNDimContents not supported for sparse arrays."));
+        raiseError(L"Nelson:types:ERROR_GETNDIMCONTENTS_NOT_SUPPORTED_FOR_SPARSE_ARRAYS",
+            ERROR_GETNDIMCONTENTS_NOT_SUPPORTED_FOR_SPARSE_ARRAYS);
     }
     indexType L = indexing.size();
     Dimensions outPos(L);
@@ -266,7 +277,8 @@ ArrayOf::getNDimContents(ArrayOfVector& indexing)
     for (indexType i = 0; i < L; i++) {
         indexing[i].toOrdinalType();
         if (indexing[i].getElementCount() != 1) {
-            Error(_W("Content indexing must return a single value."));
+            raiseError(L"Nelson:types:ERROR_CONTENT_INDEXING_MUST_RETURN_SINGLE_VALUE",
+                ERROR_CONTENT_INDEXING_MUST_RETURN_SINGLE_VALUE);
         }
         auto sp = static_cast<constIndexPtr>(indexing[i].dp->getData());
         outPos[i] = *sp - 1;
@@ -284,10 +296,13 @@ ArrayOf::getVectorContentsAsList(ArrayOf& index)
 {
     ArrayOfVector m;
     if (!this->isCell() && !this->isStringArray()) {
-        Error(_W("Attempt to apply contents-indexing to non cell-array object."));
+        raiseError(
+            L"Nelson:types:ERROR_ATTEMPT_APPLY_CONTENTS_INDEXING_TO_NON_CELL_ARRAY_OBJECT_VARIANT",
+            ERROR_ATTEMPT_APPLY_CONTENTS_INDEXING_TO_NON_CELL_ARRAY_OBJECT_VARIANT);
     }
     if (isSparse()) {
-        Error(_W("getVectorContentsAsList not supported for sparse arrays."));
+        raiseError(L"Nelson:types:ERROR_GETVECTORCONTENTSASLIST_NOT_SUPPORTED_FOR_SPARSE_ARRAYS",
+            ERROR_GETVECTORCONTENTSASLIST_NOT_SUPPORTED_FOR_SPARSE_ARRAYS);
     }
     if (index.isEmpty()) {
         return {};
@@ -298,7 +313,9 @@ ArrayOf::getVectorContentsAsList(ArrayOf& index)
     if (index.isRowVectorCharacterArray()) {
         std::wstring str = index.getContentAsWideString();
         if (str != L":") {
-            Error(_W("index must either be real positive integers or logicals."));
+            raiseError(
+                L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS",
+                ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
         }
         index = ArrayOf::integerRangeConstructor(1, 1, dp->getElementCount(), true);
     }
@@ -308,7 +325,8 @@ ArrayOf::getVectorContentsAsList(ArrayOf& index)
     // Get our length
     indexType bound = getElementCount();
     if (max_index > bound) {
-        Error(_W("ArrayOf index exceeds bounds of cell-array"));
+        raiseError(L"Nelson:types:ERROR_ARRAYOF_INDEX_EXCEEDS_BOUNDS_OF_CELL_ARRAY",
+            ERROR_ARRAYOF_INDEX_EXCEEDS_BOUNDS_OF_CELL_ARRAY);
     }
     // Get the length of the index object
     indexType index_length = index.getElementCount();
@@ -331,10 +349,13 @@ ArrayOf::getNDimContentsAsList(ArrayOfVector& index)
 {
     bool isStringArray = this->isStringArray();
     if (!this->isCell() && !isStringArray) {
-        Error(_W("Attempt to apply contents-indexing to non cell or string array object."));
+        raiseError(L"Nelson:types:ERROR_ATTEMPT_APPLY_CONTENTS_INDEXING_TO_NON_CELL_OR_STRING_"
+                   L"ARRAY_OBJECT",
+            ERROR_ATTEMPT_APPLY_CONTENTS_INDEXING_TO_NON_CELL_OR_STRING_ARRAY_OBJECT);
     }
     if (isSparse()) {
-        Error(_W("getNDimContentsAsList not supported for sparse arrays."));
+        raiseError(L"Nelson:types:ERROR_GETNDIMCONTENTSASLIST_NOT_SUPPORTED_FOR_SPARSE_ARRAYS",
+            ERROR_GETNDIMCONTENTSASLIST_NOT_SUPPORTED_FOR_SPARSE_ARRAYS);
     }
     // Store the return value here
     ArrayOfVector m;
@@ -347,7 +368,9 @@ ArrayOf::getNDimContentsAsList(ArrayOfVector& index)
         if (index[i].isRowVectorCharacterArray()) {
             std::wstring str = index[i].getContentAsWideString();
             if (str != L":") {
-                Error(_W("index must either be real positive integers or logicals."));
+                raiseError(
+                    L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS",
+                    ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
             }
             indexType maxVal = dp->dimensions.getDimensionLength(i);
             index[i] = ArrayOf::integerRangeConstructor(1, 1, maxVal, false);
@@ -371,7 +394,9 @@ ArrayOf::getNDimContentsAsList(ArrayOfVector& index)
         srcindex = dp->dimensions.mapPoint(currentIndex);
         if (isStringArray) {
             if (!qp[srcindex].isCharacterArray()) {
-                Error(_W("Conversion from <missing> to character vector is not supported."));
+                raiseError(
+                    L"Nelson:types:ERROR_CONVERSION_FROM_MISSING_TO_CHARACTER_VECTOR_NOT_SUPPORTED",
+                    ERROR_CONVERSION_FROM_MISSING_TO_CHARACTER_VECTOR_NOT_SUPPORTED);
             }
         }
         m << qp[srcindex];
@@ -395,18 +420,22 @@ ArrayOf::setVectorContents(ArrayOf& index, ArrayOf& data)
 {
     promoteType(NLS_CELL_ARRAY, data.dp->fieldNames);
     if (isSparse()) {
-        Error(_W("setVectorContents not supported for sparse arrays."));
+        raiseError(L"Nelson:types:ERROR_SETVECTORCONTENTS_NOT_SUPPORTED_FOR_SPARSE_ARRAYS",
+            ERROR_SETVECTORCONTENTS_NOT_SUPPORTED_FOR_SPARSE_ARRAYS);
     }
     index.toOrdinalType();
     if (index.getElementCount() == 0) {
         return;
     }
     if (index.getElementCount() != 1) {
-        Error(_W("In expression A{I} = B, I must reference a single element of cell-array A."));
+        raiseError(
+            L"Nelson:types:ERROR_IN_EXPRESSION_A_BRACE_I_EQUALS_B_I_MUST_REFERENCE_SINGLE_ELEMENT",
+            ERROR_IN_EXPRESSION_A_BRACE_I_EQUALS_B_I_MUST_REFERENCE_SINGLE_ELEMENT);
     }
     auto index_p = static_cast<constIndexPtr>(index.dp->getData());
     if (*index_p == 0) {
-        Error(_W("Illegal negative index in expression A{I} = B."));
+        raiseError(L"Nelson:types:ERROR_ILLEGAL_NEGATIVE_INDEX_IN_EXPRESSION_A_BRACE_I_EQUALS_B",
+            ERROR_ILLEGAL_NEGATIVE_INDEX_IN_EXPRESSION_A_BRACE_I_EQUALS_B);
     }
     indexType ndx = *index_p - 1;
     vectorResize(ndx + 1);
@@ -425,7 +454,8 @@ ArrayOf::setNDimContents(ArrayOfVector& index, ArrayOf& data)
 {
     promoteType(NLS_CELL_ARRAY, data.dp->fieldNames);
     if (isSparse()) {
-        Error(_W("setNDimContents not supported for sparse arrays."));
+        raiseError(L"Nelson:types:ERROR_SETNDIMCONTENTS_NOT_SUPPORTED_FOR_SPARSE_ARRAYS",
+            ERROR_SETNDIMCONTENTS_NOT_SUPPORTED_FOR_SPARSE_ARRAYS);
     }
     indexType L = index.size();
     Dimensions outPos(L);
@@ -433,8 +463,8 @@ ArrayOf::setNDimContents(ArrayOfVector& index, ArrayOf& data)
     for (i = 0; i < L; i++) {
         index[i].toOrdinalType();
         if (!index[i].isScalar()) {
-            Error(_W("In expression A{I1,I2,...,IN} = B, (I1,...,IN) must reference a "
-                     "single element of cell-array A."));
+            raiseError(L"Nelson:types:ERROR_IN_EXPRESSION_A_BRACE_I1_I2_IN_EQUALS_B_MUST_REFERENCE",
+                ERROR_IN_EXPRESSION_A_BRACE_I1_I2_IN_EQUALS_B_MUST_REFERENCE);
         }
         auto sp = static_cast<constIndexPtr>(index[i].dp->getData());
         outPos[i] = *sp;
@@ -462,7 +492,8 @@ void
 ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
 {
     if (isSparse()) {
-        Error(_W("setVectorContentsAsList not supported for sparse arrays."));
+        raiseError(L"Nelson:types:ERROR_SETVECTORCONTENTSASLIST_NOT_SUPPORTED_FOR_SPARSE_ARRAYS",
+            ERROR_SETVECTORCONTENTSASLIST_NOT_SUPPORTED_FOR_SPARSE_ARRAYS);
     }
     bool asStringArray = (getDataClass() == NLS_STRING_ARRAY);
     if (asStringArray) {
@@ -472,7 +503,9 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
     }
     index.toOrdinalType();
     if (static_cast<indexType>(data.size()) < index.getElementCount()) {
-        Error(_W("Not enough right hand side values to satisy left hand side expression."));
+        raiseError(L"Nelson:types:ERROR_NOT_ENOUGH_RIGHT_HAND_SIDE_VALUES_TO_SATISFY_LEFT_HAND_"
+                   L"SIDE_EXPRESSION",
+            ERROR_NOT_ENOUGH_RIGHT_HAND_SIDE_VALUES_TO_SATISFY_LEFT_HAND_SIDE_EXPRESSION);
     }
     // Get the maximum index
     indexType max_index = index.getMaxAsIndex();
@@ -498,7 +531,8 @@ ArrayOf::setVectorContentsAsList(ArrayOf& index, ArrayOfVector& data)
                 if (isDoubleEmpty) {
                     qp[ndx] = front;
                 } else {
-                    Error(_W("{} assignment expects a character vector."));
+                    raiseError(L"Nelson:types:ERROR_ASSIGNMENT_EXPECTS_A_CHARACTER_VECTOR",
+                        ERROR_ASSIGNMENT_EXPECTS_A_CHARACTER_VECTOR);
                 }
             }
         } else {
@@ -521,7 +555,8 @@ void
 ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
 {
     if (isSparse()) {
-        Error(_W("setNDimContentsAsList not supported for sparse arrays."));
+        raiseError(L"Nelson:types:ERROR_SETNDIMCONTENTSASLIST_NOT_SUPPORTED_FOR_SPARSE_ARRAYS",
+            ERROR_SETNDIMCONTENTSASLIST_NOT_SUPPORTED_FOR_SPARSE_ARRAYS);
     }
     bool asStringArray = (getDataClass() == NLS_STRING_ARRAY);
     if (asStringArray) {
@@ -553,7 +588,9 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
             dataCount *= argLengths[i];
         }
         if (static_cast<int>(data.size()) < dataCount) {
-            Error(_W("Not enough right hand side values to satisfy left hand side expression"));
+            raiseError(L"Nelson:types:ERROR_NOT_ENOUGH_RIGHT_HAND_SIDE_VALUES_TO_SATISFY_LEFT_HAND_"
+                       L"SIDE_EXPRESSION_VARIANT",
+                ERROR_NOT_ENOUGH_RIGHT_HAND_SIDE_VALUES_TO_SATISFY_LEFT_HAND_SIDE_EXPRESSION_VARIANT);
         }
         // Resize us as necessary
         resize(a);
@@ -576,7 +613,8 @@ ArrayOf::setNDimContentsAsList(ArrayOfVector& index, ArrayOfVector& data)
                     if (front.isDoubleType(true) && front.isEmpty(true)) {
                         qp[j] = front;
                     } else {
-                        Error(_W("{} assignment expects a character vector."));
+                        raiseError(L"Nelson:types:ERROR_ASSIGNMENT_EXPECTS_A_CHARACTER_VECTOR",
+                            ERROR_ASSIGNMENT_EXPECTS_A_CHARACTER_VECTOR);
                     }
                 }
             } else {

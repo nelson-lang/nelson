@@ -27,7 +27,9 @@ Nelson::MemoryGateway::persistentBuiltin(Evaluator* eval, int nLhs, const ArrayO
     nargoutcheck(nLhs, 0, 0);
     Context* context = eval->getContext();
     if (context->getCurrentScope()->getName() == "base") {
-        Error(_W("A 'persistent' declaration is only allowed in a script file function."));
+        raiseError(L"Nelson:memory_manager:ERROR_A_PERSISTENT_DECLARATION_IS_ONLY_ALLOWED_IN_A_"
+                   L"SCRIPT_FILE_FUNCTION",
+            ERROR_A_PERSISTENT_DECLARATION_IS_ONLY_ALLOWED_IN_A_SCRIPT_FILE_FUNCTION);
     }
     for (size_t k = 0; k < argIn.size(); k++) {
         if (!argIn[k].isRowVectorCharacterArray()) {
@@ -36,10 +38,11 @@ Nelson::MemoryGateway::persistentBuiltin(Evaluator* eval, int nLhs, const ArrayO
         }
         std::string arg = argIn[k].getContentAsCString();
         if (!IsValidVariableName(arg)) {
-            Error(_W("Argument must contain a valid variable name."));
+            raiseError(L"Nelson:memory_manager:ERROR_ARGUMENT_MUST_CONTAIN_A_VALID_VARIABLE_NAME",
+                ERROR_ARGUMENT_MUST_CONTAIN_A_VALID_VARIABLE_NAME);
         }
         if (context->isLockedVariable(arg)) {
-            Error(_W("variable is locked."));
+            raiseError(L"Nelson:memory_manager:ERROR_VARIABLE_IS_LOCKED", ERROR_VARIABLE_IS_LOCKED);
         }
     }
     for (const auto& k : argIn) {

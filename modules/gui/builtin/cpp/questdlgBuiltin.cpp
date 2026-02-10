@@ -53,7 +53,8 @@ Nelson::GuiGateway::questdlgBuiltin(int nLhs, const ArrayOfVector& argIn)
             question += lines[k];
         }
     } else {
-        Error(_W("char, cell, or string expected."));
+        raiseError(
+            L"Nelson:gui:ERROR_CHAR_CELL_OR_STRING_EXPECTED", ERROR_CHAR_CELL_OR_STRING_EXPECTED);
     }
 
     if (argIn.size() > 1) {

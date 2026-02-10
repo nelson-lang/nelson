@@ -33,7 +33,8 @@ Nelson::FunctionsGateway::userpathBuiltin(int nLhs, const ArrayOfVector& argIn)
                 if (FileSystemWrapper::Path::is_directory(paramstr)) {
                     PathFunctionIndexerManager::getInstance()->setUserPath(paramstr, true);
                 } else {
-                    Error(_W("Not an existing directory:") + L" " + paramstr);
+                    raiseError(L"Nelson:functions_manager:ERROR_NOT_AN_EXISTING_DIRECTORY",
+                        ERROR_NOT_AN_EXISTING_DIRECTORY, paramstr);
                 }
             }
         } else {

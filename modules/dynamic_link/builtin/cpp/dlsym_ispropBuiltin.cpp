@@ -22,7 +22,7 @@ Nelson::DynamicLinkGateway::dlsym_ispropBuiltin(int nLhs, const ArrayOfVector& a
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != NLS_HANDLE_DLSYM_CATEGORY_STR) {
-        Error(_W("dlsym handle expected."));
+        raiseError(L"Nelson:dynamic_link:ERROR_DLSYM_HANDLE_EXPECTED", ERROR_DLSYM_HANDLE_EXPECTED);
     }
     ArrayOf param2 = argIn[1];
     std::wstring propertyName = param2.getContentAsWideString();

@@ -10,6 +10,7 @@
 #include "BitwiseOperators.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "BitwiseInteger.hpp"
 #include "ClassName.hpp"
 //=============================================================================
@@ -35,37 +36,42 @@ BitwiseOperator(BITWISE_OPERATOR bitwiseOperator, const ArrayOf& A, const ArrayO
     ArrayOf res = {};
     if (A.isDoubleType()) {
         if (!A.isIntegerValue() && !A.isEmpty()) {
-            Error(_W("finite integer values expected."),
-                getIdPrefix(bitwiseOperator) + L"outOfRange");
+            raiseError(L"Nelson:operators:ERROR_FINITE_INTEGER_VALUES_EXPECTED",
+                ERROR_FINITE_INTEGER_VALUES_EXPECTED, getIdPrefix(bitwiseOperator) + L"outOfRange");
         }
         if (!A.isPositive()) {
-            Error(_W("finite positive integer values expected."),
+            raiseError(L"Nelson:operators:ERROR_FINITE_POSITIVE_INTEGER_VALUES_EXPECTED",
+                ERROR_FINITE_POSITIVE_INTEGER_VALUES_EXPECTED,
                 getIdPrefix(bitwiseOperator) + L"outOfRange");
         }
     }
     if (B.isDoubleType()) {
         if (!B.isIntegerValue() && !B.isEmpty()) {
-            Error(_W("finite integer values expected."),
-                getIdPrefix(bitwiseOperator) + L"outOfRange");
+            raiseError(L"Nelson:operators:ERROR_FINITE_INTEGER_VALUES_EXPECTED",
+                ERROR_FINITE_INTEGER_VALUES_EXPECTED, getIdPrefix(bitwiseOperator) + L"outOfRange");
         }
         if (!B.isPositive()) {
-            Error(_W("finite positive integer values expected."),
+            raiseError(L"Nelson:operators:ERROR_FINITE_POSITIVE_INTEGER_VALUES_EXPECTED",
+                ERROR_FINITE_POSITIVE_INTEGER_VALUES_EXPECTED,
                 getIdPrefix(bitwiseOperator) + L"outOfRange");
         }
     }
     if (withAssumedType && !isSupportedAssumedType(assumedType)) {
-        Error(_W("ASSUMEDTYPE must be an integer type name."),
+        raiseError(L"Nelson:operators:ERROR_ASSUMEDTYPE_MUST_BE_INTEGER_TYPE_NAME",
+            ERROR_ASSUMEDTYPE_MUST_BE_INTEGER_TYPE_NAME,
             getIdPrefix(bitwiseOperator) + L"unknownTypeString");
     }
     bool isSupportedTypeA = (A.isDoubleType(true) || A.isIntegerType() || A.isLogical());
     bool isSupportedTypeB = (B.isDoubleType(true) || B.isIntegerType() || B.isLogical());
     bool isSupportedType = isSupportedTypeA && isSupportedTypeB;
     if (!isSupportedType) {
-        Error(_W("Operands to BIT Ops must be numeric."),
+        raiseError(L"Nelson:operators:ERROR_OPERANDS_TO_BIT_OPS_MUST_BE_NUMERIC",
+            ERROR_OPERANDS_TO_BIT_OPS_MUST_BE_NUMERIC,
             getIdPrefix(bitwiseOperator) + L"operandsNotNumeric");
     }
     if (A.isSparse() || B.isSparse()) {
-        Error(_W("Inputs must be full."), getIdPrefix(bitwiseOperator) + L"sparseArgs");
+        raiseError(L"Nelson:operators:ERROR_INPUTS_MUST_BE_FULL", ERROR_INPUTS_MUST_BE_FULL,
+            getIdPrefix(bitwiseOperator) + L"sparseArgs");
     }
     if (A.isLogical() && B.isLogical()) {
         // assumedType not considered for compatibility
@@ -75,7 +81,9 @@ BitwiseOperator(BITWISE_OPERATOR bitwiseOperator, const ArrayOf& A, const ArrayO
         return BitwiseOperatorDoubleDouble(bitwiseOperator, A, B);
     } else if (A.isIntegerType() && B.isIntegerType()) {
         if (A.getDataClass() != B.getDataClass()) {
-            Error(_W("Input arguments must have the same class or scalar doubles."),
+            raiseError(
+                L"Nelson:operators:ERROR_INPUT_ARGUMENTS_MUST_HAVE_SAME_CLASS_OR_SCALAR_DOUBLES",
+                ERROR_INPUT_ARGUMENTS_MUST_HAVE_SAME_CLASS_OR_SCALAR_DOUBLES,
                 getIdPrefix(bitwiseOperator) + L"mixedClasses");
         }
         std::wstring _assumedType = assumedType;

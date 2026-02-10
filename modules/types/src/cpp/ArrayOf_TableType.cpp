@@ -12,6 +12,8 @@
 #include "Data.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
@@ -161,7 +163,8 @@ ArrayOf::getTableColumn(const std::string& columnName) const
     int64 ndx = data.getFieldIndex(columnName);
 
     if (ndx < 0) {
-        Error(_("Column '") + columnName + _("' not found in table."));
+        raiseError(L"Nelson:types:ERROR_TABLE_COLUMN_NOT_FOUND", ERROR_TABLE_COLUMN_NOT_FOUND,
+            utf8_to_wstring(columnName));
     }
 
     return data.getField(columnName);
@@ -172,7 +175,8 @@ ArrayOf::getTableColumn(indexType columnIndex) const
 {
     stringVector varNames = getTableVariableNames();
     if (columnIndex >= varNames.size()) {
-        Error(_("Column index out of bounds."));
+        raiseError(
+            L"Nelson:types:ERROR_COLUMN_INDEX_OUT_OF_BOUNDS", ERROR_COLUMN_INDEX_OUT_OF_BOUNDS);
     }
 
     return getTableColumn(varNames[columnIndex]);
@@ -219,12 +223,14 @@ ArrayOf::addTableColumn(const std::string& columnName, const ArrayOf& columnData
 {
     stringVector varNames = getTableVariableNames();
     if (std::find(varNames.begin(), varNames.end(), columnName) != varNames.end()) {
-        Error(_("Column '") + columnName + _("' already exists. Use setTableColumn to modify."));
+        raiseError(L"Nelson:types:ERROR_TABLE_COLUMN_ALREADY_EXISTS",
+            ERROR_TABLE_COLUMN_ALREADY_EXISTS, utf8_to_wstring(columnName));
     }
 
     // Validate column data size matches table height
     if (!isTableEmpty() && columnData.getElementCount() != getTableHeight()) {
-        Error(_("Column data size must match table height."));
+        raiseError(L"Nelson:types:ERROR_COLUMN_DATA_SIZE_MUST_MATCH_TABLE_HEIGHT",
+            ERROR_COLUMN_DATA_SIZE_MUST_MATCH_TABLE_HEIGHT);
     }
 
     setTableColumn(columnName, columnData);

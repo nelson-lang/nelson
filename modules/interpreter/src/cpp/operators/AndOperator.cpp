@@ -13,6 +13,7 @@
 #include "FindCommonType.hpp"
 #include "OverloadHelpers.hpp"
 #include "OverloadRequired.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -35,12 +36,13 @@ Evaluator::andOperator(const ArrayOfVector& args)
         }
     }
     if (isComplex) {
-        Error(_("Operands must be real."));
+        raiseError(L"Nelson:interpreter:ERROR_OPERANDS_MUST_BE_REAL", ERROR_OPERANDS_MUST_BE_REAL);
     }
 
     if (isSparse
         && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX && commonType != NLS_LOGICAL)) {
-        Error(_("Attempt to convert to unimplemented sparse type"), "Nelson:UnableToConvert");
+        raiseError(L"Nelson:interpreter:UnableToConvert",
+            ERROR_ATTEMPT_TO_CONVERT_TO_UNIMPLEMENTED_SPARSE_TYPE);
     }
 
     bool neeDToOverload = false;

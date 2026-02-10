@@ -10,6 +10,7 @@
 #include "fetchOutputsBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "FutureFetchOutputs.hpp"
 #include "FutureObject.hpp"
 #include "FevalFutureObject.hpp"
@@ -25,13 +26,14 @@ Nelson::ParallelGateway::fetchOutputsBuiltin(Evaluator* eval, int nLhs, const Ar
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle()) {
-        Error(_W("FevalFuture handle expected."));
+        raiseError(L"Nelson:parallel:ERROR_FEVALFUTURE_HANDLE_EXPECTED",
+            ERROR_FEVALFUTURE_HANDLE_EXPECTED);
     }
     bool isSupportedType = (param1.getHandleCategory() == NLS_HANDLE_FEVALFUTURE_CATEGORY_STR)
         || (param1.getHandleCategory() == NLS_HANDLE_AFTERALLFUTURE_CATEGORY_STR)
         || (param1.getHandleCategory() == NLS_HANDLE_AFTEREACHFUTURE_CATEGORY_STR);
     if (!isSupportedType) {
-        Error(_W("Future handle expected."));
+        raiseError(L"Nelson:parallel:ERROR_FUTURE_HANDLE_EXPECTED", ERROR_FUTURE_HANDLE_EXPECTED);
     }
 
     std::vector<FutureObject*> futures = ArrayOfToFutures(param1);

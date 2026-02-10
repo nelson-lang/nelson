@@ -34,15 +34,17 @@ Nelson::SioClientGateway::sioregisterBuiltin(int nLhs, const ArrayOfVector& argI
         ArrayOf param2 = argIn[1];
         std::string function_name = param2.getContentAsCString();
         if (issioregistered(event_name)) {
-            Error(_("name already register."));
+            raiseError(
+                L"Nelson:sio_client:ERROR_NAME_ALREADY_REGISTER", ERROR_NAME_ALREADY_REGISTER);
         }
         if (issioreserved(event_name)) {
-            Error(_("reserved name"));
+            raiseError(L"Nelson:sio_client:ERROR_RESERVED_NAME", ERROR_RESERVED_NAME);
         }
         sioregister(event_name, function_name);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:sio_client:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;

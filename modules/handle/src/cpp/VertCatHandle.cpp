@@ -33,7 +33,8 @@ VertCatHandle(const ArrayOf& A, const ArrayOf& B)
     Dimensions dimsB = B.getDimensions();
     if (!A.isEmpty(true) && !B.isEmpty(true)) {
         if (dimsA.getColumns() != dimsB.getColumns()) {
-            Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
+            raiseError(
+                L"Nelson:handle:ERROR_DIMENSIONS_NOT_CONSISTENT", ERROR_DIMENSIONS_NOT_CONSISTENT);
         }
     }
     if (A.isEmpty(true)) {
@@ -55,7 +56,8 @@ VertCatHandle(const ArrayOf& A, const ArrayOf& B)
         HandleGenericObject* hlObjB = HandleManager::getInstance()->getPointer(ptrB[0]);
         if (hlObjA->getCategory() != hlObjB->getCategory()
             || (hlObjA == nullptr || hlObjB == nullptr)) {
-            Error(_W("Handles being catenated have incompatible classes."));
+            raiseError(L"Nelson:handle:ERROR_INCOMPATIBLE_HANDLE_CLASSES",
+                ERROR_INCOMPATIBLE_HANDLE_CLASSES);
         }
     }
     void* pRes = ArrayOf::allocateArrayOf(NLS_HANDLE, newSize, stringVector(), false);

@@ -10,6 +10,8 @@
 #include "MatrixCheck.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -20,8 +22,8 @@ CheckNumeric(const ArrayOf& A, const ArrayOf& B, const std::string& opname)
     Anumeric = !A.isReferenceType();
     Bnumeric = !B.isReferenceType();
     if (!(Anumeric && Bnumeric)) {
-        Error(std::string(_("Cannot apply numeric operation ")) + opname
-            + std::string(_(" to reference types.")));
+        raiseError(L"Nelson:types:ERROR_CANNOT_APPLY_NUMERIC_OPERATION_TO_REFERENCE_TYPES",
+            ERROR_CANNOT_APPLY_NUMERIC_OPERATION_TO_REFERENCE_TYPES, utf8_to_wstring(opname));
     }
 }
 //=============================================================================
@@ -29,12 +31,14 @@ void
 VectorCheckReference(ArrayOf& A, ArrayOf& B, const std::string& opname)
 {
     if (!(A.isReferenceType() && B.isReferenceType())) {
-        Error(_W("Same reference type expected."));
+        raiseError(
+            L"Nelson:types:ERROR_SAME_REFERENCE_TYPE_EXPECTED", ERROR_SAME_REFERENCE_TYPE_EXPECTED);
     }
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
-        Error(_("Size mismatch on arguments to arithmetic operator") + " " + opname);
+        raiseError(L"Nelson:types:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+            ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, utf8_to_wstring(opname));
     }
 }
 //=============================================================================
@@ -49,8 +53,8 @@ MatrixCheck(const ArrayOf& A, const ArrayOf& B, const std::string& opname)
     CheckNumeric(A, B, opname);
     // Test for 2D
     if (!A.is2D() || !B.is2D()) {
-        Error(std::string(_("Cannot apply matrix operation ")) + opname
-            + std::string(_(" to N-Dimensional arrays.")));
+        raiseError(L"Nelson:types:ERROR_CANNOT_APPLY_MATRIX_OPERATION_TO_N_DIMENSIONAL_ARRAYS",
+            ERROR_CANNOT_APPLY_MATRIX_OPERATION_TO_N_DIMENSIONAL_ARRAYS, utf8_to_wstring(opname));
     }
     return true;
 }
@@ -71,7 +75,8 @@ VectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
-        Error(std::string(_("Size mismatch on arguments to arithmetic operator")) + " " + opname);
+        raiseError(L"Nelson:types:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+            ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, utf8_to_wstring(opname));
     }
 }
 //=============================================================================
@@ -86,14 +91,16 @@ PromoteToLogicalVectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
     if (A.isVector() && B.isVector()) {
         if ((A.isRowVector() && B.isRowVector()) && !haveScalar) {
             if (A.getElementCount() != B.getElementCount()) {
-                Error(std::string(_("Size mismatch on arguments to ")) + opname);
+                raiseError(L"Nelson:types:ERROR_SIZE_MISMATCH_ON_ARGUMENTS_TO",
+                    ERROR_SIZE_MISMATCH_ON_ARGUMENTS_TO, utf8_to_wstring(opname));
             }
         }
     } else {
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsB = B.getDimensions();
         if (!(SameSizeCheck(dimsA, dimsB) || haveScalar)) {
-            Error(std::string(_("Size mismatch on arguments to ")) + opname);
+            raiseError(L"Nelson:types:ERROR_SIZE_MISMATCH_ON_ARGUMENTS_TO",
+                ERROR_SIZE_MISMATCH_ON_ARGUMENTS_TO, utf8_to_wstring(opname));
         }
     }
 }

@@ -16,6 +16,7 @@
 #include "GORoot.hpp"
 #include "i18n.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,7 +40,8 @@ graphicsObjectDisplay(Interface* io, const Dimensions& dims, nelson_handle* ptrG
                 fp = (GraphicsObject*)findGOFigure(handle);
             }
             if (!fp) {
-                Error(_W("Invalid handle."));
+                raiseError(
+                    L"Nelson:graphics:ERROR_INVALID_NELSON_HANDLE", ERROR_INVALID_NELSON_HANDLE);
             }
             wstringVector names = fp->getVisibleFieldnames();
             io->outputMessage(L"\n");
@@ -81,7 +83,8 @@ graphicsObjectDisplay(Interface* io, const Dimensions& dims, nelson_handle* ptrG
                         fp = (GraphicsObject*)findGOFigure(handle);
                     }
                     if (!fp) {
-                        Error(_W("Invalid handle."));
+                        raiseError(L"Nelson:graphics:ERROR_INVALID_NELSON_HANDLE",
+                            ERROR_INVALID_NELSON_HANDLE);
                     }
                     GOGenericProperty* hpType = fp->findProperty(GO_TYPE_PROPERTY_NAME_STR, false);
                     if (hpType) {

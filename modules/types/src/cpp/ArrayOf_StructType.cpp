@@ -54,8 +54,8 @@ ArrayOf::structScalarConstructor(const stringVector& fNames, const ArrayOfVector
     ArrayOf* qp = nullptr;
     try {
         if (fNames.size() != values.size()) {
-            Error(
-                _W("Number of field names must match number of values in structure constructor."));
+            raiseError(L"Nelson:types:ERROR_NUMBER_OF_FIELD_NAMES_MUST_MATCH",
+                ERROR_NUMBER_OF_FIELD_NAMES_MUST_MATCH);
         }
         Dimensions dims(1, 1);
         qp = (ArrayOf*)allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fNames, false);
@@ -91,8 +91,8 @@ ArrayOf::structConstructor(const stringVector& fNames, const ArrayOfVector& valu
     ArrayOf* qp = nullptr;
     try {
         if (fNames.size() != values.size()) {
-            Error(
-                _W("Number of field names must match number of values in structure constructor."));
+            raiseError(L"Nelson:types:ERROR_NUMBER_OF_FIELD_NAMES_MUST_MATCH",
+                ERROR_NUMBER_OF_FIELD_NAMES_MUST_MATCH);
         }
         /**
          * First, we have to make sure that each entry of "values" have
@@ -116,8 +116,9 @@ ArrayOf::structConstructor(const stringVector& fNames, const ArrayOfVector& valu
                         nonSingularFound = true;
                         dims = value.dp->dimensions;
                     } else if (!dims.equals(value.dp->dimensions)) {
-                        Error(_W("ArrayOf dimensions of non-scalar entries must agree in "
-                                 "structure construction."));
+                        raiseError(L"Nelson:types:ERROR_ARRAYOF_DIMENSIONS_OF_NON_SCALAR_ENTRIES_"
+                                   L"MUST_AGREE",
+                            ERROR_ARRAYOF_DIMENSIONS_OF_NON_SCALAR_ENTRIES_MUST_AGREE);
                     }
                 }
             }
@@ -192,15 +193,19 @@ ArrayOf::getField(const std::string& fieldName) const
 {
     // First make sure that we are a scalar value.
     if (!isScalar()) {
-        Error(_W("Cannot dereference a field of a multi-element structure array."));
+        raiseError(
+            L"Nelson:types:ERROR_CANNOT_DEREFERENCE_A_FIELD_OF_A_MULTI_ELEMENT_STRUCTURE_ARRAY",
+            ERROR_CANNOT_DEREFERENCE_A_FIELD_OF_A_MULTI_ELEMENT_STRUCTURE_ARRAY);
     }
     if (isSparse()) {
-        Error(_W("getField not supported for sparse arrays."));
+        raiseError(L"Nelson:types:ERROR_GETFIELD_NOT_SUPPORTED_FOR_SPARSE_ARRAYS",
+            ERROR_GETFIELD_NOT_SUPPORTED_FOR_SPARSE_ARRAYS);
     }
     // Then, find the field index.
     int64 ndx = getFieldIndex(fieldName);
     if (ndx < 0) {
-        Error(_("Reference to non-existent field") + " " + fieldName);
+        raiseError(L"Nelson:types:ERROR_REFERENCE_TO_NON_EXISTENT_FIELD",
+            ERROR_REFERENCE_TO_NON_EXISTENT_FIELD, utf8_to_wstring(fieldName));
     }
     // Cast real part into a data pointer, and return a copy of what the caller asked for!
     const ArrayOf* qp = (const ArrayOf*)dp->getData();
@@ -211,17 +216,20 @@ ArrayOfVector
 ArrayOf::getFieldAsList(const std::string& fieldName) const
 {
     if (!(isStruct() || isClassType())) {
-        Error(_W("Attempt to apply field-indexing to non structure-array object."));
+        raiseError(L"Nelson:types:ERROR_ATTEMPT_APPLY_FIELD_INDEXING_TO_NON_STRUCTURE_ARRAY_OBJECT",
+            ERROR_ATTEMPT_APPLY_FIELD_INDEXING_TO_NON_STRUCTURE_ARRAY_OBJECT);
     }
     if (isSparse()) {
-        Error(_W("getFieldAsList not supported for sparse arrays."));
+        raiseError(L"Nelson:types:ERROR_GETFIELDASLIST_NOT_SUPPORTED_FOR_SPARSE_ARRAYS",
+            ERROR_GETFIELDASLIST_NOT_SUPPORTED_FOR_SPARSE_ARRAYS);
     }
     const ArrayOf* qp = (const ArrayOf*)dp->getData();
     indexType N = getElementCount();
     indexType fieldCount = dp->fieldNames.size();
     int64 ndx = getFieldIndex(fieldName);
     if (ndx < 0) {
-        Error(_("Reference to non-existent field") + " " + fieldName);
+        raiseError(L"Nelson:types:ERROR_REFERENCE_TO_NON_EXISTENT_FIELD",
+            ERROR_REFERENCE_TO_NON_EXISTENT_FIELD, utf8_to_wstring(fieldName));
     }
     ArrayOfVector m;
     for (indexType i = 0; i < N; i++) {
@@ -246,14 +254,17 @@ ArrayOf::setField(const std::string& fieldName, ArrayOf& data)
         resize(a);
     }
     if (isSparse()) {
-        Error(_W("setField not supported for sparse arrays."));
+        raiseError(L"Nelson:types:ERROR_SETFIELD_NOT_SUPPORTED_FOR_SPARSE_ARRAYS",
+            ERROR_SETFIELD_NOT_SUPPORTED_FOR_SPARSE_ARRAYS);
     }
     if (dp->dataClass != NLS_STRUCT_ARRAY && dp->dataClass != NLS_CLASS_ARRAY
         && dp->dataClass != NLS_FUNCTION_HANDLE) {
-        Error(ERROR_ASSIGN_TO_NON_STRUCT);
+        raiseError(L"Nelson:types:ERROR_ASSIGN_TO_NON_STRUCT", ERROR_ASSIGN_TO_NON_STRUCT);
     }
     if (!isScalar()) {
-        Error(_W("Cannot apply A.field_name = B to multi-element structure array A."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_APPLY_A_FIELD_NAME_EQUALS_B_TO_MULTI_ELEMENT_"
+                   L"STRUCTURE_ARRAY_A",
+            ERROR_CANNOT_APPLY_A_FIELD_NAME_EQUALS_B_TO_MULTI_ELEMENT_STRUCTURE_ARRAY_A);
     }
     double field_ndx = (double)getFieldIndex(fieldName);
     if (field_ndx == -1) {
@@ -272,7 +283,8 @@ void
 ArrayOf::setFieldAsList(const std::string& fieldName, ArrayOfVector& data)
 {
     if (isSparse()) {
-        Error(_W("setFieldAsList not supported for sparse arrays."));
+        raiseError(L"Nelson:types:ERROR_SETFIELDASLIST_NOT_SUPPORTED_FOR_SPARSE_ARRAYS",
+            ERROR_SETFIELDASLIST_NOT_SUPPORTED_FOR_SPARSE_ARRAYS);
     }
     if (isEmpty()) {
         bool bFieldAlreadyExist = false;
@@ -293,10 +305,12 @@ ArrayOf::setFieldAsList(const std::string& fieldName, ArrayOfVector& data)
         resize(a);
     }
     if (!this->isStruct() && !this->isClassType()) {
-        Error(ERROR_ASSIGN_TO_NON_STRUCT);
+        raiseError(L"Nelson:types:ERROR_ASSIGN_TO_NON_STRUCT", ERROR_ASSIGN_TO_NON_STRUCT);
     }
     if ((int)data.size() < getElementCount()) {
-        Error(_W("Not enough right hand values to satisfy left hand side expression."));
+        raiseError(L"Nelson:types:ERROR_NOT_ENOUGH_RIGHT_HAND_SIDE_VALUES_TO_SATISFY_LEFT_HAND_"
+                   L"SIDE_EXPRESSION",
+            ERROR_NOT_ENOUGH_RIGHT_HAND_SIDE_VALUES_TO_SATISFY_LEFT_HAND_SIDE_EXPRESSION);
     }
     indexType indexLength = getElementCount();
     int64 field_ndx = getFieldIndex(fieldName);
@@ -321,7 +335,8 @@ indexType
 ArrayOf::insertFieldName(const std::string& fieldName)
 {
     if (isSparse()) {
-        Error(_W("insertFieldName not supported for sparse arrays."));
+        raiseError(L"Nelson:types:ERROR_INSERTFIELDNAME_NOT_SUPPORTED_FOR_SPARSE_ARRAYS",
+            ERROR_INSERTFIELDNAME_NOT_SUPPORTED_FOR_SPARSE_ARRAYS);
     }
     stringVector names(dp->fieldNames);
     names.push_back(fieldName);
@@ -390,7 +405,7 @@ ArrayOf
 ArrayOf::emptyStructConstructor(const stringVector& fNames, Dimensions& dim)
 {
     if (dim.getElementCount() != 0) {
-        Error(_W("Invalid dimensions."));
+        raiseError(L"Nelson:types:ERROR_INVALID_DIMENSIONS", ERROR_INVALID_DIMENSIONS);
     }
     ArrayOf* qp = (ArrayOf*)allocateArrayOf(NLS_STRUCT_ARRAY, dim.getElementCount(), fNames, false);
     return ArrayOf(NLS_STRUCT_ARRAY, dim, qp, false, fNames);

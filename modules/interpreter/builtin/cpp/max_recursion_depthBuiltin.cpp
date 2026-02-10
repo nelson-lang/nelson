@@ -33,19 +33,21 @@ Nelson::InterpreterGateway::max_recursion_depthBuiltin(
             if (param == L"max") {
                 context->setRecursionDepth(context->getMaximumRecursionDepth());
             } else {
-                Error(_W("Argument #1: 'max' expected."));
+                raiseError(L"Nelson:interpreter:ERROR_ARG1_MAX_EXPECTED", ERROR_ARG1_MAX_EXPECTED);
             }
         } else {
             indexType value = param1.getContentAsScalarIndex();
             if (value <= (indexType)context->getMaximumRecursionDepth()) {
                 context->setRecursionDepth((size_t)value);
             } else {
-                Error(_W("Argument #1: valid value expected."));
+                raiseError(L"Nelson:interpreter:ERROR_ARG1_VALID_VALUE_EXPECTED",
+                    ERROR_ARG1_VALID_VALUE_EXPECTED);
             }
         }
         retval << ArrayOf::doubleConstructor((double)previousrecursiondepth);
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:interpreter:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

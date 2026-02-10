@@ -25,7 +25,8 @@ Nelson::MexGateway::mexextBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 0) {
         std::wstring currentMexExt = getMexExtension();
         if (currentMexExt.empty()) {
-            Error(_W("mex extension not yet supported."));
+            raiseError(L"Nelson:mex:ERROR_MEX_EXTENSION_NOT_YET_SUPPORTED",
+                ERROR_MEX_EXTENSION_NOT_YET_SUPPORTED);
         }
         retval << ArrayOf::characterArrayConstructor(currentMexExt);
         return retval;
@@ -33,7 +34,7 @@ Nelson::MexGateway::mexextBuiltin(int nLhs, const ArrayOfVector& argIn)
     mustBeTextScalar(argIn, 0);
     std::wstring value = argIn[0].getContentAsWideString();
     if (value != L"all") {
-        Error(_W("Input must be 'all' or \"all\"."));
+        raiseError(L"Nelson:mex:ERROR_INPUT_MUST_BE_ALL", ERROR_INPUT_MUST_BE_ALL);
     }
 
     wstringVector extensions = { L"nexglx", L"nexa64", L"nexmaci", L"nexmaci64", L"nexmacm1",

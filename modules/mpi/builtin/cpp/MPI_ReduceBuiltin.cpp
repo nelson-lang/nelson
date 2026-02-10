@@ -10,11 +10,11 @@
 #include "MPI_ReduceBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "MPI_helpers.hpp"
 #include <mpi.h>
 #include "InputOutputArgumentsCheckers.hpp"
-
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,17 +29,18 @@ Nelson::MpiGateway::MPI_ReduceBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(_W("MPI must be initialized."));
+        raiseError(L"Nelson:mpi:ERROR_MPI_MUST_BE_INITIALIZED", ERROR_MPI_MUST_BE_INITIALIZED);
     }
     ArrayOf A = argIn[0];
     if (A.isSparse() || A.isReferenceType()) {
-        Error(_W("Unsupported type to reduce."));
+        raiseError(
+            L"Nelson:mpi:ERROR_UNSUPPORTED_TYPE_TO_REDUCE", ERROR_UNSUPPORTED_TYPE_TO_REDUCE);
     }
     ArrayOf Operation = argIn[1];
     std::wstring op_str = Operation.getContentAsWideString();
     MPI_Op mpi_op = stringToMpiOp(op_str);
     if (mpi_op == MPI_OP_NULL) {
-        Error(_W("Unsupported operator type."));
+        raiseError(L"Nelson:mpi:ERROR_UNSUPPORTED_OPERATOR_TYPE", ERROR_UNSUPPORTED_OPERATOR_TYPE);
     }
     ArrayOf Root = argIn[2];
     int rootID = Root.getContentAsInteger32Scalar();
@@ -104,7 +105,8 @@ Nelson::MpiGateway::MPI_ReduceBuiltin(int nLhs, const ArrayOfVector& argIn)
             2 * (int)A.getElementCount(), MPI_DOUBLE, mpi_op, rootID, comm);
         break;
     default:
-        Error(_W("Unsupported Type: must be a numerical type."));
+        raiseError(L"Nelson:mpi:ERROR_UNSUPPORTED_TYPE_MUST_BE_A_NUMERICAL_TYPE",
+            ERROR_UNSUPPORTED_TYPE_MUST_BE_A_NUMERICAL_TYPE);
     }
     retval << dest;
     return retval;

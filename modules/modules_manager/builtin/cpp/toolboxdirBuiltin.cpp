@@ -10,6 +10,7 @@
 #include "toolboxdirBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ModulePath.hpp"
 #include "ModulesHelpers.hpp"
 #include "ModulesManager.hpp"
@@ -33,7 +34,8 @@ Nelson::ModulesManagerGateway::toolboxdirBuiltin(int nLhs, const ArrayOfVector& 
     if (IsExistingModuleName(moduleshortname)) {
         retval << ArrayOf::characterArrayConstructor(GetModulePath(moduleshortname));
     } else {
-        Error(_W("invalid module name."));
+        raiseError(L"Nelson:modules_manager:ERROR_INVALID_MODULE_NAME", ERROR_INVALID_MODULE_NAME,
+            moduleshortname);
     }
     return retval;
 }

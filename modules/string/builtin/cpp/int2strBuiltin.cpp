@@ -13,6 +13,7 @@
 #include "IntegerToString.hpp"
 #include "VertCat.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -80,7 +81,7 @@ Nelson::StringGateway::int2strBuiltin(int nLhs, const ArrayOfVector& argIn)
         Dimensions dims = argIn[0].getDimensions();
         retval << StringVectorToString(result, dims);
     } else {
-        Error(error_message);
+        Error(error_message, L"Nelson:string:ERROR_int2str");
     }
     return retval;
 }

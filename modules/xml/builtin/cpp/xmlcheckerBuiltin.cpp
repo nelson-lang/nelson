@@ -9,6 +9,7 @@
 //=============================================================================
 #include "xmlcheckerBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "Warning.hpp"
 #include "i18n.hpp"
 #include "FileSystemWrapper.hpp"
@@ -31,19 +32,21 @@ Nelson::XmlGateway::xmlcheckerBuiltin(int nLhs, const ArrayOfVector& argIn)
     bool permissionDenied;
     bool IsFileIn = FileSystemWrapper::Path::is_regular_file(dtdpath, permissionDenied);
     if (permissionDenied) {
-        Error(_W("Permission denied."));
+        raiseError(L"Nelson:xml:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
     }
     if (!IsFileIn) {
-        Error(_W("Wrong value for argument #2: An existing .dtd file expected."));
+        raiseError(
+            L"Nelson:xml:ERROR_WRONG_VALUE_ARG2_DTD_EXPECTED", ERROR_WRONG_VALUE_ARG2_DTD_EXPECTED);
     }
     std::wstring xmlFilename = argIn[0].getContentAsWideString();
     FileSystemWrapper::Path pathIn(xmlFilename);
     IsFileIn = FileSystemWrapper::Path::is_regular_file(pathIn, permissionDenied);
     if (permissionDenied) {
-        Error(_W("Permission denied."));
+        raiseError(L"Nelson:xml:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
     }
     if (!IsFileIn) {
-        Error(_W("Wrong value for argument #1: An existing .xml documentation file expected."));
+        raiseError(L"Nelson:xml:ERROR_WRONG_VALUE_ARG1_XML_DOC_EXPECTED",
+            ERROR_WRONG_VALUE_ARG1_XML_DOC_EXPECTED);
     }
     wstringVector errorMessage;
     wstringVector warningMessage;
@@ -59,7 +62,7 @@ Nelson::XmlGateway::xmlcheckerBuiltin(int nLhs, const ArrayOfVector& argIn)
                         message += L"\n";
                     }
                 }
-                Error(message);
+                Error(message, L"Nelson:xml:ERROR_XML_CHECKER_ERRORS");
             }
             if (!warningMessage.empty()) {
                 std::wstring message;

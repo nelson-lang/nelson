@@ -13,6 +13,8 @@
 #include "omp_for_loop.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -26,7 +28,8 @@ floatingNumberToLogical(const ArrayOf& A)
             return ArrayOf(NLS_LOGICAL, A.getDimensions(), pLogical, true);
         }
     } else {
-        Error(_W("Conversion to logical from single is not possible."));
+        raiseError(L"Nelson:logical:ERROR_CONVERSION_TO_LOGICAL_FROM_SINGLE_IS_NOT_POSSIBLE",
+            ERROR_CONVERSION_TO_LOGICAL_FROM_SINGLE_IS_NOT_POSSIBLE);
     }
     logical* pLogical = static_cast<logical*>(
         ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getElementCount(), stringVector(), false));
@@ -35,7 +38,8 @@ floatingNumberToLogical(const ArrayOf& A)
         auto* ptrReal = (double*)A.getDataPointer();
         for (indexType k = 0; k < A.getElementCount(); k++) {
             if (std::isnan(ptrReal[k])) {
-                Error(_W("Conversion to logical with NaN is not possible."));
+                raiseError(L"Nelson:logical:ERROR_CONVERSION_TO_LOGICAL_WITH_NAN_IS_NOT_POSSIBLE",
+                    ERROR_CONVERSION_TO_LOGICAL_WITH_NAN_IS_NOT_POSSIBLE);
             }
             pLogical[k] = static_cast<logical>(ptrReal[k] != 0.0);
         }
@@ -44,7 +48,8 @@ floatingNumberToLogical(const ArrayOf& A)
         auto* ptrReal = (single*)A.getDataPointer();
         for (indexType k = 0; k < A.getElementCount(); k++) {
             if (std::isnan(ptrReal[k])) {
-                Error(_W("Conversion to logical with NaN is not possible."));
+                raiseError(L"Nelson:logical:ERROR_CONVERSION_TO_LOGICAL_WITH_NAN_IS_NOT_POSSIBLE",
+                    ERROR_CONVERSION_TO_LOGICAL_WITH_NAN_IS_NOT_POSSIBLE);
             }
             pLogical[k] = static_cast<logical>(ptrReal[k] != 0.0);
         }
@@ -58,7 +63,9 @@ integerToLogical(const ArrayOf& A)
 {
     ArrayOf r;
     if (A.isSparse()) {
-        Error(_W("Conversion to logical from sparse integer is not possible."));
+        raiseError(
+            L"Nelson:logical:ERROR_CONVERSION_TO_LOGICAL_FROM_SPARSE_INTEGER_IS_NOT_POSSIBLE",
+            ERROR_CONVERSION_TO_LOGICAL_FROM_SPARSE_INTEGER_IS_NOT_POSSIBLE);
     } else {
         logical* pLogical = static_cast<logical*>(
             ArrayOf::allocateArrayOf(NLS_LOGICAL, A.getElementCount(), stringVector(), false));
@@ -83,30 +90,41 @@ ToLogical(ArrayOf A)
         return r;
     } break;
     case NLS_GO_HANDLE: {
-        Error(_W("Conversion to logical from graphics_object is not possible."));
+        raiseError(
+            L"Nelson:logical:ERROR_CONVERSION_TO_LOGICAL_FROM_GRAPHICS_OBJECT_IS_NOT_POSSIBLE",
+            ERROR_CONVERSION_TO_LOGICAL_FROM_GRAPHICS_OBJECT_IS_NOT_POSSIBLE);
     } break;
     case NLS_HANDLE: {
-        Error(_W("Conversion to logical from handle is not possible."));
+        raiseError(L"Nelson:logical:ERROR_CONVERSION_TO_LOGICAL_FROM_HANDLE_IS_NOT_POSSIBLE",
+            ERROR_CONVERSION_TO_LOGICAL_FROM_HANDLE_IS_NOT_POSSIBLE);
     } break;
     case NLS_STRING_ARRAY: {
-        Error(_W("Conversion to logical from string is not possible."));
+        raiseError(L"Nelson:logical:ERROR_CONVERSION_TO_LOGICAL_FROM_STRING_IS_NOT_POSSIBLE",
+            ERROR_CONVERSION_TO_LOGICAL_FROM_STRING_IS_NOT_POSSIBLE);
     } break;
     case NLS_CELL_ARRAY: {
-        Error(_W("Conversion to logical from cell is not possible."));
+        raiseError(L"Nelson:logical:ERROR_CONVERSION_TO_LOGICAL_FROM_CELL_IS_NOT_POSSIBLE",
+            ERROR_CONVERSION_TO_LOGICAL_FROM_CELL_IS_NOT_POSSIBLE);
+        ;
     } break;
     case NLS_FUNCTION_HANDLE: {
-        Error(_W("Conversion to logical from function_handle is not possible."));
+        raiseError(
+            L"Nelson:logical:ERROR_CONVERSION_TO_LOGICAL_FROM_FUNCTION_HANDLE_IS_NOT_POSSIBLE",
+            ERROR_CONVERSION_TO_LOGICAL_FROM_FUNCTION_HANDLE_IS_NOT_POSSIBLE);
     } break;
     case NLS_CLASS_ARRAY: {
-        Error(_("Undefined function 'logical' for input arguments of type '") + A.getClassType()
-            + "'.");
+        raiseError(L"Nelson:logical:ERROR_UNDEFINED_FUNCTION_LOGICAL_FOR_INPUT_ARGUMENTS_OF_TYPE",
+            ERROR_UNDEFINED_FUNCTION_LOGICAL_FOR_INPUT_ARGUMENTS_OF_TYPE,
+            utf8_to_wstring(A.getClassType()));
     } break;
     case NLS_STRUCT_ARRAY: {
-        Error(_W("Conversion to logical from struct is not possible."));
+        raiseError(L"Nelson:logical:ERROR_CONVERSION_TO_LOGICAL_FROM_STRUCT_IS_NOT_POSSIBLE",
+            ERROR_CONVERSION_TO_LOGICAL_FROM_STRUCT_IS_NOT_POSSIBLE);
     } break;
     case NLS_DCOMPLEX:
     case NLS_SCOMPLEX: {
-        Error(_W("Conversion to logical from complex is not possible."));
+        raiseError(L"Nelson:logical:ERROR_CONVERSION_TO_LOGICAL_FROM_COMPLEX_IS_NOT_POSSIBLE",
+            ERROR_CONVERSION_TO_LOGICAL_FROM_COMPLEX_IS_NOT_POSSIBLE);
     } break;
     case NLS_DOUBLE:
     case NLS_SINGLE: {
@@ -137,7 +155,7 @@ ToLogical(ArrayOf A)
         return integerToLogical<int64>(A);
     } break;
     default: {
-        Error(_W("Invalid conversion."));
+        raiseError(L"Nelson:logical:ERROR_INVALID_CONVERSION", ERROR_INVALID_CONVERSION);
     } break;
     }
     return {};

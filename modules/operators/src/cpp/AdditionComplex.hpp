@@ -14,6 +14,7 @@
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include "ArrayOf.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -285,7 +286,8 @@ complex_addition(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B
         if (A.isVector() || B.isVector()) {
             if ((A.isRowVector() && B.isRowVector())
                 || (A.isColumnVector() && B.isColumnVector())) {
-                Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
+                raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                    ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"+");
             } else if (A.isRowVector() && B.isColumnVector()) {
                 res = row_column_complex_addition<T>(classDestination, A, B);
             } else if (A.isColumnVector() && B.isRowVector()) {
@@ -293,32 +295,38 @@ complex_addition(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B
             } else if (A.getRows() == B.getRows()) {
                 if (A.isVector()) {
                     if (!B.is2D()) {
-                        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
+                        raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                            ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"+");
                     }
                     res = row_matrix_complex_addition<T>(classDestination, A, B);
                 } else {
                     if (!A.is2D()) {
-                        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
+                        raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                            ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"+");
                     }
                     res = matrix_row_complex_addition<T>(classDestination, A, B);
                 }
             } else if (A.getColumns() == B.getColumns()) {
                 if (A.isVector()) {
                     if (!B.is2D()) {
-                        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
+                        raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                            ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"+");
                     }
                     res = column_matrix_complex_addition<T>(classDestination, A, B);
                 } else {
                     if (!A.is2D()) {
-                        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
+                        raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                            ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"+");
                     }
                     res = matrix_column_complex_addition<T>(classDestination, A, B);
                 }
             } else {
-                Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
+                raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                    ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"+");
             }
         } else {
-            Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
+            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"+");
         }
     }
     return res;

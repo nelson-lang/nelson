@@ -10,6 +10,7 @@
 #include "randnBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "RandNormal.hpp"
 #include "nlsBuildConfig.h"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -48,13 +49,16 @@ Nelson::RandomGateway::randnBuiltin(int nLhs, const ArrayOfVector& argIn)
                         cl = NLS_SINGLE;
                         break;
                     default:
-                        Error(_W("\'single\' or \'double\' expected at last argument."));
+                        raiseError(
+                            L"Nelson:random:ERROR_SINGLE_OR_DOUBLE_EXPECTED_AT_LAST_ARGUMENT",
+                            ERROR_SINGLE_OR_DOUBLE_EXPECTED_AT_LAST_ARGUMENT);
                         break;
                     }
                     nRhs = nRhs - 2;
                     bCheckClassName = false;
                 } else {
-                    Error(_W("\'like\' expected at n - 2 argument."));
+                    raiseError(L"Nelson:random:ERROR_LIKE_EXPECTED_AT_N_2_ARGUMENT",
+                        ERROR_LIKE_EXPECTED_AT_N_2_ARGUMENT);
                 }
             }
         }
@@ -68,7 +72,8 @@ Nelson::RandomGateway::randnBuiltin(int nLhs, const ArrayOfVector& argIn)
                 cl = NLS_SINGLE;
                 nRhs--;
             } else {
-                Error(_W("\'single\' or \'double\' expected at last argument."));
+                raiseError(L"Nelson:random:ERROR_SINGLE_OR_DOUBLE_EXPECTED_AT_LAST_ARGUMENT",
+                    ERROR_SINGLE_OR_DOUBLE_EXPECTED_AT_LAST_ARGUMENT);
             }
         }
         if (nRhs == 0) {
@@ -99,8 +104,9 @@ Nelson::RandomGateway::randnBuiltin(int nLhs, const ArrayOfVector& argIn)
                             dims[1] = dims[0];
                         }
                     } else {
-                        Error(_W("Too many dimensions! Current limit is") + L" "
-                            + std::to_wstring(Nelson::maxDims) + L".");
+                        raiseError(L"Nelson:random:ERROR_TOO_MANY_DIMENSIONS_CURRENT_LIMIT_IS",
+                            ERROR_TOO_MANY_DIMENSIONS_CURRENT_LIMIT_IS,
+                            std::to_wstring(Nelson::maxDims));
                     }
                 } else {
                     raiseError(L"Nelson:random:ERROR_WRONG_ARGUMENT_X_SIZE_ROW_VECTOR_EXPECTED",

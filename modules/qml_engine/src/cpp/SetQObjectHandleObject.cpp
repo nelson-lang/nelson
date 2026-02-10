@@ -9,6 +9,7 @@
 //=============================================================================
 #include "SetQObjectHandleObject.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -35,37 +36,45 @@ SetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName, const
     ArrayOf res;
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        Error(_W("QObject handle expected."));
+        raiseError(
+            L"Nelson:qml_engine:ERROR_QOBJECT_HANDLE_EXPECTED", ERROR_QOBJECT_HANDLE_EXPECTED);
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        Error(_W("QObject valid handle expected."));
+        raiseError(L"Nelson:qml_engine:ERROR_QOBJECT_VALID_HANDLE_EXPECTED",
+            ERROR_QOBJECT_VALID_HANDLE_EXPECTED);
     }
     QObject* qobj = (QObject*)ptr;
     if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
         HandleGenericObject* hlObjParent = B.getContentAsHandleScalar();
         if (hlObjParent == nullptr) {
-            Error(_W("QObject valid handle expected."));
+            raiseError(L"Nelson:qml_engine:ERROR_QOBJECT_VALID_HANDLE_EXPECTED",
+                ERROR_QOBJECT_VALID_HANDLE_EXPECTED);
         } else {
             if (hlObjParent->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-                Error(_W("QObject handle expected."));
+                raiseError(L"Nelson:qml_engine:ERROR_QOBJECT_HANDLE_EXPECTED",
+                    ERROR_QOBJECT_HANDLE_EXPECTED);
             }
         }
         QObjectHandleObject* qmlhandleobjparent = (QObjectHandleObject*)hlObjParent;
         void* ptr = qmlhandleobjparent->getPointer();
         if (ptr == nullptr) {
-            Error(_W("QObject valid handle expected."));
+            raiseError(L"Nelson:qml_engine:ERROR_QOBJECT_VALID_HANDLE_EXPECTED",
+                ERROR_QOBJECT_VALID_HANDLE_EXPECTED);
         }
         QObject* qobjParent = (QObject*)ptr;
         if (qobjParent == qobj) {
-            Error(_W("QObject parent egals to the child."));
+            raiseError(L"Nelson:qml_engine:ERROR_QOBJECT_PARENT_EQUALS_CHILD",
+                ERROR_QOBJECT_PARENT_EQUALS_CHILD);
         }
         qobj->setParent(qobjParent);
     } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR)) {
-        Error(_W("'children' can not modified."));
+        raiseError(L"Nelson:qml_engine:ERROR_CHILDREN_CANNOT_BE_MODIFIED",
+            ERROR_CHILDREN_CANNOT_BE_MODIFIED);
     } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR)) {
-        Error(_W("'className' can not modified."));
+        raiseError(L"Nelson:qml_engine:ERROR_CLASSNAME_CANNOT_BE_MODIFIED",
+            ERROR_CLASSNAME_CANNOT_BE_MODIFIED);
     } else {
         QVariant propertyValue = qobj->property(wstring_to_utf8(propertyName).c_str());
         if (!propertyValue.isValid()) {
@@ -89,7 +98,7 @@ SetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName, const
                 }
 #endif
             } else {
-                Error(_W("QVariant invalid."));
+                raiseError(L"Nelson:qml_engine:ERROR_QVARIANT_INVALID", ERROR_QVARIANT_INVALID);
             }
         }
     }

@@ -11,10 +11,12 @@
 #include "Error.hpp"
 #include "Warning.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "ModulesManager.hpp"
 #include "NelsonConfiguration.hpp"
 #include "FileSystemWrapper.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -30,7 +32,8 @@ RemoveModule(Evaluator* eval, const std::wstring& moduleshortname)
         }
         std::wstring rootpathmodule = GetModulePath(moduleshortname);
         if (rootpathmodule.empty()) {
-            Error(moduleshortname + _W(": This module is registered but it has no path."));
+            raiseError(L"Nelson:modules_manager:ERROR_MODULE_REGISTERED_WITHOUT_PATH",
+                ERROR_MODULE_REGISTERED_WITHOUT_PATH, moduleshortname);
         }
         if (FileSystemWrapper::Path::is_directory(rootpathmodule)) {
             FileSystemWrapper::Path pathfinish(rootpathmodule);
@@ -38,11 +41,13 @@ RemoveModule(Evaluator* eval, const std::wstring& moduleshortname)
             if (FileSystemWrapper::Path::is_regular_file(pathfinish)) {
                 EvaluateScriptFile(eval, pathfinish.generic_wstring());
             } else {
-                Error(_W("finish.m does not exist."));
+                raiseError(L"Nelson:modules_manager:ERROR_FINISH_M_DOES_NOT_EXIST",
+                    ERROR_FINISH_M_DOES_NOT_EXIST);
             }
             return UnregisterModule(moduleshortname);
         }
-        Error(_W("An existing module root path expected."));
+        raiseError(L"Nelson:modules_manager:ERROR_AN_EXISTING_MODULE_ROOT_PATH_EXPECTED",
+            ERROR_AN_EXISTING_MODULE_ROOT_PATH_EXPECTED, moduleshortname);
     }
     return false;
 }

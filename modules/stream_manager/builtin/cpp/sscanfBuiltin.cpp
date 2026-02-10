@@ -31,7 +31,8 @@ Nelson::StreamGateway::sscanfBuiltin(int nLhs, const ArrayOfVector& argIn)
         = (argIn[0].isStringArray() && argIn[0].isScalar() || argIn[0].isRowVectorCharacterArray());
 
     if (!isParam1SupportedType) {
-        Error(_("First argument must be a text scalar."));
+        raiseError(L"Nelson:stream_manager:ERROR_FIRST_ARGUMENT_MUST_BE_TEXT_SCALAR",
+            ERROR_FIRST_ARGUMENT_MUST_BE_TEXT_SCALAR);
     }
     std::wstring wstr = argIn[0].getContentAsWideString();
     ArrayOf param2 = argIn[1];
@@ -48,25 +49,30 @@ Nelson::StreamGateway::sscanfBuiltin(int nLhs, const ArrayOfVector& argIn)
                 if (dims3.isScalar()) {
                     m = param3.getContentAsDoubleScalar();
                     if (m < 0) {
-                        Error(_W("Wrong value >= 0 expected."));
+                        raiseError(L"Nelson:stream_manager:ERROR_WRONG_VALUE_GE_0_EXPECTED",
+                            ERROR_WRONG_VALUE_GE_0_EXPECTED);
                     }
                     n = 1;
                 } else {
                     double* ptr = (double*)param3.getDataPointer();
                     m = ptr[0];
                     if (m < 0) {
-                        Error(_W("Wrong value >= 0 expected."));
+                        raiseError(L"Nelson:stream_manager:ERROR_WRONG_VALUE_GE_0_EXPECTED",
+                            ERROR_WRONG_VALUE_GE_0_EXPECTED);
                     }
                     n = ptr[1];
                     if (n < 0) {
-                        Error(_W("Wrong value >= 0 expected."));
+                        raiseError(L"Nelson:stream_manager:ERROR_WRONG_VALUE_GE_0_EXPECTED",
+                            ERROR_WRONG_VALUE_GE_0_EXPECTED);
                     }
                 }
             } else {
-                Error(_W("Wrong size. scalar or [a, b] expected."));
+                raiseError(L"Nelson:stream_manager:ERROR_WRONG_SIZE_SCALAR_OR_A_B_EXPECTED",
+                    ERROR_WRONG_SIZE_SCALAR_OR_A_B_EXPECTED);
             }
         } else {
-            Error(_W("Wrong type. double expected."));
+            raiseError(L"Nelson:stream_manager:ERROR_WRONG_TYPE_DOUBLE_EXPECTED",
+                ERROR_WRONG_TYPE_DOUBLE_EXPECTED);
         }
         haveThirdArgument = true;
     }

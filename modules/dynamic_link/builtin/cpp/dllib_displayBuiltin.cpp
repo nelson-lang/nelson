@@ -16,6 +16,7 @@
 #include "DisplayVariableHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -36,14 +37,15 @@ Nelson::DynamicLinkGateway::dllib_displayBuiltin(
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_DLLIB_CATEGORY_STR) {
-                Error(_W("dllib handle expected."));
+                raiseError(L"Nelson:dynamic_link:ERROR_DLLIB_HANDLE_EXPECTED",
+                    ERROR_DLLIB_HANDLE_EXPECTED);
             }
             auto* dllibObj = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
             dllibObj->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("dllib handle expected."));
+        raiseError(L"Nelson:dynamic_link:ERROR_DLLIB_HANDLE_EXPECTED", ERROR_DLLIB_HANDLE_EXPECTED);
     }
     return retval;
 }
@@ -61,14 +63,15 @@ Nelson::DynamicLinkGateway::dllib_dispBuiltin(Evaluator* eval, int nLhs, const A
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_DLLIB_CATEGORY_STR) {
-                Error(_W("dllib handle expected."));
+                raiseError(L"Nelson:dynamic_link:ERROR_DLLIB_HANDLE_EXPECTED",
+                    ERROR_DLLIB_HANDLE_EXPECTED);
             }
             auto* dllibObj = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
             dllibObj->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("dllib handle expected."));
+        raiseError(L"Nelson:dynamic_link:ERROR_DLLIB_HANDLE_EXPECTED", ERROR_DLLIB_HANDLE_EXPECTED);
     }
     return retval;
 }

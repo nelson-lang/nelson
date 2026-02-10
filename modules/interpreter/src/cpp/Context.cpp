@@ -45,12 +45,12 @@ void
 Context::pushScope(const std::string& name)
 {
     if (scopestack.size() > getRecursionDepth()) {
-        Error(ERROR_STACK_DEPTH_EXCEEDED);
+        raiseError(L"Nelson:interpreter:ERROR_STACK_DEPTH_EXCEEDED", ERROR_STACK_DEPTH_EXCEEDED);
     }
     try {
         scopestack.emplace_back(new Scope(name));
     } catch (const std::bad_alloc&) {
-        Error(ERROR_STACK_DEPTH_EXCEEDED);
+        raiseError(L"Nelson:interpreter:ERROR_STACK_DEPTH_EXCEEDED", ERROR_STACK_DEPTH_EXCEEDED);
     }
 }
 //=============================================================================
@@ -59,7 +59,7 @@ Context::pushScope(const std::string& name, const std::wstring& fullfilename)
 {
     Scope* sc = nullptr;
     if (scopestack.size() > getRecursionDepth()) {
-        Error(ERROR_STACK_DEPTH_EXCEEDED);
+        raiseError(L"Nelson:interpreter:ERROR_STACK_DEPTH_EXCEEDED", ERROR_STACK_DEPTH_EXCEEDED);
     }
     try {
         if (!scopestack.empty()) {
@@ -73,7 +73,7 @@ Context::pushScope(const std::string& name, const std::wstring& fullfilename)
             sc = new Scope(name, fullfilename);
         }
     } catch (const std::bad_alloc&) {
-        Error(ERROR_STACK_DEPTH_EXCEEDED);
+        raiseError(L"Nelson:interpreter:ERROR_STACK_DEPTH_EXCEEDED", ERROR_STACK_DEPTH_EXCEEDED);
     }
     scopestack.emplace_back(sc);
 }
@@ -82,7 +82,7 @@ void
 Context::popScope()
 {
     if (scopestack.size() == 1) {
-        Error(ERROR_POP_GLOBAL_SCOPE);
+        raiseError(L"Nelson:interpreter:ERROR_POP_GLOBAL_SCOPE", ERROR_POP_GLOBAL_SCOPE);
     }
     Scope* sc = scopestack.back();
     scopestack.pop_back();

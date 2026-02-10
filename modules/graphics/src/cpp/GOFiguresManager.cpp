@@ -14,6 +14,7 @@
 #include "GOHelpers.hpp"
 #include "NonClosableWidget.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -117,7 +118,8 @@ findAvailableFigureId()
             return figureNumber;
         }
     }
-    Error(_("Please close some graphical windows."));
+    raiseError(L"Nelson:graphics:ERROR_PLEASE_CLOSE_SOME_GRAPHICAL_WINDOWS",
+        ERROR_PLEASE_CLOSE_SOME_GRAPHICAL_WINDOWS);
     return NO_FIGURE;
 }
 //=============================================================================

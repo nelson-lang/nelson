@@ -12,6 +12,7 @@
 #include "RemoveFile.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,7 +30,7 @@ Nelson::FilesFoldersGateway::rmfileBuiltin(int nLhs, const ArrayOfVector& argIn)
     case 0: {
         bRes = RemoveFile(filenameToDelete, msg);
         if (static_cast<int>(bRes) == false) {
-            Error(msg);
+            Error(msg, L"Nelson:files_folders_functions:rmfile");
         }
     } break;
     case 1:
@@ -42,7 +43,8 @@ Nelson::FilesFoldersGateway::rmfileBuiltin(int nLhs, const ArrayOfVector& argIn)
         retval << ArrayOf::characterArrayConstructor(msg);
         break;
     default:
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
+            ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
         break;
     }
     return retval;

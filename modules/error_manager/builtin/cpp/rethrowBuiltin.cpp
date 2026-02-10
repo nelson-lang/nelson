@@ -14,6 +14,7 @@
 #include "ClassName.hpp"
 #include "DebugStack.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,9 +27,10 @@ Nelson::ErrorManagerGateway::rethrowBuiltin(int nLhs, const ArrayOfVector& argIn
         if (argIn[0].isScalar()) {
             throw ArrayOfToException(argIn[0]);
         }
-        Error(_W("MException scalar expected."));
+        raiseError(L"Nelson:error_manager:ERROR_MEXCEPTION_SCALAR_EXPECTED",
+            ERROR_MEXCEPTION_SCALAR_EXPECTED);
     }
-    Error(_W("MException expected."));
+    raiseError(L"Nelson:error_manager:ERROR_MEXCEPTION_EXPECTED", ERROR_MEXCEPTION_EXPECTED);
     ArrayOfVector retval;
     return retval;
 }

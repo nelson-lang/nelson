@@ -11,6 +11,7 @@
 #include "omp_for_loop.hpp"
 #include "i18n.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "CtransposeSparseDouble.hpp"
 #include "CtransposeSparseLogical.hpp"
 #include "ComplexTranspose.hpp"
@@ -61,8 +62,8 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
     Dimensions dimsA = A.getDimensions();
     bool isSupported = (A.isEmpty() || A.isScalar() || A.is2D());
     if (!isSupported) {
-        std::wstring msg = _W("ctranspose on N-D array is undefined.");
-        Error(msg);
+        raiseError(L"Nelson:operators:ERROR_CTRANSPOSE_ON_ND_ARRAY_UNDEFINED",
+            ERROR_CTRANSPOSE_ON_ND_ARRAY_UNDEFINED);
     }
     ArrayOf Res;
     Dimensions dimsRes(dimsA.getColumns(), dimsA.getRows());

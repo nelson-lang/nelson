@@ -14,6 +14,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -75,10 +76,13 @@ Nelson::ElementaryFunctionsGateway::linspaceBuiltin(int nLhs, const ArrayOfVecto
     } else {
         ArrayOf param3 = argIn[2];
         if (!param3.isScalar()) {
-            Error(_W("Inputs parameters must be scalars."));
+            raiseError(L"Nelson:elementary_functions:ERROR_INPUTS_PARAMETERS_MUST_BE_SCALARS",
+                ERROR_INPUTS_PARAMETERS_MUST_BE_SCALARS);
         }
         if (param3.isComplex()) {
-            Error(_W("Third argument should be an integer value."));
+            raiseError(
+                L"Nelson:elementary_functions:ERROR_THIRD_ARGUMENT_SHOULD_BE_AN_INTEGER_VALUE",
+                ERROR_THIRD_ARGUMENT_SHOULD_BE_AN_INTEGER_VALUE);
         } else {
             // special case about NaN
             double nd = param3.getContentAsDoubleScalar();
@@ -94,7 +98,8 @@ Nelson::ElementaryFunctionsGateway::linspaceBuiltin(int nLhs, const ArrayOfVecto
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     if (!param1.isScalar() || !param2.isScalar()) {
-        Error(_W("Inputs parameters must be scalars."));
+        raiseError(L"Nelson:elementary_functions:ERROR_INPUTS_PARAMETERS_MUST_BE_SCALARS",
+            ERROR_INPUTS_PARAMETERS_MUST_BE_SCALARS);
     }
     ArrayOf res;
     NelsonType destinationClass;

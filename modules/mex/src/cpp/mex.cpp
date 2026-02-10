@@ -53,7 +53,7 @@ mexPrintf(const char* format, ...)
 void
 mexErrMsgTxt(const char* error_msg)
 {
-    Nelson::Error(error_msg);
+    Nelson::Error(Nelson::utf8_to_wstring(error_msg), L"Nelson:mex:mexErrMsgTxt");
 }
 //=============================================================================
 void

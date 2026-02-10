@@ -13,6 +13,7 @@
 #include "NewWithException.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -91,7 +92,9 @@ h5ReadBitfield(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, 
             if (H5Sget_simple_extent_dims(dspace_id, h5_dims, h5_maxdims) < 0) {
                 delete[] h5_dims;
                 delete[] h5_maxdims;
-                Error("Impossible to read dimensions and maximum size of data set.");
+                raiseError(
+                    L"Nelson:hdf5:ERROR_IMPOSSIBLE_TO_READ_DIMENSIONS_AND_MAXIMUM_SIZE_OF_DATA_SET",
+                    ERROR_IMPOSSIBLE_TO_READ_DIMENSIONS_AND_MAXIMUM_SIZE_OF_DATA_SET);
                 return {};
             }
             memspace = H5Screate_simple(rank, h5_dims, nullptr);

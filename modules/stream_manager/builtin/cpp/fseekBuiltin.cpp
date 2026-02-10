@@ -15,6 +15,7 @@
 #include "FilesManager.hpp"
 #include "NelsonConfiguration.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -37,7 +38,7 @@ Nelson::StreamGateway::fseekBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if ((str == L"eof") || (str == L"end")) {
             ORIGIN = 1;
         } else {
-            Error(_W("Invalid origin."));
+            raiseError(L"Nelson:stream_manager:ERROR_INVALID_ORIGIN", ERROR_INVALID_ORIGIN);
         }
     } else {
         int iValue = static_cast<int>(param3.getContentAsDoubleScalar());
@@ -48,14 +49,15 @@ Nelson::StreamGateway::fseekBuiltin(int nLhs, const ArrayOfVector& argIn)
             ORIGIN = iValue;
         } break;
         default: {
-            Error(_W("Invalid origin."));
+            raiseError(L"Nelson:stream_manager:ERROR_INVALID_ORIGIN", ERROR_INVALID_ORIGIN);
         } break;
         }
     }
     auto iOffset = static_cast<int64>(param2.getContentAsDoubleScalar());
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
-        Error(_W("Problem with file manager."));
+        raiseError(
+            L"Nelson:stream:ERROR_PROBLEM_WITH_FILE_MANAGER", ERROR_PROBLEM_WITH_FILE_MANAGER);
     }
     auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
     if (fm->isOpened(iValue)) {
@@ -66,7 +68,8 @@ Nelson::StreamGateway::fseekBuiltin(int nLhs, const ArrayOfVector& argIn)
             retval << ArrayOf::doubleConstructor(0);
         }
     } else {
-        Error(_W("Invalid file identifier."));
+        raiseError(
+            L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER", ERROR_INVALID_FILE_IDENTIFIER);
     }
     return retval;
 }

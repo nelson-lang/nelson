@@ -58,7 +58,8 @@ Nelson::StringGateway::charBuiltin(int nLhs, const ArrayOfVector& argIn)
     } break;
     case NLS_SCOMPLEX:
     case NLS_DCOMPLEX: {
-        Error(_W("Conversion to char from complex is not possible."));
+        raiseError(L"Nelson:string:ERROR_CONVERSION_TO_CHAR_FROM_COMPLEX_NOT_POSSIBLE",
+            ERROR_CONVERSION_TO_CHAR_FROM_COMPLEX_NOT_POSSIBLE);
     } break;
     default:
     case NLS_CLASS_ARRAY:

@@ -10,6 +10,7 @@
 #include "structBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "IsValidFieldname.hpp"
 #include "OverloadRequired.hpp"
 //=============================================================================
@@ -28,8 +29,9 @@ Nelson::DataStructuresGateway::structBuiltin(int nLhs, const ArrayOfVector& argI
             OverloadRequired("struct");
         }
         if (argIn[0].isFunctionHandle()) {
-            Error(_("Conversion to 'struct' to 'function_handle' is not possible."),
-                "Nelson:invalidConversion");
+            raiseError(
+                L"Nelson:data_structures:ERROR_CONVERSION_STRUCT_TO_FUNCTION_HANDLE_NOT_POSSIBLE",
+                ERROR_CONVERSION_STRUCT_TO_FUNCTION_HANDLE_NOT_POSSIBLE);
         }
         if (argIn[0].isClassType()) {
             ArrayOf asStruct = argIn[0];
@@ -38,14 +40,16 @@ Nelson::DataStructuresGateway::structBuiltin(int nLhs, const ArrayOfVector& argI
             retval << asStruct;
             return retval;
         } else if (!argIn[0].isEmpty()) {
-            Error(_W("struct([]) expected."));
+            raiseError(
+                L"Nelson:data_structures:ERROR_STRUCT_EMPTY_EXPECTED", ERROR_STRUCT_EMPTY_EXPECTED);
         }
         Dimensions dim = argIn[0].getDimensions();
         wstringVector fieldnames;
         retval << ArrayOf::emptyStructConstructor(fieldnames, dim);
     } else {
         if (argIn.size() % 2) {
-            Error(_W("requires pairs of field names and values."));
+            raiseError(L"Nelson:data_structures:ERROR_REQUIRES_PAIRS_OF_FIELD_NAMES_AND_VALUES",
+                ERROR_REQUIRES_PAIRS_OF_FIELD_NAMES_AND_VALUES);
         }
         size_t pairCount = argIn.size() / 2;
         stringVector names;
@@ -55,11 +59,13 @@ Nelson::DataStructuresGateway::structBuiltin(int nLhs, const ArrayOfVector& argI
         }
         for (size_t i = 0; i < pairCount * 2; i += 2) {
             if (!(argIn[i].isRowVectorCharacterArray() || argIn[i].isScalarStringArray())) {
-                Error(_W("requires pairs of field names and values."));
+                raiseError(L"Nelson:data_structures:ERROR_REQUIRES_PAIRS_OF_FIELD_NAMES_AND_VALUES",
+                    ERROR_REQUIRES_PAIRS_OF_FIELD_NAMES_AND_VALUES);
             }
             std::string field = argIn[i].getContentAsCString();
             if (!IsValidFieldname(field)) {
-                Error(_W("requires a valid fieldname."));
+                raiseError(L"Nelson:data_structures:ERROR_REQUIRES_A_VALID_FIELDNAME",
+                    ERROR_REQUIRES_A_VALID_FIELDNAME);
             }
             names.push_back(field);
             values[i / 2] = argIn[i + 1];

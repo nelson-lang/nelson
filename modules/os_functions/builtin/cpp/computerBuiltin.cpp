@@ -43,11 +43,13 @@ Nelson::OsFunctionsGateway::computerBuiltin(int nLhs, const ArrayOfVector& argIn
         }
         std::wstring warg = argIn[0].getContentAsWideString();
         if (warg.compare(L"arch") != 0) {
-            Error(_W("Unknown command option."));
+            raiseError(
+                L"Nelson:os_functions:ERROR_UNKNOWN_COMMAND_OPTION", ERROR_UNKNOWN_COMMAND_OPTION);
         }
         retval << ArrayOf::characterArrayConstructor(GetArchitecture());
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:os_functions:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

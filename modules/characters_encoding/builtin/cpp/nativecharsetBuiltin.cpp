@@ -23,7 +23,8 @@ Nelson::CharactersEncodingGateway::nativecharsetBuiltin(int nLhs, const ArrayOfV
     ArrayOfVector retval(1);
     ArrayOf param1 = argIn[0];
     if (param1.isSparse()) {
-        Error(_W("Sparse type not supported."));
+        raiseError(
+            L"Nelson:characters_encoding:ERROR_SPARSE_NOT_SUPPORTED", ERROR_SPARSE_NOT_SUPPORTED);
     }
     std::string data;
     bool isSupportedAsNumeric
@@ -49,7 +50,8 @@ Nelson::CharactersEncodingGateway::nativecharsetBuiltin(int nLhs, const ArrayOfV
             data = param1.getContentAsCString();
         }
     } else {
-        Error("Type or dimensions not supported.");
+        raiseError(L"Nelson:characters_encoding:ERROR_TYPE_OR_DIMENSIONS_NOT_SUPPORTED",
+            ERROR_TYPE_OR_DIMENSIONS_NOT_SUPPORTED);
     }
     stringVector encodings = detectEncodings(data);
     retval << ArrayOf::toCellArrayOfCharacterColumnVectors(encodings);

@@ -25,7 +25,8 @@ Nelson::DynamicLinkGateway::libpointer_isNullBuiltin(int nLhs, const ArrayOfVect
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-        Error(_W("libpointer handle expected."));
+        raiseError(L"Nelson:dynamic_link:ERROR_LIBPOINTER_HANDLE_EXPECTED",
+            ERROR_LIBPOINTER_HANDLE_EXPECTED);
     }
     LibPointerObject* libPointerObj = (LibPointerObject*)param1.getContentAsHandleScalar();
     retval << ArrayOf::logicalConstructor(libPointerObj->isNull());

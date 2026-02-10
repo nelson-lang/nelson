@@ -9,7 +9,7 @@
 //=============================================================================
 #include "savematBuiltin.hpp"
 #include "SaveMatioFile.hpp"
-#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -63,7 +63,7 @@ Nelson::MatioGateway::savematBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
                     matFileVersion = param;
                 }
             } else {
-                Error(_W("Invalid option:") + param);
+                raiseError(L"Nelson:matio:ERROR_INVALID_OPTION", ERROR_INVALID_OPTION, param);
             }
         } else {
             names.push_back(param);

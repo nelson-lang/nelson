@@ -10,6 +10,7 @@
 #include "GOPatch.hpp"
 #include "GOAxis.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
@@ -307,7 +308,8 @@ GOPatch::buildPolygons(FaceList& faces)
     }
 
     if (nbColumnsVerticesData != 3) {
-        Error(_("Nx3 dimensional matrix expected for 'Vertices'."));
+        raiseError(L"Nelson:graphics:ERROR_NX3_DIMENSIONAL_MATRIX_EXPECTED_FOR_VERTICES",
+            ERROR_NX3_DIMENSIONAL_MATRIX_EXPECTED_FOR_VERTICES);
     }
 
     const double* pVertOrder = static_cast<const double*>(facesData.getDataPointer());
@@ -333,7 +335,8 @@ GOPatch::buildPolygons(FaceList& faces)
             GORestrictedStringColorProperty* fc = static_cast<GORestrictedStringColorProperty*>(
                 findProperty(GO_FACE_COLOR_PROPERTY_NAME_STR));
             if (!fc) {
-                Error(_W("Invalid Face Colorspec."));
+                raiseError(
+                    L"Nelson:graphics:ERROR_INVALID_FACE_COLORSPEC", ERROR_INVALID_FACE_COLORSPEC);
             } else {
                 std::vector<double> colorspec = fc->colorSpec();
                 face.FaceColor
@@ -345,7 +348,8 @@ GOPatch::buildPolygons(FaceList& faces)
             GORestrictedStringColorProperty* ec = static_cast<GORestrictedStringColorProperty*>(
                 findProperty(GO_EDGE_COLOR_PROPERTY_NAME_STR));
             if (!ec) {
-                Error(_W("Invalid EdgeColor parameter."));
+                raiseError(L"Nelson:graphics:ERROR_INVALID_EDGECOLOR_PARAMETER",
+                    ERROR_INVALID_EDGECOLOR_PARAMETER);
             }
             std::vector<double> colorspec = ec->colorSpec();
             face.EdgeColor = RGBAColorData(colorspec[0], colorspec[1], colorspec[2], 1);
@@ -353,12 +357,16 @@ GOPatch::buildPolygons(FaceList& faces)
 
         if (face.EdgeColorMode == ColorMode::Flat && (nbColumnsFaceVertexCdata != 3)
             && ((nbRowsFaceVertexCdata != 1) || ((nbRowsFaceVertexCdata != nVertices)))) {
-            Error(_W("Invalid FaceVertexCData parameter with EgdeColor to 'flat'."));
+            raiseError(
+                L"Nelson:graphics:ERROR_INVALID_FACEVERTEXCDATA_PARAMETER_WITH_EGDECOLOR_TO_FLAT",
+                ERROR_INVALID_FACEVERTEXCDATA_PARAMETER_WITH_EGDECOLOR_TO_FLAT);
         }
 
         if (face.EdgeColorMode == ColorMode::Interp && (nbColumnsFaceVertexCdata != 3)
             && (nbRowsFaceVertexCdata != nVertices)) {
-            Error(_W("Invalid FaceVertexCData parameter with EgdeColor to 'interp'."));
+            raiseError(
+                L"Nelson:graphics:ERROR_INVALID_FACEVERTEXCDATA_PARAMETER_WITH_EGDECOLOR_TO_INTERP",
+                ERROR_INVALID_FACEVERTEXCDATA_PARAMETER_WITH_EGDECOLOR_TO_INTERP);
         }
 
         for (int k = 0; k < maxVertsPerFace; k++) {
@@ -367,7 +375,8 @@ GOPatch::buildPolygons(FaceList& faces)
                 int vertIndex = (int)(*(pVertOrder + j + k * nFaces)) - 1;
 
                 if (vertIndex >= nVertices || vertIndex < 0) {
-                    Error(_W("Vertex Index out of bounds."));
+                    raiseError(L"Nelson:graphics:ERROR_VERTEX_INDEX_OUT_OF_BOUNDS",
+                        ERROR_VERTEX_INDEX_OUT_OF_BOUNDS);
                 }
 
                 vert.x

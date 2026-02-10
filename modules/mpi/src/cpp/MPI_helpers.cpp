@@ -12,13 +12,14 @@
 #include "BuiltInFunctionDefManager.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 #include "HandleManager.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "PathFunctionIndexerManager.hpp"
 #include "SparseConstructors.hpp"
 #include "SparseToIJV.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,7 +40,8 @@ MPIErrorHandler(MPI_Comm* comm, int* errorcode, ...)
     int resultlen = 0;
     MPI_Error_string(*errorcode, buffer, &resultlen);
     buffer[resultlen] = 0;
-    Error(buffer);
+    std::string _msg(buffer);
+    Error(utf8_to_wstring(_msg), L"Nelson:mpi:ERROR_MPI_ERROR");
 }
 //=============================================================================
 int
@@ -255,7 +257,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             buffer, bufsize, packpos, comm);
         break;
     default: {
-        Error(_("Type not managed."));
+        raiseError(L"Nelson:mpi:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     } break;
     }
 }
@@ -359,7 +361,8 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 new AnonymousMacroFunctionDef(anonymousContent, arguments, fieldnames, variables));
         }
         if (fh.anonymousHandle == nullptr) {
-            Error(_W("A valid function name expected."));
+            raiseError(L"Nelson:mpi:ERROR_A_VALID_FUNCTION_NAME_EXPECTED",
+                ERROR_A_VALID_FUNCTION_NAME_EXPECTED);
         }
         return ArrayOf::functionHandleConstructor(fh);
     } break;
@@ -467,7 +470,7 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_WCHAR, comm);
         break;
     default: {
-        Error(_W("Type not managed."));
+        raiseError(L"Nelson:mpi:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     } break;
     }
     return ArrayOf(dataClass, outDim, cp);
@@ -708,7 +711,7 @@ getMpiCommName(MPI_Comm comm)
     name[0] = 0;
     int len;
     if (MPI_Comm_get_name(comm, name, &len) != MPI_SUCCESS) {
-        Error(_W("Invalid communicator"));
+        raiseError(L"Nelson:mpi:ERROR_INVALID_COMMUNICATOR", ERROR_INVALID_COMMUNICATOR);
     }
     if (len >= MPI_MAX_OBJECT_NAME) {
         len = MPI_MAX_OBJECT_NAME - 1;

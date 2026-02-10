@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "test_parsetagsBuiltin.hpp"
-#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ParseTags.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -25,7 +25,7 @@ Nelson::TestsManagerGateway::test_parsetagsBuiltin(int nLhs, const ArrayOfVector
     std::wstring value = param1.getContentAsWideString();
     std::wstring msg;
     if (!ParseTags(value, tags, msg)) {
-        Error(msg);
+        Error(msg, L"Nelson:tests_manager:test_parsetags");
     }
     size_t nbFields = 65;
     wstringVector fieldnames;

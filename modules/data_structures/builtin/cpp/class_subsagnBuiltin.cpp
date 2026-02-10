@@ -10,6 +10,7 @@
 #include "class_subsagnBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -22,29 +23,35 @@ Nelson::DataStructuresGateway::class_subsagnBuiltin(int nLhs, const ArrayOfVecto
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 3, 3);
     if (!argIn[0].isClassType()) {
-        Error(_W("Wrong type for argument #1. class expected."));
+        raiseError(L"Nelson:data_structures:ERROR_WRONG_TYPE_ARG1_CLASS_EXPECTED",
+            ERROR_WRONG_TYPE_ARG1_CLASS_EXPECTED);
     }
     if (!argIn[1].isStruct()) {
-        Error(_W("Wrong type for argument #2. struct expected."));
+        raiseError(L"Nelson:data_structures:ERROR_WRONG_TYPE_ARG2_STRUCT_EXPECTED",
+            ERROR_WRONG_TYPE_ARG2_STRUCT_EXPECTED);
     }
     stringVector fieldnames = argIn[1].getFieldNames();
     bool isSupportedStruct = (fieldnames.size() == 2)
         && ((fieldnames[0] == "type" && fieldnames[1] == "subs")
             || (fieldnames[0] == "subs" && fieldnames[1] == "type"));
     if (!isSupportedStruct) {
-        Error(_("Second argument must be a structure with two fields whose names are 'type' and "
-                "'subs'."));
+        raiseError(L"Nelson:data_structures:ERROR_SECOND_ARGUMENT_MUST_BE_STRUCT_TYPE_SUBS",
+            ERROR_SECOND_ARGUMENT_MUST_BE_STRUCT_TYPE_SUBS);
     }
 
     ArrayOfVector typeFields = argIn[1].getFieldAsList("type");
     ArrayOfVector subsFields = argIn[1].getFieldAsList("subs");
 
     if (typeFields.empty()) {
-        Error(_("Illegal indexing structure argument: type '.' expected."));
+        raiseError(
+            L"Nelson:data_structures:ERROR_ILLEGAL_INDEXING_STRUCTURE_ARGUMENT_TYPE_DOT_EXPECTED",
+            ERROR_ILLEGAL_INDEXING_STRUCTURE_ARGUMENT_TYPE_DOT_EXPECTED);
     }
     std::string typeFieldStr = typeFields[0].getContentAsCString();
     if (typeFieldStr != ".") {
-        Error(_("Illegal indexing structure argument: type '.' expected."));
+        raiseError(
+            L"Nelson:data_structures:ERROR_ILLEGAL_INDEXING_STRUCTURE_ARGUMENT_TYPE_DOT_EXPECTED",
+            ERROR_ILLEGAL_INDEXING_STRUCTURE_ARGUMENT_TYPE_DOT_EXPECTED);
     }
     std::string fieldname = subsFields[0].getContentAsCString();
     ArrayOf res = argIn[0];

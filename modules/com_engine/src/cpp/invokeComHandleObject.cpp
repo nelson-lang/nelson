@@ -30,22 +30,24 @@ invokeComHandleObject(const ArrayOf& A, const std::wstring& wmethodname,
     ArrayOf res;
     haveReturnValue = false;
     if (params.size() > NB_PARAMS_MAX) {
-        Error(_W("Only 7 input parameters expected."));
+        raiseError(L"Nelson:com_engine:ERROR_ONLY_7_INPUT_PARAMETERS_EXPECTED",
+            ERROR_ONLY_7_INPUT_PARAMETERS_EXPECTED);
     }
     if (A.getHandleCategory() != NLS_HANDLE_COM_CATEGORY_STR) {
-        Error(_W("COM handle expected."));
+        raiseError(L"Nelson:com_engine:ERROR_COM_HANDLE_EXPECTED", ERROR_COM_HANDLE_EXPECTED);
     }
     auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     void* ptr = comhandleobj->getPointer();
     if (ptr == nullptr) {
-        Error(_W("COM valid handle expected."));
+        raiseError(
+            L"Nelson:com_engine:ERROR_COM_VALID_HANDLE_EXPECTED", ERROR_COM_VALID_HANDLE_EXPECTED);
     }
     const VARIANT* pVariant = static_cast<VARIANT*>(ptr);
     VARIANT* pVarResult = nullptr;
     try {
         pVarResult = new VARIANT;
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:com_engine:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     if (pVarResult) {
         size_t nbParams = params.size();
@@ -56,7 +58,7 @@ invokeComHandleObject(const ArrayOf& A, const std::wstring& wmethodname,
             } catch (const std::bad_alloc&) {
                 delete pVarResult;
                 pVarResult = nullptr;
-                Error(ERROR_MEMORY_ALLOCATION);
+                raiseError(L"Nelson:com_engine:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
             }
             std::wstring errorMessage;
             for (size_t k = 0; k < nbParams; k++) {
@@ -64,7 +66,7 @@ invokeComHandleObject(const ArrayOf& A, const std::wstring& wmethodname,
                 if (!bSuccess) {
                     delete[] args;
                     args = nullptr;
-                    Error(errorMessage);
+                    Error(errorMessage, L"Nelson:com_engine:ERROR_COM_MESSAGE");
                 }
             }
         }
@@ -86,13 +88,13 @@ invokeComHandleObject(const ArrayOf& A, const std::wstring& wmethodname,
                 if (!bSuccess) {
                     delete pVarResult;
                     pVarResult = nullptr;
-                    Error(errorMessage);
+                    Error(errorMessage, L"Nelson:com_engine:ERROR_COM_MESSAGE");
                 }
             }
         } else {
             delete pVarResult;
             pVarResult = nullptr;
-            Error(errorMessage);
+            Error(errorMessage, L"Nelson:com_engine:ERROR_COM_MESSAGE");
         }
     }
     return res;

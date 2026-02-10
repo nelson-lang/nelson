@@ -110,10 +110,12 @@ Nelson::RandomGateway::randiBuiltin(int nLhs, const ArrayOfVector& argIn)
                     cl = likeArray.getDataClass();
                     argIdx++; // skip next
                 } else {
-                    Error(_W("'like' must be followed by an array."));
+                    raiseError(L"Nelson:random:ERROR_LIKE_MUST_BE_FOLLOWED_BY_ARRAY",
+                        ERROR_LIKE_MUST_BE_FOLLOWED_BY_ARRAY);
                 }
             } else {
-                Error(_W("Unknown typename: ") + paramstr);
+                raiseError(
+                    L"Nelson:random:ERROR_UNKNOWN_TYPENAME", ERROR_UNKNOWN_TYPENAME, paramstr);
             }
         }
     }

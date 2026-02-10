@@ -16,6 +16,8 @@
 #include <Eigen/Sparse>
 #include "DeterminantMatrix.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -64,7 +66,8 @@ DeterminantMatrix(const ArrayOf& A, bool& needToOverload)
         return {};
     }
     if (!A.isSquare()) {
-        Error(_("Square matrix expected."));
+        raiseError(
+            L"Nelson:linear_algebra:ERROR_SQUARE_MATRIX_EXPECTED", ERROR_SQUARE_MATRIX_EXPECTED);
     }
     if (A.isEmpty()) {
         if (A.isDoubleClass()) {

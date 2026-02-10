@@ -13,6 +13,8 @@
 #include "InputOutputArgumentsCheckers.hpp"
 #include "ReadMatrix.hpp"
 #include "DetectImportOptions.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -39,7 +41,8 @@ Nelson::SpreadsheetGateway::readmatrixBuiltin(int nLhs, const ArrayOfVector& arg
         analyzeFileFormatImportOptions(filename, 4096, options, errorMessage);
         options.CommentStyle.clear();
         if (!errorMessage.empty()) {
-            Error(errorMessage);
+            raiseError(L"Nelson:spreadsheet:ERROR_READMATRIX_ERROR", ERROR_READMATRIX_ERROR,
+                utf8_to_wstring(errorMessage));
         }
     } break;
     case 2: {
@@ -47,20 +50,23 @@ Nelson::SpreadsheetGateway::readmatrixBuiltin(int nLhs, const ArrayOfVector& arg
         if (argIn[1].isClassType() && argIn[1].getClassType() == "DelimitedTextImportOptions") {
             populateImportOptions(argIn[1], options);
         } else {
-            Error(_W("Import options object expected."));
+            raiseError(L"Nelson:spreadsheet:ERROR_IMPORT_OPTIONS_OBJECT_EXPECTED",
+                ERROR_IMPORT_OPTIONS_OBJECT_EXPECTED);
         }
     } break;
     case 3: {
         // readmatrix(filename, 'fieldname', fieldvalue)
         std::wstring fieldname = argIn[1].getContentAsWideString();
         if (fieldname != L"OutputType") {
-            Error(_W("OutputType name expected."));
+            raiseError(L"Nelson:spreadsheet:ERROR_OUTPUTTYPE_NAME_EXPECTED",
+                ERROR_OUTPUTTYPE_NAME_EXPECTED);
         }
         OutputType = convertToNelsonType(argIn[2].getContentAsWideString());
         analyzeFileFormatImportOptions(filename, 4096, options, errorMessage);
         options.CommentStyle.clear();
         if (!errorMessage.empty()) {
-            Error(errorMessage);
+            raiseError(L"Nelson:spreadsheet:ERROR_READMATRIX_ERROR", ERROR_READMATRIX_ERROR,
+                utf8_to_wstring(errorMessage));
         }
     } break;
     case 4: {
@@ -68,11 +74,13 @@ Nelson::SpreadsheetGateway::readmatrixBuiltin(int nLhs, const ArrayOfVector& arg
         if (argIn[1].isClassType() && argIn[1].getClassType() == "DelimitedTextImportOptions") {
             populateImportOptions(argIn[1], options);
         } else {
-            Error(_W("Import options object expected."));
+            raiseError(L"Nelson:spreadsheet:ERROR_IMPORT_OPTIONS_OBJECT_EXPECTED",
+                ERROR_IMPORT_OPTIONS_OBJECT_EXPECTED);
         }
         std::wstring fieldname = argIn[2].getContentAsWideString();
         if (fieldname != L"OutputType") {
-            Error(_W("OutputType name expected."));
+            raiseError(L"Nelson:spreadsheet:ERROR_OUTPUTTYPE_NAME_EXPECTED",
+                ERROR_OUTPUTTYPE_NAME_EXPECTED);
         }
         OutputType = convertToNelsonType(argIn[3].getContentAsWideString());
     } break;
@@ -82,7 +90,8 @@ Nelson::SpreadsheetGateway::readmatrixBuiltin(int nLhs, const ArrayOfVector& arg
 
     retval << ReadMatrix(filename, options, OutputType, errorMessage);
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        raiseError(L"Nelson:spreadsheet:ERROR_READMATRIX_ERROR", ERROR_READMATRIX_ERROR,
+            utf8_to_wstring(errorMessage));
     }
     return retval;
 }
@@ -101,7 +110,7 @@ convertToNelsonType(const std::wstring& typeStr)
         return it->second;
     }
 
-    Error(_W("Unsupported type."));
+    raiseError(L"Nelson:spreadsheet:ERROR_UNSUPPORTED_NELSON_TYPE", ERROR_UNSUPPORTED_NELSON_TYPE);
     return NLS_DOUBLE;
 }
 //=============================================================================

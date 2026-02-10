@@ -28,15 +28,17 @@ Nelson::AudioGateway::audioplayer_setBuiltin(int nLhs, const ArrayOfVector& argI
     ArrayOf param3 = argIn[2];
     ArrayOfVector retval;
     if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
-        Error(_W("audioplayer handle expected."));
+        raiseError(
+            L"Nelson:audio:ERROR_AUDIOPLAYER_HANDLE_EXPECTED", ERROR_AUDIOPLAYER_HANDLE_EXPECTED);
     }
     auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     if (!objPlayer->isWriteableProperty(propertyName)) {
-        Error(_W("Cannot set a read only property."));
+        raiseError(L"Nelson:audio:ERROR_CANNOT_SET_READ_ONLY_PROPERTY",
+            ERROR_CANNOT_SET_READ_ONLY_PROPERTY);
     }
     std::wstring errorMessage;
     if (!objPlayer->set(propertyName, param3, errorMessage)) {
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:audio:ERROR_AUDIOPLAYER_SET_ERROR");
     }
     return retval;
 }

@@ -113,7 +113,7 @@ classnameComHandle(const ArrayOf& A, stringVector& classname)
     std::string className;
     ClassName(A, className);
     if (className != NLS_HANDLE_COM_CATEGORY_STR) {
-        Error(_W("COM handle expected."));
+        raiseError(L"Nelson:com_engine:ERROR_COM_HANDLE_EXPECTED", ERROR_COM_HANDLE_EXPECTED);
     }
     Dimensions dimsA = A.getDimensions();
     auto* qp = (nelson_handle*)A.getDataPointer();

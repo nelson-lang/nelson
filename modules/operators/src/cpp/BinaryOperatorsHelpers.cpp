@@ -10,6 +10,8 @@
 #include "BinaryOperatorsHelpers.hpp"
 #include "i18n.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -35,7 +37,8 @@ binaryOperatorEmptyMatrixEmptryMatrix(
         } else if (idy == 1 || idx == idy) {
             dimsOut[i] = idx;
         } else {
-            Error(_("Size mismatch on arguments to arithmetic operator") + " " + operatorName);
+            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, utf8_to_wstring(operatorName));
         }
     }
     Dimensions dims(dimsOut);

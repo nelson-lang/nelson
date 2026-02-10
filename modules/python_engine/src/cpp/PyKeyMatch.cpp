@@ -16,6 +16,7 @@
 #include "PythonObjectHandle.hpp"
 #include "PyObjectHelpers.hpp"
 #include "StringHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -49,7 +50,8 @@ PyKeyMatch(PyObject* p1, PyObject* p2)
     }
 
     if (!p1 || !p2) {
-        Error(_W("Invalid Python object."), L"Nelson:Python:PyException");
+        raiseError(L"Nelson:Python:ERROR_PYKEYMATCH_INVALID_PYTHON_OBJECT",
+            ERROR_PYKEYMATCH_INVALID_PYTHON_OBJECT);
     }
     uint64 hashValue1 = PyGetHashValue(p1);
     uint64 hashValue2 = PyGetHashValue(p2);

@@ -12,6 +12,8 @@
 #include "i18n.hpp"
 #include "NelsonPIDs.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -37,11 +39,12 @@ Nelson::IpcGateway::getpidBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
             retval << res;
         } else {
-            Error(_("Wrong value for #1 argument: 'available' expected."));
+            raiseError(L"Nelson:ipc:ERROR_WRONG_VALUE_FOR_1_ARGUMENT_AVAILABLE_EXPECTED",
+                ERROR_WRONG_VALUE_FOR_1_ARGUMENT_AVAILABLE_EXPECTED);
         }
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:ipc:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;

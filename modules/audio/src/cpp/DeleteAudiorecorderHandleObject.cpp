@@ -18,7 +18,7 @@ bool
 DeleteAudiorecorderHandleObject(const ArrayOf& A)
 {
     return DeleteHandleObjects<AudiorecorderObject>(A, NLS_HANDLE_AUDIORECORDER_CATEGORY_STR,
-        _W("audiorecorder handle expected."), _W("audiorecorder valid handle expected."));
+        ERROR_AUDIORECORDER_HANDLE_EXPECTED, ERROR_AUDIORECORDER_VALID_HANDLE_EXPECTED);
 }
 //=============================================================================
 } // namespace Nelson

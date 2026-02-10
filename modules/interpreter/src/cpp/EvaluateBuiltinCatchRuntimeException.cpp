@@ -19,11 +19,13 @@
 #define FMT_HEADER_ONLY
 #include <fmt/format.h>
 #include <fmt/xchar.h>
+#include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "Error.hpp"
 #include "EvaluateBuiltinCatchRuntimeException.hpp"
-#include "i18n.hpp"
 #include "NelsonGateway.hpp"
 #include "CallMexBuiltin.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 #ifndef _MSC_VER
 static std::jmp_buf buf;
@@ -128,7 +130,8 @@ EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, const ArrayOfV
             outputs = builtinPtr(nargout, inputs);
         } catch (const std::runtime_error& e) {
             _set_se_translator(nullptr);
-            Error(e.what());
+            raiseError(L"Nelson:interpreter:EVALUATE_BUILTIN_CPP_RUNTIME_EXCEPTION",
+                utf8_to_wstring(e.what()));
         }
         _set_se_translator(nullptr);
 
@@ -140,7 +143,8 @@ EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, const ArrayOfV
             outputs = builtinPtr(eval, nargout, inputs);
         } catch (const std::runtime_error& e) {
             _set_se_translator(nullptr);
-            Error(e.what());
+            raiseError(L"Nelson:interpreter:EVALUATE_BUILTIN_CPP_RUNTIME_EXCEPTION",
+                utf8_to_wstring(e.what()));
         }
         _set_se_translator(nullptr);
 
@@ -149,7 +153,8 @@ EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, const ArrayOfV
         CallMexBuiltin(fptr, inputs, nargout, outputs, interleavedComplex);
     } break;
     default: {
-        Error(_("BUILTIN type not managed."));
+        raiseError(
+            L"Nelson:interpreter:ERROR_BUILTIN_TYPE_NOT_MANAGED", ERROR_BUILTIN_TYPE_NOT_MANAGED);
     } break;
     }
     return outputs;
@@ -183,26 +188,26 @@ EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, const ArrayOfV
         } break;
         }
     } else {
-        std::string error_message = "";
+        std::wstring error_message = L"";
         switch (error_code) {
         case SIGSEGV: {
-            error_message = fmt::format(_("System error detected: {0}"), "SIGSEGV");
+            error_message = L"SIGSEGV";
         } break;
         case SIGFPE: {
-            error_message = fmt::format(_("System error detected: {0}"), "SIGFPE");
+            error_message = L"SIGFPE";
         } break;
         case SIGILL: {
-            error_message = fmt::format(_("System error detected: {0}"), "SIGILL");
+            error_message = L"SIGILL";
         } break;
         default: {
-            error_message = fmt::format(
-                _("System error detected: Error code: {0}"), std::to_string(error_code));
+            error_message = std::to_wstring(error_code);
         } break;
         }
         signal(SIGSEGV, SIG_DFL);
         signal(SIGFPE, SIG_DFL);
         signal(SIGILL, SIG_DFL);
-        Error(error_message);
+        raiseError(L"Nelson:interpreter:ERROR_SYSTEM_ERROR_DETECTED", ERROR_SYSTEM_ERROR_DETECTED,
+            error_message);
     }
     signal(SIGSEGV, SIG_DFL);
     signal(SIGFPE, SIG_DFL);

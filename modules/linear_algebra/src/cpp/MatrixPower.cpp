@@ -17,6 +17,7 @@
 #include "Eye.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -121,7 +122,9 @@ MatrixPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 
     // Test for 2D on both A & B
     if (!A.is2D() || !B.is2D()) {
-        Error(_W("Cannot apply exponential operation to N-Dimensional arrays."));
+        raiseError(L"Nelson:linear_algebra:ERROR_CANNOT_APPLY_EXPONENTIAL_OPERATION_TO_N_"
+                   L"DIMENSIONAL_ARRAYS",
+            ERROR_CANNOT_APPLY_EXPONENTIAL_OPERATION_TO_N_DIMENSIONAL_ARRAYS);
     }
 
     if (B.isReal() && B.isScalar()) {
@@ -135,7 +138,9 @@ MatrixPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     // Both arguments must be square
     if ((A.getDimensionLength(0) != A.getDimensionLength(1))
         || (B.getDimensionLength(0) != B.getDimensionLength(1))) {
-        Error(_W("Power (^) operator can only be applied to scalar and square arguments."));
+        raiseError(L"Nelson:linear_algebra:ERROR_POWER_OPERATOR_CAN_ONLY_BE_APPLIED_TO_SCALAR_AND_"
+                   L"SQUARE_ARGUMENTS",
+            ERROR_POWER_OPERATOR_CAN_ONLY_BE_APPLIED_TO_SCALAR_AND_SQUARE_ARGUMENTS);
     }
 
     bool isSupportedType = (A.isSingleClass() || A.isDoubleClass())

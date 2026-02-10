@@ -39,10 +39,11 @@ delimitedFileWriter(ArrayOf mat, const std::wstring& filenameDestination, bool b
 {
     bool bTypeSupported = mat.isNumeric() || mat.isLogical();
     if (!bTypeSupported) {
-        Error(_W("An numeric matrix expected."));
+        raiseError(
+            L"Nelson:spreadsheet:ERROR_NUMERIC_MATRIX_EXPECTED", ERROR_NUMERIC_MATRIX_EXPECTED);
     }
     if (mat.isSparse()) {
-        Error(ERROR_TYPE_NOT_SUPPORTED);
+        raiseError(L"Nelson:spreadsheet:ERROR_TYPE_NOT_SUPPORTED", ERROR_TYPE_NOT_SUPPORTED);
     }
 #ifdef _MSC_VER
     FILE* file = _wfopen(filenameDestination.c_str(), bAppend ? L"ab" : L"wb");
@@ -50,7 +51,8 @@ delimitedFileWriter(ArrayOf mat, const std::wstring& filenameDestination, bool b
     FILE* file = fopen(wstring_to_utf8(filenameDestination).c_str(), bAppend ? "ab" : "wb");
 #endif
     if (file == nullptr) {
-        Error(_W("Impossible to open file."));
+        raiseError(
+            L"Nelson:spreadsheet:ERROR_IMPOSSIBLE_TO_OPEN_FILE", ERROR_IMPOSSIBLE_TO_OPEN_FILE);
     }
 
     const std::string newline = isNewLinePc ? "\r\n" : "\n";

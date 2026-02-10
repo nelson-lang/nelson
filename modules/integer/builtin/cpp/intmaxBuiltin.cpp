@@ -49,7 +49,8 @@ Nelson::IntegerGateway::intmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if (classInt == L"uint64") {
             retval << ArrayOf::uint64Constructor(std::numeric_limits<uint64>::max());
         } else {
-            Error(_W("The name of an integer class expected."));
+            raiseError(L"Nelson:integer:ERROR_NAME_OF_INTEGER_CLASS_EXPECTED",
+                ERROR_NAME_OF_INTEGER_CLASS_EXPECTED);
         }
     }
     return retval;

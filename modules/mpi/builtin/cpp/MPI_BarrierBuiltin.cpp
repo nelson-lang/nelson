@@ -25,7 +25,7 @@ Nelson::MpiGateway::MPI_BarrierBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(_W("MPI must be initialized."));
+        raiseError(L"Nelson:mpi:ERROR_MPI_MUST_BE_INITIALIZED", ERROR_MPI_MUST_BE_INITIALIZED);
     }
     MPI_Comm comm = MPI_COMM_WORLD;
     if (argIn.size() == 1) {

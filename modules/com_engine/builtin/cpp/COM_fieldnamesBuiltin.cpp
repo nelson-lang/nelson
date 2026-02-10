@@ -29,7 +29,8 @@ Nelson::ComEngineGateway::COM_fieldnamesBuiltin(int nLhs, const ArrayOfVector& a
         if (param2str == L"-full") {
             fullList = true;
         } else {
-            Error(_W("Unrecognized option. \"-full\" expected."));
+            raiseError(L"Nelson:com_engine:ERROR_COM_FIELDNAMES_UNRECOGNIZED_OPTION",
+                ERROR_COM_FIELDNAMES_UNRECOGNIZED_OPTION);
         }
     }
     ArrayOf param1 = argIn[0];

@@ -20,7 +20,7 @@ void
 methodsComHandleObject(const ArrayOf& A, wstringVector& methods)
 {
     if (A.getHandleCategory() != NLS_HANDLE_COM_CATEGORY_STR) {
-        Error(_W("COM handle expected."));
+        raiseError(L"Nelson:com_engine:ERROR_COM_HANDLE_EXPECTED", ERROR_COM_HANDLE_EXPECTED);
     }
     auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     methodsComHandleObject(comhandleobj, methods);
@@ -32,7 +32,8 @@ methodsComHandleObject(ComHandleObject* comHandle, wstringVector& methods)
     void* ptr = comHandle->getPointer();
     methods.clear();
     if (ptr == nullptr) {
-        Error(_W("COM valid handle expected."));
+        raiseError(
+            L"Nelson:com_engine:ERROR_COM_VALID_HANDLE_EXPECTED", ERROR_COM_VALID_HANDLE_EXPECTED);
     }
     VARIANT* pVariant = (VARIANT*)ptr;
     ITypeInfo* ti;

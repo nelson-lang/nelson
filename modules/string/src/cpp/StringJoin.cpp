@@ -10,6 +10,7 @@
 #include "StringJoin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 //=============================================================================
@@ -54,10 +55,11 @@ StringJoin(const ArrayOf& A, const ArrayOf& delimiters, size_t dimension)
 {
     if ((dimension > 2 || dimension < 1)
         || !validateDelimiterDimensions(A, delimiters, dimension)) {
-        Error(_W("Invalid delimiter dimensions."));
+        raiseError(L"Nelson:string:ERROR_INVALID_DELIMITER_DIMENSIONS",
+            ERROR_INVALID_DELIMITER_DIMENSIONS);
     }
     if (!delimiters.isStringArray()) {
-        Error(_W("Invalid delimiter type."));
+        raiseError(L"Nelson:string:ERROR_INVALID_DELIMITER_TYPE", ERROR_INVALID_DELIMITER_TYPE);
     }
     switch (A.getDataClass()) {
     case NLS_CHAR: {
@@ -70,7 +72,7 @@ StringJoin(const ArrayOf& A, const ArrayOf& delimiters, size_t dimension)
         return StringJoinStringArray(A, delimiters, dimension);
     } break;
     default: {
-        Error(_W("Type not supported."));
+        raiseError(L"Nelson:string:ERROR_TYPE_NOT_SUPPORTED_CAP", ERROR_TYPE_NOT_SUPPORTED_CAP);
     } break;
     }
     return {};
@@ -131,7 +133,8 @@ StringJoinCharacters(const ArrayOf& A, const ArrayOf& delimiters, size_t dimensi
         || delimiters.isScalarStringArray() || delimiters.isRowVectorCharacterArray()) {
         strdelimiter = delimiters.getContentAsWideString();
     } else {
-        Error(_W("Invalid delimiter dimensions."));
+        raiseError(L"Nelson:string:ERROR_INVALID_DELIMITER_DIMENSIONS",
+            ERROR_INVALID_DELIMITER_DIMENSIONS);
     }
     return A;
 }

@@ -24,6 +24,7 @@
 #include "StringHelpers.hpp"
 #include "GOPropertyValues.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -69,7 +70,8 @@ IsValidGraphicsProperty(const std::wstring& GOTypename, const std::wstring& GOPr
         fp = new GOSurface();
     }
     if (!fp) {
-        Error(_W("Invalid Graphics object type name:") + GOTypename);
+        raiseError(L"Nelson:graphics:ERROR_INVALID_GRAPHICS_OBJECT_TYPE_NAME",
+            ERROR_INVALID_GRAPHICS_OBJECT_TYPE_NAME, GOTypename);
         return false;
     }
 

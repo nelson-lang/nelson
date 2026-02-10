@@ -50,7 +50,8 @@ Nelson::DataAnalysisGateway::minBuiltin(Evaluator* eval, int nLhs, const ArrayOf
             if (param3.isRowVectorCharacterArray()) {
                 return binaryMinBuiltin(eval, nLhs, argIn);
             }
-            Error(_("Invalid third argument."));
+            raiseError(
+                L"Nelson:data_analysis:ERROR_INVALID_THIRD_ARGUMENT", ERROR_INVALID_THIRD_ARGUMENT);
         }
         return unaryMinBuiltin(eval, nLhs, argIn);
 
@@ -61,7 +62,8 @@ Nelson::DataAnalysisGateway::minBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         return unaryMinBuiltin(eval, nLhs, argIn);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:data_analysis:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return {};
@@ -89,7 +91,8 @@ unaryMinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     } break;
     case 3: {
         if (!argIn[1].isEmpty()) {
-            Error(_("Invalid second argument."));
+            raiseError(L"Nelson:data_analysis:ERROR_INVALID_SECOND_ARGUMENT",
+                ERROR_INVALID_SECOND_ARGUMENT);
         }
         indexType dim = 0;
         bool isAll = false;
@@ -103,7 +106,8 @@ unaryMinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             } else if (s == L"all") {
                 isAll = true;
             } else {
-                Error(_("Invalid third argument."));
+                raiseError(L"Nelson:data_analysis:ERROR_INVALID_THIRD_ARGUMENT",
+                    ERROR_INVALID_THIRD_ARGUMENT);
             }
         } else {
             dim = argIn[2].getContentAsScalarIndex(false);
@@ -127,17 +131,20 @@ unaryMinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             } else if (s == L"includenan") {
                 omitNaN = false;
             } else {
-                Error(_("Invalid 4th argument."));
+                raiseError(
+                    L"Nelson:data_analysis:ERROR_INVALID_4TH_ARGUMENT", ERROR_INVALID_4TH_ARGUMENT);
             }
         }
         if (!argIn[1].isEmpty()) {
-            Error(_("Invalid second argument."));
+            raiseError(L"Nelson:data_analysis:ERROR_INVALID_SECOND_ARGUMENT",
+                ERROR_INVALID_SECOND_ARGUMENT);
         }
         if (argIn[2].isRowVectorCharacterArray()
             || (argIn[2].isStringArray() && argIn[2].isScalar())) {
             std::wstring s = argIn[2].getContentAsWideString();
             if (s != L"all") {
-                Error(_("Invalid third argument."));
+                raiseError(L"Nelson:data_analysis:ERROR_INVALID_THIRD_ARGUMENT",
+                    ERROR_INVALID_THIRD_ARGUMENT);
             }
             nargoutcheck(nLhs, 0, 1);
             retval = MinimumAll(omitNaN, argIn[0], needToOverload);
@@ -147,7 +154,8 @@ unaryMinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:data_analysis:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
 
@@ -220,16 +228,19 @@ binaryMinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 } else if (s == L"includenan") {
                     omitNaN = false;
                 } else {
-                    Error(_("Invalid third argument."));
+                    raiseError(L"Nelson:data_analysis:ERROR_INVALID_THIRD_ARGUMENT",
+                        ERROR_INVALID_THIRD_ARGUMENT);
                 }
 
                 retval << Minimum(omitNaN, A, B, needToOverload);
             } else {
-                Error(_("Invalid third argument."));
+                raiseError(L"Nelson:data_analysis:ERROR_INVALID_THIRD_ARGUMENT",
+                    ERROR_INVALID_THIRD_ARGUMENT);
             }
         } break;
         default: {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            raiseError(L"Nelson:data_analysis:ERROR_WRONG_NUMBERS_INPUT_ARGS",
+                ERROR_WRONG_NUMBERS_INPUT_ARGS);
         } break;
         };
 

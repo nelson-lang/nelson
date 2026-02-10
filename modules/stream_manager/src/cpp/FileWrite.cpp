@@ -238,7 +238,7 @@ writeSkipBytes(FILE* filepointer, size_t skip)
         (void)wrote;
         return true;
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:stream_manager:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         return false;
     }
 }

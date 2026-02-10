@@ -27,7 +27,8 @@ Nelson::ModulesManagerGateway::semverBuiltin(int nLhs, const ArrayOfVector& argI
     std::string errorMessage;
     int value = CompareVersions(param1, param2, errorMessage);
     if (!errorMessage.empty()) {
-        Error(_W("Cannot compare versions: ") + utf8_to_wstring(errorMessage));
+        raiseError(L"Nelson:modules_manager:ERROR_CANNOT_COMPARE_VERSIONS",
+            ERROR_CANNOT_COMPARE_VERSIONS, utf8_to_wstring(errorMessage));
     } else {
         retval << ArrayOf::doubleConstructor(value);
     }

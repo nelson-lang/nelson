@@ -9,6 +9,7 @@
 //=============================================================================
 #include "filewriteBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -52,14 +53,15 @@ Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf param4 = argIn[3];
         encoding = param4.getContentAsCString();
         if (!isSupportedEncoding(encoding)) {
-            Error(_W("Wrong value for #4 argument."));
+            raiseError(L"Nelson:stream_manager:ERROR_WRONG_ARGUMENT_X_VALUE",
+                ERROR_WRONG_ARGUMENT_X_VALUE, 4);
         }
     }
 
     wstringVector lines = param2.getContentAsWideStringVector(false);
     std::wstring errorMessage;
     if (!writeFile(filename, lines, weol, eol, encoding, errorMessage)) {
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:stream_manager:filewrite");
     }
     return retval;
 }
@@ -78,7 +80,8 @@ getEol(const std::wstring& str)
         return { L"\n", "\n" };
 #endif
     } else {
-        Error(_W("Wrong value for #3 argument."));
+        raiseError(
+            L"Nelson:stream_manager:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 3);
         return { L"", "" }; // This line will never be reached
     }
 }

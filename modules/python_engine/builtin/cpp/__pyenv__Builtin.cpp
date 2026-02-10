@@ -10,6 +10,7 @@
 #include "__pyenv__Builtin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "nlsBuildConfig.h"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PythonEnvironment.hpp"
@@ -33,7 +34,8 @@ Nelson::Python_engineGateway::__pyenv__Builtin(int nLhs, const ArrayOfVector& ar
         pythonEnvironment->setHome(argIn[3].getContentAsWideString());
         pythonEnvironment->saveCurrentState();
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:python_engine:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
 
     ArrayOfVector retval;

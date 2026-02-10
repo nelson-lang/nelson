@@ -16,6 +16,7 @@
 #include "Evaluator.hpp"
 #include "i18n.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "IsValidVariableName.hpp"
 #include "CheckIfWhileCondition.hpp"
 #include "PredefinedErrorMessages.hpp"
@@ -339,7 +340,8 @@ ForStatementRowVectorComplexHelper(AbstractSyntaxTreePtr codeBlock, NelsonType i
     const T* data = (const T*)indexSet.getDataPointer();
     Scope* scope = eval->getContext()->getCurrentScope();
     if (scope->isLockedVariable(indexVarName)) {
-        Error(_W("Redefining permanent variable."));
+        raiseError(L"Nelson:interpreter:ERROR_REDEFINING_PERMANENT_VARIABLE",
+            ERROR_REDEFINING_PERMANENT_VARIABLE);
     }
     for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
         ArrayOf* ptrVariable = scope->lookupVariable(indexVarName);
@@ -377,7 +379,8 @@ ForStatementRowVectorHelper(AbstractSyntaxTreePtr codeBlock, NelsonType indexCla
     const T* data = static_cast<const T*>(indexSet.getDataPointer());
     Scope* scope = eval->getContext()->getCurrentScope();
     if (scope->isLockedVariable(indexVarName)) {
-        Error(_W("Redefining permanent variable."));
+        raiseError(L"Nelson:interpreter:ERROR_REDEFINING_PERMANENT_VARIABLE",
+            ERROR_REDEFINING_PERMANENT_VARIABLE);
     }
     for (indexType elementNumber = 0; elementNumber < elementCount; elementNumber++) {
         ArrayOf* ptrVariable = scope->lookupVariable(indexVarName);
@@ -414,7 +417,8 @@ ForStatemenRowVectorGenericHelper(AbstractSyntaxTreePtr codeBlock, ArrayOf& inde
     for (indexType elementNumber = 0; elementNumber < elementCount; ++elementNumber) {
         indexVar = indexSet.getValueAtIndex(elementNumber);
         if (!context->insertVariable(indexVarName, indexVar)) {
-            Error(_W("Valid variable name expected."));
+            raiseError(L"Nelson:interpreter:ERROR_VALID_VARIABLE_NAME_EXPECTED",
+                ERROR_VALID_VARIABLE_NAME_EXPECTED);
         }
         eval->block(codeBlock);
         int st = eval->getState();
@@ -445,7 +449,8 @@ ForStatemenMatrixGenericHelper(AbstractSyntaxTreePtr codeBlock, ArrayOf& indexSe
         m.push_back(ArrayOf::doubleConstructor((double)(elementNumber + 1)));
         indexVar = indexSet.getNDimSubset(m);
         if (!eval->getContext()->insertVariable(indexVarName, indexVar)) {
-            Error(_W("Valid variable name expected."));
+            raiseError(L"Nelson:interpreter:ERROR_VALID_VARIABLE_NAME_EXPECTED",
+                ERROR_VALID_VARIABLE_NAME_EXPECTED);
         }
         eval->block(codeBlock);
         if (eval->getState() == NLS_STATE_RETURN || eval->getState() == NLS_STATE_ABORT
@@ -480,7 +485,8 @@ Evaluator::forStatement(AbstractSyntaxTreePtr t)
         return;
     }
     if (!IsValidVariableName(indexVarName, true)) {
-        Error(_W("Valid variable name expected."));
+        raiseError(L"Nelson:interpreter:ERROR_VALID_VARIABLE_NAME_EXPECTED",
+            ERROR_VALID_VARIABLE_NAME_EXPECTED);
     }
     AbstractSyntaxTreePtr codeBlock = t->right;
     bool isRowVector = indexSet.isRowVector();
@@ -562,7 +568,7 @@ Evaluator::conditionedStatement(AbstractSyntaxTreePtr t)
 {
     bool conditionState;
     if (t->opNum != OP_CSTAT) {
-        Error(ERROR_AST_SYNTAX_ERROR);
+        raiseError(L"Nelson:interpreter:ERROR_AST_SYNTAX_ERROR", ERROR_AST_SYNTAX_ERROR);
     }
     AbstractSyntaxTreePtr s = t->down;
     CallStackGuard guard(callstack, (size_t)s->getContext());
@@ -594,7 +600,7 @@ Evaluator::testCaseStatement(AbstractSyntaxTreePtr t, const ArrayOf& s)
     CallStackGuard guard(callstack, (size_t)t->getContext());
 
     if (t->type != reserved_node || t->tokenNumber != NLS_KEYWORD_CASE) {
-        Error(ERROR_AST_SYNTAX_ERROR);
+        raiseError(L"Nelson:interpreter:ERROR_AST_SYNTAX_ERROR", ERROR_AST_SYNTAX_ERROR);
     }
     t = t->down;
     r = expression(t);
@@ -732,7 +738,7 @@ Evaluator::switchStatement(AbstractSyntaxTreePtr t)
     // Assess its type to determine if this is a scalar switch
     // or a string switch.
     if (!switchVal.isScalar() && !switchVal.isRowVectorCharacterArray()) {
-        Error(ERROR_SWITCH_STATEMENTS);
+        raiseError(L"Nelson:interpreter:ERROR_SWITCH_STATEMENTS", ERROR_SWITCH_STATEMENTS);
     }
     // Move to the next node in the AST
     t = t->right;
@@ -897,12 +903,14 @@ Evaluator::statementType(AbstractSyntaxTreePtr t, bool printIt)
             break;
         case NLS_KEYWORD_ENDFUNCTION:
             if (context->getCurrentScope()->getName() == "base") {
-                Error(ERROR_ENDFUNCTION_WRONG_USE);
+                raiseError(
+                    L"Nelson:interpreter:ERROR_ENDFUNCTION_WRONG_USE", ERROR_ENDFUNCTION_WRONG_USE);
             }
             state = NLS_STATE_RETURN;
             break;
         default:
-            Error(ERROR_UNRECOGNIZED_STATEMENT);
+            raiseError(
+                L"Nelson:interpreter:ERROR_UNRECOGNIZED_STATEMENT", ERROR_UNRECOGNIZED_STATEMENT);
         }
         return;
     }
@@ -1006,10 +1014,10 @@ Evaluator::block(AbstractSyntaxTreePtr t)
                     CallbackQueue::getInstance()->clear();
                     EventQueue::getInstance()->clear();
                     setState(NLS_STATE_ABORT);
-                    Error(MSG_CTRL_C_DETECTED);
+                    raiseError(L"Nelson:interpreter:MSG_CTRL_C_DETECTED", MSG_CTRL_C_DETECTED);
                 } else {
-                    Error(_W("Execution of the future was cancelled."),
-                        L"parallel:fevalqueue:ExecutionCancelled");
+                    raiseError(L"Nelson:interpreter:ERROR_EXECUTION_OF_THE_FUTURE_WAS_CANCELLED",
+                        ERROR_EXECUTION_OF_THE_FUTURE_WAS_CANCELLED);
                 }
                 break;
             }

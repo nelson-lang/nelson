@@ -10,6 +10,7 @@
 #include "EvaluateInterface.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 EvaluateInterface::EvaluateInterface() { outputBuffer.clear(); }
@@ -31,7 +32,8 @@ EvaluateInterface::getLine(const std::string& prompt)
 std::wstring
 EvaluateInterface::getInput(const std::wstring& prompt)
 {
-    Error(_W("input function not allowed from evalc."));
+    raiseError(L"Nelson:core:ERROR_INPUT_FUNCTION_NOT_ALLOWED_FROM_EVALC",
+        ERROR_INPUT_FUNCTION_NOT_ALLOWED_FROM_EVALC);
     return L"";
 }
 //=============================================================================

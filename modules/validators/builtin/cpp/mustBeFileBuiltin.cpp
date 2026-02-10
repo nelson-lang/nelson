@@ -26,7 +26,8 @@ Nelson::ValidatorsGateway::mustBeFileBuiltin(int nLhs, const ArrayOfVector& argI
         ArrayOf param2 = argIn[1];
         argPos = param2.getContentAsInteger32Scalar();
         if (argPos < 1) {
-            Error(_W("The last argument must be a positive integer."));
+            raiseError(L"Nelson:validators:ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER",
+                ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER);
         }
     }
     mustBeFile(argIn[0], argPos, true);

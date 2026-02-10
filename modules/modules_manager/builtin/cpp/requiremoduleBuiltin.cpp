@@ -10,9 +10,9 @@
 #include "requiremoduleBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ModulesManager.hpp"
 #include "characters_encoding.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -32,8 +32,8 @@ Nelson::ModulesManagerGateway::requiremoduleBuiltin(int nLhs, const ArrayOfVecto
     }
     bool bRes = IsExistingModuleName(moduleshortname);
     if (!bRes) {
-        Error(std::wstring(L"\'") + moduleshortname + std::wstring(L"\' ")
-            + _W(" is not installed."));
+        raiseError(L"Nelson:modules_manager:ERROR_MODULE_NOT_FOUND", ERROR_MODULE_NOT_FOUND,
+            moduleshortname);
     }
     return retval;
 }

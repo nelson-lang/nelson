@@ -9,6 +9,7 @@
 //=============================================================================
 #include "__pan__Builtin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "GraphicsObject.hpp"
@@ -35,7 +36,8 @@ __pan__Builtin(int nLhs, const ArrayOfVector& argIn)
     // __pan__(ax, 'on' | 'off' | 'xon' | 'yon' | 'toggle')
 
     if (!argIn[0].isGraphicsObject()) {
-        Error(_W("Expected graphics object(s)."));
+        raiseError(
+            L"Nelson:graphics:ERROR_EXPECTED_GRAPHICS_OBJECT_S", ERROR_EXPECTED_GRAPHICS_OBJECT_S);
     }
     int64 handle = argIn[0].getContentAsGraphicsObjectScalar();
 
@@ -48,7 +50,8 @@ __pan__Builtin(int nLhs, const ArrayOfVector& argIn)
         }
     }
     if (!isAxis) {
-        Error(_W("Axes graphic object expected."));
+        raiseError(L"Nelson:graphics:ERROR_AXES_GRAPHIC_OBJECT_EXPECTED",
+            ERROR_AXES_GRAPHIC_OBJECT_EXPECTED);
     }
     GOAxis* axis = (GOAxis*)fp;
 
@@ -57,7 +60,8 @@ __pan__Builtin(int nLhs, const ArrayOfVector& argIn)
         if (argIn[1].isRowVectorCharacterArray() || argIn[1].isScalarStringArray()) {
             option = argIn[1].getContentAsWideString();
         } else {
-            Error(_W("wrong type for #2 argument."));
+            raiseError(L"Nelson:graphics:ERROR_WRONG_TYPE_FOR_2_ARGUMENT",
+                ERROR_WRONG_TYPE_FOR_2_ARGUMENT);
         }
     }
     panOption(axis, option);

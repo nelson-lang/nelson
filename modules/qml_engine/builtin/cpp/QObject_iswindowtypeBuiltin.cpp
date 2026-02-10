@@ -11,6 +11,7 @@
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "QObjectHandleObject.hpp"
 #include "iswindowtypeQObject.hpp"
 #include "PredefinedErrorMessages.hpp"
@@ -29,7 +30,8 @@ Nelson::QmlEngineGateway::QObject_iswindowtypeBuiltin(int nLhs, const ArrayOfVec
         std::string className;
         ClassName(param1, className);
         if (className != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-            Error(_W("QObject handle expected."));
+            raiseError(
+                L"Nelson:qml_engine:ERROR_QOBJECT_HANDLE_EXPECTED", ERROR_QOBJECT_HANDLE_EXPECTED);
         }
         retval.push_back(iswindowtypeQObject(param1));
     } else {

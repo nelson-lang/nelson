@@ -12,6 +12,8 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -23,13 +25,14 @@ Nelson::DynamicLinkGateway::dllibinfoBuiltin(int nLhs, const ArrayOfVector& argI
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != NLS_HANDLE_DLLIB_CATEGORY_STR) {
-        Error(_W("dllib handle expected."));
+        raiseError(L"Nelson:dynamic_link:ERROR_DLLIB_HANDLE_EXPECTED", ERROR_DLLIB_HANDLE_EXPECTED);
     }
     auto* obj = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
     std::string errorMessage;
     stringVector symbols = obj->getAvailableSymbols(errorMessage);
     if (!errorMessage.empty()) {
-        Error(_("Cannot get library symbols: ") + errorMessage);
+        raiseError(L"Nelson:dynamic_link:ERROR_CANNOT_GET_LIBRARY_SYMBOLS",
+            ERROR_CANNOT_GET_LIBRARY_SYMBOLS, utf8_to_wstring(errorMessage));
     }
     retval << ArrayOf::toCellArrayOfCharacterColumnVectors(symbols);
     return retval;

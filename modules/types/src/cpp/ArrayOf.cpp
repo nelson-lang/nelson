@@ -31,6 +31,7 @@
 #include "characters_encoding.hpp"
 #include "Warning.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "Exception.hpp"
 #include "NewWithException.hpp"
@@ -108,7 +109,8 @@ ArrayOf::getBinaryMap(indexType maxD)
                 map = nullptr;
             }
             if (n != 0) {
-                Error(_W("Matrix index is out of range."));
+                raiseError(L"Nelson:types:ERROR_MATRIX_INDEX_OUT_OF_RANGE",
+                    ERROR_MATRIX_INDEX_OUT_OF_RANGE);
             }
         }
         if (map) {
@@ -123,11 +125,12 @@ ArrayOf::getMaxAsIndex()
 {
     indexType maxval;
     if (dp == nullptr) {
-        Error(_W("Invalid index"));
+        raiseError(L"Nelson:types:ERROR_INVALID_INDEXING", ERROR_INVALID_INDEXING);
     }
     constIndexPtr rp = (constIndexPtr)dp->getData();
     if (rp == nullptr) {
-        Error(_W("Illegal zero or negative index"));
+        raiseError(L"Nelson:types:ERROR_ILLEGAL_ZERO_OR_NEGATIVE_INDEX",
+            ERROR_ILLEGAL_ZERO_OR_NEGATIVE_INDEX);
     }
     indexType K = getElementCount();
     maxval = rp[0];
@@ -137,7 +140,8 @@ ArrayOf::getMaxAsIndex()
         }
     }
     if (maxval <= 0) {
-        Error(_W("Illegal zero or negative index"));
+        raiseError(L"Nelson:types:ERROR_ILLEGAL_ZERO_OR_NEGATIVE_INDEX",
+            ERROR_ILLEGAL_ZERO_OR_NEGATIVE_INDEX);
     }
     return maxval;
 }
@@ -185,7 +189,8 @@ ArrayOf::toOrdinalType()
 #endif
     } break;
     case NLS_CHAR: {
-        Error(_W("Cannot convert string data types to indices."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_CONVERT_STRING_DATA_TYPES_TO_INDICES",
+            ERROR_CANNOT_CONVERT_STRING_DATA_TYPES_TO_INDICES);
     } break;
     case NLS_DCOMPLEX: {
         Warning(_W("Imaginary part of complex index ignored.\n"));
@@ -198,10 +203,13 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = (indexType)rp[i << 1];
             if ((double)ndx != rp[i << 1]) {
-                Error(_W("index must either be real positive integers or logicals."));
+                raiseError(
+                    L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS",
+                    ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
             }
             if (ndx <= 0) {
-                Error(_W("Zero or negative index encountered."));
+                raiseError(L"Nelson:types:ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED",
+                    ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED);
             }
             lp[i] = ndx;
         }
@@ -222,10 +230,13 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = (indexType)rp[i << 1];
             if ((double)ndx != rp[i << 1]) {
-                Error(_W("index must either be real positive integers or logicals."));
+                raiseError(
+                    L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS",
+                    ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
             }
             if (ndx <= 0) {
-                Error(_W("Zero or negative index encountered."));
+                raiseError(L"Nelson:types:ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED",
+                    ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED);
             }
             lp[i] = ndx;
         }
@@ -244,10 +255,13 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = (indexType)rp[i];
             if ((double)ndx != rp[i]) {
-                Error(_W("index must either be real positive integers or logicals."));
+                raiseError(
+                    L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS",
+                    ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
             }
             if (ndx <= 0) {
-                Error(_W("Zero or negative index encountered."));
+                raiseError(L"Nelson:types:ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED",
+                    ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED);
             }
             lp[i] = ndx;
         }
@@ -266,10 +280,13 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = (indexType)rp[i];
             if ((double)ndx != rp[i]) {
-                Error(_W("index must either be real positive integers or logicals."));
+                raiseError(
+                    L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS",
+                    ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
             }
             if (ndx <= 0) {
-                Error(_W("Zero or negative index encountered."));
+                raiseError(L"Nelson:types:ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED",
+                    ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED);
             }
             lp[i] = ndx;
         }
@@ -287,7 +304,8 @@ ArrayOf::toOrdinalType()
         indexType* lp = new_with_exception<indexType>(len, false);
         for (indexType i = 0; i < len; i++) {
             if (rp[i] <= 0) {
-                Error(_W("Zero or negative index encountered."));
+                raiseError(L"Nelson:types:ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED",
+                    ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED);
             }
             ndx = (indexType)rp[i];
             lp[i] = ndx;
@@ -306,11 +324,13 @@ ArrayOf::toOrdinalType()
         indexType* lp = new_with_exception<indexType>(len, false);
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             if (rp[i] > std::numeric_limits<indexType>::max()) {
-                Error(_W("Too big index encountered."));
+                raiseError(L"Nelson:types:ERROR_TOO_BIG_INDEX_ENCOUNTERED",
+                    ERROR_TOO_BIG_INDEX_ENCOUNTERED);
             }
             ndx = (indexType)rp[i];
             if (rp[i] <= 0) {
-                Error(_W("Zero or negative index encountered."));
+                raiseError(L"Nelson:types:ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED",
+                    ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED);
             }
             lp[i] = ndx;
         }
@@ -329,7 +349,8 @@ ArrayOf::toOrdinalType()
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                Error(_W("Zero or negative index encountered."));
+                raiseError(L"Nelson:types:ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED",
+                    ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED);
             }
             lp[i] = ndx;
         }
@@ -348,7 +369,8 @@ ArrayOf::toOrdinalType()
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                Error(_W("Zero or negative index encountered."));
+                raiseError(L"Nelson:types:ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED",
+                    ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED);
             }
             lp[i] = ndx;
         }
@@ -367,7 +389,8 @@ ArrayOf::toOrdinalType()
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                Error(_W("Zero or negative index encountered."));
+                raiseError(L"Nelson:types:ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED",
+                    ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED);
             }
             lp[i] = ndx;
         }
@@ -386,7 +409,8 @@ ArrayOf::toOrdinalType()
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                Error(_W("Zero or negative index encountered."));
+                raiseError(L"Nelson:types:ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED",
+                    ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED);
             }
             lp[i] = ndx;
         }
@@ -405,7 +429,8 @@ ArrayOf::toOrdinalType()
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                Error(_W("Zero or negative index encountered."));
+                raiseError(L"Nelson:types:ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED",
+                    ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED);
             }
             lp[i] = ndx;
         }
@@ -424,7 +449,8 @@ ArrayOf::toOrdinalType()
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                Error(_W("Zero or negative index encountered."));
+                raiseError(L"Nelson:types:ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED",
+                    ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED);
             }
             lp[i] = ndx;
         }
@@ -436,25 +462,32 @@ ArrayOf::toOrdinalType()
     } break;
     case NLS_GO_HANDLE:
     case NLS_HANDLE: {
-        Error(_W("Cannot convert handle arrays to indices."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_CONVERT_HANDLE_ARRAYS_TO_INDICES",
+            ERROR_CANNOT_CONVERT_HANDLE_ARRAYS_TO_INDICES);
     } break;
     case NLS_CELL_ARRAY: {
-        Error(_W("Cannot convert cell arrays to indices."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_CONVERT_CELL_ARRAYS_TO_INDICES",
+            ERROR_CANNOT_CONVERT_CELL_ARRAYS_TO_INDICES);
     } break;
     case NLS_STRING_ARRAY: {
-        Error(_W("Cannot convert string arrays to indices."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_CONVERT_STRING_ARRAYS_TO_INDICES",
+            ERROR_CANNOT_CONVERT_STRING_ARRAYS_TO_INDICES);
     } break;
     case NLS_FUNCTION_HANDLE: {
-        Error(_W("Cannot convert function_handle arrays to indices."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_CONVERT_FUNCTION_HANDLE_ARRAYS_TO_INDICES",
+            ERROR_CANNOT_CONVERT_FUNCTION_HANDLE_ARRAYS_TO_INDICES);
     } break;
     case NLS_CLASS_ARRAY: {
-        Error(_W("Cannot convert class arrays to indices."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_CONVERT_CLASS_ARRAYS_TO_INDICES",
+            ERROR_CANNOT_CONVERT_CLASS_ARRAYS_TO_INDICES);
     } break;
     case NLS_STRUCT_ARRAY: {
-        Error(_W("Cannot convert structure arrays to indices."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_CONVERT_STRUCTURE_ARRAYS_TO_INDICES",
+            ERROR_CANNOT_CONVERT_STRUCTURE_ARRAYS_TO_INDICES);
     } break;
     default: {
-        Error(_W("Cannot convert unknown type to indices."));
+        raiseError(L"Nelson:types:ERROR_CANNOT_CONVERT_UNKNOWN_TYPE_TO_INDICES",
+            ERROR_CANNOT_CONVERT_UNKNOWN_TYPE_TO_INDICES);
     } break;
     }
 }
@@ -559,7 +592,8 @@ const void*
 ArrayOf::getDataPointer() const
 {
     if (isSparse()) {
-        Error(_W("operation does not support sparse matrix arguments."));
+        raiseError(L"Nelson:types:ERROR_OPERATION_DOES_NOT_SUPPORT_SPARSE_MATRIX_ARGUMENTS",
+            ERROR_OPERATION_DOES_NOT_SUPPORT_SPARSE_MATRIX_ARGUMENTS);
     }
     if (dp) {
         return dp->getData();
@@ -634,7 +668,8 @@ ArrayOf::resize(Dimensions& a)
         return;
     }
     if (isSparse()) {
-        Error(_W("Cannot resize sparse arrays."));
+        raiseError(
+            L"Nelson:types:ERROR_CANNOT_RESIZE_SPARSE_ARRAYS", ERROR_CANNOT_RESIZE_SPARSE_ARRAYS);
     }
     // Allocate space for our new size.
     void* dst_data
@@ -703,14 +738,17 @@ void
 ArrayOf::reshape(Dimensions& a, bool checkValidDimension)
 {
     if (isClassType()) {
-        Error(_W("Reshape operation not allowed for overloaded type."));
+        raiseError(L"Nelson:types:ERROR_RESHAPE_OPERATION_NOT_ALLOWED_FOR_OVERLOADED_TYPE",
+            ERROR_RESHAPE_OPERATION_NOT_ALLOWED_FOR_OVERLOADED_TYPE);
     }
     if (isFunctionHandle()) {
-        Error(_W("Reshape operation not allowed for 'function_handle' type."));
+        raiseError(L"Nelson:types:ERROR_RESHAPE_OPERATION_NOT_ALLOWED_FOR_FUNCTION_HANDLE_TYPE",
+            ERROR_RESHAPE_OPERATION_NOT_ALLOWED_FOR_FUNCTION_HANDLE_TYPE);
     }
     if (checkValidDimension) {
         if (a.getElementCount() != getElementCount()) {
-            Error(_W("Reshape operation cannot change the number of elements in array."));
+            raiseError(L"Nelson:types:ERROR_RESHAPE_OPERATION_CANNOT_CHANGE_NUMBER_OF_ELEMENTS",
+                ERROR_RESHAPE_OPERATION_CANNOT_CHANGE_NUMBER_OF_ELEMENTS);
         }
     }
     if (isSparse()) {
@@ -721,7 +759,8 @@ ArrayOf::reshape(Dimensions& a, bool checkValidDimension)
             dp->dimensions = a;
             dp->refreshDimensionCache();
         } else {
-            Error(_W("Reshape operation not allowed with N Dimensions sparse arrays."));
+            raiseError(L"Nelson:types:ERROR_RESHAPE_NOT_ALLOWED_ND_SPARSE_ARRAYS",
+                ERROR_RESHAPE_NOT_ALLOWED_ND_SPARSE_ARRAYS);
         }
     } else {
         ensureSingleOwner();
@@ -734,13 +773,16 @@ void
 ArrayOf::changeInPlaceDimensions(const Dimensions& a)
 {
     if (isClassType()) {
-        Error(_W("changeDimensions operation not allowed for overloaded type."));
+        raiseError(L"Nelson:types:ERROR_CHANGEDIMENSIONS_OPERATION_NOT_ALLOWED_FOR_OVERLOADED_TYPE",
+            ERROR_CHANGEDIMENSIONS_OPERATION_NOT_ALLOWED_FOR_OVERLOADED_TYPE);
     }
     if (isFunctionHandle()) {
-        Error(_W("changeDimensions operation not allowed for 'function_handle' type."));
+        raiseError(L"Nelson:types:ERROR_CHANGEDIMENSIONS_OPERATION_NOT_ALLOWED_FOR_FUNCTION_HANDLE",
+            ERROR_CHANGEDIMENSIONS_OPERATION_NOT_ALLOWED_FOR_FUNCTION_HANDLE);
     }
     if (a.getElementCount() != getElementCount()) {
-        Error(_W("changeDimensions operation cannot change the number of elements in array."));
+        raiseError(L"Nelson:types:ERROR_CHANGEDIMENSIONS_CANNOT_CHANGE_NUMBER_OF_ELEMENTS",
+            ERROR_CHANGEDIMENSIONS_CANNOT_CHANGE_NUMBER_OF_ELEMENTS);
     }
     dp->dimensions = a;
     dp->refreshDimensionCache();
@@ -762,7 +804,7 @@ indexType
 ArrayOf::getElementSize() const
 {
     if (dp == nullptr) {
-        Error(_W("Invalid data class."));
+        raiseError(L"Nelson:types:ERROR_INVALID_DATA_CLASS", ERROR_INVALID_DATA_CLASS);
     }
     switch (dp->dataClass) {
     case NLS_GO_HANDLE:
@@ -819,7 +861,8 @@ indexType
 ArrayOf::getByteSize() const
 {
     if (isSparse()) {
-        Error(_W("Byte size calculation not supported for sparse arrays."));
+        raiseError(L"Nelson:types:ERROR_BYTE_SIZE_CALCULATION_NOT_SUPPORTED_FOR_SPARSE_ARRAYS",
+            ERROR_BYTE_SIZE_CALCULATION_NOT_SUPPORTED_FOR_SPARSE_ARRAYS);
     }
     return getElementSize() * getElementCount();
 }
@@ -909,7 +952,8 @@ bool
 ArrayOf::testCaseMatchScalar(ArrayOf x) const
 {
     if (isSparse()) {
-        Error(_W("isPositive not supported for sparse arrays."));
+        raiseError(L"Nelson:types:ERROR_ISPOSITIVE_NOT_SUPPORTED_FOR_SPARSE_ARRAYS",
+            ERROR_ISPOSITIVE_NOT_SUPPORTED_FOR_SPARSE_ARRAYS);
     }
     // Now we have to compare ourselves to the argument.  Check for the
     // case that we are a string type
@@ -975,22 +1019,26 @@ bool
 ArrayOf::testForCaseMatch(ArrayOf x) const
 {
     if (isSparse()) {
-        Error(_W("isPositive not supported for sparse arrays."));
+        raiseError(L"Nelson:types:ERROR_ISPOSITIVE_NOT_SUPPORTED_FOR_SPARSE_ARRAYS",
+            ERROR_ISPOSITIVE_NOT_SUPPORTED_FOR_SPARSE_ARRAYS);
     }
     // We had better be a scalar
     if (!(isScalar() || isCharacterArray())) {
-        Error(_W("Switch argument must be a scalar or a string"));
+        raiseError(L"Nelson:types:ERROR_SWITCH_ARGUMENT_MUST_BE_SCALAR_OR_STRING",
+            ERROR_SWITCH_ARGUMENT_MUST_BE_SCALAR_OR_STRING);
     }
     // And we had better not be a reference type
     if (isReferenceType()) {
-        Error(_W("Switch argument cannot be a reference type (struct or cell array)"));
+        raiseError(L"Nelson:types:ERROR_SWITCH_ARGUMENT_CANNOT_BE_REFERENCE_TYPE",
+            ERROR_SWITCH_ARGUMENT_CANNOT_BE_REFERENCE_TYPE);
     }
     // If x is a scalar, we just need to call the scalar version
     if (x.isScalar() || x.isRowVectorCharacterArray()) {
         return testCaseMatchScalar(x);
     }
     if (x.dp->dataClass != NLS_CELL_ARRAY && x.dp->dataClass != NLS_STRING_ARRAY) {
-        Error(_W("Case arguments must either be a scalar or a cell array"));
+        raiseError(L"Nelson:types:ERROR_CASE_ARGUMENTS_MUST_BE_SCALAR_OR_CELL_ARRAY",
+            ERROR_CASE_ARGUMENTS_MUST_BE_SCALAR_OR_CELL_ARRAY);
     }
     const ArrayOf* qp = (const ArrayOf*)x.dp->getData();
     indexType len = x.getElementCount();
@@ -1170,7 +1218,8 @@ ArrayOf::copyElements(indexType srcIndex, void* dstPtr, indexType dstIndex, inde
 {
     indexType elSize(getElementSize());
     if (isSparse()) {
-        Error(_W("copyElements not supported for sparse arrays."));
+        raiseError(L"Nelson:types:ERROR_COPYELEMENTS_NOT_SUPPORTED_FOR_SPARSE_ARRAYS",
+            ERROR_COPYELEMENTS_NOT_SUPPORTED_FOR_SPARSE_ARRAYS);
     }
     switch (dp->dataClass) {
     case NLS_STRING_ARRAY:
@@ -1263,7 +1312,7 @@ ArrayOf::getContentAsScalarIndex(
 {
     indexType idx = 0;
     if (getElementCount() != 1) {
-        Error(ERROR_SIZE_SCALAR_EXPECTED);
+        raiseError(L"Nelson:types:ERROR_SIZE_SCALAR_EXPECTED", ERROR_SIZE_SCALAR_EXPECTED);
     }
     double valueAsDouble;
     ArrayOf P;
@@ -1280,27 +1329,31 @@ ArrayOf::getContentAsScalarIndex(
         double maxIndexType = (double)std::numeric_limits<indexType>::max();
         if ((valueAsDouble) > maxIndexType) {
             idx = static_cast<indexType>(maxIndexType);
-            Error(_W("Invalid index value > limit max."));
+            raiseError(L"Nelson:types:ERROR_INVALID_INDEX_VALUE_EXCEEDS_LIMIT_MAX",
+                ERROR_INVALID_INDEX_VALUE_EXCEEDS_LIMIT_MAX);
         } else if (valueAsDouble < 0) {
             if (convertNegativeValueAsZero) {
                 idx = static_cast<indexType>(0);
             } else {
-                Error(_W("Expected a positive integer scalar."));
+                raiseError(L"Nelson:types:ERROR_EXPECTED_POSITIVE_INTEGER_SCALAR",
+                    ERROR_EXPECTED_POSITIVE_INTEGER_SCALAR);
             }
         } else {
             idx = static_cast<indexType>(valueAsDouble);
         }
     } else {
         if (IsFinite(valueAsDouble)) {
-            Error(_W("Expected a integer."));
+            raiseError(L"Nelson:types:ERROR_EXPECTED_INTEGER", ERROR_EXPECTED_INTEGER);
         } else {
-            Error(_W("NaN and Inf not allowed."));
+            raiseError(
+                L"Nelson:types:ERROR_NAN_AND_INF_NOT_ALLOWED", ERROR_NAN_AND_INF_NOT_ALLOWED);
         }
     }
     if (!bWithZero) {
         if (idx == 0) {
-            Error(_W("Dimension argument must be a positive integer scalar "
-                     "within indexing range."));
+            raiseError(L"Nelson:types:ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR_"
+                       L"WITHIN_INDEXING_RANGE",
+                ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR_WITHIN_INDEXING_RANGE);
         }
     }
     return idx;
@@ -1327,9 +1380,10 @@ ArrayOf::getContentAsIndexVector()
             }
         } else {
             if (IsFinite(qp[k])) {
-                Error(_W("Expected integer index."));
+                raiseError(L"Nelson:types:ERROR_EXPECTED_INTEGER", ERROR_EXPECTED_INTEGER);
             } else {
-                Error(_W("NaN and Inf not allowed."));
+                raiseError(
+                    L"Nelson:types:ERROR_NAN_AND_INF_NOT_ALLOWED", ERROR_NAN_AND_INF_NOT_ALLOWED);
             }
         }
     }
@@ -1358,9 +1412,10 @@ ArrayOf::getContentAsIndexPointer()
         } else {
             delete[] pIndex;
             if (IsFinite(qp[k])) {
-                Error(_W("Expected integer index."));
+                raiseError(L"Nelson:types:ERROR_EXPECTED_INTEGER", ERROR_EXPECTED_INTEGER);
             } else {
-                Error(_W("NaN and Inf not allowed."));
+                raiseError(
+                    L"Nelson:types:ERROR_NAN_AND_INF_NOT_ALLOWED", ERROR_NAN_AND_INF_NOT_ALLOWED);
             }
         }
     }
@@ -1427,19 +1482,24 @@ ArrayOf::nzmax() const
     case NLS_DCOMPLEX:
         return numel();
     case NLS_CELL_ARRAY: {
-        Error(_W("Undefined function 'nzmax' for input arguments of type 'cell'."));
+        raiseError(L"Nelson:types:ERROR_UNDEFINED_FUNCTION_NZMAX_FOR_INPUT_ARGS_OF_TYPE_CELL",
+            ERROR_UNDEFINED_FUNCTION_NZMAX_FOR_INPUT_ARGS_OF_TYPE_CELL);
     } break;
     case NLS_STRING_ARRAY: {
-        Error(_W("Undefined function 'nzmax' for input arguments of type 'string'."));
+        raiseError(L"Nelson:types:ERROR_UNDEFINED_FUNCTION_NZMAX_FOR_INPUT_ARGS_OF_TYPE_STRING",
+            ERROR_UNDEFINED_FUNCTION_NZMAX_FOR_INPUT_ARGS_OF_TYPE_STRING);
     } break;
     case NLS_CLASS_ARRAY: {
-        Error(_W("Undefined function 'nzmax' for input arguments of type 'class'."));
+        raiseError(L"Nelson:types:ERROR_UNDEFINED_FUNCTION_NZMAX_FOR_INPUT_ARGS_OF_TYPE_CLASS",
+            ERROR_UNDEFINED_FUNCTION_NZMAX_FOR_INPUT_ARGS_OF_TYPE_CLASS);
     } break;
     case NLS_STRUCT_ARRAY: {
-        Error(_W("Undefined function 'nzmax' for input arguments of type 'struct'."));
+        raiseError(L"Nelson:types:ERROR_UNDEFINED_FUNCTION_NZMAX_FOR_INPUT_ARGS_OF_TYPE_STRUCT",
+            ERROR_UNDEFINED_FUNCTION_NZMAX_FOR_INPUT_ARGS_OF_TYPE_STRUCT);
     } break;
     default: {
-        Error(_W("Undefined function 'nzmax' for input arguments."));
+        raiseError(L"Nelson:types:ERROR_UNDEFINED_FUNCTION_NZMAX_FOR_INPUT_ARGUMENTS",
+            ERROR_UNDEFINED_FUNCTION_NZMAX_FOR_INPUT_ARGUMENTS);
     } break;
     }
     return 0; // never here
@@ -1486,15 +1546,20 @@ ArrayOf::nnz() const
     case NLS_DCOMPLEX:
         return DoCountNNZComplex<double>(dp->getData(), getElementCount());
     case NLS_CELL_ARRAY:
-        Error(_W("Undefined function 'nnz' for input arguments of type 'cell'."));
+        raiseError(L"Nelson:types:ERROR_UNDEFINED_FUNCTION_NNZ_FOR_INPUT_ARGS_OF_TYPE_CELL",
+            ERROR_UNDEFINED_FUNCTION_NNZ_FOR_INPUT_ARGS_OF_TYPE_CELL);
     case NLS_STRING_ARRAY:
-        Error(_W("Undefined function 'nnz' for input arguments of type 'string'."));
+        raiseError(L"Nelson:types:ERROR_UNDEFINED_FUNCTION_NNZ_FOR_INPUT_ARGS_OF_TYPE_STRING",
+            ERROR_UNDEFINED_FUNCTION_NNZ_FOR_INPUT_ARGS_OF_TYPE_STRING);
     case NLS_CLASS_ARRAY:
-        Error(_W("Undefined function 'nnz' for input arguments of type 'class'."));
+        raiseError(L"Nelson:types:ERROR_UNDEFINED_FUNCTION_NNZ_FOR_INPUT_ARGS_OF_TYPE_CLASS",
+            ERROR_UNDEFINED_FUNCTION_NNZ_FOR_INPUT_ARGS_OF_TYPE_CLASS);
     case NLS_STRUCT_ARRAY:
-        Error(_W("Undefined function 'nnz' for input arguments of type 'struct'."));
+        raiseError(L"Nelson:types:ERROR_UNDEFINED_FUNCTION_NNZ_FOR_INPUT_ARGS_OF_TYPE_STRUCT",
+            ERROR_UNDEFINED_FUNCTION_NNZ_FOR_INPUT_ARGS_OF_TYPE_STRUCT);
     default:
-        Error(_W("Undefined function 'nnz' for input arguments."));
+        raiseError(L"Nelson:types:ERROR_UNDEFINED_FUNCTION_NNZ_FOR_INPUT_ARGUMENTS",
+            ERROR_UNDEFINED_FUNCTION_NNZ_FOR_INPUT_ARGUMENTS);
     }
     return 0;
 }
@@ -1552,7 +1617,8 @@ ProcessNDimIndexes(bool preserveColons, Dimensions& dims, ArrayOfVector& index, 
         } else {
             index[i].toOrdinalType();
             if (argCheck && (index[i].getMaxAsIndex() > dims[i])) {
-                Error(_W("Index exceeds array bounds."));
+                raiseError(L"Nelson:types:ERROR_INDEX_EXCEEDS_ARRAY_BOUNDS",
+                    ERROR_INDEX_EXCEEDS_ARRAY_BOUNDS);
             }
             outndx[i] = (constIndexPtr)index[i].getDataPointer();
             outDims[i] = index[i].getElementCount();

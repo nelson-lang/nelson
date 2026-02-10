@@ -15,6 +15,7 @@
 #include "GOFiguresManager.hpp"
 #include "ProcessEvents.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -45,12 +46,13 @@ GraphicsGateway::waitforbuttonpressBuiltin(int nLhs, const ArrayOfVector& argIn)
 
         } while (win->isWaitMouseOrKeyPressEvent(waitPressMode));
         if (waitPressMode == WAIT_PRESS_MODE::CLOSE) {
-            Error(_W("waitforbuttonpress exit because figure has been deleted."),
-                L"Nelson:UI:CancelWaitForKeyOrButtonPress");
+            raiseError(L"Nelson:UI:CancelWaitForKeyOrButtonPress",
+                _W("waitforbuttonpress exit because figure has been deleted."));
         }
         retval << ArrayOf::doubleConstructor(waitPressMode == WAIT_PRESS_MODE::MOUSE ? 0. : 1.);
     } else {
-        Error(_W("Cannot get current figure."));
+        raiseError(
+            L"Nelson:graphics:ERROR_CANNOT_GET_CURRENT_FIGURE", ERROR_CANNOT_GET_CURRENT_FIGURE);
     }
     return retval;
 }

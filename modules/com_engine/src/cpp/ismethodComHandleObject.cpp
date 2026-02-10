@@ -24,7 +24,8 @@ ismethodComHandleObject(ComHandleObject* comhandleobj, const std::wstring& metho
 {
     void* ptr = comhandleobj->getPointer();
     if (ptr == nullptr) {
-        Error(_W("COM valid handle expected."));
+        raiseError(
+            L"Nelson:com_engine:ERROR_COM_VALID_HANDLE_EXPECTED", ERROR_COM_VALID_HANDLE_EXPECTED);
     }
     auto* pVariant = static_cast<VARIANT*>(ptr);
     return isMethodCom(pVariant->pdispVal, methodname);
@@ -34,7 +35,7 @@ ArrayOf
 ismethodComHandleObject(const ArrayOf& A, const std::wstring& methodname)
 {
     if (A.getHandleCategory() != NLS_HANDLE_COM_CATEGORY_STR) {
-        Error(_W("COM handle expected."));
+        raiseError(L"Nelson:com_engine:ERROR_COM_HANDLE_EXPECTED", ERROR_COM_HANDLE_EXPECTED);
     }
     auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     bool res = ismethodComHandleObject(comhandleobj, methodname);

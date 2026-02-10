@@ -12,6 +12,7 @@
 #include "IsLetter.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 #include "characters_encoding.hpp"
@@ -42,7 +43,8 @@ IsLetter(const ArrayOf& A)
         if (A.isScalar()) {
             result = isWideCharAlpha(A);
         } else {
-            Error(_W("Input must be a text scalar."));
+            raiseError(
+                L"Nelson:string:ERROR_INPUT_MUST_BE_TEXT_SCALAR", ERROR_INPUT_MUST_BE_TEXT_SCALAR);
         }
     } else {
         logical* ptrRes = (logical*)ArrayOf::allocateArrayOf(

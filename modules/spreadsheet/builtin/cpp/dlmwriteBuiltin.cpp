@@ -13,6 +13,7 @@
 #include "i18n.hpp"
 #include "StringHelpers.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -103,7 +104,8 @@ dlmwriteBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     if (paramStr == L"-append") {
         res.isAppend = true;
     } else {
-        Error(_W("'-append' expected."));
+        raiseError(
+            L"Nelson:spreadsheet:ERROR_DLMWRITE_APPEND_EXPECTED", ERROR_DLMWRITE_APPEND_EXPECTED);
     }
     ArrayOf param4 = argIn[3];
     paramStr = param4.getContentAsWideString();
@@ -128,7 +130,8 @@ dlmwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOf param3 = argIn[2];
     std::wstring paramStr = param3.getContentAsWideString();
     if (paramStr == L"-append") {
-        Error(_W("a valid delimiter expected."));
+        raiseError(L"Nelson:spreadsheet:ERROR_DLMWRITE_VALID_DELIMITER_EXPECTED",
+            ERROR_DLMWRITE_VALID_DELIMITER_EXPECTED);
     }
     StringHelpers::replace_all(paramStr, L"\\t", L"\t");
     StringHelpers::replace_all(paramStr, L"\\n", L"\n");
@@ -181,7 +184,8 @@ dlmwriteBuiltinSixRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         if (eolStr == L"pc" || eolStr == L"unix") {
             res.isPcEOL = (eolStr == L"pc");
         } else {
-            Error(_W("'pc' or 'unix' expected."));
+            raiseError(L"Nelson:spreadsheet:ERROR_DLMWRITE_PC_OR_UNIX_EXPECTED",
+                ERROR_DLMWRITE_PC_OR_UNIX_EXPECTED);
         }
     }
     return res;
@@ -200,7 +204,8 @@ dlmwriteBuiltinSevenRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         if (eolStr == L"pc" || eolStr == L"unix") {
             res.isPcEOL = (eolStr == L"pc");
         } else {
-            Error(_W("'pc' or 'unix' expected."));
+            raiseError(L"Nelson:spreadsheet:ERROR_DLMWRITE_PC_OR_UNIX_EXPECTED",
+                ERROR_DLMWRITE_PC_OR_UNIX_EXPECTED);
         }
     } else {
         // dlmwrite(filename, M, delimiter, r, c, eol, precision) rhs == 7
@@ -228,7 +233,8 @@ dlmwriteBuiltinEightRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     ArrayOf param3 = argIn[2];
     std::wstring paramStr = param3.getContentAsWideString();
     if (paramStr != L"-append") {
-        Error(_W("'-append' expected."));
+        raiseError(
+            L"Nelson:spreadsheet:ERROR_DLMWRITE_APPEND_EXPECTED", ERROR_DLMWRITE_APPEND_EXPECTED);
     }
     res.isAppend = true;
     ArrayOf param4 = argIn[3];
@@ -246,7 +252,8 @@ dlmwriteBuiltinEightRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     if (eolStr == L"pc" || eolStr == L"unix") {
         res.isPcEOL = (eolStr == L"pc");
     } else {
-        Error(_W("'pc' or 'unix' expected."));
+        raiseError(L"Nelson:spreadsheet:ERROR_DLMWRITE_PC_OR_UNIX_EXPECTED",
+            ERROR_DLMWRITE_PC_OR_UNIX_EXPECTED);
     }
     ArrayOf param8 = argIn[7];
     if (param8.isCharacterArray()) {
@@ -278,7 +285,9 @@ Nelson::SpreadsheetGateway::dlmwriteBuiltin(Evaluator* eval, int nLhs, const Arr
                 try {
                     ArrayOfVector resVect = funcDef->evaluateFunction(eval, argInCopy, 1);
                     if (resVect.size() != 1) {
-                        Error(_W("cell2mat returns more than one output argument."));
+                        raiseError(
+                            L"Nelson:spreadsheet:ERROR_CELL2MAT_RETURNS_MORE_THAN_ONE_OUTPUT",
+                            ERROR_CELL2MAT_RETURNS_MORE_THAN_ONE_OUTPUT);
                     }
                     param2 = resVect[0];
                 } catch (const Exception&) {
@@ -286,7 +295,8 @@ Nelson::SpreadsheetGateway::dlmwriteBuiltin(Evaluator* eval, int nLhs, const Arr
                 }
             }
         } else {
-            Error("cell2mat function not found.");
+            raiseError(L"Nelson:spreadsheet:ERROR_CELL2MAT_FUNCTION_NOT_FOUND",
+                ERROR_CELL2MAT_FUNCTION_NOT_FOUND);
         }
     }
     std::wstring filename = param1.getContentAsWideString();
@@ -314,7 +324,8 @@ Nelson::SpreadsheetGateway::dlmwriteBuiltin(Evaluator* eval, int nLhs, const Arr
         opts = dlmwriteBuiltinEightRhs(eval, nLhs, argIn);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:spreadsheet:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     delimitedFileWriter(param2, filename, opts.isAppend, opts.delimiter, opts.rowsOffset,

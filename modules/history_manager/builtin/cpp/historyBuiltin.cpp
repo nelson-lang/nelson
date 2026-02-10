@@ -49,25 +49,29 @@ historyBuiltin_size_one_rhs(
                     }
                 }
             } else {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError(L"Nelson:history_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
+                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         } else if (str == L"save") {
             if (nLhs == 0) {
                 ptrHistoryManager->saveToFile();
             } else {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError(L"Nelson:history_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
+                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         } else if (str == L"load") {
             if (nLhs == 0) {
                 ptrHistoryManager->loadFromFile();
             } else {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError(L"Nelson:history_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
+                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         } else if (str == L"clear") {
             if (nLhs == 0) {
                 ptrHistoryManager->clear(true);
             } else {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError(L"Nelson:history_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
+                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
             }
         } else if (str == L"duplicated") {
             retval << ArrayOf::logicalConstructor(ptrHistoryManager->getAllowDuplicatedLines());
@@ -422,7 +426,8 @@ Nelson::HistoryManagerGateway::historyBuiltin(Evaluator* eval, int nLhs, const A
     auto* ptrHistoryManager
         = static_cast<HistoryManager*>(NelsonConfiguration::getInstance()->getHistoryManager());
     if (ptrHistoryManager == nullptr) {
-        Error(_W("History manager not enabled."));
+        raiseError(L"Nelson:history_manager:ERROR_HISTORY_MANAGER_NOT_ENABLED",
+            ERROR_HISTORY_MANAGER_NOT_ENABLED);
     }
     nargoutcheck(nLhs, 0, 1);
     switch (argIn.size()) {
@@ -436,7 +441,8 @@ Nelson::HistoryManagerGateway::historyBuiltin(Evaluator* eval, int nLhs, const A
         return historyBuiltin_two_rhs(ptrHistoryManager, nLhs, argIn);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:history_manager:ERROR_WRONG_NUMBERS_INPUT_ARGS",
+            ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;

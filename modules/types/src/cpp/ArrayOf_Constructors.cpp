@@ -12,6 +12,7 @@
 #include "Data.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
@@ -24,10 +25,11 @@ ArrayOf
 ArrayOf::getDiagonal(int64 diagonalOrder)
 {
     if (!is2D()) {
-        Error(_W("Input must be 2-D"));
+        raiseError(L"Nelson:types:ERROR_INPUT_MUST_BE_2D", ERROR_INPUT_MUST_BE_2D);
     }
     if (isSparse()) {
-        Error(_W("Sparse matrix not managed."));
+        raiseError(
+            L"Nelson:types:ERROR_SPARSE_MATRIX_NOT_MANAGED", ERROR_SPARSE_MATRIX_NOT_MANAGED);
     }
     if (isEmpty(true)) {
         Dimensions dims(0, 0);
@@ -89,7 +91,8 @@ ArrayOf::diagonalConstructor(ArrayOf src, int64 diagonalOrder)
 {
     ArrayOf retval;
     if (!src.isVector() && !src.isEmpty()) {
-        Error(_W("Argument to diagonal constructor must by a vector!"));
+        raiseError(L"Nelson:types:ERROR_ARGUMENT_TO_DIAGONAL_CONSTRUCTOR_MUST_BE_VECTOR",
+            ERROR_ARGUMENT_TO_DIAGONAL_CONSTRUCTOR_MUST_BE_VECTOR);
     }
     indexType length = src.getElementCount();
     indexType M = length + abs(diagonalOrder);
@@ -117,7 +120,7 @@ ArrayOf::emptyCell(const Dimensions& dim)
     if (dim.getElementCount() == 0) {
         return ArrayOf(NLS_CELL_ARRAY, dim, nullptr, false);
     }
-    Error(_W("Invalid dimensions."));
+    raiseError(L"Nelson:types:ERROR_INVALID_DIMENSIONS", ERROR_INVALID_DIMENSIONS);
     return {};
 }
 //=============================================================================
@@ -127,7 +130,7 @@ ArrayOf::emptyConstructor(const Dimensions& dim, bool bIsSparse)
     if (dim.getElementCount() == 0) {
         return ArrayOf(NLS_DOUBLE, dim, nullptr, bIsSparse);
     }
-    Error(_W("Invalid dimensions."));
+    raiseError(L"Nelson:types:ERROR_INVALID_DIMENSIONS", ERROR_INVALID_DIMENSIONS);
 
     return {};
 }
@@ -139,7 +142,7 @@ ArrayOf::emptyConstructor(indexType m, indexType n, bool bIsSparse)
         Dimensions dim(m, n);
         return ArrayOf(NLS_DOUBLE, dim, nullptr, bIsSparse);
     }
-    Error(_W("Invalid dimensions."));
+    raiseError(L"Nelson:types:ERROR_INVALID_DIMENSIONS", ERROR_INVALID_DIMENSIONS);
 
     return {};
 }

@@ -32,7 +32,8 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     case 0: {
         wpath = GetCurrentDirectory();
         if (wpath.empty()) {
-            Error(_W("Impossible to get current directory."));
+            raiseError(L"Nelson:files_folders_functions:ERROR_IMPOSSIBLE_TO_GET_CURRENT_DIRECTORY",
+                ERROR_IMPOSSIBLE_TO_GET_CURRENT_DIRECTORY);
         }
     } break;
     case 2: {
@@ -56,7 +57,8 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         wpath = argIn[0].getContentAsWideString();
     } break;
     default:
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_NUMBERS_INPUT_ARGS",
+            ERROR_WRONG_NUMBERS_INPUT_ARGS);
         break;
     }
     std::vector<FileInfo> res = ListFiles(wpath, bSubDirectories);

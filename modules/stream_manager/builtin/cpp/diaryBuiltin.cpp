@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "Interface.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -33,7 +34,8 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 nargoutcheck(nLhs, 0);
                 bool bRes = io->diary.SetFilename(param);
                 if (!bRes) {
-                    Error(_W("Error using diary."));
+                    raiseError(L"Nelson:stream:ERROR_DIARY_ERROR_USING_DIARY",
+                        ERROR_DIARY_ERROR_USING_DIARY);
                 }
             }
         } else {
@@ -49,7 +51,8 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             nargoutcheck(nLhs, 0, 1);
             std::wstring param1 = argIn[0].getContentAsWideString();
             if (param1.compare(L"get") != 0) {
-                Error(_W("#1 Argument \'get\' expected."));
+                raiseError(
+                    L"Nelson:stream:ERROR_DIARY_ARG1_GET_EXPECTED", ERROR_DIARY_ARG1_GET_EXPECTED);
             }
             std::wstring param2 = argIn[1].getContentAsWideString();
             if (param2.compare(L"Diary") == 0) {
@@ -61,13 +64,16 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             } else if (param2.compare(L"DiaryFile") == 0) {
                 retval << ArrayOf::characterArrayConstructor(io->diary.getFilename());
             } else {
-                Error(_W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
+                raiseError(L"Nelson:stream:ERROR_DIARY_ARG2_DIARY_OR_DIARYFILE_EXPECTED",
+                    ERROR_DIARY_ARG2_DIARY_OR_DIARYFILE_EXPECTED);
             }
         } else {
             if (!argIn[0].isRowVectorCharacterArray()) {
-                Error(_W("#1 Argument \'get\' expected."));
+                raiseError(
+                    L"Nelson:stream:ERROR_DIARY_ARG1_GET_EXPECTED", ERROR_DIARY_ARG1_GET_EXPECTED);
             } else {
-                Error(_W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
+                raiseError(L"Nelson:stream:ERROR_DIARY_ARG2_DIARY_OR_DIARYFILE_EXPECTED",
+                    ERROR_DIARY_ARG2_DIARY_OR_DIARYFILE_EXPECTED);
             }
         }
     } else if (argIn.size() == 3) {
@@ -75,7 +81,8 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             && (argIn[2].isRowVectorCharacterArray())) {
             std::wstring param1 = argIn[0].getContentAsWideString();
             if (param1.compare(L"set") != 0) {
-                Error(_W("#1 Argument \'set\' expected."));
+                raiseError(
+                    L"Nelson:stream:ERROR_DIARY_ARG1_SET_EXPECTED", ERROR_DIARY_ARG1_SET_EXPECTED);
             }
             std::wstring param3 = argIn[2].getContentAsWideString();
             std::wstring param2 = argIn[1].getContentAsWideString();
@@ -87,27 +94,33 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                         io->diary.setState(true);
                     }
                 } else {
-                    Error(_W("#3 Argument \'on\' or \'off\' expected."));
+                    raiseError(L"Nelson:stream:ERROR_DIARY_ARG3_ON_OFF_EXPECTED",
+                        ERROR_DIARY_ARG3_ON_OFF_EXPECTED);
                 }
             } else if (param2.compare(L"DiaryFile") == 0) {
                 bool bRes = io->diary.SetFilename(param3);
                 if (!bRes) {
-                    Error(_W("Error using diary."));
+                    raiseError(L"Nelson:stream:ERROR_DIARY_ERROR_USING_DIARY",
+                        ERROR_DIARY_ERROR_USING_DIARY);
                 }
             } else {
-                Error(_W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
+                raiseError(L"Nelson:stream:ERROR_DIARY_ARG2_DIARY_OR_DIARYFILE_EXPECTED",
+                    ERROR_DIARY_ARG2_DIARY_OR_DIARYFILE_EXPECTED);
             }
         } else {
             if (!argIn[0].isRowVectorCharacterArray()) {
-                Error(_W("#1 Argument \'set\' expected."));
+                raiseError(
+                    L"Nelson:stream:ERROR_DIARY_ARG1_SET_EXPECTED", ERROR_DIARY_ARG1_SET_EXPECTED);
             } else if (!argIn[1].isRowVectorCharacterArray()) {
-                Error(_W("#2 Argument \'Diary\' or \'DiaryFile\' expected."));
+                raiseError(L"Nelson:stream:ERROR_DIARY_ARG2_DIARY_OR_DIARYFILE_EXPECTED",
+                    ERROR_DIARY_ARG2_DIARY_OR_DIARYFILE_EXPECTED);
             } else {
-                Error(_W("#3 Argument a string expected."));
+                raiseError(L"Nelson:stream:ERROR_DIARY_ARG3_STRING_EXPECTED",
+                    ERROR_DIARY_ARG3_STRING_EXPECTED);
             }
         }
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:stream:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

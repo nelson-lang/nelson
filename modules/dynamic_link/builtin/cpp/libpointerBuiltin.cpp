@@ -27,7 +27,7 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(int nLhs, const ArrayOfVector& arg
         try {
             libPointerObject = new LibPointerObject();
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:dynamic_link:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         } catch (const Exception&) {
             throw;
         }
@@ -37,7 +37,7 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(int nLhs, const ArrayOfVector& arg
         try {
             libPointerObject = new LibPointerObject(DataType);
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:dynamic_link:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         } catch (const Exception&) {
             throw;
         }
@@ -48,13 +48,14 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(int nLhs, const ArrayOfVector& arg
         try {
             libPointerObject = new LibPointerObject(DataType, Value);
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:dynamic_link:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         } catch (const Exception&) {
             throw;
         }
     } break;
     default:
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:dynamic_link:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
         break;
     }
     retval << ArrayOf::handleConstructor(libPointerObject);

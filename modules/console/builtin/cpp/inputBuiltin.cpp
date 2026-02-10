@@ -36,7 +36,8 @@ Nelson::ConsoleGateway::inputBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
                 ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
         }
         if (param2.compare(L"s") != 0) {
-            Error(_W("Unrecognized option. \"s\" expected."));
+            raiseError(L"Nelson:console:ERROR_UNRECOGNIZED_OPTION_S_EXPECTED",
+                ERROR_UNRECOGNIZED_OPTION_S_EXPECTED);
         }
     }
     Interface* io = eval->getInterface();

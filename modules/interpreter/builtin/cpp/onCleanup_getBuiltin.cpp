@@ -9,6 +9,7 @@
 //=============================================================================
 #include "onCleanup_getBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "OnCleanupObjectHandle.hpp"
 //=============================================================================
@@ -25,7 +26,8 @@ Nelson::InterpreterGateway::onCleanup_getBuiltin(int nLhs, const ArrayOfVector& 
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval;
     if (param1.getHandleCategory() != NLS_HANDLE_ONCLEANUP_CATEGORY_STR) {
-        Error(_W("onCleanup handle expected."));
+        raiseError(
+            L"Nelson:interpreter:ERROR_ONCLEANUP_HANDLE_EXPECTED", ERROR_ONCLEANUP_HANDLE_EXPECTED);
     }
     auto* obj = (OnCleanupObjectHandle*)param1.getContentAsHandleScalar();
     ArrayOf res;
@@ -38,7 +40,8 @@ Nelson::InterpreterGateway::onCleanup_getBuiltin(int nLhs, const ArrayOfVector& 
         retval << res;
         return retval;
     }
-    Error(_W("unknown property name: ") + propertyName);
+    raiseError(L"Nelson:interpreter:ERROR_UNKNOWN_PROPERTY_NAME", ERROR_UNKNOWN_PROPERTY_NAME,
+        propertyName);
     return retval;
 }
 //=============================================================================

@@ -10,6 +10,8 @@
 #include "EqHandle.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "MatrixCheck.hpp"
@@ -23,13 +25,13 @@ EqHandle(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     if (!A.isHandle() && !B.isHandle()) {
-        Error(_W("handle expected."));
+        raiseError(L"Nelson:handle:ERROR_HANDLE_EXPECTED", ERROR_HANDLE_EXPECTED);
     }
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
-        Error(std::string(_("Size mismatch on arguments to arithmetic operator")) + " "
-            + EQ_OPERATOR_STR);
+        raiseError(L"Nelson:handle:ERROR_SIZE_MISMATCH_ON_OPERATOR",
+            ERROR_SIZE_MISMATCH_ON_OPERATOR, utf8_to_wstring(EQ_OPERATOR_STR));
     }
     int Astride = 0;
     int Bstride = 0;

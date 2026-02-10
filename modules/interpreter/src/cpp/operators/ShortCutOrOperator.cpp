@@ -10,6 +10,7 @@
 #include "Evaluator.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "Operators.hpp"
 //=============================================================================
 namespace Nelson {
@@ -31,12 +32,16 @@ shortCutOrOperatorImpl(Evaluator* eval, AbstractSyntaxTreePtr t)
 {
     ArrayOf A = eval->expression(t->down);
     if (!A.isScalar()) {
-        Error(_W("Operand to || operator must be convertible to logical scalar values."));
+        raiseError(L"Nelson:interpreter:ERROR_OPERAND_TO_OPERATOR_MUST_BE_CONVERTIBLE_TO_LOGICAL_"
+                   L"SCALAR_VALUES",
+            ERROR_OPERAND_TO_OPERATOR_MUST_BE_CONVERTIBLE_TO_LOGICAL_SCALAR_VALUES);
     }
     try {
         A.promoteType(NLS_LOGICAL);
     } catch (const Exception&) {
-        Error(_W("Operand to || operator must be convertible to logical scalar values."));
+        raiseError(L"Nelson:interpreter:ERROR_OPERAND_TO_OPERATOR_MUST_BE_CONVERTIBLE_TO_LOGICAL_"
+                   L"SCALAR_VALUES",
+            ERROR_OPERAND_TO_OPERATOR_MUST_BE_CONVERTIBLE_TO_LOGICAL_SCALAR_VALUES);
     }
     bool a = A.getContentAsLogicalScalar() != 0U;
     if (a) {
@@ -44,12 +49,16 @@ shortCutOrOperatorImpl(Evaluator* eval, AbstractSyntaxTreePtr t)
     }
     ArrayOf B = eval->expression(t->down->right);
     if (!B.isScalar()) {
-        Error(_W("Operand to || operator must be convertible to logical scalar values."));
+        raiseError(L"Nelson:interpreter:ERROR_OPERAND_TO_OPERATOR_MUST_BE_CONVERTIBLE_TO_LOGICAL_"
+                   L"SCALAR_VALUES",
+            ERROR_OPERAND_TO_OPERATOR_MUST_BE_CONVERTIBLE_TO_LOGICAL_SCALAR_VALUES);
     }
     try {
         B.promoteType(NLS_LOGICAL);
     } catch (const Exception&) {
-        Error(_W("Operand to || operator must be convertible to logical scalar values."));
+        raiseError(L"Nelson:interpreter:ERROR_OPERAND_TO_OPERATOR_MUST_BE_CONVERTIBLE_TO_LOGICAL_"
+                   L"SCALAR_VALUES",
+            ERROR_OPERAND_TO_OPERATOR_MUST_BE_CONVERTIBLE_TO_LOGICAL_SCALAR_VALUES);
     }
     return ArrayOf::logicalConstructor(B.getContentAsLogicalScalar() != 0U);
 }

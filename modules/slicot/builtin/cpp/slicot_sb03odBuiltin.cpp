@@ -11,7 +11,9 @@
 #include "slicot_sb03odBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -103,26 +105,29 @@ Nelson::SlicotGateway::slicot_sb03odBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {
-        Error(_W("Input argument #1: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_1_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_1_SCALAR_EXPECTED);
     }
     if (!dimsFACT.isScalar()) {
-        Error(_W("Input argument #2: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_2_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_2_SCALAR_EXPECTED);
     }
     if (!dimsTRANS.isScalar()) {
-        Error(_W("Input argument #3: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_3_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_3_SCALAR_EXPECTED);
     }
     Dimensions dimsQ_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsQ.equals(dimsQ_expected)) {
-        Error(_("Input argument #5: wrong size.") + " " + dimsQ_expected.toString() + " "
-            + "expected" + ".");
+        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
+            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 5, dimsQ_expected.toWideString());
     }
     Dimensions dimsB_expected(TRANS.getContentAsCString().compare("N") == 0
             ? std::max(1, std::max((int)A.getRows(), (int)B.getRows()))
             : std::max(1, (int)A.getRows()),
         (int)A.getRows());
     if (!dimsB.equals(dimsB_expected)) {
-        Error(_("Input argument #6: wrong size.") + " " + dimsB_expected.toString() + " "
-            + "expected" + ".");
+        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
+            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 6, dimsB_expected.toWideString());
     }
     // CALL EXTERN FUNCTION
     try {
@@ -130,7 +135,8 @@ Nelson::SlicotGateway::slicot_sb03odBuiltin(int nLhs, const ArrayOfVector& argIn
             B_output_ptr, LDB_ptr, SCALE_output_ptr, WR_output_ptr, WI_output_ptr, DWORK_ptr,
             LDWORK_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        Error("sb03od function fails.");
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_SB03OD_FUNCTION_FAILS",
+            ERROR_SLICOT_SB03OD_FUNCTION_FAILS);
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

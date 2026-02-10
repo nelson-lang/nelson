@@ -10,6 +10,7 @@
 #include "modulepathBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ModulePath.hpp"
 #include "ModulesHelpers.hpp"
 #include "ModulesManager.hpp"
@@ -76,7 +77,8 @@ Nelson::ModulesManagerGateway::modulepathBuiltin(int nLhs, const ArrayOfVector& 
         }
         MODULEPATH_OPTION modulePathOption;
         if (!isModulePathOption(option, modulePathOption)) {
-            Error(_W("Argument #2 must be a valid option."));
+            raiseError(L"Nelson:modules_manager:ERROR_ARGUMENT_2_MUST_BE_A_VALID_OPTION",
+                ERROR_ARGUMENT_2_MUST_BE_A_VALID_OPTION);
         }
         retval << ArrayOf::characterArrayConstructor(ModulePath(moduleshortname, modulePathOption));
     } break;

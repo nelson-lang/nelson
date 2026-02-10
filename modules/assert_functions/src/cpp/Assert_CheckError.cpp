@@ -12,6 +12,7 @@
 #include "EvaluateCommand.hpp"
 #include "Exception.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -38,7 +39,8 @@ Assert_CheckError(Evaluator* eval, const std::wstring& command, const std::wstri
                 + _W("computed error message =") + L" \"" + computedmsg + L"\"";
         }
     } else {
-        Error(_W("No error was produced while evaluating command."));
+        raiseError(L"Nelson:assert_functions:ERROR_NO_ERROR_PRODUCED_WHILE_EVALUATING_COMMAND",
+            ERROR_NO_ERROR_PRODUCED_WHILE_EVALUATING_COMMAND);
     }
     return bRes;
 }
@@ -75,7 +77,8 @@ Assert_CheckError(Evaluator* eval, const std::wstring& command, const std::wstri
             }
         }
     } else {
-        Error(_W("No error was produced while evaluating command."));
+        raiseError(L"Nelson:assert_functions:ERROR_NO_ERROR_PRODUCED_WHILE_EVALUATING_COMMAND",
+            ERROR_NO_ERROR_PRODUCED_WHILE_EVALUATING_COMMAND);
     }
     return bRes;
 }

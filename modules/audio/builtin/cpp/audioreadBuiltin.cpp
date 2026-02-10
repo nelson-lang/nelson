@@ -45,10 +45,12 @@ Nelson::AudioGateway::audioreadBuiltin(int nLhs, const ArrayOfVector& argIn)
                 start = ptr[0];
                 end = ptr[1];
                 if (start < 1 || end < 1) {
-                    Error(_W("Index >= 1 expected."));
+                    raiseError(
+                        L"Nelson:audio:ERROR_INDEX_GE_1_EXPECTED", ERROR_INDEX_GE_1_EXPECTED);
                 }
             } else {
-                Error(_W("[start, end] vector expected."));
+                raiseError(L"Nelson:audio:ERROR_SCALAR_OR_START_END_VECTOR_EXPECTED",
+                    ERROR_SCALAR_OR_START_END_VECTOR_EXPECTED);
             }
         }
     } break;
@@ -62,23 +64,24 @@ Nelson::AudioGateway::audioreadBuiltin(int nLhs, const ArrayOfVector& argIn)
             start = ptr[0];
             end = ptr[1];
             if (start < 1 || end < 1) {
-                Error(_W("Index >= 1 expected."));
+                raiseError(L"Nelson:audio:ERROR_INDEX_GE_1_EXPECTED", ERROR_INDEX_GE_1_EXPECTED);
             }
             start = start - 1;
             end = end - 1;
         } else {
-            Error(_W("[start, end] vector expected."));
+            raiseError(L"Nelson:audio:ERROR_SCALAR_OR_START_END_VECTOR_EXPECTED",
+                ERROR_SCALAR_OR_START_END_VECTOR_EXPECTED);
         }
         ArrayOf param3 = argIn[2];
         datatype = param3.getContentAsWideString();
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:audio:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     retval = AudioRead(filename, start, end, datatype, errorMessage);
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:audio:ERROR_AUDIO_MESSAGE");
     }
     return retval;
 }

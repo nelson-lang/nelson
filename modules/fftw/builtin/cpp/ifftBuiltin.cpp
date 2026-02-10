@@ -12,6 +12,7 @@
 #include "InverseFft.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "OverloadRequired.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -58,7 +59,7 @@ ifftBuiltinPrivate(int nLhs, const ArrayOfVector& argIn)
         res = InverseFft(X, n, dim - 1);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:fftw:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     retval << res;

@@ -36,7 +36,7 @@ audioplayer_playCommonBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& ar
             start = param2.getContentAsDoubleScalar();
             startOnly = true;
             if (start < 1) {
-                Error(_W("start >= 1 expected."));
+                raiseError(L"Nelson:audio:ERROR_START_GE_1_EXPECTED", ERROR_START_GE_1_EXPECTED);
             }
             start = start - 1;
         } else if (param2.isVector() && param2.isNumeric() && (param2.getElementCount() == 2)) {
@@ -45,16 +45,18 @@ audioplayer_playCommonBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& ar
             start = ptr[0];
             end = ptr[1];
             if (start < 1 || end < 1) {
-                Error(_W("Index >= 1 expected."));
+                raiseError(L"Nelson:audio:ERROR_INDEX_GE_1_EXPECTED", ERROR_INDEX_GE_1_EXPECTED);
             }
             start = start - 1;
             end = end - 1;
         } else {
-            Error(_W("scalar or [start, end] vector expected."));
+            raiseError(L"Nelson:audio:ERROR_SCALAR_OR_START_END_VECTOR_EXPECTED",
+                ERROR_SCALAR_OR_START_END_VECTOR_EXPECTED);
         }
     }
     if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
-        Error(_W("audioplayer handle expected."));
+        raiseError(
+            L"Nelson:audio:ERROR_AUDIOPLAYER_HANDLE_EXPECTED", ERROR_AUDIOPLAYER_HANDLE_EXPECTED);
     }
     auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     if (argIn.size() == 1) {
@@ -62,13 +64,13 @@ audioplayer_playCommonBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& ar
     } else {
         if (startOnly) {
             if (start > objPlayer->getTotalSamples()) {
-                Error(_W("Invalid range."));
+                raiseError(L"Nelson:audio:ERROR_INVALID_RANGE", ERROR_INVALID_RANGE);
             }
             objPlayer->play(static_cast<int>(start));
         } else {
             if (start > objPlayer->getTotalSamples() || start > end
                 || end > objPlayer->getTotalSamples()) {
-                Error(_W("Invalid range."));
+                raiseError(L"Nelson:audio:ERROR_INVALID_RANGE", ERROR_INVALID_RANGE);
             }
             objPlayer->play(static_cast<int>(start), static_cast<int>(end));
         }

@@ -16,6 +16,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "NelsonConfiguration.hpp"
+#include "characters_encoding.hpp"
 //===================================================================================
 namespace Nelson {
 //===================================================================================
@@ -29,9 +30,9 @@ namespace {
         const std::string msg = _(message.c_str());
         const std::string error_msg = get_dynamic_library_error();
         if (!error_msg.empty()) {
-            Error(msg + "\n" + error_msg);
+            Error(utf8_to_wstring(error_msg), L"Nelson:help_tools:GET_DYNAMIC_LIBRARY_ERROR");
         } else {
-            Error(msg);
+            Error(utf8_to_wstring(msg), L"Nelson:help_tools:GET_DYNAMIC_LIBRARY_ERROR");
         }
     }
 

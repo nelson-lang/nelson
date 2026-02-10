@@ -16,6 +16,7 @@
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ErrorToStruct.hpp"
 #include "PathFunctionIndexerManager.hpp"
 #include "characters_encoding.hpp"
@@ -38,7 +39,7 @@ arrayfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* e
         try {
             elements = new ArrayOf[nbElements];
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:data_structures:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
         for (indexType k = 0; k < nbElements; ++k) {
             elements[k] = ArrayOf::emptyConstructor();
@@ -52,7 +53,8 @@ arrayfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* e
         for (indexType j = 1; j < argcount; j++) {
             ArrayOf element = argIn[j];
             if (element.isSparse()) {
-                Error(_W("Sparse inputs are not supported."));
+                raiseError(L"Nelson:data_structures:ERROR_SPARSE_INPUTS_NOT_SUPPORTED",
+                    ERROR_SPARSE_INPUTS_NOT_SUPPORTED);
             }
             input.push_back(element.getValueAtIndex(i));
         }
@@ -72,7 +74,9 @@ arrayfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* e
         }
 
         if ((int)ret.size() < nargout) {
-            Error(_W("function returned fewer outputs than expected"));
+            raiseError(
+                L"Nelson:data_structures:ERROR_FUNCTION_RETURNED_FEWER_OUTPUTS_THAN_EXPECTED",
+                ERROR_FUNCTION_RETURNED_FEWER_OUTPUTS_THAN_EXPECTED);
         }
 
         for (indexType j = 0; j < (indexType)nargout; j++) {
@@ -94,7 +98,8 @@ arrayfun_uniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval
         for (indexType j = 1; j < argcount; j++) {
             ArrayOf element = argIn[j];
             if (element.isSparse()) {
-                Error(_W("Sparse inputs are not supported."));
+                raiseError(L"Nelson:data_structures:ERROR_SPARSE_INPUTS_NOT_SUPPORTED",
+                    ERROR_SPARSE_INPUTS_NOT_SUPPORTED);
             }
             input.push_back(element.getValueAtIndex(i));
         }
@@ -113,13 +118,16 @@ arrayfun_uniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* eval
         }
 
         if ((int)ret.size() < nargout) {
-            Error(_W("function returned fewer outputs than expected"));
+            raiseError(
+                L"Nelson:data_structures:ERROR_FUNCTION_RETURNED_FEWER_OUTPUTS_THAN_EXPECTED",
+                ERROR_FUNCTION_RETURNED_FEWER_OUTPUTS_THAN_EXPECTED);
         }
 
         if (i == 0) {
             for (indexType j = 0; j < (indexType)nargout; j++) {
                 if (!ret[j].isScalar()) {
-                    Error(_W("Non-scalar in Uniform output."));
+                    raiseError(L"Nelson:data_structures:ERROR_NON_SCALAR_IN_UNIFORM_OUTPUT",
+                        ERROR_NON_SCALAR_IN_UNIFORM_OUTPUT);
                 }
                 outputs.push_back(ret[j]);
                 outputs[j].resize(argdims);
@@ -149,7 +157,8 @@ getUniformOutputStatus(const ArrayOf& arg)
             return (bool)arg.getContentAsDoubleScalar();
         }
     }
-    Error(_W("UniformOutput must be a scalar logical."));
+    raiseError(L"Nelson:data_structures:ERROR_UNIFORMOUTPUT_MUST_BE_SCALAR_LOGICAL",
+        ERROR_UNIFORMOUTPUT_MUST_BE_SCALAR_LOGICAL);
     return false;
 }
 //=============================================================================
@@ -179,7 +188,8 @@ Nelson::DataStructuresGateway::arrayfunBuiltin(
                 errorHandler = argIn[nbInputs - 1].getContentAsFunctionHandle();
                 hasErrorHandler = true;
             } else {
-                Error(_W("ErrorHandler must be a function handle."));
+                raiseError(L"Nelson:data_structures:ERROR_ERRORHANDLER_MUST_BE_FUNCTION_HANDLE",
+                    ERROR_ERRORHANDLER_MUST_BE_FUNCTION_HANDLE);
             }
         }
     }
@@ -192,7 +202,8 @@ Nelson::DataStructuresGateway::arrayfunBuiltin(
     }
 
     if (nbInputs < 2) {
-        Error(_W("Function handle and at least one array are required."));
+        raiseError(L"Nelson:data_structures:ERROR_FUNCTION_HANDLE_AND_AT_LEAST_ONE_ARRAY_REQUIRED",
+            ERROR_FUNCTION_HANDLE_AND_AT_LEAST_ONE_ARRAY_REQUIRED);
     }
 
     FunctionDef* funcDef = nullptr;
@@ -203,14 +214,17 @@ Nelson::DataStructuresGateway::arrayfunBuiltin(
     } else if (funcInput.isRowVectorCharacterArray()) {
         std::wstring funcName = funcInput.getContentAsWideString();
         if (!eval->getContext()->lookupFunction(funcName, funcDef)) {
-            Error(_W("Unknown function name."));
+            raiseError(
+                L"Nelson:data_structures:ERROR_UNKNOWN_FUNCTION_NAME", ERROR_UNKNOWN_FUNCTION_NAME);
         }
     } else {
-        Error(_W("Invalid function specification."));
+        raiseError(L"Nelson:data_structures:ERROR_INVALID_FUNCTION_SPECIFICATION",
+            ERROR_INVALID_FUNCTION_SPECIFICATION);
     }
 
     if (funcDef == nullptr) {
-        Error(_W("Invalid function handle."));
+        raiseError(
+            L"Nelson:data_structures:ERROR_INVALID_FUNCTION_HANDLE", ERROR_INVALID_FUNCTION_HANDLE);
     }
 
     // validate input dimensions
@@ -226,11 +240,13 @@ Nelson::DataStructuresGateway::arrayfunBuiltin(
             dimsVector.insert(dimsVector.end(), inputDims.begin(), inputDims.end());
         } else {
             if (dimsVector.size() != inputDims.size()) {
-                Error(ERROR_SAME_SIZE_EXPECTED);
+                raiseError(
+                    L"Nelson:data_structures:ERROR_SAME_SIZE_EXPECTED", ERROR_SAME_SIZE_EXPECTED);
             }
             for (size_t i = 0; i < dimsVector.size(); ++i) {
                 if (inputDims[i] != dimsVector[i]) {
-                    Error(ERROR_SAME_SIZE_EXPECTED);
+                    raiseError(L"Nelson:data_structures:ERROR_SAME_SIZE_EXPECTED",
+                        ERROR_SAME_SIZE_EXPECTED);
                 }
             }
         }

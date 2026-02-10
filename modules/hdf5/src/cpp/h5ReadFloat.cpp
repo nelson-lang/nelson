@@ -13,6 +13,7 @@
 #include "i18n.hpp"
 #include "Exception.hpp"
 #include "NewWithException.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -75,7 +76,9 @@ h5ReadFloat(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std
             if (H5Sget_simple_extent_dims(dspace_id, h5_dims, h5_maxdims) < 0) {
                 delete[] h5_dims;
                 delete[] h5_maxdims;
-                Error("Impossible to read dimensions and maximum size of data set.");
+                raiseError(
+                    L"Nelson:hdf5:ERROR_IMPOSSIBLE_TO_READ_DIMENSIONS_AND_MAXIMUM_SIZE_OF_DATA_SET",
+                    ERROR_IMPOSSIBLE_TO_READ_DIMENSIONS_AND_MAXIMUM_SIZE_OF_DATA_SET);
                 return {};
             }
             memspace = H5Screate_simple(rank, h5_dims, nullptr);

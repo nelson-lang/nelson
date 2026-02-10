@@ -29,7 +29,7 @@ rootQObject()
             qmlHandle = new QObjectHandleObject(parent);
         } catch (const std::bad_alloc&) {
             qmlHandle = nullptr;
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:qml_engine:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
         res = ArrayOf::handleConstructor(qmlHandle);
     } else {

@@ -28,7 +28,7 @@ iswindowtypeQObject(const ArrayOf& A)
     std::string className;
     ClassName(A, className);
     if (className != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        Error(_W("QObject handle expected."));
+        raiseError(L"Nelson:qml:ERROR_QOBJECT_HANDLE_EXPECTED", ERROR_QOBJECT_HANDLE_EXPECTED);
     }
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();

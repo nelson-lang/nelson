@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "schurBuiltin.hpp"
-#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "OverloadRequired.hpp"
 #include "SchurDecompostion.hpp"
@@ -35,7 +35,8 @@ Nelson::LinearAlgebraGateway::schurBuiltin(int nLhs, const ArrayOfVector& argIn)
                 asComplex = true;
             }
         } else {
-            Error(_W("Second input argument must be 'real' or 'complex'."));
+            raiseError(L"Nelson:linear_algebra:ERROR_SECOND_INPUT_ARGUMENT_MUST_BE_REAL_OR_COMPLEX",
+                ERROR_SECOND_INPUT_ARGUMENT_MUST_BE_REAL_OR_COMPLEX);
         }
     }
     if (nLhs == 2) {

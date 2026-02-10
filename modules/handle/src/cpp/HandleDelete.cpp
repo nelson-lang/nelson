@@ -59,7 +59,7 @@ HandleDelete(Evaluator* eval, const ArrayOf& A)
                             = getOverloadFunctionName(handleTypeName, "delete");
                         msg = overloadName + " " + _("not defined.");
                     }
-                    Error(msg);
+                    Error(utf8_to_wstring(msg), L"Nelson:handle:HandleDelete");
                 }
             }
             HandleManager::getInstance()->removeHandle(hl);

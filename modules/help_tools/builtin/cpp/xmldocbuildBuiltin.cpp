@@ -27,7 +27,7 @@ returnValueOrError(int nLhs, bool res, const std::wstring& errorMessage)
     ArrayOfVector retval;
     if (nLhs == 0) {
         if (!errorMessage.empty()) {
-            Error(errorMessage);
+            Error(errorMessage, L"Nelson:help_tools:ERROR_RUNTIME_MESSAGE");
         }
         retval << ArrayOf::logicalConstructor(res);
     } else {
@@ -80,7 +80,8 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
     ArrayOf argExportFormat = argIn[3];
     std::wstring exportFormat = argExportFormat.getContentAsWideString();
     if ((exportFormat != L"html") && (exportFormat != L"md")) {
-        Error(_W("format not supported: 'html', or 'md' expected."));
+        raiseError(L"Nelson:help_tools:ERROR_FORMAT_NOT_SUPPORTED_HTML_OR_MD_EXPECTED",
+            ERROR_FORMAT_NOT_SUPPORTED_HTML_OR_MD_EXPECTED);
     }
     DOCUMENT_OUTPUT outputTarget = DOCUMENT_OUTPUT::HTML_WEB;
     if (exportFormat == L"html") {

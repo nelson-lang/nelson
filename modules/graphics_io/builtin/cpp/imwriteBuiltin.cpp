@@ -16,6 +16,7 @@
 #include "InputOutputArgumentsCheckers.hpp"
 #include "FileSystemWrapper.hpp"
 #include "nlsBuildConfig.h"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -79,18 +80,21 @@ GraphicsIoGateway::imwriteBuiltin(int nLhs, const ArrayOfVector& argIn)
                     } else if (StringHelpers::iequals(value, L"append")) {
                         append = true;
                     } else {
-                        Error(_W("Wrong value for WriteMode: 'overwrite' or 'append' expected."));
+                        raiseError(
+                            L"Nelson:graphics_io:ERROR_INVALID_WRITEMODE", ERROR_INVALID_WRITEMODE);
                     }
                 } else if (StringHelpers::iequals(name, L"DelayTime")) {
                     double delayDouble = argIn[k + 1].getContentAsDoubleScalar();
                     if (delayDouble < 0 || delayDouble > 655) {
-                        Error(_W("Wrong value for delay time: [0, 655] expected."));
+                        raiseError(L"Nelson:graphics_io:ERROR_INVALID_DELAY_TIME",
+                            ERROR_INVALID_DELAY_TIME);
                     }
                     delayTime = (int)(delayDouble * 100);
                 } else if (StringHelpers::iequals(name, L"quality")) {
                     quality = argIn[k + 1].getContentAsInteger8Scalar();
                     if (quality < 0 || quality > 100) {
-                        Error(_W("Wrong value for quality: [0, 100] expected."));
+                        raiseError(
+                            L"Nelson:graphics_io:ERROR_INVALID_QUALITY", ERROR_INVALID_QUALITY);
                     }
                 } else if (StringHelpers::iequals(name, L"alpha")) {
                     alphaMap = argIn[k + 1];
@@ -112,7 +116,8 @@ GraphicsIoGateway::imwriteBuiltin(int nLhs, const ArrayOfVector& argIn)
             format.erase(0, 1);
         }
         if (format.empty()) {
-            Error(_W("Unable to determine the file format from the file name."));
+            raiseError(L"Nelson:graphics_io:ERROR_UNABLE_TO_DETERMINE_FILE_FORMAT",
+                ERROR_UNABLE_TO_DETERMINE_FILE_FORMAT);
         }
     }
 
@@ -123,7 +128,8 @@ GraphicsIoGateway::imwriteBuiltin(int nLhs, const ArrayOfVector& argIn)
         bool checkDimensions
             = (dimensionsMap.getLength() == 2) && (dimensionsMap.getColumns() == 3);
         if (!checkDimensions) {
-            Error(_W("Colormap should have three columns."));
+            raiseError(
+                L"Nelson:graphics_io:ERROR_COLORMAP_THREE_COLUMNS", ERROR_COLORMAP_THREE_COLUMNS);
         }
     }
 
@@ -143,14 +149,15 @@ GraphicsIoGateway::imwriteBuiltin(int nLhs, const ArrayOfVector& argIn)
             hasWrongSize = true;
         }
         if (hasWrongSize || !sameMN) {
-            Error(_W("Wrong size for AlphaMap."));
+            raiseError(L"Nelson:graphics_io:ERROR_WRONG_SIZE_ALPHAMAP", ERROR_WRONG_SIZE_ALPHAMAP);
         }
     }
 
     bool isSupportedImageType = image.isDoubleClass() || image.isSingleClass() || image.isLogical()
         || (image.getDataClass() == NLS_UINT8);
     if (!isSupportedImageType) {
-        Error(_W("Image must be double, single, logical or uint8 type."));
+        raiseError(
+            L"Nelson:graphics_io:ERROR_UNSUPPORTED_IMAGE_TYPE", ERROR_UNSUPPORTED_IMAGE_TYPE);
     }
 
 #if WITH_TIFF

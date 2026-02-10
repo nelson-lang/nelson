@@ -10,16 +10,18 @@
 #include "HandleGenericObject.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 HandleGenericObject::HandleGenericObject(const std::string& _category, void* _ptr, bool isScoped)
 {
     if (_category.empty()) {
-        Error(_W("handle must have a type."));
+        raiseError(L"Nelson:types:ERROR_HANDLE_MUST_HAVE_A_TYPE", ERROR_HANDLE_MUST_HAVE_A_TYPE);
     }
     if (_ptr == nullptr) {
-        Error(_W("handle must have a pointer."));
+        raiseError(
+            L"Nelson:types:ERROR_HANDLE_MUST_HAVE_A_POINTER", ERROR_HANDLE_MUST_HAVE_A_POINTER);
     }
     this->category = _category;
     this->ptr = _ptr;

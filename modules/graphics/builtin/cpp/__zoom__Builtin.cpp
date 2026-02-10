@@ -10,6 +10,7 @@
 #include "__zoom__Builtin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "GraphicsObject.hpp"
 #include "GOHelpers.hpp"
@@ -39,7 +40,8 @@ __zoom__Builtin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 0);
 
     if (!argIn[0].isGraphicsObject()) {
-        Error(_W("Expected graphics object(s)."));
+        raiseError(
+            L"Nelson:graphics:ERROR_EXPECTED_GRAPHICS_OBJECT_S", ERROR_EXPECTED_GRAPHICS_OBJECT_S);
     }
     int64 handle = argIn[0].getContentAsGraphicsObjectScalar();
 
@@ -52,7 +54,8 @@ __zoom__Builtin(int nLhs, const ArrayOfVector& argIn)
         }
     }
     if (!isAxis) {
-        Error(_W("Axes graphic object expected."));
+        raiseError(L"Nelson:graphics:ERROR_AXES_GRAPHIC_OBJECT_EXPECTED",
+            ERROR_AXES_GRAPHIC_OBJECT_EXPECTED);
     }
     GOAxis* axis = (GOAxis*)fp;
 
@@ -63,7 +66,8 @@ __zoom__Builtin(int nLhs, const ArrayOfVector& argIn)
         std::wstring option = argIn[1].getContentAsWideString();
         zoomOption(axis, option);
     } else {
-        Error(_W("wrong type for #2 argument."));
+        raiseError(
+            L"Nelson:graphics:ERROR_WRONG_TYPE_FOR_2_ARGUMENT", ERROR_WRONG_TYPE_FOR_2_ARGUMENT);
     }
     return {};
 }

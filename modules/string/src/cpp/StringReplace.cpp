@@ -49,7 +49,7 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
         outputDims = STR.getDimensions();
     } else if (wstr.size() == 1) {
         if (!OLD.getDimensions().equals(NEW.getDimensions())) {
-            Error(ERROR_SAME_SIZE_EXPECTED);
+            raiseError(L"Nelson:string:ERROR_SAME_SIZE_EXPECTED", ERROR_SAME_SIZE_EXPECTED);
         }
         nbOutput = wold.size();
         outputDims = OLD.getDimensions();
@@ -61,14 +61,14 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
         outputDims = STR.getDimensions();
     } else if (wnew.size() == 1) {
         if (!STR.getDimensions().equals(OLD.getDimensions())) {
-            Error(ERROR_SAME_SIZE_EXPECTED);
+            raiseError(L"Nelson:string:ERROR_SAME_SIZE_EXPECTED", ERROR_SAME_SIZE_EXPECTED);
         }
         nbOutput = wstr.size();
         outputDims = STR.getDimensions();
     } else {
         if ((!STR.getDimensions().equals(OLD.getDimensions()))
             || (!STR.getDimensions().equals(NEW.getDimensions()))) {
-            Error(ERROR_SAME_SIZE_EXPECTED);
+            raiseError(L"Nelson:string:ERROR_SAME_SIZE_EXPECTED", ERROR_SAME_SIZE_EXPECTED);
         }
         nbOutput = wstr.size();
         outputDims = STR.getDimensions();
@@ -95,7 +95,8 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
                     try {
                         elements = new ArrayOf[nbOutput];
                     } catch (const std::bad_alloc&) {
-                        Error(ERROR_MEMORY_ALLOCATION);
+                        raiseError(
+                            L"Nelson:string:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
                     }
                     elements[0] = ArrayOf::characterArrayConstructor(result);
                     res = ArrayOf(outputClass, Dimensions(1, 1), elements);
@@ -215,7 +216,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             try {
                 elements = new ArrayOf[wstr.size()];
             } catch (const std::bad_alloc&) {
-                Error(ERROR_MEMORY_ALLOCATION);
+                raiseError(L"Nelson:string:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
             }
             elements[0] = ArrayOf::characterArrayConstructor(wstr[0]);
             if (STR.isStringArray()) {
@@ -239,7 +240,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             try {
                 elements = new ArrayOf[wstr.size()];
             } catch (const std::bad_alloc&) {
-                Error(ERROR_MEMORY_ALLOCATION);
+                raiseError(L"Nelson:string:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
             }
             elements[0] = ArrayOf::characterArrayConstructor(wstr[0]);
             if (STR.isStringArray()) {
@@ -283,25 +284,25 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             outputDims = STR.getDimensions();
         } else if (wstr.size() == 1) {
             if (!OLD.getDimensions().equals(NEW.getDimensions())) {
-                Error(ERROR_SAME_SIZE_EXPECTED);
+                raiseError(L"Nelson:string:ERROR_SAME_SIZE_EXPECTED", ERROR_SAME_SIZE_EXPECTED);
             }
             nbOutput = wold.size();
             outputDims = OLD.getDimensions();
         } else if (wold.size() == 1) {
             if (!STR.getDimensions().equals(NEW.getDimensions())) {
-                Error(ERROR_SAME_SIZE_EXPECTED);
+                raiseError(L"Nelson:string:ERROR_SAME_SIZE_EXPECTED", ERROR_SAME_SIZE_EXPECTED);
             }
             nbOutput = wstr.size();
             outputDims = STR.getDimensions();
         } else if (wnew.size() == 1) {
             if (!STR.getDimensions().equals(OLD.getDimensions())) {
-                Error(ERROR_SAME_SIZE_EXPECTED);
+                raiseError(L"Nelson:string:ERROR_SAME_SIZE_EXPECTED", ERROR_SAME_SIZE_EXPECTED);
             }
             nbOutput = wstr.size();
             outputDims = STR.getDimensions();
         } else {
             if (!NEW.getDimensions().equals(OLD.getDimensions())) {
-                Error(ERROR_SAME_SIZE_EXPECTED);
+                raiseError(L"Nelson:string:ERROR_SAME_SIZE_EXPECTED", ERROR_SAME_SIZE_EXPECTED);
             }
             nbOutput = wstr.size();
             outputDims = STR.getDimensions();
@@ -316,14 +317,14 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             Dimensions newDims = NEW.getDimensions();
             if (!(OLD.isScalar() || NEW.isScalar())) {
                 if (!newDims.equals(oldDims)) {
-                    Error(ERROR_SAME_SIZE_EXPECTED);
+                    raiseError(L"Nelson:string:ERROR_SAME_SIZE_EXPECTED", ERROR_SAME_SIZE_EXPECTED);
                 }
             }
         } else {
             if ((OLD.isCharacterArray() || (OLD.isStringArray() && OLD.isScalar()))
                 && (NEW.isCell() || NEW.isStringArray())) {
                 if (wold.size() != wnew.size()) {
-                    Error(ERROR_SAME_SIZE_EXPECTED);
+                    raiseError(L"Nelson:string:ERROR_SAME_SIZE_EXPECTED", ERROR_SAME_SIZE_EXPECTED);
                 }
             }
         }
@@ -356,7 +357,8 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                         try {
                             elements = new ArrayOf[nbOutput];
                         } catch (const std::bad_alloc&) {
-                            Error(ERROR_MEMORY_ALLOCATION);
+                            raiseError(
+                                L"Nelson:string:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
                         }
                         elements[0] = ArrayOf::characterArrayConstructor(result);
                         res = ArrayOf(outputClass, Dimensions(1, 1), elements);
@@ -376,7 +378,8 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                         try {
                             elements = new ArrayOf[nbOutput];
                         } catch (const std::bad_alloc&) {
-                            Error(ERROR_MEMORY_ALLOCATION);
+                            raiseError(
+                                L"Nelson:string:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
                         }
                         res = ArrayOf(outputClass, outputDims, elements);
                     } else {
@@ -391,7 +394,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                 try {
                     elements = new ArrayOf[nbOutput];
                 } catch (const std::bad_alloc&) {
-                    Error(ERROR_MEMORY_ALLOCATION);
+                    raiseError(L"Nelson:string:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
                 }
                 if (wold.size() == wnew.size() && wnew.size() > 1) {
                     for (size_t i = 0; i < nbOutput; i++) {
@@ -420,10 +423,6 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
 std::wstring
 Replace(const std::wstring& originStr, const std::wstring& subStr, const std::wstring& replaceStr)
 {
-    // ⚡ Bolt: This function was simplified by removing special handling for the
-    // empty `subStr` case. That logic is now centralized in `StringHelpers::replace_all`,
-    // which is more efficient and corrects a regression from the first patch.
-    // This change makes the code cleaner and avoids redundancy.
     std::wstring result = originStr;
     StringHelpers::replace_all(result, subStr, replaceStr);
     return result;

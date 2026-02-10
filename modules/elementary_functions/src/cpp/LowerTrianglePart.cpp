@@ -12,6 +12,7 @@
 #include "omp_for_loop.hpp"
 #include "LowerTrianglePart.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -62,7 +63,8 @@ LowerTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload
     ArrayOf res;
     needToOverload = false;
     if (!(A.is2D() || A.isVector() || A.isEmpty())) {
-        Error(_W("Vector or matrix 2D expected."));
+        raiseError(L"Nelson:elementary_functions:ERROR_VECTOR_OR_MATRIX_2D_EXPECTED",
+            ERROR_VECTOR_OR_MATRIX_2D_EXPECTED);
     }
     Dimensions dimsA = A.getDimensions();
     switch (A.getDataClass()) {

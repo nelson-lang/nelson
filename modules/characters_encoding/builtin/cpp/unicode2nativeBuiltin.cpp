@@ -35,11 +35,13 @@ Nelson::CharactersEncodingGateway::unicode2nativeBuiltin(int nLhs, const ArrayOf
         charset = getSystemEncoding();
     }
     if (!isSupportedEncoding(charset)) {
-        Error(_("Invalid charset: ") + charset);
+        raiseError(L"Nelson:characters_encoding:ERROR_INVALID_CHARSET", ERROR_INVALID_CHARSET,
+            utf8_to_wstring(charset));
     }
     std::string output;
     if (!utf8ToCharsetConverter(data, output, charset)) {
-        Error(_W("Cannot convert string to expected charset."));
+        raiseError(L"Nelson:characters_encoding:ERROR_CANNOT_CONVERT_STRING_TO_EXPECTED_CHARSET",
+            ERROR_CANNOT_CONVERT_STRING_TO_EXPECTED_CHARSET);
     }
     Dimensions dims(1, output.length());
     const uint8_t* src = reinterpret_cast<const uint8_t*>(output.data());

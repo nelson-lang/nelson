@@ -133,7 +133,7 @@ Nelson::CoreGateway::sha256Builtin(int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:core:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;

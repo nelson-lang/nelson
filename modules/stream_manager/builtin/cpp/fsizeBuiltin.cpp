@@ -28,21 +28,25 @@ Nelson::StreamGateway::fsizeBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (param1.isDoubleType()) {
         auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
         if (fm == nullptr) {
-            Error(_W("Problem with file manager."));
+            raiseError(
+                L"Nelson:stream:ERROR_PROBLEM_WITH_FILE_MANAGER", ERROR_PROBLEM_WITH_FILE_MANAGER);
         }
         auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
         if (fm->isStdStream(iValue)) {
-            Error(_W("Not implemented for requested file identifier."));
+            raiseError(L"Nelson:stream_manager:ERROR_NOT_IMPLEMENTED_FOR_REQUESTED_FILEID_GENERIC",
+                ERROR_NOT_IMPLEMENTED_FOR_REQUESTED_FILEID_GENERIC);
         }
         if (fm->isOpened(iValue)) {
             File* f = fm->getFile(iValue);
             auto sz = static_cast<double>(FileSize(f));
             retval << ArrayOf::doubleConstructor(sz);
         } else {
-            Error(_W("Invalid file identifier."));
+            raiseError(L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER",
+                ERROR_INVALID_FILE_IDENTIFIER);
         }
     } else {
-        Error(_W("Invalid file identifier."));
+        raiseError(
+            L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER", ERROR_INVALID_FILE_IDENTIFIER);
     }
     return retval;
 }

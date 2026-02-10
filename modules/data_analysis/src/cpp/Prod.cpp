@@ -14,6 +14,7 @@
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -141,8 +142,8 @@ Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
     if (classA > NLS_LOGICAL || A.isSparse()) {
         std::wstring classname;
         ClassName(A, classname);
-        std::wstring msg = _W("function") + L" " + classname + L"_prod" + L" " + _W("undefined.");
-        Error(msg);
+        raiseError(L"Nelson:data_analysis:ERROR_FUNCTION_UNDEFINED", ERROR_FUNCTION_UNDEFINED,
+            classname + L"_prod");
     }
     if (A.isEmpty(true) && A.is2D()) {
         res = ArrayOf::doubleConstructor(1);
@@ -249,9 +250,8 @@ Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         default: {
             std::wstring classname;
             ClassName(A, classname);
-            std::wstring msg
-                = _W("function") + L" " + classname + L"_prod" + L" " + _W("undefined.");
-            Error(msg);
+            raiseError(L"Nelson:data_analysis:ERROR_FUNCTION_UNDEFINED", ERROR_FUNCTION_UNDEFINED,
+                classname + L"_prod");
         } break;
         }
     }

@@ -11,6 +11,7 @@
 #include "ModulePath.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "FindDynamicLibraryName.hpp"
 #include "ModulesHelpers.hpp"
 #include "ModulesManager.hpp"
@@ -51,7 +52,8 @@ ModulePathNelson(MODULEPATH_OPTION option)
     case Nelson::GET_FUNCTIONS_PATH:
     case Nelson::GET_TESTS_PATH:
     default:
-        Error(_W("Invalid option."));
+        raiseError(L"Nelson:modules_manager:ERROR_INVALID_OPTION", ERROR_INVALID_OPTION,
+            L"tests/functions");
         break;
     }
     return returnedPath;
@@ -65,7 +67,8 @@ ModulePath(const std::wstring& moduleshortname, MODULEPATH_OPTION option)
     }
     std::wstring moduleRootPath;
     if (!ModulesManager::Instance().findModule(moduleshortname, moduleRootPath)) {
-        Error(_W("invalid module name."));
+        raiseError(L"Nelson:modules_manager:ERROR_INVALID_MODULE_NAME", ERROR_INVALID_MODULE_NAME,
+            moduleshortname);
     }
     bool isNelsonInternalModule = isInternalModule(
         moduleRootPath, NelsonConfiguration::getInstance()->getNelsonModulesDirectory());
@@ -77,7 +80,8 @@ ModulePath(const std::wstring& moduleshortname, MODULEPATH_OPTION option)
         } else {
             p = moduleRootPath + L"/" + moduleshortname + L"/bin";
             if (!p.is_directory()) {
-                Error(_W("Path does not exist:") + L"\n" + p.generic_wstring());
+                raiseError(L"Nelson:modules_manager:ERROR_PATH_DOES_NOT_EXIST",
+                    ERROR_PATH_DOES_NOT_EXIST, p.generic_wstring());
             }
         }
     } break;

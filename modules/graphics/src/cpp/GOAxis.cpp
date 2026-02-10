@@ -53,6 +53,7 @@
 #include "QStringConverter.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "TexToUnicode.hpp"
 #include "GOCallbackProperty.hpp"
@@ -2202,7 +2203,7 @@ GOAxis::reInterpUnits(RenderInterface& gc, std::vector<double> a)
     } else if (hp->isEqual(GO_PROPERTY_VALUE_PIXELS_STR)) {
         return a;
     } else {
-        Error(_W("Units not managed:") + hp->data());
+        raiseError(L"Nelson:graphics:ERROR_UNITS_NOT_MANAGED", ERROR_UNITS_NOT_MANAGED, hp->data());
     }
     return a;
 }
@@ -2222,7 +2223,7 @@ GOAxis::unitsReinterpret(std::vector<double> a)
     } else if (hp->isEqual(GO_PROPERTY_VALUE_PIXELS_STR)) {
         return a;
     } else {
-        Error(_W("Units not managed:") + hp->data());
+        raiseError(L"Nelson:graphics:ERROR_UNITS_NOT_MANAGED", ERROR_UNITS_NOT_MANAGED, hp->data());
     }
     return a;
 }

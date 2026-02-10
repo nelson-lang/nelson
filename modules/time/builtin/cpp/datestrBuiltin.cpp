@@ -25,7 +25,8 @@ Nelson::TimeGateway::datestrBuiltin(int nLhs, const ArrayOfVector& argIn)
         && argIn[0].isPositive();
 
     if (!isValid) {
-        Error(_W("Numeric input data must be real."));
+        raiseError(L"Nelson:time:ERROR_NUMERIC_INPUT_DATA_MUST_BE_REAL",
+            ERROR_NUMERIC_INPUT_DATA_MUST_BE_REAL);
     }
 
     bool isLocalized = false;
@@ -46,7 +47,8 @@ Nelson::TimeGateway::datestrBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (secondArg.isDoubleType(true) && secondArg.isScalar()) {
             predefinedFormatOutValue = (int)secondArg.getContentAsDoubleScalar();
             if (predefinedFormatOutValue < -1 || predefinedFormatOutValue > 31) {
-                Error(_W("Unknown date format number."));
+                raiseError(L"Nelson:time:ERROR_UNKNOWN_DATE_FORMAT_NUMBER",
+                    ERROR_UNKNOWN_DATE_FORMAT_NUMBER);
             }
         } else if (secondArg.isRowVectorCharacterArray() || secondArg.isScalarStringArray()) {
             userFormatOut = secondArg.getContentAsWideString();
@@ -54,7 +56,8 @@ Nelson::TimeGateway::datestrBuiltin(int nLhs, const ArrayOfVector& argIn)
                 withUserFormatOut = true;
             }
         } else {
-            Error(_W("#2 argument must be a scalar or a character vector."));
+            raiseError(L"Nelson:time:ERROR_SECOND_ARG_MUST_BE_SCALAR_OR_CHARACTER_VECTOR",
+                ERROR_SECOND_ARG_MUST_BE_SCALAR_OR_CHARACTER_VECTOR);
         }
     }
 

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "hypotBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "Hypothenus.hpp"
 #include "FindCommonType.hpp"
 #include "OverloadHelpers.hpp"
@@ -46,16 +47,18 @@ Nelson::ElementaryFunctionsGateway::hypotBuiltin(
         if (A.isIntegerType()) {
             bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
             if (!isCompatible) {
-                Error(_W("Integers can only be combined with integers of the same class, or scalar "
-                         "doubles."));
+                raiseError(L"Nelson:elementary_functions:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_"
+                           L"INTEGERS_OR_SCALAR_DOUBLES",
+                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OR_SCALAR_DOUBLES);
             }
             A.promoteType(commonType);
             B.promoteType(commonType);
         } else if (B.isIntegerType()) {
             bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
             if (!isCompatible) {
-                Error(_W("Integers can only be combined with integers of the same class, or scalar "
-                         "doubles."));
+                raiseError(L"Nelson:elementary_functions:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_"
+                           L"INTEGERS_OR_SCALAR_DOUBLES",
+                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OR_SCALAR_DOUBLES);
             }
             A.promoteType(commonType);
             B.promoteType(commonType);

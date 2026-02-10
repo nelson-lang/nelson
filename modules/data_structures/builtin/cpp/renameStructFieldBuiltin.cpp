@@ -14,6 +14,8 @@
 #include "InputOutputArgumentsCheckers.hpp"
 #include <algorithm>
 #include <unordered_set>
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -25,7 +27,8 @@ Nelson::DataStructuresGateway::renameStructFieldBuiltin(int nLhs, const ArrayOfV
     ArrayOfVector retval;
 
     if (!argIn[0].isStruct()) {
-        Error(_W("Wrong type for argument #1. struct expected."));
+        raiseError(L"Nelson:data_structures:ERROR_WRONG_TYPE_ARG1_STRUCT_EXPECTED",
+            ERROR_WRONG_TYPE_ARG1_STRUCT_EXPECTED);
     }
 
     ArrayOf structArray = argIn[0];
@@ -36,12 +39,15 @@ Nelson::DataStructuresGateway::renameStructFieldBuiltin(int nLhs, const ArrayOfV
         stringVector newNames = argIn[1].getContentAsCStringVector();
 
         if (currentNames.size() != newNames.size()) {
-            Error(_W("Number of field names must match number of desired names."));
+            raiseError(L"Nelson:data_structures:ERROR_NUMBER_OF_FIELD_NAMES_MUST_MATCH_NUMBER_OF_"
+                       L"FIELDS_IN_NEW_STRUCT",
+                ERROR_NUMBER_OF_FIELD_NAMES_MUST_MATCH_NUMBER_OF_FIELDS_IN_NEW_STRUCT);
         }
 
         for (const auto& name : newNames) {
             if (!IsValidFieldname(name)) {
-                Error(_("Invalid field name: ") + name);
+                raiseError(L"Nelson:data_structures:ERROR_INVALID_FIELD_NAME",
+                    ERROR_INVALID_FIELD_NAME, utf8_to_wstring(name));
             }
         }
 
@@ -55,7 +61,9 @@ Nelson::DataStructuresGateway::renameStructFieldBuiltin(int nLhs, const ArrayOfV
     stringVector newNames = argIn[2].getContentAsCStringVector();
 
     if (oldNames.size() != newNames.size()) {
-        Error(_W("Number of old field names must match number of new field names."));
+        raiseError(L"Nelson:data_structures:ERROR_NUMBER_OF_OLD_FIELD_NAMES_MUST_MATCH_NUMBER_OF_"
+                   L"NEW_FIELD_NAMES",
+            ERROR_NUMBER_OF_OLD_FIELD_NAMES_MUST_MATCH_NUMBER_OF_NEW_FIELD_NAMES);
     }
 
     stringVector fieldNames = structArray.getFieldNames(); // must remain same size
@@ -73,12 +81,14 @@ Nelson::DataStructuresGateway::renameStructFieldBuiltin(int nLhs, const ArrayOfV
         }
 
         if (!IsValidFieldname(newName)) {
-            Error(_("Invalid field name: ") + newName);
+            raiseError(L"Nelson:data_structures:ERROR_INVALID_FIELD_NAME", ERROR_INVALID_FIELD_NAME,
+                utf8_to_wstring(newName));
         }
 
         // Prevent overwriting another existing field
         if (oldName != newName && existingFieldNames.find(newName) != existingFieldNames.end()) {
-            Error(_("Cannot rename to an existing field: ") + newName);
+            raiseError(L"Nelson:data_structures:ERROR_CANNOT_RENAME_TO_EXISTING_FIELD",
+                ERROR_CANNOT_RENAME_TO_EXISTING_FIELD, utf8_to_wstring(newName));
         }
 
         // Perform the rename in-place

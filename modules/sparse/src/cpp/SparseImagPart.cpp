@@ -16,6 +16,7 @@
 #include "SparseType.hpp"
 #include <Eigen/Sparse>
 #include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,7 +25,7 @@ SparseImagPart(const ArrayOf& a)
 {
     ArrayOf res;
     if (!a.isSparse()) {
-        Error(_W("Sparse expected."));
+        raiseError(L"Nelson:sparse:ERROR_SPARSE_EXPECTED", ERROR_SPARSE_EXPECTED);
     }
     switch (a.getDataClass()) {
     case NLS_DOUBLE:
@@ -39,7 +40,7 @@ SparseImagPart(const ArrayOf& a)
             void* pRes = (void*)spmat;
             res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -64,11 +65,12 @@ SparseImagPart(const ArrayOf& a)
             void* pRes = (void*)spmatDST;
             res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     default: {
-        Error(_("Cannot do imag with current type '") + ClassName(a) + "'.");
+        raiseError(L"Nelson:sparse:ERROR_CANNOT_DO_IMAG_WITH_CURRENT_TYPE",
+            ERROR_CANNOT_DO_IMAG_WITH_CURRENT_TYPE, utf8_to_wstring(ClassName(a)));
     } break;
     }
     return res;

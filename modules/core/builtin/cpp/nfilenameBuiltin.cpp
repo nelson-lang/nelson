@@ -34,8 +34,9 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                     iExt = 2;
                 }
             } else {
-                Error(
-                    _W("Wrong value for #1 argument, \'fullpathext\' or  \'fullpath\' expected."));
+                raiseError(L"Nelson:core:ERROR_WRONG_VALUE_FOR_1_ARGUMENT_FULLPATHEXT_OR_FULLPATH_"
+                           L"EXPECTED",
+                    ERROR_WRONG_VALUE_FOR_1_ARGUMENT_FULLPATHEXT_OR_FULLPATH_EXPECTED);
             }
         } else {
             raiseError(L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",

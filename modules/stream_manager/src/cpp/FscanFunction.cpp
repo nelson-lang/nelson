@@ -18,6 +18,7 @@
 #include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -143,7 +144,8 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                         delete[] buff;
                         buff = nullptr;
                     }
-                    Error(_W("Invalid format."));
+                    raiseError(L"Nelson:stream_manager:ERROR_INVALID_FSCANF_FORMAT",
+                        ERROR_INVALID_FSCANF_FORMAT);
                 } else {
                     if (*(np - 1) == '%') {
                         resf = fscanf(filepointer, "%%");
@@ -282,7 +284,8 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                                 delete[] buff;
                                 buff = nullptr;
                             }
-                            Error(_W("Unsupported fscanf format."));
+                            raiseError(L"Nelson:stream_manager:ERROR_UNSUPPORTED_FSCANF_FORMAT",
+                                ERROR_UNSUPPORTED_FSCANF_FORMAT);
                         } break;
                         }
                         *np = sv;

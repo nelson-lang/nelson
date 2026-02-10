@@ -12,6 +12,7 @@
 #include "nlsGraphics_exports.h"
 #include "ArrayOf.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "FileSystemWrapper.hpp"
 #include "QStringConverter.hpp"
@@ -38,7 +39,8 @@ imageReader(const std::wstring& filename, int nLhs)
     ArrayOfVector results = {};
     FileSystemWrapper::Path path(filename);
     if (!path.is_regular_file()) {
-        Error(_W("A valid filename expected."));
+        raiseError(
+            L"Nelson:graphics_io:ERROR_A_VALID_FILENAME_EXPECTED", ERROR_A_VALID_FILENAME_EXPECTED);
     }
     QString qFilename = wstringToQString(filename);
 
@@ -51,7 +53,8 @@ imageReader(const std::wstring& filename, int nLhs)
         image = TiffFileHandler::readTiff(qFilename, errorMessage);
     }
     if (image.isNull()) {
-        Error(_W("Impossible read image file."));
+        raiseError(L"Nelson:graphics_io:ERROR_IMPOSSIBLE_READ_IMAGE_FILE",
+            ERROR_IMPOSSIBLE_READ_IMAGE_FILE);
     }
     auto imageFormat = image.format();
     switch (imageFormat) {
@@ -72,7 +75,8 @@ imageReader(const std::wstring& filename, int nLhs)
         results = imageReaderRGB32(image, nLhs);
     } break;
     case QImage::Format_Invalid: {
-        Error(_W("Unsupported file image format."));
+        raiseError(L"Nelson:graphics_io:ERROR_UNSUPPORTED_FILE_IMAGE_FORMAT",
+            ERROR_UNSUPPORTED_FILE_IMAGE_FORMAT);
     } break;
     }
     return results;

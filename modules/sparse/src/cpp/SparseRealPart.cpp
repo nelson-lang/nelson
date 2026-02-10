@@ -16,6 +16,7 @@
 #include "SparseType.hpp"
 #include <Eigen/Sparse>
 #include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,7 +25,7 @@ SparseRealPart(ArrayOf a)
 {
     ArrayOf res;
     if (!a.isSparse()) {
-        Error(_W("Sparse expected."));
+        raiseError(L"Nelson:sparse:ERROR_SPARSE_EXPECTED", ERROR_SPARSE_EXPECTED);
     }
     switch (a.getDataClass()) {
     case NLS_LOGICAL: {
@@ -49,7 +50,7 @@ SparseRealPart(ArrayOf a)
             void* pRes = (void*)spmatDST;
             res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DOUBLE: {
@@ -77,11 +78,12 @@ SparseRealPart(ArrayOf a)
             void* pRes = (void*)spmatDST;
             res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     default: {
-        Error(_("Cannot do real with current type '") + ClassName(a) + "'.");
+        raiseError(L"Nelson:sparse:ERROR_CANNOT_DO_REAL_WITH_CURRENT_TYPE",
+            ERROR_CANNOT_DO_REAL_WITH_CURRENT_TYPE, utf8_to_wstring(ClassName(a)));
     } break;
     }
     return res;

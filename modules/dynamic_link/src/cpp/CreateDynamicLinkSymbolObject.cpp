@@ -19,6 +19,7 @@
 #include "characters_encoding.hpp"
 #include "DynamicLibrary.hpp"
 #include "StringHelpers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -54,11 +55,12 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
     ArrayOf handle;
     HandleGenericObject* hlObj = dllibObject.getContentAsHandleScalar();
     if (hlObj->getCategory() != NLS_HANDLE_DLLIB_CATEGORY_STR) {
-        Error(_W("Wrong type for argument #1: dllib scalar handle expected."));
+        raiseError(L"Nelson:dynamic_link:ERROR_WRONG_TYPE_ARG1_DLLIB_HANDLE_EXPECTED",
+            ERROR_WRONG_TYPE_ARG1_DLLIB_HANDLE_EXPECTED);
     }
     auto* obj = (DynamicLinkLibraryObject*)hlObj;
     if (!obj->getPointer()) {
-        Error(_W("Valid handle expected."));
+        raiseError(L"Nelson:dynamic_link:ERROR_VALID_HANDLE_EXPECTED", ERROR_VALID_HANDLE_EXPECTED);
     }
     if (!DynamicLinkSymbolObject::isValidDataType(returnType)) {
         raiseError(L"Nelson:dynamic_link:ERROR_INVALID_ARGUMENT_TYPE",
@@ -92,8 +94,8 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
         }
     }
     if (!ptr) {
-        raiseError(L"Nelson:dynamic_link:ERROR_INVALID_SYMBOL_NAME", _W("Invalid symbol name: {0}"),
-            symbol);
+        raiseError(
+            L"Nelson:dynamic_link:ERROR_INVALID_SYMBOL_NAME", ERROR_INVALID_SYMBOL_NAME, symbol);
     }
 
     DynamicLinkSymbolObject* dlSymbolObject

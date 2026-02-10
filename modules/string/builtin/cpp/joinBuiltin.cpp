@@ -13,6 +13,7 @@
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "OverloadRequired.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -61,13 +62,13 @@ Nelson::StringGateway::joinBuiltin(int nLhs, const ArrayOfVector& argIn)
             delimiters = ArrayOf::stringArrayConstructor(
                 argIn[1].getContentAsWideStringVector(false), argIn[1].getDimensions());
         } else {
-            Error(_W(
-                "Wrong type for argument #3: string, characters or cell of characters expected."));
+            raiseError(L"Nelson:string:ERROR_WRONG_TYPE_ARG3_STRING_CHAR_OR_CELL_EXPECTED",
+                ERROR_WRONG_TYPE_ARG3_STRING_CHAR_OR_CELL_EXPECTED);
         }
         dim = argIn[2].getContentAsScalarIndex(false, true);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:string:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     retval << StringJoin(A, delimiters, dim);

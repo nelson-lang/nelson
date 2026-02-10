@@ -27,7 +27,8 @@ checkArgument(Evaluator* eval, const ArrayOf& arg, bool& withCompleteNames, int&
     if (arg.isRowVectorCharacterArray()) {
         std::wstring str = arg.getContentAsWideString();
         if (str != L"-completenames") {
-            Error(_W("'-completenames' expected."));
+            raiseError(
+                L"Nelson:debugger:ERROR_COMPLETENAMES_EXPECTED", ERROR_COMPLETENAMES_EXPECTED);
         }
         withCompleteNames = true;
         isCompleteNames = true;
@@ -57,7 +58,8 @@ checkArgument(Evaluator* eval, const ArrayOf& arg, bool& withCompleteNames, int&
         nbOmits = intValue + 1;
         isNbOmits = true;
     } else {
-        Error(_W("'-completenames' expected or scalar integer value required."));
+        raiseError(L"Nelson:debugger:ERROR_COMPLETENAMES_OR_SCALAR_INT_EXPECTED",
+            ERROR_COMPLETENAMES_OR_SCALAR_INT_EXPECTED);
     }
 }
 //=============================================================================
@@ -187,7 +189,8 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         }
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:debugger:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
 
@@ -218,7 +221,8 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         retval << ArrayOf::doubleConstructor(indexWorkspace);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError(
+            L"Nelson:debugger:ERROR_WRONG_NUMBERS_OUTPUT_ARGS", ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     } break;
     }
     return retval;

@@ -51,8 +51,9 @@ Nelson::OsFunctionsGateway::getenvBuiltin(int nLhs, const ArrayOfVector& argIn)
                 std::wstring ret = GetVariableEnvironment(varEnvName);
                 outputs[k] = ArrayOf::characterArrayConstructor(ret);
             } else {
-                Error(_W("Environment names must be a string array, cell array of character "
-                         "vectors, or character array."));
+                raiseError(L"Nelson:os_functions:ERROR_ENVIRONMENT_NAMES_MUST_BE_A_STRING_ARRAY_"
+                           L"CELL_ARRAY_OF_CHARACTER",
+                    ERROR_ENVIRONMENT_NAMES_MUST_BE_A_STRING_ARRAY_CELL_ARRAY_OF_CHARACTER);
             }
         }
         retval << res;

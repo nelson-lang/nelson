@@ -27,7 +27,7 @@ Nelson::AssertFunctionsGateway::assert_isequalBuiltin(
     bool bRes = Assert_IsEqual(eval, param1, param2, msg);
     if (nLhs == 0) {
         if (!bRes) {
-            Error(msg);
+            Error(msg, L"Nelson:assert_functions:ERROR_ASSERTION_FAILED");
         }
     } else {
         retval << ArrayOf::logicalConstructor(bRes);

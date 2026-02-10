@@ -46,7 +46,8 @@ Nelson::FilesFoldersGateway::mkdirBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
         if (nLhs == 0) {
             if (!bOK) {
-                Error(message);
+                raiseError(L"Nelson:files_folders_functions:makeDirectory",
+                    ERROR_MAKEDIRECTORY_ERROR, message);
             }
         } else {
             if (nLhs > 0) {
@@ -57,7 +58,8 @@ Nelson::FilesFoldersGateway::mkdirBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
         }
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_NUMBERS_INPUT_ARGS",
+            ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

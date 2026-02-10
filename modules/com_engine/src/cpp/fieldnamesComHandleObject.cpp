@@ -20,7 +20,7 @@ void
 fieldnamesComHandleObject(const ArrayOf& A, bool fullList, wstringVector& fieldnames)
 {
     if (A.getHandleCategory() != NLS_HANDLE_COM_CATEGORY_STR) {
-        Error(_W("COM handle expected."));
+        raiseError(L"Nelson:com_engine:ERROR_COM_HANDLE_EXPECTED", ERROR_COM_HANDLE_EXPECTED);
     }
     auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     fieldnamesComHandleObject(comhandleobj, fullList, fieldnames);
@@ -32,7 +32,8 @@ fieldnamesComHandleObject(ComHandleObject* comHandle, bool fullList, wstringVect
     void* ptr = comHandle->getPointer();
     fieldnames.clear();
     if (ptr == nullptr) {
-        Error(_W("COM valid handle expected."));
+        raiseError(
+            L"Nelson:com_engine:ERROR_COM_VALID_HANDLE_EXPECTED", ERROR_COM_VALID_HANDLE_EXPECTED);
     }
     VARIANT* pVariant = (VARIANT*)ptr;
     ITypeInfo* ti;

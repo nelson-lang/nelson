@@ -14,6 +14,7 @@
 #include "PyObjectHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "PythonEngine.hpp"
 //=============================================================================
@@ -326,9 +327,7 @@ PyGetHashValue(PyObject* pyObject)
     PyObject* method = NLSPyObject_GetAttrString(pyObject, "__hash__");
     if (!method || !NLSPyCallable_Check(method)) {
         NLSPy_XDECREF(method);
-        std::wstring errorMessage
-            = fmt::format(_W("TypeError: unhashable type: '{0}'"), TypeName(pyObject));
-        Error(errorMessage, L"Nelson:Python:PyException");
+        raiseError(L"Nelson:Python:PyException", ERROR_TYPE_UNHASHABLE, TypeName(pyObject));
     }
 
     PyObject* pyObjectResult = NLSPyObject_CallNoArgs(method);

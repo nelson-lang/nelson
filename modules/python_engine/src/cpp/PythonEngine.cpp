@@ -16,6 +16,7 @@
 #include "PythonEnvironment.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -113,13 +114,15 @@ initializePythonEngine()
         loadPythonLibrary(pythonEnvironment->getLibrary());
         if (!isPythonLibraryLoaded()) {
             pythonEnvironment->setStatus(0);
-            Error(_W("Impossible to load Python library."));
+            raiseError(L"Nelson:Python:ERROR_PYENGINE_IMPOSSIBLE_TO_LOAD_PYTHON_LIBRARY",
+                ERROR_PYENGINE_IMPOSSIBLE_TO_LOAD_PYTHON_LIBRARY);
         }
         pythonEnvironment->setStatus(1);
     }
     if (!PyIsInitializedInterpreter()) {
         if (!PyInitializeInterpreter()) {
-            Error(_W("Cannot initialize python environment."));
+            raiseError(L"Nelson:Python:ERROR_PYENGINE_CANNOT_INITIALIZE_PYTHON_ENVIRONMENT",
+                ERROR_PYENGINE_CANNOT_INITIALIZE_PYTHON_ENVIRONMENT);
         }
     }
 }

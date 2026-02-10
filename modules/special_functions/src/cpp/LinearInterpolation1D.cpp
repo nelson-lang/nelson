@@ -10,8 +10,10 @@
 #include "LinearInterpolation1D.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
+
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -45,7 +47,7 @@ LinearInterpolation1D(const ArrayOf& V, const ArrayOf& XQ)
         destinationClass = NLS_SINGLE;
     } break;
     default: {
-        Error(_W("Type not managed."));
+        raiseError(L"Nelson:special_functions:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     } break;
     }
     if (V.isVector()) {
@@ -83,17 +85,21 @@ LinearInterpolation1D(const ArrayOf& X, const ArrayOf& V, const ArrayOf& XQ)
     ArrayOf res;
     bool isSupportedType = X.isSingleType() || X.isDoubleType();
     if (!isSupportedType) {
-        Error(_W("'double' or 'single' type for all input arguments expected."));
+        raiseError(L"Nelson:special_functions:ERROR_DOUBLE_OR_SINGLE_TYPE_EXPECTED",
+            ERROR_DOUBLE_OR_SINGLE_TYPE_EXPECTED);
     }
     bool isSparse = X.isSparse() || V.isSparse() || XQ.isSparse();
     if (isSparse) {
-        Error(_W("dense type for all input arguments expected."));
+        raiseError(
+            L"Nelson:special_functions:ERROR_DENSE_TYPE_EXPECTED", ERROR_DENSE_TYPE_EXPECTED);
     }
     if (X.isComplex() || XQ.isComplex()) {
-        Error(_W("Inputs arguments must be real."));
+        raiseError(
+            L"Nelson:special_functions:ERROR_INPUTS_MUST_BE_REAL", ERROR_INPUTS_MUST_BE_REAL);
     }
     if (X.getElementCount() != V.getElementCount()) {
-        Error(_W("X and V must be of the same length."));
+        raiseError(L"Nelson:special_functions:ERROR_X_AND_V_MUST_BE_SAME_LENGTH",
+            ERROR_X_AND_V_MUST_BE_SAME_LENGTH);
     }
     ArrayOf x1(X);
     ArrayOf y1(V);
@@ -138,7 +144,7 @@ LinearInterpolation1D(const ArrayOf& X, const ArrayOf& V, const ArrayOf& XQ)
         res = ArrayOf(NLS_SCOMPLEX, xi.getDimensions(), ptr);
     } break;
     default: {
-        Error(_W("Type not managed."));
+        raiseError(L"Nelson:special_functions:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
     } break;
     }
     return res;

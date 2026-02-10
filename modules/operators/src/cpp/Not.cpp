@@ -11,6 +11,7 @@
 #include "Exception.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 //=============================================================================
@@ -31,7 +32,8 @@ Not(const ArrayOf& A, bool& needToOverload)
     ArrayOf C;
     needToOverload = false;
     if (A.getDataClass() == NLS_SCOMPLEX || A.getDataClass() == NLS_DCOMPLEX) {
-        Error(_W("Input argument must be real."));
+        raiseError(L"Nelson:operators:ERROR_INPUT_ARGUMENT_MUST_BE_REAL",
+            ERROR_INPUT_ARGUMENT_MUST_BE_REAL);
     }
     ArrayOf AA = A;
     try {

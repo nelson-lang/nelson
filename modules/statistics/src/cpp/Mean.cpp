@@ -11,6 +11,7 @@
 #include "Mean.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -230,7 +231,8 @@ getOutPutClass(const ArrayOf& A, MEAN_OUT_TYPE outType)
             outClass = NLS_DOUBLE;
         } break;
         case NLS_CHAR: {
-            Error(_("Native accumulation on char array is not supported."));
+            raiseError(L"Nelson:statistics:ERROR_NATIVE_ACCUMULATION_ON_CHAR_ARRAY_NOT_SUPPORTED",
+                ERROR_NATIVE_ACCUMULATION_ON_CHAR_ARRAY_NOT_SUPPORTED);
         } break;
         default: {
         } break;

@@ -12,6 +12,7 @@
 #include <fmt/xchar.h>
 #include "GOScalarAlphaProperty.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -24,23 +25,22 @@ GOScalarAlphaProperty::set(ArrayOf num)
         if (str == L"flat") {
             _isFlat = true;
         } else {
-            Error(_W("'flat' expected."));
+            raiseError(L"Nelson:graphics:ERROR_FLAT_EXPECTED", ERROR_FLAT_EXPECTED);
         }
         return;
     }
     ArrayOf copyNum(num);
     copyNum.promoteType(NLS_DOUBLE);
     if (!copyNum.isScalar()) {
-        Error(_W("Scalar value expected."));
+        raiseError(L"Nelson:graphics:ERROR_SCALAR_VALUE_EXPECTED", ERROR_SCALAR_VALUE_EXPECTED);
     }
     const double* dp = (const double*)copyNum.getDataPointer();
     if (dp[0] >= _minValue && dp[0] <= _maxValue) {
         GOFixedVectorProperty::set(num);
         _isFlat = false;
     } else {
-        std::wstring message
-            = fmt::format(_W("Value is out of range {0} <= value <= {1}."), _minValue, _maxValue);
-        Error(message);
+        raiseError(L"Nelson:graphics:ERROR_VALUE_OUT_OF_RANGE", ERROR_VALUE_OUT_OF_RANGE, _minValue,
+            _maxValue);
     }
 }
 //=============================================================================
@@ -51,9 +51,8 @@ GOScalarAlphaProperty::data(double x)
         at(0) = x;
         _isFlat = false;
     } else {
-        std::wstring message
-            = fmt::format(_W("Value is out of range {0} <= value <= {1}."), _minValue, _maxValue);
-        Error(message);
+        raiseError(L"Nelson:graphics:ERROR_VALUE_OUT_OF_RANGE", ERROR_VALUE_OUT_OF_RANGE, _minValue,
+            _maxValue);
     }
 }
 //=============================================================================

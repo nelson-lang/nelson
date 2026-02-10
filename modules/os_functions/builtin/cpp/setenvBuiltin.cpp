@@ -10,9 +10,9 @@
 #include "setenvBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "SetVariableEnvironment.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -34,7 +34,8 @@ Nelson::OsFunctionsGateway::setenvBuiltin(int nLhs, const ArrayOfVector& argIn)
         varEnvValue = argIn[1].getContentAsWideString();
     }
     if (!SetVariableEnvironmentW(varEnvName, varEnvValue)) {
-        Error(_W("Cannot set environment variable."));
+        raiseError(L"Nelson:os_functions:ERROR_CANNOT_SET_ENVIRONMENT_VARIABLE",
+            ERROR_CANNOT_SET_ENVIRONMENT_VARIABLE);
     }
     return retval;
 }

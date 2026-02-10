@@ -10,9 +10,11 @@
 #include "MPI_Comm_objectBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include <mpi.h>
 #include "InputOutputArgumentsCheckers.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -25,7 +27,7 @@ Nelson::MpiGateway::MPI_Comm_objectBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(_W("MPI must be initialized."));
+        raiseError(L"Nelson:mpi:ERROR_MPI_MUST_BE_INITIALIZED", ERROR_MPI_MUST_BE_INITIALIZED);
     }
     MPI_Comm comm = MPI_COMM_WORLD;
     if (argIn.size() == 1) {
@@ -35,9 +37,11 @@ Nelson::MpiGateway::MPI_Comm_objectBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if (description == L"MPI_COMM_WORLD") {
             comm = MPI_COMM_WORLD;
         } else if (description == L"MPI_COMM_NULL") {
-            Error(_W("MPI_COMM_NULL not allowed."));
+            raiseError(
+                L"Nelson:mpi:ERROR_MPI_COMM_NULL_NOT_ALLOWED", ERROR_MPI_COMM_NULL_NOT_ALLOWED);
         } else {
-            Error(description + _W(" not allowed."));
+            raiseError(
+                L"Nelson:mpi:ERROR_MPI_COMM_NOT_ALLOWED", ERROR_MPI_COMM_NOT_ALLOWED, description);
         }
     }
     retval << MpiCommToHandle(comm);

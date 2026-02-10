@@ -17,6 +17,7 @@
 #include "GOHelpers.hpp"
 #include "GORoot.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "ProcessEvents.hpp"
 //=============================================================================
@@ -44,16 +45,18 @@ GraphicsGateway::waitforBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
     nargoutcheck(nLhs, 0, 0);
 
     if (!argIn[0].isGraphicsObject()) {
-        Error(_W("Expected graphics object(s)."));
+        raiseError(
+            L"Nelson:graphics:ERROR_EXPECTED_GRAPHICS_OBJECT_S", ERROR_EXPECTED_GRAPHICS_OBJECT_S);
     }
 
     if (!argIn[0].isGraphicsObject()) {
-        Error(_W("Expected graphics object(s)."));
+        raiseError(
+            L"Nelson:graphics:ERROR_EXPECTED_GRAPHICS_OBJECT_S", ERROR_EXPECTED_GRAPHICS_OBJECT_S);
     }
     nelson_handle go = argIn[0].getContentAsGraphicsObjectScalar();
     GraphicsObject* fp = getGraphicsObjectFromGraphicHandle(go);
     if (!fp) {
-        Error(_W("Invalid handle."));
+        raiseError(L"Nelson:graphics:ERROR_INVALID_NELSON_HANDLE", ERROR_INVALID_NELSON_HANDLE);
     }
 
     switch (argIn.size()) {
@@ -70,7 +73,7 @@ GraphicsGateway::waitforBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
         std::wstring propertyName = argIn[1].getContentAsWideString();
         GOGenericProperty* property = fp->findProperty(propertyName, false);
         if (property == nullptr) {
-            Error(_W("Invalid property."), L"Nelson:waitfor:BadProperty");
+            raiseError(L"Nelson:waitfor:ERROR_INVALID_PROPERTY", ERROR_INVALID_PROPERTY);
         }
         do {
             ProcessEvents();
@@ -83,7 +86,7 @@ GraphicsGateway::waitforBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
         std::wstring propertyName = argIn[1].getContentAsWideString();
         GOGenericProperty* goProperty = fp->findProperty(propertyName, false);
         if (goProperty == nullptr) {
-            Error(_W("Invalid property."), L"Nelson:waitfor:BadProperty");
+            raiseError(L"Nelson:waitfor:ERROR_INVALID_PROPERTY", ERROR_INVALID_PROPERTY);
         }
         ArrayOf expectedValue = argIn[2];
         bool isEqual = false;
@@ -93,7 +96,7 @@ GraphicsGateway::waitforBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
         FunctionDef* funcDef = nullptr;
         std::string IsApproxName = "isequaln";
         if (!context->lookupFunction(IsApproxName, funcDef)) {
-            Error(_W("isequaln not found."), L"Nelson:waitfor:isequaln");
+            raiseError(L"Nelson:waitfor:ERROR_ISEQUALN_NOT_FOUND", ERROR_ISEQUALN_NOT_FOUND);
         }
         do {
             ProcessEvents();
@@ -107,7 +110,8 @@ GraphicsGateway::waitforBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
                 inputs << expectedValue;
                 ArrayOfVector IsEqualResult = funcDef->evaluateFunction(eval, inputs, 1);
                 if (IsEqualResult.size() != 1) {
-                    Error(_W("isequaln lhs error."), L"Nelson:waitfor:isequaln");
+                    raiseError(
+                        L"Nelson:waitfor:ERROR_ISEQUALN_LHS_ERROR", ERROR_ISEQUALN_LHS_ERROR);
                 }
                 isEqual = IsEqualResult[0].getContentAsLogicalScalar();
             }

@@ -12,6 +12,8 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -126,30 +128,36 @@ Nelson::SlicotGateway::slicot_mb02mdBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsJOB.isScalar()) {
-        Error(_W("Input argument #1: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_1_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_1_SCALAR_EXPECTED);
     }
     if (!dimsM.isScalar()) {
-        Error(_W("Input argument #2: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_2_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_2_SCALAR_EXPECTED);
     }
     if (!dimsN.isScalar()) {
-        Error(_W("Input argument #3: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_3_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_3_SCALAR_EXPECTED);
     }
     if (!dimsL.isScalar()) {
-        Error(_W("Input argument #4: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_4_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_4_SCALAR_EXPECTED);
     }
     if (!dimsRANK.isScalar()) {
-        Error(_W("Input argument #5: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_5_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_5_SCALAR_EXPECTED);
     }
     Dimensions dimsC_expected(
         std::max(std::max(1, (int)M.getContentAsInteger32Scalar()),
             (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar()),
         (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar());
     if (!dimsC.equals(dimsC_expected)) {
-        Error(_("Input argument #6: wrong size.") + " " + dimsC_expected.toString() + " "
-            + "expected" + ".");
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_6_WRONG_SIZE",
+            ERROR_SLICOT_INPUT_ARGUMENT_6_WRONG_SIZE, utf8_to_wstring(dimsC_expected.toString()));
     }
     if (!dimsTOL.isScalar()) {
-        Error(_W("Input argument #7: scalar expected."));
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_7_SCALAR_EXPECTED",
+            ERROR_SLICOT_INPUT_ARGUMENT_7_SCALAR_EXPECTED);
     }
     // CALL EXTERN FUNCTION
     try {
@@ -157,7 +165,8 @@ Nelson::SlicotGateway::slicot_mb02mdBuiltin(int nLhs, const ArrayOfVector& argIn
             X_output_ptr, LDX_ptr, TOL_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr, IWARN_output_ptr,
             INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        Error("mb02md function fails.");
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_MB02MD_FUNCTION_FAILS",
+            ERROR_SLICOT_MB02MD_FUNCTION_FAILS);
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

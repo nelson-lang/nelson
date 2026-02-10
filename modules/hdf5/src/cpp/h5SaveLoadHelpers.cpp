@@ -12,6 +12,7 @@
 #include "Exception.hpp"
 #include "NewWithException.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -22,7 +23,8 @@ isNelsonH5File(hid_t fid)
     hid_t obj_id = H5Oopen(fid, "/", H5P_DEFAULT);
     if (obj_id < 0) {
         H5Fclose(fid);
-        Error(_W("Specified HDF5 object location could not be opened."));
+        raiseError(L"Nelson:hdf5:ERROR_SPECIFIED_HDF5_OBJECT_LOCATION_COULD_NOT_BE_OPENED",
+            ERROR_SPECIFIED_HDF5_OBJECT_LOCATION_COULD_NOT_BE_OPENED);
     }
     htri_t exists = H5Aexists(obj_id, NELSON_SCHEMA_STR);
     if (exists > 0) {
@@ -86,7 +88,8 @@ updateNelsonH5Header(hid_t fid)
     hid_t obj_id = H5Oopen(fid, "/", H5P_DEFAULT);
     if (obj_id < 0) {
         H5Fclose(fid);
-        Error(_W("Specified HDF5 object location could not be opened."));
+        raiseError(L"Nelson:hdf5:ERROR_SPECIFIED_HDF5_OBJECT_LOCATION_COULD_NOT_BE_OPENED",
+            ERROR_SPECIFIED_HDF5_OBJECT_LOCATION_COULD_NOT_BE_OPENED);
     }
     if (!addSchemaFormat(obj_id)) {
         H5Oclose(obj_id);

@@ -105,7 +105,8 @@ EvaluateCommand(Evaluator* eval, int nLhs, const std::wstring& command,
             retval = retrieveVariablesReturned(eval, nLhs);
             eval->getContext()->restoreBypassedScopes();
             if (retval.size() != static_cast<size_t>(nLhs)) {
-                Error(_W("Invalid use of statement list."));
+                raiseError(L"Nelson:core:ERROR_INVALID_USE_OF_STATEMENT_LIST",
+                    ERROR_INVALID_USE_OF_STATEMENT_LIST);
             }
         }
     } else {
@@ -134,7 +135,8 @@ EvaluateCommand(Evaluator* eval, int nLhs, const std::wstring& command,
                 retval = retrieveVariablesReturned(eval, nLhs);
             }
             if (retval.size() != static_cast<size_t>(nLhs)) {
-                Error(_W("Invalid use of statement list."));
+                raiseError(L"Nelson:core:ERROR_INVALID_USE_OF_STATEMENT_LIST",
+                    ERROR_INVALID_USE_OF_STATEMENT_LIST);
             }
         }
     }
@@ -152,7 +154,8 @@ ArrayOfVector
 EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, const std::wstring& command)
 {
     if (scope == GLOBAL_SCOPE) {
-        Error(_W("'local', 'caller', 'base' scope expected."));
+        raiseError(L"Nelson:core:ERROR_SCOPE_LOCAL_CALLER_BASE_EXPECTED",
+            ERROR_SCOPE_LOCAL_CALLER_BASE_EXPECTED);
     }
     return EvaluateCommand(eval, nLhs, command, L"", scope);
 }
@@ -167,7 +170,7 @@ EvaluateConsoleCommand(
     try {
         tempIO = new EvaluateInterface();
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:core:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     setPrintInterface(tempIO);
     eval->setInterface(tempIO);

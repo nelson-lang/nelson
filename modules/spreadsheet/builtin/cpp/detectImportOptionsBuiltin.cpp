@@ -11,6 +11,8 @@
 #include "Error.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "DetectImportOptions.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,7 +31,8 @@ Nelson::SpreadsheetGateway::detectImportOptionsBuiltin(int nLhs, const ArrayOfVe
     std::string errorMessage;
     analyzeFileFormatImportOptions(filename, 4096, options, errorMessage);
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        raiseError(L"Nelson:spreadsheet:ERROR_DETECTIMPORTOPTIONS_ERROR",
+            ERROR_DETECTIMPORTOPTIONS_ERROR, utf8_to_wstring(errorMessage));
     }
 
     stringVector fieldnames = { "Delimiter", "LineEnding", "CommentStyle", "EmptyLineRule",

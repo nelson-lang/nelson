@@ -10,6 +10,7 @@
 #include "allBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "OverloadHelpers.hpp"
 #include "OverloadRequired.hpp"
 #include "All.hpp"
@@ -31,7 +32,8 @@ Nelson::OperatorsGateway::allBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (arg2.isRowVectorCharacterArray() || (arg2.isStringArray() && arg2.isScalar())) {
             std::wstring paramAsString = arg2.getContentAsWideString();
             if (paramAsString != L"all") {
-                Error(_W("Wrong value for #2 argument."));
+                raiseError(L"Nelson:operators:ERROR_WRONG_VALUE_FOR_2_ARGUMENT",
+                    ERROR_WRONG_VALUE_FOR_2_ARGUMENT);
             } else {
                 doOverAllElements = true;
             }

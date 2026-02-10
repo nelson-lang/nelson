@@ -49,7 +49,8 @@ Nelson::StreamGateway::filereadBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring fileToRead = argIn[0].getContentAsWideString();
     bool bIsFile = FileSystemWrapper::Path::is_regular_file(fileToRead);
     if (!bIsFile) {
-        Error(_W("A valid filename expected."));
+        raiseError(L"Nelson:stream_manager:ERROR_A_VALID_FILENAME_EXPECTED",
+            ERROR_A_VALID_FILENAME_EXPECTED);
     }
     std::wstring outputClass = L"char";
     if (argIn.size() > 1) {
@@ -58,7 +59,8 @@ Nelson::StreamGateway::filereadBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (str == L"char" || str == L"cell" || str == L"string") {
             outputClass = str;
         } else {
-            Error(_W("Wrong value for #2 argument."));
+            raiseError(L"Nelson:stream_manager:ERROR_WRONG_VALUE_ARG2_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_VALUE, 2);
         }
     }
     std::wstring eol = L"\n";
@@ -80,10 +82,12 @@ Nelson::StreamGateway::filereadBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
             }
         } else {
-            Error(_W("Wrong value for #3 argument."));
+            raiseError(L"Nelson:stream_manager:ERROR_WRONG_VALUE_FOR_MACHINE_FORMAT",
+                ERROR_WRONG_VALUE_FOR_MACHINE_FORMAT);
         }
         if (outputClass == L"cell") {
-            Error(_W("Wrong value for #2 argument."));
+            raiseError(L"Nelson:stream_manager:ERROR_WRONG_VALUE_ARG2_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_VALUE, 2);
         }
     }
     std::wstring encoding = L"UTF-8";
@@ -92,7 +96,8 @@ Nelson::StreamGateway::filereadBuiltin(int nLhs, const ArrayOfVector& argIn)
         encoding = param4.getContentAsWideString();
         if (encoding != L"auto") {
             if (!isSupportedEncoding(encoding)) {
-                Error(_W("Wrong value for #4 argument."));
+                raiseError(L"Nelson:stream_manager:ERROR_WRONG_VALUE_ARG4_EXPECTED",
+                    ERROR_WRONG_ARGUMENT_X_VALUE, 4);
             }
         }
     }
@@ -115,7 +120,7 @@ Nelson::StreamGateway::filereadBuiltin(int nLhs, const ArrayOfVector& argIn)
         retval << res;
     } else {
         if (!errorMessage.empty()) {
-            Error(errorMessage);
+            Error(errorMessage, L"Nelson:stream_manager:fileread");
         }
     }
     return retval;

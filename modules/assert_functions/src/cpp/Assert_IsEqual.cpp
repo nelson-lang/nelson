@@ -13,6 +13,7 @@
 #include "Assert_IsEqual.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -107,20 +108,25 @@ Assert_IsEqual(
             try {
                 ArrayOfVector resVect = funcDef->evaluateFunction(eval, argInCopy, 1);
                 if (resVect.size() != 1) {
-                    Error(_W("isequalto returns more than one output argument."));
+                    raiseError(
+                        L"Nelson:assert_functions:ERROR_ISEQUALTO_RETURNS_MORE_THAN_ONE_OUTPUT_ARG",
+                        ERROR_ISEQUALTO_RETURNS_MORE_THAN_ONE_OUTPUT_ARG);
                 }
                 ArrayOf r = resVect[0];
                 if (r.isScalar() && r.isLogical()) {
                     bRes = r.getContentAsLogicalScalar() ? true : false;
                 } else {
-                    Error(_W("isequalto must return an logical."));
+                    raiseError(L"Nelson:assert_functions:ERROR_ISEQUALTO_MUST_RETURN_LOGICAL",
+                        ERROR_ISEQUALTO_MUST_RETURN_LOGICAL);
                 }
             } catch (const Exception&) {
-                Error(_W("isequalto returns an unexpected error."));
+                raiseError(L"Nelson:assert_functions:ERROR_ISEQUALTO_RETURNS_UNEXPECTED_ERROR",
+                    ERROR_ISEQUALTO_RETURNS_UNEXPECTED_ERROR);
             }
         }
     } else {
-        Error("isequalto function not found.");
+        raiseError(L"Nelson:assert_functions:ERROR_ISEQUALTO_FUNCTION_NOT_FOUND",
+            ERROR_ISEQUALTO_FUNCTION_NOT_FOUND);
     }
     if (!bRes) {
         msg = formatMessage(computedArray, expectedArray);

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "UndefineDynamicProperty.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -26,18 +27,22 @@ UndefineDynamicProperty(const ArrayOf& A, const std::wstring& propertyName)
     ArrayOf res;
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        Error(_W("QObject handle expected."));
+        raiseError(
+            L"Nelson:qml_engine:ERROR_QOBJECT_HANDLE_EXPECTED", ERROR_QOBJECT_HANDLE_EXPECTED);
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        Error(_W("QObject valid handle expected."));
+        raiseError(L"Nelson:qml_engine:ERROR_QOBJECT_VALID_HANDLE_EXPECTED",
+            ERROR_QOBJECT_VALID_HANDLE_EXPECTED);
     }
     QObject* qobj = (QObject*)ptr;
     if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
-        Error(_W("'parent' can not modified."));
+        raiseError(
+            L"Nelson:qml_engine:ERROR_PARENT_CANNOT_BE_MODIFIED", ERROR_PARENT_CANNOT_BE_MODIFIED);
     } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR)) {
-        Error(_W("'children' can not modified."));
+        raiseError(L"Nelson:qml_engine:ERROR_CHILDREN_CANNOT_BE_MODIFIED",
+            ERROR_CHILDREN_CANNOT_BE_MODIFIED);
     } else {
         bool isDynamicProperty = false;
         QList<QByteArray> names = qobj->dynamicPropertyNames();
@@ -53,7 +58,8 @@ UndefineDynamicProperty(const ArrayOf& A, const std::wstring& propertyName)
             QVariant undefined = QVariant();
             qobj->setProperty(upropertyname.c_str(), undefined);
         } else {
-            Error(_W("'" + upropertyname + "'" + " can not modified."));
+            raiseError(L"Nelson:qml_engine:ERROR_PROPERTY_CANNOT_BE_MODIFIED",
+                ERROR_PROPERTY_CANNOT_BE_MODIFIED, utf8_to_wstring(upropertyname));
         }
     }
 }

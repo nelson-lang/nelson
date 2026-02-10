@@ -9,6 +9,7 @@
 //=============================================================================
 #include "h5readBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "h5ReadDataset.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -31,7 +32,7 @@ Nelson::Hdf5Gateway::h5readBuiltin(int nLhs, const ArrayOfVector& argIn)
         datasetname = param2.getContentAsWideString();
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:hdf5:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     retval << h5ReadDataset(filename, datasetname);

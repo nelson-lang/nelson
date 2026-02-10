@@ -30,13 +30,14 @@ Nelson::QmlEngineGateway::qt_constantBuiltin(int nLhs, const ArrayOfVector& argI
         bool found;
         ArrayOf res = QtConstant(constantName, found);
         if (!found) {
-            Error(_W("Name not found."));
+            raiseError(L"Nelson:qml_engine:ERROR_NAME_NOT_FOUND", ERROR_NAME_NOT_FOUND);
         } else {
             retval.push_back(res);
         }
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:qml_engine:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;

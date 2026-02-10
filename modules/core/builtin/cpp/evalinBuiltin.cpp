@@ -34,15 +34,18 @@ Nelson::CoreGateway::evalinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                 scope = SCOPE_LEVEL::LOCAL_SCOPE;
             }
         } else {
-            Error(_W("Argument #1 : 'base', 'local' or 'caller' expected."));
+            raiseError(
+                L"Nelson:core:ERROR_EVALIN_ARG1_SCOPE_EXPECTED", ERROR_EVALIN_ARG1_SCOPE_EXPECTED);
         }
     } else {
-        Error(_W("#1 string expected."));
+        raiseError(L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, L"string");
     }
     if (argIn[1].isRowVectorCharacterArray() || argIn[1].isScalarStringArray()) {
         command = argIn[1].getContentAsWideString();
     } else {
-        Error(_W("#2 string expected."));
+        raiseError(L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, L"string");
     }
     return EvaluateInCommand(eval, nLhs, scope, command);
 }

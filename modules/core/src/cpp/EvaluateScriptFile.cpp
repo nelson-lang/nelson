@@ -14,6 +14,7 @@
 #include "FileSystemWrapper.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "ParserInterface.hpp"
 #include "IsEmptyScriptFile.hpp"
@@ -29,10 +30,10 @@ mustBeExistingFile(const std::wstring& filename)
     bool permissionDenied;
     bool bIsFile = FileSystemWrapper::Path::is_regular_file(filename, permissionDenied);
     if (permissionDenied) {
-        Error(_W("Permission denied."));
+        raiseError(L"Nelson:core:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
     }
     if (!bIsFile) {
-        Error(_W("File does not exist.") + L"\n" + filename);
+        raiseError(L"Nelson:core:ERROR_FILENAME_NOT_FOUND", ERROR_FILENAME_NOT_FOUND, filename);
     }
 }
 //=============================================================================

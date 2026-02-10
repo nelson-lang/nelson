@@ -22,7 +22,8 @@ Nelson::CharactersEncodingGateway::native2unicodeBuiltin(int nLhs, const ArrayOf
     nargincheck(argIn, 1, 2);
     ArrayOf param1 = argIn[0];
     if (param1.isSparse()) {
-        Error(_W("Sparse type not supported."));
+        raiseError(
+            L"Nelson:characters_encoding:ERROR_SPARSE_NOT_SUPPORTED", ERROR_SPARSE_NOT_SUPPORTED);
     }
     ArrayOfVector retval(1);
     std::string data;
@@ -44,7 +45,8 @@ Nelson::CharactersEncodingGateway::native2unicodeBuiltin(int nLhs, const ArrayOf
             data = param1.getContentAsCString();
         }
     } else {
-        Error("Type or dimensions not supported.");
+        raiseError(L"Nelson:characters_encoding:ERROR_TYPE_OR_DIMENSIONS_NOT_SUPPORTED",
+            ERROR_TYPE_OR_DIMENSIONS_NOT_SUPPORTED);
     }
     std::string charset;
     if (argIn.size() == 2) {
@@ -58,7 +60,8 @@ Nelson::CharactersEncodingGateway::native2unicodeBuiltin(int nLhs, const ArrayOf
     }
     std::string output;
     if (!charsetToUtf8Converter(data, charset, output)) {
-        Error(_W("Cannot convert to unicode."));
+        raiseError(L"Nelson:characters_encoding:ERROR_CANNOT_CONVERT_TO_UNICODE",
+            ERROR_CANNOT_CONVERT_TO_UNICODE);
     }
     retval << ArrayOf::characterArrayConstructor(output);
     return retval;

@@ -31,18 +31,21 @@ Nelson::DataAnalysisGateway::uniqueBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     if (argIn.size() == 2) {
         if (!(argIn[1].isRowVectorCharacterArray() || argIn[1].isScalarStringArray())) {
-            Error(_W("second argument to unique must be 'rows'"));
+            raiseError(L"Nelson:data_analysis:ERROR_UNIQUE_SECOND_ARGUMENT_MUST_BE_ROWS",
+                ERROR_UNIQUE_SECOND_ARGUMENT_MUST_BE_ROWS);
         }
         std::wstring direction = argIn[1].getContentAsWideString();
         if (direction == L"rows") {
             asRows = true;
         } else {
-            Error(_W("second argument to unique must be 'rows'"));
+            raiseError(L"Nelson:data_analysis:ERROR_UNIQUE_SECOND_ARGUMENT_MUST_BE_ROWS",
+                ERROR_UNIQUE_SECOND_ARGUMENT_MUST_BE_ROWS);
         }
     }
     Dimensions dims(input.getDimensions());
     if (asRows && (!dims.is2D())) {
-        Error(_W("'rows' mode only works for 2D matrix."));
+        raiseError(L"Nelson:data_analysis:ERROR_ROWS_MODE_ONLY_WORKS_FOR_2D_MATRIX",
+            ERROR_ROWS_MODE_ONLY_WORKS_FOR_2D_MATRIX);
     }
 
     bool needToOverload = false;

@@ -17,6 +17,7 @@
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,7 +28,8 @@ gammalnd(double v)
         return std::numeric_limits<double>::infinity();
     }
     if (v < 0) {
-        Error(_W("Input must be nonnegative."));
+        raiseError(L"Nelson:special_functions:ERROR_INPUT_MUST_BE_NONNEGATIVE",
+            ERROR_INPUT_MUST_BE_NONNEGATIVE);
     }
     return std::lgamma(v);
 }
@@ -39,7 +41,8 @@ gammalns(single v)
         return std::numeric_limits<single>::infinity();
     }
     if (v < 0) {
-        Error(_W("Input must be nonnegative."));
+        raiseError(L"Nelson:special_functions:ERROR_INPUT_MUST_BE_NONNEGATIVE",
+            ERROR_INPUT_MUST_BE_NONNEGATIVE);
     }
     return std::lgamma(v);
 }

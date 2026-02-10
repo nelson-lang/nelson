@@ -11,6 +11,7 @@
 #include "LogicalConstructors.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "SparseDynamicFunctions.hpp"
 //=============================================================================
 namespace Nelson {
@@ -20,7 +21,8 @@ TrueConstructor(Dimensions& dim, bool bIsSparse)
     ArrayOf res;
     if (bIsSparse) {
         if (dim.getLength() > 2) {
-            Error(_W("N-dimensional sparse arrays are not supported."));
+            raiseError(L"Nelson:logical:ERROR_N_DIMENSIONAL_SPARSE_ARRAYS_ARE_NOT_SUPPORTED",
+                ERROR_N_DIMENSIONAL_SPARSE_ARRAYS_ARE_NOT_SUPPORTED);
         } else {
             void* pLogicalSparse = LogicalSparseMatrixConstructorDynamicFunction(
                 dim.getRows(), dim.getColumns(), static_cast<logical>(1));
@@ -41,7 +43,8 @@ FalseConstructor(Dimensions& dim, bool bIsSparse)
     ArrayOf res;
     if (bIsSparse) {
         if (dim.getLength() > 2) {
-            Error(_W("N-dimensional sparse arrays are not supported."));
+            raiseError(L"Nelson:logical:ERROR_N_DIMENSIONAL_SPARSE_ARRAYS_ARE_NOT_SUPPORTED",
+                ERROR_N_DIMENSIONAL_SPARSE_ARRAYS_ARE_NOT_SUPPORTED);
         } else {
             void* pLogicalSparse = LogicalSparseMatrixConstructorDynamicFunction(
                 dim.getRows(), dim.getColumns(), static_cast<logical>(0));

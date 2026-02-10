@@ -11,6 +11,7 @@
 #include <cmath>
 #include "__view__Builtin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "GraphicsObject.hpp"
@@ -60,7 +61,8 @@ __view__Builtin(int nLhs, const ArrayOfVector& argIn)
     double elevation = std::nan("");
 
     if (!argIn[0].isGraphicsObject()) {
-        Error(_W("Expected graphics object(s)."));
+        raiseError(
+            L"Nelson:graphics:ERROR_EXPECTED_GRAPHICS_OBJECT_S", ERROR_EXPECTED_GRAPHICS_OBJECT_S);
     }
     int64 handle = argIn[0].getContentAsGraphicsObjectScalar();
 
@@ -73,7 +75,8 @@ __view__Builtin(int nLhs, const ArrayOfVector& argIn)
         }
     }
     if (!isAxis) {
-        Error(_W("Axes graphic object expected."));
+        raiseError(L"Nelson:graphics:ERROR_AXES_GRAPHIC_OBJECT_EXPECTED",
+            ERROR_AXES_GRAPHIC_OBJECT_EXPECTED);
     }
 
     switch (argIn.size()) {
@@ -87,7 +90,8 @@ __view__Builtin(int nLhs, const ArrayOfVector& argIn)
                 azimuth = -37.5;
                 elevation = 30;
             } else {
-                Error(_W("Single scalar argument must be 2 or 3."));
+                raiseError(L"Nelson:graphics:ERROR_SINGLE_SCALAR_ARGUMENT_MUST_BE_2_OR_3",
+                    ERROR_SINGLE_SCALAR_ARGUMENT_MUST_BE_2_OR_3);
             }
         } else if (argIn[1].isVector()) {
             double* dp = (double*)argIn[1].getDataPointer();
@@ -97,7 +101,8 @@ __view__Builtin(int nLhs, const ArrayOfVector& argIn)
             } else if (argIn[1].getElementCount() == 3) {
                 xyzToAzimuthElevation(dp[0], dp[1], dp[2], azimuth, elevation);
             } else {
-                Error(_W("Vector [az, el] or [x, y, z] expected."));
+                raiseError(L"Nelson:graphics:ERROR_VECTOR_AZ_EL_OR_X_Y_Z_EXPECTED",
+                    ERROR_VECTOR_AZ_EL_OR_X_Y_Z_EXPECTED);
             }
         }
     } break;

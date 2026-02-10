@@ -15,6 +15,7 @@
 #include "HDF5_helpers.hpp"
 #include "h5WriteAttribute.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "characters_encoding.hpp"
 #include "h5WriteHelpers.hpp"
 #include "i18n.hpp"
@@ -26,16 +27,18 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
     const std::wstring& attributeName, ArrayOf& attributeValue, const std::wstring& textEncoding)
 {
     if (filename.empty()) {
-        Error(_W("Valid filename expected."));
+        raiseError(L"Nelson:hdf5:ERROR_VALID_FILENAME_EXPECTED", ERROR_VALID_FILENAME_EXPECTED);
     }
     if (location.empty()) {
-        Error(_W("Valid location expected."));
+        raiseError(L"Nelson:hdf5:ERROR_VALID_LOCATION_EXPECTED", ERROR_VALID_LOCATION_EXPECTED);
     }
     if (attributeName.empty()) {
-        Error(_W("Valid attribute name expected."));
+        raiseError(L"Nelson:hdf5:ERROR_VALID_ATTRIBUTE_NAME_EXPECTED",
+            ERROR_VALID_ATTRIBUTE_NAME_EXPECTED);
     }
     if (!(textEncoding == L"system" || textEncoding == L"UTF-8")) {
-        Error(_W("Valid text encoding expected."));
+        raiseError(
+            L"Nelson:hdf5:ERROR_VALID_TEXT_ENCODING_EXPECTED", ERROR_VALID_TEXT_ENCODING_EXPECTED);
     }
     hid_t fid = H5I_INVALID_HID;
     FileSystemWrapper::Path hdf5_filename(filename);
@@ -44,30 +47,33 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
         = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            Error(_W("Permission denied."));
+            raiseError(L"Nelson:hdf5:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
         }
     }
     if (!fileExistPreviously) {
-        Error(_W("file does not exist."));
+        raiseError(L"Nelson:hdf5:ERROR_FILE_DOES_NOT_EXIST", ERROR_FILE_DOES_NOT_EXIST);
     } else {
         if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str())) {
-            Error(_W("HDF5 format file expected."));
+            raiseError(
+                L"Nelson:hdf5:ERROR_HDF5_FORMAT_FILE_EXPECTED", ERROR_HDF5_FORMAT_FILE_EXPECTED);
         } else {
             fid = H5Fopen(
                 wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDWR, H5P_DEFAULT);
         }
     }
     if (fid == H5I_INVALID_HID) {
-        Error(_W("Open file failed."));
+        raiseError(L"Nelson:hdf5:ERROR_OPEN_FILE_FAILED", ERROR_OPEN_FILE_FAILED);
     }
     if (location != L"/" && !H5Lexists(fid, wstring_to_utf8(location).c_str(), H5P_DEFAULT)) {
         H5Fclose(fid);
-        Error(_W("Specified HDF5 object location does not exist."));
+        raiseError(L"Nelson:hdf5:ERROR_SPECIFIED_HDF5_OBJECT_LOCATION_DOES_NOT_EXIST",
+            ERROR_SPECIFIED_HDF5_OBJECT_LOCATION_DOES_NOT_EXIST);
     }
     hid_t obj_id = H5Oopen(fid, wstring_to_utf8(location).c_str(), H5P_DEFAULT);
     if (obj_id < 0) {
         H5Fclose(fid);
-        Error(_W("Specified HDF5 object location could not be opened."));
+        raiseError(L"Nelson:hdf5:ERROR_SPECIFIED_HDF5_OBJECT_LOCATION_COULD_NOT_BE_OPENED",
+            ERROR_SPECIFIED_HDF5_OBJECT_LOCATION_COULD_NOT_BE_OPENED);
     }
 
     htri_t exists = H5Aexists(obj_id, wstring_to_utf8(attributeName).c_str());
@@ -75,12 +81,14 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
         if (H5Adelete(obj_id, wstring_to_utf8(attributeName).c_str()) < 0) {
             H5Oclose(obj_id);
             H5Fclose(fid);
-            Error(_W("Could not delete existing attribute."));
+            raiseError(L"Nelson:hdf5:ERROR_COULD_NOT_DELETE_EXISTING_ATTRIBUTE",
+                ERROR_COULD_NOT_DELETE_EXISTING_ATTRIBUTE);
         }
     } else if (exists < 0) {
         H5Oclose(obj_id);
         H5Fclose(fid);
-        Error(_W("Could not check if attribute exists."));
+        raiseError(L"Nelson:hdf5:ERROR_COULD_NOT_CHECK_IF_ATTRIBUTE_EXISTS",
+            ERROR_COULD_NOT_CHECK_IF_ATTRIBUTE_EXISTS);
     }
 
     if (attributeValue.isSparse()) {
@@ -94,7 +102,7 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
         H5Aclose(exists);
         H5Oclose(obj_id);
         H5Fclose(fid);
-        Error(error);
+        Error(error, L"Nelson:hdf5:ERROR_H5WRITE_NELSON_TO_HDF5");
     }
     hid_t att_id = H5I_INVALID_HID;
     if (H5Aexists(obj_id, wstring_to_utf8(attributeName).c_str())) {
@@ -112,7 +120,7 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
     H5Oclose(obj_id);
     H5Fclose(fid);
     if (status < 0) {
-        Error(_W("Cannot write attribute."));
+        raiseError(L"Nelson:hdf5:ERROR_CANNOT_WRITE_ATTRIBUTE", ERROR_CANNOT_WRITE_ATTRIBUTE);
     }
 }
 //=============================================================================

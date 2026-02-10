@@ -11,6 +11,7 @@
 #include "MException.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "Exception.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -33,10 +34,13 @@ Nelson::ErrorManagerGateway::MExceptionBuiltin(
             retval << ExceptionToArrayOf(eval->getLastErrorException());
             return retval;
         }
-        Error("'reset' or 'last' value expected.");
+        raiseError(L"Nelson:error_manager:ERROR_RESET_OR_LAST_VALUE_EXPECTED",
+            ERROR_RESET_OR_LAST_VALUE_EXPECTED);
     }
     if (!isValidMExceptionIdentifier(identifier)) {
-        Error(_W("First input argument must be a valid message identifier."));
+        raiseError(
+            L"Nelson:error_manager:ERROR_FIRST_INPUT_ARGUMENT_MUST_BE_A_VALID_MESSAGE_IDENTIFIER",
+            ERROR_FIRST_INPUT_ARGUMENT_MUST_BE_A_VALID_MESSAGE_IDENTIFIER);
     }
     std::wstring message = argIn[1].getContentAsWideString();
     retval << ExceptionToArrayOf(Exception(message, identifier));

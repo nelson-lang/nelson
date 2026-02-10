@@ -1,3 +1,4 @@
+
 //=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
@@ -46,6 +47,7 @@
 #include "QLineEditWidget.h"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "QPushButtonWidget.h"
 #include "UnitsConversionHelpers.hpp"
 //=============================================================================
@@ -591,7 +593,9 @@ GOUIControl::onCDataPropertyChanged(bool newWidget)
         bool isValid = (cdata.getDimensions().getLength() == 3)
             && (cdata.getDimensionLength(2) == 3) && cdata.isNumeric();
         if (!isValid) {
-            Error(_("Invalid image format: expected a 3D array with 3 color channels."));
+            raiseError(L"Nelson:graphics:ERROR_INVALID_IMAGE_FORMAT_EXPECTED_A_3D_ARRAY_WITH_3_"
+                       L"COLOR_CHANNELS",
+                ERROR_INVALID_IMAGE_FORMAT_EXPECTED_A_3D_ARRAY_WITH_3_COLOR_CHANNELS);
         }
 
         QPushButtonWidget* button = static_cast<QPushButtonWidget*>(widget);
@@ -600,7 +604,9 @@ GOUIControl::onCDataPropertyChanged(bool newWidget)
             bool isValid
                 = (cdata.getDimensions().getLength() == 3) && (cdata.getDimensionLength(2) == 3);
             if (!isValid) {
-                Error(_("Invalid image format: expected a 3D array with 3 color channels."));
+                raiseError(L"Nelson:graphics:ERROR_INVALID_IMAGE_FORMAT_EXPECTED_A_3D_ARRAY_WITH_3_"
+                           L"COLOR_CHANNELS",
+                    ERROR_INVALID_IMAGE_FORMAT_EXPECTED_A_3D_ARRAY_WITH_3_COLOR_CHANNELS);
             }
             indexType rows = cdata.getRows();
             indexType cols = cdata.getColumns();
@@ -627,7 +633,9 @@ GOUIControl::onCDataPropertyChanged(bool newWidget)
                 }
             }
             if (!isValid) {
-                Error(_("Invalid image format: array with values in [0. 1.] expected."));
+                raiseError(
+                    L"Nelson:graphics:ERROR_INVALID_IMAGE_FORMAT_ARRAY_WITH_VALUES_IN_0_1_EXPECTED",
+                    ERROR_INVALID_IMAGE_FORMAT_ARRAY_WITH_VALUES_IN_0_1_EXPECTED);
             }
             indexType rows = cdata.getRows();
             indexType cols = cdata.getColumns();

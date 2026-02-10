@@ -9,6 +9,8 @@
 //=============================================================================
 #include "EqGraphicsObjects.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "NewWithException.hpp"
 #include "Operators.hpp"
@@ -20,15 +22,16 @@ EqGraphicsObjects(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     if (!A.isGraphicsObject() && !B.isGraphicsObject()) {
-        Error(_W("graphics_object expected."));
+        raiseError(
+            L"Nelson:graphics:ERROR_GRAPHICS_OBJECT_EXPECTED", ERROR_GRAPHICS_OBJECT_EXPECTED);
     }
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     dimsA.simplify();
     dimsB.simplify();
     if (!(dimsA.equals(dimsB) || A.isScalar() || B.isScalar())) {
-        Error(std::string(_("Size mismatch on arguments to arithmetic operator")) + " "
-            + EQ_OPERATOR_STR);
+        raiseError(L"Nelson:graphics:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+            ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, utf8_to_wstring(EQ_OPERATOR_STR));
     }
     int Astride = 0;
     int Bstride = 0;

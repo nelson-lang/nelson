@@ -11,6 +11,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -31,10 +32,13 @@ ParallelEvaluator::create(EvaluateInterface* evaluatorInterface, size_t ID)
                 }
             });
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:parallel:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         return nullptr;
     } catch (const std::exception& e) {
-        Error(_("Failed to create evaluator: ") + e.what());
+        std::wstring msg
+            = utf8_to_wstring(std::string(_("Failed to create evaluator: ") + e.what()));
+        raiseError(L"Nelson:parallel:ERROR_FAILED_TO_CREATE_EVALUATOR",
+            ERROR_FAILED_TO_CREATE_EVALUATOR, msg);
         return nullptr;
     }
 }

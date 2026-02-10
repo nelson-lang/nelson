@@ -22,6 +22,7 @@
 #include "characters_encoding.hpp"
 #include "RealPart.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -59,7 +60,7 @@ NumberToStringHelperLogical(const ArrayOf& A, NUM2STR_ENUM formatType, const std
             try {
                 s = fmt::sprintf(uformat, (int)dp[j * m + i]);
             } catch (fmt::format_error&) {
-                Error(_W("Wrong format string."));
+                raiseError(L"Nelson:string:ERROR_WRONG_FORMAT_STRING", ERROR_WRONG_FORMAT_STRING);
             }
             if (formatType == NUM2STR_ENUM::AUTO) {
                 int l = (int)(maxlen - s.length() + 2);
@@ -167,7 +168,7 @@ NumberToStringHelperComplex(
                 s = fmt::sprintf(uformat, maxAbsValue);
             }
         } catch (fmt::format_error&) {
-            Error(_W("Wrong format string."));
+            raiseError(L"Nelson:string:ERROR_WRONG_FORMAT_STRING", ERROR_WRONG_FORMAT_STRING);
         }
 
         precision = ndigit;
@@ -193,7 +194,7 @@ NumberToStringHelperComplex(
                     strRealPart = fmt::sprintf(uformat, dpz[j * m + i].real());
                 }
             } catch (fmt::format_error&) {
-                Error(_W("Wrong format string."));
+                raiseError(L"Nelson:string:ERROR_WRONG_FORMAT_STRING", ERROR_WRONG_FORMAT_STRING);
             }
             std::string strImagPart;
             try {
@@ -203,8 +204,9 @@ NumberToStringHelperComplex(
                 } else {
                     strImagPart = fmt::sprintf(uformat, dpz[j * m + i].imag());
                 }
+
             } catch (fmt::format_error&) {
-                Error(_W("Wrong format string."));
+                raiseError(L"Nelson:string:ERROR_WRONG_FORMAT_STRING", ERROR_WRONG_FORMAT_STRING);
             }
             StringHelpers::erase_all(strImagPart, " ");
             std::string s;
@@ -292,7 +294,7 @@ NumberToStringHelperReal(
                 s = fmt::sprintf(uformat, maxAbsValue);
             }
         } catch (fmt::format_error&) {
-            Error(_W("Wrong format string."));
+            raiseError(L"Nelson:string:ERROR_WRONG_FORMAT_STRING", ERROR_WRONG_FORMAT_STRING);
         }
         precision = ndigit;
         maxlen = s.size();
@@ -316,7 +318,7 @@ NumberToStringHelperReal(
                     s = fmt::sprintf(uformat, dp[j * m + i]);
                 }
             } catch (fmt::format_error&) {
-                Error(_W("Wrong format string."));
+                raiseError(L"Nelson:string:ERROR_WRONG_FORMAT_STRING", ERROR_WRONG_FORMAT_STRING);
             }
             StringHelpers::replace_all(s, "inf", "Inf");
             StringHelpers::replace_all(s, "nan", "NaN");
@@ -427,14 +429,16 @@ NumberToString(const ArrayOf& A, double N, bool& needToOverload)
 {
     std::wstring format;
     if (!std::isfinite(N)) {
-        Error(_("PRECISION must be a scalar integer >= 0."));
+        raiseError(L"Nelson:string:ERROR_PRECISION_MUST_BE_SCALAR_INT",
+            ERROR_PRECISION_MUST_BE_SCALAR_INT);
     }
     int precision = (int)N;
     if (A.getDataClass() == NLS_LOGICAL) {
         format = L"%" + std::to_wstring(precision + 7) + L"d";
     } else {
         if (N < 0) {
-            Error(_("PRECISION must be a scalar integer >= 0."));
+            raiseError(L"Nelson:string:ERROR_PRECISION_MUST_BE_SCALAR_INT",
+                ERROR_PRECISION_MUST_BE_SCALAR_INT);
         }
         format = L"%" + std::to_wstring(precision + 7) + L"." + std::to_wstring(precision) + L"g";
     }

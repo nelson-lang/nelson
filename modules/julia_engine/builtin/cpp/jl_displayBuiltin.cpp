@@ -26,7 +26,8 @@ Nelson::Julia_engineGateway::jl_displayBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (!eval) {
-        Error(_W("Evaluator not available."));
+        raiseError(
+            L"Nelson:julia_engine:ERROR_EVALUATOR_NOT_AVAILABLE", ERROR_EVALUATOR_NOT_AVAILABLE);
     }
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 0);
@@ -46,7 +47,7 @@ Nelson::Julia_engineGateway::jl_displayBuiltin(
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("Julia object expected."));
+        raiseError(L"Nelson:julia_engine:ERROR_JULIA_OBJECT_EXPECTED", ERROR_JULIA_OBJECT_EXPECTED);
     }
     return retval;
 }

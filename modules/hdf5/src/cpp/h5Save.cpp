@@ -22,6 +22,7 @@
 #include "IsValidVariableName.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "ClassName.hpp"
 #include "h5SaveLoadHelpers.hpp"
@@ -146,10 +147,12 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
     for (const auto& name : names) {
 
         if (!IsValidVariableName(name)) {
-            Error(_W("Invalid variable name:") + name);
+            raiseError(
+                L"Nelson:hdf5:ERROR_INVALID_VARIABLE_NAME", ERROR_INVALID_VARIABLE_NAME, name);
         }
         if (!eval->getContext()->isVariable(name)) {
-            Error(_W("Variable does not exist:") + name);
+            raiseError(
+                L"Nelson:hdf5:ERROR_VARIABLE_DOES_NOT_EXIST", ERROR_VARIABLE_DOES_NOT_EXIST, name);
         }
     }
 
@@ -165,14 +168,15 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
         = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            Error(_W("Permission denied."));
+            raiseError(L"Nelson:hdf5:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
         }
     }
     if (!fileExistPreviously) {
         fid = createNh5FileWithHeader(hdf5_filename.wstring(), createHeader());
     } else {
         if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str())) {
-            Error(_W("HDF5 format file expected."));
+            raiseError(
+                L"Nelson:hdf5:ERROR_HDF5_FORMAT_FILE_EXPECTED", ERROR_HDF5_FORMAT_FILE_EXPECTED);
         } else {
             if (append) {
                 fid = H5Fopen(
@@ -180,7 +184,7 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
             } else {
                 FileSystemWrapper::Path p(hdf5_filename);
                 if (!FileSystemWrapper::Path::remove(p)) {
-                    Error(_W("Cannot replace file"));
+                    raiseError(L"Nelson:hdf5:ERROR_CANNOT_REPLACE_FILE", ERROR_CANNOT_REPLACE_FILE);
                 }
                 fid = createNh5FileWithHeader(hdf5_filename.wstring(), createHeader());
                 updateNelsonH5Header(fid);
@@ -189,18 +193,18 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
     }
 
     if (fid == H5I_INVALID_HID) {
-        Error(_W("Open file failed."));
+        raiseError(L"Nelson:hdf5:ERROR_OPEN_FILE_FAILED", ERROR_OPEN_FILE_FAILED);
     }
     if (fileExistPreviously) {
         if (!isNelsonH5File(fid)) {
             H5Fclose(fid);
-            Error(_W("Invalid file format."));
+            raiseError(L"Nelson:hdf5:ERROR_INVALID_FILE_FORMAT", ERROR_INVALID_FILE_FORMAT);
         }
         if (append) {
             int32 schema = getNelsonH5Schema(fid);
             bool isUnmanaged = (schema != NELSON_SCHEMA);
             if (isUnmanaged) {
-                Error(_W("Invalid file version."));
+                raiseError(L"Nelson:hdf5:ERROR_INVALID_FILE_VERSION", ERROR_INVALID_FILE_VERSION);
                 H5Fclose(fid);
             }
         }
@@ -217,7 +221,8 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
         bool bSuccess = h5SaveVariable(fid, location, variableName, variableValue, !nocompression);
         if (!bSuccess) {
             H5Fclose(fid);
-            Error(_("Cannot save variable:") + variableName);
+            raiseError(L"Nelson:hdf5:ERROR_CANNOT_SAVE_VARIABLE", ERROR_CANNOT_SAVE_VARIABLE,
+                utf8_to_wstring(variableName));
         }
     }
     H5Fclose(fid);

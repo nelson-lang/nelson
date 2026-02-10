@@ -28,21 +28,25 @@ Nelson::CoreGateway::nargoutchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     switch (argIn.size()) {
     case 2: {
         if (nLhs == 1) {
-            Error(_W("No output arguments are allowed if only two input arguments."));
+            raiseError(L"Nelson:core:ERROR_NARGOUTCHK_NO_OUTPUT_ARGS_IF_TWO_INPUTS",
+                ERROR_NARGOUTCHK_NO_OUTPUT_ARGS_IF_TWO_INPUTS);
         }
         Context* context = eval->getContext();
         if (context->getCurrentScope()->getName() == "base") {
-            Error(_W("You can only call 'nargoutchk' from within a Nelson function."));
+            raiseError(L"Nelson:core:ERROR_NARGOUTCHK_ONLY_FROM_NELSON_FUNCTION",
+                ERROR_NARGOUTCHK_ONLY_FROM_NELSON_FUNCTION);
         }
         int minArgs = argIn[0].getContentAsInteger32Scalar();
         int maxArgs = argIn[1].getContentAsInteger32Scalar();
 
         int nargout = context->getCurrentScope()->getNargOut();
         if (nargout < minArgs) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS, L"Nelson:nargoutchk:notEnoughOutputs", true);
+            raiseError(L"Nelson:core:ERROR_WRONG_NUMBERS_OUTPUT_ARGS_NOT_ENOUGH",
+                ERROR_WRONG_NUMBERS_OUTPUT_ARGS, true);
         }
         if (nargout > maxArgs) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS, L"Nelson:nargoutchk:tooManyOutputs", true);
+            raiseError(L"Nelson:core:ERROR_WRONG_NUMBERS_OUTPUT_ARGS_TOO_MANY",
+                ERROR_WRONG_NUMBERS_OUTPUT_ARGS, true);
         }
     } break;
     case 4:
@@ -55,17 +59,21 @@ Nelson::CoreGateway::nargoutchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             } else if (param4AsString == L"string") {
                 asStruct = false;
             } else {
-                Error(_W("#4 input must be either 'struct' or 'string'."));
+                raiseError(L"Nelson:core:ERROR_NARGOUTCHK_ARG4_STRUCT_OR_STRING_EXPECTED",
+                    ERROR_NARGOUTCHK_ARG4_STRUCT_OR_STRING_EXPECTED);
             }
         }
         if (!argIn[0].isScalar() || !argIn[0].isNumeric()) {
-            Error(_("Scalar integer value required for #1 argument."));
+            raiseError(L"Nelson:core:ERROR_NARGOUTCHK_SCALAR_INTEGER_REQUIRED_ARG1",
+                ERROR_NARGOUTCHK_SCALAR_INTEGER_REQUIRED_ARG1);
         }
         if (!argIn[1].isScalar() || !argIn[1].isNumeric()) {
-            Error(_("Scalar integer value required for #2 argument."));
+            raiseError(L"Nelson:core:ERROR_NARGOUTCHK_SCALAR_INTEGER_REQUIRED_ARG2",
+                ERROR_NARGOUTCHK_SCALAR_INTEGER_REQUIRED_ARG2);
         }
         if (!argIn[2].isScalar() || !argIn[2].isNumeric()) {
-            Error(_("Scalar integer value required for #3 argument."));
+            raiseError(L"Nelson:core:ERROR_NARGOUTCHK_SCALAR_INTEGER_REQUIRED_ARG3",
+                ERROR_NARGOUTCHK_SCALAR_INTEGER_REQUIRED_ARG3);
         }
 
         int minArgs = argIn[0].getContentAsInteger32Scalar(false, true);

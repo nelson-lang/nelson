@@ -17,6 +17,7 @@
 #include "Error.hpp"
 #include "Warning.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "IsValidVariableName.hpp"
 #include "GatewaysManager.hpp"
 #include "NelsonGateway.hpp"
@@ -26,7 +27,6 @@
 #include "PathFunctionIndexerManager.hpp"
 #include "FunctionsInMemory.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -108,7 +108,8 @@ void
 clearByName(Evaluator* eval, const std::string& name)
 {
     if (!IsValidVariableName(name)) {
-        Error(_W("A valid variable name expected."));
+        raiseError(L"Nelson:memory_manager:ERROR_A_VALID_VARIABLE_NAME_EXPECTED",
+            ERROR_A_VALID_VARIABLE_NAME_EXPECTED);
     }
     Context* ctxt = eval->getContext();
     if (ctxt->isVariable(name)) {

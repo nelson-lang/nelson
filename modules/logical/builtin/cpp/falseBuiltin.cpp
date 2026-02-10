@@ -38,7 +38,9 @@ Nelson::LogicalGateway::falseBuiltin(int nLhs, const ArrayOfVector& argIn)
                 if (arg.compare(L"like") == 0) {
                     ArrayOf arg = argIn[pos + 1];
                     if (arg.getDataClass() != NLS_LOGICAL) {
-                        Error(_W("Input following \'like\' is not a logical array."));
+                        raiseError(
+                            L"Nelson:logical:ERROR_INPUT_FOLLOWING_LIKE_IS_NOT_A_LOGICAL_ARRAY",
+                            ERROR_INPUT_FOLLOWING_LIKE_IS_NOT_A_LOGICAL_ARRAY);
                     }
                     bIsSparse = arg.isSparse();
                     idxMax = argIn.size() - 2;

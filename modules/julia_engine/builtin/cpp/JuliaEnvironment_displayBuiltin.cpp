@@ -40,7 +40,8 @@ Nelson::Julia_engineGateway::JuliaEnvironment_displayBuiltin(
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("JuliaEnvironment object expected."));
+        raiseError(L"Nelson:julia_engine:ERROR_JULIAENVIRONMENT_OBJECT_EXPECTED",
+            ERROR_JULIAENVIRONMENT_OBJECT_EXPECTED);
     }
     return retval;
 }

@@ -14,6 +14,7 @@
 #include "i18nJsonSort.hpp"
 #include "i18n.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,24 +30,24 @@ Nelson::I18nGateway::i18nHelpersBuiltin(int nLhs, const ArrayOfVector& argIn)
         std::wstring jsonFilename = argIn[2].getContentAsWideString();
         std::wstring errorMessage;
         if (!poToJson(poFilename, jsonFilename, errorMessage)) {
-            Error(errorMessage);
+            Error(errorMessage, L"Nelson:i18n:ERROR_RUNTIME_MESSAGE");
         }
     } else if (helpersName == L"merge") {
         std::wstring jsonSource = argIn[1].getContentAsWideString();
         std::wstring jsonDestination = argIn[2].getContentAsWideString();
         std::wstring errorMessage;
         if (!i18nJsonMerger(jsonSource, jsonDestination, errorMessage)) {
-            Error(errorMessage);
+            Error(errorMessage, L"Nelson:i18n:ERROR_RUNTIME_MESSAGE");
         }
     } else if (helpersName == L"sort") {
         std::wstring jsonSource = argIn[1].getContentAsWideString();
         std::wstring jsonDestination = argIn[2].getContentAsWideString();
         std::wstring errorMessage;
         if (!i18nJsonSort(jsonSource, jsonDestination, errorMessage)) {
-            Error(errorMessage);
+            Error(errorMessage, L"Nelson:i18n:ERROR_RUNTIME_MESSAGE");
         }
     } else {
-        Error(_("case not supported."));
+        raiseError(L"Nelson:i18n:ERROR_CASE_NOT_SUPPORTED", ERROR_CASE_NOT_SUPPORTED);
     }
     return retval;
 }

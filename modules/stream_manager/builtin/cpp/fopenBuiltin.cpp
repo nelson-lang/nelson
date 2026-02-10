@@ -22,6 +22,7 @@
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -119,7 +120,8 @@ Nelson::StreamGateway::fopenBuiltin(int nLhs, const ArrayOfVector& argIn)
                     retval << ArrayOf::characterArrayConstructor(_file->getEncoding());
                 }
             } else {
-                Error(_W("Invalid file identifier."));
+                raiseError(L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER",
+                    ERROR_INVALID_FILE_IDENTIFIER);
             }
             return retval;
         }

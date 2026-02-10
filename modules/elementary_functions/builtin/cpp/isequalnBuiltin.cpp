@@ -9,6 +9,7 @@
 //=============================================================================
 #include "isequalnBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "IsEqualNaN.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -42,7 +43,9 @@ Nelson::ElementaryFunctionsGateway::isequalnBuiltin(
     }
     if (isSparse
         && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX && commonType != NLS_LOGICAL)) {
-        Error(_("Attempt to convert to unimplemented sparse type"), "Nelson:UnableToConvert");
+        raiseError(
+            L"Nelson:elementary_functions:ERROR_ATTEMPT_TO_CONVERT_TO_UNIMPLEMENTED_SPARSE_TYPE",
+            ERROR_ATTEMPT_TO_CONVERT_TO_UNIMPLEMENTED_SPARSE_TYPE);
     }
 
     bool needToOverload = false;

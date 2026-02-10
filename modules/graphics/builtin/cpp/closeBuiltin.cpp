@@ -13,6 +13,7 @@
 #include "GOPropertyNames.hpp"
 #include "GOStringProperty.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -34,7 +35,8 @@ closeBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 1) {
         result = closeHelper(argIn[0], true);
         if (!result) {
-            Error(_W("Specified window does not exist."), L"Nelson:close:WindowNotFound");
+            raiseError(L"Nelson:close:ERROR_SPECIFIED_WINDOW_DOES_NOT_EXIST",
+                ERROR_SPECIFIED_WINDOW_DOES_NOT_EXIST);
         }
     } else {
         for (size_t k = 0; k < argIn.size(); k++) {

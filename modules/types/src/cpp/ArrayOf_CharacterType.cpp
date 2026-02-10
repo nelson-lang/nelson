@@ -15,6 +15,7 @@
 #include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "NewWithException.hpp"
 //=============================================================================
 namespace Nelson {
@@ -47,7 +48,7 @@ ArrayOf
 ArrayOf::stringArrayToCharacterArray(const ArrayOf& stringArray, bool missingAsEmpty)
 {
     if (!stringArray.isStringArray()) {
-        Error(_W("String array expected."));
+        raiseError(L"Nelson:types:ERROR_STRING_ARRAY_EXPECTED", ERROR_STRING_ARRAY_EXPECTED);
     }
     ArrayOf* ptr = (ArrayOf*)stringArray.getDataPointer();
     Dimensions dims = stringArray.getDimensions();
@@ -61,7 +62,9 @@ ArrayOf::stringArrayToCharacterArray(const ArrayOf& stringArray, bool missingAsE
             if (missingAsEmpty) {
                 strs.push_back(L"");
             } else {
-                Error(_W("Conversion <missing> to character vector is not supported."));
+                raiseError(
+                    L"Nelson:types:ERROR_CONVERSION_MISSING_TO_CHARACTER_VECTOR_NOT_SUPPORTED",
+                    ERROR_CONVERSION_MISSING_TO_CHARACTER_VECTOR_NOT_SUPPORTED);
             }
         }
     }
@@ -208,7 +211,8 @@ ArrayOf::getContentAsArrayOfCharacters() const
         str = buffer;
         delete[] buffer;
     } else {
-        Error(_W("Unable to convert supplied object to a string."));
+        raiseError(L"Nelson:types:ERROR_UNABLE_TO_CONVERT_SUPPLIED_OBJECT_TO_A_STRING",
+            ERROR_UNABLE_TO_CONVERT_SUPPLIED_OBJECT_TO_A_STRING);
     }
     return str;
 }
@@ -235,10 +239,12 @@ ArrayOf::getContentAsWideCharactersPointer() const
         buffer[M] = 0;
     } else {
         if (dp->dataClass != NLS_CHAR) {
-            Error(_W("Unable to convert supplied object to a string."));
+            raiseError(L"Nelson:types:ERROR_UNABLE_TO_CONVERT_SUPPLIED_OBJECT_TO_A_STRING",
+                ERROR_UNABLE_TO_CONVERT_SUPPLIED_OBJECT_TO_A_STRING);
         }
         if (!isRowVector()) {
-            Error(_W("Unable to convert supplied object to a single string."));
+            raiseError(L"Nelson:types:ERROR_UNABLE_TO_CONVERT_SUPPLIED_OBJECT_TO_A_SINGLE_STRING",
+                ERROR_UNABLE_TO_CONVERT_SUPPLIED_OBJECT_TO_A_SINGLE_STRING);
         }
     }
     return buffer;
@@ -295,10 +301,13 @@ ArrayOf::getContentAsCString() const
             }
         } else {
             if ((dp == nullptr) || dp->dataClass != NLS_CHAR) {
-                Error(_W("Unable to convert supplied object to a string."));
+                raiseError(L"Nelson:types:ERROR_UNABLE_TO_CONVERT_SUPPLIED_OBJECT_TO_A_STRING",
+                    ERROR_UNABLE_TO_CONVERT_SUPPLIED_OBJECT_TO_A_STRING);
             }
             if (!isRowVector()) {
-                Error(_W("Unable to convert supplied object to a single string."));
+                raiseError(
+                    L"Nelson:types:ERROR_UNABLE_TO_CONVERT_SUPPLIED_OBJECT_TO_A_SINGLE_STRING",
+                    ERROR_UNABLE_TO_CONVERT_SUPPLIED_OBJECT_TO_A_SINGLE_STRING);
             }
         }
         return {};
@@ -335,10 +344,13 @@ ArrayOf::getContentAsWideString(size_t lengthMax) const
             }
         } else {
             if ((dp == nullptr) || dp->dataClass != NLS_CHAR) {
-                Error(_W("Unable to convert supplied object to a string."));
+                raiseError(L"Nelson:types:ERROR_UNABLE_TO_CONVERT_SUPPLIED_OBJECT_TO_A_STRING",
+                    ERROR_UNABLE_TO_CONVERT_SUPPLIED_OBJECT_TO_A_STRING);
             }
             if (!isRowVector()) {
-                Error(_W("Unable to convert supplied object to a single string."));
+                raiseError(
+                    L"Nelson:types:ERROR_UNABLE_TO_CONVERT_SUPPLIED_OBJECT_TO_A_SINGLE_STRING",
+                    ERROR_UNABLE_TO_CONVERT_SUPPLIED_OBJECT_TO_A_SINGLE_STRING);
             }
         }
     }
@@ -387,7 +399,8 @@ ArrayOf::getContentAsWideStringVector(bool bCheckVector) const
         }
     } else {
         if (!isCell() && !isStringArray()) {
-            Error(_W("A cell or string array expected."));
+            raiseError(L"Nelson:types:ERROR_A_CELL_OR_STRING_ARRAY_EXPECTED",
+                ERROR_A_CELL_OR_STRING_ARRAY_EXPECTED);
         } else if (isEmpty()) {
             return res;
         } else if (isVector() || !bCheckVector) {
@@ -398,7 +411,8 @@ ArrayOf::getContentAsWideStringVector(bool bCheckVector) const
                 for (indexType k = 0; k < nbElements; k++) {
                     if (arg[k].getDataClass() != NLS_CHAR) {
                         res.clear();
-                        Error(_W("A cell of string expected."));
+                        raiseError(L"Nelson:types:ERROR_A_CELL_OF_STRING_EXPECTED",
+                            ERROR_A_CELL_OF_STRING_EXPECTED);
                     } else {
                         res.push_back(arg[k].getContentAsWideString());
                     }
@@ -413,7 +427,7 @@ ArrayOf::getContentAsWideStringVector(bool bCheckVector) const
                 }
             }
         } else {
-            Error(_W("A vector expected."));
+            raiseError(L"Nelson:types:ERROR_A_VECTOR_EXPECTED", ERROR_A_VECTOR_EXPECTED);
         }
     }
     return res;
@@ -436,7 +450,8 @@ ArrayOf::getContentAsWideStringRowVector() const
 {
     wstringVector res;
     if (!(isCell() || isStringArray())) {
-        Error(_W("A cell or string array expected."));
+        raiseError(L"Nelson:types:ERROR_A_CELL_OR_STRING_ARRAY_EXPECTED",
+            ERROR_A_CELL_OR_STRING_ARRAY_EXPECTED);
     }
     if (isRowVector()) {
         auto* arg = (ArrayOf*)(getDataPointer());
@@ -446,7 +461,8 @@ ArrayOf::getContentAsWideStringRowVector() const
             for (indexType k = 0; k < nbElements; k++) {
                 if (arg[k].getDataClass() != NLS_CHAR) {
                     res.clear();
-                    Error(_W("A cell of string expected."));
+                    raiseError(L"Nelson:types:ERROR_A_CELL_OF_STRING_EXPECTED",
+                        ERROR_A_CELL_OF_STRING_EXPECTED);
                 } else {
                     res.push_back(arg[k].getContentAsWideString());
                 }
@@ -461,7 +477,7 @@ ArrayOf::getContentAsWideStringRowVector() const
             }
         }
     } else {
-        Error(_W("An row vector expected."));
+        raiseError(L"Nelson:types:ERROR_AN_ROW_VECTOR_EXPECTED", ERROR_AN_ROW_VECTOR_EXPECTED);
     }
     return res;
 }
@@ -483,7 +499,8 @@ ArrayOf::getContentAsWideStringColumnVector() const
 {
     wstringVector res;
     if (!(isCell() || isStringArray())) {
-        Error(_W("A cell or string array expected."));
+        raiseError(L"Nelson:types:ERROR_A_CELL_OR_STRING_ARRAY_EXPECTED",
+            ERROR_A_CELL_OR_STRING_ARRAY_EXPECTED);
     }
     if (!isEmpty()) {
         if (isColumnVector()) {
@@ -494,7 +511,8 @@ ArrayOf::getContentAsWideStringColumnVector() const
                 for (indexType k = 0; k < nbElements; k++) {
                     if (arg[k].getDataClass() != NLS_CHAR) {
                         res.clear();
-                        Error(_W("A cell of string expected."));
+                        raiseError(L"Nelson:types:ERROR_A_CELL_OF_STRING_EXPECTED",
+                            ERROR_A_CELL_OF_STRING_EXPECTED);
                     } else {
                         res.push_back(arg[k].getContentAsWideString());
                     }
@@ -509,7 +527,8 @@ ArrayOf::getContentAsWideStringColumnVector() const
                 }
             }
         } else {
-            Error(_W("A column vector expected."));
+            raiseError(
+                L"Nelson:types:ERROR_A_COLUMN_VECTOR_EXPECTED", ERROR_A_COLUMN_VECTOR_EXPECTED);
         }
     }
     return res;

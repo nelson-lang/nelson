@@ -10,6 +10,7 @@
 #include "PyRun.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "PythonLibraryWrapper.hpp"
 #include "PythonEnvironment.hpp"
 #include "PythonEngine.hpp"
@@ -30,14 +31,16 @@ PyRun(Interface* io, bool haveEventsLoop, const void* voidPythonObjectHandle,
     initializePythonEngine();
 
     if (names.size() != values.size()) {
-        Error(_W("Same name, value numbers expected."));
+        raiseError(
+            L"Nelson:Python:ERROR_SAME_NAME_VALUE_EXPECTED", ERROR_PYTHON_SAME_NAME_VALUE_EXPECTED);
     }
 
     PyObject* pyCode = nullptr;
     if (voidPythonObjectHandle) {
         PythonObjectHandle* poh = (PythonObjectHandle*)voidPythonObjectHandle;
         if (poh->getTypeName() != L"code") {
-            Error(_W("Valid Python code object expected."));
+            raiseError(L"Nelson:Python:ERROR_VALID_PYTHON_CODE_OBJECT_EXPECTED",
+                ERROR_PYTHON_VALID_PYTHON_CODE_OBJECT_EXPECTED);
         }
         pyCode = (PyObject*)poh->getPointer();
     }

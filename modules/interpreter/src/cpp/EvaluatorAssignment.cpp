@@ -41,13 +41,16 @@ Evaluator::assignStatement(AbstractSyntaxTreePtr t, bool printIt)
             bool bInserted = context->insertVariable(variableName, b);
             if (!bInserted) {
                 if (IsValidVariableName(variableName, true)) {
-                    Error(_W("Redefining permanent variable."));
+                    raiseError(L"Nelson:interpreter:ERROR_REDEFINING_PERMANENT_VARIABLE",
+                        ERROR_REDEFINING_PERMANENT_VARIABLE);
                 }
-                Error(_W("Valid variable name expected."));
+                raiseError(L"Nelson:interpreter:ERROR_VALID_VARIABLE_NAME_EXPECTED",
+                    ERROR_VALID_VARIABLE_NAME_EXPECTED);
             }
         } else {
             if (context->isLockedVariable(variableName)) {
-                Error(_W("Redefining permanent variable."));
+                raiseError(L"Nelson:interpreter:ERROR_REDEFINING_PERMANENT_VARIABLE",
+                    ERROR_REDEFINING_PERMANENT_VARIABLE);
             }
             var->setValue(b);
         }
@@ -147,11 +150,14 @@ Evaluator::simpleAssignClass(const ArrayOf& r, const stringVector& subtypes,
 {
     // Validate input parameters
     if (values.size() != 1) {
-        Error(_W("Right hand values must satisfy left hand side expression."));
+        raiseError(
+            L"Nelson:interpreter:ERROR_RIGHT_HAND_VALUES_MUST_SATISFY_LEFT_HAND_SIDE_EXPRESSION",
+            ERROR_RIGHT_HAND_VALUES_MUST_SATISFY_LEFT_HAND_SIDE_EXPRESSION);
     }
 
     if (subtypes.size() != subsindices.size()) {
-        Error(_W("Subtypes and subsindices must have the same size."));
+        raiseError(L"Nelson:interpreter:ERROR_SUBTYPES_AND_SUBSINDICES_MUST_HAVE_THE_SAME_SIZE",
+            ERROR_SUBTYPES_AND_SUBSINDICES_MUST_HAVE_THE_SAME_SIZE);
     }
 
     // Get current class and context
@@ -167,14 +173,16 @@ Evaluator::simpleAssignClass(const ArrayOf& r, const stringVector& subtypes,
         const std::string defaultFunction
             = getOverloadFunctionName(NLS_CLASS_ARRAY_STR, SUBSASGN_OPERATOR_STR);
         if (!context->lookupFunction(defaultFunction, funcDef)) {
-            Error(_("Function not found:") + " " + classSpecificFunction);
+            raiseError(L"Nelson:interpreter:ERROR_FUNCTION_NOT_FOUND", ERROR_UNDEFINED_FUNCTION,
+                utf8_to_wstring(classSpecificFunction));
             return {};
         }
     }
 
     // Validate function type
     if (!(funcDef->type() == NLS_BUILT_IN_FUNCTION || funcDef->type() == NLS_MACRO_FUNCTION)) {
-        Error(_W("Type function not valid."));
+        raiseError(
+            L"Nelson:interpreter:ERROR_TYPE_FUNCTION_NOT_VALID", ERROR_TYPE_FUNCTION_NOT_VALID);
     }
 
     // Build function arguments
@@ -263,7 +271,8 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& valu
 
     auto createCellArrayFromExpressions = [&](const ArrayOfVector& expressions) -> ArrayOf {
         if (expressions.empty()) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
+            raiseError(L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED",
+                ERROR_INDEX_EXPRESSION_EXPECTED);
         }
 
         ArrayOf* elements
@@ -287,7 +296,8 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& valu
 
               ArrayOfVector res = simpleAssignClass(r, subtypes, subsindices, value);
               if (res.empty()) {
-                  Error(_("Assignment operation failed."));
+                  raiseError(L"Nelson:interpreter:ERROR_ASSIGNMENT_OPERATION_FAILED",
+                      ERROR_ASSIGNMENT_OPERATION_FAILED);
               }
               r = res[0];
           };
@@ -301,7 +311,8 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& valu
         }
 
         if (expressions.empty()) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
+            raiseError(L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED",
+                ERROR_INDEX_EXPRESSION_EXPECTED);
         } else if (expressions.size() == 1) {
             r.setVectorSubset(expressions[0], value[0]);
         } else {
@@ -318,7 +329,8 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& valu
         }
 
         if (expressions.empty()) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
+            raiseError(L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED",
+                ERROR_INDEX_EXPRESSION_EXPECTED);
         } else if (expressions.size() == 1) {
             r.setVectorContentsAsList(expressions[0], value);
         } else {
@@ -336,7 +348,7 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& valu
 
             ArrayOfVector res = simpleAssignClass(r, subtypes, subsindices, value);
             if (res.size() != 1) {
-                Error(_("Invalid LHS."));
+                raiseError(L"Nelson:interpreter:ERROR_INVALID_LHS", ERROR_INVALID_LHS);
             }
             r = res[0];
             return;
@@ -347,7 +359,8 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& valu
         } else if (r.isStruct() || r.isEmpty()) {
             r.setFieldAsList(fieldname, value);
         } else {
-            Error(ERROR_ASSIGN_TO_NON_STRUCT);
+            raiseError(
+                L"Nelson:interpreter:ERROR_ASSIGN_TO_NON_STRUCT", ERROR_ASSIGN_TO_NON_STRUCT);
         }
     };
 
@@ -357,7 +370,8 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& valu
             ArrayOf fname = expression(t->down);
             fieldname = fname.getContentAsCString();
         } catch (const Exception&) {
-            Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
+            raiseError(L"Nelson:interpreter:ERROR_DYNAMIC_FIELD_STRING_EXPECTED",
+                ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
         }
 
         if (r.isClassType()) {
@@ -367,7 +381,7 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& valu
 
             ArrayOfVector res = simpleAssignClass(r, subtypes, subsindices, value);
             if (res.size() != 1) {
-                Error(_("Invalid LHS."));
+                raiseError(L"Nelson:interpreter:ERROR_INVALID_LHS", ERROR_INVALID_LHS);
             }
             r = res[0];
         } else if (r.isHandle()) {

@@ -11,6 +11,7 @@
 #include "Variance.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -71,7 +72,8 @@ Variance(const ArrayOf& A, int w, int dim, bool& needToOverload)
 {
     needToOverload = false;
     if (w != 0) {
-        Error(_W("Second argument must be 0."));
+        raiseError(
+            L"Nelson:statistics:ERROR_SECOND_ARGUMENT_MUST_BE_0", ERROR_SECOND_ARGUMENT_MUST_BE_0);
     }
     Dimensions dimsA = A.getDimensions();
     if (dim < 0) {

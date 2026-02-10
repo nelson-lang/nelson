@@ -74,7 +74,8 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (bRes) {
             retval << ArrayOf::characterArrayConstructor(stringOutput);
         } else {
-            Error(_W("Markdown generation fails."));
+            raiseError(L"Nelson:help_tools:ERROR_MARKDOWN_GENERATION_FAILS",
+                ERROR_MARKDOWN_GENERATION_FAILS);
         }
     }
     return retval;

@@ -12,6 +12,8 @@
 #include "IsInf.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -94,8 +96,10 @@ IsInf(const ArrayOf& A)
         C.setDataPointer(Cp);
     } break;
     default: {
-        Error(_("Undefined function 'isinf' for input arguments of type") + " '" + ClassName(A)
-            + "'.");
+        raiseError(L"Nelson:elementary_functions:ERROR_UNDEFINED_FUNCTION_ISINF_FOR_INPUT_"
+                   L"ARGUMENTS_OF_TYPE",
+            ERROR_UNDEFINED_FUNCTION_ISINF_FOR_INPUT_ARGUMENTS_OF_TYPE,
+            utf8_to_wstring(ClassName(A)));
     } break;
     }
     return C;

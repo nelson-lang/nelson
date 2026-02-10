@@ -11,6 +11,7 @@
 #include <chrono>
 #include "timeitBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
@@ -33,19 +34,19 @@ Nelson::TimeGateway::timeitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     nargoutcheck(nLhs, 0, 1);
 
     if (argIn.size() < 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:time:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     int nLhsTimeIt = -1;
     if (argIn.size() > 1) {
         nLhsTimeIt = argIn[1].getContentAsInteger32Scalar();
     }
     if (!argIn[0].isFunctionHandle()) {
-        Error(L"Nelson:timeit:InvalidFunctionHandle",
-            _W("First argument must be a function handle that takes no input argument."));
+        raiseError(L"Nelson:timeit:ERROR_TIMEIT_INVALID_FUNCTION_HANDLE",
+            ERROR_TIMEIT_INVALID_FUNCTION_HANDLE);
     }
 
     if (eval == nullptr) {
-        Error(_W("evaluator is not defined."));
+        raiseError(L"Nelson:time:ERROR_EVALUATOR_NOT_DEFINED", ERROR_EVALUATOR_NOT_DEFINED);
     }
     AnonymousMacroFunctionDef* funcDef = nullptr;
     function_handle fh = argIn[0].getContentAsFunctionHandle();
@@ -57,13 +58,14 @@ Nelson::TimeGateway::timeitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         funcDef = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
     }
     if (funcDef == nullptr) {
-        Error(_W("Function not found."));
+        raiseError(L"Nelson:time:ERROR_FUNCTION_NOT_FOUND", ERROR_FUNCTION_NOT_FOUND);
     }
 
     if (argIn.size() > 2) {
         if (funcDef->inputArgCount() != -1) {
             if (funcDef->inputArgCount() != argIn.size() - 2) {
-                Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+                raiseError(
+                    L"Nelson:time:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
             }
         }
     }

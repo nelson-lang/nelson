@@ -27,7 +27,7 @@ Eigen_EyeSparseMatrixConstructor(indexType rows, indexType cols)
             spMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(rows, cols);
         } catch (const std::bad_alloc&) {
             spMat = nullptr;
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
         spMat->setIdentity();
         spMat->finalize();
@@ -52,7 +52,8 @@ Eigen_EyeSparseMatrixConstructor(NelsonType dclass, indexType rows, indexType co
         return Eigen_EyeSparseMatrixConstructor<doublecomplex>(rows, cols);
     } break;
     default:
-        Error(_W("Unsupported type in EyeSparseMatrixConstructor."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_EYE_SPARSE_MATRIX_CONSTRUCTOR",
+            ERROR_UNSUPPORTED_TYPE_IN_EYE_SPARSE_MATRIX_CONSTRUCTOR);
     }
     return nullptr;
 }
@@ -65,7 +66,7 @@ Eigen_LogicalSparseMatrixConstructor(indexType rows, indexType cols, bool bMotif
         spMat = new Eigen::SparseMatrix<logical, 0, signedIndexType>(rows, cols);
     } catch (const std::bad_alloc&) {
         spMat = nullptr;
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     if (bMotif) {
         for (indexType i = 0; i < rows; i++) {
@@ -123,7 +124,7 @@ Eigen_MakeDenseArrayOf(indexType rows, indexType cols, const void* cp)
             pMat = new T[rows * cols];
         } catch (const std::bad_alloc&) {
             spMat = nullptr;
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
         Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA((T*)pMat, rows, cols);
         matA = spMat->toDense();
@@ -152,7 +153,7 @@ Eigen_MakeDenseArrayOf(NelsonType dclass, indexType rows, indexType cols, const 
                 pzMat = reinterpret_cast<doublecomplex*>(pMat);
             } catch (const std::bad_alloc&) {
                 spMat = nullptr;
-                Error(ERROR_MEMORY_ALLOCATION);
+                raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
             }
             Eigen::Map<Eigen::Matrix<doublecomplex, Eigen::Dynamic, Eigen::Dynamic>> matA(
                 (doublecomplex*)pzMat, spMat->rows(), spMat->cols());
@@ -161,7 +162,8 @@ Eigen_MakeDenseArrayOf(NelsonType dclass, indexType rows, indexType cols, const 
         return pMat;
     } break;
     default:
-        Error(_W("Unsupported type in MakeDenseArrayOf."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_MAKE_DENSE_ARRAY_OF",
+            ERROR_UNSUPPORTED_TYPE_IN_MAKE_DENSE_ARRAY_OF);
     }
     return nullptr;
 }
@@ -176,7 +178,7 @@ Eigen_MakeSparseArrayOf(indexType rows, indexType cols, const void* cp)
         spMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(matA.sparseView());
     } catch (const std::bad_alloc&) {
         spMat = nullptr;
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     spMat->makeCompressed();
     spMat->data().squeeze();
@@ -202,14 +204,15 @@ Eigen_MakeSparseArrayOf(NelsonType dclass, indexType rows, indexType cols, const
             spMat = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(matA.sparseView());
         } catch (const std::bad_alloc&) {
             spMat = nullptr;
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
         spMat->makeCompressed();
         spMat->data().squeeze();
         return (void*)spMat;
     } break;
     default: {
-        Error(_W("Unsupported type in MakeSparseArrayOf"));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_MAKE_SPARSE_ARRAY_OF",
+            ERROR_UNSUPPORTED_TYPE_IN_MAKE_SPARSE_ARRAY_OF);
     }
     }
     return nullptr;
@@ -227,7 +230,7 @@ Eigen_CopySparseMatrix(indexType rows, indexType cols, const void* cp)
             copiedpMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(*spMat);
         } catch (const std::bad_alloc&) {
             copiedpMat = nullptr;
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
         copiedpMat->makeCompressed();
         copiedpMat->data().squeeze();
@@ -249,7 +252,8 @@ Eigen_CopySparseMatrix(NelsonType dclass, indexType rows, indexType cols, const 
         return Eigen_CopySparseMatrix<doublecomplex>(rows, cols, cp);
     } break;
     default: {
-        Error(_W("Unsupported type in CopySparseMatrix."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_COPYSPARSEMATRIX",
+            ERROR_UNSUPPORTED_TYPE_IN_COPYSPARSEMATRIX);
     }
     }
     return nullptr;
@@ -260,7 +264,7 @@ indexType
 Eigen_CountNonzeros(const void* cp)
 {
     if (cp == nullptr) {
-        Error(_W("Invalid sparse."));
+        raiseError(L"Nelson:sparse:ERROR_INVALID_SPARSE", ERROR_INVALID_SPARSE);
     }
     Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
         = (Eigen::SparseMatrix<T, 0, signedIndexType>*)cp;
@@ -296,7 +300,8 @@ Eigen_CountNonzeros(NelsonType dclass, indexType rows, indexType cols, const voi
         return Eigen_CountNonzeros<doublecomplex>(cp);
     } break;
     default: {
-        Error(_W("Unsupported type in CountNonzeros."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_COUNTNONZEROS",
+            ERROR_UNSUPPORTED_TYPE_IN_COUNTNONZEROS);
     } break;
     }
     return 0;
@@ -316,7 +321,8 @@ Eigen_CountNonzerosMax(NelsonType dclass, indexType rows, indexType cols, const 
         return Eigen_CountNonzerosMax<doublecomplex>(cp);
     } break;
     default: {
-        Error(_W("Unsupported type in CountNonzerosMax."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_COUNTNONZERS_MAX",
+            ERROR_UNSUPPORTED_TYPE_IN_COUNTNONZERS_MAX);
     } break;
     }
     return 0;
@@ -340,7 +346,7 @@ Eigen_SparseMatrixConstructor(NelsonType dclass, indexType rows, indexType cols,
             spMat = new Eigen::SparseMatrix<logical, 0, signedIndexType>(rows, cols);
         } catch (const std::bad_alloc&) {
             spMat = nullptr;
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
         return spMat;
     } break;
@@ -350,7 +356,7 @@ Eigen_SparseMatrixConstructor(NelsonType dclass, indexType rows, indexType cols,
             spMat = new Eigen::SparseMatrix<double, 0, signedIndexType>(rows, cols);
         } catch (const std::bad_alloc&) {
             spMat = nullptr;
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
         return spMat;
     } break;
@@ -360,12 +366,13 @@ Eigen_SparseMatrixConstructor(NelsonType dclass, indexType rows, indexType cols,
             spMat = new Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>(rows, cols);
         } catch (const std::bad_alloc&) {
             spMat = nullptr;
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
         return spMat;
     } break;
     default: {
-        Error(_W("Unsupported type in SparseMatrixConstructor."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_SPARSE_MATRIX_CONSTRUCTOR",
+            ERROR_UNSUPPORTED_TYPE_IN_SPARSE_MATRIX_CONSTRUCTOR);
     }
     }
     return nullptr;
@@ -401,7 +408,7 @@ Eigen_GetSparseVectorSubsetsInternal(indexType rows, indexType cols, const void*
         spMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(irows, icols);
     } catch (const std::bad_alloc&) {
         spMat = nullptr;
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     spMat->setFromTriplets(tripletList.begin(), tripletList.end());
     spMat->finalize();
@@ -417,7 +424,8 @@ Eigen_GetSparseVectorSubsets(NelsonType dclass, indexType rows, indexType cols, 
     for (indexType i = 0; i < irows * icols; i++) {
         double ndx = static_cast<double>(indx[i]) - 1;
         if ((ndx < 0) || ndx >= bound) {
-            Error(_W("Index exceeds variable dimensions."));
+            raiseError(L"Nelson:sparse:ERROR_INDEX_EXCEEDS_VARIABLE_DIMENSIONS",
+                ERROR_INDEX_EXCEEDS_VARIABLE_DIMENSIONS);
         }
     }
     switch (dclass) {
@@ -453,7 +461,7 @@ Eigen_GetSparseVectorSubsets(NelsonType dclass, indexType rows, indexType cols, 
             spMat = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(irows, icols);
         } catch (const std::bad_alloc&) {
             spMat = nullptr;
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
         spMat->setFromTriplets(tripletList.begin(), tripletList.end());
         spMat->finalize();
@@ -461,7 +469,8 @@ Eigen_GetSparseVectorSubsets(NelsonType dclass, indexType rows, indexType cols, 
         return spMat;
     } break;
     default: {
-        Error(_W("Unsupported type in CountNonzeros."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_COUNTNONZEROS",
+            ERROR_UNSUPPORTED_TYPE_IN_COUNTNONZEROS);
     }
     }
     return spMat;
@@ -476,13 +485,15 @@ Eigen_GetSparseNDimSubsets(NelsonType dclass, indexType rows, indexType cols, co
     for (indexType i = 0; i < irows; ++i) {
         double ndx = static_cast<double>(rindx[i]) - 1;
         if ((ndx < 0) || ndx >= rows) {
-            Error(_W("Index exceeds variable dimensions."));
+            raiseError(L"Nelson:sparse:ERROR_INDEX_EXCEEDS_VARIABLE_DIMENSIONS",
+                ERROR_INDEX_EXCEEDS_VARIABLE_DIMENSIONS);
         }
     }
     for (indexType j = 0; j < icols; ++j) {
         double ndx = static_cast<double>(cindx[j]) - 1;
         if ((ndx < 0) || ndx >= cols) {
-            Error(_W("Index exceeds variable dimensions."));
+            raiseError(L"Nelson:sparse:ERROR_INDEX_EXCEEDS_VARIABLE_DIMENSIONS",
+                ERROR_INDEX_EXCEEDS_VARIABLE_DIMENSIONS);
         }
     }
     switch (dclass) {
@@ -509,7 +520,7 @@ Eigen_GetSparseNDimSubsets(NelsonType dclass, indexType rows, indexType cols, co
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DOUBLE: {
@@ -535,7 +546,7 @@ Eigen_GetSparseNDimSubsets(NelsonType dclass, indexType rows, indexType cols, co
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -561,11 +572,12 @@ Eigen_GetSparseNDimSubsets(NelsonType dclass, indexType rows, indexType cols, co
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     default:
-        Error(_W("Unsupported type in GetSparseNDimSubsets."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_GETSPARSENDIMSUBSETS",
+            ERROR_UNSUPPORTED_TYPE_IN_GETSPARSENDIMSUBSETS);
     }
     return spMat;
 }
@@ -586,7 +598,7 @@ Eigen_CopyResizeSparseMatrix(
         }
     } catch (const std::bad_alloc&) {
         copiedpMat = nullptr;
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     copiedpMat->conservativeResize(maxrow, maxcol);
     copiedpMat->finalize();
@@ -609,7 +621,8 @@ Eigen_CopyResizeSparseMatrix(NelsonType dclass, const void* src, indexType rows,
         return Eigen_CopyResizeSparseMatrix<doublecomplex>(src, rows, cols, maxrow, maxcol);
     } break;
     default: {
-        Error(_W("Unsupported type in SetSparseNDimSubsets."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_SETSPARSENDIMSUBSETS",
+            ERROR_UNSUPPORTED_TYPE_IN_SETSPARSENDIMSUBSETS);
     } break;
     }
     return nullptr;
@@ -688,7 +701,8 @@ Eigen_SetSparseVectorSubsets(NelsonType dclass, indexType& rows, indexType& cols
         return res;
     } break;
     default:
-        Error(_W("Unsupported type in SetSparseVectorSubsets."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_SETSARSEVECTOR_SUBSETS",
+            ERROR_UNSUPPORTED_TYPE_IN_SETSARSEVECTOR_SUBSETS);
     }
     return nullptr;
 }
@@ -766,7 +780,8 @@ Eigen_SetSparseNDimSubsets(NelsonType dclass, indexType& rows, indexType& cols, 
             rows, cols, res, rindx, irows, cindx, icols, data, advance != 0);
     } break;
     default:
-        Error(_W("Unsupported type in SetSparseNDimSubsets."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_SETSPARSENDIMSUBSETS",
+            ERROR_UNSUPPORTED_TYPE_IN_SETSPARSENDIMSUBSETS);
     }
     return nullptr;
 }
@@ -779,7 +794,7 @@ Eigen_CreateSparseScalarElement(double v)
         pMat = new Eigen::SparseMatrix<double, 0, signedIndexType>(1, 1);
     } catch (const std::bad_alloc&) {
         pMat = nullptr;
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     if (v != 0) {
         pMat->coeffRef(0, 0) = v;
@@ -797,7 +812,7 @@ Eigen_CreateSparseScalarElement(doublecomplex v)
         pMat = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(1, 1);
     } catch (const std::bad_alloc&) {
         pMat = nullptr;
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     if ((v.real() != 0.) || (v.imag() != 0.)) {
         pMat->coeffRef(0, 0) = v;
@@ -815,7 +830,7 @@ Eigen_CreateSparseScalarElement(logical v)
         pMat = new Eigen::SparseMatrix<logical, 0, signedIndexType>(1, 1);
     } catch (const std::bad_alloc&) {
         pMat = nullptr;
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     if (v != 0) {
         pMat->coeffRef(0, 0) = v;
@@ -852,7 +867,8 @@ Eigen_GetSparseScalarElement(NelsonType dclass, indexType rows, indexType cols, 
         return Eigen_GetSparseScalarElement<doublecomplex>(rows, cols, src, rindx, cindx);
     } break;
     default: {
-        Error(_W("Unsupported type in CountNonzeros."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_COUNTNONZEROS",
+            ERROR_UNSUPPORTED_TYPE_IN_COUNTNONZEROS);
     }
     }
     return nullptr;
@@ -923,7 +939,8 @@ Eigen_SparseToIJV(NelsonType dclass, indexType rows, indexType cols, const void*
         return (void*)pV;
     } break;
     default: {
-        Error(_W("Unsupported type in SparseToIJV."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_SPARSETOIJV",
+            ERROR_UNSUPPORTED_TYPE_IN_SPARSETOIJV);
     }
     }
     return nullptr;
@@ -988,7 +1005,7 @@ Eigen_makeSparseFromIJVInternal(indexType rows, indexType cols, indexType nnz, i
         spMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(rows, cols);
     } catch (const std::bad_alloc&) {
         spMat = nullptr;
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     spMat->setFromTriplets(tripletList.begin(), tripletList.end());
     spMat->finalize();
@@ -1024,7 +1041,9 @@ Eigen_makeSparseFromIJVLogical(indexType rows, indexType cols, indexType nnz, in
             std::vector<Triplet>::iterator it
                 = tripletfind(tripletList.begin(), tripletList.end(), tr);
             if (it != tripletList.end()) {
-                Error(_W("Repeated indices are not supported for sparse logical matrices."));
+                raiseError(L"Nelson:sparse:ERROR_REPEATED_INDICES_NOT_SUPPORTED_FOR_SPARSE_LOGICAL_"
+                           L"MATRICES",
+                    ERROR_REPEATED_INDICES_NOT_SUPPORTED_FOR_SPARSE_LOGICAL_MATRICES);
             }
             tripletList.push_back(tr);
         }
@@ -1034,7 +1053,7 @@ Eigen_makeSparseFromIJVLogical(indexType rows, indexType cols, indexType nnz, in
         spMat = new Eigen::SparseMatrix<logical, 0, signedIndexType>(rows, cols);
     } catch (const std::bad_alloc&) {
         spMat = nullptr;
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     spMat->setFromTriplets(tripletList.begin(), tripletList.end());
     spMat->finalize();
@@ -1072,7 +1091,7 @@ Eigen_makeSparseFromIJVComplex(indexType rows, indexType cols, indexType nnz, in
         spMat = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(rows, cols);
     } catch (const std::bad_alloc&) {
         spMat = nullptr;
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     spMat->setFromTriplets(tripletList.begin(), tripletList.end());
     spMat->finalize();
@@ -1096,7 +1115,8 @@ Eigen_makeSparseFromIJV(NelsonType dclass, indexType rows, indexType cols, index
         return Eigen_makeSparseFromIJVComplex(rows, cols, nnz, I, J, cp, bScalarV);
     } break;
     default: {
-        Error(_W("Unsupported type in SparseToIJV."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_SPARSETOIJV",
+            ERROR_UNSUPPORTED_TYPE_IN_SPARSETOIJV);
     }
     }
     return nullptr;
@@ -1146,7 +1166,7 @@ Eigen_DeleteSparseMatrixCols(
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DOUBLE: {
@@ -1176,7 +1196,7 @@ Eigen_DeleteSparseMatrixCols(
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -1209,11 +1229,12 @@ Eigen_DeleteSparseMatrixCols(
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     default:
-        Error(_W("Unsupported type in DeleteSparseMatrixCols."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_DELETE_SPARSE_MATRIX_COLS",
+            ERROR_UNSUPPORTED_TYPE_IN_DELETE_SPARSE_MATRIX_COLS);
     }
     return nullptr;
 }
@@ -1274,7 +1295,7 @@ Eigen_DeleteSparseMatrixRows(
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DOUBLE: {
@@ -1304,7 +1325,7 @@ Eigen_DeleteSparseMatrixRows(
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -1334,11 +1355,12 @@ Eigen_DeleteSparseMatrixRows(
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     default:
-        Error(_W("Unsupported type in DeleteSparseMatrixRows."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_DELETE_SPARSE_MATRIX_ROWS",
+            ERROR_UNSUPPORTED_TYPE_IN_DELETE_SPARSE_MATRIX_ROWS);
     }
     return nullptr;
 }
@@ -1355,7 +1377,8 @@ Eigen_DeleteSparseMatrixVectorSubset(NelsonType dclass, indexType& rows, indexTy
     for (indexType k = 0; k < delete_len; ++k) {
         double ndx = static_cast<double>(todel[k]) - 1;
         if ((ndx < 0) || ndx >= N) {
-            Error(_W("Index exceeds variable dimensions."));
+            raiseError(L"Nelson:sparse:ERROR_INDEX_EXCEEDS_VARIABLE_DIMENSIONS",
+                ERROR_INDEX_EXCEEDS_VARIABLE_DIMENSIONS);
         }
         delmap[static_cast<size_t>(todel[k] - 1)] = 1;
     }
@@ -1440,7 +1463,7 @@ Eigen_DeleteSparseMatrixVectorSubset(NelsonType dclass, indexType& rows, indexTy
             cols = newCols;
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DOUBLE: {
@@ -1473,7 +1496,7 @@ Eigen_DeleteSparseMatrixVectorSubset(NelsonType dclass, indexType& rows, indexTy
             cols = newCols;
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -1507,11 +1530,12 @@ Eigen_DeleteSparseMatrixVectorSubset(NelsonType dclass, indexType& rows, indexTy
             cols = newCols;
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     default:
-        Error(_W("Unsupported type in DeleteSparseMatrixVectorSubset."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_DELETE_SPARSE_MATRIX_VECTOR_SUBSET",
+            ERROR_UNSUPPORTED_TYPE_IN_DELETE_SPARSE_MATRIX_VECTOR_SUBSET);
     }
     return nullptr;
 }
@@ -1534,7 +1558,7 @@ Eigen_TypeConvertSparse(
                 spMatdest
                     = new Eigen::SparseMatrix<double, 0, signedIndexType>(spMat->cast<double>());
             } catch (const std::bad_alloc&) {
-                Error(ERROR_MEMORY_ALLOCATION);
+                raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
             }
             spMatdest->finalize();
             spMatdest->makeCompressed();
@@ -1546,14 +1570,15 @@ Eigen_TypeConvertSparse(
                 spMatdest = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(
                     spMat->cast<doublecomplex>());
             } catch (const std::bad_alloc&) {
-                Error(ERROR_MEMORY_ALLOCATION);
+                raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
             }
             spMatdest->finalize();
             spMatdest->makeCompressed();
             return (void*)spMatdest;
         } break;
         default: {
-            Error(_W("Unsupported type in TypeConvertSparse."));
+            raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_TYPECONVERTSPARSE",
+                ERROR_UNSUPPORTED_TYPE_IN_TYPECONVERTSPARSE);
         } break;
         }
     } break;
@@ -1566,7 +1591,7 @@ Eigen_TypeConvertSparse(
             try {
                 spMatdest = new Eigen::SparseMatrix<logical, 0, signedIndexType>(rows, cols);
             } catch (const std::bad_alloc&) {
-                Error(ERROR_MEMORY_ALLOCATION);
+                raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
             }
             if (rows * cols) {
                 for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
@@ -1590,7 +1615,7 @@ Eigen_TypeConvertSparse(
             try {
                 spMatdest = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(rows, cols);
             } catch (const std::bad_alloc&) {
-                Error(ERROR_MEMORY_ALLOCATION);
+                raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
             }
             if (rows * cols) {
                 for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
@@ -1607,28 +1632,35 @@ Eigen_TypeConvertSparse(
             return (void*)spMatdest;
         } break;
         default: {
-            Error(_W("Unsupported type in TypeConvertSparse."));
+            raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_TYPECONVERTSPARSE",
+                ERROR_UNSUPPORTED_TYPE_IN_TYPECONVERTSPARSE);
         } break;
         }
     } break;
     case NLS_DCOMPLEX: {
         switch (dclass) {
         case NLS_LOGICAL: {
-            Error(_W("Unsupported type in TypeConvertSparse (complex to logical)."));
+            raiseError(
+                L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_TYPECONVERTSPARSE_COMPLEX_TO_LOGICAL",
+                ERROR_UNSUPPORTED_TYPE_IN_TYPECONVERTSPARSE_COMPLEX_TO_LOGICAL);
         } break;
         case NLS_DOUBLE: {
-            Error(_W("Unsupported type in TypeConvertSparse (complex to double)."));
+            raiseError(
+                L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_TYPECONVERTSPARSE_COMPLEX_TO_DOUBLE",
+                ERROR_UNSUPPORTED_TYPE_IN_TYPECONVERTSPARSE_COMPLEX_TO_DOUBLE);
         } break;
         case NLS_DCOMPLEX: {
             return Eigen_CopySparseMatrix<doublecomplex>(rows, cols, cp);
         } break;
         default: {
-            Error(_W("Unsupported type in TypeConvertSparse."));
+            raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_TYPECONVERTSPARSE",
+                ERROR_UNSUPPORTED_TYPE_IN_TYPECONVERTSPARSE);
         } break;
         }
     } break;
     default: {
-        Error(_W("Unsupported type in TypeConvertSparse."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_TYPECONVERTSPARSE",
+            ERROR_UNSUPPORTED_TYPE_IN_TYPECONVERTSPARSE);
     } break;
     }
     return nullptr;
@@ -1700,7 +1732,8 @@ Eigen_ReshapeSparseMatrix(NelsonType dclass, indexType rows, indexType cols, ind
         return Eigen_ReshapeSparseMatrix<doublecomplex>(rows, cols, newrows, newcols, cp);
     } break;
     default: {
-        Error(_W("Unsupported type in ReshapeSparseMatrix."));
+        raiseError(L"Nelson:sparse:ERROR_UNSUPPORTED_TYPE_IN_RESHAPESPARSEMATRIX",
+            ERROR_UNSUPPORTED_TYPE_IN_RESHAPESPARSEMATRIX);
     }
     }
     return nullptr;

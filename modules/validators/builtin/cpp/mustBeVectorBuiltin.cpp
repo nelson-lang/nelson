@@ -12,6 +12,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -30,28 +31,35 @@ Nelson::ValidatorsGateway::mustBeVectorBuiltin(int nLhs, const ArrayOfVector& ar
             ArrayOf param2 = argIn[1];
             argPos = param2.getContentAsInteger32Scalar();
             if (argPos < 1) {
-                Error(_W("The last argument must be a positive integer."));
+                raiseError(L"Nelson:validators:ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER",
+                    ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER);
             }
         } else if (argIn[1].isRowVectorCharacterArray()
             || (argIn[1].isStringArray() && argIn[1].isScalar())) {
             std::wstring flag = argIn[1].getContentAsWideString();
             if (flag != L"allows-all-empties") {
-                Error(_W("The last argument must be a positive integer or 'allows-all-empties'."));
+                raiseError(L"Nelson:validators:ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER_OR_"
+                           L"ALLOWS_ALL_EMPTIES",
+                    ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER_OR_ALLOWS_ALL_EMPTIES);
             }
             allowsAllEmpties = true;
         } else {
-            Error(_W("The last argument must be a positive integer or 'allows-all-empties'."));
+            raiseError(L"Nelson:validators:ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER_OR_ALLOWS_"
+                       L"ALL_EMPTIES",
+                ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER_OR_ALLOWS_ALL_EMPTIES);
         }
     } break;
     case 3: {
         std::wstring flag = argIn[1].getContentAsWideString();
         if (flag != L"allows-all-empties") {
-            Error(_W("Second argument must be a 'allows-all-empties'."));
+            raiseError(L"Nelson:validators:ERROR_SECOND_ARGUMENT_MUST_BE_ALLOWS_ALL_EMPTIES",
+                ERROR_SECOND_ARGUMENT_MUST_BE_ALLOWS_ALL_EMPTIES);
         }
         ArrayOf param2 = argIn[1];
         argPos = param2.getContentAsInteger32Scalar();
         if (argPos < 1) {
-            Error(_W("The last argument must be a positive integer."));
+            raiseError(L"Nelson:validators:ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER",
+                ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER);
         }
     } break;
     }

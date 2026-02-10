@@ -11,6 +11,7 @@
 #include "FevalQueueObject.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -23,7 +24,8 @@ Nelson::ParallelGateway::FevalQueue_cancelAllBuiltin(int nLhs, const ArrayOfVect
     ArrayOf param1 = argIn[0];
     ArrayOfVector retval;
     if (param1.getHandleCategory() != NLS_HANDLE_FEVALQUEUE_CATEGORY_STR) {
-        Error(_W("FevalQueue handle expected."));
+        raiseError(
+            L"Nelson:parallel:ERROR_FEVALQUEUE_HANDLE_EXPECTED", ERROR_FEVALQUEUE_HANDLE_EXPECTED);
     }
     auto* objFevalQueue = (FevalQueueObject*)param1.getContentAsHandleScalar();
     if (objFevalQueue != nullptr) {

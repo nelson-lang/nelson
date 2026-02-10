@@ -9,6 +9,7 @@
 //=============================================================================
 #include "sizeBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "ClassName.hpp"
 #include "OverloadRequired.hpp"
@@ -38,7 +39,8 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(int nLhs, const ArrayOfVector& a
                     dimsVal.push_back(2);
                 }
             } else {
-                Error(_W("Wrong value for argument #2. 'r' or 'c' expected"));
+                raiseError(L"Nelson:elementary_functions:ERROR_WRONG_VALUE_ARG2_R_OR_C_EXPECTED",
+                    ERROR_WRONG_VALUE_ARG2_R_OR_C_EXPECTED);
             }
         } else {
             if (param1.isScalar()) {
@@ -52,16 +54,21 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(int nLhs, const ArrayOfVector& a
                             dimsVal.push_back(values[k]);
                         }
                     } else {
-                        Error(_W("Wrong type for argument #2. numeric values expected"));
+                        raiseError(L"Nelson:elementary_functions:ERROR_WRONG_TYPE_ARG2_NUMERIC_"
+                                   L"VALUES_EXPECTED",
+                            ERROR_WRONG_TYPE_ARG2_NUMERIC_VALUES_EXPECTED);
                     }
                 } else {
-                    Error(_W("Wrong size for argument #2. row vector or scalar expected"));
+                    raiseError(L"Nelson:elementary_functions:ERROR_WRONG_SIZE_ARG2_ROW_VECTOR_OR_"
+                               L"SCALAR_EXPECTED",
+                        ERROR_WRONG_SIZE_ARG2_ROW_VECTOR_OR_SCALAR_EXPECTED);
                 }
             }
         }
     } break;
     default:
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:elementary_functions:ERROR_WRONG_NUMBERS_INPUT_ARGS",
+            ERROR_WRONG_NUMBERS_INPUT_ARGS);
         break;
     }
     ArrayOf param1 = argIn[0];

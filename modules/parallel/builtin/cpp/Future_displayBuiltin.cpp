@@ -13,6 +13,7 @@
 #include "AfterEachFutureObject.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "DisplayVariableHelpers.hpp"
@@ -50,7 +51,7 @@ Nelson::ParallelGateway::Future_displayBuiltin(
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("Future handle expected."));
+        raiseError(L"Nelson:parallel:ERROR_FUTURE_HANDLE_EXPECTED", ERROR_FUTURE_HANDLE_EXPECTED);
     }
     return retval;
 }

@@ -10,6 +10,7 @@
 #include "MPI_RecvBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "HandleManager.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "MPI_helpers.hpp"
@@ -28,7 +29,7 @@ Nelson::MpiGateway::MPI_RecvBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(_W("MPI must be initialized."));
+        raiseError(L"Nelson:mpi:ERROR_MPI_MUST_BE_INITIALIZED", ERROR_MPI_MUST_BE_INITIALIZED);
     }
     ArrayOf tmp = argIn[0];
     int source = tmp.getContentAsInteger32Scalar();

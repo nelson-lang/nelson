@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "meanBuiltin.hpp"
-#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "OverloadRequired.hpp"
 #include "Mean.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -52,7 +52,8 @@ Nelson::StatisticsGateway::meanBuiltin(int nLhs, const ArrayOfVector& argIn)
             } else if (s == L"native") {
                 outType = MEAN_OUT_TYPE::NATIVE;
             } else {
-                Error(_("Invalid second argument."));
+                raiseError(L"Nelson:statistics:ERROR_INVALID_SECOND_ARGUMENT",
+                    ERROR_INVALID_SECOND_ARGUMENT);
             }
         } else {
             dim = param2.getContentAsScalarIndex(false);
@@ -78,7 +79,8 @@ Nelson::StatisticsGateway::meanBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (s == L"all") {
                 isAll = true;
             } else {
-                Error(_("Invalid second argument."));
+                raiseError(L"Nelson:statistics:ERROR_INVALID_SECOND_ARGUMENT",
+                    ERROR_INVALID_SECOND_ARGUMENT);
             }
         } else {
             dim = param2.getContentAsScalarIndex(false);
@@ -96,10 +98,12 @@ Nelson::StatisticsGateway::meanBuiltin(int nLhs, const ArrayOfVector& argIn)
             } else if (s == L"native") {
                 outType = MEAN_OUT_TYPE::NATIVE;
             } else {
-                Error(_("Invalid third argument."));
+                raiseError(L"Nelson:statistics:ERROR_INVALID_THIRD_ARGUMENT",
+                    ERROR_INVALID_THIRD_ARGUMENT);
             }
         } else {
-            Error(_("Invalid third argument."));
+            raiseError(
+                L"Nelson:statistics:ERROR_INVALID_THIRD_ARGUMENT", ERROR_INVALID_THIRD_ARGUMENT);
         }
         if (isAll) {
             res = MeanAll(param1, omitNaN, outType, needToOverload);
@@ -121,7 +125,8 @@ Nelson::StatisticsGateway::meanBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (s == L"all") {
                 isAll = true;
             } else {
-                Error(_("Invalid second argument."));
+                raiseError(L"Nelson:statistics:ERROR_INVALID_SECOND_ARGUMENT",
+                    ERROR_INVALID_SECOND_ARGUMENT);
             }
         } else {
             dim = param2.getContentAsScalarIndex(false);
@@ -146,43 +151,51 @@ Nelson::StatisticsGateway::meanBuiltin(int nLhs, const ArrayOfVector& argIn)
                 outType = MEAN_OUT_TYPE::NATIVE;
                 haveTypeChoice = true;
             } else {
-                Error(_("Invalid third argument."));
+                raiseError(L"Nelson:statistics:ERROR_INVALID_THIRD_ARGUMENT",
+                    ERROR_INVALID_THIRD_ARGUMENT);
             }
         } else {
-            Error(_("Invalid third argument."));
+            raiseError(
+                L"Nelson:statistics:ERROR_INVALID_THIRD_ARGUMENT", ERROR_INVALID_THIRD_ARGUMENT);
         }
         if (param4.isRowVectorCharacterArray() || (param4.isStringArray() && param4.isScalar())) {
             std::wstring s = param4.getContentAsWideString();
             if (s == L"omitnan") {
                 if (haveNaNChoice) {
-                    Error(_("Invalid 4th argument."));
+                    raiseError(L"Nelson:statistics:ERROR_INVALID_4TH_ARGUMENT",
+                        ERROR_INVALID_4TH_ARGUMENT);
                 }
                 omitNaN = true;
             } else if (s == L"includenan") {
                 if (haveNaNChoice) {
-                    Error(_("Invalid 4th argument."));
+                    raiseError(L"Nelson:statistics:ERROR_INVALID_4TH_ARGUMENT",
+                        ERROR_INVALID_4TH_ARGUMENT);
                 }
                 omitNaN = false;
             } else if (s == L"default") {
                 if (haveTypeChoice) {
-                    Error(_("Invalid 4th argument."));
+                    raiseError(L"Nelson:statistics:ERROR_INVALID_4TH_ARGUMENT",
+                        ERROR_INVALID_4TH_ARGUMENT);
                 }
                 outType = MEAN_OUT_TYPE::DEFAULT;
             } else if (s == L"double") {
                 if (haveTypeChoice) {
-                    Error(_("Invalid 4th argument."));
+                    raiseError(L"Nelson:statistics:ERROR_INVALID_4TH_ARGUMENT",
+                        ERROR_INVALID_4TH_ARGUMENT);
                 }
                 outType = MEAN_OUT_TYPE::DOUBLE;
             } else if (s == L"native") {
                 if (haveTypeChoice) {
-                    Error(_("Invalid 4th argument."));
+                    raiseError(L"Nelson:statistics:ERROR_INVALID_4TH_ARGUMENT",
+                        ERROR_INVALID_4TH_ARGUMENT);
                 }
                 outType = MEAN_OUT_TYPE::NATIVE;
             } else {
-                Error(_("Invalid 4th argument."));
+                raiseError(
+                    L"Nelson:statistics:ERROR_INVALID_4TH_ARGUMENT", ERROR_INVALID_4TH_ARGUMENT);
             }
         } else {
-            Error(_("Invalid 4th argument."));
+            raiseError(L"Nelson:statistics:ERROR_INVALID_4TH_ARGUMENT", ERROR_INVALID_4TH_ARGUMENT);
         }
         if (isAll) {
             res = MeanAll(param1, omitNaN, outType, needToOverload);
@@ -191,7 +204,8 @@ Nelson::StatisticsGateway::meanBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:statistics:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     if (needToOverload) {

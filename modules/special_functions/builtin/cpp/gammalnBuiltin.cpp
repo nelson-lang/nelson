@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "gammalnBuiltin.hpp"
-#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "LogarithmGamma.hpp"
 #include "OverloadRequired.hpp"
@@ -24,7 +24,8 @@ Nelson::SpecialFunctionsGateway::gammalnBuiltin(int nLhs, const ArrayOfVector& a
     nargoutcheck(nLhs, 0, 1);
     if (argIn[0].isSparse() || argIn[0].getDataClass() == NLS_DCOMPLEX
         || argIn[0].getDataClass() == NLS_SCOMPLEX) {
-        Error(_W("Input argument must be dense and real."));
+        raiseError(L"Nelson:special_functions:ERROR_INPUT_ARGUMENT_MUST_BE_DENSE_AND_REAL",
+            ERROR_INPUT_ARGUMENT_MUST_BE_DENSE_AND_REAL);
     }
     if (argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_SINGLE) {
         retval << LogarithmGamma(argIn[0]);

@@ -9,6 +9,8 @@
 //=============================================================================
 #include "subsasgnBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -20,16 +22,20 @@ Nelson::OperatorsGateway::subsasgnBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 1, 1);
 
     if (!argIn[1].isStruct()) {
-        Error(_("Second argument must be a structure with two fields whose names are 'type' and "
-                "'subs'."));
+        raiseError(L"Nelson:operators:ERROR_SECOND_ARGUMENT_MUST_BE_A_STRUCTURE_WITH_TWO_FIELDS_"
+                   L"WHOSE_NAMES_ARE_TYPE_AND",
+            ERROR_SECOND_ARGUMENT_MUST_BE_A_STRUCTURE_WITH_TWO_FIELDS_WHOSE_NAMES_ARE_TYPE_AND,
+            L"type", L"subs");
     }
     stringVector fieldnames = argIn[1].getFieldNames();
     bool isSupportedStruct = (fieldnames.size() == 2)
         && ((fieldnames[0] == "type" && fieldnames[1] == "subs")
             || (fieldnames[0] == "subs" && fieldnames[1] == "type"));
     if (!isSupportedStruct) {
-        Error(_("Second argument must be a structure with two fields whose names are 'type' and "
-                "'subs'."));
+        raiseError(L"Nelson:operators:ERROR_SECOND_ARGUMENT_MUST_BE_A_STRUCTURE_WITH_TWO_FIELDS_"
+                   L"WHOSE_NAMES_ARE_TYPE_AND",
+            ERROR_SECOND_ARGUMENT_MUST_BE_A_STRUCTURE_WITH_TWO_FIELDS_WHOSE_NAMES_ARE_TYPE_AND,
+            L"type", L"subs");
     }
 
     ArrayOfVector typeFields = argIn[1].getFieldAsList("type");
@@ -39,7 +45,8 @@ Nelson::OperatorsGateway::subsasgnBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf B = argIn[2];
 
     if (typeFields.size() > 1) {
-        Error(_("No support for index chaining."));
+        raiseError(L"Nelson:operators:ERROR_NO_SUPPORT_FOR_INDEX_CHAINING",
+            ERROR_NO_SUPPORT_FOR_INDEX_CHAINING);
     }
 
     for (indexType k = 0; k < typeFields.size(); k++) {
@@ -57,7 +64,8 @@ Nelson::OperatorsGateway::subsasgnBuiltin(int nLhs, const ArrayOfVector& argIn)
             isIndex = true;
             index = subsField;
         } else {
-            Error(_("'subs' field must be a cell array or string."));
+            raiseError(L"Nelson:operators:ERROR_SUBS_FIELD_MUST_BE_A_CELL_ARRAY_OR_STRING",
+                ERROR_SUBS_FIELD_MUST_BE_A_CELL_ARRAY_OR_STRING);
         }
 
         ArrayOfVector indexAsVector;
@@ -76,7 +84,8 @@ Nelson::OperatorsGateway::subsasgnBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
         } else if (typeStr == ".") {
             if (!A.isStruct()) {
-                Error(_("First argument must be a struct."));
+                raiseError(L"Nelson:operators:ERROR_FIRST_ARGUMENT_MUST_BE_A_STRUCT",
+                    ERROR_FIRST_ARGUMENT_MUST_BE_A_STRUCT);
             }
             A.setField(name, B);
         } else if ((typeStr == "{}")) {
@@ -86,7 +95,9 @@ Nelson::OperatorsGateway::subsasgnBuiltin(int nLhs, const ArrayOfVector& argIn)
                 A.setNDimContents(indexAsVector, B);
             }
         } else {
-            Error(_("Illegal indexing structure argument: type '.', '{}' or '()' expected."));
+            raiseError(
+                L"Nelson:operators:ERROR_ILLEGAL_INDEXING_STRUCTURE_ARGUMENT_TYPE_OR_EXPECTED",
+                ERROR_ILLEGAL_INDEXING_STRUCTURE_ARGUMENT_TYPE_OR_EXPECTED);
         }
     }
     retval.push_back(A);

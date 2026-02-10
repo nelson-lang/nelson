@@ -31,7 +31,7 @@ Nelson::AudioGateway::audiometadataBuiltin(int nLhs, const ArrayOfVector& argIn)
     wstringVector values;
     AudioFileMetaData(filename, names, values, errorMessage);
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:audio:ERROR_AUDIO_MESSAGE");
     }
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
@@ -56,7 +56,7 @@ Nelson::AudioGateway::audiometadataBuiltin(int nLhs, const ArrayOfVector& argIn)
                 } else {
                     deleteAudioFileMetaData(filename, utf8_to_wstring(fieldname), errorMessage);
                     if (!errorMessage.empty()) {
-                        Error(errorMessage);
+                        Error(errorMessage, L"Nelson:audio:ERROR_AUDIO_MESSAGE");
                     }
                 }
             } else {
@@ -68,7 +68,7 @@ Nelson::AudioGateway::audiometadataBuiltin(int nLhs, const ArrayOfVector& argIn)
         setAudioFileMetaData(filename, wcurrentFieldname, currentValues, errorMessage);
     }
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:audio:ERROR_AUDIO_MESSAGE");
     }
     ArrayOfVector fieldvalues;
     for (size_t i = 0; i < names.size(); i++) {

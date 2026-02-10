@@ -14,6 +14,7 @@
 #include "omp_for_loop.hpp"
 #include <Eigen/Dense>
 #include "ArrayOf.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -258,7 +259,8 @@ real_subtraction(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B
             if (A.isVector() || B.isVector()) {
                 if ((A.isRowVector() && B.isRowVector())
                     || (A.isColumnVector() && B.isColumnVector())) {
-                    Error(_("Size mismatch on arguments to arithmetic operator") + " " + "-");
+                    raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                        ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"-");
                 } else if (A.isRowVector() && B.isColumnVector()) {
                     res = row_column_real_subtraction<T>(classDestination, A, B);
                 } else if (A.isColumnVector() && B.isRowVector()) {
@@ -266,36 +268,38 @@ real_subtraction(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B
                 } else if (dimsA.getRows() == dimsB.getRows()) {
                     if (A.isVector()) {
                         if (!B.is2D()) {
-                            Error(
-                                _("Size mismatch on arguments to arithmetic operator") + " " + "-");
+                            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                                ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"-");
                         }
                         res = row_matrix_real_subtraction<T>(classDestination, A, B);
                     } else {
                         if (!A.is2D()) {
-                            Error(
-                                _("Size mismatch on arguments to arithmetic operator") + " " + "-");
+                            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                                ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"-");
                         }
                         res = matrix_row_real_subtraction<T>(classDestination, A, B);
                     }
                 } else if (dimsA.getColumns() == dimsB.getColumns()) {
                     if (A.isVector()) {
                         if (!B.is2D()) {
-                            Error(
-                                _("Size mismatch on arguments to arithmetic operator") + " " + "-");
+                            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                                ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"-");
                         }
                         res = column_matrix_real_subtraction<T>(classDestination, A, B);
                     } else {
                         if (!A.is2D()) {
-                            Error(
-                                _("Size mismatch on arguments to arithmetic operator") + " " + "-");
+                            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                                ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"-");
                         }
                         res = matrix_column_real_subtraction<T>(classDestination, A, B);
                     }
                 } else {
-                    Error(_("Size mismatch on arguments to arithmetic operator") + " " + "-");
+                    raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                        ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"-");
                 }
             } else {
-                Error(_("Size mismatch on arguments to arithmetic operator") + " " + "-");
+                raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                    ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"-");
             }
         }
     }

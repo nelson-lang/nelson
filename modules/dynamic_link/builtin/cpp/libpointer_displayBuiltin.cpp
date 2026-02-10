@@ -9,6 +9,7 @@
 //=============================================================================
 #include "libpointer_displayBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "LibPointerObject.hpp"
@@ -32,14 +33,16 @@ Nelson::DynamicLinkGateway::libpointer_dispBuiltin(
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                Error(_W("libpointer handle expected."));
+                raiseError(L"Nelson:dynamic_link:ERROR_LIBPOINTER_HANDLE_EXPECTED",
+                    ERROR_LIBPOINTER_HANDLE_EXPECTED);
             }
             LibPointerObject* lipPointerObj = (LibPointerObject*)param1.getContentAsHandleScalar();
             lipPointerObj->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("libpointer handle expected."));
+        raiseError(L"Nelson:dynamic_link:ERROR_LIBPOINTER_HANDLE_EXPECTED",
+            ERROR_LIBPOINTER_HANDLE_EXPECTED);
     }
     return retval;
 }
@@ -61,14 +64,16 @@ Nelson::DynamicLinkGateway::libpointer_displayBuiltin(
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                Error(_W("libpointer handle expected."));
+                raiseError(L"Nelson:dynamic_link:ERROR_LIBPOINTER_HANDLE_EXPECTED",
+                    ERROR_LIBPOINTER_HANDLE_EXPECTED);
             }
             LibPointerObject* lipPointerObj = (LibPointerObject*)param1.getContentAsHandleScalar();
             lipPointerObj->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("libpointer handle expected."));
+        raiseError(L"Nelson:dynamic_link:ERROR_LIBPOINTER_HANDLE_EXPECTED",
+            ERROR_LIBPOINTER_HANDLE_EXPECTED);
     }
     return retval;
 }

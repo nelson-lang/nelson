@@ -9,6 +9,7 @@
 //=============================================================================
 #include "isapproxBuiltin.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "IsApprox.hpp"
 #include "OverloadRequired.hpp"
@@ -35,7 +36,8 @@ Nelson::ElementaryFunctionsGateway::isapproxBuiltin(int nLhs, const ArrayOfVecto
     ArrayOf param2 = argIn[1];
     if (param1.isNumeric() && param2.isNumeric()) {
         if (param1.isSparse() || param2.isSparse()) {
-            Error(_W("Sparse type not supported."));
+            raiseError(L"Nelson:elementary_functions:ERROR_SPARSE_TYPE_NOT_SUPPORTED",
+                ERROR_SPARSE_TYPE_NOT_SUPPORTED);
         }
         if (param1.isComplex() || param2.isComplex()) {
             param1.promoteType(NLS_DCOMPLEX);
@@ -46,7 +48,8 @@ Nelson::ElementaryFunctionsGateway::isapproxBuiltin(int nLhs, const ArrayOfVecto
         }
         retval << ArrayOf::logicalConstructor(IsApprox(param1, param2, precision));
     } else {
-        Error(_W("Numerics types expected."));
+        raiseError(L"Nelson:elementary_functions:ERROR_NUMERICS_TYPES_EXPECTED",
+            ERROR_NUMERICS_TYPES_EXPECTED);
     }
     return retval;
 }

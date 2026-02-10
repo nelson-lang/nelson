@@ -17,6 +17,8 @@
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "GOScalarDoubleProperty.hpp"
 #include "GOCallbackProperty.hpp"
@@ -42,10 +44,12 @@ UIControlBuilder(const ArrayOfVector& argIn)
                         GOUIControl* goUIControl = (GOUIControl*)(hp);
                         goUIControl->setFocus();
                     } else {
-                        Error(_W("uicontrol graphic object expected."));
+                        raiseError(L"Nelson:graphics:ERROR_UICONTROL_GRAPHIC_OBJECT_EXPECTED",
+                            ERROR_UICONTROL_GRAPHIC_OBJECT_EXPECTED);
                     }
                 } else {
-                    Error(_W("Figure or uicontrol graphic object expected."));
+                    raiseError(L"Nelson:graphics:ERROR_FIGURE_OR_UICONTROL_GRAPHIC_OBJECT_EXPECTED",
+                        ERROR_FIGURE_OR_UICONTROL_GRAPHIC_OBJECT_EXPECTED);
                 }
             }
         }
@@ -59,7 +63,7 @@ UIControlBuilder(const ArrayOfVector& argIn)
             if (fig) {
                 currentFigureID = go;
             } else {
-                Error(_W("Figure expected."));
+                raiseError(L"Nelson:graphics:ERROR_FIGURE_EXPECTED", ERROR_FIGURE_EXPECTED);
             }
         }
     }
@@ -96,11 +100,13 @@ UIControlBuilder(const ArrayOfVector& argIn)
         try {
             GOGenericProperty* goproperty = fp->findProperty(propname);
             if (!fp->isWritable(propname)) {
-                Error(_W("Property is readable only: ") + propname);
+                raiseError(L"Nelson:graphics:ERROR_PROPERTY_IS_READABLE_ONLY",
+                    ERROR_PROPERTY_IS_READABLE_ONLY, propname);
             }
             goproperty->set(propvalue);
         } catch (const Exception& e) {
-            Error(_W("Got error for property:") + L" " + propname + L"\n" + e.what());
+            std::wstring msg = ERROR_GOT_ERROR_FOR_PROPERTY + L" " + propname + L"\n" + e.what();
+            Error(msg, L"Nelson:graphics:ERROR_GOT_ERROR_FOR_PROPERTY");
         }
         copyArgIn.pop_front();
         copyArgIn.pop_front();

@@ -17,6 +17,7 @@
 #include "ZipHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
@@ -29,19 +30,22 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
         FileSystemWrapper::Path p(rootpath);
         std::string errorMessage;
         if (!FileSystemWrapper::Path::create_directories(p, errorMessage)) {
-            Error(_W("Cannot create directory."));
+            raiseError(L"Nelson:file_archiver:ERROR_CANNOT_CREATE_DIRECTORY",
+                ERROR_CANNOT_CREATE_DIRECTORY);
         }
     }
     std::wstring fullRootPath = getRootPath(rootpath);
 
     unzFile* zipfile = static_cast<unzFile*>(unzOpen64(wstring_to_utf8(zipFilename).c_str()));
     if (zipfile == nullptr) {
-        Error(_W("Cannot read file:") + L" " + zipFilename);
+        raiseError(
+            L"Nelson:file_archiver:ERROR_CANNOT_READ_FILE", ERROR_CANNOT_READ_FILE, zipFilename);
     }
 
     unz_global_info64 global_info;
     if (unzGetGlobalInfo64(zipfile, &global_info) != UNZ_OK) {
-        Error(_W("Cannot read file global info."));
+        raiseError(L"Nelson:file_archiver:ERROR_CANNOT_READ_FILE_GLOBAL_INFO",
+            ERROR_CANNOT_READ_FILE_GLOBAL_INFO);
     }
 #define MAX_FILENAME 8192
     for (size_t i = 0; i < global_info.number_entry; ++i) {
@@ -51,7 +55,8 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
                 zipfile, &file_info, filename, MAX_FILENAME, nullptr, 0, nullptr, 0)
             != UNZ_OK) {
             unzClose(zipfile);
-            Error(_W("Cannot read file info."));
+            raiseError(
+                L"Nelson:file_archiver:ERROR_CANNOT_READ_FILE_INFO", ERROR_CANNOT_READ_FILE_INFO);
         }
         const size_t filename_length = strlen(filename);
         if (filename[filename_length - 1] == '/') {
@@ -63,7 +68,7 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
         } else {
             if (unzOpenCurrentFile(zipfile) != UNZ_OK) {
                 unzClose(zipfile);
-                Error(_W("Cannot open file."));
+                raiseError(L"Nelson:file_archiver:ERROR_CANNOT_OPEN_FILE", ERROR_CANNOT_OPEN_FILE);
             }
             std::filesystem::path completePath(fullRootPath + L"/" + utf8_to_wstring(filename));
             std::error_code ec;
@@ -71,7 +76,8 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
             if (ec) {
                 unzCloseCurrentFile(zipfile);
                 unzClose(zipfile);
-                Error(_W("Cannot create intermediate directory."));
+                raiseError(L"Nelson:file_archiver:ERROR_CANNOT_CREATE_INTERMEDIATE_DIRECTORY",
+                    ERROR_CANNOT_CREATE_INTERMEDIATE_DIRECTORY);
             }
 
 #ifdef _MSC_VER
@@ -82,7 +88,8 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
             if (out == nullptr) {
                 unzCloseCurrentFile(zipfile);
                 unzClose(zipfile);
-                Error(_W("Cannot open destination file."));
+                raiseError(L"Nelson:file_archiver:ERROR_CANNOT_OPEN_DESTINATION_FILE",
+                    ERROR_CANNOT_OPEN_DESTINATION_FILE);
             }
             filenames.push_back(completePath.generic_wstring());
 
@@ -97,7 +104,8 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
                         fclose(out);
                         out = nullptr;
                     }
-                    Error(_W("Cannot read data."));
+                    raiseError(
+                        L"Nelson:file_archiver:ERROR_CANNOT_READ_DATA", ERROR_CANNOT_READ_DATA);
                 }
                 if (error > 0) {
                     fwrite(read_buffer, error, 1, out);
@@ -114,7 +122,8 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
         if ((i + 1) < global_info.number_entry) {
             if (unzGoToNextFile(zipfile) != UNZ_OK) {
                 unzClose(zipfile);
-                Error(_W("Cannot read next file."));
+                raiseError(L"Nelson:file_archiver:ERROR_CANNOT_READ_NEXT_FILE",
+                    ERROR_CANNOT_READ_NEXT_FILE);
             }
         }
     }

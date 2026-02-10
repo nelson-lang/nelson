@@ -9,6 +9,7 @@
 //=============================================================================
 #include "GOColorVectorProperty.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -20,7 +21,8 @@ GOColorVectorProperty::set(ArrayOf arg)
     arg.promoteType(NLS_DOUBLE);
     bool isValid = arg.isEmpty() || (arg.is2D() && (arg.getDimensionLength(1) == 3));
     if (!isValid) {
-        Error(_("Expect an m x 3 matrix for color orders."));
+        raiseError(L"Nelson:graphics:ERROR_EXPECT_AN_M_X_3_MATRIX_FOR_COLOR_ORDERS",
+            ERROR_EXPECT_AN_M_X_3_MATRIX_FOR_COLOR_ORDERS);
     }
     const double* dp = static_cast<const double*>(
         const_cast<void*>(static_cast<const void*>(arg.getDataPointer())));
@@ -28,7 +30,8 @@ GOColorVectorProperty::set(ArrayOf arg)
     indexType n = arg.getElementCount();
     for (indexType i = 0; i < n; i++) {
         if ((dp[i] < 0) || (dp[i] > 1.0)) {
-            Error(_("Color vector must be between 0 and 1."));
+            raiseError(L"Nelson:graphics:ERROR_COLOR_VECTOR_MUST_BE_BETWEEN_0_AND_1",
+                ERROR_COLOR_VECTOR_MUST_BE_BETWEEN_0_AND_1);
         }
     }
     _data.clear();

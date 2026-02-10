@@ -10,6 +10,7 @@
 #include "MPI_Comm_splitBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "MPI_helpers.hpp"
 #include <mpi.h>
@@ -26,7 +27,7 @@ Nelson::MpiGateway::MPI_Comm_splitBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(_W("MPI must be initialized."));
+        raiseError(L"Nelson:mpi:ERROR_MPI_MUST_BE_INITIALIZED", ERROR_MPI_MUST_BE_INITIALIZED);
     }
     MPI_Comm comm = HandleToMpiComm(argIn[0]);
     ArrayOf param2 = argIn[1];
@@ -35,7 +36,7 @@ Nelson::MpiGateway::MPI_Comm_splitBuiltin(int nLhs, const ArrayOfVector& argIn)
     int key = param3.getContentAsInteger32Scalar();
     MPI_Comm newcomm = MPI_COMM_NULL;
     if (MPI_Comm_split(comm, color, key, &newcomm) != MPI_SUCCESS) {
-        Error(_W("MPI_Comm_split fails."));
+        raiseError(L"Nelson:mpi:ERROR_MPI_COMM_SPLIT_FAILS", ERROR_MPI_COMM_SPLIT_FAILS);
     }
     retval << MpiCommToHandle(newcomm);
     return retval;

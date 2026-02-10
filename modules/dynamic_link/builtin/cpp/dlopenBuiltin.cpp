@@ -31,7 +31,7 @@ Nelson::DynamicLinkGateway::dlopenBuiltin(int nLhs, const ArrayOfVector& argIn)
         try {
             dlObject = new DynamicLinkLibraryObject(libraryPath);
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:dynamic_link:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         } catch (const Exception&) {
             throw;
         }

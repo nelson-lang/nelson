@@ -21,6 +21,7 @@
 #include "FscanFunction.hpp"
 #include "NelsonConfiguration.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -35,7 +36,8 @@ Nelson::StreamGateway::fscanfBuiltin(int nLhs, const ArrayOfVector& argIn)
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     auto iValue = static_cast<int32>(dID);
     if (fm == nullptr) {
-        Error(_W("Problem with file manager."));
+        raiseError(L"Nelson:stream_manager:ERROR_PROBLEM_WITH_FILE_MANAGER",
+            ERROR_PROBLEM_WITH_FILE_MANAGER);
     }
     ArrayOf param2 = argIn[1];
     std::string format = param2.getContentAsCString();
@@ -51,39 +53,47 @@ Nelson::StreamGateway::fscanfBuiltin(int nLhs, const ArrayOfVector& argIn)
                 if (dims3.isScalar()) {
                     m = param3.getContentAsDoubleScalar();
                     if (m < 0) {
-                        Error(_W("Wrong value >= 0 expected."));
+                        raiseError(L"Nelson:stream_manager:ERROR_WRONG_VALUE_GE_0_EXPECTED",
+                            ERROR_WRONG_VALUE_GE_0_EXPECTED);
                     }
                     n = 1;
                 } else {
                     double* ptr = (double*)param3.getDataPointer();
                     m = ptr[0];
                     if (m < 0) {
-                        Error(_W("Wrong value >= 0 expected."));
+                        raiseError(L"Nelson:stream_manager:ERROR_WRONG_VALUE_GE_0_EXPECTED",
+                            ERROR_WRONG_VALUE_GE_0_EXPECTED);
                     }
                     n = ptr[1];
                     if (n < 0) {
-                        Error(_W("Wrong value >= 0 expected."));
+                        raiseError(L"Nelson:stream_manager:ERROR_WRONG_VALUE_GE_0_EXPECTED",
+                            ERROR_WRONG_VALUE_GE_0_EXPECTED);
                     }
                 }
             } else {
-                Error(_W("Wrong size. scalar or [a, b] expected."));
+                raiseError(L"Nelson:stream_manager:ERROR_WRONG_SIZE_SCALAR_OR_A_B_EXPECTED",
+                    ERROR_WRONG_SIZE_SCALAR_OR_A_B_EXPECTED);
             }
         } else {
-            Error(_W("Wrong type. double expected."));
+            raiseError(L"Nelson:stream_manager:ERROR_WRONG_TYPE_DOUBLE_EXPECTED",
+                ERROR_WRONG_TYPE_DOUBLE_EXPECTED);
         }
         haveThirdArgument = true;
     }
     if (!fm->isOpened(iValue)) {
-        Error(_W("Wrong value for #1 argument: a valid file ID expected."));
+        raiseError(L"Nelson:stream_manager:ERROR_INVALID_FILE_ID_EXPECTED",
+            ERROR_INVALID_FILE_ID_EXPECTED);
     }
     File* f = fm->getFile(iValue);
     if (f->isInterfaceMethod()) {
-        Error(_W("Not implemented for 'stdout', 'stderr' or 'stdin'."));
+        raiseError(L"Nelson:stream_manager:ERROR_NOT_IMPLEMENTED_FOR_STDIO",
+            ERROR_NOT_IMPLEMENTED_FOR_STDIO);
     }
     std::string encoding = wstring_to_utf8(f->getEncoding());
     FILE* filepointer = static_cast<FILE*>(f->getFilePointer());
     if (!filepointer) {
-        Error(_W("Wrong value for #1 argument: a valid file ID expected."));
+        raiseError(L"Nelson:stream_manager:ERROR_INVALID_FILE_ID_EXPECTED",
+            ERROR_INVALID_FILE_ID_EXPECTED);
     }
     indexType count = 0;
     ArrayOf value = FscanF(filepointer, format, encoding, m, n, haveThirdArgument, count, false);

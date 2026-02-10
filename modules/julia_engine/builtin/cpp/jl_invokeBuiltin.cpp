@@ -13,6 +13,7 @@
 #include "nlsBuildConfig.h"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "JuliaObjectHandle.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -25,7 +26,7 @@ Nelson::Julia_engineGateway::jl_invokeBuiltin(Evaluator* eval, int nLhs, const A
     nargoutcheck(nLhs, 0);
     HandleGenericObject* hgo = argIn[0].getContentAsHandleScalar();
     if (!hgo || hgo->getCategory() != NLS_HANDLE_JULIA_CATEGORY_STR) {
-        Error(_W("Julia object expected."));
+        raiseError(L"Nelson:julia_engine:ERROR_JULIA_OBJECT_EXPECTED", ERROR_JULIA_OBJECT_EXPECTED);
     }
 
     std::wstring methodname = argIn[1].getContentAsWideString();
@@ -41,7 +42,8 @@ Nelson::Julia_engineGateway::jl_invokeBuiltin(Evaluator* eval, int nLhs, const A
 
     JuliaObjectHandle* poh = (JuliaObjectHandle*)hgo;
     if (!poh->invoke(io, methodname, params, nLhs, retval)) {
-        Error(formatErrorMessage(ERROR_WRONG_ARGUMENT_X_VALUE, 2) + L" " + methodname);
+        raiseError(L"Nelson:julia_engine:ERROR_WRONG_ARGUMENT_X_VALUE",
+            ERROR_WRONG_ARGUMENT_X_VALUE, 2, methodname);
     }
     return retval;
 }

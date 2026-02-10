@@ -10,8 +10,10 @@
 #include "jlrunBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "JuliaRun.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -19,7 +21,8 @@ ArrayOfVector
 Nelson::Julia_engineGateway::jlrunBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (!eval) {
-        Error(_W("Evaluator not available."));
+        raiseError(
+            L"Nelson:julia_engine:ERROR_EVALUATOR_NOT_AVAILABLE", ERROR_EVALUATOR_NOT_AVAILABLE);
     }
 
     wstringVector commands = argIn[0].getContentAsWideStringVector();
@@ -53,13 +56,15 @@ Nelson::Julia_engineGateway::jlrunBuiltin(Evaluator* eval, int nLhs, const Array
             names.push_back(argIn[k].getContentAsWideString());
             values.push_back(argIn[k + 1]);
         } else {
-            Error(_W("Field names must be string scalars or character vectors."),
-                L"Nelson:Jlrun:NonStringFieldNames");
+            raiseError(L"Nelson:julia_engine:ERROR_FIELD_NAMES_MUST_BE_STRING_SCALARS_OR_CHARACTER_"
+                       L"VECTORS",
+                ERROR_FIELD_NAMES_MUST_BE_STRING_SCALARS_OR_CHARACTER_VECTORS);
         }
     }
 
     if ((size_t)nLhs > outputs.size()) {
-        Error(_W("Wrong number of output arguments."));
+        raiseError(L"Nelson:julia_engine:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
+            ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     ArrayOfVector res = JuliaRun(
         eval->getInterface(), eval->haveEventsLoop(), nullptr, commands, outputs, names, values);

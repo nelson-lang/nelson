@@ -39,7 +39,8 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
     } else if ((arg == L"l") || (arg == L"ieee-le")) {
         bIsLittleEndian = true;
     } else {
-        Error(_W("Wrong value for machine format."));
+        raiseError(L"Nelson:stream_manager:ERROR_WRONG_VALUE_FOR_MACHINE_FORMAT",
+            ERROR_WRONG_VALUE_FOR_MACHINE_FORMAT);
     }
     ArrayOf param4 = argIn[3];
     auto skipSize = static_cast<size_t>(param4.getContentAsScalarIndex());
@@ -50,7 +51,8 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
         bool bOK = false;
         classDest = precisionFromString(precisionStr, bOK);
         if (!bOK) {
-            Error(_W("Wrong value for #3 argument: not supported precision."));
+            raiseError(L"Nelson:stream_manager:ERROR_WRONG_VALUE_ARG3_NOT_SUPPORTED_PRECISION",
+                ERROR_WRONG_VALUE_ARG3_NOT_SUPPORTED_PRECISION);
         }
     } else {
         raiseError(L"Nelson:stream:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
@@ -60,14 +62,17 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
     if (param1.isDoubleType()) {
         ArrayOf param2 = argIn[1];
         if (param2.isReferenceType()) {
-            Error(_W("Cannot write references type."));
+            raiseError(L"Nelson:stream_manager:ERROR_CANNOT_WRITE_REFERENCES_TYPE",
+                ERROR_CANNOT_WRITE_REFERENCES_TYPE);
         }
         if (param2.isSparse()) {
-            Error(_W("Cannot write sparse type."));
+            raiseError(L"Nelson:stream_manager:ERROR_CANNOT_WRITE_SPARSE_TYPE",
+                ERROR_CANNOT_WRITE_SPARSE_TYPE);
         }
         auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
         if (fm == nullptr) {
-            Error(_W("Problem with file manager."));
+            raiseError(
+                L"Nelson:stream:ERROR_PROBLEM_WITH_FILE_MANAGER", ERROR_PROBLEM_WITH_FILE_MANAGER);
             return retval;
         }
         auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
@@ -87,24 +92,32 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                 }
             } break;
             case FWRITE_DATA_TYPE_NOT_SUPPORTED: {
-                Error(_W("Type not supported."));
+                raiseError(
+                    L"Nelson:stream_manager:ERROR_TYPE_NOT_SUPPORTED", ERROR_TYPE_NOT_SUPPORTED);
             } break;
             case FWRITE_ALLOCATION_MEMORY: {
-                Error(ERROR_MEMORY_ALLOCATION);
+                raiseError(
+                    L"Nelson:stream_manager:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
             } break;
             case FWRITE_FILE_DESTINATION_NOT_SUPPORTED:
             case FWRITE_INVALID_FILE: {
-                Error(_W("Invalid file identifier."));
+                raiseError(L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER",
+                    ERROR_INVALID_FILE_IDENTIFIER);
             } break;
             case FWRITE_ENDIAN_CONVERSION_NOT_SUPPORTED: {
-                Error(_W("Endian conversion not supported for this file identifier."));
+                raiseError(
+                    L"Nelson:stream_manager:ERROR_ENDIAN_CONVERSION_NOT_SUPPORTED_FOR_FILEID",
+                    ERROR_ENDIAN_CONVERSION_NOT_SUPPORTED_FOR_FILEID);
             } break;
             case FWRITE_ERROR_ENCODING: {
-                Error(_W("encoding conversion not supported for this file identifier."));
+                raiseError(
+                    L"Nelson:stream_manager:ERROR_ENCODING_CONVERSION_NOT_SUPPORTED_FOR_FILEID",
+                    ERROR_ENCODING_CONVERSION_NOT_SUPPORTED_FOR_FILEID);
             } break;
             }
         } else {
-            Error(_W("Wrong value for #1 argument: a valid file ID expected."));
+            raiseError(L"Nelson:stream_manager:ERROR_INVALID_FILE_ID_EXPECTED",
+                ERROR_INVALID_FILE_ID_EXPECTED);
         }
     } else {
         raiseError(L"Nelson:stream:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
@@ -178,7 +191,8 @@ Nelson::StreamGateway::fwriteBuiltin(int nLhs, const ArrayOfVector& argIn)
     case 5:
         return fwriteBuiltinFiveRhs(nLhs, argIn);
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:stream_manager:ERROR_WRONG_NUMBERS_INPUT_ARGS",
+            ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     ArrayOfVector retval;

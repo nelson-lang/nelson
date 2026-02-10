@@ -15,6 +15,7 @@
 #include "StringHelpers.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -98,12 +99,14 @@ checkDateFormatIsValid(const wstringVector& keys, const std::wstring& format)
 
     for (const auto& key : keys) {
         if (mapCount[key] > 1) {
-            Error(_W("Invalid date format (duplicated field): ") + key);
+            raiseError(L"Nelson:time:ERROR_INVALID_DATE_FORMAT_DUPLICATED_FIELD",
+                ERROR_INVALID_DATE_FORMAT_DUPLICATED_FIELD, key);
         }
     }
 
     if (mapCount[L"AM"] == 1 && mapCount[L"PM"] == 1) {
-        Error(_W("Invalid date format (duplicated field): ") + L"AM/PM");
+        raiseError(L"Nelson:time:ERROR_INVALID_DATE_FORMAT_DUPLICATED_FIELD",
+            ERROR_INVALID_DATE_FORMAT_DUPLICATED_FIELD, std::wstring(L"AM/PM"));
     }
 }
 //=============================================================================

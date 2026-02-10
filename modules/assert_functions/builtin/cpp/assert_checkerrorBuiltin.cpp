@@ -28,7 +28,8 @@ Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin(
     std::wstring expectedmsg = param2.getContentAsWideString();
 
     if (expectedmsg.empty()) {
-        Error(_W("empty string not allowed as expected message."));
+        raiseError(L"Nelson:assert_functions:ERROR_EMPTY_EXPECTED_MESSAGE_NOT_ALLOWED",
+            ERROR_EMPTY_EXPECTED_MESSAGE_NOT_ALLOWED);
     }
     std::wstring msg;
     bool res;
@@ -41,7 +42,7 @@ Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin(
 
     if (nLhs == 0) {
         if (!res) {
-            Error(msg);
+            Error(msg, L"Nelson:assert_functions:ERROR_ASSERTION_FAILED");
         }
     } else {
         retval << ArrayOf::logicalConstructor(res);

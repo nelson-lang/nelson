@@ -30,7 +30,8 @@ Nelson::ComEngineGateway::COM_dispBuiltin(Evaluator* eval, int nLhs, const Array
     }
     DispComHandleObject(io, param1, name);
 #else
-    Error(_W("Not implemented on this platform."));
+    raiseError(
+        L"Nelson:com_engine:ERROR_NOT_IMPLEMENTED_ON_PLATFORM", ERROR_NOT_IMPLEMENTED_ON_PLATFORM);
 #endif
     return retval;
 }
@@ -53,7 +54,8 @@ Nelson::ComEngineGateway::COM_displayBuiltin(Evaluator* eval, int nLhs, const Ar
     }
     DispComHandleObject(io, param1, name);
 #else
-    Error(_W("Not implemented on this platform."));
+    raiseError(
+        L"Nelson:com_engine:ERROR_NOT_IMPLEMENTED_ON_PLATFORM", ERROR_NOT_IMPLEMENTED_ON_PLATFORM);
 #endif
     return retval;
 }

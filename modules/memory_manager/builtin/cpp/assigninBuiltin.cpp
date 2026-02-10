@@ -28,8 +28,9 @@ Nelson::MemoryGateway::assigninBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     std::string scopename = argIn[0].getContentAsCString();
     if (!((scopename == "global") || (scopename == "base") || (scopename == "caller")
             || (scopename == "local"))) {
-        Error(_W("#1 Argument must contain a string: \'global\', \'base\', \'local\' or \'caller\' "
-                 "expected."));
+        raiseError(L"Nelson:memory_manager:ERROR_1_ARGUMENT_MUST_CONTAIN_A_STRING_GLOBAL_BASE_"
+                   L"LOCAL_OR_CALLER",
+            ERROR_1_ARGUMENT_MUST_CONTAIN_A_STRING_GLOBAL_BASE_LOCAL_OR_CALLER);
     }
     if (!argIn[1].isRowVectorCharacterArray()) {
         raiseError(L"Nelson:memory_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
@@ -37,7 +38,8 @@ Nelson::MemoryGateway::assigninBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     }
     std::string varname = argIn[1].getContentAsCString();
     if (!IsValidVariableName(varname)) {
-        Error(_W("#2 Argument must contain a valid variable name."));
+        raiseError(L"Nelson:memory_manager:ERROR_2_ARGUMENT_MUST_CONTAIN_A_VALID_VARIABLE_NAME",
+            ERROR_2_ARGUMENT_MUST_CONTAIN_A_VALID_VARIABLE_NAME);
     }
     Context* context = eval->getContext();
     Scope* scope = nullptr;
@@ -54,7 +56,8 @@ Nelson::MemoryGateway::assigninBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         scope = context->getCurrentScope();
     }
     if ((scope != nullptr) && scope->isLockedVariable(varname)) {
-        Error(_W("Redefining permanent variable."));
+        raiseError(L"Nelson:memory_manager:ERROR_REDEFINING_PERMANENT_VARIABLE",
+            ERROR_REDEFINING_PERMANENT_VARIABLE);
     }
     if (scope != nullptr) {
         ArrayOf varValue = argIn[2];

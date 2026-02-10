@@ -11,6 +11,8 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 //=============================================================================
+#include "PredefinedErrorMessages.hpp"
+
 namespace Nelson {
 //=============================================================================
 double
@@ -49,7 +51,8 @@ GOScalarPositiveIntegerValueProperty::set(ArrayOf arg)
     double value = arg.getContentAsDoubleScalar();
 
     if (value != (int)value || !std::isfinite(value) || value < 1) {
-        Error(_("Value should be an positive integer value > 0."));
+        raiseError(L"Nelson:graphics:POSITIVE_INTEGER_VALUE_EXPECTED",
+            _W("Value should be an positive integer value > 0."));
     }
     GOGenericProperty::set(arg);
     _data = value;

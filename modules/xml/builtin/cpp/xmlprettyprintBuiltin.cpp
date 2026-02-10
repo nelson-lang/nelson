@@ -47,7 +47,7 @@ Nelson::XmlGateway::xmlprettyprintBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     XmlPrettyPrint(xmlFilesOrDirectories, formatSpace, errorMessage);
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:xml:ERROR_XMLPRETTYPRINT_ERROR");
     }
     return retval;
 }

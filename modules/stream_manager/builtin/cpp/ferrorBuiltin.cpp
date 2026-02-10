@@ -15,6 +15,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "FilesManager.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "FileError.hpp"
 #include "NelsonConfiguration.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -30,26 +31,27 @@ Nelson::StreamGateway::ferrorBuiltin(int nLhs, const ArrayOfVector& argIn)
     FilesManager* fm
         = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
-        Error(_W("Problem with file manager."));
+        raiseError(
+            L"Nelson:stream:ERROR_PROBLEM_WITH_FILE_MANAGER", ERROR_PROBLEM_WITH_FILE_MANAGER);
     }
     bool withClear = false;
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
         std::wstring str = param2.getContentAsWideString();
         if (str != L"clear") {
-            Error(_W("'clear' expected as second argument."));
+            raiseError(L"Nelson:stream:ERROR_FERROR_CLEAR_EXPECTED", ERROR_FERROR_CLEAR_EXPECTED);
         }
         withClear = true;
     }
     ArrayOf param1 = argIn[0];
     int32 iValue = static_cast<int32>(param1.getContentAsDoubleScalar(false));
     if (!fm->isOpened(iValue)) {
-        Error(_W("Invalid file identifier."));
+        raiseError(L"Nelson:stream:ERROR_INVALID_FILEID", ERROR_INVALID_FILEID);
     }
     int errorCode = 0;
     std::string errorMessage;
     if (!FileError(fm, iValue, withClear, errorCode, errorMessage)) {
-        Error(_W("Invalid file identifier."));
+        raiseError(L"Nelson:stream:ERROR_INVALID_FILE_IDENTIFIER", ERROR_INVALID_FILE_IDENTIFIER);
     }
     retval << ArrayOf::characterArrayConstructor(errorMessage);
     retval << ArrayOf::doubleConstructor((double)errorCode);

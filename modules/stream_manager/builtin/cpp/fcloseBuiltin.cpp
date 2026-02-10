@@ -24,7 +24,8 @@ Nelson::StreamGateway::fcloseBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
-        Error(_W("Problem with file manager."));
+        raiseError(
+            L"Nelson:stream:ERROR_PROBLEM_WITH_FILE_MANAGER", ERROR_PROBLEM_WITH_FILE_MANAGER);
     }
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
@@ -38,7 +39,7 @@ Nelson::StreamGateway::fcloseBuiltin(int nLhs, const ArrayOfVector& argIn)
                 retval << ArrayOf::doubleConstructor(-1.);
             }
         } else {
-            Error(_W("Invalid file identifier."));
+            raiseError(L"Nelson:stream:ERROR_INVALID_FILEID", ERROR_INVALID_FILEID);
         }
     } else if (param1.isRowVectorCharacterArray()) {
         nargoutcheck(nLhs, 0, 0);
@@ -57,10 +58,11 @@ Nelson::StreamGateway::fcloseBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
                 NelsonConfiguration::getInstance()->setFileManager((void*)nfm);
             } else {
-                Error(_W("Cannot close files."));
+                raiseError(L"Nelson:stream:ERROR_CANNOT_CLOSE_FILES", ERROR_CANNOT_CLOSE_FILES);
             }
         } else {
-            Error(_W("Wrong value for #1: 'all' expected."));
+            raiseError(L"Nelson:stream:ERROR_WRONG_VALUE_ARG1_ALL_EXPECTED",
+                ERROR_WRONG_VALUE_ARG1_ALL_EXPECTED);
         }
     } else {
         raiseError(L"Nelson:stream:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_DOUBLE_EXPECTED",

@@ -37,7 +37,8 @@ Nelson::AudioGateway::audiowriteBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring Comment;
     for (size_t i = 3; i < argIn.size(); i += 2) {
         if (i >= argIn.size() - 1) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            raiseError(
+                L"Nelson:audio:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
         ArrayOf paramFieldName = argIn[i];
         ArrayOf paramFieldValue = argIn[i + 1];
@@ -64,8 +65,8 @@ Nelson::AudioGateway::audiowriteBuiltin(int nLhs, const ArrayOfVector& argIn)
             validFieldname = true;
         }
         if (!validFieldname) {
-            std::wstring msg = fmt::format(ERROR_WRONG_ARGUMENT_X_VALUE, static_cast<int>(i));
-            Error(msg);
+            raiseError(L"Nelson:audio:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE,
+                static_cast<int>(i));
         }
     }
     wstringVector metadata;
@@ -75,7 +76,7 @@ Nelson::AudioGateway::audiowriteBuiltin(int nLhs, const ArrayOfVector& argIn)
     metadata.push_back(Comment);
     bool res = AudioWrite(filename, data, fs, metadata, BitsPerSample, BitRate, errorMessage);
     if (!res) {
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:audio:ERROR_AUDIO_MESSAGE");
     }
     return {};
 }

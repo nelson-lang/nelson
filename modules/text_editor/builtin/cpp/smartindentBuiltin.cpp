@@ -35,7 +35,8 @@ Nelson::TextEditorGateway::smartindentBuiltin(int nLhs, const ArrayOfVector& arg
         filename = argIn[0].getContentAsWideString();
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:text_editor:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     smartIndent(filename, (int)tabSize, doBackup ? true : false);

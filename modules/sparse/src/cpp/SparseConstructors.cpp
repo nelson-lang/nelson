@@ -29,7 +29,7 @@ SparseConstructor(indexType m, indexType n)
             = new Eigen::SparseMatrix<double, 0, signedIndexType>(m, n);
         res = ArrayOf(NLS_DOUBLE, dims, (void*)spmat, true);
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
     }
     return res;
 }
@@ -75,7 +75,8 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V)
     for (indexType i = 0; i < I.getElementCount(); i++) {
         rows = (static_cast<double>(ip[i]) > static_cast<double>(rows)) ? ip[i] : rows;
         if (ip[i] < 1) {
-            Error(_W("Index into matrix must be positive."));
+            raiseError(L"Nelson:sparse:ERROR_INDEX_INTO_MATRIX_MUST_BE_POSITIVE",
+                ERROR_INDEX_INTO_MATRIX_MUST_BE_POSITIVE);
         }
     }
     auto* jp = (indexType*)J.getDataPointer();
@@ -83,7 +84,8 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V)
     for (indexType j = 0; j < J.getElementCount(); j++) {
         cols = (static_cast<double>(jp[j]) > static_cast<double>(cols)) ? jp[j] : cols;
         if (jp[j] < 1) {
-            Error(_W("Index into matrix must be positive."));
+            raiseError(L"Nelson:sparse:ERROR_INDEX_INTO_MATRIX_MUST_BE_POSITIVE",
+                ERROR_INDEX_INTO_MATRIX_MUST_BE_POSITIVE);
         }
     }
     Dimensions dim(rows, cols);
@@ -105,7 +107,8 @@ SparseConstructor(const ArrayOf& I, const ArrayOf& J, const ArrayOf& V, indexTyp
     Dimensions dims = res.getDimensions();
     Dimensions newdims(m, n);
     if (dims.getElementCount() > newdims.getElementCount()) {
-        Error(_W("Index exceeds matrix dimensions."));
+        raiseError(L"Nelson:sparse:ERROR_INDEX_EXCEEDS_MATRIX_DIMENSIONS",
+            ERROR_INDEX_EXCEEDS_MATRIX_DIMENSIONS);
     }
     void* spmat = Eigen_CopyResizeSparseMatrix(
         res.getDataClass(), res.getSparseDataPointer(), dims.getRows(), dims.getColumns(), m, n);
@@ -127,7 +130,8 @@ SparseConstructor(
             spmat->finalize();
             spmat->makeCompressed();
         } else {
-            Error(_W("Index exceeds matrix dimensions."));
+            raiseError(L"Nelson:sparse:ERROR_INDEX_EXCEEDS_MATRIX_DIMENSIONS",
+                ERROR_INDEX_EXCEEDS_MATRIX_DIMENSIONS);
         }
     } break;
     case NLS_DOUBLE: {
@@ -139,7 +143,8 @@ SparseConstructor(
             spmat->finalize();
             spmat->makeCompressed();
         } else {
-            Error(_W("Index exceeds matrix dimensions."));
+            raiseError(L"Nelson:sparse:ERROR_INDEX_EXCEEDS_MATRIX_DIMENSIONS",
+                ERROR_INDEX_EXCEEDS_MATRIX_DIMENSIONS);
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -151,7 +156,8 @@ SparseConstructor(
             spmat->finalize();
             spmat->makeCompressed();
         } else {
-            Error(_W("Index exceeds matrix dimensions."));
+            raiseError(L"Nelson:sparse:ERROR_INDEX_EXCEEDS_MATRIX_DIMENSIONS",
+                ERROR_INDEX_EXCEEDS_MATRIX_DIMENSIONS);
         }
     } break;
     default: {

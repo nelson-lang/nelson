@@ -11,6 +11,8 @@
 #include "Error.hpp"
 #include "ClassName.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -49,8 +51,10 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(int nLhs, const ArrayOfVector& 
     } break;
     case NLS_CLASS_ARRAY:
     default: {
-        Error(_("Undefined function 'ndims' for input arguments of type") + " '" + ClassName(param1)
-            + "'.");
+        raiseError(L"Nelson:elementary_functions:ERROR_UNDEFINED_FUNCTION_NDIMS_FOR_INPUT_"
+                   L"ARGUMENTS_OF_TYPE",
+            ERROR_UNDEFINED_FUNCTION_NDIMS_FOR_INPUT_ARGUMENTS_OF_TYPE,
+            utf8_to_wstring(ClassName(param1)));
     } break;
     }
     return retval;

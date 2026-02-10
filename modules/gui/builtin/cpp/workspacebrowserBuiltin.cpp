@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "workspacebrowserBuiltin.hpp"
-#include "Error.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "WorkspaceBrowser.hpp"
@@ -35,7 +34,8 @@ Nelson::GuiGateway::workspacebrowserBuiltin(Evaluator* eval, int nLhs, const Arr
         if (param == L"sync") {
             WorkspaceBrowser::updateWorkspaceBrowser();
         } else {
-            Error(_W("Wrong value for #1 argument."));
+            raiseError(
+                L"Nelson:gui:ERROR_WRONG_VALUE_FOR_1_ARGUMENT", ERROR_WRONG_VALUE_FOR_1_ARGUMENT);
         }
     } break;
     case 2: {
@@ -46,7 +46,8 @@ Nelson::GuiGateway::workspacebrowserBuiltin(Evaluator* eval, int nLhs, const Arr
                 if (param2 == L"toggle") {
                     WorkspaceBrowser::toggleVisibilityWorkspaceBrowser();
                 } else {
-                    Error(_W("Wrong value for #2 argument."));
+                    raiseError(L"Nelson:gui:ERROR_WRONG_VALUE_FOR_2_ARGUMENT",
+                        ERROR_WRONG_VALUE_FOR_2_ARGUMENT);
                 }
             } else {
                 logical visibility = argIn[1].getContentAsLogicalScalar();
@@ -57,7 +58,8 @@ Nelson::GuiGateway::workspacebrowserBuiltin(Evaluator* eval, int nLhs, const Arr
                 }
             }
         } else {
-            Error(_W("Wrong value for #1 argument."));
+            raiseError(
+                L"Nelson:gui:ERROR_WRONG_VALUE_FOR_1_ARGUMENT", ERROR_WRONG_VALUE_FOR_1_ARGUMENT);
         }
     } break;
     }

@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "betaincBuiltin.hpp"
-#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "BetaIncomplete.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -33,7 +33,9 @@ Nelson::SpecialFunctionsGateway::betaincBuiltin(int nLhs, const ArrayOfVector& a
                 isLower = true;
             }
         } else {
-            Error(_("Wrong value of the fourth argument 'upper' or 'lower' expected."));
+            raiseError(L"Nelson:special_functions:ERROR_WRONG_VALUE_OF_THE_FOURTH_ARGUMENT_UPPER_"
+                       L"OR_LOWER_EXPECTED",
+                ERROR_WRONG_VALUE_OF_THE_FOURTH_ARGUMENT_UPPER_OR_LOWER_EXPECTED);
         }
     }
     retval << BetaIncomplete(argIn[0], argIn[1], argIn[2], isLower, needToOverload);

@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "eigBuiltin.hpp"
-#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "OverloadRequired.hpp"
 #include "EigenDecomposition.hpp"
@@ -57,7 +57,8 @@ Nelson::LinearAlgebraGateway::eigBuiltin(int nLhs, const ArrayOfVector& argIn)
             } else if (balanceOption == L"nobalance") {
                 balance = false;
             } else {
-                Error(_W("option #2 must be 'balance', or 'nobalance'."));
+                raiseError(L"Nelson:linear_algebra:ERROR_OPTION_2_MUST_BE_BALANCE_OR_NOBALANCE",
+                    ERROR_OPTION_2_MUST_BE_BALANCE_OR_NOBALANCE);
             }
         } else {
             generalizedDecomposition = true;
@@ -76,7 +77,7 @@ Nelson::LinearAlgebraGateway::eigBuiltin(int nLhs, const ArrayOfVector& argIn)
         OverloadRequired("eig");
     } else {
         if (!bSuccess) {
-            Error(errorMessage);
+            raiseError(L"Nelson:linear_algebra:eig", errorMessage);
         }
     }
     return retval;

@@ -60,7 +60,8 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
             password = argIn[5].getContentAsWideString();
         } break;
         default: {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            raiseError(
+                L"Nelson:webtools:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
         } break;
         }
         url = argIn[1].getContentAsWideString();
@@ -107,7 +108,8 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
             password = argIn[5].getContentAsWideString();
         } break;
         default: {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            raiseError(
+                L"Nelson:webtools:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
         }
         RepositoryExport(url, username, username, branchOrTag, localPath, errorMessage);
@@ -145,7 +147,8 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
         nargoutcheck(nLhs, 0, 1);
         bool checkNbArgsIn = (argIn.size() == 2) || (argIn.size() == 4);
         if (!checkNbArgsIn) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            raiseError(
+                L"Nelson:webtools:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
         }
         std::wstring username;
         std::wstring password;
@@ -172,10 +175,11 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
             retval << ArrayOf::characterArrayConstructor(currentBranchName);
         }
     } else {
-        Error(_W("Wrong value for #1 argument."));
+        raiseError(
+            L"Nelson:webtools:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 1);
     }
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:webtools:ERROR_REPO_ERROR");
     }
     return retval;
 }

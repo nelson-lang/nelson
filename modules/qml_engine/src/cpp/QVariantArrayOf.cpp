@@ -156,7 +156,7 @@ QVariantToArrayOf(QVariant Q)
 {
     ArrayOf res;
     if (!Q.isValid()) {
-        Error(_W("QVariant invalid."));
+        raiseError(L"Nelson:qml:ERROR_QVARIANT_INVALID", ERROR_QVARIANT_INVALID);
     }
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QMetaType metaType = Q.metaType();
@@ -482,7 +482,7 @@ QVariantToArrayOf(QVariant Q)
                         qmlHandle = new QObjectHandleObject(qobject);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        Error(ERROR_MEMORY_ALLOCATION);
+                        raiseError(L"Nelson:qml:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
                     }
                     nh[0] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }
@@ -512,7 +512,7 @@ QVariantToArrayOf(QVariant Q)
                         qmlHandle = new QObjectHandleObject(qobj);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        Error(ERROR_MEMORY_ALLOCATION);
+                        raiseError(L"Nelson:qml:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
                     }
                     nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }
@@ -547,7 +547,7 @@ QVariantToArrayOf(QVariant Q)
                         qmlHandle = new QObjectHandleObject(qobj);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        Error(ERROR_MEMORY_ALLOCATION);
+                        raiseError(L"Nelson:qml:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
                     }
                     nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }
@@ -564,7 +564,8 @@ QVariantToArrayOf(QVariant Q)
         }
         QObject* obj = qvariant_cast<QObject*>(Q);
         if (obj == nullptr) {
-            Error(_W("property type not managed."));
+            raiseError(
+                L"Nelson:qml:ERROR_PROPERTY_TYPE_NOT_MANAGED", ERROR_PROPERTY_TYPE_NOT_MANAGED);
         }
         QObjectHandleObject* qmlHandle = nullptr;
         try {
@@ -572,7 +573,7 @@ QVariantToArrayOf(QVariant Q)
             qmlHandle = new QObjectHandleObject(obj);
         } catch (const std::bad_alloc&) {
             qmlHandle = nullptr;
-            Error(ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:qml:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
         }
         return ArrayOf::handleConstructor(qmlHandle);
     } break;
@@ -631,7 +632,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
     case QMetaType::Type::QByteArray: {
         Dimensions dimsA = A.getDimensions();
         if (!A.isVector()) {
-            Error(_W("vector expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_EXPECTED", ERROR_VECTOR_EXPECTED);
         }
         A.promoteType(NLS_INT8);
         int8* arrayInt8 = (int8*)A.getDataPointer();
@@ -646,7 +647,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
     case QMetaType::Type::QBitArray: {
         Dimensions dimsA = A.getDimensions();
         if (!A.isVector()) {
-            Error(_W("vector expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_EXPECTED", ERROR_VECTOR_EXPECTED);
         }
         A.promoteType(NLS_LOGICAL);
         logical* arrayLogical = (logical*)A.getDataPointer();
@@ -661,7 +662,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 3);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x3 expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_1x3_EXPECTED", ERROR_VECTOR_1x3_EXPECTED);
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -672,7 +673,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x4 expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_1x4_EXPECTED", ERROR_VECTOR_1x4_EXPECTED);
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -683,7 +684,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 7);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x7 expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_EXPECTED", ERROR_VECTOR_EXPECTED);
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -707,7 +708,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x4 expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_1x4_EXPECTED", ERROR_VECTOR_1x4_EXPECTED);
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -718,7 +719,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x4 expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_1x4_EXPECTED", ERROR_VECTOR_1x4_EXPECTED);
         }
         A.promoteType(NLS_DOUBLE);
         double* arrayDouble = (double*)A.getDataPointer();
@@ -729,7 +730,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x2 expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_1x2_EXPECTED", ERROR_VECTOR_1x2_EXPECTED);
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -740,7 +741,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x2 expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_1x2_EXPECTED", ERROR_VECTOR_1x2_EXPECTED);
         }
         A.promoteType(NLS_DOUBLE);
         double* arrayDouble = (double*)A.getDataPointer();
@@ -751,7 +752,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x4 expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_1x4_EXPECTED", ERROR_VECTOR_1x4_EXPECTED);
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -762,7 +763,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x4 expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_1x4_EXPECTED", ERROR_VECTOR_1x4_EXPECTED);
         }
         A.promoteType(NLS_DOUBLE);
         double* arrayDouble = (double*)A.getDataPointer();
@@ -773,7 +774,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x2 expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_1x2_EXPECTED", ERROR_VECTOR_1x2_EXPECTED);
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -784,7 +785,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x2 expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_1x2_EXPECTED", ERROR_VECTOR_1x2_EXPECTED);
         }
         A.promoteType(NLS_DOUBLE);
         double* arrayDouble = (double*)A.getDataPointer();
@@ -800,7 +801,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x4 expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_1x4_EXPECTED", ERROR_VECTOR_1x4_EXPECTED);
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -813,7 +814,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 6);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x6 expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_1x6_EXPECTED", ERROR_VECTOR_1x6_EXPECTED);
         }
         A.promoteType(NLS_DOUBLE);
         double* arrayDouble = (double*)A.getDataPointer();
@@ -827,7 +828,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(3, 3);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("matrix 3x3 expected."));
+            raiseError(L"Nelson:qml:ERROR_MATRIX_3x3_EXPECTED", ERROR_MATRIX_3x3_EXPECTED);
         }
         A.promoteType(NLS_DOUBLE);
         double* arrayDouble = (double*)A.getDataPointer();
@@ -839,7 +840,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(4, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("matrix 4x4 expected."));
+            raiseError(L"Nelson:qml:ERROR_MATRIX_4x4_EXPECTED", ERROR_MATRIX_4x4_EXPECTED);
         }
         A.promoteType(NLS_SINGLE);
         single* arraySingle = (single*)A.getDataPointer();
@@ -854,7 +855,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x2 expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_1x2_EXPECTED", ERROR_VECTOR_1x2_EXPECTED);
         }
         A.promoteType(NLS_SINGLE);
         single* arraySingle = (single*)A.getDataPointer();
@@ -865,7 +866,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 3);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x3 expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_1x3_EXPECTED", ERROR_VECTOR_1x3_EXPECTED);
         }
         A.promoteType(NLS_SINGLE);
         single* arraySingle = (single*)A.getDataPointer();
@@ -876,7 +877,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x4 expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_1x4_EXPECTED", ERROR_VECTOR_1x4_EXPECTED);
         }
         A.promoteType(NLS_SINGLE);
         single* arraySingle = (single*)A.getDataPointer();
@@ -887,7 +888,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x4 expected."));
+            raiseError(L"Nelson:qml:ERROR_VECTOR_1x4_EXPECTED", ERROR_VECTOR_1x4_EXPECTED);
         }
         A.promoteType(NLS_SINGLE);
         single* arraySingle = (single*)A.getDataPointer();
@@ -896,18 +897,18 @@ ArrayOfToQVariant(ArrayOf A, int id)
     } break;
     case QMetaType::Type::QVariantList: {
         if (!A.isCell()) {
-            Error(_W("cell expected."));
+            raiseError(L"Nelson:qml:ERROR_CELL_EXPECTED", ERROR_CELL_EXPECTED);
         }
         res = ArrayOfToQVariant(A);
     } break;
     case QMetaType::Type::QVariantMap: {
         if (!A.isStruct()) {
-            Error(_W("structs expected."));
+            raiseError(L"Nelson:qml:ERROR_STRUCTS_EXPECTED", ERROR_STRUCTS_EXPECTED);
         }
         res = ArrayOfToQVariant(A);
     } break;
     default: {
-        Error(_W("QVariant type not managed."));
+        raiseError(L"Nelson:qml:ERROR_QVARIANT_TYPE_NOT_MANAGED", ERROR_QVARIANT_TYPE_NOT_MANAGED);
     } break;
     }
     return res;
@@ -953,10 +954,11 @@ ArrayOfToQVariant(ArrayOf A)
 {
     QVariant res;
     if (A.isSparse() || !A.is2D()) {
-        Error(_W("Type conversion to QVariant not managed."));
+        raiseError(L"Nelson:qml:ERROR_TYPE_CONVERSION_TO_QVARIANT_NOT_MANAGED",
+            ERROR_TYPE_CONVERSION_TO_QVARIANT_NOT_MANAGED);
     }
     if (A.isEmpty()) {
-        Error(_W("Empty matrix not managed."));
+        raiseError(L"Nelson:qml:ERROR_EMPTY_MATRIX_NOT_MANAGED", ERROR_EMPTY_MATRIX_NOT_MANAGED);
     }
     NelsonType ClassA = A.getDataClass();
     switch (ClassA) {
@@ -1026,7 +1028,8 @@ ArrayOfToQVariant(ArrayOf A)
         if (A.isRowVectorCharacterArray()) {
             res = ArrayOfToQVariant(A, QMetaType::Type::QString);
         } else {
-            Error(_W("Type conversion to QVariant not managed."));
+            raiseError(L"Nelson:qml:ERROR_TYPE_CONVERSION_TO_QVARIANT_NOT_MANAGED",
+                ERROR_TYPE_CONVERSION_TO_QVARIANT_NOT_MANAGED);
         }
     } break;
     case NLS_STRING_ARRAY: {
@@ -1109,7 +1112,8 @@ ArrayOfToQVariant(ArrayOf A)
     case NLS_CLASS_ARRAY:
     case NLS_FUNCTION_HANDLE:
     default: {
-        Error(_W("Type conversion to QVariant not managed."));
+        raiseError(L"Nelson:qml:ERROR_TYPE_CONVERSION_TO_QVARIANT_NOT_MANAGED",
+            ERROR_TYPE_CONVERSION_TO_QVARIANT_NOT_MANAGED);
     } break;
     }
     return res;

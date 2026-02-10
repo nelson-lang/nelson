@@ -11,6 +11,7 @@
 #include "InputOutputArgumentsCheckers.hpp"
 #include "XmlTransform.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -33,7 +34,7 @@ Nelson::XmlGateway::xmltransformBuiltin(int nLhs, const ArrayOfVector& argIn)
     bool res = XmlTransform(
         xmlfile, xslfile, outputfile, overwrite, DOCUMENT_OUTPUT::UNDEFINED, errorMessage);
     if (!res) {
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:xml:ERROR_XML_TRANSFORM_ERROR");
     }
     retval << ArrayOf::logicalConstructor(res);
     return retval;

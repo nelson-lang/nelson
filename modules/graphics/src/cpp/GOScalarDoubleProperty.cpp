@@ -12,6 +12,7 @@
 #include <fmt/xchar.h>
 #include "GOScalarDoubleProperty.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -23,15 +24,14 @@ GOScalarProperty::set(ArrayOf num)
         ArrayOf copyNum(num);
         copyNum.promoteType(NLS_DOUBLE);
         if (!copyNum.isScalar()) {
-            Error(_W("Scalar value expected."));
+            raiseError(L"Nelson:graphics:ERROR_SCALAR_VALUE_EXPECTED", ERROR_SCALAR_VALUE_EXPECTED);
         }
         const double* dp = (const double*)copyNum.getDataPointer();
         if (dp[0] >= _minValue && dp[0] <= _maxValue) {
             GOFixedVectorProperty::set(num);
         } else {
-            std::wstring message = fmt::format(
-                _W("Value is out of range {0} <= value <= {1}."), _minValue, _maxValue);
-            Error(message);
+            raiseError(L"Nelson:graphics:ERROR_VALUE_OUT_OF_RANGE", ERROR_VALUE_OUT_OF_RANGE,
+                _minValue, _maxValue);
         }
     } else {
         GOFixedVectorProperty::set(num);
@@ -45,9 +45,8 @@ GOScalarProperty::data(double x)
         if (x >= _minValue && x <= _maxValue) {
             at(0) = x;
         } else {
-            std::wstring message = fmt::format(
-                _W("Value is out of range {0} <= value <= {1}."), _minValue, _maxValue);
-            Error(message);
+            raiseError(L"Nelson:graphics:ERROR_VALUE_OUT_OF_RANGE", ERROR_VALUE_OUT_OF_RANGE,
+                _minValue, _maxValue);
         }
     } else {
         at(0) = x;

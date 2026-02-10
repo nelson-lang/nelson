@@ -60,7 +60,8 @@ Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayO
                     textEditor(eval, true);
                 }
             } else {
-                Error(_W("Wrong value for #2 argument."));
+                raiseError(L"Nelson:text_editor:ERROR_WRONG_ARGUMENT_X_VALUE",
+                    ERROR_WRONG_ARGUMENT_X_VALUE, 2);
             }
         } else if (option == L"editor_command") {
             std::wstring commandLine = argIn[1].getContentAsWideString();
@@ -70,11 +71,13 @@ Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayO
             NelsonConfiguration::getInstance()->setCurrentEditor(commandLine, false);
             NelsonConfiguration::getInstance()->setVsCodeMode(true);
         } else {
-            Error(_W("Wrong value for #1 argument."));
+            raiseError(L"Nelson:text_editor:ERROR_WRONG_ARGUMENT_X_VALUE",
+                ERROR_WRONG_ARGUMENT_X_VALUE, 1);
         }
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:text_editor:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     return retval;

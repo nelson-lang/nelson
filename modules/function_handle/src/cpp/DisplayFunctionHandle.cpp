@@ -13,6 +13,7 @@
 #include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
@@ -37,7 +38,8 @@ DisplayFunctionHandle(Interface* io, const ArrayOf& A, const std::wstring& name,
         }
         DisplayScalarFunctionHandle(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
-        Error(_W("Case not managed. Please report."));
+        raiseError(L"Nelson:function_handle:ERROR_CASE_NOT_MANAGED_PLEASE_REPORT",
+            ERROR_CASE_NOT_MANAGED_PLEASE_REPORT);
     }
     DisplayVariableFooter(io, asDisp);
 }

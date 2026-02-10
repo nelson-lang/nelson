@@ -14,6 +14,8 @@
 #include "ClassName.hpp"
 #include <unsupported/Eigen/MatrixFunctions>
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "NaN.hpp"
 #include "ReciprocalConditionNumber.hpp"
@@ -114,8 +116,9 @@ checkIsSupportedType(const ArrayOf& A)
     bool isSupportedTypes = (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE
         || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX);
     if (!isSupportedTypes) {
-        Error(_("Undefined function 'expm' for input arguments of type") + " '" + ClassName(A)
-            + "'.");
+        raiseError(L"Nelson:linear_algebra:ERROR_UNDEFINED_FUNCTION_X_FOR_INPUT_ARGUMENTS_OF_TYPE",
+            ERROR_UNDEFINED_FUNCTION_X_FOR_INPUT_ARGUMENTS_OF_TYPE, L"schur",
+            utf8_to_wstring(ClassName(A)));
     }
 }
 //=============================================================================
@@ -123,7 +126,8 @@ void
 checkIsSquare(const ArrayOf& A)
 {
     if (!A.isSquare()) {
-        Error(_("Square matrix expected."));
+        raiseError(
+            L"Nelson:linear_algebra:ERROR_SQUARE_MATRIX_EXPECTED", ERROR_SQUARE_MATRIX_EXPECTED);
     }
 }
 //=============================================================================
@@ -285,7 +289,7 @@ ExpSingularMatrix(const ArrayOf& A)
     std::wstring errorMessage;
 
     if (!performEigenDecomposition(A, V, D, needToOverload, errorMessage)) {
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:linear_algebra:eig");
     }
     ArrayOf R(A);
 
@@ -317,7 +321,8 @@ ExpSingularMatrix(const ArrayOf& A)
         computeMatrixExponential<single, std::complex<single>, Eigen::MatrixXcf>(V, D, invV, R);
     } break;
     default: {
-        Error(_W("Unsupported matrix type."));
+        raiseError(
+            L"Nelson:linear_algebra:ERROR_UNSUPPORTED_MATRIX_TYPE", ERROR_UNSUPPORTED_MATRIX_TYPE);
     } break;
     }
     if (A.isDoubleType(true)) {

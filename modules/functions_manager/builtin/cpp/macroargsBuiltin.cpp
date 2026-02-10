@@ -38,7 +38,8 @@ Nelson::FunctionsGateway::macroargsBuiltin(Evaluator* eval, int nLhs, const Arra
             retval << ArrayOf::toCellArrayOfCharacterColumnVectors(Outputs);
         }
     } else {
-        Error(_W("function macro name not found."));
+        raiseError(L"Nelson:functions_manager:ERROR_FUNCTION_MACRO_NAME_NOT_FOUND",
+            ERROR_FUNCTION_MACRO_NAME_NOT_FOUND);
     }
     return retval;
 }

@@ -10,6 +10,7 @@
 #include "MPI_InitBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "MPI_helpers.hpp"
 #include <mpi.h>
 #include "InputOutputArgumentsCheckers.hpp"
@@ -23,7 +24,7 @@ Nelson::MpiGateway::MPI_InitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
     if (eval->haveEventsLoop()) {
-        Error(_W("Wrong engine mode."));
+        raiseError(L"Nelson:mpi:ERROR_WRONG_ENGINE_MODE", ERROR_WRONG_ENGINE_MODE);
     }
     retval << ArrayOf::logicalConstructor(initializeMPI());
     return retval;

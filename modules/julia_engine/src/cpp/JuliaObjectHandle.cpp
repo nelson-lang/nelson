@@ -20,6 +20,7 @@
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -304,7 +305,8 @@ JuliaObjectHandle::invoke(Interface* io, const std::wstring& methodName,
                     }
                 }
                 error_msg = _("Error in Julia: ") + "\n" + error_msg;
-                Error(error_msg);
+                raiseError(L"Nelson:julia_engine:ERROR_IN_JULIA", ERROR_IN_JULIA,
+                    utf8_to_wstring(error_msg));
                 return {};
             }
         }

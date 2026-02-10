@@ -10,6 +10,7 @@
 #include "pyrunfileBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PyRunFile.hpp"
 #include <sstream>
@@ -23,7 +24,8 @@ Nelson::Python_engineGateway::pyrunfileBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (!eval) {
-        Error(_W("Evaluator not available."));
+        raiseError(
+            L"Nelson:python_engine:ERROR_EVALUATOR_NOT_AVAILABLE", ERROR_EVALUATOR_NOT_AVAILABLE);
     }
     ArrayOfVector retval = {};
     nargincheck(argIn, 1);
@@ -77,13 +79,15 @@ Nelson::Python_engineGateway::pyrunfileBuiltin(
             names.push_back(argIn[k].getContentAsWideString());
             values.push_back(argIn[k + 1]);
         } else {
-            Error(_W("Field names must be string scalars or character vectors."),
-                L"Nelson:Pyrunfile:NonStringFieldNames");
+            raiseError(L"Nelson:python_engine:ERROR_FIELD_NAMES_MUST_BE_STRING_SCALARS_OR_"
+                       L"CHARACTER_VECTORS",
+                ERROR_FIELD_NAMES_MUST_BE_STRING_SCALARS_OR_CHARACTER_VECTORS);
         }
     }
 
     if (nLhs > outputs.size()) {
-        Error(_W("Wrong number of output arguments."));
+        raiseError(L"Nelson:python_engine:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
+            ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
 
     return PyRunFile(

@@ -76,7 +76,7 @@ Nelson::TimeGateway::datenumBuiltin(int nLhs, const ArrayOfVector& argIn)
         return datenumSixRhsBuiltin(nLhs, argIn);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError(L"Nelson:time:ERROR_WRONG_NUMBERS_OUTPUT_ARGS", ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     } break;
     }
     return {};
@@ -177,7 +177,8 @@ datenumOneStringRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
         bool bParsed;
         double res = DateNumber(strdate, false, pivotYear, bParsed);
         if (!bParsed) {
-            Error(L"None of the standard formats match the DATE string.");
+            raiseError(L"Nelson:time:ERROR_NONE_OF_THE_STANDARD_FORMATS_MATCH_THE_DATE_STRING",
+                ERROR_NONE_OF_THE_STANDARD_FORMATS_MATCH_THE_DATE_STRING);
         }
         retval << ArrayOf::doubleConstructor(res);
     } else if (argIn[0].isStringArray()) {
@@ -191,10 +192,13 @@ datenumOneStringRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
                 bool bParsed;
                 pRes[k] = DateNumber(strdate, false, pivotYear, bParsed);
                 if (!bParsed) {
-                    Error(L"None of the standard formats match the DATE string.");
+                    raiseError(
+                        L"Nelson:time:ERROR_NONE_OF_THE_STANDARD_FORMATS_MATCH_THE_DATE_STRING",
+                        ERROR_NONE_OF_THE_STANDARD_FORMATS_MATCH_THE_DATE_STRING);
                 }
             } else {
-                Error(_W("Failed to convert text to date number."));
+                raiseError(L"Nelson:time:ERROR_FAILED_TO_CONVERT_TEXT_TO_DATE_NUMBER",
+                    ERROR_FAILED_TO_CONVERT_TEXT_TO_DATE_NUMBER);
             }
         }
         retval << res;
@@ -208,12 +212,14 @@ datenumOneStringRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
             bool bParsed;
             pRes[k] = DateNumber(strdate, false, pivotYear, bParsed);
             if (!bParsed) {
-                Error(L"None of the standard formats match the DATE string.");
+                raiseError(L"Nelson:time:ERROR_NONE_OF_THE_STANDARD_FORMATS_MATCH_THE_DATE_STRING",
+                    ERROR_NONE_OF_THE_STANDARD_FORMATS_MATCH_THE_DATE_STRING);
             }
         }
         retval << res;
     } else {
-        Error(_W("vector double, character vector or string array expected."));
+        raiseError(L"Nelson:time:ERROR_VECTOR_DOUBLE_CHAR_OR_STRING_ARRAY_EXPECTED",
+            ERROR_VECTOR_DOUBLE_CHAR_OR_STRING_ARRAY_EXPECTED);
     }
     return retval;
 }
@@ -226,7 +232,8 @@ datenumTwoRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
         || argIn[0].isRowVectorCharacterArray() || argIn[0].isStringArray();
 
     if (!isCompatibleType) {
-        Error(_W("First input argument must be a date character vector or a string."));
+        raiseError(L"Nelson:time:ERROR_FIRST_INPUT_ARG_DATE_CHAR_OR_STRING",
+            ERROR_FIRST_INPUT_ARG_DATE_CHAR_OR_STRING);
     }
     int pivotYear = 50;
     bool withPivotYear = false;
@@ -239,7 +246,8 @@ datenumTwoRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
         pivotYear = (int)argIn[1].getContentAsDoubleScalar();
         withPivotYear = true;
     } else {
-        Error(_W("Second argument must be a character vector, a string or scalar numerica value."));
+        raiseError(L"Nelson:time:ERROR_SECOND_ARG_CHAR_STRING_OR_SCALAR_NUMERIC",
+            ERROR_SECOND_ARG_CHAR_STRING_OR_SCALAR_NUMERIC);
     }
 
     wstringVector dateAsString = argIn[0].getContentAsWideStringVector(false);
@@ -253,7 +261,8 @@ datenumTwoRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
             bool bParsed;
             pRes[k] = DateNumber(dateAsString[k], formatIn, withPivotYear, pivotYear, bParsed);
             if (!bParsed) {
-                Error(_W("Failed to convert text to date number."));
+                raiseError(L"Nelson:time:ERROR_FAILED_TO_CONVERT_TEXT_TO_DATE_NUMBER",
+                    ERROR_FAILED_TO_CONVERT_TEXT_TO_DATE_NUMBER);
             }
         }
     } else {
@@ -261,7 +270,8 @@ datenumTwoRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
             bool bParsed;
             pRes[k] = DateNumber(dateAsString[k], withPivotYear, pivotYear, bParsed);
             if (!bParsed) {
-                Error(L"None of the standard formats match the DATE string.");
+                raiseError(L"Nelson:time:ERROR_NONE_OF_THE_STANDARD_FORMATS_MATCH_THE_DATE_STRING",
+                    ERROR_NONE_OF_THE_STANDARD_FORMATS_MATCH_THE_DATE_STRING);
             }
         }
     }
@@ -297,7 +307,8 @@ datenumThreeRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     pRes[k] = DateNumber(dateString[k], withPivotYear, pivotYear, bParsed);
                 }
                 if (!bParsed) {
-                    Error(_W("Failed to convert text to date number."));
+                    raiseError(L"Nelson:time:ERROR_FAILED_TO_CONVERT_TEXT_TO_DATE_NUMBER",
+                        ERROR_FAILED_TO_CONVERT_TEXT_TO_DATE_NUMBER);
                 }
             }
             retval << res;
@@ -305,7 +316,8 @@ datenumThreeRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         bool isAllNumeric = argIn[0].isNumeric() && argIn[1].isNumeric() && argIn[2].isNumeric();
         if (!isAllNumeric) {
-            Error(_W("vector double, character vector or string array expected."));
+            raiseError(L"Nelson:time:ERROR_VECTOR_DOUBLE_CHAR_OR_STRING_ARRAY_EXPECTED",
+                ERROR_VECTOR_DOUBLE_CHAR_OR_STRING_ARRAY_EXPECTED);
         }
         ArrayOf param1(argIn[0]);
         ArrayOf param2(argIn[1]);
@@ -314,7 +326,8 @@ datenumThreeRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
         Dimensions dimsRes = findCommonDimensions(
             param1.getDimensions(), param2.getDimensions(), param3.getDimensions(), isValid);
         if (!isValid) {
-            Error(_W("Invalid vector size must be compatible"));
+            raiseError(L"Nelson:time:ERROR_INVALID_VECTOR_SIZE_MUST_BE_COMPATIBLE",
+                ERROR_INVALID_VECTOR_SIZE_MUST_BE_COMPATIBLE);
         }
         ArrayOf param1AsDouble(param1);
         param1AsDouble.promoteType(NLS_DOUBLE);
@@ -366,7 +379,8 @@ datenumSixRhsBuiltin(int nLhs, const ArrayOfVector& argIn)
         param3.getDimensions(), param4.getDimensions(), param5.getDimensions(),
         param6.getDimensions(), isValid);
     if (!isValid) {
-        Error(_W("Invalid vector size must be compatible"));
+        raiseError(L"Nelson:time:ERROR_INVALID_VECTOR_SIZE_MUST_BE_COMPATIBLE",
+            ERROR_INVALID_VECTOR_SIZE_MUST_BE_COMPATIBLE);
     }
 
     ArrayOf param1AsDouble(param1);

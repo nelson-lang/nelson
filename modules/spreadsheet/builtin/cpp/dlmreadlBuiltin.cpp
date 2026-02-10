@@ -12,6 +12,7 @@
 #include "InputOutputArgumentsCheckers.hpp"
 #include "DelimiterFileReader.hpp"
 #include "CSVRangeConverter.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -36,7 +37,8 @@ Nelson::SpreadsheetGateway::dlmreadBuiltin(int nLhs, const ArrayOfVector& argIn)
             delimiter = L"\t";
         }
         if (delimiter.size() > 1) {
-            Error(_W("Wrong value for argument #2: single character expected."));
+            raiseError(L"Nelson:spreadsheet:ERROR_DLMREAD_WRONG_VALUE_ARG2_SINGLE_CHAR_EXPECTED",
+                ERROR_DLMREAD_WRONG_VALUE_ARG2_SINGLE_CHAR_EXPECTED);
         }
     } break;
 
@@ -47,27 +49,36 @@ Nelson::SpreadsheetGateway::dlmreadBuiltin(int nLhs, const ArrayOfVector& argIn)
             delimiter = L"\t";
         }
         if (delimiter.size() > 1) {
-            Error(_W("Wrong value for argument #2: single character expected."));
+            raiseError(L"Nelson:spreadsheet:ERROR_DLMREAD_WRONG_VALUE_ARG2_SINGLE_CHAR_EXPECTED",
+                ERROR_DLMREAD_WRONG_VALUE_ARG2_SINGLE_CHAR_EXPECTED);
         }
         if (!argIn[2].isRowVector()) {
-            Error(_W("Wrong size for #3 argument. row vector expected."));
+            raiseError(L"Nelson:spreadsheet:ERROR_DLMREAD_WRONG_SIZE_FOR_3_ROW_VECTOR_EXPECTED",
+                ERROR_DLMREAD_WRONG_SIZE_FOR_3_ROW_VECTOR_EXPECTED);
         }
         ArrayOf param2 = argIn[2];
         if (param2.isScalarStringArray() || param2.isRowVectorCharacterArray()) {
             bool failed = false;
             range = CSVRangeConverter::convertRange(param2.getContentAsCString(), failed);
             if (failed) {
-                Error(_W("Wrong value for #3 argument. valid range expected."));
+                raiseError(
+                    L"Nelson:spreadsheet:ERROR_DLMREAD_WRONG_VALUE_ARG3_VALID_RANGE_EXPECTED",
+                    ERROR_DLMREAD_WRONG_VALUE_ARG3_VALID_RANGE_EXPECTED);
             }
         } else {
             if (param2.getElementCount() != 4) {
-                Error(_W("Wrong size for #3 argument. row vector expected."));
+                raiseError(L"Nelson:spreadsheet:ERROR_DLMREAD_WRONG_SIZE_FOR_3_ROW_VECTOR_EXPECTED",
+                    ERROR_DLMREAD_WRONG_SIZE_FOR_3_ROW_VECTOR_EXPECTED);
             }
             if (!param2.isNumeric()) {
-                Error(_W("Wrong type for #3 argument. numeric values expected."));
+                raiseError(
+                    L"Nelson:spreadsheet:ERROR_DLMREAD_WRONG_TYPE_FOR_3_NUMERIC_VALUES_EXPECTED",
+                    ERROR_DLMREAD_WRONG_TYPE_FOR_3_NUMERIC_VALUES_EXPECTED);
             }
             if (param2.isSparse()) {
-                Error(_W("Wrong type for #3 argument. dense values expected."));
+                raiseError(
+                    L"Nelson:spreadsheet:ERROR_DLMREAD_WRONG_TYPE_FOR_3_DENSE_VALUES_EXPECTED",
+                    ERROR_DLMREAD_WRONG_TYPE_FOR_3_DENSE_VALUES_EXPECTED);
             }
             param2.promoteType(NLS_DOUBLE);
             double* values = (double*)param2.getDataPointer();
@@ -84,28 +95,32 @@ Nelson::SpreadsheetGateway::dlmreadBuiltin(int nLhs, const ArrayOfVector& argIn)
             delimiter = L"\t";
         }
         if (delimiter.size() > 1) {
-            Error(_W("Wrong value for argument #2: single character expected."));
+            raiseError(L"Nelson:spreadsheet:ERROR_DLMREAD_WRONG_VALUE_ARG2_SINGLE_CHAR_EXPECTED",
+                ERROR_DLMREAD_WRONG_VALUE_ARG2_SINGLE_CHAR_EXPECTED);
         }
         if (!argIn[2].isScalar() || !argIn[2].isIntegerValue()) {
-            Error(_W("Wrong value for argument #3: integer value expected."));
+            raiseError(L"Nelson:spreadsheet:ERROR_DLMREAD_WRONG_VALUE_ARG3_INTEGER_EXPECTED",
+                ERROR_DLMREAD_WRONG_VALUE_ARG3_INTEGER_EXPECTED);
         } else {
             range.push_back(argIn[2].getContentAsDoubleScalar());
         }
         if (!argIn[3].isScalar() || !argIn[3].isIntegerValue()) {
-            Error(_W("Wrong value for argument #4: integer value expected."));
+            raiseError(L"Nelson:spreadsheet:ERROR_DLMREAD_WRONG_VALUE_ARG4_INTEGER_EXPECTED",
+                ERROR_DLMREAD_WRONG_VALUE_ARG4_INTEGER_EXPECTED);
         } else {
             range.push_back(argIn[3].getContentAsDoubleScalar());
         }
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(
+            L"Nelson:spreadsheet:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
 
     std::wstring errorMessage;
     ArrayOf result = delimitedFileReader(filename, delimiter, range, errorMessage);
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        Error(errorMessage, L"Nelson:spreadsheet:ERROR_DLMREAD_ERROR");
     }
     retval << result;
 

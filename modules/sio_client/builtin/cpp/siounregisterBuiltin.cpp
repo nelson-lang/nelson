@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "siounregisterBuiltin.hpp"
-#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "SioClientRegister.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -23,7 +23,8 @@ Nelson::SioClientGateway::siounregisterBuiltin(int nLhs, const ArrayOfVector& ar
     ArrayOf param1 = argIn[0];
     std::string name = param1.getContentAsCString();
     if (issioreserved(name)) {
-        Error("Impossible to unregister an reserved event name.");
+        raiseError(L"Nelson:sio_client:ERROR_IMPOSSIBLE_TO_UNREGISTER_AN_RESERVED_EVENT_NAME",
+            ERROR_IMPOSSIBLE_TO_UNREGISTER_AN_RESERVED_EVENT_NAME);
     }
     if (issioregistered(name)) {
         siounregister(name);

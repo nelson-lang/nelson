@@ -12,6 +12,7 @@
 #include "Dimensions.hpp"
 #include "SparseDynamicFunctions.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "Exception.hpp"
 #include "NewWithException.hpp"
@@ -42,7 +43,8 @@ ArrayOf::getValueAtIndex(uint64 index)
     } else {
         auto length = static_cast<uint64>(this->getElementCount());
         if (index >= length) {
-            Error(_W("Index exceeds matrix dimensions."));
+            raiseError(L"Nelson:types:ERROR_INDEX_EXCEEDS_MATRIX_DIMENSIONS",
+                ERROR_INDEX_EXCEEDS_MATRIX_DIMENSIONS);
         }
         indexType ndx = static_cast<indexType>(index);
         void* qp = allocateArrayOf(dp->dataClass, 1, dp->fieldNames, false);
@@ -69,7 +71,9 @@ ArrayOf::getVectorSubset(ArrayOf& index)
             if (index.isRowVectorCharacterArray()) {
                 std::wstring str = index.getContentAsWideString();
                 if (str != L":") {
-                    Error(_W("index must either be real positive integers or logicals."));
+                    raiseError(L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_"
+                               L"LOGICALS",
+                        ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
                 }
                 ArrayOf newIndex
                     = ArrayOf::integerRangeConstructor(1, 1, dp->getElementCount(), true);
@@ -86,7 +90,9 @@ ArrayOf::getVectorSubset(ArrayOf& index)
             double idx = (double)index.getContentAsInteger64Scalar();
             auto iidx = static_cast<int64>(idx);
             if (idx != static_cast<double>(iidx) || idx < 0) {
-                Error(_W("index must either be real positive integers or logicals."));
+                raiseError(
+                    L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS",
+                    ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
             }
             if (isSparse()) {
                 return getValueAtIndex(static_cast<uint64>(idx));
@@ -140,7 +146,8 @@ ArrayOf::getVectorSubset(ArrayOf& index)
         for (indexType i = 0; i < length; i++) {
             indexType ndx = index_p[i] - 1;
             if (ndx < 0 || ndx >= bound) {
-                Error(_W("Index exceeds variable dimensions."));
+                raiseError(L"Nelson:types:ERROR_INDEX_EXCEEDS_VARIABLE_DIMENSIONS",
+                    ERROR_INDEX_EXCEEDS_VARIABLE_DIMENSIONS);
             }
             copyElements(ndx, qp, i, 1);
         }
@@ -182,7 +189,9 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
                 if (index[i].isRowVectorCharacterArray()) {
                     std::wstring str = index[i].getContentAsWideString();
                     if (str != L":") {
-                        Error(_W("index must either be real positive integers or logicals."));
+                        raiseError(L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_"
+                                   L"INTEGERS_OR_LOGICALS",
+                            ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
                     }
                     indexType maxVal = dp->dimensions.getDimensionLength(i);
                     index[i] = ArrayOf::integerRangeConstructor(1, 1, maxVal, false);
@@ -209,14 +218,15 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
         if (outDims.getElementCount() == 0) {
             Dimensions thisDims = getDimensions();
             if (dimsDest.getMax() > thisDims.getMax()) {
-                Error(_W("Index exceeds dimensions."));
+                raiseError(
+                    L"Nelson:types:ERROR_INDEX_EXCEEDS_DIMENSIONS", ERROR_INDEX_EXCEEDS_DIMENSIONS);
             }
             return ArrayOf::emptyConstructor(outDims, false);
         }
         if (isSparse()) {
             if (L > 2) {
-                Error(_W("multidimensional indexing (more than 2 dimensions) not "
-                         "legal for sparse arrays"));
+                raiseError(L"Nelson:types:ERROR_MULTIDIMENSIONAL_INDEXING_NOT_LEGAL_FOR_SPARSE",
+                    ERROR_MULTIDIMENSIONAL_INDEXING_NOT_LEGAL_FOR_SPARSE);
             }
             ArrayOf res;
             if ((outDims[0] == 1) && (outDims[1] == 1)) {

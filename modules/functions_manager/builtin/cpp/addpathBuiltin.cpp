@@ -87,8 +87,9 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param.isRowVectorCharacterArray()) {
             params.push_back(param.getContentAsWideString());
         } else {
-            Error(fmt::format(ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, static_cast<int>(k) + 1,
-                utf8_to_wstring(NLS_STRING_ARRAY_STR)));
+            raiseError(L"Nelson:functions_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
+                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, static_cast<int>(k) + 1,
+                NLS_STRING_ARRAY_STR);
         }
     }
     std::wstring previousPaths = PathFunctionIndexerManager::getInstance()->getPathNameAsString();

@@ -22,6 +22,7 @@
 #include "IEEEFP.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -628,14 +629,16 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
-        Error(_W("Size mismatch on arguments to power (^) operator."));
+        raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+            ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"^");
     }
     AClass = A.getDataClass();
     BClass = B.getDataClass();
     if ((A.isIntegerType() || A.isNdArrayIntegerType())
         && (B.isIntegerType() || B.isNdArrayIntegerType())) {
         if (!B.isPositive()) {
-            Error(_W("Only positive integers expected."));
+            raiseError(L"Nelson:operators:ERROR_ONLY_POSITIVE_INTEGERS_EXPECTED",
+                ERROR_ONLY_POSITIVE_INTEGERS_EXPECTED);
         }
         void* Cp = nullptr;
         indexType stride1 = 0;
@@ -711,7 +714,8 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     if (AClass == NLS_SCOMPLEX) {
         switch (BClass) {
         default: {
-            Error(_W("Unhandled type for second argument to A^B"));
+            raiseError(L"Nelson:operators:ERROR_UNHANDLED_TYPE_FOR_SECOND_ARGUMENT_TO_A_POW",
+                ERROR_UNHANDLED_TYPE_FOR_SECOND_ARGUMENT_TO_A_POW);
         } break;
             OPCASE(NLS_INT64, 1);
             OPCASE(NLS_SINGLE, 2);
@@ -722,7 +726,8 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     } else if (AClass == NLS_DCOMPLEX) {
         switch (BClass) {
         default: {
-            Error(_W("Unhandled type for second argument to A^B"));
+            raiseError(L"Nelson:operators:ERROR_UNHANDLED_TYPE_FOR_SECOND_ARGUMENT_TO_A_POW",
+                ERROR_UNHANDLED_TYPE_FOR_SECOND_ARGUMENT_TO_A_POW);
         } break;
             OPCASE(NLS_INT64, 6);
             OPCASE(NLS_SINGLE, 3);
@@ -733,7 +738,8 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     } else if (AClass == NLS_DOUBLE && Anegative) {
         switch (BClass) {
         default: {
-            Error(_W("Unhandled type for second argument to A^B"));
+            raiseError(L"Nelson:operators:ERROR_UNHANDLED_TYPE_FOR_SECOND_ARGUMENT_TO_A_POW",
+                ERROR_UNHANDLED_TYPE_FOR_SECOND_ARGUMENT_TO_A_POW);
         } break;
             OPCASE(NLS_INT64, 7);
             OPCASE(NLS_SINGLE, 5);
@@ -744,7 +750,8 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     } else if (AClass == NLS_DOUBLE && (!Anegative)) {
         switch (BClass) {
         default: {
-            Error(_W("Unhandled type for second argument to A^B"));
+            raiseError(L"Nelson:operators:ERROR_UNHANDLED_TYPE_FOR_SECOND_ARGUMENT_TO_A_POW",
+                ERROR_UNHANDLED_TYPE_FOR_SECOND_ARGUMENT_TO_A_POW);
         } break;
             OPCASE(NLS_INT64, 7);
             OPCASE(NLS_SINGLE, 8);
@@ -755,7 +762,8 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     } else if (AClass == NLS_SINGLE && Anegative) {
         switch (BClass) {
         default: {
-            Error(_W("Unhandled type for second argument to A^B"));
+            raiseError(L"Nelson:operators:ERROR_UNHANDLED_TYPE_FOR_SECOND_ARGUMENT_TO_A_POW",
+                ERROR_UNHANDLED_TYPE_FOR_SECOND_ARGUMENT_TO_A_POW);
         } break;
             OPCASE(NLS_INT64, 9);
             OPCASE(NLS_SINGLE, 4);
@@ -766,7 +774,8 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     } else if (AClass == NLS_SINGLE && (!Anegative)) {
         switch (BClass) {
         default: {
-            Error(_("Unhandled type for second argument to A^B"));
+            raiseError(L"Nelson:operators:ERROR_UNHANDLED_TYPE_FOR_SECOND_ARGUMENT_TO_A_POW",
+                ERROR_UNHANDLED_TYPE_FOR_SECOND_ARGUMENT_TO_A_POW);
         } break;
             OPCASE(NLS_INT64, 9);
             OPCASE(NLS_SINGLE, 10);
@@ -778,7 +787,8 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     // Invoke the appropriate case
     switch (opType) {
     default:
-        Error(_W("Unhandled type combination for A^B"));
+        raiseError(L"Nelson:operators:ERROR_UNHANDLED_TYPE_COMBINATION_FOR_A_POW",
+            ERROR_UNHANDLED_TYPE_COMBINATION_FOR_A_POW);
         MAPOP(1, NLS_SCOMPLEX, NLS_INT64, NLS_SCOMPLEX, (vvfun)cicpower);
         MAPOP(2, NLS_SCOMPLEX, NLS_SINGLE, NLS_SCOMPLEX, (vvfun)cfcpower);
         MAPOP(3, NLS_DCOMPLEX, NLS_DOUBLE, NLS_DCOMPLEX, (vvfun)zdzpower);
@@ -820,11 +830,14 @@ DotPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         if (A.isIntegerType()) {
             bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
             if (!isCompatible) {
-                Error(_W("Integers can only be combined with integers of the same class, or scalar "
-                         "doubles."));
+                raiseError(L"Nelson:operators:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OF_"
+                           L"THE_SAME_CLASS_OR_SCALAR",
+                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OF_THE_SAME_CLASS_OR_SCALAR);
             }
             if (B.isComplex()) {
-                Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
+                raiseError(
+                    L"Nelson:operators:ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR",
+                    ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR);
             }
             ArrayOf AA = A;
             AA.promoteType(B.getDataClass());
@@ -836,11 +849,14 @@ DotPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         } else if (B.isIntegerType()) {
             bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
             if (!isCompatible) {
-                Error(_W("Integers can only be combined with integers of the same class, or scalar "
-                         "doubles."));
+                raiseError(L"Nelson:operators:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OF_"
+                           L"THE_SAME_CLASS_OR_SCALAR",
+                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OF_THE_SAME_CLASS_OR_SCALAR);
             }
             if (A.isComplex()) {
-                Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
+                raiseError(
+                    L"Nelson:operators:ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR",
+                    ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR, L"*");
             }
             ArrayOf BB = B;
             BB.promoteType(A.getDataClass());

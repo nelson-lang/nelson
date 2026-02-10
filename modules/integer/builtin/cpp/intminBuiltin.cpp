@@ -11,6 +11,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -49,7 +50,8 @@ Nelson::IntegerGateway::intminBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if (classInt == L"uint64") {
             retval << ArrayOf::uint64Constructor(std::numeric_limits<uint64>::min());
         } else {
-            Error(_W("The name of an integer class expected."));
+            raiseError(L"Nelson:integer:ERROR_NAME_OF_INTEGER_CLASS_EXPECTED",
+                ERROR_NAME_OF_INTEGER_CLASS_EXPECTED);
         }
     }
     return retval;

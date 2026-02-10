@@ -22,7 +22,7 @@ Nelson::HandleGateway::handle_ispropBuiltin(int nLhs, const ArrayOfVector& argIn
     nargincheck(argIn, 2, 2);
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
-        Error(_W("Invalid handle."));
+        raiseError(L"Nelson:handle:ERROR_INVALID_NELSON_HANDLE", ERROR_INVALID_NELSON_HANDLE);
     } else {
         raiseError(L"Nelson:handle:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
             ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);

@@ -269,7 +269,9 @@ Find(const ArrayOfVector& argIn, int nLhs, bool& needToOverload)
         } else if (flag == L"last") {
             first_flag = false;
         } else {
-            Error(_W("Invalid third input argument. 'first' or 'last' expected."));
+            raiseError(L"Nelson:elementary_functions:ERROR_INVALID_THIRD_INPUT_ARGUMENT_FIRST_OR_"
+                       L"LAST_EXPECTED",
+                ERROR_INVALID_THIRD_INPUT_ARGUMENT_FIRST_OR_LAST_EXPECTED);
         }
     }
     switch (nLhs) {

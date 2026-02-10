@@ -12,6 +12,7 @@
 #include "SparseNonZeros.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include <Eigen/Sparse>
 //=============================================================================
 namespace Nelson {
@@ -44,11 +45,11 @@ SparseNonZeros(const ArrayOf& a)
             }
         } break;
         default:
-            Error(_W("type not supported."));
+            raiseError(L"Nelson:sparse:ERROR_TYPE_NOT_SUPPORTED", ERROR_TYPE_NOT_SUPPORTED);
             break;
         }
     } else {
-        Error(_W("type not supported."));
+        raiseError(L"Nelson:sparse:ERROR_TYPE_NOT_SUPPORTED", ERROR_TYPE_NOT_SUPPORTED);
     }
     return nnz;
 }

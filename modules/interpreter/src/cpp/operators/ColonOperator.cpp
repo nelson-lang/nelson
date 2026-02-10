@@ -14,12 +14,14 @@
 #include "Evaluator.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ClassToString.hpp"
 #include "Operators.hpp"
 #include "NelsonConfiguration.hpp"
 #include "OverloadHelpers.hpp"
 #include "OverloadRequired.hpp"
 #include "FindCommonColonType.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -109,10 +111,8 @@ Evaluator::colonUnitOperator(const ArrayOf& A, const ArrayOf& B)
     }
     if (commonType == NLS_UNKNOWN || commonType == NLS_STRUCT_ARRAY
         || commonType == NLS_CELL_ARRAY) {
-        std::string msg
-            = fmt::format(_("Operator '{0}' is not supported for operands of type '{1}'."), ":",
-                ClassToString(commonType));
-        Error(msg, "Nelson:UndefinedFunction");
+        raiseError(L"Nelson:interpreter:ERROR_OPERATOR_NOT_SUPPORTED", ERROR_OPERATOR_NOT_SUPPORTED,
+            L":", utf8_to_wstring(ClassToString(commonType)));
     }
     ArrayOf _A(A);
     ArrayOf _B(B);
@@ -154,10 +154,8 @@ Evaluator::colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
     }
     if (commonType == NLS_UNKNOWN || commonType == NLS_STRUCT_ARRAY
         || commonType == NLS_CELL_ARRAY) {
-        std::string msg
-            = fmt::format(_("Operator '{0}' is not supported for operands of type '{1}'."), ":",
-                ClassToString(commonType));
-        Error(msg, "Nelson:UndefinedFunction");
+        raiseError(L"Nelson:interpreter:ERROR_OPERATOR_NOT_SUPPORTED", ERROR_OPERATOR_NOT_SUPPORTED,
+            L":", utf8_to_wstring(ClassToString(commonType)));
     }
     bool needToOverload;
 

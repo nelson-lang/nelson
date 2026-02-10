@@ -12,6 +12,8 @@
 #include "InputOutputArgumentsCheckers.hpp"
 #include "ReadTable.hpp"
 #include "DetectImportOptions.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -44,13 +46,15 @@ Nelson::SpreadsheetGateway::readtableBuiltin(int nLhs, const ArrayOfVector& argI
     } else {
         analyzeFileFormatImportOptions(filename, 4096, options, errorMessage);
         if (!errorMessage.empty()) {
-            Error(errorMessage);
+            raiseError(L"Nelson:spreadsheet:ERROR_READTABLE_ERROR", ERROR_READTABLE_ERROR,
+                utf8_to_wstring(errorMessage));
         }
     }
 
     retval << ReadTable(filename, options, errorMessage);
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        raiseError(L"Nelson:spreadsheet:ERROR_READTABLE_ERROR", ERROR_READTABLE_ERROR,
+            utf8_to_wstring(errorMessage));
     }
     return retval;
 }

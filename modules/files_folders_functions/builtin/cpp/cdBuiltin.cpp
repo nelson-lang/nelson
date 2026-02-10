@@ -27,7 +27,8 @@ Nelson::FilesFoldersGateway::cdBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.empty()) {
         std::wstring pwd = GetCurrentDirectory();
         if (pwd.empty()) {
-            Error(_W("Impossible to get current directory."));
+            raiseError(L"Nelson:files_folders_functions:ERROR_IMPOSSIBLE_TO_GET_CURRENT_DIRECTORY",
+                ERROR_IMPOSSIBLE_TO_GET_CURRENT_DIRECTORY);
         } else {
             if (nLhs == 0) {
                 NelsonPrint(pwd);

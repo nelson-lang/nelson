@@ -59,7 +59,7 @@ fftBuiltinPrivate(int nLhs, const ArrayOfVector& argIn)
         res = Fft(X, n, dim - 1);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:fftw:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     retval << res;

@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ishermitianBuiltin.hpp"
-#include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 #include "OverloadRequired.hpp"
 #include "IsHermitian.hpp"
@@ -34,10 +34,12 @@ Nelson::LinearAlgebraGateway::ishermitianBuiltin(int nLhs, const ArrayOfVector& 
                     skew = false;
                 }
             } else {
-                Error(_W("Second input must be 'skew' or 'nonskew'."));
+                raiseError(L"Nelson:linear_algebra:ERROR_SECOND_INPUT_MUST_BE_SKEW_OR_NONSKEW",
+                    ERROR_SECOND_INPUT_MUST_BE_SKEW_OR_NONSKEW);
             }
         } else {
-            Error(_W("Second input must be 'skew' or 'nonskew'."));
+            raiseError(L"Nelson:linear_algebra:ERROR_SECOND_INPUT_MUST_BE_SKEW_OR_NONSKEW",
+                ERROR_SECOND_INPUT_MUST_BE_SKEW_OR_NONSKEW);
         }
     }
     if (argIn[0].isReferenceType() || argIn[0].isSparse() || argIn[0].isCharacterArray()) {

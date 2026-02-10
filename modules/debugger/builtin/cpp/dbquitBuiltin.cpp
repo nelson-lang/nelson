@@ -10,6 +10,7 @@
 #include "dbquitBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -22,7 +23,8 @@ Nelson::DebuggerGateway::dbquitBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     if (argIn.size() == 1) {
         std::wstring argAll = argIn[0].getContentAsWideString();
         if (argAll != L"all") {
-            Error(_W("'all' expected."));
+            raiseError(L"Nelson:debugger:ERROR_WRONG_VALUE_ARG1_ALL_EXPECTED",
+                ERROR_WRONG_VALUE_ARG1_ALL_EXPECTED);
         }
         eval->setState(NLS_STATE_DEBUG_QUIT_ALL);
     } else {

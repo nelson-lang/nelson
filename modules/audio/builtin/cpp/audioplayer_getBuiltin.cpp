@@ -27,12 +27,14 @@ Nelson::AudioGateway::audioplayer_getBuiltin(int nLhs, const ArrayOfVector& argI
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval(1);
     if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
-        Error(_W("audioplayer handle expected."));
+        raiseError(
+            L"Nelson:audio:ERROR_AUDIOPLAYER_HANDLE_EXPECTED", ERROR_AUDIOPLAYER_HANDLE_EXPECTED);
     }
     auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     ArrayOf res;
     if (!objPlayer->get(propertyName, res)) {
-        Error(formatErrorMessage(ERROR_WRONG_ARGUMENT_X_VALUE, 2) + L" " + propertyName);
+        raiseError(L"Nelson:audio:ERROR_WRONG_ARGUMENT_X_VALUE_WITH_NAME",
+            ERROR_WRONG_ARGUMENT_X_VALUE_WITH_NAME, 2, propertyName);
     }
     retval << res;
     return retval;

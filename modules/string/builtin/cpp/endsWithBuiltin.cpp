@@ -25,7 +25,7 @@ Nelson::StringGateway::endsWithBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     if (argIn.size() != 2 && argIn.size() != 4) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:string:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     bool bCaseSensitive = true;
     ArrayOf A = argIn[0];
@@ -44,7 +44,8 @@ Nelson::StringGateway::endsWithBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
         retval << StringEndsWith(A, B, bCaseSensitive);
     } else {
-        Error(_W("char vector or cell of strings expected."));
+        raiseError(L"Nelson:string:ERROR_CHAR_VECTOR_OR_CELL_EXPECTED",
+            ERROR_CHAR_VECTOR_OR_CELL_EXPECTED);
     }
     return retval;
 }

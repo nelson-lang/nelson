@@ -58,7 +58,7 @@ Nelson::ConsoleGateway::consoleboxBuiltin(int nLhs, const ArrayOfVector& argIn)
                 retval << ArrayOf::logicalConstructor(res);
                 return retval;
             }
-            Error(_W("Wrong value for #1 argument."));
+            raiseError(L"Nelson:console:ERROR_WRONG_VALUE_ARG1", ERROR_WRONG_VALUE_ARG1);
         }
         if (argIn[0].isLogical() && argIn[0].isScalar()) {
             bool show = argIn[0].getContentAsLogicalScalar();
@@ -66,7 +66,7 @@ Nelson::ConsoleGateway::consoleboxBuiltin(int nLhs, const ArrayOfVector& argIn)
             retval << ArrayOf::logicalConstructor(res);
             return retval;
         }
-        Error(_W("Wrong type for #1 argument."));
+        raiseError(L"Nelson:console:ERROR_WRONG_TYPE_ARG1", ERROR_WRONG_TYPE_ARG1);
     }
 #else
     Warning(_W("consolebox builtin is not implemented for this platform."));

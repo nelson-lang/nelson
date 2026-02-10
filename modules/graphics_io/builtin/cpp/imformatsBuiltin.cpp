@@ -31,7 +31,8 @@ GraphicsIoGateway::imformatsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
         return imageSupport(eval, argIn[0].getContentAsWideString());
     } else {
-        Error(_W("The input argument must be a string."));
+        raiseError(L"Nelson:graphics_io:ERROR_THE_INPUT_ARGUMENT_MUST_BE_A_STRING",
+            ERROR_THE_INPUT_ARGUMENT_MUST_BE_A_STRING);
     }
     return retval;
 }

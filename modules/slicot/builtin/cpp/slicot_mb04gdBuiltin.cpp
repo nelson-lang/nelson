@@ -10,6 +10,8 @@
 #include <algorithm>
 #include "slicot_mb04gdBuiltin.hpp"
 #include "Error.hpp"
+#include "characters_encoding.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -67,20 +69,22 @@ Nelson::SlicotGateway::slicot_mb04gdBuiltin(int nLhs, const ArrayOfVector& argIn
     // CHECK INPUT VARIABLES DIMENSIONS
     Dimensions dimsA_expected(std::max(1, (int)A.getRows()), std::max(1, (int)A.getColumns()));
     if (!dimsA.equals(dimsA_expected)) {
-        Error(_("Input argument #1: wrong size.") + " " + dimsA_expected.toString() + " "
-            + "expected" + ".");
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_1_WRONG_SIZE",
+            ERROR_SLICOT_INPUT_ARGUMENT_1_WRONG_SIZE, utf8_to_wstring(dimsA_expected.toString()));
     }
     Dimensions dimsJPVT_expected(1, std::max(1, (int)A.getRows()));
     if (!dimsJPVT.equals(dimsJPVT_expected)) {
-        Error(_("Input argument #2: wrong size.") + " " + dimsJPVT_expected.toString() + " "
-            + "expected" + ".");
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_2_WRONG_SIZE",
+            ERROR_SLICOT_INPUT_ARGUMENT_2_WRONG_SIZE,
+            utf8_to_wstring(dimsJPVT_expected.toString()));
     }
     // CALL EXTERN FUNCTION
     try {
         mb04gd_(M_ptr, N_ptr, A_output_ptr, LDA_ptr, JPVT_output_ptr, TAU_output_ptr, DWORK_ptr,
             INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        Error("mb04gd function fails.");
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_MB04GD_FUNCTION_FAILS",
+            ERROR_SLICOT_MB04GD_FUNCTION_FAILS);
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

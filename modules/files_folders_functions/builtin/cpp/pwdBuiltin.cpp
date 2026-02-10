@@ -13,6 +13,7 @@
 #include "GetCurrentDirectory.hpp"
 #include "NelsonPrint.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,7 +25,8 @@ Nelson::FilesFoldersGateway::pwdBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     std::wstring pwd = GetCurrentDirectory();
     if (pwd.empty()) {
-        Error(_W("Impossible to get current directory."));
+        raiseError(L"Nelson:files_folders_functions:ERROR_IMPOSSIBLE_TO_GET_CURRENT_DIRECTORY",
+            ERROR_IMPOSSIBLE_TO_GET_CURRENT_DIRECTORY);
     }
     retval << ArrayOf::characterArrayConstructor(pwd);
     return retval;

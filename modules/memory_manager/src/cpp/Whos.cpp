@@ -6,12 +6,12 @@
 // LICENCE_BLOCK_BEGIN
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
-//=============================================================================
 #include <iomanip>
 #include <vector>
 #include "Whos.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "Who.hpp"
 #include "ClassName.hpp"
 #include "Interface.hpp"
@@ -79,7 +79,8 @@ Whos(Evaluator* eval, const std::wstring& filename, const stringVector& names, b
     funcDef = nullptr;
     if (!PathFunctionIndexerManager::getInstance()->find(whosFileFunctionName, funcDef)) {
         if (!BuiltInFunctionDefManager::getInstance()->find(whosFileFunctionName, funcDef)) {
-            Error(_W("whos file function expected."));
+            raiseError(L"Nelson:memory_manager:ERROR_WHOS_FILE_FUNCTION_EXPECTED",
+                ERROR_WHOS_FILE_FUNCTION_EXPECTED);
         }
     }
     ArrayOfVector inputArguments;
@@ -101,7 +102,8 @@ Whos(Evaluator* eval, const std::wstring& filename, bool onlyGlobal, const strin
     ArrayOf res;
     if (!filename.empty()) {
         if (!FileSystemWrapper::Path::is_regular_file(filename)) {
-            Error(_W("Filename does not exist."));
+            raiseError(L"Nelson:memory_manager:ERROR_FILENAME_DOES_NOT_EXIST",
+                ERROR_FILENAME_DOES_NOT_EXIST);
         }
         res = Whos(eval, filename, names, asStruct);
     } else {

@@ -44,11 +44,12 @@ Nelson::AudioGateway::audiorecorderBuiltin(int nLhs, const ArrayOfVector& argIn)
         objRec->setConfig(sampleRate, bits, channels, deviceID);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:audio:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     if (!objRec) {
-        Error(_W("Cannot create audiorecorder handle."));
+        raiseError(L"Nelson:audio:ERROR_CANNOT_CREATE_AUDIORECORDER_HANDLE",
+            ERROR_CANNOT_CREATE_AUDIORECORDER_HANDLE);
     } else {
         retval << ArrayOf::handleConstructor(objRec);
     }

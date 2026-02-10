@@ -20,6 +20,7 @@
 #include "PythonTypesWrapper.hpp"
 #include "PythonEngine.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "PyKeyMatch.hpp"
 //=============================================================================
 namespace Nelson {
@@ -47,7 +48,7 @@ PythonObjectHandle::invoke(Interface* io, const std::wstring& methodName,
     if (methodName == L"keyMatch") {
         PyObject* pyObjectA = (PyObject*)this->getPointer();
         if (inputs.size() != 1) {
-            Error(_("Wrong number of input parameters."));
+            raiseError(L"Nelson:Python:PyException", _W("Wrong number of input parameters."));
         }
         PythonObjectHandle* pyObjectB = (PythonObjectHandle*)inputs[0].getContentAsHandleScalar();
         PyObject* p2 = (PyObject*)pyObjectB->getPointer();
@@ -99,12 +100,12 @@ PythonObjectHandle::invokeMethodNoArgument(
     PyObject* pyObject = (PyObject*)this->getPointer();
 
     if (!pyObject) {
-        Error(_W("Invalid Python object."));
+        raiseError(L"Nelson:Python:ERROR_INVALID_PYTHON_OBJECT", ERROR_INVALID_PYTHON_OBJECT);
     }
     PyObject* method = NLSPyObject_GetAttrString(pyObject, wstring_to_utf8(methodName).c_str());
     if (!method || !NLSPyCallable_Check(method)) {
         NLSPy_XDECREF(method);
-        Error(_W("Method does not exist."));
+        raiseError(L"Nelson:Python:ERROR_METHOD_DOES_NOT_EXIST", ERROR_METHOD_DOES_NOT_EXIST);
         return false;
     }
 
@@ -123,7 +124,7 @@ PythonObjectHandle::invokeMethodNoArgument(
             errorMessage = getPythonStandardError();
             NLSPyErr_Clear();
         }
-        Error(errorMessage);
+        raiseError(L"Nelson:Python:PyException", errorMessage);
     }
     return true;
 }
@@ -135,19 +136,20 @@ PythonObjectHandle::invokeMethodOneArgument(
     PyObject* pyObject = (PyObject*)this->getPointer();
 
     if (!pyObject) {
-        Error(_W("Invalid Python object."));
+        raiseError(L"Nelson:Python:ERROR_INVALID_PYTHON_OBJECT", ERROR_INVALID_PYTHON_OBJECT);
     }
     PyObject* method = NLSPyObject_GetAttrString(pyObject, wstring_to_utf8(methodName).c_str());
     if (!method || !NLSPyCallable_Check(method)) {
         NLSPy_XDECREF(method);
-        Error(_W("Method does not exist."));
+        raiseError(L"Nelson:Python:PyException", ERROR_METHOD_DOES_NOT_EXIST);
         return false;
     }
 
     NLSPy_XDECREF(method);
     PyObject* arg1 = arrayOfToPyObject(inputs[0]);
     if (!arg1) {
-        Error(_W("Failed to convert input argument to Python object."));
+        raiseError(
+            L"Nelson:Python:PyException", _W("Failed to convert input argument to Python object."));
         return false;
     }
     PyObject* nameMethod = NLSPyUnicode_FromString(wstring_to_utf8(methodName).c_str());
@@ -169,7 +171,7 @@ PythonObjectHandle::invokeMethodOneArgument(
             errorMessage = getPythonStandardError();
             NLSPyErr_Clear();
         }
-        Error(errorMessage);
+        raiseError(L"Nelson:Python:PyException", errorMessage);
     }
     return true;
 }
@@ -182,12 +184,12 @@ PythonObjectHandle::invokeMethodMultipleArguments(
     PyObject* pyObject = (PyObject*)this->getPointer();
 
     if (!pyObject) {
-        Error(_W("Invalid Python object."));
+        raiseError(L"Nelson:Python:ERROR_INVALID_PYTHON_OBJECT", ERROR_INVALID_PYTHON_OBJECT);
     }
     PyObject* method = NLSPyObject_GetAttrString(pyObject, wstring_to_utf8(methodName).c_str());
     if (!method || !NLSPyCallable_Check(method)) {
         NLSPy_XDECREF(method);
-        Error(_W("Method does not exist."));
+        raiseError(L"Nelson:Python:ERROR_METHOD_DOES_NOT_EXIST", ERROR_METHOD_DOES_NOT_EXIST);
         return false;
     }
 
@@ -218,7 +220,7 @@ PythonObjectHandle::invokeMethodMultipleArguments(
             errorMessage = getPythonStandardError();
             NLSPyErr_Clear();
         }
-        Error(errorMessage);
+        raiseError(errorMessage, L"Nelson:Python:PyException");
     }
     return true;
 }

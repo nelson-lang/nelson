@@ -11,6 +11,8 @@
 #include "Data.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
+
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -34,14 +36,16 @@ go_handle
 ArrayOf::getContentAsGraphicsObjectScalar() const
 {
     if (!isGraphicsObject()) {
-        Error(_W("Expected an graphics object."));
+        raiseError(
+            L"Nelson:types:ERROR_EXPECTED_AN_GRAPHICS_OBJECT", ERROR_EXPECTED_AN_GRAPHICS_OBJECT);
     }
     if (!isScalar()) {
-        Error(_W("Expected an graphics object scalar."));
+        raiseError(L"Nelson:types:ERROR_EXPECTED_AN_GRAPHICS_OBJECT_SCALAR",
+            ERROR_EXPECTED_AN_GRAPHICS_OBJECT_SCALAR);
     }
     nelson_handle* qp = (nelson_handle*)getDataPointer();
     if (qp == nullptr) {
-        Error(_W("Expected a valid handle."));
+        raiseError(L"Nelson:types:ERROR_EXPECTED_VALID_HANDLE", ERROR_EXPECTED_VALID_HANDLE);
     }
     return (go_handle)(qp[0]);
 }

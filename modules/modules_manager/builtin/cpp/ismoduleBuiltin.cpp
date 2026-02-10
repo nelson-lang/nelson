@@ -12,6 +12,7 @@
 #include "ModulesManager.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,7 +27,8 @@ Nelson::ModulesManagerGateway::ismoduleBuiltin(int nLhs, const ArrayOfVector& ar
     if (argIn.size() == 2) {
         std::wstring param = argIn[1].getContentAsWideString();
         if (param != L"isprotected") {
-            Error(_("'isprotected' value expected."));
+            raiseError(L"Nelson:modules_manager:ERROR_ISPROTECTED_VALUE_EXPECTED",
+                ERROR_ISPROTECTED_VALUE_EXPECTED);
         }
         checkIsProtected = true;
     }

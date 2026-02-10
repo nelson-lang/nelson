@@ -45,7 +45,8 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
             if (flag.compare(L"-echo") == 0) {
                 bEcho = true;
             } else {
-                Error(_W("Unrecognized option. \"-echo\" or timeout value expected."));
+                raiseError(L"Nelson:os_functions:ERROR_UNRECOGNIZED_OPTION",
+                    ERROR_UNRECOGNIZED_OPTION, L"-echo");
             }
         } else if (argIn[1].isNumeric()) {
             if (argIn[1].isScalar()) {
@@ -66,11 +67,13 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
                         timeouts.push_back(ptrUint64[k]);
                     }
                 } else {
-                    Error(_W("same size expected."));
+                    raiseError(
+                        L"Nelson:os_functions:ERROR_SAME_SIZE_EXPECTED", ERROR_SAME_SIZE_EXPECTED);
                 }
             }
         } else {
-            Error(_W("Unrecognized option. \"-echo\" or timeout value expected."));
+            raiseError(L"Nelson:os_functions:ERROR_UNRECOGNIZED_OPTION", ERROR_UNRECOGNIZED_OPTION,
+                L"-echo");
         }
     }
 

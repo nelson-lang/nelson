@@ -14,8 +14,9 @@
 #include <Eigen/src/misc/lapacke.h>
 #include "Balance.hpp"
 #include "Error.hpp"
-#include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
+#include "i18n.hpp"
 #include "LinearAlgebraHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -75,7 +76,7 @@ Balance(const ArrayOf& A, bool noperm, int nLhs, bool& needToOverload)
     }
     Dimensions dimsA = A.getDimensions();
     if (dimsA.getRows() != dimsA.getColumns()) {
-        Error(_("Matrix must be square."), "Nelson:square");
+        raiseError(L"Nelson:balance:ERROR_SQUARE_MATRIX_EXPECTED", ERROR_SQUARE_MATRIX_EXPECTED);
     }
     if (A.isEmpty()) {
         ArrayOfVector retval;
@@ -119,8 +120,8 @@ ArrayOfVector
 doubleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
 {
     if (!isAllFinite<double>(A)) {
-        Error(
-            _("Input to BALANCE must not contain NaN or Inf."), "Nelson:balance:matrixWithNaNInf");
+        raiseError(utf8_to_wstring("Nelson:balance:matrixWithNaNInf"),
+            ERROR_INPUT_TO_X_MUST_NOT_CONTAIN_NAN_OR_INF, L"balance");
     }
     char JOB = noperm ? (false ? 'N' : 'S') : (false ? 'P' : 'B');
     int N = (int)A.getColumns();
@@ -134,7 +135,8 @@ doubleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
     int INFO = LAPACKE_dgebal(
         LAPACK_COL_MAJOR, JOB, N, (double*)B.getDataPointer(), N, &ILO, &IHI, ptrScale);
     if (INFO < 0) {
-        Error(_("Invalid arguments for LAPACKE_dgebal"));
+        raiseError(L"Nelson:linear_algebra:ERROR_INVALID_ARGUMENTS_FOR_LAPACKE_DGEBAL",
+            ERROR_INVALID_ARGUMENTS_FOR_LAPACKE_DGEBAL);
     }
 
     ArrayOfVector retval;
@@ -160,8 +162,8 @@ ArrayOfVector
 doubleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
 {
     if (!isAllFinite<double>(A)) {
-        Error(
-            _("Input to BALANCE must not contain NaN or Inf."), "Nelson:balance:matrixWithNaNInf");
+        raiseError(L"Nelson:linear_algebra:ERROR_BALANCE_MATRIX_WITH_NAN_INF",
+            ERROR_INPUT_TO_X_MUST_NOT_CONTAIN_NAN_OR_INF, L"balance");
     }
     char JOB = noperm ? (false ? 'N' : 'S') : (false ? 'P' : 'B');
     int N = (int)A.getColumns();
@@ -176,7 +178,8 @@ doubleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
 
     int INFO = LAPACKE_zgebal(LAPACK_COL_MAJOR, JOB, N, pzB, N, &ILO, &IHI, ptrScale);
     if (INFO < 0) {
-        Error(_("Invalid arguments for LAPACKE_dgebal"));
+        raiseError(L"Nelson:linear_algebra:ERROR_INVALID_ARGUMENTS_FOR_LAPACKE_DGEBAL",
+            ERROR_INVALID_ARGUMENTS_FOR_LAPACKE_DGEBAL);
     }
 
     ArrayOfVector retval;
@@ -201,8 +204,8 @@ ArrayOfVector
 singleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
 {
     if (!isAllFinite<single>(A)) {
-        Error(
-            _("Input to BALANCE must not contain NaN or Inf."), "Nelson:balance:matrixWithNaNInf");
+        raiseError(L"Nelson:linear_algebra:ERROR_BALANCE_MATRIX_WITH_NAN_INF",
+            ERROR_INPUT_TO_X_MUST_NOT_CONTAIN_NAN_OR_INF, L"balance");
     }
     char JOB = noperm ? (false ? 'N' : 'S') : (false ? 'P' : 'B');
     int N = (int)A.getColumns();
@@ -216,7 +219,8 @@ singleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
     int INFO = LAPACKE_sgebal(
         LAPACK_COL_MAJOR, JOB, N, (single*)B.getDataPointer(), N, &ILO, &IHI, ptrScale);
     if (INFO < 0) {
-        Error(_("Invalid arguments for LAPACKE_dgebal"));
+        raiseError(L"Nelson:linear_algebra:ERROR_INVALID_ARGUMENTS_FOR_LAPACKE_DGEBAL",
+            ERROR_INVALID_ARGUMENTS_FOR_LAPACKE_DGEBAL);
     }
 
     ArrayOfVector retval;
@@ -241,8 +245,8 @@ ArrayOfVector
 singleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
 {
     if (!isAllFinite<single>(A)) {
-        Error(
-            _("Input to BALANCE must not contain NaN or Inf."), "Nelson:balance:matrixWithNaNInf");
+        raiseError(L"Nelson:linear_algebra:ERROR_BALANCE_MATRIX_WITH_NAN_INF",
+            ERROR_INPUT_TO_X_MUST_NOT_CONTAIN_NAN_OR_INF, L"balance");
     }
     char JOB = noperm ? (false ? 'N' : 'S') : (false ? 'P' : 'B');
     int N = (int)A.getColumns();
@@ -257,7 +261,8 @@ singleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
 
     int INFO = LAPACKE_cgebal(LAPACK_COL_MAJOR, JOB, N, pzB, N, &ILO, &IHI, ptrScale);
     if (INFO < 0) {
-        Error(_("Invalid arguments for LAPACKE_dgebal"));
+        raiseError(L"Nelson:linear_algebra:ERROR_INVALID_ARGUMENTS_FOR_LAPACKE_DGEBAL",
+            ERROR_INVALID_ARGUMENTS_FOR_LAPACKE_DGEBAL);
     }
 
     ArrayOfVector retval;

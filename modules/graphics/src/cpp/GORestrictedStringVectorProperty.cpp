@@ -10,7 +10,9 @@
 #include <algorithm>
 #include "GORestrictedStringVectorProperty.hpp"
 #include "GOHelpers.hpp"
+#include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -31,7 +33,8 @@ GORestrictedStringVectorProperty::set(ArrayOf arg)
     GOStringVectorProperty::set(_arg);
     for (int i = 0; i < _data.size(); i++) {
         if (find(m_dictionary.begin(), m_dictionary.end(), _data[i]) == m_dictionary.end()) {
-            Error(_W("Illegal selection for property."));
+            raiseError(L"Nelson:graphics:ERROR_ILLEGAL_SELECTION_FOR_PROPERTY",
+                ERROR_ILLEGAL_SELECTION_FOR_PROPERTY);
         }
     }
 }

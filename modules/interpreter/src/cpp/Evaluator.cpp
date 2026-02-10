@@ -38,6 +38,7 @@
 #include "CallbackQueue.hpp"
 #include "EventQueue.hpp"
 #include "ProcessEventsDynamicFunction.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -683,7 +684,9 @@ void
 Evaluator::setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& fieldvalue)
 {
     if (fieldvalue.size() != 1) {
-        Error(_W("Right hand values must satisfy left hand side expression."));
+        raiseError(
+            L"Nelson:interpreter:ERROR_RIGHT_HAND_VALUES_MUST_SATISFY_LEFT_HAND_SIDE_EXPRESSION",
+            ERROR_RIGHT_HAND_VALUES_MUST_SATISFY_LEFT_HAND_SIDE_EXPRESSION);
     }
     std::string currentType;
     if (r.isGraphicsObject()) {
@@ -695,10 +698,11 @@ Evaluator::setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
     if (!_context->lookupFunction(functionNameSetHandle, funcDef)) {
-        Error(_W("Function not found."));
+        raiseError(L"Nelson:interpreter:ERROR_FUNCTION_NOT_FOUND", ERROR_FUNCTION_NOT_FOUND);
     }
     if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
-        Error(_W("Type function not valid."));
+        raiseError(
+            L"Nelson:interpreter:ERROR_TYPE_FUNCTION_NOT_VALID", ERROR_TYPE_FUNCTION_NOT_VALID);
     }
     int nLhs = 0;
     ArrayOfVector argIn;
@@ -728,7 +732,8 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     if (_context->lookupFunction(functionNameCurrentType, funcDef)) {
         if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
                 || (funcDef->type() == NLS_MACRO_FUNCTION))) {
-            Error(_W("Type function not valid."));
+            raiseError(
+                L"Nelson:interpreter:ERROR_TYPE_FUNCTION_NOT_VALID", ERROR_TYPE_FUNCTION_NOT_VALID);
         }
         int nLhs = 1;
         argIn.reserve(params.size() + 1);
@@ -740,10 +745,12 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     }
     std::string functionNameGetHandle = getOverloadFunctionName(currentType, "get");
     if (!context->lookupFunction(functionNameGetHandle, funcDef)) {
-        Error(_("Function not found: ") + functionNameGetHandle);
+        raiseError(L"Nelson:interpreter:ERROR_FUNCTION_NOT_FOUND", ERROR_UNDEFINED_FUNCTION,
+            utf8_to_wstring(functionNameGetHandle));
     }
     if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
-        Error(_W("Type function not valid."));
+        raiseError(
+            L"Nelson:interpreter:ERROR_TYPE_FUNCTION_NOT_VALID", ERROR_TYPE_FUNCTION_NOT_VALID);
     }
     int nLhs = 1;
     argIn.push_back(r);
@@ -802,7 +809,7 @@ Evaluator::invokeMethod(
         }
         return getHandle(r, methodName, params);
     }
-    Error(_("Function not found: ") + "invoke");
+    raiseError(L"Nelson:interpreter:ERROR_FUNCTION_NOT_FOUND", ERROR_FUNCTION_NOT_FOUND, L"invoke");
     return {};
 }
 //=============================================================================

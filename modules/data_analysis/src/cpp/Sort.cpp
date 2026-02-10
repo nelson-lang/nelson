@@ -17,6 +17,7 @@
 #include "SortStringHelpers.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -34,7 +35,9 @@ Sort(const ArrayOf& arrayIn, size_t nargin, bool withIndex, indexType dim, bool 
         switch (arrayIn.getDataClass()) {
         case NLS_CELL_ARRAY: {
             if (nargin != 1) {
-                Error(_W("Only one input parameter is supported for cell arrays."));
+                raiseError(L"Nelson:data_analysis:ERROR_ONLY_ONE_INPUT_PARAMETER_SUPPORTED_FOR_"
+                           L"CELL_ARRAYS",
+                    ERROR_ONLY_ONE_INPUT_PARAMETER_SUPPORTED_FOR_CELL_ARRAYS);
             }
             res.push_back(ArrayOf::emptyConstructor(arrayIn.getDimensions()));
         } break;
@@ -97,7 +100,9 @@ Sort(const ArrayOf& arrayIn, size_t nargin, bool withIndex, indexType dim, bool 
         } break;
         case NLS_CELL_ARRAY: {
             if (nargin != 1) {
-                Error(_W("Only one input parameter is supported for cell arrays."));
+                raiseError(L"Nelson:data_analysis:ERROR_ONLY_ONE_INPUT_PARAMETER_SUPPORTED_FOR_"
+                           L"CELL_ARRAYS",
+                    ERROR_ONLY_ONE_INPUT_PARAMETER_SUPPORTED_FOR_CELL_ARRAYS);
             }
             res = sortCell(
                 arrayIn, withIndex, linesize, planecount, planesize, outDim, dim, needToOverload);

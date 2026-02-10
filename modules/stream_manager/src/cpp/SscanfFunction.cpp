@@ -554,7 +554,8 @@ SscanF(const std::wstring& content, const std::wstring& format, double m, double
     FILE* fp = fopen(filenameTemp.c_str(), "rt");
 #endif
     if (!fp) {
-        Error(_W("sscanf internal error."));
+        raiseError(
+            L"Nelson:stream_manager:ERROR_SSCANF_INTERNAL_ERROR", ERROR_SSCANF_INTERNAL_ERROR);
         return {};
     }
     std::string _errorMessage;

@@ -16,6 +16,8 @@
 #include "ComplexConjugate.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -25,8 +27,10 @@ ComplexConjugate(const ArrayOf& A)
 {
     NelsonType classA = A.getDataClass();
     if (classA > NLS_LOGICAL || A.isSparse()) {
-        Error(_("Undefined function 'conj' for input arguments of type") + " '" + ClassName(A)
-            + "'.");
+        raiseError(L"Nelson:elementary_functions:ERROR_UNDEFINED_FUNCTION_CONJ_FOR_INPUT_ARGUMENTS_"
+                   L"OF_TYPE",
+            ERROR_UNDEFINED_FUNCTION_CONJ_FOR_INPUT_ARGUMENTS_OF_TYPE,
+            utf8_to_wstring(ClassName(A)));
     }
     Dimensions dimsA = A.getDimensions();
     ArrayOf C;
@@ -91,8 +95,10 @@ ComplexConjugate(const ArrayOf& A)
     case NLS_CHAR:
     case NLS_LOGICAL:
     default: {
-        Error(_("Undefined function 'conj' for input arguments of type") + " '" + ClassName(A)
-            + "'.");
+        raiseError(L"Nelson:elementary_functions:ERROR_UNDEFINED_FUNCTION_CONJ_FOR_INPUT_ARGUMENTS_"
+                   L"OF_TYPE",
+            ERROR_UNDEFINED_FUNCTION_CONJ_FOR_INPUT_ARGUMENTS_OF_TYPE,
+            utf8_to_wstring(ClassName(A)));
     } break;
     }
     return C;

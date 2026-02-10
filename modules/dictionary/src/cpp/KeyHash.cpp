@@ -13,10 +13,13 @@
 #include <random>
 #include <Eigen/Sparse>
 #include "KeyHash.hpp"
+#include "ClassName.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
 #include "HandleGenericObject.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -152,7 +155,8 @@ KeyHash(Evaluator* eval, const ArrayOf& A)
             hashValue = hash_combine(hashValue, ptr->keyHash());
         } else {
             std::string message = fmt::format(_("Unhashable type '{0}'."), A.getHandleCategory());
-            Error(message);
+            raiseError(L"Nelson:dictionary:ERROR_UNHASHABLE_TYPE", ERROR_UNHASHABLE_TYPE,
+                utf8_to_wstring(A.getHandleCategory()));
         }
     };
 
@@ -255,7 +259,8 @@ KeyHash(Evaluator* eval, const ArrayOf& A)
         break;
     case NLS_UNKNOWN:
     default:
-        Error(_W("Unhashable type."));
+        raiseError(L"Nelson:dictionary:ERROR_UNHASHABLE_TYPE", ERROR_UNHASHABLE_TYPE,
+            utf8_to_wstring(ClassName(A)));
         break;
     }
     // Return the final hash value

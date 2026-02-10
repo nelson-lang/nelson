@@ -20,6 +20,7 @@
 #include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "PredefinedErrorMessages.hpp"
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
@@ -76,10 +77,12 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, const wstringVector
     for (const auto& name : names) {
 
         if (!IsValidVariableName(name)) {
-            Error(_W("Invalid variable name:") + name);
+            raiseError(
+                L"Nelson:matio:ERROR_INVALID_VARIABLE_NAME", ERROR_INVALID_VARIABLE_NAME, name);
         }
         if (!eval->getContext()->isVariable(name)) {
-            Error(_W("Variable does not exist:") + name);
+            raiseError(
+                L"Nelson:matio:ERROR_VARIABLE_DOES_NOT_EXIST", ERROR_VARIABLE_DOES_NOT_EXIST, name);
         }
     }
 
@@ -91,7 +94,7 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, const wstringVector
     matio_compression matCompression;
     mat_ft matVersion = versionToEnum(matFileVersion, matCompression);
     if (matVersion == MAT_FT_UNDEFINED) {
-        Error(_("Unknown save format."));
+        raiseError(L"Nelson:matio:ERROR_UNKNOWN_SAVE_FORMAT", ERROR_UNKNOWN_SAVE_FORMAT);
     }
     matCompression = nocompression ? MAT_COMPRESSION_NONE : matCompression;
     std::string headerFile = createHeaderMatioFile();
@@ -101,7 +104,8 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, const wstringVector
         if (matFile != nullptr) {
             matVersion = Mat_GetVersion(matFile);
             if (matVersion != MAT_FT_MAT73) {
-                Error(_("Cannot append variable (-v7.3 required)."));
+                raiseError(
+                    L"Nelson:matio:ERROR_CANNOT_APPEND_VARIABLE", ERROR_CANNOT_APPEND_VARIABLE);
                 Mat_Close(matFile);
             }
         } else {
@@ -113,7 +117,7 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, const wstringVector
     }
 
     if (matFile == nullptr) {
-        Error(_W("Cannot save file."));
+        raiseError(L"Nelson:matio:ERROR_CANNOT_SAVE_FILE", ERROR_CANNOT_SAVE_FILE);
     }
 
     for (auto& k : variablesName) {
@@ -123,7 +127,8 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, const wstringVector
         matvar_t* matioVariable = SaveMatioVariable(variableName, variableValue, matVersion);
         if (matioVariable == nullptr) {
             Mat_Close(matFile);
-            Error(_("Cannot save variable:") + variableName);
+            raiseError(L"Nelson:matio:ERROR_CANNOT_SAVE_VARIABLE", ERROR_CANNOT_SAVE_VARIABLE,
+                utf8_to_wstring(variableName));
         }
         int resWrite = 0;
         if (append) {
@@ -134,7 +139,8 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, const wstringVector
         Mat_VarFree(matioVariable);
         if (resWrite) {
             Mat_Close(matFile);
-            Error(_("Cannot save variable:") + variableName);
+            raiseError(L"Nelson:matio:ERROR_CANNOT_SAVE_VARIABLE", ERROR_CANNOT_SAVE_VARIABLE,
+                utf8_to_wstring(variableName));
         }
     }
     Mat_Close(matFile);
