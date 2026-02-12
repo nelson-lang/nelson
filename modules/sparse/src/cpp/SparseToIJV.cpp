@@ -32,7 +32,7 @@ SparseToIJV(const ArrayOf& spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, 
             ptrI = new indexType[nnz];
             ptrJ = new indexType[nnz];
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
         }
         int nz = 0;
         void* ptrV = Eigen_SparseToIJV(spA.getDataClass(), dims.getRows(), dims.getColumns(),

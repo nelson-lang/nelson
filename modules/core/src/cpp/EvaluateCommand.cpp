@@ -170,7 +170,7 @@ EvaluateConsoleCommand(
     try {
         tempIO = new EvaluateInterface();
     } catch (const std::bad_alloc&) {
-        raiseError(L"Nelson:core:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
     }
     setPrintInterface(tempIO);
     eval->setInterface(tempIO);

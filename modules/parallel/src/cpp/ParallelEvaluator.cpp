@@ -32,7 +32,7 @@ ParallelEvaluator::create(EvaluateInterface* evaluatorInterface, size_t ID)
                 }
             });
     } catch (const std::bad_alloc&) {
-        raiseError(L"Nelson:parallel:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
         return nullptr;
     } catch (const std::exception& e) {
         std::wstring msg

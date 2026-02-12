@@ -141,8 +141,7 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(const ArrayOf& dllibObject, voi
     buildPrototype();
     ffi_type** args = (ffi_type**)malloc(sizeof(ffi_type*) * _paramsTypes.size());
     if (!args) {
-        raiseError(L"Nelson:dynamic_link:ERROR_MEMORY_ALLOCATION_MESSAGE",
-            ERROR_MEMORY_ALLOCATION_MESSAGE);
+        raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
     } else {
         size_t i = 0;
         for (const std::wstring& param : _paramsTypes) {

@@ -61,6 +61,11 @@ callOverloadedFunctionAllTypes(Evaluator* eval, int nLhs, const ArrayOfVector& a
         eval->getContext()->lookupFunction(overloadTypeName, funcDef);
     }
 
+    if (!funcDef && commonType == NLS_CLASS_ARRAY) {
+        overloadTypeName = getOverloadFunctionName(NLS_CLASS_ARRAY_STR, functionName);
+        eval->getContext()->lookupFunction(overloadTypeName, funcDef);
+    }
+
     if (funcDef) {
         wasFound = true;
         return funcDef->evaluateFunction(eval, argsIn, nLhs);

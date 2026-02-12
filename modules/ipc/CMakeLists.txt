@@ -99,6 +99,7 @@ if(NOT WITHOUT_IPC_MODULE)
             ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
             ${Boost_INCLUDE_DIRS})
@@ -110,6 +111,7 @@ if(NOT WITHOUT_IPC_MODULE)
       nlsCore
       nlsError_manager
       nlsI18n
+      nlsCharacters_encoding
       nlsInterpreter
       nlsNelson_manager
       nlsTypes)

@@ -105,8 +105,7 @@ ListFilesWithWildcard(const std::wstring& _mask, bool bSubdirectories)
     if (std::filesystem::exists(path)) {
         res.push_back(FileInfo(utf8_to_wstring(path.string())));
     } else {
-        raiseError(
-            L"Nelson:files_folders_functions:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
+        std::filesystem::path branch(path.parent_path());
         if (branch.empty()) {
             branch = std::filesystem::current_path();
         }
@@ -123,66 +122,63 @@ ListFilesWithWildcard(const std::wstring& _mask, bool bSubdirectories)
                     try {
                         for (std::filesystem::recursive_directory_iterator p(branch.native()), end;
                              p != end; ++p) {
+                            if (!std::regex_match(p->path().filename().string(), rmask)) {
+                                continue;
+                            }
+                            std::string file(p->path().string());
+                            if (file[0] == '.' && (file[1] == '/' || file[1] == '\\')) {
+                                file = std::string(file.begin() + 2, file.end());
+                            }
+                            std::filesystem::path current = file;
+                            res.push_back(FileInfo(utf8_to_wstring(current.string())));
+                        }
+                    } catch (const std::filesystem::filesystem_error& e) {
+                        std::error_code error_code = e.code();
+                        raiseError(L"Nelson:files_folders_functions:ERROR_FILESYSTEM_ERROR",
+                            ERROR_FILESYSTEM_ERROR, utf8_to_wstring(error_code.message()));
+                    }
+                } else {
+                    if (permissionDenied) {
+                        raiseError(L"Nelson:files_folders_functions:ERROR_PERMISSION_DENIED",
+                            ERROR_PERMISSION_DENIED);
+                    }
+                }
+            } else {
+                std::filesystem::path dir = branch;
+                std::filesystem::path r = dir.root_path();
+                /*
+                if (dir != r)
+                {
+                    res.push_back(FileInfo(branch.wstring() + L"/.", bSubdirectories));
+                    res.push_back(FileInfo(branch.wstring() + L"/..", bSubdirectories));
+                }
+                */
+                if (std::filesystem::is_directory(branch.string())) {
+                    try {
+                        for (std::filesystem::directory_iterator p(branch.native()), end; p != end;
+                             ++p) {
+                            if (!std::regex_match(p->path().filename().string(), rmask)) {
+                                continue;
+                            }
+                            std::string file(p->path().string());
+                            if (file[0] == '.' && (file[1] == '/' || file[1] == '\\')) {
+                                file = std::string(file.begin() + 2, file.end());
+                            }
+                            std::filesystem::path current(file);
+                            res.push_back(FileInfo(utf8_to_wstring(current.string())));
+                        }
+                    } catch (const std::filesystem::filesystem_error& e) {
+                        if (!bSubdirectories) {
                             std::error_code error_code = e.code();
                             raiseError(L"Nelson:files_folders_functions:ERROR_FILESYSTEM_ERROR",
                                 ERROR_FILESYSTEM_ERROR, utf8_to_wstring(error_code.message()));
                         }
-                        std::string file(p->path().string());
-                        if (file[0] == '.' && (file[1] == '/' || file[1] == '\\')) {
-                            file = std::string(file.begin() + 2, file.end());
-                        }
-                        std::filesystem::path current = file;
-                        res.push_back(FileInfo(utf8_to_wstring(current.string())));
-                    }
-                }
-                catch (const std::filesystem::filesystem_error& e)
-                {
-                    std::error_code error_code = e.code();
-                    raiseError(L"Nelson:files_folders_functions:ERROR_FILESYSTEM_ERROR",
-                        ERROR_FILESYSTEM_ERROR, utf8_to_wstring(error_code.message()));
-                }
-            } else {
-                if (permissionDenied) {
-                    raiseError(L"Nelson:files_folders_functions:ERROR_PERMISSION_DENIED",
-                        ERROR_PERMISSION_DENIED);
-                }
-            }
-        } else {
-            std::filesystem::path dir = branch;
-            std::filesystem::path r = dir.root_path();
-            /*
-            if (dir != r)
-            {
-                res.push_back(FileInfo(branch.wstring() + L"/.", bSubdirectories));
-                res.push_back(FileInfo(branch.wstring() + L"/..", bSubdirectories));
-            }
-            */
-            if (std::filesystem::is_directory(branch.string())) {
-                try {
-                    for (std::filesystem::directory_iterator p(branch.native()), end; p != end;
-                         ++p) {
-                        if (!std::regex_match(p->path().filename().string(), rmask)) {
-                            continue;
-                        }
-                        std::string file(p->path().string());
-                        if (file[0] == '.' && (file[1] == '/' || file[1] == '\\')) {
-                            file = std::string(file.begin() + 2, file.end());
-                        }
-                        std::filesystem::path current(file);
-                        res.push_back(FileInfo(utf8_to_wstring(current.string())));
-                    }
-                } catch (const std::filesystem::filesystem_error& e) {
-                    if (!bSubdirectories) {
-                        std::error_code error_code = e.code();
-                        raiseError(L"Nelson:files_folders_functions:ERROR_FILESYSTEM_ERROR",
-                            ERROR_FILESYSTEM_ERROR, utf8_to_wstring(error_code.message()));
                     }
                 }
             }
         }
     }
-}
-return res;
+    return res;
 }
 #endif
 //=============================================================================

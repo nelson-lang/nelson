@@ -50,7 +50,7 @@ Nelson::MpiGateway::MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn)
             free(cp);
             retval << A;
         } else {
-            raiseError(L"Nelson:mpi:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
         }
     } else {
         int msgsize = 0;
@@ -62,7 +62,7 @@ Nelson::MpiGateway::MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn)
             retval << unpackMPI(cp, msgsize, &packpos, comm);
             free(cp);
         } else {
-            raiseError(L"Nelson:mpi:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
         }
     }
     return retval;

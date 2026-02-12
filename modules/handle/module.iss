@@ -18,6 +18,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\@handle\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@handle\;
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\@class\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@class\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_HELP_FILES};
 ;==============================================================================

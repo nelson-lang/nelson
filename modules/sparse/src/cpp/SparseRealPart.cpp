@@ -50,7 +50,7 @@ SparseRealPart(ArrayOf a)
             void* pRes = (void*)spmatDST;
             res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DOUBLE: {
@@ -78,7 +78,7 @@ SparseRealPart(ArrayOf a)
             void* pRes = (void*)spmatDST;
             res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     default: {

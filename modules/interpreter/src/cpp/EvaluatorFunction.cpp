@@ -144,8 +144,7 @@ Evaluator::functionExpression(
                         try {
                             keywordNdx = new int[keywords.size()];
                         } catch (std::bad_alloc&) {
-                            raiseError(L"Nelson:interpreter:ERROR_MEMORY_ALLOCATION",
-                                ERROR_MEMORY_ALLOCATION);
+                            raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
                         }
                         int maxndx;
                         maxndx = 0;
@@ -310,13 +309,48 @@ Evaluator::functionExpression(
                 }
             } else {
                 if (funcDef == nullptr) {
-                    if (m.size() > 0 && m[0].isHandle() && m[0].isScalar()
-                        && m[0].isHandleMethod(t->text)) {
-                        HandleGenericObject* obj = m[0].getContentAsHandleScalar();
-                        if (obj) {
+                    if (m.size() > 0 && m[0].isScalar()
+                        && (m[0].isClassType() || m[0].isHandle())) {
 
-                            if (!obj->invokeMethod(this->io, m, narg_out, t->text, n)) {
+                        if (m[0].isClassType()) {
+                            FunctionDefPtr fMethodptr = nullptr;
+                            if (!context->lookupFunction("ismethod", fMethodptr)) {
+                                std::string msg = t->text;
+                                if (msg.empty()) {
+                                    raiseError(L"Nelson:interpreter:UNDEFINED_METHOD_NO_NAME",
+                                        ERROR_UNDEFINED_METHOD_NO_NAME);
+                                } else {
+                                    raiseError(L"Nelson:interpreter:UNDEFINED_METHOD",
+                                        ERROR_UNDEFINED_METHOD, utf8_to_wstring(msg));
+                                }
+                            }
+                            ArrayOfVector OutputResult;
+                            ArrayOf methodName = ArrayOf::characterArrayConstructor(t->text);
+                            ArrayOfVector inputArgs;
+                            inputArgs << m[0];
+                            inputArgs << methodName;
 
+                            OutputResult = fMethodptr->evaluateFunction(this, inputArgs, 1);
+                            if (OutputResult.size() == 1 && OutputResult[0].isLogical()
+                                && OutputResult[0].getContentAsLogicalScalar()) {
+                                std::string overloadFuncName = OVERLOAD_SYMBOL_STR
+                                    + m[0].getClassType() + OVERLOAD_SEPARATOR_CHAR + t->text;
+                                if (!context->lookupFunction(overloadFuncName, fMethodptr)) {
+                                    std::string msg = t->text;
+                                    if (msg.empty()) {
+                                        raiseError(L"Nelson:interpreter:UNDEFINED_METHOD_NO_NAME",
+                                            ERROR_UNDEFINED_METHOD_NO_NAME);
+                                    } else {
+                                        raiseError(L"Nelson:interpreter:UNDEFINED_METHOD",
+                                            ERROR_UNDEFINED_METHOD, utf8_to_wstring(msg));
+                                    }
+                                }
+                                n = fMethodptr->evaluateFunction(this, m, narg_out);
+                            }
+
+                        } else { // HANDLE
+                            HandleGenericObject* obj = m[0].getContentAsHandleScalar();
+                            if (obj && !obj->invokeMethod(this->io, m, narg_out, t->text, n)) {
                                 std::string msg = t->text;
                                 if (msg.empty()) {
                                     raiseError(L"Nelson:interpreter:UNDEFINED_METHOD_NO_NAME",

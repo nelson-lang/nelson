@@ -13,7 +13,6 @@
 #include "SparseNonZeros.hpp"
 #include "SparseToIJV.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;

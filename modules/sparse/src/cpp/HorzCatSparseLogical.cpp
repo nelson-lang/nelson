@@ -54,7 +54,7 @@ HorzCatSparseLogical(ArrayOf A, ArrayOf B)
         spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(newRowsSize, newColumnsSize);
     } catch (const std::bad_alloc&) {
         spMatC = nullptr;
-        raiseError(L"Nelson:sparse:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
     }
     spMatC->middleCols(0, spMatA->cols()) = *spMatA;
     spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;

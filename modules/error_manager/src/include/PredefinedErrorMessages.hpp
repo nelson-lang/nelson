@@ -1057,8 +1057,6 @@
 #define ERROR_MULTIPLE_POSSIBLE_SYMBOL_NAME_FOUND _W("Multiple possible symbol name found: {0}")
 #define ERROR_INVALID_SYMBOL_NAME _W("Invalid symbol name: {0}")
 #define ERROR_VOID_NOT_ALLOWED_AS_INPUT_TYPE _W("'void' not allowed as input type.")
-#define ERROR_MEMORY_ALLOCATION_MESSAGE                                                            \
-    _W("Memory allocation error... You may have run out of memory!")
 #define ERROR_INVALID_ARG2_TYPE_EXPECTED _W("Invalid #2 argument type expected: {0}")
 #define ERROR_INVALID_ARG2_SCALAR_EXPECTED _W("Invalid #2 argument scalar expected.")
 #define ERROR_DATATYPE_AND_SIZE_MUST_BE_DEFINED                                                    \
@@ -1912,3 +1910,5 @@
 #define ERROR_LAPACK_DGECON _W("LAPACK_dgecon error code: {0}.")
 #define ERROR_LAPACK_ZGETRF _W("LAPACK_zgetrf error code: {0}.")
 #define ERROR_LAPACK_ZGECON _W("LAPACK_zgecon error code: {0}.")
+
+#define ERROR_FILESYSTEM_ERROR _W("Filesystem error: {0}.")

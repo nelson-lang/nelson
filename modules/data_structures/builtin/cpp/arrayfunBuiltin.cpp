@@ -39,7 +39,7 @@ arrayfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* e
         try {
             elements = new ArrayOf[nbElements];
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:data_structures:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
         }
         for (indexType k = 0; k < nbElements; ++k) {
             elements[k] = ArrayOf::emptyConstructor();

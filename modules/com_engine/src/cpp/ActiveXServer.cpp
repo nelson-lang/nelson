@@ -70,7 +70,7 @@ ActiveXServer(const std::wstring& progId, const std::wstring& machine)
     try {
         pVariantApplication = new VARIANT;
     } catch (const std::bad_alloc&) {
-        raiseError(L"Nelson:com_engine:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
     }
     VariantInit(pVariantApplication);
     pVariantApplication->vt = VT_DISPATCH;
@@ -113,7 +113,7 @@ GetRunningActiveXServer(const std::wstring& progId)
     try {
         pVariantApplication = new VARIANT;
     } catch (const std::bad_alloc&) {
-        raiseError(L"Nelson:com_engine:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
     }
     VariantInit(pVariantApplication);
     pVariantApplication->vt = VT_DISPATCH;

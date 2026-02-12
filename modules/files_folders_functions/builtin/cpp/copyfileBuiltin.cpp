@@ -53,7 +53,7 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(int nLhs, const ArrayOfVector& argI
         }
         if (nLhs == 0) {
             if (!bRes) {
-                raiseError(L"Nelson:files_folders_functions:ERROR_FILESYSTEM_ERROR", errorMessage);
+                Error(errorMessage, L"Nelson:files_folders_functions:ERROR_FILESYSTEM_ERROR");
             }
         } else {
             retval << ArrayOf::logicalConstructor(bRes);

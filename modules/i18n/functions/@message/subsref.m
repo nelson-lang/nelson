@@ -23,7 +23,6 @@ function varargout = subsref(varargin)
           case 'getString'
             res = getString(obj);
           case 'getUnformattedString'
-            disp('ici')
             res = getUnformattedString(obj);
           case 'string'
             res = string(obj);
@@ -32,10 +31,10 @@ function varargout = subsref(varargin)
         end
       elseif length(s) >= 2 && strcmp(s(2).type, '()')
         indices = s(2).subs;
-        res = st.(name)(indices{:});
+        res = obj.(name)(indices{:});
       elseif length(s) >= 2 && strcmp(s(2).type, '{}')
         indices = s(2).subs;
-        res = st.(name){indices{:}};
+        res = obj.(name){indices{:}};
       else
         error(_('Not a valid indexing expression'));
       end

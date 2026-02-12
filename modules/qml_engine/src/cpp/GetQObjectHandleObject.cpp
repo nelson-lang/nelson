@@ -48,8 +48,7 @@ GetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName)
                     qmlHandle = new QObjectHandleObject(qparent);
                 } catch (const std::bad_alloc&) {
                     qmlHandle = nullptr;
-                    raiseError(
-                        L"Nelson:qml_engine:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+                    raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
                 }
                 res = ArrayOf::handleConstructor(qmlHandle);
             }
@@ -81,8 +80,7 @@ GetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName)
                         qmlHandle = new QObjectHandleObject(childs[k]);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        raiseError(
-                            L"Nelson:qml_engine:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+                        raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
                     }
                     nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }

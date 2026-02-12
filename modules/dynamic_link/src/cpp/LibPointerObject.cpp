@@ -296,8 +296,7 @@ LibPointerObject::plus(indexType offset)
         newPtr->_initialDimX = _initialDimX;
         newPtr->_initialDimY = _initialDimY;
     } catch (const std::bad_alloc&) {
-        raiseError(L"Nelson:dynamic_link:ERROR_MEMORY_ALLOCATION_MESSAGE",
-            ERROR_MEMORY_ALLOCATION_MESSAGE);
+        raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
     }
     return newPtr;
 }

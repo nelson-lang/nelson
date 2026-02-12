@@ -482,7 +482,7 @@ QVariantToArrayOf(QVariant Q)
                         qmlHandle = new QObjectHandleObject(qobject);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        raiseError(L"Nelson:qml:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+                        raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
                     }
                     nh[0] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }
@@ -512,7 +512,7 @@ QVariantToArrayOf(QVariant Q)
                         qmlHandle = new QObjectHandleObject(qobj);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        raiseError(L"Nelson:qml:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+                        raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
                     }
                     nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }
@@ -547,7 +547,7 @@ QVariantToArrayOf(QVariant Q)
                         qmlHandle = new QObjectHandleObject(qobj);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        raiseError(L"Nelson:qml:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+                        raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
                     }
                     nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }
@@ -573,7 +573,7 @@ QVariantToArrayOf(QVariant Q)
             qmlHandle = new QObjectHandleObject(obj);
         } catch (const std::bad_alloc&) {
             qmlHandle = nullptr;
-            raiseError(L"Nelson:qml:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
         }
         return ArrayOf::handleConstructor(qmlHandle);
     } break;

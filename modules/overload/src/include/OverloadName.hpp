@@ -9,12 +9,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#define CHAR_TO_STRING(ch) #ch
-//=============================================================================
 #define CAT_4_STRINGS(S1, S2, S3, S4) S1 S2 S3 S4
 //=============================================================================
 #define OVERLOAD_SYMBOL_CHAR '@'
-#define OVERLOAD_SYMBOL_STR CHAR_TO_STRING(OVERLOAD_SYMBOL_CHAR)
+#define OVERLOAD_SEPARATOR_CHAR '/'
+#define OVERLOAD_SYMBOL_STR "@"
+#define OVERLOAD_SEPARATOR_STR "/"
 //=============================================================================
 #define OVERLOAD_FUNCTION_NAME(typeName, operatorName)                                             \
     CAT_4_STRINGS("@", typeName, "/", operatorName)
