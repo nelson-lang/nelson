@@ -95,7 +95,7 @@ runBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 raiseError2(L"Nelson:error_manager:wrong_value", 2);
             }
         } else {
-            raiseError(L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE", ERROR_WRONG_ARGUMENT_X_TYPE, 2);
+            raiseError2(L"Nelson:error_manager:wrong_type", 2);
         }
     }
     if (argIn[0].isRowVectorCharacterArray()) {

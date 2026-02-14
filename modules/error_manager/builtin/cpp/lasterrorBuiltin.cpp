@@ -40,8 +40,7 @@ Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const A
                 raiseError2(L"Nelson:error_manager:wrong_value", 2);
             }
         } else {
-            raiseError(L"Nelson:error_manager:ERROR_WRONG_ARGUMENT_X_TYPE",
-                ERROR_WRONG_ARGUMENT_X_TYPE, 2);
+            raiseError2(L"Nelson:error_manager:wrong_type", 2);
         }
     }
     Exception lasterror = eval->getLastErrorException();

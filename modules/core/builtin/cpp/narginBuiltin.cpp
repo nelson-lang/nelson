@@ -55,8 +55,7 @@ Nelson::CoreGateway::narginBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                 }
             }
         } else {
-            raiseError(
-                L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_FUNCTION_HANDLE_EXPECTED",
+            raiseError(L"Nelson:error_manager:wrong_type_STRING_OR_FUNCTION_HANDLE_EXPECTED",
                 ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_FUNCTION_HANDLE_EXPECTED, 1);
         }
     }

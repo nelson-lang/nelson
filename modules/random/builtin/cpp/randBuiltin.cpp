@@ -111,7 +111,7 @@ Nelson::RandomGateway::randBuiltin(int nLhs, const ArrayOfVector& argIn)
                         ERROR_WRONG_ARGUMENT_X_SIZE_ROW_VECTOR_EXPECTED, 1);
                 }
             } else {
-                raiseError(L"Nelson:random:ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED",
+                raiseError(L"Nelson:error_manager:wrong_type_NUMERIC_EXPECTED",
                     ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED, 1);
             }
         } else {

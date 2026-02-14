@@ -80,8 +80,7 @@ historyBuiltin_size_one_rhs(
             raiseError2(L"Nelson:error_manager:wrong_value", 2);
         }
     } else {
-        raiseError(
-            L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE", ERROR_WRONG_ARGUMENT_X_TYPE, 1);
+        raiseError(L"Nelson:error_manager:wrong_type", ERROR_WRONG_ARGUMENT_X_TYPE, 1);
     }
     return retval;
 }
@@ -238,8 +237,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     ptrHistoryManager->appendLine(arg[k].getContentAsWideString());
                 }
             } else {
-                raiseError(
-                    L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED",
+                raiseError(L"Nelson:error_manager:wrong_type_STRING_OR_CELL_EXPECTED",
                     ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 2);
             }
         } else if (str == L"filename") {

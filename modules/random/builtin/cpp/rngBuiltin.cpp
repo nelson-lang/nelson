@@ -102,8 +102,7 @@ Nelson::RandomGateway::rngBuiltin(int nLhs, const ArrayOfVector& argIn)
             RngSetEngine(s, genname);
             RngSetState(elements[2]);
         } else {
-            raiseError(
-                L"Nelson:random:ERROR_WRONG_ARGUMENT_X_TYPE", ERROR_WRONG_ARGUMENT_X_TYPE, 1);
+            raiseError2(L"Nelson:error_manager:wrong_type", 1);
         }
     } break;
     case 2: {

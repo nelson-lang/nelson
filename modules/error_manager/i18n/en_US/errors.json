@@ -10,5 +10,6 @@
   "Nelson:error_manager:wrong_value": "Wrong value for argument #{0}.",
   "Nelson:error_manager:type_not_managed": "Type not managed.",
   "Nelson:error_manager:wrong_size_scalar": "Wrong size for argument #{0}: scalar expected.",
-  "Nelson:error_manager:type_not_supported": "Type not supported."
+  "Nelson:error_manager:type_not_supported": "Type not supported.",
+  "Nelson:error_manager:wrong_type": "Wrong type for argument #{0}."
 }
