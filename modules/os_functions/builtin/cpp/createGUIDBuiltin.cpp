@@ -30,8 +30,7 @@ Nelson::OsFunctionsGateway::createGUIDBuiltin(int nLhs, const ArrayOfVector& arg
             wstringVector strs = CreateGUID(static_cast<size_t>(idx));
             retval << ArrayOf::toCellArrayOfCharacterColumnVectors(strs);
         } else {
-            raiseError(L"Nelson:os:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_DOUBLE_STR);
+            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_DOUBLE_STR);
         }
     }
     return retval;

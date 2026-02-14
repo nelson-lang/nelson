@@ -39,8 +39,7 @@ Nelson::FftwGateway::fftwBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if (infoDesired == L"planner") {
             res = ArrayOf::characterArrayConstructor(getPlannerInformation());
         } else {
-            raiseError(
-                L"Nelson:fftw:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 1);
+            raiseError2(L"Nelson:error_manager:wrong_value", 1);
         }
         retval << res;
     } else {
@@ -87,13 +86,11 @@ Nelson::FftwGateway::fftwBuiltin(int nLhs, const ArrayOfVector& argIn)
                 } else if (fieldvalue == L"hybrid") {
                     setPlannerInformation(FftPlannerMethod::HYBRID);
                 } else {
-                    raiseError(L"Nelson:fftw:ERROR_WRONG_ARGUMENT_X_VALUE",
-                        ERROR_WRONG_ARGUMENT_X_VALUE, 1);
+                    raiseError2(L"Nelson:error_manager:wrong_value", 1);
                 }
             }
         } else {
-            raiseError(
-                L"Nelson:fftw:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 1);
+            raiseError2(L"Nelson:error_manager:wrong_value", 1);
         }
         retval << previousvalue;
     }

@@ -17,10 +17,10 @@ mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
     mxArray* ma = mxCreateString(str);
 
     if (nrhs != 0) {
-        mexErrMsgIdAndTxt("Nelson:minrhs", "No input arguments required.");
+        mexErrMsgIdAndTxt("Nelson:error_manager:min_rhs", "No input arguments required.");
     }
     if (nlhs > 1) {
-        mexErrMsgIdAndTxt("Nelson:maxrhs", "Too many output arguments.");
+        mexErrMsgIdAndTxt("Nelson:error_manager:max_rhs", "Too many output arguments.");
     }
     char* tmp = (char*)mxMalloc(strlen(str) * sizeof(char));
     mxGetNChars(ma, tmp, 2);

@@ -22,12 +22,10 @@ Nelson::SparseGateway::sparselogical_realBuiltin(int nLhs, const ArrayOfVector& 
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     if (!argIn[0].isSparse()) {
-        raiseError(L"Nelson:sparse:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_LOGICAL_STR);
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_SPARSE_LOGICAL_STR);
     }
     if (!argIn[0].isLogical()) {
-        raiseError(L"Nelson:sparse:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_LOGICAL_STR);
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_SPARSE_LOGICAL_STR);
     }
     retval << SparseRealPart(argIn[0]);
     return retval;

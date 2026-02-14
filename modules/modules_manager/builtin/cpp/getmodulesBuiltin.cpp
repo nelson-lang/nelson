@@ -28,8 +28,7 @@ Nelson::ModulesManagerGateway::getmodulesBuiltin(int nLhs, const ArrayOfVector& 
         if (argIn[0].isRowVectorCharacterArray()) {
             param = argIn[0].getContentAsWideString();
         } else {
-            raiseError(L"Nelson:modules:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
         }
         if (param != L"reverse") {
             raiseError(L"Nelson:modules_manager:ERROR_WRONG_VALUE_FOR_1_ARGUMENT_REVERSE_EXPECTED",

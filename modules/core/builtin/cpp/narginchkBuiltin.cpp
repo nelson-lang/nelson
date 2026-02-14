@@ -41,15 +41,13 @@ Nelson::CoreGateway::narginchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     }
     int nargin = context->getCurrentScope()->getNargIn();
     if (nargin < minArgs) {
-        raiseError(L"Nelson:core:ERROR_WRONG_NUMBERS_INPUT_ARGS_NOT_ENOUGH",
-            ERROR_WRONG_NUMBERS_INPUT_ARGS, true);
+        raiseErrorAsCaller(L"Nelson:error_manager:min_rhs");
     }
     if (!maxArgsIsInf) {
         int maxArgs = argIn[1].getContentAsInteger32Scalar(false, true);
 
         if (nargin > maxArgs) {
-            raiseError(L"Nelson:core:ERROR_WRONG_NUMBERS_INPUT_ARGS_TOO_MANY",
-                ERROR_WRONG_NUMBERS_INPUT_ARGS, true);
+            raiseErrorAsCaller(L"Nelson:error_manager:max_rhs");
         }
     }
     return retval;

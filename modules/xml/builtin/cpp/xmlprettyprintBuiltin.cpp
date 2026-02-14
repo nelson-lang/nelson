@@ -33,15 +33,14 @@ Nelson::XmlGateway::xmlprettyprintBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else if (argIn[0].isCellArrayOfCharacterVectors() || argIn[0].isStringArray()) {
         xmlFilesOrDirectories = argIn[0].getContentAsWideStringVector();
     } else {
-        raiseError(L"Nelson:xml:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, ERROR_TYPE_CELL_OF_STRINGS);
+        raiseError2(
+            L"Nelson:error_manager:wrong_type_with_expected", 1, ERROR_TYPE_CELL_OF_STRINGS);
     }
     if (argIn.size() > 1) {
         if (argIn[1].isLogical()) {
             formatSpace = argIn[1].getContentAsLogicalScalar();
         } else {
-            raiseError(L"Nelson:xml:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
+            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_LOGICAL_STR);
         }
     }
 

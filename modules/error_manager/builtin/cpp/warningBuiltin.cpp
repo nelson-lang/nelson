@@ -324,8 +324,7 @@ Nelson::ErrorManagerGateway::warningBuiltin(Evaluator* eval, int nLhs, const Arr
         return warningBuiltinTwoRhs(eval, nLhs, argIn);
     } break;
     default: {
-        raiseError(
-            L"Nelson:error_manager:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     } break;
     }
     return retval;

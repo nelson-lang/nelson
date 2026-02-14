@@ -39,8 +39,7 @@ Nelson::WebtoolsGateway::webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     std::wstring filename = param3.getContentAsWideString();
     ArrayOf param4 = argIn[3];
     if (!param4.isStruct()) {
-        raiseError(L"Nelson:webtools:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 4, std::wstring(L"struct"));
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 4, std::wstring(L"struct"));
     }
     if (!param4.isScalar()) {
         raiseError(L"Nelson:webtools:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
@@ -65,8 +64,8 @@ Nelson::WebtoolsGateway::webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
     ArrayOf param5 = argIn[4];
     if (ClassName(param5) != "weboptions") {
-        raiseError(L"Nelson:webtools:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 5, std::wstring(L"weboptions object"));
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 5,
+            std::wstring(L"weboptions object"));
     }
     WebOptions options(param5);
     bool haveEventsLoop = eval->haveEventsLoop();

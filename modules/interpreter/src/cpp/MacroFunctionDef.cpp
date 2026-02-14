@@ -385,8 +385,7 @@ MacroFunctionDef::bindInputs(Context* context, const ArrayOfVector& inputs)
 {
     if (inputArgCount() != -1) {
         if (inputs.size() > arguments.size()) {
-            raiseError(L"Nelson:interpreter:ERROR_WRONG_NUMBERS_INPUT_ARGS",
-                ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            raiseError2(L"Nelson:error_manager:wrong_rhs");
         }
         size_t minCount = (inputs.size() < arguments.size()) ? inputs.size() : arguments.size();
         for (size_t i = 0; i < minCount; i++) {
@@ -401,8 +400,7 @@ MacroFunctionDef::bindInputs(Context* context, const ArrayOfVector& inputs)
             nbArgumentsWithoutVarArgIn = nbArgumentsWithoutVarArgIn - 1;
         }
         if (inputCount < nbArgumentsWithoutVarArgIn) {
-            raiseError(L"Nelson:interpreter:ERROR_WRONG_NUMBERS_INPUT_ARGS",
-                ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            raiseError2(L"Nelson:error_manager:wrong_rhs");
         }
         context->getCurrentScope()->setNargIn(static_cast<int>(inputCount));
         int explicitCount = static_cast<int>(arguments.size()) - 1;

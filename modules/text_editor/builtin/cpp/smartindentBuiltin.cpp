@@ -20,6 +20,7 @@ Nelson::TextEditorGateway::smartindentBuiltin(int nLhs, const ArrayOfVector& arg
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 1, 3);
     std::wstring filename;
     indexType tabSize = 2;
     logical doBackup = false;
@@ -35,8 +36,7 @@ Nelson::TextEditorGateway::smartindentBuiltin(int nLhs, const ArrayOfVector& arg
         filename = argIn[0].getContentAsWideString();
     } break;
     default: {
-        raiseError(
-            L"Nelson:text_editor:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     } break;
     }
     smartIndent(filename, (int)tabSize, doBackup ? true : false);

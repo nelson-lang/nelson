@@ -25,15 +25,13 @@ Nelson::ConsoleGateway::inputBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     if (argIn[0].isRowVectorCharacterArray()) {
         param1 = argIn[0].getContentAsWideString();
     } else {
-        raiseError(L"Nelson:console:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
     }
     if (argIn.size() > 1) {
         if (argIn[1].isRowVectorCharacterArray()) {
             param2 = argIn[1].getContentAsWideString();
         } else {
-            raiseError(L"Nelson:console:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
+            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_STRING_ARRAY_STR);
         }
         if (param2.compare(L"s") != 0) {
             raiseError(L"Nelson:console:ERROR_UNRECOGNIZED_OPTION_S_EXPECTED",

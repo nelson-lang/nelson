@@ -19,6 +19,7 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::QmlEngineGateway::qt_constantBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
+    nargincheck(argIn, 0, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
     switch (argIn.size()) {
@@ -36,8 +37,7 @@ Nelson::QmlEngineGateway::qt_constantBuiltin(int nLhs, const ArrayOfVector& argI
         }
     } break;
     default: {
-        raiseError(
-            L"Nelson:qml_engine:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     } break;
     }
     return retval;

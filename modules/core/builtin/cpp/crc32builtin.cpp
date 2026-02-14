@@ -132,7 +132,7 @@ Nelson::CoreGateway::crc32Builtin(int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     default: {
-        raiseError(L"Nelson:core:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:max_rhs");
     } break;
     }
     return retval;

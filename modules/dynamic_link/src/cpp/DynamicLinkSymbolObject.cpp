@@ -141,7 +141,7 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(const ArrayOf& dllibObject, voi
     buildPrototype();
     ffi_type** args = (ffi_type**)malloc(sizeof(ffi_type*) * _paramsTypes.size());
     if (!args) {
-        raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
     } else {
         size_t i = 0;
         for (const std::wstring& param : _paramsTypes) {
@@ -293,8 +293,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
             ERROR_DLLIB_VALID_HANDLE_EXPECTED);
     }
     if (params.size() != _nArgIn) {
-        raiseError(
-            L"Nelson:dynamic_link:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     }
     for (size_t k = 0; k < params.size(); k++) {
         if (GetNelsonType(_paramsTypes[k]) != params[k].getDataClass()) {

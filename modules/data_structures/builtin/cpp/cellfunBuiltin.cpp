@@ -38,7 +38,7 @@ cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* ev
         try {
             elements = new ArrayOf[nbElements];
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
         }
         for (size_t k = 0; k < nbElements; k++) {
             elements[k] = ArrayOf::emptyConstructor();
@@ -377,8 +377,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                     errorFunc = param.getContentAsFunctionHandle();
                     bHaveErrorHandlerArgs = true;
                 } else {
-                    raiseError(L"Nelson:data_structures:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                        ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, nbElementsInput,
+                    raiseError2(L"Nelson:error_manager:wrong_type_with_expected", nbElementsInput,
                         NLS_FUNCTION_HANDLE_STR);
                 }
             }
@@ -417,8 +416,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                         bHaveErrorHandlerArgs = true;
                     }
                 } else {
-                    raiseError(L"Nelson:data_structures:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                        ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, nbElementsInput,
+                    raiseError2(L"Nelson:error_manager:wrong_type_with_expected", nbElementsInput,
                         NLS_FUNCTION_HANDLE_STR);
                 }
             }

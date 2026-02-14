@@ -25,6 +25,7 @@ Nelson::ElementaryFunctionsGateway::triuBuiltin(int nLhs, const ArrayOfVector& a
     nargoutcheck(nLhs, 0, 1);
     signedIndexType offset = 0;
     ArrayOf A;
+    nargincheck(argIn, 1, 2);
     switch (argIn.size()) {
     case 1: {
         A = argIn[0];
@@ -41,8 +42,7 @@ Nelson::ElementaryFunctionsGateway::triuBuiltin(int nLhs, const ArrayOfVector& a
         }
     } break;
     default: {
-        raiseError(L"Nelson:elementary_functions:ERROR_WRONG_NUMBERS_INPUT_ARGS",
-            ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:max_rhs");
     } break;
     }
     bool needToOverload;

@@ -19,47 +19,41 @@ ArrayOfVector
 Nelson::FilesFoldersGateway::mkdirBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 1 || argIn.size() == 2) {
-        nargoutcheck(nLhs, 0, 2);
-        std::wstring parentDir;
-        std::wstring newDir;
-        if (argIn.size() == 2) {
-            if (argIn[1].isRowVectorCharacterArray() || argIn[1].isScalarStringArray()) {
-                newDir = argIn[1].getContentAsWideString();
-            } else {
-                raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
-            }
-        }
-        if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
-            parentDir = argIn[0].getContentAsWideString();
+    nargincheck(argIn, 1, 2);
+    nargoutcheck(nLhs, 0, 2);
+    std::wstring parentDir;
+    std::wstring newDir;
+    if (argIn.size() == 2) {
+        if (argIn[1].isRowVectorCharacterArray() || argIn[1].isScalarStringArray()) {
+            newDir = argIn[1].getContentAsWideString();
         } else {
-            raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_LOGICAL_STR);
+            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_LOGICAL_STR);
         }
-        std::wstring message;
-        bool bOK = false;
-        if (newDir.empty()) {
-            bOK = MakeDirectory(parentDir, message);
-        } else {
-            bOK = MakeDirectory(parentDir, newDir, message);
-        }
-        if (nLhs == 0) {
-            if (!bOK) {
-                raiseError(L"Nelson:files_folders_functions:makeDirectory",
-                    ERROR_MAKEDIRECTORY_ERROR, message);
-            }
-        } else {
-            if (nLhs > 0) {
-                retval << ArrayOf::logicalConstructor(bOK);
-            }
-            if (nLhs > 1) {
-                retval << ArrayOf::characterArrayConstructor(message);
-            }
+    }
+    if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
+        parentDir = argIn[0].getContentAsWideString();
+    } else {
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_LOGICAL_STR);
+    }
+    std::wstring message;
+    bool bOK = false;
+    if (newDir.empty()) {
+        bOK = MakeDirectory(parentDir, message);
+    } else {
+        bOK = MakeDirectory(parentDir, newDir, message);
+    }
+    if (nLhs == 0) {
+        if (!bOK) {
+            raiseError(L"Nelson:files_folders_functions:makeDirectory", ERROR_MAKEDIRECTORY_ERROR,
+                message);
         }
     } else {
-        raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_NUMBERS_INPUT_ARGS",
-            ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        if (nLhs > 0) {
+            retval << ArrayOf::logicalConstructor(bOK);
+        }
+        if (nLhs > 1) {
+            retval << ArrayOf::characterArrayConstructor(message);
+        }
     }
     return retval;
 }

@@ -81,8 +81,7 @@ historyBuiltin_size_one_rhs(
         } else if (str == L"removeexit") {
             retval << ArrayOf::logicalConstructor(ptrHistoryManager->getRemoveExit());
         } else {
-            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_VALUE",
-                ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+            raiseError2(L"Nelson:error_manager:wrong_value", 2);
         }
     } else {
         raiseError(
@@ -143,8 +142,8 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     }
                     ptrHistoryManager->setLastNCommandsSize(ivalue);
                 } else {
-                    raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                        ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_DOUBLE_STR);
+                    raiseError2(
+                        L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_DOUBLE_STR);
                 }
             } else {
                 raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
@@ -157,8 +156,8 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     logical bEnable = arg2.getContentAsLogicalScalar();
                     ptrHistoryManager->setSaveEnabled(bEnable ? true : false);
                 } else {
-                    raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                        ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
+                    raiseError2(
+                        L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_LOGICAL_STR);
                 }
             } else {
                 raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
@@ -231,8 +230,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     }
                 }
             } else {
-                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_DOUBLE_STR);
+                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_DOUBLE_STR);
             }
         } else if (str == L"append") {
             nargoutcheck(nLhs, 0, 0);
@@ -256,8 +254,8 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->setFilename(filename);
             } else {
-                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
+                raiseError2(
+                    L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_STRING_ARRAY_STR);
             }
         } else if (str == L"load") {
             nargoutcheck(nLhs, 0, 0);
@@ -265,8 +263,8 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->loadFromFile(filename);
             } else {
-                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
+                raiseError2(
+                    L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_STRING_ARRAY_STR);
             }
         } else if (str == L"save") {
             nargoutcheck(nLhs, 0, 0);
@@ -274,8 +272,8 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->saveToFile(filename);
             } else {
-                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
+                raiseError2(
+                    L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_STRING_ARRAY_STR);
             }
         } else if (str == L"duplicated") {
             nargoutcheck(nLhs, 0, 0);
@@ -284,12 +282,11 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     logical bDuplicated = arg2.getContentAsLogicalScalar();
                     ptrHistoryManager->setAllowDuplicatedLines(bDuplicated ? true : false);
                 } else {
-                    raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                        ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
+                    raiseError2(
+                        L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_LOGICAL_STR);
                 }
             } else {
-                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
+                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_LOGICAL_STR);
             }
         } else if (str == L"removeexit") {
             nargoutcheck(nLhs, 0, 0);
@@ -298,12 +295,11 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     logical bRemove = arg2.getContentAsLogicalScalar();
                     ptrHistoryManager->setRemoveExit(bRemove ? true : false);
                 } else {
-                    raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                        ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
+                    raiseError2(
+                        L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_LOGICAL_STR);
                 }
             } else {
-                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_LOGICAL_STR);
+                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_LOGICAL_STR);
             }
         } else if (str == L"get") {
             nargoutcheck(nLhs, 0, 1);
@@ -396,8 +392,8 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                         }
                         ptrHistoryManager->setSaveAfterNCommands(ivalue);
                     } else {
-                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_DOUBLE_STR);
+                        raiseError2(
+                            L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_DOUBLE_STR);
                     }
                 } else {
                     raiseError(
@@ -405,16 +401,13 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                         ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 2);
                 }
             } else {
-                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_VALUE",
-                    ERROR_WRONG_ARGUMENT_X_VALUE, 1);
+                raiseError2(L"Nelson:error_manager:wrong_value", 1);
             }
         } else {
-            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_VALUE",
-                ERROR_WRONG_ARGUMENT_X_VALUE, 1);
+            raiseError2(L"Nelson:error_manager:wrong_value", 1);
         }
     } else {
-        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
     }
     return retval;
 }
@@ -430,6 +423,7 @@ Nelson::HistoryManagerGateway::historyBuiltin(Evaluator* eval, int nLhs, const A
             ERROR_HISTORY_MANAGER_NOT_ENABLED);
     }
     nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 0, 2);
     switch (argIn.size()) {
     case 0: {
         return historyBuiltin_no_rhs(eval, ptrHistoryManager, nLhs, argIn);
@@ -441,8 +435,7 @@ Nelson::HistoryManagerGateway::historyBuiltin(Evaluator* eval, int nLhs, const A
         return historyBuiltin_two_rhs(ptrHistoryManager, nLhs, argIn);
     } break;
     default: {
-        raiseError(L"Nelson:history_manager:ERROR_WRONG_NUMBERS_INPUT_ARGS",
-            ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     } break;
     }
     return retval;

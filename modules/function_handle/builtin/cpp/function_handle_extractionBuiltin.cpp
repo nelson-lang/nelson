@@ -43,8 +43,7 @@ Nelson::FunctionHandleGateway::function_handle_extractionBuiltin(
                 ERROR_EXPECTED_A_FUNCTION_HANDLE);
         }
     } else {
-        raiseError(L"Nelson:function_handle:ERROR_WRONG_NUMBERS_INPUT_ARGS",
-            ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     }
     return retval;
 }

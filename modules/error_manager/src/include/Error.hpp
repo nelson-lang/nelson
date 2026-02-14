@@ -27,6 +27,9 @@ namespace detail {
     // Direct string formatting without fmt templates
     NLSERROR_MANAGER_IMPEXP std::wstring
     formatToWideStringImpl(const std::wstring& format, const std::vector<std::wstring>& args);
+
+    NLSERROR_MANAGER_IMPEXP std::wstring
+    formatToWideStringImplMessageID(const std::wstring& ID, const std::vector<std::wstring>& args);
     //=============================================================================
     // Helper: convert any type to wstring - must be defined inline in header
     template <typename T>
@@ -58,6 +61,31 @@ raiseError(const std::wstring& messageID, const std::wstring& messageFormat, con
     (..., argVec.push_back(detail::toWideString(args)));
 
     std::wstring formatted = detail::formatToWideStringImpl(messageFormat, argVec);
+    Error(formatted, messageID, false);
+}
+//=============================================================================
+// Variadic template - converts all args to wstring
+template <typename... Args>
+inline void
+raiseError2(const std::wstring& messageID, const Args&... args)
+{
+    std::vector<std::wstring> argVec;
+    // Fold expression: convert each argument using toWideString
+    (..., argVec.push_back(detail::toWideString(args)));
+
+    std::wstring formatted = detail::formatToWideStringImplMessageID(messageID, argVec);
+    Error(formatted, messageID, false);
+}
+//=============================================================================
+template <typename... Args>
+inline void
+raiseErrorAsCaller(const std::wstring& messageID, const Args&... args)
+{
+    std::vector<std::wstring> argVec;
+    // Fold expression: convert each argument using toWideString
+    (..., argVec.push_back(detail::toWideString(args)));
+
+    std::wstring formatted = detail::formatToWideStringImplMessageID(messageID, argVec);
     Error(formatted, messageID, false);
 }
 //=============================================================================

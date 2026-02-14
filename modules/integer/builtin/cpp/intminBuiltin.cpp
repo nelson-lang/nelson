@@ -29,8 +29,7 @@ Nelson::IntegerGateway::intminBuiltin(int nLhs, const ArrayOfVector& argIn)
         bool isSupportedInput
             = param1.isRowVectorCharacterArray() || (param1.isStringArray() && param1.isScalar());
         if (!isSupportedInput) {
-            raiseError(L"Nelson:integer:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
         }
         std::wstring classInt = param1.getContentAsWideString();
         if (classInt == L"int8") {

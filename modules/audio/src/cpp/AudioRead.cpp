@@ -46,8 +46,7 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
     file = sf_open(ufilename.c_str(), SFM_READ, &sfinfo);
 #endif
     if (file == nullptr) {
-        errorMessage = formatErrorMessage(ERROR_WRONG_ARGUMENT_X_VALUE, 1);
-        return retval;
+        raiseError2(L"Nelson:error_manager:wrong_value", 1);
     }
     if (dstart < 1 || dstart > dend) {
         sf_close(file);

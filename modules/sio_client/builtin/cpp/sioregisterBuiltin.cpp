@@ -20,6 +20,7 @@ ArrayOfVector
 Nelson::SioClientGateway::sioregisterBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
+    nargincheck(argIn, 0, 2);
     switch (argIn.size()) {
     case 0: {
         nargoutcheck(nLhs, 0, 1);
@@ -43,8 +44,7 @@ Nelson::SioClientGateway::sioregisterBuiltin(int nLhs, const ArrayOfVector& argI
         sioregister(event_name, function_name);
     } break;
     default: {
-        raiseError(
-            L"Nelson:sio_client:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     } break;
     }
     return retval;

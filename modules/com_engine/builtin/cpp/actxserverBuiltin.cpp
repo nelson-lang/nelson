@@ -35,10 +35,11 @@ Nelson::ComEngineGateway::actxserverBuiltin(int nLhs, const ArrayOfVector& argIn
         }
         progid = argIn[0].getContentAsWideString();
     } break;
-    case 2:
+    case 2: {
+        raiseError2(L"Nelson:error_manager:min_rhs");
+    } break;
     default: {
-        raiseError(
-            L"Nelson:com_engine:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:max_rhs");
     } break;
     }
     ComHandleObject* comhandle = ActiveXServer(progid, machine);

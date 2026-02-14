@@ -42,8 +42,8 @@ Nelson::Julia_engineGateway::jl_invokeBuiltin(Evaluator* eval, int nLhs, const A
 
     JuliaObjectHandle* poh = (JuliaObjectHandle*)hgo;
     if (!poh->invoke(io, methodname, params, nLhs, retval)) {
-        raiseError(L"Nelson:julia_engine:ERROR_WRONG_ARGUMENT_X_VALUE",
-            ERROR_WRONG_ARGUMENT_X_VALUE, 2, methodname);
+        raiseError(
+            L"Nelson:error_manager:ERROR_UNDEFINED_METHOD", ERROR_UNDEFINED_METHOD, methodname);
     }
     return retval;
 }

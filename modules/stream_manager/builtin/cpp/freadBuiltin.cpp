@@ -63,8 +63,7 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                 ERROR_WRONG_VALUE_ARG3_NOT_SUPPORTED_PRECISION);
         }
     } else {
-        raiseError(L"Nelson:stream:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 3, NLS_STRING_ARRAY_STR);
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 3, NLS_STRING_ARRAY_STR);
     }
     if (param1.isDoubleType()) {
         if (!param2.isNumeric()) {
@@ -253,7 +252,11 @@ Nelson::StreamGateway::freadBuiltin(int nLhs, const ArrayOfVector& argIn)
     case 5:
         return freadBuiltinFiveRhs(nLhs, argIn);
     default: {
-        raiseError(L"Nelson:stream:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        if (argIn.size() < 2) {
+            raiseError2(L"Nelson:error_manager:min_rhs");
+        } else {
+            raiseError2(L"Nelson:error_manager:max_rhs");
+        }
     } break;
     }
     ArrayOfVector retval;

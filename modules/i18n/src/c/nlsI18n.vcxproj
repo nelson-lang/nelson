@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|ARM64">
@@ -33,6 +33,8 @@
     <ClInclude Include="..\include\nlsI18n_exports.hpp" />
     <ClInclude Include="..\include\i18n.hpp" />
     <ClInclude Include="..\include\poToJson.hpp" />
+    <ClInclude Include="..\include\TranslationManager.hpp" />
+    <ClInclude Include="..\include\TranslationsManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\i18n.cpp" />
@@ -41,10 +43,14 @@
     <ClCompile Include="..\cpp\i18nJsonSort.cpp" />
     <ClCompile Include="..\cpp\I18nManager.cpp" />
     <ClCompile Include="..\cpp\poToJson.cpp" />
+    <ClCompile Include="..\cpp\TranslationManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
       <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">
+      <Project>{867f2f84-cc27-4bd8-b44b-5ef4f69c6e15}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
       <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>

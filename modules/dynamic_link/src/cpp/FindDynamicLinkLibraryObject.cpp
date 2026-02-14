@@ -35,7 +35,7 @@ findDynamicLinkLibraryObject(const std::wstring& libraryName, int nLhs)
             fullLibraryName = dlObject->getLibraryPath();
             delete dlObject;
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
         } catch (const Exception&) {
             retval << ArrayOf::logicalConstructor(false);
             if (nLhs > 1) {

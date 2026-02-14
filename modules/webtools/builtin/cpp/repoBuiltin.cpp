@@ -16,171 +16,217 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-// repo - basic git command
-// repo('clone', http_path, destination_path)
-// repo('checkout', local_path, branch_tag_name)
-// branches = repo('branch', local_path)
-// tags = repo('tag', local_path)
+namespace {
+//=============================================================================
+// Shared transfer arguments (clone / export)
+//=============================================================================
+struct RepoTransferArgs
+{
+    std::wstring url;
+    std::wstring branchOrTag;
+    std::wstring localPath;
+    std::wstring username;
+    std::wstring password;
+};
+//=============================================================================
+RepoTransferArgs
+parseRepoTransferArgs(const ArrayOfVector& argIn)
+{
+    RepoTransferArgs args;
+
+    switch (argIn.size()) {
+    case 3:
+        args.url = argIn[1].getContentAsWideString();
+        args.localPath = argIn[2].getContentAsWideString();
+        break;
+
+    case 4:
+        args.url = argIn[1].getContentAsWideString();
+        args.branchOrTag = argIn[2].getContentAsWideString();
+        args.localPath = argIn[3].getContentAsWideString();
+        break;
+
+    case 5:
+        args.url = argIn[1].getContentAsWideString();
+        args.localPath = argIn[2].getContentAsWideString();
+        args.username = argIn[3].getContentAsWideString();
+        args.password = argIn[4].getContentAsWideString();
+        break;
+
+    case 6:
+        args.url = argIn[1].getContentAsWideString();
+        args.branchOrTag = argIn[2].getContentAsWideString();
+        args.localPath = argIn[3].getContentAsWideString();
+        args.username = argIn[4].getContentAsWideString();
+        args.password = argIn[5].getContentAsWideString();
+        break;
+
+    default:
+        if (argIn.size() < 3) {
+            raiseError2(L"Nelson:error_manager:min_rhs");
+        } else {
+            raiseError2(L"Nelson:error_manager:max_rhs");
+        }
+    }
+
+    return args;
+}
+//=============================================================================
+// Command handlers
+//=============================================================================
+using CommandHandler = void (*)(const ArrayOfVector&, ArrayOfVector&, int, std::wstring&);
+//=============================================================================
+void
+handleClone(const ArrayOfVector& in, ArrayOfVector&, int nLhs, std::wstring& err)
+{
+    nargoutcheck(nLhs, 0, 0);
+    RepoTransferArgs args = parseRepoTransferArgs(in);
+    RepositoryClone(args.url, args.username, args.password, args.branchOrTag, args.localPath, err);
+}
+//=============================================================================
+void
+handleExport(const ArrayOfVector& in, ArrayOfVector&, int nLhs, std::wstring& err)
+{
+    nargoutcheck(nLhs, 0, 0);
+    RepoTransferArgs args = parseRepoTransferArgs(in);
+    RepositoryExport(args.url, args.username, args.password, args.branchOrTag, args.localPath, err);
+}
+//=============================================================================
+void
+handleCheckout(const ArrayOfVector& in, ArrayOfVector&, int nLhs, std::wstring& err)
+{
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(in, 3, 3);
+
+    RepositoryCheckout(in[1].getContentAsWideString(), in[2].getContentAsWideString(), err);
+}
+//=============================================================================
+void
+handleBranch(const ArrayOfVector& in, ArrayOfVector& out, int nLhs, std::wstring& err)
+{
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(in, 2, 2);
+
+    wstringVector branches = RepositoryBranchList(in[1].getContentAsWideString(), err);
+
+    if (err.empty()) {
+        out << ArrayOf::toCellArrayOfCharacterColumnVectors(branches);
+    }
+}
+//=============================================================================
+void
+handleTag(const ArrayOfVector& in, ArrayOfVector& out, int nLhs, std::wstring& err)
+{
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(in, 2, 2);
+
+    wstringVector tags = RepositoryTagList(in[1].getContentAsWideString(), err);
+
+    if (err.empty()) {
+        out << ArrayOf::toCellArrayOfCharacterColumnVectors(tags);
+    }
+}
+//=============================================================================
+void
+handleRemoveBranch(const ArrayOfVector& in, ArrayOfVector&, int nLhs, std::wstring& err)
+{
+    nargoutcheck(nLhs, 0, 0);
+    nargincheck(in, 3, 3);
+
+    RepositoryRemoveBranch(in[1].getContentAsWideString(), in[2].getContentAsWideString(), err);
+}
+//=============================================================================
+void
+handleFetch(const ArrayOfVector& in, ArrayOfVector&, int nLhs, std::wstring& err)
+{
+    nargoutcheck(nLhs, 0, 0);
+
+    if (in.size() != 2 && in.size() != 4) {
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
+    }
+
+    std::wstring username;
+    std::wstring password;
+
+    if (in.size() == 4) {
+        username = in[2].getContentAsWideString();
+        password = in[3].getContentAsWideString();
+    }
+
+    RepositoryFetch(in[1].getContentAsWideString(), username, password, err);
+}
+
+void
+handleLog(const ArrayOfVector& in, ArrayOfVector& out, int nLhs, std::wstring& err)
+{
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(in, 2, 2);
+
+    ArrayOf logs = RepositoryLog(in[1].getContentAsWideString(), err);
+
+    if (err.empty()) {
+        out << logs;
+    }
+}
+//=============================================================================
+void
+handleCurrentBranch(const ArrayOfVector& in, ArrayOfVector& out, int nLhs, std::wstring& err)
+{
+    nargoutcheck(nLhs, 0, 1);
+    nargincheck(in, 2, 2);
+
+    std::wstring branch = RepositoryGetCurrentBranchName(in[1].getContentAsWideString(), err);
+
+    if (err.empty()) {
+        out << ArrayOf::characterArrayConstructor(branch);
+    }
+}
+//=============================================================================
+// Dispatch table
+//=============================================================================
+struct CommandEntry
+{
+    const wchar_t* name;
+    CommandHandler handler;
+};
+//=============================================================================
+static const CommandEntry commandTable[] = { { L"clone", handleClone }, { L"export", handleExport },
+    { L"checkout", handleCheckout }, { L"branch", handleBranch }, { L"tag", handleTag },
+    { L"remove_branch", handleRemoveBranch }, { L"fetch", handleFetch }, { L"log", handleLog },
+    { L"current_branch", handleCurrentBranch } };
+//=============================================================================
+static const size_t commandTableSize = sizeof(commandTable) / sizeof(commandTable[0]);
+//=============================================================================
+} // anonymous namespace
+//=============================================================================
+// repoBuiltin
 //=============================================================================
 ArrayOfVector
 Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
+
     nargoutcheck(nLhs, 0, 2);
+
+    if (argIn.empty()) {
+        raiseError2(L"Nelson:error_manager:min_rhs");
+    }
+
     std::wstring errorMessage;
     std::wstring command = argIn[0].getContentAsWideString();
-    if (command == L"clone") {
-        nargoutcheck(nLhs, 0, 0);
-        std::wstring url;
-        std::wstring localPath;
-        std::wstring branchOrTag;
-        std::wstring username;
-        std::wstring password;
-        switch (argIn.size()) {
-        case 3: {
-            // repo('clone', url, destination)
-            localPath = argIn[2].getContentAsWideString();
-        } break;
-        case 4: {
-            // repo('clone', url, branch, destination)
-            branchOrTag = argIn[2].getContentAsWideString();
-            localPath = argIn[3].getContentAsWideString();
-        } break;
-        case 5: {
-            // repo('clone', url, destination, username, password)
-            localPath = argIn[2].getContentAsWideString();
-            username = argIn[3].getContentAsWideString();
-            password = argIn[4].getContentAsWideString();
-        } break;
-        case 6: {
-            // repo('clone', url, branch, destination, username, password)
-            branchOrTag = argIn[2].getContentAsWideString();
-            localPath = argIn[3].getContentAsWideString();
-            username = argIn[4].getContentAsWideString();
-            password = argIn[5].getContentAsWideString();
-        } break;
-        default: {
-            raiseError(
-                L"Nelson:webtools:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        } break;
-        }
-        url = argIn[1].getContentAsWideString();
-        if (argIn.size() == 4) {
-            branchOrTag = argIn[2].getContentAsWideString();
-            localPath = argIn[3].getContentAsWideString();
-        } else {
-            localPath = argIn[2].getContentAsWideString();
-        }
-        RepositoryClone(url, username, password, branchOrTag, localPath, errorMessage);
-    } else if (command == L"export") {
-        nargoutcheck(nLhs, 0, 0);
-        std::wstring url;
-        std::wstring localPath;
-        std::wstring branchOrTag;
-        std::wstring username;
-        std::wstring password;
 
-        switch (argIn.size()) {
-        case 3: {
-            // repo('export', url, destination)
-            url = argIn[1].getContentAsWideString();
-            localPath = argIn[2].getContentAsWideString();
-        } break;
-        case 4: {
-            // repo('export', url, branch, destination)
-            url = argIn[1].getContentAsWideString();
-            branchOrTag = argIn[2].getContentAsWideString();
-            localPath = argIn[3].getContentAsWideString();
-        } break;
-        case 5: {
-            // repo('export', url, destination, username, password)
-            url = argIn[1].getContentAsWideString();
-            localPath = argIn[2].getContentAsWideString();
-            username = argIn[3].getContentAsWideString();
-            password = argIn[4].getContentAsWideString();
-        } break;
-        case 6: {
-            // repo('export', url, branch, destination, username, password)
-            url = argIn[1].getContentAsWideString();
-            branchOrTag = argIn[2].getContentAsWideString();
-            localPath = argIn[3].getContentAsWideString();
-            username = argIn[4].getContentAsWideString();
-            password = argIn[5].getContentAsWideString();
-        } break;
-        default: {
-            raiseError(
-                L"Nelson:webtools:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    for (size_t i = 0; i < commandTableSize; ++i) {
+        if (command == commandTable[i].name) {
+            commandTable[i].handler(argIn, retval, nLhs, errorMessage);
+
+            if (!errorMessage.empty()) {
+                Error(errorMessage, L"Nelson:webtools:ERROR_REPO_ERROR");
+            }
+
+            return retval;
         }
-        }
-        RepositoryExport(url, username, username, branchOrTag, localPath, errorMessage);
-    } else if (command == L"checkout") {
-        nargoutcheck(nLhs, 0, 0);
-        nargincheck(argIn, 3, 3);
-        std::wstring localPath = argIn[1].getContentAsWideString();
-        std::wstring branchOrTag = argIn[2].getContentAsWideString();
-        RepositoryCheckout(localPath, branchOrTag, errorMessage);
-    } else if (command == L"branch") {
-        nargoutcheck(nLhs, 0, 1);
-        nargincheck(argIn, 2, 2);
-        std::wstring localPath = argIn[1].getContentAsWideString();
-        wstringVector branches = RepositoryBranchList(localPath, errorMessage);
-        if (errorMessage.empty()) {
-            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(branches);
-        }
-    } else if (command == L"tag") {
-        nargoutcheck(nLhs, 0, 1);
-        nargincheck(argIn, 2, 2);
-        std::wstring localPath = argIn[1].getContentAsWideString();
-        wstringVector branches = RepositoryTagList(localPath, errorMessage);
-        if (errorMessage.empty()) {
-            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(branches);
-        }
-    } else if (command == L"remove_branch") {
-        nargoutcheck(nLhs, 0, 0);
-        nargincheck(argIn, 3, 3);
-        std::wstring localPath = argIn[1].getContentAsWideString();
-        std::wstring branchName = argIn[2].getContentAsWideString();
-        RepositoryRemoveBranch(localPath, branchName, errorMessage);
-    } else if (command == L"fetch") {
-        // repo('fetch', destination)
-        // repo('fetch', destination, username, password)
-        nargoutcheck(nLhs, 0, 1);
-        bool checkNbArgsIn = (argIn.size() == 2) || (argIn.size() == 4);
-        if (!checkNbArgsIn) {
-            raiseError(
-                L"Nelson:webtools:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
-        }
-        std::wstring username;
-        std::wstring password;
-        if (argIn.size() == 4) {
-            username = argIn[2].getContentAsWideString();
-            password = argIn[3].getContentAsWideString();
-        }
-        std::wstring localPath = argIn[1].getContentAsWideString();
-        RepositoryFetch(localPath, username, password, errorMessage);
-    } else if (command == L"log") {
-        nargoutcheck(nLhs, 0, 1);
-        nargincheck(argIn, 2, 2);
-        std::wstring localPath = argIn[1].getContentAsWideString();
-        ArrayOf logs = RepositoryLog(localPath, errorMessage);
-        if (errorMessage.empty()) {
-            retval << logs;
-        }
-    } else if (command == L"current_branch") {
-        nargoutcheck(nLhs, 0, 1);
-        nargincheck(argIn, 2, 2);
-        std::wstring localPath = argIn[1].getContentAsWideString();
-        std::wstring currentBranchName = RepositoryGetCurrentBranchName(localPath, errorMessage);
-        if (errorMessage.empty()) {
-            retval << ArrayOf::characterArrayConstructor(currentBranchName);
-        }
-    } else {
-        raiseError(
-            L"Nelson:webtools:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 1);
     }
-    if (!errorMessage.empty()) {
-        Error(errorMessage, L"Nelson:webtools:ERROR_REPO_ERROR");
-    }
+    raiseError2(L"Nelson:error_manager:wrong_value", 1);
     return retval;
 }
 //=============================================================================

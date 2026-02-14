@@ -1,0 +1,11 @@
+{
+  "Nelson:error_manager:no_mem": "Échec de l'allocation de mémoire... Vous avez peut-être manqué de mémoire !",
+  "Nelson:error_manager:max_rhs": "Trop d'arguments d'entrée.",
+  "Nelson:error_manager:min_rhs": "Pas assez d'arguments d'entrée.",
+  "Nelson:error_manager:max_lhs": "Trop d'arguments de sortie.",
+  "Nelson:error_manager:min_lhs": "Pas assez d'arguments de sortie.",
+  "Nelson:error_manager:wrong_rhs": "Mauvais nombre d'arguments d'entrée.",
+  "Nelson:error_manager:wrong_lhs": "Mauvais nombre d'arguments de sortie.",
+  "Nelson:error_manager:wrong_type_with_expected": "Mauvais type pour l'argument #{0} : '{1}' attendu.",
+  "Nelson:error_manager:wrong_value": "Mauvaise valeur pour l'argument #{0}."
+}

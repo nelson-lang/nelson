@@ -21,50 +21,46 @@ ArrayOfVector
 Nelson::FilesFoldersGateway::copyfileBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 2 || argIn.size() == 3) {
-        bool bForce = false;
-        if (argIn.size() == 3) {
-            std::wstring arg3 = argIn[2].getContentAsWideString();
-            if ((arg3 == L"f") || (arg3 == L"F")) {
-                bForce = true;
-            } else {
-                raiseError(L"Nelson:files_folders_functions:ERROR_F_EXPECTED", ERROR_F_EXPECTED);
-            }
-        }
-        bool bRes = false;
-        std::wstring errorMessage;
-        ArrayOf arg2 = argIn[1];
-        std::wstring dest = arg2.getContentAsWideString();
-        ArrayOf arg1 = argIn[0];
-        if (arg1.isRowVectorCharacterArray() || arg1.isScalarStringArray()) {
-            std::wstring src = arg1.getContentAsWideString();
-            if (FileSystemWrapper::Path::is_regular_file(src)) {
-                bRes = CopyFile(src, dest, bForce, errorMessage);
-            } else {
-                bRes = CopyDirectory(src, dest, bForce, errorMessage);
-            }
-        } else if (arg1.isCell() || arg1.isStringArray()) {
-            wstringVector src = arg1.getContentAsWideStringVector(true);
-            bRes = CopyFiles(src, dest, bForce, errorMessage);
+    nargincheck(argIn, 2, 3);
+    bool bForce = false;
+    if (argIn.size() == 3) {
+        std::wstring arg3 = argIn[2].getContentAsWideString();
+        if ((arg3 == L"f") || (arg3 == L"F")) {
+            bForce = true;
         } else {
-            raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_"
-                       L"EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
+            raiseError(L"Nelson:files_folders_functions:ERROR_F_EXPECTED", ERROR_F_EXPECTED);
         }
-        if (nLhs == 0) {
-            if (!bRes) {
-                Error(errorMessage, L"Nelson:files_folders_functions:ERROR_FILESYSTEM_ERROR");
-            }
+    }
+    bool bRes = false;
+    std::wstring errorMessage;
+    ArrayOf arg2 = argIn[1];
+    std::wstring dest = arg2.getContentAsWideString();
+    ArrayOf arg1 = argIn[0];
+    if (arg1.isRowVectorCharacterArray() || arg1.isScalarStringArray()) {
+        std::wstring src = arg1.getContentAsWideString();
+        if (FileSystemWrapper::Path::is_regular_file(src)) {
+            bRes = CopyFile(src, dest, bForce, errorMessage);
         } else {
-            retval << ArrayOf::logicalConstructor(bRes);
-            if (nLhs > 1) {
-                retval << ArrayOf::characterArrayConstructor(errorMessage);
-            }
-            nargoutcheck(nLhs, 0, 2);
+            bRes = CopyDirectory(src, dest, bForce, errorMessage);
+        }
+    } else if (arg1.isCell() || arg1.isStringArray()) {
+        wstringVector src = arg1.getContentAsWideStringVector(true);
+        bRes = CopyFiles(src, dest, bForce, errorMessage);
+    } else {
+        raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_"
+                   L"EXPECTED",
+            ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
+    }
+    if (nLhs == 0) {
+        if (!bRes) {
+            Error(errorMessage, L"Nelson:files_folders_functions:ERROR_FILESYSTEM_ERROR");
         }
     } else {
-        raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_NUMBERS_INPUT_ARGS",
-            ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        retval << ArrayOf::logicalConstructor(bRes);
+        if (nLhs > 1) {
+            retval << ArrayOf::characterArrayConstructor(errorMessage);
+        }
+        nargoutcheck(nLhs, 0, 2);
     }
     return retval;
 }

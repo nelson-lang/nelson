@@ -44,8 +44,7 @@ Nelson::AudioGateway::audiodevinfoBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (str == L"default") {
                 res = AudioDevInfoDefault(errorMessage);
             } else {
-                raiseError(
-                    L"Nelson:audio:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 1);
+                raiseError2(L"Nelson:error_manager:wrong_value", 1);
             }
         } else {
             int io = param1.getContentAsInteger32Scalar();
@@ -71,8 +70,7 @@ Nelson::AudioGateway::audiodevinfoBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf param3 = argIn[2];
         std::wstring str3 = param3.getContentAsWideString();
         if (str3 != L"DriverVersion") {
-            raiseError(
-                L"Nelson:audio:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 3);
+            raiseError2(L"Nelson:error_manager:wrong_value", 3);
         }
         ArrayOf param1 = argIn[0];
         int io = param1.getContentAsInteger32Scalar();
@@ -107,7 +105,7 @@ Nelson::AudioGateway::audiodevinfoBuiltin(int nLhs, const ArrayOfVector& argIn)
         res = AudioDevInfo(io, id, rate, bits, chans, errorMessage);
     } break;
     default: {
-        raiseError(L"Nelson:audio:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:max_rhs");
     } break;
     }
     if (!errorMessage.empty()) {

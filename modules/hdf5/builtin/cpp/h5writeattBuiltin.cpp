@@ -26,7 +26,7 @@ Nelson::Hdf5Gateway::h5writeattBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 0);
     indexType nbArgIn = argIn.size();
     if (!(nbArgIn == 4 || nbArgIn == 6)) {
-        raiseError(L"Nelson:hdf5:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     }
     ArrayOf param1 = argIn[0];
     std::wstring filename = param1.getContentAsWideString();

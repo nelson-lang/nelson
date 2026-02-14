@@ -47,7 +47,7 @@ LinearInterpolation1D(const ArrayOf& V, const ArrayOf& XQ)
         destinationClass = NLS_SINGLE;
     } break;
     default: {
-        raiseError(L"Nelson:special_functions:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
+        raiseError2(L"Nelson:error_manager:type_not_managed");
     } break;
     }
     if (V.isVector()) {
@@ -144,7 +144,7 @@ LinearInterpolation1D(const ArrayOf& X, const ArrayOf& V, const ArrayOf& XQ)
         res = ArrayOf(NLS_SCOMPLEX, xi.getDimensions(), ptr);
     } break;
     default: {
-        raiseError(L"Nelson:special_functions:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
+        raiseError2(L"Nelson:error_manager:type_not_managed");
     } break;
     }
     return res;

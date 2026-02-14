@@ -44,6 +44,9 @@ private:
     wstringVector LanguageSupported;
 
     void
+    refreshLocaleMessages();
+
+    void
     setLanguageEnvironment(const std::wstring& lang);
     void
     initLanguageSupported();

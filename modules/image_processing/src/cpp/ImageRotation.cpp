@@ -377,7 +377,7 @@ ImageRotation(
             center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
     } break;
     default: {
-        raiseError(L"Nelson:image_processing:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
+        raiseError2(L"Nelson:error_manager:type_not_managed");
     } break;
     }
 
@@ -463,7 +463,7 @@ handleNinetyDegreeRotation(const ArrayOf& image, double angle, BoundingBox bound
             return flip180<logical>(
                 dataClass, dims, channels, planeSize, (logical*)image.getDataPointer());
         default: {
-            raiseError(L"Nelson:image_processing:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
+            raiseError2(L"Nelson:error_manager:type_not_managed");
             return image;
         }
         }
@@ -541,7 +541,7 @@ handleNinetyDegreeRotation(const ArrayOf& image, double angle, BoundingBox bound
         rotate((logical*)image.getDataPointer(), (logical*)result.getDataPointer());
         break;
     default:
-        raiseError(L"Nelson:image_processing:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
+        raiseError2(L"Nelson:error_manager:type_not_managed");
         break;
     }
 

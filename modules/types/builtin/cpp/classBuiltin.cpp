@@ -21,10 +21,13 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 1, 2);
     if (argIn.size() == 1) {
         std::string str = ClassName(argIn[0]);
         retval << ArrayOf::characterArrayConstructor(str);
-    } else if (argIn.size() == 2) {
+        return retval;
+    }
+    if (argIn.size() == 2) {
         Context* ctx = eval->getContext();
         if (ctx->getCurrentScope()->getName() == "base") {
             raiseError(L"Nelson:types:ERROR_DECLARATION_ONLY_ALLOWED_FROM_CLASS_CONSTRUCTOR",
@@ -39,11 +42,8 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             arg1.setClassType(newType);
             retval << arg1;
         } else {
-            raiseError(L"Nelson:types:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRUCT_ARRAY_STR);
+            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRUCT_ARRAY_STR);
         }
-    } else {
-        raiseError(L"Nelson:types:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

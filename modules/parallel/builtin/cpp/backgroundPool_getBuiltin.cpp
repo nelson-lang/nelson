@@ -33,8 +33,7 @@ Nelson::ParallelGateway::backgroundPool_getBuiltin(int nLhs, const ArrayOfVector
     }
     ArrayOf res;
     if (!BackgroundPoolObject::getInstance()->get(propertyName, res)) {
-        raiseError(
-            L"Nelson:parallel:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+        raiseError2(L"Nelson:error_manager:wrong_value", 2);
     }
     retval << res;
     return retval;

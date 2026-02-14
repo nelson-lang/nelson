@@ -37,8 +37,7 @@ Nelson::DynamicLinkGateway::libpointer_getBuiltin(int nLhs, const ArrayOfVector&
         ArrayOf param2 = argIn[1];
         std::wstring propertyName = param2.getContentAsWideString();
         if (!objLibPointer->get(propertyName, res)) {
-            raiseError(L"Nelson:dynamic_link:ERROR_WRONG_ARGUMENT_X_VALUE",
-                ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+            raiseError2(L"Nelson:error_manager:wrong_value", 2);
         }
     }
     retval << res;

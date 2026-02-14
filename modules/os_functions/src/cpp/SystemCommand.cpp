@@ -126,7 +126,7 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
                 taskList[k]->evaluateCommand(commands[k], timeouts[k]);
             });
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
         }
     }
 

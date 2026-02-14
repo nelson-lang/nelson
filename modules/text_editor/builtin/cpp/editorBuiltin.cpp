@@ -22,6 +22,7 @@ Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayO
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 0);
+    nargincheck(argIn, 0, 2);
     switch (argIn.size()) {
     case 0: {
         if (NelsonConfiguration::getInstance()->useEmbeddedEditor()) {
@@ -60,8 +61,7 @@ Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayO
                     textEditor(eval, true);
                 }
             } else {
-                raiseError(L"Nelson:text_editor:ERROR_WRONG_ARGUMENT_X_VALUE",
-                    ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+                raiseError2(L"Nelson:error_manager:wrong_value", 2);
             }
         } else if (option == L"editor_command") {
             std::wstring commandLine = argIn[1].getContentAsWideString();
@@ -71,13 +71,11 @@ Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayO
             NelsonConfiguration::getInstance()->setCurrentEditor(commandLine, false);
             NelsonConfiguration::getInstance()->setVsCodeMode(true);
         } else {
-            raiseError(L"Nelson:text_editor:ERROR_WRONG_ARGUMENT_X_VALUE",
-                ERROR_WRONG_ARGUMENT_X_VALUE, 1);
+            raiseError2(L"Nelson:error_manager:wrong_value", 1);
         }
     } break;
     default: {
-        raiseError(
-            L"Nelson:text_editor:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:max_rhs");
     } break;
     }
     return retval;

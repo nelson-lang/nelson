@@ -59,8 +59,7 @@ Nelson::StreamGateway::filereadBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (str == L"char" || str == L"cell" || str == L"string") {
             outputClass = str;
         } else {
-            raiseError(L"Nelson:stream_manager:ERROR_WRONG_VALUE_ARG2_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+            raiseError2(L"Nelson:stream_manager:wrong_value", 2);
         }
     }
     std::wstring eol = L"\n";
@@ -86,8 +85,7 @@ Nelson::StreamGateway::filereadBuiltin(int nLhs, const ArrayOfVector& argIn)
                 ERROR_WRONG_VALUE_FOR_MACHINE_FORMAT);
         }
         if (outputClass == L"cell") {
-            raiseError(L"Nelson:stream_manager:ERROR_WRONG_VALUE_ARG2_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+            raiseError2(L"Nelson:error_manager:wrong_value", 2);
         }
     }
     std::wstring encoding = L"UTF-8";
@@ -96,8 +94,7 @@ Nelson::StreamGateway::filereadBuiltin(int nLhs, const ArrayOfVector& argIn)
         encoding = param4.getContentAsWideString();
         if (encoding != L"auto") {
             if (!isSupportedEncoding(encoding)) {
-                raiseError(L"Nelson:stream_manager:ERROR_WRONG_VALUE_ARG4_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_VALUE, 4);
+                raiseError2(L"Nelson:error_manager:wrong_value", 4);
             }
         }
     }

@@ -22,8 +22,7 @@ Nelson::ComEngineGateway::COM_methodsBuiltin(int nLhs, const ArrayOfVector& argI
     ArrayOfVector retval(nLhs);
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle()) {
-        raiseError(L"Nelson:com_engine:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_HANDLE_STR);
     }
     wstringVector methods;
     methodsComHandleObject(param1, methods);

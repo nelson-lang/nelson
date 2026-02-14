@@ -48,8 +48,7 @@ Nelson::DebuggerGateway::dbstopBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     }
 
     if (argIn.size() == 3) {
-        raiseError(
-            L"Nelson:debugger:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     }
 
     if (argIn[0].getContentAsWideString() != L"in") {

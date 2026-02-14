@@ -27,6 +27,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     std::wstring wpath;
     std::wstring woption;
     bool bSubDirectories = false;
+    nargincheck(argIn, 0, 2);
     nargoutcheck(nLhs, 0, 1);
     switch (argIn.size()) {
     case 0: {
@@ -38,27 +39,23 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     } break;
     case 2: {
         if (!argIn[1].isRowVectorCharacterArray()) {
-            raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
+            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_STRING_ARRAY_STR);
         }
         woption = argIn[1].getContentAsWideString();
         if (woption == L"-s") {
             bSubDirectories = true;
         } else {
-            raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_VALUE",
-                ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+            raiseError2(L"Nelson:error_manager:wrong_value", 2);
         }
     }
     case 1: {
         if (!argIn[0].isRowVectorCharacterArray()) {
-            raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
         }
         wpath = argIn[0].getContentAsWideString();
     } break;
     default:
-        raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_NUMBERS_INPUT_ARGS",
-            ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
         break;
     }
     std::vector<FileInfo> res = ListFiles(wpath, bSubDirectories);

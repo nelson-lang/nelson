@@ -44,7 +44,7 @@ Nelson::AudioGateway::audiorecorderBuiltin(int nLhs, const ArrayOfVector& argIn)
         objRec->setConfig(sampleRate, bits, channels, deviceID);
     } break;
     default: {
-        raiseError(L"Nelson:audio:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:max_rhs");
     } break;
     }
     if (!objRec) {

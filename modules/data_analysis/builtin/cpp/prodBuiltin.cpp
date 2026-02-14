@@ -48,8 +48,7 @@ Nelson::DataAnalysisGateway::prodBuiltin(int nLhs, const ArrayOfVector& argIn)
                     withnan = false;
                 }
             } else {
-                raiseError(L"Nelson:data_analysis:ERROR_WRONG_ARGUMENT_X_VALUE",
-                    ERROR_WRONG_ARGUMENT_X_VALUE, L"4");
+                raiseError2(L"Nelson:error_manager:wrong_value", L"4");
             }
         } else {
             d = param2.getContentAsScalarIndex(false);
@@ -63,8 +62,7 @@ Nelson::DataAnalysisGateway::prodBuiltin(int nLhs, const ArrayOfVector& argIn)
             if ((wstr1 == L"double") || (wstr1 == L"native") || (wstr1 == L"default")) {
                 strtype = wstr1;
             } else {
-                raiseError(L"Nelson:data_analysis:ERROR_WRONG_ARGUMENT_X_VALUE",
-                    ERROR_WRONG_ARGUMENT_X_VALUE, L"2");
+                raiseError2(L"Nelson:error_manager:wrong_value", L"2");
             }
             std::wstring wstr2 = param3.getContentAsWideString();
             if ((wstr2 == L"includenan") || (wstr2 == L"omitnan")) {
@@ -74,8 +72,7 @@ Nelson::DataAnalysisGateway::prodBuiltin(int nLhs, const ArrayOfVector& argIn)
                     withnan = false;
                 }
             } else {
-                raiseError(L"Nelson:data_analysis:ERROR_WRONG_ARGUMENT_X_VALUE",
-                    ERROR_WRONG_ARGUMENT_X_VALUE, L"3");
+                raiseError2(L"Nelson:error_manager:wrong_value", L"3");
             }
         } else {
             d = param2.getContentAsScalarIndex(false);
@@ -89,8 +86,7 @@ Nelson::DataAnalysisGateway::prodBuiltin(int nLhs, const ArrayOfVector& argIn)
                     withnan = false;
                 }
             } else {
-                raiseError(L"Nelson:data_analysis:ERROR_WRONG_ARGUMENT_X_VALUE",
-                    ERROR_WRONG_ARGUMENT_X_VALUE, L"3");
+                raiseError2(L"Nelson:error_manager:wrong_value", L"3");
             }
         }
     } break;
@@ -104,8 +100,7 @@ Nelson::DataAnalysisGateway::prodBuiltin(int nLhs, const ArrayOfVector& argIn)
         if ((wstr1 == L"double") || (wstr1 == L"native") || (wstr1 == L"default")) {
             strtype = wstr1;
         } else {
-            raiseError(L"Nelson:data_analysis:ERROR_WRONG_ARGUMENT_X_VALUE",
-                ERROR_WRONG_ARGUMENT_X_VALUE, L"3");
+            raiseError2(L"Nelson:error_manager:wrong_value", L"3");
         }
         if ((wstr2 == L"includenan") || (wstr2 == L"omitnan")) {
             if (wstr2 == L"includenan") {
@@ -114,13 +109,11 @@ Nelson::DataAnalysisGateway::prodBuiltin(int nLhs, const ArrayOfVector& argIn)
                 withnan = false;
             }
         } else {
-            raiseError(L"Nelson:data_analysis:ERROR_WRONG_ARGUMENT_X_VALUE",
-                ERROR_WRONG_ARGUMENT_X_VALUE, L"4");
+            raiseError2(L"Nelson:error_manager:wrong_value", L"4");
         }
     } break;
     default: {
-        raiseError(
-            L"Nelson:data_analysis:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     } break;
     }
     retval << Prod(X, d, strtype, withnan);

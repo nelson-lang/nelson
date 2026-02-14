@@ -296,7 +296,7 @@ LibPointerObject::plus(indexType offset)
         newPtr->_initialDimX = _initialDimX;
         newPtr->_initialDimY = _initialDimY;
     } catch (const std::bad_alloc&) {
-        raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
     }
     return newPtr;
 }

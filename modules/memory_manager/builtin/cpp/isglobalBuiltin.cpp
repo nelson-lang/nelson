@@ -24,8 +24,7 @@ Nelson::MemoryGateway::isglobalBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
     if (!argIn[0].isRowVectorCharacterArray()) {
-        raiseError(L"Nelson:memory_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
     }
     std::string arg = argIn[0].getContentAsCString();
     if (!IsValidVariableName(arg)) {

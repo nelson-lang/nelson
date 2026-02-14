@@ -30,8 +30,7 @@ Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     if (argIn[0].isRowVectorCharacterArray() || (argIn[0].isStringArray() && argIn[0].isScalar())) {
         line = argIn[0].getContentAsWideString();
     } else {
-        raiseError(L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, L"string");
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, L"string");
     }
     if (argIn.size() > 1) {
         if (argIn[1].isRowVectorCharacterArray()
@@ -49,8 +48,7 @@ Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                     ERROR_EXECSTR_ARG2_ERRCATCH_NOCATCH_EXPECTED);
             }
         } else {
-            raiseError(L"Nelson:core:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, L"string");
+            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, L"string");
         }
     }
     if (bErrorCatch) {

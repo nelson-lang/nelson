@@ -29,13 +29,15 @@ if(WITHOUT_I18N_MODULE)
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/no-src/include>
            $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include)
 # ==============================================================================
   target_link_libraries(${module_library_name} 
     PRIVATE
-      nlsCharacters_encoding)
+      nlsCharacters_encoding
+      nlsNelson_manager)
 # ==============================================================================
 else()
 # ==============================================================================

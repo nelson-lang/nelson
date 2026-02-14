@@ -47,7 +47,7 @@ invokeComHandleObject(const ArrayOf& A, const std::wstring& wmethodname,
     try {
         pVarResult = new VARIANT;
     } catch (const std::bad_alloc&) {
-        raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
     }
     if (pVarResult) {
         size_t nbParams = params.size();
@@ -58,7 +58,7 @@ invokeComHandleObject(const ArrayOf& A, const std::wstring& wmethodname,
             } catch (const std::bad_alloc&) {
                 delete pVarResult;
                 pVarResult = nullptr;
-                raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
+                raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
             }
             std::wstring errorMessage;
             for (size_t k = 0; k < nbParams; k++) {

@@ -27,8 +27,7 @@ Nelson::OsFunctionsGateway::setenvBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn[0].isRowVectorCharacterArray()) {
         varEnvName = argIn[0].getContentAsWideString();
     } else {
-        raiseError(L"Nelson:os:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
     }
     if (argIn.size() == 2) {
         varEnvValue = argIn[1].getContentAsWideString();

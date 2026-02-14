@@ -154,8 +154,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError(L"Nelson:mpi:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
+                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_SPARSE_STR);
             }
             packMPI(I, buffer, bufsize, packpos, comm);
             packMPI(J, buffer, bufsize, packpos, comm);
@@ -214,8 +213,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError(L"Nelson:mpi:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
+                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_SPARSE_STR);
             }
             packMPI(I, buffer, bufsize, packpos, comm);
             packMPI(J, buffer, bufsize, packpos, comm);
@@ -238,8 +236,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError(L"Nelson:mpi:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
+                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_SPARSE_STR);
             }
             packMPI(I, buffer, bufsize, packpos, comm);
             packMPI(J, buffer, bufsize, packpos, comm);
@@ -257,7 +254,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             buffer, bufsize, packpos, comm);
         break;
     default: {
-        raiseError(L"Nelson:mpi:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
+        raiseError2(L"Nelson:error_manager:type_not_managed");
     } break;
     }
 }
@@ -470,7 +467,7 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_WCHAR, comm);
         break;
     default: {
-        raiseError(L"Nelson:mpi:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
+        raiseError2(L"Nelson:error_manager:type_not_managed");
     } break;
     }
     return ArrayOf(dataClass, outDim, cp);
@@ -496,8 +493,7 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError(L"Nelson:mpi:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
+                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_SPARSE_STR);
             }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);
@@ -533,8 +529,7 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError(L"Nelson:mpi:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
+                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_SPARSE_STR);
             }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);
@@ -554,8 +549,7 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError(L"Nelson:mpi:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_STR);
+                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_SPARSE_STR);
             }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);

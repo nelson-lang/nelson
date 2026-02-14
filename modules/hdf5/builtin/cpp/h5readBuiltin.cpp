@@ -32,7 +32,7 @@ Nelson::Hdf5Gateway::h5readBuiltin(int nLhs, const ArrayOfVector& argIn)
         datasetname = param2.getContentAsWideString();
     } break;
     default: {
-        raiseError(L"Nelson:hdf5:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     } break;
     }
     retval << h5ReadDataset(filename, datasetname);

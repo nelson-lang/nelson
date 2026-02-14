@@ -22,8 +22,7 @@ Nelson::SparseGateway::sparsedouble_realBuiltin(int nLhs, const ArrayOfVector& a
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     if (!argIn[0].isSparseDoubleType()) {
-        raiseError(L"Nelson:sparse:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_SPARSE_DOUBLE_STR);
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_SPARSE_DOUBLE_STR);
     }
     retval << SparseRealPart(argIn[0]);
     return retval;

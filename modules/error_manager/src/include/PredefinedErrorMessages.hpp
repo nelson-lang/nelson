@@ -294,7 +294,6 @@
 //=============================================================================
 // VALUE ERRORS
 //=============================================================================
-#define ERROR_WRONG_ARGUMENT_X_VALUE _W("Wrong value for #{} argument.")
 #define ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED                                             \
     _W("Wrong value for #{} argument. positive value expected.")
 #define ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED                                \
@@ -1912,3 +1911,4 @@
 #define ERROR_LAPACK_ZGECON _W("LAPACK_zgecon error code: {0}.")
 
 #define ERROR_FILESYSTEM_ERROR _W("Filesystem error: {0}.")
+#define ERROR_DIRECTORY_NOT_EXIST _W("Directory does not exist: {0}.")

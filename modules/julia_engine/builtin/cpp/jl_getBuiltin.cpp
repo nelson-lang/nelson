@@ -29,8 +29,8 @@ Nelson::Julia_engineGateway::jl_getBuiltin(int nLhs, const ArrayOfVector& argIn)
         JuliaObjectHandle* jlh = (JuliaObjectHandle*)hgo;
         ArrayOf res;
         if (!jlh->get(methodName, res)) {
-            raiseError(L"Nelson:julia_engine:ERROR_WRONG_ARGUMENT_X_VALUE",
-                ERROR_WRONG_ARGUMENT_X_VALUE, 2, methodName);
+            raiseError(L"Nelson:julia_engine:ERROR_UNDEFINED_METHOD",
+                ERROR_UNDEFINED_METHOD, methodName);
         }
         retval << res;
     }

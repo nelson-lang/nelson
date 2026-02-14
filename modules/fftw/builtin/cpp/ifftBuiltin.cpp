@@ -59,7 +59,7 @@ ifftBuiltinPrivate(int nLhs, const ArrayOfVector& argIn)
         res = InverseFft(X, n, dim - 1);
     } break;
     default: {
-        raiseError(L"Nelson:fftw:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     } break;
     }
     retval << res;

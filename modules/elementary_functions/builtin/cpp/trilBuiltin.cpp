@@ -23,6 +23,7 @@ Nelson::ElementaryFunctionsGateway::trilBuiltin(int nLhs, const ArrayOfVector& a
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 1, 2);
     signedIndexType offset = 0;
     ArrayOf A;
     switch (argIn.size()) {
@@ -41,8 +42,7 @@ Nelson::ElementaryFunctionsGateway::trilBuiltin(int nLhs, const ArrayOfVector& a
         }
     } break;
     default: {
-        raiseError(L"Nelson:elementary_functions:ERROR_WRONG_NUMBERS_INPUT_ARGS",
-            ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:max_rhs");
     } break;
     }
     bool needToOverload;

@@ -14,6 +14,7 @@
 #include "DebugStack.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
+#include "TranslationManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -95,6 +96,12 @@ namespace detail {
         } catch (const std::exception&) {
             return format;
         }
+    }
+    //=============================================================================
+    std::wstring
+    formatToWideStringImplMessageID(const std::wstring& ID, const std::vector<std::wstring>& args)
+    {
+        return formatToWideStringImpl(TranslationManager::getInstance().getError(ID), args);
     }
     //=============================================================================
 } // namespace detail

@@ -39,8 +39,6 @@ public:
     getModulesPathList(bool bReverse);
     wstringVector
     getModulesList(bool bReverse);
-    wstringVector
-    getLibraryList(bool bReverse);
     std::vector<bool>
     getModulesProtectedList(bool bReverse);
     std::vector<versionElement>

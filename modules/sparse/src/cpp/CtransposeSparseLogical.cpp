@@ -33,7 +33,7 @@ CtransposeSparseLogical(const ArrayOf& A)
                 spMatA->cols(), spMatA->rows());
         } catch (const std::bad_alloc&) {
             spMatC = nullptr;
-            raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
         }
         *spMatC = spMatA->adjoint();
         Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());

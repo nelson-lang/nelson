@@ -524,7 +524,7 @@ scalarValueToString(CURL* curlObject, ArrayOf& value)
         s = fmt::to_string(v);
     } break;
     default: {
-        raiseError(L"Nelson:webtools:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
+        raiseError2(L"Nelson:error_manager:type_not_managed");
     } break;
     }
     return curl_easy_escape(curlObject, s.c_str(), (int)s.size());
@@ -769,7 +769,7 @@ arrayValueToString(CURL* curlObject, const std::string& name, ArrayOf& value,
         }
     } break;
     default: {
-        raiseError(L"Nelson:webtools:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
+        raiseError2(L"Nelson:error_manager:type_not_managed");
     } break;
     }
     return output;

@@ -20,6 +20,7 @@ ArrayOfVector
 Nelson::OsFunctionsGateway::computerBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
+    nargincheck(argIn, 0, 1);
     if (argIn.empty()) {
         nargoutcheck(nLhs, 0, 3);
         if (nLhs >= 0) {
@@ -35,11 +36,12 @@ Nelson::OsFunctionsGateway::computerBuiltin(int nLhs, const ArrayOfVector& argIn
                 retval << ArrayOf::characterArrayConstructor(L"L");
             }
         }
-    } else if (argIn.size() == 1) {
+        return retval;
+    }
+    if (argIn.size() == 1) {
         nargoutcheck(nLhs, 0, 1);
         if (!argIn[0].isRowVectorCharacterArray()) {
-            raiseError(L"Nelson:os:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
         }
         std::wstring warg = argIn[0].getContentAsWideString();
         if (warg.compare(L"arch") != 0) {
@@ -47,9 +49,6 @@ Nelson::OsFunctionsGateway::computerBuiltin(int nLhs, const ArrayOfVector& argIn
                 L"Nelson:os_functions:ERROR_UNKNOWN_COMMAND_OPTION", ERROR_UNKNOWN_COMMAND_OPTION);
         }
         retval << ArrayOf::characterArrayConstructor(GetArchitecture());
-    } else {
-        raiseError(
-            L"Nelson:os_functions:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     return retval;
 }

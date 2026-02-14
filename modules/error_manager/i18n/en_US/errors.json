@@ -1,0 +1,12 @@
+{
+  "Nelson:error_manager:no_mem": "Memory allocation error... You may have run out of memory!",
+  "Nelson:error_manager:max_rhs": "Too many input arguments.",
+  "Nelson:error_manager:min_rhs": "Too few input arguments.",
+  "Nelson:error_manager:max_lhs": "Too many output arguments.",
+  "Nelson:error_manager:min_lhs": "Too few output arguments.",
+  "Nelson:error_manager:wrong_rhs": "Wrong number of input arguments.",
+  "Nelson:error_manager:wrong_lhs": "Wrong number of output arguments.",
+  "Nelson:error_manager:wrong_type_with_expected": "Wrong type for argument #{0}: '{1}' expected.",
+  "Nelson:error_manager:wrong_value": "Wrong value for argument #{0}.",
+  "Nelson:error_manager:type_not_managed": "Type not managed."
+}

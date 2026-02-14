@@ -10,6 +10,7 @@
 #include "AddModule.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "TranslationManager.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "FindDynamicLibraryName.hpp"
@@ -35,6 +36,8 @@ AddModule(Evaluator* eval, const std::wstring& modulerootpath, const std::wstrin
         pathmainloader += L"/etc/startup.m";
         if (FileSystemWrapper::Path::is_regular_file(pathmainloader)) {
             if (!IsExistingModuleName(moduleshortname) && !IsExistingModulePath(_modulerootpath)) {
+                TranslationManager::getInstance().loadModuleTranslation(moduleshortname,
+                    _modulerootpath, NelsonConfiguration::getInstance()->getCurrentLocale());
                 RegisterModule(moduleshortname, _modulerootpath,
                     !NelsonConfiguration::getInstance()->isModulesProtected());
                 EvaluateScriptFile(eval, pathmainloader.generic_wstring());

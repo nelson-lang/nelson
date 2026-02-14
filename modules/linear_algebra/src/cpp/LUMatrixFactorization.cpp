@@ -44,7 +44,7 @@ updatePivotVector(int nrows, int* piv, int p)
     try {
         fullpivot = new int[nrows];
     } catch (std::bad_alloc&) {
-        raiseError(L"Nelson:nomem", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
     }
     OMP_PARALLEL_FOR_LOOP(nrows)
     for (ompIndexType i = 0; i < (ompIndexType)nrows; i++) {

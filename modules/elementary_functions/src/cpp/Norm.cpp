@@ -246,8 +246,7 @@ Norm(const ArrayOf& arrayIn, double p)
     }
 
     if (!ispNormValid(p) && !(arrayIn.isVector() || arrayIn.isScalar())) {
-        raiseError(L"Nelson:elementary_functions:ERROR_WRONG_ARGUMENT_X_VALUE",
-            ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+        raiseError2(L"Nelson:error_manager:wrong_value", 2);
     }
     double normResultAsDouble = 0;
     single normResultAsSingle = 0;
@@ -329,8 +328,7 @@ Norm(const ArrayOf& arrayIn, double p)
                     res = ArrayOf::doubleConstructor(normResultAsDouble);
                 }
             } else {
-                raiseError(L"Nelson:elementary_functions:ERROR_WRONG_ARGUMENT_X_VALUE",
-                    ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+                raiseError2(L"Nelson:error_manager:wrong_value", 2);
             }
         }
     }

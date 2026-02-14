@@ -20,30 +20,28 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-// Helper function to handle return values based on nLhs, result, and error message
-static ArrayOfVector
-returnValueOrError(int nLhs, bool res, const std::wstring& errorMessage)
-{
-    ArrayOfVector retval;
-    if (nLhs == 0) {
-        if (!errorMessage.empty()) {
-            Error(errorMessage, L"Nelson:help_tools:ERROR_RUNTIME_MESSAGE");
-        }
-        retval << ArrayOf::logicalConstructor(res);
-    } else {
-        retval << ArrayOf::logicalConstructor(res);
-        if (nLhs == 2) {
-            retval << ArrayOf::characterArrayConstructor(errorMessage);
-        }
-    }
-    return retval;
-}
-//=============================================================================
 // xmldocbuild(source_dirs, destination_dir, main_title, export_format, overwrite)
 ArrayOfVector
 Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
+    bool res = false;
+    std::wstring errorMessage;
+    const auto buildReturn = [&](bool localRes, const std::wstring& localError) {
+        ArrayOfVector localRetval;
+        if (nLhs == 0) {
+            if (!localError.empty()) {
+                Error(localError, L"Nelson:help_tools:ERROR_RUNTIME_MESSAGE");
+            }
+            localRetval << ArrayOf::logicalConstructor(localRes);
+        } else {
+            localRetval << ArrayOf::logicalConstructor(localRes);
+            if (nLhs == 2) {
+                localRetval << ArrayOf::characterArrayConstructor(localError);
+            }
+        }
+        return localRetval;
+    };
     nargincheck(argIn, 5, 5);
     nargoutcheck(nLhs, 0, 2);
     ArrayOf argSourceDirs = argIn[0];
@@ -54,26 +52,27 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
     } else if (argSourceDirs.isCell()) {
         listOfDirectories = argSourceDirs.getContentAsWideStringVector(true);
     } else {
-        return returnValueOrError(nLhs, false,
-            formatErrorMessage(
-                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, ERROR_TYPE_CELL_OF_STRINGS));
+        raiseError2(
+            L"Nelson:error_manager:wrong_type_with_expected", 1, ERROR_TYPE_CELL_OF_STRINGS);
     }
     bool permissionDenied;
-    for (const auto& listOfDirectorie : listOfDirectories) {
-        if (!FileSystemWrapper::Path::is_directory(listOfDirectorie, permissionDenied)) {
+    for (const auto& listOfDirectory : listOfDirectories) {
+        if (!FileSystemWrapper::Path::is_directory(listOfDirectory, permissionDenied)) {
             if (permissionDenied) {
-                return returnValueOrError(nLhs, false, _W("Permission denied."));
+                raiseError(L"Nelson:help_tools:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
             }
-            return returnValueOrError(nLhs, false, _W("Existing directory expected."));
+            raiseError(L"Nelson:help_tools:ERROR_DIRECTORY_NOT_EXIST", ERROR_DIRECTORY_NOT_EXIST,
+                listOfDirectory);
         }
     }
     ArrayOf argDestinationDir = argIn[1];
     std::wstring dstDirectory = argDestinationDir.getContentAsWideString();
     if (!FileSystemWrapper::Path::is_directory(dstDirectory, permissionDenied)) {
         if (permissionDenied) {
-            return returnValueOrError(nLhs, false, _W("Permission denied."));
+            raiseError(L"Nelson:help_tools:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
         }
-        return returnValueOrError(nLhs, false, _W("Existing directory expected."));
+        raiseError(L"Nelson:help_tools:ERROR_DIRECTORY_NOT_EXIST", ERROR_DIRECTORY_NOT_EXIST,
+            dstDirectory);
     }
     ArrayOf argMainTitle = argIn[2];
     std::wstring mainTitle = argMainTitle.getContentAsWideString();
@@ -93,10 +92,10 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
     ArrayOf argOverwrite = argIn[4];
     logical forceOverwrite = argOverwrite.getContentAsLogicalScalar();
 
-    std::wstring errorMessage;
-    bool res = xmldocbuild(listOfDirectories, dstDirectory, mainTitle, outputTarget,
+    res = xmldocbuild(listOfDirectories, dstDirectory, mainTitle, outputTarget,
         forceOverwrite ? true : false, errorMessage);
 
-    return returnValueOrError(nLhs, res, errorMessage);
+    retval = buildReturn(res, errorMessage);
+    return retval;
 }
 //=============================================================================

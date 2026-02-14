@@ -89,8 +89,7 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_OR_ROW_VECTOR_EXPECTED, 1);
             }
         } else {
-            raiseError(L"Nelson:string:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_DOUBLE_STR);
+            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_DOUBLE_STR);
         }
     } else {
         Dimensions dims(argIn.size());
@@ -119,8 +118,8 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                         ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, k + 1);
                 }
             } else {
-                raiseError(L"Nelson:string:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, k + 1, NLS_DOUBLE_STR);
+                raiseError2(
+                    L"Nelson:error_manager:wrong_type_with_expected", k + 1, NLS_DOUBLE_STR);
             }
         }
         dims.simplify();

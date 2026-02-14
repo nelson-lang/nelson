@@ -22,12 +22,10 @@ ArrayOf
 HorzCatHandle(const ArrayOf& A, const ArrayOf& B)
 {
     if (!A.isHandle()) {
-        raiseError(L"Nelson:handle:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_HANDLE_STR);
     }
     if (!B.isHandle()) {
-        raiseError(L"Nelson:handle:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_HANDLE_STR);
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_HANDLE_STR);
     }
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();

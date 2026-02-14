@@ -43,8 +43,7 @@ Nelson::Python_engineGateway::py_invokeBuiltin(
         io = eval->getInterface();
     }
     if (!poh->invoke(io, methodname, params, nLhs, retval)) {
-        raiseError(
-            L"Nelson:python_engine:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+        raiseError2(L"Nelson:error_manager:wrong_value", 2);
     }
     return retval;
 }

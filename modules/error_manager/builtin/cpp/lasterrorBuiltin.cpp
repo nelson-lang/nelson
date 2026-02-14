@@ -37,8 +37,7 @@ Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const A
             if (IsErrorStruct(arg1, e)) {
                 eval->setLastErrorException(e);
             } else {
-                raiseError(L"Nelson:error_manager:ERROR_WRONG_ARGUMENT_X_VALUE",
-                    ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+                raiseError2(L"Nelson:error_manager:wrong_value", 2);
             }
         } else {
             raiseError(L"Nelson:error_manager:ERROR_WRONG_ARGUMENT_X_TYPE",

@@ -46,8 +46,7 @@ Nelson::InterpreterGateway::max_recursion_depthBuiltin(
         }
         retval << ArrayOf::doubleConstructor((double)previousrecursiondepth);
     } else {
-        raiseError(
-            L"Nelson:interpreter:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     }
     return retval;
 }

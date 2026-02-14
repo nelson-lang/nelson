@@ -27,8 +27,7 @@ Nelson::ModulesManagerGateway::requiremoduleBuiltin(int nLhs, const ArrayOfVecto
     if (argIn[0].isRowVectorCharacterArray()) {
         moduleshortname = argIn[0].getContentAsWideString();
     } else {
-        raiseError(L"Nelson:modules:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
     }
     bool bRes = IsExistingModuleName(moduleshortname);
     if (!bRes) {

@@ -55,8 +55,7 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                 ERROR_WRONG_VALUE_ARG3_NOT_SUPPORTED_PRECISION);
         }
     } else {
-        raiseError(L"Nelson:stream:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 3, NLS_STRING_ARRAY_STR);
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 3, NLS_STRING_ARRAY_STR);
     }
     ArrayOf param1 = argIn[0];
     if (param1.isDoubleType()) {
@@ -120,8 +119,7 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                 ERROR_INVALID_FILE_ID_EXPECTED);
         }
     } else {
-        raiseError(L"Nelson:stream:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_DOUBLE_STR);
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_DOUBLE_STR);
     }
     return retval;
 }
@@ -191,8 +189,11 @@ Nelson::StreamGateway::fwriteBuiltin(int nLhs, const ArrayOfVector& argIn)
     case 5:
         return fwriteBuiltinFiveRhs(nLhs, argIn);
     default: {
-        raiseError(L"Nelson:stream_manager:ERROR_WRONG_NUMBERS_INPUT_ARGS",
-            ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        if (argIn.size() < 2) {
+            raiseError2(L"Nelson:error_manager:min_rhs");
+        } else {
+            raiseError2(L"Nelson:error_manager:max_rhs");
+        }
     } break;
     }
     ArrayOfVector retval;

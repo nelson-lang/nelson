@@ -59,7 +59,7 @@ Nelson::AudioGateway::audioplayerBuiltin(int nLhs, const ArrayOfVector& argIn)
         res = objPlayer->setSamples(argIn[0], sampleRate, bitsPerSample, deviceID, errorMessage);
     } break;
     default: {
-        raiseError(L"Nelson:audio:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:max_rhs");
     } break;
     }
     if (!res) {

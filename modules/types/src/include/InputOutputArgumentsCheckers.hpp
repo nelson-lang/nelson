@@ -22,7 +22,7 @@ inline void
 nargincheck(const ArrayOfVector& argIn, int minArgs)
 {
     if (argIn.size() < (size_t)minArgs) {
-        raiseError(L"Nelson:types:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:error_manager:min_rhs", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
 }
 //=============================================================================
@@ -33,10 +33,10 @@ inline void
 nargincheck(const ArrayOfVector& argIn, int minArgs, int maxArgs)
 {
     if (argIn.size() < (size_t)minArgs) {
-        raiseError(L"Nelson:types:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:error_manager:min_rhs", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (argIn.size() > (size_t)maxArgs) {
-        raiseError(L"Nelson:types:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"Nelson:error_manager:max_rhs", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
 }
 //=============================================================================
@@ -47,8 +47,7 @@ inline void
 nargoutcheck(int nLhs, int minArgs)
 {
     if (nLhs < minArgs) {
-        raiseError(
-            L"Nelson:types:ERROR_WRONG_NUMBERS_OUTPUT_ARGS", ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError(L"Nelson:error_manager:min_lhs", ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
 }
 //=============================================================================
@@ -59,12 +58,10 @@ inline void
 nargoutcheck(int nLhs, int minArgs, int maxArgs)
 {
     if (nLhs < minArgs) {
-        raiseError(
-            L"Nelson:types:ERROR_WRONG_NUMBERS_OUTPUT_ARGS", ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError(L"Nelson:error_manager:min_lhs", ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
     if (nLhs > maxArgs) {
-        raiseError(
-            L"Nelson:types:ERROR_WRONG_NUMBERS_OUTPUT_ARGS", ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError(L"Nelson:error_manager:max_lhs", ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     }
 }
 //=============================================================================

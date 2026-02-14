@@ -33,8 +33,7 @@ getCumulativeArgument(const ArrayOfVector& argIn, int pos, bool& withNaN, bool& 
         reverse = false;
     } else {
         std::string msg = fmt::format(_("Wrong value for #{0} argument."), pos);
-        raiseError(L"Nelson:data_analysis:ERROR_WRONG_ARGUMENT_X_VALUE",
-            ERROR_WRONG_ARGUMENT_X_VALUE, utf8_to_wstring(msg));
+        raiseError2(L"Nelson:error_manager:wrong_value", utf8_to_wstring(msg));
     }
 }
 //=============================================================================
@@ -71,8 +70,7 @@ cumulativeFunctionBuiltin(int nLhs, const ArrayOfVector& argIn, std::string cumu
             std::wstring wstr1 = argIn[1].getContentAsWideString();
             std::wstring wstr2 = argIn[2].getContentAsWideString();
             if (wstr1 == wstr2) {
-                raiseError(L"Nelson:data_analysis:ERROR_WRONG_ARGUMENT_X_VALUE",
-                    ERROR_WRONG_ARGUMENT_X_VALUE, L"3");
+                raiseError2(L"Nelson:error_manager:wrong_value", L"3");
             }
             getCumulativeArgument(argIn, 1, withNaN, reverse);
             getCumulativeArgument(argIn, 2, withNaN, reverse);
@@ -86,15 +84,13 @@ cumulativeFunctionBuiltin(int nLhs, const ArrayOfVector& argIn, std::string cumu
         std::wstring wstr1 = argIn[2].getContentAsWideString();
         std::wstring wstr2 = argIn[3].getContentAsWideString();
         if (wstr1 == wstr2) {
-            raiseError(L"Nelson:data_analysis:ERROR_WRONG_ARGUMENT_X_VALUE",
-                ERROR_WRONG_ARGUMENT_X_VALUE, L"3");
+            raiseError2(L"Nelson:error_manager:wrong_value", L"3");
         }
         getCumulativeArgument(argIn, 2, withNaN, reverse);
         getCumulativeArgument(argIn, 3, withNaN, reverse);
     } break;
     default: {
-        raiseError(
-            L"Nelson:data_analysis:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     } break;
     }
 

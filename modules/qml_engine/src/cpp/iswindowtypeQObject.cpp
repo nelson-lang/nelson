@@ -22,8 +22,7 @@ ArrayOf
 iswindowtypeQObject(const ArrayOf& A)
 {
     if (!A.isHandle()) {
-        raiseError(L"Nelson:qml:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_HANDLE_STR);
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_HANDLE_STR);
     }
     std::string className;
     ClassName(A, className);

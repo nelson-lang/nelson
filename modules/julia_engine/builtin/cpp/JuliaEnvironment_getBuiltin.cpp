@@ -36,8 +36,8 @@ Nelson::Julia_engineGateway::JuliaEnvironment_getBuiltin(int nLhs, const ArrayOf
     JuliaEnvironment* juliaEnvironment = JuliaEnvironment::getInstance();
 
     if (!juliaEnvironment->get(propertyName, res)) {
-        raiseError(L"Nelson:julia_engine:ERROR_WRONG_ARGUMENT_X_VALUE",
-            ERROR_WRONG_ARGUMENT_X_VALUE, 2, propertyName);
+        raiseError(
+            L"Nelson:error_manager:ERROR_UNDEFINED_METHOD", ERROR_UNDEFINED_METHOD, propertyName);
     }
     retval << res;
     return retval;

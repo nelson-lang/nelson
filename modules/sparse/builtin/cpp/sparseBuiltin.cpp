@@ -119,6 +119,7 @@ Nelson::SparseGateway::sparseBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 1, 6);
     switch (argIn.size()) {
     case 1:
         return sparseBuiltinOneRhs(nLhs, argIn);
@@ -130,7 +131,7 @@ Nelson::SparseGateway::sparseBuiltin(int nLhs, const ArrayOfVector& argIn)
     case 6:
         return sparseBuiltinFiveOrSixRhs(nLhs, argIn);
     default: {
-        raiseError(L"Nelson:sparse:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     } break;
     }
     return retval;

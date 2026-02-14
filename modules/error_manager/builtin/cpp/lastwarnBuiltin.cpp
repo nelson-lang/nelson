@@ -35,8 +35,7 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
                 eval->setLastWarningException(newLastWarning);
             }
         } else {
-            raiseError(L"Nelson:error_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
         }
     } break;
     case 2: {
@@ -46,22 +45,19 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
         if (arg1.isRowVectorCharacterArray()) {
             message = arg1.getContentAsWideString();
         } else {
-            raiseError(L"Nelson:error_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
         }
         ArrayOf arg2 = argIn[1];
         if (arg2.isRowVectorCharacterArray()) {
             identifier = arg2.getContentAsWideString();
         } else {
-            raiseError(L"Nelson:error_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 2, NLS_STRING_ARRAY_STR);
+            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_STRING_ARRAY_STR);
         }
         Exception newLastWarning(message, identifier);
         eval->setLastWarningException(newLastWarning);
     } break;
     default: {
-        raiseError(
-            L"Nelson:error_manager:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:max_rhs");
     } break;
     }
     switch (nLhs) {

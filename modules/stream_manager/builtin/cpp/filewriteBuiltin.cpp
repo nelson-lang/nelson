@@ -53,8 +53,7 @@ Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf param4 = argIn[3];
         encoding = param4.getContentAsCString();
         if (!isSupportedEncoding(encoding)) {
-            raiseError(L"Nelson:stream_manager:ERROR_WRONG_ARGUMENT_X_VALUE",
-                ERROR_WRONG_ARGUMENT_X_VALUE, 4);
+            raiseError2(L"Nelson:error_manager:wrong_value", 4);
         }
     }
 
@@ -80,8 +79,7 @@ getEol(const std::wstring& str)
         return { L"\n", "\n" };
 #endif
     } else {
-        raiseError(
-            L"Nelson:stream_manager:ERROR_WRONG_ARGUMENT_X_VALUE", ERROR_WRONG_ARGUMENT_X_VALUE, 3);
+        raiseError2(L"Nelson:error_manager:wrong_value", 3);
         return { L"", "" }; // This line will never be reached
     }
 }

@@ -24,8 +24,7 @@ Nelson::OperatorsGateway::colonBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         return eval->colonOperator(argIn[0], argIn[1], argIn[2]);
     } break;
     default: {
-        raiseError(
-            L"Nelson:operators:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     } break;
     }
     return {};

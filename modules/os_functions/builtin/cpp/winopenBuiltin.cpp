@@ -27,8 +27,7 @@ Nelson::OsFunctionsGateway::winopenBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
         cmd = argIn[0].getContentAsWideString();
     } else {
-        raiseError(L"Nelson:os:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
     }
     if (!WinOpen(cmd)) {
         raiseError(L"Nelson:os_functions:ERROR_FILENAME_NOT_ASSOCIATED_TO_AN_APPLICATION",

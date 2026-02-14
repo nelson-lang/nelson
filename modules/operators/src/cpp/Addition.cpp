@@ -182,7 +182,7 @@ Addition(const ArrayOf& A, const ArrayOf& B)
         }
     } break;
     default: {
-        raiseError(L"Nelson:operators:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
+        raiseError2(L"Nelson:error_manager:type_not_managed");
     } break;
     }
     return res;

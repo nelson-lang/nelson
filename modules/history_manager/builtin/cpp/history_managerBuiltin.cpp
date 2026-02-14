@@ -49,8 +49,7 @@ Nelson::HistoryManagerGateway::history_managerBuiltin(int nLhs, const ArrayOfVec
                 }
                 NelsonConfiguration::getInstance()->setHistoryManager(nullptr);
             } else {
-                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_VALUE",
-                    ERROR_WRONG_ARGUMENT_X_VALUE, 1);
+                raiseError2(L"Nelson:error_manager:wrong_value", 1);
             }
             if (bOldMode) {
                 retval << ArrayOf::characterArrayConstructor(L"on");
@@ -58,12 +57,10 @@ Nelson::HistoryManagerGateway::history_managerBuiltin(int nLhs, const ArrayOfVec
                 retval << ArrayOf::characterArrayConstructor(L"off");
             }
         } else {
-            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED, 1, NLS_STRING_ARRAY_STR);
+            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
         }
     } else {
-        raiseError(L"Nelson:history_manager:ERROR_WRONG_NUMBERS_INPUT_ARGS",
-            ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     }
     return retval;
 }

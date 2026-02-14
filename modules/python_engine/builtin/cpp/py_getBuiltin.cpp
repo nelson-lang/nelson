@@ -29,8 +29,7 @@ Nelson::Python_engineGateway::py_getBuiltin(int nLhs, const ArrayOfVector& argIn
         PythonObjectHandle* poh = (PythonObjectHandle*)hgo;
         ArrayOf res;
         if (!poh->get(methodName, res)) {
-            raiseError(L"Nelson:python_engine:ERROR_WRONG_ARGUMENT_X_VALUE",
-                ERROR_WRONG_ARGUMENT_X_VALUE, 2);
+            raiseError2(L"Nelson:error_manager:wrong_value", 2);
         }
         retval << res;
     }

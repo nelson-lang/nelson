@@ -353,7 +353,12 @@ Nelson::IpcGateway::ipcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& a
         return ipcBuiltinFiveRhs(eval, nLhs, argIn);
     } break;
     default: {
-        raiseError(L"Nelson:ipc:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        if (argIn.size() < 2) {
+            raiseError2(L"Nelson:error_manager:min_rhs");
+        }
+        if (argIn.size() > 5) {
+            raiseError2(L"Nelson:error_manager:max_rhs");
+        }
     } break;
     }
     return retval;

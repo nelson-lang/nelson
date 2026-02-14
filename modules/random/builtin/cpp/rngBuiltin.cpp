@@ -40,6 +40,7 @@ ArrayOfVector
 Nelson::RandomGateway::rngBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
+    nargincheck(argIn, 0, 2);
     nargoutcheck(nLhs, 0, 1);
     switch (argIn.size()) {
     case 0: {
@@ -147,7 +148,7 @@ Nelson::RandomGateway::rngBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     default: {
-        raiseError(L"Nelson:random:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     } break;
     }
     return retval;

@@ -23,6 +23,8 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{
 ;Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\@MException\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@MException\;
 ;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\i18n\*.json; DestDir: {app}\modules\{#MODULE_NAME}\i18n\; Flags: recursesubdirs;
+;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_HELP_FILES};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_UNIT_TESTS};

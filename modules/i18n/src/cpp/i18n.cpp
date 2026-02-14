@@ -10,6 +10,8 @@
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "I18nManager.hpp"
+#include "TranslationManager.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -17,6 +19,7 @@ void
 forceRefreshLocale()
 {
     I18nManager::getInstance()->forceToUpdateLocaleData();
+    TranslationManager::getInstance().reset();
 }
 //=============================================================================
 std::wstring

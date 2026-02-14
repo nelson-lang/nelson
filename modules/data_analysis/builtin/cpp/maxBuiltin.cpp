@@ -62,8 +62,7 @@ Nelson::DataAnalysisGateway::maxBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         return unaryMaxBuiltin(eval, nLhs, argIn);
     } break;
     default: {
-        raiseError(
-            L"Nelson:data_analysis:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     } break;
     }
     return {};
@@ -154,8 +153,7 @@ unaryMaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     default: {
-        raiseError(
-            L"Nelson:data_analysis:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     } break;
     }
 
@@ -239,8 +237,7 @@ binaryMaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             }
         } break;
         default: {
-            raiseError(L"Nelson:data_analysis:ERROR_WRONG_NUMBERS_INPUT_ARGS",
-                ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            raiseError2(L"Nelson:error_manager:wrong_rhs");
         } break;
         };
 

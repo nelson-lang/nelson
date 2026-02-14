@@ -58,8 +58,7 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() > 3) {
         indexType nbOptions = argIn.size() - 3;
         if (nbOptions % 2 != 0) {
-            raiseError(
-                L"Nelson:hdf5:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            raiseError2(L"Nelson:error_manager:wrong_rhs");
         }
     }
     for (size_t i = 3; i + 1 < argIn.size(); i += 2) {
@@ -88,7 +87,7 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
             } else if (dataTypeStr == L"uint64") {
                 dataType = NLS_UINT64;
             } else {
-                raiseError(L"Nelson:hdf5:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
+                raiseError2(L"Nelson:error_manager:type_not_managed");
             }
         } else if (paramXname.getContentAsWideString() == L"ChunkSize") {
             bool isSupportedSizeType

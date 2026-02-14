@@ -24,7 +24,7 @@ Nelson::JsonGateway::jsonencodeBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     if (!((argIn.size() == 1 || argIn.size() == 3))) {
-        raiseError(L"Nelson:json:ERROR_WRONG_NUMBERS_INPUT_ARGS", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_rhs");
     }
     if (argIn[0].isHandle() || argIn[0].isClassType()) {
         OverloadRequired("jsonencode");

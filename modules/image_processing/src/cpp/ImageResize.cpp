@@ -463,7 +463,7 @@ ImageResize(const ArrayOf& image, size_t numrows, size_t numcols, const ResizeOp
             options.method, useAntialiasing);
     } break;
     default: {
-        raiseError(L"Nelson:image_processing:ERROR_TYPE_NOT_MANAGED", ERROR_TYPE_NOT_MANAGED);
+        raiseError2(L"Nelson:error_manager:type_not_managed");
     } break;
     }
 

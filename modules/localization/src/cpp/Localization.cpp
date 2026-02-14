@@ -15,6 +15,8 @@
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
 #include "i18n.hpp"
+#include "TranslationManager.hpp"
+#include "ModulesManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -41,12 +43,26 @@ Localization::destroy()
 }
 //=============================================================================
 void
+Localization::refreshLocaleMessages()
+{
+    forceRefreshLocale();
+    wstringVector modulesNames = GetModulesName(false);
+    std::wstring currentLocale = NelsonConfiguration::getInstance()->getCurrentLocale();
+
+    for (const auto& moduleName : modulesNames) {
+        std::wstring modulePath = GetModulePath(moduleName);
+        TranslationManager::getInstance().loadModuleTranslation(
+            moduleName, modulePath, currentLocale);
+    }
+}
+//=============================================================================
+void
 Localization::setLanguageEnvironment(const std::wstring& lang)
 {
 
     if (isSupportedLanguage(lang)) {
         NelsonConfiguration::getInstance()->setCurrentLocale(lang);
-        forceRefreshLocale();
+        refreshLocaleMessages();
         try {
             const std::string defaultLang
                 = wstring_to_utf8(NelsonConfiguration::getInstance()->getDefaultLocale())
