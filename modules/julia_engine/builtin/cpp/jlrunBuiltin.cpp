@@ -63,8 +63,7 @@ Nelson::Julia_engineGateway::jlrunBuiltin(Evaluator* eval, int nLhs, const Array
     }
 
     if ((size_t)nLhs > outputs.size()) {
-        raiseError(L"Nelson:julia_engine:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
-            ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_lhs");
     }
     ArrayOfVector res = JuliaRun(
         eval->getInterface(), eval->haveEventsLoop(), nullptr, commands, outputs, names, values);

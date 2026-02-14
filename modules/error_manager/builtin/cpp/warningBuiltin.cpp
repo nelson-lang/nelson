@@ -154,8 +154,7 @@ warningBuiltinNoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         retval = warningStruct(getAllWarningState());
     } break;
     default: {
-        raiseError(L"Nelson:error_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
-            ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_lhs");
     } break;
     }
     return retval;
@@ -201,8 +200,7 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 retval << ArrayOf::characterArrayConstructor(lastWarning.getIdentifier());
             } break;
             default: {
-                raiseError(L"Nelson:error_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
-                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError2(L"Nelson:error_manager:wrong_lhs");
             } break;
             }
         } else if (isQuery(msg)) {
@@ -214,8 +212,7 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 retval = warningStruct(getAllWarningState());
             } break;
             default: {
-                raiseError(L"Nelson:error_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
-                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError2(L"Nelson:error_manager:wrong_lhs");
             } break;
             }
         } else if (isState(msg)) {
@@ -229,8 +226,7 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 retval = warningStruct(previousList);
             } break;
             default: {
-                raiseError(L"Nelson:error_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
-                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError2(L"Nelson:error_manager:wrong_lhs");
             } break;
             }
         } else {
@@ -247,8 +243,7 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 retval << ArrayOf::characterArrayConstructor(lastWarning.getIdentifier());
             } break;
             default: {
-                raiseError(L"Nelson:error_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
-                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError2(L"Nelson:error_manager:wrong_lhs");
             } break;
             }
         }
@@ -282,8 +277,7 @@ warningBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             retval << ArrayOf::structConstructor(fieldnames, fieldvalues);
         } break;
         default: {
-            raiseError(L"Nelson:error_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
-                ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            raiseError2(L"Nelson:error_manager:wrong_lhs");
         } break;
         }
     } else {
@@ -301,8 +295,7 @@ warningBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             retval << ArrayOf::characterArrayConstructor(lastWarning.getIdentifier());
         } break;
         default: {
-            raiseError(L"Nelson:error_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
-                ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            raiseError2(L"Nelson:error_manager:wrong_lhs");
         } break;
         }
     }

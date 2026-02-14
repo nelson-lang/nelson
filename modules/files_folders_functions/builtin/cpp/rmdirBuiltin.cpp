@@ -42,8 +42,7 @@ Nelson::FilesFoldersGateway::rmdirBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (nLhs > 1) {
                 retval << ArrayOf::characterArrayConstructor(errorMessage);
             } else {
-                raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
-                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError2(L"Nelson:error_manager:wrong_lhs");
             }
         }
     } else {

@@ -43,8 +43,7 @@ Nelson::FilesFoldersGateway::rmfileBuiltin(int nLhs, const ArrayOfVector& argIn)
         retval << ArrayOf::characterArrayConstructor(msg);
         break;
     default:
-        raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
-            ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_lhs");
         break;
     }
     return retval;

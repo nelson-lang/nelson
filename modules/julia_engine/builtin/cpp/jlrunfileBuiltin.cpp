@@ -66,8 +66,7 @@ Nelson::Julia_engineGateway::jlrunfileBuiltin(Evaluator* eval, int nLhs, const A
     }
 
     if (nLhs > outputs.size()) {
-        raiseError(L"Nelson:julia_engine:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
-            ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_lhs");
     }
 
     return JuliaRunFile(

@@ -78,8 +78,7 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
         retval << ArrayOf::characterArrayConstructor(identifier);
     } break;
     default: {
-        raiseError(L"Nelson:error_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
-            ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_lhs");
     } break;
     }
     return retval;

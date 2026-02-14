@@ -79,7 +79,7 @@ Nelson::TimeGateway::calendarBuiltin(int nLhs, const ArrayOfVector& argIn)
     } break;
     default: {
         delete cal;
-        raiseError(L"Nelson:time:ERROR_WRONG_NUMBERS_OUTPUT_ARGS", ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_lhs");
     } break;
     }
     return retval;

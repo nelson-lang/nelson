@@ -220,8 +220,7 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         retval << ArrayOf::doubleConstructor(indexWorkspace);
     } break;
     default: {
-        raiseError(
-            L"Nelson:debugger:ERROR_WRONG_NUMBERS_OUTPUT_ARGS", ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_lhs");
     } break;
     }
     return retval;

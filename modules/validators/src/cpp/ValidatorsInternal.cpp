@@ -43,8 +43,7 @@ evaluateFunction(const ArrayOfVector& args, int nLhs, const std::string& functio
         argOut = fptr->evaluateFunction(_eval, args, nLhs);
     }
     if (argOut.size() < 1) {
-        raiseError(
-            L"Nelson:validators:ERROR_WRONG_NUMBERS_OUTPUT_ARGS", ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_lhs");
     }
     return argOut;
 }

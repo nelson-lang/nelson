@@ -71,8 +71,7 @@ Nelson::LinearAlgebraGateway::svdBuiltin(int nLhs, const ArrayOfVector& argIn)
         retval << V;
     } break;
     default:
-        raiseError(L"Nelson:linear_algebra:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
-            ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:wrong_lhs");
         break;
     }
     return retval;

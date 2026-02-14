@@ -49,29 +49,25 @@ historyBuiltin_size_one_rhs(
                     }
                 }
             } else {
-                raiseError(L"Nelson:history_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
-                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError2(L"Nelson:error_manager:wrong_lhs");
             }
         } else if (str == L"save") {
             if (nLhs == 0) {
                 ptrHistoryManager->saveToFile();
             } else {
-                raiseError(L"Nelson:history_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
-                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError2(L"Nelson:error_manager:wrong_lhs");
             }
         } else if (str == L"load") {
             if (nLhs == 0) {
                 ptrHistoryManager->loadFromFile();
             } else {
-                raiseError(L"Nelson:history_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
-                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError2(L"Nelson:error_manager:wrong_lhs");
             }
         } else if (str == L"clear") {
             if (nLhs == 0) {
                 ptrHistoryManager->clear(true);
             } else {
-                raiseError(L"Nelson:history_manager:ERROR_WRONG_NUMBERS_OUTPUT_ARGS",
-                    ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                raiseError2(L"Nelson:error_manager:wrong_lhs");
             }
         } else if (str == L"duplicated") {
             retval << ArrayOf::logicalConstructor(ptrHistoryManager->getAllowDuplicatedLines());
