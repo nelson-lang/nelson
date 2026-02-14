@@ -305,7 +305,6 @@
 //=============================================================================
 // ARGUMENT COUNT ERRORS
 //=============================================================================
-#define ERROR_WRONG_NUMBERS_OUTPUT_ARGS _W("Wrong number of output arguments.")
 #define ERROR_WRONG_NUMBERS_INPUT_ARGS _W("Wrong number of input arguments.")
 #define WARNING_OUTPUTS_NOT_ASSIGNED _W("Warning! one or more outputs not assigned in call.")
 //=============================================================================
@@ -1333,8 +1332,6 @@
     _W("No output arguments are allowed if only two input arguments.")
 #define ERROR_NARGOUTCHK_ONLY_FROM_NELSON_FUNCTION                                                 \
     _W("You can only call 'nargoutchk' from within a Nelson function.")
-#define ERROR_WRONG_NUMBERS_OUTPUT_ARGS_NOT_ENOUGH _W("Not enough output arguments.")
-#define ERROR_WRONG_NUMBERS_OUTPUT_ARGS_TOO_MANY _W("Too many output arguments.")
 #define ERROR_NARGOUTCHK_ARG4_STRUCT_OR_STRING_EXPECTED                                            \
     _W("#4 input must be either 'struct' or 'string'.")
 #define ERROR_NARGOUTCHK_SCALAR_INTEGER_REQUIRED_ARG1                                              \

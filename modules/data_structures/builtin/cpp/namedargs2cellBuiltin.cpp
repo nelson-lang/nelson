@@ -25,8 +25,7 @@ Nelson::DataStructuresGateway::namedargs2cellBuiltin(int nLhs, const ArrayOfVect
         raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRUCT_ARRAY_STR);
     }
     if (!param1.isScalar()) {
-        raiseError(L"Nelson:data_structures:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 1);
+        raiseError2(L"Nelson:error_manager:wrong_size_scalar", 1);
     }
     stringVector fieldnames = param1.getFieldNames();
     ArrayOf* elements

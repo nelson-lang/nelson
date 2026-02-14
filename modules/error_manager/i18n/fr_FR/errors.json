@@ -7,5 +7,6 @@
   "Nelson:error_manager:wrong_rhs": "Mauvais nombre d'arguments d'entrée.",
   "Nelson:error_manager:wrong_lhs": "Mauvais nombre d'arguments de sortie.",
   "Nelson:error_manager:wrong_type_with_expected": "Mauvais type pour l'argument #{0} : '{1}' attendu.",
-  "Nelson:error_manager:wrong_value": "Mauvaise valeur pour l'argument #{0}."
+  "Nelson:error_manager:wrong_value": "Mauvaise valeur pour l'argument #{0}.",
+  "Nelson:error_manager:wrong_size_scalar": "Mauvaise taille pour l'argument #{0} : scalaire attendu."
 }

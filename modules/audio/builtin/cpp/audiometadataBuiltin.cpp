@@ -40,8 +40,7 @@ Nelson::AudioGateway::audiometadataBuiltin(int nLhs, const ArrayOfVector& argIn)
                 ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED, 2);
         }
         if (!param2.isScalar()) {
-            raiseError(L"Nelson:audio:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 2);
+            raiseError2(L"Nelson:error_manager:wrong_size_scalar", 2);
         }
         stringVector currentFieldnames = param2.getFieldNames();
         wstringVector wcurrentFieldname;

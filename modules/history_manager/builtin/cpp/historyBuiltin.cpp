@@ -142,8 +142,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                         L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_DOUBLE_STR);
                 }
             } else {
-                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 2);
+                raiseError2(L"Nelson:error_manager:wrong_size_scalar", , 2);
             }
         } else if (str == L"enable_save") {
             nargoutcheck(nLhs, 0, 0);
@@ -156,8 +155,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                         L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_LOGICAL_STR);
                 }
             } else {
-                raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 2);
+                raiseError2(L"Nelson:error_manager:wrong_size_scalar", 2);
             }
         } else if (str == L"delete") {
             nargoutcheck(nLhs, 0, 0);
@@ -392,9 +390,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                             L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_DOUBLE_STR);
                     }
                 } else {
-                    raiseError(
-                        L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
-                        ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 2);
+                    raiseError2(L"Nelson:error_manager:wrong_size_scalar", 2);
                 }
             } else {
                 raiseError2(L"Nelson:error_manager:wrong_value", 1);

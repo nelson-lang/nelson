@@ -42,8 +42,7 @@ Nelson::WebtoolsGateway::webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 4, std::wstring(L"struct"));
     }
     if (!param4.isScalar()) {
-        raiseError(L"Nelson:webtools:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, 4);
+        raiseError2(L"Nelson:error_manager:wrong_size_scalar", 4);
     }
     stringVector names = param4.getFieldNames();
     ArrayOfVector values;

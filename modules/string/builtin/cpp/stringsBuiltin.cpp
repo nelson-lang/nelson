@@ -114,8 +114,7 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     }
                     dims.setDimensionLength(k, index);
                 } else {
-                    raiseError(L"Nelson:string:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED",
-                        ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED, k + 1);
+                    raiseError2(L"Nelson:error_manager:wrong_size_scalar", k + 1);
                 }
             } else {
                 raiseError2(
