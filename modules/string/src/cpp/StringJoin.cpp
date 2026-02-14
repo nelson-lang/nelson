@@ -72,7 +72,7 @@ StringJoin(const ArrayOf& A, const ArrayOf& delimiters, size_t dimension)
         return StringJoinStringArray(A, delimiters, dimension);
     } break;
     default: {
-        raiseError(L"Nelson:string:ERROR_TYPE_NOT_SUPPORTED_CAP", ERROR_TYPE_NOT_SUPPORTED_CAP);
+        raiseError2(L"Nelson:error_manager:type_not_supported");
     } break;
     }
     return {};

@@ -101,8 +101,7 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(int nLhs, const ArrayOfVector&
     NelsonType classx = x.getDataClass();
     bool isNotSupportedType = (classx == NLS_HANDLE || classx == NLS_GO_HANDLE || x.isSparse());
     if (isNotSupportedType) {
-        raiseError(
-            L"Nelson:elementary_functions:ERROR_TYPE_NOT_SUPPORTED", ERROR_TYPE_NOT_SUPPORTED);
+        raiseError2(L"Nelson:error_manager:type_not_supported");
     }
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];

@@ -47,7 +47,7 @@ inline void
 nargoutcheck(int nLhs, int minArgs)
 {
     if (nLhs < minArgs) {
-        raiseError(L"Nelson:error_manager:min_lhs", ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:min_lhs");
     }
 }
 //=============================================================================
@@ -58,10 +58,10 @@ inline void
 nargoutcheck(int nLhs, int minArgs, int maxArgs)
 {
     if (nLhs < minArgs) {
-        raiseError(L"Nelson:error_manager:min_lhs", ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:min_lhs");
     }
     if (nLhs > maxArgs) {
-        raiseError(L"Nelson:error_manager:max_lhs", ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        raiseError2(L"Nelson:error_manager:max_lhs");
     }
 }
 //=============================================================================

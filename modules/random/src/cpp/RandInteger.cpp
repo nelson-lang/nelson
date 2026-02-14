@@ -59,7 +59,7 @@ RandInteger(indexType imin, indexType imax, Dimensions& dims, NelsonType cl)
         return res;
     } break;
     default:
-        raiseError(L"Nelson:random:ERROR_TYPE_NOT_SUPPORTED", ERROR_TYPE_NOT_SUPPORTED);
+        raiseError2(L"Nelson:error_manager:type_not_supported");
     }
     return {};
 }

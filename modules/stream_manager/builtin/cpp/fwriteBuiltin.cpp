@@ -91,8 +91,7 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                 }
             } break;
             case FWRITE_DATA_TYPE_NOT_SUPPORTED: {
-                raiseError(
-                    L"Nelson:stream_manager:ERROR_TYPE_NOT_SUPPORTED", ERROR_TYPE_NOT_SUPPORTED);
+                raiseError2(L"Nelson:error_manager:type_not_supported");
             } break;
             case FWRITE_ALLOCATION_MEMORY: {
                 raiseError(

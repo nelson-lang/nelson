@@ -99,7 +99,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
         }
         switch (A.getDataClass()) {
         default: {
-            raiseError(L"Nelson:string:ERROR_TYPE_NOT_SUPPORTED_CAP", ERROR_TYPE_NOT_SUPPORTED_CAP);
+            raiseError2(L"Nelson:error_manager:type_not_supported");
         } break;
         case NLS_SCOMPLEX: {
             auto* pValue = (single*)A.getDataPointer();

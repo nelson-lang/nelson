@@ -142,7 +142,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                         L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_DOUBLE_STR);
                 }
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_size_scalar", , 2);
+                raiseError2(L"Nelson:error_manager:wrong_size_scalar", 2);
             }
         } else if (str == L"enable_save") {
             nargoutcheck(nLhs, 0, 0);

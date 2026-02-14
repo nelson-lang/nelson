@@ -147,8 +147,7 @@ Zeros(Dimensions& dims, NelsonType cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     default:
-        raiseError(
-            L"Nelson:constructors_functions:ERROR_TYPE_NOT_SUPPORTED", ERROR_TYPE_NOT_SUPPORTED);
+        raiseError2(L"Nelson:error_manager:type_not_supported");
     }
     return {};
 }

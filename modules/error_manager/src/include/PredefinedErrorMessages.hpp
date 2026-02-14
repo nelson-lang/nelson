@@ -23,8 +23,6 @@
 
 #define ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED                                              \
     _W("Wrong size for input arguments: 2D matrix expected.")
-#define ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_EXPECTED                                                \
-    _W("Wrong size for argument #{}: scalar expected.")
 #define ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_OR_ROW_VECTOR_EXPECTED                                  \
     _W("Wrong size for #{} argument. a scalar or a row vector expected.")
 #define ERROR_WRONG_ARGUMENT_X_SIZE_A_B_VECTOR_EXPECTED                                            \
@@ -43,7 +41,6 @@
 #define ERROR_INVALID_TYPE _W("Invalid type.")
 #define ERROR_ONLY_NUMERICPTR_CAN_BE_RESHAPED _W("Only numericPtr can be reshaped.")
 #define ERROR_TYPE_CLASS_EXPECTED _W("class expected.")
-#define ERROR_TYPE_NOT_SUPPORTED _W("type not supported.")
 #define ERROR_TYPE_ALREADY_RESERVED _W("type reserved.")
 #define ERROR_SAME_INTEGER_TYPE_EXPECTED _W("Same integer type expected.")
 #define ERROR_WRONG_ARGUMENTS_TYPE _W("Wrong types for inputs arguments.")
@@ -1196,7 +1193,6 @@
 #define ERROR_WRONG_FORMAT_STRING _W("Wrong format string.")
 #define ERROR_INVALID_DELIMITER_DIMENSIONS _W("Invalid delimiter dimensions.")
 #define ERROR_INVALID_DELIMITER_TYPE _W("Invalid delimiter type.")
-#define ERROR_TYPE_NOT_SUPPORTED_CAP _W("Type not supported.")
 // more string module messages
 #define ERROR_A_2D_MATRIX_EXPECTED _W("A 2D matrix expected.")
 #define ERROR_INPUT_MUST_BE_TEXT_SCALAR _W("Input must be a text scalar.")
