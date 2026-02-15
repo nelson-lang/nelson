@@ -274,6 +274,8 @@
     <ClCompile Include="..\cpp\gettextBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\i18nHelpersBuiltin.cpp" />
+    <ClCompile Include="..\cpp\message_getStringBuiltin.cpp" />
+    <ClCompile Include="..\cpp\message_getUnformattedStringBuiltin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
@@ -304,6 +306,8 @@
   <ItemGroup>
     <ClInclude Include="..\include\gettextBuiltin.hpp" />
     <ClInclude Include="..\include\i18nHelpersBuiltin.hpp" />
+    <ClInclude Include="..\include\message_getStringBuiltin.hpp" />
+    <ClInclude Include="..\include\message_getUnformattedStringBuiltin.hpp" />
     <ClInclude Include="..\include\nlsI18n_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>

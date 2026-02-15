@@ -57,8 +57,7 @@ Nelson::RandomGateway::randnBuiltin(int nLhs, const ArrayOfVector& argIn)
                     nRhs = nRhs - 2;
                     bCheckClassName = false;
                 } else {
-                    raiseError(L"Nelson:random:ERROR_LIKE_EXPECTED_AT_N_2_ARGUMENT",
-                        ERROR_LIKE_EXPECTED_AT_N_2_ARGUMENT);
+                    raiseError2(L"nelson:arguments:likeExpectedAtPosition", L"n - 2");
                 }
             }
         }

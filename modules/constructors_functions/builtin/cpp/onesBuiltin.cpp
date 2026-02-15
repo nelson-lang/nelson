@@ -87,8 +87,7 @@ Nelson::ConstructorsGateway::onesBuiltin(int nLhs, const ArrayOfVector& argIn)
                     nRhs = nRhs - 2;
                     bCheckClassName = false;
                 } else {
-                    raiseError(L"Nelson:constructors_functions:ERROR_LIKE_EXPECTED_AT_N_MINUS_2",
-                        ERROR_LIKE_EXPECTED_AT_N_MINUS_2);
+                    raiseError2(L"nelson:arguments:likeExpectedAtPosition", L"n - 2");
                 }
             }
         }

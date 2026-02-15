@@ -21,5 +21,8 @@
   "nelson:validators:invalidValue": "Invalid value for argument {0}.",
   "nelson:io:permissionDenied": "Permission denied.",
   "nelson:io:fileNotFound": "File does not exist: {0}.",
-  "nelson:validators:mustBeDoubleOrSingle": "'double' or 'single' type for all input arguments expected."
+  "nelson:validators:mustBeDoubleOrSingle": "'double' or 'single' type for all input arguments expected.",
+  "nelson:arguments:likeExpectedAtPosition": "'like' expected at position {0}.",
+  "nelson:validators:invalidMessageID": "Invalid Message ID format: '{0}'.",
+  "nelson:runtime:incorrectHoleCount": "Incorrect number of parameters supplied for '{0}'."
 }

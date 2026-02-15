@@ -14,5 +14,11 @@ function varargout = message(varargin)
   if nargin > 1
     st.Arguments = varargin(2:end);
   end
-  varargout{1} = class(st, 'message');
+  msg = class(st, 'message');
+  try
+    msg.getUnformattedString();
+  catch
+    error(message('nelson:validators:invalidMessageID', varargin{1}));
+  end
+  varargout{1} = msg;
 end

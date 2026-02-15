@@ -670,7 +670,7 @@
 #define ERROR_INSUFFICIENT_NUMBER_OF_OUTPUTS _W("Insufficient number of outputs.")
 #define ERROR_CASE_NOT_MANAGED _W("Case not managed.")
 #define ERROR_UNABLE_TO_RESOLVE _W("unable to resolve {0} to a function call.")
-#define ERROR_UNDEFINED_VARIABLE_OR_FUNCTION _W("Undefined variable or function:")
+#define ERROR_UNDEFINED_VARIABLE_OR_FUNCTION _W("Undefined variable or function: {0}.")
 #define ERROR_CANNOT_REINDEX_AN_EXPRESSION_THAT_RETURNS_MULTIPLE_VALUES                            \
     _W("Cannot reindex an expression that returns multiple values.")
 #define ERROR_INVALID_INDEXING _W("Invalid indexing.")

@@ -16,6 +16,7 @@
 #include "MException.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadName.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -31,6 +32,23 @@ Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLhs, const Array
         if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
             message = argIn[0].getContentAsWideString();
         } else {
+            if (argIn[0].isClassType() && argIn[0].getClassType() == "message") {
+                std::wstring messageId = argIn[0].getField("Identifier").getContentAsWideString();
+                FunctionDefPtr funcDef = nullptr;
+                if (!eval->lookupFunction(
+                        OVERLOAD_FUNCTION_NAME("message", "getString"), funcDef)) {
+                    raiseError2(L"nelson:runtime:functionNotFound", L"getString");
+                }
+                ArrayOfVector inputs;
+                inputs << argIn[0];
+                try {
+                    ArrayOfVector ouputs = funcDef->evaluateFunction(eval, inputs, 1);
+                    message = ouputs[0].getContentAsWideString();
+                } catch (const Exception&) {
+                    raiseError2(L"nelson:runtime:incorrectHoleCount", messageId);
+                }
+                Error(message, messageId);
+            }
             Exception e;
             if (IsErrorStruct(argIn[0], e)) {
                 eval->setLastErrorException(e);

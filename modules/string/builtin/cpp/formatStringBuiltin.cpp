@@ -21,8 +21,8 @@
 using namespace Nelson;
 //=============================================================================
 static ArrayOf
-formatToWideStringImpl(
-    NelsonType destinationType, const std::wstring& fmt, const std::vector<std::wstring>& args);
+formatToWideStringImpl(NelsonType destinationType, const std::wstring& fmt,
+    const std::vector<std::wstring>& args, size_t& replacedCount, size_t& usedCount);
 //=============================================================================
 ArrayOfVector
 Nelson::StringGateway::formatStringBuiltin(int nLhs, const ArrayOfVector& argIn)
@@ -169,18 +169,26 @@ Nelson::StringGateway::formatStringBuiltin(int nLhs, const ArrayOfVector& argIn)
         args.push_back(getArgAsWstring(argIn[i]));
     }
 
-    retval << formatToWideStringImpl(argIn[0].getDataClass(), formatStr, args);
-
+    size_t replacedCount = 0;
+    size_t usedCount = 0;
+    retval << formatToWideStringImpl(
+        argIn[0].getDataClass(), formatStr, args, replacedCount, usedCount);
+    if (usedCount != args.size()) {
+        raiseError(L"nelson:runtime:incorrectHoleCount", formatStr);
+    }
     return retval;
 }
 //=============================================================================
 static ArrayOf
-formatToWideStringImpl(
-    NelsonType destinationType, const std::wstring& fmt, const std::vector<std::wstring>& args)
+formatToWideStringImpl(NelsonType destinationType, const std::wstring& fmt,
+    const std::vector<std::wstring>& args, size_t& replacedCount, size_t& usedCount)
 {
     std::wstring out;
     out.reserve(fmt.size());
     size_t argIndex = 0;
+    replacedCount = 0;
+    usedCount = 0;
+    std::vector<bool> used(args.size(), false);
     for (size_t i = 0; i < fmt.size();) {
         wchar_t c = fmt[i];
         if (c == L'{') {
@@ -201,6 +209,8 @@ formatToWideStringImpl(
                             ERROR_NOT_ENOUGH_ARGUMENTS_FOR_FORMAT_STRING);
                     }
                     out += args[argIndex++];
+                    ++replacedCount;
+                    used[argIndex - 1] = true;
                 } else {
                     // support numeric index inside braces (0-based)
                     bool allDigits = std::all_of(inner.begin(), inner.end(),
@@ -218,6 +228,8 @@ formatToWideStringImpl(
                                 ERROR_WRONG_FORMAT_ARGUMENT_INDEX);
                         }
                         out += args[idx];
+                        ++replacedCount;
+                        used[idx] = true;
                     } else {
                         // unknown format spec, keep it verbatim
                         out.append(L"{" + inner + L"}");
@@ -237,6 +249,9 @@ formatToWideStringImpl(
             out.push_back(c);
             ++i;
         }
+    }
+    if (!used.empty()) {
+        usedCount = static_cast<size_t>(std::count(used.begin(), used.end(), true));
     }
     if (destinationType == NLS_CHAR) {
         return ArrayOf::characterArrayConstructor(out);
