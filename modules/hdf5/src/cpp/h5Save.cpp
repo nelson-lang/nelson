@@ -168,7 +168,7 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
         = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            raiseError(L"Nelson:hdf5:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
+            raiseError2(L"nelson:io:permissionDenied");
         }
     }
     if (!fileExistPreviously) {

@@ -39,8 +39,7 @@ Nelson::FilesFoldersGateway::isdirBuiltin(int nLhs, const ArrayOfVector& argIn)
                     bmat[k] = static_cast<Nelson::logical>(FileSystemWrapper::Path::is_directory(
                         arg[k].getContentAsWideString(), permissionDenied));
                     if (permissionDenied) {
-                        raiseError(L"Nelson:files_folders_functions:ERROR_PERMISSION_DENIED",
-                            ERROR_PERMISSION_DENIED);
+                        raiseError2(L"nelson:io:permissionDenied");
                     }
                 } else {
                     bmat[k] = static_cast<Nelson::logical>(false);
@@ -57,8 +56,7 @@ Nelson::FilesFoldersGateway::isdirBuiltin(int nLhs, const ArrayOfVector& argIn)
         retval << ArrayOf::logicalConstructor(
             FileSystemWrapper::Path::is_directory(wpath, permissionDenied));
         if (permissionDenied) {
-            raiseError(
-                L"Nelson:files_folders_functions:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
+            raiseError2(L"nelson:io:permissionDenied");
         }
         return retval;
     }

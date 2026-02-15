@@ -58,7 +58,7 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
     for (const auto& listOfDirectory : listOfDirectories) {
         if (!FileSystemWrapper::Path::is_directory(listOfDirectory, permissionDenied)) {
             if (permissionDenied) {
-                raiseError(L"Nelson:help_tools:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
+                raiseError2(L"nelson:io:permissionDenied");
             }
             raiseError(L"Nelson:help_tools:ERROR_DIRECTORY_NOT_EXIST", ERROR_DIRECTORY_NOT_EXIST,
                 listOfDirectory);
@@ -68,7 +68,7 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
     std::wstring dstDirectory = argDestinationDir.getContentAsWideString();
     if (!FileSystemWrapper::Path::is_directory(dstDirectory, permissionDenied)) {
         if (permissionDenied) {
-            raiseError(L"Nelson:help_tools:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
+            raiseError2(L"nelson:io:permissionDenied");
         }
         raiseError(L"Nelson:help_tools:ERROR_DIRECTORY_NOT_EXIST", ERROR_DIRECTORY_NOT_EXIST,
             dstDirectory);

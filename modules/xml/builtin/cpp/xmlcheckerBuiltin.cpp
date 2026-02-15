@@ -32,7 +32,7 @@ Nelson::XmlGateway::xmlcheckerBuiltin(int nLhs, const ArrayOfVector& argIn)
     bool permissionDenied;
     bool IsFileIn = FileSystemWrapper::Path::is_regular_file(dtdpath, permissionDenied);
     if (permissionDenied) {
-        raiseError(L"Nelson:xml:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
+        raiseError2(L"nelson:io:permissionDenied");
     }
     if (!IsFileIn) {
         raiseError(
@@ -42,7 +42,7 @@ Nelson::XmlGateway::xmlcheckerBuiltin(int nLhs, const ArrayOfVector& argIn)
     FileSystemWrapper::Path pathIn(xmlFilename);
     IsFileIn = FileSystemWrapper::Path::is_regular_file(pathIn, permissionDenied);
     if (permissionDenied) {
-        raiseError(L"Nelson:xml:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
+        raiseError2(L"nelson:io:permissionDenied");
     }
     if (!IsFileIn) {
         raiseError(L"Nelson:xml:ERROR_WRONG_VALUE_ARG1_XML_DOC_EXPECTED",

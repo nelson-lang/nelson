@@ -30,7 +30,7 @@ mustBeExistingFile(const std::wstring& filename)
     bool permissionDenied;
     bool bIsFile = FileSystemWrapper::Path::is_regular_file(filename, permissionDenied);
     if (permissionDenied) {
-        raiseError(L"Nelson:core:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
+        raiseError2(L"nelson:io:permissionDenied");
     }
     if (!bIsFile) {
         raiseError(L"Nelson:core:ERROR_FILENAME_NOT_FOUND", ERROR_FILENAME_NOT_FOUND, filename);

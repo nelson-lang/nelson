@@ -873,7 +873,6 @@
 #define ERROR_CANNOT_INITIALIZE_WEBSAVE _W("Cannot initialize websave.")
 #define ERROR_INVALID_HEADERFIELDS_SIZE _W("Invalid HeaderFields size.")
 #define ERROR_WEBOPTIONS_OBJECT_EXPECTED _W("weboptions object expected.")
-#define ERROR_PERMISSION_DENIED _W("Permission denied.")
 #define ERROR_WRONG_VALUE_ARG2_DTD_EXPECTED                                                        \
     _W("Wrong value for argument #2: An existing .dtd file expected.")
 #define ERROR_WRONG_VALUE_ARG1_XML_DOC_EXPECTED                                                    \

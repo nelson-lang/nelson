@@ -38,7 +38,7 @@ h5WriteDataset(const std::wstring& filename, const std::wstring& location, Array
         = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            raiseError(L"Nelson:hdf5:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
+            raiseError2(L"nelson:io:permissionDenied");
         }
     }
     hid_t h5obj = H5I_INVALID_HID;

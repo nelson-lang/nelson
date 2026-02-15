@@ -28,8 +28,7 @@ CopyFile(const std::wstring& srcFile, const std::wstring& destFileOrDirectory, b
     bool permissionDenied;
     if (!FileSystemWrapper::Path::is_regular_file(srcFile, permissionDenied)) {
         if (permissionDenied) {
-            raiseError(
-                L"Nelson:files_folders_functions:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
+            raiseError2(L"nelson:io:permissionDenied");
         }
         raiseError(L"Nelson:files_folders_functions:ERROR_FILE_SOURCE_DOES_NOT_EXIST",
             ERROR_FILE_SOURCE_DOES_NOT_EXIST);
@@ -39,8 +38,7 @@ CopyFile(const std::wstring& srcFile, const std::wstring& destFileOrDirectory, b
 
     bool isDir = FileSystemWrapper::Path::is_directory(destFileOrDirectory, permissionDenied);
     if (permissionDenied) {
-        raiseError(
-            L"Nelson:files_folders_functions:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
+        raiseError2(L"nelson:io:permissionDenied");
     }
     if (isDir) {
         destPath = destPath / srcPath.filename();
@@ -108,16 +106,14 @@ CopyDirectory(
     bool permissionDenied;
     if (!FileSystemWrapper::Path::is_directory(srcDir, permissionDenied)) {
         if (permissionDenied) {
-            raiseError(
-                L"Nelson:files_folders_functions:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
+            raiseError2(L"nelson:io:permissionDenied");
         }
         raiseError(L"Nelson:files_folders_functions:ERROR_DIRECTORY_SOURCE_DOES_NOT_EXIST",
             ERROR_DIRECTORY_SOURCE_DOES_NOT_EXIST);
     }
     if (!FileSystemWrapper::Path::is_directory(destDir, permissionDenied)) {
         if (permissionDenied) {
-            raiseError(
-                L"Nelson:files_folders_functions:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
+            raiseError2(L"nelson:io:permissionDenied");
         }
         raiseError(L"Nelson:files_folders_functions:ERROR_DIRECTORY_DESTINATION_DOES_NOT_EXIST",
             ERROR_DIRECTORY_DESTINATION_DOES_NOT_EXIST);
@@ -136,8 +132,7 @@ CopyFiles(
     for (const auto& srcFile : srcFiles) {
         if (!FileSystemWrapper::Path::is_regular_file(srcFile, permissionDenied)) {
             if (permissionDenied) {
-                raiseError(L"Nelson:files_folders_functions:ERROR_PERMISSION_DENIED",
-                    ERROR_PERMISSION_DENIED);
+                raiseError2(L"nelson:io:permissionDenied");
             }
             raiseError(
                 L"Nelson:files_folders_functions:ERROR_A_CELL_OF_EXISTING_FILENAMES_EXPECTED",
@@ -147,8 +142,7 @@ CopyFiles(
 
     if (!FileSystemWrapper::Path::is_directory(destDir, permissionDenied)) {
         if (permissionDenied) {
-            raiseError(
-                L"Nelson:files_folders_functions:ERROR_PERMISSION_DENIED", ERROR_PERMISSION_DENIED);
+            raiseError2(L"nelson:io:permissionDenied");
         }
         raiseError(L"Nelson:files_folders_functions:ERROR_DIRECTORY_DESTINATION_DOES_NOT_EXIST",
             ERROR_DIRECTORY_DESTINATION_DOES_NOT_EXIST);

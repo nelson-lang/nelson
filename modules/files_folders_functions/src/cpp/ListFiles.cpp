@@ -62,8 +62,7 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                     }
                 } else {
                     if (permissionDenied) {
-                        raiseError(L"Nelson:files_folders_functions:ERROR_PERMISSION_DENIED",
-                            ERROR_PERMISSION_DENIED);
+                        raiseError2(L"nelson:io:permissionDenied");
                     }
                 }
             } else {
@@ -139,8 +138,7 @@ ListFilesWithWildcard(const std::wstring& _mask, bool bSubdirectories)
                     }
                 } else {
                     if (permissionDenied) {
-                        raiseError(L"Nelson:files_folders_functions:ERROR_PERMISSION_DENIED",
-                            ERROR_PERMISSION_DENIED);
+                        raiseError2(L"nelson:io:permissionDenied");
                     }
                 }
             } else {
