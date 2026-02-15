@@ -176,7 +176,7 @@ Atan2(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
             return ArrayOf(A);
         }
         if (!(SameSizeCheck(dimsA, dimsB))) {
-            raiseError(L"Nelson:trigonometric_functions:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+            raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                 ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, std::wstring(L"atan2"));
         }
         return ArrayOf(B);
@@ -231,7 +231,7 @@ Atan2(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
             }
         } else if ((A.isRowVector() && B.isRowVector())
             || (A.isColumnVector() && B.isColumnVector())) {
-            raiseError(L"Nelson:trigonometric_functions:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+            raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                 ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, std::wstring(L"atan2"));
         } else {
             if (dimsA[0] == dimsB[0]) {
@@ -258,11 +258,11 @@ Atan2(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
                 }
                 return vector_column_atan2<single>(classDestination, B, A);
             }
-            raiseError(L"Nelson:trigonometric_functions:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+            raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                 ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, std::wstring(L"atan2"));
         }
     } else {
-        raiseError(L"Nelson:trigonometric_functions:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+        raiseError(L"nelson:runtime:sizeMismatchArithmetic",
             ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, std::wstring(L"atan2"));
     }
     return ArrayOf(classDestination, dimsC, Cp, false);

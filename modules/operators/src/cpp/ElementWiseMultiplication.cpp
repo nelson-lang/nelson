@@ -397,7 +397,7 @@ elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayOf b)
         Dimensions dimsA = a.getDimensions();
         Dimensions dimsB = b.getDimensions();
         if (!(SameSizeCheck(dimsA, dimsB))) {
-            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+            raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                 ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"*");
         }
         return ArrayOf(b);
@@ -439,7 +439,7 @@ elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayOf b)
                     a.getElementCount());
             } else if ((a.isRowVector() && b.isRowVector())
                 || (a.isColumnVector() && b.isColumnVector())) {
-                raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                     ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"*");
             } else {
                 if ((a.getRows() == b.getRows()) && (a.getRows() != 1)) {
@@ -454,11 +454,11 @@ elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayOf b)
                     }
                     return vector_column_elementWiseMultiplication<T>(classDestination, b, a);
                 }
-                raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                     ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"*");
             }
         } else {
-            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+            raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                 ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"*");
         }
         return ArrayOf(classDestination, dimsC, Cp, false);
@@ -496,7 +496,7 @@ complex_elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayO
         Dimensions dimsA = a.getDimensions();
         Dimensions dimsB = b.getDimensions();
         if (!(SameSizeCheck(dimsA, dimsB))) {
-            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+            raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                 ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"*");
         }
         return ArrayOf(b);
@@ -529,7 +529,7 @@ complex_elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayO
                 b.getElementCount(), (T*)a.getDataPointer(), a.getElementCount());
         } else if ((a.isRowVector() && b.isRowVector())
             || (a.isColumnVector() && b.isColumnVector())) {
-            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+            raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                 ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"*");
         } else {
             T* ptrA = (T*)a.getDataPointer();
@@ -549,11 +549,11 @@ complex_elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayO
                 }
                 return complex_vector_column_elementWiseMultiplication<T>(classDestination, b, a);
             }
-            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+            raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                 ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"*");
         }
     } else {
-        raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+        raiseError(L"nelson:runtime:sizeMismatchArithmetic",
             ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"*");
     }
 

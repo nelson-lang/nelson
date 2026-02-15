@@ -257,7 +257,7 @@ integer_subtraction(NelsonType classDestination, const ArrayOf& A, const ArrayOf
             if (A.isVector() || B.isVector()) {
                 if ((A.isRowVector() && B.isRowVector())
                     || (A.isColumnVector() && B.isColumnVector())) {
-                    raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                    raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                         ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"-");
                 } else if (A.isRowVector() && B.isColumnVector()) {
                     res = row_column_integer_subtraction<T>(classDestination, A, B);
@@ -266,13 +266,13 @@ integer_subtraction(NelsonType classDestination, const ArrayOf& A, const ArrayOf
                 } else if (dimsA.getRows() == dimsB.getRows()) {
                     if (A.isVector()) {
                         if (!B.is2D()) {
-                            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                            raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                                 ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"-");
                         }
                         res = row_matrix_integer_subtraction<T>(classDestination, A, B);
                     } else {
                         if (!A.is2D()) {
-                            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                            raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                                 ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"-");
                         }
                         res = matrix_row_integer_subtraction<T>(classDestination, A, B);
@@ -280,23 +280,23 @@ integer_subtraction(NelsonType classDestination, const ArrayOf& A, const ArrayOf
                 } else if (dimsA.getColumns() == dimsB.getColumns()) {
                     if (A.isVector()) {
                         if (!B.is2D()) {
-                            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                            raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                                 ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"-");
                         }
                         res = column_matrix_integer_subtraction<T>(classDestination, A, B);
                     } else {
                         if (!A.is2D()) {
-                            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                            raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                                 ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"-");
                         }
                         res = matrix_column_integer_subtraction<T>(classDestination, A, B);
                     }
                 } else {
-                    raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                    raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                         ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"-");
                 }
             } else {
-                raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+                raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                     ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"-");
             }
         }

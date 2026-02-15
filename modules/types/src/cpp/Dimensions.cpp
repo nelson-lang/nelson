@@ -91,8 +91,7 @@ indexType&
 Dimensions::operator[](indexType i)
 {
     if (i >= maxDims) {
-        raiseError(L"Nelson:types:ERROR_TOO_MANY_DIMENSIONS_CURRENT_LIMIT",
-            ERROR_TOO_MANY_DIMENSIONS_CURRENT_LIMIT, std::to_wstring(Nelson::maxDims));
+        raiseError2(L"nelson:runtime:tooManyDimensions", Nelson::maxDims);
     }
     if (i >= length) {
         indexType new_length = i + 1;
@@ -108,8 +107,7 @@ indexType
 Dimensions::getAt(indexType i, bool checkLength) const
 {
     if (i >= maxDims) {
-        raiseError(L"Nelson:types:ERROR_TOO_MANY_DIMENSIONS_CURRENT_LIMIT",
-            ERROR_TOO_MANY_DIMENSIONS_CURRENT_LIMIT, std::to_wstring(Nelson::maxDims));
+        raiseError2(L"nelson:runtime:tooManyDimensions", Nelson::maxDims);
     }
     if (checkLength) {
         if (i >= length) {

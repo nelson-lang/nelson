@@ -16,5 +16,7 @@
   "nelson:runtime:functionNotFound": "Function not found: {0}",
   "nelson:io:permissionDenied": "Permission denied.",
   "nelson:io:fileNotFound": "File does not exist: {0}.",
-  "nelson:validators:mustBeValidFunctionHandle": "Invalid function handle."
+  "nelson:validators:mustBeValidFunctionHandle": "Invalid function handle.",
+  "nelson:runtime:sizeMismatchArithmetic": "Size mismatch on arguments to arithmetic operator {0}.",
+  "nelson:runtime:tooManyDimensions": "Too many dimensions. Current limit is {0}."
 }

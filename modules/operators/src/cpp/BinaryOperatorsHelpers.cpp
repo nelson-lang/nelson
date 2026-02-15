@@ -37,7 +37,7 @@ binaryOperatorEmptyMatrixEmptryMatrix(
         } else if (idy == 1 || idx == idy) {
             dimsOut[i] = idx;
         } else {
-            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+            raiseError(L"nelson:runtime:sizeMismatchArithmetic",
                 ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, utf8_to_wstring(operatorName));
         }
     }

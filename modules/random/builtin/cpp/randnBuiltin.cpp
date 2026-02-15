@@ -104,9 +104,9 @@ Nelson::RandomGateway::randnBuiltin(int nLhs, const ArrayOfVector& argIn)
                             dims[1] = dims[0];
                         }
                     } else {
-                        raiseError(L"Nelson:random:ERROR_TOO_MANY_DIMENSIONS_CURRENT_LIMIT_IS",
-                            ERROR_TOO_MANY_DIMENSIONS_CURRENT_LIMIT_IS,
-                            std::to_wstring(Nelson::maxDims));
+                        raiseError2(L"nelson:runtime:tooManyDimensions",
+
+                            Nelson::maxDims);
                     }
                 } else {
                     raiseError(L"Nelson:random:ERROR_WRONG_ARGUMENT_X_SIZE_ROW_VECTOR_EXPECTED",

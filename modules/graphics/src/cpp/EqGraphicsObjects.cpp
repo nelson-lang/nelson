@@ -30,7 +30,7 @@ EqGraphicsObjects(const ArrayOf& A, const ArrayOf& B)
     dimsA.simplify();
     dimsB.simplify();
     if (!(dimsA.equals(dimsB) || A.isScalar() || B.isScalar())) {
-        raiseError(L"Nelson:graphics:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+        raiseError(L"nelson:runtime:sizeMismatchArithmetic",
             ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, utf8_to_wstring(EQ_OPERATOR_STR));
     }
     int Astride = 0;

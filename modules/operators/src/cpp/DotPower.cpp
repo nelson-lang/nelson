@@ -629,7 +629,7 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
-        raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+        raiseError(L"nelson:runtime:sizeMismatchArithmetic",
             ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"^");
     }
     AClass = A.getDataClass();

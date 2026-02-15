@@ -330,7 +330,7 @@ T_mtimes_T(NelsonType realClass, NelsonType complexClass, const ArrayOf& A, cons
             res.promoteType(realClass);
             return res;
         }
-        raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+        raiseError(L"nelson:runtime:sizeMismatchArithmetic",
             ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"*");
     }
     if ((!A.is2D() || !B.is2D()) && !withScalar) {
@@ -338,7 +338,7 @@ T_mtimes_T(NelsonType realClass, NelsonType complexClass, const ArrayOf& A, cons
             ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     if (isSizeMismatch(A, B)) {
-        raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+        raiseError(L"nelson:runtime:sizeMismatchArithmetic",
             ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"*");
     }
     if (A.isEmpty()) {
@@ -411,7 +411,7 @@ integer_mtimes_integer(const ArrayOf& A, const ArrayOf& B)
             res.promoteType(A.getDataClass());
             return res;
         }
-        raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+        raiseError(L"nelson:runtime:sizeMismatchArithmetic",
             ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"*");
     }
     if (!A.is2D() || !B.is2D()) {
@@ -419,7 +419,7 @@ integer_mtimes_integer(const ArrayOf& A, const ArrayOf& B)
             ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     if (isSizeMismatch(A, B)) {
-        raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR",
+        raiseError(L"nelson:runtime:sizeMismatchArithmetic",
             ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR, L"*");
     }
     if (A.isEmpty()) {

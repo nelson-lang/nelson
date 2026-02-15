@@ -43,9 +43,8 @@ Nelson::ConstructorsGateway::infBuiltin(int nLhs, const ArrayOfVector& argIn)
                         dims[1] = dims[0];
                     }
                 } else {
-                    raiseError(
-                        L"Nelson:constructors_functions:ERROR_TOO_MANY_DIMENSIONS_CURRENT_LIMIT",
-                        ERROR_TOO_MANY_DIMENSIONS_CURRENT_LIMIT, std::to_wstring(Nelson::maxDims));
+                    raiseError2(
+                        L"nelson:runtime:tooManyDimensions", std::to_wstring(Nelson::maxDims));
                 }
             } else {
                 raiseError(L"Nelson:constructors_functions:ERROR_WRONG_ARGUMENT_X_SIZE_ROW_VECTOR_"
