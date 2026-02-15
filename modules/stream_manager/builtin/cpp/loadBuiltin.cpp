@@ -70,7 +70,7 @@ Nelson::StreamGateway::loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         }
     }
     if (!fileExistPreviously) {
-        raiseError(L"Nelson:stream_manager:ERROR_FILE_DOES_NOT_EXIST", ERROR_FILE_DOES_NOT_EXIST);
+        raiseError2(L"nelson:io:fileNotFound", paramFilename);
     }
 
     std::string loadFunctionName;

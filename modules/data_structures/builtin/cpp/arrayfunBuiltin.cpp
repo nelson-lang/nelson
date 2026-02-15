@@ -223,8 +223,7 @@ Nelson::DataStructuresGateway::arrayfunBuiltin(
     }
 
     if (funcDef == nullptr) {
-        raiseError(
-            L"Nelson:data_structures:ERROR_INVALID_FUNCTION_HANDLE", ERROR_INVALID_FUNCTION_HANDLE);
+        raiseError2(L"nelson:validators:mustBeValidFunctionHandle");
     }
 
     // validate input dimensions

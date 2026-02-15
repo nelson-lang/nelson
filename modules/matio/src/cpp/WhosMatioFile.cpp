@@ -113,7 +113,7 @@ WhosMatioFile(
         }
     }
     if (!fileExistPreviously) {
-        raiseError(L"Nelson:matio:ERROR_FILE_DOES_NOT_EXIST", ERROR_FILE_DOES_NOT_EXIST);
+        raiseError2(L"nelson:io:fileNotFound", filename);
     }
 
     std::string utf8filename = wstring_to_utf8(filename);

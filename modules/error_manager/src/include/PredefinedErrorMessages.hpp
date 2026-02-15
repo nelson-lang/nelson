@@ -1027,7 +1027,6 @@
 #define ERROR_CANNOT_GET_LIBRARY_SYMBOLS _W("Cannot get library symbols: {0}")
 
 // QML engine messages added during migration
-#define ERROR_FILE_DOES_NOT_EXIST_WITH_NAME _W("File does not exist: {0}")
 #define ERROR_PROPERTY_TYPE_NOT_MANAGED _W("property type not managed.")
 #define ERROR_VECTOR_EXPECTED _W("vector expected.")
 #define ERROR_VECTOR_1x2_EXPECTED _W("vector 1x2 expected.")
@@ -1537,7 +1536,6 @@
     _W("Unsupported data type for indexed image. Must be uint8, uint16, uint32, int8, int16, or "  \
        "int32.")
 
-#define ERROR_FILE_DOES_NOT_EXIST _W("File does not exist.")
 #define ERROR_CANNOT_OPEN_MAT_FILE _W("Cannot open .mat file.")
 
 // Special functions
@@ -1582,7 +1580,6 @@
     _W("Function handle and at least one array are required.")
 #define ERROR_UNKNOWN_FUNCTION_NAME _W("Unknown function name.")
 #define ERROR_INVALID_FUNCTION_SPECIFICATION _W("Invalid function specification.")
-#define ERROR_INVALID_FUNCTION_HANDLE _W("Invalid function handle.")
 #define ERROR_FUNCTION_RETURNED_NON_SCALAR_RESULT _W("function returned non-scalar result")
 #define ERROR_CELL_EXPECTED _W("cell expected.")
 #define ERROR_WRONG_TYPE_ARG1_STRUCT_EXPECTED _W("Wrong type for argument #1. struct expected.")

@@ -163,8 +163,7 @@ QmlEngine::createQQuickView(const std::wstring& filename)
         raiseError(L"Nelson:qml:ERROR_CANNOT_SET_PARENT", ERROR_CANNOT_SET_PARENT);
 
     } else {
-        raiseError(L"Nelson:qml:ERROR_FILE_DOES_NOT_EXIST_WITH_NAME",
-            ERROR_FILE_DOES_NOT_EXIST_WITH_NAME, filename);
+        raiseError2(L"nelson:io:fileNotFound", filename);
     }
     return QObjectHandleObjectAllocator(topLevel);
 }
@@ -347,8 +346,7 @@ QmlEngine::evaluateFile(const std::wstring& filename, bool& withOuput)
 {
     QFile qf(wstringToQString(filename));
     if (!qf.exists()) {
-        raiseError(L"Nelson:qml:ERROR_FILE_DOES_NOT_EXIST_WITH_NAME",
-            ERROR_FILE_DOES_NOT_EXIST_WITH_NAME, filename);
+        raiseError2(L"nelson:io:fileNotFound", filename);
     }
     qf.open(QFile::ReadOnly);
     QString source = QString::fromUtf8(qf.readAll());

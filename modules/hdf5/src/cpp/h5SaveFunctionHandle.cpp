@@ -44,7 +44,7 @@ h5SaveFunctionHandle(hid_t fid, const std::string& location, const std::string& 
 
     function_handle fh = VariableValue.getContentAsFunctionHandle();
     if (!fh.anonymousHandle) {
-        raiseError(L"Nelson:hdf5:ERROR_INVALID_FUNCTION_HANDLE", ERROR_INVALID_FUNCTION_HANDLE);
+        raiseError2(L"nelson:validators:mustBeValidFunctionHandle");
     }
     AnonymousMacroFunctionDef* anonymousFunction
         = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);

@@ -39,7 +39,7 @@ h5Load(Evaluator* eval, const std::wstring& filename, const wstringVector& names
         }
     }
     if (!fileExistPreviously) {
-        raiseError(L"Nelson:hdf5:ERROR_FILE_DOES_NOT_EXIST", ERROR_FILE_DOES_NOT_EXIST);
+        raiseError2(L"nelson:io:fileNotFound", filename);
     }
 
     int16 nh5Version;

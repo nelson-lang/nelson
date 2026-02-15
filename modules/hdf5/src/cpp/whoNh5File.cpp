@@ -38,7 +38,7 @@ whoNh5File(Interface* io, const std::wstring& filename, const wstringVector& nam
         }
     }
     if (!fileExistPreviously) {
-        raiseError(L"Nelson:hdf5:ERROR_FILE_DOES_NOT_EXIST", ERROR_FILE_DOES_NOT_EXIST);
+        raiseError2(L"nelson:io:fileNotFound", filename);
     }
 
     hid_t fid

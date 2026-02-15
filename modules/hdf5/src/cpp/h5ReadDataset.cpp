@@ -53,7 +53,7 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
     }
 
     if (!fileExistPreviously) {
-        raiseError(L"Nelson:hdf5:ERROR_FILE_DOES_NOT_EXIST", ERROR_FILE_DOES_NOT_EXIST);
+        raiseError2(L"nelson:io:fileNotFound", filename);
     }
     if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str())) {
         raiseError(L"Nelson:hdf5:ERROR_HDF5_FORMAT_FILE_EXPECTED", ERROR_HDF5_FORMAT_FILE_EXPECTED);

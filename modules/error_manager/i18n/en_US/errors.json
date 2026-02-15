@@ -13,5 +13,8 @@
   "nelson:runtime:typeNotSupported": "Type not supported.",
   "nelson:validators:mustBeValidType": "Invalid type for argument {0}.",
   "nelson:validators:mustBeValidFunctionName": "A valid function name expected.",
-  "nelson:runtime:functionNotFound": "Function not found: {0}"
+  "nelson:runtime:functionNotFound": "Function not found: {0}",
+  "nelson:io:permissionDenied": "Permission denied.",
+  "nelson:io:fileNotFound": "File does not exist: {0}.",
+  "nelson:validators:mustBeValidFunctionHandle": "Invalid function handle."
 }

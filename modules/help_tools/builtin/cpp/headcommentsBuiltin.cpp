@@ -86,7 +86,7 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
                 L"Nelson:help_tools:ERROR_VALID_FUNCTION_EXPECTED", ERROR_VALID_FUNCTION_EXPECTED);
         } break;
         case HEADCOMMENTS_ERROR::FILE_NOT_EXIST: {
-            raiseError(L"Nelson:help_tools:ERROR_FILE_DOES_NOT_EXIST", ERROR_FILE_DOES_NOT_EXIST);
+            raiseError2(L"nelson:io:fileNotFound", filename);
         } break;
         }
     }
