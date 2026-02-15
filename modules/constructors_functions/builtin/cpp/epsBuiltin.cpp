@@ -46,12 +46,10 @@ Nelson::ConstructorsGateway::epsBuiltin(int nLhs, const ArrayOfVector& argIn)
             } else if (arg == L"double") {
                 retval << ArrayOf::doubleConstructor(Epsilon(1.0));
             } else {
-                raiseError(L"Nelson:constructors_functions:ERROR_DOUBLE_OR_SINGLE_TYPE_EXPECTED",
-                    ERROR_DOUBLE_OR_SINGLE_TYPE_EXPECTED);
+                raiseError2(L"nelson:validators:mustBeDoubleOrSingle");
             }
         } else {
-            raiseError(L"Nelson:constructors_functions:ERROR_DOUBLE_OR_SINGLE_TYPE_EXPECTED",
-                ERROR_DOUBLE_OR_SINGLE_TYPE_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeDoubleOrSingle");
         }
     }
     return retval;

@@ -901,8 +901,6 @@
     _W("Second argument must be a 'allows-all-empties'.")
 #define ERROR_IJV_VECTORS_MUST_BE_SAME_SIZE_OR_SCALARS                                             \
     _W("in I, J, V format, all three vectors must be the same size or be scalars.")
-#define ERROR_DOUBLE_OR_SINGLE_TYPE_EXPECTED                                                       \
-    _W("'double' or 'single' type for all input arguments expected.")
 #define ERROR_DENSE_TYPE_EXPECTED _W("dense type for all input arguments expected.")
 #define ERROR_INPUTS_MUST_BE_REAL _W("Inputs arguments must be real.")
 #define ERROR_X_AND_V_MUST_BE_SAME_LENGTH _W("X and V must be of the same length.")
@@ -959,8 +957,6 @@
 #define ERROR_COMPLETENAMES_EXPECTED _W("'-completenames' expected.")
 #define ERROR_COMPLETENAMES_OR_SCALAR_INT_EXPECTED                                                 \
     _W("'-completenames' expected or scalar integer value required.")
-#define ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED                                       \
-    _W("Wrong value for argument #{}. A scalar integer value expected.")
 #define ERROR_INVALID_FILE_ID_EXPECTED _W("Wrong value for #1 argument: a valid file ID expected.")
 #define ERROR_DEBUGGER_NOT_ACTIVE _W("Debugger is not active.")
 #define ERROR_NO_STEP_BREAKPOINT_SET _W("No step breakpoint is set.")

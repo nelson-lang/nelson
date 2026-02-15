@@ -85,8 +85,7 @@ LinearInterpolation1D(const ArrayOf& X, const ArrayOf& V, const ArrayOf& XQ)
     ArrayOf res;
     bool isSupportedType = X.isSingleType() || X.isDoubleType();
     if (!isSupportedType) {
-        raiseError(L"Nelson:special_functions:ERROR_DOUBLE_OR_SINGLE_TYPE_EXPECTED",
-            ERROR_DOUBLE_OR_SINGLE_TYPE_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeDoubleOrSingle");
     }
     bool isSparse = X.isSparse() || V.isSparse() || XQ.isSparse();
     if (isSparse) {
