@@ -112,8 +112,7 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(int nLhs, const ArrayOfVector&
             if (param2.isRowVector()) {
                 param2.promoteType(NLS_UINT64);
                 if (param2.getElementCount() > maxDims) {
-                    raiseError(L"Nelson:elementary_functions:ERROR_TOO_MANY_DIMENSIONS",
-                        ERROR_TOO_MANY_DIMENSIONS);
+                    raiseError2(L"nelson:runtime:tooManyDimensions", maxDims);
                 }
                 auto* dp = (uint64*)param2.getDataPointer();
                 for (indexType i = 0; i < param2.getElementCount(); i++) {

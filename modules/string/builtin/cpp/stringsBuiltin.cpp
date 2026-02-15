@@ -42,9 +42,7 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     }
                     auto index = static_cast<indexType>(dindex);
                     if (static_cast<double>(index) != dindex) {
-                        raiseError(
-                            L"Nelson:string:ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED",
-                            ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 1);
+                        raiseError2(L"nelson:validators:mustBeScalarInteger", 1);
                     }
                     Dimensions dims(index, index);
                     auto* elements = new ArrayOf[index * index];

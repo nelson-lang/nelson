@@ -54,8 +54,6 @@
     _W("Wrong type for argument #{}: string or double expected.")
 #define ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED                                        \
     _W("Wrong type for argument #{}: string or cell expected.")
-#define ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED                                               \
-    _W("Wrong type for #{} argument: numeric value expected.")
 #define ERROR_MATRIX_INDEX_OUT_OF_RANGE _W("Matrix index is out of range.")
 #define ERROR_ILLEGAL_ZERO_OR_NEGATIVE_INDEX _W("Illegal zero or negative index")
 #define ERROR_CANNOT_CONVERT_STRING_DATA_TYPES_TO_INDICES                                          \
@@ -447,7 +445,6 @@
 #define ERROR_IMPOSSIBLE_TO_UNREGISTER_AN_RESERVED_EVENT_NAME                                      \
     _W("Impossible to unregister an reserved event name.")
 #define ERROR_LIKE_EXPECTED_AT_N_2_ARGUMENT _W("'like' expected at n - 2 argument.")
-#define ERROR_TOO_MANY_DIMENSIONS_CURRENT_LIMIT_IS _W("Too many dimensions! Current limit is {0}.")
 #define ERROR_MUST_CONTAIN_GENERATOR_SETTINGS_CAPTURED_PREVIOUSLY                                  \
     _W("Must contain generator settings captured previously.")
 #define ERROR_UNRECOGNIZED_OPTION _W("Unrecognized option: '{0}' expected.")
@@ -1359,7 +1356,6 @@
 #define ERROR_SUPPORTED_TYPE_EXPECTED_LAST_ARGUMENT                                                \
     _W("A supported type expected at last argument.")
 #define ERROR_LIKE_EXPECTED_AT_N_MINUS_2 _W("'like' expected at n - 2 argument.")
-#define ERROR_TOO_MANY_DIMENSIONS_CURRENT_LIMIT _W("Too many dimensions! Current limit is {0}.")
 #define ERROR_TOO_MANY_DIMENSIONS _W("Too many dimensions!")
 
 // conversion / sparse support

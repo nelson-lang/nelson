@@ -131,9 +131,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     }
                     auto ivalue = static_cast<size_t>(dvalue);
                     if (static_cast<double>(ivalue) != dvalue) {
-                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_"
-                                   L"VALUE_EXPECTED",
-                            ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                        raiseError2(L"nelson:validators:mustBeScalarInteger", 2);
                     }
                     ptrHistoryManager->setLastNCommandsSize(ivalue);
                 } else {
@@ -171,9 +169,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     }
                     auto ivalue = static_cast<size_t>(dvalue);
                     if (static_cast<double>(ivalue) != dvalue) {
-                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_"
-                                   L"VALUE_EXPECTED",
-                            ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                        raiseError2(L"nelson:validators:mustBeScalarInteger", 2);
                     }
                     ptrHistoryManager->remove(ivalue);
                 } else {
@@ -197,9 +193,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                         auto ivalue2 = static_cast<size_t>(dvalue2);
                         if ((static_cast<double>(ivalue1) != dvalue1)
                             || (static_cast<double>(ivalue2) != dvalue2)) {
-                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_"
-                                       L"INTEGER_VALUE_EXPECTED",
-                                ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                            raiseError2(L"nelson:validators:mustBeScalarInteger", 2);
                         }
                         if (ivalue2 <= ivalue1) {
                             raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_A_MUST_BE_"
@@ -292,20 +286,14 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                 if (arg2.isScalar()) {
                     double dvalue = arg2.getContentAsDoubleScalar();
                     if (!std::isfinite(dvalue)) {
-                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_"
-                                   L"VALUE_EXPECTED",
-                            ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                        raiseError2(L"nelson:validators:mustBeScalarInteger", 2);
                     }
                     if (dvalue < 0) {
-                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_"
-                                   L"EXPECTED",
-                            ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED, 2);
+                        raiseError2(L"nelson:validators:mustBePositive", 2);
                     }
                     auto ivalue = static_cast<size_t>(dvalue);
                     if (static_cast<double>(ivalue) != dvalue) {
-                        raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_"
-                                   L"VALUE_EXPECTED",
-                            ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                        raiseError2(L"nelson:validators:mustBeScalarInteger", 2);
                     }
                     std::wstring line = ptrHistoryManager->get(ivalue);
                     retval << ArrayOf::characterArrayConstructor(line);
@@ -317,9 +305,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                         double dvalue1 = dvalues[0];
                         double dvalue2 = dvalues[1] + 1;
                         if (!std::isfinite(dvalue1) || !std::isfinite(dvalue2)) {
-                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_"
-                                       L"INTEGER_VALUE_EXPECTED",
-                                ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                            raiseError2(L"nelson:validators:mustBeScalarInteger", 2);
                         }
                         if (dvalue1 < 0 || dvalue2 < 0) {
                             raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_POSITIVE_"
@@ -330,9 +316,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                         auto ivalue2 = static_cast<size_t>(dvalue2);
                         if ((static_cast<double>(ivalue1) != dvalue1)
                             || (static_cast<double>(ivalue2) != dvalue2)) {
-                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_"
-                                       L"INTEGER_VALUE_EXPECTED",
-                                ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                            raiseError2(L"nelson:validators:mustBeScalarInteger", 2);
                         }
                         if (ivalue2 <= ivalue1) {
                             raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_A_MUST_BE_"
@@ -360,20 +344,14 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     if (arg2.getDataClass() == NLS_DOUBLE) {
                         double dvalue = arg2.getContentAsDoubleScalar();
                         if (!std::isfinite(dvalue)) {
-                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_"
-                                       L"INTEGER_VALUE_EXPECTED",
-                                ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                            raiseError2(L"nelson:validators:mustBeScalarInteger", 2);
                         }
                         if (dvalue < 0) {
-                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_"
-                                       L"INTEGER_VALUE_EXPECTED",
-                                ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                            raiseError2(L"nelson:validators:mustBePositive", 2);
                         }
                         auto ivalue = static_cast<size_t>(dvalue);
                         if (static_cast<double>(ivalue) != dvalue) {
-                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_SCALAR_"
-                                       L"INTEGER_VALUE_EXPECTED",
-                                ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 2);
+                            raiseError2(L"nelson:validators:mustBeScalarInteger", 2);
                         }
                         ptrHistoryManager->setSaveAfterNCommands(ivalue);
                     } else {

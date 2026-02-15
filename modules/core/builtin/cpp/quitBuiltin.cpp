@@ -91,8 +91,7 @@ getExitCodeFromVariable(const ArrayOfVector& argIn)
         }
 #endif
         if (static_cast<double>(iValue) != dValue) {
-            raiseError(L"Nelson:core:ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_SCALAR_INTEGER_VALUE_EXPECTED, 1);
+            raiseError2(L"nelson:validators:mustBeScalarInteger", 1);
         }
     } else {
         raiseError(L"Nelson:core:ERROR_UNKNOWN_OPTION", ERROR_UNKNOWN_OPTION);

@@ -36,8 +36,7 @@ Nelson::AudioGateway::audiometadataBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
         if (!param2.isStruct()) {
-            raiseError(L"Nelson:audio:ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED, 2);
+            raiseError2(L"nelson:validators:mustBeNumeric", 2);
         }
         if (!param2.isScalar()) {
             raiseError2(L"nelson:validators:mustBeScalar", 2);

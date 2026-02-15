@@ -18,5 +18,7 @@
   "nelson:io:fileNotFound": "File does not exist: {0}.",
   "nelson:validators:mustBeValidFunctionHandle": "Invalid function handle.",
   "nelson:runtime:sizeMismatchArithmetic": "Size mismatch on arguments to arithmetic operator {0}.",
-  "nelson:runtime:tooManyDimensions": "Too many dimensions. Current limit is {0}."
+  "nelson:runtime:tooManyDimensions": "Too many dimensions. Current limit is {0}.",
+  "nelson:validators:mustBeNumeric": "Wrong type for argument {0}. Numeric value expected.",
+  "nelson:validators:mustBeScalarInteger": "Wrong value for argument {0}. A scalar integer value expected."
 }

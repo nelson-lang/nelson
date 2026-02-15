@@ -51,9 +51,7 @@ Nelson::ConstructorsGateway::nanBuiltin(int nLhs, const ArrayOfVector& argIn)
                     ERROR_WRONG_ARGUMENT_X_SIZE_ROW_VECTOR_EXPECTED, 1);
             }
         } else {
-            raiseError(
-                L"Nelson:constructors_functions:ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED, 1);
+            raiseError2(L"nelson:validators:mustBeNumeric", 1);
         }
     } else {
         for (sizeType k = 0; k < nRhs; k++) {

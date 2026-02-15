@@ -67,8 +67,7 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
     }
     if (param1.isDoubleType()) {
         if (!param2.isNumeric()) {
-            raiseError(L"Nelson:stream:ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED, 2);
+            raiseError2(L"nelson:validators:mustBeNumeric", 2);
         }
         bool bSizeIs2D = param2.is2D() && !param2.isScalar();
         int64 isize = 0;
