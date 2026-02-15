@@ -22,7 +22,7 @@ Nelson::SparseGateway::sparsedouble_imagBuiltin(int nLhs, const ArrayOfVector& a
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     if (!argIn[0].isSparseDoubleType()) {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_SPARSE_DOUBLE_STR);
+        raiseError2(L"nelson:validators:mustBeType", 1, NLS_SPARSE_DOUBLE_STR);
     }
     retval << SparseImagPart(argIn[0]);
     return retval;

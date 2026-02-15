@@ -13,10 +13,10 @@ void
 mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
 {
     if (nrhs != 1) {
-        mexErrMsgIdAndTxt("Nelson:error_manager:min_rhs", "No input arguments required.");
+        mexErrMsgIdAndTxt("nelson:arguments:tooFewInputs", "No input arguments required.");
     }
     if (nlhs > 1) {
-        mexErrMsgIdAndTxt("Nelson:error_manager:max_rhs", "Too many output arguments.");
+        mexErrMsgIdAndTxt("nelson:arguments:tooManyInputs", "Too many output arguments.");
     }
 
     const char* functionName = "sin";

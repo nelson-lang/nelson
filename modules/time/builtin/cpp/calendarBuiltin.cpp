@@ -37,18 +37,18 @@ Nelson::TimeGateway::calendarBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf param1 = argIn[0];
         uint64 cyear = param1.getContentAsUnsignedInteger64Scalar();
         if (cyear < 1400 || cyear > 9999) {
-            raiseError2(L"Nelson:error_manager:wrong_value", 1);
+            raiseError2(L"nelson:validators:invalidValue", 1);
         }
         ArrayOf param2 = argIn[1];
         int32 cmonth = param2.getContentAsInteger32Scalar();
         if (cmonth > 0 && cmonth < 13) {
             cal = new Calendar(cyear, (uint8)cmonth);
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_value", 2);
+            raiseError2(L"nelson:validators:invalidValue", 2);
         }
     } break;
     default: {
-        raiseError2(L"Nelson:error_manager:min_rhs");
+        raiseError2(L"nelson:arguments:tooFewInputs");
     } break;
     }
     if (cal == nullptr) {
@@ -79,7 +79,7 @@ Nelson::TimeGateway::calendarBuiltin(int nLhs, const ArrayOfVector& argIn)
     } break;
     default: {
         delete cal;
-        raiseError2(L"Nelson:error_manager:wrong_lhs");
+        raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
     } break;
     }
     return retval;

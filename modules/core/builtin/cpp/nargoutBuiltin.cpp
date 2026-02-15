@@ -42,7 +42,7 @@ Nelson::CoreGateway::nargoutBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             function_handle fh = param1.getContentAsFunctionHandle();
             if (fh.anonymousHandle == nullptr) {
                 raiseError2(
-                    L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_FUNCTION_HANDLE_STR);
+                    L"nelson:validators:mustBeType", 1, NLS_FUNCTION_HANDLE_STR);
             }
             AnonymousMacroFunctionDef* anonymousFunction
                 = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
@@ -55,7 +55,7 @@ Nelson::CoreGateway::nargoutBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 }
             }
         } else {
-            raiseError(L"Nelson:error_manager:wrong_type_STRING_OR_FUNCTION_HANDLE_EXPECTED",
+            raiseError(L"nelson:validators:mustBeValidType_STRING_OR_FUNCTION_HANDLE_EXPECTED",
                 ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_FUNCTION_HANDLE_EXPECTED, 1);
         }
     }

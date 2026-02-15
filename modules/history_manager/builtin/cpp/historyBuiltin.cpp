@@ -49,25 +49,25 @@ historyBuiltin_size_one_rhs(
                     }
                 }
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_lhs");
+                raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
             }
         } else if (str == L"save") {
             if (nLhs == 0) {
                 ptrHistoryManager->saveToFile();
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_lhs");
+                raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
             }
         } else if (str == L"load") {
             if (nLhs == 0) {
                 ptrHistoryManager->loadFromFile();
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_lhs");
+                raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
             }
         } else if (str == L"clear") {
             if (nLhs == 0) {
                 ptrHistoryManager->clear(true);
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_lhs");
+                raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
             }
         } else if (str == L"duplicated") {
             retval << ArrayOf::logicalConstructor(ptrHistoryManager->getAllowDuplicatedLines());
@@ -77,10 +77,10 @@ historyBuiltin_size_one_rhs(
         } else if (str == L"removeexit") {
             retval << ArrayOf::logicalConstructor(ptrHistoryManager->getRemoveExit());
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_value", 2);
+            raiseError2(L"nelson:validators:invalidValue", 2);
         }
     } else {
-        raiseError(L"Nelson:error_manager:wrong_type", ERROR_WRONG_ARGUMENT_X_TYPE, 1);
+        raiseError(L"nelson:validators:mustBeValidType", ERROR_WRONG_ARGUMENT_X_TYPE, 1);
     }
     return retval;
 }
@@ -138,10 +138,10 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     ptrHistoryManager->setLastNCommandsSize(ivalue);
                 } else {
                     raiseError2(
-                        L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_DOUBLE_STR);
+                        L"nelson:validators:mustBeType", 1, NLS_DOUBLE_STR);
                 }
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_size_scalar", 2);
+                raiseError2(L"nelson:validators:mustBeScalar", 2);
             }
         } else if (str == L"enable_save") {
             nargoutcheck(nLhs, 0, 0);
@@ -151,10 +151,10 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     ptrHistoryManager->setSaveEnabled(bEnable ? true : false);
                 } else {
                     raiseError2(
-                        L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_LOGICAL_STR);
+                        L"nelson:validators:mustBeType", 2, NLS_LOGICAL_STR);
                 }
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_size_scalar", 2);
+                raiseError2(L"nelson:validators:mustBeScalar", 2);
             }
         } else if (str == L"delete") {
             nargoutcheck(nLhs, 0, 0);
@@ -223,7 +223,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     }
                 }
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_DOUBLE_STR);
+                raiseError2(L"nelson:validators:mustBeType", 2, NLS_DOUBLE_STR);
             }
         } else if (str == L"append") {
             nargoutcheck(nLhs, 0, 0);
@@ -237,7 +237,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     ptrHistoryManager->appendLine(arg[k].getContentAsWideString());
                 }
             } else {
-                raiseError(L"Nelson:error_manager:wrong_type_STRING_OR_CELL_EXPECTED",
+                raiseError(L"nelson:validators:mustBeValidType_STRING_OR_CELL_EXPECTED",
                     ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 2);
             }
         } else if (str == L"filename") {
@@ -247,7 +247,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                 ptrHistoryManager->setFilename(filename);
             } else {
                 raiseError2(
-                    L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_STRING_ARRAY_STR);
+                    L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
             }
         } else if (str == L"load") {
             nargoutcheck(nLhs, 0, 0);
@@ -256,7 +256,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                 ptrHistoryManager->loadFromFile(filename);
             } else {
                 raiseError2(
-                    L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_STRING_ARRAY_STR);
+                    L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
             }
         } else if (str == L"save") {
             nargoutcheck(nLhs, 0, 0);
@@ -265,7 +265,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                 ptrHistoryManager->saveToFile(filename);
             } else {
                 raiseError2(
-                    L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_STRING_ARRAY_STR);
+                    L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
             }
         } else if (str == L"duplicated") {
             nargoutcheck(nLhs, 0, 0);
@@ -275,10 +275,10 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     ptrHistoryManager->setAllowDuplicatedLines(bDuplicated ? true : false);
                 } else {
                     raiseError2(
-                        L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_LOGICAL_STR);
+                        L"nelson:validators:mustBeType", 2, NLS_LOGICAL_STR);
                 }
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_LOGICAL_STR);
+                raiseError2(L"nelson:validators:mustBeType", 2, NLS_LOGICAL_STR);
             }
         } else if (str == L"removeexit") {
             nargoutcheck(nLhs, 0, 0);
@@ -288,10 +288,10 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     ptrHistoryManager->setRemoveExit(bRemove ? true : false);
                 } else {
                     raiseError2(
-                        L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_LOGICAL_STR);
+                        L"nelson:validators:mustBeType", 2, NLS_LOGICAL_STR);
                 }
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_LOGICAL_STR);
+                raiseError2(L"nelson:validators:mustBeType", 2, NLS_LOGICAL_STR);
             }
         } else if (str == L"get") {
             nargoutcheck(nLhs, 0, 1);
@@ -385,19 +385,19 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                         ptrHistoryManager->setSaveAfterNCommands(ivalue);
                     } else {
                         raiseError2(
-                            L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_DOUBLE_STR);
+                            L"nelson:validators:mustBeType", 2, NLS_DOUBLE_STR);
                     }
                 } else {
-                    raiseError2(L"Nelson:error_manager:wrong_size_scalar", 2);
+                    raiseError2(L"nelson:validators:mustBeScalar", 2);
                 }
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_value", 1);
+                raiseError2(L"nelson:validators:invalidValue", 1);
             }
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_value", 1);
+            raiseError2(L"nelson:validators:invalidValue", 1);
         }
     } else {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
     }
     return retval;
 }
@@ -425,7 +425,7 @@ Nelson::HistoryManagerGateway::historyBuiltin(Evaluator* eval, int nLhs, const A
         return historyBuiltin_two_rhs(ptrHistoryManager, nLhs, argIn);
     } break;
     default: {
-        raiseError2(L"Nelson:error_manager:wrong_rhs");
+        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
     } break;
     }
     return retval;

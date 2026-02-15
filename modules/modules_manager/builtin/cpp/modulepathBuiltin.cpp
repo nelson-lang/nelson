@@ -53,7 +53,7 @@ Nelson::ModulesManagerGateway::modulepathBuiltin(int nLhs, const ArrayOfVector& 
             || (argIn[0].isStringArray() && argIn[0].isScalar())) {
             moduleshortname = argIn[0].getContentAsWideString();
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
         }
         retval << ArrayOf::characterArrayConstructor(ModulePath(moduleshortname));
     } break;
@@ -63,14 +63,14 @@ Nelson::ModulesManagerGateway::modulepathBuiltin(int nLhs, const ArrayOfVector& 
             || (argIn[0].isStringArray() && argIn[0].isScalar())) {
             moduleshortname = argIn[0].getContentAsWideString();
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
         }
         std::wstring option;
         if (argIn[1].isRowVectorCharacterArray()
             || (argIn[1].isStringArray() && argIn[1].isScalar())) {
             option = argIn[1].getContentAsWideString();
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_STRING_ARRAY_STR);
+            raiseError2(L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
         }
         MODULEPATH_OPTION modulePathOption;
         if (!isModulePathOption(option, modulePathOption)) {

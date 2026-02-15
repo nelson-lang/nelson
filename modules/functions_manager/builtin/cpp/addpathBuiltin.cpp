@@ -52,7 +52,7 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
                 lastpos = argIn.size();
             }
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_type_with_expected",
+            raiseError2(L"nelson:validators:mustBeType",
                 static_cast<int>(lastpos) + 1, NLS_STRING_ARRAY_STR);
         }
         if (withOption) {
@@ -74,7 +74,7 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
                     lastpos = argIn.size() - 1;
                 }
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_type_with_expected",
+                raiseError2(L"nelson:validators:mustBeType",
                     static_cast<int>(lastpos) + 1, NLS_STRING_ARRAY_STR);
             }
         }
@@ -85,7 +85,7 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param.isRowVectorCharacterArray()) {
             params.push_back(param.getContentAsWideString());
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", static_cast<int>(k) + 1,
+            raiseError2(L"nelson:validators:mustBeType", static_cast<int>(k) + 1,
                 NLS_STRING_ARRAY_STR);
         }
     }

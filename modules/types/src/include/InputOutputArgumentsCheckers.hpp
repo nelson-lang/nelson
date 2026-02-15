@@ -22,7 +22,7 @@ inline void
 nargincheck(const ArrayOfVector& argIn, int minArgs)
 {
     if (argIn.size() < (size_t)minArgs) {
-        raiseError(L"Nelson:error_manager:min_rhs", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"nelson:arguments:tooFewInputs", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
 }
 //=============================================================================
@@ -33,10 +33,10 @@ inline void
 nargincheck(const ArrayOfVector& argIn, int minArgs, int maxArgs)
 {
     if (argIn.size() < (size_t)minArgs) {
-        raiseError(L"Nelson:error_manager:min_rhs", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"nelson:arguments:tooFewInputs", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
     if (argIn.size() > (size_t)maxArgs) {
-        raiseError(L"Nelson:error_manager:max_rhs", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError(L"nelson:arguments:tooManyInputs", ERROR_WRONG_NUMBERS_INPUT_ARGS);
     }
 }
 //=============================================================================
@@ -47,7 +47,7 @@ inline void
 nargoutcheck(int nLhs, int minArgs)
 {
     if (nLhs < minArgs) {
-        raiseError2(L"Nelson:error_manager:min_lhs");
+        raiseError2(L"nelson:arguments:tooFewOutputs");
     }
 }
 //=============================================================================
@@ -58,10 +58,10 @@ inline void
 nargoutcheck(int nLhs, int minArgs, int maxArgs)
 {
     if (nLhs < minArgs) {
-        raiseError2(L"Nelson:error_manager:min_lhs");
+        raiseError2(L"nelson:arguments:tooFewOutputs");
     }
     if (nLhs > maxArgs) {
-        raiseError2(L"Nelson:error_manager:max_lhs");
+        raiseError2(L"nelson:arguments:tooManyOutputs");
     }
 }
 //=============================================================================

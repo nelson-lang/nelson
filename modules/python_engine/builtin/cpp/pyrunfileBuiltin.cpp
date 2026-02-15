@@ -86,7 +86,7 @@ Nelson::Python_engineGateway::pyrunfileBuiltin(
     }
 
     if (nLhs > outputs.size()) {
-        raiseError2(L"Nelson:error_manager:wrong_lhs");
+        raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
     }
 
     return PyRunFile(

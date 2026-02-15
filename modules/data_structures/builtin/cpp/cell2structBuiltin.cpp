@@ -25,7 +25,7 @@ Nelson::DataStructuresGateway::cell2structBuiltin(int nLhs, const ArrayOfVector&
     nargincheck(argIn, 2, 3);
     ArrayOf param1 = argIn[0];
     if (!param1.isCell()) {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_CELL_ARRAY_STR);
+        raiseError2(L"nelson:validators:mustBeType", 1, NLS_CELL_ARRAY_STR);
     }
     ArrayOf param2 = argIn[1];
     stringVector fieldnames = param2.getContentAsCStringVector(false);

@@ -51,7 +51,7 @@ Nelson::MpiGateway::MPI_SendBuiltin(int nLhs, const ArrayOfVector& argIn)
         comm = HandleToMpiComm(param4);
     } break;
     default:
-        raiseError2(L"Nelson:error_manager:wrong_rhs");
+        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
         break;
     }
     int Asize = getArrayOfFootPrint(A, comm);

@@ -39,10 +39,10 @@ Nelson::WebtoolsGateway::webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     std::wstring filename = param3.getContentAsWideString();
     ArrayOf param4 = argIn[3];
     if (!param4.isStruct()) {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 4, std::wstring(L"struct"));
+        raiseError2(L"nelson:validators:mustBeType", 4, std::wstring(L"struct"));
     }
     if (!param4.isScalar()) {
-        raiseError2(L"Nelson:error_manager:wrong_size_scalar", 4);
+        raiseError2(L"nelson:validators:mustBeScalar", 4);
     }
     stringVector names = param4.getFieldNames();
     ArrayOfVector values;
@@ -63,7 +63,7 @@ Nelson::WebtoolsGateway::webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
     ArrayOf param5 = argIn[4];
     if (ClassName(param5) != "weboptions") {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 5,
+        raiseError2(L"nelson:validators:mustBeType", 5,
             std::wstring(L"weboptions object"));
     }
     WebOptions options(param5);

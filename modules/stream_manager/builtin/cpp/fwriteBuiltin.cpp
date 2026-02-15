@@ -55,7 +55,7 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                 ERROR_WRONG_VALUE_ARG3_NOT_SUPPORTED_PRECISION);
         }
     } else {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 3, NLS_STRING_ARRAY_STR);
+        raiseError2(L"nelson:validators:mustBeType", 3, NLS_STRING_ARRAY_STR);
     }
     ArrayOf param1 = argIn[0];
     if (param1.isDoubleType()) {
@@ -91,7 +91,7 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                 }
             } break;
             case FWRITE_DATA_TYPE_NOT_SUPPORTED: {
-                raiseError2(L"Nelson:error_manager:type_not_supported");
+                raiseError2(L"nelson:runtime:typeNotSupported");
             } break;
             case FWRITE_ALLOCATION_MEMORY: {
                 raiseError(
@@ -118,7 +118,7 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                 ERROR_INVALID_FILE_ID_EXPECTED);
         }
     } else {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_DOUBLE_STR);
+        raiseError2(L"nelson:validators:mustBeType", 1, NLS_DOUBLE_STR);
     }
     return retval;
 }
@@ -189,9 +189,9 @@ Nelson::StreamGateway::fwriteBuiltin(int nLhs, const ArrayOfVector& argIn)
         return fwriteBuiltinFiveRhs(nLhs, argIn);
     default: {
         if (argIn.size() < 2) {
-            raiseError2(L"Nelson:error_manager:min_rhs");
+            raiseError2(L"nelson:arguments:tooFewInputs");
         } else {
-            raiseError2(L"Nelson:error_manager:max_rhs");
+            raiseError2(L"nelson:arguments:tooManyInputs");
         }
     } break;
     }

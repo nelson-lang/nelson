@@ -70,7 +70,7 @@ Nelson::CoreGateway::quitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
         eval->setState(NLS_STATE_FORCE_QUIT);
     } break;
     default: {
-        raiseError2(L"Nelson:error_manager:wrong_rhs");
+        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
     } break;
     }
     return retval;

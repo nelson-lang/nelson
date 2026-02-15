@@ -42,7 +42,7 @@ Nelson::TypeGateway::classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             arg1.setClassType(newType);
             retval << arg1;
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRUCT_ARRAY_STR);
+            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRUCT_ARRAY_STR);
         }
     }
     return retval;

@@ -92,7 +92,7 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring value;
     switch (argIn.size()) {
     case 0: {
-        raiseError2(L"Nelson:error_manager:min_rhs");
+        raiseError2(L"nelson:arguments:tooFewInputs");
     } break;
     case 1: {
         // sort(A)
@@ -323,7 +323,7 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     default: {
-        raiseError2(L"Nelson:error_manager:wrong_rhs");
+        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
     } break;
     }
 

@@ -76,7 +76,7 @@ Nelson::AudioGateway::audioreadBuiltin(int nLhs, const ArrayOfVector& argIn)
         datatype = param3.getContentAsWideString();
     } break;
     default: {
-        raiseError2(L"Nelson:error_manager:max_rhs");
+        raiseError2(L"nelson:arguments:tooManyInputs");
     } break;
     }
     retval = AudioRead(filename, start, end, datatype, errorMessage);

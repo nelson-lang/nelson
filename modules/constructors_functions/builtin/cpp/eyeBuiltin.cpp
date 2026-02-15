@@ -44,7 +44,7 @@ extractDestClassAndSparse(
             } else {
                 // report a 1-based argument index to the user
                 int humanArgIndex = static_cast<int>(nRhs - 2) + 1;
-                raiseError2(L"Nelson:error_manager:wrong_value", humanArgIndex);
+                raiseError2(L"nelson:validators:invalidValue", humanArgIndex);
             }
         }
     }
@@ -87,7 +87,7 @@ parseDimensions(const ArrayOfVector& argIn, sizeType nRhs, indexType& n, indexTy
         m = argIn[1].getContentAsScalarIndex(true, true, true);
         return;
     } else {
-        raiseError2(L"Nelson:error_manager:max_rhs");
+        raiseError2(L"nelson:arguments:tooManyInputs");
     }
 }
 //=============================================================================

@@ -1,14 +1,15 @@
 {
-  "Nelson:error_manager:no_mem": "Échec de l'allocation de mémoire... Vous avez peut-être manqué de mémoire !",
-  "Nelson:error_manager:max_rhs": "Trop d'arguments d'entrée.",
-  "Nelson:error_manager:min_rhs": "Pas assez d'arguments d'entrée.",
-  "Nelson:error_manager:max_lhs": "Trop d'arguments de sortie.",
-  "Nelson:error_manager:min_lhs": "Pas assez d'arguments de sortie.",
-  "Nelson:error_manager:wrong_rhs": "Mauvais nombre d'arguments d'entrée.",
-  "Nelson:error_manager:wrong_lhs": "Mauvais nombre d'arguments de sortie.",
-  "Nelson:error_manager:wrong_type_with_expected": "Mauvais type pour l'argument #{0} : '{1}' attendu.",
-  "Nelson:error_manager:wrong_value": "Mauvaise valeur pour l'argument #{0}.",
-  "Nelson:error_manager:wrong_size_scalar": "Mauvaise taille pour l'argument #{0} : scalaire attendu.",
-  "Nelson:error_manager:type_not_supported": "Type non supporté.",
-  "Nelson:error_manager:wrong_type": "Mauvais type pour l'argument #{0}."
+  "nelson:runtime:outOfMemory": "Mémoire insuffisante.",
+  "nelson:arguments:tooManyInputs": "Trop d'arguments d'entrée.",
+  "nelson:arguments:tooFewInputs": "Pas assez d'arguments d'entrée.",
+  "nelson:arguments:tooManyOutputs": "Trop d'arguments de sortie.",
+  "nelson:arguments:tooFewOutputs": "Pas assez d'arguments de sortie demandés.",
+  "nelson:arguments:wrongNumberOfInputs": "Nombre d'arguments d'entrée invalide.",
+  "nelson:arguments:wrongNumberOfOutputs": "Nombre d'arguments de sortie invalide.",
+  "nelson:validators:mustBeType": "L'argument {0} doit être de type '{1}'.",
+  "nelson:validators:invalidValue": "Valeur invalide pour l'argument {0}.",
+  "nelson:internal:typeNotManaged": "Type non pris en charge.",
+  "nelson:validators:mustBeScalar": "L'argument {0} doit être un scalaire.",
+  "nelson:runtime:typeNotSupported": "Type non supporté.",
+  "nelson:validators:mustBeValidType": "Type invalide pour l'argument {0}."
 }

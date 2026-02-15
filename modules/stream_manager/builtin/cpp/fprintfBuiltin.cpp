@@ -40,7 +40,7 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         bool isSupported
             = param2.isCharacterArray() || (param2.isStringArray() && param2.isScalar());
         if (!isSupported) {
-            raiseError2(L"Nelson:error_manager:wrong_lhs");
+            raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
         }
         firstArgumentPosition = 1;
     } else if (param1.isRowVectorCharacterArray()

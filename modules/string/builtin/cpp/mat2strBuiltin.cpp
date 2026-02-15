@@ -69,7 +69,7 @@ Nelson::StringGateway::mat2strBuiltin(int nLhs, const ArrayOfVector& argIn)
         raiseError(L"Nelson:string:ERROR_NUMERIC_MATRIX_EXPECTED", ERROR_NUMERIC_MATRIX_EXPECTED);
     }
     if (A.isSparse()) {
-        raiseError2(L"Nelson:error_manager:type_not_supported");
+        raiseError2(L"nelson:runtime:typeNotSupported");
     }
     std::wstring res = MatrixToString(A, defautPrecision, withClass);
     retval << ArrayOf::characterArrayConstructor(res);

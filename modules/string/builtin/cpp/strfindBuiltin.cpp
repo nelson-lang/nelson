@@ -22,7 +22,7 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     if (!(argIn.size() == 2 || argIn.size() == 4)) {
-        raiseError2(L"Nelson:error_manager:wrong_rhs");
+        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
     }
     bool forceAsCell = false;
     if (argIn.size() == 4) {
@@ -35,12 +35,12 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
                     ERROR_FORCECELLOUTPUT_EXPECTED);
             }
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 3, NLS_STRING_ARRAY_STR);
+            raiseError2(L"nelson:validators:mustBeType", 3, NLS_STRING_ARRAY_STR);
         }
         if (param4.isScalar() && param4.isLogical()) {
             forceAsCell = (param4.getContentAsLogicalScalar() != 0u);
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 4, NLS_LOGICAL_STR);
+            raiseError2(L"nelson:validators:mustBeType", 4, NLS_LOGICAL_STR);
         }
     }
     ArrayOf A = argIn[0];

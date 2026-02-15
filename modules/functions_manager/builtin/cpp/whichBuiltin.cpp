@@ -47,7 +47,7 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
                 retval << ArrayOf::characterArrayConstructor(Which(functionname));
             }
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
         }
     } else {
         // case argIn.size() == 2
@@ -56,14 +56,14 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
             || (argIn[0].isStringArray() && argIn[0].isScalar())) {
             functionname = argIn[0].getContentAsCString();
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
         }
         std::wstring wparam2;
         if (argIn[1].isRowVectorCharacterArray()
             || (argIn[1].isStringArray() && argIn[1].isScalar())) {
             wparam2 = argIn[1].getContentAsWideString();
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_STRING_ARRAY_STR);
+            raiseError2(L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
         }
         if (wparam2 == L"-all") {
             wstringVector res = WhichAll(functionname);

@@ -24,7 +24,7 @@ Nelson::ElementaryFunctionsGateway::castBuiltin(
     if (argIn.size() == 3) {
         std::wstring like = argIn[1].getContentAsWideString();
         if (like != L"like") {
-            raiseError2(L"Nelson:error_manager:wrong_value", 2);
+            raiseError2(L"nelson:validators:invalidValue", 2);
         }
         retval << Cast(eval, argIn[0], argIn[2]);
     } else {

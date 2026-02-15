@@ -26,7 +26,7 @@ Nelson::ModulesManagerGateway::removemoduleBuiltin(
     if (argIn[0].isRowVectorCharacterArray()) {
         moduleshortname = argIn[0].getContentAsWideString();
     } else {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
     }
     RemoveModule(eval, moduleshortname);
     return retval;

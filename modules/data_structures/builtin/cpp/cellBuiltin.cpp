@@ -94,7 +94,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_OR_ROW_VECTOR_EXPECTED, 1);
             }
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_DOUBLE_STR);
+            raiseError2(L"nelson:validators:mustBeType", 1, NLS_DOUBLE_STR);
         }
     } else {
         Dimensions dims(argIn.size());
@@ -104,11 +104,11 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     indexType index = argIn[k].getContentAsScalarIndex(true, true, true);
                     dims.setDimensionLength(k, index);
                 } else {
-                    raiseError2(L"Nelson:error_manager:wrong_size_scalar", k + 1);
+                    raiseError2(L"nelson:validators:mustBeScalar", k + 1);
                 }
             } else {
                 raiseError2(
-                    L"Nelson:error_manager:wrong_type_with_expected", k + 1, NLS_DOUBLE_STR);
+                    L"nelson:validators:mustBeType", k + 1, NLS_DOUBLE_STR);
             }
         }
         dims.simplify();

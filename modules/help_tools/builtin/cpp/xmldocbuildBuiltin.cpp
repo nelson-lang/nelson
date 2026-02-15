@@ -53,7 +53,7 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
         listOfDirectories = argSourceDirs.getContentAsWideStringVector(true);
     } else {
         raiseError2(
-            L"Nelson:error_manager:wrong_type_with_expected", 1, ERROR_TYPE_CELL_OF_STRINGS);
+            L"nelson:validators:mustBeType", 1, ERROR_TYPE_CELL_OF_STRINGS);
     }
     bool permissionDenied;
     for (const auto& listOfDirectory : listOfDirectories) {

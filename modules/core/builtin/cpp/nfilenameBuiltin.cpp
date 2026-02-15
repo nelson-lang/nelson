@@ -39,7 +39,7 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                     ERROR_WRONG_VALUE_FOR_1_ARGUMENT_FULLPATHEXT_OR_FULLPATH_EXPECTED);
             }
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
         }
     }
     FileSystemWrapper::Path path(GetCurrentNFilenameW(eval));

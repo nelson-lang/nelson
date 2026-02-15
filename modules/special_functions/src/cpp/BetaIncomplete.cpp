@@ -204,13 +204,13 @@ BetaIncomplete(
     Dimensions dimsMaxYZ = maxDimensions(dimsY, dimsZ);
     Dimensions retDims = maxDimensions(dimsX, dimsMaxYZ);
     if (!(X.isScalar()) && !retDims.equals(X.getDimensions())) {
-        raiseError2(L"Nelson:error_manager:wrong_size_scalar", 1);
+        raiseError2(L"nelson:validators:mustBeScalar", 1);
     }
     if (!(Y.isScalar()) && !retDims.equals(Y.getDimensions())) {
-        raiseError2(L"Nelson:error_manager:wrong_size_scalar", 2);
+        raiseError2(L"nelson:validators:mustBeScalar", 2);
     }
     if (!(Z.isScalar()) && !retDims.equals(Z.getDimensions())) {
-        raiseError2(L"Nelson:error_manager:wrong_size_scalar", 3);
+        raiseError2(L"nelson:validators:mustBeScalar", 3);
     }
     if (!Y.isPositive()) {
         raiseError(L"Nelson:special_functions:ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED",

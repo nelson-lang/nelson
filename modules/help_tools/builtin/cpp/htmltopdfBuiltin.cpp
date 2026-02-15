@@ -32,7 +32,7 @@ Nelson::HelpToolsGateway::htmltopdfBuiltin(int nLhs, const ArrayOfVector& argIn)
         std::wstring param1 = arg1.getContentAsWideString();
         std::wstring param2 = arg2.getContentAsWideString();
         if (!FileSystemWrapper::Path::is_regular_file(param1)) {
-            raiseError2(L"Nelson:error_manager:wrong_value", 1);
+            raiseError2(L"nelson:validators:invalidValue", 1);
         }
         auto _mode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
         switch (_mode) {

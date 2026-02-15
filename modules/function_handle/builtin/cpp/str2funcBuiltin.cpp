@@ -27,7 +27,7 @@ Nelson::FunctionHandleGateway::str2funcBuiltin(
     if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
         functionname = argIn[0].getContentAsCString();
     } else {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
     }
     function_handle fptr = StringToFunctionHandle(eval, functionname);
     if (fptr.anonymousHandle == nullptr) {

@@ -35,7 +35,7 @@ Nelson::QmlEngineGateway::QObject_fieldnamesBuiltin(int nLhs, const ArrayOfVecto
     }
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle()) {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_HANDLE_STR);
+        raiseError2(L"nelson:validators:mustBeType", 1, NLS_HANDLE_STR);
     }
     wstringVector fieldnames;
     fieldnamesQObjectHandleObject(param1, fullList, fieldnames);

@@ -204,7 +204,7 @@ Nelson::StatisticsGateway::meanBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     default: {
-        raiseError2(L"Nelson:error_manager:wrong_rhs");
+        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
     } break;
     }
     if (needToOverload) {

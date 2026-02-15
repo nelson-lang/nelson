@@ -25,7 +25,7 @@ Nelson::StringGateway::endsWithBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     if (argIn.size() != 2 && argIn.size() != 4) {
-        raiseError2(L"Nelson:error_manager:wrong_rhs");
+        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
     }
     bool bCaseSensitive = true;
     ArrayOf A = argIn[0];
@@ -35,7 +35,7 @@ Nelson::StringGateway::endsWithBuiltin(int nLhs, const ArrayOfVector& argIn)
             ArrayOf param3 = argIn[2];
             std::wstring fieldname = param3.getContentAsWideString();
             if (fieldname != L"IgnoreCase") {
-                raiseError2(L"Nelson:error_manager:wrong_value", 3);
+                raiseError2(L"nelson:validators:invalidValue", 3);
             }
             ArrayOf param4 = argIn[3];
             logical fieldvalue = param4.getContentAsLogicalScalar();

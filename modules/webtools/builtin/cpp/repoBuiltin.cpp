@@ -63,9 +63,9 @@ parseRepoTransferArgs(const ArrayOfVector& argIn)
 
     default:
         if (argIn.size() < 3) {
-            raiseError2(L"Nelson:error_manager:min_rhs");
+            raiseError2(L"nelson:arguments:tooFewInputs");
         } else {
-            raiseError2(L"Nelson:error_manager:max_rhs");
+            raiseError2(L"nelson:arguments:tooManyInputs");
         }
     }
 
@@ -142,7 +142,7 @@ handleFetch(const ArrayOfVector& in, ArrayOfVector&, int nLhs, std::wstring& err
     nargoutcheck(nLhs, 0, 0);
 
     if (in.size() != 2 && in.size() != 4) {
-        raiseError2(L"Nelson:error_manager:wrong_rhs");
+        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
     }
 
     std::wstring username;
@@ -209,7 +209,7 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 2);
 
     if (argIn.empty()) {
-        raiseError2(L"Nelson:error_manager:min_rhs");
+        raiseError2(L"nelson:arguments:tooFewInputs");
     }
 
     std::wstring errorMessage;
@@ -226,7 +226,7 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
             return retval;
         }
     }
-    raiseError2(L"Nelson:error_manager:wrong_value", 1);
+    raiseError2(L"nelson:validators:invalidValue", 1);
     return retval;
 }
 //=============================================================================

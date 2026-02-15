@@ -189,7 +189,7 @@ AnonymousMacroFunctionDef::evaluateFunction(
         if (inputs.size() > arguments.size()) {
             context->popScope();
             eval->callstack.popDebug();
-            raiseError2(L"Nelson:error_manager:wrong_rhs");
+            raiseError2(L"nelson:arguments:wrongNumberOfInputs");
         }
         minCount = (inputs.size() < arguments.size()) ? inputs.size() : arguments.size();
         for (size_t i = 0; i < minCount; i++) {
@@ -207,7 +207,7 @@ AnonymousMacroFunctionDef::evaluateFunction(
         if (inputCount < nbArgumentsWithoutVarArgIn) {
             context->popScope();
             eval->callstack.popDebug();
-            raiseError2(L"Nelson:error_manager:wrong_rhs");
+            raiseError2(L"nelson:arguments:wrongNumberOfInputs");
         }
         context->getCurrentScope()->setNargIn(static_cast<int>(inputCount));
         // Get the number of explicit arguments

@@ -43,7 +43,7 @@ delimitedFileWriter(ArrayOf mat, const std::wstring& filenameDestination, bool b
             L"Nelson:spreadsheet:ERROR_NUMERIC_MATRIX_EXPECTED", ERROR_NUMERIC_MATRIX_EXPECTED);
     }
     if (mat.isSparse()) {
-        raiseError2(L"Nelson:error_manager:type_not_supported");
+        raiseError2(L"nelson:runtime:typeNotSupported");
     }
 #ifdef _MSC_VER
     FILE* file = _wfopen(filenameDestination.c_str(), bAppend ? L"ab" : L"wb");

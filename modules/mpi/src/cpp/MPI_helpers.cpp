@@ -154,7 +154,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_SPARSE_STR);
+                raiseError2(L"nelson:validators:mustBeType", 1, NLS_SPARSE_STR);
             }
             packMPI(I, buffer, bufsize, packpos, comm);
             packMPI(J, buffer, bufsize, packpos, comm);
@@ -213,7 +213,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_SPARSE_STR);
+                raiseError2(L"nelson:validators:mustBeType", 1, NLS_SPARSE_STR);
             }
             packMPI(I, buffer, bufsize, packpos, comm);
             packMPI(J, buffer, bufsize, packpos, comm);
@@ -236,7 +236,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_SPARSE_STR);
+                raiseError2(L"nelson:validators:mustBeType", 1, NLS_SPARSE_STR);
             }
             packMPI(I, buffer, bufsize, packpos, comm);
             packMPI(J, buffer, bufsize, packpos, comm);
@@ -254,7 +254,7 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             buffer, bufsize, packpos, comm);
         break;
     default: {
-        raiseError2(L"Nelson:error_manager:type_not_managed");
+        raiseError2(L"nelson:internal:typeNotManaged");
     } break;
     }
 }
@@ -467,7 +467,7 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_WCHAR, comm);
         break;
     default: {
-        raiseError2(L"Nelson:error_manager:type_not_managed");
+        raiseError2(L"nelson:internal:typeNotManaged");
     } break;
     }
     return ArrayOf(dataClass, outDim, cp);
@@ -493,7 +493,7 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_SPARSE_STR);
+                raiseError2(L"nelson:validators:mustBeType", 1, NLS_SPARSE_STR);
             }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);
@@ -529,7 +529,7 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_SPARSE_STR);
+                raiseError2(L"nelson:validators:mustBeType", 1, NLS_SPARSE_STR);
             }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);
@@ -549,7 +549,7 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_SPARSE_STR);
+                raiseError2(L"nelson:validators:mustBeType", 1, NLS_SPARSE_STR);
             }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);

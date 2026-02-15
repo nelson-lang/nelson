@@ -44,7 +44,7 @@ Nelson::SioClientGateway::sioregisterBuiltin(int nLhs, const ArrayOfVector& argI
         sioregister(event_name, function_name);
     } break;
     default: {
-        raiseError2(L"Nelson:error_manager:wrong_rhs");
+        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
     } break;
     }
     return retval;

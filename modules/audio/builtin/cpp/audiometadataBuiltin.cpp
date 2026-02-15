@@ -40,7 +40,7 @@ Nelson::AudioGateway::audiometadataBuiltin(int nLhs, const ArrayOfVector& argIn)
                 ERROR_WRONG_ARGUMENT_X_TYPE_NUMERIC_EXPECTED, 2);
         }
         if (!param2.isScalar()) {
-            raiseError2(L"Nelson:error_manager:wrong_size_scalar", 2);
+            raiseError2(L"nelson:validators:mustBeScalar", 2);
         }
         stringVector currentFieldnames = param2.getFieldNames();
         wstringVector wcurrentFieldname;
@@ -59,7 +59,7 @@ Nelson::AudioGateway::audiometadataBuiltin(int nLhs, const ArrayOfVector& argIn)
                     }
                 }
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_value", 2);
+                raiseError2(L"nelson:validators:invalidValue", 2);
             }
         }
         currentFieldnames.clear();

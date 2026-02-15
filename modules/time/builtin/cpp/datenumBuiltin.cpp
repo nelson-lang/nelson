@@ -76,7 +76,7 @@ Nelson::TimeGateway::datenumBuiltin(int nLhs, const ArrayOfVector& argIn)
         return datenumSixRhsBuiltin(nLhs, argIn);
     } break;
     default: {
-        raiseError2(L"Nelson:error_manager:wrong_lhs");
+        raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
     } break;
     }
     return {};

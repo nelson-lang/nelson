@@ -189,7 +189,7 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         }
     } break;
     default: {
-        raiseError2(L"Nelson:error_manager:max_rhs");
+        raiseError2(L"nelson:arguments:tooManyInputs");
     } break;
     }
 
@@ -220,7 +220,7 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         retval << ArrayOf::doubleConstructor(indexWorkspace);
     } break;
     default: {
-        raiseError2(L"Nelson:error_manager:wrong_lhs");
+        raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
     } break;
     }
     return retval;

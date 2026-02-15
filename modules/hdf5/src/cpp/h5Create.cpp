@@ -58,7 +58,7 @@ nelsonClassToHdf5DataType(NelsonType dataType)
         datatype = H5Tcopy(H5T_STD_I8LE);
     } break;
     default: {
-        raiseError2(L"Nelson:error_manager:type_not_managed");
+        raiseError2(L"nelson:internal:typeNotManaged");
     } break;
     }
     return datatype;
@@ -120,7 +120,7 @@ setFillValue(const ArrayOf& fillvalue, NelsonType dataType, hid_t dcpl)
         status = H5Pset_fill_value(dcpl, fillType, &value);
     } break;
     default: {
-        raiseError2(L"Nelson:error_manager:type_not_managed");
+        raiseError2(L"nelson:internal:typeNotManaged");
     } break;
     }
     return status;

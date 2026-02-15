@@ -25,7 +25,7 @@ Nelson::TypeGateway::isaBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     if (!(param2.isRowVectorCharacterArray() || param2.isScalarStringArray())) {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_STRING_ARRAY_STR);
+        raiseError2(L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
     }
     std::string classnameExpected = param2.getContentAsCString();
     if (classnameExpected == "numeric") {

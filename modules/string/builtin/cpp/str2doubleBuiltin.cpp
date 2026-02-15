@@ -60,7 +60,7 @@ Nelson::StringGateway::str2doubleBuiltin(int nLhs, const ArrayOfVector& argIn)
             retval << output;
             return retval;
         }
-        raiseError2(L"Nelson:error_manager:type_not_supported");
+        raiseError2(L"nelson:runtime:typeNotSupported");
     }
     OverloadRequired("str2double");
     return {};

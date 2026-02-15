@@ -27,7 +27,7 @@ Eigen_EyeSparseMatrixConstructor(indexType rows, indexType cols)
             spMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(rows, cols);
         } catch (const std::bad_alloc&) {
             spMat = nullptr;
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
         spMat->setIdentity();
         spMat->finalize();
@@ -66,7 +66,7 @@ Eigen_LogicalSparseMatrixConstructor(indexType rows, indexType cols, bool bMotif
         spMat = new Eigen::SparseMatrix<logical, 0, signedIndexType>(rows, cols);
     } catch (const std::bad_alloc&) {
         spMat = nullptr;
-        raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
     }
     if (bMotif) {
         for (indexType i = 0; i < rows; i++) {
@@ -124,7 +124,7 @@ Eigen_MakeDenseArrayOf(indexType rows, indexType cols, const void* cp)
             pMat = new T[rows * cols];
         } catch (const std::bad_alloc&) {
             spMat = nullptr;
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
         Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA((T*)pMat, rows, cols);
         matA = spMat->toDense();
@@ -153,7 +153,7 @@ Eigen_MakeDenseArrayOf(NelsonType dclass, indexType rows, indexType cols, const 
                 pzMat = reinterpret_cast<doublecomplex*>(pMat);
             } catch (const std::bad_alloc&) {
                 spMat = nullptr;
-                raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+                raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
             }
             Eigen::Map<Eigen::Matrix<doublecomplex, Eigen::Dynamic, Eigen::Dynamic>> matA(
                 (doublecomplex*)pzMat, spMat->rows(), spMat->cols());
@@ -178,7 +178,7 @@ Eigen_MakeSparseArrayOf(indexType rows, indexType cols, const void* cp)
         spMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(matA.sparseView());
     } catch (const std::bad_alloc&) {
         spMat = nullptr;
-        raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
     }
     spMat->makeCompressed();
     spMat->data().squeeze();
@@ -204,7 +204,7 @@ Eigen_MakeSparseArrayOf(NelsonType dclass, indexType rows, indexType cols, const
             spMat = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(matA.sparseView());
         } catch (const std::bad_alloc&) {
             spMat = nullptr;
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
         spMat->makeCompressed();
         spMat->data().squeeze();
@@ -230,7 +230,7 @@ Eigen_CopySparseMatrix(indexType rows, indexType cols, const void* cp)
             copiedpMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(*spMat);
         } catch (const std::bad_alloc&) {
             copiedpMat = nullptr;
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
         copiedpMat->makeCompressed();
         copiedpMat->data().squeeze();
@@ -346,7 +346,7 @@ Eigen_SparseMatrixConstructor(NelsonType dclass, indexType rows, indexType cols,
             spMat = new Eigen::SparseMatrix<logical, 0, signedIndexType>(rows, cols);
         } catch (const std::bad_alloc&) {
             spMat = nullptr;
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
         return spMat;
     } break;
@@ -356,7 +356,7 @@ Eigen_SparseMatrixConstructor(NelsonType dclass, indexType rows, indexType cols,
             spMat = new Eigen::SparseMatrix<double, 0, signedIndexType>(rows, cols);
         } catch (const std::bad_alloc&) {
             spMat = nullptr;
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
         return spMat;
     } break;
@@ -366,7 +366,7 @@ Eigen_SparseMatrixConstructor(NelsonType dclass, indexType rows, indexType cols,
             spMat = new Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>(rows, cols);
         } catch (const std::bad_alloc&) {
             spMat = nullptr;
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
         return spMat;
     } break;
@@ -408,7 +408,7 @@ Eigen_GetSparseVectorSubsetsInternal(indexType rows, indexType cols, const void*
         spMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(irows, icols);
     } catch (const std::bad_alloc&) {
         spMat = nullptr;
-        raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
     }
     spMat->setFromTriplets(tripletList.begin(), tripletList.end());
     spMat->finalize();
@@ -461,7 +461,7 @@ Eigen_GetSparseVectorSubsets(NelsonType dclass, indexType rows, indexType cols, 
             spMat = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(irows, icols);
         } catch (const std::bad_alloc&) {
             spMat = nullptr;
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
         spMat->setFromTriplets(tripletList.begin(), tripletList.end());
         spMat->finalize();
@@ -520,7 +520,7 @@ Eigen_GetSparseNDimSubsets(NelsonType dclass, indexType rows, indexType cols, co
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DOUBLE: {
@@ -546,7 +546,7 @@ Eigen_GetSparseNDimSubsets(NelsonType dclass, indexType rows, indexType cols, co
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -572,7 +572,7 @@ Eigen_GetSparseNDimSubsets(NelsonType dclass, indexType rows, indexType cols, co
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     default:
@@ -598,7 +598,7 @@ Eigen_CopyResizeSparseMatrix(
         }
     } catch (const std::bad_alloc&) {
         copiedpMat = nullptr;
-        raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
     }
     copiedpMat->conservativeResize(maxrow, maxcol);
     copiedpMat->finalize();
@@ -794,7 +794,7 @@ Eigen_CreateSparseScalarElement(double v)
         pMat = new Eigen::SparseMatrix<double, 0, signedIndexType>(1, 1);
     } catch (const std::bad_alloc&) {
         pMat = nullptr;
-        raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
     }
     if (v != 0) {
         pMat->coeffRef(0, 0) = v;
@@ -812,7 +812,7 @@ Eigen_CreateSparseScalarElement(doublecomplex v)
         pMat = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(1, 1);
     } catch (const std::bad_alloc&) {
         pMat = nullptr;
-        raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
     }
     if ((v.real() != 0.) || (v.imag() != 0.)) {
         pMat->coeffRef(0, 0) = v;
@@ -830,7 +830,7 @@ Eigen_CreateSparseScalarElement(logical v)
         pMat = new Eigen::SparseMatrix<logical, 0, signedIndexType>(1, 1);
     } catch (const std::bad_alloc&) {
         pMat = nullptr;
-        raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
     }
     if (v != 0) {
         pMat->coeffRef(0, 0) = v;
@@ -1005,7 +1005,7 @@ Eigen_makeSparseFromIJVInternal(indexType rows, indexType cols, indexType nnz, i
         spMat = new Eigen::SparseMatrix<T, 0, signedIndexType>(rows, cols);
     } catch (const std::bad_alloc&) {
         spMat = nullptr;
-        raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
     }
     spMat->setFromTriplets(tripletList.begin(), tripletList.end());
     spMat->finalize();
@@ -1053,7 +1053,7 @@ Eigen_makeSparseFromIJVLogical(indexType rows, indexType cols, indexType nnz, in
         spMat = new Eigen::SparseMatrix<logical, 0, signedIndexType>(rows, cols);
     } catch (const std::bad_alloc&) {
         spMat = nullptr;
-        raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
     }
     spMat->setFromTriplets(tripletList.begin(), tripletList.end());
     spMat->finalize();
@@ -1091,7 +1091,7 @@ Eigen_makeSparseFromIJVComplex(indexType rows, indexType cols, indexType nnz, in
         spMat = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(rows, cols);
     } catch (const std::bad_alloc&) {
         spMat = nullptr;
-        raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
     }
     spMat->setFromTriplets(tripletList.begin(), tripletList.end());
     spMat->finalize();
@@ -1166,7 +1166,7 @@ Eigen_DeleteSparseMatrixCols(
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DOUBLE: {
@@ -1196,7 +1196,7 @@ Eigen_DeleteSparseMatrixCols(
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -1229,7 +1229,7 @@ Eigen_DeleteSparseMatrixCols(
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     default:
@@ -1295,7 +1295,7 @@ Eigen_DeleteSparseMatrixRows(
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DOUBLE: {
@@ -1325,7 +1325,7 @@ Eigen_DeleteSparseMatrixRows(
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -1355,7 +1355,7 @@ Eigen_DeleteSparseMatrixRows(
             dst->makeCompressed();
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     default:
@@ -1463,7 +1463,7 @@ Eigen_DeleteSparseMatrixVectorSubset(NelsonType dclass, indexType& rows, indexTy
             cols = newCols;
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DOUBLE: {
@@ -1496,7 +1496,7 @@ Eigen_DeleteSparseMatrixVectorSubset(NelsonType dclass, indexType& rows, indexTy
             cols = newCols;
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -1530,7 +1530,7 @@ Eigen_DeleteSparseMatrixVectorSubset(NelsonType dclass, indexType& rows, indexTy
             cols = newCols;
             return (void*)dst;
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     default:
@@ -1558,7 +1558,7 @@ Eigen_TypeConvertSparse(
                 spMatdest
                     = new Eigen::SparseMatrix<double, 0, signedIndexType>(spMat->cast<double>());
             } catch (const std::bad_alloc&) {
-                raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+                raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
             }
             spMatdest->finalize();
             spMatdest->makeCompressed();
@@ -1570,7 +1570,7 @@ Eigen_TypeConvertSparse(
                 spMatdest = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(
                     spMat->cast<doublecomplex>());
             } catch (const std::bad_alloc&) {
-                raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+                raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
             }
             spMatdest->finalize();
             spMatdest->makeCompressed();
@@ -1591,7 +1591,7 @@ Eigen_TypeConvertSparse(
             try {
                 spMatdest = new Eigen::SparseMatrix<logical, 0, signedIndexType>(rows, cols);
             } catch (const std::bad_alloc&) {
-                raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+                raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
             }
             if (rows * cols) {
                 for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
@@ -1615,7 +1615,7 @@ Eigen_TypeConvertSparse(
             try {
                 spMatdest = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(rows, cols);
             } catch (const std::bad_alloc&) {
-                raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+                raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
             }
             if (rows * cols) {
                 for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {

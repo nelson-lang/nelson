@@ -35,7 +35,7 @@ Nelson::Python_engineGateway::PythonEnvironment_getBuiltin(int nLhs, const Array
     PythonEnvironment* pythonEnvironment = PythonEnvironment::getInstance();
 
     if (!pythonEnvironment->get(propertyName, res)) {
-        raiseError2(L"Nelson:error_manager:wrong_value", 2);
+        raiseError2(L"nelson:validators:invalidValue", 2);
     }
     retval << res;
     return retval;

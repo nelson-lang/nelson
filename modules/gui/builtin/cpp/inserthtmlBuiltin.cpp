@@ -24,7 +24,7 @@ Nelson::GuiGateway::inserthtmlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     ArrayOf param1 = argIn[0];
 
     if (!(param1.isRowVectorCharacterArray() || param1.isScalarStringArray())) {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
     }
     if (eval) {
         Interface* io = eval->getInterface();

@@ -42,7 +42,7 @@ Nelson::ElementaryFunctionsGateway::trilBuiltin(int nLhs, const ArrayOfVector& a
         }
     } break;
     default: {
-        raiseError2(L"Nelson:error_manager:max_rhs");
+        raiseError2(L"nelson:arguments:tooManyInputs");
     } break;
     }
     bool needToOverload;

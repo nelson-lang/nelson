@@ -88,7 +88,7 @@ StringJustify(const ArrayOf& stringArrayOf, STRINGJUSTIFY style)
         return cell;
     } break;
     default: {
-        raiseError2(L"Nelson:error_manager:type_not_managed");
+        raiseError2(L"nelson:internal:typeNotManaged");
     } break;
     }
     return {};

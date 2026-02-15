@@ -67,7 +67,7 @@ Nelson::ElementaryFunctionsGateway::sizeBuiltin(int nLhs, const ArrayOfVector& a
         }
     } break;
     default:
-        raiseError2(L"Nelson:error_manager:wrong_rhs");
+        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
         break;
     }
     ArrayOf param1 = argIn[0];

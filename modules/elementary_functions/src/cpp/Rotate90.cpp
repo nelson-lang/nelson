@@ -100,7 +100,7 @@ ArrayOf
 Rotate90(const ArrayOf& arrayIn, int nbRotations)
 {
     if (arrayIn.isSparse() || !arrayIn.is2D()) {
-        raiseError2(L"Nelson:error_manager:type_not_managed");
+        raiseError2(L"nelson:internal:typeNotManaged");
     }
 
     if (nbRotations < 0 || nbRotations > 3) {
@@ -177,7 +177,7 @@ Rotate90(const ArrayOf& arrayIn, int nbRotations)
             NLS_DCOMPLEX, (double*)arrayIn.getDataPointer(), arrayIn.getDimensions(), nbRotations);
     } break;
     default: {
-        raiseError2(L"Nelson:error_manager:type_not_managed");
+        raiseError2(L"nelson:internal:typeNotManaged");
     } break;
     }
     return {};

@@ -29,7 +29,7 @@ SparseConstructor(indexType m, indexType n)
             = new Eigen::SparseMatrix<double, 0, signedIndexType>(m, n);
         res = ArrayOf(NLS_DOUBLE, dims, (void*)spmat, true);
     } catch (const std::bad_alloc&) {
-        raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
     }
     return res;
 }

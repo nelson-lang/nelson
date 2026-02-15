@@ -354,10 +354,10 @@ Nelson::IpcGateway::ipcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& a
     } break;
     default: {
         if (argIn.size() < 2) {
-            raiseError2(L"Nelson:error_manager:min_rhs");
+            raiseError2(L"nelson:arguments:tooFewInputs");
         }
         if (argIn.size() > 5) {
-            raiseError2(L"Nelson:error_manager:max_rhs");
+            raiseError2(L"nelson:arguments:tooManyInputs");
         }
     } break;
     }

@@ -37,10 +37,10 @@ Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const A
             if (IsErrorStruct(arg1, e)) {
                 eval->setLastErrorException(e);
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_value", 2);
+                raiseError2(L"nelson:validators:invalidValue", 2);
             }
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_type", 2);
+            raiseError2(L"nelson:validators:mustBeValidType", 2);
         }
     }
     Exception lasterror = eval->getLastErrorException();

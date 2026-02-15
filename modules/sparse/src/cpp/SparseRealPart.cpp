@@ -50,7 +50,7 @@ SparseRealPart(ArrayOf a)
             void* pRes = (void*)spmatDST;
             res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     case NLS_DOUBLE: {
@@ -78,7 +78,7 @@ SparseRealPart(ArrayOf a)
             void* pRes = (void*)spmatDST;
             res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         }
     } break;
     default: {

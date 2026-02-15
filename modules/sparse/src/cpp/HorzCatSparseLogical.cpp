@@ -21,10 +21,10 @@ HorzCatSparseLogical(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;
     if (!A.isSparseLogicalType()) {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_SPARSE_LOGICAL_STR);
+        raiseError2(L"nelson:validators:mustBeType", 1, NLS_SPARSE_LOGICAL_STR);
     }
     if (!B.isSparseLogicalType()) {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_SPARSE_LOGICAL_STR);
+        raiseError2(L"nelson:validators:mustBeType", 2, NLS_SPARSE_LOGICAL_STR);
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);
@@ -52,7 +52,7 @@ HorzCatSparseLogical(ArrayOf A, ArrayOf B)
         spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(newRowsSize, newColumnsSize);
     } catch (const std::bad_alloc&) {
         spMatC = nullptr;
-        raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
     }
     spMatC->middleCols(0, spMatA->cols()) = *spMatA;
     spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;

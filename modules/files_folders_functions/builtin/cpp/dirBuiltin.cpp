@@ -39,23 +39,23 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     } break;
     case 2: {
         if (!argIn[1].isRowVectorCharacterArray()) {
-            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 2, NLS_STRING_ARRAY_STR);
+            raiseError2(L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
         }
         woption = argIn[1].getContentAsWideString();
         if (woption == L"-s") {
             bSubDirectories = true;
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_value", 2);
+            raiseError2(L"nelson:validators:invalidValue", 2);
         }
     }
     case 1: {
         if (!argIn[0].isRowVectorCharacterArray()) {
-            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
         }
         wpath = argIn[0].getContentAsWideString();
     } break;
     default:
-        raiseError2(L"Nelson:error_manager:wrong_rhs");
+        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
         break;
     }
     std::vector<FileInfo> res = ListFiles(wpath, bSubDirectories);

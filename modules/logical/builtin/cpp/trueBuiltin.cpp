@@ -48,7 +48,7 @@ Nelson::LogicalGateway::trueBuiltin(int nLhs, const ArrayOfVector& argIn)
                         dim[1] = 1;
                     }
                 } else {
-                    raiseError2(L"Nelson:error_manager:wrong_value", pos + 1);
+                    raiseError2(L"nelson:validators:invalidValue", pos + 1);
                 }
             }
         }

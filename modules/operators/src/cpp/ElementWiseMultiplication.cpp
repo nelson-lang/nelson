@@ -607,7 +607,7 @@ integer_elementWiseMultiplication_integer(const ArrayOf& a, const ArrayOf& b)
     case NLS_UINT64:
         return elementWiseMultiplication<uint64>(NLS_UINT64, a, b);
     default:
-        raiseError2(L"Nelson:error_manager:type_not_managed");
+        raiseError2(L"nelson:internal:typeNotManaged");
         break;
     }
     return {};

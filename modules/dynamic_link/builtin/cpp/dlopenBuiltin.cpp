@@ -31,13 +31,13 @@ Nelson::DynamicLinkGateway::dlopenBuiltin(int nLhs, const ArrayOfVector& argIn)
         try {
             dlObject = new DynamicLinkLibraryObject(libraryPath);
         } catch (const std::bad_alloc&) {
-            raiseError(L"Nelson:error_manager:no_mem", ERROR_MEMORY_ALLOCATION);
+            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
         } catch (const Exception&) {
             throw;
         }
         retval << ArrayOf::handleConstructor(dlObject);
     } else {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
     }
     return retval;
 }

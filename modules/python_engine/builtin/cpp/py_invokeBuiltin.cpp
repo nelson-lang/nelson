@@ -43,7 +43,7 @@ Nelson::Python_engineGateway::py_invokeBuiltin(
         io = eval->getInterface();
     }
     if (!poh->invoke(io, methodname, params, nLhs, retval)) {
-        raiseError2(L"Nelson:error_manager:wrong_value", 2);
+        raiseError2(L"nelson:validators:invalidValue", 2);
     }
     return retval;
 }

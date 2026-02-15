@@ -29,7 +29,7 @@ Nelson::OsFunctionsGateway::getenvBuiltin(int nLhs, const ArrayOfVector& argIn)
             std::wstring ret = GetVariableEnvironment(varEnvName);
             retval << ArrayOf::characterArrayConstructor(ret);
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
         }
     } break;
     case NLS_CELL_ARRAY:
@@ -58,7 +58,7 @@ Nelson::OsFunctionsGateway::getenvBuiltin(int nLhs, const ArrayOfVector& argIn)
         retval << res;
     } break;
     default: {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
     } break;
     }
     return retval;

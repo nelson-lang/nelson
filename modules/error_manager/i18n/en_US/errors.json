@@ -1,15 +1,15 @@
 {
-  "Nelson:error_manager:no_mem": "Memory allocation error... You may have run out of memory!",
-  "Nelson:error_manager:max_rhs": "Too many input arguments.",
-  "Nelson:error_manager:min_rhs": "Too few input arguments.",
-  "Nelson:error_manager:max_lhs": "Too many output arguments.",
-  "Nelson:error_manager:min_lhs": "Too few output arguments.",
-  "Nelson:error_manager:wrong_rhs": "Wrong number of input arguments.",
-  "Nelson:error_manager:wrong_lhs": "Wrong number of output arguments.",
-  "Nelson:error_manager:wrong_type_with_expected": "Wrong type for argument #{0}: '{1}' expected.",
-  "Nelson:error_manager:wrong_value": "Wrong value for argument #{0}.",
-  "Nelson:error_manager:type_not_managed": "Type not managed.",
-  "Nelson:error_manager:wrong_size_scalar": "Wrong size for argument #{0}: scalar expected.",
-  "Nelson:error_manager:type_not_supported": "Type not supported.",
-  "Nelson:error_manager:wrong_type": "Wrong type for argument #{0}."
+  "nelson:runtime:outOfMemory": "Out of memory.",
+  "nelson:arguments:tooManyInputs": "Too many input arguments.",
+  "nelson:arguments:tooFewInputs": "Not enough input arguments.",
+  "nelson:arguments:tooManyOutputs": "Too many output arguments.",
+  "nelson:arguments:tooFewOutputs": "Too many output arguments requested.",
+  "nelson:arguments:wrongNumberOfInputs": "Incorrect number of input arguments.",
+  "nelson:arguments:wrongNumberOfOutputs": "Incorrect number of output arguments.",
+  "nelson:validators:mustBeType": "Argument {0} must be of type '{1}'.",
+  "nelson:validators:invalidValue": "Invalid value for argument {0}.",
+  "nelson:internal:typeNotManaged": "Unsupported type.",
+  "nelson:validators:mustBeScalar": "Argument {0} must be a scalar.",
+  "nelson:runtime:typeNotSupported": "Type not supported.",
+  "nelson:validators:mustBeValidType": "Invalid type for argument {0}."
 }

@@ -41,10 +41,10 @@ Nelson::CoreGateway::nargoutchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 
         int nargout = context->getCurrentScope()->getNargOut();
         if (nargout < minArgs) {
-            raiseError2(L"Nelson:error_manager:min_lhs");
+            raiseError2(L"nelson:arguments:tooFewOutputs");
         }
         if (nargout > maxArgs) {
-            raiseError2(L"Nelson:error_manager:max_lhs");
+            raiseError2(L"nelson:arguments:tooManyOutputs");
         }
     } break;
     case 4:

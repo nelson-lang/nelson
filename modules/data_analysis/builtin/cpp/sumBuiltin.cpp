@@ -48,7 +48,7 @@ Nelson::DataAnalysisGateway::sumBuiltin(int nLhs, const ArrayOfVector& argIn)
                     withnan = false;
                 }
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_value", L"4");
+                raiseError2(L"nelson:validators:invalidValue", L"4");
             }
         } else {
             d = param2.getContentAsScalarIndex(false);
@@ -62,7 +62,7 @@ Nelson::DataAnalysisGateway::sumBuiltin(int nLhs, const ArrayOfVector& argIn)
             if ((wstr1 == L"double") || (wstr1 == L"native") || (wstr1 == L"default")) {
                 strtype = wstr1;
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_value", L"2");
+                raiseError2(L"nelson:validators:invalidValue", L"2");
             }
             std::wstring wstr2 = param3.getContentAsWideString();
             if ((wstr2 == L"includenan") || (wstr2 == L"omitnan")) {
@@ -72,7 +72,7 @@ Nelson::DataAnalysisGateway::sumBuiltin(int nLhs, const ArrayOfVector& argIn)
                     withnan = false;
                 }
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_value", L"3");
+                raiseError2(L"nelson:validators:invalidValue", L"3");
             }
         } else {
             d = param2.getContentAsScalarIndex(false);
@@ -86,7 +86,7 @@ Nelson::DataAnalysisGateway::sumBuiltin(int nLhs, const ArrayOfVector& argIn)
                     withnan = false;
                 }
             } else {
-                raiseError2(L"Nelson:error_manager:wrong_value", L"3");
+                raiseError2(L"nelson:validators:invalidValue", L"3");
             }
         }
     } break;
@@ -100,7 +100,7 @@ Nelson::DataAnalysisGateway::sumBuiltin(int nLhs, const ArrayOfVector& argIn)
         if ((wstr1 == L"double") || (wstr1 == L"native") || (wstr1 == L"default")) {
             strtype = wstr1;
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_value", L"3");
+            raiseError2(L"nelson:validators:invalidValue", L"3");
         }
         if ((wstr2 == L"includenan") || (wstr2 == L"omitnan")) {
             if (wstr2 == L"includenan") {
@@ -109,11 +109,11 @@ Nelson::DataAnalysisGateway::sumBuiltin(int nLhs, const ArrayOfVector& argIn)
                 withnan = false;
             }
         } else {
-            raiseError2(L"Nelson:error_manager:wrong_value", L"4");
+            raiseError2(L"nelson:validators:invalidValue", L"4");
         }
     } break;
     default: {
-        raiseError2(L"Nelson:error_manager:wrong_rhs");
+        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
     } break;
     }
     retval << Sum(X, d, strtype, withnan);

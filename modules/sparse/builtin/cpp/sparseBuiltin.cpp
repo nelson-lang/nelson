@@ -131,7 +131,7 @@ Nelson::SparseGateway::sparseBuiltin(int nLhs, const ArrayOfVector& argIn)
     case 6:
         return sparseBuiltinFiveOrSixRhs(nLhs, argIn);
     default: {
-        raiseError2(L"Nelson:error_manager:wrong_rhs");
+        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
     } break;
     }
     return retval;

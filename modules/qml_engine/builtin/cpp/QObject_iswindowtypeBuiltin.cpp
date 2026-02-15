@@ -35,7 +35,7 @@ Nelson::QmlEngineGateway::QObject_iswindowtypeBuiltin(int nLhs, const ArrayOfVec
         }
         retval.push_back(iswindowtypeQObject(param1));
     } else {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_HANDLE_STR);
+        raiseError2(L"nelson:validators:mustBeType", 1, NLS_HANDLE_STR);
     }
     return retval;
 }

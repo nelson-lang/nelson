@@ -24,7 +24,7 @@ Nelson::HandleGateway::handle_ispropBuiltin(int nLhs, const ArrayOfVector& argIn
     if (param1.isHandle()) {
         raiseError(L"Nelson:handle:ERROR_INVALID_NELSON_HANDLE", ERROR_INVALID_NELSON_HANDLE);
     } else {
-        raiseError2(L"Nelson:error_manager:wrong_type_with_expected", 1, NLS_HANDLE_STR);
+        raiseError2(L"nelson:validators:mustBeType", 1, NLS_HANDLE_STR);
     }
     return retval;
 }
