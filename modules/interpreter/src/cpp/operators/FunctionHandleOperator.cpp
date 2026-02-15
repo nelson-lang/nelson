@@ -35,8 +35,7 @@ Evaluator::functionHandleNamedOperator(AbstractSyntaxTreePtr t)
     if (cp) {
         functionHandle.anonymousHandle = reinterpret_cast<nelson_handle*>(cp);
     } else {
-        raiseError(L"Nelson:interpreter:ERROR_A_VALID_FUNCTION_NAME_EXPECTED",
-            ERROR_A_VALID_FUNCTION_NAME_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeValidFunctionName");
     }
     ArrayOf retval = ArrayOf::functionHandleConstructor(functionHandle);
     callstack.popID();
@@ -84,8 +83,7 @@ Evaluator::functionHandleAnonymousOperator(AbstractSyntaxTreePtr t)
     if (cp) {
         functionHandle.anonymousHandle = reinterpret_cast<nelson_handle*>(cp);
     } else {
-        raiseError(L"Nelson:interpreter:ERROR_A_VALID_FUNCTION_NAME_EXPECTED",
-            ERROR_A_VALID_FUNCTION_NAME_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeValidFunctionName");
     }
     ArrayOf retval = ArrayOf::functionHandleConstructor(functionHandle);
     callstack.popID();

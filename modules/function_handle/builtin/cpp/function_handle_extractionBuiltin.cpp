@@ -35,8 +35,8 @@ Nelson::FunctionHandleGateway::function_handle_extractionBuiltin(
                 }
                 retval = funcDef->evaluateFunction(eval, m, nLhs);
             } else {
-                raiseError(
-                    L"Nelson:function_handle:ERROR_FUNCTION_NOT_FOUND", ERROR_FUNCTION_NOT_FOUND);
+                raiseError2(
+                    L"nelson:runtime:functionNotFound", utf8_to_wstring(funcDef->getName()));
             }
         } else {
             raiseError(L"Nelson:function_handle:ERROR_EXPECTED_A_FUNCTION_HANDLE",

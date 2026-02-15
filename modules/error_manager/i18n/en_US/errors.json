@@ -11,5 +11,7 @@
   "nelson:internal:typeNotManaged": "Unsupported type.",
   "nelson:validators:mustBeScalar": "Argument {0} must be a scalar.",
   "nelson:runtime:typeNotSupported": "Type not supported.",
-  "nelson:validators:mustBeValidType": "Invalid type for argument {0}."
+  "nelson:validators:mustBeValidType": "Invalid type for argument {0}.",
+  "nelson:validators:mustBeValidFunctionName": "A valid function name expected.",
+  "nelson:runtime:functionNotFound": "Function not found: {0}"
 }

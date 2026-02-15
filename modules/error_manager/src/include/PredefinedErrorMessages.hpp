@@ -1584,7 +1584,6 @@
 #define ERROR_UNKNOWN_FUNCTION_NAME _W("Unknown function name.")
 #define ERROR_INVALID_FUNCTION_SPECIFICATION _W("Invalid function specification.")
 #define ERROR_INVALID_FUNCTION_HANDLE _W("Invalid function handle.")
-#define ERROR_A_VALID_FUNCTION_NAME_EXPECTED _W("A valid function name expected.")
 #define ERROR_FUNCTION_RETURNED_NON_SCALAR_RESULT _W("function returned non-scalar result")
 #define ERROR_CELL_EXPECTED _W("cell expected.")
 #define ERROR_WRONG_TYPE_ARG1_STRUCT_EXPECTED _W("Wrong type for argument #1. struct expected.")

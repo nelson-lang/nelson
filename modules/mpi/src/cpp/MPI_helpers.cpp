@@ -358,8 +358,7 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
                 new AnonymousMacroFunctionDef(anonymousContent, arguments, fieldnames, variables));
         }
         if (fh.anonymousHandle == nullptr) {
-            raiseError(L"Nelson:mpi:ERROR_A_VALID_FUNCTION_NAME_EXPECTED",
-                ERROR_A_VALID_FUNCTION_NAME_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeValidFunctionName");
         }
         return ArrayOf::functionHandleConstructor(fh);
     } break;

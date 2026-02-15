@@ -137,8 +137,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     }
                     ptrHistoryManager->setLastNCommandsSize(ivalue);
                 } else {
-                    raiseError2(
-                        L"nelson:validators:mustBeType", 1, NLS_DOUBLE_STR);
+                    raiseError2(L"nelson:validators:mustBeType", 1, NLS_DOUBLE_STR);
                 }
             } else {
                 raiseError2(L"nelson:validators:mustBeScalar", 2);
@@ -150,8 +149,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     logical bEnable = arg2.getContentAsLogicalScalar();
                     ptrHistoryManager->setSaveEnabled(bEnable ? true : false);
                 } else {
-                    raiseError2(
-                        L"nelson:validators:mustBeType", 2, NLS_LOGICAL_STR);
+                    raiseError2(L"nelson:validators:mustBeType", 2, NLS_LOGICAL_STR);
                 }
             } else {
                 raiseError2(L"nelson:validators:mustBeScalar", 2);
@@ -246,8 +244,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->setFilename(filename);
             } else {
-                raiseError2(
-                    L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
+                raiseError2(L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
             }
         } else if (str == L"load") {
             nargoutcheck(nLhs, 0, 0);
@@ -255,8 +252,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->loadFromFile(filename);
             } else {
-                raiseError2(
-                    L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
+                raiseError2(L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
             }
         } else if (str == L"save") {
             nargoutcheck(nLhs, 0, 0);
@@ -264,8 +260,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                 std::wstring filename = arg2.getContentAsWideString();
                 ptrHistoryManager->saveToFile(filename);
             } else {
-                raiseError2(
-                    L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
+                raiseError2(L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
             }
         } else if (str == L"duplicated") {
             nargoutcheck(nLhs, 0, 0);
@@ -274,8 +269,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     logical bDuplicated = arg2.getContentAsLogicalScalar();
                     ptrHistoryManager->setAllowDuplicatedLines(bDuplicated ? true : false);
                 } else {
-                    raiseError2(
-                        L"nelson:validators:mustBeType", 2, NLS_LOGICAL_STR);
+                    raiseError2(L"nelson:validators:mustBeType", 2, NLS_LOGICAL_STR);
                 }
             } else {
                 raiseError2(L"nelson:validators:mustBeType", 2, NLS_LOGICAL_STR);
@@ -287,8 +281,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     logical bRemove = arg2.getContentAsLogicalScalar();
                     ptrHistoryManager->setRemoveExit(bRemove ? true : false);
                 } else {
-                    raiseError2(
-                        L"nelson:validators:mustBeType", 2, NLS_LOGICAL_STR);
+                    raiseError2(L"nelson:validators:mustBeType", 2, NLS_LOGICAL_STR);
                 }
             } else {
                 raiseError2(L"nelson:validators:mustBeType", 2, NLS_LOGICAL_STR);
@@ -384,8 +377,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                         }
                         ptrHistoryManager->setSaveAfterNCommands(ivalue);
                     } else {
-                        raiseError2(
-                            L"nelson:validators:mustBeType", 2, NLS_DOUBLE_STR);
+                        raiseError2(L"nelson:validators:mustBeType", 2, NLS_DOUBLE_STR);
                     }
                 } else {
                     raiseError2(L"nelson:validators:mustBeScalar", 2);

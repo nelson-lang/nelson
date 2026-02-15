@@ -11,5 +11,6 @@
   "nelson:internal:typeNotManaged": "Type non pris en charge.",
   "nelson:validators:mustBeScalar": "L'argument {0} doit être un scalaire.",
   "nelson:runtime:typeNotSupported": "Type non supporté.",
-  "nelson:validators:mustBeValidType": "Type invalide pour l'argument {0}."
+  "nelson:validators:mustBeValidType": "Type invalide pour l'argument {0}.",
+  "nelson:validators:mustBeValidFunctionName": "Un nom de fonction valide est attendu."
 }

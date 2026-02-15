@@ -181,8 +181,7 @@ createFunctionHandleNamed(const std::string& name, function_handle& functionHand
     if (cp) {
         functionHandle.anonymousHandle = reinterpret_cast<nelson_handle*>(cp);
     } else {
-        raiseError(L"Nelson:dispatcher:ERROR_VALID_FUNCTION_NAME_EXPECTED",
-            ERROR_VALID_FUNCTION_NAME_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeValidFunctionName");
     }
 }
 //=============================================================================
@@ -226,8 +225,7 @@ createFunctionHandleAnonymous(const std::string& content, const stringVector& ar
     if (cp) {
         functionHandle.anonymousHandle = reinterpret_cast<nelson_handle*>(cp);
     } else {
-        raiseError(L"Nelson:dispatcher:ERROR_VALID_FUNCTION_NAME_EXPECTED",
-            ERROR_VALID_FUNCTION_NAME_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeValidFunctionName");
     }
 }
 //=============================================================================

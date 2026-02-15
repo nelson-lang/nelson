@@ -57,7 +57,7 @@ Nelson::TimeGateway::timeitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         funcDef = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
     }
     if (funcDef == nullptr) {
-        raiseError(L"Nelson:time:ERROR_FUNCTION_NOT_FOUND", ERROR_FUNCTION_NOT_FOUND);
+        raiseError2(L"nelson:runtime:functionNotFound", L"anonymous function");
     }
 
     if (argIn.size() > 2) {

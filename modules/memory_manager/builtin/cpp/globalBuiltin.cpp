@@ -26,8 +26,7 @@ Nelson::MemoryGateway::globalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     Context* context = eval->getContext();
     for (size_t k = 0; k < argIn.size(); k++) {
         if (!argIn[k].isRowVectorCharacterArray()) {
-            raiseError2(
-                L"nelson:validators:mustBeType", k + 1, NLS_STRING_ARRAY_STR);
+            raiseError2(L"nelson:validators:mustBeType", k + 1, NLS_STRING_ARRAY_STR);
         }
         std::string arg = argIn[k].getContentAsCString();
         if (!IsValidVariableName(arg)) {

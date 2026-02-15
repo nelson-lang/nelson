@@ -35,7 +35,7 @@ NargIn(Evaluator* eval, const std::wstring& functionName)
         }
         return fptr->inputArgCount();
     }
-    raiseError(L"Nelson:core:ERROR_FUNCTION_NOT_FOUND", ERROR_FUNCTION_NOT_FOUND);
+    raiseError2(L"nelson:runtime:functionNotFound", functionName);
     return -1;
 }
 //=============================================================================

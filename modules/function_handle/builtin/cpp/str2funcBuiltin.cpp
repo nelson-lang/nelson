@@ -31,8 +31,7 @@ Nelson::FunctionHandleGateway::str2funcBuiltin(
     }
     function_handle fptr = StringToFunctionHandle(eval, functionname);
     if (fptr.anonymousHandle == nullptr) {
-        raiseError(L"Nelson:function_handle:ERROR_VALID_FUNCTION_NAME_EXPECTED",
-            ERROR_VALID_FUNCTION_NAME_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeValidFunctionName");
     }
     retval << ArrayOf::functionHandleConstructor(fptr);
     return retval;

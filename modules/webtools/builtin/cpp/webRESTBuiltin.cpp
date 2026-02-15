@@ -63,8 +63,7 @@ Nelson::WebtoolsGateway::webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
     ArrayOf param5 = argIn[4];
     if (ClassName(param5) != "weboptions") {
-        raiseError2(L"nelson:validators:mustBeType", 5,
-            std::wstring(L"weboptions object"));
+        raiseError2(L"nelson:validators:mustBeType", 5, std::wstring(L"weboptions object"));
     }
     WebOptions options(param5);
     bool haveEventsLoop = eval->haveEventsLoop();

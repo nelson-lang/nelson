@@ -377,8 +377,8 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                     errorFunc = param.getContentAsFunctionHandle();
                     bHaveErrorHandlerArgs = true;
                 } else {
-                    raiseError2(L"nelson:validators:mustBeType", nbElementsInput,
-                        NLS_FUNCTION_HANDLE_STR);
+                    raiseError2(
+                        L"nelson:validators:mustBeType", nbElementsInput, NLS_FUNCTION_HANDLE_STR);
                 }
             }
         }
@@ -416,8 +416,8 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                         bHaveErrorHandlerArgs = true;
                     }
                 } else {
-                    raiseError2(L"nelson:validators:mustBeType", nbElementsInput,
-                        NLS_FUNCTION_HANDLE_STR);
+                    raiseError2(
+                        L"nelson:validators:mustBeType", nbElementsInput, NLS_FUNCTION_HANDLE_STR);
                 }
             }
         }
@@ -461,8 +461,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                 return isclass_cellfunBuiltin(eval, nLhs, argIn);
             }
             if (!eval->getContext()->lookupFunction(functionName, funcDef)) {
-                raiseError(L"Nelson:data_structures:ERROR_A_VALID_FUNCTION_NAME_EXPECTED",
-                    ERROR_A_VALID_FUNCTION_NAME_EXPECTED);
+                raiseError2(L"nelson:validators:mustBeValidFunctionName");
             }
         } else {
             function_handle fh = param1.getContentAsFunctionHandle();
@@ -470,8 +469,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                 funcDef = (FunctionDef*)fh.anonymousHandle;
             }
             if (funcDef == nullptr) {
-                raiseError(L"Nelson:data_structures:ERROR_A_VALID_FUNCTION_NAME_EXPECTED",
-                    ERROR_A_VALID_FUNCTION_NAME_EXPECTED);
+                raiseError2(L"nelson:validators:mustBeValidFunctionName");
             }
         }
     }

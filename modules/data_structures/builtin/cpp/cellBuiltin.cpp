@@ -107,8 +107,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     raiseError2(L"nelson:validators:mustBeScalar", k + 1);
                 }
             } else {
-                raiseError2(
-                    L"nelson:validators:mustBeType", k + 1, NLS_DOUBLE_STR);
+                raiseError2(L"nelson:validators:mustBeType", k + 1, NLS_DOUBLE_STR);
             }
         }
         dims.simplify();

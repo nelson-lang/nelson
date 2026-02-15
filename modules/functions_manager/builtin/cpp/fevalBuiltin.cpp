@@ -26,8 +26,7 @@ Nelson::FunctionsGateway::fevalBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     if (param1.isFunctionHandle()) {
         function_handle fh = param1.getContentAsFunctionHandle();
         if (fh.anonymousHandle == nullptr) {
-            raiseError2(
-                L"nelson:validators:mustBeType", 1, NLS_FUNCTION_HANDLE_STR);
+            raiseError2(L"nelson:validators:mustBeType", 1, NLS_FUNCTION_HANDLE_STR);
         }
         if (fh.anonymousHandle != nullptr) {
             funcDef = (FunctionDef*)fh.anonymousHandle;

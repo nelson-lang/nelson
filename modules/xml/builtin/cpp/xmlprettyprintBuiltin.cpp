@@ -33,8 +33,7 @@ Nelson::XmlGateway::xmlprettyprintBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else if (argIn[0].isCellArrayOfCharacterVectors() || argIn[0].isStringArray()) {
         xmlFilesOrDirectories = argIn[0].getContentAsWideStringVector();
     } else {
-        raiseError2(
-            L"nelson:validators:mustBeType", 1, ERROR_TYPE_CELL_OF_STRINGS);
+        raiseError2(L"nelson:validators:mustBeType", 1, ERROR_TYPE_CELL_OF_STRINGS);
     }
     if (argIn.size() > 1) {
         if (argIn[1].isLogical()) {

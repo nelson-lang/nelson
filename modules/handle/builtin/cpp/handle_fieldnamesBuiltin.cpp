@@ -35,7 +35,7 @@ Nelson::HandleGateway::handle_fieldnamesBuiltin(
     Context* context = eval->getContext();
     FunctionDef* funcDef = nullptr;
     if (!context->lookupFunction(functionNameGetHandle, funcDef)) {
-        raiseError(L"Nelson:handle:ERROR_FUNCTION_NOT_FOUND", ERROR_FUNCTION_NOT_FOUND);
+        raiseError2(L"nelson:runtime:functionNotFound", utf8_to_wstring(functionNameGetHandle));
     }
     if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)) {
         ArrayOfVector argInCopy;
@@ -45,7 +45,7 @@ Nelson::HandleGateway::handle_fieldnamesBuiltin(
         }
         retval = funcDef->evaluateFunction(eval, argInCopy, nLhs);
     } else {
-        raiseError(L"Nelson:handle:ERROR_FUNCTION_NOT_FOUND", ERROR_FUNCTION_NOT_FOUND);
+        raiseError2(L"nelson:runtime:functionNotFound", utf8_to_wstring(functionNameGetHandle));
     }
     return retval;
 }
