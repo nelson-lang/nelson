@@ -52,7 +52,7 @@ HorzCatSparseLogical(ArrayOf A, ArrayOf B)
         spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(newRowsSize, newColumnsSize);
     } catch (const std::bad_alloc&) {
         spMatC = nullptr;
-        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+        raiseError2(L"nelson:runtime:outOfMemory");
     }
     spMatC->middleCols(0, spMatA->cols()) = *spMatA;
     spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;

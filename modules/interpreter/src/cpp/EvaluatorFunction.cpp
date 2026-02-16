@@ -144,7 +144,7 @@ Evaluator::functionExpression(
                         try {
                             keywordNdx = new int[keywords.size()];
                         } catch (std::bad_alloc&) {
-                            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+                            raiseError2(L"nelson:runtime:outOfMemory");
                         }
                         int maxndx;
                         maxndx = 0;

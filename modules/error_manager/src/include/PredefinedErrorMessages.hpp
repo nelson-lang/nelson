@@ -402,7 +402,6 @@
 // SYSTEM & RESOURCE ERRORS
 //=============================================================================
 #define ERROR_INVALID_FILEID _W("Invalid file id.")
-#define ERROR_MEMORY_ALLOCATION _W("Memory allocation error... You may have run out of memory!")
 #define MSG_CTRL_C_DETECTED _W("Interrupt (ctrl-c) encountered.")
 
 // characters_encoding module messages

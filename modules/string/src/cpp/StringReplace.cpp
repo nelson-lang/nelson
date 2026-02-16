@@ -95,8 +95,7 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
                     try {
                         elements = new ArrayOf[nbOutput];
                     } catch (const std::bad_alloc&) {
-                        raiseError(
-                            L"Nelson:string:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+                        raiseError2(L"nelson:runtime:outOfMemory");
                     }
                     elements[0] = ArrayOf::characterArrayConstructor(result);
                     res = ArrayOf(outputClass, Dimensions(1, 1), elements);
@@ -121,7 +120,7 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
             try {
                 elements = new ArrayOf[nbOutput];
             } catch (const std::bad_alloc&) {
-                Error(ERROR_MEMORY_ALLOCATION);
+                raiseError2(L"nelson:runtime:outOfMemory");
             }
             for (size_t i = 0; i < nbOutput; i++) {
                 size_t idx_str = (i)*str_incr;
@@ -216,7 +215,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             try {
                 elements = new ArrayOf[wstr.size()];
             } catch (const std::bad_alloc&) {
-                raiseError(L"Nelson:string:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+                raiseError2(L"nelson:runtime:outOfMemory");
             }
             elements[0] = ArrayOf::characterArrayConstructor(wstr[0]);
             if (STR.isStringArray()) {
@@ -240,7 +239,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             try {
                 elements = new ArrayOf[wstr.size()];
             } catch (const std::bad_alloc&) {
-                raiseError(L"Nelson:string:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+                raiseError2(L"nelson:runtime:outOfMemory");
             }
             elements[0] = ArrayOf::characterArrayConstructor(wstr[0]);
             if (STR.isStringArray()) {
@@ -357,8 +356,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                         try {
                             elements = new ArrayOf[nbOutput];
                         } catch (const std::bad_alloc&) {
-                            raiseError(
-                                L"Nelson:string:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+                            raiseError2(L"nelson:runtime:outOfMemory");
                         }
                         elements[0] = ArrayOf::characterArrayConstructor(result);
                         res = ArrayOf(outputClass, Dimensions(1, 1), elements);
@@ -378,8 +376,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                         try {
                             elements = new ArrayOf[nbOutput];
                         } catch (const std::bad_alloc&) {
-                            raiseError(
-                                L"Nelson:string:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+                            raiseError2(L"nelson:runtime:outOfMemory");
                         }
                         res = ArrayOf(outputClass, outputDims, elements);
                     } else {
@@ -394,7 +391,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                 try {
                     elements = new ArrayOf[nbOutput];
                 } catch (const std::bad_alloc&) {
-                    raiseError(L"Nelson:string:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+                    raiseError2(L"nelson:runtime:outOfMemory");
                 }
                 if (wold.size() == wnew.size() && wnew.size() > 1) {
                     for (size_t i = 0; i < nbOutput; i++) {

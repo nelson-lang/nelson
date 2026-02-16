@@ -27,7 +27,7 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(int nLhs, const ArrayOfVector& arg
         try {
             libPointerObject = new LibPointerObject();
         } catch (const std::bad_alloc&) {
-            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+            raiseError2(L"nelson:runtime:outOfMemory");
         } catch (const Exception&) {
             throw;
         }
@@ -37,7 +37,7 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(int nLhs, const ArrayOfVector& arg
         try {
             libPointerObject = new LibPointerObject(DataType);
         } catch (const std::bad_alloc&) {
-            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+            raiseError2(L"nelson:runtime:outOfMemory");
         } catch (const Exception&) {
             throw;
         }
@@ -48,7 +48,7 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(int nLhs, const ArrayOfVector& arg
         try {
             libPointerObject = new LibPointerObject(DataType, Value);
         } catch (const std::bad_alloc&) {
-            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+            raiseError2(L"nelson:runtime:outOfMemory");
         } catch (const Exception&) {
             throw;
         }

@@ -40,7 +40,7 @@ SparseImagPart(const ArrayOf& a)
             void* pRes = (void*)spmat;
             res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
         } catch (const std::bad_alloc&) {
-            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+            raiseError2(L"nelson:runtime:outOfMemory");
         }
     } break;
     case NLS_DCOMPLEX: {
@@ -65,7 +65,7 @@ SparseImagPart(const ArrayOf& a)
             void* pRes = (void*)spmatDST;
             res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
         } catch (const std::bad_alloc&) {
-            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+            raiseError2(L"nelson:runtime:outOfMemory");
         }
     } break;
     default: {

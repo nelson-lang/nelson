@@ -48,7 +48,7 @@ GetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName)
                     qmlHandle = new QObjectHandleObject(qparent);
                 } catch (const std::bad_alloc&) {
                     qmlHandle = nullptr;
-                    raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+                    raiseError2(L"nelson:runtime:outOfMemory");
                 }
                 res = ArrayOf::handleConstructor(qmlHandle);
             }
@@ -80,7 +80,7 @@ GetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName)
                         qmlHandle = new QObjectHandleObject(childs[k]);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+                        raiseError2(L"nelson:runtime:outOfMemory");
                     }
                     nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }

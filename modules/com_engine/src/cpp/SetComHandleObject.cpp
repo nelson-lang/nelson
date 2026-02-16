@@ -40,7 +40,7 @@ SetComHandleObject(const ArrayOf& A, const std::wstring& propertyName, const Arr
         pVarResult = new VARIANT;
     } catch (const std::bad_alloc&) {
         pVarResult = nullptr;
-        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+        raiseError2(L"nelson:runtime:outOfMemory");
     }
     VariantInit(pVarResult);
     std::wstring errorMessage;
@@ -49,7 +49,7 @@ SetComHandleObject(const ArrayOf& A, const std::wstring& propertyName, const Arr
         param = new VARIANT();
     } catch (const std::bad_alloc&) {
         delete pVarResult;
-        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+        raiseError2(L"nelson:runtime:outOfMemory");
     }
     VariantInit(param);
     bool bSuccess = NelsonToComVariant(B, param, errorMessage);

@@ -31,7 +31,7 @@ Nelson::DynamicLinkGateway::dlopenBuiltin(int nLhs, const ArrayOfVector& argIn)
         try {
             dlObject = new DynamicLinkLibraryObject(libraryPath);
         } catch (const std::bad_alloc&) {
-            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+            raiseError2(L"nelson:runtime:outOfMemory");
         } catch (const Exception&) {
             throw;
         }

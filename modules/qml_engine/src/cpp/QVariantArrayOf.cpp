@@ -482,7 +482,7 @@ QVariantToArrayOf(QVariant Q)
                         qmlHandle = new QObjectHandleObject(qobject);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+                        raiseError2(L"nelson:runtime:outOfMemory");
                     }
                     nh[0] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }
@@ -512,7 +512,7 @@ QVariantToArrayOf(QVariant Q)
                         qmlHandle = new QObjectHandleObject(qobj);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+                        raiseError2(L"nelson:runtime:outOfMemory");
                     }
                     nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }
@@ -547,7 +547,7 @@ QVariantToArrayOf(QVariant Q)
                         qmlHandle = new QObjectHandleObject(qobj);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+                        raiseError2(L"nelson:runtime:outOfMemory");
                     }
                     nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }
@@ -573,7 +573,7 @@ QVariantToArrayOf(QVariant Q)
             qmlHandle = new QObjectHandleObject(obj);
         } catch (const std::bad_alloc&) {
             qmlHandle = nullptr;
-            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+            raiseError2(L"nelson:runtime:outOfMemory");
         }
         return ArrayOf::handleConstructor(qmlHandle);
     } break;

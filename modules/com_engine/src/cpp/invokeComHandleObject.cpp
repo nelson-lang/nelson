@@ -47,7 +47,7 @@ invokeComHandleObject(const ArrayOf& A, const std::wstring& wmethodname,
     try {
         pVarResult = new VARIANT;
     } catch (const std::bad_alloc&) {
-        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+        raiseError2(L"nelson:runtime:outOfMemory");
     }
     if (pVarResult) {
         size_t nbParams = params.size();
@@ -58,7 +58,7 @@ invokeComHandleObject(const ArrayOf& A, const std::wstring& wmethodname,
             } catch (const std::bad_alloc&) {
                 delete pVarResult;
                 pVarResult = nullptr;
-                raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+                raiseError2(L"nelson:runtime:outOfMemory");
             }
             std::wstring errorMessage;
             for (size_t k = 0; k < nbParams; k++) {

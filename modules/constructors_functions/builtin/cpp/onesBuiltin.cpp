@@ -96,7 +96,7 @@ Nelson::ConstructorsGateway::onesBuiltin(int nLhs, const ArrayOfVector& argIn)
             cl = StringToClass(lastArg.getContentAsCString());
             nRhs--;
             if (cl > NLS_LOGICAL) {
-                Error(_W("A supported type expected at last argument."));
+                raiseError(L"Nelson:constructors_functions:ERROR_SUPPORTED_TYPE_EXPECTED_LAST_ARGUMENT", ERROR_SUPPORTED_TYPE_EXPECTED_LAST_ARGUMENT);
             }
         }
         if (nRhs == 0) {

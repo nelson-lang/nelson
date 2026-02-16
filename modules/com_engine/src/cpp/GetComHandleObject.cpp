@@ -50,7 +50,7 @@ GetComHandleObject(const ArrayOf& A, const std::wstring& propertyName, const Arr
             } catch (const std::bad_alloc&) {
                 delete pVarResult;
                 pVarResult = nullptr;
-                raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+                raiseError2(L"nelson:runtime:outOfMemory");
             }
             std::wstring errorMessage;
             for (size_t k = 0; k < nbParams; k++) {
@@ -81,7 +81,7 @@ GetComHandleObject(const ArrayOf& A, const std::wstring& propertyName, const Arr
             Error(errorMessage, L"Nelson:com_engine:ERROR_COM_MESSAGE");
         }
     } else {
-        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+        raiseError2(L"nelson:runtime:outOfMemory");
     }
     return res;
 }

@@ -126,7 +126,7 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
                 taskList[k]->evaluateCommand(commands[k], timeouts[k]);
             });
         } catch (const std::bad_alloc&) {
-            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+            raiseError2(L"nelson:runtime:outOfMemory");
         }
     }
 

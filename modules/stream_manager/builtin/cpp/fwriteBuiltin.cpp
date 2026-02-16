@@ -94,8 +94,7 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                 raiseError2(L"nelson:runtime:typeNotSupported");
             } break;
             case FWRITE_ALLOCATION_MEMORY: {
-                raiseError(
-                    L"Nelson:stream_manager:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+                raiseError2(L"nelson:runtime:outOfMemory");
             } break;
             case FWRITE_FILE_DESTINATION_NOT_SUPPORTED:
             case FWRITE_INVALID_FILE: {

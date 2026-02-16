@@ -141,7 +141,7 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(const ArrayOf& dllibObject, voi
     buildPrototype();
     ffi_type** args = (ffi_type**)malloc(sizeof(ffi_type*) * _paramsTypes.size());
     if (!args) {
-        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+        raiseError2(L"nelson:runtime:outOfMemory");
     } else {
         size_t i = 0;
         for (const std::wstring& param : _paramsTypes) {
@@ -378,7 +378,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
             try {
                 obj = new LibPointerObject(returnedValue);
             } catch (const std::bad_alloc&) {
-                Error(ERROR_MEMORY_ALLOCATION);
+                raiseError2(L"nelson:runtime:outOfMemory");
             }
             retval << ArrayOf::handleConstructor(obj);
         }

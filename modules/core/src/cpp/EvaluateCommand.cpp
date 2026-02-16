@@ -16,6 +16,7 @@
 #include "characters_encoding.hpp"
 #include "NelsonPrint.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "TranslationManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -170,7 +171,7 @@ EvaluateConsoleCommand(
     try {
         tempIO = new EvaluateInterface();
     } catch (const std::bad_alloc&) {
-        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+        raiseError2(L"nelson:runtime:outOfMemory");
     }
     setPrintInterface(tempIO);
     eval->setInterface(tempIO);
@@ -224,7 +225,7 @@ EvaluateConsoleCommandToString(Evaluator* eval, const std::wstring& command, std
     try {
         tempIO = new EvaluateInterface();
     } catch (const std::bad_alloc&) {
-        result = _W("Error:") + _W(ERROR_MEMORY_ALLOCATION);
+        result = _W("Error:") + TranslationManager::getInstance().getError(L"nelson:runtime:outOfMemory");
         return success;
     }
     setPrintInterface(tempIO);

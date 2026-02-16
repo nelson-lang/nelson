@@ -53,7 +53,7 @@ IJVToAllocatedEigenSparse(const std::vector<uint64>& I, const std::vector<uint64
 
         } catch (const std::bad_alloc&) {
             spMat = nullptr;
-            raiseError(L"Nelson:stream_manager:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+            raiseError2(L"nelson:runtime:outOfMemory");
         }
         if (spMat) {
             spMat->setFromTriplets(tripletList.begin(), tripletList.end());

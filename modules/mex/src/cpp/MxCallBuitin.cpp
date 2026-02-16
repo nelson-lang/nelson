@@ -36,7 +36,7 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
             mxArgsIn = static_cast<mxArray**>(mxMalloc(sizeof(mxArray*) * argIn.size()));
         }
     } catch (const std::bad_alloc&) {
-        Nelson::raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+        Nelson::raiseError2(L"nelson:runtime:outOfMemory");
     }
     int nlhs = (int)argIn.size();
     int lhsCount = (nargout < 1) ? 1 : nargout;
@@ -65,7 +65,7 @@ mxCallBuiltin(void* fptr, const Nelson::ArrayOfVector& argIn, int nargout,
         }
         mxFree(mxArgsIn);
         mxArgsIn = nullptr;
-        Nelson::raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+        Nelson::raiseError2(L"nelson:runtime:outOfMemory");
     }
 
     if (mxArgsIn != nullptr) {

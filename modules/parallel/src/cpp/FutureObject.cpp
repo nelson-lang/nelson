@@ -20,6 +20,7 @@
 #include "HandleManager.hpp"
 #include "FutureObjectHelpers.hpp"
 #include "i18n.hpp"
+#include "TranslationManager.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "WaitFutures.hpp"
 //=============================================================================
@@ -312,7 +313,9 @@ FutureObject::evaluateFunction(
             evaluateInterface = new EvaluateInterface();
         } catch (std::bad_alloc&) {
             state = THREAD_STATE::FINISHED;
-            _exception = ERROR_MEMORY_ALLOCATION;
+            std::wstring identifier = L"nelson:runtime:outOfMemory";
+            std::wstring msg = TranslationManager::getInstance().getError(identifier);
+            _exception = Exception(msg, identifier);
             endDateTime = (uint64)getEpoch();
             return;
         }
@@ -359,8 +362,10 @@ FutureObject::evaluateFunction(
         }
         if (NelsonConfiguration::getInstance()->getInterruptPending(evaluator->getID())) {
             state = THREAD_STATE::FINISHED;
-            _exception = Exception(_W("Execution of the future was cancelled."),
-                L"parallel:fevalqueue:ExecutionCancelled");
+            std::wstring identifier = L"parallel:fevalqueue:ExecutionCancelled";
+            std::wstring msg = TranslationManager::getInstance().getError(identifier);
+            _exception = Exception(msg, identifier);
+
         }
         endDateTime = (uint64)getEpoch();
     }

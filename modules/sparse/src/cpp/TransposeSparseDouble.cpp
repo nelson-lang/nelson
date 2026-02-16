@@ -33,7 +33,7 @@ TransposeSparseDouble(const ArrayOf& A)
                     spMatA->cols(), spMatA->rows());
             } catch (const std::bad_alloc&) {
                 spMatC = nullptr;
-                raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+                raiseError2(L"nelson:runtime:outOfMemory");
             }
             *spMatC = spMatA->transpose();
             Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());
@@ -47,7 +47,7 @@ TransposeSparseDouble(const ArrayOf& A)
                     spMatA->cols(), spMatA->rows());
             } catch (const std::bad_alloc&) {
                 spMatC = nullptr;
-                raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+                raiseError2(L"nelson:runtime:outOfMemory");
             }
             *spMatC = spMatA->transpose();
             Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());

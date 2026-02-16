@@ -61,8 +61,7 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
                             try {
                                 elements = new ArrayOf[nbElements];
                             } catch (const std::bad_alloc&) {
-                                raiseError(L"Nelson:string:ERROR_MEMORY_ALLOCATION",
-                                    ERROR_MEMORY_ALLOCATION);
+                                raiseError2(L"nelson:runtime:outOfMemory");
                             }
                             for (size_t k = 0; k < nbElements; k++) {
                                 // ArrayOf *cellA = (ArrayOf*)(A.getDataPointer());
@@ -88,7 +87,7 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
                 try {
                     elements = new ArrayOf[nbElements];
                 } catch (const std::bad_alloc&) {
-                    raiseError(L"Nelson:string:ERROR_MEMORY_ALLOCATION", ERROR_MEMORY_ALLOCATION);
+                    raiseError2(L"nelson:runtime:outOfMemory");
                 }
                 for (size_t k = 0; k < nbElements; k++) {
                     auto* cellA = (ArrayOf*)(A.getDataPointer());

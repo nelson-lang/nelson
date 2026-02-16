@@ -153,7 +153,7 @@ BackgroundPoolObject::feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& ar
             retFuture = new FevalFutureObject(L"@" + utf8_to_wstring(fptr->getName()));
         }
     } catch (std::bad_alloc&) {
-        raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+        raiseError2(L"nelson:runtime:outOfMemory");
     }
     auto future = threadPool->submit_task(
         [retFuture, fptr, nLhs, argIn]() { retFuture->evaluateFunction(fptr, nLhs, argIn, true); });

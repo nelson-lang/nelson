@@ -22,6 +22,7 @@
 #include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "TranslationManager.hpp"
 #include "FileSystemWrapper.hpp"
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
@@ -241,7 +242,7 @@ fscanfInternal(FILE* filepointer, const std::string& format, double m, double n,
         try {
             buff = new char[format.size() + 1];
         } catch (std::bad_alloc&) {
-            errorMessage = wstring_to_utf8(ERROR_MEMORY_ALLOCATION);
+            errorMessage = wstring_to_utf8(TranslationManager::getInstance().getError(L"nelson:runtime:outOfMemory"));
             return {};
         }
         strcpy(buff, format.c_str());

@@ -38,7 +38,7 @@ cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* ev
         try {
             elements = new ArrayOf[nbElements];
         } catch (const std::bad_alloc&) {
-            raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+            raiseError2(L"nelson:runtime:outOfMemory");
         }
         for (size_t k = 0; k < nbElements; k++) {
             elements[k] = ArrayOf::emptyConstructor();

@@ -53,7 +53,7 @@ findchildrenQObject(const ArrayOf& H, const std::wstring& fieldname, bool bRecur
                     qmlHandle = new QObjectHandleObject(qobjfound[k]);
                 } catch (const std::bad_alloc&) {
                     qmlHandle = nullptr;
-                    raiseError(L"nelson:runtime:outOfMemory", ERROR_MEMORY_ALLOCATION);
+                    raiseError2(L"nelson:runtime:outOfMemory");
                 }
                 nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
             }
