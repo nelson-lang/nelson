@@ -94,7 +94,7 @@ invokeQObject(const ArrayOf& A, const std::wstring& wmethodname, const ArrayOfVe
             raiseError(L"Nelson:qml_engine:ERROR_INVALID_PARAMETERS", ERROR_INVALID_PARAMETERS);
         }
     } else {
-        raiseError(L"Nelson:qml_engine:ERROR_METHOD_NOT_FOUND", ERROR_METHOD_NOT_FOUND);
+        raiseError2(L"nelson:runtime:methodNotFound", wmethodname);
     }
     return res;
 }

@@ -62,7 +62,7 @@ Nelson::MemoryGateway::acquirevarBuiltin(Evaluator* eval, int nLhs, const ArrayO
         if (bFind) {
             retval << value;
         } else {
-            raiseError(L"Nelson:memory_manager:ERROR_VARIABLE_NOT_FOUND", ERROR_VARIABLE_NOT_FOUND);
+            raiseError2(L"nelson:runtime:variableNotFound", varname);
         }
     } else // argIn.size() == 3
     {

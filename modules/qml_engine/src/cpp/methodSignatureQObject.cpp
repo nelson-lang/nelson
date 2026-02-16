@@ -55,10 +55,10 @@ methodSignatureQObject(const ArrayOf& A, const std::wstring& methodName)
     std::wstring signature;
     bool res = methodSignatureQObject(qmlhandleobj, methodName, signature);
     if (res == false) {
-        raiseError(L"Nelson:qml:ERROR_METHOD_NOT_FOUND", ERROR_METHOD_NOT_FOUND);
+        raiseError2(L"nelson:runtime:methodNotFound", methodName);
+
+        return ArrayOf::characterArrayConstructor(signature);
     }
-    return ArrayOf::characterArrayConstructor(signature);
-}
-//=============================================================================
+    //=============================================================================
 }
 //=============================================================================

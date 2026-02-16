@@ -1540,7 +1540,6 @@
 #define ERROR_QOBJECT_VALID_HANDLE_EXPECTED _W("QObject valid handle expected.")
 #define ERROR_NO_PARENT _W("No parent.")
 #define ERROR_INVALID_PARAMETERS _W("Invalid parameters")
-#define ERROR_METHOD_NOT_FOUND _W("method not found.")
 #define ERROR_QVARIANT_INVALID _W("QVariant invalid.")
 #define ERROR_QML_ENGINE_NOT_INITIALIZED _W("QML engine not initialized.")
 #define ERROR_CANNOT_CREATE_QQUICKVIEW _W("Cannot create QQuickView.")

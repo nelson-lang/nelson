@@ -116,8 +116,7 @@ JuliaRunFile(Interface* io, bool haveEventsLoop, const std::wstring& filename,
             std::string name = wstring_to_utf8(variableName);
             jl_value_t* x_value = NLSjl_get_global(jl_main_module, NLSjl_symbol(name.c_str()));
             if (!x_value) {
-                raiseError(L"Nelson:julia_engine:ERROR_VARIABLE_NOT_FOUND",
-                    ERROR_VARIABLE_NOT_FOUND, variableName);
+                raiseError2(L"nelson:runtime:variableNotFound", variableName);
             }
             retval << jl_value_tToArrayOf(x_value);
         }

@@ -151,8 +151,7 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
                 L"Nelson:hdf5:ERROR_INVALID_VARIABLE_NAME", ERROR_INVALID_VARIABLE_NAME, name);
         }
         if (!eval->getContext()->isVariable(name)) {
-            raiseError(
-                L"Nelson:hdf5:ERROR_VARIABLE_DOES_NOT_EXIST", ERROR_VARIABLE_DOES_NOT_EXIST, name);
+            raiseError2(L"nelson:runtime:variableNotFound", name);
         }
     }
 

@@ -81,8 +81,7 @@ SaveMatioFile(Evaluator* eval, const std::wstring& filename, const wstringVector
                 L"Nelson:matio:ERROR_INVALID_VARIABLE_NAME", ERROR_INVALID_VARIABLE_NAME, name);
         }
         if (!eval->getContext()->isVariable(name)) {
-            raiseError(
-                L"Nelson:matio:ERROR_VARIABLE_DOES_NOT_EXIST", ERROR_VARIABLE_DOES_NOT_EXIST, name);
+            raiseError2(L"nelson:runtime:variableNotFound", name);
         }
     }
 

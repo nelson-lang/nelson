@@ -110,5 +110,7 @@
   "nelson:validators:mustBeStruct": "Value must be a struct.",
   "nelson:validators:mustBeQVariantType": "Value must be a QVariant type.",
   "nelson:validators:mustBeSameSize": "Value must be the same size.",
-  "nelson:validators:mustBeSquareMatrix": "Value must be a square matrix."
+  "nelson:validators:mustBeSquareMatrix": "Value must be a square matrix.",
+  "nelson:runtime:methodNotFound": "Method not found: '{0}'.",
+  "nelson:runtime:variableNotFound": "Variable does not exist: '{0}'."
 }
