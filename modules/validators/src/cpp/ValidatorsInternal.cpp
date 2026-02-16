@@ -38,6 +38,97 @@ evaluateFunction(const ArrayOfVector& args, int nLhs, const std::string& functio
     return argOut;
 }
 //=============================================================================
+static void
+raiseValidatorError(bool asCaller, const std::wstring& baseErrorId, int argPosition,
+    const std::wstring& extraArg = L"")
+{
+    if (argPosition > 0) {
+        std::wstring errorIdWithPosition = baseErrorId + L"AtPosition";
+        if (extraArg.empty()) {
+            raiseErrorAsCaller(asCaller, errorIdWithPosition, argPosition);
+        } else {
+            raiseErrorAsCaller(asCaller, errorIdWithPosition, argPosition, extraArg);
+        }
+    } else {
+        if (extraArg.empty()) {
+            raiseErrorAsCaller(asCaller, baseErrorId);
+        } else {
+            raiseErrorAsCaller(asCaller, baseErrorId, extraArg);
+        }
+    }
+}
+//=============================================================================
+static ArrayOf
+reshapeToVector(const ArrayOf& arg)
+{
+    Dimensions dimsA = arg.getDimensions();
+    Dimensions dimsV(1, dimsA.getElementCount());
+    ArrayOf asVector = arg;
+    asVector.reshape(dimsV);
+    return asVector;
+}
+//=============================================================================
+static void
+validateWithFunction(const ArrayOf& arg, const std::string& functionName,
+    const std::wstring& errorId, int argPosition, bool asCaller, bool expectTrue = true)
+{
+    ArrayOfVector argIn(arg);
+    ArrayOfVector argOut = evaluateFunction(argIn, 1, functionName);
+    bool result = argOut[0].getContentAsLogicalScalar();
+    if (result != expectTrue) {
+        raiseValidatorError(asCaller, errorId, argPosition);
+    }
+}
+//=============================================================================
+static void
+validateComparison(const ArrayOf& arg, const std::string& operatorStr,
+    const std::wstring& errorId, int argPosition, bool asCaller)
+{
+    mustBeNumericOrLogical(arg, argPosition, asCaller);
+    mustBeReal(arg, argPosition, asCaller);
+    ArrayOf asVector = reshapeToVector(arg);
+    ArrayOfVector vAsArrayOfVector(asVector);
+    vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
+    ArrayOfVector argOut = evaluateFunction(vAsArrayOfVector, 1, operatorStr);
+    argOut = evaluateFunction(argOut, 1, "all");
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        raiseValidatorError(asCaller, errorId, argPosition);
+    }
+}
+//=============================================================================
+static bool
+compareWithScalar(const ArrayOf& arg, const ArrayOf& c, const std::string& operatorStr)
+{
+    ArrayOf asVector = reshapeToVector(arg);
+    ArrayOfVector params(asVector);
+    params.push_back(c);
+    ArrayOfVector argOut = evaluateFunction(params, 1, operatorStr);
+    argOut = evaluateFunction(argOut, 1, "all");
+    return argOut[0].getContentAsLogicalScalar();
+}
+//=============================================================================
+static void
+validateComparisonArguments(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCaller,
+    const std::wstring& functionName)
+{
+    ArrayOfVector argC(c);
+    ArrayOfVector argOut = evaluateFunction(argC, 1, "isscalar");
+    if (!argOut[0].getContentAsLogicalScalar()) {
+        raiseErrorAsCaller(
+            asCaller, L"nelson:validators:InvalidInputPositionAtSecondPosition", functionName);
+    }
+    argOut = evaluateFunction(argC, 1, "isnumeric");
+    bool isLogical = (c.isLogical() || ClassName(c) == "logical");
+    bool isNumeric = argOut[0].getContentAsLogicalScalar();
+    if (!isNumeric && !isLogical) {
+        raiseErrorAsCaller(
+            asCaller, L"nelson:validators:InvalidInputPositionAtFirstPosition", functionName);
+    }
+    mustBeNumericOrLogical(arg, argPosition, asCaller);
+    mustBeReal(c, 0, asCaller);
+    mustBeReal(arg, argPosition, asCaller);
+}
+//=============================================================================
 void
 mustBeLogical(const ArrayOf& arg, int argPosition, bool asCaller)
 {
@@ -46,12 +137,7 @@ mustBeLogical(const ArrayOf& arg, int argPosition, bool asCaller)
     if (!argOut[0].getContentAsLogicalScalar()) {
         bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
         if (!isLogical) {
-            if (argPosition > 0) {
-                raiseErrorAsCaller(
-                    asCaller, L"nelson:validators:mustBeLogicalAtPosition", argPosition);
-            } else {
-                raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeLogical");
-            }
+            raiseValidatorError(asCaller, L"nelson:validators:mustBeLogical", argPosition);
         }
     }
 }
@@ -59,36 +145,19 @@ mustBeLogical(const ArrayOf& arg, int argPosition, bool asCaller)
 void
 mustBeFinite(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    bool asLogicalIsAllFinite = false;
-    ArrayOfVector argIn(arg);
-    Dimensions dimsA = argIn[0].getDimensions();
-    Dimensions dimsV(1, dimsA.getElementCount());
-    ArrayOf asVector = argIn[0];
-    asVector.reshape(dimsV);
+    ArrayOf asVector = reshapeToVector(arg);
     ArrayOfVector argOut = evaluateFunction(asVector, 1, "isfinite");
     argOut = evaluateFunction(argOut, 1, "all");
     if (!argOut[0].getContentAsLogicalScalar()) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeFiniteAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeFinite");
-        }
+        raiseValidatorError(asCaller, L"nelson:validators:mustBeFinite", argPosition);
     }
 }
 //=============================================================================
 void
 mustBeNonempty(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(arg, 1, "isempty");
-    if (argOut[0].getContentAsLogicalScalar()) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(
-                asCaller, L"nelson:validators:mustBeNonemptyAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeNonempty");
-        }
-    }
+    validateWithFunction(
+        arg, "isempty", L"nelson:validators:mustBeNonempty", argPosition, asCaller, false);
 }
 //=============================================================================
 void
@@ -102,12 +171,7 @@ mustBeLogicalScalar(const ArrayOf& arg, int argPosition, bool asCaller)
             return;
         }
     }
-    if (argPosition > 0) {
-        raiseErrorAsCaller(
-            asCaller, L"nelson:validators:mustBeLogicalScalarAtPosition", argPosition);
-    } else {
-        raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeLogicalScalar");
-    }
+    raiseValidatorError(asCaller, L"nelson:validators:mustBeLogicalScalar", argPosition);
 }
 //=============================================================================
 void
@@ -118,12 +182,8 @@ mustBeScalarOrEmpty(const ArrayOf& arg, int argPosition, bool asCaller)
     if (!argOut[0].getContentAsLogicalScalar()) {
         argOut = evaluateFunction(argIn, 1, "isscalar");
         if (!argOut[0].getContentAsLogicalScalar()) {
-            if (argPosition > 0) {
-                raiseErrorAsCaller(
-                    asCaller, L"nelson:validators:mustBeScalarOrEmptyAtPosition", argPosition);
-            } else {
-                raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeScalarOrEmpty");
-            }
+            raiseValidatorError(
+                asCaller, L"nelson:validators:mustBeScalarOrEmpty", argPosition);
         }
     }
 }
@@ -136,12 +196,8 @@ mustBeValidVariableName(const ArrayOf& arg, int argPosition, bool asCaller)
         isvarname = IsValidVariableName(arg.getContentAsWideString());
     }
     if (!isvarname) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(
-                asCaller, L"nelson:validators:mustBeValidVariableNameAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeValidVariableName");
-        }
+        raiseValidatorError(
+            asCaller, L"nelson:validators:mustBeValidVariableName", argPosition);
     }
 }
 //=============================================================================
@@ -151,11 +207,7 @@ mustBeText(const ArrayOf& arg, int argPosition, bool asCaller)
     bool isText = arg.isRowVectorCharacterArray() || arg.isStringArray()
         || arg.isCellArrayOfCharacterVectors();
     if (!isText) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeTextAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeText");
-        }
+        raiseValidatorError(asCaller, L"nelson:validators:mustBeText", argPosition);
     }
 }
 //=============================================================================
@@ -164,43 +216,22 @@ mustBeTextScalar(const ArrayOf& arg, int argPosition, bool asCaller)
 {
     bool isTextScalar = arg.isRowVectorCharacterArray() || (arg.isStringArray() && arg.isScalar());
     if (!isTextScalar) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(
-                asCaller, L"nelson:validators:mustBeTextScalarAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeTextScalar");
-        }
+        raiseValidatorError(asCaller, L"nelson:validators:mustBeTextScalar", argPosition);
     }
 }
 //=============================================================================
 void
 mustBeFolder(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    ArrayOfVector argIn(arg);
     mustBeTextScalar(arg, argPosition, asCaller);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isdir");
-    if (!argOut[0].getContentAsLogicalScalar()) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeFolderAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeFolder");
-        }
-    }
+    validateWithFunction(arg, "isdir", L"nelson:validators:mustBeFolder", argPosition, asCaller);
 }
 //=============================================================================
 void
 mustBeFile(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    ArrayOfVector argIn(arg);
     mustBeTextScalar(arg, argPosition, asCaller);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isfile");
-    if (!argOut[0].getContentAsLogicalScalar()) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeFileAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeFile");
-        }
-    }
+    validateWithFunction(arg, "isfile", L"nelson:validators:mustBeFile", argPosition, asCaller);
 }
 //=============================================================================
 void
@@ -215,96 +246,48 @@ mustBeVector(const ArrayOf& arg, bool allowsAllEmpties, int argPosition, bool as
         isVectorOrEmpty = argOut[0].getContentAsLogicalScalar();
     }
     if (!isVectorOrEmpty) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeVectorAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeVector");
-        }
+        raiseValidatorError(asCaller, L"nelson:validators:mustBeVector", argPosition);
     }
 }
 //=============================================================================
 void
 mustBeFloat(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isfloat");
-    if (!argOut[0].getContentAsLogicalScalar()) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeFloatAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeFloat");
-        }
-    }
+    validateWithFunction(arg, "isfloat", L"nelson:validators:mustBeFloat", argPosition, asCaller);
 }
 //=============================================================================
 void
 mustBeMatrix(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "ismatrix");
-    if (!argOut[0].getContentAsLogicalScalar()) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeMatrixAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeMatrix");
-        }
-    }
+    validateWithFunction(
+        arg, "ismatrix", L"nelson:validators:mustBeMatrix", argPosition, asCaller);
 }
 //=============================================================================
 void
 mustBeRow(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isrow");
-    if (!argOut[0].getContentAsLogicalScalar()) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeRowAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeRow");
-        }
-    }
+    validateWithFunction(arg, "isrow", L"nelson:validators:mustBeRow", argPosition, asCaller);
 }
 //=============================================================================
 void
 mustBeColumn(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "iscolumn");
-    if (!argOut[0].getContentAsLogicalScalar()) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeColumnAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeColumn");
-        }
-    }
+    validateWithFunction(
+        arg, "iscolumn", L"nelson:validators:mustBeColumn", argPosition, asCaller);
 }
 //=============================================================================
 void
 mustBeSparse(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "issparse");
-    if (!argOut[0].getContentAsLogicalScalar()) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeSparseAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeSparse");
-        }
-    }
+    validateWithFunction(
+        arg, "issparse", L"nelson:validators:mustBeSparse", argPosition, asCaller);
 }
 //=============================================================================
 void
 mustBeNumeric(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isnumeric");
-    if (!argOut[0].getContentAsLogicalScalar()) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeNumericAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeNumeric", argPosition);
-        }
-    }
+    validateWithFunction(
+        arg, "isnumeric", L"nelson:validators:mustBeNumeric", argPosition, asCaller);
 }
 //=============================================================================
 void
@@ -342,133 +325,29 @@ mustBeA(const ArrayOf& arg, const wstringVector& classNames, int argPosition, bo
 void
 mustBePositive(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    mustBeNumericOrLogical(arg, argPosition, asCaller);
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isreal");
-    bool isReal = argOut[0].getContentAsLogicalScalar();
-    if (!isReal) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeRealAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeReal");
-        }
-    }
-    Dimensions dimsA = argIn[0].getDimensions();
-    Dimensions dimsV(1, dimsA.getElementCount());
-    ArrayOf asVector = argIn[0];
-    asVector.reshape(dimsV);
-    ArrayOfVector vAsArrayOfVector(asVector);
-    vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
-    argOut = evaluateFunction(vAsArrayOfVector, 1, GT_OPERATOR_STR);
-    argOut = evaluateFunction(argOut, 1, "all");
-    bool isPositive = argOut[0].getContentAsLogicalScalar();
-    if (!isPositive) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(
-                asCaller, L"nelson:validators:mustBePositiveAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBePositive");
-        }
-    }
+    validateComparison(
+        arg, GT_OPERATOR_STR, L"nelson:validators:mustBePositive", argPosition, asCaller);
 }
 //=============================================================================
 void
 mustBeNonpositive(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    mustBeNumericOrLogical(arg, argPosition, asCaller);
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isreal");
-    bool isReal = argOut[0].getContentAsLogicalScalar();
-    if (!isReal) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeRealAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeReal");
-        }
-    }
-    Dimensions dimsA = argIn[0].getDimensions();
-    Dimensions dimsV(1, dimsA.getElementCount());
-    ArrayOf asVector = argIn[0];
-    asVector.reshape(dimsV);
-    ArrayOfVector vAsArrayOfVector(asVector);
-    vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
-    argOut = evaluateFunction(vAsArrayOfVector, 1, LE_OPERATOR_STR);
-    argOut = evaluateFunction(argOut, 1, "all");
-    bool isNonpositive = argOut[0].getContentAsLogicalScalar();
-    if (!isNonpositive) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(
-                asCaller, L"nelson:validators:mustBeNonpositiveAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeNonpositive");
-        }
-    }
+    validateComparison(
+        arg, LE_OPERATOR_STR, L"nelson:validators:mustBeNonpositive", argPosition, asCaller);
 }
 //=============================================================================
 void
 mustBeNonnegative(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    mustBeNumericOrLogical(arg, argPosition, asCaller);
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isreal");
-    bool isReal = argOut[0].getContentAsLogicalScalar();
-    if (!isReal) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeRealAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeReal");
-        }
-    }
-    Dimensions dimsA = argIn[0].getDimensions();
-    Dimensions dimsV(1, dimsA.getElementCount());
-    ArrayOf asVector = argIn[0];
-    asVector.reshape(dimsV);
-    ArrayOfVector vAsArrayOfVector(asVector);
-    vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
-    argOut = evaluateFunction(vAsArrayOfVector, 1, GE_OPERATOR_STR);
-    argOut = evaluateFunction(argOut, 1, "all");
-    bool isNonnegative = argOut[0].getContentAsLogicalScalar();
-    if (!isNonnegative) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(
-                asCaller, L"nelson:validators:mustBeNonnegativeAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeNonnegative");
-        }
-    }
+    validateComparison(
+        arg, GE_OPERATOR_STR, L"nelson:validators:mustBeNonnegative", argPosition, asCaller);
 }
 //=============================================================================
 void
 mustBeNegative(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    mustBeNumericOrLogical(arg, argPosition, asCaller);
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isreal");
-    bool isReal = argOut[0].getContentAsLogicalScalar();
-    if (!isReal) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeRealAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeReal");
-        }
-    }
-    Dimensions dimsA = argIn[0].getDimensions();
-    Dimensions dimsV(1, dimsA.getElementCount());
-    ArrayOf asVector = argIn[0];
-    asVector.reshape(dimsV);
-    ArrayOfVector vAsArrayOfVector(asVector);
-    vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
-    argOut = evaluateFunction(vAsArrayOfVector, 1, LT_OPERATOR_STR);
-    argOut = evaluateFunction(argOut, 1, "all");
-    bool isNegative = argOut[0].getContentAsLogicalScalar();
-    if (!isNegative) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(
-                asCaller, L"nelson:validators:mustBeNegativeAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeNegative");
-        }
-    }
+    validateComparison(
+        arg, LT_OPERATOR_STR, L"nelson:validators:mustBeNegative", argPosition, asCaller);
 }
 //=============================================================================
 void
@@ -477,20 +356,12 @@ mustBeNonNan(const ArrayOf& arg, int argPosition, bool asCaller)
     ArrayOfVector argIn(arg);
     ArrayOfVector argOut = evaluateFunction(argIn, 1, "isempty");
     if (!argOut[0].getContentAsLogicalScalar()) {
-        Dimensions dimsA = argIn[0].getDimensions();
-        Dimensions dimsV(1, dimsA.getElementCount());
-        ArrayOf asVector = argIn[0];
-        asVector.reshape(dimsV);
+        ArrayOf asVector = reshapeToVector(arg);
         argOut = evaluateFunction(asVector, 1, "isnan");
         argOut = evaluateFunction(argOut, 1, "any");
         bool isNaN = argOut[0].getContentAsLogicalScalar();
         if (isNaN) {
-            if (argPosition > 0) {
-                raiseErrorAsCaller(
-                    asCaller, L"nelson:validators:mustBeNonNanAtPosition", argPosition);
-            } else {
-                raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeNonNan");
-            }
+            raiseValidatorError(asCaller, L"nelson:validators:mustBeNonNan", argPosition);
         }
     }
 }
@@ -499,109 +370,57 @@ void
 mustBeNonZero(const ArrayOf& arg, int argPosition, bool asCaller)
 {
     mustBeNumericOrLogical(arg, argPosition, asCaller);
-    Dimensions dimsA = arg.getDimensions();
-    Dimensions dimsV(1, dimsA.getElementCount());
-    ArrayOf asVector = arg;
-    asVector.reshape(dimsV);
+    ArrayOf asVector = reshapeToVector(arg);
     ArrayOfVector vAsArrayOfVector(asVector);
     vAsArrayOfVector.push_back(ArrayOf::doubleConstructor(0));
     ArrayOfVector argOut = evaluateFunction(vAsArrayOfVector, 1, EQ_OPERATOR_STR);
     argOut = evaluateFunction(argOut, 1, "any");
     if (argOut[0].getContentAsLogicalScalar()) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeNonZeroAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeNonZero");
-        }
+        raiseValidatorError(asCaller, L"nelson:validators:mustBeNonZero", argPosition);
     }
 }
 //=============================================================================
 void
 mustBeNonSparse(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "issparse");
-    if (argOut[0].getContentAsLogicalScalar()) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(
-                asCaller, L"nelson:validators:mustBeNonSparseAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeNonSparse");
-        }
-    }
+    validateWithFunction(
+        arg, "issparse", L"nelson:validators:mustBeNonSparse", argPosition, asCaller, false);
 }
 //=============================================================================
 void
 mustBeReal(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isreal");
-    if (!argOut[0].getContentAsLogicalScalar()) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeRealAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeReal");
-        }
-    }
+    validateWithFunction(arg, "isreal", L"nelson:validators:mustBeReal", argPosition, asCaller);
 }
 //=============================================================================
 void
 mustBeInteger(const ArrayOf& arg, int argPosition, bool asCaller)
 {
     mustBeNumericOrLogical(arg, argPosition, asCaller);
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isreal");
-    bool isReal = argOut[0].getContentAsLogicalScalar();
-    if (!isReal) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeRealAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeReal");
-        }
-    }
-    Dimensions dimsA = arg.getDimensions();
-    Dimensions dimsV(1, dimsA.getElementCount());
-    ArrayOf asVector = arg;
-    asVector.reshape(dimsV);
-    ArrayOfVector vAsArrayOfVector(asVector);
-    argOut = evaluateFunction(asVector, 1, "isfinite");
+    mustBeReal(arg, argPosition, asCaller);
+    ArrayOf asVector = reshapeToVector(arg);
+    ArrayOfVector argOut = evaluateFunction(asVector, 1, "isfinite");
     argOut = evaluateFunction(argOut, 1, "all");
     if (!argOut[0].getContentAsLogicalScalar()) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeIntegerAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeInteger");
-        }
+        raiseValidatorError(asCaller, L"nelson:validators:mustBeInteger", argPosition);
     }
     argOut = evaluateFunction(asVector, 1, "floor");
     argOut.push_back(asVector);
     argOut = evaluateFunction(argOut, 1, EQ_OPERATOR_STR);
     argOut = evaluateFunction(argOut, 1, "all");
     if (!argOut[0].getContentAsLogicalScalar()) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeIntegerAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeInteger");
-        }
+        raiseValidatorError(asCaller, L"nelson:validators:mustBeInteger", argPosition);
     }
 }
 //=============================================================================
 void
 mustBeNonmissing(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    Dimensions dimsA = arg.getDimensions();
-    Dimensions dimsV(1, dimsA.getElementCount());
-    ArrayOf asVector = arg;
-    asVector.reshape(dimsV);
+    ArrayOf asVector = reshapeToVector(arg);
     ArrayOfVector argOut = evaluateFunction(asVector, 1, "ismissing");
     argOut = evaluateFunction(argOut[0], 1, "any");
     if (argOut[0].getContentAsLogicalScalar()) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(
-                asCaller, L"nelson:validators:mustBeNonmissingAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeNonmissing");
-        }
+        raiseValidatorError(asCaller, L"nelson:validators:mustBeNonmissing", argPosition);
     }
 }
 //=============================================================================
@@ -672,260 +491,67 @@ createPrintableScalar(const ArrayOf& c, const std::wstring& fmt, const std::wstr
 static bool
 mustBeGreaterThan(const ArrayOf& arg, const ArrayOf& c)
 {
-    Dimensions dimsA = arg.getDimensions();
-    Dimensions dimsV(1, dimsA.getElementCount());
-    ArrayOf asVector = arg;
-    asVector.reshape(dimsV);
-    ArrayOfVector params(asVector);
-    params.push_back(c);
-    ArrayOfVector argOut = evaluateFunction(params, 1, GT_OPERATOR_STR);
-    argOut = evaluateFunction(argOut, 1, "all");
-    return argOut[0].getContentAsLogicalScalar();
+    return compareWithScalar(arg, c, GT_OPERATOR_STR);
 }
 //=============================================================================
 void
 mustBeGreaterThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCaller)
 {
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isscalar");
-    if (!argOut[0].getContentAsLogicalScalar()) {
-        raiseErrorAsCaller(asCaller, L"nelson:validators:InvalidInputPositionAtSecondPosition",
-            L"mustBeGreaterThan");
-    }
-    argOut = evaluateFunction(argIn, 1, "isnumeric");
-    bool isLogical = (c.isLogical() || ClassName(c) == "logical");
-    bool isNumeric = argOut[0].getContentAsLogicalScalar();
-    if (!isNumeric && !isLogical) {
-        raiseErrorAsCaller(asCaller, L"nelson:validators:InvalidInputPositionAtFirstPosition",
-            L"mustBeGreaterThan");
-    }
-    argOut = evaluateFunction(argIn, 1, "isreal");
-    bool isReal = argOut[0].getContentAsLogicalScalar();
-    if (!isReal) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeRealAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeReal");
-        }
-    }
+    validateComparisonArguments(arg, c, argPosition, asCaller, L"mustBeGreaterThan");
     if (!mustBeGreaterThan(arg, c)) {
         std::wstring printable = createPrintableScalar(c, _W("{}"), _W(""));
-        if (argPosition > 0) {
-            raiseErrorAsCaller(
-                asCaller, L"nelson:validators:mustBeGreaterThanAtPosition", argPosition, printable);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeGreaterThan", printable);
-        }
+        raiseValidatorError(
+            asCaller, L"nelson:validators:mustBeGreaterThan", argPosition, printable);
     }
 }
 //=============================================================================
 static bool
 mustBeLessThan(const ArrayOf& arg, const ArrayOf& c)
 {
-    Dimensions dimsA = arg.getDimensions();
-    Dimensions dimsV(1, dimsA.getElementCount());
-    ArrayOf asVector = arg;
-    asVector.reshape(dimsV);
-    ArrayOfVector params(asVector);
-    params.push_back(c);
-    ArrayOfVector argOut = evaluateFunction(params, 1, LT_OPERATOR_STR);
-    argOut = evaluateFunction(argOut, 1, "all");
-    return argOut[0].getContentAsLogicalScalar();
+    return compareWithScalar(arg, c, LT_OPERATOR_STR);
 }
 //=============================================================================
 void
 mustBeLessThan(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCaller)
 {
-    ArrayOfVector argC(c);
-    ArrayOfVector argOut = evaluateFunction(argC, 1, "isscalar");
-    if (!argOut[0].getContentAsLogicalScalar()) {
-        raiseErrorAsCaller(
-            asCaller, L"nelson:validators:InvalidInputPositionAtSecondPosition", L"mustBeLessThan");
-    }
-    argOut = evaluateFunction(argC, 1, "isnumeric");
-    bool isLogical = (c.isLogical() || ClassName(c) == "logical");
-    bool isNumeric = argOut[0].getContentAsLogicalScalar();
-    if (!isNumeric && !isLogical) {
-        raiseErrorAsCaller(
-            asCaller, L"nelson:validators:InvalidInputPositionAtFirstPosition", L"mustBeLessThan");
-    }
-    ArrayOfVector argIn(arg);
-    argOut = evaluateFunction(argIn, 1, "isnumeric");
-    isLogical = (arg.isLogical() || ClassName(arg) == "logical");
-    if (!isNumeric && !isLogical) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(
-                asCaller, L"nelson:validators:mustBeNumericOrLogicalAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeNumericOrLogical");
-        }
-    }
-    argOut = evaluateFunction(argC, 1, "isreal");
-    bool isReal = argOut[0].getContentAsLogicalScalar();
-    if (!isReal) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeRealAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeReal");
-        }
-    }
-    argOut = evaluateFunction(argIn, 1, "isreal");
-    isReal = argOut[0].getContentAsLogicalScalar();
-    if (!isReal) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeRealAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeReal");
-        }
-    }
+    validateComparisonArguments(arg, c, argPosition, asCaller, L"mustBeLessThan");
     if (!mustBeLessThan(arg, c)) {
         std::wstring printable = createPrintableScalar(c, _W("{}"), _W(""));
-        if (argPosition > 0) {
-            raiseErrorAsCaller(
-                asCaller, L"nelson:validators:mustBeLessThanAtPosition", argPosition, printable);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeLessThan", printable);
-        }
+        raiseValidatorError(asCaller, L"nelson:validators:mustBeLessThan", argPosition, printable);
     }
 }
 //=============================================================================
 static bool
 mustBeGreaterThanOrEqual(const ArrayOf& arg, const ArrayOf& c)
 {
-    Dimensions dimsA = arg.getDimensions();
-    Dimensions dimsV(1, dimsA.getElementCount());
-    ArrayOf asVector = arg;
-    asVector.reshape(dimsV);
-    ArrayOfVector params(asVector);
-    params.push_back(c);
-    ArrayOfVector argOut = evaluateFunction(params, 1, GE_OPERATOR_STR);
-    argOut = evaluateFunction(argOut, 1, "all");
-    return argOut[0].getContentAsLogicalScalar();
+    return compareWithScalar(arg, c, GE_OPERATOR_STR);
 }
 //=============================================================================
 void
 mustBeGreaterThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCaller)
 {
-    ArrayOfVector argC(c);
-    ArrayOfVector argOut = evaluateFunction(argC, 1, "isscalar");
-    if (!argOut[0].getContentAsLogicalScalar()) {
-        raiseErrorAsCaller(asCaller, L"nelson:validators:InvalidInputPositionAtSecondPosition",
-            L"mustBeGreaterThanOrEqual");
-    }
-    argOut = evaluateFunction(argC, 1, "isnumeric");
-    bool isLogical = (c.isLogical() || ClassName(c) == "logical");
-    bool isNumeric = argOut[0].getContentAsLogicalScalar();
-    if (!isNumeric && !isLogical) {
-        raiseErrorAsCaller(asCaller, L"nelson:validators:InvalidInputPositionAtFirstPosition",
-            L"mustBeGreaterThanOrEqual");
-    }
-    ArrayOfVector argIn(arg);
-    argOut = evaluateFunction(argIn, 1, "isnumeric");
-    isLogical = (arg.isLogical() || ClassName(arg) == "logical");
-    if (!isNumeric && !isLogical) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(
-                asCaller, L"nelson:validators:mustBeNumericOrLogicalAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeNumericOrLogical");
-        }
-    }
-    argOut = evaluateFunction(argC, 1, "isreal");
-    bool isReal = argOut[0].getContentAsLogicalScalar();
-    if (!isReal) {
-        raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeReal");
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeRealAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeReal");
-        }
-    }
-    argOut = evaluateFunction(argIn, 1, "isreal");
-    isReal = argOut[0].getContentAsLogicalScalar();
-    if (!isReal) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeRealAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeReal");
-        }
-    }
+    validateComparisonArguments(arg, c, argPosition, asCaller, L"mustBeGreaterThanOrEqual");
     if (!mustBeGreaterThanOrEqual(arg, c)) {
         std::wstring printable = createPrintableScalar(c, _W("{}"), _W(""));
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeGreaterThanOrEqualAtPosition",
-                argPosition, printable);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeGreaterThanOrEqual", printable);
-        }
+        raiseValidatorError(
+            asCaller, L"nelson:validators:mustBeGreaterThanOrEqual", argPosition, printable);
     }
 }
 //=============================================================================
 static bool
 mustBeLessThanOrEqual(const ArrayOf& arg, const ArrayOf& c)
 {
-    Dimensions dimsA = arg.getDimensions();
-    Dimensions dimsV(1, dimsA.getElementCount());
-    ArrayOf asVector = arg;
-    asVector.reshape(dimsV);
-    ArrayOfVector params(asVector);
-    params.push_back(c);
-    ArrayOfVector argOut = evaluateFunction(params, 1, LE_OPERATOR_STR);
-    argOut = evaluateFunction(argOut, 1, "all");
-    return argOut[0].getContentAsLogicalScalar();
+    return compareWithScalar(arg, c, LE_OPERATOR_STR);
 }
 //=============================================================================
 void
 mustBeLessThanOrEqual(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCaller)
 {
-    ArrayOfVector argC(c);
-    ArrayOfVector argOut = evaluateFunction(argC, 1, "isscalar");
-    if (!argOut[0].getContentAsLogicalScalar()) {
-        raiseErrorAsCaller(asCaller, L"nelson:validators:InvalidInputPositionAtSecondPosition",
-            L"mustBeLessThanOrEqual");
-    }
-    argOut = evaluateFunction(argC, 1, "isnumeric");
-    bool isLogical = (c.isLogical() || ClassName(c) == "logical");
-    bool isNumeric = argOut[0].getContentAsLogicalScalar();
-    if (!isNumeric && !isLogical) {
-        raiseErrorAsCaller(asCaller, L"nelson:validators:InvalidInputPositionAtFirstPosition",
-            L"mustBeLessThanOrEqual");
-    }
-    ArrayOfVector argIn(arg);
-    argOut = evaluateFunction(argIn, 1, "isnumeric");
-    isLogical = (arg.isLogical() || ClassName(arg) == "logical");
-    if (!isNumeric && !isLogical) {
-        std::wstring msg = _W("Value must be numeric or logical.");
-        if (argPosition > 0) {
-            raiseErrorAsCaller(
-                asCaller, L"nelson:validators:mustBeNumericOrLogicalAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeNumericOrLogical");
-        }
-    }
-    argOut = evaluateFunction(argC, 1, "isreal");
-    bool isReal = argOut[0].getContentAsLogicalScalar();
-    if (!isReal) {
-        raiseErrorAsCaller(asCaller, L"nelson:validators:InvalidInputPositionAtSecondPosition",
-            L"mustBeLessThanOrEqual");
-    }
-    argOut = evaluateFunction(argIn, 1, "isreal");
-    isReal = argOut[0].getContentAsLogicalScalar();
-    if (!isReal) {
-        std::wstring msg = _W("Value must be real.");
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeRealAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeReal");
-        }
-    }
+    validateComparisonArguments(arg, c, argPosition, asCaller, L"mustBeLessThanOrEqual");
     if (!mustBeLessThanOrEqual(arg, c)) {
         std::wstring printable = createPrintableScalar(c, _W("{}"), _W(""));
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeLessThanOrEqualAtPosition",
-                argPosition, printable);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeLessThanOrEqual", printable);
-        }
+        raiseValidatorError(
+            asCaller, L"nelson:validators:mustBeLessThanOrEqual", argPosition, printable);
     }
 }
 //=============================================================================
@@ -937,12 +563,8 @@ mustBeNumericOrLogical(const ArrayOf& arg, int argPosition, bool asCaller)
     bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
     bool isNumeric = argOut[0].getContentAsLogicalScalar();
     if (!isNumeric && !isLogical) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(
-                asCaller, L"nelson:validators:mustBeNumericOrLogicalAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeNumericOrLogical");
-        }
+        raiseValidatorError(
+            asCaller, L"nelson:validators:mustBeNumericOrLogical", argPosition);
     }
 }
 //=============================================================================
@@ -952,12 +574,8 @@ mustBeNonzeroLengthText(const ArrayOf& arg, int argPosition, bool asCaller)
     bool isText = arg.isRowVectorCharacterArray() || arg.isStringArray()
         || arg.isCellArrayOfCharacterVectors();
     if (!isText) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(
-                asCaller, L"nelson:validators:mustBeNonzeroLengthTextAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeNonzeroLengthText");
-        }
+        raiseValidatorError(
+            asCaller, L"nelson:validators:mustBeNonzeroLengthText", argPosition);
     } else {
         ArrayOfVector argIn(arg);
         ArrayOfVector argOut = evaluateFunction(argIn, 1, "strlength");
@@ -966,12 +584,8 @@ mustBeNonzeroLengthText(const ArrayOf& arg, int argPosition, bool asCaller)
         argOut.push_back(ArrayOf::characterArrayConstructor("all"));
         argOut = evaluateFunction(argOut, 1, "all");
         if (!argOut[0].getContentAsLogicalScalar()) {
-            if (argPosition > 0) {
-                raiseErrorAsCaller(
-                    asCaller, L"nelson:validators:mustBeNonzeroLengthTextAtPosition", argPosition);
-            } else {
-                raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeNonzeroLengthText");
-            }
+            raiseValidatorError(
+                asCaller, L"nelson:validators:mustBeNonzeroLengthText", argPosition);
         }
     }
 }
@@ -982,17 +596,10 @@ mustBeMember(const ArrayOf& arg, const ArrayOf& c, int argPosition, bool asCalle
     ArrayOfVector argIn(arg);
     argIn << c;
     ArrayOfVector argOut = evaluateFunction(argIn, 1, "ismember");
-    Dimensions dims = argOut[0].getDimensions();
-    Dimensions dimsV(1, dims.getElementCount());
-    ArrayOf asVector = argOut[0];
-    asVector.reshape(dimsV);
+    ArrayOf asVector = reshapeToVector(argOut[0]);
     argOut = evaluateFunction(asVector, 1, "any");
     if (!argOut[0].getContentAsLogicalScalar()) {
-        if (argPosition > 0) {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeMemberAtPosition", argPosition);
-        } else {
-            raiseErrorAsCaller(asCaller, L"nelson:validators:mustBeMember");
-        }
+        raiseValidatorError(asCaller, L"nelson:validators:mustBeMember", argPosition);
     }
 }
 //=============================================================================
