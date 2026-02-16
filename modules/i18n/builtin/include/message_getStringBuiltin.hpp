@@ -15,7 +15,7 @@
 namespace Nelson::I18nGateway {
 //=============================================================================
 ArrayOfVector
-message_getStringBuiltin(Evaluator *eval, int nLhs, const ArrayOfVector& argIn);
+message_getStringBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

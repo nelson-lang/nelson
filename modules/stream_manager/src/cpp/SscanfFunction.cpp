@@ -242,7 +242,8 @@ fscanfInternal(FILE* filepointer, const std::string& format, double m, double n,
         try {
             buff = new char[format.size() + 1];
         } catch (std::bad_alloc&) {
-            errorMessage = wstring_to_utf8(TranslationManager::getInstance().getError(L"nelson:runtime:outOfMemory"));
+            errorMessage = wstring_to_utf8(
+                TranslationManager::getInstance().getError(L"nelson:runtime:outOfMemory"));
             return {};
         }
         strcpy(buff, format.c_str());

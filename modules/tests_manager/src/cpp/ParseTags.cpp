@@ -81,7 +81,7 @@ ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg)
     if (!isValidFilename) {
         bool isSupportedFileExtension = (ext == L".m");
         if (!isSupportedFileExtension) {
-            msg = _W("wrong file extension .m or .m expected.");
+            msg = _W("wrong file extension .m expected.");
             return false;
         }
         msg = _W("wrong file prefix 'test_' or 'bug_' expected.");

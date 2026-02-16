@@ -41,13 +41,13 @@ Nelson::CoreGateway::narginchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     }
     int nargin = context->getCurrentScope()->getNargIn();
     if (nargin < minArgs) {
-        raiseErrorAsCaller(L"nelson:arguments:tooFewInputs");
+        raiseErrorAsCaller(true, L"nelson:arguments:tooFewInputs");
     }
     if (!maxArgsIsInf) {
         int maxArgs = argIn[1].getContentAsInteger32Scalar(false, true);
 
         if (nargin > maxArgs) {
-            raiseErrorAsCaller(L"nelson:arguments:tooManyInputs");
+            raiseErrorAsCaller(true, L"nelson:arguments:tooManyInputs");
         }
     }
     return retval;

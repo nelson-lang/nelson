@@ -58,7 +58,7 @@ Nelson::FftwGateway::fftwBuiltin(int nLhs, const ArrayOfVector& argIn)
                 resetDoubleWisdom();
             } else {
                 if (!setDoubleWisdomInformation(fieldvalue)) {
-                    Error(L"Nelson:fftw:ERROR_CANNOT_APPLY_WISDOM", ERROR_CANNOT_APPLY_WISDOM);
+                    raiseError(L"Nelson:fftw:ERROR_CANNOT_APPLY_WISDOM", ERROR_CANNOT_APPLY_WISDOM);
                 }
             }
         } else if (fieldname == L"swisdom") {
@@ -67,7 +67,7 @@ Nelson::FftwGateway::fftwBuiltin(int nLhs, const ArrayOfVector& argIn)
                 resetSingleWisdom();
             } else {
                 if (!setSingleWisdomInformation(fieldvalue)) {
-                    Error(L"Nelson:fftw:ERROR_CANNOT_APPLY_WISDOM", ERROR_CANNOT_APPLY_WISDOM);
+                    raiseError(L"Nelson:fftw:ERROR_CANNOT_APPLY_WISDOM", ERROR_CANNOT_APPLY_WISDOM);
                 }
             }
         } else if (fieldname == L"planner") {

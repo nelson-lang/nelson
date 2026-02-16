@@ -38,7 +38,7 @@ Nelson::I18nGateway::message_getStringBuiltin(Evaluator* eval, int nLhs, const A
     }
     ArrayOfVector inputs;
     inputs << ArrayOf::characterArrayConstructor(unformattedString);
-    ArrayOf* arguments = (ArrayOf *)argumentsArray.getDataPointer();
+    ArrayOf* arguments = (ArrayOf*)argumentsArray.getDataPointer();
     for (size_t i = 0; i < argumentsArray.getElementCount(); ++i) {
         inputs << arguments[i];
     }

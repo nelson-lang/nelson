@@ -365,7 +365,6 @@ FutureObject::evaluateFunction(
             std::wstring identifier = L"parallel:fevalqueue:ExecutionCancelled";
             std::wstring msg = TranslationManager::getInstance().getError(identifier);
             _exception = Exception(msg, identifier);
-
         }
         endDateTime = (uint64)getEpoch();
     }

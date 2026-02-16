@@ -40,7 +40,7 @@ Nelson::FftwGateway::FFTWwrapperBuiltin(int nLhs, const ArrayOfVector& argIn)
             std::wstring fftwfName = argIn[1].getContentAsWideString();
             retval << ArrayOf::logicalConstructor(loadFFTWLibrary(fftwName, fftwfName));
         } else {
-            Error(L"Nelson:fftw:ERROR_WRONG_VALUE_FOR_1_LOAD_EXPECTED",
+            raiseError2(L"Nelson:fftw:ERROR_WRONG_VALUE_FOR_1_LOAD_EXPECTED",
                 ERROR_WRONG_VALUE_FOR_1_LOAD_EXPECTED);
         }
     } break;

@@ -225,7 +225,8 @@ EvaluateConsoleCommandToString(Evaluator* eval, const std::wstring& command, std
     try {
         tempIO = new EvaluateInterface();
     } catch (const std::bad_alloc&) {
-        result = _W("Error:") + TranslationManager::getInstance().getError(L"nelson:runtime:outOfMemory");
+        result = _W("Error:")
+            + TranslationManager::getInstance().getError(L"nelson:runtime:outOfMemory");
         return success;
     }
     setPrintInterface(tempIO);

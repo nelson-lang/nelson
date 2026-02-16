@@ -79,14 +79,14 @@ raiseError2(const std::wstring& messageID, const Args&... args)
 //=============================================================================
 template <typename... Args>
 inline void
-raiseErrorAsCaller(const std::wstring& messageID, const Args&... args)
+raiseErrorAsCaller(bool asCaller, const std::wstring& messageID, const Args&... args)
 {
     std::vector<std::wstring> argVec;
     // Fold expression: convert each argument using toWideString
     (..., argVec.push_back(detail::toWideString(args)));
 
     std::wstring formatted = detail::formatToWideStringImplMessageID(messageID, argVec);
-    Error(formatted, messageID, false);
+    Error(formatted, messageID, asCaller);
 }
 //=============================================================================
 // Function that returns the formatted error message as std::wstring

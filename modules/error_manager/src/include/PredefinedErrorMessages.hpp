@@ -657,7 +657,6 @@
 #define ERROR_RIGHT_HAND_VALUES_MUST_SATISFY_LEFT_HAND_SIDE_EXPRESSION                             \
     _W("Right hand values must satisfy left hand side expression.")
 #define ERROR_TYPE_FUNCTION_NOT_VALID _W("Type function not valid.")
-#define ERROR_FUNCTION_NOT_FOUND _W("Function not found:")
 #define ERROR_SUBTYPES_AND_SUBSINDICES_MUST_HAVE_THE_SAME_SIZE                                     \
     _W("Subtypes and subsindices must have the same size.")
 #define ERROR_ASSIGNMENT_OPERATION_FAILED _W("Assignment operation failed.")
@@ -904,8 +903,6 @@
 #define ERROR_INPUTS_MUST_BE_REAL _W("Inputs arguments must be real.")
 #define ERROR_X_AND_V_MUST_BE_SAME_LENGTH _W("X and V must be of the same length.")
 #define ERROR_INPUT_MUST_BE_NONNEGATIVE _W("Input must be nonnegative.")
-#define ERROR_SIZE_MISMATCH_ARITHMETIC_OPERATOR                                                    \
-    _W("Size mismatch on arguments to arithmetic operator {0}")
 // stream_manager added messages
 #define ERROR_INVALID_FSCANF_FORMAT _W("Invalid format.")
 #define ERROR_UNSUPPORTED_FSCANF_FORMAT _W("Unsupported fscanf format.")
