@@ -66,8 +66,7 @@ LogMatrix(ArrayOf A)
             ERROR_UNDEFINED_FUNCTION_FOR_INPUT_ARGUMENTS, L"logm", utf8_to_wstring(ClassName(A)));
     }
     if (!A.isSquare()) {
-        raiseError(
-            L"Nelson:linear_algebra:ERROR_SQUARE_MATRIX_EXPECTED", ERROR_SQUARE_MATRIX_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeSquareMatrix");
     }
     if (A.isEmpty()) {
         ArrayOf res(A);

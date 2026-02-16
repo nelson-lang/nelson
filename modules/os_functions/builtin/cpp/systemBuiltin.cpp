@@ -66,8 +66,7 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
                         timeouts.push_back(ptrUint64[k]);
                     }
                 } else {
-                    raiseError(
-                        L"Nelson:os_functions:ERROR_SAME_SIZE_EXPECTED", ERROR_SAME_SIZE_EXPECTED);
+                    raiseError2(L"nelson:validators:mustBeSameSize");
                 }
             }
         } else {

@@ -227,8 +227,7 @@ InverseMatrix(const ArrayOf& A, bool& needToOverload)
         return {};
     }
     if (!A.isSquare()) {
-        raiseError(
-            L"Nelson:linear_algebra:ERROR_SQUARE_MATRIX_EXPECTED", ERROR_SQUARE_MATRIX_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeSquareMatrix");
     }
     if (A.isEmpty()) {
         ArrayOf RES(A);

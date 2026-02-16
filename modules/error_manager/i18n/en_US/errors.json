@@ -6,6 +6,9 @@
   "nelson:arguments:tooFewOutputs": "Too many output arguments requested.",
   "nelson:arguments:wrongNumberOfInputs": "Incorrect number of input arguments.",
   "nelson:arguments:wrongNumberOfOutputs": "Incorrect number of output arguments.",
+  "nelson:arguments:likeExpectedAtPosition": "'like' expected at position {0}.",
+  "nelson:io:permissionDenied": "Permission denied.",
+  "nelson:io:fileNotFound": "File does not exist: {0}.",
   "nelson:runtime:typeNotSupported": "Type not supported.",
   "nelson:runtime:outOfMemory": "Out of memory.",
   "nelson:runtime:sizeMismatchArithmetic": "Size mismatch on arguments to arithmetic operator {0}.",
@@ -21,10 +24,7 @@
   "nelson:validators:mustBeScalar": "Argument {0} must be a scalar.",
   "nelson:validators:mustBeType": "Argument {0} must be of type '{1}'.",
   "nelson:validators:invalidValue": "Invalid value for argument {0}.",
-  "nelson:io:permissionDenied": "Permission denied.",
-  "nelson:io:fileNotFound": "File does not exist: {0}.",
   "nelson:validators:mustBeDoubleOrSingle": "'double' or 'single' type for all input arguments expected.",
-  "nelson:arguments:likeExpectedAtPosition": "'like' expected at position {0}.",
   "nelson:validators:invalidMessageID": "Invalid Message ID format: '{0}'.",
   "nelson:validators:mustBeLogical": "Value must be logical.",
   "nelson:validators:mustBeLogicalAtPosition": "Invalid input argument at position {0}.\nValue must be logical.",
@@ -105,5 +105,10 @@
   "nelson:validators:leftOpenRightClosed": "Value must be in range.",
   "nelson:validators:leftOpenRightOpen": "Value must be in range.",
   "nelson:validators:unsupportedCombination": "A combinaison of '{0}' and '{1}' options is not supported.",
-  "nelson:validators:invalidBoundFlag": "Value must be 'inclusive', 'exclusive', 'exclude-lower' or 'exclude-upper'."
+  "nelson:validators:invalidBoundFlag": "Value must be 'inclusive', 'exclusive', 'exclude-lower' or 'exclude-upper'.",
+  "nelson:validators:mustBeCell": "Value must be a cell array.",
+  "nelson:validators:mustBeStruct": "Value must be a struct.",
+  "nelson:validators:mustBeQVariantType": "Value must be a QVariant type.",
+  "nelson:validators:mustBeSameSize": "Value must be the same size.",
+  "nelson:validators:mustBeSquareMatrix": "Value must be a square matrix."
 }

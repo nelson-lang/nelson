@@ -30,8 +30,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             ERROR_UNDEFINED_FUNCTION_FOR_INPUT_ARGUMENTS, L"schur", utf8_to_wstring(ClassName(A)));
     }
     if (!A.isSquare()) {
-        raiseError(
-            L"Nelson:linear_algebra:ERROR_SQUARE_MATRIX_EXPECTED", ERROR_SQUARE_MATRIX_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeSquareMatrix");
     }
     Dimensions dimsA = A.getDimensions();
     if (A.isEmpty()) {
@@ -129,8 +128,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& U, ArrayOf& T)
             utf8_to_wstring(ClassName(A)));
     }
     if (!A.isSquare()) {
-        raiseError(
-            L"Nelson:linear_algebra:ERROR_SQUARE_MATRIX_EXPECTED", ERROR_SQUARE_MATRIX_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeSquareMatrix");
     }
     if (A.isEmpty()) {
         Dimensions dimsA = A.getDimensions();

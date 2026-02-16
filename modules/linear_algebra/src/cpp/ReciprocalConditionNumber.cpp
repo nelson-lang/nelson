@@ -277,8 +277,7 @@ ReciprocalConditionNumber(const ArrayOf& A, bool precionWarning)
             utf8_to_wstring(ClassName(A)));
     }
     if (!A.isSquare()) {
-        raiseError(
-            L"Nelson:linear_algebra:ERROR_SQUARE_MATRIX_EXPECTED", ERROR_SQUARE_MATRIX_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeSquareMatrix");
     }
     if (A.isEmpty()) {
         if (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_DCOMPLEX) {

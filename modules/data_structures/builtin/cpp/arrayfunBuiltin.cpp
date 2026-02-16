@@ -239,13 +239,11 @@ Nelson::DataStructuresGateway::arrayfunBuiltin(
             dimsVector.insert(dimsVector.end(), inputDims.begin(), inputDims.end());
         } else {
             if (dimsVector.size() != inputDims.size()) {
-                raiseError(
-                    L"Nelson:data_structures:ERROR_SAME_SIZE_EXPECTED", ERROR_SAME_SIZE_EXPECTED);
+                raiseError2(L"nelson:validators:mustBeSameSize");
             }
             for (size_t i = 0; i < dimsVector.size(); ++i) {
                 if (inputDims[i] != dimsVector[i]) {
-                    raiseError(L"Nelson:data_structures:ERROR_SAME_SIZE_EXPECTED",
-                        ERROR_SAME_SIZE_EXPECTED);
+                    raiseError2(L"nelson:validators:mustBeSameSize");
                 }
             }
         }

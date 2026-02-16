@@ -482,7 +482,6 @@
 #define ERROR_FUNCTION_DICTIONARY_NOT_FOUND_IN_THE_CURRENT_CONTEXT                                 \
     _W("Function 'dictionary' not found in the current context.")
 #define ERROR_CANNOT_SET_ENVIRONMENT_VARIABLE _W("Cannot set environment variable.")
-#define ERROR_SAME_SIZE_EXPECTED _W("same size expected.")
 #define ERROR_FILENAME_NOT_ASSOCIATED_TO_AN_APPLICATION                                            \
     _W("Filename not associated to an application.")
 #define ERROR_NAME_ARGUMENT_REQUIRES_3_INPUT_ARGUMENTS                                             \
@@ -1111,9 +1110,6 @@
 #define ERROR_DIARY_ARG3_ON_OFF_EXPECTED _W("#3 Argument 'on' or 'off' expected.")
 #define ERROR_DIARY_ARG3_STRING_EXPECTED _W("#3 Argument a string expected.")
 
-// general math/trigonometric messages
-#define ERROR_SQUARE_MATRIX_EXPECTED _W("Square matrix expected.")
-
 // general IO messages
 #define ERROR_IMPOSSIBLE_TO_OPEN_FILE _W("Impossible to open file.")
 
@@ -1569,7 +1565,6 @@
 #define ERROR_UNKNOWN_FUNCTION_NAME _W("Unknown function name.")
 #define ERROR_INVALID_FUNCTION_SPECIFICATION _W("Invalid function specification.")
 #define ERROR_FUNCTION_RETURNED_NON_SCALAR_RESULT _W("function returned non-scalar result")
-#define ERROR_CELL_EXPECTED _W("cell expected.")
 #define ERROR_WRONG_TYPE_ARG1_STRUCT_EXPECTED _W("Wrong type for argument #1. struct expected.")
 #define ERROR_NUMBER_OF_OLD_FIELD_NAMES_MUST_MATCH_NUMBER_OF_NEW_FIELD_NAMES                       \
     _W("Number of old field names must match number of new field names.")

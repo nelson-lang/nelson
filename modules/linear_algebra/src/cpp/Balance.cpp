@@ -76,7 +76,7 @@ Balance(const ArrayOf& A, bool noperm, int nLhs, bool& needToOverload)
     }
     Dimensions dimsA = A.getDimensions();
     if (dimsA.getRows() != dimsA.getColumns()) {
-        raiseError(L"Nelson:balance:ERROR_SQUARE_MATRIX_EXPECTED", ERROR_SQUARE_MATRIX_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeSquareMatrix");
     }
     if (A.isEmpty()) {
         ArrayOfVector retval;

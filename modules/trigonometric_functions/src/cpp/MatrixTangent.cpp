@@ -50,8 +50,7 @@ MatrixTan(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
     if (!A.isSquare()) {
-        raiseError(L"Nelson:trigonometric_functions:ERROR_SQUARE_MATRIX_EXPECTED",
-            ERROR_SQUARE_MATRIX_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeSquareMatrix");
     }
     if (A.isEmpty()) {
         ArrayOf R(A);

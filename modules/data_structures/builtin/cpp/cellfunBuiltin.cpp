@@ -482,12 +482,11 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
             } else {
                 Dimensions dimsCurrentCell = param.getDimensions();
                 if (!dimsCells.equals(dimsCurrentCell)) {
-                    raiseError(L"Nelson:data_structures:ERROR_SAME_SIZE_EXPECTED",
-                        ERROR_SAME_SIZE_EXPECTED);
+                    raiseError2(L"nelson:validators:mustBeSameSize");
                 }
             }
         } else {
-            raiseError(L"Nelson:data_structures:ERROR_CELL_EXPECTED", ERROR_CELL_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeCell");
         }
     }
     int nargout = nLhs;

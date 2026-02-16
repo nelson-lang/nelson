@@ -81,8 +81,8 @@ validateWithFunction(const ArrayOf& arg, const std::string& functionName,
 }
 //=============================================================================
 static void
-validateComparison(const ArrayOf& arg, const std::string& operatorStr,
-    const std::wstring& errorId, int argPosition, bool asCaller)
+validateComparison(const ArrayOf& arg, const std::string& operatorStr, const std::wstring& errorId,
+    int argPosition, bool asCaller)
 {
     mustBeNumericOrLogical(arg, argPosition, asCaller);
     mustBeReal(arg, argPosition, asCaller);
@@ -182,8 +182,7 @@ mustBeScalarOrEmpty(const ArrayOf& arg, int argPosition, bool asCaller)
     if (!argOut[0].getContentAsLogicalScalar()) {
         argOut = evaluateFunction(argIn, 1, "isscalar");
         if (!argOut[0].getContentAsLogicalScalar()) {
-            raiseValidatorError(
-                asCaller, L"nelson:validators:mustBeScalarOrEmpty", argPosition);
+            raiseValidatorError(asCaller, L"nelson:validators:mustBeScalarOrEmpty", argPosition);
         }
     }
 }
@@ -196,8 +195,7 @@ mustBeValidVariableName(const ArrayOf& arg, int argPosition, bool asCaller)
         isvarname = IsValidVariableName(arg.getContentAsWideString());
     }
     if (!isvarname) {
-        raiseValidatorError(
-            asCaller, L"nelson:validators:mustBeValidVariableName", argPosition);
+        raiseValidatorError(asCaller, L"nelson:validators:mustBeValidVariableName", argPosition);
     }
 }
 //=============================================================================
@@ -259,8 +257,7 @@ mustBeFloat(const ArrayOf& arg, int argPosition, bool asCaller)
 void
 mustBeMatrix(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    validateWithFunction(
-        arg, "ismatrix", L"nelson:validators:mustBeMatrix", argPosition, asCaller);
+    validateWithFunction(arg, "ismatrix", L"nelson:validators:mustBeMatrix", argPosition, asCaller);
 }
 //=============================================================================
 void
@@ -272,15 +269,13 @@ mustBeRow(const ArrayOf& arg, int argPosition, bool asCaller)
 void
 mustBeColumn(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    validateWithFunction(
-        arg, "iscolumn", L"nelson:validators:mustBeColumn", argPosition, asCaller);
+    validateWithFunction(arg, "iscolumn", L"nelson:validators:mustBeColumn", argPosition, asCaller);
 }
 //=============================================================================
 void
 mustBeSparse(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    validateWithFunction(
-        arg, "issparse", L"nelson:validators:mustBeSparse", argPosition, asCaller);
+    validateWithFunction(arg, "issparse", L"nelson:validators:mustBeSparse", argPosition, asCaller);
 }
 //=============================================================================
 void
@@ -563,8 +558,7 @@ mustBeNumericOrLogical(const ArrayOf& arg, int argPosition, bool asCaller)
     bool isLogical = (arg.isLogical() || ClassName(arg) == "logical");
     bool isNumeric = argOut[0].getContentAsLogicalScalar();
     if (!isNumeric && !isLogical) {
-        raiseValidatorError(
-            asCaller, L"nelson:validators:mustBeNumericOrLogical", argPosition);
+        raiseValidatorError(asCaller, L"nelson:validators:mustBeNumericOrLogical", argPosition);
     }
 }
 //=============================================================================
@@ -574,8 +568,7 @@ mustBeNonzeroLengthText(const ArrayOf& arg, int argPosition, bool asCaller)
     bool isText = arg.isRowVectorCharacterArray() || arg.isStringArray()
         || arg.isCellArrayOfCharacterVectors();
     if (!isText) {
-        raiseValidatorError(
-            asCaller, L"nelson:validators:mustBeNonzeroLengthText", argPosition);
+        raiseValidatorError(asCaller, L"nelson:validators:mustBeNonzeroLengthText", argPosition);
     } else {
         ArrayOfVector argIn(arg);
         ArrayOfVector argOut = evaluateFunction(argIn, 1, "strlength");

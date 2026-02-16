@@ -897,18 +897,18 @@ ArrayOfToQVariant(ArrayOf A, int id)
     } break;
     case QMetaType::Type::QVariantList: {
         if (!A.isCell()) {
-            raiseError(L"Nelson:qml:ERROR_CELL_EXPECTED", ERROR_CELL_EXPECTED);
+            raiseError2(L"Nelson:validators:mustBeCell");
         }
         res = ArrayOfToQVariant(A);
     } break;
     case QMetaType::Type::QVariantMap: {
         if (!A.isStruct()) {
-            raiseError(L"Nelson:qml:ERROR_STRUCTS_EXPECTED", ERROR_STRUCTS_EXPECTED);
+            raiseError2(L"Nelson:validators:mustBeStruct");
         }
         res = ArrayOfToQVariant(A);
     } break;
     default: {
-        raiseError(L"Nelson:qml:ERROR_QVARIANT_TYPE_NOT_MANAGED", ERROR_QVARIANT_TYPE_NOT_MANAGED);
+        raiseError2(L"Nelson:validators:mustBeQVariantType");
     } break;
     }
     return res;
