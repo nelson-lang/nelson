@@ -23,8 +23,7 @@ Nelson::DynamicLinkGateway::libpointer_ismethodBuiltin(int nLhs, const ArrayOfVe
     ArrayOf param1 = argIn[0];
     ArrayOfVector retval;
     if (param1.getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-        raiseError(L"Nelson:dynamic_link:ERROR_LIBPOINTER_HANDLE_EXPECTED",
-            ERROR_LIBPOINTER_HANDLE_EXPECTED);
+        raiseError2(L"nelson:arguments:libpointerHandleExpected");
     }
     ArrayOf param2 = argIn[1];
     std::wstring methodName = param2.getContentAsWideString();

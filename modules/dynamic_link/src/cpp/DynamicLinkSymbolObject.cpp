@@ -299,8 +299,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
         if (GetNelsonType(_paramsTypes[k]) != params[k].getDataClass()) {
             if (params[k].getDataClass() == NLS_HANDLE) {
                 if (params[k].getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                    raiseError(L"Nelson:dynamic_link:ERROR_LIBPOINTER_HANDLE_EXPECTED",
-                        ERROR_LIBPOINTER_HANDLE_EXPECTED);
+                    raiseError2(L"nelson:arguments:libpointerHandleExpected");
                 }
                 LibPointerObject* objLibPointer
                     = (LibPointerObject*)params[k].getContentAsHandleScalar();
@@ -343,8 +342,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
     for (size_t i = 0; i < params.size(); i++) {
         if (params[i].getDataClass() == NLS_HANDLE) {
             if (params[i].getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                raiseError(L"Nelson:dynamic_link:ERROR_LIBPOINTER_HANDLE_EXPECTED",
-                    ERROR_LIBPOINTER_HANDLE_EXPECTED);
+                raiseError2(L"nelson:arguments:libpointerHandleExpected");
             }
             LibPointerObject* objLibPointer
                 = (LibPointerObject*)params[i].getContentAsHandleScalar();
@@ -469,8 +467,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
         if (StringHelpers::ends_with(_paramsTypes[i], L"Ptr")) {
             if (params[i].getDataClass() == NLS_HANDLE) {
                 if (params[i].getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                    raiseError(L"Nelson:dynamic_link:ERROR_LIBPOINTER_HANDLE_EXPECTED",
-                        ERROR_LIBPOINTER_HANDLE_EXPECTED);
+                    raiseError2(L"nelson:arguments:libpointerHandleExpected");
                 }
                 LibPointerObject* objLibPointer
                     = (LibPointerObject*)params[i].getContentAsHandleScalar();

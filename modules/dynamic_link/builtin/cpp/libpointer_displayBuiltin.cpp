@@ -33,16 +33,14 @@ Nelson::DynamicLinkGateway::libpointer_dispBuiltin(
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                raiseError(L"Nelson:dynamic_link:ERROR_LIBPOINTER_HANDLE_EXPECTED",
-                    ERROR_LIBPOINTER_HANDLE_EXPECTED);
+                raiseError2(L"nelson:arguments:libpointerHandleExpected");
             }
             LibPointerObject* lipPointerObj = (LibPointerObject*)param1.getContentAsHandleScalar();
             lipPointerObj->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        raiseError(L"Nelson:dynamic_link:ERROR_LIBPOINTER_HANDLE_EXPECTED",
-            ERROR_LIBPOINTER_HANDLE_EXPECTED);
+        raiseError2(L"nelson:arguments:libpointerHandleExpected");
     }
     return retval;
 }
@@ -64,16 +62,14 @@ Nelson::DynamicLinkGateway::libpointer_displayBuiltin(
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                raiseError(L"Nelson:dynamic_link:ERROR_LIBPOINTER_HANDLE_EXPECTED",
-                    ERROR_LIBPOINTER_HANDLE_EXPECTED);
+                raiseError2(L"nelson:arguments:libpointerHandleExpected");
             }
             LibPointerObject* lipPointerObj = (LibPointerObject*)param1.getContentAsHandleScalar();
             lipPointerObj->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        raiseError(L"Nelson:dynamic_link:ERROR_LIBPOINTER_HANDLE_EXPECTED",
-            ERROR_LIBPOINTER_HANDLE_EXPECTED);
+        raiseError2(L"nelson:arguments:libpointerHandleExpected");
     }
     return retval;
 }
