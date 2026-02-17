@@ -56,7 +56,7 @@ GraphicsGateway::waitforBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
     nelson_handle go = argIn[0].getContentAsGraphicsObjectScalar();
     GraphicsObject* fp = getGraphicsObjectFromGraphicHandle(go);
     if (!fp) {
-        raiseError(L"Nelson:graphics:ERROR_INVALID_NELSON_HANDLE", ERROR_INVALID_NELSON_HANDLE);
+        raiseError2(L"nelson:validators:invalidNelsonHandle");
     }
 
     switch (argIn.size()) {

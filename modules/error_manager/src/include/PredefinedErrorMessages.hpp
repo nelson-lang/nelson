@@ -721,7 +721,6 @@
 #define ERROR_TEXTENCODING_EXPECTED _W("'TextEncoding' expected.")
 #define ERROR_HANDLES_BEING_CATENATED_HAVE_INCOMPATIBLE_CLASSES                                    \
     _W("Handles being catenated have incompatible classes.")
-#define ERROR_INVALID_NELSON_HANDLE _W("Invalid handle.")
 #define ERROR_WRONG_VALUE_FOR_1_ARGUMENT _W("Wrong value for #1 argument.")
 #define ERROR_LOOK_AND_FEEL_NOT_APPLIED _W("look and feel not applied.")
 #define ERROR_CHAR_CELL_OR_STRING_EXPECTED _W("char, cell, or string expected.")
@@ -1195,7 +1194,6 @@
     _W("Wrong value for #2 argument: 'left', 'right', 'center' expected.")
 
 // audio module messages
-#define ERROR_AUDIOPLAYER_HANDLE_EXPECTED _W("audioplayer handle expected.")
 #define ERROR_AUDIOPLAYER_VALID_HANDLE_EXPECTED _W("audioplayer valid handle expected.")
 #define ERROR_WRONG_ARGUMENT_X_VALUE_WITH_NAME _W("Wrong value for #{} argument. {0}")
 // audiorecorder messages

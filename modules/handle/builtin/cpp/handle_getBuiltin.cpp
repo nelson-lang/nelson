@@ -25,7 +25,7 @@ Nelson::HandleGateway::handle_getBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
-        raiseError(L"Nelson:handle:ERROR_INVALID_NELSON_HANDLE", ERROR_INVALID_NELSON_HANDLE);
+        raiseError2(L"nelson:validators:invalidNelsonHandle");
     }
     return retval;
 }

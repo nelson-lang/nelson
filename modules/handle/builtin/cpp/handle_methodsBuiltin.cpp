@@ -27,7 +27,7 @@ Nelson::HandleGateway::handle_methodsBuiltin(int nLhs, const ArrayOfVector& argI
         if (obj) {
             retval << ArrayOf::toCellArrayOfCharacterColumnVectors(obj->getMethods());
         } else {
-            raiseError(L"Nelson:handle:ERROR_INVALID_NELSON_HANDLE", ERROR_INVALID_NELSON_HANDLE);
+            raiseError2(L"nelson:validators:invalidNelsonHandle");
         }
     } else {
         raiseError2(L"nelson:validators:mustBeType", 1, NLS_HANDLE_STR);

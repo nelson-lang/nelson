@@ -40,8 +40,7 @@ graphicsObjectDisplay(Interface* io, const Dimensions& dims, nelson_handle* ptrG
                 fp = (GraphicsObject*)findGOFigure(handle);
             }
             if (!fp) {
-                raiseError(
-                    L"Nelson:graphics:ERROR_INVALID_NELSON_HANDLE", ERROR_INVALID_NELSON_HANDLE);
+                raiseError2(L"nelson:validators:invalidNelsonHandle");
             }
             wstringVector names = fp->getVisibleFieldnames();
             io->outputMessage(L"\n");
@@ -83,8 +82,7 @@ graphicsObjectDisplay(Interface* io, const Dimensions& dims, nelson_handle* ptrG
                         fp = (GraphicsObject*)findGOFigure(handle);
                     }
                     if (!fp) {
-                        raiseError(L"Nelson:graphics:ERROR_INVALID_NELSON_HANDLE",
-                            ERROR_INVALID_NELSON_HANDLE);
+                        raiseError2(L"nelson:validators:invalidNelsonHandle");
                     }
                     GOGenericProperty* hpType = fp->findProperty(GO_TYPE_PROPERTY_NAME_STR, false);
                     if (hpType) {

@@ -39,7 +39,7 @@ GraphicsIoGateway::saveasBuiltin(int nLhs, const ArrayOfVector& argIn)
         f = getHandleWindow(fignum);
     }
     if (!f) {
-        raiseError(L"Nelson:graphics_io:ERROR_INVALID_NELSON_HANDLE", ERROR_INVALID_NELSON_HANDLE);
+        raiseError2(L"nelson:validators:invalidNelsonHandle");
     }
     std::wstring filename = argIn[1].getContentAsWideString();
     FileSystemWrapper::Path p(filename);

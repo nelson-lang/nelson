@@ -31,16 +31,14 @@ Nelson::AudioGateway::audioplayer_dispBuiltin(Evaluator* eval, int nLhs, const A
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
-                raiseError(L"Nelson:audio:ERROR_AUDIOPLAYER_HANDLE_EXPECTED",
-                    ERROR_AUDIOPLAYER_HANDLE_EXPECTED);
+                raiseError2(L"nelson:sound:audioplayerHandleExpected");
             }
             auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
             objPlayer->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        raiseError(
-            L"Nelson:audio:ERROR_AUDIOPLAYER_HANDLE_EXPECTED", ERROR_AUDIOPLAYER_HANDLE_EXPECTED);
+        raiseError2(L"nelson:sound:audioplayerHandleExpected");
     }
     return retval;
 }
@@ -62,16 +60,14 @@ Nelson::AudioGateway::audioplayer_displayBuiltin(
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
-                raiseError(L"Nelson:audio:ERROR_AUDIOPLAYER_HANDLE_EXPECTED",
-                    ERROR_AUDIOPLAYER_HANDLE_EXPECTED);
+                raiseError2(L"nelson:sound:audioplayerHandleExpected");
             }
             auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
             objPlayer->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        raiseError(
-            L"Nelson:audio:ERROR_AUDIOPLAYER_HANDLE_EXPECTED", ERROR_AUDIOPLAYER_HANDLE_EXPECTED);
+        raiseError2(L"nelson:sound:audioplayerHandleExpected");
     }
     return retval;
 }

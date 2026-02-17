@@ -28,8 +28,7 @@ Nelson::AudioGateway::audioplayer_setBuiltin(int nLhs, const ArrayOfVector& argI
     ArrayOf param3 = argIn[2];
     ArrayOfVector retval;
     if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
-        raiseError(
-            L"Nelson:audio:ERROR_AUDIOPLAYER_HANDLE_EXPECTED", ERROR_AUDIOPLAYER_HANDLE_EXPECTED);
+        raiseError2(L"nelson:sound:audioplayerHandleExpected");
     }
     auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     if (!objPlayer->isWriteableProperty(propertyName)) {

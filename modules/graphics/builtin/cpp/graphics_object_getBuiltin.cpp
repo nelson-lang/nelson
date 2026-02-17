@@ -42,7 +42,7 @@ Nelson::GraphicsGateway::graphics_object_getBuiltin(int nLhs, const ArrayOfVecto
             fp = (GraphicsObject*)findGOFigure(handle);
         }
         if (!fp) {
-            raiseError(L"Nelson:graphics:ERROR_INVALID_NELSON_HANDLE", ERROR_INVALID_NELSON_HANDLE);
+            raiseError2(L"nelson:validators:invalidNelsonHandle");
         }
         retval << fp->findProperty(propname)->get();
     }
