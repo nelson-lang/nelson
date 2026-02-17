@@ -431,8 +431,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
     ArrayOf param1 = argIn[0];
     FunctionDef* funcDef = nullptr;
     if (!(param1.isRowVectorCharacterArray() || param1.isFunctionHandle())) {
-        raiseError(L"Nelson:data_structures:ERROR_WRONG_TYPE_ARG1_STRUCT_EXPECTED",
-            ERROR_WRONG_TYPE_ARG1_STRUCT_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeStructAtPosition", 1);
     } else {
         if (param1.isRowVectorCharacterArray()) {
             std::wstring functionName = param1.getContentAsWideString();

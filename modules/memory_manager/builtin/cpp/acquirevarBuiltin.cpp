@@ -12,6 +12,7 @@
 #include "i18n.hpp"
 #include "IsValidVariableName.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -22,7 +23,7 @@ Nelson::MemoryGateway::acquirevarBuiltin(Evaluator* eval, int nLhs, const ArrayO
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 2, 3);
     if (!argIn[0].isRowVectorCharacterArray()) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(L"nelson:validators:mustBeType", 1, utf8_to_wstring(NLS_STRING_ARRAY_STR));
     }
     std::string scopename = argIn[0].getContentAsCString();
     if (!((scopename == "global") || (scopename == "base") || (scopename == "caller")
@@ -62,7 +63,7 @@ Nelson::MemoryGateway::acquirevarBuiltin(Evaluator* eval, int nLhs, const ArrayO
         if (bFind) {
             retval << value;
         } else {
-            raiseError2(L"nelson:runtime:variableNotFound", varname);
+            raiseError2(L"nelson:runtime:variableNotFound", utf8_to_wstring(varname));
         }
     } else // argIn.size() == 3
     {

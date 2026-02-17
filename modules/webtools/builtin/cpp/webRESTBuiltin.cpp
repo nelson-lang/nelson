@@ -49,7 +49,7 @@ Nelson::WebtoolsGateway::webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     for (auto& name : names) {
         ArrayOf paramValue = param4.getField(name);
         if (paramValue.isSparse()) {
-            raiseError(L"Nelson:webtools:ERROR_SPARSE_NOT_SUPPORTED", ERROR_SPARSE_NOT_SUPPORTED);
+            raiseError2(L"nelson:runtime:sparseNotSupported");
         }
         if (paramValue.isCharacterArray() || paramValue.isStringArray()) {
             std::wstring val = paramValue.getContentAsWideString();

@@ -55,8 +55,7 @@ Eye(indexType n, indexType m, NelsonType classDest, bool bIsSparse)
         } break;
         case NLS_SCOMPLEX: {
             if (bIsSparse) {
-                raiseError(L"Nelson:constructors_functions:ERROR_SPARSE_NOT_SUPPORTED",
-                    ERROR_SPARSE_NOT_SUPPORTED);
+                raiseError2(L"nelson:runtime:sparseNotSupported");
             }
             single* mat = static_cast<single*>(
                 ArrayOf::allocateArrayOf(NLS_SCOMPLEX, m * n, stringVector(), true));
@@ -68,8 +67,7 @@ Eye(indexType n, indexType m, NelsonType classDest, bool bIsSparse)
         } break;
         case NLS_SINGLE: {
             if (bIsSparse) {
-                raiseError(L"Nelson:constructors_functions:ERROR_SPARSE_NOT_SUPPORTED",
-                    ERROR_SPARSE_NOT_SUPPORTED);
+                raiseError2(L"nelson:runtime:sparseNotSupported");
             }
             single* mat = static_cast<single*>(
                 ArrayOf::allocateArrayOf(NLS_SINGLE, m * n, stringVector(), true));
@@ -96,8 +94,7 @@ Eye(indexType n, indexType m, NelsonType classDest, bool bIsSparse)
         } break;
         case NLS_INT8: {
             if (bIsSparse) {
-                raiseError(L"Nelson:constructors_functions:ERROR_SPARSE_NOT_SUPPORTED",
-                    ERROR_SPARSE_NOT_SUPPORTED);
+                raiseError2(L"nelson:runtime:sparseNotSupported");
             }
             int8* mat = static_cast<int8*>(
                 ArrayOf::allocateArrayOf(NLS_INT8, m * n, stringVector(), true));
@@ -110,8 +107,7 @@ Eye(indexType n, indexType m, NelsonType classDest, bool bIsSparse)
         } break;
         case NLS_INT16: {
             if (bIsSparse) {
-                raiseError(L"Nelson:constructors_functions:ERROR_SPARSE_NOT_SUPPORTED",
-                    ERROR_SPARSE_NOT_SUPPORTED);
+                raiseError2(L"nelson:runtime:sparseNotSupported");
             }
             int16* mat = static_cast<int16*>(
                 ArrayOf::allocateArrayOf(NLS_INT16, m * n, stringVector(), true));
@@ -124,8 +120,7 @@ Eye(indexType n, indexType m, NelsonType classDest, bool bIsSparse)
         } break;
         case NLS_INT32: {
             if (bIsSparse) {
-                raiseError(L"Nelson:constructors_functions:ERROR_SPARSE_NOT_SUPPORTED",
-                    ERROR_SPARSE_NOT_SUPPORTED);
+                raiseError2(L"nelson:runtime:sparseNotSupported");
             }
             int32* mat = static_cast<int32*>(
                 ArrayOf::allocateArrayOf(NLS_INT32, m * n, stringVector(), true));
@@ -138,8 +133,7 @@ Eye(indexType n, indexType m, NelsonType classDest, bool bIsSparse)
         } break;
         case NLS_INT64: {
             if (bIsSparse) {
-                raiseError(L"Nelson:constructors_functions:ERROR_SPARSE_NOT_SUPPORTED",
-                    ERROR_SPARSE_NOT_SUPPORTED);
+                raiseError2(L"nelson:runtime:sparseNotSupported");
             }
             int64* mat = static_cast<int64*>(
                 ArrayOf::allocateArrayOf(NLS_INT64, m * n, stringVector(), true));
@@ -152,8 +146,7 @@ Eye(indexType n, indexType m, NelsonType classDest, bool bIsSparse)
         } break;
         case NLS_UINT8: {
             if (bIsSparse) {
-                raiseError(L"Nelson:constructors_functions:ERROR_SPARSE_NOT_SUPPORTED",
-                    ERROR_SPARSE_NOT_SUPPORTED);
+                raiseError2(L"nelson:runtime:sparseNotSupported");
             }
             uint8* mat = static_cast<uint8*>(
                 ArrayOf::allocateArrayOf(NLS_UINT8, m * n, stringVector(), true));
@@ -166,8 +159,7 @@ Eye(indexType n, indexType m, NelsonType classDest, bool bIsSparse)
         } break;
         case NLS_UINT16: {
             if (bIsSparse) {
-                raiseError(L"Nelson:constructors_functions:ERROR_SPARSE_NOT_SUPPORTED",
-                    ERROR_SPARSE_NOT_SUPPORTED);
+                raiseError2(L"nelson:runtime:sparseNotSupported");
             }
             uint16* mat = static_cast<uint16*>(
                 ArrayOf::allocateArrayOf(NLS_UINT16, m * n, stringVector(), true));
@@ -180,8 +172,7 @@ Eye(indexType n, indexType m, NelsonType classDest, bool bIsSparse)
         } break;
         case NLS_UINT32: {
             if (bIsSparse) {
-                raiseError(L"Nelson:constructors_functions:ERROR_SPARSE_NOT_SUPPORTED",
-                    ERROR_SPARSE_NOT_SUPPORTED);
+                raiseError2(L"nelson:runtime:sparseNotSupported");
             }
             uint32* mat = static_cast<uint32*>(
                 ArrayOf::allocateArrayOf(NLS_UINT32, m * n, stringVector(), true));
@@ -194,8 +185,7 @@ Eye(indexType n, indexType m, NelsonType classDest, bool bIsSparse)
         } break;
         case NLS_UINT64: {
             if (bIsSparse) {
-                raiseError(L"Nelson:constructors_functions:ERROR_SPARSE_NOT_SUPPORTED",
-                    ERROR_SPARSE_NOT_SUPPORTED);
+                raiseError2(L"nelson:runtime:sparseNotSupported");
             }
             uint64* mat = static_cast<uint64*>(
                 ArrayOf::allocateArrayOf(NLS_UINT64, m * n, stringVector(), true));
@@ -230,8 +220,7 @@ Eye(indexType n, indexType m, NelsonType classDest, bool bIsSparse)
         case NLS_UINT32:
         case NLS_UINT64: {
             if (bIsSparse) {
-                raiseError(L"Nelson:constructors_functions:ERROR_SPARSE_NOT_SUPPORTED",
-                    ERROR_SPARSE_NOT_SUPPORTED);
+                raiseError2(L"nelson:runtime:sparseNotSupported");
             }
             vmat = nullptr;
         } break;

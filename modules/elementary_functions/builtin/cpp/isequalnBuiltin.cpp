@@ -43,9 +43,7 @@ Nelson::ElementaryFunctionsGateway::isequalnBuiltin(
     }
     if (isSparse
         && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX && commonType != NLS_LOGICAL)) {
-        raiseError(
-            L"Nelson:elementary_functions:ERROR_ATTEMPT_TO_CONVERT_TO_UNIMPLEMENTED_SPARSE_TYPE",
-            ERROR_ATTEMPT_TO_CONVERT_TO_UNIMPLEMENTED_SPARSE_TYPE);
+        raiseError2(L"nelson:runtime:sparseNotImplemented");
     }
 
     bool needToOverload = false;

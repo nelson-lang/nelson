@@ -37,8 +37,7 @@ Nelson::DataStructuresGateway::getfieldBuiltin(int nLhs, const ArrayOfVector& ar
             retval << rv[0];
         }
     } else {
-        raiseError(L"Nelson:data_structures:ERROR_WRONG_TYPE_ARG1_STRUCT_EXPECTED",
-            ERROR_WRONG_TYPE_ARG1_STRUCT_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeStructAtPosition", 1);
     }
     return retval;
 }

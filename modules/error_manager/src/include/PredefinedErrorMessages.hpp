@@ -36,7 +36,7 @@
 // TYPE ERRORS
 //=============================================================================
 #define ERROR_TYPE_LOGICAL_EXPECTED _W("logical expected.")
-#define ERROR_TYPE_STRUCT_EXPECTED _W("struct expected.")
+
 // Dynamic link additions
 #define ERROR_INVALID_TYPE _W("Invalid type.")
 #define ERROR_ONLY_NUMERICPTR_CAN_BE_RESHAPED _W("Only numericPtr can be reshaped.")
@@ -443,7 +443,7 @@
 #define ERROR_RESERVED_NAME _W("reserved name")
 #define ERROR_IMPOSSIBLE_TO_UNREGISTER_AN_RESERVED_EVENT_NAME                                      \
     _W("Impossible to unregister an reserved event name.")
-#define ERROR_LIKE_EXPECTED_AT_N_2_ARGUMENT _W("'like' expected at n - 2 argument.")
+
 #define ERROR_MUST_CONTAIN_GENERATOR_SETTINGS_CAPTURED_PREVIOUSLY                                  \
     _W("Must contain generator settings captured previously.")
 #define ERROR_UNRECOGNIZED_OPTION _W("Unrecognized option: '{0}' expected.")
@@ -886,7 +886,7 @@
     _W("You must call 'tic' without an output argument before calling 'toc' ")
 #define ERROR_NONE_OF_THE_STANDARD_FORMATS_MATCH_THE_DATE_STRING                                   \
     _W("None of the standard formats match the DATE string.")
-#define ERROR_SPARSE_NOT_SUPPORTED _W("Sparse not supported.")
+
 #define ERROR_TYPE_NOT_SUPPORTED_EXTENDED                                                          \
     _W("Type not supported. Only char, string, numeric or logical allowed.")
 #define ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER                                               \
@@ -1343,7 +1343,6 @@
 // constructors_functions additional messages
 #define ERROR_SUPPORTED_TYPE_EXPECTED_LAST_ARGUMENT                                                \
     _W("A supported type expected at last argument.")
-#define ERROR_LIKE_EXPECTED_AT_N_MINUS_2 _W("'like' expected at n - 2 argument.")
 #define ERROR_TOO_MANY_DIMENSIONS _W("Too many dimensions!")
 
 // conversion / sparse support
@@ -1564,7 +1563,6 @@
 #define ERROR_UNKNOWN_FUNCTION_NAME _W("Unknown function name.")
 #define ERROR_INVALID_FUNCTION_SPECIFICATION _W("Invalid function specification.")
 #define ERROR_FUNCTION_RETURNED_NON_SCALAR_RESULT _W("function returned non-scalar result")
-#define ERROR_WRONG_TYPE_ARG1_STRUCT_EXPECTED _W("Wrong type for argument #1. struct expected.")
 #define ERROR_NUMBER_OF_OLD_FIELD_NAMES_MUST_MATCH_NUMBER_OF_NEW_FIELD_NAMES                       \
     _W("Number of old field names must match number of new field names.")
 #define ERROR_INVALID_FIELD_NAME _W("Invalid field name: {0}")
@@ -1578,7 +1576,7 @@
     _W("requires pairs of field names and values.")
 #define ERROR_REQUIRES_A_VALID_FIELDNAME _W("requires a valid fieldname.")
 #define ERROR_WRONG_TYPE_ARG1_CLASS_EXPECTED _W("Wrong type for argument #1. class expected.")
-#define ERROR_WRONG_TYPE_ARG2_STRUCT_EXPECTED _W("Wrong type for argument #2. struct expected.")
+
 #define ERROR_SECOND_ARGUMENT_MUST_BE_STRUCT_TYPE_SUBS                                             \
     _W("Second argument must be a structure with two fields whose names are 'type' and 'subs'.")
 #define ERROR_ILLEGAL_INDEXING_STRUCTURE_ARGUMENT_TYPE_DOT_EXPECTED                                \
@@ -1596,7 +1594,6 @@
 #define ERROR_UNKNOWN_TYPENAME _W("Unknown typename: {0}")
 #define ERROR_SINGLE_OR_DOUBLE_EXPECTED_AT_LAST_ARGUMENT                                           \
     _W("'single' or 'double' expected at last argument.")
-#define ERROR_LIKE_EXPECTED_AT_N_MINUS_2_ARG _W("'like' expected at n - 2 argument.")
 
 // image_processing module messages
 #define ERROR_INPUT_IMAGE_MUST_BE_NUMERIC_OR_LOGICAL _W("Input image must be numeric or logical.")

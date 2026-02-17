@@ -50,12 +50,10 @@ Nelson::DoubleGateway::flintmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
                     raiseError2(L"nelson:validators:mustBeDoubleOrSingle");
                 }
             } else {
-                raiseError(L"Nelson:double:ERROR_FIRST_ARGUMENT_MUST_BE_LIKE",
-                    ERROR_LIKE_EXPECTED_AT_N_MINUS_2_ARG);
+                raiseError2(L"nelson:validators:likeExpectedAtPosition", L"N - 2");
             }
         } else {
-            raiseError(L"Nelson:double:ERROR_FIRST_ARGUMENT_MUST_BE_LIKE",
-                ERROR_LIKE_EXPECTED_AT_N_MINUS_2_ARG);
+            raiseError2(L"nelson:validators:likeExpectedAtPosition", L"N - 2");
         }
     } else {
         double intmax = (1ULL << DBL_MANT_DIG);

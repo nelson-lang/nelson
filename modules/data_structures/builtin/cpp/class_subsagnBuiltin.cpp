@@ -27,8 +27,7 @@ Nelson::DataStructuresGateway::class_subsagnBuiltin(int nLhs, const ArrayOfVecto
             ERROR_WRONG_TYPE_ARG1_CLASS_EXPECTED);
     }
     if (!argIn[1].isStruct()) {
-        raiseError(L"Nelson:data_structures:ERROR_WRONG_TYPE_ARG2_STRUCT_EXPECTED",
-            ERROR_WRONG_TYPE_ARG2_STRUCT_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeStructAtPosition", 2);
     }
     stringVector fieldnames = argIn[1].getFieldNames();
     bool isSupportedStruct = (fieldnames.size() == 2)
