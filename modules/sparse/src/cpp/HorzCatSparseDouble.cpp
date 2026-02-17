@@ -37,8 +37,7 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getRows() != dimsB.getRows()) {
-        raiseError(
-            L"Nelson:sparse:ERROR_DIMENSIONS_NOT_CONSISTENT", ERROR_DIMENSIONS_NOT_CONSISTENT);
+        raiseError2(L"nelson:runtime:dimensionsNotConsistent");
     }
     if (A.isComplex() || B.isComplex()) {
         A.promoteType(NLS_DCOMPLEX);

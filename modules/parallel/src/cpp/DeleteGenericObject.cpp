@@ -29,13 +29,7 @@ DeleteGenericObject(const ArrayOf& A, const std::string& handleCategory)
         }
     };
 
-    std::wstring handleExpectedMsg = fmt::format(
-        L"{} handle expected.", std::wstring(handleCategory.begin(), handleCategory.end()));
-    std::wstring validHandleExpectedMsg = fmt::format(
-        L"{} valid handle expected.", std::wstring(handleCategory.begin(), handleCategory.end()));
-
-    return DeleteHandleObjects<HandleGenericObject>(
-        A, handleCategory, handleExpectedMsg, validHandleExpectedMsg, deleter);
+    return DeleteHandleObjects<HandleGenericObject>(A, handleCategory, deleter);
 }
 //=============================================================================
 } // namespace Nelson

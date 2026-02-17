@@ -145,20 +145,17 @@ static void
 checkDimensions(const ArrayOf& A, const ArrayOf& B)
 {
     if (A.getColumns() != B.getColumns()) {
-        raiseError(
-            L"Nelson:operators:ERROR_DIMENSIONS_NOT_CONSISTENT", ERROR_DIMENSIONS_NOT_CONSISTENT);
+        raiseError2(L"nelson:runtime:dimensionsNotConsistent");
     }
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getLength() != dimsB.getLength()) {
-        raiseError(
-            L"Nelson:operators:ERROR_DIMENSIONS_NOT_CONSISTENT", ERROR_DIMENSIONS_NOT_CONSISTENT);
+        raiseError2(L"nelson:runtime:dimensionsNotConsistent");
     }
     for (indexType k = 0; k < dimsA.getLength(); k++) {
         if (k != 0) {
             if (dimsA.getDimensionLength(k) != dimsB.getDimensionLength(k)) {
-                raiseError(L"Nelson:operators:ERROR_DIMENSIONS_NOT_CONSISTENT",
-                    ERROR_DIMENSIONS_NOT_CONSISTENT);
+                raiseError2(L"nelson:runtime:dimensionsNotConsistent");
             }
         }
     }

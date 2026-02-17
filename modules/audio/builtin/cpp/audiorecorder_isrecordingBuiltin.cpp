@@ -26,8 +26,7 @@ Nelson::AudioGateway::audiorecorder_isrecordingBuiltin(int nLhs, const ArrayOfVe
     nargoutcheck(nLhs, 0, 1);
     ArrayOf handleArray = argIn[0];
     if (handleArray.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-        raiseError(L"Nelson:audio:ERROR_AUDIORECORDER_HANDLE_EXPECTED",
-            ERROR_AUDIORECORDER_HANDLE_EXPECTED);
+        raiseError2(L"nelson:sound:audiorecorderHandleExpected");
     }
     auto* objRec = (AudiorecorderObject*)handleArray.getContentAsHandleScalar();
     if (!objRec) {

@@ -116,5 +116,15 @@
   "nelson:runtime:methodNotFound": "Method not found: '{0}'.",
   "nelson:runtime:variableNotFound": "Variable does not exist: '{0}'.",
   "nelson:runtime:sparseNotImplemented": "Attempt to convert to unimplemented sparse type.",
-  "nelson:runtime:sparseNotSupported": "Sparse not supported."
+  "nelson:runtime:sparseNotSupported": "Sparse not supported.",
+  "nelson:runtime:dimensionsNotConsistent": "Dimensions concatenated are not consistent.",
+  "nelson:parsing:lastArgMustBePositiveInt": "The last argument must be a positive integer.",
+  "nelson:sound:audiorecorderHandleExpected": "Audiorecorder handle expected.",
+  "nelson:arguments:validHandleExpected": "Valid handle expected '{0}'.",
+  "nelson:arguments:handleExpected": "Handle expected.",
+  "nelson:arguments:sameSizeExpected": "Same size expected.",
+  "nelson:runtime:sparseFuncNotLoaded": "Sparse Function not loaded.",
+  "nelson:qml:noParent": "No parent.",
+  "nelson:slicot:slicotFuncFails": "SLICOT {0} function fails.",
+  "nelson:mpi:mpiMustBeInit": "MPI must be initialized."
 }

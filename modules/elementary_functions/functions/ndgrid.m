@@ -39,7 +39,7 @@ function validateNumberOfArguments(numberOfInputs, numberOfOutputs)
   % Validate the number of input and output arguments
   % Throw an error if there are no inputs or if there are more outputs than inputs
   if (numberOfInputs == 0) || (numberOfInputs > 1 && numberOfOutputs > numberOfInputs)
-    error(_('Not enough input arguments.'));
+    error(message('nelson:arguments:tooFewInputs'));
   end
 end
 %=============================================================================

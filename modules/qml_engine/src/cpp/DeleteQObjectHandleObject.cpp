@@ -46,8 +46,7 @@ DeleteQObjectHandleObject(const ArrayOf& A)
         delete qmlhandleobj;
     };
 
-    return DeleteHandleObjects<QObjectHandleObject>(A, NLS_HANDLE_QOBJECT_CATEGORY_STR,
-        _W("QObject handle expected."), _W("QObject scalar handle expected."), deleter);
+    return DeleteHandleObjects<QObjectHandleObject>(A, NLS_HANDLE_QOBJECT_CATEGORY_STR, deleter);
 }
 //=============================================================================
 }

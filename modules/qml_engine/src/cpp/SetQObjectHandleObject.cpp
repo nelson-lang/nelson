@@ -36,32 +36,32 @@ SetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName, const
     ArrayOf res;
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        raiseError(
-            L"Nelson:qml_engine:ERROR_QOBJECT_HANDLE_EXPECTED", ERROR_QOBJECT_HANDLE_EXPECTED);
+        raiseError2(
+            L"nelson:validators:mustBeType", 1, utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        raiseError(L"Nelson:qml_engine:ERROR_QOBJECT_VALID_HANDLE_EXPECTED",
-            ERROR_QOBJECT_VALID_HANDLE_EXPECTED);
+        raiseError2(
+            L"nelson:validators:mustBeType", 1, utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObject* qobj = (QObject*)ptr;
     if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
         HandleGenericObject* hlObjParent = B.getContentAsHandleScalar();
         if (hlObjParent == nullptr) {
-            raiseError(L"Nelson:qml_engine:ERROR_QOBJECT_VALID_HANDLE_EXPECTED",
-                ERROR_QOBJECT_VALID_HANDLE_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeType", 2,
+                utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
         } else {
             if (hlObjParent->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-                raiseError(L"Nelson:qml_engine:ERROR_QOBJECT_HANDLE_EXPECTED",
-                    ERROR_QOBJECT_HANDLE_EXPECTED);
+                raiseError2(L"nelson:validators:mustBeType", 2,
+                    utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
             }
         }
         QObjectHandleObject* qmlhandleobjparent = (QObjectHandleObject*)hlObjParent;
         void* ptr = qmlhandleobjparent->getPointer();
         if (ptr == nullptr) {
-            raiseError(L"Nelson:qml_engine:ERROR_QOBJECT_VALID_HANDLE_EXPECTED",
-                ERROR_QOBJECT_VALID_HANDLE_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeType", 2,
+                utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
         }
         QObject* qobjParent = (QObject*)ptr;
         if (qobjParent == qobj) {

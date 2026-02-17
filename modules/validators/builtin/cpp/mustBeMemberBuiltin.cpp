@@ -26,8 +26,7 @@ Nelson::ValidatorsGateway::mustBeMemberBuiltin(int nLhs, const ArrayOfVector& ar
         ArrayOf param3 = argIn[2];
         argPos = param3.getContentAsInteger32Scalar();
         if (argPos < 1) {
-            raiseError(L"Nelson:validators:ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER",
-                ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER);
+            raiseError2(L"nelson:parsing:lastArgMustBePositiveInt");
         }
     }
     mustBeMember(argIn[0], argIn[1], argPos, true);

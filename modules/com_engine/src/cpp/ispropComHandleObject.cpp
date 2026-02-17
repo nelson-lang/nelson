@@ -24,8 +24,8 @@ ispropComHandleObject(ComHandleObject* comhandleobj, const std::wstring& propert
 {
     void* ptr = comhandleobj->getPointer();
     if (ptr == nullptr) {
-        raiseError(
-            L"Nelson:com_engine:ERROR_COM_VALID_HANDLE_EXPECTED", ERROR_COM_VALID_HANDLE_EXPECTED);
+        raiseError2(
+            L"nelson:arguments:validHandleExpected", utf8_to_wstring(NLS_HANDLE_COM_CATEGORY_STR));
     }
     auto* pVariant = static_cast<VARIANT*>(ptr);
     return isPropertyGetCom(pVariant->pdispVal, propertyName)
@@ -36,7 +36,8 @@ ArrayOf
 ispropComHandleObject(const ArrayOf& A, const std::wstring& propertyName)
 {
     if (A.getHandleCategory() != NLS_HANDLE_COM_CATEGORY_STR) {
-        raiseError(L"Nelson:com_engine:ERROR_COM_HANDLE_EXPECTED", ERROR_COM_HANDLE_EXPECTED);
+        raiseError2(
+            L"nelson:arguments:validHandleExpected", utf8_to_wstring(NLS_HANDLE_COM_CATEGORY_STR));
     }
     auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     bool res = ispropComHandleObject(comhandleobj, propertyName);

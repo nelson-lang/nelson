@@ -22,8 +22,8 @@ ispropQObject(QObjectHandleObject* qmlHandle, const std::wstring& propertyName)
 {
     void* ptr = qmlHandle->getPointer();
     if (ptr == nullptr) {
-        raiseError(
-            L"Nelson:qml:ERROR_QOBJECT_VALID_HANDLE_EXPECTED", ERROR_QOBJECT_VALID_HANDLE_EXPECTED);
+        raiseError2(L"nelson:arguments:validHandleExpected",
+            utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObject* qobj = (QObject*)ptr;
     const QMetaObject* meta = qobj->metaObject();
@@ -64,7 +64,8 @@ ispropQObject(const ArrayOf& A, const std::wstring& propertyName)
 {
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        raiseError(L"Nelson:qml:ERROR_QOBJECT_HANDLE_EXPECTED", ERROR_QOBJECT_HANDLE_EXPECTED);
+        raiseError2(L"nelson:arguments:validHandleExpected",
+            utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     bool res = ispropQObject(qmlhandleobj, propertyName);

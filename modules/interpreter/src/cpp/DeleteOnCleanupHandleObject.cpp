@@ -24,8 +24,8 @@ DeleteOnCleanupHandleObject(Evaluator* eval, const ArrayOf& A)
         }
     };
 
-    return DeleteHandleObjects<OnCleanupObjectHandle>(A, NLS_HANDLE_ONCLEANUP_CATEGORY_STR,
-        _W("onCleanup handle expected."), _W("onCleanup valid handle expected."), deleter);
+    return DeleteHandleObjects<OnCleanupObjectHandle>(
+        A, NLS_HANDLE_ONCLEANUP_CATEGORY_STR, deleter);
 }
 //=============================================================================
 } // namespace Nelson

@@ -25,8 +25,7 @@ Nelson::AudioGateway::audiorecorder_stopBuiltin(int nLhs, const ArrayOfVector& a
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-        raiseError(L"Nelson:audio:ERROR_AUDIORECORDER_HANDLE_EXPECTED",
-            ERROR_AUDIORECORDER_HANDLE_EXPECTED);
+        raiseError2(L"nelson:sound:audiorecorderHandleExpected");
     }
     auto* objRec = (AudiorecorderObject*)param1.getContentAsHandleScalar();
     objRec->stop();

@@ -52,7 +52,7 @@ function varargout = plot3(varargin)
     ms = ''; 
     ps = '';
     if (length(inputArguments) < 3)
-      error(_('Not enough input arguments.'));
+      error(message('nelson:arguments:tooFewInputs'));
     end;
     r = true;
     if (length(inputArguments) > 3)

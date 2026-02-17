@@ -62,8 +62,7 @@ MPICommHandleDelete(const ArrayOf& A)
         }
     };
 
-    return DeleteHandleObjects<MPI_CommHandleObject>(A, NLS_HANDLE_MPI_COMM_CATEGORY_STR,
-        ERROR_MPI_COMM_HANDLE_EXPECTED, ERROR_MPI_COMM_VALID_HANDLE_EXPECTED, deleter);
+    return DeleteHandleObjects<MPI_CommHandleObject>(A, NLS_HANDLE_MPI_COMM_CATEGORY_STR, deleter);
 }
 //=============================================================================
 } // namespace Nelson

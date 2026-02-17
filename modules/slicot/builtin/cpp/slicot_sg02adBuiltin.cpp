@@ -11,7 +11,6 @@
 #include "slicot_sg02adBuiltin.hpp"
 #include "Error.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -191,40 +190,31 @@ Nelson::SlicotGateway::slicot_sg02adBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_1_SCALAR_EXPECTED",
-            ERROR_SLICOT_INPUT_ARGUMENT_1_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 1);
     }
     if (!dimsJOBB.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_2_SCALAR_EXPECTED",
-            ERROR_SLICOT_INPUT_ARGUMENT_2_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 2);
     }
     if (!dimsFACT.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_3_SCALAR_EXPECTED",
-            ERROR_SLICOT_INPUT_ARGUMENT_3_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 3);
     }
     if (!dimsUPLO.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_4_SCALAR_EXPECTED",
-            ERROR_SLICOT_INPUT_ARGUMENT_4_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 4);
     }
     if (!dimsJOBL.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_5_SCALAR_EXPECTED",
-            ERROR_SLICOT_INPUT_ARGUMENT_5_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 5);
     }
     if (!dimsSCAL.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_6_SCALAR_EXPECTED",
-            ERROR_SLICOT_INPUT_ARGUMENT_6_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 6);
     }
     if (!dimsSORT.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_7_SCALAR_EXPECTED",
-            ERROR_SLICOT_INPUT_ARGUMENT_7_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 7);
     }
     if (!dimsACC.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_8_SCALAR_EXPECTED",
-            ERROR_SLICOT_INPUT_ARGUMENT_8_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 8);
     }
     if (!dimsP.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_9_SCALAR_EXPECTED",
-            ERROR_SLICOT_INPUT_ARGUMENT_9_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 9);
     }
     Dimensions dimsA_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsA.equals(dimsA_expected)) {
@@ -251,8 +241,7 @@ Nelson::SlicotGateway::slicot_sg02adBuiltin(int nLhs, const ArrayOfVector& argIn
             ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 14, dimsR_expected.toWideString());
     }
     if (!dimsTOL.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_16_SCALAR_EXPECTED",
-            ERROR_SLICOT_INPUT_ARGUMENT_16_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 16);
     }
     // CALL EXTERN FUNCTION
     try {

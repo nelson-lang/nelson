@@ -16,7 +16,7 @@
 #include "Types.hpp"
 #include "nlsTypes_exports.h"
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -51,15 +51,15 @@ private:
 template <typename T, typename Deleter = void (*)(T*)>
 bool
 DeleteHandleObjects(
-    const ArrayOf& A, const std::string& expectedCategory, const std::wstring& handleExpectedMsg,
-    const std::wstring& validHandleExpectedMsg, Deleter deleter = [](T* obj) { delete obj; })
+    const ArrayOf& A, const std::string& expectedCategory,
+    Deleter deleter = [](T* obj) { delete obj; })
 {
     if (!A.isHandle()) {
         return false;
     }
     if (A.isEmpty()) {
-        raiseError(L"Nelson:types:ERROR_VALID_HANDLE_EXPECTED", ERROR_VALID_HANDLE_EXPECTED,
-            validHandleExpectedMsg);
+        raiseError2(
+            L"nelson:arguments:validHandleExpected", utf8_to_wstring(A.getHandleCategory()));
         return false;
     }
 
@@ -75,8 +75,7 @@ DeleteHandleObjects(
             continue;
         }
         if (hlObj->getCategory() != expectedCategory) {
-            raiseError(
-                L"Nelson:types:ERROR_HANDLE_EXPECTED", ERROR_HANDLE_EXPECTED, handleExpectedMsg);
+            raiseError2(L"nelson:arguments:validHandleExpected", utf8_to_wstring(expectedCategory));
             continue;
         }
         auto* obj = dynamic_cast<T*>(hlObj);

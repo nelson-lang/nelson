@@ -12,7 +12,6 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -113,20 +112,16 @@ Nelson::SlicotGateway::slicot_sb03mdBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_1_SCALAR_EXPECTED",
-            ERROR_SLICOT_INPUT_ARGUMENT_1_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 1);
     }
     if (!dimsJOB.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_2_SCALAR_EXPECTED",
-            ERROR_SLICOT_INPUT_ARGUMENT_2_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 2);
     }
     if (!dimsFACT.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_3_SCALAR_EXPECTED",
-            ERROR_SLICOT_INPUT_ARGUMENT_3_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 3);
     }
     if (!dimsTRANA.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_4_SCALAR_EXPECTED",
-            ERROR_SLICOT_INPUT_ARGUMENT_4_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 4);
     }
     // CALL EXTERN FUNCTION
     try {
@@ -134,8 +129,7 @@ Nelson::SlicotGateway::slicot_sb03mdBuiltin(int nLhs, const ArrayOfVector& argIn
             LDU_ptr, C_output_ptr, LDC_ptr, SCALE_output_ptr, SEP_output_ptr, FERR_output_ptr,
             WR_output_ptr, WI_output_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_SB03MD_FUNCTION_FAILS",
-            ERROR_SLICOT_SB03MD_FUNCTION_FAILS);
+        raiseError2(L"nelson:slicot:slicotFuncFails", L"sb03md");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

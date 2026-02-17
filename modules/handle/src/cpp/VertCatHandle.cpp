@@ -31,8 +31,7 @@ VertCatHandle(const ArrayOf& A, const ArrayOf& B)
     Dimensions dimsB = B.getDimensions();
     if (!A.isEmpty(true) && !B.isEmpty(true)) {
         if (dimsA.getColumns() != dimsB.getColumns()) {
-            raiseError(
-                L"Nelson:handle:ERROR_DIMENSIONS_NOT_CONSISTENT", ERROR_DIMENSIONS_NOT_CONSISTENT);
+            raiseError2(L"nelson:runtime:dimensionsNotConsistent");
         }
     }
     if (A.isEmpty(true)) {

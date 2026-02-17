@@ -17,8 +17,7 @@ namespace Nelson {
 bool
 DeleteAudiorecorderHandleObject(const ArrayOf& A)
 {
-    return DeleteHandleObjects<AudiorecorderObject>(A, NLS_HANDLE_AUDIORECORDER_CATEGORY_STR,
-        ERROR_AUDIORECORDER_HANDLE_EXPECTED, ERROR_AUDIORECORDER_VALID_HANDLE_EXPECTED);
+    return DeleteHandleObjects<AudiorecorderObject>(A, NLS_HANDLE_AUDIORECORDER_CATEGORY_STR);
 }
 //=============================================================================
 } // namespace Nelson

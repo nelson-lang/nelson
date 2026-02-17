@@ -28,8 +28,7 @@ DeleteComHandleObject(const ArrayOf& A)
         delete comhandleobj;
     };
 
-    return DeleteHandleObjects<ComHandleObject>(A, NLS_HANDLE_COM_CATEGORY_STR,
-        _W("COM handle expected."), _W("COM valid handle expected."), comDeleter);
+    return DeleteHandleObjects<ComHandleObject>(A, NLS_HANDLE_COM_CATEGORY_STR, comDeleter);
 }
 //=============================================================================
 } // namespace Nelson

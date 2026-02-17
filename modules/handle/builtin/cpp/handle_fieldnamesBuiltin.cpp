@@ -29,7 +29,7 @@ Nelson::HandleGateway::handle_fieldnamesBuiltin(
     ArrayOf param1 = argIn[0];
     std::string handleTypeName = param1.getHandleCategory();
     if (handleTypeName == NLS_HANDLE_STR || handleTypeName.empty()) {
-        raiseError(L"Nelson:handle:ERROR_VALID_HANDLE_EXPECTED", ERROR_VALID_HANDLE_EXPECTED);
+        raiseError2(L"nelson:arguments:validHandleExpected", utf8_to_wstring(handleTypeName));
     }
     std::string functionNameGetHandle = getOverloadFunctionName(handleTypeName, "fieldnames");
     Context* context = eval->getContext();

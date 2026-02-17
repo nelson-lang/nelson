@@ -16,7 +16,6 @@
 #include "QObjectHandleObject.hpp"
 #include "characters_encoding.hpp"
 #include <QtQml/QQmlComponent>
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -26,14 +25,14 @@ GetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName)
     ArrayOf res;
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        raiseError(
-            L"Nelson:qml_engine:ERROR_QOBJECT_HANDLE_EXPECTED", ERROR_QOBJECT_HANDLE_EXPECTED);
+        raiseError2(
+            L"nelson:validators:mustBeType", 1, utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        raiseError(L"Nelson:qml_engine:ERROR_QOBJECT_VALID_HANDLE_EXPECTED",
-            ERROR_QOBJECT_VALID_HANDLE_EXPECTED);
+        raiseError2(
+            L"nelson:validators:mustBeType", 1, utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObject* qobj = (QObject*)ptr;
     if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
@@ -53,7 +52,7 @@ GetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName)
                 res = ArrayOf::handleConstructor(qmlHandle);
             }
         } else {
-            raiseError(L"Nelson:qml_engine:ERROR_NO_PARENT", ERROR_NO_PARENT);
+            raiseError2(L"nelson:qml:noParent");
         }
     } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR)) {
         std::string name = std::string(qobj->metaObject()->className());

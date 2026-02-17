@@ -24,7 +24,8 @@ fieldnamesQObjectHandleObject(const ArrayOf& A, bool fullList, wstringVector& fi
 {
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        raiseError(L"Nelson:qml:ERROR_QOBJECT_HANDLE_EXPECTED", ERROR_QOBJECT_HANDLE_EXPECTED);
+        raiseError2(L"nelson:arguments:validHandleExpected",
+            utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObjectHandleObject* qmlhandleobj = static_cast<QObjectHandleObject*>(hlObj);
     fieldnamesQObjectHandleObject(qmlhandleobj, fullList, fieldnames);
@@ -37,8 +38,8 @@ fieldnamesQObjectHandleObject(
     void* ptr = qmlHandle->getPointer();
     fieldnames.clear();
     if (ptr == nullptr) {
-        raiseError(
-            L"Nelson:qml:ERROR_QOBJECT_VALID_HANDLE_EXPECTED", ERROR_QOBJECT_VALID_HANDLE_EXPECTED);
+        raiseError2(L"nelson:arguments:validHandleExpected",
+            utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObject* qobj = (QObject*)ptr;
     const QMetaObject* meta = qobj->metaObject();

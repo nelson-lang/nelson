@@ -12,6 +12,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "characters_encoding.hpp"
 #include "QObjectHandleObject.hpp"
 #include "iswidgettypeQObject.hpp"
 #include "PredefinedErrorMessages.hpp"
@@ -30,12 +31,12 @@ Nelson::QmlEngineGateway::QObject_iswidgettypeBuiltin(int nLhs, const ArrayOfVec
         std::string className;
         ClassName(param1, className);
         if (className != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-            raiseError(
-                L"Nelson:qml_engine:ERROR_QOBJECT_HANDLE_EXPECTED", ERROR_QOBJECT_HANDLE_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeType", 1,
+                utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
         }
         retval.push_back(iswidgettypeQObject(param1));
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_HANDLE_STR);
+        raiseError2(L"nelson:validators:mustBeType", 1, utf8_to_wstring(NLS_HANDLE_STR));
     }
     return retval;
 }

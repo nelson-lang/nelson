@@ -34,7 +34,7 @@ end
 % ======================================================
 function listing = windowsLs(nOut, opts)
   if numel(opts) > 1
-    error('Nelson:ls:TooManyInputArguments', _('Too many input arguments.'));
+    error(message('nelson:arguments:tooManyInputs'));
   end
   if numel(opts) == 0
     lsPath = './';

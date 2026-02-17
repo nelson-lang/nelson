@@ -136,7 +136,7 @@ function [parent, X, Y, filled, propertiesLineA, propertiesLineB] = parseArgumen
       inputArguments = inputArguments(3:end);
     end
   else
-    error(_('Not enough input arguments.'));
+    error(message('nelson:arguments:tooFewInputs'));
   end
   
   [linespec, colorspec, markerspec, msg] = colstyle ('-o', 'plot');

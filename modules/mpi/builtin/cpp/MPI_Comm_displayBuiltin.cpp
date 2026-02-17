@@ -30,7 +30,7 @@ Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs, const ArrayO
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        raiseError(L"Nelson:mpi:ERROR_MPI_MUST_BE_INITIALIZED", ERROR_MPI_MUST_BE_INITIALIZED);
+        raiseError2(L"nelson:mpi:mpiMustBeInit");
     }
     ArrayOf param1 = argIn[0];
     if (eval == nullptr) {
@@ -76,7 +76,7 @@ Nelson::MpiGateway::MPI_Comm_displayBuiltin(Evaluator* eval, int nLhs, const Arr
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        raiseError(L"Nelson:mpi:ERROR_MPI_MUST_BE_INITIALIZED", ERROR_MPI_MUST_BE_INITIALIZED);
+        raiseError2(L"nelson:mpi:mpiMustBeInit");
     }
     ArrayOf param1 = argIn[0];
     if (eval == nullptr) {

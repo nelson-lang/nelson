@@ -17,8 +17,7 @@ namespace Nelson {
 bool
 DeleteLibPointerObject(const ArrayOf& A)
 {
-    return DeleteHandleObjects<LibPointerObject>(A, NLS_HANDLE_LIBPOINTER_CATEGORY_STR,
-        _W("libpointer handle expected."), _W("libpointer valid handle expected."));
+    return DeleteHandleObjects<LibPointerObject>(A, NLS_HANDLE_LIBPOINTER_CATEGORY_STR);
 }
 //=============================================================================
 } // namespace Nelson

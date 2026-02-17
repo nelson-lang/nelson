@@ -60,7 +60,8 @@ createDynamicLinkSymbolObject(const ArrayOf& dllibObject, const std::wstring& sy
     }
     auto* obj = (DynamicLinkLibraryObject*)hlObj;
     if (!obj->getPointer()) {
-        raiseError(L"Nelson:dynamic_link:ERROR_VALID_HANDLE_EXPECTED", ERROR_VALID_HANDLE_EXPECTED);
+        raiseError2(L"nelson:arguments:validHandleExpected",
+            utf8_to_wstring(NLS_HANDLE_DLLIB_CATEGORY_STR));
     }
     if (!DynamicLinkSymbolObject::isValidDataType(returnType)) {
         raiseError(L"Nelson:dynamic_link:ERROR_INVALID_ARGUMENT_TYPE",

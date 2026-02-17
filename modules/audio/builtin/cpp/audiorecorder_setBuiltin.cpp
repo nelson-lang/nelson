@@ -28,8 +28,7 @@ Nelson::AudioGateway::audiorecorder_setBuiltin(int nLhs, const ArrayOfVector& ar
     ArrayOf param3 = argIn[2];
     ArrayOfVector retval;
     if (param1.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-        raiseError(L"Nelson:audio:ERROR_AUDIORECORDER_HANDLE_EXPECTED",
-            ERROR_AUDIORECORDER_HANDLE_EXPECTED);
+        raiseError2(L"nelson:sound:audiorecorderHandleExpected");
     }
     auto* objRec = (AudiorecorderObject*)param1.getContentAsHandleScalar();
     std::wstring errorMessage;

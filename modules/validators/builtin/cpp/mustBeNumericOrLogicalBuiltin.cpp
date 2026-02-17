@@ -27,8 +27,7 @@ Nelson::ValidatorsGateway::mustBeNumericOrLogicalBuiltin(int nLhs, const ArrayOf
         ArrayOf param2 = argIn[1];
         argPos = param2.getContentAsInteger32Scalar();
         if (argPos < 1) {
-            raiseError(L"Nelson:validators:ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER",
-                ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER);
+            raiseError2(L"nelson:parsing:lastArgMustBePositiveInt");
         }
     }
     mustBeNumericOrLogical(argIn[0], argPos, true);

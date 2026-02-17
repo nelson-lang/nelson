@@ -31,20 +31,19 @@ Nelson::ValidatorsGateway::mustBeVectorBuiltin(int nLhs, const ArrayOfVector& ar
             ArrayOf param2 = argIn[1];
             argPos = param2.getContentAsInteger32Scalar();
             if (argPos < 1) {
-                raiseError(L"Nelson:validators:ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER",
-                    ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER);
+                raiseError2(L"nelson:parsing:lastArgMustBePositiveInt");
             }
         } else if (argIn[1].isRowVectorCharacterArray()
             || (argIn[1].isStringArray() && argIn[1].isScalar())) {
             std::wstring flag = argIn[1].getContentAsWideString();
             if (flag != L"allows-all-empties") {
-                raiseError(L"Nelson:validators:ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER_OR_"
+                raiseError(L"nelson:parsing:lastArgMustBePositiveInt_OR_"
                            L"ALLOWS_ALL_EMPTIES",
                     ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER_OR_ALLOWS_ALL_EMPTIES);
             }
             allowsAllEmpties = true;
         } else {
-            raiseError(L"Nelson:validators:ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER_OR_ALLOWS_"
+            raiseError(L"nelson:parsing:lastArgMustBePositiveInt_OR_ALLOWS_"
                        L"ALL_EMPTIES",
                 ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER_OR_ALLOWS_ALL_EMPTIES);
         }
@@ -58,8 +57,7 @@ Nelson::ValidatorsGateway::mustBeVectorBuiltin(int nLhs, const ArrayOfVector& ar
         ArrayOf param2 = argIn[1];
         argPos = param2.getContentAsInteger32Scalar();
         if (argPos < 1) {
-            raiseError(L"Nelson:validators:ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER",
-                ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER);
+            raiseError2(L"nelson:parsing:lastArgMustBePositiveInt");
         }
     } break;
     }

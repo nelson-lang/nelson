@@ -21,7 +21,7 @@ function obj = subsasgn(obj, s, val)
       return
     case '()'
       if (iscell(s(1).subs) && (numel(s(1).subs) > 1))
-        error('Nelson:dictionary:TooManyInputsToParenAssign', _('Too many input arguments. To insert multiple entries, utilize an array of keys instead.'));
+        error(message('nelson:arguments:tooManyInputs'))
       end
       key = s(1).subs{1};
       if ischar(key)

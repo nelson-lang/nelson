@@ -22,7 +22,8 @@ function hold(varargin)
       opt_hold_state = varargin{2};
       nargs = 1;
     otherwise
-      error(_('Too many input arguments.'));
+      error(message('nelson:arguments:tooManyInputs'))
+
     end
     if ~isgraphics(ax)
       error(_('First argument must be an axes object.'));

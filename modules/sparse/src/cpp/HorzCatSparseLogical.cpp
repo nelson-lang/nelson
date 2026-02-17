@@ -37,8 +37,7 @@ HorzCatSparseLogical(ArrayOf A, ArrayOf B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getRows() != dimsB.getRows()) {
-        raiseError(
-            L"Nelson:sparse:ERROR_DIMENSIONS_NOT_CONSISTENT", ERROR_DIMENSIONS_NOT_CONSISTENT);
+        raiseError2(L"nelson:runtime:dimensionsNotConsistent");
     }
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatA
         = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.getSparseDataPointer();

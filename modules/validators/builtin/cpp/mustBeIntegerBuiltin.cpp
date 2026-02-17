@@ -26,8 +26,7 @@ Nelson::ValidatorsGateway::mustBeIntegerBuiltin(int nLhs, const ArrayOfVector& a
         ArrayOf param2 = argIn[1];
         argPos = param2.getContentAsInteger32Scalar();
         if (argPos < 1) {
-            raiseError(L"Nelson:validators:ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER",
-                ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER);
+            raiseError2(L"nelson:parsing:lastArgMustBePositiveInt");
         }
     }
     mustBeInteger(argIn[0], argPos, true);

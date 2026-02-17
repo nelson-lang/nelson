@@ -11,7 +11,6 @@
 #include "slicot_sb03odBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -105,16 +104,13 @@ Nelson::SlicotGateway::slicot_sb03odBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_1_SCALAR_EXPECTED",
-            ERROR_SLICOT_INPUT_ARGUMENT_1_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 1);
     }
     if (!dimsFACT.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_2_SCALAR_EXPECTED",
-            ERROR_SLICOT_INPUT_ARGUMENT_2_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 2);
     }
     if (!dimsTRANS.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_INPUT_ARGUMENT_3_SCALAR_EXPECTED",
-            ERROR_SLICOT_INPUT_ARGUMENT_3_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 3);
     }
     Dimensions dimsQ_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsQ.equals(dimsQ_expected)) {
@@ -135,8 +131,7 @@ Nelson::SlicotGateway::slicot_sb03odBuiltin(int nLhs, const ArrayOfVector& argIn
             B_output_ptr, LDB_ptr, SCALE_output_ptr, WR_output_ptr, WI_output_ptr, DWORK_ptr,
             LDWORK_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError(L"Nelson:slicot:ERROR_SLICOT_SB03OD_FUNCTION_FAILS",
-            ERROR_SLICOT_SB03OD_FUNCTION_FAILS);
+        raiseError2(L"nelson:slicot:slicotFuncFails", L"sb03od");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

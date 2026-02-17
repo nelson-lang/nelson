@@ -39,8 +39,7 @@ VertCatSparseDouble(ArrayOf A, ArrayOf B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getColumns() != dimsB.getColumns()) {
-        raiseError(
-            L"Nelson:sparse:ERROR_DIMENSIONS_NOT_CONSISTENT", ERROR_DIMENSIONS_NOT_CONSISTENT);
+        raiseError2(L"nelson:runtime:dimensionsNotConsistent");
     }
     A = CtransposeSparseDouble(A);
     B = CtransposeSparseDouble(B);

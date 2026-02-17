@@ -29,7 +29,7 @@ Nelson::MpiGateway::MPI_RecvBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        raiseError(L"Nelson:mpi:ERROR_MPI_MUST_BE_INITIALIZED", ERROR_MPI_MUST_BE_INITIALIZED);
+        raiseError2(L"nelson:mpi:mpiMustBeInit");
     }
     ArrayOf tmp = argIn[0];
     int source = tmp.getContentAsInteger32Scalar();

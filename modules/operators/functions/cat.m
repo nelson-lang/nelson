@@ -10,7 +10,7 @@
 function result = cat(varargin)
   % a builtin will be faster but currently it does the job :)
   if (nargin < 1)
-    error('Nelson:minrhs', _('Not enough input arguments.'));
+    error(message('nelson:arguments:tooFewInputs'));
   end
   if (nargin == 1)
     dim = varargin{1};

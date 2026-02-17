@@ -14,7 +14,6 @@
 // SIZE & DIMENSION ERRORS
 //=============================================================================
 #define ERROR_SIZE_SCALAR_EXPECTED _W("A scalar expected.")
-#define ERROR_DIMENSIONS_NOT_CONSISTENT _W("Dimensions concatenated are not consistent.")
 
 // Dimensions module messages
 #define ERROR_ILLEGAL_ARGUMENT_TO_DIMENSIONS_CONSTRUCTOR                                           \
@@ -41,13 +40,12 @@
 #define ERROR_INVALID_TYPE _W("Invalid type.")
 #define ERROR_ONLY_NUMERICPTR_CAN_BE_RESHAPED _W("Only numericPtr can be reshaped.")
 #define ERROR_TYPE_CLASS_EXPECTED _W("class expected.")
-#define ERROR_TYPE_ALREADY_RESERVED _W("type reserved.")
-#define ERROR_SAME_INTEGER_TYPE_EXPECTED _W("Same integer type expected.")
+
 #define ERROR_WRONG_ARGUMENTS_TYPE _W("Wrong types for inputs arguments.")
 #define ERROR_TYPE_CELL_OF_STRINGS _W("cell of strings")
 #define ERROR_TYPE_X_EXPECTED _W("{} expected.")
 #define ERROR_WRONG_ARGUMENT_X_TYPE _W("Wrong type: #{} argument.")
-#define ERROR_WRONG_ARGUMENT_X_TYPE_Y_EXPECTED _W("Wrong type for argument #{}: {} expected.")
+
 #define ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_FUNCTION_HANDLE_EXPECTED                             \
     _W("Wrong type for argument #{}: string or function handle expected.")
 #define ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_DOUBLE_EXPECTED                                      \
@@ -220,8 +218,6 @@
     _W("Cannot convert struct-arrays to any other type.")
 #define ERROR_CANNOT_CONVERT_STRING_ARRAYS_TO_ANY_OTHER_TYPE                                       \
     _W("Cannot convert string-arrays to any other type.")
-// Sparse dynamic functions
-#define ERROR_SPARSE_FUNCTION_NOT_LOADED _W("Sparse Function not loaded.")
 // StringToClass messages
 #define ERROR_INPUT_MUST_BE_A_VALID_CLASS_NAME _W("input must be a valid class name.")
 #define ERROR_SPARSE_TYPE_NOT_SUPPORTED _W("Sparse type not supported.")
@@ -269,7 +265,7 @@
 //=============================================================================
 #define ERROR_PYTHON_SAME_NAME_VALUE_EXPECTED _W("Same name, value numbers expected.")
 #define ERROR_PYTHON_VALID_PYTHON_CODE_OBJECT_EXPECTED _W("Valid Python code object expected.")
-#define ERROR_PYTHON_ERROR_CALLING_METHOD _W("Error calling method.")
+
 // Additional Python engine messages added during migration
 #define ERROR_PYTHON_CONVERSION_NOT_SUPPORTED _W("Conversion to Python is not supported.")
 #define ERROR_PYTHON_CHAR_CONVERSION_1N_VECTORS                                                    \
@@ -310,7 +306,7 @@
 #define ERROR_UNRECOGNIZED_NODE _W("Unrecognized reserved node in expression tree!")
 #define ERROR_UNRECOGNIZED_EXPRESSION _W("Unrecognized expression!")
 #define ERROR_EMPTY_EXPRESSION _W("Empty expression!")
-#define ERROR_ILLEGAL_USE_COLON _W("Illegal use of the ':' keyword in indexing expression")
+
 #define ERROR_UNRECOGNIZED_STATEMENT _W("Unrecognized statement type.")
 #define ERROR_INDEX_EXPRESSION_EXPECTED _W("Expected indexing expression!")
 #define ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION                                                \
@@ -326,8 +322,7 @@
 // FUNCTION & SCRIPT ERRORS
 //=============================================================================
 #define ERROR_ENDFUNCTION_WRONG_USE _W("endfunction cannot used here.")
-#define ERROR_CANNOT_USE_ARGS _W("Cannot use arguments in a call to a script.")
-#define ERROR_ASSIGN_OUTPUTS _W("Cannot assign outputs in a call to a script.")
+
 #define ERROR_MUST_HAVE_LVALUE _W("Must have lvalue in argument passed by reference")
 //=============================================================================
 // STACK & SCOPE ERRORS
@@ -339,7 +334,7 @@
 //=============================================================================
 #define ERROR_DYNAMIC_FIELD_STRING_EXPECTED                                                        \
     _W("dynamic field reference to structure requires a string argument")
-#define ERROR_NEED_TO_IMPLEMENT_ASSIGN _W("NEED TO IMPLEMENT ASSIGNATION FOR OBJECT.")
+
 #define ERROR_ASSIGN_TO_NON_STRUCT _W("Cannot apply A.field_name = B to non struct-array object A.")
 #define ERROR_FIELDNAMES_MUST_MATCH _W("Fieldnames in structs must match.")
 #define ERROR_NEED_OVERLOAD _W("Need to Overload!")
@@ -415,7 +410,7 @@
 // AUTO-CONVERTED ERROR MESSAGES
 
 #define ERROR_WRONG_VALUE_FOR_2_ARGUMENT _W("Wrong value for #2 argument.")
-#define ERROR_WRONG_VALUE_FOR_3_ARGUMENT _W("Wrong value for #3 argument.")
+
 #define ERROR_WRONG_VALUE_FOR_1_ARGUMENT_0_1_VALUES_EXPECTED                                       \
     _W("Wrong value for #1 argument. [0, 1] values expected.")
 #define ERROR_WRONG_VALUE_OF_THE_FOURTH_ARGUMENT_UPPER_OR_LOWER_EXPECTED                           \
@@ -426,17 +421,9 @@
     _W("Sparse matrix indices must be positive integers.")
 #define ERROR_IN_I_J_V_FORMAT_ALL_THREE_VECTORS_MUST_BE_THE_SAME_SIZE_OR_BE_SCALARS                \
     _W("in I, J, V format, all three vectors must be the same size or be scalars.")
-#define ERROR_INPUT_ARGUMENT_5_WRONG_SIZE _W("Input argument #5: wrong size.")
-#define ERROR_INPUT_ARGUMENT_6_WRONG_SIZE _W("Input argument #6: wrong size.")
-#define ERROR_INPUT_ARGUMENT_1_WRONG_SIZE _W("Input argument #1: wrong size.")
-#define ERROR_INPUT_ARGUMENT_2_WRONG_SIZE _W("Input argument #2: wrong size.")
-#define ERROR_INPUT_ARGUMENT_3_WRONG_SIZE _W("Input argument #3: wrong size.")
-#define ERROR_INPUT_ARGUMENT_4_WRONG_SIZE _W("Input argument #4: wrong size.")
+
 #define ERROR_SB10JD_FUNCTION_FAILS _W("sb10jd function fails.")
-#define ERROR_INPUT_ARGUMENT_10_WRONG_SIZE _W("Input argument #10: wrong size.")
-#define ERROR_INPUT_ARGUMENT_11_WRONG_SIZE _W("Input argument #11: wrong size.")
-#define ERROR_INPUT_ARGUMENT_13_WRONG_SIZE _W("Input argument #13: wrong size.")
-#define ERROR_INPUT_ARGUMENT_14_WRONG_SIZE _W("Input argument #14: wrong size.")
+
 #define ERROR_SG02AD_FUNCTION_FAILS _W("sg02ad function fails.")
 #define ERROR_TG01AD_FUNCTION_FAILS _W("tg01ad function fails.")
 #define ERROR_NAME_ALREADY_REGISTER _W("name already register.")
@@ -455,7 +442,6 @@
 #define ERROR_OPTION_NOT_MANAGED _W("option not managed.")
 #define ERROR_INVALID_VALUE _W("Invalid value.")
 #define ERROR_PROFILE_STRUCT_EXPECTED _W("Profile struct expected.")
-#define ERROR_SAME_SIZE _W("Same size")
 #define ERROR_FUTURE_HANDLE_EXPECTED _W("Future handle expected.")
 #define ERROR_FEVALFUTURE_HANDLE_EXPECTED _W("FevalFuture handle expected.")
 #define ERROR_FUNCTION_HANDLE_HANDLE_EXPECTED _W("function handle handle expected.")
@@ -506,8 +492,7 @@
 #define ERROR_FIRST_ARGUMENT_MUST_BE_A_STRUCT _W("First argument must be a struct.")
 #define ERROR_ILLEGAL_INDEXING_STRUCTURE_ARGUMENT_TYPE_OR_EXPECTED                                 \
     _W("Illegal indexing structure argument: type '.', '{}' or '()' expected.")
-#define ERROR_FUNCTION _W("function \'")
-#define ERROR_MPI_MUST_BE_INITIALIZED _W("MPI must be initialized.")
+
 #define ERROR_UNSUPPORTED_TYPE_TO_REDUCE _W("Unsupported type to reduce.")
 #define ERROR_UNSUPPORTED_OPERATOR_TYPE _W("Unsupported operator type.")
 #define ERROR_UNSUPPORTED_TYPE_MUST_BE_A_NUMERICAL_TYPE                                            \
@@ -681,7 +666,7 @@
     _W("The special variable 'varargout' was not defined as expected.")
 #define ERROR_NOT_ENOUGH_OUTPUTS_IN_VARARGOUT_TO_SATISFY_CALL                                      \
     _W("Not enough outputs in varargout to satisfy call.")
-#define ERROR_CANNOT_OPEN _W("Cannot open:")
+
 #define ERROR_CANNOT_OPEN_WITH_FILENAME _W("Cannot open:\n {0}")
 #define ERROR_OPERANDS_MUST_BE_REAL _W("Operands must be real.")
 #define ERROR_ATTEMPT_TO_CONVERT_TO_UNIMPLEMENTED_SPARSE_TYPE                                      \
@@ -889,8 +874,6 @@
 
 #define ERROR_TYPE_NOT_SUPPORTED_EXTENDED                                                          \
     _W("Type not supported. Only char, string, numeric or logical allowed.")
-#define ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER                                               \
-    _W("The last argument must be a positive integer.")
 #define ERROR_FAILED_TO_CREATE_EVALUATOR _W("Failed to create evaluator: {0}")
 #define ERROR_LAST_ARGUMENT_MUST_BE_POSITIVE_INTEGER_OR_ALLOWS_ALL_EMPTIES                         \
     _W("The last argument must be a positive integer or 'allows-all-empties'.")
@@ -959,48 +942,6 @@
 #define ERROR_INVALID_STRING_ARGUMENT_FOR_DBSTEP                                                   \
     _W("Invalid string argument for dbstep. Expected 'in' or 'out'.")
 
-//=============================================================================
-// SLICOT MODULE MESSAGES (auto-added during migration)
-//=============================================================================
-#define ERROR_SLICOT_INPUT_ARGUMENT_1_SCALAR_EXPECTED _W("Input argument #1: scalar expected.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_2_SCALAR_EXPECTED _W("Input argument #2: scalar expected.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_3_SCALAR_EXPECTED _W("Input argument #3: scalar expected.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_4_SCALAR_EXPECTED _W("Input argument #4: scalar expected.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_5_SCALAR_EXPECTED _W("Input argument #5: scalar expected.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_6_SCALAR_EXPECTED _W("Input argument #6: scalar expected.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_7_SCALAR_EXPECTED _W("Input argument #7: scalar expected.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_8_SCALAR_EXPECTED _W("Input argument #8: scalar expected.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_9_SCALAR_EXPECTED _W("Input argument #9: scalar expected.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_10_SCALAR_EXPECTED _W("Input argument #10: scalar expected.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_16_SCALAR_EXPECTED _W("Input argument #16: scalar expected.")
-
-#define ERROR_SLICOT_INPUT_ARGUMENT_1_WRONG_SIZE _W("Input argument #1: wrong size. {0} expected.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_2_WRONG_SIZE _W("Input argument #2: wrong size. {0} expected.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_3_WRONG_SIZE _W("Input argument #3: wrong size. {0} expected.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_4_WRONG_SIZE _W("Input argument #4: wrong size. {0} expected.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_5_WRONG_SIZE _W("Input argument #5: wrong size. {0} expected.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_6_WRONG_SIZE _W("Input argument #6: wrong size. {0} expected.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_7_WRONG_SIZE _W("Input argument #7: wrong size. {0} expected.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_9_WRONG_SIZE _W("Input argument #9: wrong size. {0} expected.")
-
-#define ERROR_SLICOT_AB04MD_FUNCTION_FAILS _W("ab04md function fails.")
-#define ERROR_SLICOT_AB07ND_FUNCTION_FAILS _W("ab07nd function fails.")
-#define ERROR_SLICOT_AB01OD_FUNCTION_FAILS _W("ab01od function fails.")
-#define ERROR_SLICOT_MB02MD_FUNCTION_FAILS _W("mb02md function fails.")
-#define ERROR_SLICOT_AB08ND_FUNCTION_FAILS _W("ab08nd function fails.")
-#define ERROR_SLICOT_AG08BD_FUNCTION_FAILS _W("ag08bd function fails.")
-#define ERROR_SLICOT_MB03PD_FUNCTION_FAILS _W("mb03pd function fails.")
-#define ERROR_SLICOT_MB03OD_FUNCTION_FAILS _W("mb03od function fails.")
-#define ERROR_SLICOT_MB03RD_FUNCTION_FAILS _W("mb03rd function fails.")
-#define ERROR_SLICOT_MB04MD_FUNCTION_FAILS _W("mb04md function fails.")
-#define ERROR_SLICOT_MB04GD_FUNCTION_FAILS _W("mb04gd function fails.")
-#define ERROR_SLICOT_MB05OD_FUNCTION_FAILS _W("mb05od function fails.")
-#define ERROR_SLICOT_MC01TD_FUNCTION_FAILS _W("mc01td function fails.")
-#define ERROR_SLICOT_SB01BD_FUNCTION_FAILS _W("sb01bd function fails.")
-#define ERROR_SLICOT_SB02OD_FUNCTION_FAILS _W("sb02od function fails.")
-#define ERROR_SLICOT_SB03MD_FUNCTION_FAILS _W("sb03md function fails.")
-#define ERROR_SLICOT_SB03OD_FUNCTION_FAILS _W("sb03od function fails.")
-#define ERROR_SLICOT_INPUT_ARGUMENT_13_SCALAR_EXPECTED _W("Input argument #13: scalar expected.")
 #define ERROR_INVALID_ARG_TYPE_FOR_DBSTEP                                                          \
     _W("Invalid argument type for dbstep. Expected numeric or string.")
 #define ERROR_BREAKPOINTS_ONLY_IN_MACRO_FUNCTIONS                                                  \
@@ -1023,13 +964,12 @@
 #define ERROR_VECTOR_1x6_EXPECTED _W("vector 1x6 expected.")
 #define ERROR_MATRIX_3x3_EXPECTED _W("matrix 3x3 expected.")
 #define ERROR_MATRIX_4x4_EXPECTED _W("matrix 4x4 expected.")
-#define ERROR_STRUCTS_EXPECTED _W("structs expected.")
-#define ERROR_QVARIANT_TYPE_NOT_MANAGED _W("QVariant type not managed.")
+
 #define ERROR_TYPE_CONVERSION_TO_QVARIANT_NOT_MANAGED _W("Type conversion to QVariant not managed.")
 #define ERROR_EMPTY_MATRIX_NOT_MANAGED _W("Empty matrix not managed.")
 #define ERROR_DLLIB_HANDLE_EXPECTED _W("dllib handle expected.")
 #define ERROR_LIBPOINTER_HANDLE_EXPECTED _W("libpointer handle expected.")
-#define ERROR_DLSYM_DISPLAY_WRONG_NUM_ARGS _W("Wrong number of input arguments.")
+
 #define ERROR_CANNOT_LOAD_LIBRARY _W("Cannot load library: {0}")
 #define ERROR_UNABLE_TO_IMPORT_FUNCTION_FFI _W("Unable to import function through FFI.")
 #define ERROR_INVALID_ARGUMENT_TYPE _W("Invalid argument type: {0}")
@@ -1091,7 +1031,7 @@
     _W("Undefined function 'fft' for input arguments of type '{0}'.")
 #define ERROR_MPI_COMM_HANDLE_EXPECTED _W("MPI_Comm handle expected.")
 #define ERROR_MPI_COMM_VALID_HANDLE_EXPECTED _W("MPI_Comm valid handle expected.")
-#define ERROR_TYPE_NOT_MANAGED _W("Type not managed.")
+
 #define ERROR_INVALID_COMMUNICATOR _W("Invalid communicator")
 #define ERROR_IMAGE_DATA_MUST_BE_MxN_OR_MxNx3 _W("Image data must be either MxN or MxNx3.")
 #define ERROR_CANNOT_SAVE_IMAGE_FILE _W("Cannot save image file: {0}")
@@ -1164,13 +1104,12 @@
 #define ERROR_SECOND_ARGUMENT_MUST_BE_0 _W("Second argument must be 0.")
 
 // types module messages (handle related)
-#define ERROR_VALID_HANDLE_EXPECTED _W("Valid handle expected.")
-#define ERROR_HANDLE_EXPECTED _W("Handle expected.")
+
 // julia_engine added messages
 #define ERROR_JULIA_ENGINE_NOT_INITIALIZED _W("Julia engine not initialized.")
 #define ERROR_MAIN_MODULE_NOT_FOUND _W("Main module not found.")
 #define ERROR_CANNOT_CONVERT_NELSON_VARIABLE_TO_JULIA _W("Cannot convert Nelson variable to Julia.")
-#define ERROR_VARIABLE_NOT_FOUND _W("Variable not found: {0}")
+
 #define ERROR_FILENAME_NOT_FOUND _W("File not found: {0}")
 // string module
 #define ERROR_WRONG_FORMAT_STRING _W("Wrong format string.")
@@ -1202,8 +1141,7 @@
 #define ERROR_INVALID_FORMAT_STRING _W("Invalid format string.")
 #define ERROR_ALL_STRING_AND_CELL_INPUTS_MUST_BE_SAME_SIZE_OR_SCALARS                              \
     _W("All string and cell array inputs must be the same size or scalars.")
-#define ERROR_ALL_STRING_AND_CELL_INPUTS_MUST_BE_STRINGS_OR_CELLS                                  \
-    _W("All string and cell array inputs must be strings or cells.")
+
 #define ERROR_NOT_ENOUGH_ARGUMENTS_FOR_FORMAT_STRING _W("Not enough arguments for format string.")
 #define ERROR_WRONG_FORMAT_ARGUMENT_INDEX _W("Wrong format argument index.")
 #define ERROR_INVALID_INPUT_ARGUMENTS_CELL_OR_STRING_EXPECTED                                      \
@@ -1261,10 +1199,9 @@
 #define ERROR_AUDIOPLAYER_VALID_HANDLE_EXPECTED _W("audioplayer valid handle expected.")
 #define ERROR_WRONG_ARGUMENT_X_VALUE_WITH_NAME _W("Wrong value for #{} argument. {0}")
 // audiorecorder messages
-#define ERROR_AUDIORECORDER_HANDLE_EXPECTED _W("audiorecorder handle expected.")
 #define ERROR_AUDIORECORDER_VALID_HANDLE_EXPECTED _W("audiorecorder valid handle expected.")
 #define ERROR_INVALID_AUDIORECORDER_HANDLE _W("Invalid audiorecorder handle.")
-#define ERROR_INVALID_AUDIOPLAYER_HANDLE _W("Invalid audioplayer handle.")
+
 #define ERROR_UNSUPPORTED_DATA_TYPE_FOR_AUDIORECORDER_GETAUDIODATA                                 \
     _W("Unsupported data type for audiorecorder getaudiodata.")
 #define ERROR_DURATION_IN_SECONDS_EXPECTED _W("duration in seconds expected.")
@@ -1275,7 +1212,7 @@
 #define ERROR_INVALID_RANGE _W("Invalid range.")
 #define ERROR_CANNOT_SET_READ_ONLY_PROPERTY _W("Cannot set a read only property.")
 #define ERROR_CANNOT_CREATE_AUDIORECORDER_HANDLE _W("Cannot create audiorecorder handle.")
-#define ERROR_CANNOT_CREATE_AUDIOPLAYER_HANDLE _W("Cannot create audioplayer handle.")
+
 // com_engine module messages
 #define ERROR_COM_HANDLE_EXPECTED _W("COM handle expected.")
 #define ERROR_COM_VALID_HANDLE_EXPECTED _W("COM valid handle expected.")
@@ -1325,8 +1262,7 @@
     _W("Scalar integer value required for #1 argument.")
 #define ERROR_NARGINCHK_SCALAR_INTEGER_REQUIRED_ARG2                                               \
     _W("Scalar integer value required for #2 argument.")
-#define ERROR_WRONG_NUMBERS_INPUT_ARGS_NOT_ENOUGH _W("Not enough input arguments.")
-#define ERROR_WRONG_NUMBERS_INPUT_ARGS_TOO_MANY _W("Too many input arguments.")
+
 #define ERROR_WRONG_VALUE_ARG1 _W("Wrong value for #1 argument.")
 #define ERROR_UNKNOWN_OPTION _W("Unknown option.")
 #define ERROR_VALUE_BETWEEN_0_255_EXPECTED _W("Value between 0 and 255 expected.")
@@ -1343,11 +1279,8 @@
 // constructors_functions additional messages
 #define ERROR_SUPPORTED_TYPE_EXPECTED_LAST_ARGUMENT                                                \
     _W("A supported type expected at last argument.")
-#define ERROR_TOO_MANY_DIMENSIONS _W("Too many dimensions!")
 
 // conversion / sparse support
-#define ERROR_ATTEMPT_TO_CONVERT_UNIMPLEMENTED_SPARSE_TYPE                                         \
-    _W("Attempt to convert to unimplemented sparse type")
 #define ERROR_N_DIMENSIONAL_ARRAYS_NOT_SUPPORTED _W("N-dimensional arrays are not supported.")
 #define ERROR_SIZE_VECTOR_ROW_REAL_ELEMENTS_EXPECTED                                               \
     _W("Size vector should be a row vector with real elements.")
@@ -1439,9 +1372,7 @@
 #define ERROR_UNABLE_TO_CONVERT_SUPPLIED_OBJECT_TO_A_SINGLE_STRING                                 \
     _W("Unable to convert supplied object to a single string.")
 #define ERROR_A_CELL_OR_STRING_ARRAY_EXPECTED _W("A cell or string array expected.")
-#define ERROR_ATTEMPT_TO_APPLY_CONTENTS_INDEXING_TO_NON_CELL_ARRAY_OBJECT                          \
-    _W("Attempt to apply contents-indexing to non-cell array object.")
-#define ERROR_EMPTY_CONTENTS_INDEXING_IS_NOT_DEFINED _W("Empty contents indexing is not defined.")
+
 #define ERROR_GETVECTORCONTENTS_NOT_SUPPORTED_FOR_SPARSE_ARRAYS                                    \
     _W("getVectorContents not supported for sparse arrays.")
 // generic sparse expectation
@@ -1527,7 +1458,7 @@
 
 // matio module messages
 #define ERROR_INVALID_VARIABLE_NAME _W("Invalid variable name: {0}")
-#define ERROR_VARIABLE_DOES_NOT_EXIST _W("Variable does not exist: {0}")
+
 #define ERROR_UNKNOWN_SAVE_FORMAT _W("Unknown save format.")
 #define ERROR_CANNOT_APPEND_VARIABLE _W("Cannot append variable (-v7.3 required).")
 #define ERROR_CANNOT_SAVE_FILE _W("Cannot save file.")
@@ -1535,7 +1466,6 @@
 #define ERROR_VALID_MAT_FILE_EXPECTED _W("Valid .mat file expected.")
 
 // qml_engine module messages
-#define ERROR_QOBJECT_HANDLE_EXPECTED _W("QObject handle expected.")
 #define ERROR_QOBJECT_VALID_HANDLE_EXPECTED _W("QObject valid handle expected.")
 #define ERROR_NO_PARENT _W("No parent.")
 #define ERROR_INVALID_PARAMETERS _W("Invalid parameters")
@@ -1588,8 +1518,7 @@
 #define ERROR_DEFAULT_SHUFFLE_OR_ENGINELIST_EXPECTED                                               \
     _W("'default', 'shuffle' or 'enginelist' expected.")
 #define ERROR_RNG_SHUFFLE_EXPECTED _W("'shuffle' expected.")
-#define ERROR_MUST_CONTAIN_GENERATOR_SETTINGS                                                      \
-    _W("Must contain generator settings captured previously.")
+
 #define ERROR_LIKE_MUST_BE_FOLLOWED_BY_ARRAY _W("'like' must be followed by an array.")
 #define ERROR_UNKNOWN_TYPENAME _W("Unknown typename: {0}")
 #define ERROR_SINGLE_OR_DOUBLE_EXPECTED_AT_LAST_ARGUMENT                                           \
@@ -1631,7 +1560,6 @@
 
 // validators module: wrap runtime messages (validator-generated) using {0}
 #define ERROR_INVALID_INPUT_POSITION _W("Invalid input argument position.")
-#define ERROR_INVALID_INPUT_POSITION_WITH_MSG _W("Invalid input argument position: {0}.")
 
 #define ERROR_NO_BREAKPOINT_FOUND_AT_SPECIFIED_LOCATION                                            \
     _W("No breakpoint found at specified location.")
@@ -1773,8 +1701,6 @@
 
 #define ERROR_CANNOT_WRITE_ATTRIBUTE _W("Cannot write attribute.")
 
-#define ERROR_VALID_FUNCTION_NAME_EXPECTED _W("A valid function name expected.")
-
 #define ERROR_VALID_FUNCTION_EXPECTED _W("A valid function expected.")
 
 #define ERROR_VALUE_OUT_OF_RANGE _W("Value is out of range {0} <= value <= {1}.")
@@ -1801,7 +1727,6 @@
 #define ERROR_CANNOT_OPEN_DESTINATION_FILE _W("Cannot open destination file.")
 #define ERROR_INVALID_ANONYMOUS_FUNCTION _W("Invalid anonymous function.")
 #define ERROR_INCOMPATIBLE_HANDLE_CLASSES _W("Handles being catenated have incompatible classes.")
-#define ERROR_VALID_FUNCTION_NAME_EXPECTED _W("A valid function name expected.")
 
 #define ERROR_X_NOT_DEFINED _W("{0} not defined.")
 #define ERROR_ONCLEANUP_HANDLE_EXPECTED _W("OnCleanup handle expected.")

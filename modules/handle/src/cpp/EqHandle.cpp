@@ -25,7 +25,7 @@ EqHandle(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     if (!A.isHandle() && !B.isHandle()) {
-        raiseError(L"Nelson:handle:ERROR_HANDLE_EXPECTED", ERROR_HANDLE_EXPECTED);
+        raiseError2(L"nelson:arguments:handleExpected");
     }
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();

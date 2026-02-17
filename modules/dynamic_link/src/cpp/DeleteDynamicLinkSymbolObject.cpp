@@ -17,8 +17,7 @@ namespace Nelson {
 bool
 DeleteDynamicLinkSymbolObject(const ArrayOf& A)
 {
-    return DeleteHandleObjects<DynamicLinkSymbolObject>(A, NLS_HANDLE_DLSYM_CATEGORY_STR,
-        _W("dlsym handle expected."), _W("dlsym valid handle expected."));
+    return DeleteHandleObjects<DynamicLinkSymbolObject>(A, NLS_HANDLE_DLSYM_CATEGORY_STR);
 }
 //=============================================================================
 } // namespace Nelson
