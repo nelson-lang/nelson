@@ -473,8 +473,7 @@ LUMatrixFactorizationDoubleReal(const ArrayOf& A, int nLhs)
     ArrayOfVector retval;
 
     if (!isAllFinite<double>(A)) {
-        raiseError(L"Nelson:linear_algebra:ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF",
-            ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF);
+        raiseError2(L"nelson:validators:mustBeFinite");
     }
     int nrows = (int)A.getRows();
     int ncols = (int)A.getColumns();
@@ -544,15 +543,10 @@ LUMatrixFactorizationDoubleReal(const ArrayOf& A, int nLhs)
 ArrayOfVector
 LUMatrixFactorizationSingleReal(const ArrayOf& A, int nLhs)
 {
-    if (!isAllFinite<single>(A)) {
-        raiseError(L"Nelson:linear_algebra:ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF",
-            ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF);
-    }
     ArrayOfVector retval;
 
     if (!isAllFinite<single>(A)) {
-        raiseError(L"Nelson:linear_algebra:ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF",
-            ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF);
+        raiseError2(L"nelson:validators:mustBeFinite");
     }
     int nrows = (int)A.getRows();
     int ncols = (int)A.getColumns();
@@ -615,8 +609,7 @@ LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs)
 {
     ArrayOfVector retval;
     if (!isAllFinite<double>(A)) {
-        raiseError(L"Nelson:linear_algebra:ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF",
-            ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF);
+        raiseError2(L"nelson:validators:mustBeFinite");
     }
     int nrows = (int)A.getRows();
     int ncols = (int)A.getColumns();
@@ -683,8 +676,7 @@ LUMatrixFactorizationSingleComplex(const ArrayOf& A, int nLhs)
 {
     ArrayOfVector retval;
     if (!isAllFinite<single>(A)) {
-        raiseError(L"Nelson:linear_algebra:ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF",
-            ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF);
+        raiseError2(L"nelson:validators:mustBeFinite");
     }
     int nrows = (int)A.getRows();
     int ncols = (int)A.getColumns();

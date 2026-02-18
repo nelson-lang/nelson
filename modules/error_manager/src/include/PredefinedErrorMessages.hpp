@@ -104,7 +104,6 @@
 #define ERROR_INVALID_INDEX_VALUE_EXCEEDS_LIMIT_MAX _W("Invalid index value > limit max.")
 #define ERROR_EXPECTED_POSITIVE_INTEGER_SCALAR _W("Expected a positive integer scalar.")
 #define ERROR_EXPECTED_INTEGER _W("Expected a integer.")
-#define ERROR_NAN_AND_INF_NOT_ALLOWED _W("NaN and Inf not allowed.")
 #define ERROR_A_CELL_OF_STRING_EXPECTED _W("A cell of string expected.")
 #define ERROR_A_VECTOR_EXPECTED _W("A vector expected.")
 #define ERROR_AN_ROW_VECTOR_EXPECTED _W("An row vector expected.")
@@ -277,8 +276,6 @@
 //=============================================================================
 #define ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED                                             \
     _W("Wrong value for #{} argument. positive value expected.")
-#define ERROR_WRONG_ARGUMENT_X_FINITE_VECTOR_INTEGER_VALUE_EXPECTED                                \
-    _W("Wrong value for argument #{}. A finite vector of integer values expected.")
 #define ERROR_WRONG_ARGUMENT_X_A_MUST_BE_HIGHER_THAN_B                                             \
     _W("Wrong value for #2 argument. a must be higher than b ([a,b]).")
 //=============================================================================
@@ -361,8 +358,6 @@
 #define ERROR_HANDLE_MUST_HAVE_A_TYPE _W("handle must have a type.")
 #define ERROR_HANDLE_MUST_HAVE_A_POINTER _W("handle must have a pointer.")
 // Operators module messages
-#define ERROR_FINITE_INTEGER_VALUES_EXPECTED _W("finite integer values expected.")
-#define ERROR_FINITE_POSITIVE_INTEGER_VALUES_EXPECTED _W("finite positive integer values expected.")
 #define ERROR_ASSUMEDTYPE_MUST_BE_INTEGER_TYPE_NAME _W("ASSUMEDTYPE must be an integer type name.")
 #define ERROR_OPERANDS_TO_BIT_OPS_MUST_BE_NUMERIC _W("Operands to BIT Ops must be numeric.")
 #define ERROR_INPUTS_MUST_BE_FULL _W("Inputs must be full.")
@@ -421,7 +416,6 @@
 #define ERROR_FEVALFUTURE_HANDLE_EXPECTED _W("FevalFuture handle expected.")
 #define ERROR_FUNCTION_HANDLE_HANDLE_EXPECTED _W("function handle handle expected.")
 #define ERROR_INVALID_ANONYMOUS_FUNCTION _W("Invalid anonymous function.")
-#define ERROR_NON_NEGATIVE_VALUE_EXPECTED _W("non negative value expected.")
 #define ERROR_BACKGROUNDPOOL_HANDLE_EXPECTED _W("backgroundPool handle expected.")
 #define ERROR_A_NUMERIC_SCALAR_VALUE_EXPECTED _W("a numeric scalar value expected.")
 #define ERROR_FEVALQUEUE_HANDLE_EXPECTED _W("FevalQueue handle expected.")
@@ -545,25 +539,18 @@
 #define ERROR_INPUT_FOLLOWING_LIKE_IS_NOT_A_LOGICAL_ARRAY                                          \
     _W("Input following 'like' is not a logical array.")
 #define ERROR_ONE_ARGUMENT_HAD_AN_ILLEGAL_VALUE _W("One argument had an illegal value.")
-#define ERROR_POSITIVE_FINITE_MATRIX_EXPECTED _W("Positive finite matrix expected.")
 #define ERROR_UNSUPPORTED_MATRIX_TYPE _W("Unsupported matrix type.")
-#define ERROR_INPUT_MUST_BE_FINITE _W("Input must be finite.")
-#define ERROR_INPUT_TO_X_MUST_NOT_CONTAIN_NAN_OR_INF _W("Input to {0} must not contain NaN or Inf.")
-#define ERROR_INPUT_TO_LU_MUST_NOT_CONTAIN_NAN_OR_INF _W("Input to LU must not contain NaN or Inf.")
 #define ERROR_CANNOT_APPLY_EXPONENTIAL_OPERATION_TO_N_DIMENSIONAL_ARRAYS                           \
     _W("Cannot apply exponential operation to N-Dimensional arrays.")
 #define ERROR_POWER_OPERATOR_CAN_ONLY_BE_APPLIED_TO_SCALAR_AND_SQUARE_ARGUMENTS                    \
     _W("Power (^) operator can only be applied to scalar and square arguments.")
 #define ERROR_UNDEFINED_FUNCTION_X_FOR_INPUT_ARGUMENTS_OF_TYPE                                     \
     _W("Undefined function '{0}' for input arguments of type {1}.")
-#define ERROR_INPUT_ARGUMENT_MUST_NOT_CONTAIN_NAN_OR_INF                                           \
-    _W("Input argument must not contain NaN or Inf.")
 #define ERROR_SVD_CANNOT_TAKE_SVD_OF_MATRIX_CONTAINING_INF_OR_NAN_VALUES                           \
     _W("svd: cannot take svd of matrix containing Inf or NaN values.")
 #define ERROR_OPTION_2_MUST_BE_BALANCE_OR_NOBALANCE                                                \
     _W("option #2 must be 'balance', or 'nobalance'.")
 #define ERROR_SECOND_INPUT_MUST_BE_SKEW_OR_NONSKEW _W("Second input must be 'skew' or 'nonskew.")
-#define ERROR_SECOND_INPUT_MUST_BE_FINITE_AND_0 _W("Second input must be finite and >= 0.")
 #define ERROR_VECTOR_OR_MATRIX_2D_EXPECTED _W("Vector or matrix 2D expected.")
 #define ERROR_NOT_YET_IMPLEMENTED _W("Not yet implemented.")
 #define ERROR_SINGLE_OR_DOUBLE_TYPE_EXPECTED _W("single or double type expected.")
@@ -714,7 +701,6 @@
     _W("Invalid image format: expected a 3D array with 3 color channels.")
 #define ERROR_INVALID_IMAGE_FORMAT_ARRAY_WITH_VALUES_IN_0_1_EXPECTED                               \
     _W("Invalid image format: array with values in [0. 1.] expected.")
-#define ERROR_FINITE_VALUE_EXPECTED _W("Finite value expected.")
 #define ERROR_RESTRICTED_STRING_SCALAR_DEFAULT_FAILED_LOOKUP_OF                                    \
     _W("Restricted string/scalar default failed lookup of: <{0}>.")
 #define ERROR_RESTRICTED_STRING_COLOR_DEFAULT_FAILED_LOOKUP_OF                                     \
@@ -865,7 +851,6 @@
 #define ERROR_ENCODING_CONVERSION_NOT_SUPPORTED_FOR_FILEID                                         \
     _W("encoding conversion not supported for this file identifier.")
 // Additional stream_manager messages added during migration
-#define ERROR_WRONG_VALUE_GE_0_EXPECTED _W("Wrong value >= 0 expected.")
 #define ERROR_WRONG_SIZE_SCALAR_OR_A_B_EXPECTED _W("Wrong size. scalar or [a, b] expected.")
 #define ERROR_WRONG_TYPE_DOUBLE_EXPECTED _W("Wrong type. double expected.")
 #define ERROR_NOT_IMPLEMENTED_FOR_STDIO _W("Not implemented for 'stdout', 'stderr' or 'stdin'.")
@@ -1045,7 +1030,6 @@
 #define ERROR_CELL_OF_STRINGS_EXPECTED _W("Cell of strings expected.")
 #define ERROR_ALL_INPUTS_MUST_BE_STRINGS                                                           \
     _W("All inputs must be strings, character vectors, or cell arrays of character vectors.")
-#define ERROR_NAN_INF_NOT_ALLOWED _W("NaN and Inf not allowed.")
 #define ERROR_EXPECTED_AN_INTEGER_VALUE _W("Expected a integer value.")
 #define ERROR_NUMBER_INPUT_ARGS_MUST_MATCH_OUTPUT                                                  \
     _W("Number of Input arguments must the same as output.")
@@ -1555,8 +1539,6 @@
 #define ERROR_INVALID_TYPE_FOR_LIKE_INPUT_ARGUMENT                                                 \
     _W("Invalid type for #{0} input argument: {1} expected.")
 #define ERROR_IMPORT_TYPE_NOT_DEFINED _W("import type {0} not defined in FFI type table.")
-#define ERROR_INPUT_ARGUMENT_1_SCALAR_EXPECTED _W("Input argument #1: scalar expected.")
-#define ERROR_INPUT_ARGUMENT_2_SCALAR_EXPECTED _W("Input argument #2: scalar expected.")
 #define ERROR_INPUT_ARGUMENT_WRONG_SIZE _W("Input argument #{0}: wrong size. {1} expected.")
 #define ERROR_UNABLE_TO_SET_PROPERTY_PYTHON_ENVIRONMENT                                            \
     _W("Unable to set property of class 'PythonEnvironment' it is read-only.")

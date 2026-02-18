@@ -64,18 +64,14 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     for (indexType k = 0; k < argIn[0].getElementCount(); k++) {
                         double _dIndex = dindex[k];
                         if (!std::isfinite(_dIndex)) {
-                            raiseError(L"Nelson:data_structures:ERROR_WRONG_ARGUMENT_X_FINITE_"
-                                       L"VECTOR_INTEGER_VALUE_EXPECTED",
-                                ERROR_WRONG_ARGUMENT_X_FINITE_VECTOR_INTEGER_VALUE_EXPECTED, 1);
+                            raiseError2(L"nelson:validators:mustBeFiniteAtPosition", k + 1);
                         }
                         if (_dIndex < 0) {
                             _dIndex = 0;
                         }
                         auto index = static_cast<indexType>(_dIndex);
                         if (static_cast<double>(index) != _dIndex) {
-                            raiseError(L"Nelson:data_structures:ERROR_WRONG_ARGUMENT_X_FINITE_"
-                                       L"VECTOR_INTEGER_VALUE_EXPECTED",
-                                ERROR_WRONG_ARGUMENT_X_FINITE_VECTOR_INTEGER_VALUE_EXPECTED, 1);
+                            raiseError2(L"nelson:validators:mustBeIntegerAtPosition", k + 1);
                         }
                         dims.setDimensionLength(k, index);
                     }

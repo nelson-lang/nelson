@@ -46,8 +46,7 @@ Nelson::ParallelGateway::fetchNextBuiltin(Evaluator* eval, int nLhs, const Array
         }
         timeout = param2.getContentAsDoubleScalar();
         if (timeout < 0) {
-            raiseError(L"Nelson:parallel:ERROR_NON_NEGATIVE_VALUE_EXPECTED",
-                ERROR_NON_NEGATIVE_VALUE_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeNonNegative");
         }
     }
     std::vector<FutureObject*> futures = ArrayOfToFutures(param1);

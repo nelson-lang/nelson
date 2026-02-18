@@ -120,8 +120,7 @@ ArrayOfVector
 doubleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
 {
     if (!isAllFinite<double>(A)) {
-        raiseError(utf8_to_wstring("Nelson:balance:matrixWithNaNInf"),
-            ERROR_INPUT_TO_X_MUST_NOT_CONTAIN_NAN_OR_INF, L"balance");
+        raiseError2(L"nelson:validators:mustBeFinite");
     }
     char JOB = noperm ? (false ? 'N' : 'S') : (false ? 'P' : 'B');
     int N = (int)A.getColumns();
@@ -161,8 +160,7 @@ ArrayOfVector
 doubleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
 {
     if (!isAllFinite<double>(A)) {
-        raiseError(L"Nelson:linear_algebra:ERROR_BALANCE_MATRIX_WITH_NAN_INF",
-            ERROR_INPUT_TO_X_MUST_NOT_CONTAIN_NAN_OR_INF, L"balance");
+        raiseError2(L"nelson:validators:mustBeFinite");
     }
     char JOB = noperm ? (false ? 'N' : 'S') : (false ? 'P' : 'B');
     int N = (int)A.getColumns();
@@ -202,8 +200,7 @@ ArrayOfVector
 singleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
 {
     if (!isAllFinite<single>(A)) {
-        raiseError(L"Nelson:linear_algebra:ERROR_BALANCE_MATRIX_WITH_NAN_INF",
-            ERROR_INPUT_TO_X_MUST_NOT_CONTAIN_NAN_OR_INF, L"balance");
+        raiseError2(L"nelson:validators:mustBeFinite");
     }
     char JOB = noperm ? (false ? 'N' : 'S') : (false ? 'P' : 'B');
     int N = (int)A.getColumns();
@@ -242,8 +239,7 @@ ArrayOfVector
 singleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
 {
     if (!isAllFinite<single>(A)) {
-        raiseError(L"Nelson:linear_algebra:ERROR_BALANCE_MATRIX_WITH_NAN_INF",
-            ERROR_INPUT_TO_X_MUST_NOT_CONTAIN_NAN_OR_INF, L"balance");
+        raiseError2(L"nelson:validators:mustBeFinite");
     }
     char JOB = noperm ? (false ? 'N' : 'S') : (false ? 'P' : 'B');
     int N = (int)A.getColumns();

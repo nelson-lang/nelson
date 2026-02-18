@@ -36,7 +36,7 @@ sqrtmComplex(ArrayOf& A)
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(
         Rz, (Eigen::Index)R.getRows(), (Eigen::Index)R.getColumns());
     if (!matA.allFinite()) {
-        raiseError(L"Nelson:linear_algebra:ERROR_INPUT_MUST_BE_FINITE", ERROR_INPUT_MUST_BE_FINITE);
+        raiseError2(L"nelson:validators:mustBeFinite");
     } else {
         // [V, D] = eig(A);
         // sqrtm = V * diag(sqrt(diag(D))) * inv(V);

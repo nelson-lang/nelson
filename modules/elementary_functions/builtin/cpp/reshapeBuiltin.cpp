@@ -40,12 +40,10 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(int nLhs, const ArrayOfVector
         auto* dp = (double*)v.getDataPointer();
         for (indexType i = 0; i < v.getElementCount(); i++) {
             if (!std::isfinite(dp[i])) {
-                raiseError(L"Nelson:elementary_functions:ERROR_FINITE_VALUE_EXPECTED",
-                    ERROR_FINITE_VALUE_EXPECTED);
+                raiseError2(L"nelson:validators:mustBeFinite");
             }
             if (dp[i] != dp[i]) {
-                raiseError(L"Nelson:elementary_functions:ERROR_FINITE_VALUE_EXPECTED",
-                    ERROR_FINITE_VALUE_EXPECTED);
+                raiseError2(L"nelson:validators:mustBeFinite");
             }
             auto ivalue = static_cast<int64>(dp[i]);
             if (static_cast<double>(ivalue) != dp[i]) {
@@ -101,21 +99,14 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(int nLhs, const ArrayOfVector
                 double rest = static_cast<double>(nbElementsM)
                     / static_cast<double>(dims.getElementCount());
                 if (!std::isfinite(rest)) {
-                    raiseError(L"Nelson:elementary_functions:ERROR_FINITE_VALUE_EXPECTED",
-                        ERROR_FINITE_VALUE_EXPECTED);
-                }
-                if (rest != rest) {
-                    raiseError(L"Nelson:elementary_functions:ERROR_FINITE_VALUE_EXPECTED",
-                        ERROR_FINITE_VALUE_EXPECTED);
+                    raiseError2(L"nelson:validators:mustBeFinite");
                 }
                 auto ivalue = static_cast<int64>(rest);
                 if (static_cast<double>(ivalue) != rest) {
-                    raiseError(L"Nelson:elementary_functions:ERROR_REAL_INTEGER_EXPECTED",
-                        ERROR_REAL_INTEGER_EXPECTED);
+                    raiseError2(L"nelson:validators:mustBeInteger");
                 }
                 if (ivalue < 0) {
-                    raiseError(L"Nelson:elementary_functions:ERROR_REAL_POSITIVE_INTEGER_EXPECTED",
-                        ERROR_REAL_POSITIVE_INTEGER_EXPECTED);
+                    raiseError2(L"nelson:validators:mustBePositiveInteger");
                 }
                 dims[idxEmptyPosition] = static_cast<indexType>(ivalue);
             }

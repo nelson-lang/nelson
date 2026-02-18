@@ -1333,8 +1333,7 @@ ArrayOf::getContentAsScalarIndex(
         if (IsFinite(valueAsDouble)) {
             raiseError(L"Nelson:types:ERROR_EXPECTED_INTEGER", ERROR_EXPECTED_INTEGER);
         } else {
-            raiseError(
-                L"Nelson:types:ERROR_NAN_AND_INF_NOT_ALLOWED", ERROR_NAN_AND_INF_NOT_ALLOWED);
+            raiseError2(L"nelson:validators:mustBeFinite");
         }
     }
     if (!bWithZero) {
@@ -1370,8 +1369,7 @@ ArrayOf::getContentAsIndexVector()
             if (IsFinite(qp[k])) {
                 raiseError(L"Nelson:types:ERROR_EXPECTED_INTEGER", ERROR_EXPECTED_INTEGER);
             } else {
-                raiseError(
-                    L"Nelson:types:ERROR_NAN_AND_INF_NOT_ALLOWED", ERROR_NAN_AND_INF_NOT_ALLOWED);
+                raiseError2(L"nelson:validators:mustBeFinite");
             }
         }
     }
@@ -1402,8 +1400,7 @@ ArrayOf::getContentAsIndexPointer()
             if (IsFinite(qp[k])) {
                 raiseError(L"Nelson:types:ERROR_EXPECTED_INTEGER", ERROR_EXPECTED_INTEGER);
             } else {
-                raiseError(
-                    L"Nelson:types:ERROR_NAN_AND_INF_NOT_ALLOWED", ERROR_NAN_AND_INF_NOT_ALLOWED);
+                raiseError2(L"nelson:validators:mustBeFinite");
             }
         }
     }

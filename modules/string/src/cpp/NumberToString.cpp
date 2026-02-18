@@ -429,8 +429,7 @@ NumberToString(const ArrayOf& A, double N, bool& needToOverload)
 {
     std::wstring format;
     if (!std::isfinite(N)) {
-        raiseError(L"Nelson:string:ERROR_PRECISION_MUST_BE_SCALAR_INT",
-            ERROR_PRECISION_MUST_BE_SCALAR_INT);
+        raiseError2(L"nelson:validators:mustBeFinite");
     }
     int precision = (int)N;
     if (A.getDataClass() == NLS_LOGICAL) {

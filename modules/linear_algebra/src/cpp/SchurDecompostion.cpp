@@ -45,9 +45,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             Eigen::Map<Eigen::MatrixXcf> matA(
                 Az, (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
             if (!matA.allFinite()) {
-                raiseError(
-                    L"Nelson:linear_algebra:ERROR_INPUT_ARGUMENT_MUST_NOT_CONTAIN_NAN_OR_INF",
-                    ERROR_INPUT_ARGUMENT_MUST_NOT_CONTAIN_NAN_OR_INF);
+                raiseError2(L"nelson:validators:mustBeFinite");
             }
             ArrayOf T_temp(A);
             T_temp.ensureSingleOwner();
@@ -63,9 +61,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             Eigen::Map<Eigen::MatrixXcd> matA(
                 Az, (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
             if (!matA.allFinite()) {
-                raiseError(
-                    L"Nelson:linear_algebra:ERROR_INPUT_ARGUMENT_MUST_NOT_CONTAIN_NAN_OR_INF",
-                    ERROR_INPUT_ARGUMENT_MUST_NOT_CONTAIN_NAN_OR_INF);
+                raiseError2(L"nelson:validators:mustBeFinite");
             }
             ArrayOf T_temp(A);
             T_temp.ensureSingleOwner();
@@ -83,9 +79,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(),
                 (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
             if (!matA.allFinite()) {
-                raiseError(
-                    L"Nelson:linear_algebra:ERROR_INPUT_ARGUMENT_MUST_NOT_CONTAIN_NAN_OR_INF",
-                    ERROR_INPUT_ARGUMENT_MUST_NOT_CONTAIN_NAN_OR_INF);
+                raiseError2(L"nelson:validators:mustBeFinite");
             }
             Eigen::Map<Eigen::MatrixXf> matT((single*)T_temp.getDataPointer(),
                 (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
@@ -95,9 +89,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(),
                 (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
             if (!matA.allFinite()) {
-                raiseError(
-                    L"Nelson:linear_algebra:ERROR_INPUT_ARGUMENT_MUST_NOT_CONTAIN_NAN_OR_INF",
-                    ERROR_INPUT_ARGUMENT_MUST_NOT_CONTAIN_NAN_OR_INF);
+                raiseError2(L"nelson:validators:mustBeFinite");
             }
             Eigen::Map<Eigen::MatrixXd> matT((double*)T_temp.getDataPointer(),
                 (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
@@ -144,8 +136,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& U, ArrayOf& T)
         Eigen::Map<Eigen::MatrixXcd> matA(
             Az, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
         if (!matA.allFinite()) {
-            raiseError(L"Nelson:linear_algebra:ERROR_INPUT_ARGUMENT_MUST_NOT_CONTAIN_NAN_OR_INF",
-                ERROR_INPUT_ARGUMENT_MUST_NOT_CONTAIN_NAN_OR_INF);
+            raiseError2(L"nelson:validators:mustBeFinite");
         }
         ArrayOf U_temp(A);
         U_temp.ensureSingleOwner();
@@ -166,8 +157,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& U, ArrayOf& T)
         Eigen::Map<Eigen::MatrixXd> matA(
             (double*)A.getDataPointer(), (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
         if (!matA.allFinite()) {
-            raiseError(L"Nelson:linear_algebra:ERROR_INPUT_ARGUMENT_MUST_NOT_CONTAIN_NAN_OR_INF",
-                ERROR_INPUT_ARGUMENT_MUST_NOT_CONTAIN_NAN_OR_INF);
+            raiseError2(L"nelson:validators:mustBeFinite");
         }
         ArrayOf U_temp(A);
         U_temp.ensureSingleOwner();

@@ -36,24 +36,18 @@ BitwiseOperator(BITWISE_OPERATOR bitwiseOperator, const ArrayOf& A, const ArrayO
     ArrayOf res = {};
     if (A.isDoubleType()) {
         if (!A.isIntegerValue() && !A.isEmpty()) {
-            raiseError(L"Nelson:operators:ERROR_FINITE_INTEGER_VALUES_EXPECTED",
-                ERROR_FINITE_INTEGER_VALUES_EXPECTED, getIdPrefix(bitwiseOperator) + L"outOfRange");
+            raiseError2(L"nelson:validators:mustBeFiniteAtPosition", 1);
         }
         if (!A.isPositive()) {
-            raiseError(L"Nelson:operators:ERROR_FINITE_POSITIVE_INTEGER_VALUES_EXPECTED",
-                ERROR_FINITE_POSITIVE_INTEGER_VALUES_EXPECTED,
-                getIdPrefix(bitwiseOperator) + L"outOfRange");
+            raiseError2(L"nelson:validators:mustBePositiveAtPosition", 1);
         }
     }
     if (B.isDoubleType()) {
         if (!B.isIntegerValue() && !B.isEmpty()) {
-            raiseError(L"Nelson:operators:ERROR_FINITE_INTEGER_VALUES_EXPECTED",
-                ERROR_FINITE_INTEGER_VALUES_EXPECTED, getIdPrefix(bitwiseOperator) + L"outOfRange");
+            raiseError2(L"nelson:validators:mustBeFiniteAtPosition", 2);
         }
         if (!B.isPositive()) {
-            raiseError(L"Nelson:operators:ERROR_FINITE_POSITIVE_INTEGER_VALUES_EXPECTED",
-                ERROR_FINITE_POSITIVE_INTEGER_VALUES_EXPECTED,
-                getIdPrefix(bitwiseOperator) + L"outOfRange");
+            raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
         }
     }
     if (withAssumedType && !isSupportedAssumedType(assumedType)) {

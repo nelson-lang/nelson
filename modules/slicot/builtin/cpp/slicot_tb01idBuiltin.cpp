@@ -93,12 +93,10 @@ Nelson::SlicotGateway::slicot_tb01idBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsJOB.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_1_SCALAR_EXPECTED",
-            ERROR_INPUT_ARGUMENT_1_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 1);
     }
     if (!dimsMAXRED.isScalar()) {
-        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_2_SCALAR_EXPECTED",
-            ERROR_INPUT_ARGUMENT_2_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar", 2);
     }
     Dimensions dimsA_expected(
         std::max(1, (int)N.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());

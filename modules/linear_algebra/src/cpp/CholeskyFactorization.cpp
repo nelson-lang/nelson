@@ -168,8 +168,11 @@ CholeskyFactorization(const ArrayOf& A, bool lowerTriangle, bool& needToOverload
                 ERROR_ONE_ARGUMENT_HAD_AN_ILLEGAL_VALUE);
         }
         if (info > 0) {
-            raiseError(L"Nelson:linear_algebra:ERROR_POSITIVE_FINITE_MATRIX_EXPECTED",
-                ERROR_POSITIVE_FINITE_MATRIX_EXPECTED);
+            if (A.isPositive()) {
+                raiseError2(L"nelson:validators:mustBePositive");
+            } else {
+                raiseError2(L"nelson:validators:mustBeFinite");
+            }
         }
     }
     return R;

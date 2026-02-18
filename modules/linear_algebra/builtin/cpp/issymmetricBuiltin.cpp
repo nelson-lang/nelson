@@ -43,9 +43,11 @@ Nelson::LinearAlgebraGateway::issymmetricBuiltin(int nLhs, const ArrayOfVector& 
         } else {
             withTol = true;
             tol = param2.getContentAsDoubleScalar();
-            if (!std::isfinite(tol) || tol < 0.) {
-                raiseError(L"Nelson:linear_algebra:ERROR_SECOND_INPUT_MUST_BE_FINITE_AND_0",
-                    ERROR_SECOND_INPUT_MUST_BE_FINITE_AND_0);
+            if (!std::isfinite(tol)) {
+                raiseError2(L"nelson:validators:mustBeFinite");
+            }
+            if (tol < 0.) {
+                raiseError2(L"nelson:validators:mustBePositive");
             }
         }
     }

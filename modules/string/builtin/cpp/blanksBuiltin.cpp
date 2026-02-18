@@ -24,11 +24,10 @@ Nelson::StringGateway::blanksBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf param1 = argIn[0];
     double nbSpacesAsDouble = param1.getContentAsDoubleScalar();
     if (!std::isfinite(nbSpacesAsDouble)) {
-        raiseError(L"Nelson:string:ERROR_NAN_INF_NOT_ALLOWED", ERROR_NAN_INF_NOT_ALLOWED);
+        raiseError2(L"nelson:validators:mustBeFinite");
     }
     if (floor(nbSpacesAsDouble) != nbSpacesAsDouble) {
-        raiseError(
-            L"Nelson:string:ERROR_EXPECTED_AN_INTEGER_VALUE", ERROR_EXPECTED_AN_INTEGER_VALUE);
+        raiseError2(L"nelson:validators:mustBeInteger");
     }
     if (nbSpacesAsDouble < 0) {
         nbSpacesAsDouble = 0;
