@@ -113,28 +113,23 @@ Nelson::SlicotGateway::slicot_sb10jdBuiltin(int nLhs, const ArrayOfVector& argIn
     // CHECK INPUT VARIABLES DIMENSIONS
     Dimensions dimsA_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
-            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 1, dimsA_expected.toWideString());
+        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 1, dimsA_expected.toWideString());
     }
     Dimensions dimsB_expected(std::max(1, (int)A.getColumns()), (int)B.getRows());
     if (!dimsB.equals(dimsB_expected)) {
-        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
-            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 2, dimsB_expected.toWideString());
+        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 2, dimsB_expected.toWideString());
     }
     Dimensions dimsC_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsC.equals(dimsC_expected)) {
-        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
-            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 3, dimsC_expected.toWideString());
+        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 3, dimsC_expected.toWideString());
     }
     Dimensions dimsD_expected(std::max(1, (int)C.getColumns()), (int)B.getRows());
     if (!dimsD.equals(dimsD_expected)) {
-        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
-            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 4, dimsD_expected.toWideString());
+        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 4, dimsD_expected.toWideString());
     }
     Dimensions dimsE_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsE.equals(dimsE_expected)) {
-        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
-            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 5, dimsE_expected.toWideString());
+        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 5, dimsE_expected.toWideString());
     }
     // CALL EXTERN FUNCTION
     try {

@@ -218,27 +218,23 @@ Nelson::SlicotGateway::slicot_sg02adBuiltin(int nLhs, const ArrayOfVector& argIn
     }
     Dimensions dimsA_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
-            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 10, dimsA_expected.toWideString());
+        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 10, dimsA_expected.toWideString());
     }
     Dimensions dimsE_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsE.equals(dimsE_expected)) {
-        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
-            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 11, dimsE_expected.toWideString());
+        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 11, dimsE_expected.toWideString());
     }
     Dimensions dimsQ_expected(
         std::max(1, std::max((int)A.getRows(), (int)P.getContentAsInteger32Scalar())),
         (int)A.getRows());
     if (!dimsQ.equals(dimsQ_expected)) {
-        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
-            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 13, dimsQ_expected.toWideString());
+        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 13, dimsQ_expected.toWideString());
     }
     Dimensions dimsR_expected(
         std::max(1, std::max((int)P.getContentAsInteger32Scalar(), (int)B.getColumns())),
         (int)B.getColumns());
     if (!dimsR.equals(dimsR_expected)) {
-        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
-            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 14, dimsR_expected.toWideString());
+        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 14, dimsR_expected.toWideString());
     }
     if (!dimsTOL.isScalar()) {
         raiseError2(L"nelson:validators:mustBeScalar", 16);

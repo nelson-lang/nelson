@@ -114,16 +114,14 @@ Nelson::SlicotGateway::slicot_sb03odBuiltin(int nLhs, const ArrayOfVector& argIn
     }
     Dimensions dimsQ_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsQ.equals(dimsQ_expected)) {
-        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
-            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 5, dimsQ_expected.toWideString());
+        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 5, dimsQ_expected.toWideString());
     }
     Dimensions dimsB_expected(TRANS.getContentAsCString().compare("N") == 0
             ? std::max(1, std::max((int)A.getRows(), (int)B.getRows()))
             : std::max(1, (int)A.getRows()),
         (int)A.getRows());
     if (!dimsB.equals(dimsB_expected)) {
-        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
-            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 6, dimsB_expected.toWideString());
+        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 6, dimsB_expected.toWideString());
     }
     // CALL EXTERN FUNCTION
     try {

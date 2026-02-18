@@ -10,6 +10,9 @@
   "nelson:arguments:validHandleExpected": "Valid handle expected '{0}'.",
   "nelson:arguments:handleExpected": "Handle expected.",
   "nelson:arguments:sameSizeExpected": "Same size expected.",
+  "nelson:arguments:libpointerHandleExpected": "Libpointer handle expected.",
+  "nelson:arguments:inputArgXWrongSizeY": "Input argument {0} wrong size (size {1} expected).",
+  "nelson:arguments:invalidArgAtPosition": "Invalid argument at position {0}.",
   "nelson:io:permissionDenied": "Permission denied.",
   "nelson:io:fileNotFound": "File does not exist: {0}.",
   "nelson:validators:mustBeValidType": "Invalid type for argument {0}.",
@@ -128,6 +131,5 @@
   "nelson:slicot:slicotFuncFails": "SLICOT {0} function fails.",
   "nelson:mpi:mpiMustBeInit": "MPI must be initialized.",
   "nelson:sound:audiorecorderHandleExpected": "Audiorecorder handle expected.",
-  "nelson:sound:audioplayerHandleExpected": "Audioplayer handle expected.",
-  "nelson:arguments:libpointerHandleExpected": "Libpointer handle expected."
+  "nelson:sound:audioplayerHandleExpected": "Audioplayer handle expected."
 }

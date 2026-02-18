@@ -117,26 +117,22 @@ Nelson::SlicotGateway::slicot_tg01adBuiltin(int nLhs, const ArrayOfVector& argIn
     Dimensions dimsA_expected(
         std::max(1, (int)L.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
-            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 3, dimsA_expected.toWideString());
+        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 3, dimsA_expected.toWideString());
     }
     Dimensions dimsE_expected(
         std::max(1, (int)L.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsE.equals(dimsE_expected)) {
-        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
-            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 4, dimsE_expected.toWideString());
+        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 4, dimsE_expected.toWideString());
     }
     Dimensions dimsB_expected(
         std::max(1, (int)L.getContentAsInteger32Scalar()), (int)M.getContentAsInteger32Scalar());
     if (!dimsB.equals(dimsB_expected)) {
-        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
-            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 5, dimsB_expected.toWideString());
+        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 5, dimsB_expected.toWideString());
     }
     Dimensions dimsC_expected(
         std::max(1, (int)P.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsC.equals(dimsC_expected)) {
-        raiseError(L"Nelson:slicot:ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y",
-            ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y, 6, dimsC_expected.toWideString());
+        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 6, dimsC_expected.toWideString());
     }
     // CALL EXTERN FUNCTION
     try {

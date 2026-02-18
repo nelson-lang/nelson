@@ -1427,10 +1427,6 @@
 #define ERROR_FUNCTION_DOES_NOT_KNOW_HOW_TO_ANSWER_NARGIN_NARGOUT                                  \
     _W("'{0}' does not know how to answer nargin/nargout.")
 
-// data_analysis additional invalid-argument messages
-#define ERROR_INVALID_SECOND_ARGUMENT _W("Invalid second argument.")
-#define ERROR_INVALID_THIRD_ARGUMENT _W("Invalid third argument.")
-#define ERROR_INVALID_4TH_ARGUMENT _W("Invalid 4th argument.")
 // unique builtin messages
 #define ERROR_UNIQUE_SECOND_ARGUMENT_MUST_BE_ROWS _W("second argument to unique must be 'rows'")
 #define ERROR_ROWS_MODE_ONLY_WORKS_FOR_2D_MATRIX _W("'rows' mode only works for 2D matrix.")
@@ -1634,9 +1630,6 @@
 
 #define ERROR_UNKNOWN_ERROR_LOADING_ENVIRONMENT _W("Unknown error while loading environment")
 #define ERROR_EXCEPTION _W("Exception: {0}")
-
-#define ERROR_INPUT_ARGUMENT_X_WRONG_SIZE_Y                                                        \
-    _W("Input argument #{0} wrong size (size {1} expected).")
 
 #define ERROR_UNDEFINED_FUNCTION_FOR_INPUT_ARGUMENTS_OF_TYPE                                       \
     _W("Undefined function '{0}' for input arguments of type '{1}'.")
