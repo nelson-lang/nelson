@@ -118,7 +118,7 @@ Nelson::SlicotGateway::slicot_sb04mdBuiltin(int nLhs, const ArrayOfVector& argIn
         sb04md_(N_ptr, M_ptr, A_output_ptr, LDA_ptr, B_output_ptr, LDB_ptr, C_output_ptr, LDC_ptr,
             Z_output_ptr, LDZ_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError(L"Nelson:slicot:ERROR_SB04MD_FAILS", ERROR_SB04MD_FAILS);
+        raiseError2(L"nelson:slicot:slicotFuncFails", L"sb04md");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

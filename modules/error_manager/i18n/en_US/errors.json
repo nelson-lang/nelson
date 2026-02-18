@@ -133,5 +133,9 @@
   "nelson:sound:audiorecorderHandleExpected": "Audiorecorder handle expected.",
   "nelson:sound:audioplayerHandleExpected": "Audioplayer handle expected.",
   "nelson:runtime:operandsMustBeIntegersOrScalarDouble": "Operands must be integers of the same class or a scalar double.",
-  "nelson:io:fileManagerError": "File manager error."
+  "nelson:io:fileManagerError": "File manager error.",
+  "nelson:runtime:indexMustBePositiveInteger": "Index must be a positive integer.",
+  "nelson:mex:cMexTypeNotManaged": "C MEX type not managed.",
+  "nelson:mex:mexExtensionNotYetSupported": "Mex extension not yet supported.",
+  "nelson:random:randomEngineNotInit": "Random engine not initialized."
 }

@@ -30,8 +30,7 @@ RandNormal(Dimensions& dims, NelsonType cl)
     auto* randEngine
         = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
     if (randEngine == nullptr) {
-        raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
-            ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
+        raiseError2(L"nelson:random:randomEngineNotInit");
     }
     switch (cl) {
     case NLS_SCOMPLEX: {

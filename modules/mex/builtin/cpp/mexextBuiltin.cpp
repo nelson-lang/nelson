@@ -25,8 +25,7 @@ Nelson::MexGateway::mexextBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 0) {
         std::wstring currentMexExt = getMexExtension();
         if (currentMexExt.empty()) {
-            raiseError(L"Nelson:mex:ERROR_MEX_EXTENSION_NOT_YET_SUPPORTED",
-                ERROR_MEX_EXTENSION_NOT_YET_SUPPORTED);
+            raiseError2(L"nelson:mex:mexExtensionNotYetSupported");
         }
         retval << ArrayOf::characterArrayConstructor(currentMexExt);
         return retval;

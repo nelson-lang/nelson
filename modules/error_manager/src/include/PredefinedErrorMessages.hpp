@@ -56,7 +56,7 @@
 #define ERROR_ILLEGAL_ZERO_OR_NEGATIVE_INDEX _W("Illegal zero or negative index")
 #define ERROR_CANNOT_CONVERT_STRING_DATA_TYPES_TO_INDICES                                          \
     _W("Cannot convert string data types to indices.")
-#define ERROR_ZERO_OR_NEGATIVE_INDEX_ENCOUNTERED _W("Zero or negative index encountered.")
+
 #define ERROR_TOO_BIG_INDEX_ENCOUNTERED _W("Too big index encountered.")
 #define ERROR_CANNOT_CONVERT_HANDLE_ARRAYS_TO_INDICES _W("Cannot convert handle arrays to indices.")
 #define ERROR_CANNOT_CONVERT_CELL_ARRAYS_TO_INDICES _W("Cannot convert cell arrays to indices.")
@@ -520,8 +520,6 @@
 #define ERROR_CANNOT_COMPARE_VERSIONS _W("Cannot compare versions: {0}.")
 #define ERROR_IMPOSSIBLE_TO_GET_EXTERNAL_MODULES_DIRECTORY                                         \
     _W("Impossible to get external modules directory.")
-#define ERROR_C_MEX_TYPE_NOT_MANAGED _W("C MEX type not managed.")
-#define ERROR_MEX_EXTENSION_NOT_YET_SUPPORTED _W("mex extension not yet supported.")
 #define ERROR_INPUT_MUST_BE_ALL _W("Input must be 'all'.")
 #define ERROR_WRONG_SCOPE _W("Wrong scope.")
 #define ERROR_WHOS_FILE_FUNCTION_EXPECTED _W("whos file function expected.")
@@ -1430,7 +1428,7 @@
 #define ERROR_ROWS_MODE_ONLY_WORKS_FOR_2D_MATRIX _W("'rows' mode only works for 2D matrix.")
 
 // random module messages
-#define ERROR_RANDOM_ENGINE_NOT_INITIALIZED _W("random engine not initialized.")
+
 #define ERROR_NO_UNREAD_FUTURES _W("There are no unread Futures to fetch.")
 #define ERROR_FUTURE_EXECUTION_ERROR _W("One or more futures resulted in an error.")
 #define ERROR_FUTURE_CONCATENATE_OUTPUTS _W("Unable to concatenate outputs.")
@@ -1747,10 +1745,6 @@
 
 #define ERROR_INPUT_ARGUMENT_WRONG_SIZE _W("Input argument #{0}: wrong size. {1} expected.")
 
-#define ERROR_TB01ID_FAILS _W("tb01id function fails.")
-#define ERROR_SB04QD_FAILS _W("sb04qd function fails.")
-#define ERROR_SB04MD_FAILS _W("sb04md function fails.")
-
 #define ERROR_UNABLE_TO_SET_PROPERTY_PYTHON_ENVIRONMENT                                            \
     _W("Unable to set property of class 'PythonEnvironment' it is read-only.")
 #define ERROR_DETECTIMPORTOPTIONS_ERROR _W("Error in detectImportOptions: {0}")
@@ -1758,19 +1752,15 @@
 #define ERROR_READTABLE_ERROR _W("Error in readtable: {0}")
 #define ERROR_READCELL_ERROR _W("Error in readcell: {0}")
 #define ERROR_READMATRIX_ERROR _W("Error in readmatrix: {0}")
-
 #define ERROR_FIGURE_OBJECT_EXPECTED _W("figure object expected.")
 #define ERROR_SPECIFIED_WINDOW_DOES_NOT_EXIST _W("Specified window does not exist.")
-
 #define ERROR_INVALID_PYTHON_OBJECT _W("Invalid Python object.")
 #define ERROR_FAILED_TO_CREATE_PYTHON_METHOD_NAME_OBJECT                                           \
     _W("Failed to create Python method name object.")
 #define ERROR_FAILED_TO_CREATE_PYTHON_ARGUMENT_TUPLE _W("Failed to create Python argument tuple.")
 #define ERROR_TYPE_UNHASHABLE _W("TypeError: unhashable type: '{0}'")
-
 #define ERROR_NAME_OF_INTEGER_CLASS_EXPECTED _W("Name of integer class expected.")
 #define ERROR_GRAPHICS_OBJECT_EXPECTED _W("graphics_object expected.")
-
 #define ERROR_RGB_TRIPLET_EXPECTED _W("RGB triplet expected.")
 #define ERROR_ONE_COLOR_SPECIFICATION_OR_MULTIPLE_OPTION_EXPECTED                                  \
     _W("One color specification or use the 'multiple' option expected.")
@@ -1781,7 +1771,6 @@
 #define ERROR_CANNOT_CONVERT_TO _W("Cannot convert to {0}.")
 #define ERROR_METHOD_DOES_NOT_EXIST _W("Method does not exist.")
 #define GRAPHICS_OBJECT_EXPECTED _W("Graphics object expected.")
-
 #define ERROR_LAPACK_SGETRF _W("LAPACK_sgetrf error code: {0}.")
 #define ERROR_LAPACK_SGECON _W("LAPACK_sgecon error code: {0}.")
 #define ERROR_LAPACK_CGETRF _W("LAPACK_cgetrf error code: {0}.")
@@ -1790,6 +1779,5 @@
 #define ERROR_LAPACK_DGECON _W("LAPACK_dgecon error code: {0}.")
 #define ERROR_LAPACK_ZGETRF _W("LAPACK_zgetrf error code: {0}.")
 #define ERROR_LAPACK_ZGECON _W("LAPACK_zgecon error code: {0}.")
-
 #define ERROR_FILESYSTEM_ERROR _W("Filesystem error: {0}.")
 #define ERROR_DIRECTORY_NOT_EXIST _W("Directory does not exist: {0}.")

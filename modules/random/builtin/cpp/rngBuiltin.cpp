@@ -45,8 +45,7 @@ Nelson::RandomGateway::rngBuiltin(int nLhs, const ArrayOfVector& argIn)
     switch (argIn.size()) {
     case 0: {
         if (!haveRandomEngine()) {
-            raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
-                ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
+            raiseError2(L"nelson:random:randomEngineNotInit");
         }
         retval << backupCurrentRng();
     } break;

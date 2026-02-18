@@ -30,8 +30,7 @@ RngGetType()
     auto* randEngine
         = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
     if (randEngine == nullptr) {
-        raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
-            ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
+        raiseError2(L"nelson:random:randomEngineNotInit");
     }
     return randEngine->getGeneratorName();
 }
@@ -42,8 +41,7 @@ RngSetSeed(double seed)
     auto* randEngine
         = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
     if (randEngine == nullptr) {
-        raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
-            ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
+        raiseError2(L"nelson:random:randomEngineNotInit");
     }
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
 
@@ -76,8 +74,7 @@ RngGetSeed()
     auto* randEngine
         = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
     if (randEngine == nullptr) {
-        raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
-            ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
+        raiseError2(L"nelson:random:randomEngineNotInit");
     }
 
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
@@ -107,8 +104,7 @@ RngGetState()
     auto* randEngine
         = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
     if (randEngine == nullptr) {
-        raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
-            ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
+        raiseError2(L"nelson:random:randomEngineNotInit");
     }
 
     RNG_TYPE rngtype = getRngType(randEngine->getGeneratorName());
@@ -181,8 +177,7 @@ RngSetDefault()
         }
     }
     if (NelsonConfiguration::getInstance()->getRandomEngine() == nullptr) {
-        raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
-            ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
+        raiseError2(L"nelson:random:randomEngineNotInit");
     }
 }
 //=============================================================================
@@ -190,8 +185,7 @@ void
 RngShuffle()
 {
     if (NelsonConfiguration::getInstance()->getRandomEngine() == nullptr) {
-        raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
-            ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
+        raiseError2(L"nelson:random:randomEngineNotInit");
     }
     auto* randEngine
         = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
@@ -253,8 +247,7 @@ bool
 RngSetEngine(double seed, const std::wstring& engineName)
 {
     if (NelsonConfiguration::getInstance()->getRandomEngine() == nullptr) {
-        raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
-            ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
+        raiseError2(L"nelson:random:randomEngineNotInit");
     }
     if (!isRngType(engineName)) {
         raiseError(
@@ -295,8 +288,7 @@ RngSetEngine(double seed, const std::wstring& engineName)
     } break;
     }
     if (NelsonConfiguration::getInstance()->getRandomEngine() == nullptr) {
-        raiseError(L"Nelson:random:ERROR_RANDOM_ENGINE_NOT_INITIALIZED",
-            ERROR_RANDOM_ENGINE_NOT_INITIALIZED);
+        raiseError2(L"nelson:random:randomEngineNotInit");
     }
     RngSetSeed(seed);
     return false;

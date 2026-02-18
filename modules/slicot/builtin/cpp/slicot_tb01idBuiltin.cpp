@@ -123,7 +123,7 @@ Nelson::SlicotGateway::slicot_tb01idBuiltin(int nLhs, const ArrayOfVector& argIn
         tb01id_(JOB_ptr, N_ptr, M_ptr, P_ptr, MAXRED_output_ptr, A_output_ptr, LDA_ptr,
             B_output_ptr, LDB_ptr, C_output_ptr, LDC_ptr, SCALE_output_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError(L"Nelson:slicot:ERROR_TB01ID_FAILS", ERROR_TB01ID_FAILS);
+        raiseError(L"Nelson:slicot:ERROR_SLICOT_FUNC_FAILS", L"tb01id");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {
