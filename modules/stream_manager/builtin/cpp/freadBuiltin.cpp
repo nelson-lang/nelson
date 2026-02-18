@@ -112,8 +112,7 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
         auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
         auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
         if (fm == nullptr) {
-            raiseError(
-                L"Nelson:stream:ERROR_PROBLEM_WITH_FILE_MANAGER", ERROR_PROBLEM_WITH_FILE_MANAGER);
+            raiseError2(L"nelson:io:fileManagerError");
         }
         if (fm->isOpened(iValue)) {
             File* f = fm->getFile(iValue);

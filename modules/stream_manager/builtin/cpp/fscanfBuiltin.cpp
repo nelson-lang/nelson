@@ -36,8 +36,7 @@ Nelson::StreamGateway::fscanfBuiltin(int nLhs, const ArrayOfVector& argIn)
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     auto iValue = static_cast<int32>(dID);
     if (fm == nullptr) {
-        raiseError(L"Nelson:stream_manager:ERROR_PROBLEM_WITH_FILE_MANAGER",
-            ERROR_PROBLEM_WITH_FILE_MANAGER);
+        raiseError2(L"nelson:io:fileManagerError");
     }
     ArrayOf param2 = argIn[1];
     std::string format = param2.getContentAsCString();

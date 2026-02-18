@@ -472,8 +472,7 @@
     _W("Filename not associated to an application.")
 #define ERROR_NAME_ARGUMENT_REQUIRES_3_INPUT_ARGUMENTS                                             \
     _W("'name' argument requires 3 input arguments.")
-#define ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OF_THE_SAME_CLASS_OR_SCALAR              \
-    _W("Integers can only be combined with integers of the same class, or scalar double.")
+
 #define ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR                                  \
     _W("Complex integer not allowed for arithmetic operator {0}.")
 #define ERROR_SAME_CLASS_TYPE_EXPECTED _W("Same class type expected.")
@@ -890,7 +889,6 @@
 #define ERROR_SSCANF_INTERNAL_ERROR _W("sscanf internal error.")
 #define ERROR_UNABLE_TO_OPEN_FILE _W("Unable to open file: {0}")
 #define ERROR_A_VALID_FILENAME_EXPECTED _W("A valid filename expected.")
-#define ERROR_PROBLEM_WITH_FILE_MANAGER _W("Problem with file manager.")
 
 // Additional stream_manager messages used during migration
 #define ERROR_VALID_FORMAT_EXPECTED _W("valid format expected.")

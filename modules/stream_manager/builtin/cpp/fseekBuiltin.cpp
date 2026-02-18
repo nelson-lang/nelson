@@ -56,8 +56,7 @@ Nelson::StreamGateway::fseekBuiltin(int nLhs, const ArrayOfVector& argIn)
     auto iOffset = static_cast<int64>(param2.getContentAsDoubleScalar());
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
-        raiseError(
-            L"Nelson:stream:ERROR_PROBLEM_WITH_FILE_MANAGER", ERROR_PROBLEM_WITH_FILE_MANAGER);
+        raiseError2(L"nelson:io:fileManagerError");
     }
     auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
     if (fm->isOpened(iValue)) {

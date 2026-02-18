@@ -131,5 +131,7 @@
   "nelson:slicot:slicotFuncFails": "SLICOT {0} function fails.",
   "nelson:mpi:mpiMustBeInit": "MPI must be initialized.",
   "nelson:sound:audiorecorderHandleExpected": "Audiorecorder handle expected.",
-  "nelson:sound:audioplayerHandleExpected": "Audioplayer handle expected."
+  "nelson:sound:audioplayerHandleExpected": "Audioplayer handle expected.",
+  "nelson:runtime:operandsMustBeIntegersOrScalarDouble": "Operands must be integers of the same class or a scalar double.",
+  "nelson:io:fileManagerError": "File manager error."
 }

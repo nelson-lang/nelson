@@ -42,8 +42,7 @@ Nelson::StreamGateway::fgetsBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (param1.isDoubleType()) {
         auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
         if (fm == nullptr) {
-            raiseError(
-                L"Nelson:stream:ERROR_PROBLEM_WITH_FILE_MANAGER", ERROR_PROBLEM_WITH_FILE_MANAGER);
+            raiseError2(L"nelson:io:fileManagerError");
         }
         auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
         if (fm->isStdStream(iValue)) {

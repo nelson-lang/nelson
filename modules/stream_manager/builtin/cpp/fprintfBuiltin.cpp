@@ -60,8 +60,7 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     auto iValue = static_cast<int32>(dID);
     if (fm == nullptr) {
-        raiseError(L"Nelson:stream_manager:ERROR_PROBLEM_WITH_FILE_MANAGER",
-            ERROR_PROBLEM_WITH_FILE_MANAGER);
+        raiseError2(L"nelson:io:fileManagerError");
     }
     size_t len = 0;
     if (fm->isOpened(iValue)) {

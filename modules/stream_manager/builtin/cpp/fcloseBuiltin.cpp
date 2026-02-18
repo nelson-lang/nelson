@@ -24,8 +24,7 @@ Nelson::StreamGateway::fcloseBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
-        raiseError(
-            L"Nelson:stream:ERROR_PROBLEM_WITH_FILE_MANAGER", ERROR_PROBLEM_WITH_FILE_MANAGER);
+        raiseError2(L"nelson:io:fileManagerError");
     }
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];

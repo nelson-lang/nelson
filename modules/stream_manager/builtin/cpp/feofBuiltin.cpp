@@ -25,8 +25,7 @@ Nelson::StreamGateway::feofBuiltin(int nLhs, const ArrayOfVector& argIn)
     FilesManager* fm
         = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
-        raiseError(L"Nelson:stream_manager:ERROR_PROBLEM_WITH_FILE_MANAGER",
-            ERROR_PROBLEM_WITH_FILE_MANAGER);
+        raiseError2(L"nelson:io:fileManagerError");
     }
     ArrayOf param1 = argIn[0];
     int32 iValue = static_cast<int32>(param1.getContentAsDoubleScalar(false));

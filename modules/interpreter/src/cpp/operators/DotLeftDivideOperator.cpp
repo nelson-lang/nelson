@@ -59,16 +59,12 @@ Evaluator::dotLeftDivideOperator(const ArrayOfVector& args)
         if (A.isIntegerType()) {
             bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
             if (!isCompatible) {
-                raiseError(L"Nelson:interpreter:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_"
-                           L"OF_THE_SAME_CLASS_OR_SCALAR",
-                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OF_THE_SAME_CLASS_OR_SCALAR);
+                raiseError2(L"nelson:runtime:operandsMustBeIntegersOrScalarDouble");
             }
         } else if (B.isIntegerType()) {
             bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
             if (!isCompatible) {
-                raiseError(L"Nelson:interpreter:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_"
-                           L"OF_THE_SAME_CLASS_OR_SCALAR",
-                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OF_THE_SAME_CLASS_OR_SCALAR);
+                raiseError2(L"nelson:runtime:operandsMustBeIntegersOrScalarDouble");
             }
         } else if (commonType <= NLS_CHAR) {
             NelsonType _commonType = commonType;
