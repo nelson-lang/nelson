@@ -104,7 +104,7 @@ Rotate90(const ArrayOf& arrayIn, int nbRotations)
     }
 
     if (nbRotations < 0 || nbRotations > 3) {
-        raiseError(L"Nelson:rot90:kNonInteger", ERROR_INPUT_ARGUMENT_1_SCALAR_INTEGER_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalarInteger", 1);
     }
     if (nbRotations == 0) {
         ArrayOf res(arrayIn);

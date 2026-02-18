@@ -50,7 +50,7 @@ Nelson::StreamGateway::ferrorBuiltin(int nLhs, const ArrayOfVector& argIn)
     int errorCode = 0;
     std::string errorMessage;
     if (!FileError(fm, iValue, withClear, errorCode, errorMessage)) {
-        raiseError(L"Nelson:stream:ERROR_INVALID_FILE_IDENTIFIER", ERROR_INVALID_FILE_IDENTIFIER);
+        raiseError2(L"nelson:io:invalidFileId");
     }
     retval << ArrayOf::characterArrayConstructor(errorMessage);
     retval << ArrayOf::doubleConstructor((double)errorCode);

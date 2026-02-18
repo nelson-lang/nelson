@@ -97,8 +97,7 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
             } break;
             case FWRITE_FILE_DESTINATION_NOT_SUPPORTED:
             case FWRITE_INVALID_FILE: {
-                raiseError(L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER",
-                    ERROR_INVALID_FILE_IDENTIFIER);
+                raiseError2(L"nelson:io:invalidFileId");
             } break;
             case FWRITE_ENDIAN_CONVERSION_NOT_SUPPORTED: {
                 raiseError(

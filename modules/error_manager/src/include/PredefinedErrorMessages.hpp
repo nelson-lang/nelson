@@ -895,7 +895,6 @@
 #define ERROR_WRONG_VALUE_ARG3_NOT_SUPPORTED_PRECISION                                             \
     _W("Wrong value for #3 argument: not supported precision.")
 #define ERROR_PROBLEM_TO_READ_DATA _W("Problem to read data.")
-#define ERROR_INVALID_FILE_IDENTIFIER _W("Invalid file identifier.")
 
 // Additional stream_manager messages
 #define ERROR_INVALID_ORIGIN _W("Invalid origin.")
@@ -1233,8 +1232,6 @@
 #define ERROR_SCOPE_LOCAL_CALLER_BASE_EXPECTED _W("'local', 'caller', 'base' scope expected.")
 #define ERROR_INPUTNAME_NOT_IN_ACTIVE_FUNCTION                                                     \
     _W("Cannot return input name if not in an active function.")
-#define ERROR_SCALAR_INTEGER_VALUE_REQUIRED                                                        \
-    _W("Scalar integer value required, but value is not integral.")
 #define ERROR_ARGUMENT_NUMBER_NOT_VALID _W("Argument number is not valid.")
 #define ERROR_NARGIN_NOT_ALLOWED_IN_BASE_SCOPE _W("not allowed in base scope.")
 #define ERROR_NARGOUT_NOT_ALLOWED_IN_BASE_SCOPE _W("not allowed in base scope.")
@@ -1244,18 +1241,9 @@
     _W("You can only call 'nargoutchk' from within a Nelson function.")
 #define ERROR_NARGOUTCHK_ARG4_STRUCT_OR_STRING_EXPECTED                                            \
     _W("#4 input must be either 'struct' or 'string'.")
-#define ERROR_NARGOUTCHK_SCALAR_INTEGER_REQUIRED_ARG1                                              \
-    _W("Scalar integer value required for #1 argument.")
-#define ERROR_NARGOUTCHK_SCALAR_INTEGER_REQUIRED_ARG2                                              \
-    _W("Scalar integer value required for #2 argument.")
-#define ERROR_NARGOUTCHK_SCALAR_INTEGER_REQUIRED_ARG3                                              \
-    _W("Scalar integer value required for #3 argument.")
+
 #define ERROR_NARGINCHK_ONLY_FROM_NELSON_FUNCTION                                                  \
     _W("You can only call 'narginchk' from within a Nelson function.")
-#define ERROR_NARGINCHK_SCALAR_INTEGER_REQUIRED_ARG1                                               \
-    _W("Scalar integer value required for #1 argument.")
-#define ERROR_NARGINCHK_SCALAR_INTEGER_REQUIRED_ARG2                                               \
-    _W("Scalar integer value required for #2 argument.")
 
 #define ERROR_WRONG_VALUE_ARG1 _W("Wrong value for #1 argument.")
 #define ERROR_UNKNOWN_OPTION _W("Unknown option.")
@@ -1456,7 +1444,7 @@
 #define ERROR_VALID_MAT_FILE_EXPECTED _W("Valid .mat file expected.")
 
 // qml_engine module messages
-#define ERROR_QOBJECT_VALID_HANDLE_EXPECTED _W("QObject valid handle expected.")
+
 #define ERROR_NO_PARENT _W("No parent.")
 #define ERROR_INVALID_PARAMETERS _W("Invalid parameters")
 #define ERROR_QVARIANT_INVALID _W("QVariant invalid.")
@@ -1707,8 +1695,7 @@
 #define ERROR_COLORMAP_THREE_COLUMNS _W("Colormap should have three columns.")
 #define ERROR_WRONG_SIZE_ALPHAMAP _W("Wrong size for AlphaMap.")
 #define ERROR_UNSUPPORTED_IMAGE_TYPE _W("Image must be double, single, logical or uint8 type.")
-#define ERROR_INPUT_ARGUMENT_1_SCALAR_INTEGER_EXPECTED                                             \
-    _W("Input argument #1: scalar integer value expected.")
+
 #define ERROR_PDF_CANNOT_GENERATE_IN_ENGINE_MODE _W("pdf cannot generated in this engine mode.")
 #define ERROR_PDF_NOT_GENERATED _W("pdf file not generated.")
 #define ERROR_CANNOT_OPEN_DESTINATION_FILE _W("Cannot open destination file.")

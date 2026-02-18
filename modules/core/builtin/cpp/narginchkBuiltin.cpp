@@ -26,12 +26,10 @@ Nelson::CoreGateway::narginchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             ERROR_NARGINCHK_ONLY_FROM_NELSON_FUNCTION);
     }
     if (!argIn[0].isScalar() || !argIn[0].isNumeric()) {
-        raiseError(L"Nelson:core:ERROR_NARGINCHK_SCALAR_INTEGER_REQUIRED_ARG1",
-            ERROR_NARGINCHK_SCALAR_INTEGER_REQUIRED_ARG1);
+        raiseError2(L"nelson:validators:mustBeScalarInteger", 1);
     }
     if (!argIn[1].isScalar() || !argIn[1].isNumeric()) {
-        raiseError(L"Nelson:core:ERROR_NARGINCHK_SCALAR_INTEGER_REQUIRED_ARG2",
-            ERROR_NARGINCHK_SCALAR_INTEGER_REQUIRED_ARG2);
+        raiseError2(L"nelson:validators:mustBeScalarInteger", 2);
     }
     int minArgs = argIn[0].getContentAsInteger32Scalar(false, true);
     bool maxArgsIsInf = false;

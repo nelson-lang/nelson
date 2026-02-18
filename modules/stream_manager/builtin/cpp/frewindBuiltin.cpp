@@ -39,8 +39,7 @@ Nelson::StreamGateway::frewindBuiltin(int nLhs, const ArrayOfVector& argIn)
             FileRewind(f);
         }
     } else {
-        raiseError(
-            L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER", ERROR_INVALID_FILE_IDENTIFIER);
+        raiseError2(L"nelson:io:invalidFileId");
     }
     return retval;
 }

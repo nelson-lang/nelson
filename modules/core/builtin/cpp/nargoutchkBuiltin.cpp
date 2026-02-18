@@ -62,16 +62,13 @@ Nelson::CoreGateway::nargoutchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             }
         }
         if (!argIn[0].isScalar() || !argIn[0].isNumeric()) {
-            raiseError(L"Nelson:core:ERROR_NARGOUTCHK_SCALAR_INTEGER_REQUIRED_ARG1",
-                ERROR_NARGOUTCHK_SCALAR_INTEGER_REQUIRED_ARG1);
+            raiseError2(L"nelson:validators:mustBeScalarInteger", 1);
         }
         if (!argIn[1].isScalar() || !argIn[1].isNumeric()) {
-            raiseError(L"Nelson:core:ERROR_NARGOUTCHK_SCALAR_INTEGER_REQUIRED_ARG2",
-                ERROR_NARGOUTCHK_SCALAR_INTEGER_REQUIRED_ARG2);
+            raiseError2(L"nelson:validators:mustBeScalarInteger", 2);
         }
         if (!argIn[2].isScalar() || !argIn[2].isNumeric()) {
-            raiseError(L"Nelson:core:ERROR_NARGOUTCHK_SCALAR_INTEGER_REQUIRED_ARG3",
-                ERROR_NARGOUTCHK_SCALAR_INTEGER_REQUIRED_ARG3);
+            raiseError2(L"nelson:validators:mustBeScalarInteger", 3);
         }
 
         int minArgs = argIn[0].getContentAsInteger32Scalar(false, true);

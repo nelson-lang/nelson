@@ -40,12 +40,10 @@ Nelson::StreamGateway::fsizeBuiltin(int nLhs, const ArrayOfVector& argIn)
             auto sz = static_cast<double>(FileSize(f));
             retval << ArrayOf::doubleConstructor(sz);
         } else {
-            raiseError(L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER",
-                ERROR_INVALID_FILE_IDENTIFIER);
+            raiseError2(L"nelson:io:invalidFileId");
         }
     } else {
-        raiseError(
-            L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER", ERROR_INVALID_FILE_IDENTIFIER);
+        raiseError2(L"nelson:io:invalidFileId");
     }
     return retval;
 }

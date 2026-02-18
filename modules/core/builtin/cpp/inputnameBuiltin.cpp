@@ -29,8 +29,7 @@ Nelson::CoreGateway::inputnameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     double pos = argIn[0].getContentAsDoubleScalar();
     int ipos = (int)pos;
     if ((double)ipos != pos) {
-        raiseError(L"Nelson:core:ERROR_SCALAR_INTEGER_VALUE_REQUIRED",
-            ERROR_SCALAR_INTEGER_VALUE_REQUIRED);
+        raiseError2(L"nelson:validators:mustBeScalarInteger", 1);
     }
     int nargin = context->getCurrentScope()->getNargIn();
     if (ipos > nargin || ipos < 1) {

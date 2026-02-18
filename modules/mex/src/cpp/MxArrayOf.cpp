@@ -698,7 +698,7 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
         }
     } break;
     default: {
-        raiseError(L"nelson:mex:cMexTypeNotManaged");
+        raiseError2(L"nelson:mex:cMexTypeNotManaged");
     } break;
     }
     return res;
@@ -739,7 +739,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxLOGICAL_CLASS: {
         destClass = NLS_LOGICAL;
         if (pm->iscomplex) {
-            raiseError(L"nelson:mex:cMexTypeNotManaged");
+            raiseError2(L"nelson:mex:cMexTypeNotManaged");
         }
         if (pm->issparse) {
             return MxArraySparseToArrayOf(pm);
@@ -751,7 +751,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxCHAR_CLASS: {
         destClass = NLS_CHAR;
         if (pm->iscomplex) {
-            raiseError(L"nelson:mex:cMexTypeNotManaged");
+            raiseError2(L"nelson:mex:cMexTypeNotManaged");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxChar, charType>((mxChar*)pm->realdata, (charType*)cp, N);
@@ -797,7 +797,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxINT8_CLASS: {
         destClass = NLS_INT8;
         if (pm->iscomplex) {
-            raiseError(L"nelson:mex:cMexTypeNotManaged");
+            raiseError2(L"nelson:mex:cMexTypeNotManaged");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxInt8, int8>((mxInt8*)pm->realdata, (int8*)cp, N);
@@ -805,7 +805,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxUINT8_CLASS: {
         destClass = NLS_UINT8;
         if (pm->iscomplex) {
-            raiseError(L"nelson:mex:cMexTypeNotManaged");
+            raiseError2(L"nelson:mex:cMexTypeNotManaged");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxUint8, uint8>((mxUint8*)pm->realdata, (uint8*)cp, N);
@@ -813,7 +813,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxINT16_CLASS: {
         destClass = NLS_INT16;
         if (pm->iscomplex) {
-            raiseError(L"nelson:mex:cMexTypeNotManaged");
+            raiseError2(L"nelson:mex:cMexTypeNotManaged");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxInt16, int16>((mxInt16*)pm->realdata, (int16*)cp, N);
@@ -821,7 +821,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxUINT16_CLASS: {
         destClass = NLS_UINT16;
         if (pm->iscomplex) {
-            raiseError(L"nelson:mex:cMexTypeNotManaged");
+            raiseError2(L"nelson:mex:cMexTypeNotManaged");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxUint16, uint16>((mxUint16*)pm->realdata, (uint16*)cp, N);
@@ -829,7 +829,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxINT32_CLASS: {
         destClass = NLS_INT32;
         if (pm->iscomplex) {
-            raiseError(L"nelson:mex:cMexTypeNotManaged");
+            raiseError2(L"nelson:mex:cMexTypeNotManaged");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxInt32, int32>((mxInt32*)pm->realdata, (int32*)cp, N);
@@ -837,7 +837,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxUINT32_CLASS: {
         destClass = NLS_UINT32;
         if (pm->iscomplex) {
-            raiseError(L"nelson:mex:cMexTypeNotManaged");
+            raiseError2(L"nelson:mex:cMexTypeNotManaged");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxUint32, uint32>((mxUint32*)pm->realdata, (uint32*)cp, N);
@@ -845,7 +845,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxINT64_CLASS: {
         destClass = NLS_INT64;
         if (pm->iscomplex) {
-            raiseError(L"nelson:mex:cMexTypeNotManaged");
+            raiseError2(L"nelson:mex:cMexTypeNotManaged");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxInt64, int64>((mxInt64*)pm->realdata, (int64*)cp, N);
@@ -853,7 +853,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxUINT64_CLASS: {
         destClass = NLS_UINT64;
         if (pm->iscomplex) {
-            raiseError(L"nelson:mex:cMexTypeNotManaged");
+            raiseError2(L"nelson:mex:cMexTypeNotManaged");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxUint64, uint64>((mxUint64*)pm->realdata, (uint64*)cp, N);
@@ -865,7 +865,7 @@ MxArrayToArrayOf(const mxArray* pm)
         return res;
     } break;
     default: {
-        raiseError(L"nelson:mex:cMexTypeNotManaged");
+        raiseError2(L"nelson:mex:cMexTypeNotManaged");
     } break;
     }
     return ArrayOf(destClass, dim, cp);

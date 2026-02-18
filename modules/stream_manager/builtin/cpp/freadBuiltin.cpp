@@ -154,12 +154,10 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                     ERROR_PROBLEM_TO_READ_DATA);
             }
         } else {
-            raiseError(L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER",
-                ERROR_INVALID_FILE_IDENTIFIER);
+            raiseError2(L"nelson:io:invalidFileId");
         }
     } else {
-        raiseError(
-            L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER", ERROR_INVALID_FILE_IDENTIFIER);
+        raiseError2(L"nelson:io:invalidFileId");
     }
     return retval;
 }

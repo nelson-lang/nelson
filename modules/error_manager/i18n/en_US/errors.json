@@ -137,5 +137,6 @@
   "nelson:runtime:indexMustBePositiveInteger": "Index must be a positive integer.",
   "nelson:mex:cMexTypeNotManaged": "C MEX type not managed.",
   "nelson:mex:mexExtensionNotYetSupported": "Mex extension not yet supported.",
-  "nelson:random:randomEngineNotInit": "Random engine not initialized."
+  "nelson:random:randomEngineNotInit": "Random engine not initialized.",
+  "nelson:io:invalidFileId": "Invalid file identifier."
 }

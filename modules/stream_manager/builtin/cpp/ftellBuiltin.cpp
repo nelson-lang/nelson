@@ -34,14 +34,12 @@ Nelson::StreamGateway::ftellBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (fm->isOpened(iValue)) {
         File* f = fm->getFile(iValue);
         if (f == nullptr) {
-            raiseError(L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER",
-                ERROR_INVALID_FILE_IDENTIFIER);
+            raiseError2(L"nelson:io:invalidFileId");
         }
         auto dpos = static_cast<double>(FileTell(f));
         retval << ArrayOf::doubleConstructor(dpos);
     } else {
-        raiseError(
-            L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER", ERROR_INVALID_FILE_IDENTIFIER);
+        raiseError2(L"nelson:io:invalidFileId");
     }
     return retval;
 }

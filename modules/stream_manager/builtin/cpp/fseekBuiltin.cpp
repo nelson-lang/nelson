@@ -67,8 +67,7 @@ Nelson::StreamGateway::fseekBuiltin(int nLhs, const ArrayOfVector& argIn)
             retval << ArrayOf::doubleConstructor(0);
         }
     } else {
-        raiseError(
-            L"Nelson:stream_manager:ERROR_INVALID_FILE_IDENTIFIER", ERROR_INVALID_FILE_IDENTIFIER);
+        raiseError2(L"nelson:io:invalidFileId");
     }
     return retval;
 }
