@@ -111,7 +111,6 @@
 #define ERROR_A_COLUMN_VECTOR_EXPECTED _W("A column vector expected.")
 #define ERROR_EXPECTED_A_REAL_VALUE _W("Expected a real value.")
 #define ERROR_EXPECTED_A_REAL_VALUE_SCALAR _W("Expected a real value scalar.")
-#define ERROR_A_REAL_INTEGER_VALUE_SCALAR_EXPECTED _W("A real integer value scalar expected.")
 #define ERROR_INPUTS_PARAMETERS_MUST_BE_SCALARS _W("Inputs parameters must be scalars.")
 #define ERROR_THIRD_ARGUMENT_SHOULD_BE_AN_INTEGER_VALUE                                            \
     _W("Third argument should be an integer value.")
@@ -230,8 +229,6 @@
     _W("Wrong size for argument #2. row vector or scalar expected")
 #define ERROR_ARRAY_OF_INTEGERS_EXPECTED                                                           \
     _W("An array of integers values, 0 <= D <= flintmax expected.")
-#define ERROR_THIRD_PARAMETER_POSITIVE_INTEGER_VALUE_EXPECTED                                      \
-    _W("#3 parameter: positive integer value expected.")
 #define ERROR_BINARY_CHAR_VECTOR_MUST_BE_0_1                                                       \
     _W("Binary character vector may consist only of characters 0 and 1.")
 #define ERROR_INVALID_STRING_LENGTH_1_32_64 _W("Invalid string length: 1, 32, 64 expected.")
@@ -280,8 +277,6 @@
 //=============================================================================
 #define ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED                                             \
     _W("Wrong value for #{} argument. positive value expected.")
-#define ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED                                \
-    _W("Wrong value for argument #{}. A finite scalar integer value expected.")
 #define ERROR_WRONG_ARGUMENT_X_FINITE_VECTOR_INTEGER_VALUE_EXPECTED                                \
     _W("Wrong value for argument #{}. A finite vector of integer values expected.")
 #define ERROR_WRONG_ARGUMENT_X_A_MUST_BE_HIGHER_THAN_B                                             \
@@ -426,7 +421,6 @@
 #define ERROR_FEVALFUTURE_HANDLE_EXPECTED _W("FevalFuture handle expected.")
 #define ERROR_FUNCTION_HANDLE_HANDLE_EXPECTED _W("function handle handle expected.")
 #define ERROR_INVALID_ANONYMOUS_FUNCTION _W("Invalid anonymous function.")
-#define ERROR_INTEGER_VALUE_EXPECTED _W("integer value expected.")
 #define ERROR_NON_NEGATIVE_VALUE_EXPECTED _W("non negative value expected.")
 #define ERROR_BACKGROUNDPOOL_HANDLE_EXPECTED _W("backgroundPool handle expected.")
 #define ERROR_A_NUMERIC_SCALAR_VALUE_EXPECTED _W("a numeric scalar value expected.")
@@ -1010,10 +1004,6 @@
     _W("Wrong type for #3 argument. numeric values expected.")
 #define ERROR_DLMREAD_WRONG_TYPE_FOR_3_DENSE_VALUES_EXPECTED                                       \
     _W("Wrong type for #3 argument. dense values expected.")
-#define ERROR_DLMREAD_WRONG_VALUE_ARG3_INTEGER_EXPECTED                                            \
-    _W("Wrong value for argument #3: integer value expected.")
-#define ERROR_DLMREAD_WRONG_VALUE_ARG4_INTEGER_EXPECTED                                            \
-    _W("Wrong value for argument #4: integer value expected.")
 #define ERROR_IMPORT_OPTIONS_OBJECT_EXPECTED _W("Import options object expected.")
 #define ERROR_OUTPUTTYPE_NAME_EXPECTED _W("OutputType name expected.")
 #define ERROR_UNSUPPORTED_NELSON_TYPE _W("Unsupported type.")

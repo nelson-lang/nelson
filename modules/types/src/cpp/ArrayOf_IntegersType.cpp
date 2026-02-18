@@ -258,8 +258,7 @@ getContentAsScalar(
         if (checkIsIntegerValue) {
             double f = M.getContentAsDoubleScalar(arrayAsScalar, false);
             if (std::abs(f - value) >= std::numeric_limits<double>::epsilon()) {
-                raiseError(L"Nelson:types:ERROR_A_REAL_INTEGER_VALUE_SCALAR_EXPECTED",
-                    ERROR_A_REAL_INTEGER_VALUE_SCALAR_EXPECTED);
+                raiseError2(L"nelson:validators:mustBeIntegerAtPosition", 1);
             }
         }
     } else {

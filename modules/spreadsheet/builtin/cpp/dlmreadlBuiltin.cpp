@@ -99,14 +99,12 @@ Nelson::SpreadsheetGateway::dlmreadBuiltin(int nLhs, const ArrayOfVector& argIn)
                 ERROR_DLMREAD_WRONG_VALUE_ARG2_SINGLE_CHAR_EXPECTED);
         }
         if (!argIn[2].isScalar() || !argIn[2].isIntegerValue()) {
-            raiseError(L"Nelson:spreadsheet:ERROR_DLMREAD_WRONG_VALUE_ARG3_INTEGER_EXPECTED",
-                ERROR_DLMREAD_WRONG_VALUE_ARG3_INTEGER_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeIntegerAtPosition", 3);
         } else {
             range.push_back(argIn[2].getContentAsDoubleScalar());
         }
         if (!argIn[3].isScalar() || !argIn[3].isIntegerValue()) {
-            raiseError(L"Nelson:spreadsheet:ERROR_DLMREAD_WRONG_VALUE_ARG4_INTEGER_EXPECTED",
-                ERROR_DLMREAD_WRONG_VALUE_ARG4_INTEGER_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeIntegerAtPosition", 4);
         } else {
             range.push_back(argIn[3].getContentAsDoubleScalar());
         }

@@ -140,5 +140,7 @@
   "nelson:random:randomEngineNotInit": "Random engine not initialized.",
   "nelson:io:invalidFileId": "Invalid file identifier.",
   "nelson:runtime:invalidPythonObject": "Invalid Python object.",
-  "nelson:runtime:FuncFailsWithErrorCode": "{0} function fails with error code: {1}."
+  "nelson:runtime:FuncFailsWithErrorCode": "{0} function fails with error code: {1}.",
+  "nelson:arguments:wrongValueArg": "Wrong value for argument {0}. {1} expected.",
+  "nelson:validators:mustBeNonNegativeIntegerValue": "Value must be a non-negative integer."
 }

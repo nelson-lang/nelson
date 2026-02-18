@@ -139,8 +139,7 @@ ArrayOf::getContentAsSingleScalar(bool arrayAsScalar, bool checkIsIntegerValue) 
     if (checkIsIntegerValue) {
         single f = std::floor(value);
         if (std::abs(f - value) >= std::numeric_limits<double>::epsilon()) {
-            raiseError(L"Nelson:types:ERROR_A_REAL_INTEGER_VALUE_SCALAR_EXPECTED",
-                ERROR_A_REAL_INTEGER_VALUE_SCALAR_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeIntegerAtPosition", 1);
         }
     }
     return value;

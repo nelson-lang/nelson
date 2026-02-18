@@ -33,9 +33,7 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     ArrayOf arg = argIn[0];
                     double dindex = arg.getContentAsDoubleScalar();
                     if (!std::isfinite(dindex)) {
-                        raiseError(L"Nelson:string:ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_"
-                                   L"VALUE_EXPECTED",
-                            ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED, 1);
+                        raiseError2(L"nelson:validators:mustBeFinite", 1);
                     }
                     if (dindex < 0) {
                         dindex = 0;
@@ -57,18 +55,14 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     for (indexType k = 0; k < arg.getElementCount(); k++) {
                         double _dIndex = dindex[k];
                         if (!std::isfinite(_dIndex)) {
-                            raiseError(L"Nelson:string:ERROR_WRONG_ARGUMENT_X_FINITE_VECTOR_"
-                                       L"INTEGER_VALUE_EXPECTED",
-                                ERROR_WRONG_ARGUMENT_X_FINITE_VECTOR_INTEGER_VALUE_EXPECTED, 1);
+                            raiseError2(L"nelson:validators:mustBeFinite", 1);
                         }
                         if (_dIndex < 0) {
                             _dIndex = 0;
                         }
                         auto index = static_cast<indexType>(_dIndex);
                         if (static_cast<double>(index) != _dIndex) {
-                            raiseError(L"Nelson:string:ERROR_WRONG_ARGUMENT_X_FINITE_VECTOR_"
-                                       L"INTEGER_VALUE_EXPECTED",
-                                ERROR_WRONG_ARGUMENT_X_FINITE_VECTOR_INTEGER_VALUE_EXPECTED, 1);
+                            raiseError2(L"nelson:validators:mustBeScalarInteger", 1);
                         }
                         dims.setDimensionLength(k, index);
                     }
@@ -82,9 +76,7 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     retval << ArrayOf(NLS_STRING_ARRAY, dims, elements);
                 }
             } else {
-                raiseError(
-                    L"Nelson:string:ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_OR_ROW_VECTOR_EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_OR_ROW_VECTOR_EXPECTED, 1);
+                raiseError2(L"nelson:validators:mustBeSize", 1, L"[1, 2]");
             }
         } else {
             raiseError2(L"nelson:validators:mustBeType", 1, NLS_DOUBLE_STR);
@@ -97,18 +89,14 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     ArrayOf arg = argIn[k];
                     double dindex = arg.getContentAsDoubleScalar();
                     if (!std::isfinite(dindex)) {
-                        raiseError(L"Nelson:string:ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_"
-                                   L"VALUE_EXPECTED",
-                            ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED, k + 1);
+                        raiseError2(L"nelson:validators:mustBeFinite", k + 1);
                     }
                     if (dindex < 0) {
                         dindex = 0;
                     }
                     auto index = static_cast<indexType>(dindex);
                     if (static_cast<double>(index) != dindex) {
-                        raiseError(L"Nelson:string:ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_"
-                                   L"VALUE_EXPECTED",
-                            ERROR_WRONG_ARGUMENT_X_FINITE_SCALAR_INTEGER_VALUE_EXPECTED, k + 1);
+                        raiseError2(L"nelson:validators:mustBeScalarInteger", k + 1);
                     }
                     dims.setDimensionLength(k, index);
                 } else {

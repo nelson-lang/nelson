@@ -57,16 +57,15 @@ Nelson::ParallelGateway::parfevalBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf param3 = argIn[2];
     bool isReal = param3.getDataClass() == NLS_DOUBLE || param3.getDataClass() == NLS_SINGLE;
     if (!isReal) {
-        raiseError(L"Nelson:parallel:ERROR_INTEGER_VALUE_EXPECTED", ERROR_INTEGER_VALUE_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeIntegerAtPosition", 3);
     }
     double value = param3.getContentAsDoubleScalar();
     int ivalue = (int)(value);
     if (value != (double)ivalue) {
-        raiseError(L"Nelson:parallel:ERROR_INTEGER_VALUE_EXPECTED", ERROR_INTEGER_VALUE_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeIntegerAtPosition", 3);
     }
     if (ivalue < 0) {
-        raiseError(L"Nelson:parallel:ERROR_NON_NEGATIVE_VALUE_EXPECTED",
-            ERROR_NON_NEGATIVE_VALUE_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeNonNegativeIntegerValue", 3);
     }
     auto* backgroundPoolObject = (BackgroundPoolObject*)param1.getContentAsHandleScalar();
     if (backgroundPoolObject) {

@@ -144,8 +144,7 @@ ArrayOf::getContentAsDoubleScalar(bool arrayAsScalar, bool checkIsIntegerValue) 
     if (checkIsIntegerValue) {
         double f = std::floor(value);
         if (std::abs(f - value) >= std::numeric_limits<double>::epsilon()) {
-            raiseError(L"Nelson:types:ERROR_A_REAL_INTEGER_VALUE_SCALAR_EXPECTED",
-                ERROR_A_REAL_INTEGER_VALUE_SCALAR_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeIntegerAtPosition", 1);
         }
     }
     return value;
@@ -156,8 +155,7 @@ ArrayOf::getContentAsDoubleComplexScalar(bool arrayAsScalar) const
 {
     if (isEmpty() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
-        raiseError(L"Nelson:types:ERROR_EXPECTED_A_REAL_VALUED_SCALAR",
-            ERROR_EXPECTED_A_REAL_VALUED_SCALAR);
+        raiseError2(L"nelson:validators:mustBeRealValuedScalar", 1);
     }
     const double* qp = nullptr;
     if (getDataClass() != NLS_DCOMPLEX) {
