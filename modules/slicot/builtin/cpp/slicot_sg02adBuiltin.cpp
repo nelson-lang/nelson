@@ -248,7 +248,7 @@ Nelson::SlicotGateway::slicot_sg02adBuiltin(int nLhs, const ArrayOfVector& argIn
             T_output_ptr, LDT_ptr, U_output_ptr, LDU_ptr, TOL_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr,
             BWORK_ptr, IWARN_output_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError(L"Nelson:slicot:ERROR_SG02AD_FUNCTION_FAILS", ERROR_SG02AD_FUNCTION_FAILS);
+        raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"sg02ad", INFO_output_ptr[0]);
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

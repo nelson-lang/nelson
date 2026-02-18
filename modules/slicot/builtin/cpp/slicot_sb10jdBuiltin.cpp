@@ -137,7 +137,7 @@ Nelson::SlicotGateway::slicot_sb10jdBuiltin(int nLhs, const ArrayOfVector& argIn
             LDC_ptr, D_output_ptr, LDD_ptr, E_output_ptr, LDE_ptr, NSYS_output_ptr, DWORK_ptr,
             LDWORK_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError(L"Nelson:slicot:ERROR_SB10JD_FUNCTION_FAILS", ERROR_SB10JD_FUNCTION_FAILS);
+        raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"sb10jd", INFO_output_ptr[0]);
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

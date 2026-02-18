@@ -140,7 +140,7 @@ Nelson::SlicotGateway::slicot_tg01adBuiltin(int nLhs, const ArrayOfVector& argIn
             E_output_ptr, LDE_ptr, B_output_ptr, LDB_ptr, C_output_ptr, LDC_ptr, LSCALE_output_ptr,
             RSCALE_output_ptr, DWORK_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError(L"Nelson:slicot:ERROR_TG01AD_FUNCTION_FAILS", ERROR_TG01AD_FUNCTION_FAILS);
+        raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"tg01ad", INFO_output_ptr[0]);
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

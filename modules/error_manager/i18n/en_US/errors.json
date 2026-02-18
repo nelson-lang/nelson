@@ -138,5 +138,7 @@
   "nelson:mex:cMexTypeNotManaged": "C MEX type not managed.",
   "nelson:mex:mexExtensionNotYetSupported": "Mex extension not yet supported.",
   "nelson:random:randomEngineNotInit": "Random engine not initialized.",
-  "nelson:io:invalidFileId": "Invalid file identifier."
+  "nelson:io:invalidFileId": "Invalid file identifier.",
+  "nelson:runtime:invalidPythonObject": "Invalid Python object.",
+  "nelson:runtime:FuncFailsWithErrorCode": "{0} function fails with error code: {1}."
 }

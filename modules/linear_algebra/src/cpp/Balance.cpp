@@ -135,8 +135,7 @@ doubleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
     int INFO = LAPACKE_dgebal(
         LAPACK_COL_MAJOR, JOB, N, (double*)B.getDataPointer(), N, &ILO, &IHI, ptrScale);
     if (INFO < 0) {
-        raiseError(L"Nelson:linear_algebra:ERROR_INVALID_ARGUMENTS_FOR_LAPACKE_DGEBAL",
-            ERROR_INVALID_ARGUMENTS_FOR_LAPACKE_DGEBAL);
+        raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"dggebal", INFO);
     }
 
     ArrayOfVector retval;
@@ -178,8 +177,7 @@ doubleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
 
     int INFO = LAPACKE_zgebal(LAPACK_COL_MAJOR, JOB, N, pzB, N, &ILO, &IHI, ptrScale);
     if (INFO < 0) {
-        raiseError(L"Nelson:linear_algebra:ERROR_INVALID_ARGUMENTS_FOR_LAPACKE_DGEBAL",
-            ERROR_INVALID_ARGUMENTS_FOR_LAPACKE_DGEBAL);
+        raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"zgebal", INFO);
     }
 
     ArrayOfVector retval;
@@ -219,8 +217,7 @@ singleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
     int INFO = LAPACKE_sgebal(
         LAPACK_COL_MAJOR, JOB, N, (single*)B.getDataPointer(), N, &ILO, &IHI, ptrScale);
     if (INFO < 0) {
-        raiseError(L"Nelson:linear_algebra:ERROR_INVALID_ARGUMENTS_FOR_LAPACKE_DGEBAL",
-            ERROR_INVALID_ARGUMENTS_FOR_LAPACKE_DGEBAL);
+        raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"sgebal", INFO);
     }
 
     ArrayOfVector retval;
@@ -261,8 +258,7 @@ singleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
 
     int INFO = LAPACKE_cgebal(LAPACK_COL_MAJOR, JOB, N, pzB, N, &ILO, &IHI, ptrScale);
     if (INFO < 0) {
-        raiseError(L"Nelson:linear_algebra:ERROR_INVALID_ARGUMENTS_FOR_LAPACKE_DGEBAL",
-            ERROR_INVALID_ARGUMENTS_FOR_LAPACKE_DGEBAL);
+        raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"cgebal", INFO);
     }
 
     ArrayOfVector retval;
