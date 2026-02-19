@@ -42,7 +42,7 @@ Nelson::WebtoolsGateway::webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         raiseError2(L"nelson:validators:mustBeType", 4, std::wstring(L"struct"));
     }
     if (!param4.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 4);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 4);
     }
     stringVector names = param4.getFieldNames();
     ArrayOfVector values;

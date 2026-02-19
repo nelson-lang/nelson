@@ -204,21 +204,19 @@ BetaIncomplete(
     Dimensions dimsMaxYZ = maxDimensions(dimsY, dimsZ);
     Dimensions retDims = maxDimensions(dimsX, dimsMaxYZ);
     if (!(X.isScalar()) && !retDims.equals(X.getDimensions())) {
-        raiseError2(L"nelson:validators:mustBeScalar", 1);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
     }
     if (!(Y.isScalar()) && !retDims.equals(Y.getDimensions())) {
-        raiseError2(L"nelson:validators:mustBeScalar", 2);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
     }
     if (!(Z.isScalar()) && !retDims.equals(Z.getDimensions())) {
-        raiseError2(L"nelson:validators:mustBeScalar", 3);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 3);
     }
     if (!Y.isPositive()) {
-        raiseError(L"Nelson:special_functions:ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED, 2);
+        raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
     }
     if (!Z.isPositive()) {
-        raiseError(L"Nelson:special_functions:ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED, 3);
+        raiseError2(L"nelson:validators:mustBePositiveAtPosition", 3);
     }
     if (X.getDataClass() == NLS_DOUBLE) {
         ArrayOf YY(Y);

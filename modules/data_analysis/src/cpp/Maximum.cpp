@@ -617,8 +617,7 @@ Maximum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOve
     ArrayOfVector retval;
     needToOverload = false;
     if (dim < 1) {
-        raiseError(L"Nelson:data_analysis:ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR",
-            ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR);
+        raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
     }
     indexType workDim = dim - 1;
     if (A.isSparse()) {

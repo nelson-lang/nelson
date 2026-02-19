@@ -28,9 +28,7 @@ Nelson::ConstructorsGateway::infBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (argIn[0].isNumeric() && !argIn[0].isSparse()) {
             if (argIn[0].isRowVector()) {
                 if (argIn[0].isEmpty()) {
-                    raiseError(L"Nelson:constructors_functions:ERROR_WRONG_ARGUMENT_X_SIZE_ROW_"
-                               L"VECTOR_EXPECTED",
-                        ERROR_WRONG_ARGUMENT_X_SIZE_ROW_VECTOR_EXPECTED, 1);
+                    raiseError2(L"nelson:validators:mustBeRowVectorAtPosition", 1);
                 }
                 if (argIn[0].getElementCount() < Nelson::maxDims) {
                     ArrayOf dimVector(argIn[0]);
@@ -47,12 +45,10 @@ Nelson::ConstructorsGateway::infBuiltin(int nLhs, const ArrayOfVector& argIn)
                         L"nelson:runtime:tooManyDimensions", std::to_wstring(Nelson::maxDims));
                 }
             } else {
-                raiseError(L"Nelson:constructors_functions:ERROR_WRONG_ARGUMENT_X_SIZE_ROW_VECTOR_"
-                           L"EXPECTED",
-                    ERROR_WRONG_ARGUMENT_X_SIZE_ROW_VECTOR_EXPECTED, 1);
+                raiseError2(L"nelson:validators:mustBeRowVectorAtPosition", 1);
             }
         } else {
-            raiseError2(L"nelson:validators:mustBeNumeric", 1);
+            raiseError2(L"nelson:validators:mustBeNumericAtPosition", 1);
         }
     } else {
         for (sizeType k = 0; k < nRhs; k++) {

@@ -63,8 +63,7 @@ Nelson::DisplayFormatGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn
                         ERROR_UNEXPECTED_LINE_SPACING);
                 }
             } else {
-                raiseError(L"Nelson:display_format:ERROR_WRONG_SIZE_ARG1_SCALAR_EXPECTED",
-                    ERROR_WRONG_SIZE_ARG1_SCALAR_EXPECTED);
+                raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
             }
         } else {
             raiseError(

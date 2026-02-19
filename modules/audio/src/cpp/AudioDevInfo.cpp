@@ -10,6 +10,7 @@
 #include <portaudio.h>
 #include "AudioDevInfo.hpp"
 #include "i18n.hpp"
+#include "Error.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -198,9 +199,8 @@ getDevicesInfo(
 }
 //=============================================================================
 ArrayOf
-AudioDevInfo(std::wstring& errorMessage)
+AudioDevInfo()
 {
-    errorMessage.clear();
     size_t nbInputs = 0;
     size_t nbOutputs = 0;
     for (AudioDeviceInfo info : audioDevices) {
@@ -223,9 +223,8 @@ AudioDevInfo(std::wstring& errorMessage)
 }
 //=============================================================================
 ArrayOf
-AudioDevInfoDefault(std::wstring& errorMessage)
+AudioDevInfoDefault()
 {
-    errorMessage.clear();
     PaDeviceIndex defaultOutput = Pa_GetDefaultOutputDevice();
     std::vector<AudioDeviceInfo> infoOutput;
     if (defaultOutput != paNoDevice) {
@@ -270,9 +269,8 @@ AudioDevInfoDefault(std::wstring& errorMessage)
 }
 //=============================================================================
 ArrayOf
-AudioDevInfo(int io, std::wstring& errorMessage)
+AudioDevInfo(int io)
 {
-    errorMessage.clear();
     if (io == 0 || io == 1) {
         int res = 0;
         for (AudioDeviceInfo info : audioDevices) {
@@ -290,8 +288,7 @@ AudioDevInfo(int io, std::wstring& errorMessage)
         }
         return ArrayOf::doubleConstructor((double)res);
     }
-    errorMessage = _W("Wrong value for #1 argument.");
-
+    raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
     return ArrayOf::emptyConstructor();
 }
 //=============================================================================
@@ -308,28 +305,26 @@ getDeviceInfoById(const std::vector<AudioDeviceInfo>& infos, int ID, AudioDevice
 }
 //=============================================================================
 ArrayOf
-AudioDevInfo(int io, int id, std::wstring& errorMessage)
+AudioDevInfo(int io, int id)
 {
-    errorMessage.clear();
     if (io == 0 || io == 1) {
         AudioDeviceInfo infoFound;
         if (getDeviceInfoById(audioDevices, id, infoFound)) {
             if (io == 1) {
                 if (infoFound.padeviceInfo->maxInputChannels == 0) {
-                    errorMessage = _W("Wrong value for #1 argument.");
+                    raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
                 }
             } else {
                 if (infoFound.padeviceInfo->maxOutputChannels == 0) {
-                    errorMessage = _W("Wrong value for #1 argument.");
+                    raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
                 }
             }
             return ArrayOf::characterArrayConstructor(
                 utf8_to_wstring(infoFound.padeviceInfo->name));
         }
-        errorMessage = _W("Wrong value for #2 argument.");
-
+        raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
     } else {
-        errorMessage = _W("Wrong value for #1 argument.");
+        raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
     }
     return ArrayOf::emptyConstructor();
 }
@@ -361,46 +356,43 @@ getDeviceInfoByName(const std::vector<AudioDeviceInfo>& infos, int IO, const std
 }
 //=============================================================================
 ArrayOf
-AudioDevInfo(int io, const std::wstring& name, std::wstring& errorMessage)
+AudioDevInfo(int io, const std::wstring& name)
 {
-    errorMessage.clear();
     if (io == 0 || io == 1) {
         AudioDeviceInfo infoFound;
         if (!getDeviceInfoByName(audioDevices, io, name, infoFound)) {
-            errorMessage = _W("Wrong value for #1 or #2 argument.");
+            raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
         } else {
             return ArrayOf::doubleConstructor((double)infoFound.Id);
         }
     } else {
-        errorMessage = _W("Wrong value for #1 argument.");
+        raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
     }
     return ArrayOf::emptyConstructor();
 }
 //=============================================================================
 ArrayOf
-AudioDevInfoDriverVersion(int io, int id, std::wstring& errorMessage)
+AudioDevInfoDriverVersion(int io, int id)
 {
-    errorMessage.clear();
     if (io == 0 || io == 1) {
         AudioDeviceInfo infoFound;
         if (getDeviceInfoById(audioDevices, id, infoFound)) {
             if (io == 1) {
                 if (infoFound.padeviceInfo->maxInputChannels == 0) {
-                    errorMessage = _W("Wrong value for #1 argument.");
+                    raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
                 }
             } else {
                 if (infoFound.padeviceInfo->maxOutputChannels == 0) {
-                    errorMessage = _W("Wrong value for #1 argument.");
+                    raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
                 }
             }
             const PaHostApiInfo* apiInfo = Pa_GetHostApiInfo(infoFound.padeviceInfo->hostApi);
             const char* driverVersion = apiInfo ? apiInfo->name : "";
             return ArrayOf::characterArrayConstructor(utf8_to_wstring(driverVersion));
         }
-        errorMessage = _W("Wrong value for #2 argument.");
-
+        raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
     } else {
-        errorMessage = _W("Wrong value for #1 argument.");
+        raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
     }
     return ArrayOf::emptyConstructor();
 }
@@ -471,9 +463,8 @@ searchAudioDevice(const std::vector<AudioDeviceInfo>& infos, int io, int rate, i
 }
 //=============================================================================
 ArrayOf
-AudioDevInfo(int io, int rate, int bits, int chans, std::wstring& errorMessage)
+AudioDevInfo(int io, int rate, int bits, int chans)
 {
-    errorMessage.clear();
     if (io == 0 || io == 1) {
         AudioDeviceInfo deviceFound;
         if (searchAudioDevice(audioDevices, io, rate, bits, chans, deviceFound)) {
@@ -481,7 +472,7 @@ AudioDevInfo(int io, int rate, int bits, int chans, std::wstring& errorMessage)
         }
         return ArrayOf::doubleConstructor(-1);
     }
-    errorMessage = _W("Wrong value for #1 argument.");
+    raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
 
     return ArrayOf::emptyConstructor();
 }
@@ -518,9 +509,8 @@ supportAudioDevice(
 }
 //=============================================================================
 ArrayOf
-AudioDevInfo(int io, int id, int rate, int bits, int chans, std::wstring& errorMessage)
+AudioDevInfo(int io, int id, int rate, int bits, int chans)
 {
-    errorMessage.clear();
     if (io == 0 || io == 1) {
         PaSampleFormat format = bitsToFormat(bits);
         const PaDeviceInfo* padeviceInfo = nullptr;
@@ -531,7 +521,7 @@ AudioDevInfo(int io, int id, int rate, int bits, int chans, std::wstring& errorM
             }
         }
         if (padeviceInfo == nullptr) {
-            errorMessage = _W("Wrong value for #2 argument.");
+            raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
         } else {
             if (format != 0) {
                 if (supportAudioDevice(padeviceInfo, io, id, rate, format, chans)) {
@@ -539,10 +529,10 @@ AudioDevInfo(int io, int id, int rate, int bits, int chans, std::wstring& errorM
                 }
                 return ArrayOf::logicalConstructor(false);
             }
-            errorMessage = _W("Wrong value for #4 argument.");
+            raiseError2(L"nelson:validators:invalidValueAtPosition", 4);
         }
     } else {
-        errorMessage = _W("Wrong value for #1 argument.");
+        raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
     }
     return ArrayOf::emptyConstructor();
 }

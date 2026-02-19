@@ -954,7 +954,7 @@ void
 ArrayOf::setValueAtIndex(uint64 index, const ArrayOf& scalarValue)
 {
     if (!scalarValue.isScalar()) {
-        raiseError(L"Nelson:types:ERROR_SIZE_SCALAR_EXPECTED", ERROR_SIZE_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar");
     }
     auto length = static_cast<uint64>(this->getElementCount());
     if (index >= length) {

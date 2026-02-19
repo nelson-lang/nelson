@@ -77,7 +77,7 @@ historyBuiltin_size_one_rhs(
         } else if (str == L"removeexit") {
             retval << ArrayOf::logicalConstructor(ptrHistoryManager->getRemoveExit());
         } else {
-            raiseError2(L"nelson:validators:invalidValue", 2);
+            raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
         }
     } else {
         raiseError(L"nelson:validators:mustBeValidType", ERROR_WRONG_ARGUMENT_X_TYPE, 1);
@@ -134,7 +134,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     raiseError2(L"nelson:validators:mustBeType", 1, NLS_DOUBLE_STR);
                 }
             } else {
-                raiseError2(L"nelson:validators:mustBeScalar", 2);
+                raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
             }
         } else if (str == L"enable_save") {
             nargoutcheck(nLhs, 0, 0);
@@ -146,7 +146,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                     raiseError2(L"nelson:validators:mustBeType", 2, NLS_LOGICAL_STR);
                 }
             } else {
-                raiseError2(L"nelson:validators:mustBeScalar", 2);
+                raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
             }
         } else if (str == L"delete") {
             nargoutcheck(nLhs, 0, 0);
@@ -290,9 +290,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                             raiseError2(L"nelson:validators:mustBeScalarInteger", 2);
                         }
                         if (dvalue1 < 0 || dvalue2 < 0) {
-                            raiseError(L"Nelson:history_manager:ERROR_WRONG_ARGUMENT_X_POSITIVE_"
-                                       L"VALUE_EXPECTED",
-                                ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED, 2);
+                            raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
                         }
                         auto ivalue1 = static_cast<size_t>(dvalue1);
                         auto ivalue2 = static_cast<size_t>(dvalue2);
@@ -340,13 +338,13 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                         raiseError2(L"nelson:validators:mustBeType", 2, NLS_DOUBLE_STR);
                     }
                 } else {
-                    raiseError2(L"nelson:validators:mustBeScalar", 2);
+                    raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
                 }
             } else {
-                raiseError2(L"nelson:validators:invalidValue", 1);
+                raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
             }
         } else {
-            raiseError2(L"nelson:validators:invalidValue", 1);
+            raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
         }
     } else {
         raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);

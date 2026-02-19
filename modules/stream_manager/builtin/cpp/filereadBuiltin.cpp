@@ -85,7 +85,7 @@ Nelson::StreamGateway::filereadBuiltin(int nLhs, const ArrayOfVector& argIn)
                 ERROR_WRONG_VALUE_FOR_MACHINE_FORMAT);
         }
         if (outputClass == L"cell") {
-            raiseError2(L"nelson:validators:invalidValue", 2);
+            raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
         }
     }
     std::wstring encoding = L"UTF-8";
@@ -94,7 +94,7 @@ Nelson::StreamGateway::filereadBuiltin(int nLhs, const ArrayOfVector& argIn)
         encoding = param4.getContentAsWideString();
         if (encoding != L"auto") {
             if (!isSupportedEncoding(encoding)) {
-                raiseError2(L"nelson:validators:invalidValue", 4);
+                raiseError2(L"nelson:validators:invalidValueAtPosition", 4);
             }
         }
     }

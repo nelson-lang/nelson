@@ -49,26 +49,26 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
         outputDims = STR.getDimensions();
     } else if (wstr.size() == 1) {
         if (!OLD.getDimensions().equals(NEW.getDimensions())) {
-            raiseError2(L"nelson:validators:mustBeSameSize");
+            raiseError2(L"nelson:validators:sizeMismatch");
         }
         nbOutput = wold.size();
         outputDims = OLD.getDimensions();
     } else if (wold.size() == 1) {
         if (!STR.getDimensions().equals(NEW.getDimensions())) {
-            raiseError2(L"nelson:validators:mustBeSameSize");
+            raiseError2(L"nelson:validators:sizeMismatch");
         }
         nbOutput = wstr.size();
         outputDims = STR.getDimensions();
     } else if (wnew.size() == 1) {
         if (!STR.getDimensions().equals(OLD.getDimensions())) {
-            raiseError2(L"nelson:validators:mustBeSameSize");
+            raiseError2(L"nelson:validators:sizeMismatch");
         }
         nbOutput = wstr.size();
         outputDims = STR.getDimensions();
     } else {
         if ((!STR.getDimensions().equals(OLD.getDimensions()))
             || (!STR.getDimensions().equals(NEW.getDimensions()))) {
-            raiseError2(L"nelson:validators:mustBeSameSize");
+            raiseError2(L"nelson:validators:sizeMismatch");
         }
         nbOutput = wstr.size();
         outputDims = STR.getDimensions();
@@ -283,25 +283,25 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             outputDims = STR.getDimensions();
         } else if (wstr.size() == 1) {
             if (!OLD.getDimensions().equals(NEW.getDimensions())) {
-                raiseError2(L"nelson:validators:mustBeSameSize");
+                raiseError2(L"nelson:validators:sizeMismatch");
             }
             nbOutput = wold.size();
             outputDims = OLD.getDimensions();
         } else if (wold.size() == 1) {
             if (!STR.getDimensions().equals(NEW.getDimensions())) {
-                raiseError2(L"nelson:validators:mustBeSameSize");
+                raiseError2(L"nelson:validators:sizeMismatch");
             }
             nbOutput = wstr.size();
             outputDims = STR.getDimensions();
         } else if (wnew.size() == 1) {
             if (!STR.getDimensions().equals(OLD.getDimensions())) {
-                raiseError2(L"nelson:validators:mustBeSameSize");
+                raiseError2(L"nelson:validators:sizeMismatch");
             }
             nbOutput = wstr.size();
             outputDims = STR.getDimensions();
         } else {
             if (!NEW.getDimensions().equals(OLD.getDimensions())) {
-                raiseError2(L"nelson:validators:mustBeSameSize");
+                raiseError2(L"nelson:validators:sizeMismatch");
             }
             nbOutput = wstr.size();
             outputDims = STR.getDimensions();
@@ -316,14 +316,14 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             Dimensions newDims = NEW.getDimensions();
             if (!(OLD.isScalar() || NEW.isScalar())) {
                 if (!newDims.equals(oldDims)) {
-                    raiseError2(L"nelson:validators:mustBeSameSize");
+                    raiseError2(L"nelson:validators:sizeMismatch");
                 }
             }
         } else {
             if ((OLD.isCharacterArray() || (OLD.isStringArray() && OLD.isScalar()))
                 && (NEW.isCell() || NEW.isStringArray())) {
                 if (wold.size() != wnew.size()) {
-                    raiseError2(L"nelson:validators:mustBeSameSize");
+                    raiseError2(L"nelson:validators:sizeMismatch");
                 }
             }
         }

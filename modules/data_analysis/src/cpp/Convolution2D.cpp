@@ -246,12 +246,10 @@ Convolution2D(const ArrayOf& A, const ArrayOf& B, const std::wstring& shape, boo
             ERROR_CONV2_UNKNOWN_SHAPE_PARAMETER);
     }
     if (!isSupportedInputTypes(A)) {
-        raiseError(L"Nelson:data_analysis:ERROR_CONV2_INVALID_DATA_TYPE_FIRST",
-            ERROR_CONV2_INVALID_DATA_TYPE_FIRST);
+        raiseError2(L"nelson:validators:mustBeNumericAtPosition", 1);
     }
     if (!isSupportedInputTypes(B)) {
-        raiseError(L"Nelson:data_analysis:ERROR_CONV2_INVALID_DATA_TYPE_FIRST",
-            ERROR_CONV2_INVALID_DATA_TYPE_FIRST);
+        raiseError2(L"nelson:validators:mustBeNumericAtPosition", 2);
     }
     if (!A.is2D() || !B.is2D()) {
         raiseError(L"Nelson:data_analysis:ERROR_CONV2_ND_ARRAYS_NOT_SUPPORTED",
@@ -307,16 +305,13 @@ Convolution2D(const ArrayOf& u, const ArrayOf& v, const ArrayOf& A, const std::w
             ERROR_CONV2_UNKNOWN_SHAPE_PARAMETER);
     }
     if (!isSupportedInputTypes(u)) {
-        raiseError(L"Nelson:data_analysis:ERROR_CONV2_INVALID_DATA_TYPE_FIRST",
-            ERROR_CONV2_INVALID_DATA_TYPE_FIRST);
+        raiseError2(L"nelson:validators:mustBeNumericAtPosition", 1);
     }
     if (!isSupportedInputTypes(v)) {
-        raiseError(L"Nelson:data_analysis:ERROR_CONV2_INVALID_DATA_TYPE_SECOND",
-            ERROR_CONV2_INVALID_DATA_TYPE_SECOND);
+        raiseError2(L"nelson:validators:mustBeNumericAtPosition", 2);
     }
     if (!isSupportedInputTypes(A)) {
-        raiseError(L"Nelson:data_analysis:ERROR_CONV2_INVALID_DATA_TYPE_THIRD",
-            ERROR_CONV2_INVALID_DATA_TYPE_THIRD);
+        raiseError2(L"nelson:validators:mustBeNumericAtPosition", 3);
     }
     if (!u.is2D() || !v.is2D() || !A.is2D()) {
         raiseError(L"Nelson:data_analysis:ERROR_CONV2_ND_ARRAYS_NOT_SUPPORTED",

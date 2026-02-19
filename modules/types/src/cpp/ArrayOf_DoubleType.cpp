@@ -126,10 +126,10 @@ ArrayOf::getContentAsDoubleVector() const
 double
 ArrayOf::getContentAsDoubleScalar(bool arrayAsScalar, bool checkIsIntegerValue) const
 {
+
     if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
-        raiseError(
-            L"Nelson:types:ERROR_EXPECTED_A_REAL_VALUE_SCALAR", ERROR_EXPECTED_A_REAL_VALUE_SCALAR);
+        raiseError2(L"nelson:validators:mustBeScalar");
     }
     double value = 0;
     if (getDataClass() == NLS_DOUBLE) {
@@ -155,7 +155,7 @@ ArrayOf::getContentAsDoubleComplexScalar(bool arrayAsScalar) const
 {
     if (isEmpty() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
-        raiseError2(L"nelson:validators:mustBeRealValuedScalar", 1);
+        raiseError2(L"nelson:validators:mustBeScalar");
     }
     const double* qp = nullptr;
     if (getDataClass() != NLS_DCOMPLEX) {

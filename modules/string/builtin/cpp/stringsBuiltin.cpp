@@ -100,7 +100,7 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     }
                     dims.setDimensionLength(k, index);
                 } else {
-                    raiseError2(L"nelson:validators:mustBeScalar", k + 1);
+                    raiseError2(L"nelson:validators:mustBeScalarAtPosition", k + 1);
                 }
             } else {
                 raiseError2(L"nelson:validators:mustBeType", k + 1, NLS_DOUBLE_STR);

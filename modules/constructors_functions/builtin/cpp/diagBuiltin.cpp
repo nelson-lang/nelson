@@ -28,8 +28,7 @@ Nelson::ConstructorsGateway::diagBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         b = argIn[1];
         if (!b.isScalar()) {
-            raiseError(L"Nelson:constructors_functions:ERROR_DIAG_SECOND_ARG_SCALAR_EXPECTED",
-                ERROR_DIAG_SECOND_ARG_SCALAR_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
         }
         b.promoteType(NLS_INT64);
         dp = (int64*)b.getDataPointer();

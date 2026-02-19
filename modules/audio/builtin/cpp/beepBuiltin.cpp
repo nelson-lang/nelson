@@ -34,7 +34,7 @@ Nelson::AudioGateway::beepBuiltin(int nLhs, const ArrayOfVector& argIn)
                 setBeepOff();
             }
         } else {
-            raiseError2(L"nelson:validators:invalidValue", 1);
+            raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
         }
     }
     ArrayOfVector retval(nLhs);

@@ -249,7 +249,7 @@ getContentAsScalar(
     if (M.getDataClass() != destinationClass && !M.isSparse()) {
         if (M.isEmpty() || M.isComplex() || M.isReferenceType() || M.isCharacterArray()
             || (!arrayAsScalar && !M.isScalar())) {
-            raiseError(L"Nelson:types:ERROR_SIZE_SCALAR_EXPECTED", ERROR_SIZE_SCALAR_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeScalar");
         }
         ArrayOf P(M);
         P.promoteType(destinationClass);

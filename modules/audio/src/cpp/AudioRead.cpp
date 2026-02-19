@@ -46,7 +46,7 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
     file = sf_open(ufilename.c_str(), SFM_READ, &sfinfo);
 #endif
     if (file == nullptr) {
-        raiseError2(L"nelson:validators:invalidValue", 1);
+        raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
     }
     if (dstart < 1 || dstart > dend) {
         sf_close(file);

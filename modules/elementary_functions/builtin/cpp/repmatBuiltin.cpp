@@ -119,8 +119,7 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(int nLhs, const ArrayOfVector&
                     repcount[i] = (indexType)dp[i];
                 }
             } else {
-                raiseError(L"Nelson:elementary_functions:ERROR_AN_ROW_VECTOR_EXPECTED",
-                    ERROR_AN_ROW_VECTOR_EXPECTED);
+                raiseError2(L"nelson:validators:mustBeRowVectorAtPosition", 2);
             }
         }
     } else {

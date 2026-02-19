@@ -108,9 +108,7 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param2.isNumeric()) {
             dim = param2.getContentAsScalarIndex();
             if (dim < 1) {
-                raiseError(L"Nelson:data_analysis:ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_"
-                           L"INTEGER_SCALAR",
-                    ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR);
+                raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
             }
         } else {
             std::wstring direction = param2.getContentAsWideString();
@@ -129,9 +127,7 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param2.isNumeric()) {
             dim = param2.getContentAsScalarIndex();
             if (dim < 1) {
-                raiseError(L"Nelson:data_analysis:ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_"
-                           L"INTEGER_SCALAR",
-                    ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR);
+                raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
             }
             ArrayOf param3 = argIn[2];
             std::wstring direction = param3.getContentAsWideString();
@@ -163,9 +159,7 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param2.isNumeric()) {
             dim = param2.getContentAsScalarIndex();
             if (dim < 1) {
-                raiseError(L"Nelson:data_analysis:ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_"
-                           L"INTEGER_SCALAR",
-                    ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR);
+                raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
             }
         } else {
             std::wstring direction = param2.getContentAsWideString();
@@ -195,9 +189,7 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param2.isNumeric()) {
             dim = param2.getContentAsScalarIndex();
             if (dim < 1) {
-                raiseError(L"Nelson:data_analysis:ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_"
-                           L"INTEGER_SCALAR",
-                    ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR);
+                raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
             }
             std::wstring direction = argIn[2].getContentAsWideString();
             if (!isValidDirection(direction, ascend)) {
@@ -252,9 +244,7 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param2.isNumeric()) {
             dim = param2.getContentAsScalarIndex();
             if (dim < 1) {
-                raiseError(L"Nelson:data_analysis:ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_"
-                           L"INTEGER_SCALAR",
-                    ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR);
+                raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
             }
         } else {
             std::wstring direction = param2.getContentAsWideString();
@@ -291,9 +281,7 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf param2 = argIn[1];
         dim = param2.getContentAsScalarIndex();
         if (dim < 1) {
-            raiseError(
-                L"Nelson:data_analysis:ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR",
-                ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR);
+            raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
         }
         std::wstring direction = argIn[2].getContentAsWideString();
         if (!isValidDirection(direction, ascend)) {

@@ -41,8 +41,7 @@ Nelson::ParallelGateway::fetchNextBuiltin(Evaluator* eval, int nLhs, const Array
         ArrayOf param2 = argIn[1];
         bool isReal = param2.getDataClass() == NLS_DOUBLE || param2.getDataClass() == NLS_SINGLE;
         if (!isReal) {
-            raiseError(L"Nelson:parallel:ERROR_A_NUMERIC_SCALAR_VALUE_EXPECTED",
-                ERROR_A_NUMERIC_SCALAR_VALUE_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeNumeric");
         }
         timeout = param2.getContentAsDoubleScalar();
         if (timeout < 0) {

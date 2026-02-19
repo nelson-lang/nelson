@@ -436,8 +436,7 @@ NumberToString(const ArrayOf& A, double N, bool& needToOverload)
         format = L"%" + std::to_wstring(precision + 7) + L"d";
     } else {
         if (N < 0) {
-            raiseError(L"Nelson:string:ERROR_PRECISION_MUST_BE_SCALAR_INT",
-                ERROR_PRECISION_MUST_BE_SCALAR_INT);
+            raiseError2(L"nelson:validators:mustBeNonnegativeAtPosition", 2);
         }
         format = L"%" + std::to_wstring(precision + 7) + L"." + std::to_wstring(precision) + L"g";
     }

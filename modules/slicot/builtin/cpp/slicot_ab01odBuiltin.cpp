@@ -137,13 +137,13 @@ Nelson::SlicotGateway::slicot_ab01odBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsSTAGES.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 1);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
     }
     if (!dimsJOBU.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 2);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
     }
     if (!dimsJOBV.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 3);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 3);
     }
     Dimensions dimsA_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsA.equals(dimsA_expected)) {
@@ -158,10 +158,10 @@ Nelson::SlicotGateway::slicot_ab01odBuiltin(int nLhs, const ArrayOfVector& argIn
         raiseError2(L"nelson:validators:mustBeSize", 6, utf8_to_wstring(dimsU_expected.toString()));
     }
     if (!dimsNCONT.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 7);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 7);
     }
     if (!dimsINDCON.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 8);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 8);
     }
     Dimensions dimsKSTAIR_expected(1, (int)A.getRows());
     if (!dimsKSTAIR.equals(dimsKSTAIR_expected)) {
@@ -169,10 +169,10 @@ Nelson::SlicotGateway::slicot_ab01odBuiltin(int nLhs, const ArrayOfVector& argIn
             L"nelson:validators:mustBeSize", 9, utf8_to_wstring(dimsKSTAIR_expected.toString()));
     }
     if (!dimsTOL.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 10);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 10);
     }
     if (!dimsTOL.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 10);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 10);
     }
     // CALL EXTERN FUNCTION
     try {

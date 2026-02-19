@@ -481,7 +481,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
             } else {
                 Dimensions dimsCurrentCell = param.getDimensions();
                 if (!dimsCells.equals(dimsCurrentCell)) {
-                    raiseError2(L"nelson:validators:mustBeSameSize");
+                    raiseError2(L"nelson:validators:sizeMismatch");
                 }
             }
         } else {

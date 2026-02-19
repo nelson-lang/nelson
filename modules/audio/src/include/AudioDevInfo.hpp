@@ -31,21 +31,21 @@ getOutputDeviceIndex(int deviceID);
 PaDeviceIndex
 getInputDeviceIndex(int deviceID);
 NLSAUDIO_IMPEXP ArrayOf
-AudioDevInfo(std::wstring& errorMessage);
+AudioDevInfo();
 NLSAUDIO_IMPEXP ArrayOf
-AudioDevInfoDefault(std::wstring& errorMessage);
+AudioDevInfoDefault();
 NLSAUDIO_IMPEXP ArrayOf
-AudioDevInfo(int io, std::wstring& errorMessage);
+AudioDevInfo(int io);
 NLSAUDIO_IMPEXP ArrayOf
-AudioDevInfo(int io, int id, std::wstring& errorMessage);
+AudioDevInfo(int io, int id);
 NLSAUDIO_IMPEXP ArrayOf
-AudioDevInfo(int io, const std::wstring& name, std::wstring& errorMessage);
+AudioDevInfo(int io, const std::wstring& name);
 NLSAUDIO_IMPEXP ArrayOf
-AudioDevInfoDriverVersion(int io, int id, std::wstring& errorMessage);
+AudioDevInfoDriverVersion(int io, int id);
 NLSAUDIO_IMPEXP ArrayOf
-AudioDevInfo(int io, int rate, int bits, int chans, std::wstring& errorMessage);
+AudioDevInfo(int io, int rate, int bits, int chans);
 NLSAUDIO_IMPEXP ArrayOf
-AudioDevInfo(int io, int id, int rate, int bits, int chans, std::wstring& errorMessage);
+AudioDevInfo(int io, int id, int rate, int bits, int chans);
 NLSAUDIO_IMPEXP void
 clearAudioDevicesInfo();
 NLSAUDIO_IMPEXP void

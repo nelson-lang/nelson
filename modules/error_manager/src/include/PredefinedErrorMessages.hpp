@@ -11,9 +11,6 @@
 //=============================================================================
 #include "i18n.hpp"
 //=============================================================================
-// SIZE & DIMENSION ERRORS
-//=============================================================================
-#define ERROR_SIZE_SCALAR_EXPECTED _W("A scalar expected.")
 // Dimensions module messages
 #define ERROR_ILLEGAL_ARGUMENT_TO_DIMENSIONS_CONSTRUCTOR                                           \
     _W("Illegal argument to Dimensions constructor")
@@ -24,8 +21,6 @@
     _W("Wrong size for #{} argument. a scalar or a row vector expected.")
 #define ERROR_WRONG_ARGUMENT_X_SIZE_A_B_VECTOR_EXPECTED                                            \
     _W("Wrong size for #{} argument. [a, b] expected.")
-#define ERROR_WRONG_ARGUMENT_X_SIZE_ROW_VECTOR_EXPECTED                                            \
-    _W("Wrong size for #{} argument. row vector expected.")
 #define ERROR_WRONG_ARGUMENT_X_SIZE_2D_MATRIX_EXPECTED                                             \
     _W("Wrong size for argument #{}: 2D matrix expected.")
 #define ERROR_WRONG_ARGUMENT_X_INVALID_VECTOR_SIZE _W("Wrong value for #{} :Invalid size.")
@@ -103,14 +98,10 @@
     _W("copyElements not supported for sparse arrays.")
 #define ERROR_INVALID_INDEX_VALUE_EXCEEDS_LIMIT_MAX _W("Invalid index value > limit max.")
 #define ERROR_EXPECTED_POSITIVE_INTEGER_SCALAR _W("Expected a positive integer scalar.")
-#define ERROR_EXPECTED_INTEGER _W("Expected a integer.")
 #define ERROR_A_CELL_OF_STRING_EXPECTED _W("A cell of string expected.")
-#define ERROR_A_VECTOR_EXPECTED _W("A vector expected.")
-#define ERROR_AN_ROW_VECTOR_EXPECTED _W("An row vector expected.")
-#define ERROR_A_COLUMN_VECTOR_EXPECTED _W("A column vector expected.")
 #define ERROR_EXPECTED_A_REAL_VALUE _W("Expected a real value.")
 #define ERROR_EXPECTED_A_REAL_VALUE_SCALAR _W("Expected a real value scalar.")
-#define ERROR_INPUTS_PARAMETERS_MUST_BE_SCALARS _W("Inputs parameters must be scalars.")
+
 #define ERROR_THIRD_ARGUMENT_SHOULD_BE_AN_INTEGER_VALUE                                            \
     _W("Third argument should be an integer value.")
 #define ERROR_EXPECTED_A_REAL_VALUED_SCALAR _W("Expected a real valued scalar")
@@ -213,7 +204,6 @@
 // StringToClass messages
 #define ERROR_INPUT_MUST_BE_A_VALID_CLASS_NAME _W("input must be a valid class name.")
 #define ERROR_SPARSE_TYPE_NOT_SUPPORTED _W("Sparse type not supported.")
-#define ERROR_NUMERICS_TYPES_EXPECTED _W("Numerics types expected.")
 #define ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OR_SCALAR_DOUBLES                        \
     _W("Integers can only be combined with integers of the same class, or scalar doubles.")
 #define ERROR_CANNOT_CONVERT_TO_STR_WITH_VALUE _W("Cannot convert: {0}")
@@ -232,7 +222,6 @@
     _W("Binary character vector may consist only of characters 0 and 1.")
 #define ERROR_INVALID_STRING_LENGTH_1_32_64 _W("Invalid string length: 1, 32, 64 expected.")
 #define ERROR_UNSUPPORTED_DATA_CONVERSION _W("Unsupported data conversion.")
-#define ERROR_INPUT_ARGUMENTS_MUST_BE_NUMERIC _W("Input arguments must be numeric.")
 #define ERROR_INPUT_ARGUMENTS_MUST_HAVE_THE_SAME_SIZE _W("Input arguments must have the same size.")
 // Table type messages
 #define ERROR_TABLE_COLUMN_NOT_FOUND _W("Column '{0}' not found in table.")
@@ -274,8 +263,7 @@
 //=============================================================================
 // VALUE ERRORS
 //=============================================================================
-#define ERROR_WRONG_ARGUMENT_X_POSITIVE_VALUE_EXPECTED                                             \
-    _W("Wrong value for #{} argument. positive value expected.")
+
 #define ERROR_WRONG_ARGUMENT_X_A_MUST_BE_HIGHER_THAN_B                                             \
     _W("Wrong value for #2 argument. a must be higher than b ([a,b]).")
 //=============================================================================
@@ -369,7 +357,6 @@
     _W("At least one input argument must be scalar.")
 #define ERROR_USING_OPERATOR_N_MATRIX_DIMENSIONS_MUST_AGREE                                        \
     _W("using operator '*' \n Matrix dimensions must agree.")
-#define ERROR_ONLY_POSITIVE_INTEGERS_EXPECTED _W("Only positive integers expected.")
 #define ERROR_UNHANDLED_TYPE_FOR_SECOND_ARGUMENT_TO_A_POW                                          \
     _W("Unhandled type for second argument to A^B")
 #define ERROR_UNHANDLED_TYPE_COMBINATION_FOR_A_POW _W("Unhandled type combination for A^B")
@@ -393,8 +380,6 @@
     _W("Wrong value of the fourth argument 'upper' or 'lower' expected.")
 #define ERROR_INPUT_ARGUMENT_MUST_BE_DENSE_AND_REAL _W("Input argument must be dense and real.")
 #define ERROR_LINEAR_METHOD_EXPECTED _W("'linear' method expected.")
-#define ERROR_SPARSE_MATRIX_INDICES_MUST_BE_POSITIVE_INTEGERS                                      \
-    _W("Sparse matrix indices must be positive integers.")
 #define ERROR_IN_I_J_V_FORMAT_ALL_THREE_VECTORS_MUST_BE_THE_SAME_SIZE_OR_BE_SCALARS                \
     _W("in I, J, V format, all three vectors must be the same size or be scalars.")
 #define ERROR_NAME_ALREADY_REGISTER _W("name already register.")
@@ -417,12 +402,9 @@
 #define ERROR_FUNCTION_HANDLE_HANDLE_EXPECTED _W("function handle handle expected.")
 #define ERROR_INVALID_ANONYMOUS_FUNCTION _W("Invalid anonymous function.")
 #define ERROR_BACKGROUNDPOOL_HANDLE_EXPECTED _W("backgroundPool handle expected.")
-#define ERROR_A_NUMERIC_SCALAR_VALUE_EXPECTED _W("a numeric scalar value expected.")
 #define ERROR_FEVALQUEUE_HANDLE_EXPECTED _W("FevalQueue handle expected.")
 #define ERROR_VALID_STATES_TO_WAIT_FOR_ARE_RUNNING_OR_FINISHED                                     \
     _W("Valid states to wait for are: 'running' or 'finished'.")
-#define ERROR_EXPECTED_TIMEOUT_TO_BE_NON_NEGATIVE_REAL_NUMERICAL_SCALAR                            \
-    _W("Expected timeout to be non-negative real numerical scalar.")
 #define ERROR_CANNOT_WAIT_FOR_COMPLETION_OF_FUTURES_THAT_ARE_IN_STATE_UNAVAILABLE                  \
     _W("Cannot wait for completion of Futures that are in state 'unavailable'.")
 #define ERROR_INVALID_BACKGROUNDPOOL_HANDLE _W("Invalid backgroundPool handle.")
@@ -617,7 +599,6 @@
     _W("Attempt to convert to unimplemented sparse type")
 #define ERROR_COMPLEX_VALUES_CANNOT_BE_CONVERTED_TO_CHARS                                          \
     _W("Complex values cannot be converted to chars.")
-#define ERROR_POSITIVE_INTEGRAL_POWERS_EXPECTED _W("Positive integral powers expected.")
 #define ERROR_COMPLEX_VALUES_CANNOT_CONVERTED_TO_LOGICALS                                          \
     _W("Complex values cannot converted to logicals.")
 #define ERROR_OPERAND_TO_OPERATOR_MUST_BE_CONVERTIBLE_TO_LOGICAL_SCALAR_VALUES                     \
@@ -657,8 +638,6 @@
 #define ERROR_CANNOT_CREATE_DATA_SET _W("Cannot create data set.")
 #define ERROR_CANNOT_WRITE_DATA_SET _W("Cannot write data set.")
 #define ERROR_DOUBLE_EXPECTED _W("double expected.")
-#define ERROR_ROW_VECTOR_EXPECTED _W("row vector expected.")
-#define ERROR_SCALAR_VALUE_EXPECTED _W("Scalar value expected.")
 #define ERROR_UNSUPPORTED_VALUE_TYPE _W("Unsupported value type.")
 #define ERROR_WRONG_TEXT_ENCODING_PARAMETER _W("Wrong text encoding parameter.")
 #define ERROR_INVALID_NELSON_PARAMETER _W("Invalid parameter.")
@@ -784,7 +763,7 @@
 #define ERROR_UNEXPECTED_FORMAT _W("unexpected format.")
 #define ERROR_UNEXPECTED_NUMERIC_FORMAT _W("unexpected Numeric Format.")
 #define ERROR_UNEXPECTED_LINE_SPACING _W("unexpected Line Spacing.")
-#define ERROR_WRONG_SIZE_ARG1_SCALAR_EXPECTED _W("Wrong size for argument #1. scalar expected")
+
 #define ERROR_WRONG_TYPE_ARG1_SCALAR_STRING_OR_ROW_CHAR_EXPECTED                                   \
     _W("Wrong type for argument #1. 'scalar string or row char vector expected")
 #define ERROR_WRONG_TYPE_ARG2_SCALAR_STRING_OR_ROW_CHAR_EXPECTED                                   \
@@ -886,7 +865,6 @@
 #define ERROR_CANNOT_GET_LIBRARY_SYMBOLS _W("Cannot get library symbols: {0}")
 // QML engine messages added during migration
 #define ERROR_PROPERTY_TYPE_NOT_MANAGED _W("property type not managed.")
-#define ERROR_VECTOR_EXPECTED _W("vector expected.")
 #define ERROR_VECTOR_1x2_EXPECTED _W("vector 1x2 expected.")
 #define ERROR_VECTOR_1x3_EXPECTED _W("vector 1x3 expected.")
 #define ERROR_VECTOR_1x4_EXPECTED _W("vector 1x4 expected.")
@@ -985,8 +963,6 @@
     _W("Wrong size for #3 argument. row vector expected.")
 #define ERROR_DLMREAD_WRONG_VALUE_ARG3_VALID_RANGE_EXPECTED                                        \
     _W("Wrong value for #3 argument. valid range expected.")
-#define ERROR_DLMREAD_WRONG_TYPE_FOR_3_NUMERIC_VALUES_EXPECTED                                     \
-    _W("Wrong type for #3 argument. numeric values expected.")
 #define ERROR_DLMREAD_WRONG_TYPE_FOR_3_DENSE_VALUES_EXPECTED                                       \
     _W("Wrong type for #3 argument. dense values expected.")
 #define ERROR_IMPORT_OPTIONS_OBJECT_EXPECTED _W("Import options object expected.")
@@ -1030,19 +1006,16 @@
 #define ERROR_CELL_OF_STRINGS_EXPECTED _W("Cell of strings expected.")
 #define ERROR_ALL_INPUTS_MUST_BE_STRINGS                                                           \
     _W("All inputs must be strings, character vectors, or cell arrays of character vectors.")
-#define ERROR_EXPECTED_AN_INTEGER_VALUE _W("Expected a integer value.")
 #define ERROR_NUMBER_INPUT_ARGS_MUST_MATCH_OUTPUT                                                  \
     _W("Number of Input arguments must the same as output.")
 #define ERROR_CONVERSION_TO_CHAR_FROM_COMPLEX_NOT_POSSIBLE                                         \
     _W("Conversion to char from complex is not possible.")
 #define ERROR_FIRST_ARGUMENT_MUST_BE_CHARACTER_ARRAY_OR_STRING                                     \
     _W("First argument must be a character array or string.")
-#define ERROR_LOGICAL_ARGUMENT_MUST_BE_SCALAR _W("Logical argument must be a scalar.")
-#define ERROR_INTEGER_ARGUMENT_MUST_BE_SCALAR _W("Integer argument must be a scalar.")
-#define ERROR_NUMERIC_ARGUMENT_MUST_BE_SCALAR _W("Numeric argument must be a scalar.")
+
 #define ERROR_CHARACTER_ARGUMENT_MUST_BE_ROW_VECTOR                                                \
     _W("Character argument must be a row character vector.")
-#define ERROR_STRING_ARGUMENT_MUST_BE_SCALAR _W("String argument must be a scalar string.")
+
 #define ERROR_UNSUPPORTED_ARGUMENT_TYPE_FOR_FORMATSTRING                                           \
     _W("Unsupported argument type for formatString.")
 #define ERROR_INVALID_FORMAT_STRING _W("Invalid format string.")
@@ -1066,7 +1039,6 @@
 #define ERROR_NO_ERROR_PRODUCED_WHILE_EVALUATING_COMMAND                                           \
     _W("No error was produced while evaluating command.")
 // string module messages
-#define ERROR_PRECISION_MUST_BE_SCALAR_INT _W("PRECISION must be a scalar integer >= 0.")
 // assert_functions messages
 #define ERROR_ISEQUALTO_RETURNS_MORE_THAN_ONE_OUTPUT_ARG                                           \
     _W("isequalto returns more than one output argument.")
@@ -1085,7 +1057,6 @@
 #define ERROR_CLASS_ARGUMENT_EXPECTED _W("'class' argument expected.")
 #define ERROR_SECOND_INPUT_ARGUMENT_MUST_BE_REAL_POSITIVE_INTEGER                                  \
     _W("Second input argument must be a real positive integers.")
-#define ERROR_NUMERIC_MATRIX_EXPECTED _W("An numeric matrix expected.")
 // added for matchesBuiltin
 #define ERROR_WRONG_VALUE_ARG3_IGNORECASE_EXPECTED _W("Wrong value for #3: 'IgnoreCase' expected.")
 // string builtin: join
@@ -1151,13 +1122,11 @@
 #define ERROR_UNKNOWN_OPTION _W("Unknown option.")
 #define ERROR_VALUE_BETWEEN_0_255_EXPECTED _W("Value between 0 and 255 expected.")
 // constructors_functions module messages
-#define ERROR_DIAG_SECOND_ARG_SCALAR_EXPECTED _W("Second argument must be a scalar.")
+
 #define ERROR_DIAG_FIRST_ARG_2D_EXPECTED _W("First argument to 'diag' function must be 2D.")
 // ArrayOf constructors messages
 #define ERROR_INPUT_MUST_BE_2D _W("Input must be 2-D")
 #define ERROR_SPARSE_MATRIX_NOT_MANAGED _W("Sparse matrix not managed.")
-#define ERROR_ARGUMENT_TO_DIAGONAL_CONSTRUCTOR_MUST_BE_VECTOR                                      \
-    _W("Argument to diagonal constructor must be a vector!")
 // constructors_functions additional messages
 #define ERROR_SUPPORTED_TYPE_EXPECTED_LAST_ARGUMENT                                                \
     _W("A supported type expected at last argument.")
@@ -1203,7 +1172,6 @@
 #define ERROR_CANNOT_DO_IMAG_WITH_CURRENT_TYPE _W("Cannot do imag with current type '{0}'.")
 #define ERROR_CANNOT_DO_REAL_WITH_CURRENT_TYPE _W("Cannot do real with current type '{0}'.")
 #define ERROR_CANNOT_DO_UMINUS_WITH_CURRENT_TYPE _W("Cannot do uminus with current type '{0}'.")
-#define ERROR_INDEX_INTO_MATRIX_MUST_BE_POSITIVE _W("Index into matrix must be positive.")
 #define ERROR_INDEX_EXCEEDS_MATRIX_DIMENSIONS _W("Index exceeds matrix dimensions.")
 #define ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS                              \
     _W("index must either be real positive integers or logicals.")
@@ -1262,8 +1230,6 @@
 // data_analysis (conv2, sum, etc.) messages
 #define ERROR_CONV2_UNKNOWN_SHAPE_PARAMETER                                                        \
     _W("shape parameter must be 'full', 'same', or 'valid'.")
-#define ERROR_CONV2_INVALID_DATA_TYPE_FIRST                                                        \
-    _W("Invalid data type: First argument must be numeric or logical.")
 #define ERROR_CONV2_INVALID_DATA_TYPE_SECOND                                                       \
     _W("Invalid data type: Second argument must be numeric or logical.")
 #define ERROR_CONV2_INVALID_DATA_TYPE_THIRD                                                        \
@@ -1279,8 +1245,6 @@
     _W("Only one input parameter is supported for cell arrays.")
 // prod/sum/module generic
 #define ERROR_INPUT_ARGUMENTS_MUST_HAVE_SAME_SIZE _W("Input Arguments must have same size.")
-#define ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR                                   \
-    _W("Dimension argument must be a positive integer scalar.")
 // sort builtin messages
 #define ERROR_SORT_DIRECTION_MUST_BE_ASCEND_OR_DESCEND                                             \
     _W("Sort direction must be either the string 'ascend' or 'descend'")
@@ -1301,7 +1265,6 @@
 #define ERROR_FUTURE_EXECUTION_ERROR _W("One or more futures resulted in an error.")
 #define ERROR_FUTURE_CONCATENATE_OUTPUTS _W("Unable to concatenate outputs.")
 #define ERROR_OUTPUT_DIMENSIONS_MUST_BE_POSITIVE _W("Output dimensions must be positive.")
-#define ERROR_INDEXED_IMAGE_MUST_BE_NUMERIC _W("Indexed image must be numeric.")
 #define ERROR_COLORMAP_MUST_BE_NX3_NUMERIC_ARRAY _W("Colormap must be an Nx3 numeric array.")
 #define ERROR_UNSUPPORTED_INDEXED_IMAGE_TYPE                                                       \
     _W("Unsupported data type for indexed image. Must be uint8, uint16, uint32, int8, int16, or "  \
@@ -1373,9 +1336,8 @@
 #define ERROR_SINGLE_OR_DOUBLE_EXPECTED_AT_LAST_ARGUMENT                                           \
     _W("'single' or 'double' expected at last argument.")
 // image_processing module messages
-#define ERROR_INPUT_IMAGE_MUST_BE_NUMERIC_OR_LOGICAL _W("Input image must be numeric or logical.")
 #define ERROR_INPUT_IMAGE_MUST_BE_2D _W("Input image must be 2-D.")
-#define ERROR_ANGLE_MUST_BE_NUMERIC_SCALAR _W("Angle must be a numeric scalar.")
+
 #define ERROR_ANGLE_MUST_BE_FINITE _W("Angle must be a finite value.")
 #define ERROR_INTERPOLATION_METHOD_MUST_BE_NEAREST_BILINEAR_BICUBIC                                \
     _W("Interpolation method must be 'nearest', 'bilinear', or 'bicubic'.")
@@ -1395,12 +1357,10 @@
     _W("Colormap parameter must be 'optimized' or 'original'.")
 #define ERROR_DITHER_PARAM_MUST_BE_LOGICAL _W("Dither parameter must be a logical value.")
 #define ERROR_UNKNOWN_PARAMETER _W("Unknown parameter: {0}")
-#define ERROR_SCALE_FACTOR_MUST_BE_POSITIVE _W("Scale factor must be positive.")
 #define ERROR_AT_LEAST_ONE_OUTPUT_DIMENSION_SPECIFIED                                              \
     _W("At least one output dimension must be specified (not NaN).")
 #define ERROR_SCALE_PARAMETER_MUST_BE_SCALAR_OR_2_ELEMENT_VECTOR                                   \
     _W("Scale parameter must be a scalar or 2-element vector.")
-#define ERROR_SCALE_PARAMETER_MUST_BE_NUMERIC _W("Scale parameter must be numeric.")
 #define ERROR_UNKNOWN_INTERPOLATION_METHOD _W("Unknown interpolation method: {0}")
 #define ERROR_ANTIALIASING_MUST_BE_TRUE_FALSE_ON_OFF                                               \
     _W("Antialiasing must be 'true', 'false', 'on', or 'off'.")

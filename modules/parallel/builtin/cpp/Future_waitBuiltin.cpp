@@ -60,9 +60,7 @@ Nelson::ParallelGateway::Future_waitBuiltin(Evaluator* eval, int nLhs, const Arr
     if (argIn.size() > 2) {
         timeout = argIn[2].getContentAsDoubleScalar();
         if (timeout < 0) {
-            raiseError(
-                L"Nelson:parallel:ERROR_EXPECTED_TIMEOUT_TO_BE_NON_NEGATIVE_REAL_NUMERICAL_SCALAR",
-                ERROR_EXPECTED_TIMEOUT_TO_BE_NON_NEGATIVE_REAL_NUMERICAL_SCALAR);
+            raiseError2(L"nelson:validators:mustBeNonNegativeAtPosition", 3);
         }
     }
 

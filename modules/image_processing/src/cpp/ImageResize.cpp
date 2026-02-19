@@ -343,8 +343,7 @@ ImageResize(const ArrayOf& image, double scale, const ResizeOptions& options)
 {
     // Resize image by a scale factor
     if (scale <= 0.0) {
-        raiseError(L"Nelson:image_processing:ERROR_SCALE_FACTOR_MUST_BE_POSITIVE",
-            ERROR_SCALE_FACTOR_MUST_BE_POSITIVE);
+        raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
     }
 
     Dimensions dims = image.getDimensions();
@@ -495,8 +494,7 @@ ImageResizeIndexed(const ArrayOf& X, const ArrayOf& map, size_t numrows, size_t 
     // Resize indexed image and its colormap to specific dimensions
     // Validate indexed image
     if (!X.isNumeric()) {
-        raiseError(L"Nelson:image_processing:ERROR_INDEXED_IMAGE_MUST_BE_NUMERIC",
-            ERROR_INDEXED_IMAGE_MUST_BE_NUMERIC);
+        raiseError2(L"nelson:validators:mustBeNumeric");
     }
 
     // Validate colormap

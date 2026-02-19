@@ -28,8 +28,7 @@ Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin(
     std::wstring expectedmsg = param2.getContentAsWideString();
 
     if (expectedmsg.empty()) {
-        raiseError(L"Nelson:assert_functions:ERROR_EMPTY_EXPECTED_MESSAGE_NOT_ALLOWED",
-            ERROR_EMPTY_EXPECTED_MESSAGE_NOT_ALLOWED);
+        raiseError2(L"nelson:validators:mustBeNonemptyAtPosition", 2);
     }
     std::wstring msg;
     bool res;
@@ -42,7 +41,7 @@ Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin(
 
     if (nLhs == 0) {
         if (!res) {
-            Error(msg, L"Nelson:assert_functions:ERROR_ASSERTION_FAILED");
+            Error(msg, L"nelson:assert_functions:assertionFailed");
         }
     } else {
         retval << ArrayOf::logicalConstructor(res);

@@ -34,7 +34,7 @@ Nelson::ParallelGateway::FevalQueue_getBuiltin(int nLhs, const ArrayOfVector& ar
     auto* objFevalQueue = (FevalQueueObject*)param1.getContentAsHandleScalar();
     ArrayOf res;
     if (!objFevalQueue->get(propertyName, res)) {
-        raiseError2(L"nelson:validators:invalidValue", 2);
+        raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
     }
     retval << res;
     return retval;

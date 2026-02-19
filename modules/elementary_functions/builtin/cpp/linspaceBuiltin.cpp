@@ -76,13 +76,11 @@ Nelson::ElementaryFunctionsGateway::linspaceBuiltin(int nLhs, const ArrayOfVecto
     } else {
         ArrayOf param3 = argIn[2];
         if (!param3.isScalar()) {
-            raiseError(L"Nelson:elementary_functions:ERROR_INPUTS_PARAMETERS_MUST_BE_SCALARS",
-                ERROR_INPUTS_PARAMETERS_MUST_BE_SCALARS);
+            raiseError2(L"nelson:validators:mustBeScalarAtPosition", 3);
         }
         if (param3.isComplex()) {
-            raiseError(
-                L"Nelson:elementary_functions:ERROR_THIRD_ARGUMENT_SHOULD_BE_AN_INTEGER_VALUE",
-                ERROR_THIRD_ARGUMENT_SHOULD_BE_AN_INTEGER_VALUE);
+
+            raiseError2(L"nelson:validators:mustBeIntegerAtPosition", 3);
         } else {
             // special case about NaN
             double nd = param3.getContentAsDoubleScalar();
@@ -98,41 +96,46 @@ Nelson::ElementaryFunctionsGateway::linspaceBuiltin(int nLhs, const ArrayOfVecto
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     if (!param1.isScalar() || !param2.isScalar()) {
-        raiseError(L"Nelson:elementary_functions:ERROR_INPUTS_PARAMETERS_MUST_BE_SCALARS",
-            ERROR_INPUTS_PARAMETERS_MUST_BE_SCALARS);
-    }
-    ArrayOf res;
-    NelsonType destinationClass;
-    if (param1.isComplex() || param2.isComplex()) {
-        if (param1.getDataClass() == NLS_SCOMPLEX || param2.getDataClass() == NLS_SCOMPLEX) {
-            destinationClass = NLS_SCOMPLEX;
-            std::complex<single> startValue = param1.getContentAsSingleComplexScalar();
-            std::complex<single> endValue = param2.getContentAsSingleComplexScalar();
-            res = linspaceComplex<single>(destinationClass, startValue, endValue, n);
-        } else {
-            destinationClass = NLS_DCOMPLEX;
-            std::complex<double> startValue = param1.getContentAsDoubleComplexScalar();
-            std::complex<double> endValue = param2.getContentAsDoubleComplexScalar();
-            res = linspaceComplex<double>(destinationClass, startValue, endValue, n);
+        if (!param1.isScalar()) {
+            raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
         }
-    } else {
-        if (param1.getDataClass() == NLS_SINGLE || param2.getDataClass() == NLS_SINGLE) {
-            destinationClass = NLS_SINGLE;
-            param1.promoteType(destinationClass);
-            param2.promoteType(destinationClass);
-            single startValue = param1.getContentAsSingleScalar();
-            single endValue = param2.getContentAsSingleScalar();
-            res = linspaceReal<single>(destinationClass, startValue, endValue, n);
-        } else {
-            destinationClass = NLS_DOUBLE;
-            param1.promoteType(destinationClass);
-            param2.promoteType(destinationClass);
-            double startValue = param1.getContentAsDoubleScalar();
-            double endValue = param2.getContentAsDoubleScalar();
-            res = linspaceReal<double>(destinationClass, startValue, endValue, n);
+        if (!param2.isScalar()) {
+            raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
         }
+        ArrayOf res;
+        NelsonType destinationClass;
+        if (param1.isComplex() || param2.isComplex()) {
+            if (param1.getDataClass() == NLS_SCOMPLEX || param2.getDataClass() == NLS_SCOMPLEX) {
+                destinationClass = NLS_SCOMPLEX;
+                std::complex<single> startValue = param1.getContentAsSingleComplexScalar();
+                std::complex<single> endValue = param2.getContentAsSingleComplexScalar();
+                res = linspaceComplex<single>(destinationClass, startValue, endValue, n);
+            } else {
+                destinationClass = NLS_DCOMPLEX;
+                std::complex<double> startValue = param1.getContentAsDoubleComplexScalar();
+                std::complex<double> endValue = param2.getContentAsDoubleComplexScalar();
+                res = linspaceComplex<double>(destinationClass, startValue, endValue, n);
+            }
+        } else {
+            if (param1.getDataClass() == NLS_SINGLE || param2.getDataClass() == NLS_SINGLE) {
+                destinationClass = NLS_SINGLE;
+                param1.promoteType(destinationClass);
+                param2.promoteType(destinationClass);
+                single startValue = param1.getContentAsSingleScalar();
+                single endValue = param2.getContentAsSingleScalar();
+                res = linspaceReal<single>(destinationClass, startValue, endValue, n);
+            } else {
+                destinationClass = NLS_DOUBLE;
+                param1.promoteType(destinationClass);
+                param2.promoteType(destinationClass);
+                double startValue = param1.getContentAsDoubleScalar();
+                double endValue = param2.getContentAsDoubleScalar();
+                res = linspaceReal<double>(destinationClass, startValue, endValue, n);
+            }
+        }
+        retval << res;
+        return retval;
     }
-    retval << res;
-    return retval;
+    //=============================================================================
 }
 //=============================================================================

@@ -50,7 +50,7 @@ ArrayOf::getContentAsLogicalScalar(bool arrayAsScalar) const
         raiseError(L"Nelson:types:ERROR_TYPE_LOGICAL_EXPECTED", ERROR_TYPE_LOGICAL_EXPECTED);
     }
     if (isEmpty() || (!arrayAsScalar && !isScalar())) {
-        raiseError(L"Nelson:types:ERROR_SIZE_SCALAR_EXPECTED", ERROR_SIZE_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar");
     }
     if (!isSparse()) {
         auto* qp = (logical*)dp->getData();

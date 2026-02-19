@@ -196,11 +196,10 @@ getBitsPerSample(int format)
 }
 //=============================================================================
 ArrayOf
-AudioFileInfo(const std::wstring& filename, std::wstring& errorMessage)
+AudioFileInfo(const std::wstring& filename)
 {
     Dimensions dims(0, 0);
     ArrayOf res = ArrayOf::emptyConstructor(dims);
-    errorMessage.clear();
     SNDFILE* file = nullptr;
     SF_INFO sfinfo;
     memset(&sfinfo, 0, sizeof(sfinfo));
@@ -211,7 +210,7 @@ AudioFileInfo(const std::wstring& filename, std::wstring& errorMessage)
     file = sf_open(ufilename.c_str(), SFM_READ, &sfinfo);
 #endif
     if (file == nullptr) {
-        raiseError2(L"nelson:validators:invalidValue", 1);
+        raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
         return res;
     }
     std::wstring CompressionMethod = getCompressionMethodAsString(sfinfo.format);

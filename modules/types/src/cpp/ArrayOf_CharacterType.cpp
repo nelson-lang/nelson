@@ -427,7 +427,7 @@ ArrayOf::getContentAsWideStringVector(bool bCheckVector) const
                 }
             }
         } else {
-            raiseError(L"Nelson:types:ERROR_A_VECTOR_EXPECTED", ERROR_A_VECTOR_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeVector");
         }
     }
     return res;
@@ -477,7 +477,7 @@ ArrayOf::getContentAsWideStringRowVector() const
             }
         }
     } else {
-        raiseError(L"Nelson:types:ERROR_AN_ROW_VECTOR_EXPECTED", ERROR_AN_ROW_VECTOR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeRowVector");
     }
     return res;
 }
@@ -527,8 +527,7 @@ ArrayOf::getContentAsWideStringColumnVector() const
                 }
             }
         } else {
-            raiseError(
-                L"Nelson:types:ERROR_A_COLUMN_VECTOR_EXPECTED", ERROR_A_COLUMN_VECTOR_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeColumnVector");
         }
     }
     return res;

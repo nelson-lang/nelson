@@ -45,7 +45,7 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         if (woption == L"-s") {
             bSubDirectories = true;
         } else {
-            raiseError2(L"nelson:validators:invalidValue", 2);
+            raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
         }
     }
     case 1: {

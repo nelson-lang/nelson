@@ -64,7 +64,7 @@ Nelson::AudioGateway::audiowriteBuiltin(int nLhs, const ArrayOfVector& argIn)
             validFieldname = true;
         }
         if (!validFieldname) {
-            raiseError2(L"nelson:validators:invalidValue", static_cast<int>(i));
+            raiseError2(L"nelson:validators:invalidValueAtPosition", static_cast<int>(i));
         }
     }
     wstringVector metadata;

@@ -39,7 +39,7 @@ Nelson::DisplayFormatGateway::echoBuiltin(Evaluator* eval, int nLhs, const Array
             } else if (arg == L"off") {
                 bMode = false;
             } else {
-                raiseError2(L"nelson:validators:invalidValue", 1);
+                raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
             }
             eval->setEchoMode(bMode);
         } else {

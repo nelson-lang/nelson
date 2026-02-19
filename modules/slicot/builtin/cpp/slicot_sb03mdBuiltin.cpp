@@ -112,16 +112,16 @@ Nelson::SlicotGateway::slicot_sb03mdBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 1);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
     }
     if (!dimsJOB.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 2);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
     }
     if (!dimsFACT.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 3);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 3);
     }
     if (!dimsTRANA.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 4);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 4);
     }
     // CALL EXTERN FUNCTION
     try {

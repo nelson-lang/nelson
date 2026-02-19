@@ -1300,7 +1300,7 @@ ArrayOf::getContentAsScalarIndex(
 {
     indexType idx = 0;
     if (getElementCount() != 1) {
-        raiseError(L"Nelson:types:ERROR_SIZE_SCALAR_EXPECTED", ERROR_SIZE_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalar");
     }
     double valueAsDouble;
     ArrayOf P;
@@ -1331,16 +1331,14 @@ ArrayOf::getContentAsScalarIndex(
         }
     } else {
         if (IsFinite(valueAsDouble)) {
-            raiseError(L"Nelson:types:ERROR_EXPECTED_INTEGER", ERROR_EXPECTED_INTEGER);
+            raiseError2(L"nelson:validators:mustBeIntegerForm");
         } else {
             raiseError2(L"nelson:validators:mustBeFinite");
         }
     }
     if (!bWithZero) {
         if (idx == 0) {
-            raiseError(L"Nelson:types:ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR_"
-                       L"WITHIN_INDEXING_RANGE",
-                ERROR_DIMENSION_ARGUMENT_MUST_BE_POSITIVE_INTEGER_SCALAR_WITHIN_INDEXING_RANGE);
+            raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
         }
     }
     return idx;
@@ -1367,7 +1365,7 @@ ArrayOf::getContentAsIndexVector()
             }
         } else {
             if (IsFinite(qp[k])) {
-                raiseError(L"Nelson:types:ERROR_EXPECTED_INTEGER", ERROR_EXPECTED_INTEGER);
+                raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
             } else {
                 raiseError2(L"nelson:validators:mustBeFinite");
             }
@@ -1398,7 +1396,7 @@ ArrayOf::getContentAsIndexPointer()
         } else {
             delete[] pIndex;
             if (IsFinite(qp[k])) {
-                raiseError(L"Nelson:types:ERROR_EXPECTED_INTEGER", ERROR_EXPECTED_INTEGER);
+                raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
             } else {
                 raiseError2(L"nelson:validators:mustBeFinite");
             }

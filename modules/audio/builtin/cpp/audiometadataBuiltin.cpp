@@ -36,10 +36,10 @@ Nelson::AudioGateway::audiometadataBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
         if (!param2.isStruct()) {
-            raiseError2(L"nelson:validators:mustBeNumeric", 2);
+            raiseError2(L"nelson:validators:mustBeNumericAtPosition", 2);
         }
         if (!param2.isScalar()) {
-            raiseError2(L"nelson:validators:mustBeScalar", 2);
+            raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
         }
         stringVector currentFieldnames = param2.getFieldNames();
         wstringVector wcurrentFieldname;
@@ -58,7 +58,7 @@ Nelson::AudioGateway::audiometadataBuiltin(int nLhs, const ArrayOfVector& argIn)
                     }
                 }
             } else {
-                raiseError2(L"nelson:validators:invalidValue", 2);
+                raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
             }
         }
         currentFieldnames.clear();

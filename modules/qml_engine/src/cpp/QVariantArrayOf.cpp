@@ -632,7 +632,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
     case QMetaType::Type::QByteArray: {
         Dimensions dimsA = A.getDimensions();
         if (!A.isVector()) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_EXPECTED", ERROR_VECTOR_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeVector");
         }
         A.promoteType(NLS_INT8);
         int8* arrayInt8 = (int8*)A.getDataPointer();
@@ -647,7 +647,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
     case QMetaType::Type::QBitArray: {
         Dimensions dimsA = A.getDimensions();
         if (!A.isVector()) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_EXPECTED", ERROR_VECTOR_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeVector");
         }
         A.promoteType(NLS_LOGICAL);
         logical* arrayLogical = (logical*)A.getDataPointer();
@@ -684,7 +684,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 7);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_EXPECTED", ERROR_VECTOR_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeVector");
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();

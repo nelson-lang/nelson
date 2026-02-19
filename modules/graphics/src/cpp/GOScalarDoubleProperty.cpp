@@ -24,7 +24,7 @@ GOScalarProperty::set(ArrayOf num)
         ArrayOf copyNum(num);
         copyNum.promoteType(NLS_DOUBLE);
         if (!copyNum.isScalar()) {
-            raiseError(L"Nelson:graphics:ERROR_SCALAR_VALUE_EXPECTED", ERROR_SCALAR_VALUE_EXPECTED);
+            raiseError2(L"nelson:validators:mustBeScalar");
         }
         const double* dp = (const double*)copyNum.getDataPointer();
         if (dp[0] >= _minValue && dp[0] <= _maxValue) {

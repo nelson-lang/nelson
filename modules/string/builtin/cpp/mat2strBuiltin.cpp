@@ -66,7 +66,7 @@ Nelson::StringGateway::mat2strBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf A = argIn[0];
     bool canBeConvert = A.isNumeric() || A.isLogical() || A.isCharacterArray();
     if (!canBeConvert) {
-        raiseError(L"Nelson:string:ERROR_NUMERIC_MATRIX_EXPECTED", ERROR_NUMERIC_MATRIX_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeNumeric");
     }
     if (A.isSparse()) {
         raiseError2(L"nelson:runtime:typeNotSupported");

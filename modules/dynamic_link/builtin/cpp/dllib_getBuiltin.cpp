@@ -33,7 +33,7 @@ Nelson::DynamicLinkGateway::dllib_getBuiltin(int nLhs, const ArrayOfVector& argI
     auto* objDllib = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
     ArrayOf res;
     if (!objDllib->get(propertyName, res)) {
-        raiseError2(L"nelson:validators:invalidValue", 2);
+        raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
     }
     retval << res;
     return retval;

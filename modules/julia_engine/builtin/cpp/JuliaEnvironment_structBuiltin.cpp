@@ -30,8 +30,7 @@ Nelson::Julia_engineGateway::JuliaEnvironment_structBuiltin(int nLhs, const Arra
     }
 
     if (!param1.isScalar()) {
-        raiseError(L"Nelson:julia_engine:ERROR_WRONG_SIZE_ARG1_SCALAR_EXPECTED",
-            ERROR_WRONG_SIZE_ARG1_SCALAR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
     }
 
     JuliaEnvironment* juliaEnvironment = JuliaEnvironment::getInstance();

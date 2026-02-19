@@ -44,7 +44,7 @@ extractDestClassAndSparse(
             } else {
                 // report a 1-based argument index to the user
                 int humanArgIndex = static_cast<int>(nRhs - 2) + 1;
-                raiseError2(L"nelson:validators:invalidValue", humanArgIndex);
+                raiseError2(L"nelson:validators:invalidValueAtPosition", humanArgIndex);
             }
         }
     }

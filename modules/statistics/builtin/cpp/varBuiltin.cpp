@@ -30,14 +30,14 @@ Nelson::StatisticsGateway::varBuiltin(int nLhs, const ArrayOfVector& argIn)
         w = (int)arg2.getContentAsScalarIndex(true);
         bool wValid = (w == 0 || w == 1);
         if (!wValid) {
-            raiseError2(L"nelson:validators:invalidValue", 2);
+            raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
         }
     }
     if (argIn.size() > 2) {
         ArrayOf arg3 = argIn[2];
         d = (int)arg3.getContentAsScalarIndex(true);
         if (d <= 0) {
-            raiseError2(L"nelson:validators:invalidValue", 3);
+            raiseError2(L"nelson:validators:invalidValueAtPosition", 3);
         }
     }
     bool needToOverload = false;

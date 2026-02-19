@@ -36,7 +36,7 @@ Nelson::DynamicLinkGateway::libpointer_getBuiltin(int nLhs, const ArrayOfVector&
         ArrayOf param2 = argIn[1];
         std::wstring propertyName = param2.getContentAsWideString();
         if (!objLibPointer->get(propertyName, res)) {
-            raiseError2(L"nelson:validators:invalidValue", 2);
+            raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
         }
     }
     retval << res;

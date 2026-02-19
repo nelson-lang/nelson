@@ -58,9 +58,11 @@ sparseBuiltinThreeRhs(int nLhs, const ArrayOfVector& argIn)
     ArrayOf I(argIn[0]);
     ArrayOf J(argIn[1]);
     ArrayOf V(argIn[2]);
-    if (I.isComplex() || J.isComplex()) {
-        raiseError(L"Nelson:sparse:ERROR_SPARSE_MATRIX_INDICES_MUST_BE_POSITIVE_INTEGERS",
-            ERROR_SPARSE_MATRIX_INDICES_MUST_BE_POSITIVE_INTEGERS);
+    if (I.isComplex()) {
+        raiseError2(L"nelson:validators:mustBePositiveAtPosition", 1);
+    }
+    if (J.isComplex()) {
+        raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
     }
     if ((V.getDataClass() == NLS_DOUBLE || V.getDataClass() == NLS_DCOMPLEX
             || V.getDataClass() == NLS_LOGICAL)

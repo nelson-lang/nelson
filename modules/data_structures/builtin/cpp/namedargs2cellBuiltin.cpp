@@ -25,7 +25,7 @@ Nelson::DataStructuresGateway::namedargs2cellBuiltin(int nLhs, const ArrayOfVect
         raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRUCT_ARRAY_STR);
     }
     if (!param1.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 1);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
     }
     stringVector fieldnames = param1.getFieldNames();
     ArrayOf* elements

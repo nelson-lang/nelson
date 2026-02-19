@@ -190,31 +190,31 @@ Nelson::SlicotGateway::slicot_sg02adBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 1);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
     }
     if (!dimsJOBB.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 2);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
     }
     if (!dimsFACT.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 3);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 3);
     }
     if (!dimsUPLO.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 4);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 4);
     }
     if (!dimsJOBL.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 5);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 5);
     }
     if (!dimsSCAL.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 6);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 6);
     }
     if (!dimsSORT.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 7);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 7);
     }
     if (!dimsACC.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 8);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 8);
     }
     if (!dimsP.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 9);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 9);
     }
     Dimensions dimsA_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsA.equals(dimsA_expected)) {
@@ -237,7 +237,7 @@ Nelson::SlicotGateway::slicot_sg02adBuiltin(int nLhs, const ArrayOfVector& argIn
         raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 14, dimsR_expected.toWideString());
     }
     if (!dimsTOL.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalar", 16);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 16);
     }
     // CALL EXTERN FUNCTION
     try {

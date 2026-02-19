@@ -28,8 +28,7 @@ imrotateBuiltin(int nLhs, const ArrayOfVector& argIn)
     // Extract input image
     ArrayOf inputImage = argIn[0];
     if (!inputImage.isNumeric() && !inputImage.isLogical()) {
-        raiseError(L"Nelson:image_processing:ERROR_INPUT_IMAGE_MUST_BE_NUMERIC_OR_LOGICAL",
-            ERROR_INPUT_IMAGE_MUST_BE_NUMERIC_OR_LOGICAL);
+        raiseError2(L"nelson:validators:mustBeNumericOrLogicalAtPosition", 1);
     }
 
     // Extract dimensions
@@ -41,8 +40,7 @@ imrotateBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     // Extract rotation angle
     if (!argIn[1].isNumeric() || !argIn[1].isScalar()) {
-        raiseError(L"Nelson:image_processing:ERROR_ANGLE_MUST_BE_NUMERIC_SCALAR",
-            ERROR_ANGLE_MUST_BE_NUMERIC_SCALAR);
+        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
     }
     double angle = argIn[1].getContentAsDoubleScalar();
     if (!std::isfinite(angle)) {

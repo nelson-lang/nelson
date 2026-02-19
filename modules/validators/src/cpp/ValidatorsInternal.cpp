@@ -282,7 +282,7 @@ void
 mustBeNumeric(const ArrayOf& arg, int argPosition, bool asCaller)
 {
     validateWithFunction(
-        arg, "isnumeric", L"nelson:validators:mustBeNumeric", argPosition, asCaller);
+        arg, "isnumeric", L"nelson:validators:mustBeNumericAtPosition", argPosition, asCaller);
 }
 //=============================================================================
 void

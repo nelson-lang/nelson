@@ -7,9 +7,9 @@
   "nelson:arguments:wrongNumberOfInputs": "Nombre d'arguments d'entrée invalide.",
   "nelson:arguments:wrongNumberOfOutputs": "Nombre d'arguments de sortie invalide.",
   "nelson:validators:mustBeType": "L'argument {0} doit être de type '{1}'.",
-  "nelson:validators:invalidValue": "Valeur invalide pour l'argument {0}.",
+  "nelson:validators:invalidValueAtPosition": "Valeur invalide pour l'argument {0}.",
   "nelson:internal:typeNotManaged": "Type non pris en charge.",
-  "nelson:validators:mustBeScalar": "L'argument {0} doit être un scalaire.",
+  "nelson:validators:mustBeScalarAtPosition": "L'argument {0} doit être un scalaire.",
   "nelson:runtime:typeNotSupported": "Type non supporté.",
   "nelson:validators:mustBeValidType": "Type invalide pour l'argument {0}.",
   "nelson:validators:mustBeValidFunctionName": "Un nom de fonction valide est attendu."

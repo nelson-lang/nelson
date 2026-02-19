@@ -39,8 +39,7 @@ delimitedFileWriter(ArrayOf mat, const std::wstring& filenameDestination, bool b
 {
     bool bTypeSupported = mat.isNumeric() || mat.isLogical();
     if (!bTypeSupported) {
-        raiseError(
-            L"Nelson:spreadsheet:ERROR_NUMERIC_MATRIX_EXPECTED", ERROR_NUMERIC_MATRIX_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeNumeric");
     }
     if (mat.isSparse()) {
         raiseError2(L"nelson:runtime:typeNotSupported");

@@ -48,7 +48,7 @@ Nelson::DataAnalysisGateway::prodBuiltin(int nLhs, const ArrayOfVector& argIn)
                     withnan = false;
                 }
             } else {
-                raiseError2(L"nelson:validators:invalidValue", L"4");
+                raiseError2(L"nelson:validators:invalidValueAtPosition", L"4");
             }
         } else {
             d = param2.getContentAsScalarIndex(false);
@@ -62,7 +62,7 @@ Nelson::DataAnalysisGateway::prodBuiltin(int nLhs, const ArrayOfVector& argIn)
             if ((wstr1 == L"double") || (wstr1 == L"native") || (wstr1 == L"default")) {
                 strtype = wstr1;
             } else {
-                raiseError2(L"nelson:validators:invalidValue", L"2");
+                raiseError2(L"nelson:validators:invalidValueAtPosition", L"2");
             }
             std::wstring wstr2 = param3.getContentAsWideString();
             if ((wstr2 == L"includenan") || (wstr2 == L"omitnan")) {
@@ -72,7 +72,7 @@ Nelson::DataAnalysisGateway::prodBuiltin(int nLhs, const ArrayOfVector& argIn)
                     withnan = false;
                 }
             } else {
-                raiseError2(L"nelson:validators:invalidValue", L"3");
+                raiseError2(L"nelson:validators:invalidValueAtPosition", L"3");
             }
         } else {
             d = param2.getContentAsScalarIndex(false);
@@ -86,7 +86,7 @@ Nelson::DataAnalysisGateway::prodBuiltin(int nLhs, const ArrayOfVector& argIn)
                     withnan = false;
                 }
             } else {
-                raiseError2(L"nelson:validators:invalidValue", L"3");
+                raiseError2(L"nelson:validators:invalidValueAtPosition", L"3");
             }
         }
     } break;
@@ -100,7 +100,7 @@ Nelson::DataAnalysisGateway::prodBuiltin(int nLhs, const ArrayOfVector& argIn)
         if ((wstr1 == L"double") || (wstr1 == L"native") || (wstr1 == L"default")) {
             strtype = wstr1;
         } else {
-            raiseError2(L"nelson:validators:invalidValue", L"3");
+            raiseError2(L"nelson:validators:invalidValueAtPosition", L"3");
         }
         if ((wstr2 == L"includenan") || (wstr2 == L"omitnan")) {
             if (wstr2 == L"includenan") {
@@ -109,7 +109,7 @@ Nelson::DataAnalysisGateway::prodBuiltin(int nLhs, const ArrayOfVector& argIn)
                 withnan = false;
             }
         } else {
-            raiseError2(L"nelson:validators:invalidValue", L"4");
+            raiseError2(L"nelson:validators:invalidValueAtPosition", L"4");
         }
     } break;
     default: {

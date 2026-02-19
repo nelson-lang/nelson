@@ -32,14 +32,14 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring datasetname = param2.getContentAsWideString();
     ArrayOf param3 = argIn[2];
     if (!param3.isRowVector()) {
-        raiseError(L"Nelson:hdf5:ERROR_ROW_VECTOR_EXPECTED", ERROR_ROW_VECTOR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeRowVectorAtPosition", 3);
     }
     bool isSupportedSizeType = param3.getDataClass() == NLS_DOUBLE && !param3.isNdArrayDoubleType();
     if (!isSupportedSizeType) {
-        raiseError(L"Nelson:hdf5:ERROR_DOUBLE_EXPECTED", ERROR_DOUBLE_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeDoubleAtPosition", 3);
     }
     if (param3.isEmpty()) {
-        raiseError(L"Nelson:hdf5:ERROR_ROW_VECTOR_EXPECTED", ERROR_ROW_VECTOR_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeRowVectorAtPosition", 3);
     }
     auto* sizePtr = (double*)param3.getDataPointer();
     std::vector<double> sizeData;
@@ -93,10 +93,10 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
             bool isSupportedSizeType
                 = paramXvalue.getDataClass() == NLS_DOUBLE && !paramXvalue.isNdArrayDoubleType();
             if (!isSupportedSizeType) {
-                raiseError(L"Nelson:hdf5:ERROR_DOUBLE_EXPECTED", ERROR_DOUBLE_EXPECTED);
+                raiseError2(L"nelson:validators:mustBeDoubleAtPosition", i + 1);
             }
             if (paramXvalue.isEmpty()) {
-                raiseError(L"Nelson:hdf5:ERROR_ROW_VECTOR_EXPECTED", ERROR_ROW_VECTOR_EXPECTED);
+                raiseError2(L"nelson:validators:mustBeRowVectorAtPosition", i + 1);
             }
             double* chunkSizePtr = (double*)paramXvalue.getDataPointer();
             indexType nbElements = paramXvalue.getElementCount();
@@ -108,14 +108,13 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
             deflate = (int)paramXvalue.getContentAsScalarIndex(true);
         } else if (paramXname.getContentAsWideString() == L"FillValue") {
             if (!paramXvalue.isScalar()) {
-                raiseError(L"Nelson:hdf5:ERROR_SCALAR_VALUE_EXPECTED", ERROR_SCALAR_VALUE_EXPECTED);
+                raiseError2(L"nelson:validators:mustBeScalar");
             }
             NelsonType valueClass = paramXvalue.getDataClass();
             bool isSupportedType = (valueClass == NLS_DOUBLE || valueClass == NLS_SINGLE
                 || IS_INTEGER_TYPE(valueClass));
             if (!isSupportedType) {
-                raiseError(
-                    L"Nelson:hdf5:ERROR_UNSUPPORTED_VALUE_TYPE", ERROR_UNSUPPORTED_VALUE_TYPE);
+                raiseError2(L"nelson:validators:mustBeIntegerFormAtPosition", i + 1);
             }
             fillvalue = paramXvalue;
         } else if (paramXname.getContentAsWideString() == L"Fletcher32") {

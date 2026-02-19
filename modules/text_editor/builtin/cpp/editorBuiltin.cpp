@@ -61,7 +61,7 @@ Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayO
                     textEditor(eval, true);
                 }
             } else {
-                raiseError2(L"nelson:validators:invalidValue", 2);
+                raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
             }
         } else if (option == L"editor_command") {
             std::wstring commandLine = argIn[1].getContentAsWideString();
@@ -71,7 +71,7 @@ Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayO
             NelsonConfiguration::getInstance()->setCurrentEditor(commandLine, false);
             NelsonConfiguration::getInstance()->setVsCodeMode(true);
         } else {
-            raiseError2(L"nelson:validators:invalidValue", 1);
+            raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
         }
     } break;
     default: {

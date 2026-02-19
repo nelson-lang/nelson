@@ -33,7 +33,7 @@ Nelson::DynamicLinkGateway::dlsym_getBuiltin(int nLhs, const ArrayOfVector& argI
     auto* objDlsym = static_cast<DynamicLinkSymbolObject*>(param1.getContentAsHandleScalar());
     ArrayOf res;
     if (!objDlsym->get(propertyName, res)) {
-        raiseError2(L"nelson:validators:invalidValue", 2);
+        raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
     }
     retval << res;
     return retval;

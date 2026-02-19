@@ -61,7 +61,7 @@ runBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         } else if (arg2.compare(L"nocatch") == 0) {
             bErrorCatch = false;
         } else {
-            raiseError2(L"nelson:validators:invalidValue", 2);
+            raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
         }
     } else {
         raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
@@ -92,7 +92,7 @@ runBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             } else if (arg2.compare(L"nocatch") == 0) {
                 bErrorCatch = false;
             } else {
-                raiseError2(L"nelson:validators:invalidValue", 2);
+                raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
             }
         } else {
             raiseError2(L"nelson:validators:mustBeValidType", 2);

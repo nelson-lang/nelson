@@ -33,7 +33,7 @@ Nelson::AudioGateway::audiodevinfoBuiltin(int nLhs, const ArrayOfVector& argIn)
     switch (argIn.size()) {
     case 0: {
         // devinfo = audiodevinfo
-        res = AudioDevInfo(errorMessage);
+        res = AudioDevInfo();
     } break;
     case 1: {
         // devinfo = audiodevinfo(io)
@@ -42,13 +42,13 @@ Nelson::AudioGateway::audiodevinfoBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param1.isCharacterArray()) {
             std::wstring str = param1.getContentAsWideString();
             if (str == L"default") {
-                res = AudioDevInfoDefault(errorMessage);
+                res = AudioDevInfoDefault();
             } else {
-                raiseError2(L"nelson:validators:invalidValue", 1);
+                raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
             }
         } else {
             int io = param1.getContentAsInteger32Scalar();
-            res = AudioDevInfo(io, errorMessage);
+            res = AudioDevInfo(io);
         }
     } break;
     case 2: {
@@ -58,11 +58,11 @@ Nelson::AudioGateway::audiodevinfoBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param2.isRowVectorCharacterArray()) {
             // devinfo = audiodevinfo(io, name)
             std::wstring name = param2.getContentAsWideString();
-            res = AudioDevInfo(io, name, errorMessage);
+            res = AudioDevInfo(io, name);
         } else {
             // devinfo = audiodevinfo(io, id)
             int id = param2.getContentAsInteger32Scalar();
-            res = AudioDevInfo(io, id, errorMessage);
+            res = AudioDevInfo(io, id);
         }
     } break;
     case 3: {
@@ -70,13 +70,13 @@ Nelson::AudioGateway::audiodevinfoBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf param3 = argIn[2];
         std::wstring str3 = param3.getContentAsWideString();
         if (str3 != L"DriverVersion") {
-            raiseError2(L"nelson:validators:invalidValue", 3);
+            raiseError2(L"nelson:validators:invalidValueAtPosition", 3);
         }
         ArrayOf param1 = argIn[0];
         int io = param1.getContentAsInteger32Scalar();
         ArrayOf param2 = argIn[1];
         int id = param2.getContentAsInteger32Scalar();
-        res = AudioDevInfoDriverVersion(io, id, errorMessage);
+        res = AudioDevInfoDriverVersion(io, id);
     } break;
     case 4: {
         // devinfo = audiodevinfo(io, rate, bits, chans)
@@ -88,7 +88,7 @@ Nelson::AudioGateway::audiodevinfoBuiltin(int nLhs, const ArrayOfVector& argIn)
         int bits = param3.getContentAsInteger32Scalar();
         ArrayOf param4 = argIn[3];
         int chans = param4.getContentAsInteger32Scalar();
-        res = AudioDevInfo(io, rate, bits, chans, errorMessage);
+        res = AudioDevInfo(io, rate, bits, chans);
     } break;
     case 5: {
         // devinfo = audiodevinfo(io, id, rate, bits, chans)
@@ -102,14 +102,11 @@ Nelson::AudioGateway::audiodevinfoBuiltin(int nLhs, const ArrayOfVector& argIn)
         int bits = param4.getContentAsInteger32Scalar();
         ArrayOf param5 = argIn[4];
         int chans = param5.getContentAsInteger32Scalar();
-        res = AudioDevInfo(io, id, rate, bits, chans, errorMessage);
+        res = AudioDevInfo(io, id, rate, bits, chans);
     } break;
     default: {
         raiseError2(L"nelson:arguments:tooManyInputs");
     } break;
-    }
-    if (!errorMessage.empty()) {
-        Error(errorMessage, L"Nelson:audio:ERROR_AUDIO_MESSAGE");
     }
     retval << res;
     return retval;

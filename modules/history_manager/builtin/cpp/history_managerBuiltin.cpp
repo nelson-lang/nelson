@@ -49,7 +49,7 @@ Nelson::HistoryManagerGateway::history_managerBuiltin(int nLhs, const ArrayOfVec
                 }
                 NelsonConfiguration::getInstance()->setHistoryManager(nullptr);
             } else {
-                raiseError2(L"nelson:validators:invalidValue", 1);
+                raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
             }
             if (bOldMode) {
                 retval << ArrayOf::characterArrayConstructor(L"on");

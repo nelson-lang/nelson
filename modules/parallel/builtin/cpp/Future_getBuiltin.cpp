@@ -43,7 +43,7 @@ Nelson::ParallelGateway::Future_getBuiltin(Evaluator* eval, int nLhs, const Arra
             auto* objFevalFuture = (FevalFutureObject*)hlObj;
             ArrayOf res;
             if (!objFevalFuture->get(propertyName, res)) {
-                raiseError2(L"nelson:validators:invalidValue", 2);
+                raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
             }
             if (propertyName == L"Function") {
                 FunctionDef* funcDef = nullptr;

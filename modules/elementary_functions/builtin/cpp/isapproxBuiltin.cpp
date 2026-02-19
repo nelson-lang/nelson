@@ -48,8 +48,7 @@ Nelson::ElementaryFunctionsGateway::isapproxBuiltin(int nLhs, const ArrayOfVecto
         }
         retval << ArrayOf::logicalConstructor(IsApprox(param1, param2, precision));
     } else {
-        raiseError(L"Nelson:elementary_functions:ERROR_NUMERICS_TYPES_EXPECTED",
-            ERROR_NUMERICS_TYPES_EXPECTED);
+        raiseError2(L"nelson:validators:mustBeNumeric");
     }
     return retval;
 }

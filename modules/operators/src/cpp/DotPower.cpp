@@ -636,8 +636,7 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     if ((A.isIntegerType() || A.isNdArrayIntegerType())
         && (B.isIntegerType() || B.isNdArrayIntegerType())) {
         if (!B.isPositive()) {
-            raiseError(L"Nelson:operators:ERROR_ONLY_POSITIVE_INTEGERS_EXPECTED",
-                ERROR_ONLY_POSITIVE_INTEGERS_EXPECTED);
+            raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
         }
         void* Cp = nullptr;
         indexType stride1 = 0;

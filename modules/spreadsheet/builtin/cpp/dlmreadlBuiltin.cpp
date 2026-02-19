@@ -71,14 +71,10 @@ Nelson::SpreadsheetGateway::dlmreadBuiltin(int nLhs, const ArrayOfVector& argIn)
                     ERROR_DLMREAD_WRONG_SIZE_FOR_3_ROW_VECTOR_EXPECTED);
             }
             if (!param2.isNumeric()) {
-                raiseError(
-                    L"Nelson:spreadsheet:ERROR_DLMREAD_WRONG_TYPE_FOR_3_NUMERIC_VALUES_EXPECTED",
-                    ERROR_DLMREAD_WRONG_TYPE_FOR_3_NUMERIC_VALUES_EXPECTED);
+                raiseError2(L"nelson:validators:mustBeNumericAtPosition", 3);
             }
             if (param2.isSparse()) {
-                raiseError(
-                    L"Nelson:spreadsheet:ERROR_DLMREAD_WRONG_TYPE_FOR_3_DENSE_VALUES_EXPECTED",
-                    ERROR_DLMREAD_WRONG_TYPE_FOR_3_DENSE_VALUES_EXPECTED);
+                raiseError2(L"mustBeNonSparseAtPosition", 3);
             }
             param2.promoteType(NLS_DOUBLE);
             double* values = (double*)param2.getDataPointer();

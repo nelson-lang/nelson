@@ -66,8 +66,7 @@ Evaluator::powerOperator(const ArrayOfVector& args)
             indexType elementCount = B.getElementCount();
             bool allIntegerValue = IsIntegerForm(ptrB, elementCount);
             if (!allIntegerValue) {
-                raiseError(L"Nelson:interpreter:ERROR_POSITIVE_INTEGRAL_POWERS_EXPECTED",
-                    ERROR_POSITIVE_INTEGRAL_POWERS_EXPECTED);
+                raiseError2(L"nelson:validators:mustBeIntegerFormAtPosition", 2);
             }
 
             B.promoteType(commonType);

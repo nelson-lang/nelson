@@ -75,8 +75,7 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V)
     for (indexType i = 0; i < I.getElementCount(); i++) {
         rows = (static_cast<double>(ip[i]) > static_cast<double>(rows)) ? ip[i] : rows;
         if (ip[i] < 1) {
-            raiseError(L"Nelson:sparse:ERROR_INDEX_INTO_MATRIX_MUST_BE_POSITIVE",
-                ERROR_INDEX_INTO_MATRIX_MUST_BE_POSITIVE);
+            raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
         }
     }
     auto* jp = (indexType*)J.getDataPointer();
@@ -84,8 +83,7 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V)
     for (indexType j = 0; j < J.getElementCount(); j++) {
         cols = (static_cast<double>(jp[j]) > static_cast<double>(cols)) ? jp[j] : cols;
         if (jp[j] < 1) {
-            raiseError(L"Nelson:sparse:ERROR_INDEX_INTO_MATRIX_MUST_BE_POSITIVE",
-                ERROR_INDEX_INTO_MATRIX_MUST_BE_POSITIVE);
+            raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
         }
     }
     Dimensions dim(rows, cols);
