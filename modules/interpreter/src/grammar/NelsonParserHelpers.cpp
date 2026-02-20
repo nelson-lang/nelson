@@ -65,10 +65,10 @@ yyxpt(const std::string& xStr, const ParseRHS& val)
     std::string msg;
     if (getParserFilenameU() == "") {
         msg = fmt::format(_("Expecting {0}"), xStr);
-        raiseError(L"Nelson:interpreter:ERROR_EXPECTING", ERROR_EXPECTING, utf8_to_wstring(xStr));
+        raiseError2(_E("nelson:parsing:expecting"), utf8_to_wstring(xStr));
     } else {
-        raiseError(L"Nelson:interpreter:ERROR_EXPECTING_AT", ERROR_EXPECTING_AT, linenumber,
-            colnumber, getParserFilenameW());
+        raiseError2(_E("nelson:parsing:expectingAtLineColumnFile"), utf8_to_wstring(xStr),
+            linenumber, colnumber, getParserFilenameW());
     }
     return 0;
 }

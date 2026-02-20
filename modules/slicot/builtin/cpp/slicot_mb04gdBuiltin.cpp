@@ -68,13 +68,13 @@ Nelson::SlicotGateway::slicot_mb04gdBuiltin(int nLhs, const ArrayOfVector& argIn
     // CHECK INPUT VARIABLES DIMENSIONS
     Dimensions dimsA_expected(std::max(1, (int)A.getRows()), std::max(1, (int)A.getColumns()));
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError2(
-            _E("nelson:validators:mustBeSize"), 1, utf8_to_wstring(dimsA_expected.toString()));
+        raiseError2(_E("nelson:validators:mustBeSizeAtPosition"), 1,
+            utf8_to_wstring(dimsA_expected.toString()));
     }
     Dimensions dimsJPVT_expected(1, std::max(1, (int)A.getRows()));
     if (!dimsJPVT.equals(dimsJPVT_expected)) {
-        raiseError2(
-            L"nelson:validators:mustBeSize", 2, utf8_to_wstring(dimsJPVT_expected.toString()));
+        raiseError2(L"nelson:validators:mustBeSizeAtPosition", 2,
+            utf8_to_wstring(dimsJPVT_expected.toString()));
     }
     // CALL EXTERN FUNCTION
     try {

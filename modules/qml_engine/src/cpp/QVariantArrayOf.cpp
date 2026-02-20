@@ -662,7 +662,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 3);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_1x3_EXPECTED", ERROR_VECTOR_1x3_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeSize"), L"1x3");
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -673,7 +673,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_1x4_EXPECTED", ERROR_VECTOR_1x4_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeSize"), L"1x4");
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -708,7 +708,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_1x4_EXPECTED", ERROR_VECTOR_1x4_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeSize"), L"1x4");
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -719,7 +719,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_1x4_EXPECTED", ERROR_VECTOR_1x4_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeSize"), L"1x4");
         }
         A.promoteType(NLS_DOUBLE);
         double* arrayDouble = (double*)A.getDataPointer();
@@ -730,7 +730,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_1x2_EXPECTED", ERROR_VECTOR_1x2_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeSize"), L"1x2");
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -741,7 +741,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_1x2_EXPECTED", ERROR_VECTOR_1x2_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeSize"), L"1x2");
         }
         A.promoteType(NLS_DOUBLE);
         double* arrayDouble = (double*)A.getDataPointer();
@@ -752,7 +752,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_1x4_EXPECTED", ERROR_VECTOR_1x4_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeSize"), L"1x4");
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -763,7 +763,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_1x4_EXPECTED", ERROR_VECTOR_1x4_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeSize"), L"1x4");
         }
         A.promoteType(NLS_DOUBLE);
         double* arrayDouble = (double*)A.getDataPointer();
@@ -774,7 +774,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_1x2_EXPECTED", ERROR_VECTOR_1x2_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeSize"), L"1x2");
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -785,7 +785,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_1x2_EXPECTED", ERROR_VECTOR_1x2_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeSize"), L"1x2");
         }
         A.promoteType(NLS_DOUBLE);
         double* arrayDouble = (double*)A.getDataPointer();
@@ -801,7 +801,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_1x4_EXPECTED", ERROR_VECTOR_1x4_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeSize"), L"1x4");
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -814,7 +814,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 6);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_1x6_EXPECTED", ERROR_VECTOR_1x6_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeSize"), L"1x6");
         }
         A.promoteType(NLS_DOUBLE);
         double* arrayDouble = (double*)A.getDataPointer();
@@ -855,7 +855,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_1x2_EXPECTED", ERROR_VECTOR_1x2_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeSize"), L"1x2");
         }
         A.promoteType(NLS_SINGLE);
         single* arraySingle = (single*)A.getDataPointer();
@@ -866,7 +866,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 3);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_1x3_EXPECTED", ERROR_VECTOR_1x3_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeSize"), L"1x3");
         }
         A.promoteType(NLS_SINGLE);
         single* arraySingle = (single*)A.getDataPointer();
@@ -877,7 +877,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_1x4_EXPECTED", ERROR_VECTOR_1x4_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeSize"), L"1x4");
         }
         A.promoteType(NLS_SINGLE);
         single* arraySingle = (single*)A.getDataPointer();
@@ -888,7 +888,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError(L"Nelson:qml:ERROR_VECTOR_1x4_EXPECTED", ERROR_VECTOR_1x4_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeSize"), L"1x4");
         }
         A.promoteType(NLS_SINGLE);
         single* arraySingle = (single*)A.getDataPointer();

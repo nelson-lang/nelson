@@ -417,8 +417,7 @@ ForStatemenRowVectorGenericHelper(AbstractSyntaxTreePtr codeBlock, ArrayOf& inde
     for (indexType elementNumber = 0; elementNumber < elementCount; ++elementNumber) {
         indexVar = indexSet.getValueAtIndex(elementNumber);
         if (!context->insertVariable(indexVarName, indexVar)) {
-            raiseError(L"Nelson:interpreter:ERROR_VALID_VARIABLE_NAME_EXPECTED",
-                ERROR_VALID_VARIABLE_NAME_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeValidVariableName"));
         }
         eval->block(codeBlock);
         int st = eval->getState();
@@ -449,8 +448,7 @@ ForStatemenMatrixGenericHelper(AbstractSyntaxTreePtr codeBlock, ArrayOf& indexSe
         m.push_back(ArrayOf::doubleConstructor((double)(elementNumber + 1)));
         indexVar = indexSet.getNDimSubset(m);
         if (!eval->getContext()->insertVariable(indexVarName, indexVar)) {
-            raiseError(L"Nelson:interpreter:ERROR_VALID_VARIABLE_NAME_EXPECTED",
-                ERROR_VALID_VARIABLE_NAME_EXPECTED);
+            raiseError2(_E("nelson:validators:mustBeValidVariableName"));
         }
         eval->block(codeBlock);
         if (eval->getState() == NLS_STATE_RETURN || eval->getState() == NLS_STATE_ABORT
@@ -485,8 +483,7 @@ Evaluator::forStatement(AbstractSyntaxTreePtr t)
         return;
     }
     if (!IsValidVariableName(indexVarName, true)) {
-        raiseError(L"Nelson:interpreter:ERROR_VALID_VARIABLE_NAME_EXPECTED",
-            ERROR_VALID_VARIABLE_NAME_EXPECTED);
+        raiseError2(_E("nelson:validators:mustBeValidVariableName"));
     }
     AbstractSyntaxTreePtr codeBlock = t->right;
     bool isRowVector = indexSet.isRowVector();

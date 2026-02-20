@@ -180,14 +180,14 @@ Nelson::SlicotGateway::slicot_ag08bdBuiltin(int nLhs, const ArrayOfVector& argIn
     Dimensions dimsA_expected(
         std::max(1, (int)L.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError2(
-            _E("nelson:validators:mustBeSize"), 4, utf8_to_wstring(dimsA_expected.toString()));
+        raiseError2(_E("nelson:validators:mustBeSizeAtPosition"), 4,
+            utf8_to_wstring(dimsA_expected.toString()));
     }
     Dimensions dimsE_expected(
         std::max(1, (int)L.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsE.equals(dimsE_expected)) {
-        raiseError2(
-            _E("nelson:validators:mustBeSize"), 5, utf8_to_wstring(dimsE_expected.toString()));
+        raiseError2(_E("nelson:validators:mustBeSizeAtPosition"), 5,
+            utf8_to_wstring(dimsE_expected.toString()));
     }
     // DIMENSIONS NOT CHECKED FOR #6 B
     // DIMENSIONS NOT CHECKED FOR #7 C

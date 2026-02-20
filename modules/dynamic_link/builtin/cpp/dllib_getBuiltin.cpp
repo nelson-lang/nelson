@@ -28,7 +28,7 @@ Nelson::DynamicLinkGateway::dllib_getBuiltin(int nLhs, const ArrayOfVector& argI
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval;
     if (param1.getHandleCategory() != NLS_HANDLE_DLLIB_CATEGORY_STR) {
-        raiseError(L"Nelson:dynamic_link:ERROR_DLLIB_HANDLE_EXPECTED", ERROR_DLLIB_HANDLE_EXPECTED);
+        raiseError2(_E("nelson:arguments:validHandleExpected"), L"dllib");
     }
     auto* objDllib = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
     ArrayOf res;

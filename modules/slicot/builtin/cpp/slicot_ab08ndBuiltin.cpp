@@ -164,8 +164,8 @@ Nelson::SlicotGateway::slicot_ab08ndBuiltin(int nLhs, const ArrayOfVector& argIn
     Dimensions dimsA_expected(
         (int)std::max(1, N.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError2(
-            _E("nelson:validators:mustBeSize"), 5, utf8_to_wstring(dimsA_expected.toString()));
+        raiseError2(_E("nelson:validators:mustBeSizeAtPosition"), 5,
+            utf8_to_wstring(dimsA_expected.toString()));
     }
     if (!dimsTOL.isScalar()) {
         raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 9);

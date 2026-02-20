@@ -28,7 +28,7 @@ Nelson::DynamicLinkGateway::dlsym_getBuiltin(int nLhs, const ArrayOfVector& argI
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval;
     if (param1.getHandleCategory() != NLS_HANDLE_DLSYM_CATEGORY_STR) {
-        raiseError(L"Nelson:dynamic_link:ERROR_DLSYM_HANDLE_EXPECTED", ERROR_DLSYM_HANDLE_EXPECTED);
+        raiseError2(_E("nelson:arguments:validHandleExpected"), L"dlsym");
     }
     auto* objDlsym = static_cast<DynamicLinkSymbolObject*>(param1.getContentAsHandleScalar());
     ArrayOf res;

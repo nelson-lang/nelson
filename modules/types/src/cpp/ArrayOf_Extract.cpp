@@ -71,9 +71,7 @@ ArrayOf::getVectorSubset(ArrayOf& index)
             if (index.isRowVectorCharacterArray()) {
                 std::wstring str = index.getContentAsWideString();
                 if (str != L":") {
-                    raiseError(L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_"
-                               L"LOGICALS",
-                        ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
+                    raiseError2(_E("nelson:validators:indexMustBePositiveIntegersOrLogical"));
                 }
                 ArrayOf newIndex
                     = ArrayOf::integerRangeConstructor(1, 1, dp->getElementCount(), true);
@@ -90,9 +88,7 @@ ArrayOf::getVectorSubset(ArrayOf& index)
             double idx = (double)index.getContentAsInteger64Scalar();
             auto iidx = static_cast<int64>(idx);
             if (idx != static_cast<double>(iidx) || idx < 0) {
-                raiseError(
-                    L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS",
-                    ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
+                raiseError2(_E("nelson:validators:indexMustBePositiveIntegersOrLogical"));
             }
             if (isSparse()) {
                 return getValueAtIndex(static_cast<uint64>(idx));
@@ -189,9 +185,7 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
                 if (index[i].isRowVectorCharacterArray()) {
                     std::wstring str = index[i].getContentAsWideString();
                     if (str != L":") {
-                        raiseError(L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_"
-                                   L"INTEGERS_OR_LOGICALS",
-                            ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
+                        raiseError2(_E("nelson:validators:indexMustBePositiveIntegersOrLogical"));
                     }
                     indexType maxVal = dp->dimensions.getDimensionLength(i);
                     index[i] = ArrayOf::integerRangeConstructor(1, 1, maxVal, false);

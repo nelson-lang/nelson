@@ -70,8 +70,7 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
             if (IsValidVariableName(param)) {
                 names.push_back(param);
             } else {
-                raiseError(L"Nelson:stream_manager:ERROR_VALID_VARIABLE_NAME_EXPECTED",
-                    ERROR_VALID_VARIABLE_NAME_EXPECTED);
+                raiseError2(_E("nelson:validators:mustBeValidVariableName"));
             }
         }
     }

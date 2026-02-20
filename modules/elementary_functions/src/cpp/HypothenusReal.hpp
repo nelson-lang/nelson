@@ -266,9 +266,7 @@ real_hypothenuse(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B
         if (A.isVector() || B.isVector()) {
             if ((A.isRowVector() && B.isRowVector())
                 || (A.isColumnVector() && B.isColumnVector())) {
-                raiseError(L"Nelson:elementary_functions:ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_"
-                           L"THIS_OPERATION",
-                    ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_OPERATION);
+                raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"));
             } else if (A.isRowVector() && B.isColumnVector()) {
                 res = row_column_real_hypothenuse<T>(classDestination, A, B);
             } else if (A.isColumnVector() && B.isRowVector()) {
@@ -276,44 +274,32 @@ real_hypothenuse(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B
             } else if (A.getRows() == B.getRows()) {
                 if (A.isVector()) {
                     if (!B.is2D()) {
-                        raiseError(L"Nelson:elementary_functions:ERROR_ARRAYS_HAVE_INCOMPATIBLE_"
-                                   L"SIZES_FOR_THIS_OPERATION",
-                            ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_OPERATION);
+                        raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"));
                     }
                     res = row_matrix_real_hypothenuse<T>(classDestination, A, B);
                 } else {
                     if (!A.is2D()) {
-                        raiseError(L"Nelson:elementary_functions:ERROR_ARRAYS_HAVE_INCOMPATIBLE_"
-                                   L"SIZES_FOR_THIS_OPERATION",
-                            ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_OPERATION);
+                        raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"));
                     }
                     res = matrix_row_real_hypothenuse<T>(classDestination, A, B);
                 }
             } else if (A.getColumns() == B.getColumns()) {
                 if (A.isVector()) {
                     if (!B.is2D()) {
-                        raiseError(L"Nelson:elementary_functions:ERROR_ARRAYS_HAVE_INCOMPATIBLE_"
-                                   L"SIZES_FOR_THIS_OPERATION",
-                            ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_OPERATION);
+                        raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"));
                     }
                     res = column_matrix_real_hypothenuse<T>(classDestination, A, B);
                 } else {
                     if (!A.is2D()) {
-                        raiseError(L"Nelson:elementary_functions:ERROR_ARRAYS_HAVE_INCOMPATIBLE_"
-                                   L"SIZES_FOR_THIS_OPERATION",
-                            ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_OPERATION);
+                        raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"));
                     }
                     res = matrix_column_real_hypothenuse<T>(classDestination, A, B);
                 }
             } else {
-                raiseError(L"Nelson:elementary_functions:ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_"
-                           L"THIS_OPERATION",
-                    ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_OPERATION);
+                raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"));
             }
         } else {
-            raiseError(L"Nelson:elementary_functions:ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_"
-                       L"OPERATION",
-                ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_OPERATION);
+            raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"));
         }
     }
     return res;

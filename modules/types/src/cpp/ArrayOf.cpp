@@ -203,9 +203,7 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = (indexType)rp[i << 1];
             if ((double)ndx != rp[i << 1]) {
-                raiseError(
-                    L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS",
-                    ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
+                raiseError2(_E("nelson:validators:indexMustBePositiveIntegersOrLogical"));
             }
             if (ndx <= 0) {
                 raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
@@ -229,9 +227,7 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = (indexType)rp[i << 1];
             if ((double)ndx != rp[i << 1]) {
-                raiseError(
-                    L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS",
-                    ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
+                raiseError2(_E("nelson:validators:indexMustBePositiveIntegersOrLogical"));
             }
             if (ndx <= 0) {
                 raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
@@ -253,9 +249,7 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = (indexType)rp[i];
             if ((double)ndx != rp[i]) {
-                raiseError(
-                    L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS",
-                    ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
+                raiseError2(_E("nelson:validators:indexMustBePositiveIntegersOrLogical"));
             }
             if (ndx <= 0) {
                 raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
@@ -277,9 +271,7 @@ ArrayOf::toOrdinalType()
         for (indexType i = 0; i < len; i++) {
             ndx = (indexType)rp[i];
             if ((double)ndx != rp[i]) {
-                raiseError(
-                    L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS",
-                    ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
+                raiseError2(_E("nelson:validators:indexMustBePositiveIntegersOrLogical"));
             }
             if (ndx <= 0) {
                 raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));

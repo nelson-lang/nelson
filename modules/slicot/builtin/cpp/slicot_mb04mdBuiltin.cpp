@@ -67,8 +67,8 @@ Nelson::SlicotGateway::slicot_mb04mdBuiltin(int nLhs, const ArrayOfVector& argIn
     }
     Dimensions dimsA_expected((int)A.getRows(), (int)A.getColumns());
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError2(
-            _E("nelson:validators:mustBeSize"), 2, utf8_to_wstring(dimsA_expected.toString()));
+        raiseError2(_E("nelson:validators:mustBeSizeAtPosition"), 2,
+            utf8_to_wstring(dimsA_expected.toString()));
     }
     // CALL EXTERN FUNCTION
     try {

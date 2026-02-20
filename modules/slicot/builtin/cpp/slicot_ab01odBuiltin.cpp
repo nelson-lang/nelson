@@ -147,18 +147,18 @@ Nelson::SlicotGateway::slicot_ab01odBuiltin(int nLhs, const ArrayOfVector& argIn
     }
     Dimensions dimsA_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError2(
-            _E("nelson:validators:mustBeSize"), 4, utf8_to_wstring(dimsA_expected.toString()));
+        raiseError2(_E("nelson:validators:mustBeSizeAtPosition"), 4,
+            utf8_to_wstring(dimsA_expected.toString()));
     }
     Dimensions dimsB_expected(std::max(1, (int)A.getRows()), (int)B.getColumns());
     if (!dimsB.equals(dimsB_expected)) {
-        raiseError2(
-            _E("nelson:validators:mustBeSize"), 5, utf8_to_wstring(dimsB_expected.toString()));
+        raiseError2(_E("nelson:validators:mustBeSizeAtPosition"), 5,
+            utf8_to_wstring(dimsB_expected.toString()));
     }
     Dimensions dimsU_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsU.equals(dimsU_expected)) {
-        raiseError2(
-            _E("nelson:validators:mustBeSize"), 6, utf8_to_wstring(dimsU_expected.toString()));
+        raiseError2(_E("nelson:validators:mustBeSizeAtPosition"), 6,
+            utf8_to_wstring(dimsU_expected.toString()));
     }
     if (!dimsNCONT.isScalar()) {
         raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 7);
@@ -168,8 +168,8 @@ Nelson::SlicotGateway::slicot_ab01odBuiltin(int nLhs, const ArrayOfVector& argIn
     }
     Dimensions dimsKSTAIR_expected(1, (int)A.getRows());
     if (!dimsKSTAIR.equals(dimsKSTAIR_expected)) {
-        raiseError2(
-            L"nelson:validators:mustBeSize", 9, utf8_to_wstring(dimsKSTAIR_expected.toString()));
+        raiseError2(L"nelson:validators:mustBeSizeAtPosition", 9,
+            utf8_to_wstring(dimsKSTAIR_expected.toString()));
     }
     if (!dimsTOL.isScalar()) {
         raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 10);

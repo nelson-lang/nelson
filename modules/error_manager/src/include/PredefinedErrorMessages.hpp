@@ -133,8 +133,6 @@
     _W("Invalid third input argument. 'first' or 'last' expected.")
 #define ERROR_CELL_DEF_MUST_HAVE_SAME_ELEMENTS_PER_ROW                                             \
     _W("Cell definition must have same number of elements in each row")
-#define ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_OPERATION                                    \
-    _W("Arrays have incompatible sizes for this operation.")
 #define ERROR_ATTEMPT_APPLY_CONTENTS_INDEXING_TO_NON_CELL_ARRAY_OBJECT                             \
     _W("Attempt to apply contents-indexing to non-cell array object.")
 #define ERROR_EMPTY_CONTENTS_INDEXING_NOT_DEFINED _W("Empty contents indexing is not defined.")
@@ -243,7 +241,6 @@
 #define ERROR_PYTHON_SAME_NAME_VALUE_EXPECTED _W("Same name, value numbers expected.")
 #define ERROR_PYTHON_VALID_PYTHON_CODE_OBJECT_EXPECTED _W("Valid Python code object expected.")
 // Additional Python engine messages added during migration
-#define ERROR_PYTHON_CONVERSION_NOT_SUPPORTED _W("Conversion to Python is not supported.")
 #define ERROR_PYTHON_CHAR_CONVERSION_1N_VECTORS                                                    \
     _W("Conversion of 'char' to Python is only supported for 1-N vectors.")
 #define ERROR_PYTHON_INVALID_DICTIONARY _W("Invalid dictionary.")
@@ -278,7 +275,6 @@
 #define ERROR_UNRECOGNIZED_EXPRESSION _W("Unrecognized expression!")
 #define ERROR_EMPTY_EXPRESSION _W("Empty expression!")
 #define ERROR_UNRECOGNIZED_STATEMENT _W("Unrecognized statement type.")
-#define ERROR_INDEX_EXPRESSION_EXPECTED _W("Expected indexing expression!")
 #define ERROR_ILLEGAL_LEFT_MULTIFUNCTION_EXPRESSION                                                \
     _W("Illegal left hand side in multifunction expression")
 #define ERROR_MULTIPLE_ROWS_NOT_ALLOWED                                                            \
@@ -830,7 +826,6 @@
 #define ERROR_NOT_IMPLEMENTED_FOR_STDIO _W("Not implemented for 'stdout', 'stderr' or 'stdin'.")
 // Additional stream_manager messages (migration additions)
 #define ERROR_VALID_OPTION_EXPECTED _W("Valid option expected.")
-#define ERROR_VALID_VARIABLE_NAME_EXPECTED _W("Valid variable name expected.")
 #define ERROR_SAVE_FUNCTION_EXPECTED _W("save function expected.")
 #define ERROR_LOAD_FUNCTION_EXPECTED _W("load function expected.")
 #define ERROR_FILENAME_IS_EMPTY _W("Filename is empty")
@@ -854,21 +849,15 @@
     _W("Breakpoints can only be set in macro functions.")
 #define ERROR_SECOND_ARGUMENT_MUST_BE_IN _W("Second argument must be 'in'.")
 // dynamic_link module messages
-#define ERROR_DLSYM_HANDLE_EXPECTED _W("dlsym handle expected.")
 #define ERROR_DLLIB_VALID_HANDLE_EXPECTED _W("dllib valid handle expected.")
 // dynamic_link: cannot get library symbols
 #define ERROR_CANNOT_GET_LIBRARY_SYMBOLS _W("Cannot get library symbols: {0}")
 // QML engine messages added during migration
 #define ERROR_PROPERTY_TYPE_NOT_MANAGED _W("property type not managed.")
-#define ERROR_VECTOR_1x2_EXPECTED _W("vector 1x2 expected.")
-#define ERROR_VECTOR_1x3_EXPECTED _W("vector 1x3 expected.")
-#define ERROR_VECTOR_1x4_EXPECTED _W("vector 1x4 expected.")
-#define ERROR_VECTOR_1x6_EXPECTED _W("vector 1x6 expected.")
 #define ERROR_MATRIX_3x3_EXPECTED _W("matrix 3x3 expected.")
 #define ERROR_MATRIX_4x4_EXPECTED _W("matrix 4x4 expected.")
 #define ERROR_TYPE_CONVERSION_TO_QVARIANT_NOT_MANAGED _W("Type conversion to QVariant not managed.")
 #define ERROR_EMPTY_MATRIX_NOT_MANAGED _W("Empty matrix not managed.")
-#define ERROR_DLLIB_HANDLE_EXPECTED _W("dllib handle expected.")
 #define ERROR_LIBPOINTER_HANDLE_EXPECTED _W("libpointer handle expected.")
 #define ERROR_CANNOT_LOAD_LIBRARY _W("Cannot load library: {0}")
 #define ERROR_UNABLE_TO_IMPORT_FUNCTION_FFI _W("Unable to import function through FFI.")
@@ -1167,8 +1156,6 @@
 #define ERROR_CANNOT_DO_REAL_WITH_CURRENT_TYPE _W("Cannot do real with current type '{0}'.")
 #define ERROR_CANNOT_DO_UMINUS_WITH_CURRENT_TYPE _W("Cannot do uminus with current type '{0}'.")
 #define ERROR_INDEX_EXCEEDS_MATRIX_DIMENSIONS _W("Index exceeds matrix dimensions.")
-#define ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS                              \
-    _W("index must either be real positive integers or logicals.")
 #define ERROR_INDEX_EXCEEDS_DIMENSIONS _W("Index exceeds dimensions.")
 #define ERROR_MULTIDIMENSIONAL_INDEXING_NOT_LEGAL_FOR_SPARSE                                       \
     _W("multidimensional indexing (more than 2 dimensions) not legal for sparse arrays")
@@ -1242,8 +1229,6 @@
 // sort builtin messages
 #define ERROR_SORT_DIRECTION_MUST_BE_ASCEND_OR_DESCEND                                             \
     _W("Sort direction must be either the string 'ascend' or 'descend'")
-#define ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED                                         \
-    _W("'ComparisonMethod' or 'MissingPlacement' expected.")
 #define ERROR_MISSINGPLACEMENT_EXPECTED_VALUES                                                     \
     _W("'auto', 'first', or 'last' for 'MissingPlacement' parameter.")
 #define ERROR_COMPARISONMETHOD_EXPECTED_VALUES                                                     \
@@ -1397,8 +1382,6 @@
     _W("Operator '{0}' is not supported for operands of type '{1}'.")
 #define ERROR_NONSCALAR_ARRAYS_OF_FUNCTION_HANDLES_NOT_ALLOWED                                     \
     _W("Nonscalar arrays of function handles are not allowed; use cell arrays instead.")
-#define ERROR_EXPECTING _W("Expecting {0}")
-#define ERROR_EXPECTING_AT _W("Expecting {0}\n\tat line {1}, column {2} of file {3}")
 #define ERROR_2_PARAMETER_INVALID_MINIMIZE_PARAMETER_EXPECTED                                      \
     _W("#2 parameter invalid: 'post', 'eval', 'put', 'get', 'minimize' or 'isvar' parameter "      \
        "expected.")

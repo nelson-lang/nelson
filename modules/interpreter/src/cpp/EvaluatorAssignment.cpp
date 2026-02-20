@@ -44,8 +44,7 @@ Evaluator::assignStatement(AbstractSyntaxTreePtr t, bool printIt)
                     raiseError(L"Nelson:interpreter:ERROR_REDEFINING_PERMANENT_VARIABLE",
                         ERROR_REDEFINING_PERMANENT_VARIABLE);
                 }
-                raiseError(L"Nelson:interpreter:ERROR_VALID_VARIABLE_NAME_EXPECTED",
-                    ERROR_VALID_VARIABLE_NAME_EXPECTED);
+                raiseError2(_E("nelson:validators:mustBeValidVariableName"));
             }
         } else {
             if (context->isLockedVariable(variableName)) {
@@ -271,8 +270,7 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& valu
 
     auto createCellArrayFromExpressions = [&](const ArrayOfVector& expressions) -> ArrayOf {
         if (expressions.empty()) {
-            raiseError(L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED",
-                ERROR_INDEX_EXPRESSION_EXPECTED);
+            raiseError2(_E("nelson:parsing:indexExpressionExpected"));
         }
 
         ArrayOf* elements
@@ -311,8 +309,7 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& valu
         }
 
         if (expressions.empty()) {
-            raiseError(L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED",
-                ERROR_INDEX_EXPRESSION_EXPECTED);
+            raiseError2(_E("nelson:parsing:indexExpressionExpected"));
         } else if (expressions.size() == 1) {
             r.setVectorSubset(expressions[0], value[0]);
         } else {
@@ -329,8 +326,7 @@ Evaluator::simpleAssign(ArrayOf& r, AbstractSyntaxTreePtr t, ArrayOfVector& valu
         }
 
         if (expressions.empty()) {
-            raiseError(L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED",
-                ERROR_INDEX_EXPRESSION_EXPECTED);
+            raiseError2(_E("nelson:parsing:indexExpressionExpected"));
         } else if (expressions.size() == 1) {
             r.setVectorContentsAsList(expressions[0], value);
         } else {

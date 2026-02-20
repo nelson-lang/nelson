@@ -76,7 +76,7 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     retval << ArrayOf(NLS_STRING_ARRAY, dims, elements);
                 }
             } else {
-                raiseError2(_E("nelson:validators:mustBeSize"), 1, L"[1, 2]");
+                raiseError2(_E("nelson:validators:mustBeSizeAtPosition"), 1, L"[1, 2]");
             }
         } else {
             raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), NLS_DOUBLE_STR, 1);

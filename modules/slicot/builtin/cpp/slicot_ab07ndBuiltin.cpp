@@ -94,23 +94,23 @@ Nelson::SlicotGateway::slicot_ab07ndBuiltin(int nLhs, const ArrayOfVector& argIn
     // CHECK INPUT VARIABLES DIMENSIONS
     Dimensions dimsA_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError2(
-            _E("nelson:validators:mustBeSize"), 1, utf8_to_wstring(dimsA_expected.toString()));
+        raiseError2(_E("nelson:validators:mustBeSizeAtPosition"), 1,
+            utf8_to_wstring(dimsA_expected.toString()));
     }
     Dimensions dimsB_expected(std::max(1, (int)A.getRows()), (int)B.getColumns());
     if (!dimsB.equals(dimsB_expected)) {
-        raiseError2(
-            _E("nelson:validators:mustBeSize"), 2, utf8_to_wstring(dimsB_expected.toString()));
+        raiseError2(_E("nelson:validators:mustBeSizeAtPosition"), 2,
+            utf8_to_wstring(dimsB_expected.toString()));
     }
     Dimensions dimsC_expected(std::max(1, (int)B.getColumns()), (int)A.getRows());
     if (!dimsC.equals(dimsC_expected)) {
-        raiseError2(
-            _E("nelson:validators:mustBeSize"), 3, utf8_to_wstring(dimsC_expected.toString()));
+        raiseError2(_E("nelson:validators:mustBeSizeAtPosition"), 3,
+            utf8_to_wstring(dimsC_expected.toString()));
     }
     Dimensions dimsD_expected(std::max(1, (int)B.getColumns()), (int)B.getColumns());
     if (!dimsD.equals(dimsD_expected)) {
-        raiseError2(
-            _E("nelson:validators:mustBeSize"), 4, utf8_to_wstring(dimsD_expected.toString()));
+        raiseError2(_E("nelson:validators:mustBeSizeAtPosition"), 4,
+            utf8_to_wstring(dimsD_expected.toString()));
     }
     // CALL EXTERN FUNCTION
     try {

@@ -313,9 +313,7 @@ ArrayOf::getVectorContentsAsList(ArrayOf& index)
     if (index.isRowVectorCharacterArray()) {
         std::wstring str = index.getContentAsWideString();
         if (str != L":") {
-            raiseError(
-                L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS",
-                ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
+            raiseError2(_E("nelson:validators:indexMustBePositiveIntegersOrLogical"));
         }
         index = ArrayOf::integerRangeConstructor(1, 1, dp->getElementCount(), true);
     }
@@ -368,9 +366,7 @@ ArrayOf::getNDimContentsAsList(ArrayOfVector& index)
         if (index[i].isRowVectorCharacterArray()) {
             std::wstring str = index[i].getContentAsWideString();
             if (str != L":") {
-                raiseError(
-                    L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS",
-                    ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
+                raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"));
             }
             indexType maxVal = dp->dimensions.getDimensionLength(i);
             index[i] = ArrayOf::integerRangeConstructor(1, 1, maxVal, false);

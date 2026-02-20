@@ -146,8 +146,8 @@ Nelson::SlicotGateway::slicot_mb02mdBuiltin(int nLhs, const ArrayOfVector& argIn
             (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar()),
         (int)N.getContentAsInteger32Scalar() + (int)L.getContentAsInteger32Scalar());
     if (!dimsC.equals(dimsC_expected)) {
-        raiseError2(
-            _E("nelson:validators:mustBeSize"), 6, utf8_to_wstring(dimsC_expected.toString()));
+        raiseError2(_E("nelson:validators:mustBeSizeAtPosition"), 6,
+            utf8_to_wstring(dimsC_expected.toString()));
     }
     if (!dimsTOL.isScalar()) {
         raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 7);

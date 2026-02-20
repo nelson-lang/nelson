@@ -131,9 +131,7 @@ ArrayOf::deleteNDimSubset(ArrayOfVector& args)
             if (args[i].isRowVectorCharacterArray()) {
                 std::wstring str = args[i].getContentAsWideString();
                 if (str != L":") {
-                    raiseError(L"Nelson:types:ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_"
-                               L"LOGICALS",
-                        ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
+                    raiseError2(_E("nelson:validators:indexMustBePositiveIntegersOrLogical"));
                 }
                 indexType maxVal = dp->dimensions.getDimensionLength(i);
                 args[i] = ArrayOf::integerRangeConstructor(1, 1, maxVal, false);

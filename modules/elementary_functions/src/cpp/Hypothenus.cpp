@@ -31,9 +31,7 @@ Hypothenuse(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
                 res = A;
             }
         } else {
-            raiseError(L"Nelson:elementary_functions:ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_"
-                       L"OPERATION",
-                ERROR_ARRAYS_HAVE_INCOMPATIBLE_SIZES_FOR_THIS_OPERATION);
+            raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"));
         }
         if (res.getDataClass() == NLS_DCOMPLEX) {
             if (res.allReal()) {

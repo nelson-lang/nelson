@@ -143,9 +143,8 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
                 res = isValidMissingPlacement(name, value, placement);
             }
             if (!res) {
-                raiseError(
-                    L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
-                    ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
+                raiseError2(_E("nelson:validators:expectedOneOf"),
+                    L"'ComparisonMethod', 'MissingPlacement'");
             }
         }
     } break;
@@ -175,8 +174,8 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
             res = isValidMissingPlacement(name, value, placement);
         }
         if (!res) {
-            raiseError(L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
-                ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
+            raiseError2(
+                _E("nelson:validators:expectedOneOf"), L"'ComparisonMethod', 'MissingPlacement'");
         }
     } break;
     case 5: {
@@ -204,9 +203,8 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
                 res = isValidMissingPlacement(name, value, placement);
             }
             if (!res) {
-                raiseError(
-                    L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
-                    ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
+                raiseError2(_E("nelson:validators:expectedOneOf"),
+                    L"'ComparisonMethod', 'MissingPlacement'");
             }
         } else {
             name = argIn[1].getContentAsWideString();
@@ -216,9 +214,8 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
                 res = isValidMissingPlacement(name, value, placement);
             }
             if (!res) {
-                raiseError(
-                    L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
-                    ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
+                raiseError2(_E("nelson:validators:expectedOneOf"),
+                    L"'ComparisonMethod', 'MissingPlacement'");
             }
 
             name = argIn[3].getContentAsWideString();
@@ -228,9 +225,8 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
                 res = isValidMissingPlacement(name, value, placement);
             }
             if (!res) {
-                raiseError(
-                    L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
-                    ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
+                raiseError2(_E("nelson:validators:expectedOneOf"),
+                    L"'ComparisonMethod', 'MissingPlacement'");
             }
         }
     } break;
@@ -260,8 +256,8 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
             res = isValidMissingPlacement(name, value, placement);
         }
         if (!res) {
-            raiseError(L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
-                ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
+            raiseError2(
+                _E("nelson:validators:expectedOneOf"), L"'ComparisonMethod', 'MissingPlacement'");
         }
         name = argIn[4].getContentAsWideString();
         value = argIn[5].getContentAsWideString();
@@ -270,8 +266,8 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
             res = isValidMissingPlacement(name, value, placement);
         }
         if (!res) {
-            raiseError(L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
-                ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
+            raiseError2(
+                _E("nelson:validators:expectedOneOf"), L"'ComparisonMethod', 'MissingPlacement'");
         }
     } break;
     case 7: {
@@ -295,8 +291,8 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
             res = isValidMissingPlacement(name, value, placement);
         }
         if (!res) {
-            raiseError(L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
-                ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
+            raiseError2(
+                _E("nelson:validators:expectedOneOf"), L"'ComparisonMethod', 'MissingPlacement'");
         }
 
         name = argIn[5].getContentAsWideString();
@@ -306,8 +302,8 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
             res = isValidMissingPlacement(name, value, placement);
         }
         if (!res) {
-            raiseError(L"Nelson:data_analysis:ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED",
-                ERROR_SORT_COMPARISON_OR_MISSINGPLACEMENT_EXPECTED);
+            raiseError2(
+                _E("nelson:validators:expectedOneOf"), L"'ComparisonMethod', 'MissingPlacement'");
         }
     } break;
     default: {

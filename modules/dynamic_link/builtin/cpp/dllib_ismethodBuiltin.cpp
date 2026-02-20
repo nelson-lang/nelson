@@ -25,7 +25,7 @@ Nelson::DynamicLinkGateway::dllib_ismethodBuiltin(int nLhs, const ArrayOfVector&
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != NLS_HANDLE_DLLIB_CATEGORY_STR) {
-        raiseError(L"Nelson:dynamic_link:ERROR_DLLIB_HANDLE_EXPECTED", ERROR_DLLIB_HANDLE_EXPECTED);
+        raiseError2(_E("nelson:arguments:validHandleExpected"), L"dllib");
     }
     ArrayOf param2 = argIn[1];
     std::wstring methodName = param2.getContentAsWideString();

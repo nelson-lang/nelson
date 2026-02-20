@@ -25,7 +25,7 @@ Nelson::DynamicLinkGateway::dlsym_fieldnamesBuiltin(int nLhs, const ArrayOfVecto
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != NLS_HANDLE_DLSYM_CATEGORY_STR) {
-        raiseError(L"Nelson:dynamic_link:ERROR_DLSYM_HANDLE_EXPECTED", ERROR_DLSYM_HANDLE_EXPECTED);
+        raiseError2(_E("nelson:arguments:validHandleExpected"), L"dlsym");
     }
     auto* objDlsym = static_cast<DynamicLinkSymbolObject*>(param1.getContentAsHandleScalar());
     retval << ArrayOf::toCellArrayOfCharacterColumnVectors(objDlsym->fieldnames());

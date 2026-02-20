@@ -29,8 +29,7 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
     case OP_PARENS: {
         ArrayOfVector m = expressionList(t->down, r);
         if (m.empty()) {
-            raiseError(L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED",
-                ERROR_INDEX_EXPRESSION_EXPECTED);
+            raiseError2(_E("nelson:parsing:indexExpressionExpected"));
         }
         if (m.size() == 1) {
             if (r.isClassType()) {
@@ -51,8 +50,7 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
     case OP_BRACES: {
         ArrayOfVector m = expressionList(t->down, r);
         if (m.empty()) {
-            raiseError(L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED",
-                ERROR_INDEX_EXPRESSION_EXPECTED);
+            raiseError2(_E("nelson:parsing:indexExpressionExpected"));
         }
         if (m.size() == 1) {
             try {
@@ -481,8 +479,7 @@ Evaluator::rhsExpressionBraces(
         }
     }
     if (m.size() == 0) {
-        raiseError(
-            L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED", ERROR_INDEX_EXPRESSION_EXPECTED);
+        raiseError2(_E("nelson:parsing:indexExpressionExpected"));
     } else if (m.size() == 1) {
         if (r.isClassType()) {
             stringVector substype;
@@ -717,8 +714,7 @@ Evaluator::countLeftHandSides(AbstractSyntaxTreePtr t)
     if (s->opNum == (OP_PARENS)) {
         m = expressionList(s->down, lhs);
         if (m.size() == 0) {
-            raiseError(L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED",
-                ERROR_INDEX_EXPRESSION_EXPECTED);
+            raiseError2(_E("nelson:parsing:indexExpressionExpected"));
         }
         if (m.size() == 1) {
             // m[0] should have only one element...
@@ -747,8 +743,7 @@ Evaluator::countLeftHandSides(AbstractSyntaxTreePtr t)
     if (s->opNum == (OP_BRACES)) {
         m = expressionList(s->down, lhs);
         if (m.size() == 0) {
-            raiseError(L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED",
-                ERROR_INDEX_EXPRESSION_EXPECTED);
+            raiseError2(_E("nelson:parsing:indexExpressionExpected"));
         }
         if (m.size() == 1) {
             // m[0] should have only one element...

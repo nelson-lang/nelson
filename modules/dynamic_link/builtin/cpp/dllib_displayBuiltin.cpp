@@ -37,15 +37,14 @@ Nelson::DynamicLinkGateway::dllib_displayBuiltin(
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_DLLIB_CATEGORY_STR) {
-                raiseError(L"Nelson:dynamic_link:ERROR_DLLIB_HANDLE_EXPECTED",
-                    ERROR_DLLIB_HANDLE_EXPECTED);
+                raiseError2(_E("nelson:arguments:validHandleExpected"), L"dllib");
             }
             auto* dllibObj = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
             dllibObj->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        raiseError(L"Nelson:dynamic_link:ERROR_DLLIB_HANDLE_EXPECTED", ERROR_DLLIB_HANDLE_EXPECTED);
+        raiseError2(_E("nelson:arguments:validHandleExpected"), L"dllib");
     }
     return retval;
 }
@@ -63,15 +62,14 @@ Nelson::DynamicLinkGateway::dllib_dispBuiltin(Evaluator* eval, int nLhs, const A
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_DLLIB_CATEGORY_STR) {
-                raiseError(L"Nelson:dynamic_link:ERROR_DLLIB_HANDLE_EXPECTED",
-                    ERROR_DLLIB_HANDLE_EXPECTED);
+                raiseError2(_E("nelson:arguments:validHandleExpected"), L"dllib");
             }
             auto* dllibObj = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
             dllibObj->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        raiseError(L"Nelson:dynamic_link:ERROR_DLLIB_HANDLE_EXPECTED", ERROR_DLLIB_HANDLE_EXPECTED);
+        raiseError2(_E("nelson:arguments:validHandleExpected"), L"dllib");
     }
     return retval;
 }

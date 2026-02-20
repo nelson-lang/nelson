@@ -193,7 +193,7 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
                             ptrHistoryManager->remove(ivalue1, ivalue2);
                         }
                     } else {
-                        raiseError2(_E("nelson:validators:mustBeSize"), 2, L"[1, 2]");
+                        raiseError2(_E("nelson:validators:mustBeSizeAtPosition"), 2, L"[1, 2]");
                     }
                 }
             } else {

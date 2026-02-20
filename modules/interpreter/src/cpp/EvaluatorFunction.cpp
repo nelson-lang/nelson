@@ -487,8 +487,7 @@ Evaluator::functionExpression(
                                         L"Nelson:interpreter:ERROR_REDEFINING_PERMANENT_VARIABLE",
                                         ERROR_REDEFINING_PERMANENT_VARIABLE);
                                 }
-                                raiseError(L"Nelson:interpreter:ERROR_VALID_VARIABLE_NAME_EXPECTED",
-                                    ERROR_VALID_VARIABLE_NAME_EXPECTED);
+                                raiseError2(_E("nelson:validators:mustBeValidVariableName"));
                                 return {};
                             }
                         }
@@ -597,8 +596,7 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
         rhsDimensions = r.getDimensions();
         m = expressionList(fAST->down->down, r);
         if (m.size() == 0) {
-            raiseError(L"Nelson:interpreter:ERROR_INDEX_EXPRESSION_EXPECTED",
-                ERROR_INDEX_EXPRESSION_EXPECTED);
+            raiseError2(_E("nelson:parsing:indexExpressionExpected"));
         } else if (m.size() == 1) {
             ArrayOfVector m2 = r.getVectorContentsAsList(m[0]);
             if ((indexType)m2.size() < lhsCount) {
@@ -625,8 +623,7 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
                     raiseError(L"Nelson:interpreter:ERROR_REDEFINING_PERMANENT_VARIABLE",
                         ERROR_REDEFINING_PERMANENT_VARIABLE);
                 }
-                raiseError(L"Nelson:interpreter:ERROR_VALID_VARIABLE_NAME_EXPECTED",
-                    ERROR_VALID_VARIABLE_NAME_EXPECTED);
+                raiseError2(_E("nelson:validators:mustBeValidVariableName"));
             }
             if (printIt) {
                 display(cLocal, s->down->text, false, true);

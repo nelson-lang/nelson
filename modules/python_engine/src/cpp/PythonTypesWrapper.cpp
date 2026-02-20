@@ -128,8 +128,7 @@ arrayOfToPyObject(const ArrayOf& A)
     case NLS_GO_HANDLE:
     case NLS_UNKNOWN:
     default: {
-        raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
-            ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
+        raiseError2(_E("nelson:runtime:invalidPythonObject"));
     } break;
     }
     return pyObj;
@@ -140,8 +139,7 @@ convertDoubleArray(const ArrayOf& A)
 {
     PyObject* pyObj = nullptr;
     if (A.isSparse()) {
-        raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
-            ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
+        raiseError2(_E("nelson:runtime:invalidPythonObject"));
     }
     if (A.isScalar()) {
         pyObj = NLSPyFloat_FromDouble(A.getContentAsDoubleScalar());
@@ -174,8 +172,7 @@ convertDoubleComplexArray(const ArrayOf& A)
 {
     PyObject* pyObj = nullptr;
     if (A.isSparse()) {
-        raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
-            ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
+        raiseError2(_E("nelson:validators:mustBeNonSparse"));
     }
     if (A.isScalar()) {
         std::complex<double> cplx = A.getContentAsDoubleComplexScalar();
@@ -210,8 +207,7 @@ convertLogicalArray(const ArrayOf& A)
 {
     PyObject* pyObj = nullptr;
     if (A.isSparse()) {
-        raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
-            ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
+        raiseError2(_E("nelson:validators:mustBeNonSparse"));
     }
     if (A.isScalar()) {
         pyObj = NLSPyBool_FromLong(A.getContentAsLogicalScalar());
@@ -277,8 +273,7 @@ convertStringArray(const ArrayOf& A)
 {
     PyObject* pyObj = nullptr;
     if (!A.isScalar()) {
-        raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
-            ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
+        raiseError2(_E("nelson:validators:mustBeScalar"));
     }
     auto* elements = (ArrayOf*)A.getDataPointer();
     if (elements[0].isCharacterArray()) {
@@ -298,8 +293,7 @@ convertStructArray(const ArrayOf& A)
 {
     PyObject* pyObj = nullptr;
     if (!A.isScalar()) {
-        raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
-            ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
+        raiseError2(_E("nelson:validators:mustBeScalar"));
     }
     pyObj = NLSPyDict_New();
     stringVector names = A.getFieldNames();
@@ -315,8 +309,7 @@ convertCellArray(const ArrayOf& A)
 {
     PyObject* pyObj = nullptr;
     if (!A.isRowVector()) {
-        raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
-            ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
+        raiseError2(_E("nelson:validators:mustBeRowVector"));
     }
     ArrayOf* elements = (ArrayOf*)A.getDataPointer();
     pyObj = NLSPyTuple_New(A.getElementCount());
@@ -337,8 +330,7 @@ convertHandleArray(const ArrayOf& A)
         NLSPy_INCREF(pyObj);
         return pyObj;
     }
-    raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
-        ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
+    raiseError2(_E("nelson:runtime:invalidPythonObject"));
     return pyObj;
 }
 //=============================================================================
@@ -385,8 +377,7 @@ convertClassArray(const ArrayOf& A)
         }
         return pyObj;
     }
-    raiseError(L"Nelson:Python:ERROR_PYTHON_CONVERSION_NOT_SUPPORTED",
-        ERROR_PYTHON_CONVERSION_NOT_SUPPORTED);
+    raiseError2(_E("nelson:runtime:invalidPythonObject"));
     return pyObj;
 }
 //=============================================================================
