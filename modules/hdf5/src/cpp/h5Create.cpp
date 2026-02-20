@@ -58,7 +58,7 @@ nelsonClassToHdf5DataType(NelsonType dataType)
         datatype = H5Tcopy(H5T_STD_I8LE);
     } break;
     default: {
-        raiseError2(L"nelson:internal:typeNotManaged");
+        raiseError2(_E("nelson:internal:typeNotManaged"));
     } break;
     }
     return datatype;
@@ -120,7 +120,7 @@ setFillValue(const ArrayOf& fillvalue, NelsonType dataType, hid_t dcpl)
         status = H5Pset_fill_value(dcpl, fillType, &value);
     } break;
     default: {
-        raiseError2(L"nelson:internal:typeNotManaged");
+        raiseError2(_E("nelson:internal:typeNotManaged"));
     } break;
     }
     return status;
@@ -186,7 +186,7 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
         = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            raiseError2(L"nelson:io:permissionDenied");
+            raiseError2(_E("nelson:io:permissionDenied"));
         }
     }
     if (!fileExistPreviously) {

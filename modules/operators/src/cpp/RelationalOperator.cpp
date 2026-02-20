@@ -534,7 +534,7 @@ relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operato
             return res;
         }
         if (!(SameSizeCheck(dimsA, dimsB))) {
-            raiseError2(L"nelson:runtime:sizeMismatchArithmetic", operatorName);
+            raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), operatorName);
         }
         ArrayOf res = ArrayOf::emptyConstructor(dimsB);
         res.promoteType(NLS_LOGICAL);
@@ -566,7 +566,7 @@ relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operato
                 dimsC, A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
         }
         if ((A.isRowVector() && B.isRowVector()) || (A.isColumnVector() && B.isColumnVector())) {
-            raiseError2(L"nelson:runtime:sizeMismatchArithmetic", operatorName);
+            raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), operatorName);
         } else {
             if (dimsA[1] == dimsB[1]) {
                 if (A.isVector()) {
@@ -584,10 +584,10 @@ relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operato
                 return matrix_vector_operator(
                     A, B, realRelationOperator, complexRelationOperator, stringRelationOperator);
             }
-            raiseError2(L"nelson:runtime:sizeMismatchArithmetic", operatorName);
+            raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), operatorName);
         }
     } else {
-        raiseError2(L"nelson:runtime:sizeMismatchArithmetic", operatorName);
+        raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), operatorName);
     }
     return {};
 }

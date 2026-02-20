@@ -112,16 +112,16 @@ Nelson::SlicotGateway::slicot_sb03mdBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 1);
     }
     if (!dimsJOB.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 2);
     }
     if (!dimsFACT.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 3);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 3);
     }
     if (!dimsTRANA.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 4);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 4);
     }
     // CALL EXTERN FUNCTION
     try {
@@ -129,7 +129,7 @@ Nelson::SlicotGateway::slicot_sb03mdBuiltin(int nLhs, const ArrayOfVector& argIn
             LDU_ptr, C_output_ptr, LDC_ptr, SCALE_output_ptr, SEP_output_ptr, FERR_output_ptr,
             WR_output_ptr, WI_output_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError2(L"nelson:slicot:slicotFuncFails", L"sb03md");
+        raiseError2(_E("nelson:slicot:slicotFuncFails"), L"sb03md");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

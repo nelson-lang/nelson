@@ -40,7 +40,7 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         bool isSupported
             = param2.isCharacterArray() || (param2.isStringArray() && param2.isScalar());
         if (!isSupported) {
-            raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
+            raiseError2(_E("nelson:arguments:wrongNumberOfOutputs"));
         }
         firstArgumentPosition = 1;
     } else if (param1.isRowVectorCharacterArray()
@@ -60,7 +60,7 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     auto iValue = static_cast<int32>(dID);
     if (fm == nullptr) {
-        raiseError2(L"nelson:io:fileManagerError");
+        raiseError2(_E("nelson:io:fileManagerError"));
     }
     size_t len = 0;
     if (fm->isOpened(iValue)) {

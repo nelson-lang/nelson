@@ -27,7 +27,7 @@ Nelson::ValidatorsGateway::mustBeGreaterThanBuiltin(int nLhs, const ArrayOfVecto
         ArrayOf param3 = argIn[2];
         argPos = param3.getContentAsInteger32Scalar();
         if (argPos < 1) {
-            raiseError2(L"nelson:parsing:lastArgMustBePositiveInt");
+            raiseError2(_E("nelson:parsing:lastArgMustBePositiveInt"));
         }
     }
     mustBeGreaterThan(argIn[0], argIn[1], argPos, true);

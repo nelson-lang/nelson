@@ -49,26 +49,26 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
         outputDims = STR.getDimensions();
     } else if (wstr.size() == 1) {
         if (!OLD.getDimensions().equals(NEW.getDimensions())) {
-            raiseError2(L"nelson:validators:sizeMismatch");
+            raiseError2(_E("nelson:validators:sizeMismatch"));
         }
         nbOutput = wold.size();
         outputDims = OLD.getDimensions();
     } else if (wold.size() == 1) {
         if (!STR.getDimensions().equals(NEW.getDimensions())) {
-            raiseError2(L"nelson:validators:sizeMismatch");
+            raiseError2(_E("nelson:validators:sizeMismatch"));
         }
         nbOutput = wstr.size();
         outputDims = STR.getDimensions();
     } else if (wnew.size() == 1) {
         if (!STR.getDimensions().equals(OLD.getDimensions())) {
-            raiseError2(L"nelson:validators:sizeMismatch");
+            raiseError2(_E("nelson:validators:sizeMismatch"));
         }
         nbOutput = wstr.size();
         outputDims = STR.getDimensions();
     } else {
         if ((!STR.getDimensions().equals(OLD.getDimensions()))
             || (!STR.getDimensions().equals(NEW.getDimensions()))) {
-            raiseError2(L"nelson:validators:sizeMismatch");
+            raiseError2(_E("nelson:validators:sizeMismatch"));
         }
         nbOutput = wstr.size();
         outputDims = STR.getDimensions();
@@ -95,7 +95,7 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
                     try {
                         elements = new ArrayOf[nbOutput];
                     } catch (const std::bad_alloc&) {
-                        raiseError2(L"nelson:runtime:outOfMemory");
+                        raiseError2(_E("nelson:runtime:outOfMemory"));
                     }
                     elements[0] = ArrayOf::characterArrayConstructor(result);
                     res = ArrayOf(outputClass, Dimensions(1, 1), elements);
@@ -120,7 +120,7 @@ StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool d
             try {
                 elements = new ArrayOf[nbOutput];
             } catch (const std::bad_alloc&) {
-                raiseError2(L"nelson:runtime:outOfMemory");
+                raiseError2(_E("nelson:runtime:outOfMemory"));
             }
             for (size_t i = 0; i < nbOutput; i++) {
                 size_t idx_str = (i)*str_incr;
@@ -215,7 +215,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             try {
                 elements = new ArrayOf[wstr.size()];
             } catch (const std::bad_alloc&) {
-                raiseError2(L"nelson:runtime:outOfMemory");
+                raiseError2(_E("nelson:runtime:outOfMemory"));
             }
             elements[0] = ArrayOf::characterArrayConstructor(wstr[0]);
             if (STR.isStringArray()) {
@@ -239,7 +239,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             try {
                 elements = new ArrayOf[wstr.size()];
             } catch (const std::bad_alloc&) {
-                raiseError2(L"nelson:runtime:outOfMemory");
+                raiseError2(_E("nelson:runtime:outOfMemory"));
             }
             elements[0] = ArrayOf::characterArrayConstructor(wstr[0]);
             if (STR.isStringArray()) {
@@ -283,25 +283,25 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             outputDims = STR.getDimensions();
         } else if (wstr.size() == 1) {
             if (!OLD.getDimensions().equals(NEW.getDimensions())) {
-                raiseError2(L"nelson:validators:sizeMismatch");
+                raiseError2(_E("nelson:validators:sizeMismatch"));
             }
             nbOutput = wold.size();
             outputDims = OLD.getDimensions();
         } else if (wold.size() == 1) {
             if (!STR.getDimensions().equals(NEW.getDimensions())) {
-                raiseError2(L"nelson:validators:sizeMismatch");
+                raiseError2(_E("nelson:validators:sizeMismatch"));
             }
             nbOutput = wstr.size();
             outputDims = STR.getDimensions();
         } else if (wnew.size() == 1) {
             if (!STR.getDimensions().equals(OLD.getDimensions())) {
-                raiseError2(L"nelson:validators:sizeMismatch");
+                raiseError2(_E("nelson:validators:sizeMismatch"));
             }
             nbOutput = wstr.size();
             outputDims = STR.getDimensions();
         } else {
             if (!NEW.getDimensions().equals(OLD.getDimensions())) {
-                raiseError2(L"nelson:validators:sizeMismatch");
+                raiseError2(_E("nelson:validators:sizeMismatch"));
             }
             nbOutput = wstr.size();
             outputDims = STR.getDimensions();
@@ -316,14 +316,14 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
             Dimensions newDims = NEW.getDimensions();
             if (!(OLD.isScalar() || NEW.isScalar())) {
                 if (!newDims.equals(oldDims)) {
-                    raiseError2(L"nelson:validators:sizeMismatch");
+                    raiseError2(_E("nelson:validators:sizeMismatch"));
                 }
             }
         } else {
             if ((OLD.isCharacterArray() || (OLD.isStringArray() && OLD.isScalar()))
                 && (NEW.isCell() || NEW.isStringArray())) {
                 if (wold.size() != wnew.size()) {
-                    raiseError2(L"nelson:validators:sizeMismatch");
+                    raiseError2(_E("nelson:validators:sizeMismatch"));
                 }
             }
         }
@@ -356,7 +356,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                         try {
                             elements = new ArrayOf[nbOutput];
                         } catch (const std::bad_alloc&) {
-                            raiseError2(L"nelson:runtime:outOfMemory");
+                            raiseError2(_E("nelson:runtime:outOfMemory"));
                         }
                         elements[0] = ArrayOf::characterArrayConstructor(result);
                         res = ArrayOf(outputClass, Dimensions(1, 1), elements);
@@ -376,7 +376,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                         try {
                             elements = new ArrayOf[nbOutput];
                         } catch (const std::bad_alloc&) {
-                            raiseError2(L"nelson:runtime:outOfMemory");
+                            raiseError2(_E("nelson:runtime:outOfMemory"));
                         }
                         res = ArrayOf(outputClass, outputDims, elements);
                     } else {
@@ -391,7 +391,7 @@ Replace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool& needTo
                 try {
                     elements = new ArrayOf[nbOutput];
                 } catch (const std::bad_alloc&) {
-                    raiseError2(L"nelson:runtime:outOfMemory");
+                    raiseError2(_E("nelson:runtime:outOfMemory"));
                 }
                 if (wold.size() == wnew.size() && wnew.size() > 1) {
                     for (size_t i = 0; i < nbOutput; i++) {

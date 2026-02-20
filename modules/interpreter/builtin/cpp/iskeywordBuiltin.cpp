@@ -30,7 +30,7 @@ Nelson::InterpreterGateway::iskeywordBuiltin(int nLhs, const ArrayOfVector& argI
         retval << ArrayOf(NLS_CELL_ARRAY, dims, elements);
     } else {
         if (!argIn[0].isRowVectorCharacterArray()) {
-            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
         }
         std::wstring warg = argIn[0].getContentAsWideString();
         retval << ArrayOf::logicalConstructor(isKeyword(warg));

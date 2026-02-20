@@ -68,7 +68,8 @@ Nelson::SlicotGateway::slicot_mb04gdBuiltin(int nLhs, const ArrayOfVector& argIn
     // CHECK INPUT VARIABLES DIMENSIONS
     Dimensions dimsA_expected(std::max(1, (int)A.getRows()), std::max(1, (int)A.getColumns()));
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError2(L"nelson:validators:mustBeSize", 1, utf8_to_wstring(dimsA_expected.toString()));
+        raiseError2(
+            _E("nelson:validators:mustBeSize"), 1, utf8_to_wstring(dimsA_expected.toString()));
     }
     Dimensions dimsJPVT_expected(1, std::max(1, (int)A.getRows()));
     if (!dimsJPVT.equals(dimsJPVT_expected)) {
@@ -80,7 +81,7 @@ Nelson::SlicotGateway::slicot_mb04gdBuiltin(int nLhs, const ArrayOfVector& argIn
         mb04gd_(M_ptr, N_ptr, A_output_ptr, LDA_ptr, JPVT_output_ptr, TAU_output_ptr, DWORK_ptr,
             INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError2(L"nelson:slicot:slicotFuncFails", L"mb04gd");
+        raiseError2(_E("nelson:slicot:slicotFuncFails"), L"mb04gd");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

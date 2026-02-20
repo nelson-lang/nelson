@@ -56,7 +56,7 @@ audiorecoder_playCommonBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& a
         }
     }
     if (param1.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-        raiseError2(L"nelson:sound:audiorecorderHandleExpected");
+        raiseError2(_E("nelson:sound:audiorecorderHandleExpected"));
     }
     auto* objRecorder = (AudiorecorderObject*)param1.getContentAsHandleScalar();
     ArrayOf player = objRecorder->getPlayer();

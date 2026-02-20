@@ -23,10 +23,10 @@ VertCatSparseDouble(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;
     if (!A.isSparseDoubleType()) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_SPARSE_DOUBLE_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_SPARSE_DOUBLE_STR);
     }
     if (!B.isSparseDoubleType()) {
-        raiseError2(L"nelson:validators:mustBeType", 2, NLS_SPARSE_DOUBLE_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 2, NLS_SPARSE_DOUBLE_STR);
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);
@@ -39,7 +39,7 @@ VertCatSparseDouble(ArrayOf A, ArrayOf B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getColumns() != dimsB.getColumns()) {
-        raiseError2(L"nelson:runtime:dimensionsNotConsistent");
+        raiseError2(_E("nelson:runtime:dimensionsNotConsistent"));
     }
     A = CtransposeSparseDouble(A);
     B = CtransposeSparseDouble(B);

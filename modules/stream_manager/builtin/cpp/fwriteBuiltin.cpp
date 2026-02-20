@@ -55,7 +55,7 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                 ERROR_WRONG_VALUE_ARG3_NOT_SUPPORTED_PRECISION);
         }
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 3, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), NLS_STRING_ARRAY_STR, 3);
     }
     ArrayOf param1 = argIn[0];
     if (param1.isDoubleType()) {
@@ -70,7 +70,7 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
         }
         auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
         if (fm == nullptr) {
-            raiseError2(L"nelson:io:fileManagerError");
+            raiseError2(_E("nelson:io:fileManagerError"));
             return retval;
         }
         auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
@@ -90,14 +90,14 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                 }
             } break;
             case FWRITE_DATA_TYPE_NOT_SUPPORTED: {
-                raiseError2(L"nelson:runtime:typeNotSupported");
+                raiseError2(_E("nelson:runtime:typeNotSupported"));
             } break;
             case FWRITE_ALLOCATION_MEMORY: {
-                raiseError2(L"nelson:runtime:outOfMemory");
+                raiseError2(_E("nelson:runtime:outOfMemory"));
             } break;
             case FWRITE_FILE_DESTINATION_NOT_SUPPORTED:
             case FWRITE_INVALID_FILE: {
-                raiseError2(L"nelson:io:invalidFileId");
+                raiseError2(_E("nelson:io:invalidFileId"));
             } break;
             case FWRITE_ENDIAN_CONVERSION_NOT_SUPPORTED: {
                 raiseError(
@@ -115,7 +115,7 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                 ERROR_INVALID_FILE_ID_EXPECTED);
         }
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_DOUBLE_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), NLS_DOUBLE_STR, 1);
     }
     return retval;
 }
@@ -186,9 +186,9 @@ Nelson::StreamGateway::fwriteBuiltin(int nLhs, const ArrayOfVector& argIn)
         return fwriteBuiltinFiveRhs(nLhs, argIn);
     default: {
         if (argIn.size() < 2) {
-            raiseError2(L"nelson:arguments:tooFewInputs");
+            raiseError2(_E("nelson:arguments:tooFewInputs"));
         } else {
-            raiseError2(L"nelson:arguments:tooManyInputs");
+            raiseError2(_E("nelson:arguments:tooManyInputs"));
         }
     } break;
     }

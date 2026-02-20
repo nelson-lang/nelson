@@ -39,7 +39,7 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(int nLhs, const ArrayOfVector& arg
                     ERROR_ARGUMENT_2_MUST_CONTAIN_VALID_STRING_PATH_FILENAME_OR_EXTENSION);
             }
         } else {
-            raiseError2(L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 2, NLS_STRING_ARRAY_STR);
         }
     } else {
         nargoutcheck(nLhs, 0, 3);
@@ -47,7 +47,7 @@ Nelson::FilesFoldersGateway::filepartsBuiltin(int nLhs, const ArrayOfVector& arg
     if (argIn[0].isRowVectorCharacterArray()) {
         wpath = argIn[0].getContentAsWideString();
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
     }
     std::wstring respath;
     std::wstring resfilename;

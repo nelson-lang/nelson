@@ -31,7 +31,7 @@ Nelson::AudioGateway::audiorecorder_recordblockingBuiltin(
     ArrayOf handleArray = argIn[0];
     ArrayOf param2 = argIn[1];
     if (handleArray.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-        raiseError2(L"nelson:sound:audiorecorderHandleExpected");
+        raiseError2(_E("nelson:sound:audiorecorderHandleExpected"));
     }
     if (!param2.isScalar() || !param2.isNumeric()) {
         raiseError(
@@ -69,7 +69,7 @@ Nelson::AudioGateway::audiorecorder_recordBuiltin(
     nargoutcheck(nLhs, 0, 0);
     ArrayOf handleArray = argIn[0];
     if (handleArray.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-        raiseError2(L"nelson:sound:audiorecorderHandleExpected");
+        raiseError2(_E("nelson:sound:audiorecorderHandleExpected"));
     }
     auto* objRec = (AudiorecorderObject*)handleArray.getContentAsHandleScalar();
     if (!objRec) {

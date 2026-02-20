@@ -25,7 +25,7 @@ Nelson::HandleGateway::handle_ismethodBuiltin(int nLhs, const ArrayOfVector& arg
         std::wstring methodName = argIn[1].getContentAsWideString();
         retval << ArrayOf::logicalConstructor(param1.isHandleMethod(methodName));
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_FUNCTION_HANDLE_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_FUNCTION_HANDLE_STR);
     }
     return retval;
 }

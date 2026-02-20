@@ -22,16 +22,16 @@ ArrayOf
 VertCatHandle(const ArrayOf& A, const ArrayOf& B)
 {
     if (!A.isHandle()) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_HANDLE_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_HANDLE_STR);
     }
     if (!B.isHandle()) {
-        raiseError2(L"nelson:validators:mustBeType", 2, NLS_HANDLE_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 2, NLS_HANDLE_STR);
     }
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (!A.isEmpty(true) && !B.isEmpty(true)) {
         if (dimsA.getColumns() != dimsB.getColumns()) {
-            raiseError2(L"nelson:runtime:dimensionsNotConsistent");
+            raiseError2(_E("nelson:runtime:dimensionsNotConsistent"));
         }
     }
     if (A.isEmpty(true)) {

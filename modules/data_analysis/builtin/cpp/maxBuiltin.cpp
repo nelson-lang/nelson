@@ -50,7 +50,7 @@ Nelson::DataAnalysisGateway::maxBuiltin(Evaluator* eval, int nLhs, const ArrayOf
             if (param3.isRowVectorCharacterArray()) {
                 return binaryMaxBuiltin(eval, nLhs, argIn);
             }
-            raiseError2(L"nelson:arguments:invalidArgAtPosition", 3);
+            raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 3);
         }
         return unaryMaxBuiltin(eval, nLhs, argIn);
 
@@ -61,7 +61,7 @@ Nelson::DataAnalysisGateway::maxBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         return unaryMaxBuiltin(eval, nLhs, argIn);
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     } break;
     }
     return {};
@@ -89,7 +89,7 @@ unaryMaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     } break;
     case 3: {
         if (!argIn[1].isEmpty()) {
-            raiseError2(L"nelson:arguments:invalidArgAtPosition", 2);
+            raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 2);
         }
         indexType dim = 0;
         bool isAll = false;
@@ -103,7 +103,7 @@ unaryMaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             } else if (s == L"all") {
                 isAll = true;
             } else {
-                raiseError2(L"nelson:arguments:invalidArgAtPosition", 3);
+                raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 3);
             }
         } else {
             dim = argIn[2].getContentAsScalarIndex(false);
@@ -127,17 +127,17 @@ unaryMaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             } else if (s == L"includenan") {
                 omitNaN = false;
             } else {
-                raiseError2(L"nelson:arguments:invalidArgAtPosition", 4);
+                raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 4);
             }
         }
         if (!argIn[1].isEmpty()) {
-            raiseError2(L"nelson:arguments:invalidArgAtPosition", 2);
+            raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 2);
         }
         if (argIn[2].isRowVectorCharacterArray()
             || (argIn[2].isStringArray() && argIn[2].isScalar())) {
             std::wstring s = argIn[2].getContentAsWideString();
             if (s != L"all") {
-                raiseError2(L"nelson:arguments:invalidArgAtPosition", 3);
+                raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 3);
             }
             nargoutcheck(nLhs, 0, 1);
             retval = MaximumAll(omitNaN, argIn[0], needToOverload);
@@ -147,7 +147,7 @@ unaryMaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     } break;
     }
 
@@ -220,16 +220,16 @@ binaryMaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 } else if (s == L"includenan") {
                     omitNaN = false;
                 } else {
-                    raiseError2(L"nelson:arguments:invalidArgAtPosition", 3);
+                    raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 3);
                 }
 
                 retval << Maximum(omitNaN, A, B, needToOverload);
             } else {
-                raiseError2(L"nelson:arguments:invalidArgAtPosition", 3);
+                raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 3);
             }
         } break;
         default: {
-            raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+            raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
         } break;
         };
 

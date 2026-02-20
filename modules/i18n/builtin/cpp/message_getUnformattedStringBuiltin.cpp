@@ -23,12 +23,12 @@ Nelson::I18nGateway::message_getUnformattedStringBuiltin(int nLhs, const ArrayOf
 
     ArrayOf msgObj = argIn[0];
     if (!msgObj.isClassType() || msgObj.getClassType() != "message") {
-        raiseError2(L"nelson:validators:mustBeType", 1, L"message");
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, L"message");
     }
     std::wstring messageId = msgObj.getField("Identifier").getContentAsWideString();
     std::wstring unformattedString = TranslationManager::getInstance().getError(messageId);
     if (unformattedString == messageId) {
-        raiseError2(L"nelson:i18n:messageNotFound", messageId);
+        raiseError2(_E("nelson:i18n:messageNotFound"), messageId);
     }
     retval << ArrayOf::characterArrayConstructor(unformattedString);
     return retval;

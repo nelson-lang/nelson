@@ -34,7 +34,7 @@ Nelson::Python_engineGateway::__pyenv__Builtin(int nLhs, const ArrayOfVector& ar
         pythonEnvironment->setHome(argIn[3].getContentAsWideString());
         pythonEnvironment->saveCurrentState();
     } else {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     }
 
     ArrayOfVector retval;

@@ -683,8 +683,7 @@ Evaluator::rhsExpressionSimple(AbstractSyntaxTreePtr t)
             utf8_to_wstring(t->text));
     }
     if (!isFun) {
-        raiseError(L"Nelson:interpreter:ERROR_UNDEFINED_FUNCTION", ERROR_UNDEFINED_FUNCTION,
-            utf8_to_wstring(t->text));
+        raiseError2(_E("nelson:runtime:functionNotFound"), utf8_to_wstring(t->text));
     }
     callstack.popID();
     return r;

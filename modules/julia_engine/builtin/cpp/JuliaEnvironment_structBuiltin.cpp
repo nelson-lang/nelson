@@ -30,7 +30,7 @@ Nelson::Julia_engineGateway::JuliaEnvironment_structBuiltin(int nLhs, const Arra
     }
 
     if (!param1.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 1);
     }
 
     JuliaEnvironment* juliaEnvironment = JuliaEnvironment::getInstance();

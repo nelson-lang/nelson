@@ -120,7 +120,7 @@ Nelson::StreamGateway::fopenBuiltin(int nLhs, const ArrayOfVector& argIn)
                     retval << ArrayOf::characterArrayConstructor(_file->getEncoding());
                 }
             } else {
-                raiseError2(L"nelson:io:invalidFileId");
+                raiseError2(_E("nelson:io:invalidFileId"));
             }
             return retval;
         }

@@ -83,7 +83,7 @@ ArrayOf::stringArrayConstructorAllMissing(Dimensions& dims)
     try {
         elements = new ArrayOf[nbElements];
     } catch (const std::bad_alloc&) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     for (size_t k = 0; k < nbElements; k++) {
         elements[k] = ArrayOf::doubleConstructor(std::nan(""));
@@ -103,7 +103,7 @@ ArrayOf::stringArrayConstructor(const stringVector& values, const Dimensions& di
         try {
             elements = new ArrayOf[nbElements];
         } catch (const std::bad_alloc&) {
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         }
         for (size_t k = 0; k < nbElements; k++) {
             elements[k] = ArrayOf::characterArrayConstructor(values[k]);
@@ -124,7 +124,7 @@ ArrayOf::stringArrayConstructor(const wstringVector& values, const Dimensions& d
         try {
             elements = new ArrayOf[nbElements];
         } catch (std::bad_alloc&) {
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         }
         for (size_t k = 0; k < nbElements; k++) {
             elements[k] = ArrayOf::characterArrayConstructor(values[k]);
@@ -194,7 +194,7 @@ logicalToStringArray(const ArrayOf& m)
     try {
         elements = new ArrayOf[nbElements];
     } catch (const std::bad_alloc&) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     auto* ptr = (logical*)m.getDataPointer();
     for (size_t k = 0; k < nbElements; k++) {
@@ -218,7 +218,7 @@ integerToStringArray(const ArrayOf& m)
     try {
         elements = new ArrayOf[nbElements];
     } catch (const std::bad_alloc&) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     T* ptr = (T*)m.getDataPointer();
     for (size_t k = 0; k < nbElements; k++) {
@@ -239,7 +239,7 @@ complexToStringArray(const ArrayOf& m)
     try {
         elements = new ArrayOf[nbElements];
     } catch (const std::bad_alloc&) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     T* ptr = (T*)m.getDataPointer();
     for (size_t k = 0; k < nbElements * 2; k = k + 2) {
@@ -296,7 +296,7 @@ realToStringArray(const ArrayOf& m)
     try {
         elements = new ArrayOf[nbElements];
     } catch (const std::bad_alloc&) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     T* ptr = (T*)m.getDataPointer();
     for (size_t k = 0; k < nbElements; k++) {
@@ -360,7 +360,7 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
                     elements[k] = ArrayOf::characterArrayConstructor("");
                 }
             } catch (const std::bad_alloc&) {
-                raiseError2(L"nelson:runtime:outOfMemory");
+                raiseError2(_E("nelson:runtime:outOfMemory"));
             }
             return ArrayOf(NLS_STRING_ARRAY, newDims, elements);
         }
@@ -369,7 +369,7 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
         try {
             elements = new ArrayOf[nbElements];
         } catch (const std::bad_alloc&) {
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         }
         return ArrayOf(NLS_STRING_ARRAY, dimsM, elements);
     }
@@ -381,7 +381,7 @@ ArrayOf::toStringArray(ArrayOf m, bool& needToOverload)
         try {
             elementsOutput = new ArrayOf[nbElements];
         } catch (const std::bad_alloc&) {
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         }
         for (size_t k = 0; k < nbElements; k++) {
             bool over;

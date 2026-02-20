@@ -296,7 +296,7 @@ LibPointerObject::plus(indexType offset)
         newPtr->_initialDimX = _initialDimX;
         newPtr->_initialDimY = _initialDimY;
     } catch (const std::bad_alloc&) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     return newPtr;
 }

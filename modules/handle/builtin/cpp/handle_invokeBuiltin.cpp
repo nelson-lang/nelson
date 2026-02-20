@@ -62,10 +62,10 @@ Nelson::HandleGateway::handle_invokeBuiltin(Evaluator* eval, int nLhs, const Arr
                         utf8_to_wstring(functionNameGetHandle));
                 }
             } else {
-                raiseError2(L"nelson:validators:invalidNelsonHandle");
+                raiseError2(_E("nelson:validators:invalidNelsonHandle"));
             }
         } else {
-            raiseError2(L"nelson:validators:invalidNelsonHandle");
+            raiseError2(_E("nelson:validators:invalidNelsonHandle"));
         }
     } else {
         if (nLhs > 0) {

@@ -482,7 +482,7 @@ QVariantToArrayOf(QVariant Q)
                         qmlHandle = new QObjectHandleObject(qobject);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        raiseError2(L"nelson:runtime:outOfMemory");
+                        raiseError2(_E("nelson:runtime:outOfMemory"));
                     }
                     nh[0] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }
@@ -512,7 +512,7 @@ QVariantToArrayOf(QVariant Q)
                         qmlHandle = new QObjectHandleObject(qobj);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        raiseError2(L"nelson:runtime:outOfMemory");
+                        raiseError2(_E("nelson:runtime:outOfMemory"));
                     }
                     nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }
@@ -547,7 +547,7 @@ QVariantToArrayOf(QVariant Q)
                         qmlHandle = new QObjectHandleObject(qobj);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        raiseError2(L"nelson:runtime:outOfMemory");
+                        raiseError2(_E("nelson:runtime:outOfMemory"));
                     }
                     nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }
@@ -573,7 +573,7 @@ QVariantToArrayOf(QVariant Q)
             qmlHandle = new QObjectHandleObject(obj);
         } catch (const std::bad_alloc&) {
             qmlHandle = nullptr;
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         }
         return ArrayOf::handleConstructor(qmlHandle);
     } break;
@@ -632,7 +632,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
     case QMetaType::Type::QByteArray: {
         Dimensions dimsA = A.getDimensions();
         if (!A.isVector()) {
-            raiseError2(L"nelson:validators:mustBeVector");
+            raiseError2(_E("nelson:validators:mustBeVector"));
         }
         A.promoteType(NLS_INT8);
         int8* arrayInt8 = (int8*)A.getDataPointer();
@@ -647,7 +647,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
     case QMetaType::Type::QBitArray: {
         Dimensions dimsA = A.getDimensions();
         if (!A.isVector()) {
-            raiseError2(L"nelson:validators:mustBeVector");
+            raiseError2(_E("nelson:validators:mustBeVector"));
         }
         A.promoteType(NLS_LOGICAL);
         logical* arrayLogical = (logical*)A.getDataPointer();
@@ -684,7 +684,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsExpected(1, 7);
         if (!dimsA.equals(dimsExpected)) {
-            raiseError2(L"nelson:validators:mustBeVector");
+            raiseError2(_E("nelson:validators:mustBeVector"));
         }
         A.promoteType(NLS_INT32);
         int* arrayInt = (int*)A.getDataPointer();
@@ -897,18 +897,18 @@ ArrayOfToQVariant(ArrayOf A, int id)
     } break;
     case QMetaType::Type::QVariantList: {
         if (!A.isCell()) {
-            raiseError2(L"Nelson:validators:mustBeCell");
+            raiseError2(_E("nelson:validators:mustBeCell"));
         }
         res = ArrayOfToQVariant(A);
     } break;
     case QMetaType::Type::QVariantMap: {
         if (!A.isStruct()) {
-            raiseError2(L"Nelson:validators:mustBeStruct");
+            raiseError2(_E("nelson:validators:mustBeStruct"));
         }
         res = ArrayOfToQVariant(A);
     } break;
     default: {
-        raiseError2(L"Nelson:validators:mustBeQVariantType");
+        raiseError2(_E("nelson:validators:mustBeType", L"QVariant"));
     } break;
     }
     return res;

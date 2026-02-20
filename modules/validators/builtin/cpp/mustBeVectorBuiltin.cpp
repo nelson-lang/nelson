@@ -31,7 +31,7 @@ Nelson::ValidatorsGateway::mustBeVectorBuiltin(int nLhs, const ArrayOfVector& ar
             ArrayOf param2 = argIn[1];
             argPos = param2.getContentAsInteger32Scalar();
             if (argPos < 1) {
-                raiseError2(L"nelson:parsing:lastArgMustBePositiveInt");
+                raiseError2(_E("nelson:parsing:lastArgMustBePositiveInt"));
             }
         } else if (argIn[1].isRowVectorCharacterArray()
             || (argIn[1].isStringArray() && argIn[1].isScalar())) {
@@ -57,7 +57,7 @@ Nelson::ValidatorsGateway::mustBeVectorBuiltin(int nLhs, const ArrayOfVector& ar
         ArrayOf param2 = argIn[1];
         argPos = param2.getContentAsInteger32Scalar();
         if (argPos < 1) {
-            raiseError2(L"nelson:parsing:lastArgMustBePositiveInt");
+            raiseError2(_E("nelson:parsing:lastArgMustBePositiveInt"));
         }
     } break;
     }

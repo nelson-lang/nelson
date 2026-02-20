@@ -38,7 +38,7 @@ Nelson::FunctionsGateway::clearfunBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
         }
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
     }
     retval << ArrayOf::logicalConstructor(ClearBuiltin(functionname));
     return retval;

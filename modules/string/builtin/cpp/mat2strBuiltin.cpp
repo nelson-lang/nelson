@@ -66,10 +66,10 @@ Nelson::StringGateway::mat2strBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf A = argIn[0];
     bool canBeConvert = A.isNumeric() || A.isLogical() || A.isCharacterArray();
     if (!canBeConvert) {
-        raiseError2(L"nelson:validators:mustBeNumeric");
+        raiseError2(_E("nelson:validators:mustBeNumeric"));
     }
     if (A.isSparse()) {
-        raiseError2(L"nelson:runtime:typeNotSupported");
+        raiseError2(_E("nelson:runtime:typeNotSupported"));
     }
     std::wstring res = MatrixToString(A, defautPrecision, withClass);
     retval << ArrayOf::characterArrayConstructor(res);

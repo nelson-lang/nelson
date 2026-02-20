@@ -53,7 +53,7 @@ Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf param4 = argIn[3];
         encoding = param4.getContentAsCString();
         if (!isSupportedEncoding(encoding)) {
-            raiseError2(L"nelson:validators:invalidValueAtPosition", 4);
+            raiseError2(_E("nelson:validators:invalidValueAtPosition"), 4);
         }
     }
 
@@ -79,7 +79,7 @@ getEol(const std::wstring& str)
         return { L"\n", "\n" };
 #endif
     } else {
-        raiseError2(L"nelson:validators:invalidValueAtPosition", 3);
+        raiseError2(_E("nelson:validators:invalidValueAtPosition"), 3);
         return { L"", "" }; // This line will never be reached
     }
 }

@@ -25,14 +25,14 @@ findchildrenQObject(const ArrayOf& H, const std::wstring& fieldname, bool bRecur
     res.promoteType(NLS_HANDLE);
     HandleGenericObject* hlObj = H.getContentAsHandleScalar();
     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        raiseError2(
-            L"nelson:validators:mustBeType", 1, utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
+        raiseError2(L"nelson:validators:mustBeTypeAtPosition", 1,
+            utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObjectHandleObject* qmlhandleobj = static_cast<QObjectHandleObject*>(hlObj);
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        raiseError2(
-            L"nelson:validators:mustBeType", 1, utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
+        raiseError2(L"nelson:validators:mustBeTypeAtPosition", 1,
+            utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObject* qobj = static_cast<QObject*>(ptr);
     Qt::FindChildOption option = Qt::FindDirectChildrenOnly;
@@ -54,7 +54,7 @@ findchildrenQObject(const ArrayOf& H, const std::wstring& fieldname, bool bRecur
                     qmlHandle = new QObjectHandleObject(qobjfound[k]);
                 } catch (const std::bad_alloc&) {
                     qmlHandle = nullptr;
-                    raiseError2(L"nelson:runtime:outOfMemory");
+                    raiseError2(_E("nelson:runtime:outOfMemory"));
                 }
                 nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
             }

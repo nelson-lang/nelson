@@ -238,7 +238,7 @@ writeSkipBytes(FILE* filepointer, size_t skip)
         (void)wrote;
         return true;
     } catch (const std::bad_alloc&) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
         return false;
     }
 }

@@ -28,7 +28,7 @@ Nelson::ConstructorsGateway::diagBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         b = argIn[1];
         if (!b.isScalar()) {
-            raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
+            raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 2);
         }
         b.promoteType(NLS_INT64);
         dp = (int64*)b.getDataPointer();

@@ -30,7 +30,7 @@ Nelson::Python_engineGateway::PythonEnvironment_structBuiltin(int nLhs, const Ar
     }
 
     if (!param1.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 1);
     }
 
     PythonEnvironment* pythonEnvironment = PythonEnvironment::getInstance();

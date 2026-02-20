@@ -27,14 +27,14 @@ UndefineDynamicProperty(const ArrayOf& A, const std::wstring& propertyName)
     ArrayOf res;
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        raiseError2(
-            L"nelson:validators:mustBeType", 1, utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
+        raiseError2(L"nelson:validators:mustBeTypeAtPosition", 1,
+            utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        raiseError2(
-            L"nelson:validators:mustBeType", 1, utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
+        raiseError2(L"nelson:validators:mustBeTypeAtPosition", 1,
+            utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObject* qobj = (QObject*)ptr;
     if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {

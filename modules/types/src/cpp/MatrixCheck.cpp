@@ -37,7 +37,7 @@ VectorCheckReference(ArrayOf& A, ArrayOf& B, const std::string& opname)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
-        raiseError2(L"nelson:runtime:sizeMismatchArithmetic", utf8_to_wstring(opname));
+        raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), utf8_to_wstring(opname));
     }
 }
 //=============================================================================
@@ -74,7 +74,7 @@ VectorCheck(ArrayOf& A, ArrayOf& B, const std::string& opname)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
-        raiseError2(L"nelson:runtime:sizeMismatchArithmetic", utf8_to_wstring(opname));
+        raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), utf8_to_wstring(opname));
     }
 }
 //=============================================================================

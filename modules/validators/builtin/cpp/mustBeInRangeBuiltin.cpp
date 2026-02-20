@@ -40,7 +40,7 @@ Nelson::ValidatorsGateway::mustBeInRangeBuiltin(int nLhs, const ArrayOfVector& a
         } else {
             argPos = param4.getContentAsInteger32Scalar();
             if (argPos < 1) {
-                raiseError2(L"nelson:parsing:lastArgMustBePositiveInt");
+                raiseError2(_E("nelson:parsing:lastArgMustBePositiveInt"));
             }
         }
     } break;
@@ -52,7 +52,7 @@ Nelson::ValidatorsGateway::mustBeInRangeBuiltin(int nLhs, const ArrayOfVector& a
         } else {
             argPos = param5.getContentAsInteger32Scalar();
             if (argPos < 1) {
-                raiseError2(L"nelson:parsing:lastArgMustBePositiveInt");
+                raiseError2(_E("nelson:parsing:lastArgMustBePositiveInt"));
             }
         }
     } break;
@@ -62,7 +62,7 @@ Nelson::ValidatorsGateway::mustBeInRangeBuiltin(int nLhs, const ArrayOfVector& a
         ArrayOf param6 = argIn[5];
         argPos = param6.getContentAsInteger32Scalar();
         if (argPos < 1) {
-            raiseError2(L"nelson:parsing:lastArgMustBePositiveInt");
+            raiseError2(_E("nelson:parsing:lastArgMustBePositiveInt"));
         }
     } break;
     }

@@ -23,8 +23,8 @@ RealPart(const ArrayOf& arrayIn)
 {
     ArrayOf res;
     if (arrayIn.isSparse()) {
-        raiseError(L"Nelson:elementary_functions:ERROR_UNDEFINED_FUNCTION",
-            ERROR_UNDEFINED_FUNCTION, utf8_to_wstring(ClassName(arrayIn)) + L"_real");
+        raiseError2(
+            _E("nelson:runtime:functionNotFound"), utf8_to_wstring(ClassName(arrayIn)) + L"_real");
     }
     switch (arrayIn.getDataClass()) {
     case NLS_SCOMPLEX: {
@@ -57,8 +57,8 @@ RealPart(const ArrayOf& arrayIn)
     case NLS_FUNCTION_HANDLE:
     case NLS_STRUCT_ARRAY:
     default: {
-        raiseError(L"Nelson:elementary_functions:ERROR_UNDEFINED_FUNCTION",
-            ERROR_UNDEFINED_FUNCTION, utf8_to_wstring(ClassName(arrayIn)) + L"_real'");
+        raiseError2(
+            _E("nelson:runtime:functionNotFound"), utf8_to_wstring(ClassName(arrayIn)) + L"_real");
     } break;
     case NLS_CHAR: {
         size_t len = arrayIn.getElementCount();

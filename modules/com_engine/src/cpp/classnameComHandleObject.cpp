@@ -107,12 +107,12 @@ classnameComHandle(const ArrayOf& A, stringVector& classname)
 {
     classname.clear();
     if (!A.isHandle()) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_HANDLE_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_HANDLE_STR);
     }
     std::string className;
     ClassName(A, className);
     if (className != NLS_HANDLE_COM_CATEGORY_STR) {
-        raiseError(L"Nelson:com_engine:ERROR_COM_HANDLE_EXPECTED", ERROR_COM_HANDLE_EXPECTED);
+        raiseError2(_E("nelson:validators:mustBeType"), L"COM");
     }
     Dimensions dimsA = A.getDimensions();
     auto* qp = (nelson_handle*)A.getDataPointer();

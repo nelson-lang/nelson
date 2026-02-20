@@ -146,12 +146,12 @@ checkDimensions(const ArrayOf& A, const ArrayOf& B)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsB = B.getDimensions();
         if (dimsA.getLength() != dimsB.getLength()) {
-            raiseError2(L"nelson:runtime:dimensionsNotConsistent");
+            raiseError2(_E("nelson:runtime:dimensionsNotConsistent"));
         }
         for (indexType k = 0; k < dimsA.getLength(); k++) {
             if (k != 1) {
                 if (dimsA.getDimensionLength(k) != dimsB.getDimensionLength(k)) {
-                    raiseError2(L"nelson:runtime:dimensionsNotConsistent");
+                    raiseError2(_E("nelson:runtime:dimensionsNotConsistent"));
                 }
             }
         }

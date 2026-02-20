@@ -52,12 +52,12 @@ h5ReadAttribute(
         = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            raiseError2(L"nelson:io:permissionDenied");
+            raiseError2(_E("nelson:io:permissionDenied"));
         }
     }
 
     if (!fileExistPreviously) {
-        raiseError2(L"nelson:io:fileNotFound", filename);
+        raiseError2(_E("nelson:io:fileNotFound"), filename);
     }
     if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str())) {
         raiseError(L"Nelson:hdf5:ERROR_HDF5_FORMAT_FILE_EXPECTED", ERROR_HDF5_FORMAT_FILE_EXPECTED);

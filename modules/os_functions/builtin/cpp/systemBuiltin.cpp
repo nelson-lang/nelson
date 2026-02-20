@@ -34,7 +34,7 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
         std::wstring command = argIn[0].getContentAsWideString();
         commands.push_back(command);
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
     }
 
     if (argIn.size() > 1) {
@@ -66,7 +66,7 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
                         timeouts.push_back(ptrUint64[k]);
                     }
                 } else {
-                    raiseError2(L"nelson:validators:sizeMismatch");
+                    raiseError2(_E("nelson:validators:sizeMismatch"));
                 }
             }
         } else {
@@ -80,7 +80,7 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
     }
 
     if (bEcho && commands.size() > 1) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
     }
 
     if (timeouts.empty()) {

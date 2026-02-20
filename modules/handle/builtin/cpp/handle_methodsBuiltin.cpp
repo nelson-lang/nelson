@@ -27,10 +27,10 @@ Nelson::HandleGateway::handle_methodsBuiltin(int nLhs, const ArrayOfVector& argI
         if (obj) {
             retval << ArrayOf::toCellArrayOfCharacterColumnVectors(obj->getMethods());
         } else {
-            raiseError2(L"nelson:validators:invalidNelsonHandle");
+            raiseError2(_E("nelson:validators:invalidNelsonHandle"));
         }
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_HANDLE_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_HANDLE_STR);
     }
     return retval;
 }

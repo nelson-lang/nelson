@@ -324,7 +324,7 @@ Nelson::SpreadsheetGateway::dlmwriteBuiltin(Evaluator* eval, int nLhs, const Arr
         opts = dlmwriteBuiltinEightRhs(eval, nLhs, argIn);
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     } break;
     }
     delimitedFileWriter(param2, filename, opts.isAppend, opts.delimiter, opts.rowsOffset,

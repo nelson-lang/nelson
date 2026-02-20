@@ -35,11 +35,11 @@ h5Load(Evaluator* eval, const std::wstring& filename, const wstringVector& names
         = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            raiseError2(L"nelson:io:permissionDenied");
+            raiseError2(_E("nelson:io:permissionDenied"));
         }
     }
     if (!fileExistPreviously) {
-        raiseError2(L"nelson:io:fileNotFound", filename);
+        raiseError2(_E("nelson:io:fileNotFound"), filename);
     }
 
     int16 nh5Version;

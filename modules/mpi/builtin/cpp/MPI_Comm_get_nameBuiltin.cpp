@@ -26,7 +26,7 @@ Nelson::MpiGateway::MPI_Comm_get_nameBuiltin(int nLhs, const ArrayOfVector& argI
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        raiseError2(L"nelson:mpi:mpiMustBeInit");
+        raiseError2(_E("nelson:mpi:mpiMustBeInit"));
     }
     retval << ArrayOf::characterArrayConstructor(getMpiCommName(HandleToMpiComm(argIn[0])));
     return retval;

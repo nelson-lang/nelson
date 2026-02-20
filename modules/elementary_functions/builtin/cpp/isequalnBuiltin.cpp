@@ -43,7 +43,7 @@ Nelson::ElementaryFunctionsGateway::isequalnBuiltin(
     }
     if (isSparse
         && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX && commonType != NLS_LOGICAL)) {
-        raiseError2(L"nelson:runtime:sparseNotImplemented");
+        raiseError2(_E("nelson:runtime:sparseNotImplemented"));
     }
 
     bool needToOverload = false;

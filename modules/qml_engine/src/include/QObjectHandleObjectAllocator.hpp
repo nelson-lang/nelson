@@ -25,7 +25,7 @@ QObjectHandleObjectAllocator(QObject* qobj)
         qObjectHandle = new QObjectHandleObject(qobj);
     } catch (const std::bad_alloc&) {
         qObjectHandle = nullptr;
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     return qObjectHandle;
 }

@@ -429,7 +429,7 @@ AudioplayerObject::setSamples(const ArrayOf& data, int SampleRate, int BitsPerSa
     const PaDeviceInfo* pdi_output = Pa_GetDeviceInfo(outputIndex);
     if (pdi_output) {
         if (!data.isNumeric() || data.isComplex() || data.isSparse()) {
-            raiseError2(L"nelson:validators:mustBeValidType", 1);
+            raiseError2(_E("nelson:validators:mustBeValidType"), 1);
             return false;
         }
         if (data.isEmpty()) {

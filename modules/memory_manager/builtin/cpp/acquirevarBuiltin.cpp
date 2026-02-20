@@ -23,7 +23,8 @@ Nelson::MemoryGateway::acquirevarBuiltin(Evaluator* eval, int nLhs, const ArrayO
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 2, 3);
     if (!argIn[0].isRowVectorCharacterArray()) {
-        raiseError2(L"nelson:validators:mustBeType", 1, utf8_to_wstring(NLS_STRING_ARRAY_STR));
+        raiseError2(
+            _E("nelson:validators:mustBeTypeAtPosition"), 1, utf8_to_wstring(NLS_STRING_ARRAY_STR));
     }
     std::string scopename = argIn[0].getContentAsCString();
     if (!((scopename == "global") || (scopename == "base") || (scopename == "caller")
@@ -33,7 +34,7 @@ Nelson::MemoryGateway::acquirevarBuiltin(Evaluator* eval, int nLhs, const ArrayO
             ERROR_1_ARGUMENT_MUST_CONTAIN_A_STRING_GLOBAL_BASE_LOCAL_OR_CALLER);
     }
     if (!argIn[1].isRowVectorCharacterArray()) {
-        raiseError2(L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 2, NLS_STRING_ARRAY_STR);
     }
     std::string varname = argIn[1].getContentAsCString();
     if (!IsValidVariableName(varname)) {
@@ -63,7 +64,7 @@ Nelson::MemoryGateway::acquirevarBuiltin(Evaluator* eval, int nLhs, const ArrayO
         if (bFind) {
             retval << value;
         } else {
-            raiseError2(L"nelson:runtime:variableNotFound", utf8_to_wstring(varname));
+            raiseError2(_E("nelson:runtime:variableNotFound"), utf8_to_wstring(varname));
         }
     } else // argIn.size() == 3
     {

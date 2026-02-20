@@ -31,8 +31,7 @@ Nelson::StringGateway::strlengthBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param.isCellArrayOfCharacterVectors()) {
             retval << StringLength(argIn[0]);
         } else {
-            raiseError(L"Nelson:string:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED",
-                ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
+            raiseError2(_E("nelson:validators:mustBeTextAtPosition"), 1);
         }
     } break;
     }

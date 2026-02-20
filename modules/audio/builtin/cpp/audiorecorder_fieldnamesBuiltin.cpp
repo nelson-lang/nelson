@@ -25,7 +25,7 @@ Nelson::AudioGateway::audiorecorder_fieldnamesBuiltin(int nLhs, const ArrayOfVec
     ArrayOfVector retval(1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-        raiseError2(L"nelson:sound:audiorecorderHandleExpected");
+        raiseError2(_E("nelson:sound:audiorecorderHandleExpected"));
     }
     auto* objRec = (AudiorecorderObject*)param1.getContentAsHandleScalar();
     wstringVector fieldnames = objRec->fieldnames();

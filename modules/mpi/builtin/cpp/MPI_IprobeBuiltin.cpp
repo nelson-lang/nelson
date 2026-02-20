@@ -29,7 +29,7 @@ Nelson::MpiGateway::MPI_IprobeBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        raiseError2(L"nelson:mpi:mpiMustBeInit");
+        raiseError2(_E("nelson:mpi:mpiMustBeInit"));
     }
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];

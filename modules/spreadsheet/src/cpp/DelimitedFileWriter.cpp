@@ -39,10 +39,10 @@ delimitedFileWriter(ArrayOf mat, const std::wstring& filenameDestination, bool b
 {
     bool bTypeSupported = mat.isNumeric() || mat.isLogical();
     if (!bTypeSupported) {
-        raiseError2(L"nelson:validators:mustBeNumeric");
+        raiseError2(_E("nelson:validators:mustBeNumeric"));
     }
     if (mat.isSparse()) {
-        raiseError2(L"nelson:runtime:typeNotSupported");
+        raiseError2(_E("nelson:runtime:typeNotSupported"));
     }
 #ifdef _MSC_VER
     FILE* file = _wfopen(filenameDestination.c_str(), bAppend ? L"ab" : L"wb");

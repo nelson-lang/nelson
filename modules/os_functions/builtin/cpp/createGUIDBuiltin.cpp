@@ -30,7 +30,7 @@ Nelson::OsFunctionsGateway::createGUIDBuiltin(int nLhs, const ArrayOfVector& arg
             wstringVector strs = CreateGUID(static_cast<size_t>(idx));
             retval << ArrayOf::toCellArrayOfCharacterColumnVectors(strs);
         } else {
-            raiseError2(L"nelson:validators:mustBeType", 1, NLS_DOUBLE_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_DOUBLE_STR);
         }
     }
     return retval;

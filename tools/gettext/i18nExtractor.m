@@ -34,12 +34,19 @@ function i18nExtractor(destinationDir)
   end
   mkdir(TARGETDIR);
 
-  process_files('*.m', '--language=Python -k --keyword=_', XGETTEXT, DOMAIN, TARGETDIR);
-  process_files({'*.c', '*.h', '*.cpp', '*.cxx', '*.hpp', '*.hxx'}, ...
-    '--language=C -k --keyword=dgettext --keyword=_ --keyword=_W --keyword=TR', ...
-    XGETTEXT, DOMAIN, TARGETDIR);
+  %process_files('*.m', '--language=Python -k --keyword=_', XGETTEXT, DOMAIN, TARGETDIR);
+  %process_files({'*.c', '*.h', '*.cpp', '*.cxx', '*.hpp', '*.hxx'}, ...
+  %  '--language=C -k --keyword=dgettext --keyword=_ --keyword=_W --keyword=TR', ...
+  %  XGETTEXT, DOMAIN, TARGETDIR);
 
+  % process_files({'*.c', '*.h', '*.cpp', '*.cxx', '*.hpp', '*.hxx'}, ...
+  % '--language=C -k --keyword=raiseError2:1' , XGETTEXT, DOMAIN, TARGETDIR);
+  % merge_pots(MSGCAT, DOMAIN, TARGETDIR);
+
+  process_files({'*.c', '*.h', '*.cpp', '*.cxx', '*.hpp', '*.hxx'}, ...
+  '--language=C -k --keyword=_E --keyword=N_' , XGETTEXT, DOMAIN, TARGETDIR);
   merge_pots(MSGCAT, DOMAIN, TARGETDIR);
+ 
 
   finalize_json_files(DOMAIN);
   toc();
@@ -157,17 +164,19 @@ end
 %=============================================================================
 function finalize_json_files(domain)
   potfile = [nelsonroot(), '/locale/nelson.pot'];
+  jsonUSfiletmp = [nelsonroot(), '/locale/nelson-en_US-tmp.json'];
   jsonUSfile = [nelsonroot(), '/locale/nelson-en_US.json'];
-  jsonFRfile = [nelsonroot(), '/locale/nelson-fr_FR.json'];
+  %jsonFRfile = [nelsonroot(), '/locale/nelson-fr_FR.json'];
 
   % Convert POT to base JSON (en_US)
-  i18nHelpers('convert', potfile, jsonUSfile);
+  i18nHelpers('convert', potfile, jsonUSfiletmp);
+  i18nHelpers('merge', jsonUSfiletmp, jsonUSfile);
 
   % Merge with existing French translation
-  i18nHelpers('merge', jsonUSfile, jsonFRfile);
+  %i18nHelpers('merge', jsonUSfile, jsonFRfile);
 
   % Sort both JSON files to ensure consistent structure
   i18nHelpers('sort', jsonUSfile, jsonUSfile);
-  i18nHelpers('sort', jsonFRfile, jsonFRfile);
+  %i18nHelpers('sort', jsonFRfile, jsonFRfile);
 end
 %=============================================================================

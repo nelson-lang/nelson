@@ -94,24 +94,26 @@ Nelson::SlicotGateway::slicot_mb03rdBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsJOBX.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 1);
     }
     if (!dimsSORT.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 2);
     }
     if (!dimsPMAX.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 3);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 3);
     }
     Dimensions dimsA_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError2(L"nelson:validators:mustBeSize", 4, utf8_to_wstring(dimsA_expected.toString()));
+        raiseError2(
+            _E("nelson:validators:mustBeSize"), 4, utf8_to_wstring(dimsA_expected.toString()));
     }
     Dimensions dimsX_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsX.equals(dimsX_expected)) {
-        raiseError2(L"nelson:validators:mustBeSize", 5, utf8_to_wstring(dimsX_expected.toString()));
+        raiseError2(
+            _E("nelson:validators:mustBeSize"), 5, utf8_to_wstring(dimsX_expected.toString()));
     }
     if (!dimsTOL.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 6);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 6);
     }
     // CALL EXTERN FUNCTION
     try {
@@ -119,7 +121,7 @@ Nelson::SlicotGateway::slicot_mb03rdBuiltin(int nLhs, const ArrayOfVector& argIn
             NBLCKS_output_ptr, BLSIZE_output_ptr, WR_output_ptr, WI_output_ptr, TOL_ptr, DWORK_ptr,
             INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError2(L"nelson:slicot:slicotFuncFails", L"mb03rd");
+        raiseError2(_E("nelson:slicot:slicotFuncFails"), L"mb03rd");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

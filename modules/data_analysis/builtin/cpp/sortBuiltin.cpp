@@ -92,7 +92,7 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring value;
     switch (argIn.size()) {
     case 0: {
-        raiseError2(L"nelson:arguments:tooFewInputs");
+        raiseError2(_E("nelson:arguments:tooFewInputs"));
     } break;
     case 1: {
         // sort(A)
@@ -108,7 +108,7 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param2.isNumeric()) {
             dim = param2.getContentAsScalarIndex();
             if (dim < 1) {
-                raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
+                raiseError2(_E("nelson:validators:mustBePositiveAtPosition"), 2);
             }
         } else {
             std::wstring direction = param2.getContentAsWideString();
@@ -127,7 +127,7 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param2.isNumeric()) {
             dim = param2.getContentAsScalarIndex();
             if (dim < 1) {
-                raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
+                raiseError2(_E("nelson:validators:mustBePositiveAtPosition"), 2);
             }
             ArrayOf param3 = argIn[2];
             std::wstring direction = param3.getContentAsWideString();
@@ -159,7 +159,7 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param2.isNumeric()) {
             dim = param2.getContentAsScalarIndex();
             if (dim < 1) {
-                raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
+                raiseError2(_E("nelson:validators:mustBePositiveAtPosition"), 2);
             }
         } else {
             std::wstring direction = param2.getContentAsWideString();
@@ -189,7 +189,7 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param2.isNumeric()) {
             dim = param2.getContentAsScalarIndex();
             if (dim < 1) {
-                raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
+                raiseError2(_E("nelson:validators:mustBePositiveAtPosition"), 2);
             }
             std::wstring direction = argIn[2].getContentAsWideString();
             if (!isValidDirection(direction, ascend)) {
@@ -244,7 +244,7 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param2.isNumeric()) {
             dim = param2.getContentAsScalarIndex();
             if (dim < 1) {
-                raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
+                raiseError2(_E("nelson:validators:mustBePositiveAtPosition"), 2);
             }
         } else {
             std::wstring direction = param2.getContentAsWideString();
@@ -281,7 +281,7 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         ArrayOf param2 = argIn[1];
         dim = param2.getContentAsScalarIndex();
         if (dim < 1) {
-            raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
+            raiseError2(_E("nelson:validators:mustBePositiveAtPosition"), 2);
         }
         std::wstring direction = argIn[2].getContentAsWideString();
         if (!isValidDirection(direction, ascend)) {
@@ -311,7 +311,7 @@ Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     } break;
     }
 

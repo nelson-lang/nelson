@@ -40,7 +40,7 @@ Evaluator::orOperator(const ArrayOfVector& args)
     }
     if (isSparse
         && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX && commonType != NLS_LOGICAL)) {
-        raiseError2(L"nelson:runtime:sparseNotImplemented");
+        raiseError2(_E("nelson:runtime:sparseNotImplemented"));
     }
     bool neeDToOverload = false;
     res = Or(args[0], args[1], commonType, neeDToOverload);

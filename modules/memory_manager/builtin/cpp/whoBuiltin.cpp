@@ -41,7 +41,7 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         if (argIn[0].isRowVectorCharacterArray()) {
             param1 = argIn[0].getContentAsWideString();
         } else {
-            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
         }
         if (param1.compare(L"global") == 0) {
             scope = eval->getContext()->getGlobalScope();

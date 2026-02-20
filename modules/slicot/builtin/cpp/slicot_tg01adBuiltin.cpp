@@ -109,30 +109,30 @@ Nelson::SlicotGateway::slicot_tg01adBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsJOB.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 1);
     }
     if (!dimsTHRESH.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 2);
     }
     Dimensions dimsA_expected(
         std::max(1, (int)L.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 3, dimsA_expected.toWideString());
+        raiseError2(_E("nelson:arguments:inputArgXWrongSizeY"), 3, dimsA_expected.toWideString());
     }
     Dimensions dimsE_expected(
         std::max(1, (int)L.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsE.equals(dimsE_expected)) {
-        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 4, dimsE_expected.toWideString());
+        raiseError2(_E("nelson:arguments:inputArgXWrongSizeY"), 4, dimsE_expected.toWideString());
     }
     Dimensions dimsB_expected(
         std::max(1, (int)L.getContentAsInteger32Scalar()), (int)M.getContentAsInteger32Scalar());
     if (!dimsB.equals(dimsB_expected)) {
-        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 5, dimsB_expected.toWideString());
+        raiseError2(_E("nelson:arguments:inputArgXWrongSizeY"), 5, dimsB_expected.toWideString());
     }
     Dimensions dimsC_expected(
         std::max(1, (int)P.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsC.equals(dimsC_expected)) {
-        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 6, dimsC_expected.toWideString());
+        raiseError2(_E("nelson:arguments:inputArgXWrongSizeY"), 6, dimsC_expected.toWideString());
     }
     // CALL EXTERN FUNCTION
     try {
@@ -140,7 +140,7 @@ Nelson::SlicotGateway::slicot_tg01adBuiltin(int nLhs, const ArrayOfVector& argIn
             E_output_ptr, LDE_ptr, B_output_ptr, LDB_ptr, C_output_ptr, LDC_ptr, LSCALE_output_ptr,
             RSCALE_output_ptr, DWORK_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"tg01ad", INFO_output_ptr[0]);
+        raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"tg01ad", INFO_output_ptr[0]);
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

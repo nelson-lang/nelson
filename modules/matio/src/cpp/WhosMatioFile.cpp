@@ -109,11 +109,11 @@ WhosMatioFile(
         = FileSystemWrapper::Path::is_regular_file(mat_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            raiseError2(L"nelson:io:permissionDenied");
+            raiseError2(_E("nelson:io:permissionDenied"));
         }
     }
     if (!fileExistPreviously) {
-        raiseError2(L"nelson:io:fileNotFound", filename);
+        raiseError2(_E("nelson:io:fileNotFound"), filename);
     }
 
     std::string utf8filename = wstring_to_utf8(filename);

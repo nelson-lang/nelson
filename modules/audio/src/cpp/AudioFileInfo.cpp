@@ -210,7 +210,7 @@ AudioFileInfo(const std::wstring& filename)
     file = sf_open(ufilename.c_str(), SFM_READ, &sfinfo);
 #endif
     if (file == nullptr) {
-        raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+        raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
         return res;
     }
     std::wstring CompressionMethod = getCompressionMethodAsString(sfinfo.format);

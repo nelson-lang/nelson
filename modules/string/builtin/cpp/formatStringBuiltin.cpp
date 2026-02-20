@@ -43,61 +43,61 @@ Nelson::StringGateway::formatStringBuiltin(int nLhs, const ArrayOfVector& argIn)
         switch (a.getDataClass()) {
         case NLS_LOGICAL: {
             if (a.numel() != 1) {
-                raiseError2(L"nelson:validators:mustBeScalar");
+                raiseError2(_E("nelson:validators:mustBeScalar"));
             }
             res = (a.getContentAsLogicalScalar() != 0) ? L"true" : L"false";
         } break;
         case NLS_INT8: {
             if (a.numel() != 1) {
-                raiseError2(L"nelson:validators:mustBeScalar");
+                raiseError2(_E("nelson:validators:mustBeScalar"));
             }
             res = std::to_wstring(a.getContentAsInteger8Scalar());
         } break;
         case NLS_UINT8: {
             if (a.numel() != 1) {
-                raiseError2(L"nelson:validators:mustBeScalar");
+                raiseError2(_E("nelson:validators:mustBeScalar"));
             }
             res = std::to_wstring(a.getContentAsUnsignedInteger8Scalar());
         } break;
         case NLS_INT16: {
             if (a.numel() != 1) {
-                raiseError2(L"nelson:validators:mustBeScalar");
+                raiseError2(_E("nelson:validators:mustBeScalar"));
             }
             res = std::to_wstring(a.getContentAsInteger16Scalar());
         } break;
         case NLS_UINT16: {
             if (a.numel() != 1) {
-                raiseError2(L"nelson:validators:mustBeScalar");
+                raiseError2(_E("nelson:validators:mustBeScalar"));
             }
             res = std::to_wstring(a.getContentAsUnsignedInteger16Scalar());
         } break;
         case NLS_INT32: {
             if (a.numel() != 1) {
-                raiseError2(L"nelson:validators:mustBeScalar");
+                raiseError2(_E("nelson:validators:mustBeScalar"));
             }
             res = std::to_wstring(a.getContentAsInteger32Scalar());
         } break;
         case NLS_UINT32: {
             if (a.numel() != 1) {
-                raiseError2(L"nelson:validators:mustBeScalar");
+                raiseError2(_E("nelson:validators:mustBeScalar"));
             }
             res = std::to_wstring(a.getContentAsUnsignedInteger32Scalar());
         } break;
         case NLS_INT64: {
             if (a.numel() != 1) {
-                raiseError2(L"nelson:validators:mustBeScalar");
+                raiseError2(_E("nelson:validators:mustBeScalar"));
             }
             res = std::to_wstring(a.getContentAsInteger64Scalar());
         } break;
         case NLS_UINT64: {
             if (a.numel() != 1) {
-                raiseError2(L"nelson:validators:mustBeScalar");
+                raiseError2(_E("nelson:validators:mustBeScalar"));
             }
             res = std::to_wstring(a.getContentAsUnsignedInteger64Scalar());
         } break;
         case NLS_SINGLE: {
             if (a.numel() != 1) {
-                raiseError2(L"nelson:validators:mustBeScalar");
+                raiseError2(_E("nelson:validators:mustBeScalar"));
             }
             double dv = static_cast<double>(a.getContentAsSingleScalar());
             if (std::isfinite(dv) && std::floor(dv) == dv) {
@@ -113,7 +113,7 @@ Nelson::StringGateway::formatStringBuiltin(int nLhs, const ArrayOfVector& argIn)
         } break;
         case NLS_DOUBLE: {
             if (a.numel() != 1) {
-                raiseError2(L"nelson:validators:mustBeScalar");
+                raiseError2(_E("nelson:validators:mustBeScalar"));
             }
             double dv = a.getContentAsDoubleScalar();
             if (std::isfinite(dv) && std::floor(dv) == dv) {
@@ -135,7 +135,7 @@ Nelson::StringGateway::formatStringBuiltin(int nLhs, const ArrayOfVector& argIn)
         } break;
         case NLS_STRING_ARRAY: {
             if (!a.isScalarStringArray()) {
-                raiseError2(L"nelson:validators:mustBeScalar");
+                raiseError2(_E("nelson:validators:mustBeScalar"));
             }
             res = a.getContentAsWideString();
         } break;

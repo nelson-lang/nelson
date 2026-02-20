@@ -24,10 +24,10 @@ Nelson::StringGateway::blanksBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf param1 = argIn[0];
     double nbSpacesAsDouble = param1.getContentAsDoubleScalar();
     if (!std::isfinite(nbSpacesAsDouble)) {
-        raiseError2(L"nelson:validators:mustBeFinite");
+        raiseError2(_E("nelson:validators:mustBeFinite"));
     }
     if (floor(nbSpacesAsDouble) != nbSpacesAsDouble) {
-        raiseError2(L"nelson:validators:mustBeInteger");
+        raiseError2(_E("nelson:validators:mustBeInteger"));
     }
     if (nbSpacesAsDouble < 0) {
         nbSpacesAsDouble = 0;

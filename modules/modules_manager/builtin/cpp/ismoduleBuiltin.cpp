@@ -35,7 +35,7 @@ Nelson::ModulesManagerGateway::ismoduleBuiltin(int nLhs, const ArrayOfVector& ar
     if (argIn[0].isRowVectorCharacterArray() || (argIn[0].isStringArray() && argIn[0].isScalar())) {
         moduleshortname = argIn[0].getContentAsWideString();
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
     }
 
     bool bRes = checkIsProtected ? IsProtectedModuleName(moduleshortname)

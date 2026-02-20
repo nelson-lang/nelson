@@ -41,11 +41,11 @@ Nelson::ParallelGateway::fetchNextBuiltin(Evaluator* eval, int nLhs, const Array
         ArrayOf param2 = argIn[1];
         bool isReal = param2.getDataClass() == NLS_DOUBLE || param2.getDataClass() == NLS_SINGLE;
         if (!isReal) {
-            raiseError2(L"nelson:validators:mustBeNumeric");
+            raiseError2(_E("nelson:validators:mustBeNumeric"));
         }
         timeout = param2.getContentAsDoubleScalar();
         if (timeout < 0) {
-            raiseError2(L"nelson:validators:mustBeNonNegative");
+            raiseError2(_E("nelson:validators:mustBeNonNegative"));
         }
     }
     std::vector<FutureObject*> futures = ArrayOfToFutures(param1);

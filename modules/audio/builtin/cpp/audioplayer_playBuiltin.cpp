@@ -55,7 +55,7 @@ audioplayer_playCommonBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& ar
         }
     }
     if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
-        raiseError2(L"nelson:sound:audioplayerHandleExpected");
+        raiseError2(_E("nelson:sound:audioplayerHandleExpected"));
     }
     auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     if (argIn.size() == 1) {

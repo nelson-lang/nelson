@@ -68,7 +68,7 @@ Nelson::StringGateway::joinBuiltin(int nLhs, const ArrayOfVector& argIn)
         dim = argIn[2].getContentAsScalarIndex(false, true);
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     } break;
     }
     retval << StringJoin(A, delimiters, dim);

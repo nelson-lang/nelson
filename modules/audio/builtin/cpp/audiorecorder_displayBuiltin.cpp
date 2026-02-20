@@ -32,14 +32,14 @@ Nelson::AudioGateway::audiorecorder_dispBuiltin(
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-                raiseError2(L"nelson:sound:audiorecorderHandleExpected");
+                raiseError2(_E("nelson:sound:audiorecorderHandleExpected"));
             }
             auto* objPlayer = (AudiorecorderObject*)param1.getContentAsHandleScalar();
             objPlayer->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        raiseError2(L"nelson:sound:audiorecorderHandleExpected");
+        raiseError2(_E("nelson:sound:audiorecorderHandleExpected"));
     }
     return retval;
 }
@@ -61,14 +61,14 @@ Nelson::AudioGateway::audiorecorder_displayBuiltin(
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
             if (param1.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-                raiseError2(L"nelson:sound:audiorecorderHandleExpected");
+                raiseError2(_E("nelson:sound:audiorecorderHandleExpected"));
             }
             auto* objPlayer = (AudiorecorderObject*)param1.getContentAsHandleScalar();
             objPlayer->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        raiseError2(L"nelson:sound:audiorecorderHandleExpected");
+        raiseError2(_E("nelson:sound:audiorecorderHandleExpected"));
     }
     return retval;
 }

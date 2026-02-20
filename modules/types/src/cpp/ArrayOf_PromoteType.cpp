@@ -425,7 +425,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = static_cast<void*>(promoteAsReal<logical, charType>(dstClass, sp, count));
         } break;
         default: {
-            raiseError2(L"nelson:internal:typeNotManaged");
+            raiseError2(_E("nelson:internal:typeNotManaged"));
         } break;
         }
     } break;
@@ -482,7 +482,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<uint8, charType>(dstClass, sp, count);
         } break;
         default: {
-            raiseError2(L"nelson:internal:typeNotManaged");
+            raiseError2(_E("nelson:internal:typeNotManaged"));
         } break;
         }
     } break;
@@ -539,7 +539,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsComplex<int8, charType>(dstClass, sp, count);
         } break;
         default: {
-            raiseError2(L"nelson:internal:typeNotManaged");
+            raiseError2(_E("nelson:internal:typeNotManaged"));
         } break;
         }
     } break;
@@ -596,7 +596,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<uint16, charType>(dstClass, sp, count);
         } break;
         default: {
-            raiseError2(L"nelson:internal:typeNotManaged");
+            raiseError2(_E("nelson:internal:typeNotManaged"));
         } break;
         }
     } break;
@@ -653,7 +653,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<int16, charType>(dstClass, sp, count);
         } break;
         default: {
-            raiseError2(L"nelson:internal:typeNotManaged");
+            raiseError2(_E("nelson:internal:typeNotManaged"));
         } break;
         }
     } break;
@@ -710,7 +710,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<uint32, charType>(dstClass, sp, count);
         } break;
         default: {
-            raiseError2(L"nelson:internal:typeNotManaged");
+            raiseError2(_E("nelson:internal:typeNotManaged"));
         } break;
         }
     } break;
@@ -767,7 +767,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<int32, charType>(dstClass, sp, count);
         } break;
         default: {
-            raiseError2(L"nelson:internal:typeNotManaged");
+            raiseError2(_E("nelson:internal:typeNotManaged"));
         } break;
         }
     } break;
@@ -824,7 +824,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<uint64, charType>(dstClass, sp, count);
         } break;
         default: {
-            raiseError2(L"nelson:internal:typeNotManaged");
+            raiseError2(_E("nelson:internal:typeNotManaged"));
         } break;
         }
     } break;
@@ -881,7 +881,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<int64, charType>(dstClass, sp, count);
         } break;
         default: {
-            raiseError2(L"nelson:internal:typeNotManaged");
+            raiseError2(_E("nelson:internal:typeNotManaged"));
         } break;
         }
     } break;
@@ -939,7 +939,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<single, charType>(dstClass, sp, count);
         } break;
         default: {
-            raiseError2(L"nelson:internal:typeNotManaged");
+            raiseError2(_E("nelson:internal:typeNotManaged"));
         } break;
         }
     } break;
@@ -997,7 +997,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteAsReal<double, charType>(dstClass, sp, count);
         } break;
         default: {
-            raiseError2(L"nelson:internal:typeNotManaged");
+            raiseError2(_E("nelson:internal:typeNotManaged"));
         } break;
         }
     } break;
@@ -1047,7 +1047,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteComplexAsReal<single, charType>(dstClass, sp, count);
         } break;
         default: {
-            raiseError2(L"nelson:internal:typeNotManaged");
+            raiseError2(_E("nelson:internal:typeNotManaged"));
         } break;
         }
     } break;
@@ -1097,7 +1097,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             dstPtr = promoteComplexAsReal<double, charType>(dstClass, sp, count);
         } break;
         default: {
-            raiseError2(L"nelson:internal:typeNotManaged");
+            raiseError2(_E("nelson:internal:typeNotManaged"));
         } break;
         }
     } break;
@@ -1155,7 +1155,7 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             return;
         } break;
         default: {
-            raiseError2(L"nelson:internal:typeNotManaged");
+            raiseError2(_E("nelson:internal:typeNotManaged"));
         } break;
         }
     } break;
@@ -1187,12 +1187,12 @@ ArrayOf::promoteType(NelsonType dstClass, const stringVector& fNames)
             return;
         } break;
         default: {
-            raiseError2(L"nelson:internal:typeNotManaged");
+            raiseError2(_E("nelson:internal:typeNotManaged"));
         } break;
         }
     } break;
     default: {
-        raiseError2(L"nelson:internal:typeNotManaged");
+        raiseError2(_E("nelson:internal:typeNotManaged"));
     } break;
     }
     dp = dp->putData(dstClass, dp->dimensions, dstPtr);

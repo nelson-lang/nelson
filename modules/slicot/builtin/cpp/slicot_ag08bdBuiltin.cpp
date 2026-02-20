@@ -169,29 +169,31 @@ Nelson::SlicotGateway::slicot_ag08bdBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsEQUIL.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 1);
     }
     if (!dimsM.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 2);
     }
     if (!dimsP.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 3);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 3);
     }
     Dimensions dimsA_expected(
         std::max(1, (int)L.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError2(L"nelson:validators:mustBeSize", 4, utf8_to_wstring(dimsA_expected.toString()));
+        raiseError2(
+            _E("nelson:validators:mustBeSize"), 4, utf8_to_wstring(dimsA_expected.toString()));
     }
     Dimensions dimsE_expected(
         std::max(1, (int)L.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsE.equals(dimsE_expected)) {
-        raiseError2(L"nelson:validators:mustBeSize", 5, utf8_to_wstring(dimsE_expected.toString()));
+        raiseError2(
+            _E("nelson:validators:mustBeSize"), 5, utf8_to_wstring(dimsE_expected.toString()));
     }
     // DIMENSIONS NOT CHECKED FOR #6 B
     // DIMENSIONS NOT CHECKED FOR #7 C
     // DIMENSIONS NOT CHECKED FOR #8 D
     if (!dimsTOL.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 9);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 9);
     }
     // CALL EXTERN FUNCTION
     try {
@@ -201,7 +203,7 @@ Nelson::SlicotGateway::slicot_ag08bdBuiltin(int nLhs, const ArrayOfVector& argIn
             INFZ_output_ptr, KRONR_output_ptr, INFE_output_ptr, KRONL_output_ptr, TOL_ptr,
             IWORK_ptr, DWORK_ptr, LDWORK_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError2(L"nelson:slicot:slicotFuncFails", L"ag08bd");
+        raiseError2(_E("nelson:slicot:slicotFuncFails"), L"ag08bd");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

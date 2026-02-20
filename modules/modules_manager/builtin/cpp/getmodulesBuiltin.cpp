@@ -28,7 +28,7 @@ Nelson::ModulesManagerGateway::getmodulesBuiltin(int nLhs, const ArrayOfVector& 
         if (argIn[0].isRowVectorCharacterArray()) {
             param = argIn[0].getContentAsWideString();
         } else {
-            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
         }
         if (param != L"reverse") {
             raiseError(L"Nelson:modules_manager:ERROR_WRONG_VALUE_FOR_1_ARGUMENT_REVERSE_EXPECTED",

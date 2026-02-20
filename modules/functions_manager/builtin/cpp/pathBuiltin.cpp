@@ -46,7 +46,7 @@ Nelson::FunctionsGateway::pathBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 1) {
         ArrayOf param1 = argIn[0];
         if (!param1.isRowVectorCharacterArray()) {
-            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
         }
         std::wstring p = param1.getContentAsWideString();
         wstringVector paths;
@@ -67,11 +67,11 @@ Nelson::FunctionsGateway::pathBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 2) {
         ArrayOf param1 = argIn[0];
         if (!param1.isRowVectorCharacterArray()) {
-            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
         }
         ArrayOf param2 = argIn[1];
         if (!param2.isRowVectorCharacterArray()) {
-            raiseError2(L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 2, NLS_STRING_ARRAY_STR);
         }
         std::wstring p1 = param1.getContentAsWideString();
         std::wstring p2 = param2.getContentAsWideString();

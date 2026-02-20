@@ -26,7 +26,7 @@ SetComHandleObject(const ArrayOf& A, const std::wstring& propertyName, const Arr
 {
     ArrayOf res;
     if (A.getHandleCategory() != NLS_HANDLE_COM_CATEGORY_STR) {
-        raiseError(L"Nelson:com_engine:ERROR_COM_HANDLE_EXPECTED", ERROR_COM_HANDLE_EXPECTED);
+        raiseError2(_E("nelson:validators:mustBeType"), L"COM");
     }
     auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     void* ptr = comhandleobj->getPointer();
@@ -40,7 +40,7 @@ SetComHandleObject(const ArrayOf& A, const std::wstring& propertyName, const Arr
         pVarResult = new VARIANT;
     } catch (const std::bad_alloc&) {
         pVarResult = nullptr;
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     VariantInit(pVarResult);
     std::wstring errorMessage;
@@ -49,7 +49,7 @@ SetComHandleObject(const ArrayOf& A, const std::wstring& propertyName, const Arr
         param = new VARIANT();
     } catch (const std::bad_alloc&) {
         delete pVarResult;
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     VariantInit(param);
     bool bSuccess = NelsonToComVariant(B, param, errorMessage);

@@ -101,7 +101,7 @@ crc32Conversion(const ArrayOf& arg, CRC_CONVERSION_TYPE crcConversion)
         } break;
         }
     } else {
-        raiseError2(L"nelson:validators:mustBeValidType", 1);
+        raiseError2(_E("nelson:validators:mustBeValidType"), 1);
     }
     return res;
 }
@@ -128,11 +128,11 @@ Nelson::CoreGateway::crc32Builtin(int nLhs, const ArrayOfVector& argIn)
         } else if (param2 == L"-string") {
             retval << crc32Conversion(argIn[0], CRC_CONVERSION_TYPE::STRING);
         } else {
-            raiseError2(L"nelson:validators:mustBeValidType", 2);
+            raiseError2(_E("nelson:validators:mustBeValidType"), 2);
         }
     } break;
     default: {
-        raiseError2(L"nelson:arguments:tooManyInputs");
+        raiseError2(_E("nelson:arguments:tooManyInputs"));
     } break;
     }
     return retval;

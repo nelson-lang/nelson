@@ -37,7 +37,7 @@ Nelson::DataStructuresGateway::getfieldBuiltin(int nLhs, const ArrayOfVector& ar
             retval << rv[0];
         }
     } else {
-        raiseError2(L"nelson:validators:mustBeStructAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeStructAtPosition"), 1);
     }
     return retval;
 }

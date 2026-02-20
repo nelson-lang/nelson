@@ -26,7 +26,7 @@ Nelson::OsFunctionsGateway::searchenvBuiltin(int nLhs, const ArrayOfVector& argI
     if (argIn[0].isRowVectorCharacterArray()) {
         fileToSearch = argIn[0].getContentAsWideString();
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
     }
     if (argIn.size() == 2) {
         varEnvName = argIn[1].getContentAsWideString();

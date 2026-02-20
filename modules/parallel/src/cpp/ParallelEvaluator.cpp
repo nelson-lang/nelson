@@ -32,7 +32,7 @@ ParallelEvaluator::create(EvaluateInterface* evaluatorInterface, size_t ID)
                 }
             });
     } catch (const std::bad_alloc&) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
         return nullptr;
     } catch (const std::exception& e) {
         std::wstring msg

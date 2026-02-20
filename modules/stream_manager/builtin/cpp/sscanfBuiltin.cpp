@@ -49,18 +49,18 @@ Nelson::StreamGateway::sscanfBuiltin(int nLhs, const ArrayOfVector& argIn)
                 if (dims3.isScalar()) {
                     m = param3.getContentAsDoubleScalar();
                     if (m < 0) {
-                        raiseError2(L"nelson:validators:mustBeNonNegative");
+                        raiseError2(_E("nelson:validators:mustBeNonNegative"));
                     }
                     n = 1;
                 } else {
                     double* ptr = (double*)param3.getDataPointer();
                     m = ptr[0];
                     if (m < 0) {
-                        raiseError2(L"nelson:validators:mustBeNonNegative");
+                        raiseError2(_E("nelson:validators:mustBeNonNegative"));
                     }
                     n = ptr[1];
                     if (n < 0) {
-                        raiseError2(L"nelson:validators:mustBeNonNegative");
+                        raiseError2(_E("nelson:validators:mustBeNonNegative"));
                     }
                 }
             } else {

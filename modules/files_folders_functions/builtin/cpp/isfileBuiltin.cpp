@@ -29,7 +29,7 @@ Nelson::FilesFoldersGateway::isfileBuiltin(int nLhs, const ArrayOfVector& argIn)
         bool permissionDenied;
         bool bIsFile = FileSystemWrapper::Path::is_regular_file(wpath, permissionDenied);
         if (permissionDenied) {
-            raiseError2(L"nelson:io:permissionDenied");
+            raiseError2(_E("nelson:io:permissionDenied"));
         }
         retval << ArrayOf::logicalConstructor(bIsFile);
     } else if (argIn[0].getDataClass() == NLS_CELL_ARRAY || argIn[0].isStringArray()) {
@@ -49,23 +49,19 @@ Nelson::FilesFoldersGateway::isfileBuiltin(int nLhs, const ArrayOfVector& argIn)
                     bool bIsFile = FileSystemWrapper::Path::is_regular_file(
                         arg[k].getContentAsWideString(), permissionDenied);
                     if (permissionDenied) {
-                        raiseError2(L"nelson:io:permissionDenied");
+                        raiseError2(_E("nelson:io:permissionDenied"));
                     }
                     bmat[k] = static_cast<Nelson::logical>(bIsFile);
                 } else {
                     delete[] bmat;
-                    raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_"
-                               L"OR_CELL_EXPECTED",
-                        ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
+                    raiseError2(_E("nelson:validators:mustBeTextAtPosition"), 1);
                 }
             }
             ArrayOf res = ArrayOf(NLS_LOGICAL, dim, bmat, false);
             retval << res;
         }
     } else {
-        raiseError(
-            L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
+        raiseError2(_E("nelson:validators:mustBeTextAtPosition"), 1);
     }
     return retval;
 }

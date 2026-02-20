@@ -63,11 +63,11 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                 ERROR_WRONG_VALUE_ARG3_NOT_SUPPORTED_PRECISION);
         }
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 3, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), NLS_STRING_ARRAY_STR, 3);
     }
     if (param1.isDoubleType()) {
         if (!param2.isNumeric()) {
-            raiseError2(L"nelson:validators:mustBeNumericAtPosition", 2);
+            raiseError2(_E("nelson:validators:mustBeNumericAtPosition"), 2);
         }
         bool bSizeIs2D = param2.is2D() && !param2.isScalar();
         int64 isize = 0;
@@ -112,7 +112,7 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
         auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
         auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
         if (fm == nullptr) {
-            raiseError2(L"nelson:io:fileManagerError");
+            raiseError2(_E("nelson:io:fileManagerError"));
         }
         if (fm->isOpened(iValue)) {
             File* f = fm->getFile(iValue);
@@ -154,10 +154,10 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                     ERROR_PROBLEM_TO_READ_DATA);
             }
         } else {
-            raiseError2(L"nelson:io:invalidFileId");
+            raiseError2(_E("nelson:io:invalidFileId"));
         }
     } else {
-        raiseError2(L"nelson:io:invalidFileId");
+        raiseError2(_E("nelson:io:invalidFileId"));
     }
     return retval;
 }
@@ -249,9 +249,9 @@ Nelson::StreamGateway::freadBuiltin(int nLhs, const ArrayOfVector& argIn)
         return freadBuiltinFiveRhs(nLhs, argIn);
     default: {
         if (argIn.size() < 2) {
-            raiseError2(L"nelson:arguments:tooFewInputs");
+            raiseError2(_E("nelson:arguments:tooFewInputs"));
         } else {
-            raiseError2(L"nelson:arguments:tooManyInputs");
+            raiseError2(_E("nelson:arguments:tooManyInputs"));
         }
     } break;
     }

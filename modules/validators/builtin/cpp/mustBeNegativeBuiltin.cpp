@@ -26,7 +26,7 @@ Nelson::ValidatorsGateway::mustBeNegativeBuiltin(int nLhs, const ArrayOfVector& 
         ArrayOf param2 = argIn[1];
         argPos = param2.getContentAsInteger32Scalar();
         if (argPos < 1) {
-            raiseError2(L"nelson:parsing:lastArgMustBePositiveInt");
+            raiseError2(_E("nelson:parsing:lastArgMustBePositiveInt"));
         }
     }
     mustBeNegative(argIn[0], argPos, true);

@@ -36,10 +36,10 @@ Nelson::ComEngineGateway::actxserverBuiltin(int nLhs, const ArrayOfVector& argIn
         progid = argIn[0].getContentAsWideString();
     } break;
     case 2: {
-        raiseError2(L"nelson:arguments:tooFewInputs");
+        raiseError2(_E("nelson:arguments:tooFewInputs"));
     } break;
     default: {
-        raiseError2(L"nelson:arguments:tooManyInputs");
+        raiseError2(_E("nelson:arguments:tooManyInputs"));
     } break;
     }
     ComHandleObject* comhandle = ActiveXServer(progid, machine);

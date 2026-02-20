@@ -139,7 +139,7 @@ ArrayOf::getContentAsSingleScalar(bool arrayAsScalar, bool checkIsIntegerValue) 
     if (checkIsIntegerValue) {
         single f = std::floor(value);
         if (std::abs(f - value) >= std::numeric_limits<double>::epsilon()) {
-            raiseError2(L"nelson:validators:mustBeIntegerAtPosition", 1);
+            raiseError2(_E("nelson:validators:mustBeIntegerAtPosition"), 1);
         }
     }
     return value;

@@ -40,12 +40,12 @@ Nelson::FftwGateway::FFTWwrapperBuiltin(int nLhs, const ArrayOfVector& argIn)
             std::wstring fftwfName = argIn[1].getContentAsWideString();
             retval << ArrayOf::logicalConstructor(loadFFTWLibrary(fftwName, fftwfName));
         } else {
-            raiseError2(L"Nelson:fftw:ERROR_WRONG_VALUE_FOR_1_LOAD_EXPECTED",
+            raiseError(L"Nelson:fftw:ERROR_WRONG_VALUE_FOR_1_LOAD_EXPECTED",
                 ERROR_WRONG_VALUE_FOR_1_LOAD_EXPECTED);
         }
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     } break;
     }
     return retval;

@@ -27,7 +27,7 @@ Nelson::MpiGateway::MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        raiseError2(L"nelson:mpi:mpiMustBeInit");
+        raiseError2(_E("nelson:mpi:mpiMustBeInit"));
     }
     ArrayOf A = argIn[0];
     ArrayOf tmp = argIn[1];
@@ -50,7 +50,7 @@ Nelson::MpiGateway::MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn)
             free(cp);
             retval << A;
         } else {
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         }
     } else {
         int msgsize = 0;
@@ -62,7 +62,7 @@ Nelson::MpiGateway::MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn)
             retval << unpackMPI(cp, msgsize, &packpos, comm);
             free(cp);
         } else {
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         }
     }
     return retval;

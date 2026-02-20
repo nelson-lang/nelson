@@ -22,7 +22,7 @@ ismethodQObject(QObjectHandleObject* qmlhandleobj, const std::wstring& methodnam
 {
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        raiseError2(L"nelson:arguments:validHandleExpected",
+        raiseError2(_E("nelson:arguments:validHandleExpected"),
             utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObject* qobj = (QObject*)ptr;
@@ -47,7 +47,7 @@ ismethodQObject(const ArrayOf& A, const std::wstring& methodname)
 {
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        raiseError2(L"nelson:arguments:validHandleExpected",
+        raiseError2(_E("nelson:arguments:validHandleExpected"),
             utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;

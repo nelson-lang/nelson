@@ -154,7 +154,7 @@ warningBuiltinNoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         retval = warningStruct(getAllWarningState());
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfOutputs"));
     } break;
     }
     return retval;
@@ -200,7 +200,7 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 retval << ArrayOf::characterArrayConstructor(lastWarning.getIdentifier());
             } break;
             default: {
-                raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
+                raiseError2(_E("nelson:arguments:wrongNumberOfOutputs"));
             } break;
             }
         } else if (isQuery(msg)) {
@@ -212,7 +212,7 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 retval = warningStruct(getAllWarningState());
             } break;
             default: {
-                raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
+                raiseError2(_E("nelson:arguments:wrongNumberOfOutputs"));
             } break;
             }
         } else if (isState(msg)) {
@@ -226,7 +226,7 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 retval = warningStruct(previousList);
             } break;
             default: {
-                raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
+                raiseError2(_E("nelson:arguments:wrongNumberOfOutputs"));
             } break;
             }
         } else {
@@ -243,7 +243,7 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 retval << ArrayOf::characterArrayConstructor(lastWarning.getIdentifier());
             } break;
             default: {
-                raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
+                raiseError2(_E("nelson:arguments:wrongNumberOfOutputs"));
             } break;
             }
         }
@@ -277,7 +277,7 @@ warningBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             retval << ArrayOf::structConstructor(fieldnames, fieldvalues);
         } break;
         default: {
-            raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
+            raiseError2(_E("nelson:arguments:wrongNumberOfOutputs"));
         } break;
         }
     } else {
@@ -295,7 +295,7 @@ warningBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             retval << ArrayOf::characterArrayConstructor(lastWarning.getIdentifier());
         } break;
         default: {
-            raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
+            raiseError2(_E("nelson:arguments:wrongNumberOfOutputs"));
         } break;
         }
     }
@@ -317,7 +317,7 @@ Nelson::ErrorManagerGateway::warningBuiltin(Evaluator* eval, int nLhs, const Arr
         return warningBuiltinTwoRhs(eval, nLhs, argIn);
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     } break;
     }
     return retval;

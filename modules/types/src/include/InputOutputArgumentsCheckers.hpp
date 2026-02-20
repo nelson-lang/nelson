@@ -47,7 +47,7 @@ inline void
 nargoutcheck(int nLhs, int minArgs)
 {
     if (nLhs < minArgs) {
-        raiseError2(L"nelson:arguments:tooFewOutputs");
+        raiseError2(_E("nelson:arguments:tooFewOutputs"));
     }
 }
 //=============================================================================
@@ -58,10 +58,10 @@ inline void
 nargoutcheck(int nLhs, int minArgs, int maxArgs)
 {
     if (nLhs < minArgs) {
-        raiseError2(L"nelson:arguments:tooFewOutputs");
+        raiseError2(_E("nelson:arguments:tooFewOutputs"));
     }
     if (nLhs > maxArgs) {
-        raiseError2(L"nelson:arguments:tooManyOutputs");
+        raiseError2(_E("nelson:arguments:tooManyOutputs"));
     }
 }
 //=============================================================================

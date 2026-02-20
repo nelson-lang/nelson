@@ -45,7 +45,7 @@ Nelson::RandomGateway::rngBuiltin(int nLhs, const ArrayOfVector& argIn)
     switch (argIn.size()) {
     case 0: {
         if (!haveRandomEngine()) {
-            raiseError2(L"nelson:random:randomEngineNotInit");
+            raiseError2(_E("nelson:random:randomEngineNotInit"));
         }
         retval << backupCurrentRng();
     } break;
@@ -101,7 +101,7 @@ Nelson::RandomGateway::rngBuiltin(int nLhs, const ArrayOfVector& argIn)
             RngSetEngine(s, genname);
             RngSetState(elements[2]);
         } else {
-            raiseError2(L"nelson:validators:mustBeValidType", 1);
+            raiseError2(_E("nelson:validators:mustBeValidType"), 1);
         }
     } break;
     case 2: {
@@ -146,7 +146,7 @@ Nelson::RandomGateway::rngBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     } break;
     }
     return retval;

@@ -36,18 +36,18 @@ BitwiseOperator(BITWISE_OPERATOR bitwiseOperator, const ArrayOf& A, const ArrayO
     ArrayOf res = {};
     if (A.isDoubleType()) {
         if (!A.isIntegerValue() && !A.isEmpty()) {
-            raiseError2(L"nelson:validators:mustBeFiniteAtPosition", 1);
+            raiseError2(_E("nelson:validators:mustBeFiniteAtPosition"), 1);
         }
         if (!A.isPositive()) {
-            raiseError2(L"nelson:validators:mustBePositiveAtPosition", 1);
+            raiseError2(_E("nelson:validators:mustBePositiveAtPosition"), 1);
         }
     }
     if (B.isDoubleType()) {
         if (!B.isIntegerValue() && !B.isEmpty()) {
-            raiseError2(L"nelson:validators:mustBeFiniteAtPosition", 2);
+            raiseError2(_E("nelson:validators:mustBeFiniteAtPosition"), 2);
         }
         if (!B.isPositive()) {
-            raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
+            raiseError2(_E("nelson:validators:mustBePositiveAtPosition"), 2);
         }
     }
     if (withAssumedType && !isSupportedAssumedType(assumedType)) {

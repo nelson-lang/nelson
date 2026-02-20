@@ -33,7 +33,7 @@ Nelson::ParallelGateway::backgroundPool_getBuiltin(int nLhs, const ArrayOfVector
     }
     ArrayOf res;
     if (!BackgroundPoolObject::getInstance()->get(propertyName, res)) {
-        raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
+        raiseError2(_E("nelson:validators:invalidValueAtPosition"), 2);
     }
     retval << res;
     return retval;

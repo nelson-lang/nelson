@@ -52,7 +52,7 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
                 lastpos = argIn.size();
             }
         } else {
-            raiseError2(L"nelson:validators:mustBeType", static_cast<int>(lastpos) + 1,
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), static_cast<int>(lastpos) + 1,
                 NLS_STRING_ARRAY_STR);
         }
         if (withOption) {
@@ -74,8 +74,8 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
                     lastpos = argIn.size() - 1;
                 }
             } else {
-                raiseError2(L"nelson:validators:mustBeType", static_cast<int>(lastpos) + 1,
-                    NLS_STRING_ARRAY_STR);
+                raiseError2(_E("nelson:validators:mustBeTypeAtPosition"),
+                    static_cast<int>(lastpos) + 1, NLS_STRING_ARRAY_STR);
             }
         }
     }
@@ -85,8 +85,8 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param.isRowVectorCharacterArray()) {
             params.push_back(param.getContentAsWideString());
         } else {
-            raiseError2(
-                L"nelson:validators:mustBeType", static_cast<int>(k) + 1, NLS_STRING_ARRAY_STR);
+            raiseError2(L"nelson:validators:mustBeTypeAtPosition", static_cast<int>(k) + 1,
+                NLS_STRING_ARRAY_STR);
         }
     }
     std::wstring previousPaths = PathFunctionIndexerManager::getInstance()->getPathNameAsString();

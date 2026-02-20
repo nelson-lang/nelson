@@ -27,7 +27,7 @@ Nelson::DataStructuresGateway::renameStructFieldBuiltin(int nLhs, const ArrayOfV
     ArrayOfVector retval;
 
     if (!argIn[0].isStruct()) {
-        raiseError2(L"nelson:validators:mustBeStructAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeStructAtPosition"), 1);
     }
 
     ArrayOf structArray = argIn[0];

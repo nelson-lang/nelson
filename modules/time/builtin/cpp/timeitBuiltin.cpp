@@ -34,7 +34,7 @@ Nelson::TimeGateway::timeitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     nargoutcheck(nLhs, 0, 1);
 
     if (argIn.size() < 1) {
-        raiseError2(L"nelson:arguments:tooFewInputs");
+        raiseError2(_E("nelson:arguments:tooFewInputs"));
     }
     int nLhsTimeIt = -1;
     if (argIn.size() > 1) {
@@ -51,19 +51,19 @@ Nelson::TimeGateway::timeitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     AnonymousMacroFunctionDef* funcDef = nullptr;
     function_handle fh = argIn[0].getContentAsFunctionHandle();
     if (fh.anonymousHandle == nullptr) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_FUNCTION_HANDLE_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), NLS_FUNCTION_HANDLE_STR, 1);
     }
     if (fh.anonymousHandle != nullptr) {
         funcDef = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
     }
     if (funcDef == nullptr) {
-        raiseError2(L"nelson:runtime:functionNotFound", L"anonymous function");
+        raiseError2(_E("nelson:runtime:functionNotFound"), L"anonymous function");
     }
 
     if (argIn.size() > 2) {
         if (funcDef->inputArgCount() != -1) {
             if (funcDef->inputArgCount() != argIn.size() - 2) {
-                raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+                raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
             }
         }
     }

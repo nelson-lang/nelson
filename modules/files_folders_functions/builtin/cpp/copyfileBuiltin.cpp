@@ -47,9 +47,7 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(int nLhs, const ArrayOfVector& argI
         wstringVector src = arg1.getContentAsWideStringVector(true);
         bRes = CopyFiles(src, dest, bForce, errorMessage);
     } else {
-        raiseError(L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_"
-                   L"EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
+        raiseError2(_E("nelson:validators:mustBeTextAtPosition"), 1);
     }
     if (nLhs == 0) {
         if (!bRes) {

@@ -46,12 +46,12 @@ checkArgument(Evaluator* eval, const ArrayOf& arg, bool& withCompleteNames, int&
             value = static_cast<double>(param1.getContentAsSingleScalar());
         } break;
         default: {
-            raiseError2(L"nelson:validators:mustBeScalarInteger", 1);
+            raiseError2(_E("nelson:validators:mustBeScalarInteger"), 1);
         } break;
         }
         int intValue = static_cast<int>(value);
         if (static_cast<double>(intValue) != value) {
-            raiseError2(L"nelson:validators:mustBeScalarInteger", 1);
+            raiseError2(_E("nelson:validators:mustBeScalarInteger"), 1);
         }
         nbOmits = intValue + 1;
         isNbOmits = true;
@@ -187,7 +187,7 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         }
     } break;
     default: {
-        raiseError2(L"nelson:arguments:tooManyInputs");
+        raiseError2(_E("nelson:arguments:tooManyInputs"));
     } break;
     }
 
@@ -218,7 +218,7 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         retval << ArrayOf::doubleConstructor(indexWorkspace);
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfOutputs"));
     } break;
     }
     return retval;

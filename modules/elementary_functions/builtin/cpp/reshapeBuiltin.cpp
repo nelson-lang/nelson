@@ -40,10 +40,10 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(int nLhs, const ArrayOfVector
         auto* dp = (double*)v.getDataPointer();
         for (indexType i = 0; i < v.getElementCount(); i++) {
             if (!std::isfinite(dp[i])) {
-                raiseError2(L"nelson:validators:mustBeFinite");
+                raiseError2(_E("nelson:validators:mustBeFinite"));
             }
             if (dp[i] != dp[i]) {
-                raiseError2(L"nelson:validators:mustBeFinite");
+                raiseError2(_E("nelson:validators:mustBeFinite"));
             }
             auto ivalue = static_cast<int64>(dp[i]);
             if (static_cast<double>(ivalue) != dp[i]) {
@@ -99,14 +99,14 @@ Nelson::ElementaryFunctionsGateway::reshapeBuiltin(int nLhs, const ArrayOfVector
                 double rest = static_cast<double>(nbElementsM)
                     / static_cast<double>(dims.getElementCount());
                 if (!std::isfinite(rest)) {
-                    raiseError2(L"nelson:validators:mustBeFinite");
+                    raiseError2(_E("nelson:validators:mustBeFinite"));
                 }
                 auto ivalue = static_cast<int64>(rest);
                 if (static_cast<double>(ivalue) != rest) {
-                    raiseError2(L"nelson:validators:mustBeInteger");
+                    raiseError2(_E("nelson:validators:mustBeInteger"));
                 }
                 if (ivalue < 0) {
-                    raiseError2(L"nelson:validators:mustBePositiveInteger");
+                    raiseError2(_E("nelson:validators:mustBePositiveInteger"));
                 }
                 dims[idxEmptyPosition] = static_cast<indexType>(ivalue);
             }

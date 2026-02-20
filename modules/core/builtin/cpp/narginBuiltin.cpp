@@ -41,7 +41,8 @@ Nelson::CoreGateway::narginBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         } else if (param1.isFunctionHandle()) {
             function_handle fh = param1.getContentAsFunctionHandle();
             if (fh.anonymousHandle == nullptr) {
-                raiseError2(L"nelson:validators:mustBeType", 1, NLS_FUNCTION_HANDLE_STR);
+                raiseError2(
+                    _E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_FUNCTION_HANDLE_STR);
             }
             AnonymousMacroFunctionDef* anonymousFunction
                 = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);

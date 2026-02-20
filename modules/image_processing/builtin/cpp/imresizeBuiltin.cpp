@@ -162,7 +162,7 @@ imresizeBuiltin(int nLhs, const ArrayOfVector& argIn)
             // Single scale factor
             double scale = scaleOrSize.getContentAsDoubleScalar();
             if (scale <= 0.0) {
-                raiseError2(L"nelson:validators:mustBePositiveAtPosition", scaleParamIndex + 1);
+                raiseError2(_E("nelson:validators:mustBePositiveAtPosition"), scaleParamIndex + 1);
             }
 
             if (isIndexedImage) {
@@ -222,7 +222,7 @@ imresizeBuiltin(int nLhs, const ArrayOfVector& argIn)
                 ERROR_SCALE_PARAMETER_MUST_BE_SCALAR_OR_2_ELEMENT_VECTOR);
         }
     } else {
-        raiseError2(L"nelson:validators:mustBeNumericAtPosition", scaleParamIndex + 1);
+        raiseError2(_E("nelson:validators:mustBeNumericAtPosition"), scaleParamIndex + 1);
     }
 
     return retval;

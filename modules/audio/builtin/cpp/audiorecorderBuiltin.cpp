@@ -44,7 +44,7 @@ Nelson::AudioGateway::audiorecorderBuiltin(int nLhs, const ArrayOfVector& argIn)
         objRec->setConfig(sampleRate, bits, channels, deviceID);
     } break;
     default: {
-        raiseError2(L"nelson:arguments:tooManyInputs");
+        raiseError2(_E("nelson:arguments:tooManyInputs"));
     } break;
     }
     if (!objRec) {

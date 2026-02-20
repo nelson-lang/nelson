@@ -427,7 +427,7 @@ ArrayOf::getContentAsWideStringVector(bool bCheckVector) const
                 }
             }
         } else {
-            raiseError2(L"nelson:validators:mustBeVector");
+            raiseError2(_E("nelson:validators:mustBeVector"));
         }
     }
     return res;
@@ -477,7 +477,7 @@ ArrayOf::getContentAsWideStringRowVector() const
             }
         }
     } else {
-        raiseError2(L"nelson:validators:mustBeRowVector");
+        raiseError2(_E("nelson:validators:mustBeRowVector"));
     }
     return res;
 }
@@ -527,7 +527,7 @@ ArrayOf::getContentAsWideStringColumnVector() const
                 }
             }
         } else {
-            raiseError2(L"nelson:validators:mustBeColumnVector");
+            raiseError2(_E("nelson:validators:mustBeColumnVector"));
         }
     }
     return res;

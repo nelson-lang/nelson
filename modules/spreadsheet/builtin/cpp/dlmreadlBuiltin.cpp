@@ -71,10 +71,10 @@ Nelson::SpreadsheetGateway::dlmreadBuiltin(int nLhs, const ArrayOfVector& argIn)
                     ERROR_DLMREAD_WRONG_SIZE_FOR_3_ROW_VECTOR_EXPECTED);
             }
             if (!param2.isNumeric()) {
-                raiseError2(L"nelson:validators:mustBeNumericAtPosition", 3);
+                raiseError2(_E("nelson:validators:mustBeNumericAtPosition"), 3);
             }
             if (param2.isSparse()) {
-                raiseError2(L"mustBeNonSparseAtPosition", 3);
+                raiseError2(_E("nelson:validators:mustBeNonSparseAtPosition"), 3);
             }
             param2.promoteType(NLS_DOUBLE);
             double* values = (double*)param2.getDataPointer();
@@ -95,18 +95,18 @@ Nelson::SpreadsheetGateway::dlmreadBuiltin(int nLhs, const ArrayOfVector& argIn)
                 ERROR_DLMREAD_WRONG_VALUE_ARG2_SINGLE_CHAR_EXPECTED);
         }
         if (!argIn[2].isScalar() || !argIn[2].isIntegerValue()) {
-            raiseError2(L"nelson:validators:mustBeIntegerAtPosition", 3);
+            raiseError2(_E("nelson:validators:mustBeIntegerAtPosition"), 3);
         } else {
             range.push_back(argIn[2].getContentAsDoubleScalar());
         }
         if (!argIn[3].isScalar() || !argIn[3].isIntegerValue()) {
-            raiseError2(L"nelson:validators:mustBeIntegerAtPosition", 4);
+            raiseError2(_E("nelson:validators:mustBeIntegerAtPosition"), 4);
         } else {
             range.push_back(argIn[3].getContentAsDoubleScalar());
         }
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     } break;
     }
 

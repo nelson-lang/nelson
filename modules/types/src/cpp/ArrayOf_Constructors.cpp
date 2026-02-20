@@ -91,7 +91,7 @@ ArrayOf::diagonalConstructor(ArrayOf src, int64 diagonalOrder)
 {
     ArrayOf retval;
     if (!src.isVector() && !src.isEmpty()) {
-        raiseError2(L"nelson:validators:mustBeVector");
+        raiseError2(_E("nelson:validators:mustBeVector"));
     }
     indexType length = src.getElementCount();
     indexType M = length + abs(diagonalOrder);

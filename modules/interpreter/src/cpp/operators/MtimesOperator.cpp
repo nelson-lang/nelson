@@ -58,12 +58,12 @@ Evaluator::mtimesOperator(const ArrayOfVector& args)
         if (A.isIntegerType()) {
             bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
             if (!isCompatible) {
-                raiseError2(L"nelson:runtime:operandsMustBeIntegersOrScalarDouble");
+                raiseError2(_E("nelson:runtime:operandsMustBeIntegersOrScalarDouble"));
             }
         } else if (B.isIntegerType()) {
             bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
             if (!isCompatible) {
-                raiseError2(L"nelson:runtime:operandsMustBeIntegersOrScalarDouble");
+                raiseError2(_E("nelson:runtime:operandsMustBeIntegersOrScalarDouble"));
             }
         } else if (commonType <= NLS_CHAR) {
             NelsonType _commonType = commonType;

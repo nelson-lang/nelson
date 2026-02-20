@@ -23,7 +23,7 @@ methodSignatureQObject(
 {
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        raiseError2(L"nelson:arguments:validHandleExpected",
+        raiseError2(_E("nelson:arguments:validHandleExpected"),
             utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     std::string umethodName = wstring_to_utf8(methodName);
@@ -49,14 +49,14 @@ methodSignatureQObject(const ArrayOf& A, const std::wstring& methodName)
 {
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        raiseError2(L"nelson:arguments:validHandleExpected",
+        raiseError2(_E("nelson:arguments:validHandleExpected"),
             utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     std::wstring signature;
     bool res = methodSignatureQObject(qmlhandleobj, methodName, signature);
     if (res == false) {
-        raiseError2(L"nelson:runtime:methodNotFound", methodName);
+        raiseError2(_E("nelson:runtime:methodNotFound"), methodName);
     }
     return ArrayOf::characterArrayConstructor(signature);
 }

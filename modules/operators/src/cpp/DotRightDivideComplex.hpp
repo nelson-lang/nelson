@@ -283,7 +283,7 @@ complex_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const Arra
             if (A.isVector() || B.isVector()) {
                 if ((A.isRowVector() && B.isRowVector())
                     || (A.isColumnVector() && B.isColumnVector())) {
-                    raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"./");
+                    raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"./");
                 } else if (A.isRowVector() && B.isColumnVector()) {
                     res = row_column_complex_dotRightDivide<T>(classDestination, A, B);
                 } else if (A.isColumnVector() && B.isRowVector()) {
@@ -291,32 +291,32 @@ complex_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const Arra
                 } else if (dimsA.getRows() == dimsB.getRows()) {
                     if (A.isVector()) {
                         if (!B.is2D()) {
-                            raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"./");
+                            raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"./");
                         }
                         res = row_matrix_complex_dotRightDivide<T>(classDestination, A, B);
                     } else {
                         if (!A.is2D()) {
-                            raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"./");
+                            raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"./");
                         }
                         res = matrix_row_complex_dotRightDivide<T>(classDestination, A, B);
                     }
                 } else if (dimsA.getColumns() == dimsB.getColumns()) {
                     if (A.isVector()) {
                         if (!B.is2D()) {
-                            raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"./");
+                            raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"./");
                         }
                         res = column_matrix_complex_dotRightDivide<T>(classDestination, A, B);
                     } else {
                         if (!A.is2D()) {
-                            raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"./");
+                            raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"./");
                         }
                         res = matrix_column_complex_dotRightDivide<T>(classDestination, A, B);
                     }
                 } else {
-                    raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"./");
+                    raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"./");
                 }
             } else {
-                raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"./");
+                raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"./");
             }
         }
     }

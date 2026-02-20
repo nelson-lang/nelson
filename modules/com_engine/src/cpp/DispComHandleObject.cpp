@@ -43,7 +43,7 @@ DispComHandleObject(Interface* io, const ArrayOf& A, const std::string& name)
             nelson_handle hl = qp[0];
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
             if (hlObj->getCategory() != NLS_HANDLE_COM_CATEGORY_STR) {
-                raiseError2(L"nelson:arguments:validHandleExpected",
+                raiseError2(_E("nelson:arguments:validHandleExpected"),
                     utf8_to_wstring(NLS_HANDLE_COM_CATEGORY_STR));
             }
             auto* comhandleobj = (ComHandleObject*)hlObj;

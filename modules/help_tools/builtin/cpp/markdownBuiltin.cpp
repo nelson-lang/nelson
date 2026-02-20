@@ -65,7 +65,7 @@ Nelson::HelpToolsGateway::markdownBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if (param1.isRowVectorCharacterArray() || param1.isScalarStringArray()) {
             stringInput = param1.getContentAsWideString();
         } else {
-            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
         }
 
         std::wstring stringOutput;

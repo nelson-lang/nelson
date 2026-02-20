@@ -34,7 +34,7 @@ Nelson::FunctionHandleGateway::func2strBuiltin(int nLhs, const ArrayOfVector& ar
                 ERROR_INVALID_ANONYMOUS_FUNCTION);
         }
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_FUNCTION_HANDLE_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_FUNCTION_HANDLE_STR);
     }
     return retval;
 }

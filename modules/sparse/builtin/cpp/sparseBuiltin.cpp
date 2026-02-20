@@ -59,10 +59,10 @@ sparseBuiltinThreeRhs(int nLhs, const ArrayOfVector& argIn)
     ArrayOf J(argIn[1]);
     ArrayOf V(argIn[2]);
     if (I.isComplex()) {
-        raiseError2(L"nelson:validators:mustBePositiveAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBePositiveAtPosition"), 1);
     }
     if (J.isComplex()) {
-        raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
+        raiseError2(_E("nelson:validators:mustBePositiveAtPosition"), 2);
     }
     if ((V.getDataClass() == NLS_DOUBLE || V.getDataClass() == NLS_DCOMPLEX
             || V.getDataClass() == NLS_LOGICAL)
@@ -133,7 +133,7 @@ Nelson::SparseGateway::sparseBuiltin(int nLhs, const ArrayOfVector& argIn)
     case 6:
         return sparseBuiltinFiveOrSixRhs(nLhs, argIn);
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     } break;
     }
     return retval;

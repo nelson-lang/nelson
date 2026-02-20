@@ -64,14 +64,14 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     for (indexType k = 0; k < argIn[0].getElementCount(); k++) {
                         double _dIndex = dindex[k];
                         if (!std::isfinite(_dIndex)) {
-                            raiseError2(L"nelson:validators:mustBeFiniteAtPosition", k + 1);
+                            raiseError2(_E("nelson:validators:mustBeFiniteAtPosition"), k + 1);
                         }
                         if (_dIndex < 0) {
                             _dIndex = 0;
                         }
                         auto index = static_cast<indexType>(_dIndex);
                         if (static_cast<double>(index) != _dIndex) {
-                            raiseError2(L"nelson:validators:mustBeIntegerAtPosition", k + 1);
+                            raiseError2(_E("nelson:validators:mustBeIntegerAtPosition"), k + 1);
                         }
                         dims.setDimensionLength(k, index);
                     }
@@ -90,7 +90,7 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     ERROR_WRONG_ARGUMENT_X_SIZE_SCALAR_OR_ROW_VECTOR_EXPECTED, 1);
             }
         } else {
-            raiseError2(L"nelson:validators:mustBeType", 1, NLS_DOUBLE_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_DOUBLE_STR);
         }
     } else {
         Dimensions dims(argIn.size());
@@ -100,10 +100,10 @@ Nelson::DataStructuresGateway::cellBuiltin(int nLhs, const ArrayOfVector& argIn)
                     indexType index = argIn[k].getContentAsScalarIndex(true, true, true);
                     dims.setDimensionLength(k, index);
                 } else {
-                    raiseError2(L"nelson:validators:mustBeScalarAtPosition", k + 1);
+                    raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), k + 1);
                 }
             } else {
-                raiseError2(L"nelson:validators:mustBeType", k + 1, NLS_DOUBLE_STR);
+                raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), k + 1, NLS_DOUBLE_STR);
             }
         }
         dims.simplify();

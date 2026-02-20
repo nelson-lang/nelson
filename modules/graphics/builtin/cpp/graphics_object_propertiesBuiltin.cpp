@@ -36,7 +36,7 @@ Nelson::GraphicsGateway::graphics_object_propertiesBuiltin(
         fp = (GraphicsObject*)findGOFigure(handle);
     }
     if (!fp) {
-        raiseError2(L"nelson:validators:invalidNelsonHandle");
+        raiseError2(_E("nelson:validators:invalidNelsonHandle"));
     }
     std::vector<std::wstring> propertyNames = fp->getVisibleFieldnames();
     if (nLhs == 0) {

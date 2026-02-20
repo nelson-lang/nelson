@@ -208,7 +208,7 @@ ArrayOf::toOrdinalType()
                     ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
             }
             if (ndx <= 0) {
-                raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
+                raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
             }
             lp[i] = ndx;
         }
@@ -234,7 +234,7 @@ ArrayOf::toOrdinalType()
                     ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
             }
             if (ndx <= 0) {
-                raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
+                raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
             }
             lp[i] = ndx;
         }
@@ -258,7 +258,7 @@ ArrayOf::toOrdinalType()
                     ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
             }
             if (ndx <= 0) {
-                raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
+                raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
             }
             lp[i] = ndx;
         }
@@ -282,7 +282,7 @@ ArrayOf::toOrdinalType()
                     ERROR_INDEX_MUST_EITHER_BE_REAL_POSITIVE_INTEGERS_OR_LOGICALS);
             }
             if (ndx <= 0) {
-                raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
+                raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
             }
             lp[i] = ndx;
         }
@@ -300,7 +300,7 @@ ArrayOf::toOrdinalType()
         indexType* lp = new_with_exception<indexType>(len, false);
         for (indexType i = 0; i < len; i++) {
             if (rp[i] <= 0) {
-                raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
+                raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
             }
             ndx = (indexType)rp[i];
             lp[i] = ndx;
@@ -324,7 +324,7 @@ ArrayOf::toOrdinalType()
             }
             ndx = (indexType)rp[i];
             if (rp[i] <= 0) {
-                raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
+                raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
             }
             lp[i] = ndx;
         }
@@ -343,7 +343,7 @@ ArrayOf::toOrdinalType()
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
+                raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
             }
             lp[i] = ndx;
         }
@@ -362,7 +362,7 @@ ArrayOf::toOrdinalType()
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
+                raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
             }
             lp[i] = ndx;
         }
@@ -381,7 +381,7 @@ ArrayOf::toOrdinalType()
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
+                raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
             }
             lp[i] = ndx;
         }
@@ -400,7 +400,7 @@ ArrayOf::toOrdinalType()
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
+                raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
             }
             lp[i] = ndx;
         }
@@ -419,7 +419,7 @@ ArrayOf::toOrdinalType()
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
+                raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
             }
             lp[i] = ndx;
         }
@@ -438,7 +438,7 @@ ArrayOf::toOrdinalType()
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             ndx = rp[i];
             if (rp[i] <= 0) {
-                raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
+                raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
             }
             lp[i] = ndx;
         }
@@ -1300,7 +1300,7 @@ ArrayOf::getContentAsScalarIndex(
 {
     indexType idx = 0;
     if (getElementCount() != 1) {
-        raiseError2(L"nelson:validators:mustBeScalar");
+        raiseError2(_E("nelson:validators:mustBeScalar"));
     }
     double valueAsDouble;
     ArrayOf P;
@@ -1331,14 +1331,14 @@ ArrayOf::getContentAsScalarIndex(
         }
     } else {
         if (IsFinite(valueAsDouble)) {
-            raiseError2(L"nelson:validators:mustBeIntegerForm");
+            raiseError2(_E("nelson:validators:mustBeIntegerForm"));
         } else {
-            raiseError2(L"nelson:validators:mustBeFinite");
+            raiseError2(_E("nelson:validators:mustBeFinite"));
         }
     }
     if (!bWithZero) {
         if (idx == 0) {
-            raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
+            raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
         }
     }
     return idx;
@@ -1365,9 +1365,9 @@ ArrayOf::getContentAsIndexVector()
             }
         } else {
             if (IsFinite(qp[k])) {
-                raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
+                raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
             } else {
-                raiseError2(L"nelson:validators:mustBeFinite");
+                raiseError2(_E("nelson:validators:mustBeFinite"));
             }
         }
     }
@@ -1396,9 +1396,9 @@ ArrayOf::getContentAsIndexPointer()
         } else {
             delete[] pIndex;
             if (IsFinite(qp[k])) {
-                raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
+                raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
             } else {
-                raiseError2(L"nelson:validators:mustBeFinite");
+                raiseError2(_E("nelson:validators:mustBeFinite"));
             }
         }
     }

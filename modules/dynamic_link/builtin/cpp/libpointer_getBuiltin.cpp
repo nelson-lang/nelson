@@ -26,7 +26,7 @@ Nelson::DynamicLinkGateway::libpointer_getBuiltin(int nLhs, const ArrayOfVector&
     ArrayOf param1 = argIn[0];
     ArrayOfVector retval;
     if (param1.getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-        raiseError2(L"nelson:arguments:libpointerHandleExpected");
+        raiseError2(_E("nelson:arguments:libpointerHandleExpected"));
     }
     LibPointerObject* objLibPointer = (LibPointerObject*)param1.getContentAsHandleScalar();
     ArrayOf res;
@@ -36,7 +36,7 @@ Nelson::DynamicLinkGateway::libpointer_getBuiltin(int nLhs, const ArrayOfVector&
         ArrayOf param2 = argIn[1];
         std::wstring propertyName = param2.getContentAsWideString();
         if (!objLibPointer->get(propertyName, res)) {
-            raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
+            raiseError2(_E("nelson:validators:invalidValueAtPosition"), 2);
         }
     }
     retval << res;

@@ -44,7 +44,7 @@ updatePivotVector(int nrows, int* piv, int p)
     try {
         fullpivot = new int[nrows];
     } catch (std::bad_alloc&) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     OMP_PARALLEL_FOR_LOOP(nrows)
     for (ompIndexType i = 0; i < (ompIndexType)nrows; i++) {
@@ -473,7 +473,7 @@ LUMatrixFactorizationDoubleReal(const ArrayOf& A, int nLhs)
     ArrayOfVector retval;
 
     if (!isAllFinite<double>(A)) {
-        raiseError2(L"nelson:validators:mustBeFinite");
+        raiseError2(_E("nelson:validators:mustBeFinite"));
     }
     int nrows = (int)A.getRows();
     int ncols = (int)A.getColumns();
@@ -546,7 +546,7 @@ LUMatrixFactorizationSingleReal(const ArrayOf& A, int nLhs)
     ArrayOfVector retval;
 
     if (!isAllFinite<single>(A)) {
-        raiseError2(L"nelson:validators:mustBeFinite");
+        raiseError2(_E("nelson:validators:mustBeFinite"));
     }
     int nrows = (int)A.getRows();
     int ncols = (int)A.getColumns();
@@ -609,7 +609,7 @@ LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs)
 {
     ArrayOfVector retval;
     if (!isAllFinite<double>(A)) {
-        raiseError2(L"nelson:validators:mustBeFinite");
+        raiseError2(_E("nelson:validators:mustBeFinite"));
     }
     int nrows = (int)A.getRows();
     int ncols = (int)A.getColumns();
@@ -676,7 +676,7 @@ LUMatrixFactorizationSingleComplex(const ArrayOf& A, int nLhs)
 {
     ArrayOfVector retval;
     if (!isAllFinite<single>(A)) {
-        raiseError2(L"nelson:validators:mustBeFinite");
+        raiseError2(_E("nelson:validators:mustBeFinite"));
     }
     int nrows = (int)A.getRows();
     int ncols = (int)A.getColumns();

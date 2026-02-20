@@ -616,7 +616,7 @@ Minimum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOve
     ArrayOfVector retval;
     needToOverload = false;
     if (dim < 1) {
-        raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
+        raiseError2(_E("nelson:validators:mustBePositiveAtPosition"), 2);
     }
     indexType workDim = dim - 1;
     if (A.isSparse()) {

@@ -27,7 +27,7 @@ Nelson::AudioGateway::audioplayer_getBuiltin(int nLhs, const ArrayOfVector& argI
     std::wstring propertyName = param2.getContentAsWideString();
     ArrayOfVector retval(1);
     if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
-        raiseError2(L"nelson:sound:audioplayerHandleExpected");
+        raiseError2(_E("nelson:sound:audioplayerHandleExpected"));
     }
     auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     ArrayOf res;

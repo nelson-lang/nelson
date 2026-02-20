@@ -102,7 +102,7 @@ sha256Conversion(const ArrayOf& arg, SHA256_CONVERSION_TYPE sha256Conversion)
         } break;
         }
     } else {
-        raiseError2(L"nelson:validators:mustBeValidType", 1);
+        raiseError2(_E("nelson:validators:mustBeValidType"), 1);
     }
     return res;
 }
@@ -129,11 +129,11 @@ Nelson::CoreGateway::sha256Builtin(int nLhs, const ArrayOfVector& argIn)
         } else if (param2 == L"-string") {
             retval << sha256Conversion(argIn[0], SHA256_CONVERSION_TYPE::STRING);
         } else {
-            raiseError2(L"nelson:validators:mustBeValidType", 2);
+            raiseError2(_E("nelson:validators:mustBeValidType"), 2);
         }
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     } break;
     }
     return retval;

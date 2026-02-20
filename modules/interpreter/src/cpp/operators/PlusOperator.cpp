@@ -57,7 +57,7 @@ Evaluator::plusOperator(const ArrayOfVector& args)
     }
     if (isSparse
         && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX && commonType != NLS_LOGICAL)) {
-        raiseError2(L"nelson:runtime:sparseNotImplemented");
+        raiseError2(_E("nelson:runtime:sparseNotImplemented"));
     }
 
     if (isComplex && (commonType == NLS_DOUBLE)) {
@@ -87,14 +87,14 @@ Evaluator::plusOperator(const ArrayOfVector& args)
             if (A.isIntegerType()) {
                 bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
                 if (!isCompatible) {
-                    raiseError2(L"nelson:runtime:operandsMustBeIntegersOrScalarDouble");
+                    raiseError2(_E("nelson:runtime:operandsMustBeIntegersOrScalarDouble"));
                 }
                 A.promoteType(commonType);
                 B.promoteType(commonType);
             } else if (B.isIntegerType()) {
                 bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
                 if (!isCompatible) {
-                    raiseError2(L"nelson:runtime:operandsMustBeIntegersOrScalarDouble");
+                    raiseError2(_E("nelson:runtime:operandsMustBeIntegersOrScalarDouble"));
                 }
                 A.promoteType(commonType);
                 B.promoteType(commonType);

@@ -23,7 +23,7 @@ Nelson::FunctionHandleGateway::function_handle_fieldnamesBuiltin(
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
     // we do not allow to display the fields
-    raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRUCT_ARRAY_STR);
+    raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), NLS_STRUCT_ARRAY_STR, 1);
     return retval;
 }
 //=============================================================================

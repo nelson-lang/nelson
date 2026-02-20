@@ -330,14 +330,14 @@ T_mtimes_T(NelsonType realClass, NelsonType complexClass, const ArrayOf& A, cons
             res.promoteType(realClass);
             return res;
         }
-        raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"*");
+        raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"*");
     }
     if ((!A.is2D() || !B.is2D()) && !withScalar) {
         raiseError(L"Nelson:operators:ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED",
             ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     if (isSizeMismatch(A, B)) {
-        raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"*");
+        raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"*");
     }
     if (A.isEmpty()) {
         size_t mA = dimsA.getRows();
@@ -409,14 +409,14 @@ integer_mtimes_integer(const ArrayOf& A, const ArrayOf& B)
             res.promoteType(A.getDataClass());
             return res;
         }
-        raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"*");
+        raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"*");
     }
     if (!A.is2D() || !B.is2D()) {
         raiseError(L"Nelson:operators:ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED",
             ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
     }
     if (isSizeMismatch(A, B)) {
-        raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"*");
+        raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"*");
     }
     if (A.isEmpty()) {
         size_t mA = dimsA.getRows();
@@ -479,14 +479,7 @@ matrixMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         if (A.isIntegerType()) {
             bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
             if (!isCompatible) {
-                raiseError(L"Nelson:operators:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OR_"
-                           L"SCALAR_DOUBLES",
-                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OR_SCALAR_DOUBLES);
-            }
-            if (B.isComplex()) {
-                raiseError(
-                    L"Nelson:operators:ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR",
-                    ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR, L"*");
+                raiseError2(_E("nelson:runtime:operandsMustBeIntegersOrScalarDouble"));
             }
             ArrayOf AA = A;
             AA.promoteType(B.getDataClass());
@@ -498,15 +491,9 @@ matrixMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         } else if (B.isIntegerType()) {
             bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
             if (!isCompatible) {
-                raiseError(L"Nelson:operators:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OR_"
-                           L"SCALAR_DOUBLES",
-                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OR_SCALAR_DOUBLES);
+                raiseError2(_E("nelson:runtime:operandsMustBeIntegersOrScalarDouble"));
             }
-            if (A.isComplex()) {
-                raiseError(
-                    L"Nelson:operators:ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR",
-                    ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR, L"*");
-            }
+
             ArrayOf BB = B;
             BB.promoteType(A.getDataClass());
             ArrayOf res = matrixMultiplication(A, BB, needToOverload);

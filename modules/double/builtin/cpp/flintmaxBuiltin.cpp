@@ -34,7 +34,7 @@ Nelson::DoubleGateway::flintmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
                 retval << ArrayOf::singleConstructor(intmax);
             }
         } else {
-            raiseError2(L"nelson:validators:mustBeDoubleOrSingle");
+            raiseError2(_E("nelson:validators:mustBeDoubleOrSingle"));
         }
     } else if (argIn.size() == 2) {
         if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
@@ -47,13 +47,13 @@ Nelson::DoubleGateway::flintmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
                     single intmax = (1UL << FLT_MANT_DIG);
                     retval << ArrayOf::singleConstructor(intmax);
                 } else {
-                    raiseError2(L"nelson:validators:mustBeDoubleOrSingle");
+                    raiseError2(_E("nelson:validators:mustBeDoubleOrSingle"));
                 }
             } else {
-                raiseError2(L"nelson:validators:likeExpectedAtPosition", L"N - 2");
+                raiseError2(_E("nelson:validators:likeExpectedAtPosition"), L"N - 2");
             }
         } else {
-            raiseError2(L"nelson:validators:likeExpectedAtPosition", L"N - 2");
+            raiseError2(_E("nelson:validators:likeExpectedAtPosition"), L"N - 2");
         }
     } else {
         double intmax = (1ULL << DBL_MANT_DIG);

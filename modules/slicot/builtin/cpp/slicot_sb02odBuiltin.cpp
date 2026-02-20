@@ -188,28 +188,28 @@ Nelson::SlicotGateway::slicot_sb02odBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 1);
     }
     if (!dimsJOBB.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 2);
     }
     if (!dimsFACT.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 3);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 3);
     }
     if (!dimsUPLO.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 4);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 4);
     }
     if (!dimsJOBL.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 5);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 5);
     }
     if (!dimsSORT.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 6);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 6);
     }
     if (!dimsP.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 7);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 7);
     }
     if (!dimsTOL.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 13);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 13);
     }
     // CALL EXTERN FUNCTION
     try {
@@ -219,7 +219,7 @@ Nelson::SlicotGateway::slicot_sb02odBuiltin(int nLhs, const ArrayOfVector& argIn
             BETA_output_ptr, S_output_ptr, LDS_ptr, T_output_ptr, LDT_ptr, U_output_ptr, LDU_ptr,
             TOL_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr, BWORK_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError2(L"nelson:slicot:slicotFuncFails", L"sb02od");
+        raiseError2(_E("nelson:slicot:slicotFuncFails"), L"sb02od");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

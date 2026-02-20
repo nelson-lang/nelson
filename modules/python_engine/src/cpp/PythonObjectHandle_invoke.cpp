@@ -100,7 +100,7 @@ PythonObjectHandle::invokeMethodNoArgument(
     PyObject* pyObject = (PyObject*)this->getPointer();
 
     if (!pyObject) {
-        raiseError2(L"nelson:runtime:invalidPythonObject");
+        raiseError2(_E("nelson:runtime:invalidPythonObject"));
     }
     PyObject* method = NLSPyObject_GetAttrString(pyObject, wstring_to_utf8(methodName).c_str());
     if (!method || !NLSPyCallable_Check(method)) {
@@ -136,7 +136,7 @@ PythonObjectHandle::invokeMethodOneArgument(
     PyObject* pyObject = (PyObject*)this->getPointer();
 
     if (!pyObject) {
-        raiseError2(L"nelson:runtime:invalidPythonObject");
+        raiseError2(_E("nelson:runtime:invalidPythonObject"));
     }
     PyObject* method = NLSPyObject_GetAttrString(pyObject, wstring_to_utf8(methodName).c_str());
     if (!method || !NLSPyCallable_Check(method)) {
@@ -184,7 +184,7 @@ PythonObjectHandle::invokeMethodMultipleArguments(
     PyObject* pyObject = (PyObject*)this->getPointer();
 
     if (!pyObject) {
-        raiseError2(L"nelson:runtime:invalidPythonObject");
+        raiseError2(_E("nelson:runtime:invalidPythonObject"));
     }
     PyObject* method = NLSPyObject_GetAttrString(pyObject, wstring_to_utf8(methodName).c_str());
     if (!method || !NLSPyCallable_Check(method)) {

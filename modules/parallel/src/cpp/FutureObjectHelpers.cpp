@@ -61,7 +61,7 @@ ArrayOfVector
 vertCatArrayOfVector(const ArrayOfVector& args1, const ArrayOfVector& args2, Exception& e)
 {
     if (args1.size() != args2.size()) {
-        raiseError2(L"nelson:arguments:sameSizeExpected");
+        raiseError2(_E("nelson:arguments:sameSizeExpected"));
     }
     size_t nbElements = args1.size();
     ArrayOfVector result;

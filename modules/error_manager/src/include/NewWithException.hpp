@@ -29,7 +29,7 @@ new_with_exception(size_t len, bool initializeToZero = true)
             }
         } catch (const std::bad_alloc&) {
             ptr = nullptr;
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         }
     }
     return ptr;

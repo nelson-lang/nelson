@@ -27,7 +27,7 @@ Nelson::StreamGateway::frewindBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 0);
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
-        raiseError2(L"nelson:io:fileManagerError");
+        raiseError2(_E("nelson:io:fileManagerError"));
     }
     ArrayOf param1 = argIn[0];
     auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
@@ -39,7 +39,7 @@ Nelson::StreamGateway::frewindBuiltin(int nLhs, const ArrayOfVector& argIn)
             FileRewind(f);
         }
     } else {
-        raiseError2(L"nelson:io:invalidFileId");
+        raiseError2(_E("nelson:io:invalidFileId"));
     }
     return retval;
 }

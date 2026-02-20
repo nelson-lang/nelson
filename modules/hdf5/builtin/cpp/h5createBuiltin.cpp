@@ -32,14 +32,14 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring datasetname = param2.getContentAsWideString();
     ArrayOf param3 = argIn[2];
     if (!param3.isRowVector()) {
-        raiseError2(L"nelson:validators:mustBeRowVectorAtPosition", 3);
+        raiseError2(_E("nelson:validators:mustBeRowVectorAtPosition"), 3);
     }
     bool isSupportedSizeType = param3.getDataClass() == NLS_DOUBLE && !param3.isNdArrayDoubleType();
     if (!isSupportedSizeType) {
-        raiseError2(L"nelson:validators:mustBeDoubleAtPosition", 3);
+        raiseError2(_E("nelson:validators:mustBeDoubleAtPosition"), 3);
     }
     if (param3.isEmpty()) {
-        raiseError2(L"nelson:validators:mustBeRowVectorAtPosition", 3);
+        raiseError2(_E("nelson:validators:mustBeRowVectorAtPosition"), 3);
     }
     auto* sizePtr = (double*)param3.getDataPointer();
     std::vector<double> sizeData;
@@ -58,7 +58,7 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() > 3) {
         indexType nbOptions = argIn.size() - 3;
         if (nbOptions % 2 != 0) {
-            raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+            raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
         }
     }
     for (size_t i = 3; i + 1 < argIn.size(); i += 2) {
@@ -87,16 +87,16 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
             } else if (dataTypeStr == L"uint64") {
                 dataType = NLS_UINT64;
             } else {
-                raiseError2(L"nelson:internal:typeNotManaged");
+                raiseError2(_E("nelson:internal:typeNotManaged"));
             }
         } else if (paramXname.getContentAsWideString() == L"ChunkSize") {
             bool isSupportedSizeType
                 = paramXvalue.getDataClass() == NLS_DOUBLE && !paramXvalue.isNdArrayDoubleType();
             if (!isSupportedSizeType) {
-                raiseError2(L"nelson:validators:mustBeDoubleAtPosition", i + 1);
+                raiseError2(_E("nelson:validators:mustBeDoubleAtPosition"), i + 1);
             }
             if (paramXvalue.isEmpty()) {
-                raiseError2(L"nelson:validators:mustBeRowVectorAtPosition", i + 1);
+                raiseError2(_E("nelson:validators:mustBeRowVectorAtPosition"), i + 1);
             }
             double* chunkSizePtr = (double*)paramXvalue.getDataPointer();
             indexType nbElements = paramXvalue.getElementCount();
@@ -108,13 +108,13 @@ Nelson::Hdf5Gateway::h5createBuiltin(int nLhs, const ArrayOfVector& argIn)
             deflate = (int)paramXvalue.getContentAsScalarIndex(true);
         } else if (paramXname.getContentAsWideString() == L"FillValue") {
             if (!paramXvalue.isScalar()) {
-                raiseError2(L"nelson:validators:mustBeScalar");
+                raiseError2(_E("nelson:validators:mustBeScalar"));
             }
             NelsonType valueClass = paramXvalue.getDataClass();
             bool isSupportedType = (valueClass == NLS_DOUBLE || valueClass == NLS_SINGLE
                 || IS_INTEGER_TYPE(valueClass));
             if (!isSupportedType) {
-                raiseError2(L"nelson:validators:mustBeIntegerFormAtPosition", i + 1);
+                raiseError2(_E("nelson:validators:mustBeIntegerFormAtPosition"), i + 1);
             }
             fillvalue = paramXvalue;
         } else if (paramXname.getContentAsWideString() == L"Fletcher32") {

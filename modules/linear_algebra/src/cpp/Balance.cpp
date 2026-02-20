@@ -76,7 +76,7 @@ Balance(const ArrayOf& A, bool noperm, int nLhs, bool& needToOverload)
     }
     Dimensions dimsA = A.getDimensions();
     if (dimsA.getRows() != dimsA.getColumns()) {
-        raiseError2(L"nelson:validators:mustBeSquareMatrix");
+        raiseError2(_E("nelson:validators:mustBeSquareMatrix"));
     }
     if (A.isEmpty()) {
         ArrayOfVector retval;
@@ -120,7 +120,7 @@ ArrayOfVector
 doubleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
 {
     if (!isAllFinite<double>(A)) {
-        raiseError2(L"nelson:validators:mustBeFinite");
+        raiseError2(_E("nelson:validators:mustBeFinite"));
     }
     char JOB = noperm ? (false ? 'N' : 'S') : (false ? 'P' : 'B');
     int N = (int)A.getColumns();
@@ -134,7 +134,7 @@ doubleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
     int INFO = LAPACKE_dgebal(
         LAPACK_COL_MAJOR, JOB, N, (double*)B.getDataPointer(), N, &ILO, &IHI, ptrScale);
     if (INFO < 0) {
-        raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"dggebal", INFO);
+        raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"dggebal", INFO);
     }
 
     ArrayOfVector retval;
@@ -160,7 +160,7 @@ ArrayOfVector
 doubleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
 {
     if (!isAllFinite<double>(A)) {
-        raiseError2(L"nelson:validators:mustBeFinite");
+        raiseError2(_E("nelson:validators:mustBeFinite"));
     }
     char JOB = noperm ? (false ? 'N' : 'S') : (false ? 'P' : 'B');
     int N = (int)A.getColumns();
@@ -175,7 +175,7 @@ doubleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
 
     int INFO = LAPACKE_zgebal(LAPACK_COL_MAJOR, JOB, N, pzB, N, &ILO, &IHI, ptrScale);
     if (INFO < 0) {
-        raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"zgebal", INFO);
+        raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"zgebal", INFO);
     }
 
     ArrayOfVector retval;
@@ -200,7 +200,7 @@ ArrayOfVector
 singleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
 {
     if (!isAllFinite<single>(A)) {
-        raiseError2(L"nelson:validators:mustBeFinite");
+        raiseError2(_E("nelson:validators:mustBeFinite"));
     }
     char JOB = noperm ? (false ? 'N' : 'S') : (false ? 'P' : 'B');
     int N = (int)A.getColumns();
@@ -214,7 +214,7 @@ singleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
     int INFO = LAPACKE_sgebal(
         LAPACK_COL_MAJOR, JOB, N, (single*)B.getDataPointer(), N, &ILO, &IHI, ptrScale);
     if (INFO < 0) {
-        raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"sgebal", INFO);
+        raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"sgebal", INFO);
     }
 
     ArrayOfVector retval;
@@ -239,7 +239,7 @@ ArrayOfVector
 singleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
 {
     if (!isAllFinite<single>(A)) {
-        raiseError2(L"nelson:validators:mustBeFinite");
+        raiseError2(_E("nelson:validators:mustBeFinite"));
     }
     char JOB = noperm ? (false ? 'N' : 'S') : (false ? 'P' : 'B');
     int N = (int)A.getColumns();
@@ -254,7 +254,7 @@ singleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
 
     int INFO = LAPACKE_cgebal(LAPACK_COL_MAJOR, JOB, N, pzB, N, &ILO, &IHI, ptrScale);
     if (INFO < 0) {
-        raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"cgebal", INFO);
+        raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"cgebal", INFO);
     }
 
     ArrayOfVector retval;

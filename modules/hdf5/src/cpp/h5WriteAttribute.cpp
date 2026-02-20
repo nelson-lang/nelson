@@ -47,11 +47,11 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
         = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            raiseError2(L"nelson:io:permissionDenied");
+            raiseError2(_E("nelson:io:permissionDenied"));
         }
     }
     if (!fileExistPreviously) {
-        raiseError2(L"nelson:io:fileNotFound", hdf5_filename.wstring());
+        raiseError2(_E("nelson:io:fileNotFound"), hdf5_filename.wstring());
     } else {
         if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str())) {
             raiseError(

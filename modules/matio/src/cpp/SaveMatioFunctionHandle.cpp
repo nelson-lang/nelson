@@ -31,7 +31,7 @@ SaveMatioFunctionHandle(
 
     function_handle fh = variableValue.getContentAsFunctionHandle();
     if (!fh.anonymousHandle) {
-        raiseError2(L"nelson:validators:mustBeValidFunctionHandle");
+        raiseError2(_E("nelson:validators:mustBeValidFunctionHandle"));
     }
     AnonymousMacroFunctionDef* anonymousFunction
         = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);

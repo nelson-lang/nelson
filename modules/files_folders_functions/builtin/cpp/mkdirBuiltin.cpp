@@ -27,13 +27,13 @@ Nelson::FilesFoldersGateway::mkdirBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (argIn[1].isRowVectorCharacterArray() || argIn[1].isScalarStringArray()) {
             newDir = argIn[1].getContentAsWideString();
         } else {
-            raiseError2(L"nelson:validators:mustBeType", 2, NLS_LOGICAL_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 2, NLS_LOGICAL_STR);
         }
     }
     if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
         parentDir = argIn[0].getContentAsWideString();
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_LOGICAL_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_LOGICAL_STR);
     }
     std::wstring message;
     bool bOK = false;

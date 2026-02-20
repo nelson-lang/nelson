@@ -42,7 +42,7 @@ Nelson::ElementaryFunctionsGateway::triuBuiltin(int nLhs, const ArrayOfVector& a
         }
     } break;
     default: {
-        raiseError2(L"nelson:arguments:tooManyInputs");
+        raiseError2(_E("nelson:arguments:tooManyInputs"));
     } break;
     }
     bool needToOverload;

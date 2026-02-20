@@ -101,7 +101,7 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(int nLhs, const ArrayOfVector&
     NelsonType classx = x.getDataClass();
     bool isNotSupportedType = (classx == NLS_HANDLE || classx == NLS_GO_HANDLE || x.isSparse());
     if (isNotSupportedType) {
-        raiseError2(L"nelson:runtime:typeNotSupported");
+        raiseError2(_E("nelson:runtime:typeNotSupported"));
     }
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
@@ -112,14 +112,14 @@ Nelson::ElementaryFunctionsGateway::repmatBuiltin(int nLhs, const ArrayOfVector&
             if (param2.isRowVector()) {
                 param2.promoteType(NLS_UINT64);
                 if (param2.getElementCount() > maxDims) {
-                    raiseError2(L"nelson:runtime:tooManyDimensions", maxDims);
+                    raiseError2(_E("nelson:runtime:tooManyDimensions"), maxDims);
                 }
                 auto* dp = (uint64*)param2.getDataPointer();
                 for (indexType i = 0; i < param2.getElementCount(); i++) {
                     repcount[i] = (indexType)dp[i];
                 }
             } else {
-                raiseError2(L"nelson:validators:mustBeRowVectorAtPosition", 2);
+                raiseError2(_E("nelson:validators:mustBeRowVectorAtPosition"), 2);
             }
         }
     } else {

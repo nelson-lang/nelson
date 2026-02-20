@@ -42,7 +42,7 @@ GOVectorProperty::set(ArrayOf num)
         const double* dp = (const double*)asDouble.getDataPointer();
         for (indexType i = 0; i < asDouble.getElementCount(); i++) {
             if (!std::isfinite(dp[i])) {
-                raiseError2(L"nelson:validators:mustBeFinite");
+                raiseError2(_E("nelson:validators:mustBeFinite"));
             }
             values.push_back(dp[i]);
         }
@@ -88,7 +88,7 @@ GOVectorProperty::data(const std::vector<double>& m)
     if (_finiteOnly) {
         for (auto v : m) {
             if (!std::isfinite(v)) {
-                raiseError2(L"nelson:validators:mustBeFinite");
+                raiseError2(_E("nelson:validators:mustBeFinite"));
             }
         }
     }

@@ -39,7 +39,7 @@ Nelson::FftwGateway::fftwBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if (infoDesired == L"planner") {
             res = ArrayOf::characterArrayConstructor(getPlannerInformation());
         } else {
-            raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+            raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
         }
         retval << res;
     } else {
@@ -86,11 +86,11 @@ Nelson::FftwGateway::fftwBuiltin(int nLhs, const ArrayOfVector& argIn)
                 } else if (fieldvalue == L"hybrid") {
                     setPlannerInformation(FftPlannerMethod::HYBRID);
                 } else {
-                    raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+                    raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
                 }
             }
         } else {
-            raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+            raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
         }
         retval << previousvalue;
     }

@@ -29,7 +29,7 @@ RandInteger(indexType imin, indexType imax, Dimensions& dims, NelsonType cl)
     auto* randEngine
         = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
     if (randEngine == nullptr) {
-        raiseError2(L"nelson:random:randomEngineNotInit");
+        raiseError2(_E("nelson:random:randomEngineNotInit"));
     }
 
     indexType nbElements = dims.getElementCount();
@@ -58,7 +58,7 @@ RandInteger(indexType imin, indexType imax, Dimensions& dims, NelsonType cl)
         return res;
     } break;
     default:
-        raiseError2(L"nelson:runtime:typeNotSupported");
+        raiseError2(_E("nelson:runtime:typeNotSupported"));
     }
     return {};
 }

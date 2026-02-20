@@ -70,7 +70,7 @@ ActiveXServer(const std::wstring& progId, const std::wstring& machine)
     try {
         pVariantApplication = new VARIANT;
     } catch (const std::bad_alloc&) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     VariantInit(pVariantApplication);
     pVariantApplication->vt = VT_DISPATCH;
@@ -113,7 +113,7 @@ GetRunningActiveXServer(const std::wstring& progId)
     try {
         pVariantApplication = new VARIANT;
     } catch (const std::bad_alloc&) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     VariantInit(pVariantApplication);
     pVariantApplication->vt = VT_DISPATCH;

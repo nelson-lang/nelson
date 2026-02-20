@@ -151,7 +151,7 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
                 L"Nelson:hdf5:ERROR_INVALID_VARIABLE_NAME", ERROR_INVALID_VARIABLE_NAME, name);
         }
         if (!eval->getContext()->isVariable(name)) {
-            raiseError2(L"nelson:runtime:variableNotFound", name);
+            raiseError2(_E("nelson:runtime:variableNotFound"), name);
         }
     }
 
@@ -167,7 +167,7 @@ h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names
         = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            raiseError2(L"nelson:io:permissionDenied");
+            raiseError2(_E("nelson:io:permissionDenied"));
         }
     }
     if (!fileExistPreviously) {

@@ -28,17 +28,17 @@ Nelson::AssertFunctionsGateway::assert_isfalseBuiltin(int nLhs, const ArrayOfVec
     }
     ArrayOf param1 = argIn[0];
     if (!param1.isLogical()) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_LOGICAL_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_LOGICAL_STR);
     }
     if (!param1.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 1);
     }
     logical res = param1.getContentAsLogicalScalar();
     std::wstring msg;
     res = Assert_IsFalse(res, modifiedmsg, msg);
     if (nLhs == 0) {
         if (res == 0) {
-            Error(msg, L"nelson:assert_functions:assertionFailed");
+            Error(msg, _E("nelson:assert_functions:assertionFailed"));
         }
     } else {
         retval << ArrayOf::logicalConstructor(res == 0 ? false : true);

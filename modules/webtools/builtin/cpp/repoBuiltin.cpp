@@ -63,9 +63,9 @@ parseRepoTransferArgs(const ArrayOfVector& argIn)
 
     default:
         if (argIn.size() < 3) {
-            raiseError2(L"nelson:arguments:tooFewInputs");
+            raiseError2(_E("nelson:arguments:tooFewInputs"));
         } else {
-            raiseError2(L"nelson:arguments:tooManyInputs");
+            raiseError2(_E("nelson:arguments:tooManyInputs"));
         }
     }
 
@@ -142,7 +142,7 @@ handleFetch(const ArrayOfVector& in, ArrayOfVector&, int nLhs, std::wstring& err
     nargoutcheck(nLhs, 0, 0);
 
     if (in.size() != 2 && in.size() != 4) {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     }
 
     std::wstring username;
@@ -209,7 +209,7 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 2);
 
     if (argIn.empty()) {
-        raiseError2(L"nelson:arguments:tooFewInputs");
+        raiseError2(_E("nelson:arguments:tooFewInputs"));
     }
 
     std::wstring errorMessage;
@@ -226,7 +226,7 @@ Nelson::WebtoolsGateway::repoBuiltin(int nLhs, const ArrayOfVector& argIn)
             return retval;
         }
     }
-    raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+    raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
     return retval;
 }
 //=============================================================================

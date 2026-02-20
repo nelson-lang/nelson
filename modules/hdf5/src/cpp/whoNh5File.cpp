@@ -34,11 +34,11 @@ whoNh5File(Interface* io, const std::wstring& filename, const wstringVector& nam
         = FileSystemWrapper::Path::is_regular_file(nh5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            raiseError2(L"nelson:io:permissionDenied");
+            raiseError2(_E("nelson:io:permissionDenied"));
         }
     }
     if (!fileExistPreviously) {
-        raiseError2(L"nelson:io:fileNotFound", filename);
+        raiseError2(_E("nelson:io:fileNotFound"), filename);
     }
 
     hid_t fid

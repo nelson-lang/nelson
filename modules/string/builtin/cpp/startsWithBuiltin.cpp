@@ -24,7 +24,7 @@ Nelson::StringGateway::startsWithBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     if (argIn.size() != 2 && argIn.size() != 4) {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     }
     bool bCaseSensitive = true;
     ArrayOf A = argIn[0];
@@ -34,7 +34,7 @@ Nelson::StringGateway::startsWithBuiltin(int nLhs, const ArrayOfVector& argIn)
             ArrayOf param3 = argIn[2];
             std::wstring fieldname = param3.getContentAsWideString();
             if (fieldname != L"IgnoreCase") {
-                raiseError2(L"nelson:validators:invalidValueAtPosition", 3);
+                raiseError2(_E("nelson:validators:invalidValueAtPosition"), 3);
             }
             ArrayOf param4 = argIn[3];
             logical fieldvalue = param4.getContentAsLogicalScalar();
@@ -42,8 +42,7 @@ Nelson::StringGateway::startsWithBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
         retval << StringStartsWith(A, B, bCaseSensitive);
     } else {
-        raiseError(L"Nelson:string:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
+        raiseError2(_E("nelson:validators:mustBeTextAtPosition"), 1);
     }
     return retval;
 }

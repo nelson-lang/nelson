@@ -22,7 +22,7 @@ Nelson::CharactersEncodingGateway::native2unicodeBuiltin(int nLhs, const ArrayOf
     nargincheck(argIn, 1, 2);
     ArrayOf param1 = argIn[0];
     if (param1.isSparse()) {
-        raiseError2(L"nelson:runtime:sparseNotSupported");
+        raiseError2(_E("nelson:runtime:sparseNotSupported"));
     }
     ArrayOfVector retval(1);
     std::string data;

@@ -39,17 +39,17 @@ Nelson::WebtoolsGateway::webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     std::wstring filename = param3.getContentAsWideString();
     ArrayOf param4 = argIn[3];
     if (!param4.isStruct()) {
-        raiseError2(L"nelson:validators:mustBeType", 4, std::wstring(L"struct"));
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), std::wstring(L"struct"), 4);
     }
     if (!param4.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 4);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 4);
     }
     stringVector names = param4.getFieldNames();
     ArrayOfVector values;
     for (auto& name : names) {
         ArrayOf paramValue = param4.getField(name);
         if (paramValue.isSparse()) {
-            raiseError2(L"nelson:runtime:sparseNotSupported");
+            raiseError2(_E("nelson:runtime:sparseNotSupported"));
         }
         if (paramValue.isCharacterArray() || paramValue.isStringArray()) {
             std::wstring val = paramValue.getContentAsWideString();
@@ -63,7 +63,8 @@ Nelson::WebtoolsGateway::webRESTBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     }
     ArrayOf param5 = argIn[4];
     if (ClassName(param5) != "weboptions") {
-        raiseError2(L"nelson:validators:mustBeType", 5, std::wstring(L"weboptions object"));
+        raiseError2(
+            _E("nelson:validators:mustBeTypeAtPosition"), std::wstring(L"weboptions object"), 5);
     }
     WebOptions options(param5);
     bool haveEventsLoop = eval->haveEventsLoop();

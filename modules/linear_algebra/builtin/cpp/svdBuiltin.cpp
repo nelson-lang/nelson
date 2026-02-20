@@ -71,7 +71,7 @@ Nelson::LinearAlgebraGateway::svdBuiltin(int nLhs, const ArrayOfVector& argIn)
         retval << V;
     } break;
     default:
-        raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfOutputs"));
         break;
     }
     return retval;

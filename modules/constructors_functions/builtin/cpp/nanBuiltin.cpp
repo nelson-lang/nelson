@@ -27,7 +27,7 @@ Nelson::ConstructorsGateway::nanBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (argIn[0].isNumeric() && !argIn[0].isSparse()) {
             if (argIn[0].isRowVector()) {
                 if (argIn[0].isEmpty()) {
-                    raiseError2(L"nelson:validators:mustBeRowVectorAtPosition", 1);
+                    raiseError2(_E("nelson:validators:mustBeRowVectorAtPosition"), 1);
                 }
                 if (argIn[0].getElementCount() < Nelson::maxDims) {
                     ArrayOf dimVector(argIn[0]);
@@ -44,10 +44,10 @@ Nelson::ConstructorsGateway::nanBuiltin(int nLhs, const ArrayOfVector& argIn)
                         L"nelson:runtime:tooManyDimensions", std::to_wstring(Nelson::maxDims));
                 }
             } else {
-                raiseError2(L"nelson:validators:mustBeRowVectorAtPosition", 1);
+                raiseError2(_E("nelson:validators:mustBeRowVectorAtPosition"), 1);
             }
         } else {
-            raiseError2(L"nelson:validators:mustBeNumericAtPosition", 1);
+            raiseError2(_E("nelson:validators:mustBeNumericAtPosition"), 1);
         }
     } else {
         for (sizeType k = 0; k < nRhs; k++) {

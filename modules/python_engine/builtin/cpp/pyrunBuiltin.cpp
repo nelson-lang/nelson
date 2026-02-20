@@ -68,7 +68,7 @@ Nelson::Python_engineGateway::pyrunBuiltin(Evaluator* eval, int nLhs, const Arra
     }
 
     if (nLhs > outputs.size()) {
-        raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfOutputs"));
     }
 
     return PyRun(

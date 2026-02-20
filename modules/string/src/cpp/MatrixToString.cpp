@@ -99,7 +99,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
         }
         switch (A.getDataClass()) {
         default: {
-            raiseError2(L"nelson:runtime:typeNotSupported");
+            raiseError2(_E("nelson:runtime:typeNotSupported"));
         } break;
         case NLS_SCOMPLEX: {
             auto* pValue = (single*)A.getDataPointer();

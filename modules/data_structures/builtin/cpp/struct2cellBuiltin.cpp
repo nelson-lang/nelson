@@ -22,7 +22,7 @@ Nelson::DataStructuresGateway::struct2cellBuiltin(int nLhs, const ArrayOfVector&
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
     if (!param1.isStruct()) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRUCT_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRUCT_ARRAY_STR);
     }
     stringVector fieldnames = param1.getFieldNames();
     size_t nbFields = fieldnames.size();
@@ -33,7 +33,7 @@ Nelson::DataStructuresGateway::struct2cellBuiltin(int nLhs, const ArrayOfVector&
         indexType nbElements = dimsStruct.getElementCount() * nbFields;
         elements = new ArrayOf[nbElements];
     } catch (const std::bad_alloc&) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     try {
         auto* v = new ArrayOfVector[nbFields];
@@ -52,7 +52,7 @@ Nelson::DataStructuresGateway::struct2cellBuiltin(int nLhs, const ArrayOfVector&
         delete[] v;
     } catch (const std::bad_alloc&) {
         delete[] elements;
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     Dimensions dims;
     dims[0] = nbFields;

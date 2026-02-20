@@ -109,7 +109,7 @@ FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, boo
             buffer = new char[static_cast<indexType>(sizeToRead + 1)];
         } catch (const std::bad_alloc&) {
             buffer = nullptr;
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         }
         auto count = static_cast<size_t>(sizeToRead);
         size_t elsize = sizeof(char);
@@ -126,7 +126,7 @@ FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, boo
                     trimmed = new char[validLength + 1];
                 } catch (const std::bad_alloc&) {
                     delete[] buffer;
-                    raiseError2(L"nelson:runtime:outOfMemory");
+                    raiseError2(_E("nelson:runtime:outOfMemory"));
                 }
                 if (buffer && trimmed) {
                     memcpy(trimmed, buffer, validLength * sizeof(char));

@@ -63,17 +63,18 @@ Nelson::SlicotGateway::slicot_mb04mdBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsMAXRED.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 1);
     }
     Dimensions dimsA_expected((int)A.getRows(), (int)A.getColumns());
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError2(L"nelson:validators:mustBeSize", 2, utf8_to_wstring(dimsA_expected.toString()));
+        raiseError2(
+            _E("nelson:validators:mustBeSize"), 2, utf8_to_wstring(dimsA_expected.toString()));
     }
     // CALL EXTERN FUNCTION
     try {
         mb04md_(N_ptr, MAXRED_output_ptr, A_output_ptr, LDA_ptr, SCALE_output_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError2(L"nelson:slicot:slicotFuncFails", L"mb04md");
+        raiseError2(_E("nelson:slicot:slicotFuncFails"), L"mb04md");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

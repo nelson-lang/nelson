@@ -38,7 +38,7 @@ cellfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* ev
         try {
             elements = new ArrayOf[nbElements];
         } catch (const std::bad_alloc&) {
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         }
         for (size_t k = 0; k < nbElements; k++) {
             elements[k] = ArrayOf::emptyConstructor();
@@ -377,8 +377,8 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                     errorFunc = param.getContentAsFunctionHandle();
                     bHaveErrorHandlerArgs = true;
                 } else {
-                    raiseError2(
-                        L"nelson:validators:mustBeType", nbElementsInput, NLS_FUNCTION_HANDLE_STR);
+                    raiseError2(L"nelson:validators:mustBeTypeAtPosition", nbElementsInput,
+                        NLS_FUNCTION_HANDLE_STR);
                 }
             }
         }
@@ -416,8 +416,8 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                         bHaveErrorHandlerArgs = true;
                     }
                 } else {
-                    raiseError2(
-                        L"nelson:validators:mustBeType", nbElementsInput, NLS_FUNCTION_HANDLE_STR);
+                    raiseError2(L"nelson:validators:mustBeTypeAtPosition", nbElementsInput,
+                        NLS_FUNCTION_HANDLE_STR);
                 }
             }
         }
@@ -431,7 +431,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
     ArrayOf param1 = argIn[0];
     FunctionDef* funcDef = nullptr;
     if (!(param1.isRowVectorCharacterArray() || param1.isFunctionHandle())) {
-        raiseError2(L"nelson:validators:mustBeStructAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeStructAtPosition"), 1);
     } else {
         if (param1.isRowVectorCharacterArray()) {
             std::wstring functionName = param1.getContentAsWideString();
@@ -460,7 +460,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                 return isclass_cellfunBuiltin(eval, nLhs, argIn);
             }
             if (!eval->getContext()->lookupFunction(functionName, funcDef)) {
-                raiseError2(L"nelson:validators:mustBeValidFunctionName");
+                raiseError2(_E("nelson:validators:mustBeValidFunctionName"));
             }
         } else {
             function_handle fh = param1.getContentAsFunctionHandle();
@@ -468,7 +468,7 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
                 funcDef = (FunctionDef*)fh.anonymousHandle;
             }
             if (funcDef == nullptr) {
-                raiseError2(L"nelson:validators:mustBeValidFunctionName");
+                raiseError2(_E("nelson:validators:mustBeValidFunctionName"));
             }
         }
     }
@@ -481,11 +481,11 @@ Nelson::DataStructuresGateway::cellfunBuiltin(Evaluator* eval, int nLhs, const A
             } else {
                 Dimensions dimsCurrentCell = param.getDimensions();
                 if (!dimsCells.equals(dimsCurrentCell)) {
-                    raiseError2(L"nelson:validators:sizeMismatch");
+                    raiseError2(_E("nelson:validators:sizeMismatch"));
                 }
             }
         } else {
-            raiseError2(L"nelson:validators:mustBeCell");
+            raiseError2(_E("nelson:validators:mustBeCell"));
         }
     }
     int nargout = nLhs;

@@ -173,7 +173,8 @@ Evaluator::simpleAssignClass(const ArrayOf& r, const stringVector& subtypes,
         const std::string defaultFunction
             = getOverloadFunctionName(NLS_CLASS_ARRAY_STR, SUBSASGN_OPERATOR_STR);
         if (!context->lookupFunction(defaultFunction, funcDef)) {
-            raiseError2(L"nelson:runtime:functionNotFound", utf8_to_wstring(classSpecificFunction));
+            raiseError2(
+                _E("nelson:runtime:functionNotFound"), utf8_to_wstring(classSpecificFunction));
             return {};
         }
     }

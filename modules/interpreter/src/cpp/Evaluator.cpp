@@ -698,7 +698,7 @@ Evaluator::setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
     if (!_context->lookupFunction(functionNameSetHandle, funcDef)) {
-        raiseError2(L"nelson:runtime:functionNotFound", utf8_to_wstring(functionNameSetHandle));
+        raiseError2(_E("nelson:runtime:functionNotFound"), utf8_to_wstring(functionNameSetHandle));
     }
     if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
         raiseError(
@@ -745,7 +745,7 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     }
     std::string functionNameGetHandle = getOverloadFunctionName(currentType, "get");
     if (!context->lookupFunction(functionNameGetHandle, funcDef)) {
-        raiseError2(L"nelson:runtime:functionNotFound", utf8_to_wstring(functionNameGetHandle));
+        raiseError2(_E("nelson:runtime:functionNotFound"), utf8_to_wstring(functionNameGetHandle));
     }
     if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
         raiseError(
@@ -808,7 +808,7 @@ Evaluator::invokeMethod(
         }
         return getHandle(r, methodName, params);
     }
-    raiseError2(L"nelson:runtime:functionNotFound", L"invoke");
+    raiseError2(_E("nelson:runtime:functionNotFound"), L"invoke");
     return {};
 }
 //=============================================================================

@@ -24,7 +24,7 @@ Nelson::OperatorsGateway::colonBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         return eval->colonOperator(argIn[0], argIn[1], argIn[2]);
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     } break;
     }
     return {};

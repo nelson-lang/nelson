@@ -56,7 +56,7 @@ StringToFunctionHandle(Evaluator* eval, const std::string& functionName)
         if (t->down && t->down->down) {
             t = t->down->down;
         } else {
-            raiseError2(L"nelson:validators:mustBeValidFunctionHandle");
+            raiseError2(_E("nelson:validators:mustBeValidFunctionHandle"));
         }
         if (t->opNum == OP_FUNCTION_HANDLE_NAMED) {
             std::string content;
@@ -64,14 +64,14 @@ StringToFunctionHandle(Evaluator* eval, const std::string& functionName)
                 content = t->down->text;
             }
             if (content.empty()) {
-                raiseError2(L"nelson:validators:mustBeValidFunctionHandle");
+                raiseError2(_E("nelson:validators:mustBeValidFunctionHandle"));
             }
             createFunctionHandleNamed(content, functionHandle);
         } else if (t->opNum == OP_FUNCTION_HANDLE_ANONYMOUS) {
             AbstractSyntaxTreePtr code = nullptr;
             stringVector arguments;
             if (!t->down) {
-                raiseError2(L"nelson:validators:mustBeValidFunctionHandle");
+                raiseError2(_E("nelson:validators:mustBeValidFunctionHandle"));
             }
             if (t->down->right == nullptr) {
                 if (t->down) {
@@ -95,7 +95,7 @@ StringToFunctionHandle(Evaluator* eval, const std::string& functionName)
                 content = code->toString(true);
             }
             if (content.empty()) {
-                raiseError2(L"nelson:validators:mustBeValidFunctionHandle");
+                raiseError2(_E("nelson:validators:mustBeValidFunctionHandle"));
             }
             if (isValidNelsonFunctionName(content)) {
                 createFunctionHandleNamed(content, functionHandle);
@@ -108,7 +108,7 @@ StringToFunctionHandle(Evaluator* eval, const std::string& functionName)
     case FuncDef:
     case ParseError:
     default: {
-        raiseError2(L"nelson:validators:mustBeValidFunctionHandle");
+        raiseError2(_E("nelson:validators:mustBeValidFunctionHandle"));
     } break;
     }
     return functionHandle;
@@ -176,7 +176,7 @@ createFunctionHandleNamed(const std::string& name, function_handle& functionHand
     if (cp) {
         functionHandle.anonymousHandle = reinterpret_cast<nelson_handle*>(cp);
     } else {
-        raiseError2(L"nelson:validators:mustBeValidFunctionName");
+        raiseError2(_E("nelson:validators:mustBeValidFunctionName"));
     }
 }
 //=============================================================================
@@ -220,7 +220,7 @@ createFunctionHandleAnonymous(const std::string& content, const stringVector& ar
     if (cp) {
         functionHandle.anonymousHandle = reinterpret_cast<nelson_handle*>(cp);
     } else {
-        raiseError2(L"nelson:validators:mustBeValidFunctionName");
+        raiseError2(_E("nelson:validators:mustBeValidFunctionName"));
     }
 }
 //=============================================================================

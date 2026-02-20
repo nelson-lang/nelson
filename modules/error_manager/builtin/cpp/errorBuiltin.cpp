@@ -37,7 +37,7 @@ Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLhs, const Array
                 FunctionDefPtr funcDef = nullptr;
                 if (!eval->lookupFunction(
                         OVERLOAD_FUNCTION_NAME("message", "getString"), funcDef)) {
-                    raiseError2(L"nelson:runtime:functionNotFound", L"getString");
+                    raiseError2(_E("nelson:runtime:functionNotFound"), L"getString");
                 }
                 ArrayOfVector inputs;
                 inputs << argIn[0];
@@ -45,7 +45,7 @@ Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLhs, const Array
                     ArrayOfVector ouputs = funcDef->evaluateFunction(eval, inputs, 1);
                     message = ouputs[0].getContentAsWideString();
                 } catch (const Exception&) {
-                    raiseError2(L"nelson:runtime:incorrectHoleCount", messageId);
+                    raiseError2(_E("nelson:runtime:incorrectHoleCount"), messageId);
                 }
                 Error(message, messageId);
             }
@@ -54,7 +54,7 @@ Nelson::ErrorManagerGateway::errorBuiltin(Evaluator* eval, int nLhs, const Array
                 eval->setLastErrorException(e);
                 throw e;
             }
-            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
         }
     } else {
         // nargin == 2

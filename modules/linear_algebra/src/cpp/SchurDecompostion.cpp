@@ -30,7 +30,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             ERROR_UNDEFINED_FUNCTION_FOR_INPUT_ARGUMENTS, L"schur", utf8_to_wstring(ClassName(A)));
     }
     if (!A.isSquare()) {
-        raiseError2(L"nelson:validators:mustBeSquareMatrix");
+        raiseError2(_E("nelson:validators:mustBeSquareMatrix"));
     }
     Dimensions dimsA = A.getDimensions();
     if (A.isEmpty()) {
@@ -45,7 +45,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             Eigen::Map<Eigen::MatrixXcf> matA(
                 Az, (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
             if (!matA.allFinite()) {
-                raiseError2(L"nelson:validators:mustBeFinite");
+                raiseError2(_E("nelson:validators:mustBeFinite"));
             }
             ArrayOf T_temp(A);
             T_temp.ensureSingleOwner();
@@ -61,7 +61,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             Eigen::Map<Eigen::MatrixXcd> matA(
                 Az, (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
             if (!matA.allFinite()) {
-                raiseError2(L"nelson:validators:mustBeFinite");
+                raiseError2(_E("nelson:validators:mustBeFinite"));
             }
             ArrayOf T_temp(A);
             T_temp.ensureSingleOwner();
@@ -79,7 +79,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             Eigen::Map<Eigen::MatrixXf> matA((single*)A.getDataPointer(),
                 (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
             if (!matA.allFinite()) {
-                raiseError2(L"nelson:validators:mustBeFinite");
+                raiseError2(_E("nelson:validators:mustBeFinite"));
             }
             Eigen::Map<Eigen::MatrixXf> matT((single*)T_temp.getDataPointer(),
                 (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
@@ -89,7 +89,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& T)
             Eigen::Map<Eigen::MatrixXd> matA((double*)A.getDataPointer(),
                 (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
             if (!matA.allFinite()) {
-                raiseError2(L"nelson:validators:mustBeFinite");
+                raiseError2(_E("nelson:validators:mustBeFinite"));
             }
             Eigen::Map<Eigen::MatrixXd> matT((double*)T_temp.getDataPointer(),
                 (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
@@ -120,7 +120,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& U, ArrayOf& T)
             utf8_to_wstring(ClassName(A)));
     }
     if (!A.isSquare()) {
-        raiseError2(L"nelson:validators:mustBeSquareMatrix");
+        raiseError2(_E("nelson:validators:mustBeSquareMatrix"));
     }
     if (A.isEmpty()) {
         Dimensions dimsA = A.getDimensions();
@@ -136,7 +136,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& U, ArrayOf& T)
         Eigen::Map<Eigen::MatrixXcd> matA(
             Az, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
         if (!matA.allFinite()) {
-            raiseError2(L"nelson:validators:mustBeFinite");
+            raiseError2(_E("nelson:validators:mustBeFinite"));
         }
         ArrayOf U_temp(A);
         U_temp.ensureSingleOwner();
@@ -157,7 +157,7 @@ SchurDecomposition(ArrayOf A, bool asComplex, ArrayOf& U, ArrayOf& T)
         Eigen::Map<Eigen::MatrixXd> matA(
             (double*)A.getDataPointer(), (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
         if (!matA.allFinite()) {
-            raiseError2(L"nelson:validators:mustBeFinite");
+            raiseError2(_E("nelson:validators:mustBeFinite"));
         }
         ArrayOf U_temp(A);
         U_temp.ensureSingleOwner();

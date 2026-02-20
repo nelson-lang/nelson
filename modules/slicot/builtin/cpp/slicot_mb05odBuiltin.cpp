@@ -87,25 +87,26 @@ Nelson::SlicotGateway::slicot_mb05odBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsBALANC.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 1);
     }
     if (!dimsNDIAG.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 2);
     }
     if (!dimsDELTA.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 3);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 3);
     }
     Dimensions dimsA_expected(
         std::max(1, (int)N.getContentAsInteger32Scalar()), (int)N.getContentAsInteger32Scalar());
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError2(L"nelson:validators:mustBeSize", 4, utf8_to_wstring(dimsA_expected.toString()));
+        raiseError2(
+            _E("nelson:validators:mustBeSize"), 4, utf8_to_wstring(dimsA_expected.toString()));
     }
     // CALL EXTERN FUNCTION
     try {
         mb05od_(BALANC_ptr, N_ptr, NDIAG_ptr, DELTA_ptr, A_output_ptr, LDA_ptr, MDIG_output_ptr,
             IDIG_output_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr, IWARN_output_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError2(L"nelson:slicot:slicotFuncFails", L"mb05od");
+        raiseError2(_E("nelson:slicot:slicotFuncFails"), L"mb05od");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

@@ -22,7 +22,7 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     if (!(argIn.size() == 2 || argIn.size() == 4)) {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     }
     bool forceAsCell = false;
     if (argIn.size() == 4) {
@@ -35,19 +35,18 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
                     ERROR_FORCECELLOUTPUT_EXPECTED);
             }
         } else {
-            raiseError2(L"nelson:validators:mustBeType", 3, NLS_STRING_ARRAY_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), NLS_STRING_ARRAY_STR, 3);
         }
         if (param4.isScalar() && param4.isLogical()) {
             forceAsCell = (param4.getContentAsLogicalScalar() != 0u);
         } else {
-            raiseError2(L"nelson:validators:mustBeType", 4, NLS_LOGICAL_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), NLS_LOGICAL_STR, 4);
         }
     }
     ArrayOf A = argIn[0];
     ArrayOf B = argIn[1];
     if (!(A.isRowVectorCharacterArray() || A.isStringArray() || A.isCell() || A.isNumeric())) {
-        raiseError(L"Nelson:string:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED",
-            ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
+        raiseError2(_E("nelson:validators:mustBeTextAtPosition"), 1);
     }
     if (A.isRowVectorCharacterArray() || A.isStringArray() || A.isCell() || A.isNumeric()) {
         if (B.isRowVectorCharacterArray() || (B.isStringArray() && B.isScalar()) || B.isNumeric()) {
@@ -61,7 +60,7 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
                             try {
                                 elements = new ArrayOf[nbElements];
                             } catch (const std::bad_alloc&) {
-                                raiseError2(L"nelson:runtime:outOfMemory");
+                                raiseError2(_E("nelson:runtime:outOfMemory"));
                             }
                             for (size_t k = 0; k < nbElements; k++) {
                                 // ArrayOf *cellA = (ArrayOf*)(A.getDataPointer());
@@ -87,7 +86,7 @@ Nelson::StringGateway::strfindBuiltin(int nLhs, const ArrayOfVector& argIn)
                 try {
                     elements = new ArrayOf[nbElements];
                 } catch (const std::bad_alloc&) {
-                    raiseError2(L"nelson:runtime:outOfMemory");
+                    raiseError2(_E("nelson:runtime:outOfMemory"));
                 }
                 for (size_t k = 0; k < nbElements; k++) {
                     auto* cellA = (ArrayOf*)(A.getDataPointer());

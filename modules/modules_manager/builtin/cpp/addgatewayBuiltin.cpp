@@ -30,7 +30,7 @@ Nelson::ModulesManagerGateway::addgatewayBuiltin(
         std::wstring dynlibName = argIn[0].getContentAsWideString();
         AddGateway(eval, dynlibName, moduleName);
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
     }
     return retval;
 }

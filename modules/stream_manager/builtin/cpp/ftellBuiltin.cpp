@@ -29,17 +29,17 @@ Nelson::StreamGateway::ftellBuiltin(int nLhs, const ArrayOfVector& argIn)
     auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
-        raiseError2(L"nelson:io:fileManagerError");
+        raiseError2(_E("nelson:io:fileManagerError"));
     }
     if (fm->isOpened(iValue)) {
         File* f = fm->getFile(iValue);
         if (f == nullptr) {
-            raiseError2(L"nelson:io:invalidFileId");
+            raiseError2(_E("nelson:io:invalidFileId"));
         }
         auto dpos = static_cast<double>(FileTell(f));
         retval << ArrayOf::doubleConstructor(dpos);
     } else {
-        raiseError2(L"nelson:io:invalidFileId");
+        raiseError2(_E("nelson:io:invalidFileId"));
     }
     return retval;
 }

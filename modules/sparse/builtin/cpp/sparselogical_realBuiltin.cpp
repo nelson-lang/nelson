@@ -22,10 +22,10 @@ Nelson::SparseGateway::sparselogical_realBuiltin(int nLhs, const ArrayOfVector& 
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     if (!argIn[0].isSparse()) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_SPARSE_LOGICAL_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_SPARSE_LOGICAL_STR);
     }
     if (!argIn[0].isLogical()) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_SPARSE_LOGICAL_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_SPARSE_LOGICAL_STR);
     }
     retval << SparseRealPart(argIn[0]);
     return retval;

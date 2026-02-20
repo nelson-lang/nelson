@@ -34,7 +34,7 @@ Nelson::DoubleGateway::realmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
                 retval << ArrayOf::singleConstructor(realmax);
             }
         } else {
-            raiseError2(L"nelson:validators:mustBeDoubleOrSingle");
+            raiseError2(_E("nelson:validators:mustBeDoubleOrSingle"));
         }
     } else {
         double realmax = std::numeric_limits<double>::max();

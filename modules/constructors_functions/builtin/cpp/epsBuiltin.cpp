@@ -26,7 +26,7 @@ Nelson::ConstructorsGateway::epsBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         if (argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_DCOMPLEX) {
             if (!argIn[0].isScalar()) {
-                raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
+                raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 1);
             }
             auto* pV = (double*)argIn[0].getDataPointer();
             double dV = pV[0];
@@ -34,7 +34,7 @@ Nelson::ConstructorsGateway::epsBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if (argIn[0].getDataClass() == NLS_SINGLE
             || argIn[0].getDataClass() == NLS_SCOMPLEX) {
             if (!argIn[0].isScalar()) {
-                raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
+                raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 1);
             }
             auto* pV = (single*)argIn[0].getDataPointer();
             single dV = pV[0];
@@ -46,10 +46,10 @@ Nelson::ConstructorsGateway::epsBuiltin(int nLhs, const ArrayOfVector& argIn)
             } else if (arg == L"double") {
                 retval << ArrayOf::doubleConstructor(Epsilon(1.0));
             } else {
-                raiseError2(L"nelson:validators:mustBeDoubleOrSingle");
+                raiseError2(_E("nelson:validators:mustBeDoubleOrSingle"));
             }
         } else {
-            raiseError2(L"nelson:validators:mustBeDoubleOrSingle");
+            raiseError2(_E("nelson:validators:mustBeDoubleOrSingle"));
         }
     }
     return retval;

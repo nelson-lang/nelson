@@ -29,13 +29,13 @@ Nelson::HandleGateway::handle_fieldnamesBuiltin(
     ArrayOf param1 = argIn[0];
     std::string handleTypeName = param1.getHandleCategory();
     if (handleTypeName == NLS_HANDLE_STR || handleTypeName.empty()) {
-        raiseError2(L"nelson:arguments:validHandleExpected", utf8_to_wstring(handleTypeName));
+        raiseError2(_E("nelson:arguments:validHandleExpected"), utf8_to_wstring(handleTypeName));
     }
     std::string functionNameGetHandle = getOverloadFunctionName(handleTypeName, "fieldnames");
     Context* context = eval->getContext();
     FunctionDef* funcDef = nullptr;
     if (!context->lookupFunction(functionNameGetHandle, funcDef)) {
-        raiseError2(L"nelson:runtime:functionNotFound", utf8_to_wstring(functionNameGetHandle));
+        raiseError2(_E("nelson:runtime:functionNotFound"), utf8_to_wstring(functionNameGetHandle));
     }
     if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)) {
         ArrayOfVector argInCopy;
@@ -45,7 +45,7 @@ Nelson::HandleGateway::handle_fieldnamesBuiltin(
         }
         retval = funcDef->evaluateFunction(eval, argInCopy, nLhs);
     } else {
-        raiseError2(L"nelson:runtime:functionNotFound", utf8_to_wstring(functionNameGetHandle));
+        raiseError2(_E("nelson:runtime:functionNotFound"), utf8_to_wstring(functionNameGetHandle));
     }
     return retval;
 }

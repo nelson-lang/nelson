@@ -34,7 +34,7 @@ Nelson::Julia_engineGateway::__jlenv__Builtin(int nLhs, const ArrayOfVector& arg
         juliaEnvironment->setHome(argIn[3].getContentAsWideString());
         juliaEnvironment->saveCurrentState();
     } else {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     }
 
     ArrayOfVector retval;

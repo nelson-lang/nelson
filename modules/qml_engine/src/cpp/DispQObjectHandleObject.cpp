@@ -255,7 +255,7 @@ DispQObjectHandleObject(Interface* io, const ArrayOf& A, const std::string& name
         DisplayVariableHeader(io, A, utf8_to_wstring(name), false);
         if (A.isScalar()) {
             if (A.getHandleCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-                raiseError2(L"nelson:arguments:validHandleExpected",
+                raiseError2(_E("nelson:arguments:validHandleExpected"),
                     utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
             }
 
@@ -266,7 +266,7 @@ DispQObjectHandleObject(Interface* io, const ArrayOf& A, const std::string& name
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        raiseError2(L"nelson:arguments:validHandleExpected",
+        raiseError2(_E("nelson:arguments:validHandleExpected"),
             utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
 }

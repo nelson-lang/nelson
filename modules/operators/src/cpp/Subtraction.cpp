@@ -180,7 +180,7 @@ Subtraction(const ArrayOf& A, const ArrayOf& B)
         }
     } break;
     default: {
-        raiseError2(L"nelson:internal:typeNotManaged");
+        raiseError2(_E("nelson:internal:typeNotManaged"));
     } break;
     }
     return res;

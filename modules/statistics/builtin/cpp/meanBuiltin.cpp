@@ -52,7 +52,7 @@ Nelson::StatisticsGateway::meanBuiltin(int nLhs, const ArrayOfVector& argIn)
             } else if (s == L"native") {
                 outType = MEAN_OUT_TYPE::NATIVE;
             } else {
-                raiseError2(L"nelson:arguments:invalidArgAtPosition", 2);
+                raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 2);
             }
         } else {
             dim = param2.getContentAsScalarIndex(false);
@@ -78,7 +78,7 @@ Nelson::StatisticsGateway::meanBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (s == L"all") {
                 isAll = true;
             } else {
-                raiseError2(L"nelson:arguments:invalidArgAtPosition", 2);
+                raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 2);
             }
         } else {
             dim = param2.getContentAsScalarIndex(false);
@@ -96,10 +96,10 @@ Nelson::StatisticsGateway::meanBuiltin(int nLhs, const ArrayOfVector& argIn)
             } else if (s == L"native") {
                 outType = MEAN_OUT_TYPE::NATIVE;
             } else {
-                raiseError2(L"nelson:arguments:invalidArgAtPosition", 3);
+                raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 3);
             }
         } else {
-            raiseError2(L"nelson:arguments:invalidArgAtPosition", 3);
+            raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 3);
         }
         if (isAll) {
             res = MeanAll(param1, omitNaN, outType, needToOverload);
@@ -121,7 +121,7 @@ Nelson::StatisticsGateway::meanBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (s == L"all") {
                 isAll = true;
             } else {
-                raiseError2(L"nelson:arguments:invalidArgAtPosition", 2);
+                raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 2);
             }
         } else {
             dim = param2.getContentAsScalarIndex(false);
@@ -146,43 +146,43 @@ Nelson::StatisticsGateway::meanBuiltin(int nLhs, const ArrayOfVector& argIn)
                 outType = MEAN_OUT_TYPE::NATIVE;
                 haveTypeChoice = true;
             } else {
-                raiseError2(L"nelson:arguments:invalidArgAtPosition", 3);
+                raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 3);
             }
         } else {
-            raiseError2(L"nelson:arguments:invalidArgAtPosition", 3);
+            raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 3);
         }
         if (param4.isRowVectorCharacterArray() || (param4.isStringArray() && param4.isScalar())) {
             std::wstring s = param4.getContentAsWideString();
             if (s == L"omitnan") {
                 if (haveNaNChoice) {
-                    raiseError2(L"nelson:arguments:invalidArgAtPosition", 4);
+                    raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 4);
                 }
                 omitNaN = true;
             } else if (s == L"includenan") {
                 if (haveNaNChoice) {
-                    raiseError2(L"nelson:arguments:invalidArgAtPosition", 4);
+                    raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 4);
                 }
                 omitNaN = false;
             } else if (s == L"default") {
                 if (haveTypeChoice) {
-                    raiseError2(L"nelson:arguments:invalidArgAtPosition", 4);
+                    raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 4);
                 }
                 outType = MEAN_OUT_TYPE::DEFAULT;
             } else if (s == L"double") {
                 if (haveTypeChoice) {
-                    raiseError2(L"nelson:arguments:invalidArgAtPosition", 4);
+                    raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 4);
                 }
                 outType = MEAN_OUT_TYPE::DOUBLE;
             } else if (s == L"native") {
                 if (haveTypeChoice) {
-                    raiseError2(L"nelson:arguments:invalidArgAtPosition", 4);
+                    raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 4);
                 }
                 outType = MEAN_OUT_TYPE::NATIVE;
             } else {
-                raiseError2(L"nelson:arguments:invalidArgAtPosition", 4);
+                raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 4);
             }
         } else {
-            raiseError2(L"nelson:arguments:invalidArgAtPosition", 4);
+            raiseError2(_E("nelson:arguments:invalidArgAtPosition"), 4);
         }
         if (isAll) {
             res = MeanAll(param1, omitNaN, outType, needToOverload);
@@ -191,7 +191,7 @@ Nelson::StatisticsGateway::meanBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     } break;
     }
     if (needToOverload) {

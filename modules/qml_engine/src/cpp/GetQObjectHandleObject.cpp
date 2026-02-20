@@ -25,14 +25,14 @@ GetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName)
     ArrayOf res;
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        raiseError2(
-            L"nelson:validators:mustBeType", 1, utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
+        raiseError2(L"nelson:validators:mustBeTypeAtPosition", 1,
+            utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        raiseError2(
-            L"nelson:validators:mustBeType", 1, utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
+        raiseError2(L"nelson:validators:mustBeTypeAtPosition", 1,
+            utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObject* qobj = (QObject*)ptr;
     if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
@@ -47,12 +47,12 @@ GetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName)
                     qmlHandle = new QObjectHandleObject(qparent);
                 } catch (const std::bad_alloc&) {
                     qmlHandle = nullptr;
-                    raiseError2(L"nelson:runtime:outOfMemory");
+                    raiseError2(_E("nelson:runtime:outOfMemory"));
                 }
                 res = ArrayOf::handleConstructor(qmlHandle);
             }
         } else {
-            raiseError2(L"nelson:qml:noParent");
+            raiseError2(_E("nelson:qml:noParent"));
         }
     } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR)) {
         std::string name = std::string(qobj->metaObject()->className());
@@ -79,7 +79,7 @@ GetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName)
                         qmlHandle = new QObjectHandleObject(childs[k]);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        raiseError2(L"nelson:runtime:outOfMemory");
+                        raiseError2(_E("nelson:runtime:outOfMemory"));
                     }
                     nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
                 }

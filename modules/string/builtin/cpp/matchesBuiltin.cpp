@@ -22,7 +22,7 @@ Nelson::StringGateway::matchesBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     if (argIn.size() != 2 && argIn.size() != 4) {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     }
 
     bool ignoreCase = false;

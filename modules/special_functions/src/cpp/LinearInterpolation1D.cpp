@@ -47,7 +47,7 @@ LinearInterpolation1D(const ArrayOf& V, const ArrayOf& XQ)
         destinationClass = NLS_SINGLE;
     } break;
     default: {
-        raiseError2(L"nelson:internal:typeNotManaged");
+        raiseError2(_E("nelson:internal:typeNotManaged"));
     } break;
     }
     if (V.isVector()) {
@@ -85,7 +85,7 @@ LinearInterpolation1D(const ArrayOf& X, const ArrayOf& V, const ArrayOf& XQ)
     ArrayOf res;
     bool isSupportedType = X.isSingleType() || X.isDoubleType();
     if (!isSupportedType) {
-        raiseError2(L"nelson:validators:mustBeDoubleOrSingle");
+        raiseError2(_E("nelson:validators:mustBeDoubleOrSingle"));
     }
     bool isSparse = X.isSparse() || V.isSparse() || XQ.isSparse();
     if (isSparse) {
@@ -143,7 +143,7 @@ LinearInterpolation1D(const ArrayOf& X, const ArrayOf& V, const ArrayOf& XQ)
         res = ArrayOf(NLS_SCOMPLEX, xi.getDimensions(), ptr);
     } break;
     default: {
-        raiseError2(L"nelson:internal:typeNotManaged");
+        raiseError2(_E("nelson:internal:typeNotManaged"));
     } break;
     }
     return res;

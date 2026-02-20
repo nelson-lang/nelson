@@ -25,7 +25,7 @@ Nelson::DynamicLinkGateway::libpointer_fieldnamesBuiltin(int nLhs, const ArrayOf
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-        raiseError2(L"nelson:arguments:libpointerHandleExpected");
+        raiseError2(_E("nelson:arguments:libpointerHandleExpected"));
     }
     LibPointerObject* objLibPointer = (LibPointerObject*)param1.getContentAsHandleScalar();
     wstringVector fieldnames = objLibPointer->fieldnames();

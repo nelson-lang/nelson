@@ -131,7 +131,7 @@ Remainder(ArrayOf A, ArrayOf B)
     indexType Clen = 0;
     Dimensions Cdim;
     if (!A.isNumeric() || !B.isNumeric()) {
-        raiseError2(L"nelson:validators:mustBeNumeric");
+        raiseError2(_E("nelson:validators:mustBeNumeric"));
     } else if (A.isComplex() || B.isComplex()) {
         raiseError(
             L"Nelson:elementary_functions:ERROR_UNDEFINED_FUNCTION_REM_FOR_COMPLEX_INPUT_ARGUMENT",

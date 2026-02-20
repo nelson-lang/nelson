@@ -23,7 +23,7 @@ Nelson::OperatorsGateway::subsrefBuiltin(Evaluator* eval, int nLhs, const ArrayO
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 1);
     if (!argIn[1].isStruct()) {
-        raiseError2(L"nelson:validators:mustBeStructAtPosition", 2);
+        raiseError2(_E("nelson:validators:mustBeStructAtPosition"), 2);
     }
 
     Context* context = eval->getContext();

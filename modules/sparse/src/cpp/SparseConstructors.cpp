@@ -29,7 +29,7 @@ SparseConstructor(indexType m, indexType n)
             = new Eigen::SparseMatrix<double, 0, signedIndexType>(m, n);
         res = ArrayOf(NLS_DOUBLE, dims, (void*)spmat, true);
     } catch (const std::bad_alloc&) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     return res;
 }
@@ -75,7 +75,7 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V)
     for (indexType i = 0; i < I.getElementCount(); i++) {
         rows = (static_cast<double>(ip[i]) > static_cast<double>(rows)) ? ip[i] : rows;
         if (ip[i] < 1) {
-            raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
+            raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
         }
     }
     auto* jp = (indexType*)J.getDataPointer();
@@ -83,7 +83,7 @@ SparseConstructor(ArrayOf I, ArrayOf J, ArrayOf V)
     for (indexType j = 0; j < J.getElementCount(); j++) {
         cols = (static_cast<double>(jp[j]) > static_cast<double>(cols)) ? jp[j] : cols;
         if (jp[j] < 1) {
-            raiseError2(L"nelson:runtime:indexMustBePositiveInteger");
+            raiseError2(_E("nelson:runtime:indexMustBePositiveInteger"));
         }
     }
     Dimensions dim(rows, cols);

@@ -37,14 +37,14 @@ invokeQObject(const ArrayOf& A, const std::wstring& wmethodname, const ArrayOfVe
     }
     HandleGenericObject* hlObj = A.getContentAsHandleScalar();
     if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        raiseError2(
-            L"nelson:validators:mustBeType", 1, utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
+        raiseError2(L"nelson:validators:mustBeTypeAtPosition", 1,
+            utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     void* ptr = qmlhandleobj->getPointer();
     if (ptr == nullptr) {
-        raiseError2(
-            L"nelson:validators:mustBeType", 1, utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
+        raiseError2(L"nelson:validators:mustBeTypeAtPosition", 1,
+            utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     QObject* qobj = (QObject*)ptr;
     const QMetaObject* metaObject = qobj->metaObject();
@@ -94,7 +94,7 @@ invokeQObject(const ArrayOf& A, const std::wstring& wmethodname, const ArrayOfVe
             raiseError(L"Nelson:qml_engine:ERROR_INVALID_PARAMETERS", ERROR_INVALID_PARAMETERS);
         }
     } else {
-        raiseError2(L"nelson:runtime:methodNotFound", wmethodname);
+        raiseError2(_E("nelson:runtime:methodNotFound"), wmethodname);
     }
     return res;
 }

@@ -343,7 +343,7 @@ ImageResize(const ArrayOf& image, double scale, const ResizeOptions& options)
 {
     // Resize image by a scale factor
     if (scale <= 0.0) {
-        raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
+        raiseError2(_E("nelson:validators:mustBePositiveAtPosition"), 2);
     }
 
     Dimensions dims = image.getDimensions();
@@ -462,7 +462,7 @@ ImageResize(const ArrayOf& image, size_t numrows, size_t numcols, const ResizeOp
             options.method, useAntialiasing);
     } break;
     default: {
-        raiseError2(L"nelson:internal:typeNotManaged");
+        raiseError2(_E("nelson:internal:typeNotManaged"));
     } break;
     }
 
@@ -494,7 +494,7 @@ ImageResizeIndexed(const ArrayOf& X, const ArrayOf& map, size_t numrows, size_t 
     // Resize indexed image and its colormap to specific dimensions
     // Validate indexed image
     if (!X.isNumeric()) {
-        raiseError2(L"nelson:validators:mustBeNumeric");
+        raiseError2(_E("nelson:validators:mustBeNumeric"));
     }
 
     // Validate colormap

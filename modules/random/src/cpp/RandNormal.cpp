@@ -30,7 +30,7 @@ RandNormal(Dimensions& dims, NelsonType cl)
     auto* randEngine
         = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
     if (randEngine == nullptr) {
-        raiseError2(L"nelson:random:randomEngineNotInit");
+        raiseError2(_E("nelson:random:randomEngineNotInit"));
     }
     switch (cl) {
     case NLS_SCOMPLEX: {
@@ -64,7 +64,7 @@ RandNormal(Dimensions& dims, NelsonType cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     default:
-        raiseError2(L"nelson:runtime:typeNotSupported");
+        raiseError2(_E("nelson:runtime:typeNotSupported"));
     }
     return {};
 }

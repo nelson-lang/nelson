@@ -41,10 +41,10 @@ Nelson::CoreGateway::nargoutchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 
         int nargout = context->getCurrentScope()->getNargOut();
         if (nargout < minArgs) {
-            raiseError2(L"nelson:arguments:tooFewOutputs");
+            raiseError2(_E("nelson:arguments:tooFewOutputs"));
         }
         if (nargout > maxArgs) {
-            raiseError2(L"nelson:arguments:tooManyOutputs");
+            raiseError2(_E("nelson:arguments:tooManyOutputs"));
         }
     } break;
     case 4:
@@ -62,13 +62,13 @@ Nelson::CoreGateway::nargoutchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             }
         }
         if (!argIn[0].isScalar() || !argIn[0].isNumeric()) {
-            raiseError2(L"nelson:validators:mustBeScalarInteger", 1);
+            raiseError2(_E("nelson:validators:mustBeScalarInteger"), 1);
         }
         if (!argIn[1].isScalar() || !argIn[1].isNumeric()) {
-            raiseError2(L"nelson:validators:mustBeScalarInteger", 2);
+            raiseError2(_E("nelson:validators:mustBeScalarInteger"), 2);
         }
         if (!argIn[2].isScalar() || !argIn[2].isNumeric()) {
-            raiseError2(L"nelson:validators:mustBeScalarInteger", 3);
+            raiseError2(_E("nelson:validators:mustBeScalarInteger"), 3);
         }
 
         int minArgs = argIn[0].getContentAsInteger32Scalar(false, true);

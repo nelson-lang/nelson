@@ -239,7 +239,7 @@ stringArray_plus_stringArray(const ArrayOf& a, const ArrayOf& b)
             return ArrayOf(a);
         }
         if (!(SameSizeCheck(dimsA, dimsB))) {
-            raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"+");
+            raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"+");
         }
         return ArrayOf(b);
     }
@@ -261,7 +261,7 @@ stringArray_plus_stringArray(const ArrayOf& a, const ArrayOf& b)
             return vector_string_addition(a, b);
         }
         if ((a.isRowVector() && b.isRowVector()) || (a.isColumnVector() && b.isColumnVector())) {
-            raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"+");
+            raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"+");
         } else {
             if (dimsA[1] == dimsB[1]) {
                 if (a.isVector()) {
@@ -275,10 +275,10 @@ stringArray_plus_stringArray(const ArrayOf& a, const ArrayOf& b)
                 }
                 return matrix_vector_string_addition(a, b);
             }
-            raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"+");
+            raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"+");
         }
     } else {
-        raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"+");
+        raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"+");
     }
 
     return ArrayOf::emptyConstructor();

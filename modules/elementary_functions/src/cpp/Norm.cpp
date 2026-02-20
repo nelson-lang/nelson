@@ -246,7 +246,7 @@ Norm(const ArrayOf& arrayIn, double p)
     }
 
     if (!ispNormValid(p) && !(arrayIn.isVector() || arrayIn.isScalar())) {
-        raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
+        raiseError2(_E("nelson:validators:invalidValueAtPosition"), 2);
     }
     double normResultAsDouble = 0;
     single normResultAsSingle = 0;
@@ -328,7 +328,7 @@ Norm(const ArrayOf& arrayIn, double p)
                     res = ArrayOf::doubleConstructor(normResultAsDouble);
                 }
             } else {
-                raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
+                raiseError2(_E("nelson:validators:invalidValueAtPosition"), 2);
             }
         }
     }

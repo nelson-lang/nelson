@@ -90,7 +90,7 @@ Nelson::DataStructuresGateway::rmfieldBuiltin(int nLhs, const ArrayOfVector& arg
             retval << st;
         }
     } else {
-        raiseError2(L"nelson:validators:mustBeStructAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeStructAtPosition"), 1);
     }
     return retval;
 }

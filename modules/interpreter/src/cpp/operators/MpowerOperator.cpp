@@ -60,20 +60,20 @@ Evaluator::mpowerOperator(const ArrayOfVector& args)
         if (A.isIntegerType()) {
             bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
             if (!isCompatible) {
-                raiseError2(L"nelson:runtime:operandsMustBeIntegersOrScalarDouble");
+                raiseError2(_E("nelson:runtime:operandsMustBeIntegersOrScalarDouble"));
             }
             auto* ptrB = (double*)B.getDataPointer();
             indexType elementCount = B.getElementCount();
             bool allIntegerValue = IsIntegerForm(ptrB, elementCount);
             if (!allIntegerValue) {
-                raiseError2(L"nelson:validators:mustBeIntegerFormAtPosition", 2);
+                raiseError2(_E("nelson:validators:mustBeIntegerFormAtPosition"), 2);
             }
             A.promoteType(commonType);
             B.promoteType(commonType);
         } else if (B.isIntegerType()) {
             bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
             if (!isCompatible) {
-                raiseError2(L"nelson:runtime:operandsMustBeIntegersOrScalarDouble");
+                raiseError2(_E("nelson:runtime:operandsMustBeIntegersOrScalarDouble"));
             }
             A.promoteType(commonType);
             B.promoteType(commonType);

@@ -21,10 +21,10 @@ HorzCatSparseLogical(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;
     if (!A.isSparseLogicalType()) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_SPARSE_LOGICAL_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_SPARSE_LOGICAL_STR);
     }
     if (!B.isSparseLogicalType()) {
-        raiseError2(L"nelson:validators:mustBeType", 2, NLS_SPARSE_LOGICAL_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 2, NLS_SPARSE_LOGICAL_STR);
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);
@@ -37,7 +37,7 @@ HorzCatSparseLogical(ArrayOf A, ArrayOf B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getRows() != dimsB.getRows()) {
-        raiseError2(L"nelson:runtime:dimensionsNotConsistent");
+        raiseError2(_E("nelson:runtime:dimensionsNotConsistent"));
     }
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatA
         = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.getSparseDataPointer();
@@ -51,7 +51,7 @@ HorzCatSparseLogical(ArrayOf A, ArrayOf B)
         spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(newRowsSize, newColumnsSize);
     } catch (const std::bad_alloc&) {
         spMatC = nullptr;
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     spMatC->middleCols(0, spMatA->cols()) = *spMatA;
     spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;

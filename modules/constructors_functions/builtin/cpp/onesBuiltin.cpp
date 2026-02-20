@@ -87,7 +87,7 @@ Nelson::ConstructorsGateway::onesBuiltin(int nLhs, const ArrayOfVector& argIn)
                     nRhs = nRhs - 2;
                     bCheckClassName = false;
                 } else {
-                    raiseError2(L"nelson:arguments:likeExpectedAtPosition", L"n - 2");
+                    raiseError2(_E("nelson:arguments:likeExpectedAtPosition"), L"n - 2");
                 }
             }
         }
@@ -110,7 +110,7 @@ Nelson::ConstructorsGateway::onesBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (argIn[0].isNumeric() && !argIn[0].isSparse()) {
                 if (argIn[0].isRowVector()) {
                     if (argIn[0].isEmpty()) {
-                        raiseError2(L"nelson:validators:mustBeRowVectorAtPosition", 1);
+                        raiseError2(_E("nelson:validators:mustBeRowVectorAtPosition"), 1);
                     }
                     if (argIn[0].getElementCount() < Nelson::maxDims) {
                         ArrayOf dimVector(argIn[0]);
@@ -124,13 +124,13 @@ Nelson::ConstructorsGateway::onesBuiltin(int nLhs, const ArrayOfVector& argIn)
                             dims[1] = dims[0];
                         }
                     } else {
-                        raiseError2(L"nelson:runtime:tooManyDimensions", Nelson::maxDims);
+                        raiseError2(_E("nelson:runtime:tooManyDimensions"), Nelson::maxDims);
                     }
                 } else {
-                    raiseError2(L"nelson:validators:mustBeRowVectorAtPosition", 1);
+                    raiseError2(_E("nelson:validators:mustBeRowVectorAtPosition"), 1);
                 }
             } else {
-                raiseError2(L"nelson:validators:mustBeRowVectorAtPosition", 1);
+                raiseError2(_E("nelson:validators:mustBeRowVectorAtPosition"), 1);
             }
         } else {
             for (sizeType k = 0; k < nRhs; k++) {

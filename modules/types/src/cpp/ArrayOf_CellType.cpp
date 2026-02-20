@@ -37,7 +37,7 @@ toCellArrayOfCharacterVectors(const stringVector& vectorStr, bool bAsColumn)
     try {
         elements = std::make_unique<ArrayOf[]>(nbElements);
     } catch (const std::bad_alloc&) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     for (size_t k = 0; k < nbElements; ++k) {
         elements[k] = ArrayOf::characterArrayConstructor(vectorStr[k]);
@@ -68,7 +68,7 @@ toCellArrayOfCharacterVectors(const wstringVector& vectorStr, bool bAsColumn)
     try {
         elements = std::make_unique<ArrayOf[]>(nbElements);
     } catch (const std::bad_alloc&) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     for (size_t k = 0; k < nbElements; ++k) {
         elements[k] = ArrayOf::characterArrayConstructor(vectorStr[k]);

@@ -309,8 +309,7 @@ integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDestination, c
 
     if (A.isVector() || B.isVector()) {
         if ((A.isRowVector() && B.isRowVector()) || (A.isColumnVector() && B.isColumnVector())) {
-            raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ON_ARGUMENTS",
-                ERROR_SIZE_MISMATCH_ON_ARGUMENTS);
+            raiseError2(_E("nelson:validators:sizeMismatch"));
         }
         if (A.isRowVector() && B.isColumnVector()) {
             return row_column_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
@@ -321,33 +320,28 @@ integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDestination, c
         if (A.getRows() == B.getRows()) {
             if (A.isVector()) {
                 if (!B.is2D()) {
-                    raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ON_ARGUMENTS",
-                        ERROR_SIZE_MISMATCH_ON_ARGUMENTS);
+                    raiseError2(_E("nelson:validators:sizeMismatch"));
                 }
                 return row_matrix_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
             }
             if (!A.is2D()) {
-                raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ON_ARGUMENTS",
-                    ERROR_SIZE_MISMATCH_ON_ARGUMENTS);
+                raiseError2(_E("nelson:validators:sizeMismatch"));
             }
             return matrix_row_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
         }
         if (A.getColumns() == B.getColumns()) {
             if (A.isVector()) {
                 if (!B.is2D()) {
-                    raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ON_ARGUMENTS",
-                        ERROR_SIZE_MISMATCH_ON_ARGUMENTS);
+                    raiseError2(_E("nelson:validators:sizeMismatch"));
                 }
                 return column_matrix_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
             }
             if (!A.is2D()) {
-                raiseError(L"Nelson:operators:ERROR_SIZE_MISMATCH_ON_ARGUMENTS",
-                    ERROR_SIZE_MISMATCH_ON_ARGUMENTS);
+                raiseError2(_E("nelson:validators:sizeMismatch"));
             }
             return matrix_column_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
         }
-        raiseError(
-            L"Nelson:operators:ERROR_SIZE_MISMATCH_ON_ARGUMENTS", ERROR_SIZE_MISMATCH_ON_ARGUMENTS);
+        raiseError2(_E("nelson:validators:sizeMismatch"));
     }
     return res;
 }

@@ -40,8 +40,6 @@
     _W("Wrong type for argument #{}: string or function handle expected.")
 #define ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_DOUBLE_EXPECTED                                      \
     _W("Wrong type for argument #{}: string or double expected.")
-#define ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED                                        \
-    _W("Wrong type for argument #{}: string or cell expected.")
 #define ERROR_MATRIX_INDEX_OUT_OF_RANGE _W("Matrix index is out of range.")
 #define ERROR_ILLEGAL_ZERO_OR_NEGATIVE_INDEX _W("Illegal zero or negative index")
 #define ERROR_CANNOT_CONVERT_STRING_DATA_TYPES_TO_INDICES                                          \
@@ -274,7 +272,7 @@
 //=============================================================================
 // SYNTAX & EXPRESSION ERRORS
 //=============================================================================
-#define ERROR_AST_SYNTAX_ERROR _W("AST - syntax error!")
+
 #define ERROR_END_ILLEGAL _W("END keyword illegal!")
 #define ERROR_UNRECOGNIZED_NODE _W("Unrecognized reserved node in expression tree!")
 #define ERROR_UNRECOGNIZED_EXPRESSION _W("Unrecognized expression!")
@@ -422,8 +420,6 @@
     _W("Filename not associated to an application.")
 #define ERROR_NAME_ARGUMENT_REQUIRES_3_INPUT_ARGUMENTS                                             \
     _W("'name' argument requires 3 input arguments.")
-#define ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR                                  \
-    _W("Complex integer not allowed for arithmetic operator {0}.")
 #define ERROR_SAME_CLASS_TYPE_EXPECTED _W("Same class type expected.")
 #define ERROR_REQUESTED_DIVIDE_OPERATION_REQUIRES_ARGUMENTS_TO_HAVE_CORRECT_DIMENSIONS             \
     _W("Requested divide operation requires arguments to have correct dimensions.")
@@ -517,7 +513,6 @@
 #define ERROR_CONVERSION_TO_LOGICAL_FROM_COMPLEX_IS_NOT_POSSIBLE                                   \
     _W("Conversion to logical from complex is not possible.")
 #define ERROR_INVALID_CONVERSION _W("Invalid conversion.")
-#define ERROR_SIZE_MISMATCH_ON_ARGUMENTS _W("Size mismatch on arguments.")
 #define ERROR_INPUT_FOLLOWING_LIKE_IS_NOT_A_LOGICAL_ARRAY                                          \
     _W("Input following 'like' is not a logical array.")
 #define ERROR_ONE_ARGUMENT_HAD_AN_ILLEGAL_VALUE _W("One argument had an illegal value.")
@@ -1082,7 +1077,6 @@
 #define ERROR_CANNOT_SET_READ_ONLY_PROPERTY _W("Cannot set a read only property.")
 #define ERROR_CANNOT_CREATE_AUDIORECORDER_HANDLE _W("Cannot create audiorecorder handle.")
 // com_engine module messages
-#define ERROR_COM_HANDLE_EXPECTED _W("COM handle expected.")
 #define ERROR_COM_VALID_HANDLE_EXPECTED _W("COM valid handle expected.")
 #define ERROR_ERROR_CLSID_FROM_STRING _W("Error CLSIDFromString.")
 #define ERROR_ERROR_CLSID_FROM_PROGID _W("Error CLSIDFromProgID.")
@@ -1284,7 +1278,6 @@
 #define ERROR_NO_PARENT _W("No parent.")
 #define ERROR_INVALID_PARAMETERS _W("Invalid parameters")
 #define ERROR_QVARIANT_INVALID _W("QVariant invalid.")
-#define ERROR_QML_ENGINE_NOT_INITIALIZED _W("QML engine not initialized.")
 #define ERROR_CANNOT_CREATE_QQUICKVIEW _W("Cannot create QQuickView.")
 #define ERROR_CANNOT_SET_PARENT _W("Cannot set parent.")
 #define ERROR_ONLY_10_INPUT_PARAMETERS_EXPECTED _W("Only 10 input parameters expected.")
@@ -1499,7 +1492,6 @@
 #define ERROR_INVALID_TYPE_FOR_LIKE_INPUT_ARGUMENT                                                 \
     _W("Invalid type for #{0} input argument: {1} expected.")
 #define ERROR_IMPORT_TYPE_NOT_DEFINED _W("import type {0} not defined in FFI type table.")
-#define ERROR_INPUT_ARGUMENT_WRONG_SIZE _W("Input argument #{0}: wrong size. {1} expected.")
 #define ERROR_UNABLE_TO_SET_PROPERTY_PYTHON_ENVIRONMENT                                            \
     _W("Unable to set property of class 'PythonEnvironment' it is read-only.")
 #define ERROR_DETECTIMPORTOPTIONS_ERROR _W("Error in detectImportOptions: {0}")

@@ -249,7 +249,7 @@ getContentAsScalar(
     if (M.getDataClass() != destinationClass && !M.isSparse()) {
         if (M.isEmpty() || M.isComplex() || M.isReferenceType() || M.isCharacterArray()
             || (!arrayAsScalar && !M.isScalar())) {
-            raiseError2(L"nelson:validators:mustBeScalar");
+            raiseError2(_E("nelson:validators:mustBeScalar"));
         }
         ArrayOf P(M);
         P.promoteType(destinationClass);
@@ -258,7 +258,7 @@ getContentAsScalar(
         if (checkIsIntegerValue) {
             double f = M.getContentAsDoubleScalar(arrayAsScalar, false);
             if (std::abs(f - value) >= std::numeric_limits<double>::epsilon()) {
-                raiseError2(L"nelson:validators:mustBeIntegerAtPosition", 1);
+                raiseError2(_E("nelson:validators:mustBeIntegerAtPosition"), 1);
             }
         }
     } else {

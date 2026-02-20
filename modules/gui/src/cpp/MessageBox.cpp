@@ -64,7 +64,7 @@ MessageBox(const std::wstring& message, const std::wstring& title, const std::ws
         forceWindowsTitleBarToDark(msgBox->winId());
 #endif
     } catch (const std::bad_alloc&) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     QString nelsonPath(
         Nelson::wstringToQString(NelsonConfiguration::getInstance()->getNelsonRootDirectory()));

@@ -52,7 +52,7 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
             fp = static_cast<GraphicsObject*>(findGOFigure(gobjects[k]));
         }
         if (!fp) {
-            raiseError2(L"nelson:validators:invalidNelsonHandle");
+            raiseError2(_E("nelson:validators:invalidNelsonHandle"));
         }
         int ptr = 1;
         while (argIn.size() >= (ptr + 2)) {

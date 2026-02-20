@@ -141,7 +141,7 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(const ArrayOf& dllibObject, voi
     buildPrototype();
     ffi_type** args = (ffi_type**)malloc(sizeof(ffi_type*) * _paramsTypes.size());
     if (!args) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     } else {
         size_t i = 0;
         for (const std::wstring& param : _paramsTypes) {
@@ -293,13 +293,13 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
             ERROR_DLLIB_VALID_HANDLE_EXPECTED);
     }
     if (params.size() != _nArgIn) {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     }
     for (size_t k = 0; k < params.size(); k++) {
         if (GetNelsonType(_paramsTypes[k]) != params[k].getDataClass()) {
             if (params[k].getDataClass() == NLS_HANDLE) {
                 if (params[k].getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                    raiseError2(L"nelson:arguments:libpointerHandleExpected");
+                    raiseError2(_E("nelson:arguments:libpointerHandleExpected"));
                 }
                 LibPointerObject* objLibPointer
                     = (LibPointerObject*)params[k].getContentAsHandleScalar();
@@ -342,7 +342,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
     for (size_t i = 0; i < params.size(); i++) {
         if (params[i].getDataClass() == NLS_HANDLE) {
             if (params[i].getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                raiseError2(L"nelson:arguments:libpointerHandleExpected");
+                raiseError2(_E("nelson:arguments:libpointerHandleExpected"));
             }
             LibPointerObject* objLibPointer
                 = (LibPointerObject*)params[i].getContentAsHandleScalar();
@@ -376,7 +376,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
             try {
                 obj = new LibPointerObject(returnedValue);
             } catch (const std::bad_alloc&) {
-                raiseError2(L"nelson:runtime:outOfMemory");
+                raiseError2(_E("nelson:runtime:outOfMemory"));
             }
             retval << ArrayOf::handleConstructor(obj);
         }
@@ -467,7 +467,7 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
         if (StringHelpers::ends_with(_paramsTypes[i], L"Ptr")) {
             if (params[i].getDataClass() == NLS_HANDLE) {
                 if (params[i].getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                    raiseError2(L"nelson:arguments:libpointerHandleExpected");
+                    raiseError2(_E("nelson:arguments:libpointerHandleExpected"));
                 }
                 LibPointerObject* objLibPointer
                     = (LibPointerObject*)params[i].getContentAsHandleScalar();

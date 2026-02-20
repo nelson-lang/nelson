@@ -27,7 +27,7 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(int nLhs, const ArrayOfVector& arg
         try {
             libPointerObject = new LibPointerObject();
         } catch (const std::bad_alloc&) {
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         } catch (const Exception&) {
             throw;
         }
@@ -37,7 +37,7 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(int nLhs, const ArrayOfVector& arg
         try {
             libPointerObject = new LibPointerObject(DataType);
         } catch (const std::bad_alloc&) {
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         } catch (const Exception&) {
             throw;
         }
@@ -48,13 +48,13 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(int nLhs, const ArrayOfVector& arg
         try {
             libPointerObject = new LibPointerObject(DataType, Value);
         } catch (const std::bad_alloc&) {
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         } catch (const Exception&) {
             throw;
         }
     } break;
     default:
-        raiseError2(L"nelson:arguments:tooManyInputs");
+        raiseError2(_E("nelson:arguments:tooManyInputs"));
         break;
     }
     retval << ArrayOf::handleConstructor(libPointerObject);

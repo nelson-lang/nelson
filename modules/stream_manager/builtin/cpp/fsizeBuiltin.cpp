@@ -28,7 +28,7 @@ Nelson::StreamGateway::fsizeBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (param1.isDoubleType()) {
         auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
         if (fm == nullptr) {
-            raiseError2(L"nelson:io:fileManagerError");
+            raiseError2(_E("nelson:io:fileManagerError"));
         }
         auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
         if (fm->isStdStream(iValue)) {
@@ -40,10 +40,10 @@ Nelson::StreamGateway::fsizeBuiltin(int nLhs, const ArrayOfVector& argIn)
             auto sz = static_cast<double>(FileSize(f));
             retval << ArrayOf::doubleConstructor(sz);
         } else {
-            raiseError2(L"nelson:io:invalidFileId");
+            raiseError2(_E("nelson:io:invalidFileId"));
         }
     } else {
-        raiseError2(L"nelson:io:invalidFileId");
+        raiseError2(_E("nelson:io:invalidFileId"));
     }
     return retval;
 }

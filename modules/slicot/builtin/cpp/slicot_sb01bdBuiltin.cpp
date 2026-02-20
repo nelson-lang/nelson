@@ -123,17 +123,18 @@ Nelson::SlicotGateway::slicot_sb01bdBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 1);
     }
     if (!dimsALPHA.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 2);
     }
     Dimensions dimsA_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError2(L"nelson:validators:mustBeSize", 3, utf8_to_wstring(dimsA_expected.toString()));
+        raiseError2(
+            _E("nelson:validators:mustBeSize"), 3, utf8_to_wstring(dimsA_expected.toString()));
     }
     if (!dimsTOL.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 7);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 7);
     }
     // CALL EXTERN FUNCTION
     try {
@@ -142,7 +143,7 @@ Nelson::SlicotGateway::slicot_sb01bdBuiltin(int nLhs, const ArrayOfVector& argIn
             F_output_ptr, LDF_ptr, Z_output_ptr, LDZ_ptr, TOL_ptr, DWORK_ptr, LDWORK_ptr,
             IWARN_output_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError2(L"nelson:slicot:slicotFuncFails", L"sb01bd");
+        raiseError2(_E("nelson:slicot:slicotFuncFails"), L"sb01bd");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

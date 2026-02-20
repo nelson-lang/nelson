@@ -44,7 +44,7 @@ IsValidHandle(const ArrayOf& A)
             res = ArrayOf::emptyConstructor(dimsA);
         }
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_HANDLE_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_HANDLE_STR);
     }
     return res;
 }

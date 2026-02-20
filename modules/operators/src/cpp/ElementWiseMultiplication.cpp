@@ -397,7 +397,7 @@ elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayOf b)
         Dimensions dimsA = a.getDimensions();
         Dimensions dimsB = b.getDimensions();
         if (!(SameSizeCheck(dimsA, dimsB))) {
-            raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"*");
+            raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"*");
         }
         return ArrayOf(b);
     }
@@ -438,7 +438,7 @@ elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayOf b)
                     a.getElementCount());
             } else if ((a.isRowVector() && b.isRowVector())
                 || (a.isColumnVector() && b.isColumnVector())) {
-                raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"*");
+                raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"*");
             } else {
                 if ((a.getRows() == b.getRows()) && (a.getRows() != 1)) {
                     if (a.isVector()) {
@@ -452,10 +452,10 @@ elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayOf b)
                     }
                     return vector_column_elementWiseMultiplication<T>(classDestination, b, a);
                 }
-                raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"*");
+                raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"*");
             }
         } else {
-            raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"*");
+            raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"*");
         }
         return ArrayOf(classDestination, dimsC, Cp, false);
     }
@@ -492,7 +492,7 @@ complex_elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayO
         Dimensions dimsA = a.getDimensions();
         Dimensions dimsB = b.getDimensions();
         if (!(SameSizeCheck(dimsA, dimsB))) {
-            raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"*");
+            raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"*");
         }
         return ArrayOf(b);
     }
@@ -524,7 +524,7 @@ complex_elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayO
                 b.getElementCount(), (T*)a.getDataPointer(), a.getElementCount());
         } else if ((a.isRowVector() && b.isRowVector())
             || (a.isColumnVector() && b.isColumnVector())) {
-            raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"*");
+            raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"*");
         } else {
             T* ptrA = (T*)a.getDataPointer();
             T* ptrB = (T*)b.getDataPointer();
@@ -543,10 +543,10 @@ complex_elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayO
                 }
                 return complex_vector_column_elementWiseMultiplication<T>(classDestination, b, a);
             }
-            raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"*");
+            raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"*");
         }
     } else {
-        raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"*");
+        raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"*");
     }
 
     return ArrayOf(classDestination, dimsC, Cp, false);
@@ -599,7 +599,7 @@ integer_elementWiseMultiplication_integer(const ArrayOf& a, const ArrayOf& b)
     case NLS_UINT64:
         return elementWiseMultiplication<uint64>(NLS_UINT64, a, b);
     default:
-        raiseError2(L"nelson:internal:typeNotManaged");
+        raiseError2(_E("nelson:internal:typeNotManaged"));
         break;
     }
     return {};
@@ -666,14 +666,7 @@ elementWiseMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverlo
         if (A.isIntegerType()) {
             bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
             if (!isCompatible) {
-                raiseError(L"Nelson:operators:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OR_"
-                           L"SCALAR_DOUBLES",
-                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OR_SCALAR_DOUBLES);
-            }
-            if (B.isComplex()) {
-                raiseError(
-                    L"Nelson:operators:ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR",
-                    ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR, L"*");
+                raiseError2(_E("nelson:runtime:operandsMustBeIntegersOrScalarDouble"));
             }
             ArrayOf AA = A;
             AA.promoteType(B.getDataClass());
@@ -685,14 +678,7 @@ elementWiseMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverlo
         } else if (B.isIntegerType()) {
             bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
             if (!isCompatible) {
-                raiseError(L"Nelson:operators:ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OR_"
-                           L"SCALAR_DOUBLES",
-                    ERROR_INTEGERS_CAN_ONLY_BE_COMBINED_WITH_INTEGERS_OR_SCALAR_DOUBLES);
-            }
-            if (A.isComplex()) {
-                raiseError(
-                    L"Nelson:operators:ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR",
-                    ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR, L"*");
+                raiseError2(_E("nelson:runtime:operandsMustBeIntegersOrScalarDouble"));
             }
             ArrayOf BB = B;
             BB.promoteType(A.getDataClass());

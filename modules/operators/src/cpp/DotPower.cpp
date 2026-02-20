@@ -629,14 +629,14 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
-        raiseError2(L"nelson:runtime:sizeMismatchArithmetic", L"^");
+        raiseError2(_E("nelson:runtime:sizeMismatchArithmetic"), L"^");
     }
     AClass = A.getDataClass();
     BClass = B.getDataClass();
     if ((A.isIntegerType() || A.isNdArrayIntegerType())
         && (B.isIntegerType() || B.isNdArrayIntegerType())) {
         if (!B.isPositive()) {
-            raiseError2(L"nelson:validators:mustBePositiveAtPosition", 2);
+            raiseError2(_E("nelson:validators:mustBePositiveAtPosition"), 2);
         }
         void* Cp = nullptr;
         indexType stride1 = 0;
@@ -828,12 +828,7 @@ DotPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         if (A.isIntegerType()) {
             bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
             if (!isCompatible) {
-                raiseError2(L"nelson:runtime:operandsMustBeIntegersOrScalarDouble");
-            }
-            if (B.isComplex()) {
-                raiseError(
-                    L"Nelson:operators:ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR",
-                    ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR);
+                raiseError2(_E("nelson:runtime:operandsMustBeIntegersOrScalarDouble"));
             }
             ArrayOf AA = A;
             AA.promoteType(B.getDataClass());
@@ -845,12 +840,7 @@ DotPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         } else if (B.isIntegerType()) {
             bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
             if (!isCompatible) {
-                raiseError2(L"nelson:runtime:operandsMustBeIntegersOrScalarDouble");
-            }
-            if (A.isComplex()) {
-                raiseError(
-                    L"Nelson:operators:ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR",
-                    ERROR_COMPLEX_INTEGER_NOT_ALLOWED_FOR_ARITHMETIC_OPERATOR, L"*");
+                raiseError2(_E("nelson:runtime:operandsMustBeIntegersOrScalarDouble"));
             }
             ArrayOf BB = B;
             BB.promoteType(A.getDataClass());

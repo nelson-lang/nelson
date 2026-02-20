@@ -92,7 +92,7 @@ SVD_double(const ArrayOf& A, ArrayOf& s)
         info = LAPACKE_dgesdd(
             LAPACK_COL_MAJOR, JOBZ, m, n, (double*)A.getDataPointer(), lda, ds, u, ldu, vt, ldvt);
         if (info > 0) {
-            raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"dgesdd", info);
+            raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"dgesdd", info);
         }
     } else {
         double* superb = new_with_exception<double>(std::max(0, std::min(m, n) - 1), true);
@@ -100,7 +100,7 @@ SVD_double(const ArrayOf& A, ArrayOf& s)
             ds, u, ldu, vt, ldvt, superb);
         delete[] superb;
         if (info > 0) {
-            raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"dgesvd", info);
+            raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"dgesvd", info);
         }
     }
     Dimensions dimsS(std::min(m, n), 1);
@@ -142,7 +142,7 @@ SVD_doublecomplex(const ArrayOf& A, ArrayOf& s)
     if (use_gesdd_for_size(m, n)) {
         info = LAPACKE_zgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, Rz, lda, ds, uz, ldu, vtz, ldvt);
         if (info > 0) {
-            raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"zgesdd", info);
+            raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"zgesdd", info);
         }
     } else {
         double* superb = new_with_exception<double>(std::max(0, std::min(m, n) - 1), true);
@@ -150,7 +150,7 @@ SVD_doublecomplex(const ArrayOf& A, ArrayOf& s)
             LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, ds, uz, ldu, vtz, ldvt, superb);
         delete[] superb;
         if (info > 0) {
-            raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"zgesvd", info);
+            raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"zgesvd", info);
         }
     }
     Dimensions dimsS(std::min(m, n), 1);
@@ -192,7 +192,7 @@ SVD_single(const ArrayOf& A, ArrayOf& s)
         info = LAPACKE_sgesdd(
             LAPACK_COL_MAJOR, JOBZ, m, n, (single*)A.getDataPointer(), lda, ds, u, ldu, vt, ldvt);
         if (info > 0) {
-            raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"sgesdd", info);
+            raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"sgesdd", info);
         }
     } else {
         single* superb = new_with_exception<single>(std::max(0, std::min(m, n) - 1), true);
@@ -200,7 +200,7 @@ SVD_single(const ArrayOf& A, ArrayOf& s)
             ds, u, ldu, vt, ldvt, superb);
         delete[] superb;
         if (info > 0) {
-            raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"sgesvd", info);
+            raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"sgesvd", info);
         }
     }
     Dimensions dimsS(std::min(m, n), 1);
@@ -242,7 +242,7 @@ SVD_singlecomplex(const ArrayOf& A, ArrayOf& s)
     if (use_gesdd_for_size(m, n)) {
         info = LAPACKE_cgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, Rz, lda, ds, uz, ldu, vtz, ldvt);
         if (info > 0) {
-            raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"cgesdd", info);
+            raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"cgesdd", info);
         }
     } else {
         single* superb = new_with_exception<single>(std::max(0, std::min(m, n) - 1), true);
@@ -250,7 +250,7 @@ SVD_singlecomplex(const ArrayOf& A, ArrayOf& s)
             LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, ds, uz, ldu, vtz, ldvt, superb);
         delete[] superb;
         if (info > 0) {
-            raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"cgesvd", info);
+            raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"cgesvd", info);
         }
     }
     Dimensions dimsS(std::min(m, n), 1);
@@ -305,7 +305,7 @@ SVD_doublecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
             info
                 = LAPACKE_zgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt);
             if (info > 0) {
-                raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"zgesdd", info);
+                raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"zgesdd", info);
             }
         } else {
             double* superb = new_with_exception<double>(std::max(0, minMN - 1), true);
@@ -313,7 +313,7 @@ SVD_doublecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
                 LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
             delete[] superb;
             if (info > 0) {
-                raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"zgesvd", info);
+                raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"zgesvd", info);
             }
         }
         Dimensions dimsU(maxMN, maxMN);
@@ -404,7 +404,7 @@ SVD_doublecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
             info
                 = LAPACKE_zgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt);
             if (info > 0) {
-                raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"zgesdd", info);
+                raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"zgesdd", info);
             }
         } else {
             double* superb = new_with_exception<double>(std::max(0, minMN - 1), true);
@@ -412,7 +412,7 @@ SVD_doublecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
                 LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
             delete[] superb;
             if (info > 0) {
-                raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"zgesvd", info);
+                raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"zgesvd", info);
             }
         }
         U = ArrayOf(NLS_DCOMPLEX, dimsU, u);
@@ -497,7 +497,7 @@ SVD_single(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
             info = LAPACKE_sgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, (single*)A.getDataPointer(), lda,
                 dstemp, u, ldu, vt, ldvt);
             if (info > 0) {
-                raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"sgesdd", info);
+                raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"sgesdd", info);
             }
         } else {
             single* superb = new_with_exception<single>(std::max(0, minMN - 1), true);
@@ -505,7 +505,7 @@ SVD_single(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
                 lda, dstemp, u, ldu, vt, ldvt, superb);
             delete[] superb;
             if (info > 0) {
-                raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"sgesvd", info);
+                raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"sgesvd", info);
             }
         }
         Dimensions dimsU(maxMN, maxMN);
@@ -590,7 +590,7 @@ SVD_single(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
             info = LAPACKE_sgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, (single*)A.getDataPointer(), lda,
                 dstemp, u, ldu, vt, ldvt);
             if (info > 0) {
-                raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"sgesdd", info);
+                raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"sgesdd", info);
             }
         } else {
             single* superb = new_with_exception<single>(std::max(0, minMN - 1), true);
@@ -598,7 +598,7 @@ SVD_single(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
                 lda, dstemp, u, ldu, vt, ldvt, superb);
             delete[] superb;
             if (info > 0) {
-                raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"sgesvd", info);
+                raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"sgesvd", info);
             }
         }
         U = ArrayOf(NLS_SINGLE, dimsU, u);
@@ -682,7 +682,7 @@ SVD_double(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
             info = LAPACKE_dgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, (double*)A.getDataPointer(), lda,
                 dstemp, u, ldu, vt, ldvt);
             if (info > 0) {
-                raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"dgesdd", info);
+                raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"dgesdd", info);
             }
         } else {
             double* superb = new_with_exception<double>(std::max(0, minMN - 1), true);
@@ -690,7 +690,7 @@ SVD_double(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
                 lda, dstemp, u, ldu, vt, ldvt, superb);
             delete[] superb;
             if (info > 0) {
-                raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"dgesvd", info);
+                raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"dgesvd", info);
             }
         }
         Dimensions dimsU(maxMN, maxMN);
@@ -778,7 +778,7 @@ SVD_double(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
             info = LAPACKE_dgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, (double*)A.getDataPointer(), lda,
                 dstemp, u, ldu, vt, ldvt);
             if (info > 0) {
-                raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"dgesdd", info);
+                raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"dgesdd", info);
             }
         } else {
             double* superb = new_with_exception<double>(std::max(0, minMN - 1), true);
@@ -786,7 +786,7 @@ SVD_double(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V, 
                 lda, dstemp, u, ldu, vt, ldvt, superb);
             delete[] superb;
             if (info > 0) {
-                raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"dgesvd", info);
+                raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"dgesvd", info);
             }
         }
         U = ArrayOf(NLS_DOUBLE, dimsU, u);
@@ -874,7 +874,7 @@ SVD_singlecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
             info
                 = LAPACKE_cgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt);
             if (info > 0) {
-                raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"cgesdd", info);
+                raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"cgesdd", info);
             }
         } else {
             single* superb = new_with_exception<single>(std::max(0, minMN - 1), true);
@@ -882,7 +882,7 @@ SVD_singlecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
                 LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
             delete[] superb;
             if (info > 0) {
-                raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"cgesvd", info);
+                raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"cgesvd", info);
             }
         }
         Dimensions dimsU(maxMN, maxMN);
@@ -973,7 +973,7 @@ SVD_singlecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
             info
                 = LAPACKE_cgesdd(LAPACK_COL_MAJOR, JOBZ, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt);
             if (info > 0) {
-                raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"cgesdd", info);
+                raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"cgesdd", info);
             }
         } else {
             single* superb = new_with_exception<single>(std::max(0, minMN - 1), true);
@@ -981,7 +981,7 @@ SVD_singlecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
                 LAPACK_COL_MAJOR, JOBU, JOBVT, m, n, Rz, lda, dstemp, uz, ldu, vtz, ldvt, superb);
             delete[] superb;
             if (info > 0) {
-                raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"cgesvd", info);
+                raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"cgesvd", info);
             }
         }
         U = ArrayOf(NLS_SCOMPLEX, dimsU, u);

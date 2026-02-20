@@ -50,7 +50,7 @@ MatrixSin(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
     if (!A.isSquare()) {
-        raiseError2(L"nelson:validators:mustBeSquareMatrix");
+        raiseError2(_E("nelson:validators:mustBeSquareMatrix"));
     }
     if (A.isEmpty()) {
         ArrayOf R(A);

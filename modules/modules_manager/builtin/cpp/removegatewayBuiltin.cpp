@@ -28,7 +28,7 @@ Nelson::ModulesManagerGateway::removegatewayBuiltin(
         std::wstring dynlibName = argIn[0].getContentAsWideString();
         RemoveGateway(eval, dynlibName);
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
     }
     return retval;
 }

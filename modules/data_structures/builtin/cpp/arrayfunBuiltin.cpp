@@ -39,7 +39,7 @@ arrayfun_nonuniformBuiltin(int nargout, const ArrayOfVector& argIn, Evaluator* e
         try {
             elements = new ArrayOf[nbElements];
         } catch (const std::bad_alloc&) {
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         }
         for (indexType k = 0; k < nbElements; ++k) {
             elements[k] = ArrayOf::emptyConstructor();
@@ -223,7 +223,7 @@ Nelson::DataStructuresGateway::arrayfunBuiltin(
     }
 
     if (funcDef == nullptr) {
-        raiseError2(L"nelson:validators:mustBeValidFunctionHandle");
+        raiseError2(_E("nelson:validators:mustBeValidFunctionHandle"));
     }
 
     // validate input dimensions
@@ -239,11 +239,11 @@ Nelson::DataStructuresGateway::arrayfunBuiltin(
             dimsVector.insert(dimsVector.end(), inputDims.begin(), inputDims.end());
         } else {
             if (dimsVector.size() != inputDims.size()) {
-                raiseError2(L"nelson:validators:sizeMismatch");
+                raiseError2(_E("nelson:validators:sizeMismatch"));
             }
             for (size_t i = 0; i < dimsVector.size(); ++i) {
                 if (inputDims[i] != dimsVector[i]) {
-                    raiseError2(L"nelson:validators:sizeMismatch");
+                    raiseError2(_E("nelson:validators:sizeMismatch"));
                 }
             }
         }

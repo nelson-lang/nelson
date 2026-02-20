@@ -58,7 +58,7 @@ Evaluator::powerOperator(const ArrayOfVector& args)
         if (A.isIntegerType()) {
             bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
             if (!isCompatible) {
-                raiseError2(L"nelson:runtime:operandsMustBeIntegersOrScalarDouble");
+                raiseError2(_E("nelson:runtime:operandsMustBeIntegersOrScalarDouble"));
             }
             A.promoteType(commonType);
 
@@ -66,7 +66,7 @@ Evaluator::powerOperator(const ArrayOfVector& args)
             indexType elementCount = B.getElementCount();
             bool allIntegerValue = IsIntegerForm(ptrB, elementCount);
             if (!allIntegerValue) {
-                raiseError2(L"nelson:validators:mustBeIntegerFormAtPosition", 2);
+                raiseError2(_E("nelson:validators:mustBeIntegerFormAtPosition"), 2);
             }
 
             B.promoteType(commonType);
@@ -74,7 +74,7 @@ Evaluator::powerOperator(const ArrayOfVector& args)
         } else if (B.isIntegerType()) {
             bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
             if (!isCompatible) {
-                raiseError2(L"nelson:runtime:operandsMustBeIntegersOrScalarDouble");
+                raiseError2(_E("nelson:runtime:operandsMustBeIntegersOrScalarDouble"));
             }
             A.promoteType(commonType);
             B.promoteType(commonType);

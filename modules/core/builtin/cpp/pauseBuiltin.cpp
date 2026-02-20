@@ -72,7 +72,7 @@ Nelson::CoreGateway::pauseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
                     return retval;
                 }
             } else {
-                raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+                raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
             }
         } else if (param1.isNumeric()) {
             if (nLhs == 1) {

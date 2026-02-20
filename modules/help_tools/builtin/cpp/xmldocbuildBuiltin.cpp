@@ -52,13 +52,13 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
     } else if (argSourceDirs.isCell()) {
         listOfDirectories = argSourceDirs.getContentAsWideStringVector(true);
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, ERROR_TYPE_CELL_OF_STRINGS);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, ERROR_TYPE_CELL_OF_STRINGS);
     }
     bool permissionDenied;
     for (const auto& listOfDirectory : listOfDirectories) {
         if (!FileSystemWrapper::Path::is_directory(listOfDirectory, permissionDenied)) {
             if (permissionDenied) {
-                raiseError2(L"nelson:io:permissionDenied");
+                raiseError2(_E("nelson:io:permissionDenied"));
             }
             raiseError(L"Nelson:help_tools:ERROR_DIRECTORY_NOT_EXIST", ERROR_DIRECTORY_NOT_EXIST,
                 listOfDirectory);
@@ -68,7 +68,7 @@ Nelson::HelpToolsGateway::xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argI
     std::wstring dstDirectory = argDestinationDir.getContentAsWideString();
     if (!FileSystemWrapper::Path::is_directory(dstDirectory, permissionDenied)) {
         if (permissionDenied) {
-            raiseError2(L"nelson:io:permissionDenied");
+            raiseError2(_E("nelson:io:permissionDenied"));
         }
         raiseError(L"Nelson:help_tools:ERROR_DIRECTORY_NOT_EXIST", ERROR_DIRECTORY_NOT_EXIST,
             dstDirectory);

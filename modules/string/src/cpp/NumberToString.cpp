@@ -429,14 +429,14 @@ NumberToString(const ArrayOf& A, double N, bool& needToOverload)
 {
     std::wstring format;
     if (!std::isfinite(N)) {
-        raiseError2(L"nelson:validators:mustBeFinite");
+        raiseError2(_E("nelson:validators:mustBeFinite"));
     }
     int precision = (int)N;
     if (A.getDataClass() == NLS_LOGICAL) {
         format = L"%" + std::to_wstring(precision + 7) + L"d";
     } else {
         if (N < 0) {
-            raiseError2(L"nelson:validators:mustBeNonnegativeAtPosition", 2);
+            raiseError2(_E("nelson:validators:mustBeNonnegativeAtPosition"), 2);
         }
         format = L"%" + std::to_wstring(precision + 7) + L"." + std::to_wstring(precision) + L"g";
     }

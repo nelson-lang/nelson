@@ -25,7 +25,7 @@ Nelson::DebuggerGateway::dbclearBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     nargoutcheck(nLhs, 0, 0);
 
     if (argIn.size() == 3) {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     }
 
     if (argIn.size() == 1 && argIn[0].getContentAsWideString() == L"all") {

@@ -72,7 +72,7 @@ StringJoin(const ArrayOf& A, const ArrayOf& delimiters, size_t dimension)
         return StringJoinStringArray(A, delimiters, dimension);
     } break;
     default: {
-        raiseError2(L"nelson:runtime:typeNotSupported");
+        raiseError2(_E("nelson:runtime:typeNotSupported"));
     } break;
     }
     return {};

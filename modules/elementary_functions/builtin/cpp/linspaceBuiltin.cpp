@@ -76,11 +76,11 @@ Nelson::ElementaryFunctionsGateway::linspaceBuiltin(int nLhs, const ArrayOfVecto
     } else {
         ArrayOf param3 = argIn[2];
         if (!param3.isScalar()) {
-            raiseError2(L"nelson:validators:mustBeScalarAtPosition", 3);
+            raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 3);
         }
         if (param3.isComplex()) {
 
-            raiseError2(L"nelson:validators:mustBeIntegerAtPosition", 3);
+            raiseError2(_E("nelson:validators:mustBeIntegerAtPosition"), 3);
         } else {
             // special case about NaN
             double nd = param3.getContentAsDoubleScalar();
@@ -97,10 +97,10 @@ Nelson::ElementaryFunctionsGateway::linspaceBuiltin(int nLhs, const ArrayOfVecto
     ArrayOf param2 = argIn[1];
     if (!param1.isScalar() || !param2.isScalar()) {
         if (!param1.isScalar()) {
-            raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
+            raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 1);
         }
         if (!param2.isScalar()) {
-            raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
+            raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 2);
         }
         ArrayOf res;
         NelsonType destinationClass;

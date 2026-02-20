@@ -288,7 +288,7 @@ AudioDevInfo(int io)
         }
         return ArrayOf::doubleConstructor((double)res);
     }
-    raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+    raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
     return ArrayOf::emptyConstructor();
 }
 //=============================================================================
@@ -312,19 +312,19 @@ AudioDevInfo(int io, int id)
         if (getDeviceInfoById(audioDevices, id, infoFound)) {
             if (io == 1) {
                 if (infoFound.padeviceInfo->maxInputChannels == 0) {
-                    raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+                    raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
                 }
             } else {
                 if (infoFound.padeviceInfo->maxOutputChannels == 0) {
-                    raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+                    raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
                 }
             }
             return ArrayOf::characterArrayConstructor(
                 utf8_to_wstring(infoFound.padeviceInfo->name));
         }
-        raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
+        raiseError2(_E("nelson:validators:invalidValueAtPosition"), 2);
     } else {
-        raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+        raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
     }
     return ArrayOf::emptyConstructor();
 }
@@ -361,12 +361,12 @@ AudioDevInfo(int io, const std::wstring& name)
     if (io == 0 || io == 1) {
         AudioDeviceInfo infoFound;
         if (!getDeviceInfoByName(audioDevices, io, name, infoFound)) {
-            raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+            raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
         } else {
             return ArrayOf::doubleConstructor((double)infoFound.Id);
         }
     } else {
-        raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+        raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
     }
     return ArrayOf::emptyConstructor();
 }
@@ -379,20 +379,20 @@ AudioDevInfoDriverVersion(int io, int id)
         if (getDeviceInfoById(audioDevices, id, infoFound)) {
             if (io == 1) {
                 if (infoFound.padeviceInfo->maxInputChannels == 0) {
-                    raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+                    raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
                 }
             } else {
                 if (infoFound.padeviceInfo->maxOutputChannels == 0) {
-                    raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+                    raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
                 }
             }
             const PaHostApiInfo* apiInfo = Pa_GetHostApiInfo(infoFound.padeviceInfo->hostApi);
             const char* driverVersion = apiInfo ? apiInfo->name : "";
             return ArrayOf::characterArrayConstructor(utf8_to_wstring(driverVersion));
         }
-        raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
+        raiseError2(_E("nelson:validators:invalidValueAtPosition"), 2);
     } else {
-        raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+        raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
     }
     return ArrayOf::emptyConstructor();
 }
@@ -472,7 +472,7 @@ AudioDevInfo(int io, int rate, int bits, int chans)
         }
         return ArrayOf::doubleConstructor(-1);
     }
-    raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+    raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
 
     return ArrayOf::emptyConstructor();
 }
@@ -521,7 +521,7 @@ AudioDevInfo(int io, int id, int rate, int bits, int chans)
             }
         }
         if (padeviceInfo == nullptr) {
-            raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
+            raiseError2(_E("nelson:validators:invalidValueAtPosition"), 2);
         } else {
             if (format != 0) {
                 if (supportAudioDevice(padeviceInfo, io, id, rate, format, chans)) {
@@ -529,10 +529,10 @@ AudioDevInfo(int io, int id, int rate, int bits, int chans)
                 }
                 return ArrayOf::logicalConstructor(false);
             }
-            raiseError2(L"nelson:validators:invalidValueAtPosition", 4);
+            raiseError2(_E("nelson:validators:invalidValueAtPosition"), 4);
         }
     } else {
-        raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+        raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
     }
     return ArrayOf::emptyConstructor();
 }

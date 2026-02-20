@@ -70,7 +70,7 @@ Nelson::CoreGateway::quitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
         eval->setState(NLS_STATE_FORCE_QUIT);
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     } break;
     }
     return retval;
@@ -91,7 +91,7 @@ getExitCodeFromVariable(const ArrayOfVector& argIn)
         }
 #endif
         if (static_cast<double>(iValue) != dValue) {
-            raiseError2(L"nelson:validators:mustBeScalarInteger", 1);
+            raiseError2(_E("nelson:validators:mustBeScalarInteger"), 1);
         }
     } else {
         raiseError(L"Nelson:core:ERROR_UNKNOWN_OPTION", ERROR_UNKNOWN_OPTION);

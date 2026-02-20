@@ -104,24 +104,24 @@ Nelson::SlicotGateway::slicot_sb03odBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 1);
     }
     if (!dimsFACT.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 2);
     }
     if (!dimsTRANS.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 3);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 3);
     }
     Dimensions dimsQ_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
     if (!dimsQ.equals(dimsQ_expected)) {
-        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 5, dimsQ_expected.toWideString());
+        raiseError2(_E("nelson:arguments:inputArgXWrongSizeY"), 5, dimsQ_expected.toWideString());
     }
     Dimensions dimsB_expected(TRANS.getContentAsCString().compare("N") == 0
             ? std::max(1, std::max((int)A.getRows(), (int)B.getRows()))
             : std::max(1, (int)A.getRows()),
         (int)A.getRows());
     if (!dimsB.equals(dimsB_expected)) {
-        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 6, dimsB_expected.toWideString());
+        raiseError2(_E("nelson:arguments:inputArgXWrongSizeY"), 6, dimsB_expected.toWideString());
     }
     // CALL EXTERN FUNCTION
     try {
@@ -129,7 +129,7 @@ Nelson::SlicotGateway::slicot_sb03odBuiltin(int nLhs, const ArrayOfVector& argIn
             B_output_ptr, LDB_ptr, SCALE_output_ptr, WR_output_ptr, WI_output_ptr, DWORK_ptr,
             LDWORK_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError2(L"nelson:slicot:slicotFuncFails", L"sb03od");
+        raiseError2(_E("nelson:slicot:slicotFuncFails"), L"sb03od");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

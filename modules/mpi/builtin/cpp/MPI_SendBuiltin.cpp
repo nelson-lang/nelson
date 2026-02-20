@@ -27,7 +27,7 @@ Nelson::MpiGateway::MPI_SendBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        raiseError2(L"nelson:mpi:mpiMustBeInit");
+        raiseError2(_E("nelson:mpi:mpiMustBeInit"));
     }
     ArrayOf A;
     int dest = 0;
@@ -51,7 +51,7 @@ Nelson::MpiGateway::MPI_SendBuiltin(int nLhs, const ArrayOfVector& argIn)
         comm = HandleToMpiComm(param4);
     } break;
     default:
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
         break;
     }
     int Asize = getArrayOfFootPrint(A, comm);

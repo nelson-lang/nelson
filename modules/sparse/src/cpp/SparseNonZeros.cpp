@@ -45,11 +45,11 @@ SparseNonZeros(const ArrayOf& a)
             }
         } break;
         default:
-            raiseError2(L"nelson:runtime:typeNotSupported");
+            raiseError2(_E("nelson:runtime:typeNotSupported"));
             break;
         }
     } else {
-        raiseError2(L"nelson:runtime:typeNotSupported");
+        raiseError2(_E("nelson:runtime:typeNotSupported"));
     }
     return nnz;
 }

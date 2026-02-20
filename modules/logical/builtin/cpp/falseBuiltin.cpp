@@ -49,7 +49,7 @@ Nelson::LogicalGateway::falseBuiltin(int nLhs, const ArrayOfVector& argIn)
                         dim[1] = 1;
                     }
                 } else {
-                    raiseError2(L"nelson:validators:invalidValueAtPosition", pos + 1);
+                    raiseError2(_E("nelson:validators:invalidValueAtPosition"), pos + 1);
                 }
             }
         }

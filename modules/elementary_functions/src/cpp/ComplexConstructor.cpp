@@ -64,7 +64,7 @@ ComplexConstructor(ArrayOf arrayA, ArrayOf arrayB)
             L"Nelson:elementary_functions:ERROR_INPUTS_MUST_BE_FULL", ERROR_INPUTS_MUST_BE_FULL);
     }
     if (!arrayA.isNumeric() || !arrayB.isNumeric()) {
-        raiseError2(L"nelson:validators:mustBeNumeric");
+        raiseError2(_E("nelson:validators:mustBeNumeric"));
     }
     if ((arrayA.getDataClass() == NLS_SCOMPLEX) || (arrayA.getDataClass() == NLS_DCOMPLEX)
         || (arrayB.getDataClass() == NLS_SCOMPLEX) || (arrayB.getDataClass() == NLS_DCOMPLEX)) {

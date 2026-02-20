@@ -24,13 +24,13 @@ Nelson::CoreGateway::evalcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
         command = argIn[0].getContentAsWideString();
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, L"string");
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, L"string");
     }
     if (argIn.size() > 1) {
         if (argIn[1].isRowVectorCharacterArray() || argIn[1].isScalarStringArray()) {
             catchCommand = argIn[1].getContentAsWideString();
         } else {
-            raiseError2(L"nelson:validators:mustBeType", 2, L"string");
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 2, L"string");
         }
     }
     return EvaluateConsoleCommand(eval, nLhs, command, catchCommand);

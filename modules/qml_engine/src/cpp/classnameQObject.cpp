@@ -22,13 +22,14 @@ ArrayOf
 classnameQObject(const ArrayOf& A)
 {
     if (!A.isHandle()) {
-        raiseError2(L"nelson:validators:mustBeType", 1, utf8_to_wstring(NLS_HANDLE_STR));
+        raiseError2(
+            _E("nelson:validators:mustBeTypeAtPosition"), 1, utf8_to_wstring(NLS_HANDLE_STR));
     }
     std::string className;
     ClassName(A, className);
     if (className != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        raiseError2(
-            L"nelson:validators:mustBeType", 1, utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
+        raiseError2(L"nelson:validators:mustBeTypeAtPosition", 1,
+            utf8_to_wstring(NLS_HANDLE_QOBJECT_CATEGORY_STR));
     }
     ArrayOf res;
     Dimensions dimsA = A.getDimensions();

@@ -67,7 +67,7 @@ bool
 castRealMethod(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& results)
 {
     if (!pyObject) {
-        raiseError2(L"nelson:runtime:invalidPythonObject");
+        raiseError2(_E("nelson:runtime:invalidPythonObject"));
     }
 
     PythonType pyType = getPythonType(pyObject);
@@ -323,7 +323,7 @@ bool
 castIntegerMethod(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& results)
 {
     if (!pyObject) {
-        raiseError2(L"nelson:runtime:invalidPythonObject");
+        raiseError2(_E("nelson:runtime:invalidPythonObject"));
     }
     PythonType pyType = getPythonType(pyObject);
     switch (pyType) {
@@ -512,7 +512,7 @@ PythonObjectHandle::invokeCastCellMethod(ArrayOfVector& results)
 {
     PyObject* pyObject = (PyObject*)this->getPointer();
     if (!pyObject) {
-        raiseError2(L"nelson:runtime:invalidPythonObject");
+        raiseError2(_E("nelson:runtime:invalidPythonObject"));
     }
 
     switch (getPythonType(pyObject)) {
@@ -578,7 +578,7 @@ PythonObjectHandle::invokeCastStructMethod(ArrayOfVector& results)
 {
     PyObject* pyObject = (PyObject*)this->getPointer();
     if (!pyObject) {
-        raiseError2(L"nelson:runtime:invalidPythonObject");
+        raiseError2(_E("nelson:runtime:invalidPythonObject"));
     }
 
     switch (getPythonType(pyObject)) {
@@ -625,7 +625,7 @@ PythonObjectHandle::invokeCastNumericMethod(ArrayOfVector& results)
 {
     PyObject* pyObject = (PyObject*)this->getPointer();
     if (!pyObject) {
-        raiseError2(L"nelson:runtime:invalidPythonObject");
+        raiseError2(_E("nelson:runtime:invalidPythonObject"));
     }
     switch (getPythonType(pyObject)) {
     case PY_MEMORY_VIEW_TYPE: {
@@ -666,7 +666,7 @@ PythonObjectHandle::invokeCastCharMethod(ArrayOfVector& results)
 {
     PyObject* pyObject = (PyObject*)this->getPointer();
     if (!pyObject) {
-        raiseError2(L"nelson:runtime:invalidPythonObject");
+        raiseError2(_E("nelson:runtime:invalidPythonObject"));
     }
     switch (getPythonType(pyObject)) {
     case PY_STR_TYPE: {
@@ -731,7 +731,7 @@ PythonObjectHandle::invokeCastStringMethod(ArrayOfVector& results)
 {
     PyObject* pyObject = (PyObject*)this->getPointer();
     if (!pyObject) {
-        raiseError2(L"nelson:runtime:invalidPythonObject");
+        raiseError2(_E("nelson:runtime:invalidPythonObject"));
         return false;
     }
 

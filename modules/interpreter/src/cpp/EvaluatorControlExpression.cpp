@@ -508,7 +508,7 @@ Evaluator::rowDefinition(AbstractSyntaxTreePtr t)
 {
     callstack.pushID((size_t)t->getContext());
     if (t->opNum != OP_SEMICOLON) {
-        raiseError(L"Nelson:interpreter:ERROR_AST_SYNTAX_ERROR", ERROR_AST_SYNTAX_ERROR);
+        raiseError2(_E("nelson:parsing:astSyntax"));
     }
     ArrayOfVector retval = expressionList(t->down);
     callstack.popID();
@@ -580,7 +580,7 @@ Evaluator::matrixDefinition(AbstractSyntaxTreePtr t)
 {
     ArrayOfMatrix m;
     if (t->opNum != OP_BRACKETS) {
-        raiseError(L"Nelson:interpreter:ERROR_AST_SYNTAX_ERROR", ERROR_AST_SYNTAX_ERROR);
+        raiseError2(_E("nelson:parsing:astSyntax"));
     }
     AbstractSyntaxTreePtr s = t->down;
     callstack.pushID((size_t)s->getContext());
@@ -643,7 +643,7 @@ Evaluator::cellDefinition(AbstractSyntaxTreePtr t)
 {
     ArrayOfMatrix m;
     if (t->opNum != OP_BRACES) {
-        raiseError(L"Nelson:interpreter:ERROR_AST_SYNTAX_ERROR", ERROR_AST_SYNTAX_ERROR);
+        raiseError2(_E("nelson:parsing:astSyntax"));
     }
     AbstractSyntaxTreePtr s = t->down;
     callstack.pushID((size_t)s->getContext());

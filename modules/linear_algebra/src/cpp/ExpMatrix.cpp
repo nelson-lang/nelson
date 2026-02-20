@@ -126,7 +126,7 @@ void
 checkIsSquare(const ArrayOf& A)
 {
     if (!A.isSquare()) {
-        raiseError2(L"nelson:validators:mustBeSquareMatrix");
+        raiseError2(_E("nelson:validators:mustBeSquareMatrix"));
     }
 }
 //=============================================================================

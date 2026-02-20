@@ -37,7 +37,7 @@ Nelson::CoreGateway::versionBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (argIn[0].isRowVectorCharacterArray()) {
             option = argIn[0].getContentAsWideString();
         } else {
-            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
         }
         if (option == L"-semantic") {
             retval << ArrayOf::characterArrayConstructor(NELSON_SEMANTIC_VERSION_STRING);
@@ -66,7 +66,7 @@ Nelson::CoreGateway::versionBuiltin(int nLhs, const ArrayOfVector& argIn)
             raiseError(L"Nelson:core:ERROR_UNKNOWN_OPTION", ERROR_UNKNOWN_OPTION);
         }
     } else {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     }
     return retval;
 }

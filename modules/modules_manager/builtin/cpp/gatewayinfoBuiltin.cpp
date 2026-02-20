@@ -34,7 +34,7 @@ Nelson::ModulesManagerGateway::gatewayinfoBuiltin(int nLhs, const ArrayOfVector&
             Error(errorMessage, L"Nelson:modules_manager:gatewayinfo");
         }
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
     }
     return retval;
 }

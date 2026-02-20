@@ -35,7 +35,7 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
                 eval->setLastWarningException(newLastWarning);
             }
         } else {
-            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
         }
     } break;
     case 2: {
@@ -45,19 +45,19 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
         if (arg1.isRowVectorCharacterArray()) {
             message = arg1.getContentAsWideString();
         } else {
-            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
         }
         ArrayOf arg2 = argIn[1];
         if (arg2.isRowVectorCharacterArray()) {
             identifier = arg2.getContentAsWideString();
         } else {
-            raiseError2(L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 2, NLS_STRING_ARRAY_STR);
         }
         Exception newLastWarning(message, identifier);
         eval->setLastWarningException(newLastWarning);
     } break;
     default: {
-        raiseError2(L"nelson:arguments:tooManyInputs");
+        raiseError2(_E("nelson:arguments:tooManyInputs"));
     } break;
     }
     switch (nLhs) {
@@ -78,7 +78,7 @@ Nelson::ErrorManagerGateway::lastwarnBuiltin(Evaluator* eval, int nLhs, const Ar
         retval << ArrayOf::characterArrayConstructor(identifier);
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfOutputs"));
     } break;
     }
     return retval;

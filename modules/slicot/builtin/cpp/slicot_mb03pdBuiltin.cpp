@@ -85,11 +85,12 @@ Nelson::SlicotGateway::slicot_mb03pdBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsJOBRQ.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 1);
     }
     Dimensions dimsA_expected(std::max(1, (int)A.getRows()), (int)A.getColumns());
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError2(L"nelson:validators:mustBeSize", 2, utf8_to_wstring(dimsA_expected.toString()));
+        raiseError2(
+            _E("nelson:validators:mustBeSize"), 2, utf8_to_wstring(dimsA_expected.toString()));
     }
     Dimensions dimsJPVT_expected(1, (int)A.getRows());
     if (!dimsJPVT.equals(dimsJPVT_expected)) {
@@ -97,10 +98,10 @@ Nelson::SlicotGateway::slicot_mb03pdBuiltin(int nLhs, const ArrayOfVector& argIn
             L"nelson:validators:mustBeSize", 3, utf8_to_wstring(dimsJPVT_expected.toString()));
     }
     if (!dimsRCOND.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 4);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 4);
     }
     if (!dimsSVLMAX.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 5);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 5);
     }
     // CALL EXTERN FUNCTION
     try {
@@ -108,7 +109,7 @@ Nelson::SlicotGateway::slicot_mb03pdBuiltin(int nLhs, const ArrayOfVector& argIn
             SVLMAX_ptr, TAU_output_ptr, RANK_output_ptr, SVAL_output_ptr, DWORK_ptr,
             INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError2(L"nelson:slicot:slicotFuncFails", L"mb03pd");
+        raiseError2(_E("nelson:slicot:slicotFuncFails"), L"mb03pd");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

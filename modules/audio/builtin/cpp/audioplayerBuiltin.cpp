@@ -59,7 +59,7 @@ Nelson::AudioGateway::audioplayerBuiltin(int nLhs, const ArrayOfVector& argIn)
         res = objPlayer->setSamples(argIn[0], sampleRate, bitsPerSample, deviceID, errorMessage);
     } break;
     default: {
-        raiseError2(L"nelson:arguments:tooManyInputs");
+        raiseError2(_E("nelson:arguments:tooManyInputs"));
     } break;
     }
     if (!res) {

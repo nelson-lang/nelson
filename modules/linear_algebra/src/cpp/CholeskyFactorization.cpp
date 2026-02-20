@@ -128,7 +128,7 @@ CholeskyFactorization(const ArrayOf& A, bool lowerTriangle, bool& needToOverload
         return {};
     }
     if (!A.isSquare()) {
-        raiseError2(L"nelson:validators:mustBeSquareMatrix");
+        raiseError2(_E("nelson:validators:mustBeSquareMatrix"));
     }
     if (A.isEmpty()) {
         ArrayOf res = ArrayOf::emptyConstructor();
@@ -169,9 +169,9 @@ CholeskyFactorization(const ArrayOf& A, bool lowerTriangle, bool& needToOverload
         }
         if (info > 0) {
             if (A.isPositive()) {
-                raiseError2(L"nelson:validators:mustBePositive");
+                raiseError2(_E("nelson:validators:mustBePositive"));
             } else {
-                raiseError2(L"nelson:validators:mustBeFinite");
+                raiseError2(_E("nelson:validators:mustBeFinite"));
             }
         }
     }

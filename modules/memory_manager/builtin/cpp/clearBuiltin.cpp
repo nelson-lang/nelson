@@ -48,7 +48,8 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     } else {
         for (size_t k = 0; k < argIn.size(); k++) {
             if (!argIn[k].isRowVectorCharacterArray()) {
-                raiseError2(L"nelson:validators:mustBeType", k + 1, NLS_STRING_ARRAY_STR);
+                raiseError2(
+                    _E("nelson:validators:mustBeTypeAtPosition"), k + 1, NLS_STRING_ARRAY_STR);
             }
         }
         if (argIn.size() == 1) {

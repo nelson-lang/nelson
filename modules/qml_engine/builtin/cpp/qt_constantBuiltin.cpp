@@ -37,7 +37,7 @@ Nelson::QmlEngineGateway::qt_constantBuiltin(int nLhs, const ArrayOfVector& argI
         }
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     } break;
     }
     return retval;

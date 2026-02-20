@@ -45,7 +45,7 @@ EyeSparseMatrixConstructorDynamicFunction(NelsonType dclass, indexType rows, ind
         Eigen_EyeSparseMatrixConstructorPtr = reinterpret_cast<PROC_EyeSparseMatrixConstructor>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_EyeSparseMatrixConstructor"));
         if (!Eigen_EyeSparseMatrixConstructorPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_EyeSparseMatrixConstructorPtr(dclass, rows, cols);
@@ -62,7 +62,7 @@ LogicalSparseMatrixConstructorDynamicFunction(indexType rows, indexType cols, bo
             = reinterpret_cast<PROC_LogicalSparseMatrixConstructor>(get_function(
                 nlsSparseHandleDynamicLibrary, "Eigen_LogicalSparseMatrixConstructor"));
         if (!Eigen_LogicalSparseMatrixConstructorPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_LogicalSparseMatrixConstructorPtr(rows, cols, bMotif);
@@ -78,7 +78,7 @@ DeleteSparseMatrixDynamicFunction(NelsonType dclass, indexType rows, indexType c
         Eigen_DeleteSparseMatrixPtr = reinterpret_cast<PROC_DeleteSparseMatrix>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_DeleteSparseMatrix"));
         if (!Eigen_DeleteSparseMatrixPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     Eigen_DeleteSparseMatrixPtr(dclass, rows, cols, &cp);
@@ -94,7 +94,7 @@ MakeDenseArrayOfDynamicFunction(NelsonType dclass, indexType rows, indexType col
         Eigen_MakeDenseArrayOfPtr = reinterpret_cast<PROC_MakeDenseArrayOf>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_MakeDenseArrayOf"));
         if (!Eigen_MakeDenseArrayOfPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_MakeDenseArrayOfPtr(dclass, rows, cols, cp);
@@ -110,7 +110,7 @@ MakeSparseArrayOfDynamicFunction(NelsonType dclass, indexType rows, indexType co
         Eigen_MakeSparseArrayOfPtr = reinterpret_cast<PROC_MakeSparseArrayOf>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_MakeSparseArrayOf"));
         if (!Eigen_MakeSparseArrayOfPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_MakeSparseArrayOfPtr(dclass, rows, cols, cp);
@@ -128,7 +128,7 @@ TypeConvertSparseDynamicFunction(
         Eigen_TypeConvertSparsePtr = reinterpret_cast<PROC_TypeConvertSparse>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_TypeConvertSparse"));
         if (!Eigen_TypeConvertSparsePtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_TypeConvertSparsePtr(dclass, rows, cols, cp, oclass);
@@ -144,7 +144,7 @@ CopySparseMatrixDynamicFunction(NelsonType dclass, indexType rows, indexType col
         Eigen_CopySparseMatrixPtr = reinterpret_cast<PROC_CopySparseMatrix>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_CopySparseMatrix"));
         if (!Eigen_CopySparseMatrixPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_CopySparseMatrixPtr(dclass, rows, cols, cp);
@@ -160,7 +160,7 @@ CountNonzerosMaxDynamicFunction(NelsonType dclass, indexType rows, indexType col
         Eigen_CountNonzerosMaxPtr = reinterpret_cast<PROC_CountNonzerosMax>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_CountNonzerosMax"));
         if (!Eigen_CountNonzerosMaxPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_CountNonzerosMaxPtr(dclass, rows, cols, cp);
@@ -176,7 +176,7 @@ CountNonzerosDynamicFunction(NelsonType dclass, indexType rows, indexType cols, 
         Eigen_CountNonzerosPtr = reinterpret_cast<PROC_CountNonzeros>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_CountNonzeros"));
         if (!Eigen_CountNonzerosPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_CountNonzerosPtr(dclass, rows, cols, cp);
@@ -193,7 +193,7 @@ SparseMatrixConstructorDynamicFunction(
         Eigen_SparseMatrixConstructorPtr = reinterpret_cast<PROC_SparseMatrixConstructor>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_SparseMatrixConstructor"));
         if (!Eigen_SparseMatrixConstructorPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_SparseMatrixConstructorPtr(dclass, rows, cols, m);
@@ -211,7 +211,7 @@ GetSparseVectorSubsetsDynamicFunction(NelsonType dclass, indexType rows, indexTy
         Eigen_GetSparseVectorSubsetsPtr = reinterpret_cast<PROC_GetSparseVectorSubsets>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_GetSparseVectorSubsets"));
         if (!Eigen_GetSparseVectorSubsetsPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_GetSparseVectorSubsetsPtr(dclass, rows, cols, src, indx, irows, icols);
@@ -230,7 +230,7 @@ GetSparseNDimSubsetsDynamicFunction(NelsonType dclass, indexType rows, indexType
         Eigen_GetSparseNDimSubsetsPtr = reinterpret_cast<PROC_GetSparseNDimSubsets>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_GetSparseNDimSubsets"));
         if (!Eigen_GetSparseNDimSubsetsPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_GetSparseNDimSubsetsPtr(dclass, rows, cols, src, rindx, irows, cindx, icols);
@@ -249,7 +249,7 @@ SetSparseVectorSubsetsDynamicFunction(NelsonType dclass, indexType& rows, indexT
         Eigen_SetSparseVectorSubsetsPtr = reinterpret_cast<PROC_SetSparseVectorSubsets>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_SetSparseVectorSubsets"));
         if (!Eigen_SetSparseVectorSubsetsPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_SetSparseVectorSubsetsPtr(
@@ -269,7 +269,7 @@ SetSparseNDimSubsetsDynamicFunction(NelsonType dclass, indexType& rows, indexTyp
         Eigen_SetSparseNDimSubsetsPtr = reinterpret_cast<PROC_SetSparseNDimSubsets>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_SetSparseNDimSubsets"));
         if (!Eigen_SetSparseNDimSubsetsPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_SetSparseNDimSubsetsPtr(
@@ -288,7 +288,7 @@ GetSparseScalarElementDynamicFunction(NelsonType dclass, indexType rows, indexTy
         Eigen_GetSparseScalarElementPtr = reinterpret_cast<PROC_GetSparseScalarElement>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_GetSparseScalarElement"));
         if (!Eigen_GetSparseScalarElementPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_GetSparseScalarElementPtr(dclass, rows, cols, src, rindx, cindx);
@@ -306,7 +306,7 @@ DeleteSparseMatrixColsDynamicFunction(
         Eigen_DeleteSparseMatrixColsPtr = reinterpret_cast<PROC_DeleteSparseMatrixCols>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_DeleteSparseMatrixCols"));
         if (!Eigen_DeleteSparseMatrixColsPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_DeleteSparseMatrixColsPtr(dclass, rows, cols, cp, dmap);
@@ -324,7 +324,7 @@ DeleteSparseMatrixRowsDynamicFunction(
         Eigen_DeleteSparseMatrixRowsPtr = reinterpret_cast<PROC_DeleteSparseMatrixRows>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_DeleteSparseMatrixRows"));
         if (!Eigen_DeleteSparseMatrixRowsPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_DeleteSparseMatrixRowsPtr(dclass, rows, cols, cp, dmap);
@@ -343,7 +343,7 @@ DeleteSparseMatrixVectorSubsetDynamicFunction(NelsonType dclass, indexType& rows
             = reinterpret_cast<PROC_DeleteSparseMatrixVectorSubset>(get_function(
                 nlsSparseHandleDynamicLibrary, "Eigen_DeleteSparseMatrixVectorSubset"));
         if (!Eigen_DeleteSparseMatrixVectorSubsetPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_DeleteSparseMatrixVectorSubsetPtr(dclass, rows, cols, cp, todel, delete_len);
@@ -361,7 +361,7 @@ ReshapeSparseMatrixDynamicFunction(NelsonType dclass, indexType rows, indexType 
         Eigen_ReshapeSparseMatrixPtr = reinterpret_cast<PROC_Eigen_ReshapeSparseMatrix>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_ReshapeSparseMatrix"));
         if (!Eigen_ReshapeSparseMatrixPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_ReshapeSparseMatrixPtr(dclass, rows, cols, newrows, newcols, cp);
@@ -379,7 +379,7 @@ SparseToIJVDynamicFunction(NelsonType dclass, indexType rows, indexType cols, co
         Eigen_SparseToIJVPtr = reinterpret_cast<PROC_Eigen_SparseToIJV>(
             get_function(nlsSparseHandleDynamicLibrary, "Eigen_SparseToIJV"));
         if (!Eigen_SparseToIJVPtr) {
-            raiseError2(L"nelson:runtime:sparseFuncNotLoaded");
+            raiseError2(_E("nelson:runtime:sparseFuncNotLoaded"));
         }
     }
     return Eigen_SparseToIJVPtr(dclass, rows, cols, cp, I, J, nnz);

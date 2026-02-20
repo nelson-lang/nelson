@@ -23,7 +23,7 @@ Nelson::CharactersEncodingGateway::nativecharsetBuiltin(int nLhs, const ArrayOfV
     ArrayOfVector retval(1);
     ArrayOf param1 = argIn[0];
     if (param1.isSparse()) {
-        raiseError2(L"nelson:runtime:sparseNotSupported");
+        raiseError2(_E("nelson:runtime:sparseNotSupported"));
     }
     std::string data;
     bool isSupportedAsNumeric

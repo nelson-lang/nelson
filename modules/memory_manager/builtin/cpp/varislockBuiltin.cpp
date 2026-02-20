@@ -23,7 +23,7 @@ Nelson::MemoryGateway::varislockBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     nargoutcheck(nLhs, 0, 0);
     nargincheck(argIn, 2, 2);
     if (!argIn[0].isRowVectorCharacterArray()) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
     }
     std::string scopename = argIn[0].getContentAsCString();
     if (!((scopename == "global") || (scopename == "base") || (scopename == "caller")
@@ -33,7 +33,7 @@ Nelson::MemoryGateway::varislockBuiltin(Evaluator* eval, int nLhs, const ArrayOf
             ERROR_1_ARGUMENT_MUST_CONTAIN_A_STRING_GLOBAL_BASE_LOCAL_OR_CALLER);
     }
     if (!argIn[1].isRowVectorCharacterArray()) {
-        raiseError2(L"nelson:validators:mustBeType", 2, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 2, NLS_STRING_ARRAY_STR);
     }
     std::string varname = argIn[1].getContentAsCString();
     if (!IsValidVariableName(varname)) {

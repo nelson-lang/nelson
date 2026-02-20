@@ -59,7 +59,7 @@ fftBuiltinPrivate(int nLhs, const ArrayOfVector& argIn)
         res = Fft(X, n, dim - 1);
     } break;
     default: {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     } break;
     }
     retval << res;

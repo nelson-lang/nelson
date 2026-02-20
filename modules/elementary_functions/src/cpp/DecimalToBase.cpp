@@ -149,7 +149,7 @@ DecimalToBase(ArrayOf& A, ArrayOf& Base, ArrayOf& Ndigits, bool& needToOverload)
     double ddigits = Ndigits.getContentAsDoubleScalar();
     double fdigits = std::floor(ddigits);
     if ((ddigits != fdigits) || (ddigits < 0)) {
-        raiseError2(L"nelson:validators:mustBeScalarPositiveInteger", 3);
+        raiseError2(_E("nelson:validators:mustBePositiveInteger"), 3);
     }
     auto ndigits = static_cast<size_t>(fdigits);
     if (ibase != lastBase) {

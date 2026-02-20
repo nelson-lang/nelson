@@ -27,7 +27,7 @@ Nelson::AudioGateway::audioplayer_methodsBuiltin(int nLhs, const ArrayOfVector& 
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
     if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
-        raiseError2(L"nelson:sound:audioplayerHandleExpected");
+        raiseError2(_E("nelson:sound:audioplayerHandleExpected"));
     }
     auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
     wstringVector names = objPlayer->getMethods();

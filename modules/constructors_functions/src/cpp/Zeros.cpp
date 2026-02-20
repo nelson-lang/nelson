@@ -147,7 +147,7 @@ Zeros(Dimensions& dims, NelsonType cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     default:
-        raiseError2(L"nelson:runtime:typeNotSupported");
+        raiseError2(_E("nelson:runtime:typeNotSupported"));
     }
     return {};
 }

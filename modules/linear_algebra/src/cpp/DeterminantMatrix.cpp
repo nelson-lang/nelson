@@ -66,7 +66,7 @@ DeterminantMatrix(const ArrayOf& A, bool& needToOverload)
         return {};
     }
     if (!A.isSquare()) {
-        raiseError2(L"nelson:validators:mustBeSquareMatrix");
+        raiseError2(_E("nelson:validators:mustBeSquareMatrix"));
     }
     if (A.isEmpty()) {
         if (A.isDoubleClass()) {

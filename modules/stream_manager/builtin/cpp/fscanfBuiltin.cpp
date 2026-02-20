@@ -36,7 +36,7 @@ Nelson::StreamGateway::fscanfBuiltin(int nLhs, const ArrayOfVector& argIn)
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     auto iValue = static_cast<int32>(dID);
     if (fm == nullptr) {
-        raiseError2(L"nelson:io:fileManagerError");
+        raiseError2(_E("nelson:io:fileManagerError"));
     }
     ArrayOf param2 = argIn[1];
     std::string format = param2.getContentAsCString();
@@ -52,18 +52,18 @@ Nelson::StreamGateway::fscanfBuiltin(int nLhs, const ArrayOfVector& argIn)
                 if (dims3.isScalar()) {
                     m = param3.getContentAsDoubleScalar();
                     if (m < 0) {
-                        raiseError2(L"nelson:validators:mustBeNonNegative");
+                        raiseError2(_E("nelson:validators:mustBeNonNegative"));
                     }
                     n = 1;
                 } else {
                     double* ptr = (double*)param3.getDataPointer();
                     m = ptr[0];
                     if (m < 0) {
-                        raiseError2(L"nelson:validators:mustBeNonNegative");
+                        raiseError2(_E("nelson:validators:mustBeNonNegative"));
                     }
                     n = ptr[1];
                     if (n < 0) {
-                        raiseError2(L"nelson:validators:mustBeNonNegative");
+                        raiseError2(_E("nelson:validators:mustBeNonNegative"));
                     }
                 }
             } else {

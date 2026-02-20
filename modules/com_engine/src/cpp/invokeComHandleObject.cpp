@@ -34,7 +34,7 @@ invokeComHandleObject(const ArrayOf& A, const std::wstring& wmethodname,
             ERROR_ONLY_7_INPUT_PARAMETERS_EXPECTED);
     }
     if (A.getHandleCategory() != NLS_HANDLE_COM_CATEGORY_STR) {
-        raiseError(L"Nelson:com_engine:ERROR_COM_HANDLE_EXPECTED", ERROR_COM_HANDLE_EXPECTED);
+        raiseError2(_E("nelson:validators:mustBeType"), L"COM");
     }
     auto* comhandleobj = (ComHandleObject*)A.getContentAsHandleScalar();
     void* ptr = comhandleobj->getPointer();
@@ -47,7 +47,7 @@ invokeComHandleObject(const ArrayOf& A, const std::wstring& wmethodname,
     try {
         pVarResult = new VARIANT;
     } catch (const std::bad_alloc&) {
-        raiseError2(L"nelson:runtime:outOfMemory");
+        raiseError2(_E("nelson:runtime:outOfMemory"));
     }
     if (pVarResult) {
         size_t nbParams = params.size();
@@ -58,7 +58,7 @@ invokeComHandleObject(const ArrayOf& A, const std::wstring& wmethodname,
             } catch (const std::bad_alloc&) {
                 delete pVarResult;
                 pVarResult = nullptr;
-                raiseError2(L"nelson:runtime:outOfMemory");
+                raiseError2(_E("nelson:runtime:outOfMemory"));
             }
             std::wstring errorMessage;
             for (size_t k = 0; k < nbParams; k++) {

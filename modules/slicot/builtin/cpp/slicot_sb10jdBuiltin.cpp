@@ -113,23 +113,23 @@ Nelson::SlicotGateway::slicot_sb10jdBuiltin(int nLhs, const ArrayOfVector& argIn
     // CHECK INPUT VARIABLES DIMENSIONS
     Dimensions dimsA_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsA.equals(dimsA_expected)) {
-        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 1, dimsA_expected.toWideString());
+        raiseError2(_E("nelson:arguments:inputArgXWrongSizeY"), 1, dimsA_expected.toWideString());
     }
     Dimensions dimsB_expected(std::max(1, (int)A.getColumns()), (int)B.getRows());
     if (!dimsB.equals(dimsB_expected)) {
-        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 2, dimsB_expected.toWideString());
+        raiseError2(_E("nelson:arguments:inputArgXWrongSizeY"), 2, dimsB_expected.toWideString());
     }
     Dimensions dimsC_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsC.equals(dimsC_expected)) {
-        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 3, dimsC_expected.toWideString());
+        raiseError2(_E("nelson:arguments:inputArgXWrongSizeY"), 3, dimsC_expected.toWideString());
     }
     Dimensions dimsD_expected(std::max(1, (int)C.getColumns()), (int)B.getRows());
     if (!dimsD.equals(dimsD_expected)) {
-        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 4, dimsD_expected.toWideString());
+        raiseError2(_E("nelson:arguments:inputArgXWrongSizeY"), 4, dimsD_expected.toWideString());
     }
     Dimensions dimsE_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
     if (!dimsE.equals(dimsE_expected)) {
-        raiseError2(L"nelson:arguments:inputArgXWrongSizeY", 5, dimsE_expected.toWideString());
+        raiseError2(_E("nelson:arguments:inputArgXWrongSizeY"), 5, dimsE_expected.toWideString());
     }
     // CALL EXTERN FUNCTION
     try {
@@ -137,7 +137,7 @@ Nelson::SlicotGateway::slicot_sb10jdBuiltin(int nLhs, const ArrayOfVector& argIn
             LDC_ptr, D_output_ptr, LDD_ptr, E_output_ptr, LDE_ptr, NSYS_output_ptr, DWORK_ptr,
             LDWORK_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError2(L"nelson:runtime:FuncFailsWithErrorCode", L"sb10jd", INFO_output_ptr[0]);
+        raiseError2(_E("nelson:runtime:FuncFailsWithErrorCode"), L"sb10jd", INFO_output_ptr[0]);
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

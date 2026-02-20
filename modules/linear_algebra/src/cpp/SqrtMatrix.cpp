@@ -36,7 +36,7 @@ sqrtmComplex(ArrayOf& A)
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(
         Rz, (Eigen::Index)R.getRows(), (Eigen::Index)R.getColumns());
     if (!matA.allFinite()) {
-        raiseError2(L"nelson:validators:mustBeFinite");
+        raiseError2(_E("nelson:validators:mustBeFinite"));
     } else {
         // [V, D] = eig(A);
         // sqrtm = V * diag(sqrt(diag(D))) * inv(V);
@@ -67,7 +67,7 @@ SqrtMatrix(ArrayOf A)
             ERROR_UNDEFINED_FUNCTION_FOR_INPUT_ARGUMENTS, L"sqrtm", utf8_to_wstring(ClassName(A)));
     }
     if (!A.isSquare()) {
-        raiseError2(L"nelson:validators:mustBeSquareMatrix");
+        raiseError2(_E("nelson:validators:mustBeSquareMatrix"));
     }
     if (A.isEmpty()) {
         ArrayOf res(A);

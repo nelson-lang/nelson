@@ -33,14 +33,14 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     ArrayOf arg = argIn[0];
                     double dindex = arg.getContentAsDoubleScalar();
                     if (!std::isfinite(dindex)) {
-                        raiseError2(L"nelson:validators:mustBeFinite", 1);
+                        raiseError2(_E("nelson:validators:mustBeFinite"), 1);
                     }
                     if (dindex < 0) {
                         dindex = 0;
                     }
                     auto index = static_cast<indexType>(dindex);
                     if (static_cast<double>(index) != dindex) {
-                        raiseError2(L"nelson:validators:mustBeScalarInteger", 1);
+                        raiseError2(_E("nelson:validators:mustBeScalarInteger"), 1);
                     }
                     Dimensions dims(index, index);
                     auto* elements = new ArrayOf[index * index];
@@ -55,14 +55,14 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     for (indexType k = 0; k < arg.getElementCount(); k++) {
                         double _dIndex = dindex[k];
                         if (!std::isfinite(_dIndex)) {
-                            raiseError2(L"nelson:validators:mustBeFinite", 1);
+                            raiseError2(_E("nelson:validators:mustBeFinite"), 1);
                         }
                         if (_dIndex < 0) {
                             _dIndex = 0;
                         }
                         auto index = static_cast<indexType>(_dIndex);
                         if (static_cast<double>(index) != _dIndex) {
-                            raiseError2(L"nelson:validators:mustBeScalarInteger", 1);
+                            raiseError2(_E("nelson:validators:mustBeScalarInteger"), 1);
                         }
                         dims.setDimensionLength(k, index);
                     }
@@ -76,10 +76,10 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     retval << ArrayOf(NLS_STRING_ARRAY, dims, elements);
                 }
             } else {
-                raiseError2(L"nelson:validators:mustBeSize", 1, L"[1, 2]");
+                raiseError2(_E("nelson:validators:mustBeSize"), 1, L"[1, 2]");
             }
         } else {
-            raiseError2(L"nelson:validators:mustBeType", 1, NLS_DOUBLE_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), NLS_DOUBLE_STR, 1);
         }
     } else {
         Dimensions dims(argIn.size());
@@ -89,21 +89,21 @@ Nelson::StringGateway::stringsBuiltin(int nLhs, const ArrayOfVector& argIn)
                     ArrayOf arg = argIn[k];
                     double dindex = arg.getContentAsDoubleScalar();
                     if (!std::isfinite(dindex)) {
-                        raiseError2(L"nelson:validators:mustBeFinite", k + 1);
+                        raiseError2(_E("nelson:validators:mustBeFinite"), k + 1);
                     }
                     if (dindex < 0) {
                         dindex = 0;
                     }
                     auto index = static_cast<indexType>(dindex);
                     if (static_cast<double>(index) != dindex) {
-                        raiseError2(L"nelson:validators:mustBeScalarInteger", k + 1);
+                        raiseError2(_E("nelson:validators:mustBeScalarInteger"), k + 1);
                     }
                     dims.setDimensionLength(k, index);
                 } else {
-                    raiseError2(L"nelson:validators:mustBeScalarAtPosition", k + 1);
+                    raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), k + 1);
                 }
             } else {
-                raiseError2(L"nelson:validators:mustBeType", k + 1, NLS_DOUBLE_STR);
+                raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), NLS_DOUBLE_STR, k + 1);
             }
         }
         dims.simplify();

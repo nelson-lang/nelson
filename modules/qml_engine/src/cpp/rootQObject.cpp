@@ -29,7 +29,7 @@ rootQObject()
             qmlHandle = new QObjectHandleObject(parent);
         } catch (const std::bad_alloc&) {
             qmlHandle = nullptr;
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         }
         res = ArrayOf::handleConstructor(qmlHandle);
     } else {

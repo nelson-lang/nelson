@@ -25,10 +25,10 @@ Nelson::StringGateway::sprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     ArrayOf param1 = argIn[0];
     bool supported = param1.isCharacterArray() || (param1.isStringArray() && param1.isScalar());
     if (!supported) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), NLS_STRING_ARRAY_STR, 1);
     }
     if (!param1.isVector()) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), NLS_STRING_ARRAY_STR, 1);
     }
     std::wstring result;
     std::wstring error_message;

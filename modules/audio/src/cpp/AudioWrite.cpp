@@ -163,11 +163,11 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
     int BitsPerSample, int BitRate, std::wstring& errorMessage)
 {
     if (!data.isNumeric() || data.isComplex() || data.isSparse()) {
-        raiseError2(L"nelson:validators:mustBeValidType", 1);
+        raiseError2(_E("nelson:validators:mustBeValidType"), 1);
         return false;
     }
     if (!isSupportedDataType(data)) {
-        raiseError2(L"nelson:validators:mustBeValidType", 1);
+        raiseError2(_E("nelson:validators:mustBeValidType"), 1);
         return false;
     }
     if (data.isEmpty()) {

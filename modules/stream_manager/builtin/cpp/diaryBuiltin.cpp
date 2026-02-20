@@ -39,7 +39,7 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                 }
             }
         } else {
-            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
         }
     } else if (argIn.empty()) {
         nargoutcheck(nLhs, 0, 0);
@@ -119,7 +119,7 @@ Nelson::StreamGateway::diaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             }
         }
     } else {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     }
     return retval;
 }

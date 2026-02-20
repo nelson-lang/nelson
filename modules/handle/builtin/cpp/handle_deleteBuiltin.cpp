@@ -23,7 +23,7 @@ Nelson::HandleGateway::handle_deleteBuiltin(Evaluator* eval, int nLhs, const Arr
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle()) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_HANDLE_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_HANDLE_STR);
     }
     HandleDelete(eval, param1);
     return retval;

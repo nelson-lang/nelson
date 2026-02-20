@@ -35,7 +35,7 @@ findDynamicLinkLibraryObject(const std::wstring& libraryName, int nLhs)
             fullLibraryName = dlObject->getLibraryPath();
             delete dlObject;
         } catch (const std::bad_alloc&) {
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         } catch (const Exception&) {
             retval << ArrayOf::logicalConstructor(false);
             if (nLhs > 1) {

@@ -51,7 +51,7 @@ runBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     if (argIn[2].isLogical()) {
         bChangeDir = (argIn[2].getContentAsLogicalScalar() == 0) ? false : true;
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_LOGICAL_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_LOGICAL_STR);
     }
     if (argIn[1].isRowVectorCharacterArray()) {
         std::wstring arg2 = argIn[1].getContentAsWideString();
@@ -61,15 +61,15 @@ runBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         } else if (arg2.compare(L"nocatch") == 0) {
             bErrorCatch = false;
         } else {
-            raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
+            raiseError2(_E("nelson:validators:invalidValueAtPosition"), 2);
         }
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
     }
     if (argIn[0].isRowVectorCharacterArray()) {
         wpath = argIn[0].getContentAsWideString();
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
     }
     return runBuiltinCommon(eval, wpath, bErrorCatch, bChangeDir);
 }
@@ -92,16 +92,16 @@ runBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             } else if (arg2.compare(L"nocatch") == 0) {
                 bErrorCatch = false;
             } else {
-                raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
+                raiseError2(_E("nelson:validators:invalidValueAtPosition"), 2);
             }
         } else {
-            raiseError2(L"nelson:validators:mustBeValidType", 2);
+            raiseError2(_E("nelson:validators:mustBeValidType"), 2);
         }
     }
     if (argIn[0].isRowVectorCharacterArray()) {
         wpath = argIn[0].getContentAsWideString();
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
     }
     return runBuiltinCommon(eval, wpath, bErrorCatch, bChangeDir);
 }
@@ -114,7 +114,7 @@ runBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     if (argIn[0].isRowVectorCharacterArray()) {
         wpath = argIn[0].getContentAsWideString();
     } else {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
     }
     return runBuiltinCommon(eval, wpath, false, true);
 }
@@ -132,7 +132,7 @@ Nelson::CoreGateway::runBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
     if (argIn.size() == 3) {
         return runBuiltinThreeRhs(eval, nLhs, argIn);
     }
-    raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+    raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
 
     return retval;
 }

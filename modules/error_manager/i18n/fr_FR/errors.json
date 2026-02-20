@@ -6,7 +6,7 @@
   "nelson:arguments:tooFewOutputs": "Pas assez d'arguments de sortie demandés.",
   "nelson:arguments:wrongNumberOfInputs": "Nombre d'arguments d'entrée invalide.",
   "nelson:arguments:wrongNumberOfOutputs": "Nombre d'arguments de sortie invalide.",
-  "nelson:validators:mustBeType": "L'argument {0} doit être de type '{1}'.",
+  "nelson:validators:mustBeTypeAtPosition": "L'argument {0} doit être de type '{1}'.",
   "nelson:validators:invalidValueAtPosition": "Valeur invalide pour l'argument {0}.",
   "nelson:internal:typeNotManaged": "Type non pris en charge.",
   "nelson:validators:mustBeScalarAtPosition": "L'argument {0} doit être un scalaire.",

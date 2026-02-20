@@ -21,10 +21,10 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;
     if (!A.isSparseDoubleType()) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_SPARSE_DOUBLE_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_SPARSE_DOUBLE_STR);
     }
     if (!B.isSparseDoubleType()) {
-        raiseError2(L"nelson:validators:mustBeType", 2, NLS_SPARSE_DOUBLE_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 2, NLS_SPARSE_DOUBLE_STR);
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);
@@ -37,7 +37,7 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
     Dimensions dimsA = A.getDimensions();
     Dimensions dimsB = B.getDimensions();
     if (dimsA.getRows() != dimsB.getRows()) {
-        raiseError2(L"nelson:runtime:dimensionsNotConsistent");
+        raiseError2(_E("nelson:runtime:dimensionsNotConsistent"));
     }
     if (A.isComplex() || B.isComplex()) {
         A.promoteType(NLS_DCOMPLEX);
@@ -57,7 +57,7 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
                 newRowsSize, newColumnsSize);
         } catch (const std::bad_alloc&) {
             spMatC = nullptr;
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         }
         spMatC->middleCols(0, spMatA->cols()) = *spMatA;
         spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;
@@ -78,7 +78,7 @@ HorzCatSparseDouble(ArrayOf A, ArrayOf B)
                 = new Eigen::SparseMatrix<double, 0, signedIndexType>(newRowsSize, newColumnsSize);
         } catch (const std::bad_alloc&) {
             spMatC = nullptr;
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         }
         spMatC->middleCols(0, spMatA->cols()) = *spMatA;
         spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;

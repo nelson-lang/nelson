@@ -26,7 +26,7 @@ Nelson::MpiGateway::MPI_Comm_sizeBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        raiseError2(L"nelson:mpi:mpiMustBeInit");
+        raiseError2(_E("nelson:mpi:mpiMustBeInit"));
     }
     MPI_Comm comm = MPI_COMM_WORLD;
     if (argIn.size() == 1) {

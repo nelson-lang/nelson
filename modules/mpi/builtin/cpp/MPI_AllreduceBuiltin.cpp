@@ -28,7 +28,7 @@ Nelson::MpiGateway::MPI_AllreduceBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        raiseError2(L"nelson:mpi:mpiMustBeInit");
+        raiseError2(_E("nelson:mpi:mpiMustBeInit"));
     }
     ArrayOf A = argIn[0];
     if (A.isSparse() || A.isReferenceType()) {

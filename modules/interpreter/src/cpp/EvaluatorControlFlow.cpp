@@ -568,7 +568,7 @@ Evaluator::conditionedStatement(AbstractSyntaxTreePtr t)
 {
     bool conditionState;
     if (t->opNum != OP_CSTAT) {
-        raiseError(L"Nelson:interpreter:ERROR_AST_SYNTAX_ERROR", ERROR_AST_SYNTAX_ERROR);
+        raiseError2(_E("nelson:parsing:astSyntax"));
     }
     AbstractSyntaxTreePtr s = t->down;
     CallStackGuard guard(callstack, (size_t)s->getContext());
@@ -600,7 +600,7 @@ Evaluator::testCaseStatement(AbstractSyntaxTreePtr t, const ArrayOf& s)
     CallStackGuard guard(callstack, (size_t)t->getContext());
 
     if (t->type != reserved_node || t->tokenNumber != NLS_KEYWORD_CASE) {
-        raiseError(L"Nelson:interpreter:ERROR_AST_SYNTAX_ERROR", ERROR_AST_SYNTAX_ERROR);
+        raiseError2(_E("nelson:parsing:astSyntax"));
     }
     t = t->down;
     r = expression(t);

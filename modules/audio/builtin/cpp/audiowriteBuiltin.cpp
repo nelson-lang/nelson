@@ -37,7 +37,7 @@ Nelson::AudioGateway::audiowriteBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring Comment;
     for (size_t i = 3; i < argIn.size(); i += 2) {
         if (i >= argIn.size() - 1) {
-            raiseError2(L"nelson:arguments:tooManyInputs");
+            raiseError2(_E("nelson:arguments:tooManyInputs"));
         }
         ArrayOf paramFieldName = argIn[i];
         ArrayOf paramFieldValue = argIn[i + 1];
@@ -64,7 +64,7 @@ Nelson::AudioGateway::audiowriteBuiltin(int nLhs, const ArrayOfVector& argIn)
             validFieldname = true;
         }
         if (!validFieldname) {
-            raiseError2(L"nelson:validators:invalidValueAtPosition", static_cast<int>(i));
+            raiseError2(_E("nelson:validators:invalidValueAtPosition"), static_cast<int>(i));
         }
     }
     wstringVector metadata;

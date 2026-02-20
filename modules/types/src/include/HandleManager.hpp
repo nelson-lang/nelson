@@ -16,6 +16,7 @@
 #include "Types.hpp"
 #include "nlsTypes_exports.h"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -75,7 +76,8 @@ DeleteHandleObjects(
             continue;
         }
         if (hlObj->getCategory() != expectedCategory) {
-            raiseError2(L"nelson:arguments:validHandleExpected", utf8_to_wstring(expectedCategory));
+            raiseError2(
+                _E("nelson:arguments:validHandleExpected"), utf8_to_wstring(expectedCategory));
             continue;
         }
         auto* obj = dynamic_cast<T*>(hlObj);

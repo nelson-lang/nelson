@@ -33,7 +33,7 @@ Nelson::CoreGateway::maxNumCompThreadsBuiltin(int nLhs, const ArrayOfVector& arg
             if (str == L"automatic") {
                 setDefaultMaxNumCompThreads();
             } else {
-                raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+                raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
             }
         } else {
             indexType N = param1.getContentAsScalarIndex(false);
@@ -42,7 +42,7 @@ Nelson::CoreGateway::maxNumCompThreadsBuiltin(int nLhs, const ArrayOfVector& arg
         retval << ArrayOf::doubleConstructor(static_cast<double>(currentValue));
     } break;
     default: {
-        raiseError2(L"nelson:arguments:tooManyInputs");
+        raiseError2(_E("nelson:arguments:tooManyInputs"));
     } break;
     }
     return retval;

@@ -57,8 +57,7 @@ XorLogical(const ArrayOf& A, const ArrayOf& B)
         Dimensions dimsA = A.getDimensions();
         Dimensions dimsB = B.getDimensions();
         if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
-            raiseError(L"Nelson:logical:ERROR_SIZE_MISMATCH_ON_ARGUMENTS",
-                ERROR_SIZE_MISMATCH_ON_ARGUMENTS);
+            raiseError2(_E("nelson:validators:sizeMismatch"));
         }
         if (A.isScalar()) {
             size_t Blen(B.getElementCount());

@@ -514,7 +514,7 @@ PythonObjectHandle::invokeHashMethod(uint64& hashValue)
     PyObject* pyObject = (PyObject*)this->getPointer();
 
     if (!pyObject) {
-        raiseError2(L"nelson:runtime:invalidPythonObject");
+        raiseError2(_E("nelson:runtime:invalidPythonObject"));
     }
     hashValue = PyGetHashValue(pyObject);
     return true;

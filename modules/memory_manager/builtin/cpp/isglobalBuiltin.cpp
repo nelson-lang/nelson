@@ -24,7 +24,7 @@ Nelson::MemoryGateway::isglobalBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
     if (!argIn[0].isRowVectorCharacterArray()) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_STRING_ARRAY_STR);
     }
     std::string arg = argIn[0].getContentAsCString();
     if (!IsValidVariableName(arg)) {

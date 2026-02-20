@@ -39,7 +39,7 @@ Nelson::FilesFoldersGateway::isdirBuiltin(int nLhs, const ArrayOfVector& argIn)
                     bmat[k] = static_cast<Nelson::logical>(FileSystemWrapper::Path::is_directory(
                         arg[k].getContentAsWideString(), permissionDenied));
                     if (permissionDenied) {
-                        raiseError2(L"nelson:io:permissionDenied");
+                        raiseError2(_E("nelson:io:permissionDenied"));
                     }
                 } else {
                     bmat[k] = static_cast<Nelson::logical>(false);
@@ -56,7 +56,7 @@ Nelson::FilesFoldersGateway::isdirBuiltin(int nLhs, const ArrayOfVector& argIn)
         retval << ArrayOf::logicalConstructor(
             FileSystemWrapper::Path::is_directory(wpath, permissionDenied));
         if (permissionDenied) {
-            raiseError2(L"nelson:io:permissionDenied");
+            raiseError2(_E("nelson:io:permissionDenied"));
         }
         return retval;
     }
@@ -64,9 +64,7 @@ Nelson::FilesFoldersGateway::isdirBuiltin(int nLhs, const ArrayOfVector& argIn)
         retval << ArrayOf::logicalConstructor(false);
         return retval;
     }
-    raiseError(
-        L"Nelson:files_folders_functions:ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED",
-        ERROR_WRONG_ARGUMENT_X_TYPE_STRING_OR_CELL_EXPECTED, 1);
+    raiseError2(_E("nelson:validators:mustBeTextAtPosition"), 1);
     return retval;
 }
 //=============================================================================

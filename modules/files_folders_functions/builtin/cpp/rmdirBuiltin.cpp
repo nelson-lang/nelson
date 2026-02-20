@@ -42,11 +42,11 @@ Nelson::FilesFoldersGateway::rmdirBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (nLhs > 1) {
                 retval << ArrayOf::characterArrayConstructor(errorMessage);
             } else {
-                raiseError2(L"nelson:arguments:wrongNumberOfOutputs");
+                raiseError2(_E("nelson:arguments:wrongNumberOfOutputs"));
             }
         }
     } else {
-        raiseError2(L"nelson:arguments:wrongNumberOfInputs");
+        raiseError2(_E("nelson:arguments:wrongNumberOfInputs"));
     }
     return retval;
 }

@@ -39,14 +39,14 @@ Nelson::DisplayFormatGateway::echoBuiltin(Evaluator* eval, int nLhs, const Array
             } else if (arg == L"off") {
                 bMode = false;
             } else {
-                raiseError2(L"nelson:validators:invalidValueAtPosition", 1);
+                raiseError2(_E("nelson:validators:invalidValueAtPosition"), 1);
             }
             eval->setEchoMode(bMode);
         } else {
-            raiseError2(L"nelson:validators:mustBeType", 1, NLS_STRING_ARRAY_STR);
+            raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), NLS_STRING_ARRAY_STR, 1);
         }
     } else {
-        raiseError2(L"nelson:arguments:tooManyInputs");
+        raiseError2(_E("nelson:arguments:tooManyInputs"));
     }
     return retval;
 }

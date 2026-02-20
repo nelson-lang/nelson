@@ -65,17 +65,17 @@ Nelson::SlicotGateway::slicot_mc01tdBuiltin(int nLhs, const ArrayOfVector& argIn
     int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsDICO.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 1);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 1);
     }
     if (!dimsDP.isScalar()) {
-        raiseError2(L"nelson:validators:mustBeScalarAtPosition", 2);
+        raiseError2(_E("nelson:validators:mustBeScalarAtPosition"), 2);
     }
     // CALL EXTERN FUNCTION
     try {
         mc01td_(DICO_ptr, DP_output_ptr, P_ptr, STABLE_output_ptr, NZ_output_ptr, DWORK_ptr,
             IWARN_output_ptr, INFO_output_ptr);
     } catch (const std::runtime_error&) {
-        raiseError2(L"nelson:slicot:slicotFuncFails", L"mc01td");
+        raiseError2(_E("nelson:slicot:slicotFuncFails"), L"mc01td");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

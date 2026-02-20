@@ -31,7 +31,7 @@ Nelson::StreamGateway::ferrorBuiltin(int nLhs, const ArrayOfVector& argIn)
     FilesManager* fm
         = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
-        raiseError2(L"nelson:io:fileManagerError");
+        raiseError2(_E("nelson:io:fileManagerError"));
     }
     bool withClear = false;
     if (argIn.size() == 2) {
@@ -50,7 +50,7 @@ Nelson::StreamGateway::ferrorBuiltin(int nLhs, const ArrayOfVector& argIn)
     int errorCode = 0;
     std::string errorMessage;
     if (!FileError(fm, iValue, withClear, errorCode, errorMessage)) {
-        raiseError2(L"nelson:io:invalidFileId");
+        raiseError2(_E("nelson:io:invalidFileId"));
     }
     retval << ArrayOf::characterArrayConstructor(errorMessage);
     retval << ArrayOf::doubleConstructor((double)errorCode);

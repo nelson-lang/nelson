@@ -372,7 +372,7 @@ convertClassArray(const ArrayOf& A)
                     arrayOfToPyObject(map.getField(mapHash[k])));
             }
         } else {
-            raiseError2(L"nelson:internal:typeNotManaged");
+            raiseError2(_E("nelson:internal:typeNotManaged"));
         }
         return pyObj;
     }
@@ -524,7 +524,7 @@ getTypeSize(NelsonType nelsonType)
         sz = sizeof(logical);
     } break;
     default: {
-        raiseError2(L"nelson:internal:typeNotManaged");
+        raiseError2(_E("nelson:internal:typeNotManaged"));
     }
     }
     return sz;
@@ -536,7 +536,7 @@ arrayToMemoryView(const void* data, NelsonType nelsonType, const Dimensions& dim
     Py_buffer pyBuffer;
     pyBuffer.format = nelsonTypeToTypeCode(nelsonType);
     if (strcmp(pyBuffer.format, "") == 0) {
-        raiseError2(L"nelson:internal:typeNotManaged");
+        raiseError2(_E("nelson:internal:typeNotManaged"));
     }
     pyBuffer.ndim = (int)dims.getLength();
 
@@ -755,7 +755,7 @@ PyArrayArrayToArrayOf(PyObject* pyObject)
         return PyArrayArrayToIntegerArrayOf<int64>(nelsonType, pyObject, vectorSize);
     } break;
     default: {
-        raiseError2(L"nelson:internal:typeNotManaged");
+        raiseError2(_E("nelson:internal:typeNotManaged"));
     } break;
     }
     return {};

@@ -45,7 +45,7 @@ Nelson::ParallelGateway::afterAllBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     function_handle fh = param2.getContentAsFunctionHandle();
     if (fh.anonymousHandle == nullptr) {
-        raiseError2(L"nelson:validators:mustBeType", 1, NLS_FUNCTION_HANDLE_STR);
+        raiseError2(_E("nelson:validators:mustBeTypeAtPosition"), 1, NLS_FUNCTION_HANDLE_STR);
     }
     FunctionDef* funcDef = nullptr;
     ArrayOfVector args;
@@ -62,15 +62,15 @@ Nelson::ParallelGateway::afterAllBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf param3 = argIn[2];
     bool isReal = param3.getDataClass() == NLS_DOUBLE || param3.getDataClass() == NLS_SINGLE;
     if (!isReal) {
-        raiseError2(L"nelson:validators:mustBeIntegerAtPosition", 3);
+        raiseError2(_E("nelson:validators:mustBeIntegerAtPosition"), 3);
     }
     double value = param3.getContentAsDoubleScalar();
     int ivalue = (int)(value);
     if (value != (double)ivalue) {
-        raiseError2(L"nelson:validators:mustBeIntegerAtPosition", 3);
+        raiseError2(_E("nelson:validators:mustBeIntegerAtPosition"), 3);
     }
     if (ivalue < 0) {
-        raiseError2(L"nelson:validators:mustBeNonNegativeIntegerValue", 3);
+        raiseError2(_E("nelson:validators:mustBeNonNegativeIntegerValue"), 3);
     }
 
     std::vector<FutureObject*> futures = ArrayOfToFutures(param1);

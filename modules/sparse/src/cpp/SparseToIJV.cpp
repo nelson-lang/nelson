@@ -32,7 +32,7 @@ SparseToIJV(const ArrayOf& spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, 
             ptrI = new indexType[nnz];
             ptrJ = new indexType[nnz];
         } catch (const std::bad_alloc&) {
-            raiseError2(L"nelson:runtime:outOfMemory");
+            raiseError2(_E("nelson:runtime:outOfMemory"));
         }
         int nz = 0;
         void* ptrV = Eigen_SparseToIJV(spA.getDataClass(), dims.getRows(), dims.getColumns(),

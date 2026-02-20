@@ -29,7 +29,7 @@ Nelson::Python_engineGateway::py_getBuiltin(int nLhs, const ArrayOfVector& argIn
         PythonObjectHandle* poh = (PythonObjectHandle*)hgo;
         ArrayOf res;
         if (!poh->get(methodName, res)) {
-            raiseError2(L"nelson:validators:invalidValueAtPosition", 2);
+            raiseError2(_E("nelson:validators:invalidValueAtPosition"), 2);
         }
         retval << res;
     }

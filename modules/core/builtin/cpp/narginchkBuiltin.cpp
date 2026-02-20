@@ -26,10 +26,10 @@ Nelson::CoreGateway::narginchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             ERROR_NARGINCHK_ONLY_FROM_NELSON_FUNCTION);
     }
     if (!argIn[0].isScalar() || !argIn[0].isNumeric()) {
-        raiseError2(L"nelson:validators:mustBeScalarInteger", 1);
+        raiseError2(_E("nelson:validators:mustBeScalarInteger"), 1);
     }
     if (!argIn[1].isScalar() || !argIn[1].isNumeric()) {
-        raiseError2(L"nelson:validators:mustBeScalarInteger", 2);
+        raiseError2(_E("nelson:validators:mustBeScalarInteger"), 2);
     }
     int minArgs = argIn[0].getContentAsInteger32Scalar(false, true);
     bool maxArgsIsInf = false;
@@ -39,13 +39,13 @@ Nelson::CoreGateway::narginchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     }
     int nargin = context->getCurrentScope()->getNargIn();
     if (nargin < minArgs) {
-        raiseErrorAsCaller(true, L"nelson:arguments:tooFewInputs");
+        raiseErrorAsCaller(true, _E("nelson:arguments:tooFewInputs"));
     }
     if (!maxArgsIsInf) {
         int maxArgs = argIn[1].getContentAsInteger32Scalar(false, true);
 
         if (nargin > maxArgs) {
-            raiseErrorAsCaller(true, L"nelson:arguments:tooManyInputs");
+            raiseErrorAsCaller(true, _E("nelson:arguments:tooManyInputs"));
         }
     }
     return retval;

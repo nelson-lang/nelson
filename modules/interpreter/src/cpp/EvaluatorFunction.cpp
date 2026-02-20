@@ -144,7 +144,7 @@ Evaluator::functionExpression(
                         try {
                             keywordNdx = new int[keywords.size()];
                         } catch (std::bad_alloc&) {
-                            raiseError2(L"nelson:runtime:outOfMemory");
+                            raiseError2(_E("nelson:runtime:outOfMemory"));
                         }
                         int maxndx;
                         maxndx = 0;
@@ -535,8 +535,8 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
                     = getOverloadFunctionName(NLS_FUNCTION_HANDLE_STR, SUBSREF_OPERATOR_STR);
                 bool isFun = lookupFunction(extractionFunctionName, fptr);
                 if (!isFun) {
-                    raiseError(L"Nelson:interpreter:ERROR_UNDEFINED_FUNCTION",
-                        ERROR_UNDEFINED_FUNCTION, utf8_to_wstring(extractionFunctionName));
+                    raiseError2(_E("nelson:runtime:functionNotFound"),
+                        utf8_to_wstring(extractionFunctionName));
                 }
             } else if (r.isClassType()) {
                 std::string className = r.getClassType();
@@ -544,8 +544,8 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
                     = getOverloadFunctionName(className, SUBSREF_OPERATOR_STR);
                 bool isFun = lookupFunction(extractionFunctionName, fptr);
                 if (!isFun) {
-                    raiseError(L"Nelson:interpreter:ERROR_UNDEFINED_FUNCTION",
-                        ERROR_UNDEFINED_FUNCTION, utf8_to_wstring(extractionFunctionName));
+                    raiseError2(_E("nelson:runtime:functionNotFound"),
+                        utf8_to_wstring(extractionFunctionName));
                 }
             } else if (r.isCell()) {
                 // C = {rand(3),nan(3),zeros(3),inf(3)}
@@ -556,12 +556,10 @@ Evaluator::multiFunctionCall(AbstractSyntaxTreePtr t, bool printIt)
                 }
                 bDeal = true;
             } else {
-                raiseError(L"Nelson:interpreter:ERROR_UNDEFINED_FUNCTION", ERROR_UNDEFINED_FUNCTION,
-                    utf8_to_wstring(fAST->text));
+                raiseError2(_E("nelson:runtime:functionNotFound"), utf8_to_wstring(fAST->text));
             }
         } else {
-            raiseError(L"Nelson:interpreter:ERROR_UNDEFINED_FUNCTION", ERROR_UNDEFINED_FUNCTION,
-                utf8_to_wstring(fAST->text));
+            raiseError2(_E("nelson:runtime:functionNotFound"), utf8_to_wstring(fAST->text));
         }
     }
     if (t->opNum != OP_BRACKETS) {
