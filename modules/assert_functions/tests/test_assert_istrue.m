@@ -32,7 +32,8 @@ if (r ~= false)
   error(_('assert_istrue fails.'));
 end
 %=============================================================================
-if strcmp(msg, _('Assertion failed: found false entry in condition = false.')) == false
+expectedmsg = getString(message('nelson:assert:assertionFailedValueExpectedComputed', true, false));
+if strcmp(msg, expectedmsg) == false
   error(_('assert_istrue fails.'));
 end
 %=============================================================================
@@ -49,7 +50,8 @@ try
   assert_istrue(false);
 catch
   err = lasterror();
-  if strcmp(err.message, _('Assertion failed: found false entry in condition = false.')) == false
+  expectedmsg = getString(message('nelson:assert:assertionFailedValueExpectedComputed', true, false));
+  if strcmp(err.message, expectedmsg) == false
     error(_('assert_istrue fails.'));
   end
 end

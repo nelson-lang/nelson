@@ -28,7 +28,7 @@
     <param_input_item>
       <param_name>expected_error_message</param_name>
       <param_description
-      >a string containing the expected error message that should be raised.</param_description>
+      >a string containing the expected error message that should be raised or message class.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>expected_error_identifier</param_name>
@@ -87,7 +87,15 @@ end]]></example_item_data>
       >Test with both error message and error identifier:</example_item_description>
       <example_item_data
         runnable="cli"
-      ><![CDATA[assert_checkerror('mustBeFinite(NaN)', _('Value must be finite.'), 'Nelson:validators:mustBeFinite')]]></example_item_data>
+      ><![CDATA[assert_checkerror('mustBeFinite(NaN)', _('Value must be finite.'), 'nelson:validators:mustBeFinite')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Test with message object:</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[assert_checkerror('mustBeFinite(NaN)', message('nelson:validators:mustBeFinite'))]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
@@ -115,6 +123,10 @@ end]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>message class support added</history_description>
     </history_item>
   </history>
   <authors>

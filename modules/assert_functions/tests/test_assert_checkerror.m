@@ -21,10 +21,13 @@ if (r ~= false)
   error(_('assert_checkerror fails.'));
 end
 %=============================================================================
-expectedmsg = [_('Assertion failed : expected error message ='), ' "', 'Wrong number of input arguments2.', '" ', _('computed error message ='), ' "', _('Wrong number of input arguments.'), '"'];
+expectedmsg = getString(message('nelson:assert:assertionFailedMessageExpectedComputed', _('Wrong number of input arguments2.'), _('Wrong number of input arguments.')));
 %=============================================================================
 if strcmp(msg, expectedmsg) == false
   error(_('assert_checkerror fails.'));
 end
 %=============================================================================
-assert_checkerror('mustBeFinite(NaN)', _('Value must be finite.'), 'Nelson:validators:mustBeFinite')
+assert_checkerror('mustBeFinite(NaN)', _('Value must be finite.'), 'nelson:validators:mustBeFinite')
+%=============================================================================
+assert_checkerror('mustBeFinite(NaN)', message('nelson:validators:mustBeFinite'));
+%=============================================================================

@@ -33,7 +33,8 @@ if (r ~= false)
   error(_('assert_isfalse fails.'));
 end
 %=============================================================================
-if strcmp(msg, _('Assertion failed: found false entry in condition = true.')) == false
+expectedmsg = getString(message('nelson:assert:assertionFailedValueExpectedComputed', false, true));
+if strcmp(msg, expectedmsg) == false
   error(_('assert_isfalse fails.'));
 end
 %=============================================================================
@@ -50,7 +51,8 @@ try
   assert_isfalse(true);
 catch
   err = lasterror();
-  if strcmp(err.message, _('Assertion failed: found false entry in condition = true.')) == false
+  expectedmsg = getString(message('nelson:assert:assertionFailedValueExpectedComputed', false, true));
+  if strcmp(err.message, expectedmsg) == false
     error(_('assert_isfalse fails.'));
   end
 end

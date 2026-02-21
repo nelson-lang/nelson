@@ -1,6 +1,6 @@
 {
   "nelson:validators:mustBeNonemptyAtPosition": "",
-  "nelson:assert_functions:assertionFailed": "",
+  "nelson:assert:assertionFailed": "",
   "nelson:validators:mustBeTypeAtPosition": "",
   "nelson:validators:mustBeScalarAtPosition": "",
   "nelson:validators:invalidValueAtPosition": "",

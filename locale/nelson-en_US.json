@@ -11,7 +11,7 @@
   "nelson:arguments:validHandleExpected": "Valid handle expected '{0}'.",
   "nelson:arguments:wrongNumberOfInputs": "Incorrect number of input arguments.",
   "nelson:arguments:wrongNumberOfOutputs": "Incorrect number of output arguments.",
-  "nelson:assert_functions:assertionFailed": "Assertion failed.",
+  "nelson:assert:assertionFailed": "Assertion failed.",
   "nelson:i18n:messageNotFound": "Message not found for ID: '{0}'.",
   "nelson:internal:typeNotManaged": "Unsupported type.",
   "nelson:io:fileManagerError": "File manager error.",

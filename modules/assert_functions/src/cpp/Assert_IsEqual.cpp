@@ -21,73 +21,118 @@ static std::wstring
 formatMessage(const ArrayOf& computedArray, const ArrayOf& expectedArray)
 {
     std::wstring message;
-    bool doDefaultMessage = false;
-    if ((computedArray.isCharacterArray()
-            && (computedArray.isRowVector() || computedArray.isScalar() || computedArray.isEmpty()))
-        && (expectedArray.isCharacterArray()
-            && (expectedArray.isRowVector() || expectedArray.isScalar()
-                || expectedArray.isEmpty()))) {
-        std::wstring computed = computedArray.getContentAsWideString();
-        std::wstring expected = expectedArray.getContentAsWideString();
-        message = fmt::format(
-            _W("Assertion failed: expected '{0}' and computed '{1}' values are different."),
-            expected, computed);
-    } else {
-        if (computedArray.isScalar() && expectedArray.isScalar()) {
-            if ((computedArray.getDataClass() == expectedArray.getDataClass())
-                && (!computedArray.isSparse() && !expectedArray.isSparse())) {
-                switch (expectedArray.getDataClass()) {
-                case NLS_LOGICAL: {
-                    logical computed = computedArray.getContentAsLogicalScalar();
-                    logical expected = expectedArray.getContentAsLogicalScalar();
-                    message = fmt::format(_W("Assertion failed: expected ({0}) and computed ({1}) "
-                                             "values are different."),
-                        expected ? L"true" : L"false", computed ? L"true" : L"false");
-                } break;
-                case NLS_STRING_ARRAY: {
-                    std::wstring computed = computedArray.getContentAsWideString();
-                    std::wstring expected = expectedArray.getContentAsWideString();
-                    message
-                        = fmt::format(_W("Assertion failed: expected \"{0}\" and computed \"{1}\" "
-                                         "values are different."),
-                            expected, computed);
+    bool doDefaultMessage = true;
 
-                } break;
-                case NLS_DOUBLE: {
-                    double computed = ArrayOf(computedArray).getContentAsDoubleScalar();
-                    double expected = ArrayOf(expectedArray).getContentAsDoubleScalar();
-                    message = fmt::format(_W("Assertion failed: expected ({0}) and computed ({1}) "
-                                             "values are different."),
-                        expected, computed);
-                } break;
-                case NLS_INT32: {
-                    int32 computed = ArrayOf(computedArray).getContentAsInteger32Scalar();
-                    int32 expected = ArrayOf(expectedArray).getContentAsInteger32Scalar();
-                    message = fmt::format(_W("Assertion failed: expected ({0}) and computed ({1}) "
-                                             "values are different."),
-                        fmt::to_wstring(expected), fmt::to_wstring(computed));
-                } break;
-                case NLS_UINT64: {
-                    uint64 computed = ArrayOf(computedArray).getContentAsUnsignedInteger64Scalar();
-                    uint64 expected = ArrayOf(expectedArray).getContentAsUnsignedInteger64Scalar();
-                    message = fmt::format(_W("Assertion failed: expected ({0}) and computed ({1}) "
-                                             "values are different."),
-                        fmt::to_wstring(expected), fmt::to_wstring(computed));
-                } break;
-                default: {
-                    doDefaultMessage = true;
-                } break;
-                }
-            } else {
-                doDefaultMessage = true;
+    auto scalarToWString = [](const ArrayOf& a) -> std::optional<std::wstring> {
+        try {
+            switch (a.getDataClass()) {
+            case NLS_LOGICAL: {
+                logical v = a.getContentAsLogicalScalar();
+                return std::optional<std::wstring>(v ? TRUE_STR : FALSE_STR);
             }
+            case NLS_DOUBLE: {
+                double v = a.getContentAsDoubleScalar();
+                return std::optional<std::wstring>(fmt::format(L"{}", v));
+            }
+            case NLS_SINGLE: {
+                float v = a.getContentAsSingleScalar();
+                return std::optional<std::wstring>(fmt::format(L"{}", v));
+            }
+            case NLS_INT8: {
+                int8 v = a.getContentAsInteger8Scalar();
+                return std::optional<std::wstring>(fmt::format(L"{}", v));
+            }
+            case NLS_UINT8: {
+                uint8 v = a.getContentAsUnsignedInteger8Scalar();
+                return std::optional<std::wstring>(fmt::format(L"{}", v));
+            }
+            case NLS_INT16: {
+                int16 v = a.getContentAsInteger16Scalar();
+                return std::optional<std::wstring>(fmt::format(L"{}", v));
+            }
+            case NLS_UINT16: {
+                uint16 v = a.getContentAsUnsignedInteger16Scalar();
+                return std::optional<std::wstring>(fmt::format(L"{}", v));
+            }
+            case NLS_INT32: {
+                int32 v = a.getContentAsInteger32Scalar();
+                return std::optional<std::wstring>(fmt::format(L"{}", v));
+            }
+            case NLS_UINT32: {
+                uint32 v = a.getContentAsUnsignedInteger32Scalar();
+                return std::optional<std::wstring>(fmt::format(L"{}", v));
+            }
+            case NLS_INT64: {
+                int64 v = a.getContentAsInteger64Scalar();
+                return std::optional<std::wstring>(fmt::format(L"{}", v));
+            }
+            case NLS_UINT64: {
+                uint64 v = a.getContentAsUnsignedInteger64Scalar();
+                return std::optional<std::wstring>(fmt::format(L"{}", v));
+            }
+            case NLS_DCOMPLEX: {
+                std::complex<double> v = a.getContentAsDoubleComplexScalar();
+                if (v.imag() == 0) {
+                    return std::optional<std::wstring>(fmt::format(L"{}", v.real()));
+                }
+                if (v.real() == 0) {
+                    return std::optional<std::wstring>(fmt::format(L"{}i", v.imag()));
+                }
+                if (v.imag() < 0) {
+                    return std::optional<std::wstring>(
+                        fmt::format(L"{} - {}i", v.real(), -v.imag()));
+                }
+                return std::optional<std::wstring>(fmt::format(L"{} + {}i", v.real(), v.imag()));
+            }
+            case NLS_SCOMPLEX: {
+                std::complex<single> v = a.getContentAsSingleComplexScalar();
+                if (v.imag() == 0) {
+                    return std::optional<std::wstring>(fmt::format(L"{}", v.real()));
+                }
+                if (v.real() == 0) {
+                    return std::optional<std::wstring>(fmt::format(L"{}i", v.imag()));
+                }
+                if (v.imag() < 0) {
+                    return std::optional<std::wstring>(
+                        fmt::format(L"{} - {}i", v.real(), -v.imag()));
+                }
+            }
+            case NLS_CHAR: {
+                if (a.isRowVector() || a.isEmpty()) {
+                    std::wstring v = a.getContentAsWideString();
+                    return std::optional<std::wstring>(fmt::format(L"{}", v));
+                }
+            }
+            case NLS_STRING_ARRAY: {
+                if (a.isScalar()) {
+                    std::wstring v = a.getContentAsWideString();
+                    return std::optional<std::wstring>(fmt::format(L"{}", v));
+                }
+            }
+            default:
+                return std::nullopt;
+            }
+        } catch (...) {
+            return std::nullopt;
+        }
+    };
+    if ((computedArray.getDataClass() == expectedArray.getDataClass())
+        && (computedArray.isScalar() && expectedArray.isScalar()) && !computedArray.isSparse()
+        && !expectedArray.isSparse()) {
+        // Try to convert both scalars to strings using the helper
+        auto sComputed = scalarToWString(computedArray);
+        auto sExpected = scalarToWString(expectedArray);
+        if (sComputed && sExpected) {
+            message = formatErrorMessage(
+                _E("nelson:assert:assertionFailedValueExpectedComputed"), *sExpected, *sComputed);
+            doDefaultMessage = false;
         } else {
             doDefaultMessage = true;
         }
     }
 
     if (doDefaultMessage) {
-        message = _W("Assertion failed: expected and computed values are different.");
+        message = formatErrorMessage(_E("nelson:assert:assertionFailedValuesDifferent"));
     }
     return message;
 }

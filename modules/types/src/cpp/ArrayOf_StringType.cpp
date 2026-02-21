@@ -21,6 +21,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -199,9 +200,9 @@ logicalToStringArray(const ArrayOf& m)
     auto* ptr = (logical*)m.getDataPointer();
     for (size_t k = 0; k < nbElements; k++) {
         logical val = ptr[k];
-        std::wstring str = L"false";
+        std::wstring str = FALSE_STR;
         if (val != logical(0)) {
-            str = L"true";
+            str = TRUE_STR;
         }
         elements[k] = ArrayOf::characterArrayConstructor(str);
     }

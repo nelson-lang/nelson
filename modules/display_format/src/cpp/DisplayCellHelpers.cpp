@@ -42,9 +42,9 @@ summarizeCellLogicalEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
                     }
                 } else {
                     if (values[k]) {
-                        logicalAsStr = L"true";
+                        logicalAsStr = TRUE_STR;
                     } else {
-                        logicalAsStr = L"false";
+                        logicalAsStr = FALSE_STR;
                     }
                 }
 

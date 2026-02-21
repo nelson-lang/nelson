@@ -35,8 +35,8 @@ Assert_CheckError(Evaluator* eval, const std::wstring& command, const std::wstri
             msg.clear();
         } else {
             bRes = false;
-            msg = _W("Assertion failed : expected error message =") + L" \"" + expectedmsg + +L"\" "
-                + _W("computed error message =") + L" \"" + computedmsg + L"\"";
+            msg = formatErrorMessage(_E("nelson:assert:assertionFailedMessageExpectedComputed"),
+                expectedmsg, computedmsg);
         }
     } else {
         raiseError(L"Nelson:assert_functions:ERROR_NO_ERROR_PRODUCED_WHILE_EVALUATING_COMMAND",
@@ -66,14 +66,15 @@ Assert_CheckError(Evaluator* eval, const std::wstring& command, const std::wstri
             msg.clear();
         } else {
             bRes = false;
+
             if (computedmsg != expectedmsg) {
-                msg = _W("Assertion failed : expected error message =") + L" \"" + expectedmsg
-                    + +L"\" " + _W("computed error message =") + L" \"" + computedmsg + L"\"";
+                msg = formatErrorMessage(_E("nelson:assert:assertionFailedMessageExpectedComputed"),
+                    expectedmsg, computedmsg);
                 return bRes;
             }
             if (computedid != expectedid) {
-                msg = _W("Assertion failed : expected error identifier =") + L" \"" + expectedid
-                    + +L"\" " + _W("computed error identifier =") + L" \"" + computedid + L"\"";
+                msg = formatErrorMessage(_E("nelson:assert:assertionFailedValueExpectedComputed"),
+                    expectedid, computedid);
             }
         }
     } else {

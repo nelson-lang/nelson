@@ -12,6 +12,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "OverloadName.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -25,15 +26,34 @@ Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin(
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     std::wstring command = param1.getContentAsWideString();
-    std::wstring expectedmsg = param2.getContentAsWideString();
-
+    std::wstring expectedmsg;
+    std::wstring expectedid;
+    if (param2.isClassType() && param2.getClassType() == "message") {
+        expectedid = param2.getField("Identifier").getContentAsWideString();
+        FunctionDefPtr funcDef = nullptr;
+        if (!eval->lookupFunction(OVERLOAD_FUNCTION_NAME("message", "getString"), funcDef)) {
+            raiseError2(_E("nelson:runtime:functionNotFound"), L"getString");
+        }
+        ArrayOfVector inputs;
+        inputs << param2;
+        try {
+            ArrayOfVector ouputs = funcDef->evaluateFunction(eval, inputs, 1);
+            expectedmsg = ouputs[0].getContentAsWideString();
+        } catch (const Exception&) {
+            raiseError2(_E("nelson:runtime:incorrectHoleCount"), expectedid);
+        }
+    } else {
+        expectedmsg = param2.getContentAsWideString();
+    }
     if (expectedmsg.empty()) {
         raiseError2(_E("nelson:validators:mustBeNonemptyAtPosition"), 2);
     }
+    if (argIn.size() == 3) {
+        expectedid = argIn[2].getContentAsWideString();
+    }
     std::wstring msg;
     bool res;
-    if (argIn.size() == 3) {
-        std::wstring expectedid = argIn[2].getContentAsWideString();
+    if (!expectedid.empty()) {
         res = Assert_CheckError(eval, command, expectedmsg, expectedid, msg);
     } else {
         res = Assert_CheckError(eval, command, expectedmsg, msg);
@@ -41,7 +61,7 @@ Nelson::AssertFunctionsGateway::assert_checkerrorBuiltin(
 
     if (nLhs == 0) {
         if (!res) {
-            Error(msg, _E("nelson:assert_functions:assertionFailed"));
+            Error(msg, _E("nelson:assert:assertionFailed"));
         }
     } else {
         retval << ArrayOf::logicalConstructor(res);

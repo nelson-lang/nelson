@@ -51,7 +51,7 @@ Assert_IsApprox(Evaluator* eval, const ArrayOf& computedArray, const ArrayOf& ex
             ERROR_ISAPPROX_FUNCTION_NOT_FOUND);
     }
     if (!bRes) {
-        msg = ERROR_ASSERTION_VALUES_TOO_DIFFERENT;
+        msg = formatErrorMessage(_E("nelson:assert:assertionFailedValuesDifferent"));
     } else {
         msg.clear();
     }

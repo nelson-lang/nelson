@@ -45,7 +45,7 @@ Nelson::StringGateway::formatStringBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (a.numel() != 1) {
                 raiseError2(_E("nelson:validators:mustBeScalar"));
             }
-            res = (a.getContentAsLogicalScalar() != 0) ? L"true" : L"false";
+            res = (a.getContentAsLogicalScalar() != 0) ? TRUE_STR : FALSE_STR;
         } break;
         case NLS_INT8: {
             if (a.numel() != 1) {

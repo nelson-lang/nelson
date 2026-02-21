@@ -9,6 +9,7 @@
 //=============================================================================
 #include "Assert_IsFalse.hpp"
 #include "i18n.hpp"
+#include "Error.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -20,7 +21,8 @@ Assert_IsFalse(logical value, const std::wstring& modifiedmsg, std::wstring& msg
         if (!modifiedmsg.empty()) {
             msg = modifiedmsg;
         } else {
-            msg = _W("Assertion failed: found false entry in condition = true.");
+            msg = formatErrorMessage(
+                _E("nelson:assert:assertionFailedValueExpectedComputed"), FALSE_STR, TRUE_STR);
         }
     } else {
         value = static_cast<logical>(1);

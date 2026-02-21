@@ -103,7 +103,7 @@ BackgroundPoolObject::display(Interface* io)
 #define BLANKS_AT_BOL std::wstring(L"   ")
         io->outputMessage(L"\n");
         io->outputMessage(BLANKS_AT_BOL + L"NumWorkers: " + std::to_wstring(numWorkers) + L"\n");
-        std::wstring busyString = busy ? L"true" : L"false";
+        std::wstring busyString = busy ? TRUE_STR : FALSE_STR;
         io->outputMessage(BLANKS_AT_BOL + L"Busy: " + busyString + L"\n");
 
         if (nbFevalQueue > 0) {

@@ -454,9 +454,9 @@ createPrintableScalar(const ArrayOf& c, const std::wstring& fmt, const std::wstr
     switch (c.getDataClass()) {
     case NLS_LOGICAL: {
         if (c.getContentAsLogicalScalar()) {
-            valueAsString = L"true";
+            valueAsString = TRUE_STR;
         } else {
-            valueAsString = L"false";
+            valueAsString = FALSE_STR;
         }
     } break;
     case NLS_UINT8: {

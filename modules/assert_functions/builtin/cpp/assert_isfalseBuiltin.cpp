@@ -38,7 +38,7 @@ Nelson::AssertFunctionsGateway::assert_isfalseBuiltin(int nLhs, const ArrayOfVec
     res = Assert_IsFalse(res, modifiedmsg, msg);
     if (nLhs == 0) {
         if (res == 0) {
-            Error(msg, _E("nelson:assert_functions:assertionFailed"));
+            Error(msg, _E("nelson:assert:assertionFailed"));
         }
     } else {
         retval << ArrayOf::logicalConstructor(res == 0 ? false : true);

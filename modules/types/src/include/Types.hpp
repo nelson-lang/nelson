@@ -116,6 +116,9 @@ using wstringVector = std::vector<std::wstring>;
 //=============================================================================
 #define _T(x) L x
 //=============================================================================
+#define TRUE_STR L"true"
+#define FALSE_STR L"false"
+//=============================================================================
 #define NLS_SPARSE_STR "sparse"
 #define NLS_CELL_ARRAY_STR "cell"
 #define NLS_STRUCT_ARRAY_STR "struct"

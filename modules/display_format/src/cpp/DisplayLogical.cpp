@@ -140,9 +140,9 @@ Display2dLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
                     io->outputMessage(valueAsString);
                 } else {
                     if (data[idx]) {
-                        valueAsString = L"true";
+                        valueAsString = TRUE_STR;
                     } else {
-                        valueAsString = L"false";
+                        valueAsString = FALSE_STR;
                     }
                     buffer.append(BLANKS_AT_BOL);
                     buffer.append(
@@ -248,9 +248,9 @@ DisplayNdLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
                         io->outputMessage(valueAsString);
                     } else {
                         if (data[idx]) {
-                            valueAsString = L"true";
+                            valueAsString = TRUE_STR;
                         } else {
-                            valueAsString = L"false";
+                            valueAsString = FALSE_STR;
                         }
                         std::wstring msg
                             = completeWithBlanksAtBeginning(valueAsString, lengthLogicalString);

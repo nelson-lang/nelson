@@ -184,9 +184,9 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
             for (indexType x = 0; x < dims.getRows(); x++) {
                 for (indexType y = 0; y < dims.getColumns(); y++) {
                     if (pValue[x + y * dims.getRows()] == 1) {
-                        res = res + L"true" + L" ";
+                        res = res + TRUE_STR + L" ";
                     } else {
-                        res = res + L"false" + L" ";
+                        res = res + FALSE_STR + L" ";
                     }
                 }
                 if (StringHelpers::ends_with(res, L" ")) {

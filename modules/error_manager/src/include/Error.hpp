@@ -27,7 +27,7 @@ namespace detail {
     // Direct string formatting without fmt templates
     NLSERROR_MANAGER_IMPEXP std::wstring
     formatToWideStringImpl(const std::wstring& format, const std::vector<std::wstring>& args);
-
+    //=============================================================================
     NLSERROR_MANAGER_IMPEXP std::wstring
     formatToWideStringImplMessageID(const std::wstring& ID, const std::vector<std::wstring>& args);
     //=============================================================================
@@ -97,7 +97,8 @@ formatErrorMessage(const std::wstring& messageID, const Args&... args)
     std::vector<std::wstring> argVec;
     // Fold expression: convert each argument using toWideString
     (..., argVec.push_back(detail::toWideString(args)));
-    return detail::formatToWideStringImpl(messageID, argVec);
+
+    return detail::formatToWideStringImplMessageID(messageID, argVec);
 }
 //=============================================================================
 

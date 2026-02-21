@@ -31,6 +31,6 @@ assert_isequal(msg, '');
 %=============================================================================
 [f, msg] = assert_isequal(1, 2);
 assert_isfalse(f);
-msg_expected = sprintf(_('Assertion failed: expected (%g) and computed (%g) values are different.'), 2, 1);
+msg_expected = getString(message('nelson:assert:assertionFailedValueExpectedComputed', 2, 1));
 assert_isequal(msg, msg_expected);
 %=============================================================================

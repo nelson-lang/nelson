@@ -464,7 +464,7 @@ QString
 QtWorkspaceBrowser::handleLogicalVariable(const ArrayOf* variable) const
 {
     if (variable->isScalar()) {
-        return wstringToQString(variable->getContentAsLogicalScalar() ? L"true" : L"false");
+        return wstringToQString(variable->getContentAsLogicalScalar() ? TRUE_STR : FALSE_STR);
     } else {
         return handleDefaultCase(variable);
     }

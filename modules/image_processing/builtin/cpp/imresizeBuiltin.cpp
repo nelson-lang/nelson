@@ -261,9 +261,9 @@ parseAntialiasing(const std::wstring& antialiasing)
     std::transform(
         lowerAntialiasing.begin(), lowerAntialiasing.end(), lowerAntialiasing.begin(), ::towlower);
 
-    if (lowerAntialiasing == L"true" || lowerAntialiasing == L"on") {
+    if (lowerAntialiasing == TRUE_STR || lowerAntialiasing == L"on") {
         return ResizeAntialiasing::On;
-    } else if (lowerAntialiasing == L"false" || lowerAntialiasing == L"off") {
+    } else if (lowerAntialiasing == FALSE_STR || lowerAntialiasing == L"off") {
         return ResizeAntialiasing::Off;
     }
     raiseError(L"Nelson:image_processing:ERROR_ANTIALIASING_MUST_BE_TRUE_FALSE_ON_OFF",
