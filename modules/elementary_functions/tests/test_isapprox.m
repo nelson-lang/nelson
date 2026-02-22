@@ -7,9 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_checkerror('isapprox()', _('Wrong number of input arguments.'));
-assert_checkerror('isapprox(1)', _('Wrong number of input arguments.'));
-assert_checkerror('isapprox([1, 1])', _('Wrong number of input arguments.'));
+assert_checkerror('isapprox()', message('nelson:arguments:tooFewInputs'));
+assert_checkerror('isapprox(1)', message('nelson:arguments:tooFewInputs'));
+assert_checkerror('isapprox([1, 1])', message('nelson:arguments:tooFewInputs'));
 %=============================================================================
 assert_isequal(nargin('isapprox'), -2);
 assert_isequal(nargout('isapprox'), 1);
@@ -70,5 +70,6 @@ assert_istrue(isapprox(int8(3), int16(3)));
 A = rand(3, 3, 3);
 assert_istrue(isapprox(A, A));
 %=============================================================================
-assert_checkerror('isapprox(1,''A'')', _('Numerics types expected.'));
+msg = message('nelson:validators:mustBeNumeric');
+assert_checkerror('isapprox(1,''A'')', msg);
 %=============================================================================

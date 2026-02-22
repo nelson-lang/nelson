@@ -11,9 +11,7 @@ function y = fft2(x, r, c)
   % 2-D fast Fourier transform
   % y = fft2(X)
   % Y = fft2(X, m, n)
-  if ~(nargin() == 1 || nargin() == 3)
-    error(_('Wrong number of input arguments.'));
-  end
+  narginchk(1, 3);
   nargoutchk(0, 1);
   if ~ismatrix(x)
     if nargin == 1

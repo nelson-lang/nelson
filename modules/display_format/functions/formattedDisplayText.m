@@ -10,7 +10,7 @@
 function result = formattedDisplayText(varargin)
   nbArgsValid = mod(nargin, 2) == 1;
   if ~nbArgsValid
-    error(_('Wrong number of input arguments.'));
+    error(message('nelson:arguments:wrongNumberOfInputs'));
   end
   currentFormat = format();
   usedFormat = setFormatWithArguments(currentFormat, varargin);

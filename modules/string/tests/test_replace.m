@@ -185,12 +185,12 @@ ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 %=============================================================================
 cmd = 'r = replace({''cccc'',''ccbbcca''},{''cc'',''bb''},{''cc'',''e'',''ddd''});';
-ref = _('Same size expected.');
-assert_checkerror(cmd, ref);
+msg = message('nelson:validators:sizeMismatch');
+assert_checkerror(cmd, msg);
 %=============================================================================
 cmd = 'r = replace(''ccbbba'',{''cc'',''bb''},{''cc'',''e'',''ddd''});';
-ref = _('Same size expected.');
-assert_checkerror(cmd, ref);
+msg = message('nelson:validators:sizeMismatch');
+assert_checkerror(cmd, msg);
 %=============================================================================
 cmd = 'r = replace({{''bbb''},''ccabbba''},{''cc'',''bb''},{{''cc'',''e'',''ddd''},''str''});';
 ref = _('Invalid input argument(s): cell or string expected.');
@@ -201,8 +201,8 @@ ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 %=============================================================================
 cmd = 'r = replace(''cccc'',''cc'',{});';
-ref = _('Same size expected.');
-assert_checkerror(cmd, ref);
+msg = message('nelson:validators:sizeMismatch');
+assert_checkerror(cmd, msg);
 %=============================================================================
 str = {'First Date: ___';
 'Last Date: ___'};
@@ -210,20 +210,20 @@ old = '___';
 new = {'1973-04-08';
 '1974-15-08'};
 cmd = 'r = replace(str, old, new);';
-ref = _('Same size expected.');
-assert_checkerror(cmd, ref);
+msg = message('nelson:validators:sizeMismatch');
+assert_checkerror(cmd, msg);
 %=============================================================================
 cmd = 'r = replace(''str'',''str'',{});';
-ref = _('Same size expected.');
-assert_checkerror(cmd, ref);
+msg = message('nelson:validators:sizeMismatch');
+assert_checkerror(cmd, msg);
 %=============================================================================
 cmd = 'r = replace(''cccc'', ''cc'', {''bb'',''cc''});';
-ref = _('Same size expected.');
-assert_checkerror(cmd, ref);
+msg = message('nelson:validators:sizeMismatch');
+assert_checkerror(cmd, msg);
 %=============================================================================
 cmd = 'r = replace(''cccc'',''cc'', {''a'',''bb''})';
-ref = _('Same size expected.');
-assert_checkerror(cmd, ref);
+msg = message('nelson:validators:sizeMismatch');
+assert_checkerror(cmd, msg );
 %=============================================================================
 r = replace("This is a string.", 'is', 'is not');
 ref = "This not is not a string.";

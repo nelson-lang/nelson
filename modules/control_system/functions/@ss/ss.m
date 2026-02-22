@@ -40,7 +40,7 @@ function varargout = ss(varargin)
     sys = ss_ABCD(A, B, C, D, Ts);
   end
   if (~isa(sys, 'ss'))
-    error(_('Wrong number of input arguments.'));
+    error(message('nelson:arguments:wrongNumberOfInputs'));
   end
   varargout{1} = sys;
 end
@@ -170,38 +170,38 @@ function msg = checkABCDE(varargin)
   msg = msg(zeros(0, 1));
   
   if (mA ~= nA)
-    msg.message = _('Matrix A must be square.');
-    msg.identifier = 'Nelson:control_system:AMustBeSquare';
+    msg.identifier = 'nelson:control_system:AMustBeSquare';
+    msg.message = getString(message('nelson:control_system:AMustBeSquare'));
     return
   end
   
   if (mB ~= mA)
-    msg.message = _('The number of rows in matrices A and B must be equal.');
-    msg.identifier = 'Nelson:control_system:AAndBNumRowsMismatch';
+    msg.identifier = 'nelson:control_system:AAndBNumRowsMismatch';
+    msg.message = getString(message('nelson:control_system:AAndBNumRowsMismatch'));
     return
   end
   
   if (nC ~= nA)
-    msg.message = _('Matrices A and C should have an identical number of columns.');
-    msg.identifier = 'Nelson:control_system:AAndCNumColumnsMismatch';
+    msg.identifier = 'nelson:control_system:AAndCNumColumnsMismatch';
+    msg.message = getString(message('nelson:control_system:AAndCNumColumnsMismatch'));  
     return
   end
   
   if (nB ~= nD)
-    msg.message = _('Matrices B and D should have an identical number of columns.');
-    msg.identifier = 'Nelson:control_system:BAndDNumColumnsMismatch';
+    msg.identifier = 'nelson:control_system:BAndDNumColumnsMismatch';
+    msg.message = getString(message('nelson:control_system:BAndDNumColumnsMismatch'));
     return
   end
   
   if (mC ~= mD)
-    msg.message = _('The number of rows in matrices C and D must be equal.');
-    msg.identifier = 'Nelson:control_system:CAndDNumRowsMismatch';
+      msg.identifier = 'nelson:control_system:CAndDNumRowsMismatch';
+      msg.message = getString(message('nelson:control_system:CAndDNumRowsMismatch'));
     return
   end
   
   if ~isempty(E) && (mA ~= mE || nA ~= nE)
-    msg.message = _('Matrices A and E should have an identical size.');
-    msg.identifier = 'Nelson:control_system:AAndESizeMismatch';
+    msg.identifier = 'nelson:control_system:AAndESizeMismatch';
+    msg.message = getString(message('nelson:control_system:AAndESizeMismatch'));
   end
 end
 %=============================================================================

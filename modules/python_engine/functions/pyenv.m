@@ -63,7 +63,7 @@ function varargout = pyenv(varargin)
       
       varargout{1} = __pyenv__(python_version, python_executable, python_library, python_home);
     otherwise
-      error(_('Wrong number of input arguments.'));
+      error(message('nelson:arguments:wrongNumberOfInputs'));
   end
 end
 %=============================================================================

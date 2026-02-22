@@ -8,9 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function package_file = nmm_package(varargin)
-  if (length(varargin) ~= 2)
-    error(_('Wrong number of input arguments.'));
-  end
+  narginchk(2, 2);
   module_name = varargin{1};
   destination_dir = varargin{2};
   package_file = [];

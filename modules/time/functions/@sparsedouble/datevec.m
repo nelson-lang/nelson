@@ -8,9 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = datevec(M)
-  if nargin ~= 1
-    error(_('Wrong number of input arguments.'));
-  end
+  narginchk(1, 1);
   [I, J, V] = IJV(M);
   if nargout == 1
     varargout{1} = datevec(V);

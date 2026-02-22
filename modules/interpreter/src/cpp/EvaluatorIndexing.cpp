@@ -676,8 +676,7 @@ Evaluator::rhsExpressionSimple(AbstractSyntaxTreePtr t)
         return m[0];
     }
     if (!isVar) {
-        raiseError(L"Nelson:interpreter:ERROR_UNDEFINED_VARIABLE", ERROR_UNDEFINED_VARIABLE,
-            utf8_to_wstring(t->text));
+        raiseError2(_E("nelson:runtime:variableNotFound"), utf8_to_wstring(t->text));
     }
     if (!isFun) {
         raiseError2(_E("nelson:runtime:functionNotFound"), utf8_to_wstring(t->text));

@@ -8,8 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function nig(varargin)
-  if nargin ~= 2
-    error(_('Wrong number of input arguments.'));
+  narginchk(2, 2);
   end
   NIG_FUNCTIONS = varargin{1};
   NIG_DESTINATION = varargin{2};

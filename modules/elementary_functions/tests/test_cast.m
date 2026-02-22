@@ -96,5 +96,6 @@ r = cast(1 + 0i, 'like', 3i);
 REF = complex(1, 0);
 assert_isequal(r, REF);
 %=============================================================================
-assert_checkerror('r = cast([3.6 1.2 -2.4], ''like2'', int64(3));',_('Wrong value for #2 argument.'));
+msg = message('nelson:validators:invalidValueAtPosition', 2);
+assert_checkerror('r = cast([3.6 1.2 -2.4], ''like2'', int64(3));', msg);
 %=============================================================================

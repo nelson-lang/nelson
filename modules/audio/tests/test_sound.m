@@ -46,7 +46,7 @@ assert_checkerror('sound(10, [], 20)',  _('Sample rate FS must be a positive num
 %=============================================================================
 assert_checkerror('sound(10, -10)',  _('Sample rate FS must be a positive number.'));
 %=============================================================================
-assert_checkerror('sound(10, 20, 30, 40, 50)', _('Wrong number of input arguments.'));
+assert_checkerror('sound(10, 20, 30, 40, 50)', message('nelson:arguments:tooManyInputs'));
 %=============================================================================
 assert_checkerror('sound(rand(3, 3, 3))', _('Argument #1: Requires 2-D values only.'));
 %=============================================================================

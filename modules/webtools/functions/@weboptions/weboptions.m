@@ -10,7 +10,7 @@
 function options = weboptions(varargin)
   webtools_options = buildDefaults();
   if (mod(nargin, 2) ~= 0)
-    error(_('Wrong number of input arguments.'));
+    error(message('nelson:arguments:wrongNumberOfInputs'));
   end
   for i = 1 : 2 : nargin - 1
     key = varargin{i};

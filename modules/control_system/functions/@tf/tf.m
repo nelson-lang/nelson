@@ -36,7 +36,7 @@ function varargout = tf(varargin)
     sys = tf_constructor(numeratorerator, denominator, Ts, variableName);
   end
   if (~isa(sys, 'tf'))
-    error(_('Wrong number of input arguments.'));
+    error(message('nelson:arguments:wrongNumberOfInputs'));
   end
   varargout{1} = sys;
 end

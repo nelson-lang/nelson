@@ -9,9 +9,7 @@
 %=============================================================================
 function Y = circshift(varargin)
   nRhs = nargin;
-  if (nRhs < 2 || nRhs > 3)
-    error(_('Wrong number of input arguments.'));
-  end
+  narginchk(2, 3);
   X = varargin{1};
   N = varargin{2};
   sz = size(X);

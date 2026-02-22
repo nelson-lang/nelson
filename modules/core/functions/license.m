@@ -10,9 +10,7 @@
 function varargout = license(varargin)
   narginchk(0, 0);
   nLhs = nargout;
-  if nLhs > 2
-    error(_('Wrong number of output arguments.'));
-  end
+  nargoutchk(0, 2);
   if ispc()
     if ismodule('fftw')
       fft_file_info = dir([modulepath('nelson', 'builtin'), '/libfftw3-3.dll']);

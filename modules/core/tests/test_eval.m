@@ -43,8 +43,10 @@ assert_checkerror('R = eval(''cos = 33;'');', expected_msg);
 eval('cos = 33;');
 assert_isequal(cos, 33);
 %=============================================================================
-assert_checkerror('eval(1);', _('#1 string expected.'));
-assert_checkerror('eval(''1'', 1);', _('#2 string expected.'));
-assert_checkerror('eval(1);', _('#1 string expected.'));
+msg = message('nelson:validators:mustBeTypeAtPosition', 1, 'string');
+assert_checkerror('eval(1);', msg);
+%=============================================================================
+msg = message('nelson:validators:mustBeTypeAtPosition', 2, 'string');
+assert_checkerror('eval(''1'', 1);', msg);
 %=============================================================================
 

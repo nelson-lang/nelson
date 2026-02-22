@@ -9,7 +9,8 @@
 %=============================================================================
 function varargout = message(varargin)
   st = struct();
-  st.Identifier = varargin{1};
+  id = varargin{1};
+  st.Identifier = id;
   st.Arguments = {};
   if nargin > 1
     st.Arguments = varargin(2:end);
@@ -17,8 +18,8 @@ function varargout = message(varargin)
   msg = class(st, 'message');
   try
     msg.getUnformattedString();
-  catch
-    error(message('nelson:validators:invalidMessageID', varargin{1}));
+  catch ex
+    error(message('nelson:validators:invalidMessageID', id));
   end
   varargout{1} = msg;
 end

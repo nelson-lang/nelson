@@ -17,7 +17,7 @@ function varargout = contour(varargin)
   % [M, c] = contour(...)
   inputArguments = convertStringToCharArgs(varargin);
   if nargin == 0
-    error(_('Wrong number of input arguments.'));
+    error(message('nelson:arguments:wrongNumberOfInputs'));
   end
   ax = [];
   if ((length(inputArguments{1})==1) && isgraphics(inputArguments{1},'axes'))
@@ -29,7 +29,7 @@ function varargout = contour(varargin)
   axes(ax);
   
   if (length(inputArguments) == 0)
-    error(_('Wrong number of input arguments.'));
+    error(message('nelson:arguments:wrongNumberOfInputs'));
   end
   % contour(..., LineSpec)
   [ps, cs, ms, msg] = colstyle(inputArguments{end}, 'plot', false);

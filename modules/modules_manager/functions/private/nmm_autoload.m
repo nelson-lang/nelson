@@ -30,7 +30,7 @@ function res = nmm_autoload(varargin)
         error(_('#3 argument: Logical scalar expected.'));
       end
     otherwise
-      error(_('Wrong number of input arguments.'));
+      error(message('nelson:arguments:wrongNumberOfInputs'));
     end
     
     [module_name, module_data] = nmm_find_installed_module(module_or_directory);

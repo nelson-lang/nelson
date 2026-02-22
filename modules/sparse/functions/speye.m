@@ -34,7 +34,7 @@ function sp = speye(varargin)
       error('Nelson:speye:InvalidInputFormat', _('Please use speye(n), speye(m, n) or speye([m, n]).'));
     end
   else
-    error(_('Wrong number of output arguments.'));
+    error(message('nelson:arguments:wrongNumberOfOutputs'));
   end
   if (m < 0)
     m = 0;

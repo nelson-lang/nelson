@@ -20,8 +20,8 @@ assert_isequal(intmin('uint32'), uint32(-2147483648));
 assert_isequal(intmin('int64'), int64(-9223372036854775808));
 assert_isequal(intmin('uint64'), uint64(0));
 %=============================================================================
-assert_checkerror('intmin(''uint64'', 3)', _('Wrong number of input arguments.'));
-assert_checkerror('intmin(3)', _('Wrong type for argument #1: string expected.'));
-assert_checkerror('intmin(''t'')', _('The name of an integer class expected.'));
-assert_checkerror('[a, b] = intmin()', _('Wrong number of output arguments.'));
+assert_checkerror('intmin(''uint64'', 3)', message('nelson:arguments:tooManyInputs'));
+assert_checkerror('intmin(3)', message('nelson:validators:mustBeTypeAtPosition', 1, 'string'));
+assert_checkerror('intmin(''t'')', message('nelson:validators:mustBeIntegerClassName'));
+assert_checkerror('[a, b] = intmin()', message('nelson:arguments:tooManyOutputs'));
 %=============================================================================

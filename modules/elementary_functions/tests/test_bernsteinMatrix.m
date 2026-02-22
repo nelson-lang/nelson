@@ -13,7 +13,7 @@ assert_isequal(nargout('bernsteinMatrix'), -1);
 try
  bernsteinMatrix(Inf, 0)
 catch ex
-   assert_isequal(ex.identifier, 'Nelson:validators:mustBeInteger')
+   assert_isequal(ex.identifier, 'nelson:validators:mustBeIntegerAtPosition')
 end
 %=============================================================================
 R = bernsteinMatrix(4, linspace(0, 1, 10));

@@ -92,6 +92,8 @@ A = str2func('cos');
 res = class(A);
 assert_isequal(res, 'function_handle');
 %=============================================================================
-assert_checkerror('[a, b] = class(''a'')', _('Wrong number of output arguments.'));
-assert_checkerror('r = class(''a'', 3, 4)', _('Wrong number of input arguments.'));
+msg = message('nelson:arguments:tooManyOutputs');
+assert_checkerror('[a, b] = class(''a'')', msg);
+msg = message('nelson:arguments:tooManyInputs');
+assert_checkerror('r = class(''a'', 3, 4)', msg);
 %=============================================================================

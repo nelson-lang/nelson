@@ -7,24 +7,24 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_checkerror('cos', _('Wrong number of input arguments.'));
-[r, msg] = assert_checkerror('cos', _('Wrong number of input arguments.'));
+assert_checkerror('cos', message('nelson:arguments:tooFewInputs'));
+[r, msg] = assert_checkerror('cos', message('nelson:arguments:tooFewInputs'));
 if (r ~= true)
-  error(_('assert_checkerror fails.'));
+  error(message('nelson:assert:assertionFailed'));
 end
 if strcmp(msg, '') == false
-  error(_('assert_checkerror fails.'));
+  error(message('nelson:assert:assertionFailed'));
 end
 %=============================================================================
 [r, msg] = assert_checkerror('cos', 'Wrong number of input arguments2.');
 if (r ~= false)
-  error(_('assert_checkerror fails.'));
+  error(message('nelson:assert:assertionFailed'));
 end
 %=============================================================================
-expectedmsg = getString(message('nelson:assert:assertionFailedMessageExpectedComputed', _('Wrong number of input arguments2.'), _('Wrong number of input arguments.')));
+expectedmsg = getString(message('nelson:assert:assertionFailedMessageExpectedComputed', _('Wrong number of input arguments2.'), getString(message('nelson:arguments:tooFewInputs'))));
 %=============================================================================
 if strcmp(msg, expectedmsg) == false
-  error(_('assert_checkerror fails.'));
+  error(message('nelson:assert:assertionFailed'));
 end
 %=============================================================================
 assert_checkerror('mustBeFinite(NaN)', _('Value must be finite.'), 'nelson:validators:mustBeFinite')

@@ -38,7 +38,7 @@ end
 %=============================================================================
 REF = '
 Error: 
-Undefined variable: TEST_CONDITION
+Variable does not exist: ''TEST_CONDITION''.
 
 at line     8 of ''PATH_REF_2''
 at line     6 of ''PATH_REF_1''
@@ -59,7 +59,7 @@ end
 %=============================================================================
 REF = '
 Error in clc
-Wrong number of input arguments.
+Too many input arguments.
 
 at line    10 of ''PATH_REF_2''
 at line     6 of ''PATH_REF_1''

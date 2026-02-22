@@ -11,7 +11,7 @@ function r = prod(varargin)
   nRhs = length(varargin);
   switch nRhs
     case 0
-      error(_('Wrong number of input arguments.'));
+      error(message('nelson:arguments:wrongNumberOfInputs'));
     case 1
       X = varargin{1};
       r = sparse(prod(full(X)));
@@ -31,7 +31,7 @@ function r = prod(varargin)
       n = varargin{4};
       r = sparse(prod(full(X)), dim, typ, n);
     otherwise
-      error(_('Wrong number of input arguments.'));
+      error(message('nelson:arguments:wrongNumberOfInputs'));
     end
   end
   %=============================================================================

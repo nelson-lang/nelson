@@ -65,8 +65,8 @@ function varargout = abcdchk(varargin)
   
   if (nargin > 4)
     if (~((MA == ME) && (NA == NE)) && isempty(E))
-      msg.message = _('Matrices A and E should have an identical size.');
-      msg.identifier = 'Nelson:control_system:AAndESizeMismatch';
+      msg.identifier = 'nelson:control_system:AAndESizeMismatch';
+      msg.message = getString(message('nelson:control_system:AAndESizeMismatch'));
     end
   else
     ME = MA;

@@ -8,9 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function tf = xmldoctomd(varargin)
-  if nargin() < 3 || nargin() > 4
-    error(_('Wrong number of input arguments.'));
-  end
+  narginchk(3, 4);
   dirs_input = varargin{1};
   dir_output = varargin{2};
   main_title = varargin{3};

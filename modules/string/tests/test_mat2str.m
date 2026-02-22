@@ -90,10 +90,18 @@ R = mat2str(eye(3, 3) + i);
 REF = '[1+1i 0+1i 0+1i;0+1i 1+1i 0+1i;0+1i 0+1i 1+1i]';
 assert_isequal(R, REF);
 %=============================================================================
-assert_checkerror('mat2str()', _('Wrong number of input arguments.'));
-assert_checkerror('mat2str(''nelson'')', _('type not supported.'));
-assert_checkerror('mat2str(ones(8,9), [1 1])', _('A scalar expected.'));
+msg = message('nelson:arguments:tooFewInputs');
+assert_checkerror('mat2str()', msg);
+%=============================================================================
+msg = message('nelson:runtime:typeNotSupported');
+assert_checkerror('mat2str(''nelson'')', msg);
+%=============================================================================
+msg = message('nelson:validators:mustBeScalar');
+assert_checkerror('mat2str(ones(8,9), [1 1])', msg);
+%=============================================================================
 assert_checkerror('mat2str(rand(2, 2, 3))', _('A 2D matrix expected.'));
-assert_checkerror('R = mat2str([3.85 2.91; 7.74 8.99], 12,''class'', 3)', _('Wrong number of input arguments.'));
+%=============================================================================
+msg = message('nelson:arguments:tooManyInputs');
+assert_checkerror('R = mat2str([3.85 2.91; 7.74 8.99], 12,''class'', 3)', msg);
 %=============================================================================
 

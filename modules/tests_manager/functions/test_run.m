@@ -906,7 +906,7 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
       end
       
     otherwise
-      error(_('Wrong number of input arguments.'));
+      error(message('nelson:arguments:wrongNumberOfInputs'));
     end
   end
   %=============================================================================

@@ -14,7 +14,7 @@ function nmm_install(varargin)
     case 2
       nmm_install_two_rhs(varargin{1}, varargin{2});
     otherwise
-      error(_('Wrong number of input arguments.'));
+      error(message('nelson:arguments:wrongNumberOfInputs'));
     end
   end
   %=============================================================================

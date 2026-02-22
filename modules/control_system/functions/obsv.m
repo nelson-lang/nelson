@@ -25,10 +25,10 @@ function varargout = obsv(varargin)
     [mA, nA] = size(A);
     [mC, nC] = size(C);
     if (mA ~= nA)
-      error('Nelson:control_system:AMustBeSquare', _('Matrix A must be square.'));
+      error(message('nelson:control_system:AMustBeSquare'));  
     end
     if (nC ~= nA)
-      error('Nelson:control_system:AAndCNumColumnsMismatch', _('Matrices A and C should have an identical number of columns.'));
+      error(message('nelson:control_system:AAndCNumColumnsMismatch'));
     end
   end        
   n = size(A, 1); 

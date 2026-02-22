@@ -15,12 +15,8 @@ function varargout = f2c(varargin)
   if ~isfile(path_f2c)
     error(_('nelson_f2c not found.'))
   end
-  if nargin < 2 || nargin > 3
-    error(_('Wrong number of input arguments.'));
-  end
-  if nargout > 2
-    error(_('Wrong number of output arguments.'));
-  end
+  narginchk(2, 3);
+  nargoutchk(0, 2);
   src = varargin{1};
   if ~isfile(src)
     error(_('Input argument #1: existing file expected.'));

@@ -71,10 +71,6 @@
 #define ERROR_ONLY_ONE_UNKNOWN_DIMENSION_ALLOWED _W("only one unknown dimension allowed.")
 #define ERROR_K_TH_DIAGONAL_INPUT_MUST_BE_AN_INTEGER_SCALAR                                        \
     _W("K-th diagonal input must be an integer scalar.")
-#define ERROR_ORDER_MUST_HAVE_AT_LEAST_N_ELEMENTS_FOR_AN_ND_ARRAY                                  \
-    _W("ORDER must have at least N elements for an N-D array.")
-#define ERROR_SECOND_ARGUMENT_NOT_A_VALID_PERMUTATION                                              \
-    _W("Second argument is not a valid permutation.")
 #define ERROR_CHANGEDIMENSIONS_OPERATION_NOT_ALLOWED_FOR_OVERLOADED_TYPE                           \
     _W("changeDimensions operation not allowed for overloaded type.")
 #define ERROR_CHANGEDIMENSIONS_OPERATION_NOT_ALLOWED_FOR_FUNCTION_HANDLE                           \
@@ -264,7 +260,6 @@
 //=============================================================================
 // ARGUMENT COUNT ERRORS
 //=============================================================================
-#define ERROR_WRONG_NUMBERS_INPUT_ARGS _W("Wrong number of input arguments.")
 #define WARNING_OUTPUTS_NOT_ASSIGNED _W("Warning! one or more outputs not assigned in call.")
 //=============================================================================
 // SYNTAX & EXPRESSION ERRORS
@@ -347,8 +342,6 @@
     _W("Input arguments must have the same class or scalar doubles.")
 // Operator-specific messages
 // Matrix multiplication messages
-#define ERROR_AT_LEAST_ONE_INPUT_ARGUMENT_MUST_BE_SCALAR                                           \
-    _W("At least one input argument must be scalar.")
 #define ERROR_USING_OPERATOR_N_MATRIX_DIMENSIONS_MUST_AGREE                                        \
     _W("using operator '*' \n Matrix dimensions must agree.")
 #define ERROR_UNHANDLED_TYPE_FOR_SECOND_ARGUMENT_TO_A_POW                                          \
@@ -576,7 +569,6 @@
 #define ERROR_INVALID_INDEXING _W("Invalid indexing.")
 #define ERROR_INDEX_EXPECTED _W("index expected.")
 #define ERROR_PLEASE_DEFINE _W("Please define: {0}.")
-#define ERROR_UNDEFINED_VARIABLE _W("Undefined variable:")
 #define ERROR_SYNTAX_ERROR _W("Syntax error.")
 #define ERROR_THE_SPECIAL_VARIABLE_VARARGOUT_WAS_NOT_DEFINED_AS_A_CELL_ARRAY                       \
     _W("The special variable 'varargout' was not defined as a cell-array.")
@@ -1488,7 +1480,6 @@
     _W("Failed to create Python method name object.")
 #define ERROR_FAILED_TO_CREATE_PYTHON_ARGUMENT_TUPLE _W("Failed to create Python argument tuple.")
 #define ERROR_TYPE_UNHASHABLE _W("TypeError: unhashable type: '{0}'")
-#define ERROR_NAME_OF_INTEGER_CLASS_EXPECTED _W("Name of integer class expected.")
 #define ERROR_GRAPHICS_OBJECT_EXPECTED _W("graphics_object expected.")
 #define ERROR_RGB_TRIPLET_EXPECTED _W("RGB triplet expected.")
 #define ERROR_ONE_COLOR_SPECIFICATION_OR_MULTIPLE_OPTION_EXPECTED                                  \

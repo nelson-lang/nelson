@@ -8,13 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = mpiexec(varargin)
-  if nargin == 0 || nargin > 2
-    error(_('Wrong number of input arguments.'));
-  end
-  if nargout > 2
-    error(_('Wrong number of output arguments.'));
-  end
-  
+  narginchk(1, 2);
+  nargoutchk(0, 2);
   if nargin > 1
     nb_process = int32(varargin{2});
     if ~isscalar(nb_process)

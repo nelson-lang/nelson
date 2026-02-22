@@ -442,8 +442,8 @@ mustBeNonmissing(const ArrayOf& arg, int argPosition, bool asCaller)
     ArrayOfVector argOut = evaluateFunction(asVector, 1, "ismissing");
     argOut = evaluateFunction(argOut[0], 1, "any");
     if (argOut[0].getContentAsLogicalScalar()) {
-        _E("nelson:validators:mustBeNonmissingAtPosition");
-        raiseValidatorError(asCaller, _E("nelson:validators:mustBeNonmissing"), argPosition);
+        _E("nelson:validators:mustBeNonMissingAtPosition");
+        raiseValidatorError(asCaller, _E("nelson:validators:mustBeNonMissing"), argPosition);
     }
 }
 //=============================================================================

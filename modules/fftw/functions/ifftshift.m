@@ -9,9 +9,7 @@
 %=============================================================================
 function Y = ifftshift(varargin)
   nRhs = nargin;
-  if (nRhs < 1 || nRhs > 2)
-    error(_('Wrong number of input arguments.'));
-  end
+  narginchk(1, 2);
   X = varargin{1};
   if (~(isnumeric(X) || islogical(X) || ischar(X)))
     error(_('X must be a vector or matrix.'));

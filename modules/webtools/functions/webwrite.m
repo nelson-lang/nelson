@@ -8,12 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = webwrite(varargin)
-  if nargin < 2
-    error(_('Wrong number of input arguments.'));
-  end
-  if nargout > 1
-    error(_('Wrong number of output arguments.'));
-  end
+  narginchk(2, inf);
+  nargoutchk(0, 1);
   options = [];
   url = getArgumentAsCharactersVector(varargin{1});
   tmpfile = buildTempFilename(url);

@@ -18,9 +18,12 @@ r = blanks(-3);
 REF = char(zeros(1,0));
 assert_isequal(r, REF);
 %=============================================================================
-assert_checkerror('r = blanks([1 3]);', _('Expected a real value scalar.'));
+msg = message('nelson:validators:mustBeScalar');
+assert_checkerror('r = blanks([1 3]);', msg);
 %=============================================================================
-assert_checkerror('r = blanks(NaN);', _('NaN and Inf not allowed.'));
+msg = message('nelson:validators:mustBeFinite');
+assert_checkerror('r = blanks(NaN);', msg);
 %=============================================================================
-assert_checkerror('r = blanks(2.3);', _('Expected a integer value.'));
+msg = message('nelson:validators:mustBeInteger');
+assert_checkerror('r = blanks(2.3);', msg);
 %=============================================================================

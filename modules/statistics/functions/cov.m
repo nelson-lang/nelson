@@ -12,9 +12,7 @@ function C = cov(varargin)
   % C = cov(A, w)
   % C = cov(A, B)
   % C = cov(A, B, w)
-  if nargin < 1 || nargin > 3
-    error(_('Wrong number of input arguments.'));
-  end
+  narginchk(1, 3);
   w = 0;
   if nargin == 1
     A = varargin{1};

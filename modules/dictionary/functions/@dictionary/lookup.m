@@ -16,7 +16,7 @@ function varargout = lookup(varargin)
         error (_('Unable to perform a dictionary lookup when the key and value types are not set.'));
     end
     if nargin == 3
-        error(_('Wrong number of input arguments.'));
+        error(message('nelson:arguments:wrongNumberOfInputs'));
     end
     key = varargin{2};
     if nargin == 2
@@ -32,7 +32,7 @@ function varargout = lookup(varargin)
     end
     fallbackValue = varargin{4};    
     if ~isscalar(fallbackValue)
-        error(_('Fallback value must be a scalar.'));
+        error(message('nelson:validators:mustBeScalarAtPosition', 4));
     end
     if all(ismember(keys(obj), key))
         varargout{1} = obj(key);

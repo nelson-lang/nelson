@@ -61,7 +61,7 @@ function varargout = hist(varargin)
       end
       x = sort (x);
     else
-      error(_('Second argument must be a scalar or vector.'));
+      error(message('nelson:validators:mustBeVectorAtPosition', 2));
     end
   end
   

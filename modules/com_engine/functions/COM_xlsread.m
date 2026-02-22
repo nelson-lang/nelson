@@ -17,10 +17,7 @@ function [numeric_data, text_data, raw_data] = COM_xlsread(varargin)
   sheet = 1;
   range = '';
   
-  if nRhs < 1 || nRhs > 3
-    error(_('Wrong number of input arguments.'));
-  end
-  
+  narginchk(1, 3);
   if nRhs == 3
     filename = varargin{1};
     sheet = varargin{2};
@@ -37,7 +34,7 @@ function [numeric_data, text_data, raw_data] = COM_xlsread(varargin)
     if isnumeric(sheet_or_range)
       sheet = double(sheet_or_range);
       if ~isscalar(sheet)
-        error(_('A scalar integer value expected.'));
+        error(message('nelson:validators:mustBeScalarInteger', 2));
       end
     else
       is_range = strfind(sheet_or_range, ':');

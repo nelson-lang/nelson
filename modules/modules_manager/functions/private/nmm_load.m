@@ -8,9 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function nmm_load(varargin)
-  if nargin ~= 1
-    error(_('Wrong number of input arguments.'));
-  end
+  narginchk(1, 1);
   [module_name, module_data] = nmm_find_installed_module(varargin{1});
   
   if isempty(module_data)

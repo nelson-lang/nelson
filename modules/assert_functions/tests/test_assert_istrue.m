@@ -10,40 +10,40 @@
 assert_istrue(true);
 r = assert_istrue(true);
 if (r ~= true)
-  error(_('assert_istrue fails.'));
+  error(message('nelson:assert:assertionFailed'));
 end
 %=============================================================================
 [r, msg] = assert_istrue(true);
 if (r ~= true)
-  error(_('assert_istrue fails.'));
+  error(message('nelson:assert:assertionFailed'));
 end
 %=============================================================================
 if strcmp(msg, '') == false
-  error(_('assert_istrue fails.'));
+  error(message('nelson:assert:assertionFailed'));
 end
 %=============================================================================
 r = assert_istrue(false);
 if (r ~= false)
-  error(_('assert_istrue fails.'));
+  error(message('nelson:assert:assertionFailed'));
 end
 %=============================================================================
 [r, msg] = assert_istrue(false);
 if (r ~= false)
-  error(_('assert_istrue fails.'));
+  error(message('nelson:assert:assertionFailed'));
 end
 %=============================================================================
 expectedmsg = getString(message('nelson:assert:assertionFailedValueExpectedComputed', true, false));
 if strcmp(msg, expectedmsg) == false
-  error(_('assert_istrue fails.'));
+  error(message('nelson:assert:assertionFailed'));
 end
 %=============================================================================
 [r, msg] = assert_istrue(false, _('your error message'));
 if (r ~= false)
-  error(_('assert_istrue fails.'));
+  error(message('nelson:assert:assertionFailed'));
 end
 %=============================================================================
 if strcmp(msg, _('your error message')) == false
-  error(_('assert_istrue fails.'));
+  error(message('nelson:assert:assertionFailed'));
 end
 %=============================================================================
 try
@@ -52,7 +52,7 @@ catch
   err = lasterror();
   expectedmsg = getString(message('nelson:assert:assertionFailedValueExpectedComputed', true, false));
   if strcmp(err.message, expectedmsg) == false
-    error(_('assert_istrue fails.'));
+    error(message('nelson:assert:assertionFailed'));
   end
 end
 %=============================================================================

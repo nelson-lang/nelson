@@ -63,5 +63,7 @@ fclose(ID);
 IDS = fopen('all');
 assert_isequal(IDS, [0 1 2]);
 %=============================================================================
-assert_checkerror('fopen()', _('Wrong number of input arguments.'))
+msg = message('nelson:arguments:tooFewInputs');
+assert_checkerror('fopen', msg);
+assert_checkerror('fopen()', msg);
 %=============================================================================

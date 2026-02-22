@@ -63,7 +63,8 @@ res = strcmp(A, B);
 ref = [false false true];
 assert_isequal(res, ref);
 %=============================================================================
-assert_checkerror('strcmpi()', _('Wrong number of input arguments.'));
+msg = message('nelson:arguments:tooFewInputs');
+assert_checkerror('strcmpi()', msg);
 %=============================================================================
 res = strcmpi('teStStRiNg','TESTSTRING');
 ref = true;

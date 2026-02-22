@@ -8,9 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function out = websave(varargin)
-  if nargin < 2
-    error(_('Wrong number of input arguments.'));
-  end
+  narginchk(2, inf);
   filename = getArgumentAsCharactersVector(varargin{1});
   url = getArgumentAsCharactersVector(varargin{2});
   options = [];

@@ -23,7 +23,7 @@ function varargout = datestr(varargin)
     mustBeTextScalar(varargin{2}, 2);
     formatOutOrLocal = convertStringsToChars(varargin{2});
     if (~ischar(formatOutOrLocal))
-      error(_('Second argument must be a scalar string or row vector of characters.'));
+      error(messag('nelson:validators:mustBeTextAtPosition', 2));
     end
     if strcmp(formatOutOrLocal, 'local')
       % DateString = datestr(DateStringIn, 'local')

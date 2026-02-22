@@ -15,13 +15,14 @@ R = int16(4) - 4;
 REF = int16(0);
 assert_isequal(R, REF);
 %=============================================================================
-assert_checkerror('R = single(3.3) - int16(3);', _('Integers can only be combined with integers of the same class, or scalar doubles.'));
+msg = message('nelson:runtime:operandsMustBeIntegersOrScalarDouble');
+assert_checkerror('R = single(3.3) - int16(3);', msg);
 %=============================================================================
-assert_checkerror('R = int16(4) - single(4);', _('Integers can only be combined with integers of the same class, or scalar doubles.'));
+assert_checkerror('R = int16(4) - single(4);', msg);
 %=============================================================================
 R = int16(4) - int16(4);
 REF = int16(0);
 assert_isequal(R, REF);
 %=============================================================================
-assert_checkerror('R = int16(4) - int8(4);', _('Integers can only be combined with integers of the same class, or scalar doubles.'));
+assert_checkerror('R = int16(4) - int8(4);', msg);
 %=============================================================================

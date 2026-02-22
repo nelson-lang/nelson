@@ -41,7 +41,8 @@ ref = [8 7; 8 11];
 assert_isequal(res, ref);
 %=============================================================================
 cmd = 'res = strlength(1)';
-assert_checkerror(cmd, _('Wrong type for argument #1: string or cell expected.'));
+msg = message('nelson:validators:mustBeTextAtPosition', 1);
+assert_checkerror(cmd, msg);
 %=============================================================================
 B = ["Nel", NaN, "son"; "is", "open", "source"];
 R = strlength(B);

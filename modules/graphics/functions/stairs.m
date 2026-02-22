@@ -114,7 +114,7 @@ function h = stairsPlot(varargin)
       inputArguments = inputArguments(2:end);
       [XB, YB] = stairsImplementation(Y);
     else
-      error(_('Wrong number of output arguments.'));
+      error(message('nelson:arguments:wrongNumberOfOutputs'));
     end
   end
   h = plot(parent, XB, YB, inputArguments{:});

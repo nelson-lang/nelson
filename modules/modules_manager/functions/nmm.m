@@ -9,7 +9,7 @@
 %=============================================================================
 function varargout = nmm(varargin)
   if nargin == 0
-    error(_('Wrong number of input arguments.'));
+    error(message('nelson:arguments:wrongNumberOfInputs'));
   end
   if ~ismodule('webtools')
     error(_('nmm required webtools module.'));
@@ -30,12 +30,12 @@ function varargout = nmm(varargin)
     switch firstParameter
       case 'list'
         if nargin ~= 1
-          error(_('Wrong number of input arguments.'));
+          error(message('nelson:arguments:wrongNumberOfInputs'));
         end
         varargout{1} = nmm_list();
       case 'load'
         if nargout ~= 0
-          error(_('Wrong number of output arguments.'));
+          error(message('nelson:arguments:wrongNumberOfOutputs'));
         end
         nmm_load(varargin{2:end});
       case 'autoload'

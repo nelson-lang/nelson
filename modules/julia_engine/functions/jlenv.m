@@ -53,7 +53,7 @@ function varargout = jlenv(varargin)
       
       varargout{1} = __jlenv__(julia_version, julia_executable, julia_library, julia_home);
     otherwise
-      error(_('Wrong number of input arguments.'));
+      error(message('nelson:arguments:wrongNumberOfInputs'));
   end
 end
 %=============================================================================

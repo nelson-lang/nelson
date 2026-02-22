@@ -22,7 +22,7 @@ inline void
 nargincheck(const ArrayOfVector& argIn, int minArgs)
 {
     if (argIn.size() < (size_t)minArgs) {
-        raiseError(L"nelson:arguments:tooFewInputs", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(_E("nelson:arguments:tooFewInputs"));
     }
 }
 //=============================================================================
@@ -33,10 +33,10 @@ inline void
 nargincheck(const ArrayOfVector& argIn, int minArgs, int maxArgs)
 {
     if (argIn.size() < (size_t)minArgs) {
-        raiseError(L"nelson:arguments:tooFewInputs", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(_E("nelson:arguments:tooFewInputs"));
     }
     if (argIn.size() > (size_t)maxArgs) {
-        raiseError(L"nelson:arguments:tooManyInputs", ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        raiseError2(_E("nelson:arguments:tooManyInputs"));
     }
 }
 //=============================================================================

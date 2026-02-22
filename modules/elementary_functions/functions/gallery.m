@@ -34,7 +34,7 @@ function varargout = gallery(varargin)
       end
       x = varargin{2};
       if nargout() > nargout('circul')
-        error(_('Too many output arguments for circul matrix.'));
+        error(message('nelson:arguments:tooManyOutputs'));
       end
       [varargout{1:nargout('circul')}] = circul(x);
     case 'grcar'
@@ -53,7 +53,7 @@ function varargout = gallery(varargin)
         className = 'double';
       end
       if nargout() > nargout('grcar')
-        error(_('Too many output arguments for grcar matrix.'));
+        error(message('nelson:arguments:tooManyOutputs'));
       end
       [varargout{1:nargout('grcar')}] = grcar(n, upperBand, className);
     case 'minij'
@@ -62,7 +62,7 @@ function varargout = gallery(varargin)
       end
       nSize = varargin{2};
       if nargout() > nargout('minij')
-        error(_('Too many output arguments for minij matrix.'));
+        error(message('nelson:arguments:tooManyOutputs'));
       end
       [varargout{1:nargout('minij')}] = minij(nSize, 'double');
     case 'dramadah'
@@ -81,7 +81,7 @@ function varargout = gallery(varargin)
         className = 'double';
       end
       if nargout() > nargout('dramadah')
-        error(_('Too many output arguments for dramadah matrix.'));
+        error(message('nelson:arguments:tooManyOutputs'));
       end
       [varargout{1:nargout('dramadah')}] = dramadah(nSize, patternType, className);
     case 'house'
@@ -114,7 +114,7 @@ function varargout = gallery(varargin)
         className = 'double';
       end
       if nargout() > nargout('binomial')
-        error(_('Too many output arguments for binomial matrix.'));
+        error(message('nelson:arguments:tooManyOutputs'));
       end
       [varargout{1:nargout('binomial')}] = binomial(nSize, className);
     case 'cauchy'
@@ -132,7 +132,7 @@ function varargout = gallery(varargin)
         className = 'double';
       end
       if nargout() > 1
-        error(_('Too many output arguments for cauchy matrix.'));
+        error(message('nelson:arguments:tooManyOutputs'));
       end
       [varargout{1:1}] = cauchy(xSeq, ySeq, className);
     case 'ris'
@@ -146,7 +146,7 @@ function varargout = gallery(varargin)
         className = 'double';
       end
       if nargout() > nargout('ris')
-        error(_('Too many output arguments for ris matrix.'));
+        error(message('nelson:arguments:tooManyOutputs'));
       end
       [varargout{1:nargout('ris')}] = ris(nSize, className);
     case 'chebspec'
@@ -165,7 +165,7 @@ function varargout = gallery(varargin)
         className = 'double';
       end
       if nargout() > nargout('chebspec')
-        error(_('Too many output arguments for chebspec matrix.'));
+        error(message('nelson:arguments:tooManyOutputs'));
       end
       [varargout{1:nargout('chebspec')}] = chebspec(nSize, trimOption, className);
     case 'wilk'
@@ -179,7 +179,7 @@ function varargout = gallery(varargin)
         className = 'double';
       end
       if nargout() > nargout('wilk')
-        error(_('Too many output arguments for wilk matrix.'));
+        error(message('nelson:arguments:tooManyOutputs'));
       end
       [varargout{1:nargout('wilk')}] = wilk(nSize, className);
     case 'sampling'
@@ -209,7 +209,7 @@ function varargout = gallery(varargin)
         className = 'double';
       end
       if nargout() > nargout('ipjfact')
-        error(_('Too many output arguments for ipjfact matrix.'));
+        error(message('nelson:arguments:tooManyOutputs'));
       end
       [varargout{1:nargout('ipjfact')}] = ipjfact(nSize, kind, className);
     case 'moler'
@@ -228,7 +228,7 @@ function varargout = gallery(varargin)
         className = 'double';
       end
       if nargout() > nargout('moler')
-        error(_('Too many output arguments for moler matrix.'));
+        error(message('nelson:arguments:tooManyOutputs'));
       end
       [varargout{1:nargout('moler')}] = moler(nSize, alphaVal, className);
     case 'lotkin'
@@ -242,7 +242,7 @@ function varargout = gallery(varargin)
         className = 'double';
       end
       if nargout() > nargout('lotkin')
-        error(_('Too many output arguments for lotkin matrix.'));
+        error(message('nelson:arguments:tooManyOutputs'));
       end
       [varargout{1:nargout('lotkin')}] = lotkin(nSize, className);
     case 'chebvand'
@@ -270,7 +270,7 @@ function varargout = gallery(varargin)
         className = 'double';
       end
       if nargout() > nargout('chebvand')
-        error(_('Too many output arguments for chebvand matrix.'));
+        error(message('nelson:arguments:tooManyOutputs'));
       end
       [varargout{1:nargout('chebvand')}] = chebvand(numRows, pointsSeq, className);
     case 'lehmer'
@@ -283,8 +283,8 @@ function varargout = gallery(varargin)
       else
         className = 'double';
       end
-      if nargout() > 1
-        error(_('Too many output arguments for lehmer matrix.'));
+      if nargout() > nargout('lehmer')
+        error(message('nelson:arguments:tooManyOutputs'));
       end
       [varargout{1:1}] = lehmer(nSize, className);
     otherwise

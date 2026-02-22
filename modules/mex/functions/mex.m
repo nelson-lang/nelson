@@ -9,7 +9,7 @@
 %=============================================================================
 function mex(varargin)
   if nargin() == 0
-    error(_('Wrong number of input arguments.'));
+    error(message('nelson:arguments:wrongNumberOfInputs'));
   end
   params = varargin(:)';
   if nargin() > 1

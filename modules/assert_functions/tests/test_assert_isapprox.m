@@ -7,9 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_checkerror('assert_isapprox()', _('Wrong number of input arguments.'));
-assert_checkerror('assert_isapprox(1)', _('Wrong number of input arguments.'));
-assert_checkerror('assert_isapprox([1, 1])', _('Wrong number of input arguments.'));
+assert_checkerror('assert_isapprox()', message('nelson:arguments:tooFewInputs'));
+assert_checkerror('assert_isapprox(1)', message('nelson:arguments:tooFewInputs'));
+assert_checkerror('assert_isapprox([1, 1])', message('nelson:arguments:tooFewInputs'));
 assert_isequal(nargin('assert_isapprox'), -2);
 assert_isequal(nargout('assert_isapprox'), 2);
 %=============================================================================

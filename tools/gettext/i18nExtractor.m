@@ -43,8 +43,9 @@ function i18nExtractor(destinationDir)
   % '--language=C -k --keyword=raiseError2:1' , XGETTEXT, DOMAIN, TARGETDIR);
   % merge_pots(MSGCAT, DOMAIN, TARGETDIR);
 
+  process_files('*.m', '--language=Python -k --keyword=message:1', XGETTEXT, DOMAIN, TARGETDIR);
   process_files({'*.c', '*.h', '*.cpp', '*.cxx', '*.hpp', '*.hxx'}, ...
-  '--language=C -k --keyword=_E --keyword=N_' , XGETTEXT, DOMAIN, TARGETDIR);
+  '--language=C -k --keyword=_E' , XGETTEXT, DOMAIN, TARGETDIR);
   merge_pots(MSGCAT, DOMAIN, TARGETDIR);
  
 

@@ -8,12 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = webread(varargin)
-  if nargin < 1
-    error(_('Wrong number of input arguments.'));
-  end
-  if nargout > 2
-    error(_('Wrong number of output arguments.'));
-  end
+  narginchk(1, inf);
+  nargoutchk(0, 2);
+
   url = getArgumentAsCharactersVector(varargin{1});
   options = [];
   options_position = -1;
@@ -60,7 +57,7 @@ function varargout = webread(varargin)
         varargout{1} = res1;
         varargout{2} = res2;
       otherwise
-        error(_('Wrong number of output arguments.'));
+        error(message('nelson:arguments:wrongNumberOfOutputs'));
       end
     else
       res = convertContentType(tmpfile, options.ContentType, options.CharacterEncoding);
@@ -77,7 +74,7 @@ function varargout = webread(varargin)
           varargout{1} = res{1};
           varargout{2} = res{2};
         otherwise
-          error(_('Wrong number of output arguments.'));
+          error(message('nelson:arguments:wrongNumberOfOutputs'));
         end
       end
       if isfile(tmpfile)

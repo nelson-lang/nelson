@@ -52,6 +52,7 @@ namespace {
                 }
             }
         } catch (const nlohmann::json::exception&) {
+            fprintf(stderr, "Error parsing JSON file: %s\n", wstring_to_utf8(filePath).c_str());
             return false;
         }
 

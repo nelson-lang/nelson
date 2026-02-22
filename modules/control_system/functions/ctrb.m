@@ -26,11 +26,11 @@ function varargout = ctrb(varargin)
     [mA, nA] = size(A);
     [mB, nB] = size(B);
     if (mA ~= nA)
-      error('Nelson:control_system:AMustBeSquare', _('Matrix A must be square.'));
+      error(message('nelson:control_system:AMustBeSquare'));
     end
     
     if (mB ~= mA)
-      error('Nelson:control_system:AAndBNumRowsMismatch', _('The number of rows in matrices A and B must be equal.'));
+      error(message('nelson:control_system:AAndBNumRowsMismatch'));
     end
   end        
   

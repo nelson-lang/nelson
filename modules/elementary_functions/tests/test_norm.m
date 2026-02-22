@@ -229,8 +229,9 @@ REF = 12;
 assert_isapprox(R, REF, 1e-4);
 %=============================================================================
 M = [1, 2; 3, -4];
-assert_checkerror('R = norm(M, -Inf)', _('Wrong value for #2 argument.'));
+msg = message('nelson:validators:invalidValueAtPosition', 2);
+assert_checkerror('R = norm(M, -Inf)', msg);
 %=============================================================================
 M = [1, 2; 3, -4];
-assert_checkerror('R = norm(M, 1.5)', _('Wrong value for #2 argument.'));
+assert_checkerror('R = norm(M, 1.5)', msg);
 %=============================================================================

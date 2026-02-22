@@ -7,9 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_checkerror('isequalto()', _('Wrong number of input arguments.'));
-assert_checkerror('isequalto(1)', _('Wrong number of input arguments.'));
-assert_checkerror('isequalto([1, 1])', _('Wrong number of input arguments.'));
+assert_checkerror('isequalto()', message('nelson:arguments:tooFewInputs'));
+assert_checkerror('isequalto(1)', message('nelson:arguments:tooFewInputs'));
+assert_checkerror('isequalto([1, 1])', message('nelson:arguments:tooFewInputs'));
 %=============================================================================
 assert_isequal(nargin('isequalto'), -1);
 assert_isequal(nargout('isequalto'), 1);

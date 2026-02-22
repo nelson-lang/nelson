@@ -47,7 +47,7 @@ function r = mat2str(varargin)
     end
     
   else
-    error(_('Wrong number of input arguments.'));
+    error(message('nelson:arguments:wrongNumberOfInputs'));
   end
   
 end

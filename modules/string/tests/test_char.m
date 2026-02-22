@@ -142,7 +142,8 @@ assert_isequal(R, REF);
 cmd = 'R = char(["A", string(NaN)]);';
 assert_checkerror(cmd, _('Conversion <missing> to character vector is not supported.'));
 %=============================================================================
-assert_checkerror('char()', _('Wrong number of input arguments.'));
+msg = message('nelson:arguments:tooFewInputs');
+assert_checkerror('char()', msg);
 %=============================================================================
 msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'char');
 assert_checkerror('char(true)', msg);

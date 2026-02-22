@@ -54,7 +54,7 @@ function ce = cellstr(obj)
       ce = deblank(ce);
     end
   else
-    error(_(['Type not supported:' ,' ', class(obj)]));
+    error(message('nelson:runtime:typeNotSupported'));
   end
 end
 %=============================================================================

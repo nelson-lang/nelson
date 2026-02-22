@@ -39,7 +39,7 @@ assert_isequal(R, REF);
 R = evalc ('A = 32;');
 assert_isequal(R, '');
 %=============================================================================
-assert_checkerror('evalc(''cos(1,2)'')', _('Wrong number of input arguments.'));
+assert_checkerror('evalc(''cos(1,2)'')', message('nelson:arguments:tooManyInputs'));
 %=============================================================================
 assert_checkerror('evalc(''input(''''prompt'''')'')', _('input function not allowed from evalc.'));
 %=============================================================================

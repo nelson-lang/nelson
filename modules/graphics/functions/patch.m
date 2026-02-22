@@ -105,7 +105,7 @@ function args = parsePatchArguments(inputArguments)
     CData = inputArguments{4}; 
     haveCData = true;
   elseif (nbInputArguments > 0) 
-    error(_('Wrong number of input arguments.'));
+    error(message('nelson:arguments:wrongNumberOfInputs'));
   end
   
   

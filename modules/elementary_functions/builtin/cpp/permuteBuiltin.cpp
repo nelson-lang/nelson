@@ -28,15 +28,12 @@ Nelson::ElementaryFunctionsGateway::permuteBuiltin(int nLhs, const ArrayOfVector
     std::vector<indexType> permutationVector = param2.getContentAsIndexVector();
 
     if (permutationVector.size() < argIn[0].getDimensions().getLength()) {
-        raiseError(L"Nelson:elementary_functions:ERROR_ORDER_MUST_HAVE_AT_LEAST_N_ELEMENTS_FOR_AN_"
-                   L"ND_ARRAY",
-            ERROR_ORDER_MUST_HAVE_AT_LEAST_N_ELEMENTS_FOR_AN_ND_ARRAY);
+        raiseError2(_E("nelson:validators:mustHaveAtLeastNElementsAtPosition"), 2);
     }
     const auto [minPermutationIndex, maxPermutationIndex]
         = std::minmax_element(begin(permutationVector), end(permutationVector));
     if ((*maxPermutationIndex != permutationVector.size()) || (*minPermutationIndex != 1)) {
-        raiseError(L"Nelson:elementary_functions:ERROR_SECOND_ARGUMENT_NOT_A_VALID_PERMUTATION",
-            ERROR_SECOND_ARGUMENT_NOT_A_VALID_PERMUTATION);
+        raiseError2(_E("nelson:validators:mustBeValidPermutationAtPosition"), 2);
     }
     bool needToOverload = false;
     ArrayOf res = Permute(argIn[0], permutationVector, needToOverload);

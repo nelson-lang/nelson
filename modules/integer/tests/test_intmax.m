@@ -20,8 +20,8 @@ assert_isequal(intmax('uint32'), uint32(4294967295));
 assert_isequal(intmax('int64'), int64(9223372036854775807i64));
 assert_isequal(intmax('uint64'), uint64(18446744073709551615u64));
 %=============================================================================
-assert_checkerror('intmax(''uint64'', 3)', _('Wrong number of input arguments.'));
-assert_checkerror('intmax(3)', _('Wrong type for argument #1: string expected.'));
-assert_checkerror('intmax(''t'')', _('The name of an integer class expected.'));
-assert_checkerror('[a, b] = intmax()', _('Wrong number of output arguments.'));
+assert_checkerror('intmax(''uint64'', 3)', message('nelson:arguments:tooManyInputs'));
+assert_checkerror('intmax(3)', message('nelson:validators:mustBeTypeAtPosition', 1, 'string'));
+assert_checkerror('intmax(''t'')', message('nelson:validators:mustBeIntegerClassName'));
+assert_checkerror('[a, b] = intmax()', message('nelson:arguments:tooManyOutputs'));
 %=============================================================================

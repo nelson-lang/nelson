@@ -8,9 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function nmm_uninstall(varargin)
-  if (length(varargin) ~= 1)
-    error(_('Wrong number of input arguments.'));
-  end
+  narginchk(1, 1);
   module_or_directory = varargin{1};
   if ~ischar(module_or_directory)
     error(_('#2 argument: characters expected.'));

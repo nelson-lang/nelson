@@ -52,7 +52,7 @@ function args = parsePatchArguments(inputArguments)
     CData = inputArguments{3};
     ZData = zeros(size(XData));
   elseif (nbInputArguments > 0) 
-    error(_('Wrong number of input arguments.'));
+    error(message('nelson:arguments:wrongNumberOfInputs'));
   end
   args = {};
   if ~isempty(ax)

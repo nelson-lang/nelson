@@ -8,9 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function l = logspace(varargin)
-  if (nargin ~= 2 && nargin ~= 3)
-    error(_('Wrong number of input arguments.'));
-  end
+  narginchk(2, 3);
   if nargin == 2
     n = 50;
   else

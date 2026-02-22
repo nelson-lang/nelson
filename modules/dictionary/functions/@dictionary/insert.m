@@ -12,7 +12,7 @@ function varargout = insert(varargin)
   nargoutchk(0, 1);
   narginchk(3, 5);
   if (nargin == 4)
-    error(_('Wrong number of input arguments.'));
+    error(message('nelson:arguments:wrongNumberOfInputs'));
   end
   obj = varargin{1};
   key = varargin{2};

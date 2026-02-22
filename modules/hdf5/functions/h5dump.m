@@ -8,12 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = h5dump(varargin)
-  if (nargin > 2 || nargin == 0)
-    error(_('Wrong number of input arguments.'));
-  end
-  if nargout > 1
-    error(_('Wrong number of output arguments.'));
-  end
+  narginchk(1, 2);
+  nargoutchk(0, 1);
   h5filename = string(varargin{1});
   if nargin == 2
     h5path = string(varargin{2});

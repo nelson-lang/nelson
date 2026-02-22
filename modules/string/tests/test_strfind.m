@@ -95,8 +95,9 @@ assert_checkerror('k = strfind(''aaa'', {});', _('Second argument a single strin
 assert_checkerror('idx = strfind({}, {});', _('Second argument a single string expected.'));
 assert_checkerror('idx = strfind('''', {''''});', _('Second argument a single string expected.'));
 assert_checkerror('idx = strfind(''aaaa'',[''a'';''a'']);', _('Second argument a single string expected.'));
-assert_checkerror('strfind([''aaaa'';''bbbb''],{''aba'',''aa''})', _('Wrong type for argument #1: string or cell expected.'))
-assert_checkerror('strfind()', _('Wrong number of input arguments.'));
+msg = message('nelson:validators:mustBeTextAtPosition', 1);
+assert_checkerror('strfind([''aaaa'';''bbbb''],{''aba'',''aa''})', msg)
+assert_checkerror('strfind()', message('nelson:arguments:wrongNumberOfInputs'));
 expected_msg = _("'ForceCellOutput' expected as third input argument.");
 assert_checkerror('strfind(''aaaa'', ''aa'', ''overlaps'', -1)', expected_msg);
 %=============================================================================

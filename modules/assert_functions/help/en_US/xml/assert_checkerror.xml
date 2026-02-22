@@ -67,7 +67,7 @@
       >Test that cos function with no arguments raises the expected error:</example_item_description>
       <example_item_data
         runnable="cli"
-      ><![CDATA[assert_checkerror('cos', _('Wrong number of input arguments.'));]]></example_item_data>
+      ><![CDATA[assert_checkerror('cos', message('nelson:arguments:tooManyInputs'));]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
@@ -103,7 +103,7 @@ end]]></example_item_data>
       >Using return values to handle assertion results:</example_item_description>
       <example_item_data
         runnable="cli"
-      ><![CDATA[[r, msg] = assert_checkerror('cos', _('Wrong number of input arguments.'));
+      ><![CDATA[[r, msg] = assert_checkerror('cos', message('nelson:arguments:tooManyInputs'));
 if r
     disp('Test passed: cos function properly raises expected error')
 else

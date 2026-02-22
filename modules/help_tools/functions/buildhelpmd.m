@@ -12,9 +12,7 @@ function buildhelpmd(varargin)
   % buildhelpmd(destdir) build help of Nelson
   % buildhelpmd(destdir, module_name) build help of a module loaded in Nelson
   %
-  if (nargin() > 2 || nargin() < 1)
-    error(_('Wrong number of input arguments.'));
-  end
+  narginchk(1, 2);
   destinationdir = varargin{1};
   if nargin() == 1
     is_nelson_help = true;

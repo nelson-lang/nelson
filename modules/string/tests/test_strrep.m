@@ -180,12 +180,12 @@ ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 %=============================================================================
 cmd = 'r = strrep({''cccc'',''ccbbcca''},{''cc'',''bb''},{''cc'',''e'',''ddd''});';
-ref = _('Same size expected.');
-assert_checkerror(cmd, ref);
+msg  = message('nelson:validators:sizeMismatch');
+assert_checkerror(cmd, msg);
 %=============================================================================
 cmd = 'r = strrep(''ccbbba'',{''cc'',''bb''},{''cc'',''e'',''ddd''});';
-ref = _('Same size expected.');
-assert_checkerror(cmd, ref);
+msg  = message('nelson:validators:sizeMismatch');
+assert_checkerror(cmd, msg);
 %=============================================================================
 cmd = 'r = strrep({{''bbb''},''ccabbba''},{''cc'',''bb''},{{''cc'',''e'',''ddd''},''str''});';
 ref = _('Invalid input argument(s): cell or string expected.');
@@ -196,8 +196,8 @@ ref = _('Invalid input argument(s): cell or string expected.');
 assert_checkerror(cmd, ref);
 %=============================================================================
 cmd = 'r = strrep({''ccabbba'',''bbccbb'';''abba'',''bccb''},{''cc'';''bb''},{''cc'';''e''});';
-ref = _('Same size expected.');
-assert_checkerror(cmd, ref);
+msg  = message('nelson:validators:sizeMismatch');
+assert_checkerror(cmd, msg);
 %=============================================================================
 r = strrep("This is a string.", 'is', 'is not');
 ref = "This not is not a string.";

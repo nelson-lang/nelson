@@ -9,11 +9,13 @@
 %=============================================================================
 addpath([nelsonroot(), '/modules/core/tests/']);
 %=============================================================================
-assert_checkerror('fun_narginchk()', _('Wrong number of input arguments.'), 'Nelson:narginchk:notEnoughInputs');
+msg  = message('nelson:arguments:tooFewInputs');
+assert_checkerror('fun_narginchk()', msg);
 %=============================================================================
 fun_narginchk(1)
 %=============================================================================
 fun_narginchk(1,2)
 %=============================================================================
-assert_checkerror('fun_narginchk(1, 2, 3)', _('Wrong number of input arguments.'), 'Nelson:narginchk:tooManyInputs');
+msg = message('nelson:arguments:tooManyInputs');
+assert_checkerror('fun_narginchk(1, 2, 3)', msg);
 %=============================================================================

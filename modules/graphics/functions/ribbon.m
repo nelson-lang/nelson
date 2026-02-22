@@ -12,7 +12,7 @@ function varargout = ribbon (varargin)
   inputArguments = varargin;
   nbInputArguments = nargin;
   if (nbInputArguments < 1)
-    error(_('Wrong number of input arguments.'));
+    error(message('nelson:arguments:wrongNumberOfInputs'));
   end
   if (isscalar(inputArguments{1}) && isgraphics(inputArguments{1}, 'axes'))
     go = inputArguments{1}(1);

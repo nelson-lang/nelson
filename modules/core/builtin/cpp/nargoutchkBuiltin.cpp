@@ -11,6 +11,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "TranslationManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -83,14 +84,14 @@ Nelson::CoreGateway::nargoutchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         std::wstring msg = L"";
         std::wstring id = L"";
         if (numArgs < minArgs) {
-            msg = _W("Not enough output arguments.");
-            id = L"Nelson:nargoutchk:notEnoughOutputs";
+            id = _E("nelson:nargoutchk:notEnoughOutputs");
+            msg = TranslationManager::getInstance().getError(id);
         }
 
         int maxArgs = argIn[1].getContentAsInteger32Scalar(false, true);
         if (!maxArgsIsInf && numArgs > maxArgs) {
-            msg = _W("Too many output arguments.");
-            id = L"Nelson:nargoutchk:tooManyOutputs";
+            id = _E("nelson:nargoutchk:tooManyOutputs");
+            msg = TranslationManager::getInstance().getError(id);
         }
         if (asStruct) {
             wstringVector fieldnames;

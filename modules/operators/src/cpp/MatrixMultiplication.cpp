@@ -167,8 +167,7 @@ integer_mtimes(const ArrayOf& A, const ArrayOf& B)
             ptrC[k] = scalar_scalar_integer_times<T>(ptrA[k], ptrB[0]);
         }
     } else {
-        raiseError(L"Nelson:operators:ERROR_AT_LEAST_ONE_INPUT_ARGUMENT_MUST_BE_SCALAR",
-            ERROR_AT_LEAST_ONE_INPUT_ARGUMENT_MUST_BE_SCALAR);
+        raiseError2(_E("nelson:validators:atLeastOneMustBeScalar"));
     }
     return ArrayOf(A.getDataClass(), Cdim, Cp, false);
 }

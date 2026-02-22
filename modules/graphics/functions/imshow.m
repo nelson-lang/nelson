@@ -67,7 +67,7 @@ function varargout = imshow(varargin)
           error (_('Invalid colormap.'));
         end
       elseif ~isempty(arg)
-        error(_('Invalid input argument.'));
+        error(message('nelson:validators:mustBeEmpty'));
       end
       inputArguments = inputArguments(3:end);
     elseif (ischar(arg))

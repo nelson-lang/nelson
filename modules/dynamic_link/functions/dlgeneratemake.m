@@ -15,12 +15,8 @@ function [status, message, generatedfilename] = dlgeneratemake(varargin)
   generatedfilename = [];
   status = false;
   message = '';
-  if nargin < 4
-    error(_('At least 4 input arguments expected.'));
-  end
-  if nargin > 10
-    error(_('Wrong number of output arguments.'));
-  end
+  narginchk(4, 10);
+  nargoutchk(0, 3);
   
   maketype = 'dynamic_library';
   indexstart = 1;
