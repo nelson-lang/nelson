@@ -37,6 +37,7 @@ target_link_libraries(${module_library_name}
     nlsInterpreter
     nlsError_manager
     nlsI18n
+    nlsCharacters_encoding
     nlsTypes)
 # ==============================================================================
 file(GLOB DICTIONARY_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
