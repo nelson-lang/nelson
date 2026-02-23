@@ -46,6 +46,7 @@ target_link_libraries(
     nlsI18n
     nlsTypes
     nlsSparse
+    nlsCharacters_encoding
     ${NELSON_BLAS_LAPACKX_LIBRARIES})
 # ==============================================================================
 file(GLOB OPERATORS_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
