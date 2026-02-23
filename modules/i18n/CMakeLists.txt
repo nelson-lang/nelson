@@ -55,6 +55,7 @@ else()
   target_link_libraries(${module_library_name} 
     PRIVATE
       nlsCharacters_encoding
+      nlsCommons
       nlsNelson_manager)
 # ==============================================================================
 endif()
