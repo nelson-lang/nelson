@@ -39,6 +39,7 @@
 #include "QObjectHandleObject.hpp"
 #include "characters_encoding.hpp"
 #include "PredefinedErrorMessages.hpp"
+#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -908,7 +909,7 @@ ArrayOfToQVariant(ArrayOf A, int id)
         res = ArrayOfToQVariant(A);
     } break;
     default: {
-        raiseError2(_E("nelson:validators:mustBeType", L"QVariant"));
+        raiseError2(_E("nelson:validators:mustBeType"), L"QVariant");
     } break;
     }
     return res;

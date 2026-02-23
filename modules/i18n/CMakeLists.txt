@@ -86,6 +86,7 @@ if(NOT WITHOUT_I18N_MODULE)
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include)
   # ==============================================================================
   target_link_libraries(${module_library_builtin_name}
