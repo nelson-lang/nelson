@@ -15,6 +15,6 @@ function [frsp] = evalfr(varargin)
   sys = varargin{1};
   w = varargin{2};
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error(message('nelson:control_system:LTIModelExpected'));
   end
 end

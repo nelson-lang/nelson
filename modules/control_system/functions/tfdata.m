@@ -16,7 +16,7 @@ function varargout = tfdata(varargin)
   sys = varargin{1};
   
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error(message('nelson:control_system:LTIModelExpected'));
   end
   sys = tf(sys);
   numerator = sys.Numerator;

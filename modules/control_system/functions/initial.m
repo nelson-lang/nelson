@@ -20,14 +20,14 @@ function varargout = initial(varargin)
   
   sys = varargin{1};
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error(message('nelson:control_system:LTIModelExpected'));
   end
   if ~isa(sys, 'ss')
     sys = ss(sys);
   end
   
   if ~issiso(sys)
-    error(_('SISO LTI model expected.'));
+    error(message('nelson:control_system:SISOLTIModelExpected'));
   end
   
   Ts = sys.Ts;

@@ -18,7 +18,7 @@ function varargout = d2c(varargin)
     error(_('Discret model expected.'));
   end
   if ~issiso(sys)
-    error(_('SISO LTI model expected.'));
+    error(message('nelson:control_system:SISOLTIModelExpected'));
   end
   
   w0 = 0;
@@ -93,7 +93,7 @@ function sysc = d2c_prewarp(sys, beta)
   BETA = beta;
   [A_OUT, B_OUT, C_OUT, D_OUT, INFO] = slicot_ab04md(TYPE, ALPHA, BETA, sys.A, sys.B, sys.C, sys.D);
   if (INFO(1) ~= 0)
-    error(_('slicot_ab04md fails.'));
+    error(message('nelson:slicot:slicotFuncFails', 'AB04MD'));
   end
   sysc = ss(A_OUT, B_OUT, C_OUT, D_OUT);
   sysc.E = [];

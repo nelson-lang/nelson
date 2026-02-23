@@ -23,7 +23,7 @@ function varargout = c2d(varargin)
   end
   
   if ~issiso(sys)
-    error(_('SISO LTI model expected.'));
+    error(message('nelson:control_system:SISOLTIModelExpected'));
   end
   
   sys = ss(sys);

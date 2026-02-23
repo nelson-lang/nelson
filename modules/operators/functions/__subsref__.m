@@ -19,7 +19,7 @@ function varargout = __subsref__(varargin)
       case '.'
         R = {A.(S(k).subs)};
       otherwise
-        error(_('Illegal indexing structure argument: type ''.'', ''{}'' or ''()'' expected.'));
+        error(message('nelson:runtime:illegalIndexingStructure', "'.', '()', '{}'"));
     end
   end
    varargout = R;

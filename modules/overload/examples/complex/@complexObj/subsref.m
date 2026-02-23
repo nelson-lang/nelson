@@ -60,9 +60,9 @@ function varargout = subsref(varargin)
       st = struct(obj);
       varargout{1} = st.(name);
     case '{}'
-      error(_('Illegal indexing structure argument: type ''()'' expected.'));
+      error(message('nelson:runtime:illegalIndexingStructure', "'()'"));
     otherwise
-      error(_('Not a valid indexing expression'));
+      error(message('nelson:runtime:notAValidIndexingExpression'));
     end
   end
   %=============================================================================

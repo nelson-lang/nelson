@@ -9,7 +9,7 @@
 %=============================================================================
 function res = inv(sys)
   if ~issiso(sys)
-    error(_('SISO LTI model expected.'));
+    error(message('nelson:control_system:SISOLTIModelExpected'));
   end
   res = sys;
   if isstatic(sys)

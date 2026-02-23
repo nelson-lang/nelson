@@ -71,7 +71,8 @@ assert_isequal(sys.Denominator, Denominator_REF);
 %=============================================================================
 numerator = {[2, 0], [1, 3], [4, 6]};
 denominator = {[4, 0, 3, -1], [1 , 3, 5]};
-assert_checkerror('sys = tf(numerator, denominator);', _('Numerator and Denominator must have compatible sizes.'));
+msg = message('nelson:control_system:invalidNumeratorDenominatorSizes');
+assert_checkerror('sys = tf(numerator, denominator);', msg);  
 %=============================================================================
 M = [1,2,3,4; 5 6 7 8; 8 9 10 11];
 sys = tf(M);

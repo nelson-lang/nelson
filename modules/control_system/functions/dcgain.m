@@ -17,7 +17,7 @@ function varargout = dcgain(varargin)
   
   sys = varargin{1};
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error(message('nelson:control_system:LTIModelExpected'));
   end
   
   if isa(sys, 'tf')
@@ -46,7 +46,7 @@ function varargout = dcgain(varargin)
   elseif isa(sys, 'zpk')
     dc = dcgain(zpk2tf(sys));
   else
-    error(_('LTI model expected.'));
+    error(message('nelson:control_system:LTIModelExpected'));
   end
   varargout{1} = dc;
 end

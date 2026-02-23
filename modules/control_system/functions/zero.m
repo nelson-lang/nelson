@@ -17,10 +17,10 @@ function varargout = zero(varargin)
   
   sys = varargin{1};
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error(message('nelson:control_system:LTIModelExpected'));
   end
   if ~issiso(sys)
-    error(_('SISO LTI model expected.'));
+    error(message('nelson:control_system:SISOLTIModelExpected'));
   end
   
   if isa(sys, 'ss')
@@ -55,7 +55,7 @@ function varargout = zero(varargin)
   elseif isa(sys, 'zpk')
     [z, gain] = zero(zpk2tf(sys));
   else
-    error(_('LTI model expected.'));
+    error(message('nelson:control_system:LTIModelExpected'));
   end
   varargout{1} = z;
   if nargout > 1

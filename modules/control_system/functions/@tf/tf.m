@@ -81,14 +81,14 @@ function sys = tf_one_rhs(m)
     elseif isa(m, 'ss')
       sys = ss_to_tf(m);
     else
-      error(_('Supported LTI model expected.'))
+      error(message('nelson:control_system:LTIModelExpected'));
     end
     return,
   elseif (ischar(m) || isStringScalar(m))
     sys = tf_one_rhs_char(m);
     return
   elseif ~isnumeric(m)
-    error('numeric value expected.');
+    error(message('nelson:validators:mustBeNumeric'));
   end
   sys = tf_no_rhs();
   sys.Denominator = num2cell(ones(size(m)));
@@ -120,7 +120,7 @@ function sys = tf_one_rhs_char(m)
     isInvalid = false;
   end
   if isInvalid
-    error(_('Invalid syntax: ''s'', ''z'', ''p'', ''q'' expected.'));
+    error(message('nelson:control_system:invalidSyntax'));
   end
 end
 %=============================================================================
@@ -129,17 +129,17 @@ function modifiedPart = checkFractionPart(part)
     if isvector(part)
       part = part(:)';
     else
-      error(_('Invalid syntax.'));
+      error(message('nelson:control_system:invalidSyntax'));
     end
   elseif isnumeric(part)
     if isvector(part) || isempty(part)
       part = part(:)';
       part = {part};
     else
-      error(_('Invalid syntax.'));
+      error(message('nelson:control_system:invalidSyntax'));
     end
   else
-    error(_('Invalid syntax.'));
+    error(message('nelson:control_system:invalidSyntax'));
   end
   for j = 1:length(part)
     for i = 1:length(part{j})
@@ -221,7 +221,7 @@ function sys = tf_constructor(numeratorerator, denominator, Ts, variableName)
     end
   end
   if (length(numeratorerator) ~= length(denominator))
-    error(_('Numerator and Denominator must have compatible sizes.'));
+    error(message('nelson:control_system:invalidNumeratorDenominatorSizes'));
   end
   for k = 1:length(numeratorerator)
     [N, D] = arrangeVectors(numeratorerator{k}, denominator{k});

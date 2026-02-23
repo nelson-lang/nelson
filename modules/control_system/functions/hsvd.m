@@ -13,7 +13,7 @@ function varargout = hsvd(varargin)
   nargoutchk(0, 1);
   sys = varargin{1};
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error(message('nelson:control_system:LTIModelExpected'));
   end
 end
 %=============================================================================

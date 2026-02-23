@@ -64,7 +64,7 @@ function Ts = mtimes_timesample(TsA, TsB)
       if (TsB == TsA)
         Ts = TsA;
       else
-        error(_('Sampling times must agree.'));
+        error(message('nelson:control_system:SamplingTimesMustAgree'));
       end
     end
   end 

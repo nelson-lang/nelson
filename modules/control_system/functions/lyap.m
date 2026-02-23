@@ -21,10 +21,11 @@ function varargout = lyap(varargin)
   mustBeReal(A, 1);
   mustBeReal(Q, 2);
   
-  szA = size(A);
-  szQ = size(Q);
-  if ~isequal(szA(1), szA(2)) || ~isequal(szQ(1), szQ(2))
-    error(_('Input must be square.'));
+  if ~issquare(A) 
+    error(message('nelson:validators:mustBeSquareMatrixAtPosition', 1));
+  end
+  if ~issquare(Q)
+    error(message('nelson:validators:mustBeSquareMatrixAtPosition', 2));
   end
   
   K = kron(eye(size(A)), A) + kron(conj(A), eye(size(A)));

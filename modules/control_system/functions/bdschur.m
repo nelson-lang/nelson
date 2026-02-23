@@ -39,7 +39,7 @@ function varargout = bdschur(varargin)
   
   [rA, cA] = size(A);
   if (rA ~= cA)
-    error(_('Wrong size for input argument #1: square matrix expected.'));
+    error(message('nelson:validators:mustBeSquareMatrixAtPosition', 1));
   end
   
   JOBX =  'U';
@@ -50,7 +50,7 @@ function varargout = bdschur(varargin)
   [A_OUT, X_OUT, NBLCKS, BLSIZE, WR, WI, INFO] = slicot_mb03rd(JOBX, SORT, CONDMAX, A, U, TOL);
   
   if (INFO(1) ~= 0) 
-    error(sprintf( _('slicot_mb03rd returned info = %d'), INFO(1)));
+    error(message('nelson:slicot:slicotFuncFails', 'mb03rd'));
   end
   
   T = X_OUT;

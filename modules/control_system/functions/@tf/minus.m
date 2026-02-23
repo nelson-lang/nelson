@@ -11,7 +11,7 @@ function sys = minus(sysA, sysB)
   sysA = tf(sysA);
   sysB = tf(sysB);
   if ~issiso(sysA) || ~issiso(sysB)
-    error(_('SISO lti expected.'));
+    error(message('nelson:control_system:SISOLTIModelExpected'));
   end
   
   sys = minus_siso(sysA, sysB);
@@ -93,6 +93,6 @@ function Ts = minus_timesample(TsA, TsB)
     Ts = TsA;
     return
   end
-  error(_('Sampling times must agree.'));
+  error(message('nelson:control_system:SamplingTimesMustAgree'));
 end
 %=============================================================================

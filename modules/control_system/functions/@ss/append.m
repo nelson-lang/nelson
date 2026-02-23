@@ -37,7 +37,7 @@ function sys = append(varargin)
         Cpast = blkdiag(Cpast, C);
         Dpast = blkdiag(Dpast, D);
       else
-        error(_('Sampling times must agree.'));
+        error(message('nelson:control_system:SamplingTimesMustAgree'));
       end 
     end
   end

@@ -28,7 +28,7 @@ function varargout = bode(varargin)
   switch nargin
     case 0
       if (nargout != 0)
-        error(_('bode without input argument does not return output arguments.'));
+        error(message('nelson:control_system:bodeNoInputNoOutput'));
       end
       numerator = -1;
       denominator = [1   12   58  139  174  102   19];
@@ -61,7 +61,7 @@ function varargout = bode(varargin)
         w = varargin{3};
       end
     otherwise
-      errror(_('Wrong number of input arguments.'));
+      error(message('nelson:arguments:wrongNumberOfInputs'));
     end
     
     if isempty(lineSpec)
@@ -69,14 +69,14 @@ function varargout = bode(varargin)
     end
     [res, lineSpec] = checkLineSpec(lineSpec);
     if ~res
-      error(_('invalid line specification.'));
+      error(message('invalidLineSpecification'));
     end
     
     if ~islti(sys)
-      error(_('LTI model expected.'));
+      error(message('nelson:control_system:LTIModelExpected'));
     end
     if ~issiso(sys)
-      error(_('SISO LTI model expected.'));
+      error(message('nelson:control_system:SISOLTIModelExpected'));
     end
     
     L = 1000; % Number of frequency elements
@@ -153,17 +153,17 @@ function w = checkW(w_maybe, N)
     w_min = log10(w_maybe{1});
     w_max = log10(w_maybe{2});
     if (w_min > w_max)
-      error(_(' frequency interval must be specified as {wmin, wmax} real.'))
+      error(message('nelson:control_system:invalidFrequencyInterval'));
     end
     w = logspace (w_min, w_max, N);
   elseif (isnumeric(w_maybe) && isvector(w_maybe))
     if ~isreal(w_maybe)
-      error(_('real expected.'));
+      error(message('nelson:validators:mustBeReal'));
     else
       w = sort(w_maybe);
     end
   else
-    error(_(' frequency interval must be specified as {wmin, wmax} real.'))
+    error(message('nelson:control_system:invalidFrequencyInterval'));
   end
 end
 %=============================================================================

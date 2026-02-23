@@ -12,7 +12,7 @@ function sys = mtimes(sys1, sys2)
   sysB = tf(sys2);
   
   if ~issiso(sysA) && ~issiso(sysB)
-    error(_('SISO LTI model expected.'));
+    error(message('nelson:control_system:SISOLTIModelExpected'));
   end
   
   numeratorA = sysA.Numerator{1};
@@ -52,7 +52,7 @@ function Ts = mtimes_timesample(TsA, TsB);
   Ts = TsA;
   if Ts ~= TsB
     if ((Ts > 0) && (TsB > 0))
-      error(_('Sampling times must agree.'));
+      error(message('nelson:control_system:SamplingTimesMustAgree'));
     end
     if (Ts < 0)
       Ts = TsB;

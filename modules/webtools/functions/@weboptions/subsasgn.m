@@ -12,7 +12,7 @@ function r = subsasgn(varargin)
   S = varargin{2};
   value = varargin{3};
   if strcmp(S.type, '.') == false
-    error(_('Illegal indexing structure argument: type ''.'' expected.'));
+    error(message('nelson:runtime:illegalIndexingStructure', "'.'"));
   end
   key = S.subs;
   if ~isSupportedFieldNames(key)

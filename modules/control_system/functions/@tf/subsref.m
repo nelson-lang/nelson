@@ -32,10 +32,10 @@ function varargout = subsref(varargin)
           indices = s(2).subs;
           varargout{1} = st.(name){indices{:}};
         else
-          error(_('Not a valid indexing expression'));
+          error(message('nelson:runtime:notAValidIndexingExpression'));
         end
       else
-        error(_('Not a valid indexing expression'));
+        error(message('nelson:runtime:notAValidIndexingExpression'));
       end
     case '()'
       indices = s(1).subs;
@@ -45,9 +45,10 @@ function varargout = subsref(varargin)
       Ts = st.Ts;
       varargout{1} = tf(N, D, Ts);
     case '{}'
-      error(_('Illegal indexing structure argument: type ''.'' or ''()'' expected.'));
+      error(message('nelson:runtime:illegalIndexingStructure', "'.', '()'"));
+      
     otherwise
-      error(_('Not a valid indexing expression'));
+      error(message('nelson:runtime:notAValidIndexingExpression'));
   end
 end
 %=============================================================================

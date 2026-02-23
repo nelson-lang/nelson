@@ -35,7 +35,7 @@ function sys = append_two_lti(sys1, sys2)
       sampleTime = sys1.Ts;
     end
   else
-    error(_('Sampling times must agree.'));
+    error(message('nelson:control_system:SamplingTimesMustAgree'));
   end
   
   sys = tf();

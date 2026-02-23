@@ -28,15 +28,15 @@ function varargout = subsref(varargin)
           indices = s(2).subs;
           varargout{1} = obj.(name)(indices{:});
         else
-          error(_('Not a valid indexing expression'));
+          error(message('nelson:runtime:notAValidIndexingExpression'));
         end
       else
-        error(_('Not a valid indexing expression'));
+        error(message('nelson:runtime:notAValidIndexingExpression'));
       end
     case '{}'
-      error(_('Illegal indexing structure argument: type ''.'' expected.'));
+      error(message('nelson:runtime:illegalIndexingStructure', "'.'"));
     otherwise
-      error(_('Not a valid indexing expression'));
+      error(message('nelson:runtime:notAValidIndexingExpression'));
     end
   end
   %=============================================================================

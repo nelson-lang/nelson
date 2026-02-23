@@ -17,14 +17,14 @@ function varargout = pole(varargin)
   
   sys = varargin{1};
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error(message('nelson:control_system:LTIModelExpected'));
   end
   
   if isa(sys, 'ss')
     p = eig(sys.A); % Eigenvalues
   elseif isa(sys, 'tf')
     if ~issiso(sys)
-      error(_('SISO LTI model expected.'));
+      error(message('nelson:control_system:SISOLTIModelExpected'));
     end
     denominators = sys.Denominator;
     denominator = denominators{1};
@@ -32,7 +32,7 @@ function varargout = pole(varargin)
   elseif isa(sys, 'zpk')
     p = pole(zpk2tf(sys));
   else
-    error(_('LTI model expected.'));
+    error(message('nelson:control_system:LTIModelExpected'));
   end
   varargout{1} = p;
 end

@@ -30,7 +30,7 @@ function model = feedback(varargin)
       sys2 = tf(sys2);
     end
   elseif ~islti(sys1) || ~islti(sys2)
-    error(_('LTI model expected.'));
+    error(message('nelson:control_system:LTIModelExpected'));
   end
   
   % Check feedback sign
@@ -57,7 +57,7 @@ function model = feedback(varargin)
       sys = cloop(sys,[outputs1, outputs2],[inputs2, inputs1]);
       model = ssselect(sys, [1:nu1], [1:ny1]);
     else
-      error(_('Sampling times must agree.'));
+      error(message('nelson:control_system:SamplingTimesMustAgree'));
     end
   elseif isa(sys1, 'tf')
     sys2 = tf(sys2);
@@ -66,7 +66,7 @@ function model = feedback(varargin)
       den = conv(sys1.Denominator{1}, sys2.Denominator{1}) - sgn*conv(sys1.Numerator{1}, sys2.Numerator{1});
       model = tf(num, den, sys1.Ts);
     else
-      error(_('Sampling times must agree.'));
+      error(message('nelson:control_system:SamplingTimesMustAgree'));
     end
   end
 end

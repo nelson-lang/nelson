@@ -26,7 +26,7 @@ function model = cloop(varargin)
     sgn = sign(varargin{3});
   end
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error(message('nelson:control_system:LTIModelExpected'));
   end
   
   if isa(sys, 'ss')

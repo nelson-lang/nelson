@@ -21,7 +21,7 @@ function varargout = d2c(varargin)
     error(_('Discret model expected.'));
   end
   if ~issiso(sys)
-    error(_('SISO LTI model expected.'));
+    error(message('nelson:control_system:SISOLTIModelExpected'));
   end
   
   sys = ss(sys);

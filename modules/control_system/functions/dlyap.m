@@ -20,13 +20,13 @@ function varargout = dlyap(varargin)
   mustBeNumeric(Q, 2);
   mustBeReal(A, 1);
   mustBeReal(Q, 2);
-  
-  szA = size(A);
-  szQ = size(Q);
-  if ~isequal(szA(1), szA(2)) || ~isequal(szQ(1), szQ(2))
-    error(_('Input must be square.'));
+
+  if ~issquare(A)
+    error(message('nelson:validators:mustBeSquareMatrixAtPosition', 1));
   end
-  
+  if ~issquare(Q)
+    error(message('nelson:validators:mustBeSquareMatrixAtPosition', 2));
+  end
   p = kron(conj(A), A);
   K = eye(size(p)) - p;
   X = K \ Q(:);

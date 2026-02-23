@@ -105,7 +105,7 @@ function sysd = c2d_bilinear(sys, beta, Ts)
     BETA = beta;
     [A_OUT, B_OUT, C_OUT, D_OUT, INFO] = slicot_ab04md(TYPE, ALPHA, BETA, A, B, C, D);
     if (INFO(1) ~= 0)
-      error(_('slicot_ab04md fails.'));
+      error(message('nelson:slicot:slicotFuncFails', 'AB04MD'));
     end
     sysd = sys;
     sysd.A = A_OUT;

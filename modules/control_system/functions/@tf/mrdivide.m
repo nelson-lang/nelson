@@ -13,7 +13,7 @@ function varargout = mrdivide(varargin)
   sysA = tf(varargin{1});
   sysB = tf(varargin{2});
   if ~issiso(sysA) && ~issiso(sysB)
-    error(_('SISO LTI model expected.'));
+    error(message('nelson:control_system:SISOLTIModelExpected'));
   end
   Ts = mrdivide_timesample(sysA.Ts, sysB.Ts);
   
@@ -62,7 +62,7 @@ function Ts = mrdivide_timesample(TsA, TsB)
   Ts = TsA;
   if Ts ~= TsB
     if ((Ts > 0) && (TsB > 0))
-      error(_('Sampling times must agree.'));
+      error(message('nelson:control_system:SamplingTimesMustAgree'));
     end
     if (Ts < 0)
       Ts = TsB;

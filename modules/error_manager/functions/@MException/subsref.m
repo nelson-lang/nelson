@@ -49,9 +49,9 @@ function varargout = subsref(varargin)
         [varargout{1:nargout}] = builtin('subsref', obj, s);
       end
     case '{}'
-      error(_('Illegal indexing structure argument: type ''.'' or ''()'' expected.'));
+      error(message('nelson:runtime:illegalIndexingStructure', "'.', '()'"));
     otherwise
-      error(_('Not a valid indexing expression'));
+      error(message('nelson:runtime:notAValidIndexingExpression'));
   end
 end
 %=============================================================================

@@ -17,12 +17,12 @@ function varargout = parallel(varargin)
   sys1 = varargin{1};
   sys2 = varargin{2};
   if ~islti(sys1) || ~islti(sys2)
-    error(_('LTI model expected.'));
+    error(message('nelson:control_system:LTIModelExpected'));
   end
   Ts1 = sys1.Ts;
   Ts2 = sys2.Ts;
   if (Ts1 ~= Ts2)
-    error(_('Sampling times must agree.'));
+    error(message('nelson:control_system:SamplingTimesMustAgree'));
   end
   
   if isa(sys1, 'ss') || isa(sys2, 'ss')

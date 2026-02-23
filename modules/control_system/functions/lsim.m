@@ -19,7 +19,7 @@ function varargout = lsim(varargin)
   
   sys = varargin{1};
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error(message('nelson:control_system:LTIModelExpected'));
   end
   if ~isa(sys, 'ss')
     sys = ss(sys);

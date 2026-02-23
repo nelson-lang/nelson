@@ -14,7 +14,7 @@ function model = series(varargin)
   sys1 = varargin{1};
   sys2 = varargin{2};
   if ~islti(sys1) || ~islti(sys2)
-    error(_('LTI model expected.'));
+    error(message('nelson:control_system:LTIModelExpected'));
   end
   if (nargin == 3)
     error(_('Wrong number of input arguments.'), 'Nelson:narginchk:notEnoughInputs')
@@ -25,14 +25,14 @@ function model = series(varargin)
       if(sys1.Ts == sys2.Ts)
         model = sys2 * sys1;
       else
-        error(_('Sampling times must agree.'));
+        error(message('nelson:control_system:SamplingTimesMustAgree'));
       end
     elseif isa(sys1, 'tf')
       sys2 = tf(sys2);
       if(sys1.Ts == sys2.Ts)
         model = sys2 * sys1;
       else
-        error(_('Sampling times must agree.'));
+        error(message('nelson:control_system:SamplingTimesMustAgree'));
       end
     end
     return

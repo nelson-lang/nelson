@@ -59,6 +59,6 @@ function Ts = plus_timesample(TsA, TsB)
     Ts = TsA;
     return
   end
-  error(_('Sampling times must agree.'));
+  error(message('nelson:control_system:SamplingTimesMustAgree'));
 end
 %=============================================================================

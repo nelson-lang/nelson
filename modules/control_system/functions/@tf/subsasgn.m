@@ -13,11 +13,10 @@ function varargout = subsasgn(varargin)
   value = varargin{3};
   name = S.subs;
   if strcmp(S.type, '.') == false
-    error(_('Illegal indexing structure argument: type ''.'' expected.'));
+    error(message('nelson:runtime:illegalIndexingStructure', "'.'"));
   end
   if ~isprop(objIn, name)
-    msg = _('No property of the class ''%s'' matches the identifier ''%s''.');
-    error(sprintf(msg, 'tf', name));
+    error(message('nelson:control_system:noPropertyMatchesIdentifier', 'tf', name));
   end
   switch name
     case 'Variable' 
@@ -33,7 +32,7 @@ function varargout = subsasgn(varargin)
       st.(name) = value;
       objOut = class(st, 'tf');
     otherwise
-      error(_('Unsupported parameter: ''%s''.'), name)
+      error(message('nelson:control_system:unsupportedParameter', name));
     end
     varargout{1} = objOut;
   end
@@ -68,8 +67,7 @@ function objOut = updateVariable(objIn, value)
   supportedVariables = {'s', 'z', 'p', 'q', 'z^-1', 'q^-1'};
   isSupported = any(strcmp(supportedVariables, value));
   if ~isSupported
-    msg = _("'s', 'p', 'z', 'q', 'z^-1', or 'q^-1' expected.");
-    error(msg);
+    error(message('nelson:control_system:invalidVariable'));
   else
     st = struct(objIn);
     st.Variable = value;
@@ -85,8 +83,7 @@ function objOut = updateTimeUnit(objIn, value)
   'months', 'years'};
   isSupported = any(strcmp(supportedTimeUnits, value));
   if ~isSupported
-    msg = _('TimeUnit property must be a valid time unit.');
-    error(msg);
+    error(message('nelson:control_system:invalidTimeUnit'));
   else
     st = struct(objIn);
     st.TimeUnit = value;

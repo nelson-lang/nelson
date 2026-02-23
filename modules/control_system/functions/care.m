@@ -34,7 +34,7 @@ function varargout = care(varargin)
     R = varargin{4};
     mustBeNumeric(R, 4);
     if ~issymmetric(R, 0)
-      error(_('Wrong value for argument #4: Symmetric matrix expected.'));
+      error(message('nelson:validators:mustBeSymmetricMatrixAtPosition', 4));
     end
   else
     R = eye(n, n);
@@ -54,31 +54,34 @@ function varargout = care(varargin)
   
   [rA, cA] = size(A);
   if (rA ~= m) || (cA ~= m)
-    error(_('Wrong size for argument #1: Square matrix expected.'));
+    error(message('nelson:validators:mustBeSquareMatrixAtPosition', 1));
   end
-  
-  if ((size(Q, 1) ~= size(Q, 2)) || (size(R, 1) ~= size(R, 2)))
-    error(_('Wrong size for arguments: Q, R square matrix expected.'));
+
+  if ~issquare(Q)
+    error(message('nelson:validators:mustBeSquareMatrixAtPosition', 3));
   end
-  
+  if ~issquare(R)
+    error(message('nelson:validators:mustBeSquareMatrixAtPosition', 4));
+  end
+
   if (size(A, 1) ~= m)
-    error(_('Wrong size for arguments #1 and #2: Same number of rows expected.'));
+    error(message('nelson:validators:sizeMismatch'));
   end
   
   if (size(R, 2) ~= n)
-    error(_('Wrong size for arguments #2 and #4: Same number of columns expected.'));
+    error(message('nelson:validators:sizeMismatch'));
   end
   
   if ~isempty(S) && ((size(S,1) ~= m) || (size(S,2) ~= n))
-    error(_('Wrong size for arguments #2 and #5: Same size expected.'));
+    error(message('nelson:validators:sizeMismatch'));
   end
   
   if ~isempty(E) && ((size(E,1) ~= size(A,1)) || (size(E,2) ~= size(A,2)))
-    error(_('Wrong size for arguments #1 and #6: Same number of rows expected.'));
+    error(message('nelson:validators:sizeMismatch'));
   end
   
   if (size(A, 1) ~= size(Q, 1)) && (size(A, 2) ~= size(Q, 2))
-    error(_('Wrong size for arguments #1 and #3: Same size expected.'));
+    error(message('nelson:validators:sizeMismatch'));
   end
   
   mustBeFinite(A, 1);

@@ -30,7 +30,7 @@ function varargout = ss(varargin)
       Ts = varargin{5};
       isValidTs = isempty(Ts) || (isscalar(Ts) && (Ts == -1 || Ts >= 0));
       if ~isValidTs
-        error(_('Ts property should be either a positive scalar, 0, or -1 to indicate that it is unspecified.'));
+        error(message('nelson:control_system:invalidTsProperty'));
       end
     end
     A = varargin{1};
@@ -64,7 +64,7 @@ end
 %=============================================================================
 function sysOut = tf_to_ss(sysIn)
   if ~issiso(sysIn)
-    error(_('SISO LTI model expected.'));
+    error(message('nelson:control_system:SISOLTIModelExpected'));
   end
   Ts = sysIn.Ts;
   [ny, nu] = size(sysIn.Numerator{1});
@@ -89,7 +89,7 @@ function sys = ss_one_rhs(D)
     elseif isa(D, 'tf')
       sys = tf_to_ss(D);
     else
-      error(_('Supported LTI model expected.'))
+      error(message('nelson:control_system:LTIModelExpected'));
     end
     return 
   end
