@@ -41,6 +41,7 @@ target_link_libraries(
     nlsNelson_manager
     nlsI18n
     nlsOperators
+    nlsCharacters_encoding
     nlsTypes
   ${NELSON_BLAS_LAPACKX_LIBRARIES})
 # ==============================================================================
