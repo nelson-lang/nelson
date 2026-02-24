@@ -80,7 +80,7 @@ template <typename... Args>
 std::wstring
 sprintf_w_utf8(const std::wstring& wfmt, Args&&... args)
 {
-    // 1) Convert format string (UTF-16 → UTF-8, optimized)
+    // 1) Convert format string (UTF-16 -> UTF-8, optimized)
     std::string fmt_utf8 = wstring_to_utf8(wfmt);
     // 2) Convert arguments (wstring / wstring_view safe)
     auto utf8_args = std::make_tuple(to_utf8_arg(std::forward<Args>(args))...);

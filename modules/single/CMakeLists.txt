@@ -11,12 +11,13 @@ set(module_name single)
 set(module_library_name nlsSingle)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-file(GLOB SINGLE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp")
-list(FILTER SINGLE_SRC EXCLUDE REGEX
-     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
-# ==============================================================================
+nelson_module_sources_from_glob(
+  SINGLE_SRC
+  DIRS
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp)
+
 add_library(${module_library_name} ${SINGLE_SRC})
-# ==============================================================================
+
 target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
@@ -31,17 +32,18 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
+
+target_link_libraries(${module_library_name} PRIVATE nlsTypes nlsNelson_manager)
 # ==============================================================================
-target_link_libraries(${module_library_name} 
-  PRIVATE
-    nlsTypes 
-    nlsNelson_manager)
+# Builtin library
 # ==============================================================================
-file(GLOB SINGLE_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
-list(FILTER SINGLE_BUILTIN EXCLUDE REGEX
-     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
-# ==============================================================================
+nelson_module_sources_from_glob(
+  SINGLE_BUILTIN
+  DIRS
+  ${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp)
+
 add_library(${module_library_builtin_name} ${SINGLE_BUILTIN})
+
 target_include_directories(
   ${module_library_builtin_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
@@ -54,59 +56,16 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include)
-# ==============================================================================
+
 target_link_libraries(
   ${module_library_builtin_name}
-  PRIVATE
-    ${module_library_name}
-    nlsError_manager
-    nlsI18n
-    nlsInterpreter
-    nlsTypes)
+  PRIVATE ${module_library_name}
+          nlsError_manager
+          nlsI18n
+          nlsInterpreter
+          nlsTypes)
 # ==============================================================================
-include(GNUInstallDirs)
-# ==============================================================================
-install(
-  TARGETS ${module_library_name}
-  EXPORT ${PROJECT_NAME}-targets
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  PUBLIC_HEADER
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
-# ==============================================================================
-install(
-  TARGETS ${module_library_builtin_name}
-  EXPORT ${PROJECT_NAME}-targets
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  PUBLIC_HEADER
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
-# ==============================================================================
-install(
-  FILES ${CMAKE_CURRENT_SOURCE_DIR}/loader.m
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}")
-install(
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/etc
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.m")
-install(
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.m")
-install(
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/help
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.nhz"
-  PATTERN "xml" EXCLUDE
-  PATTERN "md" EXCLUDE)
-install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.m")
+nelson_install_library(${module_library_name})
+nelson_install_library(${module_library_builtin_name})
+nelson_install_module_data(${module_name})
 # ==============================================================================

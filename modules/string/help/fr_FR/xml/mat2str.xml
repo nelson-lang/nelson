@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>mat2str</keyword>
-  <short_description>Conversion matrice → chaîne.</short_description>
+  <short_description>Conversion matrice -> chaîne.</short_description>
   <syntax>
     <syntax_item>res = mat2str(M)</syntax_item>
     <syntax_item>res = mat2str(M, 'class')</syntax_item>

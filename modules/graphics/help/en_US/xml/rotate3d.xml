@@ -36,7 +36,7 @@
     <p />
     <p>Cursor: Click and drag within the axes.</p>
     <p
-    >Keyboard: Use the right arrow (→) or left arrow (←) keys to adjust azimuth, and the up arrow (↑) or down arrow (↓) keys to modify elevation.</p>
+    >Keyboard: Use the right arrow (->) or left arrow (←) keys to adjust azimuth, and the up arrow (↑) or down arrow (↓) keys to modify elevation.</p>
   </description>
   <used_function />
   <bibliography />
