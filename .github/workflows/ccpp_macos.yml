@@ -100,7 +100,7 @@ jobs:
           if [ "${{ matrix.config.arch }}" == "arm64" ]; then
             mv benchmark_all*.* artifacts
           fi
-          mv nelson-*.tar.gz artifacts
+          mv Nelson-*.dmg artifacts
 
       - uses: actions/upload-artifact@v6
         with:

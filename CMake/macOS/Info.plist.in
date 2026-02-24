@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleDevelopmentRegion</key>
+  <string>en</string>
+
+  <key>CFBundleDisplayName</key>
+  <string>Nelson</string>
+
+  <key>CFBundleExecutable</key>
+  <string>nelson-gui</string>
+
+  <key>CFBundleIconFile</key>
+  <string>Nelson.icns</string>
+
+  <key>CFBundleIdentifier</key>
+  <string>@NELSON_APP_ID@</string>
+
+  <key>CFBundleInfoDictionaryVersion</key>
+  <string>6.0</string>
+
+  <key>CFBundleName</key>
+  <string>Nelson</string>
+
+  <key>CFBundlePackageType</key>
+  <string>APPL</string>
+
+  <key>CFBundleShortVersionString</key>
+  <string>@Nelson_VERSION@</string>
+
+  <key>CFBundleVersion</key>
+  <string>@Nelson_VERSION_MAJOR@.@Nelson_VERSION_MINOR@.@Nelson_VERSION_MAINTENANCE@.@Nelson_VERSION_BUILD@</string>
+
+  <key>LSMinimumSystemVersion</key>
+  <string>11.0</string>
+
+  <key>NSHighResolutionCapable</key>
+  <true/>
+
+  <key>NSHumanReadableCopyright</key>
+  <string>Copyright © 2016-present Allan CORNET. Licensed under LGPL-3.0-or-later.</string>
+
+  <key>NSPrincipalClass</key>
+  <string>NSApplication</string>
+
+  <key>NSSupportsAutomaticGraphicsSwitching</key>
+  <true/>
+
+  <!-- File type associations -->
+  <key>CFBundleDocumentTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleTypeName</key>
+      <string>Nelson Script</string>
+      <key>CFBundleTypeRole</key>
+      <string>Editor</string>
+      <key>CFBundleTypeExtensions</key>
+      <array>
+        <string>m</string>
+      </array>
+      <key>CFBundleTypeIconFile</key>
+      <string>Nelson.icns</string>
+    </dict>
+    <dict>
+      <key>CFBundleTypeName</key>
+      <string>Nelson HDF5 File</string>
+      <key>CFBundleTypeRole</key>
+      <string>Editor</string>
+      <key>CFBundleTypeExtensions</key>
+      <array>
+        <string>nh5</string>
+      </array>
+      <key>CFBundleTypeIconFile</key>
+      <string>Nelson.icns</string>
+    </dict>
+    <dict>
+      <key>CFBundleTypeName</key>
+      <string>MAT File</string>
+      <key>CFBundleTypeRole</key>
+      <string>Editor</string>
+      <key>CFBundleTypeExtensions</key>
+      <array>
+        <string>mat</string>
+      </array>
+      <key>CFBundleTypeIconFile</key>
+      <string>Nelson.icns</string>
+    </dict>
+  </array>
+</dict>
+</plist>

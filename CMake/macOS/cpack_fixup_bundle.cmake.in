@@ -1,0 +1,15 @@
+# ==============================================================================
+# CPack install-time wrapper for fixup_bundle.cmake
+# ==============================================================================
+# This script is configured at CMake configure time (configure_file) and invoked
+# by CPack via CPACK_INSTALL_SCRIPT.  At that point CMAKE_INSTALL_PREFIX is set
+# to CPack's staging directory, so the .app bundle lives at:
+#   ${CMAKE_INSTALL_PREFIX}/Nelson.app
+# ==============================================================================
+set(APP_BUNDLE_DIR "${CMAKE_INSTALL_PREFIX}/Nelson.app")
+if(IS_DIRECTORY "${APP_BUNDLE_DIR}")
+  message(STATUS "CPack fixup: running bundle fixup on ${APP_BUNDLE_DIR}")
+  include("@CMAKE_SOURCE_DIR@/CMake/macOS/fixup_bundle.cmake")
+else()
+  message(STATUS "CPack fixup: ${APP_BUNDLE_DIR} not found – skipping fixup")
+endif()
