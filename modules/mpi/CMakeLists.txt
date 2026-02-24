@@ -42,6 +42,7 @@ target_link_libraries(
     nlsI18n
     nlsInterpreter
     nlsSparse
+    nlsCharacters_encoding
     nlsTypes
     ${MPI_C_LIBRARIES})
 # ==============================================================================

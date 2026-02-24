@@ -41,7 +41,7 @@ MPIErrorHandler(MPI_Comm* comm, int* errorcode, ...)
     MPI_Error_string(*errorcode, buffer, &resultlen);
     buffer[resultlen] = 0;
     std::string _msg(buffer);
-    Error(utf8_to_wstring(_msg), L"Nelson:mpi:ERROR_MPI_ERROR");
+    Error(utf8_to_wstring(_msg), L"nelson:mpi:mpiError");
 }
 //=============================================================================
 int

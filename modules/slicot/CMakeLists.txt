@@ -99,6 +99,7 @@ target_link_libraries(${module_library_builtin_name}
     ${module_library_name}
     nlsError_manager 
     nlsI18n nlsInterpreter
+    nlsCharacters_encoding
     nlsTypes)
 # ==============================================================================
 include(GNUInstallDirs)
