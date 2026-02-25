@@ -114,14 +114,17 @@ foreach(_dlib IN LISTS _dlopen_lib_names)
   endif()
   if(_found_dlib AND NOT EXISTS "${FRAMEWORKS_DIR}/${_dlib}")
     message(STATUS "  Bundling dlopen-loaded: ${_dlib} from ${_found_dlib}")
-    file(COPY "${_found_dlib}" DESTINATION "${FRAMEWORKS_DIR}"
-      FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
-    # Resolve symlinks – copy the real file too if _dlib is a symlink
+    # Resolve symlinks – Homebrew uses symlinks extensively.
+    # file(COPY) preserves symlinks, creating broken links in the bundle.
     get_filename_component(_real_dlib "${_found_dlib}" REALPATH)
     get_filename_component(_real_dlib_name "${_real_dlib}" NAME)
-    if(NOT "${_real_dlib_name}" STREQUAL "${_dlib}" AND NOT EXISTS "${FRAMEWORKS_DIR}/${_real_dlib_name}")
-      file(COPY "${_real_dlib}" DESTINATION "${FRAMEWORKS_DIR}"
-        FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
+    file(COPY "${_real_dlib}" DESTINATION "${FRAMEWORKS_DIR}"
+      FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
+    # Rename to the expected name if the real file differs
+    if(NOT "${_real_dlib_name}" STREQUAL "${_dlib}")
+      if(EXISTS "${FRAMEWORKS_DIR}/${_real_dlib_name}")
+        file(RENAME "${FRAMEWORKS_DIR}/${_real_dlib_name}" "${FRAMEWORKS_DIR}/${_dlib}")
+      endif()
     endif()
     # Fix install name
     execute_process(
@@ -259,9 +262,31 @@ while(_deps_to_bundle AND _iteration LESS _max_iterations)
     set(_dest "${FRAMEWORKS_DIR}/${_depname}")
 
     if(NOT EXISTS "${_dest}")
+      # Remove stale broken symlinks from a previous run
+      if(IS_SYMLINK "${_dest}")
+        file(REMOVE "${_dest}")
+      endif()
+
       message(STATUS "  Bundling: ${_depname}")
-      file(COPY "${_dep}" DESTINATION "${FRAMEWORKS_DIR}"
+
+      # Resolve symlinks before copying – Homebrew uses symlinks extensively
+      # (e.g., libicudata.77.dylib → libicudata.77.1.dylib).
+      # CMake file(COPY) preserves symlinks, creating broken links in the bundle
+      # because the symlink target doesn't exist in Frameworks/.
+      get_filename_component(_dep_real "${_dep}" REALPATH)
+      get_filename_component(_dep_real_name "${_dep_real}" NAME)
+
+      file(COPY "${_dep_real}" DESTINATION "${FRAMEWORKS_DIR}"
         FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
+
+      # Rename to the expected name if the real file differs
+      # (e.g., libicudata.77.1.dylib must be named libicudata.77.dylib)
+      if(NOT "${_dep_real_name}" STREQUAL "${_depname}")
+        if(EXISTS "${FRAMEWORKS_DIR}/${_dep_real_name}")
+          file(RENAME "${FRAMEWORKS_DIR}/${_dep_real_name}" "${_dest}")
+        endif()
+      endif()
+
       # Make writable so install_name_tool can modify it
       file(CHMOD "${_dest}"
         PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
