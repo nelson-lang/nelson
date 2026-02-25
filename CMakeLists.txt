@@ -367,6 +367,26 @@ find_package(
 if(NOT WITHOUT_XML_MODULE)
   find_package(LibXml2 REQUIRED)
   find_package(LibXslt REQUIRED)
+  # ---------------------------------------------------------------------------
+  # Guard: Homebrew's pkg-config for libxslt/libxml2 can hardcode the SDK
+  # version that was active at brew-install time (e.g. MacOSX15.sdk).
+  # If the system has since been upgraded (e.g. MacOSX26.sdk), adding that
+  # stale path as -I or -isystem breaks <complex>, <cstdio>, etc. because
+  # the compiler mixes headers from two different SDKs.
+  # Since SDK include paths are already in the compiler's default search
+  # path (via -isysroot / xcrun), we strip them from the imported targets.
+  # ---------------------------------------------------------------------------
+  if(APPLE)
+    foreach(_xslt_tgt LibXslt::LibXslt LibXslt::LibExslt LibXml2::LibXml2)
+      if(TARGET ${_xslt_tgt})
+        get_target_property(_inc ${_xslt_tgt} INTERFACE_INCLUDE_DIRECTORIES)
+        if(_inc)
+          list(FILTER _inc EXCLUDE REGEX "/Library/Developer/.*/SDKs/.*/usr/include$")
+          set_target_properties(${_xslt_tgt} PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${_inc}")
+        endif()
+      endif()
+    endforeach()
+  endif()
 endif()
 # ==============================================================================
 # -- BLAS / LAPACK
