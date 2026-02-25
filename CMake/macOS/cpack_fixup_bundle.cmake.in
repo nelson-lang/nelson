@@ -1,20 +1,18 @@
 # ==============================================================================
-# CPack install-time wrapper for fixup_bundle.cmake
+# CPack pre-build wrapper for fixup_bundle.cmake
 # ==============================================================================
 # This script is configured at CMake configure time (configure_file) and invoked
-# by CPack via CPACK_INSTALL_SCRIPT.  At that point CMAKE_INSTALL_PREFIX is set
-# to the CPack staging directory PLUS CPACK_PACKAGING_INSTALL_PREFIX, i.e.:
-#   <staging>/Nelson.app/Contents/Resources
-# We need to navigate up to <staging>/Nelson.app for the fixup script.
+# by CPack via CPACK_PRE_BUILD_SCRIPTS (CMake 3.19+).
+#
+# At that point all install() rules have already been executed, so the full
+# .app bundle tree exists under CPACK_TEMPORARY_INSTALL_DIRECTORY.
 # ==============================================================================
-# CMAKE_INSTALL_PREFIX = <staging>/Nelson.app/Contents/Resources
-# Navigate up: Resources → Contents → Nelson.app
-get_filename_component(_contents_dir "${CMAKE_INSTALL_PREFIX}" DIRECTORY) # .../Contents
-get_filename_component(APP_BUNDLE_DIR "${_contents_dir}" DIRECTORY)       # .../Nelson.app
+set(APP_BUNDLE_DIR "${CPACK_TEMPORARY_INSTALL_DIRECTORY}/Nelson.app")
+set(_contents_dir "${APP_BUNDLE_DIR}/Contents")
 
 if(IS_DIRECTORY "${APP_BUNDLE_DIR}")
   # ==========================================================================
-  # Install the .app bundle skeleton (only during CPack, never cmake --install)
+  # Install the .app bundle skeleton
   # ==========================================================================
   # Launcher script → Contents/MacOS/nelson-gui
   file(MAKE_DIRECTORY "${_contents_dir}/MacOS")
@@ -32,7 +30,7 @@ if(IS_DIRECTORY "${APP_BUNDLE_DIR}")
   set(_nelson_icns "@CMAKE_BINARY_DIR@/Nelson.icns")
   if(EXISTS "${_nelson_icns}")
     file(COPY "${_nelson_icns}"
-      DESTINATION "${CMAKE_INSTALL_PREFIX}")
+      DESTINATION "${_contents_dir}/Resources")
   endif()
 
   message(STATUS "CPack fixup: running bundle fixup on ${APP_BUNDLE_DIR}")

@@ -84,15 +84,17 @@ if(UNIX)
     set(CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE ON)
     # -- Symlink to /Applications in the DMG root (standard macOS convention)
     set(CPACK_DMG_DISABLE_APPLICATIONS_SYMLINK OFF)
-    # -- Configure the CPack install-time fixup script.
-    #    CPack sets CMAKE_INSTALL_PREFIX to its staging directory before
-    #    running CPACK_INSTALL_SCRIPT, so the wrapper can locate the .app
-    #    bundle and call fixup_bundle.cmake on it automatically.
+    # -- Configure the CPack pre-build fixup script.
+    #    CPACK_PRE_BUILD_SCRIPTS runs after all install rules have been
+    #    executed but before CPack creates the package.  At that point
+    #    the variable CPACK_TEMPORARY_INSTALL_DIRECTORY is available
+    #    and the full .app bundle tree exists in the staging area.
     configure_file(
       "${CMAKE_SOURCE_DIR}/CMake/macOS/cpack_fixup_bundle.cmake.in"
       "${CMAKE_BINARY_DIR}/cpack_fixup_bundle.cmake"
       @ONLY)
-    set(CPACK_INSTALL_SCRIPT "${CMAKE_BINARY_DIR}/cpack_fixup_bundle.cmake")
+    list(APPEND CPACK_PRE_BUILD_SCRIPTS
+      "${CMAKE_BINARY_DIR}/cpack_fixup_bundle.cmake")
     message(STATUS "macOS DMG packaging enabled (DragNDrop)")
     message(STATUS "  Run: cmake --build . -- package")
   else()
