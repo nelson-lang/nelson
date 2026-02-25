@@ -38,6 +38,7 @@ endif()
 set(CONTENTS_DIR "${APP_BUNDLE_DIR}/Contents")
 set(FRAMEWORKS_DIR "${CONTENTS_DIR}/Frameworks")
 set(RESOURCES_DIR "${CONTENTS_DIR}/Resources")
+set(NELSON_LIB_DIR "${RESOURCES_DIR}/lib/Nelson")
 
 file(MAKE_DIRECTORY "${FRAMEWORKS_DIR}")
 
@@ -248,15 +249,48 @@ foreach(_bin IN LISTS _all_macho_final)
   file(CHMOD "${_bin}"
     PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
 
-  # Add @rpath pointing to Frameworks/
-  # Compute relative path from the binary to Frameworks/
+  # ---- Remove old absolute rpaths that won't exist on another machine ----
+  execute_process(
+    COMMAND otool -l "${_bin}"
+    OUTPUT_VARIABLE _otool_lc
+    OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
+  string(REPLACE "\n" ";" _lc_lines "${_otool_lc}")
+  set(_in_rpath FALSE)
+  foreach(_lc_line IN LISTS _lc_lines)
+    string(STRIP "${_lc_line}" _lc_line)
+    if(_lc_line MATCHES "cmd LC_RPATH")
+      set(_in_rpath TRUE)
+    elseif(_in_rpath AND _lc_line MATCHES "path (.+) \\(offset")
+      set(_old_rpath "${CMAKE_MATCH_1}")
+      # Remove rpaths that are absolute and do NOT start with @
+      if(_old_rpath MATCHES "^/" AND NOT _old_rpath MATCHES "^@")
+        execute_process(
+          COMMAND install_name_tool -delete_rpath "${_old_rpath}" "${_bin}"
+          ERROR_QUIET)
+        message(STATUS "  Removed old rpath: ${_old_rpath} from ${_bin}")
+      endif()
+      set(_in_rpath FALSE)
+    endif()
+  endforeach()
+
+  # ---- Add @rpath pointing to Frameworks/ ----
   get_filename_component(_bin_dir "${_bin}" DIRECTORY)
   file(RELATIVE_PATH _rel_to_fw "${_bin_dir}" "${FRAMEWORKS_DIR}")
   execute_process(
     COMMAND install_name_tool -add_rpath "@loader_path/${_rel_to_fw}" "${_bin}"
     ERROR_QUIET) # Ignore if already exists
 
-  # Rewrite all third-party references to @rpath/
+  # ---- Add @rpath pointing to Nelson lib dir (lib/Nelson/) ----
+  # So that @rpath/libnlsXxx.dylib references between Nelson libraries resolve.
+  file(RELATIVE_PATH _rel_to_nlib "${_bin_dir}" "${NELSON_LIB_DIR}")
+  if(_rel_to_nlib STREQUAL "")
+    set(_rel_to_nlib ".")
+  endif()
+  execute_process(
+    COMMAND install_name_tool -add_rpath "@loader_path/${_rel_to_nlib}" "${_bin}"
+    ERROR_QUIET) # Ignore if already exists
+
+  # ---- Rewrite all third-party references to @rpath/ ----
   execute_process(
     COMMAND otool -L "${_bin}"
     OUTPUT_VARIABLE _refs
@@ -264,7 +298,7 @@ foreach(_bin IN LISTS _all_macho_final)
   string(REPLACE "\n" ";" _ref_lines "${_refs}")
   foreach(_ref_line IN LISTS _ref_lines)
     string(STRIP "${_ref_line}" _ref_line)
-    if(_ref_line MATCHES "^\t?(/[^ ]+/(lib[^ ]+\\.dylib))")
+    if(_ref_line MATCHES "^\t?(/[^ ]+/([^ /]+\\.dylib))")
       set(_old_path "${CMAKE_MATCH_1}")
       set(_lib_name "${CMAKE_MATCH_2}")
       _is_system_lib("${_old_path}" _ref_sys)

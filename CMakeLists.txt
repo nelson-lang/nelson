@@ -259,13 +259,21 @@ include(TreeConfig)
 # Install RPATH
 # ==============================================================================
 include(GNUInstallDirs)
-set(CMAKE_INSTALL_RPATH
-    "${CMAKE_INSTALL_PREFIX}/lib:${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}"
-)
 if(CMAKE_SYSTEM_NAME
    STREQUAL
    "Darwin")
   set(CMAKE_MACOSX_RPATH ON)
+  # Use @loader_path-based rpaths so the bundle is relocatable.
+  # Libraries in lib/Nelson/ find siblings via @loader_path,
+  # executables in bin/ find them via @loader_path/../lib/Nelson.
+  set(CMAKE_INSTALL_RPATH
+      "@loader_path"
+      "@loader_path/../lib/Nelson"
+      "@loader_path/../${CMAKE_INSTALL_LIBDIR}/Nelson")
+else()
+  set(CMAKE_INSTALL_RPATH
+      "${CMAKE_INSTALL_PREFIX}/lib"
+      "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
 endif()
 # ==============================================================================
 # Platform-specific setup
