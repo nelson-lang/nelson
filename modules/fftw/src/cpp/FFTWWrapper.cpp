@@ -198,7 +198,7 @@ freeFFTWLibrary()
 static bool
 loadFFTWLibraryOnMacOs()
 {
-    // Lambda to attempt loading FFTW libraries from a given prefix
+    // Lambda to attempt loading FFTW libraries from a given path prefix
     auto tryLoadLibrary = [](const char* prefix) -> bool {
         if (prefix) {
             std::string libPath = std::string(prefix) + "/lib/";
@@ -209,6 +209,24 @@ loadFFTWLibraryOnMacOs()
         }
         return false;
     };
+
+    auto tryLoadLibraryFromDir = [](const std::string& dir) -> bool {
+        std::string fftwLibraryName = dir + "libfftw3.3" + get_dynamic_library_extension();
+        std::string fftwfLibraryName = dir + "libfftw3f" + get_dynamic_library_extension();
+        return loadFFTWLibrary(
+            utf8_to_wstring(fftwLibraryName), utf8_to_wstring(fftwfLibraryName));
+    };
+
+    // When running from a .app bundle, FFTW dylibs are in Contents/Frameworks/
+    const char* nelsonRoot = std::getenv("NELSON_ROOT_DIR");
+    if (nelsonRoot) {
+        // NELSON_ROOT_DIR = .../Nelson.app/Contents/Resources
+        // Frameworks is at   .../Nelson.app/Contents/Frameworks/
+        std::string frameworksPath = std::string(nelsonRoot) + "/../Frameworks/";
+        if (tryLoadLibraryFromDir(frameworksPath)) {
+            return true;
+        }
+    }
 
     // Try loading from CONDA_PREFIX first, then HOMEBREW_PREFIX if necessary
     return tryLoadLibrary(std::getenv("CONDA_PREFIX"))

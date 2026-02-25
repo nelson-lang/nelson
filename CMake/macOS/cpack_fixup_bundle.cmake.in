@@ -13,6 +13,28 @@ get_filename_component(_contents_dir "${CMAKE_INSTALL_PREFIX}" DIRECTORY) # .../
 get_filename_component(APP_BUNDLE_DIR "${_contents_dir}" DIRECTORY)       # .../Nelson.app
 
 if(IS_DIRECTORY "${APP_BUNDLE_DIR}")
+  # ==========================================================================
+  # Install the .app bundle skeleton (only during CPack, never cmake --install)
+  # ==========================================================================
+  # Launcher script → Contents/MacOS/nelson-gui
+  file(MAKE_DIRECTORY "${_contents_dir}/MacOS")
+  file(COPY "@CMAKE_SOURCE_DIR@/CMake/macOS/nelson-gui-launcher.sh"
+    DESTINATION "${_contents_dir}/MacOS"
+    FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+                     GROUP_READ GROUP_EXECUTE
+                     WORLD_READ WORLD_EXECUTE)
+  file(RENAME "${_contents_dir}/MacOS/nelson-gui-launcher.sh"
+              "${_contents_dir}/MacOS/nelson-gui")
+  # Info.plist → Contents/
+  file(COPY "@CMAKE_BINARY_DIR@/Info.plist"
+    DESTINATION "${_contents_dir}")
+  # Icon → Contents/Resources/
+  set(_nelson_icns "@CMAKE_BINARY_DIR@/Nelson.icns")
+  if(EXISTS "${_nelson_icns}")
+    file(COPY "${_nelson_icns}"
+      DESTINATION "${CMAKE_INSTALL_PREFIX}")
+  endif()
+
   message(STATUS "CPack fixup: running bundle fixup on ${APP_BUNDLE_DIR}")
   include("@CMAKE_SOURCE_DIR@/CMake/macOS/fixup_bundle.cmake")
 else()

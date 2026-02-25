@@ -76,6 +76,61 @@ else()
 endif()
 
 # ==============================================================================
+# Step 1b: Bundle dlopen-loaded libraries (not found by otool -L)
+# ==============================================================================
+# FFTW is loaded at runtime via dlopen.  We must find and copy it explicitly.
+set(_dlopen_lib_names
+  "libfftw3.3.dylib"
+  "libfftw3f.3.dylib"
+  "libfftw3.dylib"
+  "libfftw3f.dylib")
+
+# Search paths for dlopen-loaded libraries
+set(_dlopen_search_paths
+  "$ENV{HOMEBREW_PREFIX}/lib"
+  "$ENV{CONDA_PREFIX}/lib"
+  "/opt/homebrew/lib"
+  "/usr/local/lib")
+
+foreach(_dlib IN LISTS _dlopen_lib_names)
+  set(_found_dlib "")
+  foreach(_sp IN LISTS _dlopen_search_paths)
+    if(EXISTS "${_sp}/${_dlib}")
+      set(_found_dlib "${_sp}/${_dlib}")
+      break()
+    endif()
+  endforeach()
+  # Also check if it was provided via a Nix store or similar
+  if(NOT _found_dlib)
+    execute_process(
+      COMMAND find /nix/store -maxdepth 3 -name "${_dlib}" -type f
+      OUTPUT_VARIABLE _nix_result
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET)
+    if(_nix_result)
+      string(REPLACE "\n" ";" _nix_paths "${_nix_result}")
+      list(GET _nix_paths 0 _found_dlib)
+    endif()
+  endif()
+  if(_found_dlib AND NOT EXISTS "${FRAMEWORKS_DIR}/${_dlib}")
+    message(STATUS "  Bundling dlopen-loaded: ${_dlib} from ${_found_dlib}")
+    file(COPY "${_found_dlib}" DESTINATION "${FRAMEWORKS_DIR}"
+      FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
+    # Resolve symlinks – copy the real file too if _dlib is a symlink
+    get_filename_component(_real_dlib "${_found_dlib}" REALPATH)
+    get_filename_component(_real_dlib_name "${_real_dlib}" NAME)
+    if(NOT "${_real_dlib_name}" STREQUAL "${_dlib}" AND NOT EXISTS "${FRAMEWORKS_DIR}/${_real_dlib_name}")
+      file(COPY "${_real_dlib}" DESTINATION "${FRAMEWORKS_DIR}"
+        FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
+    endif()
+    # Fix install name
+    execute_process(
+      COMMAND install_name_tool -id "@rpath/${_dlib}" "${FRAMEWORKS_DIR}/${_dlib}"
+      ERROR_QUIET)
+  endif()
+endforeach()
+
+# ==============================================================================
 # Step 2: Collect all Mach-O binaries in the bundle
 # ==============================================================================
 file(GLOB_RECURSE _all_files
@@ -83,7 +138,8 @@ file(GLOB_RECURSE _all_files
   "${CONTENTS_DIR}/Frameworks/*.dylib"
   "${CONTENTS_DIR}/Frameworks/*.framework/Versions/*/lib*"
   "${RESOURCES_DIR}/bin/*"
-  "${RESOURCES_DIR}/lib/*.dylib")
+  "${RESOURCES_DIR}/lib/*.dylib"
+  "${RESOURCES_DIR}/lib/Nelson/*.dylib")
 
 set(_macho_files "")
 foreach(_f IN LISTS _all_files)
@@ -224,7 +280,8 @@ file(GLOB_RECURSE _all_macho_final
   "${CONTENTS_DIR}/MacOS/*"
   "${CONTENTS_DIR}/Frameworks/*.dylib"
   "${RESOURCES_DIR}/bin/*"
-  "${RESOURCES_DIR}/lib/*.dylib")
+  "${RESOURCES_DIR}/lib/*.dylib"
+  "${RESOURCES_DIR}/lib/Nelson/*.dylib")
 
 # Build a map of original paths → @rpath/name for all bundled libs
 set(_rewrite_args "")

@@ -72,24 +72,10 @@ if(UNIX)
       "${CMAKE_SOURCE_DIR}/CMake/macOS/Info.plist.in"
       "${CMAKE_BINARY_DIR}/Info.plist"
       @ONLY)
-    # -- Install the .app bundle skeleton into the DMG
-    # Because CPACK_PACKAGING_INSTALL_PREFIX = /Nelson.app/Contents/Resources,
-    # CMAKE_INSTALL_PREFIX during CPack points to <staging>/Nelson.app/Contents/Resources.
-    # We use ".." relative destinations to place files in sibling directories
-    # within the .app bundle (Contents/MacOS, Contents/).
-    # The launcher script → Contents/MacOS/
-    install(
-      PROGRAMS "${CMAKE_SOURCE_DIR}/CMake/macOS/nelson-gui-launcher.sh"
-      DESTINATION "../MacOS"
-      RENAME "nelson-gui")
-    # Info.plist → Contents/
-    install(
-      FILES "${CMAKE_BINARY_DIR}/Info.plist"
-      DESTINATION "..")
-    # Icon → Contents/Resources/ (= CMAKE_INSTALL_PREFIX itself)
-    install(
-      FILES "${_nelson_icns}"
-      DESTINATION ".")
+    # -- .app bundle skeleton (launcher, Info.plist, icon) is installed
+    #    in cpack_fixup_bundle.cmake.in at CPack time only, so that
+    #    "cmake --install ." works without requiring bundle paths.
+    #
     # Application content goes into Contents/Resources
     # (the normal install rules already install into CMAKE_INSTALL_PREFIX;
     #  we set CPACK_PACKAGING_INSTALL_PREFIX so the install tree ends up
