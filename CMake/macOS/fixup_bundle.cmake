@@ -76,6 +76,24 @@ else()
 endif()
 
 # ==============================================================================
+# Step 1a: Write qt.conf next to the real executable
+# ==============================================================================
+# macdeployqt places qt.conf in Contents/Resources/, but Qt looks for it
+# relative to applicationDirPath().  Since nelson-gui-exec lives in
+# Contents/Resources/bin/ (not Contents/MacOS/), Qt does NOT detect the
+# bundle layout and never reads Contents/Resources/qt.conf.
+#
+# We write a qt.conf next to the binary that sets Prefix = ../..  so that
+# Qt's prefix resolves to Contents/ and all standard sub-directories
+# (PlugIns, Frameworks, …) are found correctly.
+set(_exe_bin_dir "${RESOURCES_DIR}/bin")
+if(IS_DIRECTORY "${_exe_bin_dir}")
+  file(WRITE "${_exe_bin_dir}/qt.conf"
+"[Paths]\nPrefix = ../..\nPlugins = PlugIns\n")
+  message(STATUS "Wrote qt.conf in ${_exe_bin_dir}")
+endif()
+
+# ==============================================================================
 # Step 1b: Bundle dlopen-loaded libraries (not found by otool -L)
 # ==============================================================================
 # FFTW is loaded at runtime via dlopen.  We must find and copy it explicitly.
@@ -134,6 +152,67 @@ foreach(_dlib IN LISTS _dlopen_lib_names)
 endforeach()
 
 # ==============================================================================
+# Step 1c: Resolve system library shadowing conflicts
+# ==============================================================================
+# macdeployqt may bundle Homebrew libraries whose filename matches a system
+# library but whose ABI is INCOMPATIBLE.  The main case is GNU libiconv
+# (Homebrew) vs Apple libiconv (/usr/lib/libiconv.2.dylib):
+#
+#   GNU libiconv exports  : _libiconv, _libiconv_open, _libiconv_close
+#   Apple libiconv exports: _iconv,    _iconv_open,    _iconv_close
+#
+# When both are in the process image, dyld resolves ALL references to the
+# bundled copy and libraries linked against the system version (e.g. libglib,
+# libgit2, libintl) fail with "Symbol not found: _iconv".
+#
+# Fix: rename the Homebrew copy so its filename no longer shadows the system
+# library.  Libraries that genuinely need the Homebrew version (e.g. libxml2)
+# have their references updated to the new name.
+#
+set(_system_shadow_libs
+  "libiconv.2.dylib"
+  "libcharset.1.dylib")   # companion shipped with Homebrew libiconv
+
+foreach(_shadow IN LISTS _system_shadow_libs)
+  set(_shadow_path "${FRAMEWORKS_DIR}/${_shadow}")
+  if(NOT EXISTS "${_shadow_path}")
+    continue()
+  endif()
+
+  # Build the new name:  lib<name>.dylib  →  libhb_<name>.dylib
+  string(REGEX REPLACE "^lib" "libhb_" _new_name "${_shadow}")
+  set(_new_path "${FRAMEWORKS_DIR}/${_new_name}")
+
+  message(STATUS "Renaming ${_shadow} -> ${_new_name} (avoid shadowing /usr/lib/${_shadow})")
+  file(RENAME "${_shadow_path}" "${_new_path}")
+
+  # Make writable and fix install name
+  file(CHMOD "${_new_path}"
+    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
+  execute_process(
+    COMMAND install_name_tool -id "@rpath/${_new_name}" "${_new_path}"
+    ERROR_QUIET)
+
+  # Update every Mach-O in Frameworks/ that references the old name
+  file(GLOB _fw_all_shadow "${FRAMEWORKS_DIR}/*.dylib")
+  # Also include Qt frameworks
+  file(GLOB_RECURSE _fw_frameworks_shadow "${FRAMEWORKS_DIR}/*.framework/Versions/*/Qt*")
+  list(APPEND _fw_all_shadow ${_fw_frameworks_shadow})
+  foreach(_fw_s IN LISTS _fw_all_shadow)
+    if(IS_SYMLINK "${_fw_s}")
+      continue()
+    endif()
+    execute_process(
+      COMMAND install_name_tool
+        -change "@rpath/${_shadow}" "@rpath/${_new_name}"
+        -change "@loader_path/${_shadow}" "@rpath/${_new_name}"
+        -change "/opt/homebrew/opt/libiconv/lib/${_shadow}" "@rpath/${_new_name}"
+        "${_fw_s}"
+      ERROR_QUIET)
+  endforeach()
+endforeach()
+
+# ==============================================================================
 # Step 2: Collect all Mach-O binaries in the bundle
 # ==============================================================================
 file(GLOB_RECURSE _all_files
@@ -189,6 +268,29 @@ function(_is_system_lib _path _result)
   set(${_result} ${_sys} PARENT_SCOPE)
 endfunction()
 
+# ---- Build a set of library names already inside the bundle ----
+# Libraries already installed under Resources/ (e.g. libnls*.dylib) must NOT
+# be copied a second time into Frameworks/.  Collect their names so we can
+# skip them in the dependency scan.
+set(_bundled_lib_names "")
+file(GLOB _existing_nlib "${NELSON_LIB_DIR}/*.dylib")
+foreach(_el IN LISTS _existing_nlib)
+  if(NOT IS_SYMLINK "${_el}")
+    get_filename_component(_elname "${_el}" NAME)
+    list(APPEND _bundled_lib_names "${_elname}")
+  endif()
+endforeach()
+file(GLOB _existing_fw "${FRAMEWORKS_DIR}/*.dylib")
+foreach(_el IN LISTS _existing_fw)
+  if(NOT IS_SYMLINK "${_el}")
+    get_filename_component(_elname "${_el}" NAME)
+    list(APPEND _bundled_lib_names "${_elname}")
+  endif()
+endforeach()
+list(REMOVE_DUPLICATES _bundled_lib_names)
+list(LENGTH _bundled_lib_names _n_existing)
+message(STATUS "Libraries already in bundle: ${_n_existing}")
+
 set(_deps_to_bundle "")
 
 foreach(_bin IN LISTS _macho_files)
@@ -205,14 +307,40 @@ foreach(_bin IN LISTS _macho_files)
       set(_dep "${CMAKE_MATCH_1}")
       _is_system_lib("${_dep}" _is_sys)
       if(NOT _is_sys AND EXISTS "${_dep}")
-        list(APPEND _deps_to_bundle "${_dep}")
+        # Skip libraries that are already inside the bundle
+        get_filename_component(_dep_check_name "${_dep}" NAME)
+        list(FIND _bundled_lib_names "${_dep_check_name}" _already_idx)
+        if(_already_idx EQUAL -1)
+          list(APPEND _deps_to_bundle "${_dep}")
+        endif()
       endif()
     endif()
   endforeach()
 endforeach()
 
-# Also scan already-bundled Frameworks/ dylibs for @loader_path siblings
-# that the initial scan above may have missed (e.g. ICU data libraries).
+# Also scan already-bundled Frameworks/ dylibs for deps that the initial
+# scan above may have missed.  In particular, ICU libraries reference
+# libicudata via @loader_path which the absolute-path-only scan misses.
+#
+# Build a set of known source directories from deps found so far,
+# plus common Homebrew / system library paths, so we can resolve
+# @loader_path and @rpath references from Frameworks/ libraries.
+set(_known_lib_dirs "")
+foreach(_d IN LISTS _deps_to_bundle)
+  get_filename_component(_ddir "${_d}" DIRECTORY)
+  list(APPEND _known_lib_dirs "${_ddir}")
+endforeach()
+foreach(_sp IN ITEMS
+    "$ENV{HOMEBREW_PREFIX}/lib"
+    "/opt/homebrew/lib"
+    "/usr/local/lib"
+    "$ENV{CONDA_PREFIX}/lib")
+  if(_sp AND IS_DIRECTORY "${_sp}")
+    list(APPEND _known_lib_dirs "${_sp}")
+  endif()
+endforeach()
+list(REMOVE_DUPLICATES _known_lib_dirs)
+
 file(GLOB _fw_dylibs "${FRAMEWORKS_DIR}/*.dylib")
 foreach(_fwlib IN LISTS _fw_dylibs)
   if(IS_SYMLINK "${_fwlib}")
@@ -226,13 +354,69 @@ foreach(_fwlib IN LISTS _fw_dylibs)
   string(REPLACE "\n" ";" _fw_lines "${_fw_otool}")
   foreach(_fw_line IN LISTS _fw_lines)
     string(STRIP "${_fw_line}" _fw_line)
+    # ---- Absolute paths ----
     if(_fw_line MATCHES "^\t?(/[^ ]+\\.dylib)")
       set(_fw_dep "${CMAKE_MATCH_1}")
       _is_system_lib("${_fw_dep}" _fw_sys)
       if(NOT _fw_sys AND EXISTS "${_fw_dep}")
         get_filename_component(_fw_dep_name "${_fw_dep}" NAME)
-        if(NOT EXISTS "${FRAMEWORKS_DIR}/${_fw_dep_name}")
+        list(FIND _bundled_lib_names "${_fw_dep_name}" _fw_abs_already_idx)
+        if(NOT EXISTS "${FRAMEWORKS_DIR}/${_fw_dep_name}" AND _fw_abs_already_idx EQUAL -1)
           list(APPEND _deps_to_bundle "${_fw_dep}")
+        endif()
+      endif()
+    # ---- @loader_path references ----
+    elseif(_fw_line MATCHES "^\t?@loader_path/([^ ]+\\.dylib)")
+      set(_lp_name "${CMAKE_MATCH_1}")
+      list(FIND _bundled_lib_names "${_lp_name}" _fw_lp_already_idx)
+      if(NOT EXISTS "${FRAMEWORKS_DIR}/${_lp_name}" AND _fw_lp_already_idx EQUAL -1)
+        # Try the lib's install name to find its original directory
+        execute_process(
+          COMMAND otool -D "${_fwlib}"
+          OUTPUT_VARIABLE _fwlib_id
+          OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
+        string(REPLACE "\n" ";" _id_lines "${_fwlib_id}")
+        set(_lp_found "")
+        list(LENGTH _id_lines _id_len)
+        if(_id_len GREATER 1)
+          list(GET _id_lines 1 _install_name)
+          string(STRIP "${_install_name}" _install_name)
+          if(_install_name MATCHES "^/")
+            get_filename_component(_orig_dir "${_install_name}" DIRECTORY)
+            if(EXISTS "${_orig_dir}/${_lp_name}")
+              set(_lp_found "${_orig_dir}/${_lp_name}")
+            endif()
+          endif()
+        endif()
+        # Fallback: search known library directories
+        if(NOT _lp_found)
+          foreach(_kdir IN LISTS _known_lib_dirs)
+            if(EXISTS "${_kdir}/${_lp_name}")
+              set(_lp_found "${_kdir}/${_lp_name}")
+              break()
+            endif()
+          endforeach()
+        endif()
+        if(_lp_found)
+          message(STATUS "  Found @loader_path dep in Frameworks/: ${_lp_name} -> ${_lp_found}")
+          list(APPEND _deps_to_bundle "${_lp_found}")
+        endif()
+      endif()
+    # ---- @rpath references ----
+    elseif(_fw_line MATCHES "^\t?@rpath/([^ ]+\\.dylib)")
+      set(_rp_name "${CMAKE_MATCH_1}")
+      list(FIND _bundled_lib_names "${_rp_name}" _fw_rp_already_idx)
+      if(NOT EXISTS "${FRAMEWORKS_DIR}/${_rp_name}" AND _fw_rp_already_idx EQUAL -1)
+        set(_rp_found "")
+        foreach(_kdir IN LISTS _known_lib_dirs)
+          if(EXISTS "${_kdir}/${_rp_name}")
+            set(_rp_found "${_kdir}/${_rp_name}")
+            break()
+          endif()
+        endforeach()
+        if(_rp_found)
+          message(STATUS "  Found @rpath dep in Frameworks/: ${_rp_name} -> ${_rp_found}")
+          list(APPEND _deps_to_bundle "${_rp_found}")
         endif()
       endif()
     endif()
@@ -250,6 +434,7 @@ message(STATUS "Found ${_n_deps} third-party dylibs to bundle")
 set(_max_iterations 10)
 set(_iteration 0)
 set(_all_bundled "")
+set(_scanned_deps "")
 
 while(_deps_to_bundle AND _iteration LESS _max_iterations)
   math(EXPR _iteration "${_iteration} + 1")
@@ -297,8 +482,14 @@ while(_deps_to_bundle AND _iteration LESS _max_iterations)
         ERROR_QUIET)
 
       list(APPEND _all_bundled "${_dest}")
+    endif()
 
-      # Discover transitive deps of this newly-copied library
+    # Discover transitive deps – runs even if the library was already present
+    # (e.g. copied by macdeployqt) so we catch @loader_path siblings like
+    # libicudata that macdeployqt may have missed.
+    list(FIND _scanned_deps "${_depname}" _scan_idx)
+    if(EXISTS "${_dest}" AND _scan_idx EQUAL -1)
+      list(APPEND _scanned_deps "${_depname}")
       execute_process(
         COMMAND otool -L "${_dest}"
         OUTPUT_VARIABLE _sub_out
@@ -313,26 +504,31 @@ while(_deps_to_bundle AND _iteration LESS _max_iterations)
           _is_system_lib("${_sub_dep}" _sub_sys)
           if(NOT _sub_sys AND EXISTS "${_sub_dep}")
             get_filename_component(_sub_name "${_sub_dep}" NAME)
-            if(NOT EXISTS "${FRAMEWORKS_DIR}/${_sub_name}")
+            list(FIND _bundled_lib_names "${_sub_name}" _sub_already_idx)
+            if(NOT EXISTS "${FRAMEWORKS_DIR}/${_sub_name}" AND _sub_already_idx EQUAL -1)
               list(APPEND _new_deps "${_sub_dep}")
             endif()
           endif()
         # ---- @loader_path references (resolve relative to original source dir) ----
         elseif(_sub_line MATCHES "^\t?@loader_path/([^ ]+\\.dylib)")
           set(_lp_name "${CMAKE_MATCH_1}")
-          set(_lp_resolved "${_dep_srcdir}/${_lp_name}")
-          # Follow symlinks to find the real file
-          if(NOT EXISTS "${_lp_resolved}" AND IS_SYMLINK "${_lp_resolved}")
-            get_filename_component(_lp_resolved "${_lp_resolved}" REALPATH)
-          endif()
-          if(EXISTS "${_lp_resolved}" AND NOT EXISTS "${FRAMEWORKS_DIR}/${_lp_name}")
-            message(STATUS "    Resolved @loader_path/${_lp_name} -> ${_lp_resolved}")
-            list(APPEND _new_deps "${_lp_resolved}")
+          list(FIND _bundled_lib_names "${_lp_name}" _lp_already_idx)
+          if(_lp_already_idx EQUAL -1)
+            set(_lp_resolved "${_dep_srcdir}/${_lp_name}")
+            # Follow symlinks to find the real file
+            if(NOT EXISTS "${_lp_resolved}" AND IS_SYMLINK "${_lp_resolved}")
+              get_filename_component(_lp_resolved "${_lp_resolved}" REALPATH)
+            endif()
+            if(EXISTS "${_lp_resolved}" AND NOT EXISTS "${FRAMEWORKS_DIR}/${_lp_name}")
+              message(STATUS "    Resolved @loader_path/${_lp_name} -> ${_lp_resolved}")
+              list(APPEND _new_deps "${_lp_resolved}")
+            endif()
           endif()
         # ---- @rpath references (try source dir as fallback) ----
         elseif(_sub_line MATCHES "^\t?@rpath/([^ ]+\\.dylib)")
           set(_rp_name "${CMAKE_MATCH_1}")
-          if(NOT EXISTS "${FRAMEWORKS_DIR}/${_rp_name}")
+          list(FIND _bundled_lib_names "${_rp_name}" _rp_already_idx)
+          if(_rp_already_idx EQUAL -1 AND NOT EXISTS "${FRAMEWORKS_DIR}/${_rp_name}")
             if(EXISTS "${_dep_srcdir}/${_rp_name}")
               message(STATUS "    Resolved @rpath/${_rp_name} -> ${_dep_srcdir}/${_rp_name}")
               list(APPEND _new_deps "${_dep_srcdir}/${_rp_name}")
@@ -355,6 +551,8 @@ endwhile()
 file(GLOB_RECURSE _all_macho_final
   "${CONTENTS_DIR}/MacOS/*"
   "${CONTENTS_DIR}/Frameworks/*.dylib"
+  "${CONTENTS_DIR}/Frameworks/*.framework/Versions/*/Qt*"
+  "${CONTENTS_DIR}/PlugIns/*/*.dylib"
   "${RESOURCES_DIR}/bin/*"
   "${RESOURCES_DIR}/lib/*.dylib"
   "${RESOURCES_DIR}/lib/Nelson/*.dylib")
@@ -381,6 +579,27 @@ foreach(_bin IN LISTS _all_macho_final)
   # Make writable
   file(CHMOD "${_bin}"
     PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
+
+  # ---- Fix install name if it uses @executable_path ----
+  # macdeployqt sets install names to @executable_path/../Frameworks/xxx
+  # which only works for executables in Contents/MacOS/.
+  # Replace with @rpath/xxx which is resolved via LC_RPATH entries.
+  execute_process(
+    COMMAND otool -D "${_bin}"
+    OUTPUT_VARIABLE _id_output
+    OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
+  string(REPLACE "\n" ";" _id_lines "${_id_output}")
+  list(LENGTH _id_lines _id_len)
+  if(_id_len GREATER 1)
+    list(GET _id_lines 1 _current_id)
+    string(STRIP "${_current_id}" _current_id)
+    if(_current_id MATCHES "^@executable_path/\\.\\./Frameworks/(.+)")
+      set(_new_id "@rpath/${CMAKE_MATCH_1}")
+      execute_process(
+        COMMAND install_name_tool -id "${_new_id}" "${_bin}"
+        ERROR_QUIET)
+    endif()
+  endif()
 
   # ---- Remove old absolute rpaths that won't exist on another machine ----
   execute_process(
@@ -436,10 +655,12 @@ foreach(_bin IN LISTS _all_macho_final)
       set(_old_path "${CMAKE_MATCH_1}")
       set(_lib_name "${CMAKE_MATCH_2}")
       _is_system_lib("${_old_path}" _ref_sys)
-      if(NOT _ref_sys AND EXISTS "${FRAMEWORKS_DIR}/${_lib_name}")
-        execute_process(
-          COMMAND install_name_tool -change "${_old_path}" "@rpath/${_lib_name}" "${_bin}"
-          ERROR_QUIET)
+      if(NOT _ref_sys)
+        if(EXISTS "${FRAMEWORKS_DIR}/${_lib_name}" OR EXISTS "${NELSON_LIB_DIR}/${_lib_name}")
+          execute_process(
+            COMMAND install_name_tool -change "${_old_path}" "@rpath/${_lib_name}" "${_bin}"
+            ERROR_QUIET)
+        endif()
       endif()
     # @loader_path/name.dylib → @rpath/name.dylib (when lib is in Frameworks/)
     elseif(_ref_line MATCHES "^\t?(@loader_path/([^ /]+\\.dylib))")
@@ -448,6 +669,19 @@ foreach(_bin IN LISTS _all_macho_final)
       if(EXISTS "${FRAMEWORKS_DIR}/${_lib_name}")
         execute_process(
           COMMAND install_name_tool -change "${_old_path}" "@rpath/${_lib_name}" "${_bin}"
+          ERROR_QUIET)
+      endif()
+    # @executable_path/../Frameworks/name.dylib → @rpath/name.dylib
+    # @executable_path/../Frameworks/Foo.framework/... → @rpath/Foo.framework/...
+    # macdeployqt writes these, but they only work when the exe is in
+    # Contents/MacOS/.  Nelson executables live in Contents/Resources/bin/
+    # so we must use @rpath instead (rpaths are already set above).
+    elseif(_ref_line MATCHES "^\t?(@executable_path/\\.\\./Frameworks/([^ ]+))")
+      set(_old_path "${CMAKE_MATCH_1}")
+      set(_rel_path "${CMAKE_MATCH_2}")  # e.g. libfoo.dylib or QtCore.framework/Versions/A/QtCore
+      if(EXISTS "${FRAMEWORKS_DIR}/${_rel_path}")
+        execute_process(
+          COMMAND install_name_tool -change "${_old_path}" "@rpath/${_rel_path}" "${_bin}"
           ERROR_QUIET)
       endif()
     endif()

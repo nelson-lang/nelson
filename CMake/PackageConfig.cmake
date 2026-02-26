@@ -67,6 +67,9 @@ if(UNIX)
       COMMENT "Generating Nelson.icns for macOS packaging"
       VERBATIM)
     add_custom_target(nelson_icns ALL DEPENDS "${_nelson_icns}")
+    # -- DMG background image (static, checked into the repo)
+    set(CPACK_DMG_BACKGROUND_IMAGE
+        "${CMAKE_SOURCE_DIR}/CMake/macOS/dmg_background.png")
     # -- Configure Info.plist
     configure_file(
       "${CMAKE_SOURCE_DIR}/CMake/macOS/Info.plist.in"

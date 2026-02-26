@@ -11,6 +11,7 @@ NELSON_ROOT="${BUNDLE_DIR}/Contents/Resources"
 export NELSON_ROOT_DIR="${NELSON_ROOT}"
 export DYLD_LIBRARY_PATH="${NELSON_ROOT}/lib/Nelson:${BUNDLE_DIR}/Contents/Frameworks${DYLD_LIBRARY_PATH:+:$DYLD_LIBRARY_PATH}"
 export DYLD_FRAMEWORK_PATH="${BUNDLE_DIR}/Contents/Frameworks${DYLD_FRAMEWORK_PATH:+:$DYLD_FRAMEWORK_PATH}"
+export QT_PLUGIN_PATH="${BUNDLE_DIR}/Contents/PlugIns"
 export PATH="${NELSON_ROOT}/bin:${PATH}"
 
 # Required for macOS fork safety (prevents crashes with Obj-C runtime)
