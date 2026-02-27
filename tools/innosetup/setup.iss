@@ -25,18 +25,8 @@ VersionInfoVersion={#APPLICATION_VERSION}
 AppMutex={#APPLICATION_NAME}-{#APPLICATION_VERSION}
 AppPublisher={#APPLICATION_PUBLISHER}
 AppVerName={#FULL_APPLICATION_NAME}
-#ifdef NELSON_WOA64
-DefaultDirName={code:GetDefaultDirName}\{#APPLICATION_NAME}-{#APPLICATION_VERSION} (ARM64 bits)
-DefaultGroupName={#APPLICATION_NAME}-{#APPLICATION_VERSION} (ARM64 bits)
-#else
-#ifdef NELSON_X64
-DefaultDirName={code:GetDefaultDirName}\{#APPLICATION_NAME}-{#APPLICATION_VERSION} (64 bits)
-DefaultGroupName={#APPLICATION_NAME}-{#APPLICATION_VERSION} (64 bits)
-#else
-DefaultDirName={code:GetDefaultDirName}\{#APPLICATION_NAME}-{#APPLICATION_VERSION} (32 bits)
-DefaultGroupName={#APPLICATION_NAME}-{#APPLICATION_VERSION} (32 bits)
-#endif
-#endif
+DefaultDirName={code:GetDefaultDirName}\{#APPLICATION_NAME}-{#APPLICATION_VERSION} ({#ARCH_LABEL})
+DefaultGroupName={#APPLICATION_NAME}-{#APPLICATION_VERSION} ({#ARCH_LABEL})
 UsePreviousAppDir=no
 LicenseFile={#RootPath}lgpl-3.0.md
 OutputDir={#RootPath}
@@ -44,15 +34,7 @@ SetupIconFile={#RootPath}resources/fibonacci.ico
 UninstallDisplayIcon={app}\bin\{#BinPath}\{#APPLICATION_EXE_CLI_NAME}
 Compression=lzma
 SolidCompression=yes
-#ifdef NELSON_WOA64
-OutputBaseFilename={#APPLICATION_NAME}-{#APPLICATION_VERSION}-ARM64
-#else
-#ifdef NELSON_X64
-OutputBaseFilename={#APPLICATION_NAME}-{#APPLICATION_VERSION}-x86-64
-#else
-OutputBaseFilename={#APPLICATION_NAME}-{#APPLICATION_VERSION}-x86-32
-#endif
-#endif
+OutputBaseFilename={#APPLICATION_NAME}-{#APPLICATION_VERSION}-{#ARCH_SUFFIX}
 WizardStyle=modern
 ChangesAssociations=yes
 ;==============================================================================
