@@ -53,7 +53,7 @@
   #define BOOST_TARGET BOOST_COMPILER + "-mt-" + BOOST_ARCH + "-" + BOOST_VERSION
 #endif
 ;==============================================================================
-#define RootPath "../../"    
+#define RootPath "../../"
 ;==============================================================================
 [Setup]
 #include "setup.iss"

@@ -97,8 +97,8 @@ begin
     result := false;
     if not enableModule then
     begin
-        FileReplaceString(ExpandConstant('{app}') + '\' + 'modules' + '\' + 'modules.m', 
-        '{''' + MODULE_NAME + ''', true', 
+        FileReplaceString(ExpandConstant('{app}') + '\' + 'modules' + '\' + 'modules.m',
+        '{''' + MODULE_NAME + ''', true',
         '{''' + MODULE_NAME + ''', false');
         result := true;
     end;
@@ -215,16 +215,27 @@ var
   URLLabel: TNewStaticText;
   LicenseFileName: string;
   LicenseFilePath: string;
+  VersionLabel: TNewStaticText;
 begin
+  // Website link at bottom of wizard
   URLLabel := TNewStaticText.Create(WizardForm);
-  URLLabel.Caption := 'Nelson''s website';
+  URLLabel.Caption := 'nelson-lang.github.io/nelson-website';
   URLLabel.Cursor := crHand;
   URLLabel.OnClick := @URLLabelOnClick;
   URLLabel.Parent := WizardForm;
   URLLabel.Font.Style := URLLabel.Font.Style + [fsUnderline];
   URLLabel.Font.Color := clBlue;
-  URLLabel.Top := WizardForm.ClientHeight - 1;
-  URLLabel.Left := ScaleX(500);
+  URLLabel.Top := WizardForm.ClientHeight - URLLabel.Height - ScaleY(4);
+  URLLabel.Left := ScaleX(8);
+
+  // Version label at bottom-right
+  VersionLabel := TNewStaticText.Create(WizardForm);
+  VersionLabel.Caption := 'v' + ExpandConstant('{#APPLICATION_VERSION}');
+  VersionLabel.Parent := WizardForm;
+  VersionLabel.Font.Color := clGray;
+  VersionLabel.Font.Size := 7;
+  VersionLabel.Top := WizardForm.ClientHeight - VersionLabel.Height - ScaleY(4);
+  VersionLabel.Left := WizardForm.ClientWidth - VersionLabel.Width - ScaleX(8);
 
   if not IsSilentMode() then
   begin
