@@ -33,22 +33,64 @@
   <key>CFBundleVersion</key>
   <string>@Nelson_VERSION_MAJOR@.@Nelson_VERSION_MINOR@.@Nelson_VERSION_MAINTENANCE@.@Nelson_VERSION_BUILD@</string>
 
+  <key>CFBundleSupportedPlatforms</key>
+  <array>
+    <string>MacOSX</string>
+  </array>
+
+  <!-- ─── App category ─── -->
+  <key>LSApplicationCategoryType</key>
+  <string>public.app-category.education</string>
+
   <key>LSMinimumSystemVersion</key>
   <string>11.0</string>
 
+  <!-- ─── Appearance ─── -->
   <key>NSHighResolutionCapable</key>
   <true/>
 
+  <key>NSSupportsAutomaticGraphicsSwitching</key>
+  <true/>
+
+  <!-- ─── Legal / UI ─── -->
   <key>NSHumanReadableCopyright</key>
   <string>Copyright © 2016-present Allan CORNET. Licensed under LGPL-3.0-or-later.</string>
 
   <key>NSPrincipalClass</key>
   <string>NSApplication</string>
 
-  <key>NSSupportsAutomaticGraphicsSwitching</key>
-  <true/>
+  <!-- ─── Privacy usage descriptions (required since macOS 10.14+) ─── -->
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Nelson needs microphone access for audio recording functions.</string>
 
-  <!-- File type associations -->
+  <key>NSAppleEventsUsageDescription</key>
+  <string>Nelson needs to send Apple events to interact with other applications.</string>
+
+  <key>NSDocumentsFolderUsageDescription</key>
+  <string>Nelson needs access to the Documents folder to read and write data files.</string>
+
+  <key>NSDownloadsFolderUsageDescription</key>
+  <string>Nelson needs access to the Downloads folder to read and write data files.</string>
+
+  <key>NSDesktopFolderUsageDescription</key>
+  <string>Nelson needs access to the Desktop folder to read and write data files.</string>
+
+  <!-- ─── URL scheme ─── -->
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLName</key>
+      <string>@NELSON_APP_ID@</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>nelson</string>
+      </array>
+      <key>CFBundleTypeRole</key>
+      <string>Editor</string>
+    </dict>
+  </array>
+
+  <!-- ─── File type associations ─── -->
   <key>CFBundleDocumentTypes</key>
   <array>
     <dict>
@@ -62,6 +104,12 @@
       </array>
       <key>CFBundleTypeIconFile</key>
       <string>Nelson.icns</string>
+      <key>LSHandlerRank</key>
+      <string>Alternate</string>
+      <key>LSItemContentTypes</key>
+      <array>
+        <string>io.github.nelson-lang.nelson-script</string>
+      </array>
     </dict>
     <dict>
       <key>CFBundleTypeName</key>
@@ -74,6 +122,12 @@
       </array>
       <key>CFBundleTypeIconFile</key>
       <string>Nelson.icns</string>
+      <key>LSHandlerRank</key>
+      <string>Owner</string>
+      <key>LSItemContentTypes</key>
+      <array>
+        <string>io.github.nelson-lang.nh5</string>
+      </array>
     </dict>
     <dict>
       <key>CFBundleTypeName</key>
@@ -86,6 +140,69 @@
       </array>
       <key>CFBundleTypeIconFile</key>
       <string>Nelson.icns</string>
+      <key>LSHandlerRank</key>
+      <string>Alternate</string>
+      <key>LSItemContentTypes</key>
+      <array>
+        <string>io.github.nelson-lang.mat</string>
+      </array>
+    </dict>
+  </array>
+
+  <!-- ─── Exported UTI declarations (Nelson-owned types) ─── -->
+  <key>UTExportedTypeDeclarations</key>
+  <array>
+    <dict>
+      <key>UTTypeIdentifier</key>
+      <string>io.github.nelson-lang.nelson-script</string>
+      <key>UTTypeDescription</key>
+      <string>Nelson Script</string>
+      <key>UTTypeConformsTo</key>
+      <array>
+        <string>public.source-code</string>
+        <string>public.plain-text</string>
+      </array>
+      <key>UTTypeTagSpecification</key>
+      <dict>
+        <key>public.filename-extension</key>
+        <array>
+          <string>m</string>
+        </array>
+      </dict>
+    </dict>
+    <dict>
+      <key>UTTypeIdentifier</key>
+      <string>io.github.nelson-lang.nh5</string>
+      <key>UTTypeDescription</key>
+      <string>Nelson HDF5 File</string>
+      <key>UTTypeConformsTo</key>
+      <array>
+        <string>public.data</string>
+      </array>
+      <key>UTTypeTagSpecification</key>
+      <dict>
+        <key>public.filename-extension</key>
+        <array>
+          <string>nh5</string>
+        </array>
+      </dict>
+    </dict>
+    <dict>
+      <key>UTTypeIdentifier</key>
+      <string>io.github.nelson-lang.mat</string>
+      <key>UTTypeDescription</key>
+      <string>MAT File</string>
+      <key>UTTypeConformsTo</key>
+      <array>
+        <string>public.data</string>
+      </array>
+      <key>UTTypeTagSpecification</key>
+      <dict>
+        <key>public.filename-extension</key>
+        <array>
+          <string>mat</string>
+        </array>
+      </dict>
     </dict>
   </array>
 </dict>
