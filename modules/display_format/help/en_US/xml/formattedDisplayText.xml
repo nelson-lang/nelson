@@ -39,7 +39,7 @@
       <example_item_data
         runnable="cli"
       ><![CDATA[R = eye(3, 3)
-str = formattedDisplayText(R)		
+str = formattedDisplayText(R)
 R = rand(3, 3);
 disp(R)
 str = formattedDisplayText(R)

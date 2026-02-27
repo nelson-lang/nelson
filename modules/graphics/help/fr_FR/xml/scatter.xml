@@ -310,7 +310,7 @@ scatter(x, y, [], c, 'filled')
 f = figure();
 theta = linspace(0,2*pi,244);
 x = sin(theta) + 0.75*rand(1,244);
-y = cos(theta) + 0.75*rand(1,244);  
+y = cos(theta) + 0.75*rand(1,244);
 sz = 45;
 scatter(x,y,sz,'MarkerEdgeColor',[0 .6 .5], 'MarkerFaceColor',[0 .6 .7],  'LineWidth',3.5)
 ]]></example_item_data>

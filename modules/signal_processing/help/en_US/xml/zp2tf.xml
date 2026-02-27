@@ -47,7 +47,7 @@
       <example_item_data
         runnable="cli"
       ><![CDATA[p = [0.5;0.45+0.5i;0.45-0.5i];
-z = [-1;i;-i];       
+z = [-1;i;-i];
 k = 1;
 [n, d] = zp2tf(z, p, k)]]></example_item_data>
     </example_item>

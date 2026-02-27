@@ -93,11 +93,11 @@ filename_gif = [tempdir, 'gif_animation.gif'];
 for s = 1:size(sequences, 1)
     action = sequences{s, 1};
     nb_frames_action = sequences{s, 2};
-    
+
     for i = 1:nb_frames_action
         % Construct the filename for the current frame
         filename = fullfile(movie_directory, sprintf('%s_%d.png', action, i));
-        
+
         % Read the image and store it in the movie structure
         [image, map] = imread(filename);
         % Read the image

@@ -151,7 +151,7 @@ convertSparseComplexArrayOfToJulia(const ArrayOf& value, const std::string& jlTy
     for (int k = 0; k < spMat->outerSize(); ++k) {
         for (typename Eigen::SparseMatrix<std::complex<T>, 0, signedIndexType>::InnerIterator it(
                  *spMat, k);
-             it; ++it) {
+            it; ++it) {
             triplets.push_back(SparseTriplet(it.row() + 1, it.col() + 1, it.value()));
         }
     }
@@ -197,7 +197,7 @@ convertSparseRealArrayOfToJulia(const ArrayOf& value, const std::string& jlTypeO
     std::vector<SparseTriplet> triplets;
     for (int k = 0; k < spMat->outerSize(); ++k) {
         for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(*spMat, k); it;
-             ++it) {
+            ++it) {
             triplets.push_back(SparseTriplet(it.row() + 1, it.col() + 1, it.value()));
         }
     }

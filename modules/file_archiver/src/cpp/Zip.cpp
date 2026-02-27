@@ -46,7 +46,7 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                 if (FileSystemWrapper::Path::is_directory(branch.wstring())) {
                     try {
                         for (nfs::recursive_directory_iterator p(branch.native()), end; p != end;
-                             ++p) {
+                            ++p) {
                             if (!std::regex_match(p->path().filename().wstring(), rmask)) {
                                 continue;
                             }
@@ -135,7 +135,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                 if (FileSystemWrapper::Path::is_directory(branch.wstring())) {
                     try {
                         for (nfs::recursive_directory_iterator dir_iter(branch.native()), end;
-                             dir_iter != end; ++dir_iter) {
+                            dir_iter != end; ++dir_iter) {
                             nfs::path current = dir_iter->path();
                             res.push_back(current.generic_wstring());
                         }
@@ -147,7 +147,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                 if (FileSystemWrapper::Path::is_directory(directory)) {
                     try {
                         for (nfs::directory_iterator dir_iter(directory), end; dir_iter != end;
-                             ++dir_iter) {
+                            ++dir_iter) {
                             nfs::path current = dir_iter->path();
                             res.push_back(current.generic_wstring());
                         }

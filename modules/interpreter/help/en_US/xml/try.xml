@@ -27,7 +27,7 @@
       >try/catch in a script file</example_item_description>
       <example_item_data
         runnable="cli"
-      ><![CDATA[try 
+      ><![CDATA[try
 error('an error')
 catch
   disp('error catched')
@@ -39,7 +39,7 @@ end]]></example_item_data>
       >try/catch in a script file</example_item_description>
       <example_item_data
         runnable="cli"
-      ><![CDATA[try 
+      ><![CDATA[try
 error('an error')
 catch ME
   ME

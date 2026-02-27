@@ -58,7 +58,7 @@
 f1 = @() sqr(A);
 clear A
 f1
-f1() 
+f1()
 ]]></example_item_data>
     </example_item>
     <example_item>
@@ -68,7 +68,7 @@ f1()
         runnable="cli"
       ><![CDATA[f2 = @cos;
 f2
-f2(0.6) 
+f2(0.6)
 ]]></example_item_data>
     </example_item>
     <example_item>
@@ -78,7 +78,7 @@ f2(0.6)
         runnable="cli"
       ><![CDATA[f3 = @(x)cos(x) + 1;
 f2
-f3(0.6) 
+f3(0.6)
 ]]></example_item_data>
     </example_item>
     <example_item>
@@ -91,7 +91,7 @@ f3(0.6)
 B = 100;
 f4 = @(x, y) (A*y + B*x);
 f4
-f4(0.6, 0.2) 
+f4(0.6, 0.2)
 ]]></example_item_data>
     </example_item>
     <example_item>

@@ -40,8 +40,8 @@ Then, use the following commands (in this order):
 
 ### 📋 Prerequisites
 
-1. **Install Xcode** 🧰  
-   Required for compiling code on macOS.  
+1. **Install Xcode** 🧰
+   Required for compiling code on macOS.
    Install it via terminal:
 
    ```bash
@@ -75,7 +75,7 @@ You have two options to install it:
 brew install micromamba
 ```
 
-🔹 **Manual Installation**:  
+🔹 **Manual Installation**:
 Follow the [official Micromamba guide](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html) for advanced options.
 
 ---

@@ -42,11 +42,11 @@
       <example_item_data
         runnable="cli"
       ><![CDATA[
-dest = [tempdir(), 'dlmake_help']; 
-mkdir(dest);		
-txt = 'MESSAGE( STATUS "Hello world !")';		
+dest = [tempdir(), 'dlmake_help'];
+mkdir(dest);
+txt = 'MESSAGE( STATUS "Hello world !")';
 filewrite([dest, '/CMakeLists.txt'], txt);
-[status, message] = dlmake(dest)		
+[status, message] = dlmake(dest)
 ]]></example_item_data>
     </example_item>
   </examples>

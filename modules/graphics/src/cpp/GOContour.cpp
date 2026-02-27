@@ -565,8 +565,8 @@ GOContour::adjustLines(
 {
     const double* xp = (const double*)(x.getDataPointer());
     const double* yp = (const double*)(y.getDataPointer());
-#define X(a, b) xp[(b) + (a)*numy]
-#define Y(a, b) yp[(b) + (a)*numy]
+#define X(a, b) xp[(b) + (a) * numy]
+#define Y(a, b) yp[(b) + (a) * numy]
 
     for (int i = 0; i < bundledLines.size(); i++) {
         for (int j = 0; j < bundledLines[i].size(); j++) {

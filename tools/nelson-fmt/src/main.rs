@@ -67,8 +67,13 @@ fn load_clang_format_ignore(root: &Path) -> Result<ClangFormatIgnore> {
 // ===========================================================================
 // Formatting helpers
 // ===========================================================================
+/// Return `true` when the content predominantly uses CRLF line endings.
+fn uses_crlf(content: &str) -> bool {
+    content.contains("\r\n")
+}
 /// Normalise line endings to `\n` and trim trailing whitespace on every line.
-/// Ensures exactly one trailing newline.
+/// Ensures exactly one trailing newline.  Always outputs LF; the caller is
+/// responsible for restoring CRLF when the original file used it.
 fn basic_cleanup(content: &str) -> String {
     let normalized = content.replace("\r\n", "\n").replace('\r', "\n");
     let mut lines: Vec<&str> = normalized.lines().collect();
@@ -82,7 +87,7 @@ fn basic_cleanup(content: &str) -> String {
     cleaned.join("\n") + "\n"
 }
 
-/// Re-serialise JSON with 4-space indentation and a final newline.
+/// Re-serialise JSON with 2-space indentation and a final newline.
 /// Returns `None` when the file cannot be parsed (e.g. test fixtures with
 /// embedded control characters) - the caller should skip it.
 fn format_json(content: &str) -> Result<Option<String>> {
@@ -92,25 +97,11 @@ fn format_json(content: &str) -> Result<Option<String>> {
     };
 
     let buf = Vec::new();
-    let formatter = serde_json::ser::PrettyFormatter::with_indent(b"    ");
+    let formatter = serde_json::ser::PrettyFormatter::with_indent(b"  ");
     let mut ser = serde_json::Serializer::with_formatter(buf, formatter);
     value.serialize(&mut ser)?;
     let mut output = String::from_utf8(ser.into_inner())?;
     output.push('\n');
-    Ok(Some(output))
-}
-/// Round-trip YAML through serde_yaml to normalise indentation (2-space) and
-/// key ordering.  Returns `None` when the content cannot be parsed.
-fn format_yaml(content: &str) -> Result<Option<String>> {
-    let value: serde_yaml::Value = match serde_yaml::from_str(content) {
-        Ok(v) => v,
-        Err(_) => return Ok(None), // unparseable YAML - skip
-    };
-    let mut output = serde_yaml::to_string(&value)?;
-    // Ensure single trailing newline
-    if !output.ends_with('\n') {
-        output.push('\n');
-    }
     Ok(Some(output))
 }
 // ===========================================================================
@@ -175,7 +166,10 @@ fn process_file(path: &Path, ext: &str, check: bool, verbose: bool) -> Result<bo
     let content =
         std::fs::read_to_string(path).with_context(|| format!("read {}", path.display()))?;
 
-    let formatted = match ext {
+    // Remember original line-ending style so we can restore it after formatting.
+    let crlf = uses_crlf(&content);
+
+    let mut formatted = match ext {
         "json" => match format_json(&content)? {
             Some(f) => f,
             None => {
@@ -185,18 +179,14 @@ fn process_file(path: &Path, ext: &str, check: bool, verbose: bool) -> Result<bo
                 return Ok(true);
             }
         },
-        "yml" | "yaml" => match format_yaml(&content)? {
-            Some(f) => f,
-            None => {
-                if verbose {
-                    eprintln!("Skipping (unparseable YAML): {}", path.display());
-                }
-                return Ok(true);
-            }
-        },
-        "md" | "js" | "xml" => basic_cleanup(&content),
+        "yml" | "yaml" | "md" | "js" | "xml" => basic_cleanup(&content),
         _ => return Ok(true),
     };
+
+    // Restore CRLF line endings when the original file used them.
+    if crlf {
+        formatted = formatted.replace('\n', "\r\n");
+    }
 
     if content == formatted {
         return Ok(true); // already formatted
@@ -448,16 +438,29 @@ mod tests {
     }
 
     // -----------------------------------------------------------------------
+    // uses_crlf
+    // -----------------------------------------------------------------------
+    #[test]
+    fn uses_crlf_detects_crlf() {
+        assert_that(&uses_crlf("line1\r\nline2\r\n")).is_true();
+    }
+
+    #[test]
+    fn uses_crlf_returns_false_for_lf() {
+        assert_that(&uses_crlf("line1\nline2\n")).is_false();
+    }
+
+    // -----------------------------------------------------------------------
     // format_json
     // -----------------------------------------------------------------------
     #[test]
-    fn format_json_pretty_prints_with_4_space_indent() {
+    fn format_json_pretty_prints_with_2_space_indent() {
         let input = r#"{"a":1,"b":[2,3]}"#;
         let result = format_json(input).unwrap();
         assert_that(&result).is_some();
         let formatted = result.unwrap();
-        // Check 4-space indentation
-        assert_that(&formatted.contains("    \"a\"")).is_true();
+        // Check 2-space indentation
+        assert_that(&formatted.contains("  \"a\"")).is_true();
         assert_that(&formatted.ends_with('\n')).is_true();
     }
 
@@ -481,41 +484,37 @@ mod tests {
 
     #[test]
     fn format_json_already_formatted_is_stable() {
-        let input = "{\n    \"key\": \"value\"\n}\n";
+        let input = "{\n  \"key\": \"value\"\n}\n";
         let result = format_json(input).unwrap().unwrap();
         assert_that(&result).is_equal_to(input.to_string());
     }
 
     // -----------------------------------------------------------------------
-    // format_yaml
+    // YAML via basic_cleanup (non-destructive)
     // -----------------------------------------------------------------------
 
     #[test]
-    fn format_yaml_round_trips_simple_document() {
-        let input = "key: value\nlist:\n  - a\n  - b\n";
-        let result = format_yaml(input).unwrap();
-        assert_that(&result).is_some();
-        let formatted = result.unwrap();
-        assert_that(&formatted.contains("key:")).is_true();
-        assert_that(&formatted.ends_with('\n')).is_true();
+    fn yaml_basic_cleanup_preserves_comments() {
+        let input = "# This is a comment\nkey: value\n# Another comment\nlist:\n  - a\n";
+        let result = basic_cleanup(input);
+        assert_that(&result.contains("# This is a comment")).is_true();
+        assert_that(&result.contains("# Another comment")).is_true();
     }
 
     #[test]
-    fn format_yaml_returns_none_for_invalid_yaml() {
-        let input = ":\n  : :\n  [invalid\n";
-        let _result = format_yaml(input).unwrap();
-        // serde_yaml may or may not parse this; if it does, it returns Some
-        // The important thing is it doesn't panic/error
-        // We just verify the Result is Ok
+    fn yaml_basic_cleanup_preserves_indentation() {
+        let input = "root:\n    deep_indent: true\n  normal_indent: true\n";
+        let result = basic_cleanup(input);
+        assert_that(&result.contains("    deep_indent")).is_true();
+        assert_that(&result.contains("  normal_indent")).is_true();
     }
 
     #[test]
-    fn format_yaml_ensures_trailing_newline() {
-        let input = "key: value";
-        let result = format_yaml(input).unwrap();
-        if let Some(formatted) = result {
-            assert_that(&formatted.ends_with('\n')).is_true();
-        }
+    fn yaml_basic_cleanup_normalizes_crlf() {
+        let input = "key: value\r\nother: data\r\n";
+        let result = basic_cleanup(input);
+        assert_that(&result.contains("\r")).is_false();
+        assert_that(&result.ends_with('\n')).is_true();
     }
 
     // -----------------------------------------------------------------------
@@ -691,12 +690,25 @@ mod tests {
         assert_that(&result.is_ok()).is_true();
 
         let content = fs::read_to_string(&file_path).unwrap();
-        assert_that(&content.contains("    \"key\"")).is_true();
+        assert_that(&content.contains("  \"key\"")).is_true();
         assert_that(&content.ends_with('\n')).is_true();
     }
 
     #[test]
-    fn process_file_cleans_up_markdown() {
+    fn process_file_cleans_up_markdown_lf() {
+        let tmp = TempDir::new().unwrap();
+        let file_path = tmp.path().join("doc.md");
+        fs::write(&file_path, "hello   \nworld\t\n\n").unwrap();
+
+        let result = process_file(&file_path, "md", false, false);
+        assert_that(&result.is_ok()).is_true();
+
+        let content = fs::read_to_string(&file_path).unwrap();
+        assert_that(&content).is_equal_to("hello\nworld\n".to_string());
+    }
+
+    #[test]
+    fn process_file_preserves_crlf_for_markdown() {
         let tmp = TempDir::new().unwrap();
         let file_path = tmp.path().join("doc.md");
         fs::write(&file_path, "hello   \r\nworld\t\r\n\r\n").unwrap();
@@ -705,8 +717,22 @@ mod tests {
         assert_that(&result.is_ok()).is_true();
 
         let content = fs::read_to_string(&file_path).unwrap();
-        assert_that(&content.contains("\r\n")).is_false();
-        assert_that(&content).is_equal_to("hello\nworld\n".to_string());
+        assert_that(&content).is_equal_to("hello\r\nworld\r\n".to_string());
+    }
+
+    #[test]
+    fn process_file_preserves_crlf_for_json() {
+        let tmp = TempDir::new().unwrap();
+        let file_path = tmp.path().join("test.json");
+        fs::write(&file_path, "{\"key\":\"value\"}\r\n").unwrap();
+
+        let result = process_file(&file_path, "json", false, false);
+        assert_that(&result.is_ok()).is_true();
+
+        let content = fs::read_to_string(&file_path).unwrap();
+        // Should use CRLF since input was CRLF
+        assert_that(&content.contains("\r\n")).is_true();
+        assert_that(&content.contains("  \"key\"")).is_true();
     }
 
     #[test]

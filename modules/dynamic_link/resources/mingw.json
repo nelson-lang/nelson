@@ -1,3 +1,5 @@
 {
-  "ENVIRONMENT_VARIABLES": ["PATH"]
+  "ENVIRONMENT_VARIABLES": [
+    "PATH"
+  ]
 }

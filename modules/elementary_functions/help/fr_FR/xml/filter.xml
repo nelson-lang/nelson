@@ -53,7 +53,7 @@
 rng default
 t = linspace(-pi,pi,100);
 X = sin(t) + (0.33 * rand(size(t)));
-windowSize = 7; 
+windowSize = 7;
 b = (1/windowSize)*ones(1,windowSize);
 a = 1;
 y = filter(b, a, X);

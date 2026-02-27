@@ -10,7 +10,7 @@ Before building **Nelson** on Windows, make sure the following tools are install
 
 - 🛠 **[Git for Windows](https://git-scm.com/downloads/win)**
 - 🎯 **[Visual Studio 2022 (C++)](https://learn.microsoft.com/en-us/visualstudio/install/install-visual-studio?view=vs-2022)**
-- ⚙️ **[Just Command Runner](https://just.systems/)**  
+- ⚙️ **[Just Command Runner](https://just.systems/)**
   Install via [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/):
 
   ```bash

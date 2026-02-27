@@ -30,7 +30,7 @@ public:
         : m_variableName(name)
         , m_array(array)
         , m_evaluator(evaluator)
-        , QAbstractTableModel(parent) {};
+        , QAbstractTableModel(parent) { };
     //=============================================================================
     ~VariableAbstractTableModel() override = default;
     //=============================================================================
@@ -53,10 +53,10 @@ public:
     getVariableDimensionsAsString() const;
     //=============================================================================
     virtual void
-    redo() {};
+    redo() { };
     //=============================================================================
     virtual void
-    undo() {};
+    undo() { };
     //=============================================================================
     virtual bool
     isValidSelectionForExtraction(const QModelIndexList& selectedIndexes) const

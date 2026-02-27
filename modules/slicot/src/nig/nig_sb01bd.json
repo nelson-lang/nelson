@@ -9,7 +9,10 @@
       "NAME": "DICO",
       "TYPE": "character",
       "MODE": "input",
-      "SUPPORTED_VALUES": ["C", "D"],
+      "SUPPORTED_VALUES": [
+        "C",
+        "D"
+      ],
       "VALUE": [],
       "DIMENSION_M": [],
       "DIMENSION_N": []

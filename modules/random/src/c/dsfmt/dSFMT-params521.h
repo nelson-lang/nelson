@@ -24,22 +24,10 @@
 #define ALTI_SL1_MSK (vector unsigned int)(0xffffffffU, 0xfe000000U, 0xffffffffU, 0xfe000000U)
 #define ALTI_MSK (vector unsigned int)(DSFMT_MSK32_1, DSFMT_MSK32_2, DSFMT_MSK32_3, DSFMT_MSK32_4)
 #else /* For OTHER OSs(Linux?) */
-#define ALTI_SL1                                                                                   \
-    {                                                                                              \
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1                                             \
-    }
-#define ALTI_SL1_PERM                                                                              \
-    {                                                                                              \
-        3, 4, 5, 6, 7, 29, 29, 29, 11, 12, 13, 14, 15, 0, 1, 2                                     \
-    }
-#define ALTI_SL1_MSK                                                                               \
-    {                                                                                              \
-        0xffffffffU, 0xfe000000U, 0xffffffffU, 0xfe000000U                                         \
-    }
-#define ALTI_MSK                                                                                   \
-    {                                                                                              \
-        DSFMT_MSK32_1, DSFMT_MSK32_2, DSFMT_MSK32_3, DSFMT_MSK32_4                                 \
-    }
+#define ALTI_SL1 { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+#define ALTI_SL1_PERM { 3, 4, 5, 6, 7, 29, 29, 29, 11, 12, 13, 14, 15, 0, 1, 2 }
+#define ALTI_SL1_MSK { 0xffffffffU, 0xfe000000U, 0xffffffffU, 0xfe000000U }
+#define ALTI_MSK { DSFMT_MSK32_1, DSFMT_MSK32_2, DSFMT_MSK32_3, DSFMT_MSK32_4 }
 #endif
 
 #endif /* DSFMT_PARAMS521_H */

@@ -52,11 +52,11 @@ Fs = 150;
 t = 0:1*inv(Fs):1;
 
 % Creates a sine wave of f Hz.
-f = 5; 
+f = 5;
 x = sin(2 * pi * t * f);
 
 % Length of FFT
-nfft = 1024; 
+nfft = 1024;
 % Take fft, padding with zeros so that length(X) is equal to nfft
 X = fft(x, nfft)
 % FFT is symmetrix

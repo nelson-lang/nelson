@@ -196,7 +196,7 @@ namespace detail {
             process_byte(static_cast<unsigned char>((bitCount >> 24) & 0xFF));
             process_byte(static_cast<unsigned char>((bitCount >> 16) & 0xFF));
             process_byte(static_cast<unsigned char>((bitCount >> 8) & 0xFF));
-            process_byte(static_cast<unsigned char>((bitCount)&0xFF));
+            process_byte(static_cast<unsigned char>((bitCount) & 0xFF));
 
             memcpy(digest, m_digest, 5 * sizeof(uint32_t));
             return digest;
@@ -721,8 +721,8 @@ template <typename UniformRandomNumberGenerator> class basic_uuid_random_generat
 public:
     using engine_type = UniformRandomNumberGenerator;
 
-    explicit basic_uuid_random_generator(engine_type& gen) : generator(&gen, [](auto) {}) { }
-    explicit basic_uuid_random_generator(engine_type* gen) : generator(gen, [](auto) {}) { }
+    explicit basic_uuid_random_generator(engine_type& gen) : generator(&gen, [](auto) { }) { }
+    explicit basic_uuid_random_generator(engine_type* gen) : generator(gen, [](auto) { }) { }
 
     [[nodiscard]] uuid
     operator()()

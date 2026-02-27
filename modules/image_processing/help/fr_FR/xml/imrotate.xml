@@ -109,13 +109,13 @@ angles = [15, 30, 45, 60, 90, 120, 180];
 
 for i = 1:length(angles)
     J = imrotate(I, angles(i), 'bilinear');
-    
+
     subplot(2, 4, i + 1);
     imagesc(J);
     colormap(gray);
     axis equal; axis tight;
     title(sprintf('%d°', angles(i)));
-    
+
     % Print rotation statistics
     fprintf('Angle %3d°: size %dx%d, non-zero pixels: %d\n', ...
             angles(i), size(J, 1), size(J, 2), sum(J(:) > 0));
@@ -149,7 +149,7 @@ I_small = I(40:70, 40:70);  % Crop a section for detailed view
 methods = {'nearest', 'bilinear', 'bicubic'};
 for i = 1:length(methods)
     J = imrotate(I_small, 30, methods{i});
-    
+
     subplot(1, 3, i);
     imagesc(J);
     colormap(gray);

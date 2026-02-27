@@ -9,7 +9,11 @@
       "NAME": "STAGES",
       "TYPE": "character",
       "MODE": "input",
-      "SUPPORTED_VALUES": ["F", "B", "A"],
+      "SUPPORTED_VALUES": [
+        "F",
+        "B",
+        "A"
+      ],
       "VALUE": [],
       "DIMENSION_M": [],
       "DIMENSION_N": []
@@ -18,7 +22,10 @@
       "NAME": "JOBU",
       "TYPE": "character",
       "MODE": "input",
-      "SUPPORTED_VALUES": ["N", "I"],
+      "SUPPORTED_VALUES": [
+        "N",
+        "I"
+      ],
       "VALUE": [],
       "DIMENSION_M": [],
       "DIMENSION_N": []
@@ -27,7 +34,10 @@
       "NAME": "JOBV",
       "TYPE": "character",
       "MODE": "input",
-      "SUPPORTED_VALUES": ["N", "I"],
+      "SUPPORTED_VALUES": [
+        "N",
+        "I"
+      ],
       "VALUE": [],
       "DIMENSION_M": [],
       "DIMENSION_N": []

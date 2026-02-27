@@ -95,7 +95,7 @@ R = dlmread(filename)
       <example_item_description
       >Read a CSV file with a header</example_item_description>
       <example_item_data>
-filename = [tempdir(), 'dlmread_example.csv'];    
+filename = [tempdir(), 'dlmread_example.csv'];
 filewrite(filename, ['A,B,C,D,E,F',char(10)]);
 A = magic(6);
 dlmwrite(filename, A, '-append');

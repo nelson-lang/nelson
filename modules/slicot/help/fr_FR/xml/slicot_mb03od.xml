@@ -92,7 +92,7 @@ A_IN = [1.    2.    6.    3.    5.;
   -2.   -1.   -1.    0.   -2.;
    4.    8.    4.   20.    4.;
   -2.   -1.   -1.    0.   -2.];
- 
+
 [A_OUT, JPVT_OUT, TAU, RANK, SVAL, INFO] = slicot_mb03od(JOBQR, A_IN, JPVT_IN, RCOND, SVLMAX)]]></example_item_data>
     </example_item>
   </examples>

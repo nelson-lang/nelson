@@ -111,7 +111,7 @@
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[fig = figure('Color', 'k');
-ax.Color = 'k';  
+ax.Color = 'k';
 f=0.1;
 t=0:f^2:2*pi;
 r=pi/4;
@@ -166,7 +166,7 @@ patch('Faces', Faces, 'Vertices', Vertices, 'FaceVertexCData', Colors, ...
       'EdgeColor', 'none', ...
       'FaceColor', 'interp', 'FaceAlpha', 1);
 axis equal
-axis off 
+axis off
 view([0, 0, 1]);]]></example_item_data>
       <example_item_img
         src="../../images/patch_3.svg"

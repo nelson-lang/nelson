@@ -297,7 +297,7 @@
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[
-    f = figure();      
+    f = figure();
     Z = peaks;
     Z(:,26) = NaN;
     contour(Z)

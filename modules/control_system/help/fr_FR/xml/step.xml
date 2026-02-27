@@ -62,9 +62,9 @@ B = [1;   0;   0];
 C = [0   0   1];
 D = 0;
 T = [0:0.1:1];
-U = zeros(size(T, 1), size(T, 2));    
+U = zeros(size(T, 1), size(T, 2));
 X0 = [0.1 0.1 0.1];
-sys = ss(A, B, C, D);    
+sys = ss(A, B, C, D);
 step(sys);
 ]]></example_item_data>
       <example_item_img

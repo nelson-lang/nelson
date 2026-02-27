@@ -9,7 +9,10 @@
       "NAME": "DICO",
       "TYPE": "character",
       "MODE": "input",
-      "SUPPORTED_VALUES": ["C", "D"],
+      "SUPPORTED_VALUES": [
+        "C",
+        "D"
+      ],
       "VALUE": [],
       "DIMENSION_M": [],
       "DIMENSION_N": []
@@ -18,7 +21,11 @@
       "NAME": "JOB",
       "TYPE": "character",
       "MODE": "input",
-      "SUPPORTED_VALUES": ["X", "S", "B"],
+      "SUPPORTED_VALUES": [
+        "X",
+        "S",
+        "B"
+      ],
       "VALUE": [],
       "DIMENSION_M": [],
       "DIMENSION_N": []
@@ -27,7 +34,10 @@
       "NAME": "FACT",
       "TYPE": "character",
       "MODE": "input",
-      "SUPPORTED_VALUES": ["F", "N"],
+      "SUPPORTED_VALUES": [
+        "F",
+        "N"
+      ],
       "VALUE": [],
       "DIMENSION_M": [],
       "DIMENSION_N": []
@@ -36,7 +46,11 @@
       "NAME": "TRANA",
       "TYPE": "character",
       "MODE": "input",
-      "SUPPORTED_VALUES": ["N", "T", "C"],
+      "SUPPORTED_VALUES": [
+        "N",
+        "T",
+        "C"
+      ],
       "VALUE": [],
       "DIMENSION_M": [],
       "DIMENSION_N": []

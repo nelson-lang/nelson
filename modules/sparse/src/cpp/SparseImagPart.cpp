@@ -53,7 +53,7 @@ SparseImagPart(const ArrayOf& a)
             for (indexType k = 0; k < (indexType)spmatSRC->outerSize(); ++k) {
                 for (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator it(
                          *spmatSRC, k);
-                     it; ++it) {
+                    it; ++it) {
                     if (it.value().imag() != 0.) {
                         spmatDST->coeffRef(it.row(), it.col()) = it.value().imag();
                     }

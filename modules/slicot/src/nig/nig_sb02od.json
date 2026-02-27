@@ -9,7 +9,10 @@
       "NAME": "DICO",
       "TYPE": "character",
       "MODE": "input",
-      "SUPPORTED_VALUES": ["C", "D"],
+      "SUPPORTED_VALUES": [
+        "C",
+        "D"
+      ],
       "VALUE": [],
       "DIMENSION_M": [],
       "DIMENSION_N": []
@@ -18,7 +21,10 @@
       "NAME": "JOBB",
       "TYPE": "character",
       "MODE": "input",
-      "SUPPORTED_VALUES": ["B", "G"],
+      "SUPPORTED_VALUES": [
+        "B",
+        "G"
+      ],
       "VALUE": [],
       "DIMENSION_M": [],
       "DIMENSION_N": []
@@ -27,7 +33,12 @@
       "NAME": "FACT",
       "TYPE": "character",
       "MODE": "input",
-      "SUPPORTED_VALUES": ["N", "C", "D", "B"],
+      "SUPPORTED_VALUES": [
+        "N",
+        "C",
+        "D",
+        "B"
+      ],
       "VALUE": [],
       "DIMENSION_M": [],
       "DIMENSION_N": []
@@ -36,7 +47,10 @@
       "NAME": "UPLO",
       "TYPE": "character",
       "MODE": "input",
-      "SUPPORTED_VALUES": ["U", "L"],
+      "SUPPORTED_VALUES": [
+        "U",
+        "L"
+      ],
       "VALUE": [],
       "DIMENSION_M": [],
       "DIMENSION_N": []
@@ -45,7 +59,10 @@
       "NAME": "JOBL",
       "TYPE": "character",
       "MODE": "input",
-      "SUPPORTED_VALUES": ["Z", "N"],
+      "SUPPORTED_VALUES": [
+        "Z",
+        "N"
+      ],
       "VALUE": [],
       "DIMENSION_M": [],
       "DIMENSION_N": []
@@ -54,7 +71,10 @@
       "NAME": "SORT",
       "TYPE": "character",
       "MODE": "input",
-      "SUPPORTED_VALUES": ["S", "U"],
+      "SUPPORTED_VALUES": [
+        "S",
+        "U"
+      ],
       "VALUE": [],
       "DIMENSION_M": [],
       "DIMENSION_N": []

@@ -86,8 +86,8 @@ Display2dChar(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
             }
         }
         for (indexType i = 0;
-             i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
-             i++) {
+            i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+            i++) {
             std::wstring buffer(columns, L' ');
             for (indexType j = 0; j < columns; j++) {
                 indexType idx = i + (j * rows);
@@ -137,8 +137,8 @@ DisplayNdChar(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
         bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
         for (int k = 0;
-             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
-             k++) {
+            k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+            k++) {
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
             if (withColumsHeader) {
@@ -158,8 +158,8 @@ DisplayNdChar(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
             for (indexType i = 0; i < rows; i++) {
                 std::wstring buffer(colsInThisPage, L' ');
                 for (indexType j = 0; j < colsInThisPage
-                     && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
-                     j++) {
+                    && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+                    j++) {
                     indexType idx = i + (k * colsPerPage + j) * rows + offset;
                     buffer[j] = raw[idx];
                 }

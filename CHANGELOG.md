@@ -159,7 +159,7 @@ The certificate represents a significant cost for a volunteer effort - any donat
   - `WindowState` for `Figure` objects.
   - `Units` for `UIControl` objects.
   - `DefaultFigureAlphamap`, `DefaultFigureColormap` as root properties.
-- Support for `nix develop`, providing a reproducible Bash shell preconfigured with Nelson’s build environment.  
+- Support for `nix develop`, providing a reproducible Bash shell preconfigured with Nelson’s build environment.
   See [BUILDING.md](./BUILDING.md) for details.
 - A [`justfile`](https://just.systems/man/en/) to streamline and standardize the build process across platforms.
 - Support for:

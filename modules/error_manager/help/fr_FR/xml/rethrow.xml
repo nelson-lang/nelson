@@ -25,7 +25,7 @@
       <example_item_description />
       <example_item_data
       ><![CDATA[
-try 
+try
   a
 catch ME
   disp(ME)

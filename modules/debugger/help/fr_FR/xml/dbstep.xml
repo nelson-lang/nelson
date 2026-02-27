@@ -38,7 +38,7 @@
       >dbstep out</b> termine l'exécution de la fonction courante et s'interrompt
    juste après le retour à l'appelant. L'exécution s'interrompt aux points d'arrêt
       rencontrés en cours de route.
-    </p> 
+    </p>
     <p>
       <b
       >dbstep nlines</b> exécute le nombre spécifié de lignes, s'interrompant à

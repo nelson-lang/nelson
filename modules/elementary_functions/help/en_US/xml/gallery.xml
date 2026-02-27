@@ -260,7 +260,7 @@
       <example_item_data
         runnable="cli"
       ><![CDATA[C = gallery("circul",120);
-imagesc(C); 
+imagesc(C);
 axis square;
 colorbar;]]></example_item_data>
     </example_item>

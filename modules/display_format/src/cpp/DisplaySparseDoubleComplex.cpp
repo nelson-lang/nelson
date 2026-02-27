@@ -80,7 +80,7 @@ DisplaySparseDoubleComplexScalar(Interface* io, const ArrayOf& A, const std::wst
     for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
         for (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>::InnerIterator it(
                  *spMat, k);
-             it; ++it) {
+            it; ++it) {
             r = it.row() + 1;
             c = it.col() + 1;
         }
@@ -123,7 +123,7 @@ DisplaySparseDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
     for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
         for (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>::InnerIterator it(
                  *spMat, k);
-             it; ++it) {
+            it; ++it) {
             rMax = std::max((long long)rMax, (long long)it.row() + 1);
             cMax = std::max((long long)cMax, (long long)it.col() + 1);
         }
@@ -154,7 +154,7 @@ DisplaySparseDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
         }
         for (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>::InnerIterator it(
                  *spMat, k);
-             it && continueDisplay; ++it) {
+            it && continueDisplay; ++it) {
             if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
                 continueDisplay = false;
                 break;

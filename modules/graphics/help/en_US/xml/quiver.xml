@@ -95,12 +95,12 @@ f.DrawLater = 'off';]]></example_item_data>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
-f.DrawLater = 'on';      
+f.DrawLater = 'on';
 [X, Y] = meshgrid(0:pi/8:pi, -pi:pi/8:pi);
 U1 = sin(X);
 V1 = cos(Y);
 U2 = sin(Y);
-V2 = cos(X); 
+V2 = cos(X);
 ax1 = subplot(1, 2, 1);
 axis equal
 title(ax1, 'Left Plot')

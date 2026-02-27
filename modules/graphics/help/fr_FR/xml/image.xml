@@ -171,8 +171,8 @@ L = linspace(0, 1);
 R = L' * L;
 G = L' * (L .^ 2);
 B = L' * (0 *L + 1);
-C(:, :, 1) = G; 
-C(:, :, 2) = G; 
+C(:, :, 1) = G;
+C(:, :, 2) = G;
 C(:, :, 3) = B;
 im = image(C)]]></example_item_data>
       <example_item_img

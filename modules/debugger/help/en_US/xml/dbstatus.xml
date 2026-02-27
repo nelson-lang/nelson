@@ -24,7 +24,7 @@
     </p>
     <p>
       Assigning the output to a variable <b
-      >b</b> allows you to save and restore breakpoints later 
+      >b</b> allows you to save and restore breakpoints later
       using <b>dbstop(b)</b>.
     </p>
     <p>

@@ -35,7 +35,7 @@
         runnable="cli"
       ><![CDATA[path
 addpath(tempdir())
-path			
+path
 rmpath(tempdir())
 path]]></example_item_data>
     </example_item>

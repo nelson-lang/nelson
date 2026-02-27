@@ -35,10 +35,10 @@
         runnable="cli"
       ><![CDATA[p = [-2.410 + 5.573i;
 -2.410 - 5.573i;
-1.503;         
--0.972;         
--2.590];  
-[s, ndx] = esort(p)    
+1.503;
+-0.972;
+-2.590];
+[s, ndx] = esort(p)
   ]]></example_item_data>
     </example_item>
   </examples>

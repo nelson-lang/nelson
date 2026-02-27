@@ -97,7 +97,7 @@ daspect([2 1 1])]]></example_item_data>
         runnable="adv-cli"
       ><![CDATA[
 sphere(40);
-daspect([2 1 0.5]) 
+daspect([2 1 0.5])
 ]]></example_item_data>
       <example_item_img
         src="../../images/daspect_2.svg"

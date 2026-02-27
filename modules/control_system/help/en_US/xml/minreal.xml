@@ -68,7 +68,7 @@
       <example_item_description />
       <example_item_data
         runnable="cli"
-      ><![CDATA[sysIn = ss([1 0;0 -2], [-1;0], [2 1], 0, 3.2); 
+      ><![CDATA[sysIn = ss([1 0;0 -2], [-1;0], [2 1], 0, 3.2);
 sysOut = minreal(sysIn)]]></example_item_data>
     </example_item>
   </examples>

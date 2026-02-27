@@ -161,7 +161,7 @@ fid = fopen([tempdir(), 'fwrite_example_char.txt'], 'w','n', 'UTF-8');
 [count, bytes] = fwrite(fid, test_string) % returns 11 and 17
 fclose(fid);
 
-% Il s'agit du nombre de caractères écrits et non du nombre d'octets. 
+% Il s'agit du nombre de caractères écrits et non du nombre d'octets.
 % Chaque caractère accentué (é, ö, ä, ü, è, ê) = 2 octets chacun
 % Chaque espace = 1 octet
 % Total octets = 6*2 + 5*1 = 17 octets

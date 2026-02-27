@@ -88,7 +88,7 @@
       <example_item_type>nelson</example_item_type>
       <example_item_description />
       <example_item_data
-      ><![CDATA[pyrun('import numpy as np')    
+      ><![CDATA[pyrun('import numpy as np')
 R = pyrun('R = np.asarray(A)', "R", 'A', magic(3))
 R_A = R + R
 R_B = R * 2
