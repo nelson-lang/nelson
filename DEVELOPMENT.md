@@ -20,18 +20,10 @@ see [BUILDING.md](https://github.com/nelson-lang/nelson/blob/master/BUILDING.md)
 
 ## Indent C/C++ code
 
-- easy way, available on all platforms:
+- easy way, available on all platforms (just and rust installed if you have installed [dependencies](https://github.com/nelson-lang/nelson/tree/master/tools/install_dependencies):
 
 ```
-nvm use
-npm i
-npm run prettier:clang-format
-```
-
-- on Macos X and Linux, you need to install clang-format > 3.8. On root directory:
-
-```
-make clang-format
+just format
 ```
 
 Indentation uses webkit coding style see .clang-format

@@ -12,14 +12,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22.14"
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
 
-      - name: npm install
+      - name: Install just
+        uses: extractions/setup-just@v2
+
+      - name: Check formatting
         run: |
-          npm install
-      - name: npm run prettier:check
-        run: |
-          npm run prettier:check
+          just format-check

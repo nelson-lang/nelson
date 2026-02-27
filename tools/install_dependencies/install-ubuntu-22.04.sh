@@ -47,6 +47,7 @@ apt-get install -y \
     wget \
     ninja-build \
     xvfb \
+    clang-format \
     libopenmpi-dev \
     autotools-dev \
     libtool \
@@ -99,6 +100,14 @@ apt-get install -y \
 # Just 1.33 or higher is required
 print_status "Installing Just"
 snap install --classic just
+
+print_status "Installing Rust toolchain"
+if ! command -v rustup &>/dev/null; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    export PATH="$HOME/.cargo/bin:$PATH"
+else
+    rustup update stable
+fi
 
 # Clean up
 print_status "Cleaning up"

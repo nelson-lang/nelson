@@ -33,8 +33,18 @@ system_utils=(
 # --- Build Tools ---
 build_tools=(
     make libtool gcc gcc-c++ autoconf automake
-    cmake gettext pkg-config
+    cmake gettext pkg-config clang-tools-extra
 )
+
+# --- Rust Toolchain ---
+rust_install() {
+    if ! command -v rustup &>/dev/null; then
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+        export PATH="$HOME/.cargo/bin:$PATH"
+    else
+        rustup update stable
+    fi
+}
 
 # --- Scientific / Math Libraries ---
 math_libs=(
@@ -72,6 +82,10 @@ other_libs=(
 # Install all groups
 dnf install -y "${system_utils[@]}"
 dnf install -y "${build_tools[@]}"
+
+print_status "Installing Rust toolchain"
+rust_install
+
 dnf install -y "${math_libs[@]}"
 dnf install -y "${audio_libs[@]}"
 dnf install -y "${qt_gui_libs[@]}"

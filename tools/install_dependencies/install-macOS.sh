@@ -59,6 +59,8 @@ dependencies=(
     julia
     libtiff
     just
+    clang-format
+    rust
 )
 
 for package in "${dependencies[@]}"; do

@@ -28,7 +28,15 @@ apt-get upgrade -y
 
 print_status "Installing build tools"
 apt-get install -y build-essential cmake autotools-dev libtool automake \
-                   pkg-config gettext just
+                   pkg-config gettext just clang-format
+
+print_status "Installing Rust toolchain"
+if ! command -v rustup &>/dev/null; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    export PATH="$HOME/.cargo/bin:$PATH"
+else
+    rustup update stable
+fi
 
 print_status "Installing system dependencies"
 apt-get install -y apt-transport-https ca-certificates gnupg wget \

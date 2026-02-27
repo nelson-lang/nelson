@@ -39,7 +39,15 @@ snap install --classic just
 
 print_status "Installing build tools"
 apt-get install -y build-essential ninja-build autotools-dev libtool automake \
-                   pkg-config
+                   pkg-config clang-format
+
+print_status "Installing Rust toolchain"
+if ! command -v rustup &>/dev/null; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    export PATH="$HOME/.cargo/bin:$PATH"
+else
+    rustup update stable
+fi
 
 print_status "Installing system dependencies"
 apt-get install -y apt-transport-https ca-certificates gnupg software-properties-common wget 

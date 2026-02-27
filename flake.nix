@@ -30,7 +30,8 @@
             ninja
             just
             git
-            nodejs_20
+            rustc
+            cargo
           ] ++ lib.optionals (!isDarwin) [
             xvfb-run
             gdb
@@ -118,12 +119,7 @@
               )
             }:$${if isDarwin then "DYLD_LIBRARY_PATH" else "LD_LIBRARY_PATH"}"
 
-            if [ -f package.json ] && [ ! -d node_modules ]; then
-              echo "📦 Installing npm dependencies..."
-              npm install
-            fi
-
-            # Export prefix variables for specific libraries
+             # Export prefix variables for specific libraries
             export NIX_LIBTIFF_PREFIX="${pkgs.libtiff}"
             export NIX_GIFLIB_PREFIX="${pkgs.giflib}"
             export LC_ALL=C
