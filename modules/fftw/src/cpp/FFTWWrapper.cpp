@@ -213,8 +213,7 @@ loadFFTWLibraryOnMacOs()
     auto tryLoadLibraryFromDir = [](const std::string& dir) -> bool {
         std::string fftwLibraryName = dir + "libfftw3.3" + get_dynamic_library_extension();
         std::string fftwfLibraryName = dir + "libfftw3f" + get_dynamic_library_extension();
-        return loadFFTWLibrary(
-            utf8_to_wstring(fftwLibraryName), utf8_to_wstring(fftwfLibraryName));
+        return loadFFTWLibrary(utf8_to_wstring(fftwLibraryName), utf8_to_wstring(fftwfLibraryName));
     };
 
     // When running from a .app bundle, FFTW dylibs are in Contents/Frameworks/
