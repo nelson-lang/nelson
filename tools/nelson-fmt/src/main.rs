@@ -13,6 +13,27 @@ use serde::{Deserialize, Serialize};
 use std::ffi::OsStr;
 use std::path::{Path, PathBuf};
 use std::process::Command;
+/// Format CMake content by calling the cmake-fmt binary.
+fn format_cmake_file(path: &Path, content: &str) -> String {
+    let output = Command::new("cmake-fmt")
+        .arg("--assume-filename")
+        .arg(path)
+        .arg("-")
+        .stdin(std::process::Stdio::piped())
+        .stdout(std::process::Stdio::piped())
+        .spawn()
+        .and_then(|mut child| {
+            use std::io::Write;
+            if let Some(stdin) = child.stdin.as_mut() {
+                let _ = stdin.write_all(content.as_bytes());
+            }
+            child.wait_with_output()
+        });
+    match output {
+        Ok(out) if out.status.success() => String::from_utf8_lossy(&out.stdout).to_string(),
+        _ => content.to_string(),
+    }
+}
 use walkdir::WalkDir;
 use rayon::prelude::*;
 use toml_edit::Document;
@@ -127,7 +148,7 @@ fn format_xml(content: &str) -> String {
             let mut result = String::with_capacity(trimmed.len() + 1);
             result.push_str(trimmed);
             result.push('\n');
-            result
+            return result;
         },
         Err(_) => {
             // Fallback: also normalize trailing whitespace for unparseable XML
@@ -135,7 +156,7 @@ fn format_xml(content: &str) -> String {
             let mut result = String::with_capacity(trimmed.len() + 1);
             result.push_str(trimmed);
             result.push('\n');
-            result
+            return result;
         }
     }
 }
@@ -173,10 +194,6 @@ fn format_rust_with_rustfmt(path: &Path, content: &str, verbose: bool) -> String
 // ===========================================================================
 // Walk helpers
 // ===========================================================================
-/// Return `true` if this directory entry should be skipped entirely.
-///
-/// Entries in `exclude_path_contains` that are plain directory names (no `/`
-/// or glob characters) double as a skip-dir list so the walker never descends
 /// into them.
 fn is_skipped_dir(entry: &walkdir::DirEntry, ignore: &ClangFormatIgnore) -> bool {
     if !entry.file_type().is_dir() {
@@ -224,11 +241,20 @@ fn is_path_excluded(path: &Path, root: &Path, ignore: &ClangFormatIgnore) -> boo
 /// (JSON / YAML / Markdown / JS / XML-help-doc) and return its logical
 /// extension if so.
 fn standard_file_kind<'a>(path: &'a Path, _root: &Path) -> Option<&'a str> {
-    let ext = path.extension()?.to_str()?;
-    match ext {
-        "json" | "yml" | "yaml" | "md" | "js" => Some(ext),
-        "xml" => Some("xml"),
-        _ => None,
+    if path.file_name().map_or(false, |n| n == "CMakeLists.txt") {
+        Some("cmake")
+    } else {
+        if let Some(name) = path.file_name().and_then(|n| n.to_str()) {
+            if name == "CMakeLists.txt" {
+                return Some("cmake");
+            }
+        }
+        let ext = path.extension()?.to_str()?;
+        match ext {
+            "json" | "yml" | "yaml" | "md" | "js" | "cmake" => Some(ext),
+            "xml" => Some("xml"),
+            _ => None,
+        }
     }
 }
 // ===========================================================================
@@ -263,22 +289,26 @@ fn process_file(path: &Path, ext: &str, check: bool, verbose: bool) -> Result<bo
     }
 
     // Otherwise, do full formatting
-    let formatted_lf = match ext {
-        "json" => match format_json(&content)? {
-            Some(f) => f,
-            None => {
-                if verbose {
-                    eprintln!("Skipping (unparseable JSON): {}", path.display());
+    let formatted_lf = if path.file_name().map_or(false, |n| n == "CMakeLists.txt") || ext == "cmake" {
+        format_cmake_file(path, &content)
+    } else {
+        match ext {
+            "json" => match format_json(&content)? {
+                Some(f) => f,
+                None => {
+                    if verbose {
+                        eprintln!("Skipping (unparseable JSON): {}", path.display());
+                    }
+                    return Ok(true);
                 }
-                return Ok(true);
-            }
-        },
-        "js" | "ts" => basic_cleanup(&content),
-        "xml" => format_xml(&content),
-        "toml" => format_toml(&content),
-        "rs" => format_rust_with_rustfmt(path, &content, verbose),
-        "yml" | "yaml" | "md" => basic_cleanup(&content),
-        _ => return Ok(true),
+            },
+            "js" | "ts" => basic_cleanup(&content),
+            "xml" => format_xml(&content),
+            "toml" => format_toml(&content),
+            "rs" => format_rust_with_rustfmt(path, &content, verbose),
+            "yml" | "yaml" | "md" => basic_cleanup(&content),
+            _ => return Ok(true),
+        }
     };
 
     let formatted_lf = formatted_lf.replace("\r\n", "\n").replace('\r', "\n");
@@ -346,6 +376,131 @@ fn resolve_clang_format(root: &Path) -> Option<PathBuf> {
     }
 
     None
+}
+
+/// Resolve cmake-fmt binary to use:
+/// 1. Try `<root>/tools/cmake-fmt/cmake-fmt[.exe]`
+/// 2. Fall back to `cmake-fmt` on PATH
+fn resolve_cmake_fmt(root: &Path) -> Option<PathBuf> {
+    let local_name = if cfg!(windows) { "cmake-fmt.exe" } else { "cmake-fmt" };
+    let local = root.join("tools").join("cmake-fmt").join(local_name);
+    if local.is_file() {
+        return Some(local);
+    }
+
+    // Try on PATH
+    if Command::new(local_name)
+        .arg("--version")
+        .output()
+        .map(|o| o.status.success())
+        .unwrap_or(false)
+    {
+        return Some(PathBuf::from(local_name));
+    }
+
+    // Not found: attempt to install via `cargo install cmake-fmt` so users
+    // running the tool get an automatic experience.  This may take time
+    // and requires `cargo` and network access.
+    eprintln!("cmake-fmt not found. Attempting `cargo install cmake-fmt`...");
+    match Command::new("cargo").arg("install").arg("cmake-fmt").status() {
+        Ok(status) if status.success() => {
+            // Re-check the binary on PATH
+            if Command::new(local_name)
+                .arg("--version")
+                .output()
+                .map(|o| o.status.success())
+                .unwrap_or(false)
+            {
+                return Some(PathBuf::from(local_name));
+            } else {
+                eprintln!("cargo install succeeded but `cmake-fmt` not found on PATH");
+            }
+        }
+        Ok(status) => {
+            eprintln!("`cargo install cmake-fmt` failed with exit {}", status);
+        }
+        Err(e) => {
+            eprintln!("Failed to run `cargo install cmake-fmt`: {}", e);
+        }
+    }
+
+    None
+}
+
+/// Collect and process CMake files using the cmake-fmt binary.
+fn process_cmake_files(root: &Path, ignore: &ClangFormatIgnore, check: bool, verbose: bool) -> Result<usize> {
+    // Collect matching files
+    let mut files: Vec<PathBuf> = Vec::new();
+    for entry in WalkDir::new(root)
+        .into_iter()
+        .filter_entry(|e| !is_skipped_dir(e, ignore))
+        .filter_map(|e| e.ok())
+    {
+        let path = entry.path();
+        if entry.file_type().is_file() {
+            if let Some(ext) = path.extension().and_then(OsStr::to_str) {
+                if ext == "cmake" && !is_path_excluded(path, root, ignore) {
+                    files.push(path.to_path_buf());
+                }
+            } else if path.file_name().map_or(false, |n| n == "CMakeLists.txt") && !is_path_excluded(path, root, ignore) {
+                files.push(path.to_path_buf());
+            }
+        }
+    }
+
+    let total = files.len();
+    if files.is_empty() {
+        return Ok(0);
+    }
+
+    let cmake_bin = match resolve_cmake_fmt(root) {
+        Some(b) => b,
+        None => {
+            eprintln!("WARNING: cmake-fmt not found - skipping {} CMake files", files.len());
+            return Ok(0);
+        }
+    };
+
+    if verbose {
+        eprintln!("Using cmake-fmt: {}", cmake_bin.display());
+    }
+
+    if check {
+        for chunk in files.chunks(50) {
+            let mut cmd = Command::new(&cmake_bin);
+            cmd.arg("--check");
+            for file in chunk {
+                if verbose {
+                    eprintln!("Checking (cmake-fmt): {}", file.display());
+                }
+                cmd.arg(file);
+            }
+            let output = cmd.output().context("Failed to run cmake-fmt")?;
+            if !output.status.success() {
+                let stderr = String::from_utf8_lossy(&output.stderr);
+                eprintln!("cmake-fmt would reformat files in this batch:\n{}", stderr);
+                std::process::exit(1);
+            }
+        }
+    } else {
+        for chunk in files.chunks(50) {
+            let mut cmd = Command::new(&cmake_bin);
+            cmd.arg("-i");
+            for file in chunk {
+                if verbose {
+                    eprintln!("Formatting (cmake-fmt): {}", file.display());
+                }
+                cmd.arg(file);
+            }
+            let output = cmd.output().context("Failed to run cmake-fmt")?;
+            if !output.status.success() {
+                let stderr = String::from_utf8_lossy(&output.stderr);
+                eprintln!("cmake-fmt error: {}", stderr);
+            }
+        }
+    }
+
+    Ok(total)
 }
 
 /// Extract the major version number from `clang-format --version` output.
@@ -498,6 +653,7 @@ fn main() -> Result<()> {
         .collect();
 
     // Use parallel iterator for faster processing
+    // Prepare list for non-CMake standard files (we'll process CMake files in a batch later)
     let results: Vec<_> = entries.par_iter()
         .filter_map(|entry| {
             let path = entry.path();
@@ -505,6 +661,9 @@ fn main() -> Result<()> {
                 return None;
             }
             if let Some(ext) = standard_file_kind(path, &root) {
+                if ext == "cmake" {
+                    return None; // skip here; handled by process_cmake_files
+                }
                 Some((path.to_path_buf(), ext))
             } else {
                 None
@@ -522,6 +681,10 @@ fn main() -> Result<()> {
             eprintln!("Error processing {}: {:#}", path.display(), e);
         }
     }
+
+    // --- CMake files via cmake-fmt ---------------------------------------
+    let cmake_count = process_cmake_files(&root, &ignore, args.check, args.verbose)?;
+    total_files += cmake_count;
 
     // --- C/C++ files via clang-format -------------------------------------
     let (cpp_total, _) = process_cpp_files(&root, &ignore, args.check, args.verbose)?;

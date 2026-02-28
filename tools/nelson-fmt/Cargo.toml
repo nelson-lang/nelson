@@ -24,6 +24,7 @@ walkdir = "2"
 anyhow = "1"
 xmlformat = "1.2.1"
 toml_edit = "*"
+cmake-fmt = "0.7.2"
 rayon = "1"
 
 [dev-dependencies]

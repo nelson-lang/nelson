@@ -9,7 +9,10 @@ find_package(portaudio CONFIG QUIET)
 if(TARGET portaudio)
 	# Extract details for find_package_handle_standard_args
 	get_target_property(Portaudio_LIBRARY portaudio LOCATION)
-	get_target_property(Portaudio_INCLUDE_DIR portaudio INTERFACE_INCLUDE_DIRECTORIES)
+	get_target_property(Portaudio_INCLUDE_DIR
+		portaudio
+		INTERFACE_INCLUDE_DIRECTORIES
+	)
 else()
 	# Attempt to find PortAudio using PkgConfig, if we have it
 	find_package(PkgConfig QUIET)
@@ -19,29 +22,37 @@ else()
 
 	# Find the library and headers using the results from PkgConfig as a guide
 	find_library(Portaudio_LIBRARY
-		NAMES "portaudio"
-		HINTS ${PORTAUDIO_PKG_LIBRARY_DIRS}
+		NAMES
+		"portaudio"
+		HINTS
+		${PORTAUDIO_PKG_LIBRARY_DIRS}
 	)
 
 	find_path(Portaudio_INCLUDE_DIR
-		NAMES "portaudio.h"
-		HINTS ${PORTAUDIO_PKG_INCLUDE_DIRS}
+		NAMES
+		"portaudio.h"
+		HINTS
+		${PORTAUDIO_PKG_INCLUDE_DIRS}
 	)
 
 	# Create an imported target for PortAudio if we succeeded in finding it.
 	if(Portaudio_LIBRARY AND Portaudio_INCLUDE_DIR)
-    set(PORTAUDIO_FOUND TRUE)
-    set(PORTAUDIO_LIBRARIES ${Portaudio_LIBRARY})
-    set(PORTAUDIO_INCLUDE_DIRS ${Portaudio_INCLUDE_DIR})
+		set(PORTAUDIO_FOUND TRUE)
+		set(PORTAUDIO_LIBRARIES ${Portaudio_LIBRARY})
+		set(PORTAUDIO_INCLUDE_DIRS ${Portaudio_INCLUDE_DIR})
 		add_library(portaudio UNKNOWN IMPORTED)
-		set_target_properties(portaudio PROPERTIES
-			INTERFACE_INCLUDE_DIRECTORIES "${Portaudio_INCLUDE_DIR}"
-			IMPORTED_LOCATION "${Portaudio_LIBRARY}"
+		set_target_properties(portaudio
+			PROPERTIES
+				INTERFACE_INCLUDE_DIRECTORIES "${Portaudio_INCLUDE_DIR}"
+				IMPORTED_LOCATION "${Portaudio_LIBRARY}"
 		)
 	endif()
 endif()
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(Portaudio
-	REQUIRED_VARS Portaudio_LIBRARY Portaudio_INCLUDE_DIR
+find_package_handle_standard_args(
+	Portaudio
+	REQUIRED_VARS
+	Portaudio_LIBRARY
+	Portaudio_INCLUDE_DIR
 )
