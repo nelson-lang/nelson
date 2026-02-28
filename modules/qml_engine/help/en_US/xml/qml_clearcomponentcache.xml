@@ -4,7 +4,7 @@
   <language>en_US</language>
   <keyword>qml_clearcomponentcache</keyword>
   <short_description
-  >Clears the engine's internal component cache..</short_description>
+  >Clears the engine&apos;s internal component cache..</short_description>
   <syntax>
     <syntax_item>qml_clearcomponentcache</syntax_item>
   </syntax>

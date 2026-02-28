@@ -24,7 +24,7 @@
   </param_output>
   <description>
     <p
-    >Évalue une expression ou une commande au sein de l'environnement Nelson et retourne le résultat de l'évaluation.</p>
+    >Évalue une expression ou une commande au sein de l&apos;environnement Nelson et retourne le résultat de l&apos;évaluation.</p>
   </description>
   <used_function />
   <bibliography />
@@ -39,7 +39,7 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Cet exemple échouera et renverra un message d'erreur.</example_item_description>
+      >Cet exemple échouera et renverra un message d&apos;erreur.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[C = eval('B=4')]]></example_item_data>
@@ -54,7 +54,7 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Cet exemple n'échouera pas et renverra faux.</example_item_description>
+      >Cet exemple n&apos;échouera pas et renverra faux.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[eval('error(''blabla'')', 'l = lasterror(); disp([''lasterror message: '', l.message])')]]></example_item_data>

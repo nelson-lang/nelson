@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>audiorecorder_fieldnames</keyword>
   <short_description
-  >Retourne les noms des propriétés d'un objet audiorecorder.</short_description>
+  >Retourne les noms des propriétés d&apos;un objet audiorecorder.</short_description>
   <syntax>
     <syntax_item>l = audiorecorder_fieldnames(h)</syntax_item>
     <syntax_item>l = fieldnames(h)</syntax_item>
@@ -22,7 +22,8 @@
       >une cellule de chaînes de caractères.</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >fieldnames</b> retourne une cellule de chaînes de caractères avec les noms des propriétés.</description>
   <used_function />
   <bibliography />

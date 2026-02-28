@@ -14,7 +14,7 @@
     <param_input_item>
       <param_name>profile_info</param_name>
       <param_description
-      >structure : résultat de profile('info')</param_description>
+      >structure : résultat de profile(&apos;info&apos;)</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>dirname</param_name>
@@ -22,10 +22,11 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >profsave</b> exporte les données de profiling en une série de fichiers HTML.</p>
-    <p>L'argument <b
-      >profile_info</b> est la structure renvoyée par profile('info').</p>
+    <p>L&apos;argument <b
+      >profile_info</b> est la structure renvoyée par profile(&apos;info&apos;).</p>
     <p>Si non précisé, <b>profsave</b> utilisera le profil courant.</p>
   </description>
   <used_function />

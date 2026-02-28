@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>swapbytes</b> Swap byte ordering.</p>
+    <p>
+      <b>swapbytes</b> Swap byte ordering.</p>
     <p>endian (little - big) converter</p>
   </description>
   <used_function />

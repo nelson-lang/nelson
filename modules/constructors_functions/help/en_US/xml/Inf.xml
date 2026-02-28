@@ -21,7 +21,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>NaN</b> returns the IEEE symbol Inf (Infinity).</p>
+    <p>
+      <b>NaN</b> returns the IEEE symbol Inf (Infinity).</p>
   </description>
   <used_function />
   <bibliography />

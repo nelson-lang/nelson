@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>zp2tf</keyword>
-  <short_description
+  <short_description
   >Conversion zéros-pôles en fonction de transfert.</short_description>
   <syntax>
     <syntax_item>[NUM, DEN] = zp2tf(Z, P, K)</syntax_item>
@@ -11,12 +11,12 @@
   <param_input>
     <param_input_item>
       <param_name>Z</param_name>
-      <param_description
+      <param_description
       >Positions des zéros, organisées en colonnes pour chaque sortie du système.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>P</param_name>
-      <param_description
+      <param_description
       >Positions des pôles, enregistrées en tant que vecteur colonne.</param_description>
     </param_input_item>
     <param_input_item>
@@ -27,28 +27,29 @@
   <param_output>
     <param_output_item>
       <param_name>NUM</param_name>
-      <param_description
+      <param_description
       >Coefficients du numérateur, organisés par lignes correspondant à chaque sortie du système.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>DEN</param_name>
-      <param_description
+      <param_description
       >Coefficients du dénominateur, disposés en tant que vecteur ligne.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >[NUM, DEN] = zp2tf(Z, P, K)</b> renvoie la représentation polynomiale de la fonction de transfert à partir des zéros et des pôles.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[p = [0.5;0.45+0.5i;0.45-0.5i];
-z = [-1;i;-i];
-k = 1;
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[p = [0.5;0.45+0.5i;0.45-0.5i];
+z = [-1;i;-i];
+k = 1;
 [n, d] = zp2tf(z, p, k)]]></example_item_data>
     </example_item>
   </examples>

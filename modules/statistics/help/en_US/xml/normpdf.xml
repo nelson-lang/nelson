@@ -33,7 +33,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >normpdf</b> computes the probability density function of the normal (Gaussian) distribution.</p>
     <p>The general formula for the normal distribution PDF is:</p>
     <latex

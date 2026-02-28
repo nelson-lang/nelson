@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>ismex</b> checks for the existence of a mex function.</p>
+    <p>
+      <b>ismex</b> checks for the existence of a mex function.</p>
   </description>
   <used_function />
   <bibliography />

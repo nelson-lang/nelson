@@ -4,14 +4,14 @@
   <language>fr_FR</language>
   <keyword>load</keyword>
   <short_description
-  >charger des données depuis un fichier .nh5 ou .mat dans l'espace de travail de Nelson.</short_description>
+  >charger des données depuis un fichier .nh5 ou .mat dans l&apos;espace de travail de Nelson.</short_description>
   <syntax>
     <syntax_item>load(filename)</syntax_item>
     <syntax_item>st = load(filename)</syntax_item>
     <syntax_item>load(filename, var1, ..., varN)</syntax_item>
     <syntax_item>st = load(filename, var1, ..., varN)</syntax_item>
-    <syntax_item>load(filename, '-mat')</syntax_item>
-    <syntax_item>load(filename, '-nh5')</syntax_item>
+    <syntax_item>load(filename, &apos;-mat&apos;)</syntax_item>
+    <syntax_item>load(filename, &apos;-nh5&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -20,14 +20,16 @@
       >une chaîne : nom de fichier .nh5 ou .mat.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-mat' or '-nh5'</param_name>
+      <param_name>
+        &apos;-mat&apos; or &apos;-nh5&apos;
+      </param_name>
       <param_description
       >force la lecture du fichier en tant que nh5 ou mat.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>var1, ..., varN</param_name>
       <param_description
-      >chaîne : noms des variables à charger dans l'espace de travail de Nelson.</param_description>
+      >chaîne : noms des variables à charger dans l&apos;espace de travail de Nelson.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -38,8 +40,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >load</b> charge des données depuis un fichier .nh5 ou .mat vers l'espace de travail de Nelson.</p>
+    <p>
+      <b
+      >load</b> charge des données depuis un fichier .nh5 ou .mat vers l&apos;espace de travail de Nelson.</p>
   </description>
   <used_function />
   <bibliography />

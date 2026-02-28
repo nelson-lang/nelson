@@ -8,7 +8,8 @@
     <syntax_item>drawnow()</syntax_item>
   </syntax>
   <description>
-    <p><b>drawnow</b> flushes the event queue and updates the figure window.</p>
+    <p>
+      <b>drawnow</b> flushes the event queue and updates the figure window.</p>
   </description>
   <used_function />
   <bibliography />

@@ -4,13 +4,14 @@
   <language>fr_FR</language>
   <keyword>buildhelpjson</keyword>
   <short_description
-  >Construire l'aide de Nelson au format JSON.</short_description>
+  >Construire l&apos;aide de Nelson au format JSON.</short_description>
   <syntax>
     <syntax_item>buildhelpjson()</syntax_item>
   </syntax>
   <description>
-    <p><b
-      >buildhelpjson</b> génère des fichiers d'aide (au format JSON) (fonctionnalité interne).</p>
+    <p>
+      <b
+      >buildhelpjson</b> génère des fichiers d&apos;aide (au format JSON) (fonctionnalité interne).</p>
   </description>
   <used_function />
   <bibliography />

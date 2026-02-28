@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>narginchk</keyword>
-  <short_description>Vérifie le nombre d'arguments d'entrée.</short_description>
+  <short_description>Vérifie le nombre d&apos;arguments d&apos;entrée.</short_description>
   <syntax>
     <syntax_item>narginchk(minArgs, maxArgs)</syntax_item>
   </syntax>
@@ -11,17 +11,17 @@
     <param_input_item>
       <param_name>minArgs</param_name>
       <param_description
-      >nombre minimum d'entrées acceptées (valeur entière scalaire).</param_description>
+      >nombre minimum d&apos;entrées acceptées (valeur entière scalaire).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>maxArgs</param_name>
       <param_description
-      >nombre maximum d'entrées acceptées (valeur entière scalaire).</param_description>
+      >nombre maximum d&apos;entrées acceptées (valeur entière scalaire).</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p
-    >Lance une erreur si le nombre d'arguments d'entrée n'est pas dans l'intervalle attendu.</p>
+    >Lance une erreur si le nombre d&apos;arguments d&apos;entrée n&apos;est pas dans l&apos;intervalle attendu.</p>
   </description>
   <used_function />
   <bibliography />

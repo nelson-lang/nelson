@@ -22,12 +22,12 @@
     <param_input_item>
       <param_name>fs</param_name>
       <param_description
-      >une valeur entière : taux d'échantillonnage.</param_description>
+      >une valeur entière : taux d&apos;échantillonnage.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>fieldname</param_name>
       <param_description
-      >une chaîne : 'BitsPerSample', 'BitRate', 'Quality', 'Title', 'Artist' ou 'Comment' .</param_description>
+      >une chaîne : &apos;BitsPerSample&apos;, &apos;BitRate&apos;, &apos;Quality&apos;, &apos;Title&apos;, &apos;Artist&apos; ou &apos;Comment&apos; .</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>fieldvalue</param_name>
@@ -35,7 +35,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>audiowrite</b> écrit un fichier audio.</p>
+    <p>
+      <b>audiowrite</b> écrit un fichier audio.</p>
     <p>Plus de 26 formats de fichiers pris en charge. Voir la fonction <b
       >audiosupportedformats</b> pour avoir tous les formats pris en charge.</p>
   </description>

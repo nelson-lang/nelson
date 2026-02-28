@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>bone</b> retourne la palette de couleurs bone.</p>
+    <p>
+      <b>bone</b> retourne la palette de couleurs bone.</p>
   </description>
   <used_function />
   <bibliography />

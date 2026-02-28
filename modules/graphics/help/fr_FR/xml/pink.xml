@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>pink</b> retourne la palette de couleurs Pink.</p>
+    <p>
+      <b>pink</b> retourne la palette de couleurs Pink.</p>
   </description>
   <used_function />
   <bibliography />

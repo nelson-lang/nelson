@@ -8,7 +8,7 @@
   <syntax>
     <syntax_item>names = fieldnames(st)</syntax_item>
     <syntax_item>names = fieldnames(h)</syntax_item>
-    <syntax_item>names = fieldnames(h, '-full')</syntax_item>
+    <syntax_item>names = fieldnames(h, &apos;-full&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -27,12 +27,15 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >names = fieldnames(st)</b> returns a cell of strings with the names of the fields in the input structure.</p>
-    <p><b
+    <p>
+      <b
       >names = fieldnames(h)</b> returns a cell of strings with the names of the properties in the handle (without hidden).</p>
-    <p><b
-      >names = fieldnames(h, '-full')</b> returns a cell of strings with the names of the all properties in the handle.</p>
+    <p>
+      <b
+      >names = fieldnames(h, &apos;-full&apos;)</b> returns a cell of strings with the names of the all properties in the handle.</p>
   </description>
   <used_function />
   <bibliography />

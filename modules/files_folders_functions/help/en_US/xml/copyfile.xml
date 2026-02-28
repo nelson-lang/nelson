@@ -8,7 +8,7 @@
     <syntax_item>copyfile(source, destination)</syntax_item>
     <syntax_item>[status, msg] = copyfile(source, destination)</syntax_item>
     <syntax_item
-    >[status, msg] = copyfile(source, destination, 'f')</syntax_item>
+    >[status, msg] = copyfile(source, destination, &apos;f&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -20,7 +20,9 @@
       <param_description>a string: file or directory.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'f' or 'F'</param_name>
+      <param_name>
+        &apos;f&apos; or &apos;F&apos;
+      </param_name>
       <param_description
       >force copy even destination is not writable.</param_description>
     </param_input_item>
@@ -36,11 +38,13 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>copyfile(source , destination)</b> copies the file or directory ,<b
+    <p>
+      <b>copyfile(source , destination)</b> copies the file or directory ,<b
       >source</b> (and subdirectories) to the file or directory,<b
       >destination</b>.</p>
     <p>If <b>source</b> is a directory,<b>destination</b> can not be a file.</p>
-    <p><b>copyfile</b> replaces existing files without warning.</p>
+    <p>
+      <b>copyfile</b> replaces existing files without warning.</p>
   </description>
   <used_function />
   <bibliography />

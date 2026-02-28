@@ -17,11 +17,12 @@
     <param_output_item>
       <param_name>status</param_name>
       <param_description
-      >a string: 'script', 'function', 'error'.</param_description>
+      >a string: &apos;script&apos;, &apos;function&apos;, &apos;error&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >parsefile</b> parse a file and returns if it is a valid script, a valid function or an error.</p>
   </description>
   <used_function />

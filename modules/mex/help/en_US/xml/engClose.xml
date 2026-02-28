@@ -5,7 +5,8 @@
   <keyword>engClose</keyword>
   <short_description>Close Nelson engine session</short_description>
   <syntax>
-    <syntax_item>#include "engine.h"</syntax_item>
+    <syntax_item>#include &quot;engine.h&quot;
+    </syntax_item>
     <syntax_item>int engClose(Engine *ep);</syntax_item>
   </syntax>
   <param_input>

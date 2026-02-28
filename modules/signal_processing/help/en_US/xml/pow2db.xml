@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>db = pow2db(pow)</b> returns corresponding values in decibels.</p>
+    <p>
+      <b>db = pow2db(pow)</b> returns corresponding values in decibels.</p>
   </description>
   <examples>
     <example_item>

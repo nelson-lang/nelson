@@ -21,8 +21,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>F = chol(A)</b> factorizes symmetric positive definite matrix<b
-      >A</b> into an upper triangular F that satisfies <b>A = F' * F</b>.</p>
+    <p>
+      <b>F = chol(A)</b> factorizes symmetric positive definite matrix<b
+      >A</b> into an upper triangular F that satisfies <b>A = F&apos; * F</b>.</p>
   </description>
   <used_function />
   <bibliography />

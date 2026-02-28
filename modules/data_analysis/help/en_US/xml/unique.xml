@@ -6,14 +6,14 @@
   <short_description>Unique values.</short_description>
   <syntax>
     <syntax_item>C = unique(A)</syntax_item>
-    <syntax_item>C = unique(A, 'rows')</syntax_item>
+    <syntax_item>C = unique(A, &apos;rows&apos;)</syntax_item>
     <syntax_item>[C, ia, ic] = unique(...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
       <param_description
-      >an nelson's variable (double, single, int8, int16, int32, int64, uint8, uint16, uint32, uint64, logical, char, string, cell).</param_description>
+      >an nelson&apos;s variable (double, single, int8, int16, int32, int64, uint8, uint16, uint32, uint64, logical, char, string, cell).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -31,19 +31,22 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>C = unique(A)</b> returns the unique elements of array <b
+    <p>
+      <b>C = unique(A)</b> returns the unique elements of array <b
       >A</b> in sorted order.</p>
-    <p><b>C = unique(A, 'rows')</b> considers each row of <b
+    <p>
+      <b>C = unique(A, &apos;rows&apos;)</b> considers each row of <b
       >A</b> as a unique entity and returns the unique rows in sorted order.</p>
-    <p>Note that the 'rows' option does not support cell arrays.</p>
-    <p><b
+    <p>Note that the &apos;rows&apos; option does not support cell arrays.</p>
+    <p>
+      <b
       >[C, ia, ic] = unique(...)</b> extends any of the previous syntaxes to also return index vectors <b
       >ia</b> and <b>ic</b>.</p>
     <p>For a vector <b>A</b>, the relationships are <b>C = A(ia)</b> and <b
       >A = C(ic)</b>.</p>
     <p>For a matrix or array <b>A</b>, the relationships are <b
       >C = A(ia)</b> and <b>A(:) = C(ic)</b>.</p>
-    <p>If the 'rows' option is used, the relationships are <b
+    <p>If the &apos;rows&apos; option is used, the relationships are <b
       >C = A(ia, :)</b> and <b>A = C(ic, :)</b>.</p>
   </description>
   <used_function>std::sort, std::unique (stl)</used_function>

@@ -26,7 +26,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>hypot</b> calcule l'hypoténuse.</p>
+    <p>
+      <b>hypot</b> calcule l&apos;hypoténuse.</p>
     <p>Si une ou deux entrées sont NaN, alors <b>hypot</b> renvoie <b
       >NaN</b>.</p>
   </description>

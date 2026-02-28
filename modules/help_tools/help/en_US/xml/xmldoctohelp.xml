@@ -36,7 +36,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>xmldoctohelp</b> converts xml Nelson help files to Nelson format.</p>
+    <p>
+      <b>xmldoctohelp</b> converts xml Nelson help files to Nelson format.</p>
   </description>
   <used_function />
   <bibliography />

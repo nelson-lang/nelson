@@ -31,7 +31,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >nelson</b> contient des méthodes utilisées comme callbacks pour appeler nelson depuis QML</p>
   </description>
   <used_function />

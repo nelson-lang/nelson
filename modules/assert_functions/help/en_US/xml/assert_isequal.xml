@@ -31,11 +31,13 @@
     <param_output_item>
       <param_name>msg</param_name>
       <param_description
-      >a string containing the error message. If res == true, then msg == ''. If res == false, then msg contains the assertion failure message.</param_description>
+      >a string containing the error message. If res == true, then msg == &apos;
+        &apos;. If res == false, then msg contains the assertion failure message.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >assert_isequal</b> raises an error if the computed value is not equal to the expected value.</p>
     <p
     >This function performs strict equality testing that checks for same type, same dimensions, and same values comparisons. It uses the same logic as the <b
@@ -47,7 +49,8 @@
   </description>
   <used_function>isequaln</used_function>
   <bibliography
-  >"Automated Software Testing for Matlab", Steven Eddins, 2009</bibliography>
+  >
+    &quot;Automated Software Testing for Matlab&quot;, Steven Eddins, 2009</bibliography>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>

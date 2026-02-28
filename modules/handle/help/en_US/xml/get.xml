@@ -26,7 +26,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>R = get(h, property_name)</b> returns the value of property asked.</p>
+    <p>
+      <b>R = get(h, property_name)</b> returns the value of property asked.</p>
   </description>
   <used_function />
   <bibliography />

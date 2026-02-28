@@ -10,12 +10,12 @@
   <param_input>
     <param_input_item>
       <param_name>b</param_name>
-      <param_description
+      <param_description
       >Numerator coefficients of rational transfer function: vector.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>a</param_name>
-      <param_description
+      <param_description
       >Denominator coefficients of rational transfer function: vector.</param_description>
     </param_input_item>
     <param_input_item>
@@ -30,16 +30,16 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>The function<b
-      >filter(b, a, x)</b> applies a rational transfer function to filter the input data array<b
+    <p>The function<b
+      >filter(b, a, x)</b> applies a rational transfer function to filter the input data array<b
       >x</b>.</p>
-    <p
-    >This transfer function is defined by the coefficients of the numerator (<b
+    <p
+    >This transfer function is defined by the coefficients of the numerator (<b
       >b</b>) and denominator (<b>a</b>).</p>
-    <p>If the first coefficient of <b
+    <p>If the first coefficient of <b
       >a</b> (a(1)) is not equal to 1, the filter normalizes the coefficients by a(1). It is crucial for a(1) to be nonzero.</p>
-    <p>When<b
-      >x</b> is a vector, the function returns a vector of the same size as<b
+    <p>When<b
+      >x</b> is a vector, the function returns a vector of the same size as<b
       >x</b> containing the filtered data.</p>
   </description>
   <used_function />
@@ -48,20 +48,20 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[f = figure();
-rng default
-t = linspace(-pi,pi,100);
-X = sin(t) + (0.33 * rand(size(t)));
-windowSize = 7;
-b = (1/windowSize)*ones(1,windowSize);
-a = 1;
-y = filter(b, a, X);
-plot(t, X)
-hold on
-plot(t, y)
-legend(_('Input Data'), _('Filtered Data'));
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+rng default
+t = linspace(-pi,pi,100);
+X = sin(t) + (0.33 * rand(size(t)));
+windowSize = 7;
+b = (1/windowSize)*ones(1,windowSize);
+a = 1;
+y = filter(b, a, X);
+plot(t, X)
+hold on
+plot(t, y)
+legend(_('Input Data'), _('Filtered Data'));
 ]]></example_item_data>
     </example_item>
   </examples>

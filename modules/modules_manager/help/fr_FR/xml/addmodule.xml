@@ -11,7 +11,7 @@
     <param_input_item>
       <param_name>module_path</param_name>
       <param_description
-      >chaîne : chemin racine d'un module. Le chemin doit exister.</param_description>
+      >chaîne : chemin racine d&apos;un module. Le chemin doit exister.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>module_short_name</param_name>
@@ -20,7 +20,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >addmodule</b> enregistre un nouveau module identifié par son chemin et son nom court.</p>
   </description>
   <used_function />

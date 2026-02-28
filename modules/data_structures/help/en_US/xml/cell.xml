@@ -34,9 +34,13 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>cell</b> returns a cell array of empty matrices.</p>
-    <p><b>cell()</b> is equivalent to <b>cell(0)</b></p>
-    <p><b>cell(A)</b> with A a string array converts to cell.</p>
+    <p>
+      <b>cell</b> returns a cell array of empty matrices.</p>
+    <p>
+      <b>cell()</b> is equivalent to <b>cell(0)</b>
+    </p>
+    <p>
+      <b>cell(A)</b> with A a string array converts to cell.</p>
   </description>
   <used_function />
   <bibliography />

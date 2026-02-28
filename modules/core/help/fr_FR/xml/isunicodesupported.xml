@@ -15,7 +15,7 @@
   </param_output>
   <description>
     <p
-    >Retourne vrai si l'environnement et la plateforme prennent en charge Unicode pour les chaînes de caractères.</p>
+    >Retourne vrai si l&apos;environnement et la plateforme prennent en charge Unicode pour les chaînes de caractères.</p>
   </description>
   <used_function />
   <bibliography />

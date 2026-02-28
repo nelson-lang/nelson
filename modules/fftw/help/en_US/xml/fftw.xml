@@ -5,18 +5,18 @@
   <keyword>fftw</keyword>
   <short_description>function for determining FFT algorithm.</short_description>
   <syntax>
-    <syntax_item>m = fftw('planner')</syntax_item>
-    <syntax_item>fftw('planner', m)</syntax_item>
-    <syntax_item>w = fftw('dwisdom')</syntax_item>
-    <syntax_item>fftw('dwisdom', w)</syntax_item>
-    <syntax_item>w = fftw('swisdom')</syntax_item>
-    <syntax_item>fftw('swisdom', w)</syntax_item>
+    <syntax_item>m = fftw(&apos;planner&apos;)</syntax_item>
+    <syntax_item>fftw(&apos;planner&apos;, m)</syntax_item>
+    <syntax_item>w = fftw(&apos;dwisdom&apos;)</syntax_item>
+    <syntax_item>fftw(&apos;dwisdom&apos;, w)</syntax_item>
+    <syntax_item>w = fftw(&apos;swisdom&apos;)</syntax_item>
+    <syntax_item>fftw(&apos;swisdom&apos;, w)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>m</param_name>
       <param_description
-      >method for setting transform parameters: 'estimate', 'measure', 'patient', 'exhaustive', or 'hybrid'.</param_description>
+      >method for setting transform parameters: &apos;estimate&apos;, &apos;measure&apos;, &apos;patient&apos;, &apos;exhaustive&apos;, or &apos;hybrid&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>w</param_name>
@@ -27,7 +27,7 @@
     <param_output_item>
       <param_name>m</param_name>
       <param_description
-      >method: 'estimate', 'measure', 'patient', 'exhaustive', or 'hybrid'.</param_description>
+      >method: &apos;estimate&apos;, &apos;measure&apos;, &apos;patient&apos;, &apos;exhaustive&apos;, or &apos;hybrid&apos;.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>w</param_name>
@@ -35,7 +35,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>The default method is 'estimate'.</p>
+    <p>The default method is &apos;estimate&apos;.</p>
   </description>
   <used_function />
   <bibliography />

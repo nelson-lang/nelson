@@ -8,27 +8,33 @@
   <syntax>
     <syntax_item>state = echo()</syntax_item>
     <syntax_item>echo()</syntax_item>
-    <syntax_item>echo('on')</syntax_item>
-    <syntax_item>echo('off')</syntax_item>
+    <syntax_item>echo(&apos;on&apos;)</syntax_item>
+    <syntax_item>echo(&apos;off&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>'on'</param_name>
+      <param_name>
+        &apos;on&apos;
+      </param_name>
       <param_description>enable echo mode (default)</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'off'</param_name>
+      <param_name>
+        &apos;off&apos;
+      </param_name>
       <param_description>disable echo mode</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>state</param_name>
-      <param_description>a string: 'on' or 'off'</param_description>
+      <param_description>a string: &apos;on&apos; or &apos;off&apos;
+      </param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>echo('off')</b> disable echo mode.</p>
+    <p>
+      <b>echo(&apos;off&apos;)</b> disable echo mode.</p>
     <p>Without input and output arguments,<b
       >echo</b> toggles the current echo state.</p>
   </description>

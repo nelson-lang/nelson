@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>searchenv</keyword>
   <short_description
-  >Recherche un fichier en utilisant les chemins définis dans une variable d'environnement.</short_description>
+  >Recherche un fichier en utilisant les chemins définis dans une variable d&apos;environnement.</short_description>
   <syntax>
     <syntax_item>c = searchenv(filename, env_name)</syntax_item>
   </syntax>
@@ -12,24 +12,25 @@
     <param_input_item>
       <param_name>env_name</param_name>
       <param_description
-      >une chaîne : nom de la variable d'environnement.</param_description>
+      >une chaîne : nom de la variable d&apos;environnement.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>filename</param_name>
       <param_description
-      >une chaîne : nom de fichier recherché dans la variable d'environnement.</param_description>
+      >une chaîne : nom de fichier recherché dans la variable d&apos;environnement.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>c</param_name>
       <param_description
-      >une cellule de chaînes : chemins complets trouvés dans la variable d'environnement.</param_description>
+      >une cellule de chaînes : chemins complets trouvés dans la variable d&apos;environnement.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >searchenv</b> recherche un fichier en parcourant les chemins d'une variable d'environnement.</p>
+    <p>
+      <b
+      >searchenv</b> recherche un fichier en parcourant les chemins d&apos;une variable d&apos;environnement.</p>
   </description>
   <used_function />
   <bibliography />

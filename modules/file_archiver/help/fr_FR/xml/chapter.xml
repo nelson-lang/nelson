@@ -3,11 +3,11 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>file_archiver</module_name>
-  <chapter>Fonctions d'archivage de fichiers</chapter>
+  <chapter>Fonctions d&apos;archivage de fichiers</chapter>
   <chapter_description>
     <p
     >Le module File Archiver fournit des outils pour compresser et décompresser des fichiers dans Nelson.</p>
     <p
-    >Il prend en charge la création d'archives zip et l'extraction de fichiers depuis des archives zip, permettant un stockage, un partage et une gestion efficaces des fichiers.</p>
+    >Il prend en charge la création d&apos;archives zip et l&apos;extraction de fichiers depuis des archives zip, permettant un stockage, un partage et une gestion efficaces des fichiers.</p>
   </chapter_description>
 </xmldoc>

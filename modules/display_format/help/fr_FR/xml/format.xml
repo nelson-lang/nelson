@@ -4,11 +4,11 @@
   <language>fr_FR</language>
   <keyword>format</keyword>
   <short_description
-  >Format d'affichage et impression des nombres.</short_description>
+  >Format d&apos;affichage et impression des nombres.</short_description>
   <syntax>
     <syntax_item>fmt = format()</syntax_item>
     <syntax_item>format()</syntax_item>
-    <syntax_item>format('default')</syntax_item>
+    <syntax_item>format(&apos;default&apos;)</syntax_item>
     <syntax_item>format(new_style)</syntax_item>
   </syntax>
   <param_input>
@@ -25,10 +25,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >format(new_style)</b> modifie le format d'affichage et l'impression des nombres pour la session courante.</p>
-    <p><b
-      >format('default')</b> réinitialise le format par défaut (short, loose).</p>
+    <p>
+      <b
+      >format(new_style)</b> modifie le format d&apos;affichage et l&apos;impression des nombres pour la session courante.</p>
+    <p>
+      <b
+      >format(&apos;default&apos;)</b> réinitialise le format par défaut (short, loose).</p>
     <p />
     <p>Styles pris en charge :</p>
     <p>
@@ -59,7 +61,7 @@
       <b>hex</b>
     </p>
     <p />
-    <p>Formats d'espacement de ligne pris en charge :</p>
+    <p>Formats d&apos;espacement de ligne pris en charge :</p>
     <p>
       <b>loose</b>
     </p>

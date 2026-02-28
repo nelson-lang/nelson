@@ -29,9 +29,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>datevec</b> convertit un numéro de date série en vecteur date.</p>
+    <p>
+      <b>datevec</b> convertit un numéro de date série en vecteur date.</p>
     <p
-    >Pour mesurer les performances, il est préférable d'utiliser les fonctions tic et toc.</p>
+    >Pour mesurer les performances, il est préférable d&apos;utiliser les fonctions tic et toc.</p>
   </description>
   <used_function />
   <bibliography />

@@ -15,9 +15,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>cputime()</b> renvoie le temps CPU utilisé par la session Nelson.</p>
+    <p>
+      <b>cputime()</b> renvoie le temps CPU utilisé par la session Nelson.</p>
     <p
-    >Pour mesurer les performances, il est préférable d'utiliser les fonctions tic et toc.</p>
+    >Pour mesurer les performances, il est préférable d&apos;utiliser les fonctions tic et toc.</p>
   </description>
   <used_function />
   <bibliography />

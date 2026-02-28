@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>slicot_mb03pd</keyword>
   <short_description
-  >Détermination du rang d'une matrice par estimation conditionnelle incrémentale (pivotement de lignes).</short_description>
+  >Détermination du rang d&apos;une matrice par estimation conditionnelle incrémentale (pivotement de lignes).</short_description>
   <syntax>
     <syntax_item
     >[A_OUT, JPVT_OUT, TAU, RANK, SVAL, INFO] = slicot_mb03pd(JOBRQ, A_IN, JPVT_IN, RCOND, SVLMAX)</syntax_item>
@@ -13,49 +13,49 @@
     <param_input_item>
       <param_name>JOBRQ</param_name>
       <param_description
-      >= 'R' : effectuer une factorisation RQ avec pivotement de lignes ; = 'N' : ne pas effectuer la factorisation RQ (mais supposer qu'elle a été faite à l'extérieur).</param_description>
+      >= &apos;R&apos; : effectuer une factorisation RQ avec pivotement de lignes ; = &apos;N&apos; : ne pas effectuer la factorisation RQ (mais supposer qu&apos;elle a été faite à l&apos;extérieur).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>A_IN</param_name>
       <param_description
-      >Si JOBRQ = 'R', la partie principale M-by-N de ce tableau doit contenir la matrice A donnée.</param_description>
+      >Si JOBRQ = &apos;R&apos;, la partie principale M-by-N de ce tableau doit contenir la matrice A donnée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>JPVT_IN</param_name>
       <param_description
-      >Si JOBRQ = 'R', si JPVT(i) != 0, la i-ème ligne de A est une ligne finale, sinon c'est une ligne libre. Avant la factorisation RQ de A, toutes les lignes finales sont permutées vers les positions finales ; seules les lignes libres restantes sont déplacées lors du pivotement de lignes pendant la factorisation. Pour la détermination du rang, il est préférable que toutes les lignes soient libres.</param_description>
+      >Si JOBRQ = &apos;R&apos;, si JPVT(i) != 0, la i-ème ligne de A est une ligne finale, sinon c&apos;est une ligne libre. Avant la factorisation RQ de A, toutes les lignes finales sont permutées vers les positions finales ; seules les lignes libres restantes sont déplacées lors du pivotement de lignes pendant la factorisation. Pour la détermination du rang, il est préférable que toutes les lignes soient libres.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>RCOND</param_name>
       <param_description
-      >RCOND est utilisé pour déterminer le rang effectif de A, défini comme l'ordre de la plus grande sous-matrice triangulaire terminale R22 dans la factorisation RQ avec pivotement de A, dont le nombre condition estimé est inférieur à 1/RCOND.</param_description>
+      >RCOND est utilisé pour déterminer le rang effectif de A, défini comme l&apos;ordre de la plus grande sous-matrice triangulaire terminale R22 dans la factorisation RQ avec pivotement de A, dont le nombre condition estimé est inférieur à 1/RCOND.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>SVLMAX</param_name>
       <param_description
-      >Si A est une sous-matrice d'une autre matrice B, et que la décision de rang doit être liée à cette matrice, SVLMAX doit être une estimation de la plus grande valeur singulière de B (par exemple la norme de Frobenius de B). Sinon, la valeur d'entrée SVLMAX = 0 devrait convenir.</param_description>
+      >Si A est une sous-matrice d&apos;une autre matrice B, et que la décision de rang doit être liée à cette matrice, SVLMAX doit être une estimation de la plus grande valeur singulière de B (par exemple la norme de Frobenius de B). Sinon, la valeur d&apos;entrée SVLMAX = 0 devrait convenir.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>A_OUT</param_name>
       <param_description
-      >Si JOBRQ = 'R', si M ≤ N, le triangle supérieur de la sous-matrice A(1:M,N-M+1:N) contient la matrice triangulaire supérieure M-by-M R ;</param_description>
+      >Si JOBRQ = &apos;R&apos;, si M ≤ N, le triangle supérieur de la sous-matrice A(1:M,N-M+1:N) contient la matrice triangulaire supérieure M-by-M R ;</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>JPVT_OUT</param_name>
       <param_description
-      >Si JOBRQ = 'R', si JPVT(i) = k, alors la i-ème ligne de P*A était la k-ème ligne de A.</param_description>
+      >Si JOBRQ = &apos;R&apos;, si JPVT(i) = k, alors la i-ème ligne de P*A était la k-ème ligne de A.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>TAU</param_name>
       <param_description
-      >Si JOBRQ = 'R', les min(M,N) premiers éléments de TAU contiennent les facteurs scalaires des réflecteurs élémentaires.</param_description>
+      >Si JOBRQ = &apos;R&apos;, les min(M,N) premiers éléments de TAU contiennent les facteurs scalaires des réflecteurs élémentaires.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>RANK</param_name>
       <param_description
-      >Le rang effectif (estimé) de A, c.-à-d. l'ordre de la sous-matrice R22.</param_description>
+      >Le rang effectif (estimé) de A, c.-à-d. l&apos;ordre de la sous-matrice R22.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>SVAL</param_name>
@@ -69,7 +69,7 @@
   </param_output>
   <description>
     <p
-    >Calculer (éventuellement) une factorisation RQ révélatrice de rang d'une matrice réelle générale M-by-N A, éventuellement déficiente en rang, et estimer son rang effectif en utilisant l'estimation conditionnelle incrémentale.</p>
+    >Calculer (éventuellement) une factorisation RQ révélatrice de rang d&apos;une matrice réelle générale M-by-N A, éventuellement déficiente en rang, et estimer son rang effectif en utilisant l&apos;estimation conditionnelle incrémentale.</p>
   </description>
   <used_function>MB03PD</used_function>
   <bibliography

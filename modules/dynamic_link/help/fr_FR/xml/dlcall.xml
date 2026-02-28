@@ -16,7 +16,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>arg1, ..., argN</param_name>
-      <param_description>arguments d'entrée.</param_description>
+      <param_description>arguments d&apos;entrée.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -26,10 +26,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >dlcall</b> appelle une fonction externe C ou Fortran chargée depuis une bibliothèque partagée.</p>
-    <p><b
-      >dlcall</b> valide les types des arguments d'entrée avant l'appel, en se basant sur la définition du handle dlsym.</p>
+    <p>
+      <b
+      >dlcall</b> valide les types des arguments d&apos;entrée avant l&apos;appel, en se basant sur la définition du handle dlsym.</p>
   </description>
   <used_function />
   <bibliography />

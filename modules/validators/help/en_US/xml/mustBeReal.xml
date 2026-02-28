@@ -23,7 +23,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>mustBeReal</b> checks that value is real or raise an error.</p>
+    <p>
+      <b>mustBeReal</b> checks that value is real or raise an error.</p>
   </description>
   <used_function />
   <bibliography />

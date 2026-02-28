@@ -15,8 +15,9 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>delete(h)</b> supprime l'objet MPI_Comm.</p>
-    <p>N'oubliez pas de nettoyer la variable ensuite.</p>
+    <p>
+      <b>delete(h)</b> supprime l&apos;objet MPI_Comm.</p>
+    <p>N&apos;oubliez pas de nettoyer la variable ensuite.</p>
   </description>
   <used_function />
   <bibliography />

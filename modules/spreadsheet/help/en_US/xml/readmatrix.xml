@@ -8,7 +8,7 @@
     <syntax_item>M = readmatrix(filename)</syntax_item>
     <syntax_item>M = readmatrix(filename, opts)</syntax_item>
     <syntax_item
-    >M = readmatrix(filename, opts, 'OutputType', type)</syntax_item>
+    >M = readmatrix(filename, opts, &apos;OutputType&apos;, type)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -23,7 +23,7 @@
     <param_input_item>
       <param_name>type</param_name>
       <param_description
-      >a string: 'double', 'single', 'char', 'string', 'int8', 'int16', 'int32', 'int64', 'uint8', 'uint16', 'uint32', 'uint64'.</param_description>
+      >a string: &apos;double&apos;, &apos;single&apos;, &apos;char&apos;, &apos;string&apos;, &apos;int8&apos;, &apos;int16&apos;, &apos;int32&apos;, &apos;int64&apos;, &apos;uint8&apos;, &apos;uint16&apos;, &apos;uint32&apos;, &apos;uint64&apos;.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -33,9 +33,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >M = readmatrix(filename)</b> creates a matrix array by importing column-oriented data from a text or spreadsheet file.</p>
-    <p><b
+    <p>
+      <b
       >M = readmatrix(filename, opts)</b> creates a matrix array using the settings defined in the <b
       >opts</b> import options object. The import<b
       >options</b> object allows you to customize how<b
@@ -49,14 +51,14 @@
       <example_item_description />
       <example_item_data
         runnable="cli"
-      >filename = [tempdir,'readmatrix_1.csv']; Names = {'John'; 'Alice'; 'Bob'; 'Diana'}; Age = [28; 34; 22; 30]; Height = [175; 160; 180; 165]; Weight = [70; 55; 80; 60]; T = table(Names, Age, Height, Weight); writetable(T, filename) M = readmatrix(filename)</example_item_data>
+      >filename = [tempdir,&apos;readmatrix_1.csv&apos;]; Names = {&apos;John&apos;; &apos;Alice&apos;; &apos;Bob&apos;; &apos;Diana&apos;}; Age = [28; 34; 22; 30]; Height = [175; 160; 180; 165]; Weight = [70; 55; 80; 60]; T = table(Names, Age, Height, Weight); writetable(T, filename) M = readmatrix(filename)</example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
       <example_item_data
         runnable="cli"
-      >filename = [tempdir,'readmatrix_2.csv']; M = magic(6); writematrix(M, filename) options = detectImportOptions(filename) options.DataLines = [2 4]; M2 = readmatrix(filename, options, 'OutputType', 'int64') M3 = readmatrix(filename, options, 'OutputType', 'char')</example_item_data>
+      >filename = [tempdir,&apos;readmatrix_2.csv&apos;]; M = magic(6); writematrix(M, filename) options = detectImportOptions(filename) options.DataLines = [2 4]; M2 = readmatrix(filename, options, &apos;OutputType&apos;, &apos;int64&apos;) M3 = readmatrix(filename, options, &apos;OutputType&apos;, &apos;char&apos;)</example_item_data>
     </example_item>
   </examples>
   <see_also>

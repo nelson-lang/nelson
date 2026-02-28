@@ -22,7 +22,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>dlgeneratecleaner</b> generates a 'cleaner.m' to remove files.</p>
+    <p>
+      <b>dlgeneratecleaner</b> generates a &apos;cleaner.m&apos; to remove files.</p>
   </description>
   <used_function />
   <bibliography />

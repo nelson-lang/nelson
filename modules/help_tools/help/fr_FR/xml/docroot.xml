@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>docroot</keyword>
   <short_description
-  >Récupère ou met à jour le répertoire racine du système d'aide de Nelson.</short_description>
+  >Récupère ou met à jour le répertoire racine du système d&apos;aide de Nelson.</short_description>
   <syntax>
     <syntax_item>r = docroot()</syntax_item>
     <syntax_item>r = docroot(new_docroot)</syntax_item>
@@ -12,20 +12,25 @@
   <param_input>
     <param_input_item>
       <param_name>new_docroot</param_name>
-      <param_description>a string: '', '.', or a URL.</param_description>
+      <param_description>a string: &apos;
+        &apos;, &apos;.&apos;, or a URL.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >docroot</b> récupère ou met à jour le répertoire racine de l'aide de Nelson.</p>
-    <p>Lorsqu'il est appelé sans argument, <b
-      >docroot</b> renvoie le répertoire racine actuel de l'aide de Nelson. Par défaut, il renvoie l'URL du site d'aide utilisé par Nelson.</p>
+    <p>
+      <b
+      >docroot</b> récupère ou met à jour le répertoire racine de l&apos;aide de Nelson.</p>
+    <p>Lorsqu&apos;il est appelé sans argument, <b
+      >docroot</b> renvoie le répertoire racine actuel de l&apos;aide de Nelson. Par défaut, il renvoie l&apos;URL du site d&apos;aide utilisé par Nelson.</p>
     <p>Lorsque appelé avec un argument,<b
-      >docroot</b> met à jour le répertoire racine de l'aide de Nelson.</p>
-    <p><b
-      >docroot('')</b> réinitialise le répertoire racine de l'aide de Nelson à la valeur par défaut.</p>
-    <p><b
-      >docroot('.')</b> utilise les fichiers d'aide locaux et le navigateur local (restaure le comportement avant la v1.11.0).</p>
+      >docroot</b> met à jour le répertoire racine de l&apos;aide de Nelson.</p>
+    <p>
+      <b
+      >docroot(&apos;
+        &apos;)</b> réinitialise le répertoire racine de l&apos;aide de Nelson à la valeur par défaut.</p>
+    <p>
+      <b
+      >docroot(&apos;.&apos;)</b> utilise les fichiers d&apos;aide locaux et le navigateur local (restaure le comportement avant la v1.11.0).</p>
   </description>
   <used_function />
   <bibliography />

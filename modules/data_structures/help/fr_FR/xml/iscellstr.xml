@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>iscellstr(A)</b> renvoie vrai si<b
+    <p>
+      <b>iscellstr(A)</b> renvoie vrai si<b
       >A</b> est un tableau cellulaire de chaînes ou un tableau cellulaire vide.</p>
   </description>
   <used_function />

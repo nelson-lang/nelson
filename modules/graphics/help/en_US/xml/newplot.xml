@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>newplot</b> prepares a figure and axes for graphics commands.</p>
+    <p>
+      <b>newplot</b> prepares a figure and axes for graphics commands.</p>
   </description>
   <used_function />
   <bibliography />

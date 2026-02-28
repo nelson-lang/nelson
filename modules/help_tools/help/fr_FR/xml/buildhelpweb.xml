@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>buildhelpweb</keyword>
   <short_description
-  >Génère l'aide des modules de Nelson pour un site web.</short_description>
+  >Génère l&apos;aide des modules de Nelson pour un site web.</short_description>
   <syntax>
     <syntax_item>buildhelpweb(destination_dir)</syntax_item>
     <syntax_item>buildhelpweb(destination_dir, language)</syntax_item>
@@ -22,7 +22,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>buildhelpweb</b> génère les fichiers d'aide pour un site web.</p>
+    <p>
+      <b>buildhelpweb</b> génère les fichiers d&apos;aide pour un site web.</p>
     <p>fonction interne</p>
   </description>
   <used_function />

@@ -25,7 +25,7 @@
     <param_input_item>
       <param_name>fieldname</param_name>
       <param_description
-      >a string: 'BitsPerSample', 'BitRate', 'Quality', 'Title', 'Artist' or 'Comment' .</param_description>
+      >a string: &apos;BitsPerSample&apos;, &apos;BitRate&apos;, &apos;Quality&apos;, &apos;Title&apos;, &apos;Artist&apos; or &apos;Comment&apos; .</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>fieldvalue</param_name>
@@ -33,7 +33,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>audiowrite</b> writes an audio file.</p>
+    <p>
+      <b>audiowrite</b> writes an audio file.</p>
     <p>More than 26 files format supported. See <b
       >audiosupportedformats</b> function to have all supported formats.</p>
   </description>

@@ -29,7 +29,7 @@
   </param_output>
   <description>
     <p
-    >Évalue une expression et renvoie la sortie standard générée par l'exécution sous forme de chaîne de caractères.</p>
+    >Évalue une expression et renvoie la sortie standard générée par l&apos;exécution sous forme de chaîne de caractères.</p>
   </description>
   <used_function />
   <bibliography />
@@ -46,7 +46,8 @@
       <example_item_description />
       <example_item_data
         runnable="cli"
-      >        &gt;<![CDATA[t = evalc('dir')]]></example_item_data>
+      >
+        &gt;<![CDATA[t = evalc('dir')]]></example_item_data>
     </example_item>
   </examples>
   <see_also>

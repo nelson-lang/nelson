@@ -8,8 +8,8 @@
     <p
     >Le module Memory Manager fournit des outils pour gérer les variables et la mémoire dans Nelson.</p>
     <p
-    >Il prend en charge la création, l'affectation, l'interrogation et la suppression de variables dans différentes portées, ainsi que la gestion des variables globales et persistantes.</p>
+    >Il prend en charge la création, l&apos;affectation, l&apos;interrogation et la suppression de variables dans différentes portées, ainsi que la gestion des variables globales et persistantes.</p>
     <p
-    >Le module permet également l'inspection de la mémoire, le verrouillage des variables et l'énumération du contenu de l'espace de travail, facilitant une utilisation efficace et contrôlée de la mémoire dans les scripts et applications.</p>
+    >Le module permet également l&apos;inspection de la mémoire, le verrouillage des variables et l&apos;énumération du contenu de l&apos;espace de travail, facilitant une utilisation efficace et contrôlée de la mémoire dans les scripts et applications.</p>
   </chapter_description>
 </xmldoc>

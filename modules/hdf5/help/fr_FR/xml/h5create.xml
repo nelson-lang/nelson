@@ -28,12 +28,13 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >h5create</b> crée un jeu de données et spécifie ses dimensions, son type de données et la taille des chunks.</p>
     <p>Name-Values pair supported:</p>
     <p>Name: Datatype (Nelson® datatypes).</p>
     <p
-    >Value: 'double' (par défaut), 'uint64', 'uint32', 'uint16', 'uint8', 'single', 'int64', 'int32', 'int16' ou 'int8'.</p>
+    >Value: &apos;double&apos; (par défaut), &apos;uint64&apos;, &apos;uint32&apos;, &apos;uint16&apos;, &apos;uint8&apos;, &apos;single&apos;, &apos;int64&apos;, &apos;int32&apos;, &apos;int16&apos; ou &apos;int8&apos;.</p>
     <p>Name: ChunkSize, chunking layout</p>
     <p>Value: []</p>
     <p>Name: Deflate, gzip compression level (0-9)</p>
@@ -45,7 +46,7 @@
     <p>Name: Shuffle, enable shuffle filter.</p>
     <p>Value: logical: false by default</p>
     <p>Name: TextEncoding, Character encoding.</p>
-    <p>Value: 'system' or 'UTF-8' (default).</p>
+    <p>Value: &apos;system&apos; or &apos;UTF-8&apos; (default).</p>
   </description>
   <used_function />
   <bibliography />

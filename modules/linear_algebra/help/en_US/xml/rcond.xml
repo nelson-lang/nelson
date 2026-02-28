@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >rcond(x)</b> computes the reciprocal of the condition of x in the 1-norm.</p>
   </description>
   <used_function />

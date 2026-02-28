@@ -13,8 +13,10 @@
     <syntax_item>function fname()</syntax_item>
   </syntax>
   <description>
-    <p><b>function</b> opens a function definition.</p>
-    <p><b
+    <p>
+      <b>function</b> opens a function definition.</p>
+    <p>
+      <b
       >endfunction</b> closes a function definition (optional, but strongly recommended).</p>
   </description>
   <used_function />

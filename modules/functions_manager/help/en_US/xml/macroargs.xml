@@ -24,7 +24,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >macroargs</b> returns input and output variables used by the function.</p>
   </description>
   <used_function />

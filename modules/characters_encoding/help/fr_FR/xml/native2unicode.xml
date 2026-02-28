@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>native2unicode</keyword>
   <short_description
-  >Convertit la représentation d'octets en caractères unicode</short_description>
+  >Convertit la représentation d&apos;octets en caractères unicode</short_description>
   <syntax>
     <syntax_item>str = native2unicode(bytes, charset)</syntax_item>
   </syntax>
@@ -26,16 +26,20 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >native2unicode</b> convertit un vecteur uint8 en caractères unicode.</p>
-    <p><b
+    <p>
+      <b
       >str = native2unicode(bytes)</b> convertit un vecteur uint8 en caractères unicode (en utilisant le jeu de caractères natif de la machine).</p>
-    <p><b
+    <p>
+      <b
       >str = native2unicode(bytes, charset)</b> convertit un vecteur uint8 en caractères unicode (jeu de caractères <b
       >charset</b> au lieu du jeu de caractères natif).</p>
     <p>Liste des jeux de caractères : <a
         href="https://www.iana.org/assignments/character-sets/character-sets.xhtml"
-      >https://www.iana.org/assignments/character-sets/character-sets.xhtml</a></p>
+      >https://www.iana.org/assignments/character-sets/character-sets.xhtml</a>
+    </p>
   </description>
   <used_function />
   <bibliography>ICU library</bibliography>

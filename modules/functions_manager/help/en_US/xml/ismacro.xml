@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>ismacro</b> checks for the existence of a macro.</p>
+    <p>
+      <b>ismacro</b> checks for the existence of a macro.</p>
   </description>
   <used_function />
   <bibliography />

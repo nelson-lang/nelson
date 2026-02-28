@@ -29,19 +29,20 @@
     <param_output_item>
       <param_name>azimuth</param_name>
       <param_description
-      >une valeur numérique : Angle d'azimut.</param_description>
+      >une valeur numérique : Angle d&apos;azimut.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>elevation</param_name>
       <param_description
-      >une valeur numérique : Angle d'élévation.</param_description>
+      >une valeur numérique : Angle d&apos;élévation.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>r</param_name>
       <param_description>a numeric value: Radius.</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >cart2sph</b> transforms Cartesian to spherical coordinates.</description>
   <used_function />
   <bibliography />

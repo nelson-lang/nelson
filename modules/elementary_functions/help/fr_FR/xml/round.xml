@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>round</b> rounds the elements to the nearest integers.</p>
+    <p>
+      <b>round</b> rounds the elements to the nearest integers.</p>
   </description>
   <used_function />
   <bibliography />

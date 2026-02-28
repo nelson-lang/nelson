@@ -26,7 +26,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>path</b> modifie ou affiche le chemin de chargement de Nelson.</p>
+    <p>
+      <b>path</b> modifie ou affiche le chemin de chargement de Nelson.</p>
   </description>
   <used_function />
   <bibliography />

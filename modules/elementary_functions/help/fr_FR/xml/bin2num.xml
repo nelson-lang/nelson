@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >bin2num</b> convertit un tableau de caractères binaires en tableau numérique.</p>
     <p>Remarques :</p>
     <p>-<b

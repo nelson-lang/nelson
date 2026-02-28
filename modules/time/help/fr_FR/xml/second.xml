@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>second</keyword>
   <short_description
-  >Composante secondes de la date et de l'heure d'entrée.</short_description>
+  >Composante secondes de la date et de l&apos;heure d&apos;entrée.</short_description>
   <syntax>
     <syntax_item>s = second(t)</syntax_item>
     <syntax_item>s = second(t, formatIn)</syntax_item>
@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >s = second(t)</b> extracts the second component from each date and time specified in<b
       >t</b>.</p>
     <p>The output<b

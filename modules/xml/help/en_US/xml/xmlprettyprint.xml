@@ -26,7 +26,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>xmlprettyprint</b> formats a XML file to be human readable.</p>
+    <p>
+      <b>xmlprettyprint</b> formats a XML file to be human readable.</p>
   </description>
   <used_function />
   <bibliography />

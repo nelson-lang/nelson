@@ -15,12 +15,12 @@
     <param_input_item>
       <param_name>option</param_name>
       <param_description
-      >chaîne : 'on', 'off', 'reset', 'out', 'xon', 'yon' ou 'toggle'.</param_description>
+      >chaîne : &apos;on&apos;, &apos;off&apos;, &apos;reset&apos;, &apos;out&apos;, &apos;xon&apos;, &apos;yon&apos; ou &apos;toggle&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>factor</param_name>
       <param_description
-      >nombre positif : Pour zoomer, indiquez un facteur supérieur à 1. Pour dézoomer, spécifiez un facteur entre 0 et 1. Lors du dézoom, les axes se dézoomeront d'un facteur de 1/factor.</param_description>
+      >nombre positif : Pour zoomer, indiquez un facteur supérieur à 1. Pour dézoomer, spécifiez un facteur entre 0 et 1. Lors du dézoom, les axes se dézoomeront d&apos;un facteur de 1/factor.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>fig</param_name>
@@ -29,23 +29,24 @@
     <param_input_item>
       <param_name>ax</param_name>
       <param_description
-      >une valeur scalaire d'objet graphique : conteneur parent, spécifié comme un axes.</param_description>
+      >une valeur scalaire d&apos;objet graphique : conteneur parent, spécifié comme un axes.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p
     >Utilisez le mode zoom pour ajuster dynamiquement les limites des axes pour une exploration interactive des données.</p>
     <p
-    >Activez ou désactivez le mode zoom et configurez des paramètres de base supplémentaires à l'aide de la fonction zoom.</p>
+    >Activez ou désactivez le mode zoom et configurez des paramètres de base supplémentaires à l&apos;aide de la fonction zoom.</p>
     <p
-    >Le mode zoom est compatible avec divers graphiques tels que les graphiques en ligne, en barres, les histogrammes et les graphiques de surface. Ces graphiques disposent généralement d'icônes de zoom avant et arrière sur la barre d'outils pour faciliter la fonctionnalité de zoom.</p>
-    <p><b
+    >Le mode zoom est compatible avec divers graphiques tels que les graphiques en ligne, en barres, les histogrammes et les graphiques de surface. Ces graphiques disposent généralement d&apos;icônes de zoom avant et arrière sur la barre d&apos;outils pour faciliter la fonctionnalité de zoom.</p>
+    <p>
+      <b
       >zoom option</b> configure le mode zoom pour tous les axes de la figure actuelle.</p>
-    <p>Par exemple, <b>zoom('on')</b> active le mode zoom, <b
-      >zoom('xon')</b> active le mode zoom exclusivement pour la dimension x, tandis que <b
-      >zoom('off')</b> désactive complètement le mode zoom.</p>
+    <p>Par exemple, <b>zoom(&apos;on&apos;)</b> active le mode zoom, <b
+      >zoom(&apos;xon&apos;)</b> active le mode zoom exclusivement pour la dimension x, tandis que <b
+      >zoom(&apos;off&apos;)</b> désactive complètement le mode zoom.</p>
     <p
-    >Une fois le mode zoom activé, vous pouvez ajuster la vue des axes à l'aide du curseur, de la molette de défilement ou du clavier :</p>
+    >Une fois le mode zoom activé, vous pouvez ajuster la vue des axes à l&apos;aide du curseur, de la molette de défilement ou du clavier :</p>
     <p
     >Curseur : Cliquez pour zoomer au niveau de la position du curseur ; Faites glisser pour zoomer sur une région rectangulaire.</p>
     <p
@@ -53,19 +54,40 @@
     <p
     >Clavier : Appuyez sur la flèche haut (↑) pour zoomer, et sur la flèche bas (↓) pour dézoomer.</p>
     <p
-    >L'option de mode zoom peut être spécifiée en utilisant l'une des valeurs suivantes :</p>
-    <p><b
-      >'toggle'</b> : Bascule le mode zoom. Si le mode zoom est désactivé, 'toggle' revient à l'option de zoom la plus récemment utilisée parmi 'on', 'xon' ou 'yon'. Cette option se comporte de la même manière que l'appel de zoom sans aucun argument.</p>
-    <p><b>'xon'</b> : Active le mode zoom exclusivement pour la dimension x.</p>
-    <p><b>'yon'</b> : Active le mode zoom exclusivement pour la dimension y.</p>
-    <p><b>'on'</b> : Active le mode zoom.</p>
-    <p><b
-      >'off'</b> : Désactive le mode zoom. Notez que certaines interactions par défaut peuvent persister indépendamment du mode d'interaction.</p>
-    <p><b
-      >'reset'</b> : Établit le niveau de zoom actuel comme niveau de zoom de base. Une fois défini, des actions ultérieures comme le dézoom, le double-clic dans les axes ou le clic sur l'icône <b
-      >Restaurer la vue</b> sur la barre d'outils des axes ramèneront les axes à ce niveau de zoom de base.</p>
-    <p><b
-      >'out'</b> : Restaure les axes actuels à leur niveau de zoom de base.</p>
+    >L&apos;option de mode zoom peut être spécifiée en utilisant l&apos;une des valeurs suivantes :</p>
+    <p>
+      <b
+      >
+        &apos;toggle&apos;
+      </b> : Bascule le mode zoom. Si le mode zoom est désactivé, &apos;toggle&apos; revient à l&apos;option de zoom la plus récemment utilisée parmi &apos;on&apos;, &apos;xon&apos; ou &apos;yon&apos;. Cette option se comporte de la même manière que l&apos;appel de zoom sans aucun argument.</p>
+    <p>
+      <b>
+        &apos;xon&apos;
+      </b> : Active le mode zoom exclusivement pour la dimension x.</p>
+    <p>
+      <b>
+        &apos;yon&apos;
+      </b> : Active le mode zoom exclusivement pour la dimension y.</p>
+    <p>
+      <b>
+        &apos;on&apos;
+      </b> : Active le mode zoom.</p>
+    <p>
+      <b
+      >
+        &apos;off&apos;
+      </b> : Désactive le mode zoom. Notez que certaines interactions par défaut peuvent persister indépendamment du mode d&apos;interaction.</p>
+    <p>
+      <b
+      >
+        &apos;reset&apos;
+      </b> : Établit le niveau de zoom actuel comme niveau de zoom de base. Une fois défini, des actions ultérieures comme le dézoom, le double-clic dans les axes ou le clic sur l&apos;icône <b
+      >Restaurer la vue</b> sur la barre d&apos;outils des axes ramèneront les axes à ce niveau de zoom de base.</p>
+    <p>
+      <b
+      >
+        &apos;out&apos;
+      </b> : Restaure les axes actuels à leur niveau de zoom de base.</p>
   </description>
   <used_function />
   <bibliography />

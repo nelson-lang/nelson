@@ -6,7 +6,7 @@
   <short_description>Persistent variable.</short_description>
   <syntax>
     <syntax_item>persistent variable_name</syntax_item>
-    <syntax_item>persistent('variable_name')</syntax_item>
+    <syntax_item>persistent(&apos;variable_name&apos;)</syntax_item>
     <syntax_item>persistent variable_name1, ..., variable_nameN</syntax_item>
   </syntax>
   <param_input>
@@ -16,9 +16,10 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>persistent</b> defines a variable defined by his name <b
+    <p>
+      <b>persistent</b> defines a variable defined by his name <b
       >variable_name</b> as persistent in a function.</p>
-    <p
+    <p
     >Before to use a persistent variable, it is necessary to initializ value.</p>
   </description>
   <used_function />
@@ -27,26 +28,26 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description>function to define:</example_item_description>
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[function r = test_persistent_function()
- persistent calls;
- if isempty(calls)
-    calls = 0;
- end
- disp(['nb calls to test_persistent_function: ', int2str(calls)]);
- r= calls;
- calls = calls + 1;
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[function r = test_persistent_function()
+ persistent calls;
+ if isempty(calls)
+    calls = 0;
+ end
+ disp(['nb calls to test_persistent_function: ', int2str(calls)]);
+ r= calls;
+ calls = calls + 1;
 end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
+      <example_item_description
       >calls test_persistent_function</example_item_description>
-      <example_item_data
-      ><![CDATA[for i = 1:30
-  r = test_persistent_function();
-end
+      <example_item_data
+      ><![CDATA[for i = 1:30
+  r = test_persistent_function();
+end
 ]]></example_item_data>
     </example_item>
   </examples>

@@ -10,12 +10,12 @@
   <param_input>
     <param_input_item>
       <param_name>TA</param_name>
-      <param_description>Table d'entrée.</param_description>
+      <param_description>Table d&apos;entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>varsNames</param_name>
       <param_description
-      >Noms des variables dans la table d'entrée : vecteur de caractères, tableau de chaînes ou tableau de cellules de vecteurs de caractères.</param_description>
+      >Noms des variables dans la table d&apos;entrée : vecteur de caractères, tableau de chaînes ou tableau de cellules de vecteurs de caractères.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>newNames</param_name>
@@ -31,13 +31,14 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >TB = renamevars(TA, varsNames, newNames)</b> renomme les variables dans la table <b
       >TA</b> telles que spécifiées par<b
       >varsNames</b> et leur assigne les nouveaux noms fournis dans<b
       >newNames</b>.</p>
     <p
-    >Vous pouvez également renommer toutes les variables d'une table en assignant de nouveaux noms à sa propriété <b
+    >Vous pouvez également renommer toutes les variables d&apos;une table en assignant de nouveaux noms à sa propriété <b
       >VariableNames</b> en utilisant <b
       >T.Properties.VariableNames = newNames</b>.</p>
     <p>Dans ce cas, <b

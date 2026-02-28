@@ -14,7 +14,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>inserthtml</b> inserts html code in GUI console.</p>
+    <p>
+      <b>inserthtml</b> inserts html code in GUI console.</p>
   </description>
   <used_function />
   <bibliography />

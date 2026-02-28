@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>actxGetRunningServer</keyword>
   <short_description
-  >Handle vers une instance en cours d'exécution du serveur Automation.</short_description>
+  >Handle vers une instance en cours d&apos;exécution du serveur Automation.</short_description>
   <syntax>
     <syntax_item>h = actxGetRunningServer(progid)</syntax_item>
   </syntax>
@@ -12,7 +12,7 @@
     <param_input_item>
       <param_name>progid</param_name>
       <param_description
-      >une chaîne : le nom d'un serveur COM.</param_description>
+      >une chaîne : le nom d&apos;un serveur COM.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -22,15 +22,17 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >h = actxGetRunningServer(progid)</b> obtient une référence vers une instance en cours d'exécution du serveur Automation OLE/COM.</p>
-    <p><b
-      >progid</b> est l'identifiant programmatique de l'objet serveur Automation et <b
-      >h</b> est le handle vers l'interface par défaut de l'objet serveur.</p>
+    <p>
+      <b
+      >h = actxGetRunningServer(progid)</b> obtient une référence vers une instance en cours d&apos;exécution du serveur Automation OLE/COM.</p>
+    <p>
+      <b
+      >progid</b> est l&apos;identifiant programmatique de l&apos;objet serveur Automation et <b
+      >h</b> est le handle vers l&apos;interface par défaut de l&apos;objet serveur.</p>
     <p
-    >La fonction retourne une erreur si le serveur spécifié par progid n'est pas actuellement en cours d'exécution ou si l'objet serveur n'est pas enregistré.</p>
+    >La fonction retourne une erreur si le serveur spécifié par progid n&apos;est pas actuellement en cours d&apos;exécution ou si l&apos;objet serveur n&apos;est pas enregistré.</p>
     <p
-    >Lorsque plusieurs instances du serveur Automation sont en cours d'exécution, le système d'exploitation contrôle le comportement de cette fonction.</p>
+    >Lorsque plusieurs instances du serveur Automation sont en cours d&apos;exécution, le système d&apos;exploitation contrôle le comportement de cette fonction.</p>
   </description>
   <used_function />
   <bibliography />

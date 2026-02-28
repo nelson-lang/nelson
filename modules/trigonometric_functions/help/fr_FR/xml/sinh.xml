@@ -20,7 +20,8 @@
       <param_description>une valeur numérique</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >sinh</b> calcule le sinus hyperbolique en radians pour chaque élément de <b
     >x</b>.</description>
   <used_function />

@@ -7,9 +7,9 @@
   >Returns the path, filename and extension of a file path.</short_description>
   <syntax>
     <syntax_item>[p, f, e] = fileparts(fullpath)</syntax_item>
-    <syntax_item>p = fileparts(fullpath, 'path')</syntax_item>
-    <syntax_item>f = fileparts(fullpath, 'filename')</syntax_item>
-    <syntax_item>e = fileparts(fullpath, 'extension')</syntax_item>
+    <syntax_item>p = fileparts(fullpath, &apos;path&apos;)</syntax_item>
+    <syntax_item>f = fileparts(fullpath, &apos;filename&apos;)</syntax_item>
+    <syntax_item>e = fileparts(fullpath, &apos;extension&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -35,7 +35,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >[p ,f, e] = fileparts(fullpath)</b> splits in its three parts: path, filename, extension including the dot.</p>
   </description>
   <used_function />

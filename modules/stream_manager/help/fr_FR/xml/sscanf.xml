@@ -37,11 +37,11 @@
     <param_output_item>
       <param_name>count</param_name>
       <param_description
-      >nombre d'éléments lus dans le tableau de sortie.</param_description>
+      >nombre d&apos;éléments lus dans le tableau de sortie.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>errmsg</param_name>
-      <param_description>Message d'erreur.</param_description>
+      <param_description>Message d&apos;erreur.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>nextindex</param_name>

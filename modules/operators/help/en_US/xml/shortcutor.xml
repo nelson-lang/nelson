@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>shortcutor</keyword>
-  <short_description>Short circuit 'OR' operator, ||</short_description>
+  <short_description>Short circuit &apos;OR&apos; operator, ||</short_description>
   <syntax>
     <syntax_item>C = A || B</syntax_item>
   </syntax>
@@ -24,7 +24,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>C = A || B</b> performs a logical<b
+    <p>
+      <b>C = A || B</b> performs a logical<b
       >OR</b> operation, the second operand is evaluated only when the result is not fully determined by the first operand.</p>
   </description>
   <used_function />
@@ -46,7 +47,10 @@ C = A || B
       <link linkend="${operators}or">or</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${operators}shortcutand">&amp;&amp;</link>
+      <link linkend="${operators}shortcutand">
+        &amp;
+        &amp;
+      </link>
     </see_also_item>
     <see_also_item>
       <link linkend="${operators}xor">xor</link>

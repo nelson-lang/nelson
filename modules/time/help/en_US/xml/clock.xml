@@ -16,7 +16,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>calendar()</b> returns the currently monthly calendar.</p>
+    <p>
+      <b>calendar()</b> returns the currently monthly calendar.</p>
     <p>The date vector contains the following fields:</p>
     <p>year</p>
     <p>months [1, 12]</p>

@@ -14,7 +14,8 @@
     <param_input_item>
       <param_name>type</param_name>
       <param_description
-      >Type of periodic signal: 'cos', 'tan', 'sin', 'pulse', 'square'</param_description>
+      >Type of periodic signal: &apos;cos&apos;, &apos;tan&apos;, &apos;sin&apos;, &apos;pulse&apos;, &apos;square&apos;
+      </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>tau</param_name>

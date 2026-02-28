@@ -24,7 +24,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>h5write</b> writes data to an entire data set,<b
+    <p>
+      <b>h5write</b> writes data to an entire data set,<b
       >location</b>, in the HDF5 file.</p>
   </description>
   <used_function />

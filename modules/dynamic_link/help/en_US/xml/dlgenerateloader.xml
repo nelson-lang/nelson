@@ -21,8 +21,9 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >dlgenerateloader</b> generates a 'loader.m' load external dynamic libraries.</p>
+    <p>
+      <b
+      >dlgenerateloader</b> generates a &apos;loader.m&apos; load external dynamic libraries.</p>
   </description>
   <used_function />
   <bibliography />

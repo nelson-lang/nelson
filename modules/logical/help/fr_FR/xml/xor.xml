@@ -31,7 +31,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>xor</b> effectue un OU exclusif logique.</p>
+    <p>
+      <b>xor</b> effectue un OU exclusif logique.</p>
   </description>
   <used_function />
   <bibliography />

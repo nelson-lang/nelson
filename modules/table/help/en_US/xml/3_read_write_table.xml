@@ -17,10 +17,15 @@
     </ul>
     <p>Binary file:</p>
     <ul>
-      <li>Nelson HDF5 format (.nh5):<ul><li
-          >Efficient binary storage using HDF5 format</li><li
-          >Preserves all table metadata and data types</li><li
-          >Use save -nh5 and load commands</li></ul></li>
+      <li>Nelson HDF5 format (.nh5):<ul>
+          <li
+          >Efficient binary storage using HDF5 format</li>
+          <li
+          >Preserves all table metadata and data types</li>
+          <li
+          >Use save -nh5 and load commands</li>
+        </ul>
+      </li>
     </ul>
     <p
     >Binary format is recommended for preserving exact numeric precision and working with large datasets.</p>

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>MPI_Comm_get_name</keyword>
   <short_description
-  >Renvoie le nom d'impression du communicateur.</short_description>
+  >Renvoie le nom d&apos;impression du communicateur.</short_description>
   <syntax>
     <syntax_item>MPI_Comm_get_name(comm)</syntax_item>
   </syntax>
@@ -15,7 +15,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >MPI_Comm_get_name(comm)</b> renvoie le nom imprimable du communicateur.</p>
   </description>
   <used_function />

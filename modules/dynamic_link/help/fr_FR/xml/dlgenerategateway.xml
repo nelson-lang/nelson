@@ -26,7 +26,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>dlgenerategateway</b> génère une gateway C++ utilisée par<b
+    <p>
+      <b>dlgenerategateway</b> génère une gateway C++ utilisée par<b
       >addmodule</b>.</p>
   </description>
   <used_function />

@@ -6,8 +6,8 @@
   <short_description>Teste si une matrice est symétrique.</short_description>
   <syntax>
     <syntax_item>res = issymmetric(x)</syntax_item>
-    <syntax_item>res = issymmetric(x, 'skew')</syntax_item>
-    <syntax_item>res = issymmetric(x, 'nonskew')</syntax_item>
+    <syntax_item>res = issymmetric(x, &apos;skew&apos;)</syntax_item>
+    <syntax_item>res = issymmetric(x, &apos;nonskew&apos;)</syntax_item>
     <syntax_item>res = issymmetric(x, tol)</syntax_item>
   </syntax>
   <param_input>
@@ -29,11 +29,14 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>issymmetric(x)</b> teste si la matrice est symétrique.</p>
+    <p>
+      <b>issymmetric(x)</b> teste si la matrice est symétrique.</p>
     <p
-    >Avec l'argument 'nonskew', pour une matrice carrée x, x est symétrique si elle est égale à sa transposée non conjuguée, x = x.'</p>
+    >Avec l&apos;argument &apos;nonskew&apos;, pour une matrice carrée x, x est symétrique si elle est égale à sa transposée non conjuguée, x = x.&apos;
+    </p>
     <p
-    >Avec l'argument 'skew', pour une matrice carrée x, x est symétrique si elle est égale à l'opposé de sa transposée non conjuguée, x = -x.'</p>
+    >Avec l&apos;argument &apos;skew&apos;, pour une matrice carrée x, x est symétrique si elle est égale à l&apos;opposé de sa transposée non conjuguée, x = -x.&apos;
+    </p>
   </description>
   <used_function />
   <bibliography />

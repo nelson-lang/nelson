@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>ismacro</keyword>
   <short_description
-  >Vérifie l'existence d'une macro (fonction).</short_description>
+  >Vérifie l&apos;existence d&apos;une macro (fonction).</short_description>
   <syntax>
     <syntax_item>tf = ismacro(name)</syntax_item>
   </syntax>
@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>ismacro</b> vérifie l'existence d'une macro.</p>
+    <p>
+      <b>ismacro</b> vérifie l&apos;existence d&apos;une macro.</p>
   </description>
   <used_function />
   <bibliography />

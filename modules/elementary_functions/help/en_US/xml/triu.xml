@@ -26,8 +26,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>triu</b> computes Upper Triangular Portions of Matrix.</p>
-    <p><b
+    <p>
+      <b>triu</b> computes Upper Triangular Portions of Matrix.</p>
+    <p>
+      <b
       >R = triu(M, k)</b> returns the elements on and above the kth diagonal of M.</p>
   </description>
   <used_function />

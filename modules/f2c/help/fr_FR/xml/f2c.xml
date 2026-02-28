@@ -29,11 +29,13 @@
     <param_output_item>
       <param_name>msg</param_name>
       <param_description
-      >une chaîne : message d'erreur ou ''.</param_description>
+      >une chaîne : message d&apos;erreur ou &apos;
+        &apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>f2c</b> convertit les fichiers Fortran 66 et Fortran 77 en code C.</p>
+    <p>
+      <b>f2c</b> convertit les fichiers Fortran 66 et Fortran 77 en code C.</p>
   </description>
   <used_function />
   <bibliography />

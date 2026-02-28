@@ -19,7 +19,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>celldisp</b> recursively display the contents of a cell array.</p>
+    <p>
+      <b>celldisp</b> recursively display the contents of a cell array.</p>
   </description>
   <used_function />
   <bibliography />

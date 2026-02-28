@@ -8,17 +8,17 @@
   <syntax>
     <syntax_item>dlmwrite(filename, M)</syntax_item>
     <syntax_item>dlmwrite(filename, M, delimiter)</syntax_item>
-    <syntax_item>dlmwrite(filename, M, '-append')</syntax_item>
-    <syntax_item>dlmwrite(filename, M, '-append', delimiter)</syntax_item>
+    <syntax_item>dlmwrite(filename, M, &apos;-append&apos;)</syntax_item>
+    <syntax_item>dlmwrite(filename, M, &apos;-append&apos;, delimiter)</syntax_item>
     <syntax_item>dlmwrite(filename, M, delimiter, r, c)</syntax_item>
-    <syntax_item>dlmwrite(filename, M, '-append', delimiter, r, c)</syntax_item>
+    <syntax_item>dlmwrite(filename, M, &apos;-append&apos;, delimiter, r, c)</syntax_item>
     <syntax_item>dlmwrite(filename, M, delimiter, r, c, eol)</syntax_item>
     <syntax_item
-    >dlmwrite(filename, M, '-append', delimiter, r, c, eol)</syntax_item>
+    >dlmwrite(filename, M, &apos;-append&apos;, delimiter, r, c, eol)</syntax_item>
     <syntax_item
     >dlmwrite(filename, M, delimiter, r, c, eol, precision)</syntax_item>
     <syntax_item
-    >dlmwrite(filename, M, '-append', delimiter, r, c, eol, precision)</syntax_item>
+    >dlmwrite(filename, M, &apos;-append&apos;, delimiter, r, c, eol, precision)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -33,7 +33,8 @@
     <param_input_item>
       <param_name>delimiter</param_name>
       <param_description
-      >une chaîne : délimiteur ',' , '\t', ';'. par défaut ','</param_description>
+      >une chaîne : délimiteur &apos;,&apos; , &apos;\t&apos;, &apos;;&apos;. par défaut &apos;,&apos;
+      </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>r, c</param_name>
@@ -42,7 +43,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>eol</param_name>
-      <param_description>a string: 'pc' ou 'unix'.</param_description>
+      <param_description>a string: &apos;pc&apos; ou &apos;unix&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>precision</param_name>
@@ -51,7 +52,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >dlmwrite</b> écrit une matrice numérique dans un fichier au format ASCII.</p>
   </description>
   <used_function />

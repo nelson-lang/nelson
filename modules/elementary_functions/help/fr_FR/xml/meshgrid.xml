@@ -42,7 +42,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>meshgrid</b> creates Cartesian rectangular grid in 2-D or 3-D.</p>
+    <p>
+      <b>meshgrid</b> creates Cartesian rectangular grid in 2-D or 3-D.</p>
   </description>
   <used_function />
   <bibliography />

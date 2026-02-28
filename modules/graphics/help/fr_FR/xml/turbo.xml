@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>turbo</b> retourne la carte de couleurs avec les couleurs Turbo.</p>
+    <p>
+      <b>turbo</b> retourne la carte de couleurs avec les couleurs Turbo.</p>
   </description>
   <used_function />
   <bibliography />

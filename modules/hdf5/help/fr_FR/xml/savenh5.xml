@@ -4,12 +4,12 @@
   <language>fr_FR</language>
   <keyword>savenh5</keyword>
   <short_description
-  >enregistre des variables de l'espace de travail dans un fichier .nh5</short_description>
+  >enregistre des variables de l&apos;espace de travail dans un fichier .nh5</short_description>
   <syntax>
     <syntax_item>savenh5(filename)</syntax_item>
     <syntax_item>savenh5(filename, var1, ..., varN)</syntax_item>
-    <syntax_item>savenh5(filename, '-append', ...)</syntax_item>
-    <syntax_item>savenh5(filename, '-nocompression', ...)</syntax_item>
+    <syntax_item>savenh5(filename, &apos;-append&apos;, ...)</syntax_item>
+    <syntax_item>savenh5(filename, &apos;-nocompression&apos;, ...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -19,22 +19,27 @@
     <param_input_item>
       <param_name>var1, ..., varN</param_name>
       <param_description
-      >chaînes : noms des variables à enregistrer depuis l'espace de travail de Nelson.</param_description>
+      >chaînes : noms des variables à enregistrer depuis l&apos;espace de travail de Nelson.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-append'</param_name>
+      <param_name>
+        &apos;-append&apos;
+      </param_name>
       <param_description
       >ajoute des variables à un fichier .nh5 existant.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-nocompression'</param_name>
+      <param_name>
+        &apos;-nocompression&apos;
+      </param_name>
       <param_description
       >désactive la compression du fichier .nh5.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >savenh5</b> enregistre des variables de l'espace de travail dans un fichier .nh5.</p>
+    <p>
+      <b
+      >savenh5</b> enregistre des variables de l&apos;espace de travail dans un fichier .nh5.</p>
     <p>Le fichier .nh5 utilise un conteneur HDF5.</p>
   </description>
   <used_function />

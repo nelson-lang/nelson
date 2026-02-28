@@ -25,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>tf = keyMatch(A, B)</b> renvoie <b>true</b> si les tableaux<b
+    <p>
+      <b>tf = keyMatch(A, B)</b> renvoie <b>true</b> si les tableaux<b
       >A</b> et<b
       >B</b> ont des classes, propriétés, dimensions et valeurs identiques, et renvoie <b
       >false</b> sinon.</p>

@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>ce = struct2cell(st)</b> returns a new cell from the structure.</p>
+    <p>
+      <b>ce = struct2cell(st)</b> returns a new cell from the structure.</p>
   </description>
   <used_function />
   <bibliography />

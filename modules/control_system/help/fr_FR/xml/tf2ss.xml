@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>tf2ss</keyword>
   <short_description
-  >Convertit les paramètres d'un filtre en fonction de transfert en forme état-espace.</short_description>
+  >Convertit les paramètres d&apos;un filtre en fonction de transfert en forme état-espace.</short_description>
   <syntax>
     <syntax_item>[A, B, C, D] = tf2ss(b, a)</syntax_item>
   </syntax>
@@ -24,27 +24,27 @@
     <param_output_item>
       <param_name>A (n x n)</param_name>
       <param_description
-      >Représente la matrice d'état-transition du système. Elle décrit comment l'état interne du système évolue dans le temps.</param_description>
+      >Représente la matrice d&apos;état-transition du système. Elle décrit comment l&apos;état interne du système évolue dans le temps.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>B (n x m)</param_name>
       <param_description
-      >Décrit le mapping entrée-état. Il montre comment les entrées de contrôle affectent le changement de l'état du système.</param_description>
+      >Décrit le mapping entrée-état. Il montre comment les entrées de contrôle affectent le changement de l&apos;état du système.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>C (p x n)</param_name>
       <param_description
-      >Représente le mapping état-sortie. Il montre comment les variables d'état du système sont liées aux sorties du système.</param_description>
+      >Représente le mapping état-sortie. Il montre comment les variables d&apos;état du système sont liées aux sorties du système.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>D (p x m)</param_name>
       <param_description
-      >Décrit le passage direct des entrées aux sorties. Dans de nombreux systèmes, cette matrice est nulle car il n'y a pas de passage direct.</param_description>
+      >Décrit le passage direct des entrées aux sorties. Dans de nombreux systèmes, cette matrice est nulle car il n&apos;y a pas de passage direct.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p
-    >Convertit un numérateur et un dénominateur de fonction de transfert en matrices d'état A, B, C, D.</p>
+    >Convertit un numérateur et un dénominateur de fonction de transfert en matrices d&apos;état A, B, C, D.</p>
   </description>
   <examples>
     <example_item>

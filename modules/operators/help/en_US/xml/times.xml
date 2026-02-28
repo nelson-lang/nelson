@@ -26,7 +26,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >C = times(A, B)</b> performs element wise multiplication operation: A .* B.</p>
   </description>
   <used_function />

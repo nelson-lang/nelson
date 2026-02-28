@@ -8,7 +8,7 @@
     <p
     >Le module Random fournit des outils pour générer des nombres aléatoires et des séquences aléatoires dans Nelson.</p>
     <p
-    >Il prend en charge les distributions uniforme et normale, la génération d'entiers aléatoires, les permutations et le contrôle de l'état du générateur de nombres aléatoires.</p>
+    >Il prend en charge les distributions uniforme et normale, la génération d&apos;entiers aléatoires, les permutations et le contrôle de l&apos;état du générateur de nombres aléatoires.</p>
     <p
     >Ce module est essentiel pour les simulations, la modélisation probabiliste et les calculs stochastiques.</p>
   </chapter_description>

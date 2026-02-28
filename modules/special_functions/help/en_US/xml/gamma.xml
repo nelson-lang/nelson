@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>gamma</b> computes the gamma function.</p>
+    <p>
+      <b>gamma</b> computes the gamma function.</p>
     <p>The gamma function is defined by the integral:</p>
     <latex>\Gamma(z) = \int_0^{\infty} t^{z-1} e^{-t} \, dt</latex>
     <p>for</p>
@@ -33,7 +34,8 @@
     <latex>n</latex>
     <p>Key properties include:</p>
     <ul>
-      <li><latex>\Gamma(z+1) = z\Gamma(z)</latex>(recurrence relation)</li>
+      <li>
+        <latex>\Gamma(z+1) = z\Gamma(z)</latex>(recurrence relation)</li>
       <li>
         <latex>\Gamma(1/2) = \sqrt{\pi}</latex>
       </li>

@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>C = not(A)</b> performs not logical ~A.</p>
+    <p>
+      <b>C = not(A)</b> performs not logical ~A.</p>
   </description>
   <used_function />
   <bibliography />

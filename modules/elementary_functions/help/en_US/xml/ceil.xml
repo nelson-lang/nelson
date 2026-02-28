@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >ceil</b> returns an integer or complex matrix made of rounded up elements.</p>
   </description>
   <used_function />

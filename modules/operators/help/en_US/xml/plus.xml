@@ -25,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>C = plus(A, B)</b> performs addition A + B variables.</p>
+    <p>
+      <b>C = plus(A, B)</b> performs addition A + B variables.</p>
   </description>
   <used_function />
   <bibliography />

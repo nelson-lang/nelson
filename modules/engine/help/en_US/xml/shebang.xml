@@ -4,7 +4,7 @@
   <language>en_US</language>
   <keyword>#! shebang</keyword>
   <short_description
-  >On Unix, Linux operating systems, Parses the rest of the script's initial line as an interpreter directive.</short_description>
+  >On Unix, Linux operating systems, Parses the rest of the script&apos;s initial line as an interpreter directive.</short_description>
   <description>
     <p
     >On Unix, Linux and MacOs X, shebang allows to execute directly a NelSon script.</p>

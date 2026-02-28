@@ -29,12 +29,16 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>S = speye()</b> retourne un scalaire sparse 1.</p>
-    <p><b
+    <p>
+      <b>S = speye()</b> retourne un scalaire sparse 1.</p>
+    <p>
+      <b
       >S = speye(n)</b> retourne une matrice identité sparse n-par-n, avec des uns sur la diagonale principale.</p>
-    <p><b
+    <p>
+      <b
       >S = speye(n, m)</b> retourne une matrice sparse n-par-m, avec des uns sur la diagonale principale.</p>
-    <p><b
+    <p>
+      <b
       >S = speye(sz)</b> retourne une matrice avec des uns sur la diagonale principale.</p>
   </description>
   <used_function />

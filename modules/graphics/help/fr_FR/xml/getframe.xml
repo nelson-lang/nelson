@@ -27,12 +27,15 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >F = getframe</b> capture les axes courants affichés à l'écran comme une image vidéo. F est une structure contenant les données de l'image. La capture préserve la taille à l'écran des axes mais n'inclut pas les étiquettes de graduations ni tout contenu en dehors des limites des axes.</p>
-    <p><b
+    <p>
+      <b
+      >F = getframe</b> capture les axes courants affichés à l&apos;écran comme une image vidéo. F est une structure contenant les données de l&apos;image. La capture préserve la taille à l&apos;écran des axes mais n&apos;inclut pas les étiquettes de graduations ni tout contenu en dehors des limites des axes.</p>
+    <p>
+      <b
       >F = getframe(ax)</b> capture les axes spécifiés par ax au lieu des axes courants.</p>
-    <p><b
-      >F = getframe(fig)</b> capture la fenêtre de figure entière spécifiée par fig, y compris le titre des axes, les étiquettes et les graduations. Cependant, l'image capturée n'inclut pas le menu ou les barres d'outils de la figure.</p>
+    <p>
+      <b
+      >F = getframe(fig)</b> capture la fenêtre de figure entière spécifiée par fig, y compris le titre des axes, les étiquettes et les graduations. Cependant, l&apos;image capturée n&apos;inclut pas le menu ou les barres d&apos;outils de la figure.</p>
   </description>
   <used_function />
   <bibliography />

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>expm</keyword>
   <short_description
-  >Calcule l'exponentielle matricielle d'une matrice carrée.</short_description>
+  >Calcule l&apos;exponentielle matricielle d&apos;une matrice carrée.</short_description>
   <syntax>
     <syntax_item>res = expm(x)</syntax_item>
   </syntax>
@@ -23,9 +23,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>expm(x)</b> calcule l'exponentielle matricielle de x.</p>
+    <p>
+      <b>expm(x)</b> calcule l&apos;exponentielle matricielle de x.</p>
     <p
-    >Le calcul est effectué en bloc-diagonalant d'abord x puis en appliquant une approximation de Pade sur chaque bloc.</p>
+    >Le calcul est effectué en bloc-diagonalant d&apos;abord x puis en appliquant une approximation de Pade sur chaque bloc.</p>
   </description>
   <used_function />
   <bibliography />

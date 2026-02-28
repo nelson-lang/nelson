@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>summer</b> returns the colormap with summer colors.</p>
+    <p>
+      <b>summer</b> returns the colormap with summer colors.</p>
   </description>
   <used_function />
   <bibliography />

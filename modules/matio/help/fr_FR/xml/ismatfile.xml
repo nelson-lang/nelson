@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ismatfile</keyword>
-  <short_description
+  <short_description
   >Vérifie si le nom de fichier est un fichier .mat valide</short_description>
   <syntax>
     <syntax_item>[tf, ver, header] = ismatfile(filename)</syntax_item>
@@ -17,41 +17,42 @@
   <param_output>
     <param_output_item>
       <param_name>tf</param_name>
-      <param_description
-      >un logique : true si c'est un fichier .mat valide.</param_description>
+      <param_description
+      >un logique : true si c&apos;est un fichier .mat valide.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>ver</param_name>
-      <param_description
-      >un tableau de chaînes : version du fichier .mat ("-v7.3", "-v7" ou "-v6").</param_description>
+      <param_description
+      >un tableau de chaînes : version du fichier .mat (&quot;-v7.3&quot;, &quot;-v7&quot; ou &quot;-v6&quot;).</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>header</param_name>
-      <param_description
+      <param_description
       >un tableau de chaînes : en-tête du fichier .mat (date).</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >ismatfile</b> vérifie si le nom de fichier correspond à un fichier .mat valide.</p>
   </description>
   <used_function />
-  <bibliography
+  <bibliography
   >Remerciements à la bibliothèque MATIO (http://sourceforge.net/projects/matio/).</bibliography>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[A = ones(3, 4);
-savemat([tempdir(), 'example_loadmat-v7.3.mat'], 'A', '-v7.3')
-savemat([tempdir(), 'example_loadmat-v7.mat'], 'A', '-v7')
-savemat([tempdir(), 'example_loadmat-v6.mat'], 'A', '-v6')
-[tf, ver] = ismatfile([tempdir(), 'example_loadmat-v7.3.mat'])
-[tf, ver] = ismatfile([tempdir(), 'example_loadmat-v7.mat'])
-[tf, ver] = ismatfile([tempdir(), 'example_loadmat-v6.mat'])
-[tf, ver, header] = ismatfile([tempdir(), 'example_not_existing.mat'])
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = ones(3, 4);
+savemat([tempdir(), 'example_loadmat-v7.3.mat'], 'A', '-v7.3')
+savemat([tempdir(), 'example_loadmat-v7.mat'], 'A', '-v7')
+savemat([tempdir(), 'example_loadmat-v6.mat'], 'A', '-v6')
+[tf, ver] = ismatfile([tempdir(), 'example_loadmat-v7.3.mat'])
+[tf, ver] = ismatfile([tempdir(), 'example_loadmat-v7.mat'])
+[tf, ver] = ismatfile([tempdir(), 'example_loadmat-v6.mat'])
+[tf, ver, header] = ismatfile([tempdir(), 'example_not_existing.mat'])
 ]]></example_item_data>
     </example_item>
   </examples>

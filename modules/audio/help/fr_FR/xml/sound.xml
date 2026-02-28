@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>sound</keyword>
-  <short_description
+  <short_description
   >Convertit une matrice de données de signal en son et le joue.</short_description>
   <syntax>
     <syntax_item>sound(y)</syntax_item>
@@ -18,18 +18,19 @@
     </param_input_item>
     <param_input_item>
       <param_name>Fs</param_name>
-      <param_description
-      >fréquence d'échantillonnage, un nombre positif, 8192 par défaut.</param_description>
+      <param_description
+      >fréquence d&apos;échantillonnage, un nombre positif, 8192 par défaut.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>nBits</param_name>
-      <param_description
-      >profondeur de bits des valeurs d'échantillon : 8, 16 (par défaut), 24.</param_description>
+      <param_description
+      >profondeur de bits des valeurs d&apos;échantillon : 8, 16 (par défaut), 24.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b>sound</b> joue le signal audio <b
-      >y</b> sur le haut-parleur à une fréquence d'échantillonnage de <b
+    <p>
+      <b>sound</b> joue le signal audio <b
+      >y</b> sur le haut-parleur à une fréquence d&apos;échantillonnage de <b
       >Fs</b> hertz et utilise <b>nBits</b> bits par échantillon.   </p>
   </description>
   <used_function />
@@ -38,10 +39,10 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[signal = rand(2, 44100) - 0.5;
-sound(signal, 44110, 16)
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[signal = rand(2, 44100) - 0.5;
+sound(signal, 44110, 16)
 ]]></example_item_data>
     </example_item>
   </examples>

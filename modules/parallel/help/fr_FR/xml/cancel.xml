@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>cancel</keyword>
   <short_description
-  >Arrêter une fonction s'exécutant en arrière-plan.</short_description>
+  >Arrêter une fonction s&apos;exécutant en arrière-plan.</short_description>
   <syntax>
     <syntax_item>cancel(f)</syntax_item>
   </syntax>
@@ -16,10 +16,11 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >cancel(f)</b> arrêtera chaque élément en cours d'exécution ou en file d'attente du tableau de Future <b
+    <p>
+      <b
+      >cancel(f)</b> arrêtera chaque élément en cours d&apos;exécution ou en file d&apos;attente du tableau de Future <b
       >f</b>.</p>
-    <p>Un Future annulé marque une erreur dans sa propriété d'état.</p>
+    <p>Un Future annulé marque une erreur dans sa propriété d&apos;état.</p>
     <p>Certaines fonctions ne peuvent pas être interrompues avec<b
       >Ctrl+C</b> ou <b>cancel</b>, comme la fonction <b>save</b>.</p>
   </description>

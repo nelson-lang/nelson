@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>ismember</keyword>
   <short_description
-  >Éléments d'un tableau présents dans un autre tableau.</short_description>
+  >Éléments d&apos;un tableau présents dans un autre tableau.</short_description>
   <syntax>
     <syntax_item>T = ismember(A, B)</syntax_item>
   </syntax>
@@ -25,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >T = ismember(A, B)</b> renvoie un tableau logique indiquant où les éléments de <b
       >A</b> se trouvent dans <b>B</b>.</p>
   </description>

@@ -36,10 +36,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >dlsym</b> récupère l'adresse d'une fonction exportée en tant que handle dlsym.</p>
+    <p>
+      <b
+      >dlsym</b> récupère l&apos;adresse d&apos;une fonction exportée en tant que handle dlsym.</p>
     <p>Si le <b
-      >symbolname</b> n'est pas trouvé, Nelson tente de trouver des variantes du nom selon ces règles (dans cet ordre) :</p>
+      >symbolname</b> n&apos;est pas trouvé, Nelson tente de trouver des variantes du nom selon ces règles (dans cet ordre) :</p>
     <p>
       <b>_symbolname</b>
     </p>
@@ -70,7 +71,7 @@
     >Si plusieurs noms de symboles sont trouvés, une erreur est levée avec les noms possibles.</p>
     <p />
     <p
-    >Attention : si les types sont mal définis, l'appel d'une fonction étrangère peut provoquer des comportements imprévus (plantage).</p>
+    >Attention : si les types sont mal définis, l&apos;appel d&apos;une fonction étrangère peut provoquer des comportements imprévus (plantage).</p>
   </description>
   <used_function />
   <bibliography />

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>MPI_Recv</keyword>
-  <short_description>Réception bloquante d'un message.</short_description>
+  <short_description>Réception bloquante d&apos;un message.</short_description>
   <syntax>
     <syntax_item>r = MPI_Recv(Source, Tag)</syntax_item>
     <syntax_item
@@ -32,7 +32,7 @@
   <description>
     <p
     >Cette fonction reçoit un tableau depuis un nœud source sur un communicateur donné avec le tag spécifié.</p>
-    <p>Lance une exception en cas d'erreur.</p>
+    <p>Lance une exception en cas d&apos;erreur.</p>
     <p
     >Permet de recevoir des tableaux de complexité arbitraire, y compris cellules, structures, chaînes, matrices creuses, etc.</p>
   </description>
@@ -42,7 +42,7 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >mpiexec([modulepath('mpi'), '/examples/MPI_helloworld.m'], 4)</example_item_description>
+      >mpiexec([modulepath(&apos;mpi&apos;), &apos;/examples/MPI_helloworld.m&apos;], 4)</example_item_description>
       <example_item_data
         runnable="false"
       ><![CDATA[if ~MPI_Initialized()

@@ -7,7 +7,7 @@
   >Determine if pattern matches with strings.</short_description>
   <syntax>
     <syntax_item>res = matches(str, pattern)</syntax_item>
-    <syntax_item>res = matches(str, pattern, 'IgnoreCase', true)</syntax_item>
+    <syntax_item>res = matches(str, pattern, &apos;IgnoreCase&apos;, true)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -28,7 +28,8 @@
       >a logical: true if the two matches and false otherwise.</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >matches</b> determines if pattern matches with strings.</description>
   <used_function />
   <bibliography />

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>slicot_ag08bd</keyword>
   <short_description
-  >Zéros et structure de Kronecker d'un pencil de système descripteur.</short_description>
+  >Zéros et structure de Kronecker d&apos;un pencil de système descripteur.</short_description>
   <syntax>
     <syntax_item
     >[A_OUT, E_OUT, NFZ, NRANK, NIZ, DINFZ, NKROR, NINFE, NKROL, INFZ, KRONR, INFE, KRONL, INFO] = slicot_ag08bd(EQUIL, M, P, A_IN, E_IN, B, C, D, TOL)</syntax_item>
@@ -13,7 +13,7 @@
     <param_input_item>
       <param_name>EQUIL</param_name>
       <param_description
-      > = 'S' : effectuer un équilibrage (mise à l'échelle) ; = 'N' : ne pas effectuer d'équilibrage.</param_description>
+      > = &apos;S&apos; : effectuer un équilibrage (mise à l&apos;échelle) ; = &apos;N&apos; : ne pas effectuer d&apos;équilibrage.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>M</param_name>
@@ -28,7 +28,7 @@
     <param_input_item>
       <param_name>A_IN</param_name>
       <param_description
-      >La partie principale L-by-N de ce tableau doit contenir la matrice de dynamique d'état A du système.</param_description>
+      >La partie principale L-by-N de ce tableau doit contenir la matrice de dynamique d&apos;état A du système.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>E_IN</param_name>
@@ -38,7 +38,7 @@
     <param_input_item>
       <param_name>B</param_name>
       <param_description
-      >La partie principale L-by-M de ce tableau doit contenir la matrice d'entrée/état B du système.</param_description>
+      >La partie principale L-by-M de ce tableau doit contenir la matrice d&apos;entrée/état B du système.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>C</param_name>
@@ -53,7 +53,7 @@
     <param_input_item>
       <param_name>TOL</param_name>
       <param_description
-      >Une tolérance utilisée dans les décisions de rang pour déterminer le rang effectif, défini comme l'ordre de la plus grande sous-matrice triangulaire principale (ou terminale) dans la factorisation QR (ou RQ) avec permutation de colonnes (ou lignes) dont le nombre condition estimé est inférieur à 1/TOL.</param_description>
+      >Une tolérance utilisée dans les décisions de rang pour déterminer le rang effectif, défini comme l&apos;ordre de la plus grande sous-matrice triangulaire principale (ou terminale) dans la factorisation QR (ou RQ) avec permutation de colonnes (ou lignes) dont le nombre condition estimé est inférieur à 1/TOL.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -88,7 +88,7 @@
     <param_output_item>
       <param_name>NKROR</param_name>
       <param_description
-      >Le nombre d'indices de Kronecker droits.</param_description>
+      >Le nombre d&apos;indices de Kronecker droits.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>NINFE</param_name>
@@ -98,7 +98,7 @@
     <param_output_item>
       <param_name>NKROL</param_name>
       <param_description
-      >Le nombre d'indices de Kronecker gauches.</param_description>
+      >Le nombre d&apos;indices de Kronecker gauches.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>INFZ</param_name>

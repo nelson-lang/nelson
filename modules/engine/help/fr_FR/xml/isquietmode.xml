@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>isquietmode</keyword>
   <short_description
-  >Renvoie vrai si Nelson a été démarré avec l'option --quiet.</short_description>
+  >Renvoie vrai si Nelson a été démarré avec l&apos;option --quiet.</short_description>
   <syntax>
     <syntax_item>res = isquietmode()</syntax_item>
   </syntax>
@@ -15,8 +15,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >isquietmode</b> renvoie true si Nelson a été démarré avec l'option --quiet et false sinon.</p>
+    <p>
+      <b
+      >isquietmode</b> renvoie true si Nelson a été démarré avec l&apos;option --quiet et false sinon.</p>
   </description>
   <used_function />
   <bibliography />

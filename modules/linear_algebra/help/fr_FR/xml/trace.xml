@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>trace</keyword>
-  <short_description>Trace d'une matrice.</short_description>
+  <short_description>Trace d&apos;une matrice.</short_description>
   <syntax>
     <syntax_item>res = trace(x)</syntax_item>
   </syntax>
@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >trace(x)</b> calcule la trace de x, la somme des éléments sur la diagonale principale.</p>
   </description>
   <used_function />

@@ -7,7 +7,7 @@
   <syntax>
     <syntax_item>stem(Y)</syntax_item>
     <syntax_item>stem(X, Y)</syntax_item>
-    <syntax_item>stem(..., 'filled')</syntax_item>
+    <syntax_item>stem(..., &apos;filled&apos;)</syntax_item>
     <syntax_item>stem(..., LineSpec)</syntax_item>
     <syntax_item>stem(..., propertyName, propertyValue)</syntax_item>
     <syntax_item>stem(ax, ...)</syntax_item>
@@ -45,32 +45,36 @@
   <param_output>
     <param_output_item>
       <param_name>gr</param_name>
-      <param_description>Groupe d'objets graphiques.</param_description>
+      <param_description>Groupe d&apos;objets graphiques.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>Un graphique <b
-      >stem</b> en deux dimensions permet de visualiser des données en les représentant par des lignes partant d'une ligne de base horizontale le long de l'axe x.</p>
+      >stem</b> en deux dimensions permet de visualiser des données en les représentant par des lignes partant d&apos;une ligne de base horizontale le long de l&apos;axe x.</p>
     <p
-    >À l'extrémité de chaque ligne se trouve un cercle (marqueur par défaut), et la position verticale de ce cercle correspond à la valeur de la donnée représentée.</p>
-    <p><b>stem(Y)</b> crée un graphique stem en prenant la séquence de données<b
-      >Y</b> et en traçant des tiges partant de points régulièrement espacés et automatiquement déterminés le long de l'axe x.</p>
+    >À l&apos;extrémité de chaque ligne se trouve un cercle (marqueur par défaut), et la position verticale de ce cercle correspond à la valeur de la donnée représentée.</p>
+    <p>
+      <b>stem(Y)</b> crée un graphique stem en prenant la séquence de données<b
+      >Y</b> et en traçant des tiges partant de points régulièrement espacés et automatiquement déterminés le long de l&apos;axe x.</p>
     <p>Si <b
-      >Y</b> est une matrice, la fonction stem trace tous les éléments d'une ligne pour la même valeur de x.</p>
-    <p><b>stem(X, Y)</b> crée un graphique stem qui montre comment<b
+      >Y</b> est une matrice, la fonction stem trace tous les éléments d&apos;une ligne pour la même valeur de x.</p>
+    <p>
+      <b>stem(X, Y)</b> crée un graphique stem qui montre comment<b
       >X</b> est relié aux colonnes de <b>Y</b>.</p>
-    <p><b>X</b> et<b
+    <p>
+      <b>X</b> et<b
       >Y</b> peuvent être des vecteurs ou des matrices de même taille.</p>
-    <p><b>X</b> peut être un vecteur ligne ou colonne, et<b
+    <p>
+      <b>X</b> peut être un vecteur ligne ou colonne, et<b
       >Y</b> doit être une matrice ayant le même nombre de lignes que la longueur de <b
       >X</b>.</p>
     <p
-    >Si vous souhaitez spécifier si le cercle à l'extrémité de chaque tige doit être rempli, vous pouvez utiliser <b
-      >stem(...,'fill')</b>.</p>
+    >Si vous souhaitez spécifier si le cercle à l&apos;extrémité de chaque tige doit être rempli, vous pouvez utiliser <b
+      >stem(...,&apos;fill&apos;)</b>.</p>
     <p>De plus, en utilisant <b
       >stem(..., LineSpec)</b>, vous pouvez définir le style de ligne, le symbole du marqueur et la couleur des tiges et du marqueur supérieur.</p>
     <p>Consultez <b
-      >LineSpec</b> pour plus de détails sur la personnalisation de l'apparence du graphique stem.</p>
+      >LineSpec</b> pour plus de détails sur la personnalisation de l&apos;apparence du graphique stem.</p>
   </description>
   <used_function />
   <bibliography />

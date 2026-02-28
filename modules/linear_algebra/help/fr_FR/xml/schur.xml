@@ -6,11 +6,11 @@
   <short_description>Décomposition de Schur.</short_description>
   <syntax>
     <syntax_item>T = schur(M)</syntax_item>
-    <syntax_item>T = schur(M, 'real')</syntax_item>
-    <syntax_item>T = schur(M, 'complex')</syntax_item>
+    <syntax_item>T = schur(M, &apos;real&apos;)</syntax_item>
+    <syntax_item>T = schur(M, &apos;complex&apos;)</syntax_item>
     <syntax_item>[U, T] = schur(M)</syntax_item>
-    <syntax_item>[U, T] = schur(M, 'complex')</syntax_item>
-    <syntax_item>[U, T] = schur(M, 'real')</syntax_item>
+    <syntax_item>[U, T] = schur(M, &apos;complex&apos;)</syntax_item>
+    <syntax_item>[U, T] = schur(M, &apos;real&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -30,12 +30,13 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>schur(M)</b> calcule la décomposition de Schur.</p>
+    <p>
+      <b>schur(M)</b> calcule la décomposition de Schur.</p>
     <p
-    >Avec le drapeau 'complex', la forme de Schur complexe est triangulaire supérieure avec les valeurs propres de M sur la diagonale.</p>
+    >Avec le drapeau &apos;complex&apos;, la forme de Schur complexe est triangulaire supérieure avec les valeurs propres de M sur la diagonale.</p>
     <p>Si A est réelle, la forme de Schur réelle est retournée.</p>
     <p
-    >Avec le drapeau 'real', la forme de Schur réelle place les valeurs propres réelles sur la diagonale et les valeurs propres complexes en blocs 2x2 sur la diagonale.</p>
+    >Avec le drapeau &apos;real&apos;, la forme de Schur réelle place les valeurs propres réelles sur la diagonale et les valeurs propres complexes en blocs 2x2 sur la diagonale.</p>
   </description>
   <used_function />
   <bibliography />

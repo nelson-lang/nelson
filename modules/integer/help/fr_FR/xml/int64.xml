@@ -11,27 +11,28 @@
     <param_input_item>
       <param_name>X</param_name>
       <param_description
-      >une matrice de double, single ou d'entiers.</param_description>
+      >une matrice de double, single ou d&apos;entiers.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>Y</param_name>
-      <param_description>une matrice d'entiers 64 bits.</param_description>
+      <param_description>une matrice d&apos;entiers 64 bits.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>int64</b> convertit la valeur en type entier 64 bits.</p>
+    <p>
+      <b>int64</b> convertit la valeur en type entier 64 bits.</p>
     <p
-    >La valeur est arrondie à la valeur int64 la plus proche lors de la conversion. Une valeur qui dépasse la plage autorisée pour la classe int64 est mappée vers l'une des extrémités de la plage [-9223372036854775808,9223372036854775807].</p>
+    >La valeur est arrondie à la valeur int64 la plus proche lors de la conversion. Une valeur qui dépasse la plage autorisée pour la classe int64 est mappée vers l&apos;une des extrémités de la plage [-9223372036854775808,9223372036854775807].</p>
     <p
-    >Lorsque vous créez un tableau numérique contenant de grands entiers dans Nelson, surtout lorsqu'ils dépassent la précision maximale représentable par double (plus grands que flintmax), Nelson stocke par défaut ces valeurs sous forme de nombres à virgule flottante en double précision.</p>
+    >Lorsque vous créez un tableau numérique contenant de grands entiers dans Nelson, surtout lorsqu&apos;ils dépassent la précision maximale représentable par double (plus grands que flintmax), Nelson stocke par défaut ces valeurs sous forme de nombres à virgule flottante en double précision.</p>
     <p
     >Cette représentation par défaut peut entraîner une perte de précision, car les nombres à virgule flottante ont une précision limitée.</p>
     <p
     >Pour conserver la précision complète de ces grandes valeurs entières, il est conseillé de convertir explicitement chaque élément scalaire du tableau en type int64 ou uint64 en utilisant la notation i64 ou u64 (voir exemple).</p>
     <p
-    >De cette manière, vous vous assurez que les valeurs sont stockées avec leur précision complète en tant qu'entiers signés ou non signés 64 bits, plutôt qu'en tant que nombres à virgule flottante double précision.</p>
+    >De cette manière, vous vous assurez que les valeurs sont stockées avec leur précision complète en tant qu&apos;entiers signés ou non signés 64 bits, plutôt qu&apos;en tant que nombres à virgule flottante double précision.</p>
   </description>
   <used_function />
   <bibliography />

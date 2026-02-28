@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>sqrtm</keyword>
   <short_description
-  >Calcule la racine carrée matricielle d'une matrice carrée.</short_description>
+  >Calcule la racine carrée matricielle d&apos;une matrice carrée.</short_description>
   <syntax>
     <syntax_item>res = sqrtm(x)</syntax_item>
   </syntax>
@@ -23,7 +23,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>sqrtm(x)</b> calcule la racine carrée matricielle de x.</p>
+    <p>
+      <b>sqrtm(x)</b> calcule la racine carrée matricielle de x.</p>
   </description>
   <used_function />
   <bibliography />

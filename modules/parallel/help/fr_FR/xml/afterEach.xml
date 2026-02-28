@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>afterEach</keyword>
   <short_description
-  >Exécuter une fonction après chaque fin d'exécution en arrière-plan.</short_description>
+  >Exécuter une fonction après chaque fin d&apos;exécution en arrière-plan.</short_description>
   <syntax>
     <syntax_item>B = afterEach(F, fcn, n)</syntax_item>
   </syntax>
@@ -21,7 +21,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>n</param_name>
-      <param_description>nombre d'arguments de sortie.</param_description>
+      <param_description>nombre d&apos;arguments de sortie.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -31,13 +31,14 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>B = afterEach(F, fcn, n)</b> renvoie un objet AfterEachFuture <b
+    <p>
+      <b>B = afterEach(F, fcn, n)</b> renvoie un objet AfterEachFuture <b
       >B</b>.</p>
     <p>La fonction<b
       >fcn</b> est automatiquement exécutée après chaque élément du tableau Future <b
-      >F</b> lorsqu'il est terminé.</p>
-    <p>Si l'un des éléments de <b>F</b> rencontre une erreur, la propriété <b
-      >Error</b> de <b>B</b> contient l'erreur.</p>
+      >F</b> lorsqu&apos;il est terminé.</p>
+    <p>Si l&apos;un des éléments de <b>F</b> rencontre une erreur, la propriété <b
+      >Error</b> de <b>B</b> contient l&apos;erreur.</p>
   </description>
   <used_function />
   <bibliography />

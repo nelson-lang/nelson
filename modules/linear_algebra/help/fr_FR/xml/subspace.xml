@@ -24,8 +24,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >T = subspace(A, B)</b> calcule l'angle entre deux sous-espaces spécifiés par les colonnes de <b
+    <p>
+      <b
+      >T = subspace(A, B)</b> calcule l&apos;angle entre deux sous-espaces spécifiés par les colonnes de <b
       >A</b> et <b>B</b>.</p>
   </description>
   <used_function />

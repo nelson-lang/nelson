@@ -15,10 +15,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >removecompilerconf</b> renvoie true si un compilateur avait été configuré avec<b
       >configuremsvc</b> ou <b>configuremingw</b>.</p>
-    <p><b
+    <p>
+      <b
       >removecompilerconf</b> renvoie toujours true sur les autres plateformes.</p>
   </description>
   <used_function />

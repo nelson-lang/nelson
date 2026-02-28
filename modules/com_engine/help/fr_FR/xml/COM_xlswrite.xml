@@ -49,11 +49,13 @@
     <param_output_item>
       <param_name>msg</param_name>
       <param_description
-      >une chaîne : '' si pas d'erreur ou un message d'erreur.</param_description>
+      >une chaîne : &apos;
+        &apos; si pas d&apos;erreur ou un message d&apos;erreur.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >COM_xlswrite</b> écrit un fichier de feuille de calcul Microsoft Excel en utilisant COM.</p>
     <p>Inf est converti par Excel en 65535.</p>
   </description>

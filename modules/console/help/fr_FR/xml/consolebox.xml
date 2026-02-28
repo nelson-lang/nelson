@@ -7,8 +7,8 @@
   >Affiche ou masque le terminal Windows associé à la session Nelson.</short_description>
   <syntax>
     <syntax_item>consolebox(visibility)</syntax_item>
-    <syntax_item>consolebox('toggle')</syntax_item>
-    <syntax_item>status = consolebox('status')</syntax_item>
+    <syntax_item>consolebox(&apos;toggle&apos;)</syntax_item>
+    <syntax_item>status = consolebox(&apos;status&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -27,7 +27,7 @@
   <description>
     <p>Affiche ou masque le terminal Windows associé à la session Nelson.</p>
     <p
-    >Chaque session Nelson s'exécute dans sa propre console. Lorsque la session Nelson se termine, sa console correspondante est automatiquement terminée.</p>
+    >Chaque session Nelson s&apos;exécute dans sa propre console. Lorsque la session Nelson se termine, sa console correspondante est automatiquement terminée.</p>
     <p
     >La console est une fenêtre de terminal noire qui ne peut pas être fermée manuellement — le bouton de fermeture (“X”) dans le coin supérieur droit est désactivé. Forcer sa fermeture mettra également fin à la session Nelson.</p>
     <p

@@ -25,9 +25,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >complex</b> renvoie une valeur complexe à partir d'arguments réels.</p>
-    <p>Avec un seul argument d'entrée,<b
+    <p>
+      <b
+      >complex</b> renvoie une valeur complexe à partir d&apos;arguments réels.</p>
+    <p>Avec un seul argument d&apos;entrée,<b
       >complex</b> renvoie la valeur complexe a + 0*i.</p>
   </description>
   <used_function />

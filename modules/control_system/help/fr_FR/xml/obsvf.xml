@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>obsvf</keyword>
   <short_description
-  >Calcul de la forme en escalier d'observabilité.</short_description>
+  >Calcul de la forme en escalier d&apos;observabilité.</short_description>
   <syntax>
     <syntax_item>[Abar, Bbar, Cbar, T, k] = obsvf(A, B, C)</syntax_item>
     <syntax_item>[Abar, Bbar, Cbar, T, k] = obsvf(A, B, C, tol)</syntax_item>
@@ -33,17 +33,17 @@
     <param_output_item>
       <param_name>Abar</param_name>
       <param_description
-      >Matrice d'état en escalier d'observabilité.</param_description>
+      >Matrice d&apos;état en escalier d&apos;observabilité.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>Bbar</param_name>
       <param_description
-      >Matrice d'entrée en escalier d'observabilité.</param_description>
+      >Matrice d&apos;entrée en escalier d&apos;observabilité.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>Cbar</param_name>
       <param_description
-      >Matrice de sortie en escalier d'observabilité.</param_description>
+      >Matrice de sortie en escalier d&apos;observabilité.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>T</param_name>
@@ -53,12 +53,12 @@
     <param_output_item>
       <param_name>k</param_name>
       <param_description
-      >Vecteur : nombre d'états observables.</param_description>
+      >Vecteur : nombre d&apos;états observables.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p
-    >Calcule la transformation en forme en escalier d'observabilité du système et renvoie les matrices transformées ainsi que la transformation T.</p>
+    >Calcule la transformation en forme en escalier d&apos;observabilité du système et renvoie les matrices transformées ainsi que la transformation T.</p>
   </description>
   <examples>
     <example_item>

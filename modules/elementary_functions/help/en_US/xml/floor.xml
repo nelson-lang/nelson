@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >floor</b> returns an integer matrix made of nearest rounded down integers.</p>
   </description>
   <used_function />

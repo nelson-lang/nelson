@@ -32,19 +32,21 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >vecnorm</b> calcule la norme 2 ou norme Euclidienne du tableau d'entrée <b
-      >A</b>                  </p>
+    <p>
+      <b
+      >vecnorm</b> calcule la norme 2 ou norme Euclidienne du tableau d&apos;entrée <b
+      >A</b>
+    </p>
     <p>Si <b>A</b> est un vecteur, <b
       >vecnorm</b> retourne la norme du vecteur.</p>
     <p>Si <b>A</b> est une matrice, <b
       >vecnorm</b> retourne la norme de chaque colonne.</p>
     <p>Pour les tableaux multidimensionnels, <b
-      >vecnorm</b> retourne la norme le long de la première dimension du tableau dont la taille n'est pas égale à 1.</p>
+      >vecnorm</b> retourne la norme le long de la première dimension du tableau dont la taille n&apos;est pas égale à 1.</p>
     <p>Pour calculer la norme p généralisée du vecteur, utilisez la syntaxe <b
       >N = vecnorm(A, p)</b>.</p>
     <p
-    >Pour opérer le long d'une dimension spécifique dim, la fonction peut être appelée comme <b
+    >Pour opérer le long d&apos;une dimension spécifique dim, la fonction peut être appelée comme <b
       >N = vecnorm(A, p, dim)</b>.</p>
     <p
     >Dans ce cas, la taille de la dimension spécifiée devient 1, tandis que les tailles des autres dimensions restent inchangées.</p>

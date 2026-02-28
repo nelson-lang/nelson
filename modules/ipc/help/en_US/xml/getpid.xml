@@ -6,11 +6,13 @@
   <short_description>Get nelson(s) Process IDentificator.</short_description>
   <syntax>
     <syntax_item>p = getpid()</syntax_item>
-    <syntax_item>v = getpid('available')</syntax_item>
+    <syntax_item>v = getpid(&apos;available&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>'available'</param_name>
+      <param_name>
+        &apos;available&apos;
+      </param_name>
       <param_description>a string.</param_description>
     </param_input_item>
   </param_input>
@@ -27,10 +29,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >p = getpid()</b> returns current nelson process identificator currently running on computer.</p>
-    <p><b
-      >v = getpid('available')</b> returns list of nelson processes identificators (with same arch) running for current user.</p>
+    <p>
+      <b
+      >v = getpid(&apos;available&apos;)</b> returns list of nelson processes identificators (with same arch) running for current user.</p>
     <p
     >win64 and win32 are two differents architecture but they can run in same time.</p>
   </description>

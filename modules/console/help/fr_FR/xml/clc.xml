@@ -8,7 +8,8 @@
     <syntax_item>clc()</syntax_item>
   </syntax>
   <description>
-    <p><b
+    <p>
+      <b
       >clc()</b> efface la console et déplace le curseur vers le coin supérieur gauche.</p>
   </description>
   <bibliography />

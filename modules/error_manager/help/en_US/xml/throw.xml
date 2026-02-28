@@ -14,7 +14,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >throw(MException)</b> throws an exception based on the information contained in the <b
       >MException</b> object, exception.</p>
   </description>

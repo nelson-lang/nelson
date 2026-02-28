@@ -16,11 +16,13 @@
     <param_output_item>
       <param_name>compiler</param_name>
       <param_description
-      >une chaîne : 'msvc', 'mingw', 'unix' ou ''.</param_description>
+      >une chaîne : &apos;msvc&apos;, &apos;mingw&apos;, &apos;unix&apos; ou &apos;
+        &apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >havecompiler</b> détecte si un compilateur C/C++ est configuré pour Nelson.</p>
     <p>Sur les plateformes Unix (Linux, MacOS),<b
       >havecompiler</b> renvoie toujours <b>true</b> et<b

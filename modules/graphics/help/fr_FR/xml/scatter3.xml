@@ -8,7 +8,7 @@
     <syntax_item>scatter3(x, y, z)</syntax_item>
     <syntax_item>scatter3(x, y, z, sz)</syntax_item>
     <syntax_item>scatter3(x, y, z, sz, c)</syntax_item>
-    <syntax_item>scatter3(..., 'filled')</syntax_item>
+    <syntax_item>scatter3(..., &apos;filled&apos;)</syntax_item>
     <syntax_item>scatter3(..., marker)</syntax_item>
     <syntax_item>scatter3(ax, ...)</syntax_item>
     <syntax_item>scatter3(..., propertyName, propertyValue)</syntax_item>
@@ -35,7 +35,7 @@
     <param_input_item>
       <param_name>c</param_name>
       <param_description
-      >Couleur du marqueur : nom court de couleur, nom de couleur, triplet RGB ou vecteur d'indices de la carte de couleurs</param_description>
+      >Couleur du marqueur : nom court de couleur, nom de couleur, triplet RGB ou vecteur d&apos;indices de la carte de couleurs</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ax</param_name>
@@ -45,7 +45,7 @@
     <param_input_item>
       <param_name>propertyName</param_name>
       <param_description
-      >Une chaîne scalaire ou un vecteur ligne de caractères. Voir l'aide de 'line' pour la liste des propriétés.</param_description>
+      >Une chaîne scalaire ou un vecteur ligne de caractères. Voir l&apos;aide de &apos;line&apos; pour la liste des propriétés.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyValue</param_name>
@@ -60,7 +60,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >scatter3(x, y, z)</b> génère un nuage de points en plaçant des marqueurs circulaires aux coordonnées définies par les vecteurs <b
       >x</b>,<b>y</b> et <b>z</b>.</p>
     <p
@@ -84,33 +85,34 @@
         </td>
         <td
         >Transparence de la face du marqueur, 1 (par défaut) ou tableau de même taille que <b
-          >XData</b></td>
+          >XData</b>
+        </td>
       </tr>
       <tr>
         <td>
           <b>BeingDeleted</b>
         </td>
-        <td>Indique que l'objet est en cours de suppression.</td>
+        <td>Indique que l&apos;objet est en cours de suppression.</td>
       </tr>
       <tr>
         <td>
           <b>BusyAction</b>
         </td>
         <td
-        >File d'attente des callbacks, 'queue' (par défaut) ou 'cancel'. Cette propriété détermine comment Nelson gère l'exécution des callbacks interrompus.</td>
+        >File d&apos;attente des callbacks, &apos;queue&apos; (par défaut) ou &apos;cancel&apos;. Cette propriété détermine comment Nelson gère l&apos;exécution des callbacks interrompus.</td>
       </tr>
       <tr>
         <td>
           <b>CData</b>
         </td>
         <td
-        >Couleurs des marqueurs : [] (par défaut), triplet RGB, matrice de triplets RGB                                          ou vecteur. Couleur du marqueur à utiliser pour chaque série de données :                                          'k'/'black' (Noir), 'y'/'yellow' (Jaune), 'm'/'magenta' (Magenta),                                          'c'/'cyan' (Cyan), 'r'/'red' (Rouge), 'b'/'blue' (Bleu), 'g'/'green' (Vert)</td>
+        >Couleurs des marqueurs : [] (par défaut), triplet RGB, matrice de triplets RGB                                          ou vecteur. Couleur du marqueur à utiliser pour chaque série de données :                                          &apos;k&apos;/&apos;black&apos; (Noir), &apos;y&apos;/&apos;yellow&apos; (Jaune), &apos;m&apos;/&apos;magenta&apos; (Magenta),                                          &apos;c&apos;/&apos;cyan&apos; (Cyan), &apos;r&apos;/&apos;red&apos; (Rouge), &apos;b&apos;/&apos;blue&apos; (Bleu), &apos;g&apos;/&apos;green&apos; (Vert)</td>
       </tr>
       <tr>
         <td>
           <b>CDataMode</b>
         </td>
-        <td>Mode de sélection pour CData : 'manual', 'auto' (par défaut).</td>
+        <td>Mode de sélection pour CData : &apos;manual&apos;, &apos;auto&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -135,13 +137,14 @@
           <b>DisplayName</b>
         </td>
         <td
-        >Étiquette de légende : vecteur de caractères ou chaîne, '' (par défaut).</td>
+        >Étiquette de légende : vecteur de caractères ou chaîne, &apos;
+          &apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>Interruptible</b>
         </td>
-        <td>Interruption des callbacks 'on' (par défaut).</td>
+        <td>Interruption des callbacks &apos;on&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -154,7 +157,11 @@
           <b>Marker</b>
         </td>
         <td
-        >Symbole du marqueur : 'o' (Cercle), 'x' (Croix), '+' (Plus), '*' (Astérisque), '.' (Point), 's' (Carré), 'd' (Losange), 'v' (Triangle vers le bas), '^' (Triangle vers le haut), '&gt;' (Triangle vers la droite), '&lt;' (Triangle vers la gauche)</td>
+        >Symbole du marqueur : &apos;o&apos; (Cercle), &apos;x&apos; (Croix), &apos;+&apos; (Plus), &apos;*&apos; (Astérisque), &apos;.&apos; (Point), &apos;s&apos; (Carré), &apos;d&apos; (Losange), &apos;v&apos; (Triangle vers le bas), &apos;^&apos; (Triangle vers le haut), &apos;
+          &gt;
+          &apos; (Triangle vers la droite), &apos;
+          &lt;
+          &apos; (Triangle vers la gauche)</td>
       </tr>
       <tr>
         <td>
@@ -167,9 +174,11 @@
           <b>MarkerEdgeAlpha</b>
         </td>
         <td
-        >Transparence du contour du marqueur : scalaire dans [0,1], 'flat' ou 1 (par défaut). Pour attribuer des valeurs de transparence distinctes aux contours de chaque point, définissez la propriété AlphaData comme un vecteur de la même taille que <b
+        >Transparence du contour du marqueur : scalaire dans [0,1], &apos;flat&apos; ou 1 (par défaut). Pour attribuer des valeurs de transparence distinctes aux contours de chaque point, définissez la propriété AlphaData comme un vecteur de la même taille que <b
           >XData</b> et la propriété <b>MarkerEdgeAlpha</b> à <b
-          >'flat'</b>.</td>
+          >
+            &apos;flat&apos;
+          </b>.</td>
       </tr>
       <tr>
         <td>
@@ -182,9 +191,11 @@
           <b>MarkerFaceAlpha</b>
         </td>
         <td
-        >Transparence du remplissage du marqueur : scalaire dans [0,1], 'flat' ou 1 (par défaut). Pour attribuer des valeurs de transparence distinctes aux faces de chaque point, définissez la propriété AlphaData comme un vecteur de la même taille que <b
+        >Transparence du remplissage du marqueur : scalaire dans [0,1], &apos;flat&apos; ou 1 (par défaut). Pour attribuer des valeurs de transparence distinctes aux faces de chaque point, définissez la propriété AlphaData comme un vecteur de la même taille que <b
           >XData</b> et la propriété <b>MarkerFaceAlpha</b> à <b
-          >'flat'</b>.</td>
+          >
+            &apos;flat&apos;
+          </b>.</td>
       </tr>
       <tr>
         <td>
@@ -203,13 +214,14 @@
           <b>Tag</b>
         </td>
         <td
-        >Identifiant de l'objet : vecteur de caractères, chaîne ou '' (par défaut).</td>
+        >Identifiant de l&apos;objet : vecteur de caractères, chaîne ou &apos;
+          &apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>Type</b>
         </td>
-        <td>Type d'objet graphique 'scatter'.</td>
+        <td>Type d&apos;objet graphique &apos;scatter&apos;.</td>
       </tr>
       <tr>
         <td>
@@ -221,7 +233,7 @@
         <td>
           <b>Visible</b>
         </td>
-        <td>État de visibilité : 'on' (par défaut) ou 'off'.</td>
+        <td>État de visibilité : &apos;on&apos; (par défaut) ou &apos;off&apos;.</td>
       </tr>
       <tr>
         <td>
@@ -245,7 +257,7 @@
         <td>
           <b>XDataMode</b>
         </td>
-        <td>Mode de sélection pour XData : 'manual' ou 'auto'.</td>
+        <td>Mode de sélection pour XData : &apos;manual&apos; ou &apos;auto&apos;.</td>
       </tr>
     </table>
   </description>

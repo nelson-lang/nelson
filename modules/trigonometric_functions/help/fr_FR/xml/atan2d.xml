@@ -25,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >d = atan2d(y, x)</b> retourne la tangente inverse à quatre quadrants (tan-1) de <b
       >y</b> et <b>x</b>, qui doivent être réels.</p>
   </description>

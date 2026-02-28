@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >rcond(x)</b> calcule le réciproque du nombre de condition de x en norme 1.</p>
   </description>
   <used_function />

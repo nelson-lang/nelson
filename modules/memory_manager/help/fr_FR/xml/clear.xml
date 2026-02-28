@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>clear</keyword>
   <short_description
-  >Efface une variable de l'espace de travail.</short_description>
+  >Efface une variable de l&apos;espace de travail.</short_description>
   <syntax>
     <syntax_item>clear</syntax_item>
     <syntax_item>clear variable_name</syntax_item>
@@ -51,7 +51,7 @@
   </param_input>
   <description>
     <p
-    >Supprime des variables de l'espace de travail courant ou d'une portée spécifiée. Sans argument, supprime toutes les variables de l'espace de travail courant.</p>
+    >Supprime des variables de l&apos;espace de travail courant ou d&apos;une portée spécifiée. Sans argument, supprime toutes les variables de l&apos;espace de travail courant.</p>
     <p>À utiliser avec prudence : cette opération ne peut pas être annulée.</p>
   </description>
   <used_function />

@@ -14,6 +14,8 @@ use std::ffi::OsStr;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 use walkdir::WalkDir;
+use rayon::prelude::*;
+use toml_edit::Document;
 // ===========================================================================
 // CLI
 // ===========================================================================
@@ -59,7 +61,7 @@ struct ClangFormatIgnore {
 /// Load the ignore list from `<root>/clang-format-ignore.json`.
 /// Returns a default (empty) ignore list when the file is absent.
 fn load_clang_format_ignore(root: &Path) -> Result<ClangFormatIgnore> {
-    let path = root.join("clang-format-ignore.json");
+    let path = root.join("nelson-format-ignore.json");
     if !path.is_file() {
         return Ok(ClangFormatIgnore::default());
     }
@@ -109,6 +111,65 @@ fn format_json(content: &str) -> Result<Option<String>> {
     output.push('\n');
     Ok(Some(output))
 }
+
+/// Format XML content.
+fn format_xml(content: &str) -> String {
+    let formatter = xmlformat::Formatter {
+        compress: false,
+        indent: 2,
+        keep_comments: true,
+        eof_newline: true,
+    };
+    match formatter.format_xml(content) {
+        Ok(s) => {
+            // Remove all trailing whitespace/newlines, then add exactly one newline
+            let trimmed = s.trim_end();
+            let mut result = String::with_capacity(trimmed.len() + 1);
+            result.push_str(trimmed);
+            result.push('\n');
+            result
+        },
+        Err(_) => {
+            // Fallback: also normalize trailing whitespace for unparseable XML
+            let trimmed = content.trim_end();
+            let mut result = String::with_capacity(trimmed.len() + 1);
+            result.push_str(trimmed);
+            result.push('\n');
+            result
+        }
+    }
+}
+
+/// Format TOML content.
+fn format_toml(content: &str) -> String {
+    match content.parse::<Document<_>>() {
+        Ok(doc) => doc.to_string(),
+        Err(_) => content.to_string(),
+    }
+}
+
+/// Format Rust source code using rustfmt.
+fn format_rust_with_rustfmt(path: &Path, content: &str, verbose: bool) -> String {
+    let rustfmt_path = if cfg!(windows) { "rustfmt.exe" } else { "rustfmt" };
+    let output = Command::new(rustfmt_path)
+        .arg("--emit").arg("stdout")
+        .arg(path)
+        .output();
+    match output {
+        Ok(out) if out.status.success() => {
+            if verbose {
+                eprintln!("Formatted with rustfmt: {}", path.display());
+            }
+            String::from_utf8_lossy(&out.stdout).to_string()
+        }
+        _ => {
+            if verbose {
+                eprintln!("rustfmt not found or failed, using basic_cleanup: {}", path.display());
+            }
+            basic_cleanup(content)
+        }
+    }
+}
 // ===========================================================================
 // Walk helpers
 // ===========================================================================
@@ -137,28 +198,36 @@ fn is_cpp_excluded(path: &Path, root: &Path, ignore: &ClangFormatIgnore) -> bool
     ignore
         .exclude_path_contains
         .iter()
-        .any(|pattern| relative.contains(pattern.as_str()))
+        .any(|pattern| {
+            let pat = pattern.replace('\\', "/");
+            if pat.ends_with('/') {
+                relative.starts_with(&pat)
+            } else {
+                relative.contains(&pat)
+            }
+        })
+}
+
+/// Determine whether a path should be excluded from formatting for any extension.
+fn is_path_excluded(path: &Path, root: &Path, ignore: &ClangFormatIgnore) -> bool {
+    let relative = path.strip_prefix(root).unwrap_or(path).to_string_lossy().replace('\\', "/");
+    ignore.exclude_path_contains.iter().any(|pattern| {
+        let pat = pattern.replace('\\', "/");
+        if pat.ends_with('/') {
+            relative.starts_with(&pat)
+        } else {
+            relative.contains(&pat)
+        }
+    })
 }
 /// Decide whether `path` should be processed as a "standard" file
 /// (JSON / YAML / Markdown / JS / XML-help-doc) and return its logical
 /// extension if so.
-fn standard_file_kind<'a>(path: &'a Path, root: &Path) -> Option<&'a str> {
+fn standard_file_kind<'a>(path: &'a Path, _root: &Path) -> Option<&'a str> {
     let ext = path.extension()?.to_str()?;
     match ext {
         "json" | "yml" | "yaml" | "md" | "js" => Some(ext),
-        "xml" => {
-            // Only XML files matching modules/*/help/*/xml/*.xml
-            let relative = path.strip_prefix(root).ok()?;
-            let rel_str = relative.to_string_lossy().replace('\\', "/");
-            if rel_str.starts_with("modules/")
-                && rel_str.contains("/help/")
-                && rel_str.contains("/xml/")
-            {
-                Some("xml")
-            } else {
-                None
-            }
-        }
+        "xml" => Some("xml"),
         _ => None,
     }
 }
@@ -174,7 +243,27 @@ fn process_file(path: &Path, ext: &str, check: bool, verbose: bool) -> Result<bo
     // Remember original line-ending style so we can restore it after formatting.
     let crlf = uses_crlf(&content);
 
-    let mut formatted = match ext {
+    // Fast path: if the file is empty, skip formatting
+    if content.is_empty() {
+        return Ok(true);
+    }
+
+    // Always normalize input to LF for comparison
+    let content_lf = content.replace("\r\n", "\n").replace('\r', "\n");
+
+    // Fast hash check: if the normalized content is already clean, skip formatting
+    // (for large files, this avoids unnecessary formatting work)
+    // For now, use a direct string comparison as a fast path
+    let ext_is_simple = matches!(ext, "md" | "js" | "yml" | "yaml" | "ts");
+    if ext_is_simple {
+        let cleaned = basic_cleanup(&content_lf);
+        if content_lf == cleaned {
+            return Ok(true);
+        }
+    }
+
+    // Otherwise, do full formatting
+    let formatted_lf = match ext {
         "json" => match format_json(&content)? {
             Some(f) => f,
             None => {
@@ -184,16 +273,24 @@ fn process_file(path: &Path, ext: &str, check: bool, verbose: bool) -> Result<bo
                 return Ok(true);
             }
         },
-        "yml" | "yaml" | "md" | "js" | "xml" => basic_cleanup(&content),
+        "js" | "ts" => basic_cleanup(&content),
+        "xml" => format_xml(&content),
+        "toml" => format_toml(&content),
+        "rs" => format_rust_with_rustfmt(path, &content, verbose),
+        "yml" | "yaml" | "md" => basic_cleanup(&content),
         _ => return Ok(true),
     };
 
-    // Restore CRLF line endings when the original file used them.
-    if crlf {
-        formatted = formatted.replace('\n', "\r\n");
-    }
+    let formatted_lf = formatted_lf.replace("\r\n", "\n").replace('\r', "\n");
 
-    if content == formatted {
+    // Restore CRLF line endings when the original file used them.
+    let formatted = if crlf {
+        formatted_lf.replace('\n', "\r\n")
+    } else {
+        formatted_lf.clone()
+    };
+
+    if content_lf == formatted_lf {
         return Ok(true); // already formatted
     }
 
@@ -338,18 +435,22 @@ fn process_cpp_files(
     }
 
     if check {
-        for file in &files {
-            if verbose {
-                eprintln!("Checking (clang-format): {}", file.display());
+        // Batch check: run clang-format --dry-run -Werror on chunks of files
+        for chunk in files.chunks(50) {
+            let mut cmd = Command::new(&clang_format_bin);
+            cmd.arg(format!("--style={}", style_arg));
+            cmd.args(["--dry-run", "-Werror"]);
+            for file in chunk {
+                if verbose {
+                    eprintln!("Checking (clang-format): {}", file.display());
+                }
+                cmd.arg(file);
             }
-            let output = Command::new(&clang_format_bin)
-                .arg(format!("--style={}", style_arg))
-                .args(["--dry-run", "-Werror"])
-                .arg(file)
-                .output()
-                .context("Failed to run clang-format")?;
+            let output = cmd.output().context("Failed to run clang-format")?;
             if !output.status.success() {
-                eprintln!("Would reformat: {}", file.display());
+                let stderr = String::from_utf8_lossy(&output.stderr);
+                // Try to print which files would be reformatted (stderr usually contains this info)
+                eprintln!("clang-format would reformat files in this batch:\n{}", stderr);
                 std::process::exit(1);
             }
         }
@@ -385,25 +486,40 @@ fn main() -> Result<()> {
 
     let mut total_files: usize = 0;
 
-    // Load clang-format ignore list from <root>/clang-format-ignore.json
+    // Load nelson-format ignore list from <root>/nelson-format-ignore.json
     let ignore = load_clang_format_ignore(&root)?;
 
     // --- Standard files (JSON, YAML, MD, JS, XML help docs) ---------------
-    for entry in WalkDir::new(&root)
+    let entries: Vec<_> = WalkDir::new(&root)
         .into_iter()
         .filter_entry(|e| !is_skipped_dir(e, &ignore))
         .filter_map(|e| e.ok())
-    {
-        if entry.file_type().is_dir() {
-            continue;
-        }
-        let path = entry.path();
-        if let Some(ext) = standard_file_kind(path, &root) {
-            total_files += 1;
-            match process_file(path, ext, args.check, args.verbose) {
-                Ok(_) => {}
-                Err(e) => eprintln!("Error processing {}: {:#}", path.display(), e),
+        .filter(|entry| !entry.file_type().is_dir())
+        .collect();
+
+    // Use parallel iterator for faster processing
+    let results: Vec<_> = entries.par_iter()
+        .filter_map(|entry| {
+            let path = entry.path();
+            if is_path_excluded(path, &root, &ignore) {
+                return None;
             }
+            if let Some(ext) = standard_file_kind(path, &root) {
+                Some((path.to_path_buf(), ext))
+            } else {
+                None
+            }
+        })
+        .map(|(path, ext)| {
+            let res = process_file(&path, ext, args.check, args.verbose);
+            (res, path)
+        })
+        .collect();
+
+    total_files += results.len();
+    for (res, path) in results {
+        if let Err(e) = res {
+            eprintln!("Error processing {}: {:#}", path.display(), e);
         }
     }
 
@@ -429,6 +545,63 @@ mod tests {
     use speculoos::prelude::*;
     use std::fs;
     use tempfile::TempDir;
+
+    // -----------------------------------------------------------------------
+    // Parallel processing (integration/logic test)
+    // -----------------------------------------------------------------------
+    #[test]
+    fn parallel_processing_multiple_files() {
+        let tmp = TempDir::new().unwrap();
+        let file1 = tmp.path().join("a.md");
+        let file2 = tmp.path().join("b.md");
+        let file3 = tmp.path().join("c.md");
+        fs::write(&file1, "foo   \nbar\n").unwrap();
+        fs::write(&file2, "baz\nqux   \n").unwrap();
+        fs::write(&file3, "hello\nworld\n").unwrap();
+
+        let files = vec![file1.clone(), file2.clone(), file3.clone()];
+        let results: Vec<_> = files.par_iter()
+            .map(|path| process_file(path, "md", false, false))
+            .collect();
+        for res in results {
+            assert_that(&res.is_ok()).is_true();
+        }
+        let content1 = fs::read_to_string(&file1).unwrap();
+        let content2 = fs::read_to_string(&file2).unwrap();
+        let content3 = fs::read_to_string(&file3).unwrap();
+        assert_that(&content1).is_equal_to("foo\nbar\n".to_string());
+        assert_that(&content2).is_equal_to("baz\nqux\n".to_string());
+        assert_that(&content3).is_equal_to("hello\nworld\n".to_string());
+    }
+
+    // -----------------------------------------------------------------------
+    // Fast path for basic_cleanup (unit test)
+    // -----------------------------------------------------------------------
+    #[test]
+    fn process_file_fast_path_skips_clean_file() {
+        let tmp = TempDir::new().unwrap();
+        let file_path = tmp.path().join("clean.md");
+        let clean_content = "already clean\n";
+        fs::write(&file_path, clean_content).unwrap();
+        // Should not rewrite or change the file
+        let result = process_file(&file_path, "md", false, false).unwrap();
+        assert_that(&result).is_true();
+        let content = fs::read_to_string(&file_path).unwrap();
+        assert_that(&content).is_equal_to(clean_content.to_string());
+    }
+
+    #[test]
+    fn process_file_fast_path_detects_dirty_file() {
+        let tmp = TempDir::new().unwrap();
+        let file_path = tmp.path().join("dirty.md");
+        let dirty_content = "foo   \nbar\n\n";
+        fs::write(&file_path, dirty_content).unwrap();
+        // Should rewrite the file to clean form
+        let result = process_file(&file_path, "md", false, false).unwrap();
+        assert_that(&result).is_true();
+        let content = fs::read_to_string(&file_path).unwrap();
+        assert_that(&content).is_equal_to("foo\nbar\n".to_string());
+    }
 
     // -----------------------------------------------------------------------
     // basic_cleanup

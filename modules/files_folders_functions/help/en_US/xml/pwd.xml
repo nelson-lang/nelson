@@ -16,7 +16,8 @@
   </param_output>
   <description>
     <p>Returns the current working directory.</p>
-    <p><b
+    <p>
+      <b
       >pwd()</b> without input argument displays the current working directory.</p>
     <p />
   </description>

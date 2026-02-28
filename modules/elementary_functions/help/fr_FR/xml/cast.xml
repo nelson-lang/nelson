@@ -7,7 +7,7 @@
   >Convertit une variable vers un autre type de données</short_description>
   <syntax>
     <syntax_item>R = cast(V, type_destination)</syntax_item>
-    <syntax_item>R = cast(V, 'like', W)</syntax_item>
+    <syntax_item>R = cast(V, &apos;like&apos;, W)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -32,9 +32,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>cast</b> convertit une variable vers un autre type de données.</p>
-    <p><b
-      >R = cast(V, 'like', W)</b> convertit la variable V pour qu'elle ait la même sparsité et le même type de données que W.</p>
+    <p>
+      <b>cast</b> convertit une variable vers un autre type de données.</p>
+    <p>
+      <b
+      >R = cast(V, &apos;like&apos;, W)</b> convertit la variable V pour qu&apos;elle ait la même sparsité et le même type de données que W.</p>
   </description>
   <used_function />
   <bibliography />

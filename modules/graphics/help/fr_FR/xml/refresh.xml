@@ -15,8 +15,10 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>refresh</b> efface et redessine la figure courante.</p>
-    <p><b>refresh(F)</b> redessine la figure identifiée par <b>F</b>.</p>
+    <p>
+      <b>refresh</b> efface et redessine la figure courante.</p>
+    <p>
+      <b>refresh(F)</b> redessine la figure identifiée par <b>F</b>.</p>
   </description>
   <used_function />
   <bibliography />

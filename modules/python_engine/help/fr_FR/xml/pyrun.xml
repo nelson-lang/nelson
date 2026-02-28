@@ -19,7 +19,7 @@
     <param_input_item>
       <param_name>pyName, pyValue</param_name>
       <param_description
-      >noms et valeurs des arguments d'entrée</param_description>
+      >noms et valeurs des arguments d&apos;entrée</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>outputs</param_name>
@@ -31,20 +31,23 @@
     <param_output_item>
       <param_name>outvars</param_name>
       <param_description
-      >Une ou plusieurs variables de l'espace de travail Nelson renvoyées sous des types Python valides.</param_description>
+      >Une ou plusieurs variables de l&apos;espace de travail Nelson renvoyées sous des types Python valides.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >pyrun(code)</b> exécute les instructions Python contenues dans la chaîne code au sein de l'interpréteur Python.</p>
+    <p>
+      <b
+      >pyrun(code)</b> exécute les instructions Python contenues dans la chaîne code au sein de l&apos;interpréteur Python.</p>
     <p>Les variables générées par <b
       >pyrun</b> restent persistantes, permettant leur réutilisation dans des appels <b
       >pyrun</b> ultérieurs.</p>
-    <p><b
+    <p>
+      <b
       >outvars = pyrun(code, outputs)</b> : les variables Python spécifiées dans outputs sont renvoyées à Nelson.</p>
     <p>Les valeurs de ces variables sont capturées dans <b>outvars</b>.</p>
-    <p><b>outvars = pyrun(code, outputs, pyName, pyValue)</b> : le <b
-      >code</b> est exécuté avec des noms/valeurs d'entrée et de sortie fournis depuis Nelson via des paires nom-valeur.</p>
+    <p>
+      <b>outvars = pyrun(code, outputs, pyName, pyValue)</b> : le <b
+      >code</b> est exécuté avec des noms/valeurs d&apos;entrée et de sortie fournis depuis Nelson via des paires nom-valeur.</p>
   </description>
   <used_function />
   <bibliography />

@@ -30,11 +30,18 @@ print_status "Installing build tools"
 apt-get install -y build-essential cmake autotools-dev libtool automake \
                    pkg-config gettext just
 
-print_status "Installing clang-format-21"
-curl -fsSL -o /usr/local/bin/clang-format-21 \
-  https://github.com/muttleyxd/clang-tools-static-binaries/releases/download/master-47a7eb4e/clang-format-21_linux-amd64
-chmod +x /usr/local/bin/clang-format-21
-ln -sf /usr/local/bin/clang-format-21 /usr/local/bin/clang-format
+# Install clang-format-20 (static binary on amd64, fallback to apt otherwise)
+arch=$(uname -m)
+if [ "$arch" = "x86_64" ]; then
+  print_status "Installing clang-format-20 (static binary)"
+  curl -fsSL -o /usr/local/bin/clang-format-20 \
+    https://github.com/muttleyxd/clang-tools-static-binaries/releases/download/master-796e77c/clang-format-20_linux-amd64
+  chmod +x /usr/local/bin/clang-format-20
+  ln -sf /usr/local/bin/clang-format-20 /usr/local/bin/clang-format
+else
+  print_status "Installing clang-format-20 from apt"
+  apt-get install -y clang-format-20
+fi
 
 print_status "Installing Rust toolchain"
 if ! command -v rustup &>/dev/null; then

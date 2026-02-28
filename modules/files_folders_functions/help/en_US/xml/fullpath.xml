@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>fullpath(path)</b> returns full path from a relative path.</p>
+    <p>
+      <b>fullpath(path)</b> returns full path from a relative path.</p>
   </description>
   <used_function />
   <bibliography />

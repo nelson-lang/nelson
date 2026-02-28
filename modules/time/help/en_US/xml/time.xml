@@ -7,8 +7,8 @@
   >Return the current time as the number of seconds or nanoseconds since the epoch.</short_description>
   <syntax>
     <syntax_item>t_s = time()</syntax_item>
-    <syntax_item>t_s = time('s')</syntax_item>
-    <syntax_item>t_ns = time('ns')</syntax_item>
+    <syntax_item>t_s = time(&apos;s&apos;)</syntax_item>
+    <syntax_item>t_ns = time(&apos;ns&apos;)</syntax_item>
   </syntax>
   <param_output>
     <param_output_item>
@@ -23,7 +23,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >time</b> returns the current time as the number of seconds or nanoseconds since the epoch.</p>
     <p
     >The epoch is referenced to 00:00:00 UTC (Coordinated Universal Time) 1 Jan 1970.</p>

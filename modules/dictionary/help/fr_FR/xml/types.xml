@@ -28,10 +28,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >keyType = types(d)</b> renvoie le type de données des clés du dictionnaire.</p>
-    <p><b
-      >[keyType, valueType] = types(d)</b> renvoie les types de données des clés et valeurs du dictionnaire spécifié. Si le dictionnaire d n'est pas configuré, types renvoie un scalaire string indiquant <b
+    <p>
+      <b
+      >[keyType, valueType] = types(d)</b> renvoie les types de données des clés et valeurs du dictionnaire spécifié. Si le dictionnaire d n&apos;est pas configuré, types renvoie un scalaire string indiquant <b
       >missing</b>.</p>
   </description>
   <used_function />

@@ -21,7 +21,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>Inf</b> retourne le symbole IEEE Inf (Infini).</p>
+    <p>
+      <b>Inf</b> retourne le symbole IEEE Inf (Infini).</p>
   </description>
   <used_function />
   <bibliography />

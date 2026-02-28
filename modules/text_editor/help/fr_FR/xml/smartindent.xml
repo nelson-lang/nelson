@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>smartindent</keyword>
   <short_description
-  >Indentation intelligente d'un fichier Nelson</short_description>
+  >Indentation intelligente d&apos;un fichier Nelson</short_description>
   <syntax>
     <syntax_item>smartindent(filename)</syntax_item>
     <syntax_item>smartindent(filename, indentsize)</syntax_item>
@@ -25,8 +25,9 @@
       <param_description>un booléen : false par défaut</param_description>
     </param_input_item>
   </param_input>
-  <description><b
-    >smartindent</b> indente le code pour faciliter la lecture d'instructions telles que les boucles while.</description>
+  <description>
+    <b
+    >smartindent</b> indente le code pour faciliter la lecture d&apos;instructions telles que les boucles while.</description>
   <used_function />
   <bibliography />
   <see_also>

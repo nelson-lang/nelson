@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>white</b> returns the colormap with white colors.</p>
+    <p>
+      <b>white</b> returns the colormap with white colors.</p>
   </description>
   <used_function />
   <bibliography />

@@ -24,7 +24,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>cla</b> efface les axes courants.</p>
+    <p>
+      <b>cla</b> efface les axes courants.</p>
   </description>
   <used_function />
   <bibliography />

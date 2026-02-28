@@ -34,7 +34,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >normpdf</b> calcule la fonction de densité de probabilité de la loi normale (gaussienne).</p>
     <p>La formule générale pour la densité de la loi normale est :</p>
     <latex

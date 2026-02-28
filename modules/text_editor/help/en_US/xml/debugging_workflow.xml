@@ -3,56 +3,33 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>debugging workflow</keyword>
-
   <short_description
   >Debugging workflow for Nelson code files.</short_description>
-
   <description>
-    <p>
-      The Nelson debugger provides interactive tools to diagnose and fix
+    <p>      The Nelson debugger provides interactive tools to diagnose and fix
       problems in scripts and functions by controlling execution and
-      inspecting program state.
-    </p>
-
-    <p>
-      A typical debugging workflow consists of preparing the code,
+      inspecting program state.</p>
+    <p>      A typical debugging workflow consists of preparing the code,
       pausing execution at specific locations, examining variable values,
-      stepping through instructions, and resuming or stopping execution.
-    </p>
-
-    <p>
-      Before starting a debugging session, ensure that all code files
+      stepping through instructions, and resuming or stopping execution.</p>
+    <p>      Before starting a debugging session, ensure that all code files
       are saved and accessible from the current folder or search path.
       Unsaved changes may not be taken into account when running code
-      from the command line.
-    </p>
-
-    <p>
-      Execution can be paused by setting breakpoints or interrupting
+      from the command line.</p>
+    <p>      Execution can be paused by setting breakpoints or interrupting
       a running program. When execution is paused, Nelson enters debug
       mode and the command prompt changes to indicate that the debugger
-      has control.
-    </p>
-
-    <p>
-      While execution is paused, the current line has not yet been
+      has control.</p>
+    <p>      While execution is paused, the current line has not yet been
       executed. You can inspect variables in the current workspace,
       execute code line by line, step into or out of functions, or
-      continue execution until the next breakpoint.
-    </p>
-
-    <p>
-      Each function has its own workspace. When stepping into a function,
-      the active workspace changes to reflect the function context.
-    </p>
-
-    <p>
-      After identifying the problem, end the debugging session to return
+      continue execution until the next breakpoint.</p>
+    <p>      Each function has its own workspace. When stepping into a function,
+      the active workspace changes to reflect the function context.</p>
+    <p>      After identifying the problem, end the debugging session to return
       to normal execution mode. Ending the session restores the standard
-      command prompt and clears the debugger context.
-    </p>
+      command prompt and clears the debugger context.</p>
   </description>
-
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
@@ -70,7 +47,6 @@ plot([0,n],[m,m])
 hold off
 title("Mean of Random Uniform Data")]]></example_item_data>
     </example_item>
-
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
@@ -80,12 +56,11 @@ title("Mean of Random Uniform Data")]]></example_item_data>
         align="middle"
         generate="false"
       />
-     </example_item>
-
+    </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Start debugging by calling the demo_debugger function from the command line or "Run file" button.</example_item_description>
+      >Start debugging by calling the demo_debugger function from the command line or &quot;Run file&quot; button.</example_item_description>
       <example_item_img
         src="../../images/stop_at_breakpoint.png"
         align="middle"
@@ -93,9 +68,8 @@ title("Mean of Random Uniform Data")]]></example_item_data>
       />
     </example_item>
   </examples>
-
   <see_also>
-     <see_also_item>
+    <see_also_item>
       <link linkend="${text_editor}edit">edit</link>
     </see_also_item>
     <see_also_item>
@@ -114,14 +88,12 @@ title("Mean of Random Uniform Data")]]></example_item_data>
       <link linkend="${debugger}dbstatus">dbstatus</link>
     </see_also_item>
   </see_also>
-
   <history>
     <history_item>
       <history_version>1.16.0</history_version>
       <history_description>Initial version</history_description>
     </history_item>
   </history>
-
   <authors>
     <author_item>Allan CORNET</author_item>
   </authors>

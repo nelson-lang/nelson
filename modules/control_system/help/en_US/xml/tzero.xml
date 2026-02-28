@@ -52,7 +52,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >tzero</b> function is employed to extract the invariant zeros of a Multiple Input, Multiple Output (MIMO) dynamic system described by the system model <b
       >sys</b>.</p>
     <p>In cases where <b

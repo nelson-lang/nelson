@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>dllibisloaded</b> returns if share library is already loaded.</p>
+    <p>
+      <b>dllibisloaded</b> returns if share library is already loaded.</p>
   </description>
   <used_function />
   <bibliography />

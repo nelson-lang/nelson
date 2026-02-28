@@ -21,7 +21,8 @@
       <param_description>le tableau logique</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >isletter</b> détermine quels caractères sont des espaces.</description>
   <used_function />
   <bibliography />

@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>step</keyword>
-  <short_description
-  >Réponse indicielle d'un système dynamique.</short_description>
+  <short_description
+  >Réponse indicielle d&apos;un système dynamique.</short_description>
   <syntax>
     <syntax_item>[y, t, x] = step(sys)</syntax_item>
     <syntax_item>[y, t, x] = step(sys, t)</syntax_item>
@@ -22,19 +22,19 @@
     </param_input_item>
     <param_input_item>
       <param_name>tFinal</param_name>
-      <param_description
+      <param_description
       >Temps final pour la réponse indicielle : scalaire.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>[t0, tFinal]</param_name>
-      <param_description
+      <param_description
       >Plage de temps pour la réponse indicielle : vecteur à deux éléments.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>y</param_name>
-      <param_description
+      <param_description
       >Données de réponse simulées : matrice ou vecteur.</param_description>
     </param_output_item>
     <param_output_item>
@@ -43,34 +43,34 @@
     </param_output_item>
     <param_output_item>
       <param_name>x</param_name>
-      <param_description
-      >Trajectoires d'état : matrice ou vecteur.</param_description>
+      <param_description
+      >Trajectoires d&apos;état : matrice ou vecteur.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p
-    >La fonction calcule et trace la réponse indicielle du système dynamique pour les conditions et l'intervalle de temps fournis.</p>
+    <p
+    >La fonction calcule et trace la réponse indicielle du système dynamique pour les conditions et l&apos;intervalle de temps fournis.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[A = [-10 -20 -30;1  0  0; 0  1  0];
-B = [1;   0;   0];
-C = [0   0   1];
-D = 0;
-T = [0:0.1:1];
-U = zeros(size(T, 1), size(T, 2));
-X0 = [0.1 0.1 0.1];
-sys = ss(A, B, C, D);
-step(sys);
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[A = [-10 -20 -30;1  0  0; 0  1  0];
+B = [1;   0;   0];
+C = [0   0   1];
+D = 0;
+T = [0:0.1:1];
+U = zeros(size(T, 1), size(T, 2));
+X0 = [0.1 0.1 0.1];
+sys = ss(A, B, C, D);
+step(sys);
 ]]></example_item_data>
-      <example_item_img
-        src="../images/step.svg"
-        align="middle"
-        generate="true"
+      <example_item_img
+        src="../images/step.svg"
+        align="middle"
+        generate="true"
       />
     </example_item>
   </examples>

@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>res = det(x)</b> returns the determinant of square matrix x.</p>
+    <p>
+      <b>res = det(x)</b> returns the determinant of square matrix x.</p>
     <p>For a</p>
     <latex>2 \times 2</latex>
     <p>matrix:</p>

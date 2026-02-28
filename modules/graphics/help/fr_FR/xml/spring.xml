@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>spring</keyword>
-  <short_description>Table de couleurs 'spring'.</short_description>
+  <short_description>Table de couleurs &apos;spring&apos;.</short_description>
   <syntax>
     <syntax_item>c = spring</syntax_item>
     <syntax_item>c = spring(m)</syntax_item>
@@ -18,11 +18,12 @@
   <param_output>
     <param_output_item>
       <param_name>c</param_name>
-      <param_description>Table de couleurs 'spring'.</param_description>
+      <param_description>Table de couleurs &apos;spring&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >spring</b> retourne la table de couleurs avec des couleurs de printemps.</p>
   </description>
   <used_function />

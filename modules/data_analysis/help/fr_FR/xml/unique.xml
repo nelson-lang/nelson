@@ -6,7 +6,7 @@
   <short_description>Valeurs uniques.</short_description>
   <syntax>
     <syntax_item>C = unique(A)</syntax_item>
-    <syntax_item>C = unique(A, 'rows')</syntax_item>
+    <syntax_item>C = unique(A, &apos;rows&apos;)</syntax_item>
     <syntax_item>[C, ia, ic] = unique(...)</syntax_item>
   </syntax>
   <param_input>
@@ -31,20 +31,23 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>C = unique(A)</b> renvoie les éléments uniques du tableau <b
-      >A</b> dans l'ordre trié.</p>
-    <p><b>C = unique(A, 'rows')</b> considère chaque ligne de <b
-      >A</b> comme une entité unique et renvoie les lignes uniques dans l'ordre trié.</p>
+    <p>
+      <b>C = unique(A)</b> renvoie les éléments uniques du tableau <b
+      >A</b> dans l&apos;ordre trié.</p>
+    <p>
+      <b>C = unique(A, &apos;rows&apos;)</b> considère chaque ligne de <b
+      >A</b> comme une entité unique et renvoie les lignes uniques dans l&apos;ordre trié.</p>
     <p
-    >Notez que l'option 'rows' ne prend pas en charge les cellules de tableaux.</p>
-    <p><b
-      >[C, ia, ic] = unique(...)</b> étend n'importe quelle syntaxe précédente pour également renvoyer les vecteurs d'indices <b
+    >Notez que l&apos;option &apos;rows&apos; ne prend pas en charge les cellules de tableaux.</p>
+    <p>
+      <b
+      >[C, ia, ic] = unique(...)</b> étend n&apos;importe quelle syntaxe précédente pour également renvoyer les vecteurs d&apos;indices <b
       >ia</b> et <b>ic</b>.</p>
     <p>Pour un vecteur <b>A</b>, les relations sont <b>C = A(ia)</b> et <b
       >A = C(ic)</b>.</p>
     <p>Pour une matrice ou un tableau <b>A</b>, les relations sont <b
       >C = A(ia)</b> et <b>A(:) = C(ic)</b>.</p>
-    <p>Si l'option 'rows' est utilisée, les relations sont <b
+    <p>Si l&apos;option &apos;rows&apos; est utilisée, les relations sont <b
       >C = A(ia, :)</b> et <b>A = C(ic, :)</b>.</p>
   </description>
   <used_function>std::sort, std::unique (stl)</used_function>

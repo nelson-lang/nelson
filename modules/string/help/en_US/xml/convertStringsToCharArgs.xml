@@ -23,7 +23,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >convertStringToCharArgs</b> converts either a cell array of string values or a string array into a cell array of character vectors.</p>
     <p
     >To convert a single string scalar to a character vector, use the char function instead.</p>

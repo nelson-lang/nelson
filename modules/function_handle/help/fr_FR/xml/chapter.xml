@@ -10,6 +10,6 @@
     <p
     >Il prend en charge les fonctions anonymes, la conversion entre chaînes et function handles, ainsi que la vérification des objets function_handle.</p>
     <p
-    >Ce module permet une invocation de fonctions flexible et dynamique, autorisant le passage, le stockage et l'exécution programmatiques de fonctions.</p>
+    >Ce module permet une invocation de fonctions flexible et dynamique, autorisant le passage, le stockage et l&apos;exécution programmatiques de fonctions.</p>
   </chapter_description>
 </xmldoc>

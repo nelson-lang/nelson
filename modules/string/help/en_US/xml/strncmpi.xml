@@ -32,7 +32,8 @@
       >a logical: true if the two are identical and false otherwise.</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >strncmpi</b> compares the first n characters of two strings (case insensitive).</description>
   <used_function />
   <bibliography />

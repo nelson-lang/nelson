@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>username</keyword>
-  <short_description>obtenir le nom d'utilisateur courant.</short_description>
+  <short_description>obtenir le nom d&apos;utilisateur courant.</short_description>
   <syntax>
     <syntax_item>s = username()</syntax_item>
   </syntax>
@@ -11,11 +11,12 @@
     <param_output_item>
       <param_name>s</param_name>
       <param_description
-      >un tableau de caractères : nom d'utilisateur.</param_description>
+      >un tableau de caractères : nom d&apos;utilisateur.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>username</b> renvoie le nom d'utilisateur actuellement utilisé.</p>
+    <p>
+      <b>username</b> renvoie le nom d&apos;utilisateur actuellement utilisé.</p>
   </description>
   <used_function />
   <bibliography />

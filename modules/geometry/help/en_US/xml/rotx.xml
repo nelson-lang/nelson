@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >rotx</b> returns 3x3 transformation matrix for rotations around x-axis.</p>
   </description>
   <used_function />

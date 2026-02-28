@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>ifftshift(X)</b> calcule l'inverse de <b>fftshift</b>.</p>
+    <p>
+      <b>ifftshift(X)</b> calcule l&apos;inverse de <b>fftshift</b>.</p>
   </description>
   <used_function />
   <bibliography />

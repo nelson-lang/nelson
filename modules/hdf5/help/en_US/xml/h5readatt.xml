@@ -25,11 +25,12 @@
   <param_output>
     <param_output_item>
       <param_name>attval</param_name>
-      <param_description>a nelson's variable.</param_description>
+      <param_description>a nelson&apos;s variable.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>h5readatt</b> reads attribute named <b
+    <p>
+      <b>h5readatt</b> reads attribute named <b
       >attname</b> from the HDF5 file.</p>
   </description>
   <used_function />

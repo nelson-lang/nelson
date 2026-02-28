@@ -5,7 +5,8 @@
   <keyword>engOpen</keyword>
   <short_description>Start Nelson process</short_description>
   <syntax>
-    <syntax_item>#include "engine.h"</syntax_item>
+    <syntax_item>#include &quot;engine.h&quot;
+    </syntax_item>
     <syntax_item>Engine *engOpen(const char *startcmd);</syntax_item>
   </syntax>
   <param_input>
@@ -21,19 +22,26 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >engOpen</b> starts a Nelson process for using Nelson as a computational engine.</p>
     <p
-    >Libraries path need to contain nelson path to find Nelson's libraries at runtime.</p>
+    >Libraries path need to contain nelson path to find Nelson&apos;s libraries at runtime.</p>
     <p>Set the value to the path returned by the following Nelson command:</p>
-    <p><b>res</b> = modulepath('nelson', 'builtin')</p>
+    <p>
+      <b>res</b> = modulepath(&apos;nelson&apos;, &apos;builtin&apos;)</p>
     <p>on linux: export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<b
-      >res</b>              </p>
-    <p>export PATH=$PATH:<b>res</b>          </p>
+      >res</b>
+    </p>
+    <p>export PATH=$PATH:<b>res</b>
+    </p>
     <p>on macos: export DYLIB_LIBRARY_PATH=$DYLIB_LIBRARY_PATH:<b
-      >res</b>      </p>
-    <p>export PATH=$PATH:<b>res</b>  </p>
-    <p>on windows: set PATH=%PATH%;<b>res</b>  </p>
+      >res</b>
+    </p>
+    <p>export PATH=$PATH:<b>res</b>
+    </p>
+    <p>on windows: set PATH=%PATH%;<b>res</b>
+    </p>
   </description>
   <used_function />
   <bibliography />

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>audiorecorder_set</keyword>
   <short_description
-  >Définit la propriété d'un objet ou d'une interface à la valeur spécifiée.</short_description>
+  >Définit la propriété d&apos;un objet ou d&apos;une interface à la valeur spécifiée.</short_description>
   <syntax>
     <syntax_item>set(h, propertyname, value)</syntax_item>
     <syntax_item>audiorecorder_set(h, propertyname, value)</syntax_item>
@@ -18,7 +18,7 @@
     <param_input_item>
       <param_name>propertyname</param_name>
       <param_description
-      >une chaîne de caractères : le nom de la propriété de l'objet audiorecorder.</param_description>
+      >une chaîne de caractères : le nom de la propriété de l&apos;objet audiorecorder.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>value</param_name>

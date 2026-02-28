@@ -35,7 +35,7 @@
     <param_output_item>
       <param_name>B_OUT</param_name>
       <param_description
-      >The leading M-by-M part of this array contains the quasi-triangular Schur factor S of the matrix B'.</param_description>
+      >The leading M-by-M part of this array contains the quasi-triangular Schur factor S of the matrix B&apos;.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>C_OUT</param_name>
@@ -45,7 +45,7 @@
     <param_output_item>
       <param_name>Z</param_name>
       <param_description
-      >The leading M-by-M part of this array contains the orthogonal matrix Z used to transform B' to real upper Schur form.</param_description>
+      >The leading M-by-M part of this array contains the orthogonal matrix Z used to transform B&apos; to real upper Schur form.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>INFO</param_name>

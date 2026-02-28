@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>feof</b> checks if end of file has been reached.</p>
+    <p>
+      <b>feof</b> checks if end of file has been reached.</p>
   </description>
   <used_function />
   <bibliography />

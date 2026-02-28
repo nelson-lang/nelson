@@ -7,7 +7,7 @@
   <syntax>
     <syntax_item>editor()</syntax_item>
     <syntax_item>editor(filename)</syntax_item>
-    <syntax_item>editor('editor_command', cmd)</syntax_item>
+    <syntax_item>editor(&apos;editor_command&apos;, cmd)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -21,16 +21,19 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>editor</b> opens an existing file in the nelson's editor.</p>
-    <p><b>editor</b> must be considered as internal and <b
+    <p>
+      <b>editor</b> opens an existing file in the nelson&apos;s editor.</p>
+    <p>
+      <b>editor</b> must be considered as internal and <b
       >edit</b> must be preferred.</p>
     <p>Set another text editor as default: (example with VS code)</p>
     <p>
-      <code>editor('editor_command', 'code')</code>
+      <code>editor(&apos;editor_command&apos;, &apos;code&apos;)</code>
     </p>
     <p>To restore the default editor, use:</p>
     <p>
-      <code>editor('editor_command', '')</code>
+      <code>editor(&apos;editor_command&apos;, &apos;
+        &apos;)</code>
     </p>
     <p
     >Change text editor is persistent and will be saved in a configuration file.</p>

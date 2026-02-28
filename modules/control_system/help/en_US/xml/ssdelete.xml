@@ -35,7 +35,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >ssdelete</b> removes inputs, outputs and states from state-space system.</p>
   </description>
   <examples>

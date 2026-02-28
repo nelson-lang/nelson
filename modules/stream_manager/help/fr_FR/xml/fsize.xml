@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>fsize</keyword>
-  <short_description>Retourne la taille d'un fichier ouvert.</short_description>
+  <short_description>Retourne la taille d&apos;un fichier ouvert.</short_description>
   <syntax>
     <syntax_item>s = fsize(fid)</syntax_item>
   </syntax>
@@ -17,11 +17,12 @@
     <param_output_item>
       <param_name>s</param_name>
       <param_description
-      >une valeur entière : taille d'un fichier.</param_description>
+      >une valeur entière : taille d&apos;un fichier.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>fsize</b> retourne la taille d'un fichier ouvert par <b>fopen</b>.</p>
+    <p>
+      <b>fsize</b> retourne la taille d&apos;un fichier ouvert par <b>fopen</b>.</p>
   </description>
   <used_function />
   <bibliography />

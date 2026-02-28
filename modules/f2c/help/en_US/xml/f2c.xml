@@ -26,11 +26,13 @@
     </param_output_item>
     <param_output_item>
       <param_name>msg</param_name>
-      <param_description>a string: error message or ''.</param_description>
+      <param_description>a string: error message or &apos;
+        &apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>f2c</b> converts fortran 66, and fortran 77 files to C.</p>
+    <p>
+      <b>f2c</b> converts fortran 66, and fortran 77 files to C.</p>
   </description>
   <used_function />
   <bibliography />

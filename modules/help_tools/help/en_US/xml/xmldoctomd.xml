@@ -36,7 +36,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>xmldoctomd</b> converts xml Nelson help files to markdown format.</p>
+    <p>
+      <b>xmldoctomd</b> converts xml Nelson help files to markdown format.</p>
   </description>
   <used_function />
   <bibliography />

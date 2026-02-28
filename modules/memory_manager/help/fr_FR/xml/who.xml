@@ -10,8 +10,8 @@
     <syntax_item>s = who()</syntax_item>
     <syntax_item>who(scope)</syntax_item>
     <syntax_item>s = who(scope)</syntax_item>
-    <syntax_item>who('-file', filename)</syntax_item>
-    <syntax_item>s = who('-file', filename)</syntax_item>
+    <syntax_item>who(&apos;-file&apos;, filename)</syntax_item>
+    <syntax_item>s = who(&apos;-file&apos;, filename)</syntax_item>
     <syntax_item>who(... , var1, ..., varN)</syntax_item>
     <syntax_item>s = who(... , var1, ..., varN)</syntax_item>
   </syntax>
@@ -19,12 +19,12 @@
     <param_input_item>
       <param_name>scope</param_name>
       <param_description
-      >une chaîne : 'global', 'base', 'caller', 'local' ou '-file'.</param_description>
+      >une chaîne : &apos;global&apos;, &apos;base&apos;, &apos;caller&apos;, &apos;local&apos; ou &apos;-file&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>filename</param_name>
       <param_description
-      >chaîne : nom d'un fichier existant .nh5 ou .mat.</param_description>
+      >chaîne : nom d&apos;un fichier existant .nh5 ou .mat.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>var1, ..., varN</param_name>
@@ -39,7 +39,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>who</b> affiche les noms des variables courantes.</p>
+    <p>
+      <b>who</b> affiche les noms des variables courantes.</p>
   </description>
   <used_function />
   <bibliography />

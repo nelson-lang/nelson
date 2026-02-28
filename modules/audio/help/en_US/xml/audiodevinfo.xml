@@ -6,7 +6,7 @@
   <short_description>Get audio devices information.</short_description>
   <syntax>
     <syntax_item>devices = audiodevinfo()</syntax_item>
-    <syntax_item>devices = audiodevinfo('default')</syntax_item>
+    <syntax_item>devices = audiodevinfo(&apos;default&apos;)</syntax_item>
     <syntax_item>devices = audiodevinfo(io)</syntax_item>
     <syntax_item>name = audiodevinfo(io, id)</syntax_item>
     <syntax_item>id = audiodevinfo(io, name)</syntax_item>
@@ -63,10 +63,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >audiodevinfo</b> returns a structure with available audio input and output devices.</p>
-    <p><b
-      >devices = audiodevinfo('default')</b> returns a structure with default used audio input and output devices.</p>
+    <p>
+      <b
+      >devices = audiodevinfo(&apos;default&apos;)</b> returns a structure with default used audio input and output devices.</p>
   </description>
   <used_function />
   <bibliography />

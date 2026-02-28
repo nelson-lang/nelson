@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>sqrt</b> calcule la racine carrée.</p>
+    <p>
+      <b>sqrt</b> calcule la racine carrée.</p>
     <p>Pour les nombres réels positifs :</p>
     <latex>\sqrt{x}</latex>
     <p>Pour les nombres complexes <b>z = x + iy</b> :</p>

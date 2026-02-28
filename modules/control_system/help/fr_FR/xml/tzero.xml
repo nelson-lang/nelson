@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>tzero</keyword>
-  <short_description>Zéros invariants d'un système linéaire.</short_description>
+  <short_description>Zéros invariants d&apos;un système linéaire.</short_description>
   <syntax>
     <syntax_item>z = tzero(sys)</syntax_item>
     <syntax_item>z = tzero(A, B, C, D)</syntax_item>
@@ -19,7 +19,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>Matrice d'état : matrice Nx par Nx.</param_description>
+      <param_description>Matrice d&apos;état : matrice Nx par Nx.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B</param_name>
@@ -53,7 +53,7 @@
   </param_output>
   <description>
     <p
-    >Calcule les zéros invariants d'un système d'état ou renvoie également le rang numérique associé.</p>
+    >Calcule les zéros invariants d&apos;un système d&apos;état ou renvoie également le rang numérique associé.</p>
   </description>
   <examples>
     <example_item>

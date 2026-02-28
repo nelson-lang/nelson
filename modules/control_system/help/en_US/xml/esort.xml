@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>esort</keyword>
-  <short_description
+  <short_description
   >Sort continuous-time poles by real part.</short_description>
   <syntax>
     <syntax_item>s = esort(p)</syntax_item>
@@ -22,23 +22,24 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>esort</b> arranges the continuous-time poles within the vector <b
+    <p>
+      <b>esort</b> arranges the continuous-time poles within the vector <b
       >p</b> based on their real parts.</p>
-    <p
+    <p
     >Unstable eigenvalues take precedence at the beginning of the sorted list, and the rest of the poles are organized in descending order according to their real parts.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[p = [-2.410 + 5.573i;
--2.410 - 5.573i;
-1.503;
--0.972;
--2.590];
-[s, ndx] = esort(p)
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[p = [-2.410 + 5.573i;
+-2.410 - 5.573i;
+1.503;
+-0.972;
+-2.590];
+[s, ndx] = esort(p)
   ]]></example_item_data>
     </example_item>
   </examples>

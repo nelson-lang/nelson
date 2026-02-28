@@ -13,27 +13,27 @@
     <param_input_item>
       <param_name>A (n x n)</param_name>
       <param_description
-      >Represente la matrice de transition d'état du système. Elle décrit comment l'état interne du système évolue dans le temps.</param_description>
+      >Represente la matrice de transition d&apos;état du système. Elle décrit comment l&apos;état interne du système évolue dans le temps.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B (n x m)</param_name>
       <param_description
-      >Décrit la cartographie entrée-état. Elle montre comment les entrées de contrôle affectent le changement de l'état du système.</param_description>
+      >Décrit la cartographie entrée-état. Elle montre comment les entrées de contrôle affectent le changement de l&apos;état du système.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>C (p x n)</param_name>
       <param_description
-      >Représente la cartographie état-sortie. Elle montre comment les variables d'état du système sont liées aux sorties du système.</param_description>
+      >Représente la cartographie état-sortie. Elle montre comment les variables d&apos;état du système sont liées aux sorties du système.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>D (p x m)</param_name>
       <param_description
-      >Décrit le passage direct des entrées aux sorties. Dans de nombreux systèmes, cette matrice est nulle car il n'y a pas de passage direct.</param_description>
+      >Décrit le passage direct des entrées aux sorties. Dans de nombreux systèmes, cette matrice est nulle car il n&apos;y a pas de passage direct.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ni</param_name>
       <param_description
-      >Indice d'entrée : scalaire entier ou 1 (par défaut).</param_description>
+      >Indice d&apos;entrée : scalaire entier ou 1 (par défaut).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -50,7 +50,7 @@
   </param_output>
   <description>
     <p
-    >Convertit les matrices d'état A, B, C, D en numérateur et dénominateur d'une fonction de transfert.</p>
+    >Convertit les matrices d&apos;état A, B, C, D en numérateur et dénominateur d&apos;une fonction de transfert.</p>
   </description>
   <examples>
     <example_item>

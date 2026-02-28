@@ -53,9 +53,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>mesh</b> crée un maillage 3D (wireframe).</p>
+    <p>
+      <b>mesh</b> crée un maillage 3D (wireframe).</p>
     <p
-    >Vous pouvez personnaliser l'apparence du tracé avec différentes options comme la couleur, l'éclairage et l'ombrage.          </p>
+    >Vous pouvez personnaliser l&apos;apparence du tracé avec différentes options comme la couleur, l&apos;éclairage et l&apos;ombrage.          </p>
   </description>
   <used_function />
   <bibliography />

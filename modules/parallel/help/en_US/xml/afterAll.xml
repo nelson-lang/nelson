@@ -31,7 +31,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>B = afterAll(F, fcn, n)</b> returns a AfterAllFuture object<b
+    <p>
+      <b>B = afterAll(F, fcn, n)</b> returns a AfterAllFuture object<b
       >B</b>.</p>
     <p>Function<b
       >fcn</b> is automatically runned after all elements in the Future array<b

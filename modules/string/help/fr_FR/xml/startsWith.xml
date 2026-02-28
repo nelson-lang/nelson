@@ -7,8 +7,8 @@
   >Vérifie si une chaîne commence par un motif.</short_description>
   <syntax>
     <syntax_item>tf = startsWith(str, pattern)</syntax_item>
-    <syntax_item>tf = startsWith(str, pattern,'IgnoreCase', true)</syntax_item>
-    <syntax_item>tf = startsWith(str, pattern,'IgnoreCase', false)</syntax_item>
+    <syntax_item>tf = startsWith(str, pattern,&apos;IgnoreCase&apos;, true)</syntax_item>
+    <syntax_item>tf = startsWith(str, pattern,&apos;IgnoreCase&apos;, false)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -28,7 +28,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>startsWith</b> renvoie <b>true</b> si <b>str</b> commence par<b
+    <p>
+      <b>startsWith</b> renvoie <b>true</b> si <b>str</b> commence par<b
       >pattern</b>.</p>
   </description>
   <used_function />

@@ -3,10 +3,10 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>Opérateurs Python</keyword>
-  <short_description
+  <short_description
   >La représentation des opérateurs Python dans Nelson.</short_description>
   <description>
-    <p>Nelson facilite l'utilisation des opérateurs surchargés suivants :</p>
+    <p>Nelson facilite l&apos;utilisation des opérateurs surchargés suivants :</p>
     <table>
       <tr>
         <th>Symbole opérateur Python</th>
@@ -49,14 +49,18 @@
         <td>eq, ==</td>
       </tr>
       <tr>
-        <td>&gt; (opérateur binaire)</td>
+        <td>
+          &gt; (opérateur binaire)</td>
         <td>__gt__</td>
-        <td>gt, &gt;</td>
+        <td>gt, &gt;
+        </td>
       </tr>
       <tr>
-        <td>&lt; (opérateur binaire)</td>
+        <td>
+          &lt; (opérateur binaire)</td>
         <td>__lt__</td>
-        <td>lt, &lt;</td>
+        <td>lt, &lt;
+        </td>
       </tr>
       <tr>
         <td>!= (opérateur binaire)</td>
@@ -64,22 +68,25 @@
         <td>ne, ~=</td>
       </tr>
       <tr>
-        <td>&gt;= (opérateur binaire)</td>
+        <td>
+          &gt;= (opérateur binaire)</td>
         <td>__ge__</td>
         <td>ge, &gt;=</td>
       </tr>
       <tr>
-        <td>&lt;= (opérateur binaire)</td>
+        <td>
+          &lt;= (opérateur binaire)</td>
         <td>__le__</td>
         <td>le, &lt;=</td>
       </tr>
     </table>
     <p />
-    <p><b
+    <p>
+      <b
       >isequal</b> builtin est également surchargée pour gérer les types Python.</p>
-    <p>Pour les types numpy, <b>isequal</b> appelle <b
+    <p>Pour les types numpy, <b>isequal</b> appelle <b
       >numpy.array_equal</b> depuis Python.</p>
-    <p>D'autres opérateurs Python ne sont pas encore pris en charge.</p>
+    <p>D&apos;autres opérateurs Python ne sont pas encore pris en charge.</p>
   </description>
   <used_function />
   <bibliography />
@@ -87,11 +94,11 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-      ><![CDATA[pyrun('import numpy as np')
-R = pyrun('R = np.asarray(A)', "R", 'A', magic(3))
-R_A = R + R
-R_B = R * 2
+      <example_item_data
+      ><![CDATA[pyrun('import numpy as np')
+R = pyrun('R = np.asarray(A)', "R", 'A', magic(3))
+R_A = R + R
+R_B = R * 2
 isequal(R_A, R_B)]]></example_item_data>
     </example_item>
   </examples>

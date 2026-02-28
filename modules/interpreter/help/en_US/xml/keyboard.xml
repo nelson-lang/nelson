@@ -9,7 +9,8 @@
     <syntax_item>keyboard()</syntax_item>
   </syntax>
   <description>
-    <p><b
+    <p>
+      <b
       >keyboard</b> stops script execution and enter in debug mode. prompt is modified and displays debug level.</p>
   </description>
   <used_function />

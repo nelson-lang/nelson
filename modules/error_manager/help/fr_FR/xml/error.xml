@@ -12,7 +12,7 @@
   <param_input>
     <param_input_item>
       <param_name>id</param_name>
-      <param_description>une chaîne : identifiant d'erreur.</param_description>
+      <param_description>une chaîne : identifiant d&apos;erreur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>msg</param_name>
@@ -20,14 +20,17 @@
     </param_input_item>
     <param_input_item>
       <param_name>error_structure</param_name>
-      <param_description>structure du message d'erreur.</param_description>
+      <param_description>structure du message d&apos;erreur.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b>error</b> arrête l'exécution du script en cours.</p>
-    <p><b>error('')</b> sera ignorée et le script continuera à s'exécuter.</p>
-    <p
-    >L'identifiant inclut un ou plusieurs champs composants et un champ mnémonique (exemple : 'nelson:matrix:empty').</p>
+    <p>
+      <b>error</b> arrête l&apos;exécution du script en cours.</p>
+    <p>
+      <b>error(&apos;
+        &apos;)</b> sera ignorée et le script continuera à s&apos;exécuter.</p>
+    <p
+    >L&apos;identifiant inclut un ou plusieurs champs composants et un champ mnémonique (exemple : &apos;nelson:matrix:empty&apos;).</p>
   </description>
   <used_function />
   <bibliography />
@@ -35,21 +38,21 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-      ><![CDATA[error('your error message.')
-error('nelson:identifier', 'your error message.')
-
+      <example_item_data
+      ><![CDATA[error('your error message.')
+error('nelson:identifier', 'your error message.')
+
 error('')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-      ><![CDATA[ 1 / [1 2 3]
-a = lasterror()
-lasterror('reset')
-b = lasterror()
-error(a)
+      <example_item_data
+      ><![CDATA[ 1 / [1 2 3]
+a = lasterror()
+lasterror('reset')
+b = lasterror()
+error(a)
 c = lasterror()]]></example_item_data>
     </example_item>
   </examples>

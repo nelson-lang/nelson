@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>C = uminus(A)</b> effectue l'opération unaire moins, c.-à-d. -A.</p>
+    <p>
+      <b>C = uminus(A)</b> effectue l&apos;opération unaire moins, c.-à-d. -A.</p>
   </description>
   <used_function />
   <bibliography />

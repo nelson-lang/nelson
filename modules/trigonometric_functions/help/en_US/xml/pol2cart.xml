@@ -42,7 +42,8 @@
       >a numeric value (double or single real): Cartesian coordinates</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >pol2cart</b> transforms polar or cylindrical coordinates to Cartesian.</description>
   <used_function />
   <bibliography />

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>isfolder</keyword>
   <short_description
-  >Retourne vrai si l'argument est un répertoire.</short_description>
+  >Retourne vrai si l&apos;argument est un répertoire.</short_description>
   <syntax>
     <syntax_item>r = isfolder(dirname)</syntax_item>
   </syntax>
@@ -19,11 +19,12 @@
     <param_output_item>
       <param_name>r</param_name>
       <param_description
-      >un booléen: vrai si c'est un répertoire.</param_description>
+      >un booléen: vrai si c&apos;est un répertoire.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>isfolder(dirname)</b> renvoie <b>true</b> si<b
+    <p>
+      <b>isfolder(dirname)</b> renvoie <b>true</b> si<b
       >dirname</b> est un répertoire.</p>
   </description>
   <used_function />

@@ -13,12 +13,12 @@
     <param_input_item>
       <param_name>JOB</param_name>
       <param_description
-      >Détermine si les paramètres RANK et TOL doivent être fournis par l'utilisateur ou calculés par la routine : = 'R' : calculer RANK uniquement ; = 'T' : calculer TOL uniquement ; = 'B' : calculer à la fois RANK et TOL ; = 'N' : ne calculer ni RANK ni TOL.</param_description>
+      >Détermine si les paramètres RANK et TOL doivent être fournis par l&apos;utilisateur ou calculés par la routine : = &apos;R&apos; : calculer RANK uniquement ; = &apos;T&apos; : calculer TOL uniquement ; = &apos;B&apos; : calculer à la fois RANK et TOL ; = &apos;N&apos; : ne calculer ni RANK ni TOL.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>M</param_name>
       <param_description
-      >Le nombre de lignes de la matrice de données A et de la matrice d'observation B.</param_description>
+      >Le nombre de lignes de la matrice de données A et de la matrice d&apos;observation B.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>N</param_name>
@@ -28,12 +28,12 @@
     <param_input_item>
       <param_name>L</param_name>
       <param_description
-      >Le nombre de colonnes de la matrice d'observation B.</param_description>
+      >Le nombre de colonnes de la matrice d&apos;observation B.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>RANK_IN</param_name>
       <param_description
-      >Si JOB = 'T' ou JOB = 'N', RANK doit préciser r, le rang de l'approximation TLS [A + DA | B + DB].</param_description>
+      >Si JOB = &apos;T&apos; ou JOB = &apos;N&apos;, RANK doit préciser r, le rang de l&apos;approximation TLS [A + DA | B + DB].</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>C_IN</param_name>
@@ -43,19 +43,19 @@
     <param_input_item>
       <param_name>TOL</param_name>
       <param_description
-      >Une tolérance utilisée pour déterminer le rang de l'approximation TLS [A+DA|B+DB] et vérifier la multiplicité des valeurs singulières de la matrice C.</param_description>
+      >Une tolérance utilisée pour déterminer le rang de l&apos;approximation TLS [A+DA|B+DB] et vérifier la multiplicité des valeurs singulières de la matrice C.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>RANK_OUT</param_name>
       <param_description
-      >Si JOB = 'R' ou JOB = 'B', et INFO = 0, RANK contient le rang (effectif) calculé de l'approximation TLS [A + DA | B + DB].</param_description>
+      >Si JOB = &apos;R&apos; ou JOB = &apos;B&apos;, et INFO = 0, RANK contient le rang (effectif) calculé de l&apos;approximation TLS [A + DA | B + DB].</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>C_OUT</param_name>
       <param_description
-      >La partie principale (N+L)-by-(N+L) de ce tableau contient les vecteurs singuliers droits (transformés), y compris les vecteurs d'espace nul, le cas échéant, de C = [A | B].</param_description>
+      >La partie principale (N+L)-by-(N+L) de ce tableau contient les vecteurs singuliers droits (transformés), y compris les vecteurs d&apos;espace nul, le cas échéant, de C = [A | B].</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>S</param_name>
@@ -70,7 +70,7 @@
     <param_output_item>
       <param_name>IWARN</param_name>
       <param_description
-      >= 0 : pas d'avertissement ; = 1 : le rang de la matrice C a été réduit car une valeur singulière de multiplicité &gt;1 a été trouvée ; = 2 : le rang de C a été réduit car la matrice triangulaire supérieure F est (numériquement) singulière.</param_description>
+      >= 0 : pas d&apos;avertissement ; = 1 : le rang de la matrice C a été réduit car une valeur singulière de multiplicité &gt;1 a été trouvée ; = 2 : le rang de C a été réduit car la matrice triangulaire supérieure F est (numériquement) singulière.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>INFO</param_name>
@@ -79,7 +79,7 @@
   </param_output>
   <description>
     <p
-    >Résoudre le problème des moindres carrés totaux (TLS) en utilisant une décomposition en valeurs singulières (SVD). Le problème TLS suppose un système surdéterminé d'équations linéaires AX = B, où la matrice de données A et la matrice d'observation B sont inexactes. La routine résout également des systèmes déterminés et sous-déterminés en calculant la solution de norme minimale. On suppose que toutes les opérations de prétraitement (mise à l'échelle, transformations de coordonnées, blanchiment, ...) ont été réalisées au préalable.</p>
+    >Résoudre le problème des moindres carrés totaux (TLS) en utilisant une décomposition en valeurs singulières (SVD). Le problème TLS suppose un système surdéterminé d&apos;équations linéaires AX = B, où la matrice de données A et la matrice d&apos;observation B sont inexactes. La routine résout également des systèmes déterminés et sous-déterminés en calculant la solution de norme minimale. On suppose que toutes les opérations de prétraitement (mise à l&apos;échelle, transformations de coordonnées, blanchiment, ...) ont été réalisées au préalable.</p>
   </description>
   <used_function>MB02MD</used_function>
   <bibliography

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>MPI_Finalize</keyword>
   <short_description
-  >Termine l'environnement d'exécution MPI.</short_description>
+  >Termine l&apos;environnement d&apos;exécution MPI.</short_description>
   <syntax>
     <syntax_item>MPI_Finalize()</syntax_item>
     <syntax_item>r = MPI_Finalize()</syntax_item>
@@ -16,9 +16,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Termine l'environnement d'exécution MPI.</p>
+    <p>Termine l&apos;environnement d&apos;exécution MPI.</p>
     <p
-    >Les processus MPI sont lancés en mode CLI (pas d'interface graphique, pas d'affichage).</p>
+    >Les processus MPI sont lancés en mode CLI (pas d&apos;interface graphique, pas d&apos;affichage).</p>
   </description>
   <used_function />
   <bibliography />

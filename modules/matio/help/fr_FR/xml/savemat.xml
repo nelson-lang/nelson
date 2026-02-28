@@ -4,12 +4,12 @@
   <language>fr_FR</language>
   <keyword>savemat</keyword>
   <short_description
-  >enregistre les variables de l'espace de travail dans un fichier .mat</short_description>
+  >enregistre les variables de l&apos;espace de travail dans un fichier .mat</short_description>
   <syntax>
     <syntax_item>savemat(filename)</syntax_item>
     <syntax_item>savemat(filename, version, var1, ..., varN)</syntax_item>
-    <syntax_item>savemat(filename, '-append', ...)</syntax_item>
-    <syntax_item>savemat(filename, '-nocompression', ...)</syntax_item>
+    <syntax_item>savemat(filename, &apos;-append&apos;, ...)</syntax_item>
+    <syntax_item>savemat(filename, &apos;-nocompression&apos;, ...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -19,36 +19,47 @@
     <param_input_item>
       <param_name>var1, ..., varN</param_name>
       <param_description
-      >une chaîne : noms des variables à enregistrer depuis l'espace de travail de Nelson.</param_description>
+      >une chaîne : noms des variables à enregistrer depuis l&apos;espace de travail de Nelson.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-v7.3'</param_name>
+      <param_name>
+        &apos;-v7.3&apos;
+      </param_name>
       <param_description>format Mat par défaut utilisé.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-v7'</param_name>
+      <param_name>
+        &apos;-v7&apos;
+      </param_name>
       <param_description
       >format de sortie : version 7 du fichier Mat.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-v6', '-v4'</param_name>
+      <param_name>
+        &apos;-v6&apos;, &apos;-v4&apos;
+      </param_name>
       <param_description
       >format de sortie : version 6 ou 4 du fichier Mat.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-append'</param_name>
+      <param_name>
+        &apos;-append&apos;
+      </param_name>
       <param_description
       >ajoute des variables à un fichier .mat existant (uniquement -v7.3).</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-nocompression'</param_name>
+      <param_name>
+        &apos;-nocompression&apos;
+      </param_name>
       <param_description
       >désactive la compression du fichier .mat.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >savemat</b> enregistre les variables de l'espace de travail dans un fichier .mat.</p>
+    <p>
+      <b
+      >savemat</b> enregistre les variables de l&apos;espace de travail dans un fichier .mat.</p>
     <p
     >Les types de données de Nelson sont convertis en équivalents compatibles avec les fichiers Mat.</p>
   </description>

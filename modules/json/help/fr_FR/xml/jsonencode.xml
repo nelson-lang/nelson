@@ -8,7 +8,7 @@
   <syntax>
     <syntax_item>res = jsonencode(obj)</syntax_item>
     <syntax_item
-    >res = jsonencode(obj, 'ConvertInfAndNaN', true_or_false)</syntax_item>
+    >res = jsonencode(obj, &apos;ConvertInfAndNaN&apos;, true_or_false)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -19,7 +19,7 @@
     <param_input_item>
       <param_name>true_or_false</param_name>
       <param_description
-      >un booléen : si vrai, Inf et NaN sont convertis en 'Inf' ou 'Nan'.</param_description>
+      >un booléen : si vrai, Inf et NaN sont convertis en &apos;Inf&apos; ou &apos;Nan&apos;.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -29,14 +29,17 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>jsonencode</b> convertit une variable Nelson en texte JSON.</p>
-    <p><b
-      >jsonencode</b> ne supporte pas les nombres complexes, les tableaux creux (sparse), les handles de fonction et d'autres handles.</p>
-    <p><b>jsonencode</b> peut être surchargé pour gérer vos propres types.</p>
+    <p>
+      <b>jsonencode</b> convertit une variable Nelson en texte JSON.</p>
+    <p>
+      <b
+      >jsonencode</b> ne supporte pas les nombres complexes, les tableaux creux (sparse), les handles de fonction et d&apos;autres handles.</p>
+    <p>
+      <b>jsonencode</b> peut être surchargé pour gérer vos propres types.</p>
     <p>Par défaut, <b
-      >jsonencode</b> convertit les valeurs Inf en la chaîne "Inf" et les valeurs NaN en 'null'.</p>
+      >jsonencode</b> convertit les valeurs Inf en la chaîne &quot;Inf&quot; et les valeurs NaN en &apos;null&apos;.</p>
     <p
-    >Attention : la forme d'une matrice et le type de données ne sont pas toujours préservés.</p>
+    >Attention : la forme d&apos;une matrice et le type de données ne sont pas toujours préservés.</p>
   </description>
   <used_function />
   <bibliography>http://www.rfc-editor.org/rfc/rfc7159.txt</bibliography>

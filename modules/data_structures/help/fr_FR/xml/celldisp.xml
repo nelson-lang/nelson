@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>celldisp</keyword>
   <short_description
-  >Afficher le contenu d'un tableau cellulaire.</short_description>
+  >Afficher le contenu d&apos;un tableau cellulaire.</short_description>
   <syntax>
     <syntax_item>celldisp(C)</syntax_item>
     <syntax_item>celldisp(C, name)</syntax_item>
@@ -20,8 +20,9 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >celldisp</b> affiche récursivement le contenu d'un tableau cellulaire.</p>
+    <p>
+      <b
+      >celldisp</b> affiche récursivement le contenu d&apos;un tableau cellulaire.</p>
   </description>
   <used_function />
   <bibliography />

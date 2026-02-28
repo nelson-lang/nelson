@@ -38,8 +38,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>title('text')</b> adds the title to the current axes.</p>
-    <p><b
+    <p>
+      <b>title(&apos;text&apos;)</b> adds the title to the current axes.</p>
+    <p>
+      <b
       >Visible</b> property is inherited from the parent if not explicitly defined.</p>
   </description>
   <used_function />

@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>single(V)</b> converts to the single-precision type.</p>
+    <p>
+      <b>single(V)</b> converts to the single-precision type.</p>
   </description>
   <used_function />
   <bibliography />

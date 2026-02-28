@@ -5,7 +5,8 @@
   <keyword>mexCallMATLAB</keyword>
   <short_description>Call a NELSON function</short_description>
   <syntax>
-    <syntax_item>#include "mex.h"</syntax_item>
+    <syntax_item>#include &quot;mex.h&quot;
+    </syntax_item>
     <syntax_item
     >int mexCallMATLAB(int nlhs, mxArray *plhs[], int nrhs, mxArray *prhs[], const char *command_name);</syntax_item>
   </syntax>
@@ -42,7 +43,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>mexCallMATLAB</b> calls an NELSON function.</p>
+    <p>
+      <b>mexCallMATLAB</b> calls an NELSON function.</p>
     <p
     >If name detects an error, NELSON will terminate MEX and returns control to NELSON.</p>
   </description>

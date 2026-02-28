@@ -5,7 +5,8 @@
   <keyword>engClose</keyword>
   <short_description>Ferme une session du moteur Nelson</short_description>
   <syntax>
-    <syntax_item>#include "engine.h"</syntax_item>
+    <syntax_item>#include &quot;engine.h&quot;
+    </syntax_item>
     <syntax_item>int engClose(Engine *ep);</syntax_item>
   </syntax>
   <param_input>
@@ -18,7 +19,7 @@
     <param_output_item>
       <param_name>int</param_name>
       <param_description
-      >0 en cas de succès et 1 en cas d'échec.</param_description>
+      >0 en cas de succès et 1 en cas d&apos;échec.</param_description>
     </param_output_item>
   </param_output>
   <description>

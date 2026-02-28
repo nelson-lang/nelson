@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>recordblocking</keyword>
   <short_description
-  >Enregistrer de l'audio dans un objet audiorecorder ; bloquer le contrôle jusqu'à la fin de l'enregistrement.</short_description>
+  >Enregistrer de l&apos;audio dans un objet audiorecorder ; bloquer le contrôle jusqu&apos;à la fin de l&apos;enregistrement.</short_description>
   <syntax>
     <syntax_item>recordblocking(recorderObj, length)</syntax_item>
   </syntax>
@@ -18,14 +18,15 @@
     <param_input_item>
       <param_name>length</param_name>
       <param_description
-      >double : durée de l'enregistrement en secondes.</param_description>
+      >double : durée de l&apos;enregistrement en secondes.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >recordblocking(recorderObj, length)</b> enregistre l'audio à partir d'un périphérique d'entrée pendant le nombre de secondes spécifié. Cette méthode ne rend pas le contrôle tant que l'enregistrement n'est pas terminé.      </p>
-    <p>        L'objet <b
-      >audiorecorder</b> définit la fréquence d'échantillonnage, la profondeur en bits et d'autres propriétés de l'enregistrement.      </p>
+    <p>
+      <b
+      >recordblocking(recorderObj, length)</b> enregistre l&apos;audio à partir d&apos;un périphérique d&apos;entrée pendant le nombre de secondes spécifié. Cette méthode ne rend pas le contrôle tant que l&apos;enregistrement n&apos;est pas terminé.      </p>
+    <p>        L&apos;objet <b
+      >audiorecorder</b> définit la fréquence d&apos;échantillonnage, la profondeur en bits et d&apos;autres propriétés de l&apos;enregistrement.      </p>
   </description>
   <used_function />
   <bibliography />

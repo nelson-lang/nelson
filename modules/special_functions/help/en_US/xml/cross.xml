@@ -26,7 +26,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>R = cross(A, B)</b> returns the cross product of <b>A</b> and<b
+    <p>
+      <b>R = cross(A, B)</b> returns the cross product of <b>A</b> and<b
       >B</b>.</p>
   </description>
   <used_function />

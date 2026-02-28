@@ -27,16 +27,20 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >unicode2native</b> convertit les caractères unicode en un tableau numérique.</p>
-    <p><b
+    <p>
+      <b
       >bytes = unicode2native(str)</b> convertit les caractères unicode en un tableau numérique (le jeu de caractères natif de la machine).</p>
-    <p><b
+    <p>
+      <b
       >bytes = unicode2native(str, charset)</b> convertit les caractères unicode en un tableau numérique (jeu de caractères <b
       >charset</b> au lieu du jeu de caractères natif).</p>
     <p>Liste des jeux de caractères :<a
         href="http://www.iana.org/assignments/character-sets/character-sets.xhtml"
-      >http://www.iana.org/assignments/character-sets/character-sets.xhtml</a></p>
+      >http://www.iana.org/assignments/character-sets/character-sets.xhtml</a>
+    </p>
   </description>
   <used_function />
   <bibliography>ICU library</bibliography>

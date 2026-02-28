@@ -11,7 +11,7 @@
     <syntax_item>dateAsString = datestr(dateAsStringIn)</syntax_item>
     <syntax_item
     >dateAsString = datestr(dateAsStringIn, formatOut, pivotYear)</syntax_item>
-    <syntax_item>dateAsString = datestr(..., 'local')</syntax_item>
+    <syntax_item>dateAsString = datestr(..., &apos;local&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -39,7 +39,9 @@
       >integer value: present minus 50 years (default).</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'local'</param_name>
+      <param_name>
+        &apos;local&apos;
+      </param_name>
       <param_description
       >returns the date in the language of the current locale.</param_description>
     </param_input_item>
@@ -52,46 +54,70 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >dateAsString = datestr(dateVector)</b> converts date vectors into text that represents the corresponding dates and times. It returns a character array with<b
       >m</b> rows, where <b>m</b> is the number of date vectors in<b
       >dateVector</b>.</p>
-    <p><b
+    <p>
+      <b
       >dateAsString = datestr(dateNumber)</b> converts serial date numbers into text representing dates and times. The output is a character array with<b
       >m</b> rows, where <b>m</b> is the number of date numbers in <b
       >dateNumber</b>.</p>
-    <p><b
+    <p>
+      <b
       >dateAsString = datestr(..., formatOut)</b> allows you to specify the format of the output text using<b
       >formatOut</b>. You can apply this option with any of the previous input types.</p>
-    <p><b
+    <p>
+      <b
       >dateAsString = datestr(dateAsStringIn)</b> converts the input string <b
       >dateAsStringIn</b> into a text format of day-month-year hour:minute:second. All dates in<b
       >dateAsStringIn</b> must follow the same format.</p>
-    <p><b
+    <p>
+      <b
       >dateAsString = datestr(dateAsStringIn, formatOut, pivotYear)</b> converts<b
       >dateAsStringIn</b> into the format specified by<b
       >formatOut</b>, while using an optional <b
       >pivotYear</b> to interpret two-digit years.</p>
-    <p><b
-      >dateAsString = datestr(..., 'local')</b> returns the date in the language of the system's current locale. If <b
-      >'local'</b> is omitted, the default language is US              English. The <b
-      >'local'</b> option can be used with any of the previous syntaxes, and              must be the last argument in the sequence.</p>
+    <p>
+      <b
+      >dateAsString = datestr(..., &apos;local&apos;)</b> returns the date in the language of the system&apos;s current locale. If <b
+      >
+        &apos;local&apos;
+      </b> is omitted, the default language is US              English. The <b
+      >
+        &apos;local&apos;
+      </b> option can be used with any of the previous syntaxes, and              must be the last argument in the sequence.</p>
     <p />
     <p>Supported format conversion:</p>
-    <p><b>dd-mmm-yyyy HH:MM:SS</b> 10-Mar-2010 16:48:17</p>
-    <p><b>dd-mmm-yyyy</b> 10-Mar-2010</p>
-    <p><b>mm/dd/yyyy</b> 03/10/2010</p>
-    <p><b>mm/dd/yy</b> 03/10/00</p>
-    <p><b>mm/dd</b> 03/10</p>
-    <p><b>mmm.dd,yyyy HH:MM:SS</b> Mar.10,2010 16:48:17</p>
-    <p><b>mmm.dd,yyyy</b> Mar.10,2010</p>
-    <p><b>yyyy-mm-dd HH:MM:SS</b> 2010-03-10 16:48:17</p>
-    <p><b>yyyy-mm-dd</b> 2010-03-10</p>
-    <p><b>yyyy/mm/dd</b> 2000/03/10</p>
-    <p><b>HH:MM:SS</b> 16:48:17</p>
-    <p><b>HH:MM:SS PM</b> 3:48:17 PM</p>
-    <p><b>HH:MM</b> 16:48</p>
-    <p><b>HH:MM PM</b> 3:35 PM</p>
+    <p>
+      <b>dd-mmm-yyyy HH:MM:SS</b> 10-Mar-2010 16:48:17</p>
+    <p>
+      <b>dd-mmm-yyyy</b> 10-Mar-2010</p>
+    <p>
+      <b>mm/dd/yyyy</b> 03/10/2010</p>
+    <p>
+      <b>mm/dd/yy</b> 03/10/00</p>
+    <p>
+      <b>mm/dd</b> 03/10</p>
+    <p>
+      <b>mmm.dd,yyyy HH:MM:SS</b> Mar.10,2010 16:48:17</p>
+    <p>
+      <b>mmm.dd,yyyy</b> Mar.10,2010</p>
+    <p>
+      <b>yyyy-mm-dd HH:MM:SS</b> 2010-03-10 16:48:17</p>
+    <p>
+      <b>yyyy-mm-dd</b> 2010-03-10</p>
+    <p>
+      <b>yyyy/mm/dd</b> 2000/03/10</p>
+    <p>
+      <b>HH:MM:SS</b> 16:48:17</p>
+    <p>
+      <b>HH:MM:SS PM</b> 3:48:17 PM</p>
+    <p>
+      <b>HH:MM</b> 16:48</p>
+    <p>
+      <b>HH:MM PM</b> 3:35 PM</p>
     <p />
     <p>If format is not specified, the default format is <b>dd-mmm-yyyy</b>.</p>
     <p />

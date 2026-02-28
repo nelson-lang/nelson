@@ -16,7 +16,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >cancel(f)</b> will stop each running or queued element of the Future array <b
       >f</b>.</p>
     <p>Future cancelled Findicates an error as property.</p>

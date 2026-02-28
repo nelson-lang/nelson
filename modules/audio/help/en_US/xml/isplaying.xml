@@ -20,7 +20,8 @@
       <param_description>an logical.</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >isplaying</b> get information about audio playback is in progress.</description>
   <used_function />
   <bibliography />

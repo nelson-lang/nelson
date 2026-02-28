@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>rmfield</keyword>
-  <short_description>Supprimer des champs d'une structure.</short_description>
+  <short_description>Supprimer des champs d&apos;une structure.</short_description>
   <syntax>
     <syntax_item>s = rmfield(st, field)</syntax_item>
   </syntax>
@@ -25,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >s = rmfield(st, field)</b> supprime le(s) champ(s) spécifié(s) du tableau de structures.</p>
   </description>
   <used_function />

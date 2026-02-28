@@ -15,7 +15,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>frewind</b> puts the pointer at the beginning of file</p>
+    <p>
+      <b>frewind</b> puts the pointer at the beginning of file</p>
   </description>
   <used_function />
   <bibliography />

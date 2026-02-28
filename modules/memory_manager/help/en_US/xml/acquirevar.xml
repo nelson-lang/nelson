@@ -12,7 +12,7 @@
     <param_input_item>
       <param_name>scope</param_name>
       <param_description
-      >a string: 'global', 'base', 'caller', 'local'.</param_description>
+      >a string: &apos;global&apos;, &apos;base&apos;, &apos;caller&apos;, &apos;local&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>variable_name</param_name>
@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >acquirevar</b> search a symbol in a specific scope and copy the value in current scope.</p>
   </description>
   <used_function />

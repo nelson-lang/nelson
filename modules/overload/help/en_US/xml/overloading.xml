@@ -6,7 +6,7 @@
   <short_description>Customizing Operators and Functions</short_description>
   <description>
     <p
-    >In various scenarios, you may find it necessary to modify the behavior of Nelson's operators and functions when they operate on objects or basic types.</p>
+    >In various scenarios, you may find it necessary to modify the behavior of Nelson&apos;s operators and functions when they operate on objects or basic types.</p>
     <p
     >This customization can be achieved by overloading the relevant functions, allowing them to handle diverse types and quantities of input arguments and execute the appropriate operation for the highest-priority object.</p>
     <p />
@@ -145,12 +145,14 @@
       </tr>
       <tr>
         <td>Complex conjugate transpose</td>
-        <td>a'</td>
+        <td>a&apos;
+        </td>
         <td>ctranspose(a)</td>
       </tr>
       <tr>
         <td>Matrix transpose</td>
-        <td>a.'</td>
+        <td>a.&apos;
+        </td>
         <td>transpose(a)</td>
       </tr>
       <tr>

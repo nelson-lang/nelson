@@ -8,7 +8,7 @@
     <p
     >Le module Constructeurs fournit des outils pour créer des valeurs numériques fondamentales, des scalaires, des vecteurs et des matrices dans Nelson.</p>
     <p
-    >Il comprend des constantes, des matrices identité et diagonales, et des valeurs spéciales telles que l'infini, NaN et la précision machine.</p>
+    >Il comprend des constantes, des matrices identité et diagonales, et des valeurs spéciales telles que l&apos;infini, NaN et la précision machine.</p>
     <p
     >Ce module constitue la base pour initialiser les structures de données et effectuer des calculs mathématiques et numériques.</p>
   </chapter_description>

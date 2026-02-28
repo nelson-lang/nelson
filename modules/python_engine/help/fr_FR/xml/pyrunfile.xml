@@ -19,14 +19,17 @@
       >un scalaire string, vecteur de caractères : nom du fichier .py à exécuter.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>"filename 'input'"</param_name>
+      <param_name>
+        &quot;filename &apos;input&apos;
+        &quot;
+      </param_name>
       <param_description
-      >un scalaire string, vecteur de caractères : nom du fichier .py à exécuter avec arguments d'entrée.</param_description>
+      >un scalaire string, vecteur de caractères : nom du fichier .py à exécuter avec arguments d&apos;entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>pyName, pyValue</param_name>
       <param_description
-      >noms et valeurs des arguments d'entrée</param_description>
+      >noms et valeurs des arguments d&apos;entrée</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>outputs</param_name>
@@ -38,20 +41,21 @@
     <param_output_item>
       <param_name>outvars</param_name>
       <param_description
-      >Une ou plusieurs variables de l'espace de travail Nelson renvoyées sous des types Python valides.</param_description>
+      >Une ou plusieurs variables de l&apos;espace de travail Nelson renvoyées sous des types Python valides.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>pyrunfile(filename)</b> exécute un fichier Python.</p>
+    <p>
+      <b>pyrunfile(filename)</b> exécute un fichier Python.</p>
     <p>Contrairement à la fonction <b
-      >pyrun</b>, les variables générées dans l'espace Python par<b
+      >pyrun</b>, les variables générées dans l&apos;espace Python par<b
       >pyrunfile</b> ne persistent pas. Ainsi, les appels suivants à<b
       >pyrunfile</b> ne pourront pas accéder à ces variables.</p>
     <p>Le code <b
       >outvars = pyrunfile(file, outputs, pyName1, pyValue2, ..., pyNameN, pyValueN)</b> exécute le code avec une ou plusieurs paires nom-valeur en entrée.</p>
     <p>Limitation connue :</p>
     <p>Les fonctions <b>pyrun</b> et<b
-      >pyrunfile</b> ne prennent pas en charge les classes contenant des variables locales initialisées par d'autres variables locales via des méthodes. Dans ce cas, il est conseillé de créer un module et d'y accéder.</p>
+      >pyrunfile</b> ne prennent pas en charge les classes contenant des variables locales initialisées par d&apos;autres variables locales via des méthodes. Dans ce cas, il est conseillé de créer un module et d&apos;y accéder.</p>
   </description>
   <used_function />
   <bibliography />

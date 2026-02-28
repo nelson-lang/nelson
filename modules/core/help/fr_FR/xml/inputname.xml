@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>inputname</keyword>
   <short_description
-  >Renvoie le nom d'une variable d'entrée d'une fonction.</short_description>
+  >Renvoie le nom d&apos;une variable d&apos;entrée d&apos;une fonction.</short_description>
   <syntax>
     <syntax_item>s = inputname(argNumber)</syntax_item>
   </syntax>
@@ -12,7 +12,7 @@
     <param_input_item>
       <param_name>argNumber</param_name>
       <param_description
-      >une valeur entière scalaire, réelle et positive : Numéro de l'argument d'entrée de la fonction</param_description>
+      >une valeur entière scalaire, réelle et positive : Numéro de l&apos;argument d&apos;entrée de la fonction</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -24,7 +24,7 @@
   </param_output>
   <description>
     <p
-    >Renvoie le nom symbolique d'une variable d'entrée donné l'index de l'argument dans la signature d'une fonction.</p>
+    >Renvoie le nom symbolique d&apos;une variable d&apos;entrée donné l&apos;index de l&apos;argument dans la signature d&apos;une fonction.</p>
   </description>
   <used_function />
   <bibliography />

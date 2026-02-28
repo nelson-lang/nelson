@@ -31,7 +31,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>nrm = normest(A)</b> returns an estimate of the 2-norm of the matrix<b
+    <p>
+      <b>nrm = normest(A)</b> returns an estimate of the 2-norm of the matrix<b
       >A</b>.</p>
   </description>
   <used_function />

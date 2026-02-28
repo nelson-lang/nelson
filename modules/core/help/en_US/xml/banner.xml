@@ -8,7 +8,8 @@
     <syntax_item>banner</syntax_item>
   </syntax>
   <description>
-    <p><b>banner</b> shows Nelson banner.</p>
+    <p>
+      <b>banner</b> shows Nelson banner.</p>
   </description>
   <used_function />
   <bibliography />

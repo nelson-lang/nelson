@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>res = cospi(x)</b> calcule <b>cos(x * pi)</b> précisément.</p>
+    <p>
+      <b>res = cospi(x)</b> calcule <b>cos(x * pi)</b> précisément.</p>
     <p>Pour les entiers, <b>cospi(x)</b> vaut +1 ou -1.</p>
     <p>Pour les entiers impairs,<b>cospi(x / 2)</b> est exactement zéro.</p>
   </description>

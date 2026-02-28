@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>tfdata</keyword>
   <short_description
-  >Accède aux données d'un modèle en fonction de transfert.</short_description>
+  >Accède aux données d&apos;un modèle en fonction de transfert.</short_description>
   <syntax>
     <syntax_item>[numerator, denominator] = tfdata(sys)</syntax_item>
     <syntax_item>[numerator, denominator, Ts] = tfdata(sys)</syntax_item>
@@ -31,12 +31,12 @@
     <param_output_item>
       <param_name>Ts</param_name>
       <param_description
-      >Temps d'échantillonnage Ts, par défaut : en secondes</param_description>
+      >Temps d&apos;échantillonnage Ts, par défaut : en secondes</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>La fonction <b
-      >tfdata(sys)</b> récupère les coefficients du numérateur et du dénominateur ainsi que le temps d'échantillonnage (si présent) du modèle de fonction de transfert.</p>
+      >tfdata(sys)</b> récupère les coefficients du numérateur et du dénominateur ainsi que le temps d&apos;échantillonnage (si présent) du modèle de fonction de transfert.</p>
   </description>
   <examples>
     <example_item>

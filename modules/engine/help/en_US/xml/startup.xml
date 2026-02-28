@@ -5,7 +5,8 @@
   <keyword>startup</keyword>
   <short_description>User-defined startup script for Nelson.</short_description>
   <description>
-    <p><b
+    <p>
+      <b
       >startup.m</b> in Nelson initiates user-specified commands upon Nelson startup.</p>
     <p>It executes any file named<b
       >startup.m</b> that is located on the search path.</p>

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>setenv</keyword>
   <short_description
-  >Définir la valeur d'une variable d'environnement.</short_description>
+  >Définir la valeur d&apos;une variable d&apos;environnement.</short_description>
   <syntax>
     <syntax_item>setenv(env_name, env_value)</syntax_item>
   </syntax>
@@ -12,16 +12,17 @@
     <param_input_item>
       <param_name>env_name</param_name>
       <param_description
-      >une chaîne : nom de la variable d'environnement.</param_description>
+      >une chaîne : nom de la variable d&apos;environnement.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>env_value</param_name>
       <param_description
-      >une chaîne : valeur de la variable d'environnement.</param_description>
+      >une chaîne : valeur de la variable d&apos;environnement.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b>setenv</b> définit la valeur d'une variable d'environnement.</p>
+    <p>
+      <b>setenv</b> définit la valeur d&apos;une variable d&apos;environnement.</p>
   </description>
   <used_function />
   <bibliography />

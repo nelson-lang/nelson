@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>IJV</keyword>
   <short_description
-  >Retourne les triplets I,J,V d'une matrice sparse.</short_description>
+  >Retourne les triplets I,J,V d&apos;une matrice sparse.</short_description>
   <syntax>
     <syntax_item>[iv, jv, vv, m, n, nzmax] = IJV(sp)</syntax_item>
   </syntax>
@@ -47,7 +47,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>IJV</b> convertit une matrice sparse en son format COO.</p>
+    <p>
+      <b>IJV</b> convertit une matrice sparse en son format COO.</p>
   </description>
   <used_function />
   <bibliography />

@@ -8,9 +8,11 @@
     <syntax_item>continue</syntax_item>
   </syntax>
   <description>
-    <p><b>continue</b> statement can be used inside a <b>for</b> or a<b
+    <p>
+      <b>continue</b> statement can be used inside a <b>for</b> or a<b
       >while</b> loop.</p>
-    <p><b
+    <p>
+      <b
       >continue</b> statement is used to pass control to the next iteration of a loop.</p>
   </description>
   <used_function />

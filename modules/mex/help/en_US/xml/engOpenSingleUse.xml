@@ -6,7 +6,8 @@
   <short_description
   >Start Nelson engine session for single and nonshared use.</short_description>
   <syntax>
-    <syntax_item>#include "engine.h"</syntax_item>
+    <syntax_item>#include &quot;engine.h&quot;
+    </syntax_item>
     <syntax_item
     >Engine *engOpenSingleUse(const char *startcmd, void *dcom, int *retstatus);</syntax_item>
   </syntax>

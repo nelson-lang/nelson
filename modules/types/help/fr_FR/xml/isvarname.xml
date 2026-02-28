@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>isvarname</keyword>
   <short_description
-  >Renvoie vrai si l'entrée est un nom de variable valide.</short_description>
+  >Renvoie vrai si l&apos;entrée est un nom de variable valide.</short_description>
   <syntax>
     <syntax_item>res = isvarname(var)</syntax_item>
   </syntax>
@@ -20,8 +20,9 @@
       <param_description>un logique : vrai ou faux</param_description>
     </param_output_item>
   </param_output>
-  <description><b
-    >isvarname</b> renvoie 1 logique si l'argument est un nom de variable valide et 0 logique sinon.</description>
+  <description>
+    <b
+    >isvarname</b> renvoie 1 logique si l&apos;argument est un nom de variable valide et 0 logique sinon.</description>
   <used_function />
   <bibliography />
   <examples>

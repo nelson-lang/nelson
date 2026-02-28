@@ -20,7 +20,8 @@
       <param_description>logical array</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >isletter</b> determines which characters are space characters.</description>
   <used_function />
   <bibliography />

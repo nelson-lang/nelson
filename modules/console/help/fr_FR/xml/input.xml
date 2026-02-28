@@ -4,10 +4,10 @@
   <language>fr_FR</language>
   <keyword>input</keyword>
   <short_description
-  >Afficher une invite et attendre l'entrée utilisateur.</short_description>
+  >Afficher une invite et attendre l&apos;entrée utilisateur.</short_description>
   <syntax>
     <syntax_item>r = input(prompt_str)</syntax_item>
-    <syntax_item>r = input(prompt_str, 's')</syntax_item>
+    <syntax_item>r = input(prompt_str, &apos;s&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -24,7 +24,7 @@
   </param_output>
   <description>
     <p
-    >Afficher une invite et attendre l'entrée utilisateur. input retourne une chaîne qui est l'expression saisie au clavier.</p>
+    >Afficher une invite et attendre l&apos;entrée utilisateur. input retourne une chaîne qui est l&apos;expression saisie au clavier.</p>
   </description>
   <used_function />
   <bibliography />

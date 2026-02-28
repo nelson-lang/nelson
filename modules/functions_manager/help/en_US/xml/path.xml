@@ -25,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>path</b> modifies or displays Nelson’s load path.</p>
+    <p>
+      <b>path</b> modifies or displays Nelson’s load path.</p>
   </description>
   <used_function />
   <bibliography />

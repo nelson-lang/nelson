@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>lsim</keyword>
-  <short_description
+  <short_description
   >Plot simulated time response of dynamic system to arbitrary inputs.</short_description>
   <syntax>
     <syntax_item>lsim(sys, u, t)</syntax_item>
@@ -31,7 +31,7 @@
   <param_output>
     <param_output_item>
       <param_name>y</param_name>
-      <param_description
+      <param_description
       >Simulated response data: matrix or vector.</param_description>
     </param_output_item>
     <param_output_item>
@@ -40,23 +40,23 @@
     </param_output_item>
     <param_output_item>
       <param_name>x</param_name>
-      <param_description
+      <param_description
       >State trajectories: matrix or vector.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>The function <b
-      >lsim(sys, u, t)</b> generates a plot illustrating the simulated time response of the dynamic system model <b
+    <p>The function <b
+      >lsim(sys, u, t)</b> generates a plot illustrating the simulated time response of the dynamic system model <b
       >sys</b> to the input history (<b>t</b>, <b>u</b>).</p>
-    <p>The time samples for the simulation are specified by the vector <b
+    <p>The time samples for the simulation are specified by the vector <b
       >t</b>.</p>
-    <p>In the case of single-input systems, the input signal <b
+    <p>In the case of single-input systems, the input signal <b
       >u</b> is a vector with the same length as <b>t</b>.</p>
-    <p>For multi-input systems,<b
-      >u</b> is an array with rows corresponding to time samples (length(t)) and columns corresponding to inputs to <b
+    <p>For multi-input systems,<b
+      >u</b> is an array with rows corresponding to time samples (length(t)) and columns corresponding to inputs to <b
       >sys</b>.</p>
-    <p>An additional usage of the function is demonstrated by the example <b
-      >lsim(sys, u, t, x0)</b>, where a vector <b
+    <p>An additional usage of the function is demonstrated by the example <b
+      >lsim(sys, u, t, x0)</b>, where a vector <b
       >x0</b> is provided to specify initial state values.</p>
     <p>This is particularly relevant when <b>sys</b> is a state-space model.</p>
   </description>
@@ -64,53 +64,53 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[A = [-10 -20 -30;1  0  0; 0  1  0];
-B = [1;   0;   0];
-C = [0   0   1];
-D = 0;
-T = [0:0.1:1];
-U = zeros(size(T, 1), size(T, 2));
-X0 = [0.1 0.1 0.1];
-sys = ss(A, B, C, D);
-lsim(sys, U, T, X0);
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[A = [-10 -20 -30;1  0  0; 0  1  0];
+B = [1;   0;   0];
+C = [0   0   1];
+D = 0;
+T = [0:0.1:1];
+U = zeros(size(T, 1), size(T, 2));
+X0 = [0.1 0.1 0.1];
+sys = ss(A, B, C, D);
+lsim(sys, U, T, X0);
 ]]></example_item_data>
-      <example_item_img
-        src="../images/lsim1.svg"
-        align="middle"
-        generate="true"
+      <example_item_img
+        src="../images/lsim1.svg"
+        align="middle"
+        generate="true"
       />
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[A = [-1.7  -0.3   1.1;
-     -0.2  -1.7   0.6;
-      1.0   0.6  -1.4];
-B = [ 1.5  0.6;
-     -1.8  1.0;
-      0    0  ];
-C = [ 0    -0.5 -0.1;
-      0.35 -0.1 -0.15
-      0.65  0    0.6];
-D = [ 0.5  0;
-      0.05 0.75
-      0    0];
-sys = ss(A,B,C,D);
-Tf = 10;
-Ts = 0.1;
-[uSq,t] = gensig("square",4,Tf,Ts);
-uP = gensig("pulse",3,Tf,Ts);
-u = [uSq uP];
-lsim(sys,u,t)
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[A = [-1.7  -0.3   1.1;
+     -0.2  -1.7   0.6;
+      1.0   0.6  -1.4];
+B = [ 1.5  0.6;
+     -1.8  1.0;
+      0    0  ];
+C = [ 0    -0.5 -0.1;
+      0.35 -0.1 -0.15
+      0.65  0    0.6];
+D = [ 0.5  0;
+      0.05 0.75
+      0    0];
+sys = ss(A,B,C,D);
+Tf = 10;
+Ts = 0.1;
+[uSq,t] = gensig("square",4,Tf,Ts);
+uP = gensig("pulse",3,Tf,Ts);
+u = [uSq uP];
+lsim(sys,u,t)
 ]]></example_item_data>
-      <example_item_img
-        src="../images/lsim2.svg"
-        align="middle"
-        generate="true"
+      <example_item_img
+        src="../images/lsim2.svg"
+        align="middle"
+        generate="true"
       />
     </example_item>
   </examples>

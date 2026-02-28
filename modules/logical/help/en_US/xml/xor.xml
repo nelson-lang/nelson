@@ -29,7 +29,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>xor</b> performs a logical exclusive-OR.</p>
+    <p>
+      <b>xor</b> performs a logical exclusive-OR.</p>
   </description>
   <used_function />
   <bibliography />

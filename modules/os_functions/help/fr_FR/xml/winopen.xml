@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>winopen</keyword>
   <short_description
-  >Ouvrir un fichier dans l'application appropriée (Windows seulement).</short_description>
+  >Ouvrir un fichier dans l&apos;application appropriée (Windows seulement).</short_description>
   <syntax>
     <syntax_item>winopen(filename)</syntax_item>
   </syntax>
@@ -16,12 +16,13 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >winopen(filename)</b> ouvre le fichier dans l'application Microsoft Windows appropriée.</p>
+    <p>
+      <b
+      >winopen(filename)</b> ouvre le fichier dans l&apos;application Microsoft Windows appropriée.</p>
     <p
-    >La fonction winopen utilise la commande shell Windows appropriée et effectue la même action que si vous double-cliquiez sur le fichier dans l'Explorateur Windows.</p>
+    >La fonction winopen utilise la commande shell Windows appropriée et effectue la même action que si vous double-cliquiez sur le fichier dans l&apos;Explorateur Windows.</p>
     <p
-    >Si filename n'est pas dans le répertoire courant, spécifiez le chemin absolu.</p>
+    >Si filename n&apos;est pas dans le répertoire courant, spécifiez le chemin absolu.</p>
   </description>
   <used_function />
   <bibliography />

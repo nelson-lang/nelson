@@ -15,7 +15,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >cancelAll(fevalQueue)</b> stops all running or queued elements of the background pool.</p>
   </description>
   <used_function />

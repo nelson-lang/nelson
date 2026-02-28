@@ -10,7 +10,7 @@
     <syntax_item>M = rand(x1, x2, ... , xN)</syntax_item>
     <syntax_item>M = rand(sz)</syntax_item>
     <syntax_item>M = rand(x1, x2, ... , xN, classname)</syntax_item>
-    <syntax_item>M = rand(x1, x2, ... , xN, 'like', var)</syntax_item>
+    <syntax_item>M = rand(x1, x2, ... , xN, &apos;like&apos;, var)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -24,7 +24,8 @@
     </param_input_item>
     <param_input_item>
       <param_name>classname</param_name>
-      <param_description>une chaîne : 'single' ou 'double'</param_description>
+      <param_description>une chaîne : &apos;single&apos; ou &apos;double&apos;
+      </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>var</param_name>
@@ -38,8 +39,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >rand</b> renvoie une matrice dont les éléments sont distribués uniformément sur l'intervalle [0, 1].</p>
+    <p>
+      <b
+      >rand</b> renvoie une matrice dont les éléments sont distribués uniformément sur l&apos;intervalle [0, 1].</p>
     <p>La graine (seed) peut être modifiée en utilisant <b>rng</b>.</p>
     <p
     >Les concepteurs du Mersenne Twister considèrent 5489 comme graine par défaut. Nelson utilise 5489 comme graine par défaut.</p>

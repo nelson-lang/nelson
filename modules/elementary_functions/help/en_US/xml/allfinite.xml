@@ -16,11 +16,12 @@
   <param_output>
     <param_output_item>
       <param_name>tf</param_name>
-      <param_description>logical: result of 'allfinite'.</param_description>
+      <param_description>logical: result of &apos;allfinite&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >allfinite</b> returns a logical scalar which is true where elements of M are all finite values.</p>
   </description>
   <used_function />

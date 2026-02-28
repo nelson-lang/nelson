@@ -79,31 +79,18 @@ brew link libomp --force
 brew link giflib --force
 brew link icu4c --force
 
-# Download clang-format-21 static binary for macOS (x86_64)
-print_status "Installing clang-format-21"
-curl -fsSL -o /usr/local/bin/clang-format-21 \
-    https://github.com/muttleyxd/clang-tools-static-binaries/releases/download/master-47a7eb4e/clang-format-21_osx-amd64
-chmod +x /usr/local/bin/clang-format-21
-ln -sf /usr/local/bin/clang-format-21 /usr/local/bin/clang-format
-ln -sf /usr/local/bin/clang-format-21 "$(brew --prefix)/bin/clang-format"
-ln -sf /usr/local/bin/clang-format-21 "$(brew --prefix)/bin/clang-format-21"
-
-# Update PATH for gettext
-if ! grep -q '/usr/local/opt/gettext/bin' ~/.zshrc; then
-    echo 'export PATH="/usr/local/opt/gettext/bin:$PATH"' >> ~/.zshrc
-    source ~/.zshrc
-fi
-
-# Install static clang-format-20 on arm64
+# Install static clang-format-20 on arm64, fallback to brew for others
 arch=$(uname -m)
 if [ "$arch" = "arm64" ]; then
-    echo "Installing clang-format-20 (static binary)"
+    print_status "Installing clang-format-20 (static binary)"
     curl -fsSL -o /usr/local/bin/clang-format-20 \
         https://github.com/muttleyxd/clang-tools-static-binaries/releases/download/master-796e77c/clang-format-20_macos-arm-arm64
     chmod +x /usr/local/bin/clang-format-20
     ln -sf /usr/local/bin/clang-format-20 /usr/local/bin/clang-format
+    ln -sf /usr/local/bin/clang-format-20 "$(brew --prefix)/bin/clang-format"
+    ln -sf /usr/local/bin/clang-format-20 "$(brew --prefix)/bin/clang-format-20"
 else
-    echo "Installing clang-format from brew"
+    print_status "Installing clang-format from brew"
     brew install clang-format
 fi
 

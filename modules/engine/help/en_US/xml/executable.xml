@@ -13,19 +13,20 @@
   <param_input>
     <param_input_item>
       <param_name>-cli</param_name>
-      <param_description>equivalent to call 'nelson-cli'.</param_description>
+      <param_description>equivalent to call &apos;nelson-cli&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>-adv-cli</param_name>
       <param_description
-      >equivalent to call 'nelson-adv-cli'.</param_description>
+      >equivalent to call &apos;nelson-adv-cli&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>-gui</param_name>
-      <param_description>equivalent to call 'nelson-gui'.</param_description>
+      <param_description>equivalent to call &apos;nelson-gui&apos;.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>-e "nelson instructions"</param_name>
+      <param_name>-e &quot;nelson instructions&quot;
+      </param_name>
       <param_description
       >If this option is present then Nelson instruction is executed just after startup file execution into Nelson. -e and -f options are mutually exclusive.</param_description>
     </param_input_item>
@@ -37,7 +38,7 @@
     <param_input_item>
       <param_name>-F filename</param_name>
       <param_description
-      >If this option is present then Nelson script file is executed just after startup file execution) into an existing Nelson's process or creates it.</param_description>
+      >If this option is present then Nelson script file is executed just after startup file execution) into an existing Nelson&apos;s process or creates it.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--help</param_name>
@@ -69,7 +70,7 @@
     <param_input_item>
       <param_name>--nousermodules</param_name>
       <param_description
-      >disable the load of user's modules. loaded before user's script.</param_description>
+      >disable the load of user&apos;s modules. loaded before user&apos;s script.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--nouserstartup</param_name>
@@ -111,17 +112,22 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >nelson-cli</b>: basic terminal, no gui (no dependency to gui framework), no history, no completion (iso latin encoding)</p>
-    <p><b
+    <p>
+      <b
       >nelson-adv-cli</b>: advanced terminal, no graphical console, history, completion available (UTF-16 support)</p>
-    <p><b
+    <p>
+      <b
       >nelson-gui</b>: graphical console, history, completion available (UTF-16 support)</p>
     <p />
     <p>If you have installed Nelson on Windows, the <b
       >NELSON_RUNTIME_PATH</b> environment variable will be defined.</p>
     <p>It allows to call easily Nelson <b
-      >"%NELSON_RUNTIME_PATH%\nelson.bat"</b>.</p>
+      >
+        &quot;%NELSON_RUNTIME_PATH%\nelson.bat&quot;
+      </b>.</p>
   </description>
   <used_function />
   <bibliography />

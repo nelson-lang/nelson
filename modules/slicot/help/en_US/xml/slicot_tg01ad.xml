@@ -13,7 +13,7 @@
     <param_input_item>
       <param_name>JOB</param_name>
       <param_description
-      >= 'A': All matrices are involved in balancing; = 'B': B, A and E matrices are involved in balancing; = 'C': C, A and E matrices are involved in balancing; = 'N': B and C matrices are not involved in balancing.</param_description>
+      >= &apos;A&apos;: All matrices are involved in balancing; = &apos;B&apos;: B, A and E matrices are involved in balancing; = &apos;C&apos;: C, A and E matrices are involved in balancing; = &apos;N&apos;: B and C matrices are not involved in balancing.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>THRESH</param_name>

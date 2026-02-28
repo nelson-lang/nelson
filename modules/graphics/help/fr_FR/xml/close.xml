@@ -6,7 +6,7 @@
   <short_description>Ferme une ou plusieurs figures</short_description>
   <syntax>
     <syntax_item>close()</syntax_item>
-    <syntax_item>close('all')</syntax_item>
+    <syntax_item>close(&apos;all&apos;)</syntax_item>
     <syntax_item>close(name)</syntax_item>
     <syntax_item>close(ID)</syntax_item>
     <syntax_item>close(GO)</syntax_item>
@@ -37,11 +37,15 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>close</b> ferme la figure courante.</p>
-    <p><b>close(ID)</b> ferme la figure spécifiée par l'identifiant.</p>
-    <p><b
-      >close(GO)</b> ferme la figure spécifiée par l'objet graphique de la figure.</p>
-    <p><b>close('all')</b> ferme toutes les figures.</p>
+    <p>
+      <b>close</b> ferme la figure courante.</p>
+    <p>
+      <b>close(ID)</b> ferme la figure spécifiée par l&apos;identifiant.</p>
+    <p>
+      <b
+      >close(GO)</b> ferme la figure spécifiée par l&apos;objet graphique de la figure.</p>
+    <p>
+      <b>close(&apos;all&apos;)</b> ferme toutes les figures.</p>
   </description>
   <used_function />
   <bibliography />

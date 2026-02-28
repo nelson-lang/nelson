@@ -14,7 +14,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>l = actxcontrollist()</b> returns list of available controls</p>
+    <p>
+      <b>l = actxcontrollist()</b> returns list of available controls</p>
   </description>
   <used_function />
   <bibliography />

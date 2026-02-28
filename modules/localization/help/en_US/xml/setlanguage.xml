@@ -11,11 +11,12 @@
     <param_input_item>
       <param_name>language</param_name>
       <param_description
-      >a string: 'en_US', 'fr_FR' or others by default.</param_description>
+      >a string: &apos;en_US&apos;, &apos;fr_FR&apos; or others by default.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >setlanguage</b> changes the language used by Nelson and saves this changes for subsequent runs of Nelson.</p>
   </description>
   <used_function />

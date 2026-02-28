@@ -22,8 +22,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >tf = isKey(d, key)</b> renvoie true logique si la clé spécifiée existe dans le dictionnaire configuré, et false logique si elle n'existe pas.</p>
+    <p>
+      <b
+      >tf = isKey(d, key)</b> renvoie true logique si la clé spécifiée existe dans le dictionnaire configuré, et false logique si elle n&apos;existe pas.</p>
     <p>Si <b>d</b> est un dictionnaire non configuré, <b
       >isKey</b> lève une erreur.</p>
     <p>Si <b

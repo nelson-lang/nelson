@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>is2D</keyword>
-  <short_description
+  <short_description
   >Checks if ax is a 2-D Polar or Cartesian axes.</short_description>
   <syntax>
     <syntax_item>tf = is2D(ax)</syntax_item>
@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>is2D</b> returns Checks if ax is a 2-D Polar or Cartesian axes.</p>
+    <p>
+      <b>is2D</b> returns Checks if ax is a 2-D Polar or Cartesian axes.</p>
   </description>
   <used_function />
   <bibliography />
@@ -29,16 +30,16 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[f = figure();
-ax = gca();
-plot(ax, 1:10, sin(1:10));
-assert_istrue(is2D(ax));
-
-f = figure();
-surf(peaks);
-ax = gca();
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+ax = gca();
+plot(ax, 1:10, sin(1:10));
+assert_istrue(is2D(ax));
+
+f = figure();
+surf(peaks);
+ax = gca();
 assert_isfalse(is2D(ax));]]></example_item_data>
     </example_item>
   </examples>

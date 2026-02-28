@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>angle</b> calcule l'angle de phase, équivalent à <b
+    <p>
+      <b>angle</b> calcule l&apos;angle de phase, équivalent à <b
       >atan2(imag(Z), real(Z))</b>.</p>
   </description>
   <used_function />

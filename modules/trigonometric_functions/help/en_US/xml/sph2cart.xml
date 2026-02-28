@@ -39,7 +39,8 @@
       >a numeric value (double or single real): Cartesian coordinates</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >sph2cart</b> transforms Cartesian to spherical coordinates.</description>
   <used_function />
   <bibliography />

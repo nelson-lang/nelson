@@ -9,7 +9,7 @@
     <syntax_item>X = randi(imax, n)</syntax_item>
     <syntax_item>X = randi(imax, sz)</syntax_item>
     <syntax_item>X = randi(imax, ..., typename)</syntax_item>
-    <syntax_item>X = randi(imax, ..., 'like', p)</syntax_item>
+    <syntax_item>X = randi(imax, ..., &apos;like&apos;, p)</syntax_item>
     <syntax_item>X = randi([imin, imax], ...)</syntax_item>
   </syntax>
   <param_input>
@@ -33,7 +33,7 @@
     <param_input_item>
       <param_name>typename</param_name>
       <param_description
-      >Type de données de sortie : "single", "double", "int8", "uint8", "int16", "uint16", "int32", "uint32" ou "logical".</param_description>
+      >Type de données de sortie : &quot;single&quot;, &quot;double&quot;, &quot;int8&quot;, &quot;uint8&quot;, &quot;int16&quot;, &quot;uint16&quot;, &quot;int32&quot;, &quot;uint32&quot; ou &quot;logical&quot;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>p</param_name>
@@ -44,21 +44,22 @@
   <param_output>
     <param_output_item>
       <param_name>X</param_name>
-      <param_description>Tableau d'entiers aléatoires.</param_description>
+      <param_description>Tableau d&apos;entiers aléatoires.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >randi</b> renvoie des entiers aléatoires tirés d'une distribution uniforme discrète.</p>
+    <p>
+      <b
+      >randi</b> renvoie des entiers aléatoires tirés d&apos;une distribution uniforme discrète.</p>
     <p>X = randi(imax) renvoie un entier scalaire aléatoire entre 1 et imax.</p>
     <p
-    >X = randi(imax, n) renvoie une matrice n-par-n d'entiers aléatoires entre 1 et imax.</p>
+    >X = randi(imax, n) renvoie une matrice n-par-n d&apos;entiers aléatoires entre 1 et imax.</p>
     <p
     >X = randi(imax, sz) renvoie un tableau dont le vecteur de taille sz définit size(X).</p>
     <p
-    >X = randi(imax, ..., typename) renvoie un tableau d'entiers aléatoires du type typename.</p>
+    >X = randi(imax, ..., typename) renvoie un tableau d&apos;entiers aléatoires du type typename.</p>
     <p
-    >X = randi(imax, ..., 'like', p) renvoie un tableau d'entiers aléatoires similaire à p (même type et complexité).</p>
+    >X = randi(imax, ..., &apos;like&apos;, p) renvoie un tableau d&apos;entiers aléatoires similaire à p (même type et complexité).</p>
     <p
     >X = randi([imin, imax], ...) renvoie des entiers aléatoires entre imin et imax.</p>
   </description>

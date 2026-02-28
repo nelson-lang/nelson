@@ -7,10 +7,10 @@
   <syntax>
     <syntax_item>dbstack</syntax_item>
     <syntax_item>st = dbstack()</syntax_item>
-    <syntax_item>dbstack('-completenames')</syntax_item>
-    <syntax_item>st = dbstack('-completenames')</syntax_item>
-    <syntax_item>dbstack('-completenames', omit)</syntax_item>
-    <syntax_item>st = dbstack('-completenames', omit)</syntax_item>
+    <syntax_item>dbstack(&apos;-completenames&apos;)</syntax_item>
+    <syntax_item>st = dbstack(&apos;-completenames&apos;)</syntax_item>
+    <syntax_item>dbstack(&apos;-completenames&apos;, omit)</syntax_item>
+    <syntax_item>st = dbstack(&apos;-completenames&apos;, omit)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -26,9 +26,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >dbstack</b> displays the file names and line numbers of the function calls.</p>
-    <p><b>dbstack('-completenames')</b> displays the full file names.</p>
+    <p>
+      <b>dbstack(&apos;-completenames&apos;)</b> displays the full file names.</p>
   </description>
   <used_function />
   <bibliography />

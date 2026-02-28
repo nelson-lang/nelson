@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>dsort</keyword>
-  <short_description
+  <short_description
   >Trie les pôles en temps discret par magnitude.</short_description>
   <syntax>
     <syntax_item>s = dsort(p)</syntax_item>
@@ -26,21 +26,22 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>dsort</b> organise les pôles en temps discret dans le vecteur <b
+    <p>
+      <b>dsort</b> organise les pôles en temps discret dans le vecteur <b
       >p</b> dans un ordre décroissant basé sur leur magnitude, les pôles instables prenant la priorité au début de la liste triée.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[p = [-2.410 + 5.573i;
--2.410 - 5.573i;
-1.503;
--0.972;
--2.590];
-[s, ndx] = dsort(p)
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[p = [-2.410 + 5.573i;
+-2.410 - 5.573i;
+1.503;
+-0.972;
+-2.590];
+[s, ndx] = dsort(p)
   ]]></example_item_data>
     </example_item>
   </examples>

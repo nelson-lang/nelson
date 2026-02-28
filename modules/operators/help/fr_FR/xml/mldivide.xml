@@ -26,7 +26,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >C = mldivide(A, B)</b> retourne la division matricielle gauche de A et B.</p>
   </description>
   <used_function />

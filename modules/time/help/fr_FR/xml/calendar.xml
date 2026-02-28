@@ -32,7 +32,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>calendar()</b> returns the currently monthly calendar.</p>
+    <p>
+      <b>calendar()</b> returns the currently monthly calendar.</p>
     <p
     >If no output arguments are specified,the calendar is displayed on the screen instead of returning a matrix 6x7.</p>
   </description>

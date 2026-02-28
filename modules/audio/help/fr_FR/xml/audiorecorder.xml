@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>audiorecorder</keyword>
-  <short_description>Objet pour enregistrer de l'audio.</short_description>
+  <short_description>Objet pour enregistrer de l&apos;audio.</short_description>
   <syntax>
     <syntax_item>recorder = audiorecorder()</syntax_item>
     <syntax_item>recorder = audiorecorder(Fs, nBits, nChannels)</syntax_item>
@@ -14,7 +14,7 @@
     <param_input_item>
       <param_name>Fs</param_name>
       <param_description
-      >une valeur double : fréquence d'échantillonnage en Hz (par défaut : 8000).</param_description>
+      >une valeur double : fréquence d&apos;échantillonnage en Hz (par défaut : 8000).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>nBits</param_name>
@@ -39,20 +39,24 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >audiorecorder</b> crée un objet audiorecorder pour enregistrer de l'audio à partir d'un périphérique d'entrée tel qu'un microphone.</p>
+    <p>
+      <b
+      >audiorecorder</b> crée un objet audiorecorder pour enregistrer de l&apos;audio à partir d&apos;un périphérique d&apos;entrée tel qu&apos;un microphone.</p>
     <p
-    >L'objet audiorecorder fournit des propriétés et des méthodes pour contrôler l'enregistrement audio, y compris la mise en pause, la reprise et la définition de rappels.</p>
+    >L&apos;objet audiorecorder fournit des propriétés et des méthodes pour contrôler l&apos;enregistrement audio, y compris la mise en pause, la reprise et la définition de rappels.</p>
     <p>
       <b>Creation:</b>
     </p>
     <ul>
-      <li><b
+      <li>
+        <b
         >recorder = audiorecorder()</b> crée un objet audiorecorder avec les propriétés par défaut : SampleRate = 8000, BitsPerSample = 8, NumChannels = 1.</li>
-      <li><b
-        >recorder = audiorecorder(Fs, nBits, nChannels)</b> définit la fréquence d'échantillonnage, le nombre de bits par échantillon et le nombre de canaux.</li>
-      <li><b
-        >recorder = audiorecorder(Fs, nBits, nChannels, ID)</b> définit le périphérique d'entrée audio à l'identifiant spécifié.</li>
+      <li>
+        <b
+        >recorder = audiorecorder(Fs, nBits, nChannels)</b> définit la fréquence d&apos;échantillonnage, le nombre de bits par échantillon et le nombre de canaux.</li>
+      <li>
+        <b
+        >recorder = audiorecorder(Fs, nBits, nChannels, ID)</b> définit le périphérique d&apos;entrée audio à l&apos;identifiant spécifié.</li>
     </ul>
     <p>
       <b>Propriétés de audiorecorder :</b>
@@ -66,7 +70,7 @@
       <tr>
         <td>SampleRate</td>
         <td>scalaire positif (Lecture seule)</td>
-        <td>Fréquence d'échantillonnage en Hz.</td>
+        <td>Fréquence d&apos;échantillonnage en Hz.</td>
       </tr>
       <tr>
         <td>BitsPerSample</td>
@@ -95,24 +99,25 @@
       </tr>
       <tr>
         <td>Running</td>
-        <td>Lecture seule : 'off' (par défaut) ou 'on'</td>
-        <td>État de l'enregistreur audio.</td>
+        <td>Lecture seule : &apos;off&apos; (par défaut) ou &apos;on&apos;
+        </td>
+        <td>État de l&apos;enregistreur audio.</td>
       </tr>
       <tr>
         <td>StartFcn</td>
         <td>vecteur de caractères ou handle de fonction</td>
-        <td>Callback exécuté au début de l'enregistrement.</td>
+        <td>Callback exécuté au début de l&apos;enregistrement.</td>
       </tr>
       <tr>
         <td>StopFcn</td>
         <td>vecteur de caractères ou handle de fonction</td>
-        <td>Callback exécuté à la fin de l'enregistrement.</td>
+        <td>Callback exécuté à la fin de l&apos;enregistrement.</td>
       </tr>
       <tr>
         <td>TimerFcn</td>
         <td>vecteur de caractères ou handle de fonction</td>
         <td
-        >Callback exécuté périodiquement pendant l'enregistrement ; l'intervalle est contrôlé par TimerPeriod.</td>
+        >Callback exécuté périodiquement pendant l&apos;enregistrement ; l&apos;intervalle est contrôlé par TimerPeriod.</td>
       </tr>
       <tr>
         <td>TimerPeriod</td>
@@ -122,36 +127,46 @@
       <tr>
         <td>Tag</td>
         <td>scalaire de chaîne ou vecteur de caractères</td>
-        <td>Étiquette pour l'objet audiorecorder.</td>
+        <td>Étiquette pour l&apos;objet audiorecorder.</td>
       </tr>
       <tr>
         <td>UserData</td>
         <td>[] (par défaut) ou tout type de données</td>
         <td
-        >Données arbitraires définies par l'utilisateur stockées avec l'objet.</td>
+        >Données arbitraires définies par l&apos;utilisateur stockées avec l&apos;objet.</td>
       </tr>
       <tr>
         <td>Type</td>
-        <td>'audiorecorder' (Lecture seule)</td>
-        <td>Identifiant du nom de la classe pour l'objet.</td>
+        <td>
+          &apos;audiorecorder&apos; (Lecture seule)</td>
+        <td>Identifiant du nom de la classe pour l&apos;objet.</td>
       </tr>
     </table>
     <p>
-      <b>Fonctions de l'objet :</b>
+      <b>Fonctions de l&apos;objet :</b>
     </p>
     <ul>
-      <li><b
+      <li>
+        <b
         >getaudiodata</b> - Stocker le signal audio enregistré dans un tableau numérique</li>
-      <li><b>getplayer</b> - Créer un objet audioplayer associé</li>
-      <li><b>isrecording</b> - éterminer si l'enregistrement est en cours</li>
-      <li><b>pause</b> - Mettre en pause l'enregistrement</li>
-      <li><b>play</b> - Lire l'audio à partir de l'objet audiorecorder</li>
-      <li><b>record</b> - Enregistrer l'audio dans l'objet audiorecorder</li>
-      <li><b
-        >recordblocking</b> - Enregistrer l'audio et bloquer jusqu'à la fin</li>
-      <li><b
-        >resume</b> - Reprendre l'enregistrement à partir de l'état en pause</li>
-      <li><b>stop</b> - Arrêter l'enregistrement</li>
+      <li>
+        <b>getplayer</b> - Créer un objet audioplayer associé</li>
+      <li>
+        <b>isrecording</b> - éterminer si l&apos;enregistrement est en cours</li>
+      <li>
+        <b>pause</b> - Mettre en pause l&apos;enregistrement</li>
+      <li>
+        <b>play</b> - Lire l&apos;audio à partir de l&apos;objet audiorecorder</li>
+      <li>
+        <b>record</b> - Enregistrer l&apos;audio dans l&apos;objet audiorecorder</li>
+      <li>
+        <b
+        >recordblocking</b> - Enregistrer l&apos;audio et bloquer jusqu&apos;à la fin</li>
+      <li>
+        <b
+        >resume</b> - Reprendre l&apos;enregistrement à partir de l&apos;état en pause</li>
+      <li>
+        <b>stop</b> - Arrêter l&apos;enregistrement</li>
     </ul>
   </description>
   <used_function />
@@ -160,7 +175,7 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Enregistrer l'audio à partir du périphérique d'entrée</example_item_description>
+      >Enregistrer l&apos;audio à partir du périphérique d&apos;entrée</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

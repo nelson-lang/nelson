@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>axis</keyword>
   <short_description
-  >Définit les limites et les rapports d'aspect des axes.</short_description>
+  >Définit les limites et les rapports d&apos;aspect des axes.</short_description>
   <syntax>
     <syntax_item
     >axis([xmin, xmax, ymin, ymax, zmin, zmax, cmin, cmax])</syntax_item>
@@ -35,7 +35,8 @@
     <param_input_item>
       <param_name>style</param_name>
       <param_description
-      >'tight', 'equal', 'image', 'square', 'fill', 'vis3d' ou 'normal' (par défaut).</param_description>
+      >
+        &apos;tight&apos;, &apos;equal&apos;, &apos;image&apos;, &apos;square&apos;, &apos;fill&apos;, &apos;vis3d&apos; ou &apos;normal&apos; (par défaut).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>cax</param_name>
@@ -43,12 +44,14 @@
     </param_input_item>
     <param_input_item>
       <param_name>visibility</param_name>
-      <param_description>'off' ou 'on' (par défaut).</param_description>
+      <param_description>
+        &apos;off&apos; ou &apos;on&apos; (par défaut).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>mode</param_name>
       <param_description
-      >'manual' (désactive l'ajustement automatique des axes selon les enfants de l'objet axe courant) ou 'auto' (choisit automatiquement toutes les limites d'axe).</param_description>
+      >
+        &apos;manual&apos; (désactive l&apos;ajustement automatique des axes selon les enfants de l&apos;objet axe courant) ou &apos;auto&apos; (choisit automatiquement toutes les limites d&apos;axe).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -59,7 +62,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>axes</b> définit les limites et l'apparence des axes.</p>
+    <p>
+      <b>axes</b> définit les limites et l&apos;apparence des axes.</p>
   </description>
   <used_function />
   <bibliography />

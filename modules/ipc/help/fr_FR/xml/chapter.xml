@@ -8,6 +8,6 @@
     <p
     >Le module ipc fournit des outils de base pour interagir avec les processus et permettre la communication entre eux.</p>
     <p
-    >Il permet de récupérer les identifiants de processus et d'utiliser un objet communicateur pour échanger des informations entre les processus Nelson.</p>
+    >Il permet de récupérer les identifiants de processus et d&apos;utiliser un objet communicateur pour échanger des informations entre les processus Nelson.</p>
   </chapter_description>
 </xmldoc>

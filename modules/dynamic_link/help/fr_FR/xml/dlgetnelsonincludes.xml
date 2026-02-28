@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>dlgetnelsonincludes</keyword>
   <short_description
-  >Renvoie les chemins des répertoires d'includes de Nelson</short_description>
+  >Renvoie les chemins des répertoires d&apos;includes de Nelson</short_description>
   <syntax>
     <syntax_item>C = dlgetnelsonincludes()</syntax_item>
   </syntax>
@@ -12,12 +12,13 @@
     <param_output_item>
       <param_name>C</param_name>
       <param_description
-      >un tableau de cellules contenant les chemins des répertoires d'includes utilisés par les modules Nelson</param_description>
+      >un tableau de cellules contenant les chemins des répertoires d&apos;includes utilisés par les modules Nelson</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >C = dlgetnelsonincludes()</b> renvoie un tableau de cellules contenant les chemins des répertoires d'includes utilisés par les modules Nelson.</p>
+    <p>
+      <b
+      >C = dlgetnelsonincludes()</b> renvoie un tableau de cellules contenant les chemins des répertoires d&apos;includes utilisés par les modules Nelson.</p>
     <p
     >Ces chemins sont utilisés en interne pour le développement des modules et les processus de compilation.</p>
   </description>

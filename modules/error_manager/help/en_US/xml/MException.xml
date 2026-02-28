@@ -6,8 +6,8 @@
   <short_description>Matrix Exception information.</short_description>
   <syntax>
     <syntax_item>ME = MException(identifier, message)</syntax_item>
-    <syntax_item>ME = MException('last')</syntax_item>
-    <syntax_item>MException('reset')</syntax_item>
+    <syntax_item>ME = MException(&apos;last&apos;)</syntax_item>
+    <syntax_item>MException(&apos;reset&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -29,9 +29,11 @@
     <p
     >All Nelson code that detects an error and throws an exception constructs an MException object.</p>
     <p
-    >identifier includes one or more component fields and a mnemonic field (example: 'nelson:matrix:empty')</p>
-    <p><b>ME = MException('last')</b> return last exception.</p>
-    <p><b>MException('reset')</b> clears last exception.</p>
+    >identifier includes one or more component fields and a mnemonic field (example: &apos;nelson:matrix:empty&apos;)</p>
+    <p>
+      <b>ME = MException(&apos;last&apos;)</b> return last exception.</p>
+    <p>
+      <b>MException(&apos;reset&apos;)</b> clears last exception.</p>
   </description>
   <used_function />
   <bibliography />

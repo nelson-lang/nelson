@@ -4,12 +4,13 @@
   <language>en_US</language>
   <keyword>pi</keyword>
   <short_description
-  >Ratio of circle's circumference to its diameter.</short_description>
+  >Ratio of circle&apos;s circumference to its diameter.</short_description>
   <syntax>
     <syntax_item>pi</syntax_item>
   </syntax>
   <description>
-    <p><b>pi</b> returns the floating-point number nearest the value of <b
+    <p>
+      <b>pi</b> returns the floating-point number nearest the value of <b
       >π</b>.</p>
   </description>
   <used_function />

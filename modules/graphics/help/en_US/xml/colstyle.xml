@@ -8,7 +8,7 @@
     <syntax_item
     >[linespec, colorspec, markerspec, msg] = colstyle (str)</syntax_item>
     <syntax_item
-    >[linespec, colorspec, markerspec, msg] = colstyle (str, 'plot')</syntax_item>
+    >[linespec, colorspec, markerspec, msg] = colstyle (str, &apos;plot&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -17,9 +17,12 @@
       >a row vector of character or scalar string: line specification.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'plot'</param_name>
+      <param_name>
+        &apos;plot&apos;
+      </param_name>
       <param_description
-      >linespec returns 'none' and not '' with this option.</param_description>
+      >linespec returns &apos;none&apos; and not &apos;
+        &apos; with this option.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -42,7 +45,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>colstyle</b> parses color and style from string.</p>
+    <p>
+      <b>colstyle</b> parses color and style from string.</p>
   </description>
   <used_function />
   <bibliography />

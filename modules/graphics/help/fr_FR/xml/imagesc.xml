@@ -4,13 +4,13 @@
   <language>fr_FR</language>
   <keyword>imagesc</keyword>
   <short_description
-  >Affiche une image à partir d'un tableau avec des couleurs mises à l'échelle.</short_description>
+  >Affiche une image à partir d&apos;un tableau avec des couleurs mises à l&apos;échelle.</short_description>
   <syntax>
     <syntax_item>imagesc()</syntax_item>
     <syntax_item>imagesc(C)</syntax_item>
     <syntax_item>image(X, Y, C)</syntax_item>
-    <syntax_item>imagesc('CData', C)</syntax_item>
-    <syntax_item>imagesc('XData', X, 'YData', Y,'CData', C)</syntax_item>
+    <syntax_item>imagesc(&apos;CData&apos;, C)</syntax_item>
+    <syntax_item>imagesc(&apos;XData&apos;, X, &apos;YData&apos;, Y,&apos;CData&apos;, C)</syntax_item>
     <syntax_item>imagesc(..., propertyName, propertyValue)</syntax_item>
     <syntax_item>imagesc(parent, ...)</syntax_item>
     <syntax_item>go = imagesc(...)</syntax_item>
@@ -51,8 +51,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >imagesc</b> affiche les données C sous forme d'image. Cette image est colorée à l'aide de la palette de couleurs de la figure courante.</p>
+    <p>
+      <b
+      >imagesc</b> affiche les données C sous forme d&apos;image. Cette image est colorée à l&apos;aide de la palette de couleurs de la figure courante.</p>
     <p>Propriétés :</p>
     <table>
       <tr>
@@ -77,14 +78,14 @@
           <b>CData</b>
         </td>
         <td
-        >Données de couleur de l'image : vecteur ou matrice, tableau 3D de triplets RGB.</td>
+        >Données de couleur de l&apos;image : vecteur ou matrice, tableau 3D de triplets RGB.</td>
       </tr>
       <tr>
         <td>
           <b>CDataMapping</b>
         </td>
         <td
-        >Méthode de mappage des couleurs : 'direct' ou 'scaled' (par défaut).</td>
+        >Méthode de mappage des couleurs : &apos;direct&apos; ou &apos;scaled&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -103,13 +104,14 @@
           <b>Tag</b>
         </td>
         <td
-        >Identifiant de l'objet : chaîne scalaire, vecteur de caractères, '' (par défaut).</td>
+        >Identifiant de l&apos;objet : chaîne scalaire, vecteur de caractères, &apos;
+          &apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>Type</b>
         </td>
-        <td>Type d'objet graphique : 'surface'.</td>
+        <td>Type d&apos;objet graphique : &apos;surface&apos;.</td>
       </tr>
       <tr>
         <td>
@@ -121,41 +123,41 @@
         <td>
           <b>Visible</b>
         </td>
-        <td>État de visibilité : 'off' ou 'on' (par défaut).</td>
+        <td>État de visibilité : &apos;off&apos; ou &apos;on&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>XData</b>
         </td>
         <td
-        >Placement sur l'axe x : vecteur à deux éléments, scalaire, [1 size(CData, 1)] (par défaut).</td>
+        >Placement sur l&apos;axe x : vecteur à deux éléments, scalaire, [1 size(CData, 1)] (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>YData</b>
         </td>
         <td
-        >Placement sur l'axe y : vecteur à deux éléments, scalaire, [1 size(CData, 2)] (par défaut).</td>
+        >Placement sur l&apos;axe y : vecteur à deux éléments, scalaire, [1 size(CData, 2)] (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>CreateFcn</b>
         </td>
         <td
-        >Callback (fonction, chaîne ou cellule) appelée lors de la création de l'objet. Définir cette propriété sur un composant existant n'a aucun effet.</td>
+        >Callback (fonction, chaîne ou cellule) appelée lors de la création de l&apos;objet. Définir cette propriété sur un composant existant n&apos;a aucun effet.</td>
       </tr>
       <tr>
         <td>
           <b>DeleteFcn</b>
         </td>
         <td
-        >Callback (fonction, chaîne ou cellule) appelée lors de la suppression de l'objet.</td>
+        >Callback (fonction, chaîne ou cellule) appelée lors de la suppression de l&apos;objet.</td>
       </tr>
       <tr>
         <td>
           <b>BeingDeleted</b>
         </td>
-        <td>Indique que l'objet est en cours de suppression.</td>
+        <td>Indique que l&apos;objet est en cours de suppression.</td>
       </tr>
     </table>
   </description>

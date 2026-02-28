@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>slicot_sb10jd</keyword>
   <short_description
-  >Conversion d'un système d'espace d'état descripteur en forme d'espace d'état régulière.</short_description>
+  >Conversion d&apos;un système d&apos;espace d&apos;état descripteur en forme d&apos;espace d&apos;état régulière.</short_description>
   <syntax>
     <syntax_item
     >[A_OUT, B_OUT, C_OUT, D_OUT, E_OUT, NSYS, INFO] = slicot_sb10jd(A_IN, B_IN, C_IN, D_IN, E_IN)</syntax_item>
@@ -13,12 +13,12 @@
     <param_input_item>
       <param_name>A_IN</param_name>
       <param_description
-      >La partie principale N×N de ce tableau doit contenir la matrice d'état A du système descripteur.</param_description>
+      >La partie principale N×N de ce tableau doit contenir la matrice d&apos;état A du système descripteur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B_IN</param_name>
       <param_description
-      >La partie principale N×M de ce tableau doit contenir la matrice d'entrée B du système descripteur.</param_description>
+      >La partie principale N×M de ce tableau doit contenir la matrice d&apos;entrée B du système descripteur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>C_IN</param_name>
@@ -40,12 +40,12 @@
     <param_output_item>
       <param_name>A_OUT</param_name>
       <param_description
-      >La partie principale NSYS×NSYS de ce tableau contient la matrice d'état Ad du système converti.</param_description>
+      >La partie principale NSYS×NSYS de ce tableau contient la matrice d&apos;état Ad du système converti.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>B_OUT</param_name>
       <param_description
-      >La partie principale NSYS×M de ce tableau contient la matrice d'entrée Bd du système converti.</param_description>
+      >La partie principale NSYS×M de ce tableau contient la matrice d&apos;entrée Bd du système converti.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>C_OUT</param_name>
@@ -65,17 +65,17 @@
     <param_output_item>
       <param_name>NSYS</param_name>
       <param_description
-      >L'ordre du système d'espace d'état converti.</param_description>
+      >L&apos;ordre du système d&apos;espace d&apos;état converti.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>INFO</param_name>
       <param_description
-      >0 : sortie réussie ; 1 : l'itération pour calculer la décomposition en valeurs singulières n'a pas convergé.</param_description>
+      >0 : sortie réussie ; 1 : l&apos;itération pour calculer la décomposition en valeurs singulières n&apos;a pas convergé.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p
-    >convertir le système d'espace d'état descripteur en forme d'espace d'état régulier.</p>
+    >convertir le système d&apos;espace d&apos;état descripteur en forme d&apos;espace d&apos;état régulier.</p>
   </description>
   <used_function>SB10JD</used_function>
   <bibliography

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>balreal</keyword>
   <short_description
-  >Équilibrage basé sur le Gramien des réalisations d'espace d'état.</short_description>
+  >Équilibrage basé sur le Gramien des réalisations d&apos;espace d&apos;état.</short_description>
   <syntax>
     <syntax_item>[sysb, g] = balreal(sys)</syntax_item>
     <syntax_item>[sysb, g, T, Ti] = balreal(sys)</syntax_item>
@@ -28,22 +28,23 @@
     <param_output_item>
       <param_name>T</param_name>
       <param_description
-      >Matrice de transformation de similarité d'état.</param_description>
+      >Matrice de transformation de similarité d&apos;état.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>Ti</param_name>
       <param_description
-      >Matrice inverse de la transformation de similarité d'état.</param_description>
+      >Matrice inverse de la transformation de similarité d&apos;état.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>balreal(sys)</b> calcule une réalisation équilibrée, notée <b
+    <p>
+      <b>balreal(sys)</b> calcule une réalisation équilibrée, notée <b
       >sysb</b>, pour la partie stable du modèle linéaire invariant dans le temps (LTI) <b
       >sys</b>.</p>
     <p
-    >Ce processus s'applique aussi bien aux systèmes continus que discrets. Si <b
-      >sys</b> n'est pas initialement sous forme d'espace d'état, la fonction le convertit automatiquement en espace d'état à l'aide de <b
-      >ss</b> avant de procéder à l'équilibrage.</p>
+    >Ce processus s&apos;applique aussi bien aux systèmes continus que discrets. Si <b
+      >sys</b> n&apos;est pas initialement sous forme d&apos;espace d&apos;état, la fonction le convertit automatiquement en espace d&apos;état à l&apos;aide de <b
+      >ss</b> avant de procéder à l&apos;équilibrage.</p>
   </description>
   <examples>
     <example_item>

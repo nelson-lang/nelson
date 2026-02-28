@@ -3,11 +3,11 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>assert_functions</module_name>
-  <chapter>Fonctions d'assertion</chapter>
+  <chapter>Fonctions d&apos;assertion</chapter>
   <chapter_description>
     <p
-    >Le module Fonctions d'assertion de Nelson fournit des outils pour valider le comportement des programmes et vérifier les conditions lors du développement ou des tests.</p>
+    >Le module Fonctions d&apos;assertion de Nelson fournit des outils pour valider le comportement des programmes et vérifier les conditions lors du développement ou des tests.</p>
     <p
-    >Ces fonctions permettent de s'assurer que les calculs et conditions logiques respectent les critères attendus, améliorant la fiabilité du code et détectant les erreurs précocement.</p>
+    >Ces fonctions permettent de s&apos;assurer que les calculs et conditions logiques respectent les critères attendus, améliorant la fiabilité du code et détectant les erreurs précocement.</p>
   </chapter_description>
 </xmldoc>

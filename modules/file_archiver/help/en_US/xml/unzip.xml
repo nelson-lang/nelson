@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >unzip</b> extracts archived contents. Timestamps and attributes are preserved for each file.</p>
   </description>
   <used_function />

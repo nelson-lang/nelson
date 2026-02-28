@@ -11,19 +11,20 @@
     <param_input_item>
       <param_name>X</param_name>
       <param_description
-      >une matrice de double, single ou d'entiers.</param_description>
+      >une matrice de double, single ou d&apos;entiers.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>Y</param_name>
-      <param_description>une matrice d'entiers 32 bits.</param_description>
+      <param_description>une matrice d&apos;entiers 32 bits.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>int32</b> convertit la valeur en type entier 32 bits.</p>
+    <p>
+      <b>int32</b> convertit la valeur en type entier 32 bits.</p>
     <p
-    >La valeur est arrondie à la valeur int32 la plus proche lors de la conversion. Une valeur supérieure ou inférieure à la plage pour la classe int32 est mappée vers l'une des extrémités de la plage [-2147483648, 2147483647].</p>
+    >La valeur est arrondie à la valeur int32 la plus proche lors de la conversion. Une valeur supérieure ou inférieure à la plage pour la classe int32 est mappée vers l&apos;une des extrémités de la plage [-2147483648, 2147483647].</p>
   </description>
   <used_function />
   <bibliography />

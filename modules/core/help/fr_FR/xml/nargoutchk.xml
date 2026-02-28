@@ -4,12 +4,12 @@
   <language>fr_FR</language>
   <keyword>nargoutchk</keyword>
   <short_description
-  >Vérifie le nombre d'arguments de sortie.</short_description>
+  >Vérifie le nombre d&apos;arguments de sortie.</short_description>
   <syntax>
     <syntax_item>nargoutchk(minArgs, maxArgs)</syntax_item>
     <syntax_item>msg = nargoutchk(minArgs, maxArgs, numArgs)</syntax_item>
     <syntax_item
-    >st = nargoutchk(minArgs, maxArgs, numArgs, 'struct')</syntax_item>
+    >st = nargoutchk(minArgs, maxArgs, numArgs, &apos;struct&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -31,17 +31,17 @@
   <param_output>
     <param_output_item>
       <param_name>msg</param_name>
-      <param_description>une chaîne : message d'erreur.</param_description>
+      <param_description>une chaîne : message d&apos;erreur.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>st</param_name>
       <param_description
-      >une structure avec le message d'erreur et l'identifiant.</param_description>
+      >une structure avec le message d&apos;erreur et l&apos;identifiant.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p
-    >Lance une erreur si le nombre d'arguments de sortie demandé n'est pas dans l'intervalle attendu.</p>
+    >Lance une erreur si le nombre d&apos;arguments de sortie demandé n&apos;est pas dans l&apos;intervalle attendu.</p>
   </description>
   <used_function />
   <bibliography />

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>sort</keyword>
   <short_description
-  >Trier les éléments d'un tableau (algorithme de tri rapide).</short_description>
+  >Trier les éléments d&apos;un tableau (algorithme de tri rapide).</short_description>
   <syntax>
     <syntax_item>B = sort(A)</syntax_item>
     <syntax_item>B = sort(A, dim)</syntax_item>
@@ -26,7 +26,7 @@
     <param_input_item>
       <param_name>direction</param_name>
       <param_description
-      >Direction du tri : 'ascend' (par défaut) ou 'descend'.</param_description>
+      >Direction du tri : &apos;ascend&apos; (par défaut) ou &apos;descend&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>name, value</param_name>
@@ -44,16 +44,35 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>sort</b> implémente l'algorithme de tri rapide.</p>
+    <p>
+      <b>sort</b> implémente l&apos;algorithme de tri rapide.</p>
     <p>Arguments paires nom-valeur :</p>
-    <p><b>'MissingPlacement'</b> - Placement des valeurs manquantes :<b
-      >'auto'</b> (par défaut), <b>'first'</b>, <b>'last'</b>.</p>
-    <p><b>'ComparisonMethod'</b> - Méthode de comparaison des éléments :<b
-      >'auto'</b> (par défaut), <b>'real'</b>, <b>'abs'</b>.</p>
+    <p>
+      <b>
+        &apos;MissingPlacement&apos;
+      </b> - Placement des valeurs manquantes :<b
+      >
+        &apos;auto&apos;
+      </b> (par défaut), <b>
+        &apos;first&apos;
+      </b>, <b>
+        &apos;last&apos;
+      </b>.</p>
+    <p>
+      <b>
+        &apos;ComparisonMethod&apos;
+      </b> - Méthode de comparaison des éléments :<b
+      >
+        &apos;auto&apos;
+      </b> (par défaut), <b>
+        &apos;real&apos;
+      </b>, <b>
+        &apos;abs&apos;
+      </b>.</p>
   </description>
   <used_function>qsort (stl)</used_function>
   <bibliography
-  >Quick sort algorithm from Bentley and McIlroy's "Engineering a Sort Function". Software - Practice and Experience</bibliography>
+  >Quick sort algorithm from Bentley and McIlroy&apos;s &quot;Engineering a Sort Function&quot;. Software - Practice and Experience</bibliography>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>

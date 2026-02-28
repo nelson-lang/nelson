@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>bone</b> returns the colormap with bone colors.</p>
+    <p>
+      <b>bone</b> returns the colormap with bone colors.</p>
   </description>
   <used_function />
   <bibliography />

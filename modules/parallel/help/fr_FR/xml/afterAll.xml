@@ -21,7 +21,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>n</param_name>
-      <param_description>nombre d'arguments de sortie.</param_description>
+      <param_description>nombre d&apos;arguments de sortie.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -31,13 +31,14 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>B = afterAll(F, fcn, n)</b> renvoie un objet AfterAllFuture <b
+    <p>
+      <b>B = afterAll(F, fcn, n)</b> renvoie un objet AfterAllFuture <b
       >B</b>.</p>
     <p>La fonction <b
       >fcn</b> est automatiquement exécutée une fois que tous les éléments du tableau Future <b
       >F</b> sont terminés.</p>
-    <p>Si l'un des éléments de <b>F</b> rencontre une erreur, la propriété <b
-      >Error</b> de <b>B</b> contient l'erreur.</p>
+    <p>Si l&apos;un des éléments de <b>F</b> rencontre une erreur, la propriété <b
+      >Error</b> de <b>B</b> contient l&apos;erreur.</p>
   </description>
   <used_function />
   <bibliography />

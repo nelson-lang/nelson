@@ -4,11 +4,11 @@
   <language>fr_FR</language>
   <keyword>fieldnames</keyword>
   <short_description
-  >Renvoie les noms de champs d'une structure ou d'un handle.</short_description>
+  >Renvoie les noms de champs d&apos;une structure ou d&apos;un handle.</short_description>
   <syntax>
     <syntax_item>names = fieldnames(st)</syntax_item>
     <syntax_item>names = fieldnames(h)</syntax_item>
-    <syntax_item>names = fieldnames(h, '-full')</syntax_item>
+    <syntax_item>names = fieldnames(h, &apos;-full&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -27,12 +27,15 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >names = fieldnames(st)</b> renvoie un tableau cellulaire de chaînes contenant les noms des champs de la structure d'entrée.</p>
-    <p><b
+    <p>
+      <b
+      >names = fieldnames(st)</b> renvoie un tableau cellulaire de chaînes contenant les noms des champs de la structure d&apos;entrée.</p>
+    <p>
+      <b
       >names = fieldnames(h)</b> renvoie un tableau cellulaire de chaînes contenant les noms des propriétés du handle (sans les propriétés cachées).</p>
-    <p><b
-      >names = fieldnames(h, '-full')</b> renvoie un tableau cellulaire de chaînes contenant les noms de toutes les propriétés du handle.</p>
+    <p>
+      <b
+      >names = fieldnames(h, &apos;-full&apos;)</b> renvoie un tableau cellulaire de chaînes contenant les noms de toutes les propriétés du handle.</p>
   </description>
   <used_function />
   <bibliography />

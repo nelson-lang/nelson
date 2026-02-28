@@ -7,7 +7,7 @@
   <syntax>
     <syntax_item>fmt = format()</syntax_item>
     <syntax_item>format()</syntax_item>
-    <syntax_item>format('default')</syntax_item>
+    <syntax_item>format(&apos;default&apos;)</syntax_item>
     <syntax_item>format(new_style)</syntax_item>
   </syntax>
   <param_input>
@@ -24,9 +24,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >format(new_style)</b> changes the display format and number printing of the current session.</p>
-    <p><b>format('default')</b> will reset to default format (short, loose).</p>
+    <p>
+      <b>format(&apos;default&apos;)</b> will reset to default format (short, loose).</p>
     <p />
     <p>Styles supported:</p>
     <p>

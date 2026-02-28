@@ -6,7 +6,7 @@
   <short_description>Returns last recorded error message.</short_description>
   <syntax>
     <syntax_item>last_err = lasterror()</syntax_item>
-    <syntax_item>lasterror('reset')</syntax_item>
+    <syntax_item>lasterror(&apos;reset&apos;)</syntax_item>
     <syntax_item>lasterror(error_struct)</syntax_item>
   </syntax>
   <param_output>
@@ -16,10 +16,13 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >l = lasterror()</b> returns a structure containing the last error message and information as an struct.</p>
-    <p><b>lasterror('reset')</b> clears last error.</p>
-    <p><b>lasterror(error_struct)</b> set last error.</p>
+    <p>
+      <b>lasterror(&apos;reset&apos;)</b> clears last error.</p>
+    <p>
+      <b>lasterror(error_struct)</b> set last error.</p>
   </description>
   <used_function />
   <bibliography />

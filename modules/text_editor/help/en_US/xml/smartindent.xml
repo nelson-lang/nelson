@@ -23,7 +23,8 @@
       <param_description>a logical: false by default</param_description>
     </param_input_item>
   </param_input>
-  <description><b
+  <description>
+    <b
     >smartindent</b> indents code to make reading statements such as while loops easier.</description>
   <used_function />
   <bibliography />

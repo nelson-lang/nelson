@@ -7,26 +7,26 @@
   <syntax>
     <syntax_item>status = test_run()</syntax_item>
     <syntax_item>status = test_run([])</syntax_item>
-    <syntax_item>status = test_run('minimal_tests')</syntax_item>
-    <syntax_item>status = test_run('-stoponfail')</syntax_item>
+    <syntax_item>status = test_run(&apos;minimal_tests&apos;)</syntax_item>
+    <syntax_item>status = test_run(&apos;-stoponfail&apos;)</syntax_item>
     <syntax_item>status = test_run(modules)</syntax_item>
     <syntax_item>status = test_run(file_to_test)</syntax_item>
-    <syntax_item>status = test_run(modules, '-stoponfail')</syntax_item>
-    <syntax_item>status = test_run(file_to_test, '-stoponfail')</syntax_item>
+    <syntax_item>status = test_run(modules, &apos;-stoponfail&apos;)</syntax_item>
+    <syntax_item>status = test_run(file_to_test, &apos;-stoponfail&apos;)</syntax_item>
     <syntax_item>status = test_run(modules, option)</syntax_item>
     <syntax_item>status = test_run(file_to_test, option)</syntax_item>
-    <syntax_item>status = test_run('minimal_tests', '-stoponfail')</syntax_item>
-    <syntax_item>status = test_run('minimal_tests', option)</syntax_item>
-    <syntax_item>status = test_run([], '-stoponfail')</syntax_item>
+    <syntax_item>status = test_run(&apos;minimal_tests&apos;, &apos;-stoponfail&apos;)</syntax_item>
+    <syntax_item>status = test_run(&apos;minimal_tests&apos;, option)</syntax_item>
+    <syntax_item>status = test_run([], &apos;-stoponfail&apos;)</syntax_item>
     <syntax_item>status = test_run([], option)</syntax_item>
     <syntax_item>status = test_run(modules, file_output)</syntax_item>
     <syntax_item>status = test_run(file_to_test, file_output)</syntax_item>
     <syntax_item>status = test_run([], file_output)</syntax_item>
     <syntax_item>status = test_run(modules, option, xunitfile)</syntax_item>
     <syntax_item
-    >status = test_run(modules, '-stoponfail', xunitfile)</syntax_item>
+    >status = test_run(modules, &apos;-stoponfail&apos;, xunitfile)</syntax_item>
     <syntax_item
-    >status = test_run(modules, option, xunitfile, '-stoponfail')</syntax_item>
+    >status = test_run(modules, option, xunitfile, &apos;-stoponfail&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -42,7 +42,7 @@
     <param_input_item>
       <param_name>options</param_name>
       <param_description
-      >a string or a cell of string: supported options 'all', 'all_tests', 'unitary_tests', 'nonreg_tests' or 'benchs'.</param_description>
+      >a string or a cell of string: supported options &apos;all&apos;, &apos;all_tests&apos;, &apos;unitary_tests&apos;, &apos;nonreg_tests&apos; or &apos;benchs&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>xunitfile</param_name>
@@ -50,9 +50,11 @@
       >a string: filename to export results as a .xml or .json file compatible with Xunit format.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-stoponfail'</param_name>
+      <param_name>
+        &apos;-stoponfail&apos;
+      </param_name>
       <param_description
-      >a string: stop tests execution at first 'fails' detected.</param_description>
+      >a string: stop tests execution at first &apos;fails&apos; detected.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -62,74 +64,153 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >test_run</b> function searchs 'test_*.m', 'bug_*.m', and 'bench_*.m' files, executes them, and displays a report about success or failures.</p>
+    <p>
+      <b
+      >test_run</b> function searchs &apos;test_*.m&apos;, &apos;bug_*.m&apos;, and &apos;bench_*.m&apos; files, executes them, and displays a report about success or failures.</p>
     <p
-    >Each test or bench is executed in a separated process using the 'unix' command.</p>
+    >Each test or bench is executed in a separated process using the &apos;unix&apos; command.</p>
     <p
     >That enables the current command to continue, even if the test as created an unstable environment.</p>
     <p>It also enables the tests to be independent from one another.</p>
     <p
     >Some special tags can be inserted in the .m files to help the processing of the corresponding test.</p>
     <p>These tags are expected to be found in Nelson comments:</p>
-    <p><b
-      >&lt;--NOT FIXED--&gt;</b> This test is skipped because it is a reported bug, but it is not yet fixed.</p>
-    <p><b
-      >&lt;--INTERACTIVE TEST--&gt;</b> This test is skipped because it is interactive test.</p>
-    <p><b
-      >&lt;--CLI MODE--&gt;</b> This test will be executed by nelson-cli executable (default).</p>
-    <p><b
-      >&lt;--ADV-CLI MODE--&gt;</b> This test will be executed by nelson-adv-cli executable.</p>
-    <p><b
-      >&lt;--GUI MODE--&gt;</b> This test will be executed by nelson-gui executable.</p>
-    <p><b
-      >&lt;--CHECK REF--&gt;</b> This test will compare .ref available in same directory with output generated. see <b
+    <p>
+      <b
+      >
+        &lt;--NOT FIXED--&gt;
+      </b> This test is skipped because it is a reported bug, but it is not yet fixed.</p>
+    <p>
+      <b
+      >
+        &lt;--INTERACTIVE TEST--&gt;
+      </b> This test is skipped because it is interactive test.</p>
+    <p>
+      <b
+      >
+        &lt;--CLI MODE--&gt;
+      </b> This test will be executed by nelson-cli executable (default).</p>
+    <p>
+      <b
+      >
+        &lt;--ADV-CLI MODE--&gt;
+      </b> This test will be executed by nelson-adv-cli executable.</p>
+    <p>
+      <b
+      >
+        &lt;--GUI MODE--&gt;
+      </b> This test will be executed by nelson-gui executable.</p>
+    <p>
+      <b
+      >
+        &lt;--CHECK REF--&gt;
+      </b> This test will compare .ref available in same directory with output generated. see <b
       >test_makeref</b> to generate .ref file.</p>
-    <p><b
-      >&lt;--ENGLISH IMPOSED--&gt;</b> This test will be executed with the en_US language.</p>
-    <p><b
-      >&lt;--WINDOWS ONLY--&gt;</b> This test will be executed only on Windows.</p>
-    <p><b
-      >&lt;--MACOS ONLY--&gt;</b> This test will be executed only on Macos.</p>
-    <p><b>&lt;--UNIX ONLY--&gt;</b> This test will be executed only on Unix.</p>
-    <p><b
-      >&lt;--WITH DISPLAY--&gt;</b> This test will be executed only if a display output is available.</p>
-    <p><b
-      >&lt;--RELEASE ONLY--&gt;</b> This test will be executed only if nelson is an release (not in debug mode).</p>
-    <p><b
-      >&lt;--EXCEL REQUIRED--&gt;</b> This test will be executed only if excel is detected (on Windows).</p>
-    <p><b>&lt;--MPI MODE--&gt;</b> This test will be executed in MPI mode.</p>
-    <p><b
-      >&lt;--AUDIO INPUT REQUIRED--&gt;</b> This test will be executed if an audio input is available.</p>
-    <p><b
-      >&lt;--AUDIO OUTPUT REQUIRED--&gt;</b> This test will be executed if an audio output is available.</p>
-    <p><b
-      >&lt;--C/C++ COMPILER REQUIRED--&gt;</b> This test will be executed if an C/C++ compiler is available.</p>
-    <p><b
-      >&lt;--INDEX 64 BIT REQUIRED--&gt;</b> This test will be executed if 64 bit index is available.</p>
-    <p><b
-      >&lt;--NO USER MODULES--&gt;</b> This test will be executed without load user modules.</p>
-    <p><b
-      >&lt;--IPC REQUIRED--&gt;</b> This test will be executed if IPC is available.</p>
-    <p><b
-      >&lt;--SEQUENTIAL TEST REQUIRED--&gt;</b> This test will be executed sequentialy (1 worker).</p>
-    <p><b
-      >&lt;--NATIVE ARCHITECTURE TEST REQUIRED--&gt;</b> This test will be executed if application's build and architecture are same.</p>
-    <p><b
-      >&lt;--FILE WATCHER REQUIRED--&gt;</b>This test will be executed if file watcher is available.</p>
-    <p><b
-      >&lt;--PYTHON ENVIRONMENT REQUIRED--&gt;</b> This test will be executed if python environment is available and configured.</p>
-    <p><b
-      >&lt;--JULIA ENVIRONMENT REQUIRED--&gt;</b> This test will be executed if julia environment is available and configured.</p>
+    <p>
+      <b
+      >
+        &lt;--ENGLISH IMPOSED--&gt;
+      </b> This test will be executed with the en_US language.</p>
+    <p>
+      <b
+      >
+        &lt;--WINDOWS ONLY--&gt;
+      </b> This test will be executed only on Windows.</p>
+    <p>
+      <b
+      >
+        &lt;--MACOS ONLY--&gt;
+      </b> This test will be executed only on Macos.</p>
+    <p>
+      <b>
+        &lt;--UNIX ONLY--&gt;
+      </b> This test will be executed only on Unix.</p>
+    <p>
+      <b
+      >
+        &lt;--WITH DISPLAY--&gt;
+      </b> This test will be executed only if a display output is available.</p>
+    <p>
+      <b
+      >
+        &lt;--RELEASE ONLY--&gt;
+      </b> This test will be executed only if nelson is an release (not in debug mode).</p>
+    <p>
+      <b
+      >
+        &lt;--EXCEL REQUIRED--&gt;
+      </b> This test will be executed only if excel is detected (on Windows).</p>
+    <p>
+      <b>
+        &lt;--MPI MODE--&gt;
+      </b> This test will be executed in MPI mode.</p>
+    <p>
+      <b
+      >
+        &lt;--AUDIO INPUT REQUIRED--&gt;
+      </b> This test will be executed if an audio input is available.</p>
+    <p>
+      <b
+      >
+        &lt;--AUDIO OUTPUT REQUIRED--&gt;
+      </b> This test will be executed if an audio output is available.</p>
+    <p>
+      <b
+      >
+        &lt;--C/C++ COMPILER REQUIRED--&gt;
+      </b> This test will be executed if an C/C++ compiler is available.</p>
+    <p>
+      <b
+      >
+        &lt;--INDEX 64 BIT REQUIRED--&gt;
+      </b> This test will be executed if 64 bit index is available.</p>
+    <p>
+      <b
+      >
+        &lt;--NO USER MODULES--&gt;
+      </b> This test will be executed without load user modules.</p>
+    <p>
+      <b
+      >
+        &lt;--IPC REQUIRED--&gt;
+      </b> This test will be executed if IPC is available.</p>
+    <p>
+      <b
+      >
+        &lt;--SEQUENTIAL TEST REQUIRED--&gt;
+      </b> This test will be executed sequentialy (1 worker).</p>
+    <p>
+      <b
+      >
+        &lt;--NATIVE ARCHITECTURE TEST REQUIRED--&gt;
+      </b> This test will be executed if application&apos;s build and architecture are same.</p>
+    <p>
+      <b
+      >
+        &lt;--FILE WATCHER REQUIRED--&gt;
+      </b>This test will be executed if file watcher is available.</p>
+    <p>
+      <b
+      >
+        &lt;--PYTHON ENVIRONMENT REQUIRED--&gt;
+      </b> This test will be executed if python environment is available and configured.</p>
+    <p>
+      <b
+      >
+        &lt;--JULIA ENVIRONMENT REQUIRED--&gt;
+      </b> This test will be executed if julia environment is available and configured.</p>
     <p />
     <p>Test can also skipped dynamically using <b
       >skip_testsuite</b> function.</p>
     <p
     >To avoid to block the application, tests have an execution timer of 2 minutes and the benchs have a timer of 6 minutes.</p>
-    <p><b
+    <p>
+      <b
       >test_run</b> uses n th workers to execute and speed up tests executions.</p>
     <p>Tests with <b
-      >&lt;--SEQUENTIAL TEST REQUIRED--&gt;</b> are evaluated last.</p>
+      >
+        &lt;--SEQUENTIAL TEST REQUIRED--&gt;
+      </b> are evaluated last.</p>
     <p>Benchs are evaluated sequentialy.</p>
   </description>
   <used_function />

@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>exp</b> computes the exponential value.</p>
+    <p>
+      <b>exp</b> computes the exponential value.</p>
     <p>For real numbers:</p>
     <latex>e^x</latex>
     <p>For complex numbers <b>z = x + iy</b>:</p>

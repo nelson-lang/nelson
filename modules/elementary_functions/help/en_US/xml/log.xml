@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>log</b> computes the natural logarithm.</p>
+    <p>
+      <b>log</b> computes the natural logarithm.</p>
     <p>For real positive numbers:</p>
     <latex>\ln(x)</latex>
     <p>For complex numbers <b>z</b>:</p>

@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>tolower</b> convertit une chaîne en minuscules.</p>
+    <p>
+      <b>tolower</b> convertit une chaîne en minuscules.</p>
   </description>
   <used_function />
   <bibliography />

@@ -22,7 +22,7 @@
     <param_input_item>
       <param_name>sz</param_name>
       <param_description
-      >un vecteur d'entiers (dimensions du tableau cellulaire à créer).</param_description>
+      >un vecteur d&apos;entiers (dimensions du tableau cellulaire à créer).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>A</param_name>
@@ -36,9 +36,13 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>cell</b> renvoie un tableau cellulaire de matrices vides.</p>
-    <p><b>cell()</b> est équivalent à <b>cell(0)</b>              </p>
-    <p><b>cell(A)</b> avec A un tableau de chaînes convertit en cell.</p>
+    <p>
+      <b>cell</b> renvoie un tableau cellulaire de matrices vides.</p>
+    <p>
+      <b>cell()</b> est équivalent à <b>cell(0)</b>
+    </p>
+    <p>
+      <b>cell(A)</b> avec A un tableau de chaînes convertit en cell.</p>
   </description>
   <used_function />
   <bibliography />

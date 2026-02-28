@@ -14,7 +14,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >terminal_size()</b> returns a vector with size of the terminal window in characters (rows and columns).</p>
   </description>
   <bibliography />

@@ -18,12 +18,13 @@
     <param_output_item>
       <param_name>status</param_name>
       <param_description
-      >une chaîne : 'script', 'function', 'error'.</param_description>
+      >une chaîne : &apos;script&apos;, &apos;function&apos;, &apos;error&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >parsefile</b> analyse un fichier et renvoie s'il s'agit d'un script valide, d'une fonction valide ou d'une erreur.</p>
+    <p>
+      <b
+      >parsefile</b> analyse un fichier et renvoie s&apos;il s&apos;agit d&apos;un script valide, d&apos;une fonction valide ou d&apos;une erreur.</p>
   </description>
   <used_function />
   <bibliography />

@@ -11,19 +11,20 @@
     <param_input_item>
       <param_name>X</param_name>
       <param_description
-      >une matrice de double, single ou d'entiers.</param_description>
+      >une matrice de double, single ou d&apos;entiers.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>Y</param_name>
-      <param_description>une matrice d'entiers 8 bits.</param_description>
+      <param_description>une matrice d&apos;entiers 8 bits.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>int8</b> convertit la valeur en type entier 8 bits.</p>
+    <p>
+      <b>int8</b> convertit la valeur en type entier 8 bits.</p>
     <p
-    >La valeur est arrondie à la valeur int8 la plus proche lors de la conversion. Une valeur supérieure ou inférieure à la plage pour la classe int8 est mappée vers l'une des extrémités de la plage [-128, 127].</p>
+    >La valeur est arrondie à la valeur int8 la plus proche lors de la conversion. Une valeur supérieure ou inférieure à la plage pour la classe int8 est mappée vers l&apos;une des extrémités de la plage [-128, 127].</p>
   </description>
   <used_function />
   <bibliography />

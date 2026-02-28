@@ -10,6 +10,6 @@
     <p
     >Ces types sont particulièrement utiles pour stocker et traiter efficacement de grands jeux de données, tels que des images ou de grands tableaux numériques.</p>
     <p
-    >Le module prend en charge les conversions entre formats entiers et fournit l'accès aux valeurs minimale et maximale représentables pour chaque type entier, garantissant des calculs entiers sûrs et précis.</p>
+    >Le module prend en charge les conversions entre formats entiers et fournit l&apos;accès aux valeurs minimale et maximale représentables pour chaque type entier, garantissant des calculs entiers sûrs et précis.</p>
   </chapter_description>
 </xmldoc>

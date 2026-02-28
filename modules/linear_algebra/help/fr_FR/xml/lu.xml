@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>lu</keyword>
-  <short_description>Factorisation LU d'une matrice.</short_description>
+  <short_description>Factorisation LU d&apos;une matrice.</short_description>
   <syntax>
     <syntax_item>[L, U] = lu(A)</syntax_item>
     <syntax_item>[L, U, P] = lu(A)</syntax_item>
@@ -33,15 +33,17 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>[L, U] = lu(A)</b> décompose une matrice pleine <b
+    <p>
+      <b>[L, U] = lu(A)</b> décompose une matrice pleine <b
       >A</b> en deux matrices : une matrice triangulaire supérieure <b
       >U</b> et une matrice triangulaire inférieure permutée <b>L</b>.</p>
-    <p>Cette factorisation satisfait l'équation <b>A = L * U</b>.</p>
-    <p><b
+    <p>Cette factorisation satisfait l&apos;équation <b>A = L * U</b>.</p>
+    <p>
+      <b
       >[L, U, P] = lu(A)</b> : avec trois arguments de sortie, la fonction fournit une matrice de permutation<b
       >P</b> en plus de la matrice triangulaire inférieure unitaire <b
       >L</b> et de la matrice triangulaire supérieure <b>U</b>.</p>
-    <p>Cette factorisation s'exprime comme <b>A = P'LU</b>, où<b
+    <p>Cette factorisation s&apos;exprime comme <b>A = P&apos;LU</b>, où<b
       >L</b> est triangulaire inférieure unitaire et<b
       >U</b> est triangulaire supérieure.</p>
   </description>

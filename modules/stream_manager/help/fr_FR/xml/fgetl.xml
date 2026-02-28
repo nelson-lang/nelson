@@ -22,10 +22,10 @@
   </param_output>
   <description>
     <p
-    >Lit une chaîne depuis un fichier, s'arrêtant après la lecture d'un saut de ligne ou de la fin du fichier (EOF).</p>
-    <p>S'il n'y a plus de caractère à lire, <b>fgetl</b> renverra -1.</p>
+    >Lit une chaîne depuis un fichier, s&apos;arrêtant après la lecture d&apos;un saut de ligne ou de la fin du fichier (EOF).</p>
+    <p>S&apos;il n&apos;y a plus de caractère à lire, <b>fgetl</b> renverra -1.</p>
     <p>Le caractère de nouvelle ligne est retiré de la chaîne renvoyée.</p>
-    <p>L'encodage des caractères utilise le paramètre <b>fopen</b>.</p>
+    <p>L&apos;encodage des caractères utilise le paramètre <b>fopen</b>.</p>
   </description>
   <used_function />
   <bibliography />

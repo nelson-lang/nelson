@@ -31,13 +31,15 @@
     <param_output_item>
       <param_name>S</param_name>
       <param_description
-      >un tableau de caractères : représentation textuelle du tableau d'entrée.</param_description>
+      >un tableau de caractères : représentation textuelle du tableau d&apos;entrée.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>num2str</b> convertit des nombres en tableau de caractères.</p>
-    <p><b
-      >num2str</b> supprime les espaces en tête d'un tableau de caractères. Pour un meilleur contrôle du résultat, utilisez<b
+    <p>
+      <b>num2str</b> convertit des nombres en tableau de caractères.</p>
+    <p>
+      <b
+      >num2str</b> supprime les espaces en tête d&apos;un tableau de caractères. Pour un meilleur contrôle du résultat, utilisez<b
       >sprintf</b>.</p>
   </description>
   <used_function />

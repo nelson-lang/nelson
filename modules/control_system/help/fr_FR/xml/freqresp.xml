@@ -31,7 +31,7 @@
   </param_output>
   <description>
     <p
-    >Calcule la réponse en fréquence (réponse complexe) d'un système LTI pour une gamme de fréquences donnée.</p>
+    >Calcule la réponse en fréquence (réponse complexe) d&apos;un système LTI pour une gamme de fréquences donnée.</p>
   </description>
   <examples>
     <example_item>

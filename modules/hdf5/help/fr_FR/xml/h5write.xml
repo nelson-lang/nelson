@@ -24,7 +24,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>h5write</b> écrit des données dans l'ensemble du jeu de données <b
+    <p>
+      <b>h5write</b> écrit des données dans l&apos;ensemble du jeu de données <b
       >location</b> dans le fichier HDF5.</p>
   </description>
   <used_function />

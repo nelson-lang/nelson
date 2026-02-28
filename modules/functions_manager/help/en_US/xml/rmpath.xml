@@ -17,12 +17,13 @@
   <param_output>
     <param_output_item>
       <param_name>previouspaths</param_name>
-      <param_description
+      <param_description
       >a string: path prior to removing the specified paths</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>rmpath</b> removes directory from search path.</p>
+    <p>
+      <b>rmpath</b> removes directory from search path.</p>
   </description>
   <used_function />
   <bibliography />
@@ -30,12 +31,12 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[path
-addpath(tempdir())
-path
-rmpath(tempdir())
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[path
+addpath(tempdir())
+path
+rmpath(tempdir())
 path]]></example_item_data>
     </example_item>
   </examples>

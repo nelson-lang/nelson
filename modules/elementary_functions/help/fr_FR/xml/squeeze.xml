@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >B = squeeze(A)</b> returns an array with the same elements as the input array A, but with dimensions of length 1 removed.</p>
   </description>
   <used_function />

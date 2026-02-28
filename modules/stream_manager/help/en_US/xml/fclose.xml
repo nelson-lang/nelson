@@ -6,9 +6,9 @@
   <short_description>Close an opened file.</short_description>
   <syntax>
     <syntax_item>fclose(fid)</syntax_item>
-    <syntax_item>fclose('all')</syntax_item>
+    <syntax_item>fclose(&apos;all&apos;)</syntax_item>
     <syntax_item>status = fclose(fid)</syntax_item>
-    <syntax_item>status = fclose('all')</syntax_item>
+    <syntax_item>status = fclose(&apos;all&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -24,8 +24,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>fclose</b> must be used to close a file opened by<b>fopen</b>.</p>
-    <p><b>fclose('all')</b> closes all opened file with<b>fopen</b>.</p>
+    <p>
+      <b>fclose</b> must be used to close a file opened by<b>fopen</b>.</p>
+    <p>
+      <b>fclose(&apos;all&apos;)</b> closes all opened file with<b>fopen</b>.</p>
   </description>
   <used_function />
   <bibliography />

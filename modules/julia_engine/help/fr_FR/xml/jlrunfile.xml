@@ -18,14 +18,17 @@
       >un scalaire chaîne ou vecteur de caractères : nom de fichier .jl à exécuter.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>"filename 'input'"</param_name>
+      <param_name>
+        &quot;filename &apos;input&apos;
+        &quot;
+      </param_name>
       <param_description
-      >un scalaire chaîne ou vecteur de caractères : nom de fichier .jl à exécuter avec des arguments d'entrée.</param_description>
+      >un scalaire chaîne ou vecteur de caractères : nom de fichier .jl à exécuter avec des arguments d&apos;entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>jlName, jlValue</param_name>
       <param_description
-      >Noms et valeurs des arguments d'entrée.</param_description>
+      >Noms et valeurs des arguments d&apos;entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>outputs</param_name>
@@ -37,13 +40,14 @@
     <param_output_item>
       <param_name>outvars</param_name>
       <param_description
-      >Une ou plusieurs variables de l'espace de travail Nelson renvoyées sous forme de types Julia valides.</param_description>
+      >Une ou plusieurs variables de l&apos;espace de travail Nelson renvoyées sous forme de types Julia valides.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>jlrunfile(filename)</b> exécute un fichier Julia.</p>
+    <p>
+      <b>jlrunfile(filename)</b> exécute un fichier Julia.</p>
     <p>Comme la fonction <b
-      >jlrun</b>, les variables générées dans l'espace Julia via<b
+      >jlrun</b>, les variables générées dans l&apos;espace Julia via<b
       >jlrunfile</b> sont persistantes.</p>
     <p>Le code <b
       >outvars = jlrunfile(file, outputs, jlName1, jlValue2, ..., jlNameN, jlValueN)</b> exécute le fichier avec un ou plusieurs arguments nom-valeur.</p>

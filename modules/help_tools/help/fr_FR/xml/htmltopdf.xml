@@ -19,7 +19,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>htmltopdf</b> convertit une page HTML en PDF.</p>
+    <p>
+      <b>htmltopdf</b> convertit une page HTML en PDF.</p>
   </description>
   <used_function />
   <bibliography />

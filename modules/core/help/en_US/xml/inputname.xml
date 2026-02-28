@@ -21,8 +21,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>inputname</b> get variable name of function input.</p>
-    <p><b>inputname</b> is only useable within a function</p>
+    <p>
+      <b>inputname</b> get variable name of function input.</p>
+    <p>
+      <b>inputname</b> is only useable within a function</p>
   </description>
   <used_function />
   <bibliography />

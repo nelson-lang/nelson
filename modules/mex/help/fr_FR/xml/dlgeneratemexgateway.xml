@@ -27,7 +27,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>dlgeneratemexgateway</b> génère une passerelle MEX en C utilisée par<b
+    <p>
+      <b>dlgeneratemexgateway</b> génère une passerelle MEX en C utilisée par<b
       >mex</b> (fonction interne).</p>
   </description>
   <used_function />

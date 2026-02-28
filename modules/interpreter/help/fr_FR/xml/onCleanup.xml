@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>onCleanup</keyword>
   <short_description
-  >Tâches de nettoyage à la fin de l'exécution d'une fonction</short_description>
+  >Tâches de nettoyage à la fin de l&apos;exécution d&apos;une fonction</short_description>
   <syntax>
     <syntax_item>onCleanup(function_handle)</syntax_item>
     <syntax_item>obj = onCleanup(function_handle)</syntax_item>
@@ -24,10 +24,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >onCleanup</b> crée un objet qui exécute un handle de fonction spécifié lorsque l'objet est effacé ou sort de la portée, permettant ainsi d'effectuer automatiquement des tâches de nettoyage à la fin de l'exécution d'une fonction.</p>
-    <p><b>cancel(obj)</b> ou <b
-      >obj.cancel()</b> empêche l'exécution de la fonction de nettoyage.</p>
+    <p>
+      <b
+      >onCleanup</b> crée un objet qui exécute un handle de fonction spécifié lorsque l&apos;objet est effacé ou sort de la portée, permettant ainsi d&apos;effectuer automatiquement des tâches de nettoyage à la fin de l&apos;exécution d&apos;une fonction.</p>
+    <p>
+      <b>cancel(obj)</b> ou <b
+      >obj.cancel()</b> empêche l&apos;exécution de la fonction de nettoyage.</p>
   </description>
   <used_function />
   <bibliography />

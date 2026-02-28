@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>zero</keyword>
-  <short_description>Zéros et gain d'un système SISO.</short_description>
+  <short_description>Zéros et gain d&apos;un système SISO.</short_description>
   <syntax>
     <syntax_item>Z = zero(sys)</syntax_item>
     <syntax_item>[Z, gain] = zero(sys)</syntax_item>
@@ -26,7 +26,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >[Z, gain] = zero(sys)</b> renvoie les zéros et le gain du système SISO fourni.</p>
   </description>
   <examples>

@@ -9,7 +9,7 @@
     <syntax_item>l = false(n)</syntax_item>
     <syntax_item>l = false(sz)</syntax_item>
     <syntax_item>l = false(n, m, ..., k)</syntax_item>
-    <syntax_item>l = false(n, m, 'like', sp)</syntax_item>
+    <syntax_item>l = false(n, m, &apos;like&apos;, sp)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -37,7 +37,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>false</b> build a matrix of false.</p>
+    <p>
+      <b>false</b> build a matrix of false.</p>
   </description>
   <used_function />
   <bibliography />

@@ -14,12 +14,12 @@
     <param_input_item>
       <param_name>var1, ... , varN</param_name>
       <param_description
-      >Variables d'entrée : les variables sont spécifiées comme des tableaux                  ayant tous le même nombre de lignes. Ces variables peuvent différer en taille et en                  type de données.</param_description>
+      >Variables d&apos;entrée : les variables sont spécifiées comme des tableaux                  ayant tous le même nombre de lignes. Ces variables peuvent différer en taille et en                  type de données.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
       <param_description
-      >Les arguments optionnels sont spécifiés sous forme de paires Name1,                  Value1, ... , NameN, ValueN, où Name est le nom de l'argument et Value sa valeur correspondante. Ces paires nom-valeur doivent être placées après les autres arguments, mais l'ordre des paires entre elles est flexible.</param_description>
+      >Les arguments optionnels sont spécifiés sous forme de paires Name1,                  Value1, ... , NameN, ValueN, où Name est le nom de l&apos;argument et Value sa valeur correspondante. Ces paires nom-valeur doivent être placées après les autres arguments, mais l&apos;ordre des paires entre elles est flexible.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -32,12 +32,12 @@
     <p
     >Les tableaux de type table sont conçus pour stocker des données orientées colonne, comme              des colonnes provenant de fichiers texte ou de feuilles de calcul.</p>
     <p
-    >Chaque colonne de données est stockée dans une variable au sein de la table, et ces              variables peuvent avoir des types et tailles différents, à condition qu'elles partagent toutes le même nombre de lignes.</p>
+    >Chaque colonne de données est stockée dans une variable au sein de la table, et ces              variables peuvent avoir des types et tailles différents, à condition qu&apos;elles partagent toutes le même nombre de lignes.</p>
     <p
-    >Les variables de table ont des noms, similaires aux champs d'une structure.</p>
+    >Les variables de table ont des noms, similaires aux champs d&apos;une structure.</p>
     <p />
     <p
-    >Pour accéder aux données d'une table, utilisez les méthodes suivantes :</p>
+    >Pour accéder aux données d&apos;une table, utilisez les méthodes suivantes :</p>
     <p />
     <p>- Notation par point (T.varname) pour extraire une seule variable.</p>
     <p
@@ -45,24 +45,27 @@
     <p
     >- Parenthèses (T(rows, vars)) pour retourner un sous-ensemble de la table.</p>
     <p />
-    <p><b
-      >T = table(var1, ..., varN)</b> crée une table à partir des variables d'entrée              spécifiées <b
+    <p>
+      <b
+      >T = table(var1, ..., varN)</b> crée une table à partir des variables d&apos;entrée              spécifiées <b
       >var1,...,varN</b>.</p>
     <p
     >Les variables peuvent varier en taille et en type de données, mais elles doivent toutes              avoir le même nombre de lignes.</p>
     <p
-    >Si les entrées sont des variables d'espace de travail, leurs noms sont utilisés comme noms de variables dans la table résultante.</p>
+    >Si les entrées sont des variables d&apos;espace de travail, leurs noms sont utilisés comme noms de variables dans la table résultante.</p>
     <p
-    >Sinon, la table assigne des noms par défaut au format 'Var1', 'Var2', etc., où N est le nombre total de variables.</p>
+    >Sinon, la table assigne des noms par défaut au format &apos;Var1&apos;, &apos;Var2&apos;, etc., où N est le nombre total de variables.</p>
     <p />
-    <p><b
+    <p>
+      <b
       >T = table(..., Name, Value)</b> permet de spécifier des options supplémentaires en utilisant une ou plusieurs paires nom-valeur.</p>
     <p
-    >Par exemple, vous pouvez définir des noms de variables personnalisés en utilisant la paire nom-valeur 'VariableNames'.</p>
+    >Par exemple, vous pouvez définir des noms de variables personnalisés en utilisant la paire nom-valeur &apos;VariableNames&apos;.</p>
     <p
-    >Cette syntaxe peut être utilisée en combinaison avec n'importe lequel des arguments              d'entrée précédents.</p>
+    >Cette syntaxe peut être utilisée en combinaison avec n&apos;importe lequel des arguments              d&apos;entrée précédents.</p>
     <p />
-    <p><b>T = table()</b> crée une table vide avec 0 lignes et 0 colonnes.</p>
+    <p>
+      <b>T = table()</b> crée une table vide avec 0 lignes et 0 colonnes.</p>
   </description>
   <used_function />
   <bibliography />

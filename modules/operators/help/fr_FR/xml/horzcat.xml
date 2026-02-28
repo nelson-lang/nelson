@@ -29,7 +29,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >R = horzcat(M1, M2, ... , MN)</b> renvoie la concaténation horizontale de M1, M2, ... , MN le long de la dimension 2.</p>
   </description>
   <used_function />

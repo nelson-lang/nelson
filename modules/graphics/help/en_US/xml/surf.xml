@@ -53,7 +53,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >surf</b> creates a 3D surface plot. It can be used to plot data in the form of a matrix or a function of two variables.</p>
     <p
     >You can customize the appearance of the plot using various options such as color, lighting, and shading.</p>
@@ -76,7 +77,7 @@
           <b>AlphaDataMapping</b>
         </td>
         <td
-        >Interpretation of AlphaData values: 'direct', 'none' or 'scaled' (default).</td>
+        >Interpretation of AlphaData values: &apos;direct&apos;, &apos;none&apos; or &apos;scaled&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -89,7 +90,7 @@
           <b>BackFaceLighting</b>
         </td>
         <td
-        >Face lighting when normals point away from camera: 'unlit', 'lit' or 'reverselit' (default).</td>
+        >Face lighting when normals point away from camera: &apos;unlit&apos;, &apos;lit&apos; or &apos;reverselit&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -101,13 +102,13 @@
         <td>
           <b>CDataMapping</b>
         </td>
-        <td>Color mapping method: 'direct', 'scaled' (default).</td>
+        <td>Color mapping method: &apos;direct&apos;, &apos;scaled&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>CDataMode</b>
         </td>
-        <td>Selection mode for CData: 'manual', 'auto' (default).</td>
+        <td>Selection mode for CData: &apos;manual&apos;, &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -138,7 +139,7 @@
           <b>EdgeLighting</b>
         </td>
         <td
-        >Effect of light objects on edges: 'flat', 'gouraud' or 'none' (default).</td>
+        >Effect of light objects on edges: &apos;flat&apos;, &apos;gouraud&apos; or &apos;none&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -157,13 +158,13 @@
           <b>FaceLighting</b>
         </td>
         <td
-        >Effect of light objects on faces: 'gouraud', 'none' or 'flat' (default).</td>
+        >Effect of light objects on faces: &apos;gouraud&apos;, &apos;none&apos; or &apos;flat&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>LineStyle</b>
         </td>
-        <td>Line style: '--', ':', '-.', 'none' or '-' (default).</td>
+        <td>Line style: &apos;--&apos;, &apos;:&apos;, &apos;-.&apos;, &apos;none&apos; or &apos;-&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -176,7 +177,9 @@
           <b>Marker</b>
         </td>
         <td
-        >Marker symbol: 'o' (circle), '+' (Plus sign), '*' (asterisk), '.' (point), 'x' (cross), '_' (horizontal line), '|' (vertical line), 'square', 'diamond', '^' (Upward-pointing triangle), 'v' (Downward-pointing triangle), '' (Right-pointing triangle), '' (Left-pointing triangle), 'pentagram', 'hexagram', 'none' (default).</td>
+        >Marker symbol: &apos;o&apos; (circle), &apos;+&apos; (Plus sign), &apos;*&apos; (asterisk), &apos;.&apos; (point), &apos;x&apos; (cross), &apos;_&apos; (horizontal line), &apos;|&apos; (vertical line), &apos;square&apos;, &apos;diamond&apos;, &apos;^&apos; (Upward-pointing triangle), &apos;v&apos; (Downward-pointing triangle), &apos;
+          &apos; (Right-pointing triangle), &apos;
+          &apos; (Left-pointing triangle), &apos;pentagram&apos;, &apos;hexagram&apos;, &apos;none&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -200,7 +203,7 @@
         <td>
           <b>MeshStyle</b>
         </td>
-        <td>Edges to display: 'row', 'column' or 'both' (default).</td>
+        <td>Edges to display: &apos;row&apos;, &apos;column&apos; or &apos;both&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -231,13 +234,14 @@
           <b>Tag</b>
         </td>
         <td
-        >Object identifier: character vector, string scalar or '' (default).</td>
+        >Object identifier: character vector, string scalar or &apos;
+          &apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>Type</b>
         </td>
-        <td>Type of graphics object: 'surface'.</td>
+        <td>Type of graphics object: &apos;surface&apos;.</td>
       </tr>
       <tr>
         <td>
@@ -256,7 +260,7 @@
         <td>
           <b>Visible</b>
         </td>
-        <td>State of visibility: 'off' or 'on' (default).</td>
+        <td>State of visibility: &apos;off&apos; or &apos;on&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -268,7 +272,7 @@
         <td>
           <b>XDataMode</b>
         </td>
-        <td>Selection mode for XData: 'manual' or 'auto'.</td>
+        <td>Selection mode for XData: &apos;manual&apos; or &apos;auto&apos;.</td>
       </tr>
       <tr>
         <td>
@@ -280,7 +284,7 @@
         <td>
           <b>YDataMode</b>
         </td>
-        <td>Selection mode for YData: 'manual' or 'auto'.</td>
+        <td>Selection mode for YData: &apos;manual&apos; or &apos;auto&apos;.</td>
       </tr>
       <tr>
         <td>

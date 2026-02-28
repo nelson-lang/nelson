@@ -23,7 +23,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >cellstr(A)</b> convertit en tableau cellulaire de tableaux de caractères.</p>
   </description>
   <used_function />

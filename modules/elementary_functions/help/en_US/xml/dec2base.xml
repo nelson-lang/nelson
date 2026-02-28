@@ -30,7 +30,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>dec2base</b> converts decimal number to another base.</p>
+    <p>
+      <b>dec2base</b> converts decimal number to another base.</p>
     <p>values are cached to speed up next computation<b
       >dec2base([], 2)</b> to clear cache.</p>
   </description>

@@ -13,7 +13,7 @@
     <param_input_item>
       <param_name>TYPE</param_name>
       <param_description
-      >Un caractère : 'D' discret ou 'C' continu.</param_description>
+      >Un caractère : &apos;D&apos; discret ou &apos;C&apos; continu.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ALPHA, BETA</param_name>
@@ -23,34 +23,34 @@
     <param_input_item>
       <param_name>A_IN</param_name>
       <param_description
-      >La partie N-by-N de ce tableau doit contenir la matrice d'état A du système d'origine.</param_description>
+      >La partie N-by-N de ce tableau doit contenir la matrice d&apos;état A du système d&apos;origine.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B_IN</param_name>
       <param_description
-      >La partie N-by-M de ce tableau doit contenir la matrice d'entrée B du système d'origine.</param_description>
+      >La partie N-by-M de ce tableau doit contenir la matrice d&apos;entrée B du système d&apos;origine.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>C_IN</param_name>
       <param_description
-      >La partie P-by-N de ce tableau doit contenir la matrice de sortie C du système d'origine.</param_description>
+      >La partie P-by-N de ce tableau doit contenir la matrice de sortie C du système d&apos;origine.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>D_IN</param_name>
       <param_description
-      >La partie P-by-M de ce tableau doit contenir la matrice d'entrée/sortie D du système d'origine.</param_description>
+      >La partie P-by-M de ce tableau doit contenir la matrice d&apos;entrée/sortie D du système d&apos;origine.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>A_OUT</param_name>
       <param_description
-      >La partie N-by-N de ce tableau contient la matrice d'état _A du système transformé.</param_description>
+      >La partie N-by-N de ce tableau contient la matrice d&apos;état _A du système transformé.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>B_OUT</param_name>
       <param_description
-      >La partie N-by-M de ce tableau contient la matrice d'entrée _B du système transformé.</param_description>
+      >La partie N-by-M de ce tableau contient la matrice d&apos;entrée _B du système transformé.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>C_OUT</param_name>
@@ -60,17 +60,17 @@
     <param_output_item>
       <param_name>D_OUT</param_name>
       <param_description
-      >La partie P-by-M de ce tableau contient la matrice d'entrée/sortie _D du système transformé.</param_description>
+      >La partie P-by-M de ce tableau contient la matrice d&apos;entrée/sortie _D du système transformé.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>INFO</param_name>
       <param_description
-      >Indicateur d'erreur : 0 : sortie réussie ;    &lt; 0 : si INFO = -i, le i-ème argument avait une valeur illégale ;      1 : si la matrice (ALPHA*I + A) est exactement singulière ;      2 : si la matrice (BETA*I - A) est exactement singulière.</param_description>
+      >Indicateur d&apos;erreur : 0 : sortie réussie ;    &lt; 0 : si INFO = -i, le i-ème argument avait une valeur illégale ;      1 : si la matrice (ALPHA*I + A) est exactement singulière ;      2 : si la matrice (BETA*I - A) est exactement singulière.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p
-    >Effectuer une transformation sur les paramètres (A, B, C, D) d'un système, équivalente à une transformation bilinéaire de la matrice de fonction de transfert correspondante.</p>
+    >Effectuer une transformation sur les paramètres (A, B, C, D) d&apos;un système, équivalente à une transformation bilinéaire de la matrice de fonction de transfert correspondante.</p>
   </description>
   <used_function>AB04MD</used_function>
   <bibliography

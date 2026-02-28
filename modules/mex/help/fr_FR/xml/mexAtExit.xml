@@ -6,7 +6,8 @@
   <short_description
   >Enregistre une fonction à appeler lorsque le fichier MEX est libéré ou lorsque Nelson se termine</short_description>
   <syntax>
-    <syntax_item>#include "mex.h"</syntax_item>
+    <syntax_item>#include &quot;mex.h&quot;
+    </syntax_item>
     <syntax_item>int mexAtExit(void (*ExitFcn)(void));</syntax_item>
   </syntax>
   <param_input>
@@ -24,8 +25,9 @@
   </param_output>
   <description>
     <p
-    >Chaque MEX ne peut enregistrer qu'une seule sous-routine de sortie active à la fois.</p>
-    <p><b
+    >Chaque MEX ne peut enregistrer qu&apos;une seule sous-routine de sortie active à la fois.</p>
+    <p>
+      <b
       >mexAtExit</b> enregistre une sous-routine qui sera appelée juste avant la fin de Nelson ou lorsque la commande <b
       >clear</b> est exécutée.</p>
   </description>

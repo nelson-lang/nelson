@@ -23,7 +23,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >isrecording(recorder)</b> determines if recording is in progress for the specified <b
       >audiorecorder</b> object.      </p>
   </description>

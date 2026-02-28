@@ -4,12 +4,12 @@
   <language>fr_FR</language>
   <keyword>fileread</keyword>
   <short_description
-  >Lire le contenu d'un fichier en tant que texte.</short_description>
+  >Lire le contenu d&apos;un fichier en tant que texte.</short_description>
   <syntax>
     <syntax_item>str = fileread(filename)</syntax_item>
     <syntax_item>str = fileread(filename, type)</syntax_item>
-    <syntax_item>str = fileread(filename, 'char', eol)</syntax_item>
-    <syntax_item>str = fileread(filename, 'char', eol, encoding)</syntax_item>
+    <syntax_item>str = fileread(filename, &apos;char&apos;, eol)</syntax_item>
+    <syntax_item>str = fileread(filename, &apos;char&apos;, eol, encoding)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -19,17 +19,17 @@
     <param_input_item>
       <param_name>type</param_name>
       <param_description
-      >une chaîne : 'char', 'cell' ou 'string'. 'cell' convertit le fichier texte en cellule de chaînes. 'string' convertit le fichier texte en tableau de chaînes. 'char' par défaut.</param_description>
+      >une chaîne : &apos;char&apos;, &apos;cell&apos; ou &apos;string&apos;. &apos;cell&apos; convertit le fichier texte en cellule de chaînes. &apos;string&apos; convertit le fichier texte en tableau de chaînes. &apos;char&apos; par défaut.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>eol</param_name>
       <param_description
-      >une chaîne : 'native', 'pc' ou 'unix'. Définit la fin de ligne. 'unix' par défaut.</param_description>
+      >une chaîne : &apos;native&apos;, &apos;pc&apos; ou &apos;unix&apos;. Définit la fin de ligne. &apos;unix&apos; par défaut.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>encoding</param_name>
       <param_description
-      >une chaîne : 'UTF-8' (par défaut), 'auto', 'ISO-8859-1', 'windows-1251', 'windows-1252', ...</param_description>
+      >une chaîne : &apos;UTF-8&apos; (par défaut), &apos;auto&apos;, &apos;ISO-8859-1&apos;, &apos;windows-1251&apos;, &apos;windows-1252&apos;, ...</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -40,9 +40,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>fileread</b> lit le contenu d'un fichier en tant que texte.</p>
+    <p>
+      <b>fileread</b> lit le contenu d&apos;un fichier en tant que texte.</p>
     <p
-    >Si l'encodage est 'auto', Nelson tentera de détecter le meilleur encodage pour lire le contenu du fichier en texte.</p>
+    >Si l&apos;encodage est &apos;auto&apos;, Nelson tentera de détecter le meilleur encodage pour lire le contenu du fichier en texte.</p>
   </description>
   <used_function />
   <bibliography />

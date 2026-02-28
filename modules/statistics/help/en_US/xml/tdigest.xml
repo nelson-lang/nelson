@@ -31,10 +31,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >td = tdigest(compression, X)</b> returns a t-digest representation of the array elements of X.</p>
     <p
-    >TDigest is a data structure for accurate on-line accumulation of rank-based statistics such as quantiles and cumulative distribution functions. It is particularly effective for large data sets and for estimating extreme quantiles. The algorithm is described in detail in the paper "Computing Extremely Accurate Quantiles Using t-Digests" by Ted Dunning and Otmar Ertl.</p>
+    >TDigest is a data structure for accurate on-line accumulation of rank-based statistics such as quantiles and cumulative distribution functions. It is particularly effective for large data sets and for estimating extreme quantiles. The algorithm is described in detail in the paper &quot;Computing Extremely Accurate Quantiles Using t-Digests&quot; by Ted Dunning and Otmar Ertl.</p>
     <p>The t-digest is particularly useful for:</p>
     <ul>
       <li
@@ -42,7 +43,7 @@
       <li>Streaming data where data arrives continuously</li>
       <li
       >Accurate extreme quantiles (like 99th percentile) even with limited memory</li>
-      <li>Online algorithms where you can't store all the data</li>
+      <li>Online algorithms where you can&apos;t store all the data</li>
     </ul>
     <p
     >The compression factor (100 in the examples) controls the trade-off between accuracy and memory usage - higher values give more accuracy but use more memory.</p>
@@ -53,19 +54,24 @@
     <p>For more details, see the original paper linked in the bibliography.</p>
     <p>Methods available:</p>
     <ul>
-      <li><b
+      <li>
+        <b
         >percentile(p)</b>: Returns the value(s) at the given percentile(s) <code
         >p</code> (in [0, 100]).</li>
-      <li><b
+      <li>
+        <b
         >quantile(q)</b>: Returns the value(s) at the given quantile(s) <code
         >q</code> (in [0, 1]).</li>
-      <li><b>+</b>: Adds new data points to the t-digest object.</li>
+      <li>
+        <b>+</b>: Adds new data points to the t-digest object.</li>
     </ul>
     <p>Properties:</p>
     <ul>
-      <li><b
+      <li>
+        <b
         >compression</b>: The compression factor used to create the t-digest.</li>
-      <li><b
+      <li>
+        <b
         >totalWeight</b>: The total weight of all the centroids in the t-digest.</li>
     </ul>
   </description>

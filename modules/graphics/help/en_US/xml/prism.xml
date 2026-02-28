@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>prism</b> returns the colormap with prism colors.</p>
+    <p>
+      <b>prism</b> returns the colormap with prism colors.</p>
   </description>
   <used_function />
   <bibliography />

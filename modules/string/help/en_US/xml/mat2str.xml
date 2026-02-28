@@ -6,8 +6,8 @@
   <short_description>Matrix to String.</short_description>
   <syntax>
     <syntax_item>res = mat2str(M)</syntax_item>
-    <syntax_item>res = mat2str(M, 'class')</syntax_item>
-    <syntax_item>res = mat2str(M, P, 'class')</syntax_item>
+    <syntax_item>res = mat2str(M, &apos;class&apos;)</syntax_item>
+    <syntax_item>res = mat2str(M, P, &apos;class&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>mat2str</b> converts a matrix to a string.</p>
+    <p>
+      <b>mat2str</b> converts a matrix to a string.</p>
     <p>This string may be used to reconstruct the original matrix with<b
       >execstr</b> function.</p>
   </description>

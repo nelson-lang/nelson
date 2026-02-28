@@ -6,7 +6,7 @@
   <short_description
   >Some example to show how to use COM interface.</short_description>
   <description>
-    <p>See <b>[modulepath('com_engine'), '/examples']</b> directory.</p>
+    <p>See <b>[modulepath(&apos;com_engine&apos;), &apos;/examples&apos;]</b> directory.</p>
     <p
     >Interacts with Internet explorer, Word, Excel, Speech voice, VB scripts ...</p>
   </description>

@@ -35,7 +35,7 @@
   <description>
     <p
     >Écrit des données au format texte dans le fichier spécifié par le descripteur de fichier fid.</p>
-    <p>L'encodage des caractères utilise le paramètre <b>fopen</b>.</p>
+    <p>L&apos;encodage des caractères utilise le paramètre <b>fopen</b>.</p>
     <p>Si fid vaut 1, la sortie est redirigée vers stdout.</p>
     <p>Si fid vaut 2, la sortie est redirigée vers stderr.</p>
     <p>Le paramètre <b>format</b> suit la syntaxe C de <b>fprintf</b>.</p>

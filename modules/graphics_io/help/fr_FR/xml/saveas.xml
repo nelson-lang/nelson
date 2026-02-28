@@ -26,9 +26,11 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >saveas</b> enregistre la figure dans un format de fichier spécifique.</p>
-    <p><b>Formats pris en charge</b> :</p>
+    <p>
+      <b>Formats pris en charge</b> :</p>
     <p />
     <table style="width:100%">
       <tr>

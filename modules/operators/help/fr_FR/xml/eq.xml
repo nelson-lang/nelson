@@ -25,10 +25,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >C = eq(A, B)</b> renvoie un tableau logique avec des éléments égaux à<b
       >true</b> lorsque les tableaux A et B sont égaux.</p>
-    <p><b
+    <p>
+      <b
       >eq</b> compare à la fois les parties réelles et imaginaires des tableaux numériques.</p>
   </description>
   <used_function />

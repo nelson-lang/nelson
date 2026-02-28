@@ -33,8 +33,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>replace</b> remplace des sous-chaînes dans une chaîne.</p>
-    <p><b>replace</b> et <b>strrep</b> remplacent des chaînes, mais<b
+    <p>
+      <b>replace</b> remplace des sous-chaînes dans une chaîne.</p>
+    <p>
+      <b>replace</b> et <b>strrep</b> remplacent des chaînes, mais<b
       >replace</b> est recommandé.</p>
   </description>
   <used_function />

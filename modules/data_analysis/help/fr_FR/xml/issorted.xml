@@ -8,7 +8,7 @@
     <syntax_item>tf = issorted(A)</syntax_item>
     <syntax_item>tf = issorted(A, dim)</syntax_item>
     <syntax_item>tf = issorted(..., direction)</syntax_item>
-    <syntax_item>tf = issorted(A, 'rows')</syntax_item>
+    <syntax_item>tf = issorted(A, &apos;rows&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -24,12 +24,14 @@
     <param_input_item>
       <param_name>direction</param_name>
       <param_description
-      >Direction du tri : 'ascend' (par défaut) ou 'descend'.</param_description>
+      >Direction du tri : &apos;ascend&apos; (par défaut) ou &apos;descend&apos;.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'rows'</param_name>
+      <param_name>
+        &apos;rows&apos;
+      </param_name>
       <param_description
-      >renvoie vrai si les éléments de la première colonne d'une matrice sont triés.</param_description>
+      >renvoie vrai si les éléments de la première colonne d&apos;une matrice sont triés.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -40,7 +42,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>tf = issorted(A)</b> renvoie vrai si les éléments de <b
+    <p>
+      <b>tf = issorted(A)</b> renvoie vrai si les éléments de <b
       >A</b> sont triés par ordre croissant, et faux sinon.</p>
   </description>
   <examples>

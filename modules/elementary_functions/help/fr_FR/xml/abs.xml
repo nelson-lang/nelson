@@ -20,8 +20,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>abs</b> calcule la valeur absolue.</p>
-    <p>Si l'argument est un nombre complexe, <b
+    <p>
+      <b>abs</b> calcule la valeur absolue.</p>
+    <p>Si l&apos;argument est un nombre complexe, <b
       >abs</b> calcule la magnitude complexe.</p>
   </description>
   <used_function />

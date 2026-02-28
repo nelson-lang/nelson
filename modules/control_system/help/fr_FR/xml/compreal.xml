@@ -23,22 +23,22 @@
     <param_output_item>
       <param_name>A (n x n)</param_name>
       <param_description
-      >Représente la matrice de transition d'état du système. Elle décrit comment l'état interne du système évolue au fil du temps.</param_description>
+      >Représente la matrice de transition d&apos;état du système. Elle décrit comment l&apos;état interne du système évolue au fil du temps.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>B (n x m)</param_name>
       <param_description
-      >Décrit la correspondance entrée-état. Elle montre comment les entrées de contrôle affectent le changement dans l'état du système.</param_description>
+      >Décrit la correspondance entrée-état. Elle montre comment les entrées de contrôle affectent le changement dans l&apos;état du système.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>C (p x n)</param_name>
       <param_description
-      >Représente la correspondance état-sortie. Elle montre comment les variables d'état du système sont liées aux sorties du système.</param_description>
+      >Représente la correspondance état-sortie. Elle montre comment les variables d&apos;état du système sont liées aux sorties du système.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>D (p x m)</param_name>
       <param_description
-      >Décrit le passage direct des entrées aux sorties. Dans de nombreux systèmes, cette matrice est nulle car il n'y a pas de passage direct.</param_description>
+      >Décrit le passage direct des entrées aux sorties. Dans de nombreux systèmes, cette matrice est nulle car il n&apos;y a pas de passage direct.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>E (n x n)</param_name>
@@ -46,10 +46,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >[A, B, C, D, E] = compreal(numerator, denominator)</b> calcule une réalisation d'espace d'état représentée par les matrices A, B, C, D et E.</p>
+    <p>
+      <b
+      >[A, B, C, D, E] = compreal(numerator, denominator)</b> calcule une réalisation d&apos;espace d&apos;état représentée par les matrices A, B, C, D et E.</p>
     <p>La matrice <b
-      >E</b> est une matrice vide (matrice identité) lorsqu'il y a au moins autant de pôles que de zéros.</p>
+      >E</b> est une matrice vide (matrice identité) lorsqu&apos;il y a au moins autant de pôles que de zéros.</p>
     <p>Cependant, si le nombre de zéros dépasse celui des pôles, la matrice <b
       >E</b> devient singulière.</p>
   </description>

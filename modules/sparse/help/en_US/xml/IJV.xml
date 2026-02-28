@@ -47,7 +47,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>IJV</b> converts a sparse matrix into its COO format.</p>
+    <p>
+      <b>IJV</b> converts a sparse matrix into its COO format.</p>
   </description>
   <used_function />
   <bibliography />

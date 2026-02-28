@@ -5,7 +5,8 @@
   <keyword>engSetVisible</keyword>
   <short_description>Show or hide Nelson engine session</short_description>
   <syntax>
-    <syntax_item>#include "engine.h"</syntax_item>
+    <syntax_item>#include &quot;engine.h&quot;
+    </syntax_item>
     <syntax_item>int engSetVisible(Engine *ep, bool value);</syntax_item>
   </syntax>
   <param_input>

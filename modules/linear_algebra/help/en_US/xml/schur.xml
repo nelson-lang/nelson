@@ -6,11 +6,11 @@
   <short_description>Schur decomposition.</short_description>
   <syntax>
     <syntax_item>T = schur(M)</syntax_item>
-    <syntax_item>T = schur(M, 'real')</syntax_item>
-    <syntax_item>T = schur(M, 'complex')</syntax_item>
+    <syntax_item>T = schur(M, &apos;real&apos;)</syntax_item>
+    <syntax_item>T = schur(M, &apos;complex&apos;)</syntax_item>
     <syntax_item>[U, T] = schur(M)</syntax_item>
-    <syntax_item>[U, T] = schur(M, 'complex')</syntax_item>
-    <syntax_item>[U, T] = schur(M, 'real')</syntax_item>
+    <syntax_item>[U, T] = schur(M, &apos;complex&apos;)</syntax_item>
+    <syntax_item>[U, T] = schur(M, &apos;real&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -30,12 +30,13 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>schur(M)</b> computes the schur decomposition.</p>
+    <p>
+      <b>schur(M)</b> computes the schur decomposition.</p>
     <p
-    >With the flag 'complex', the complex schur form is upper triangular with the eigenvalues of M on the diagonal.</p>
+    >With the flag &apos;complex&apos;, the complex schur form is upper triangular with the eigenvalues of M on the diagonal.</p>
     <p>If A is real, the real schur form is returned.</p>
     <p
-    >With the flag 'real', the real schur form has the real eigenvalues on the diagonal and the complex eigenvalues in 2-by-2 blocks on the diagonal.</p>
+    >With the flag &apos;real&apos;, the real schur form has the real eigenvalues on the diagonal and the complex eigenvalues in 2-by-2 blocks on the diagonal.</p>
   </description>
   <used_function />
   <bibliography />

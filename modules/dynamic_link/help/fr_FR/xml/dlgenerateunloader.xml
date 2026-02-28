@@ -21,8 +21,9 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >dlgenerateunloader</b> génère un fichier 'unloader.m' pour décharger des bibliothèques dynamiques externes.</p>
+    <p>
+      <b
+      >dlgenerateunloader</b> génère un fichier &apos;unloader.m&apos; pour décharger des bibliothèques dynamiques externes.</p>
   </description>
   <used_function />
   <bibliography />

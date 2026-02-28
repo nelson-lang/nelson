@@ -6,7 +6,8 @@
   <short_description
   >Copy variable from Nelson engine workspace</short_description>
   <syntax>
-    <syntax_item>#include "engine.h"</syntax_item>
+    <syntax_item>#include &quot;engine.h&quot;
+    </syntax_item>
     <syntax_item
     >mxArray *engGetVariable(Engine *ep, const char *name);</syntax_item>
   </syntax>

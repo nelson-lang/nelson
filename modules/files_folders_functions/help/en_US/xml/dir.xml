@@ -7,10 +7,10 @@
   <syntax>
     <syntax_item>dir</syntax_item>
     <syntax_item>dir(dirname)</syntax_item>
-    <syntax_item>dir(dirname, '-s')</syntax_item>
+    <syntax_item>dir(dirname, &apos;-s&apos;)</syntax_item>
     <syntax_item>res =dir()</syntax_item>
     <syntax_item>res = dir(dirname)</syntax_item>
-    <syntax_item>res = dir(dirname, '-s')</syntax_item>
+    <syntax_item>res = dir(dirname, &apos;-s&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -18,7 +18,9 @@
       <param_description>a string: file or directory name.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-s'</param_name>
+      <param_name>
+        &apos;-s&apos;
+      </param_name>
       <param_description>a string: scan also subdirectories.</param_description>
     </param_input_item>
   </param_input>
@@ -30,7 +32,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >dir</b> displays the list of files and folders in the current folder.</p>
     <p>* (wildcard) is supported in filename and path name.</p>
   </description>
@@ -43,7 +46,7 @@
       <example_item_data
         runnable="cli"
       ><![CDATA[res = dir(nelsonroot())
-res = dir(nelsonroot(), '-s')]]>res = dir([nelsonroot(),'/*.m'], '-s')</example_item_data>
+res = dir(nelsonroot(), '-s')]]>res = dir([nelsonroot(),&apos;/*.m&apos;], &apos;-s&apos;)</example_item_data>
     </example_item>
   </examples>
   <see_also>

@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>R = imag(M)</b> Return the imaginary part of M.</p>
+    <p>
+      <b>R = imag(M)</b> Return the imaginary part of M.</p>
   </description>
   <used_function />
   <bibliography />

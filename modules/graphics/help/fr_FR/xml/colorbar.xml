@@ -4,14 +4,14 @@
   <language>fr_FR</language>
   <keyword>colorbar</keyword>
   <short_description
-  >Barre de couleur affichant l'échelle des couleurs.</short_description>
+  >Barre de couleur affichant l&apos;échelle des couleurs.</short_description>
   <syntax>
     <syntax_item>colorbar()</syntax_item>
-    <syntax_item>colorbar('off')</syntax_item>
+    <syntax_item>colorbar(&apos;off&apos;)</syntax_item>
     <syntax_item>colorbar(location)</syntax_item>
     <syntax_item>colorbar(..., propertyName, propertyValue)</syntax_item>
     <syntax_item>colorbar(target, ...)</syntax_item>
-    <syntax_item>colorbar(target, 'off')</syntax_item>
+    <syntax_item>colorbar(target, &apos;off&apos;)</syntax_item>
     <syntax_item>c = colorbar(...)</syntax_item>
   </syntax>
   <param_input>
@@ -29,14 +29,16 @@
       <param_description>Cible : axes.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'off'</param_name>
+      <param_name>
+        &apos;off&apos;
+      </param_name>
       <param_description
       >supprime la barre de couleur associée aux axes courants.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>location</param_name>
       <param_description
-      >spécifie la position de la barre de couleur: 'north','south','east','west', ...</param_description>
+      >spécifie la position de la barre de couleur: &apos;north&apos;,&apos;south&apos;,&apos;east&apos;,&apos;west&apos;, ...</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -47,10 +49,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>colorbar</b> ajoute une barre de couleur à un graphique.</p>
+    <p>
+      <b>colorbar</b> ajoute une barre de couleur à un graphique.</p>
     <p>Elle peut être placée à différents emplacements autour des axes.</p>
     <p
-    >Les emplacements pris en charge incluent : 'north','south','east','west',              'northoutside','southoutside','eastoutside','westoutside'.</p>
+    >Les emplacements pris en charge incluent : &apos;north&apos;,&apos;south&apos;,&apos;east&apos;,&apos;west&apos;,              &apos;northoutside&apos;,&apos;southoutside&apos;,&apos;eastoutside&apos;,&apos;westoutside&apos;.</p>
   </description>
   <used_function />
   <bibliography />

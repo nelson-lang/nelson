@@ -22,15 +22,17 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>strcat</b> concatène les chaînes horizontalement.</p>
+    <p>
+      <b>strcat</b> concatène les chaînes horizontalement.</p>
     <p>Si toutes les entrées sont des tableaux de caractères, alors<b
       >res</b> est un tableau de caractères.</p>
     <p>Si une entrée est un tableau de chaînes, alors<b
       >res</b> est un tableau de chaînes.</p>
     <p
-    >Si une entrée est une cellule et qu'aucune n'est un tableau de chaînes, alors<b
+    >Si une entrée est une cellule et qu&apos;aucune n&apos;est un tableau de chaînes, alors<b
       >res</b> est une cellule de vecteurs de caractères.</p>
-    <p><b>append</b> ne supprime pas les espaces finaux.</p>
+    <p>
+      <b>append</b> ne supprime pas les espaces finaux.</p>
   </description>
   <used_function />
   <bibliography />

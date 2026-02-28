@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>slicot_mb04md</keyword>
   <short_description
-  >Équilibrage d'une matrice réelle générale.</short_description>
+  >Équilibrage d&apos;une matrice réelle générale.</short_description>
   <syntax>
     <syntax_item
     >[MAXRED_OUT, A_OUT, SCALE, INFO] = slicot_mb04md(MAXRED_IN, A_IN)</syntax_item>
@@ -18,7 +18,7 @@
     <param_input_item>
       <param_name>A_IN</param_name>
       <param_description
-      >La partie principale N-by-N de ce tableau doit contenir la matrice d'entrée A.</param_description>
+      >La partie principale N-by-N de ce tableau doit contenir la matrice d&apos;entrée A.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -35,7 +35,7 @@
     <param_output_item>
       <param_name>SCALE</param_name>
       <param_description
-      >Les facteurs d'échelle appliqués à A. Si D(j) est le facteur appliqué à la ligne et colonne j, alors SCALE(j) = D(j), pour j = 1,...,N.</param_description>
+      >Les facteurs d&apos;échelle appliqués à A. Si D(j) est le facteur appliqué à la ligne et colonne j, alors SCALE(j) = D(j), pour j = 1,...,N.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>INFO</param_name>
@@ -44,7 +44,7 @@
   </param_output>
   <description>
     <p
-    >Réduire la norme 1 d'une matrice réelle générale A par équilibrage. Cela implique des transformations de similarité diagonales appliquées itérativement à A pour rendre les lignes et colonnes aussi proches que possible en norme.</p>
+    >Réduire la norme 1 d&apos;une matrice réelle générale A par équilibrage. Cela implique des transformations de similarité diagonales appliquées itérativement à A pour rendre les lignes et colonnes aussi proches que possible en norme.</p>
   </description>
   <used_function>MB04MD</used_function>
   <bibliography

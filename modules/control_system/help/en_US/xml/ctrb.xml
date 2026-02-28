@@ -31,7 +31,7 @@
   </param_output>
   <description>
     <p
-    >Controllability in a dynamic system refers to the system's ability to be guided to any desired state within a finite timeframe through the application of suitable control signals.</p>
+    >Controllability in a dynamic system refers to the system&apos;s ability to be guided to any desired state within a finite timeframe through the application of suitable control signals.</p>
     <p>This property is commonly known as reachability.</p>
     <p>The function <b
       >ctrb</b> is employed to calculate a controllability matrix, either from state matrices or a state-space model.</p>

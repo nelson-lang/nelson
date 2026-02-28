@@ -8,7 +8,8 @@
     <syntax_item>while test_expression, statements, end</syntax_item>
   </syntax>
   <description>
-    <p><b
+    <p>
+      <b
       >while</b> loop executes a set of statements as long as a the test condition remains<b
       >true</b>.</p>
   </description>

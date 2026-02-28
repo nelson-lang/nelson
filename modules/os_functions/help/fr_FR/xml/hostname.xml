@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>hostname</keyword>
   <short_description
-  >obtenir le nom d'hôte de cet ordinateur.</short_description>
+  >obtenir le nom d&apos;hôte de cet ordinateur.</short_description>
   <syntax>
     <syntax_item>s = hostname()</syntax_item>
   </syntax>
@@ -12,11 +12,12 @@
     <param_output_item>
       <param_name>s</param_name>
       <param_description
-      >un tableau de caractères : nom d'hôte.</param_description>
+      >un tableau de caractères : nom d&apos;hôte.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>hostname</b> renvoie le nom d'hôte de cet ordinateur.</p>
+    <p>
+      <b>hostname</b> renvoie le nom d&apos;hôte de cet ordinateur.</p>
   </description>
   <used_function />
   <bibliography />

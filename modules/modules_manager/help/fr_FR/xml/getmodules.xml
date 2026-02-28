@@ -33,7 +33,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>getmodules</b> renvoie la liste des modules chargés dans Nelson.</p>
+    <p>
+      <b>getmodules</b> renvoie la liste des modules chargés dans Nelson.</p>
     <p
     >Tous les modules du cœur sont protégés et ne peuvent pas être supprimés pendant une session Nelson.</p>
   </description>

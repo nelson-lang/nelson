@@ -8,7 +8,7 @@
     <p
     >Le module audio fournit des fonctions pour lire, écrire, analyser et jouer des fichiers audio.</p>
     <p
-    >Il prend en charge le contrôle de lecture via l'objet audioplayer, la manipulation des propriétés de lecture et la gestion des métadonnées.</p>
+    >Il prend en charge le contrôle de lecture via l&apos;objet audioplayer, la manipulation des propriétés de lecture et la gestion des métadonnées.</p>
     <p
     >Il comprend également des utilitaires pour la conversion de signaux et la génération de sons.</p>
   </chapter_description>

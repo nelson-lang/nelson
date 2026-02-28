@@ -49,7 +49,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >sparse</b> is used to build a sparse matrix. Only non-zero entries are stored.</p>
     <p>If <b>M</b> is a full matrix,<b
       >sparse</b> converts it to a sparse matrix representation, removing all zero values.</p>

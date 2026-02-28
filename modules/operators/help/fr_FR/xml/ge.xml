@@ -25,10 +25,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >C = ge(A, B)</b> returns a logical array with elements set to logical<b
       >true</b> A is greater than or equal to B.</p>
-    <p><b
+    <p>
+      <b
       >ge</b> compare uniquement la partie réelle des tableaux numériques.</p>
   </description>
   <used_function />

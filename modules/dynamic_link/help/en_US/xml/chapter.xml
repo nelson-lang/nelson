@@ -10,6 +10,6 @@
     <p
     >It supports generating gateways, loaders, and managing shared libraries for integration with external compiled code.</p>
     <p
-    >By default, Nelson does not try to detect a C/C++ compiler on Windows. Do not forget to run 'configuremsvc' or 'configuremingw' once.</p>
+    >By default, Nelson does not try to detect a C/C++ compiler on Windows. Do not forget to run &apos;configuremsvc&apos; or &apos;configuremingw&apos; once.</p>
   </chapter_description>
 </xmldoc>

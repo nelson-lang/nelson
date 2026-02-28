@@ -7,7 +7,7 @@
   >Construit un modèle de fonction de transfert.</short_description>
   <syntax>
     <syntax_item>sys = tf()</syntax_item>
-    <syntax_item>sys = tf('s')</syntax_item>
+    <syntax_item>sys = tf(&apos;s&apos;)</syntax_item>
     <syntax_item>sys = tf(numerator, denominator)</syntax_item>
     <syntax_item>sys = tf(numerator, denominator, Ts)</syntax_item>
   </syntax>
@@ -25,7 +25,7 @@
     <param_input_item>
       <param_name>Ts</param_name>
       <param_description
-      >Temps d'échantillonnage Ts, par défaut : en secondes</param_description>
+      >Temps d&apos;échantillonnage Ts, par défaut : en secondes</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>sysIn</param_name>
@@ -41,7 +41,7 @@
   </param_output>
   <description>
     <p
-    >Crée un modèle de fonction de transfert continu ou discret à partir des coefficients du numérateur et du dénominateur, et d'un temps d'échantillonnage optionnel.</p>
+    >Crée un modèle de fonction de transfert continu ou discret à partir des coefficients du numérateur et du dénominateur, et d&apos;un temps d&apos;échantillonnage optionnel.</p>
   </description>
   <examples>
     <example_item>

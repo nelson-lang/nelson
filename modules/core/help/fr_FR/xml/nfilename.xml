@@ -6,8 +6,8 @@
   <short_description>Nom du fichier courant exécuté.</short_description>
   <syntax>
     <syntax_item>R = nfilename()</syntax_item>
-    <syntax_item>R = nfilename('fullpath')</syntax_item>
-    <syntax_item>R = nfilename('fullpathext')</syntax_item>
+    <syntax_item>R = nfilename(&apos;fullpath&apos;)</syntax_item>
+    <syntax_item>R = nfilename(&apos;fullpathext&apos;)</syntax_item>
   </syntax>
   <param_output>
     <param_output_item>

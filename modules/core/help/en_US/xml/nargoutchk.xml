@@ -8,7 +8,7 @@
     <syntax_item>nargoutchk(minArgs, maxArgs)</syntax_item>
     <syntax_item>msg = nargoutchk(minArgs, maxArgs, numArgs)</syntax_item>
     <syntax_item
-    >st = nargoutchk(minArgs, maxArgs, numArgs, 'struct')</syntax_item>
+    >st = nargoutchk(minArgs, maxArgs, numArgs, &apos;struct&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -39,7 +39,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >nargoutchk</b> checks the number of output arguments of an function.</p>
     <p
     >To ensure a minimum number of outputs while imposing no maximum limit, set <b

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>kalman</keyword>
   <short_description
-  >Conception d'un filtre de Kalman pour l'estimation d'état.</short_description>
+  >Conception d&apos;un filtre de Kalman pour l&apos;estimation d&apos;état.</short_description>
   <syntax>
     <syntax_item>[kalmf, L, P, M, Z] = kalman(sys, Q, R, N)</syntax_item>
     <syntax_item
@@ -14,7 +14,7 @@
     <param_input_item>
       <param_name>sys</param_name>
       <param_description
-      >Modèle de plante avec bruit de processus : modèle d'état-espace.</param_description>
+      >Modèle de plante avec bruit de processus : modèle d&apos;état-espace.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Q</param_name>
@@ -44,7 +44,7 @@
     <param_output_item>
       <param_name>kalmf</param_name>
       <param_description
-      >Estimateur de Kalman : modèle d'état-espace</param_description>
+      >Estimateur de Kalman : modèle d&apos;état-espace</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>L</param_name>
@@ -53,21 +53,22 @@
     <param_output_item>
       <param_name>P</param_name>
       <param_description
-      >Covariances de l'erreur à l'état stationnaire : matrice</param_description>
+      >Covariances de l&apos;erreur à l&apos;état stationnaire : matrice</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>M</param_name>
       <param_description
-      >Gains d'innovation des estimateurs d'état : matrice</param_description>
+      >Gains d&apos;innovation des estimateurs d&apos;état : matrice</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>Z</param_name>
       <param_description
-      >Covariances de l'erreur à l'état stationnaire : matrice</param_description>
+      >Covariances de l&apos;erreur à l&apos;état stationnaire : matrice</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >[kalmf, L, P] = kalman(sys, Q, R, N)</b> génère un filtre de Kalman en utilisant le modèle de plante fourni <b
       >sys</b> et les matrices de covariance du bruit <b>Q</b>, <b>R</b>, et <b
       >N</b>.</p>
