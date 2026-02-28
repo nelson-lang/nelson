@@ -106,8 +106,8 @@ if [ "$arch" = "x86_64" ]; then
     chmod +x /usr/local/bin/clang-format-20
     ln -sf /usr/local/bin/clang-format-20 /usr/local/bin/clang-format
 else
-    print_status "Installing clang-format-20 from apt"
-    apt-get install -y clang-format-20
+    print_status "Installing clang-format from apt"
+    apt-get install -y clang-format
 fi
 
 # Just 1.33 or higher is required

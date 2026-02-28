@@ -258,6 +258,29 @@ fn edit_package_json(root: &Path, major: u32, minor: u32, maintenance: u32) -> R
     Ok(())
 }
 
+/// Update `[workspace.package]` `version = "x.y.z"` in the root `Cargo.toml`.
+fn edit_workspace_cargo_toml(root: &Path, major: u32, minor: u32, maintenance: u32) -> Result<()> {
+    let filename = root.join("Cargo.toml");
+    let content = fs::read_to_string(&filename)?;
+    let mut lines_out: Vec<String> = Vec::new();
+    let mut in_workspace_package = false;
+    for line in content.lines() {
+        let trimmed = line.trim();
+        if trimmed.starts_with('[') {
+            in_workspace_package = trimmed == "[workspace.package]";
+            lines_out.push(line.to_string());
+            continue;
+        }
+        if in_workspace_package && trimmed.starts_with("version") {
+            lines_out.push(format!("version = \"{}.{}.{}\"", major, minor, maintenance));
+        } else {
+            lines_out.push(line.to_string());
+        }
+    }
+    fs::write(&filename, lines_out.join("\n") + "\n")?;
+    Ok(())
+}
+
 /// Update the `### Nelson x.y.z.b` heading in every `homepage.md`.
 fn edit_homepage_md(root: &Path, version_str: &str) -> Result<()> {
     for entry in WalkDir::new(root.join("modules/main/help"))
@@ -401,6 +424,7 @@ fn main() -> Result<()> {
 
     if update_from_command_line {
         edit_package_json(root, major, minor, maintenance)?;
+        edit_workspace_cargo_toml(root, major, minor, maintenance)?;
     }
 
     edit_homepage_md(root, &version_str)?;
@@ -577,6 +601,31 @@ project(Nelson)\n";
         let result = fs::read_to_string(&file).unwrap();
         assert_that(&result.contains("    \"name\"")).is_true();
         assert_that(&result.ends_with('\n')).is_true();
+    }
+
+    #[test]
+    fn edit_workspace_cargo_toml_updates_workspace_version() {
+        let tmp = TempDir::new().unwrap();
+        let file = tmp.path().join("Cargo.toml");
+        let content = r#"[workspace]
+members = ["tools/nelson-fmt"]
+
+[workspace.package]
+version = "0.0.0"
+
+[package]
+name = "something"
+"#;
+        fs::write(&file, content).unwrap();
+
+        edit_workspace_cargo_toml(tmp.path(), 2, 5, 3).unwrap();
+
+        let result = fs::read_to_string(&file).unwrap();
+        assert_that(&result.contains("[workspace.package]")).is_true();
+        assert_that(&result.contains("version = \"2.5.3\""))
+            .is_true();
+        // Ensure other sections remain
+        assert_that(&result.contains("[package]")).is_true();
     }
 
     // -----------------------------------------------------------------------
