@@ -131,7 +131,7 @@ splitString(const std::wstring& str, const std::wstring& delims)
     std::vector<std::wstring> tokens;
     std::wstring::size_type beg = 0;
     for (auto end = str.find_first_of(delims); end != std::wstring::npos;
-        end = str.find_first_of(delims, beg)) {
+         end = str.find_first_of(delims, beg)) {
         if (end > beg) {
             tokens.push_back(str.substr(beg, end - beg));
         }

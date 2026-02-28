@@ -35,8 +35,8 @@ loadJuliaSymbols();
 using PROC_jl_init = void (*)();
 using PROC_jl_eval_string = jl_value_t* (*)(const char*);
 using PROC_jl_exception_occurred = jl_value_t* (*)(void);
-using PROC_jl_typeof_str = const char* (*)(jl_value_t * v);
-using PROC_jl_string_ptr = const char* (*)(jl_value_t * s);
+using PROC_jl_typeof_str = const char* (*)(jl_value_t* v);
+using PROC_jl_string_ptr = const char* (*)(jl_value_t* s);
 using PROC_jl_exception_clear = void (*)();
 using PROC_jl_get_global = jl_value_t* (*)(jl_module_t*, jl_sym_t*);
 using PROC_jl_set_global = void (*)(jl_module_t* m, jl_sym_t* var, jl_value_t* val);
@@ -52,13 +52,13 @@ using PROC_jl_unbox_uint32 = uint32_t (*)(jl_value_t*);
 using PROC_jl_unbox_int64 = int64_t (*)(jl_value_t*);
 using PROC_jl_unbox_uint64 = uint64_t (*)(jl_value_t*);
 using PROC_jl_symbol = jl_sym_t* (*)(const char* str);
-using PROC_jl_array_eltype = void* (*)(jl_value_t * a);
-using PROC_jl_get_field = jl_value_t* (*)(jl_value_t * o, const char* fld);
+using PROC_jl_array_eltype = void* (*)(jl_value_t* a);
+using PROC_jl_get_field = jl_value_t* (*)(jl_value_t* o, const char* fld);
 using PROC_jl_field_index = int (*)(jl_datatype_t* t, jl_sym_t* fld, int err);
-using PROC_jl_call = jl_value_t* (*)(jl_function_t * f, jl_value_t** args, uint32_t nargs);
+using PROC_jl_call = jl_value_t* (*)(jl_function_t* f, jl_value_t** args, uint32_t nargs);
 using PROC_jl_call0 = jl_value_t* (*)(jl_function_t*);
 using PROC_jl_call1 = jl_value_t* (*)(jl_function_t*, jl_value_t*);
-using PROC_jl_call2 = jl_value_t* (*)(jl_function_t * f, jl_value_t* a, jl_value_t* b);
+using PROC_jl_call2 = jl_value_t* (*)(jl_function_t* f, jl_value_t* a, jl_value_t* b);
 using PROC_jl_call3 = jl_value_t* (*)(jl_function_t*, jl_value_t*, jl_value_t*, jl_value_t*);
 using PROC_jl_box_bool = jl_value_t* (*)(int8_t x);
 using PROC_jl_box_int8 = jl_value_t* (*)(int8_t x);
@@ -73,12 +73,12 @@ using PROC_jl_box_uint64 = jl_value_t* (*)(uint64_t x);
 using PROC_jl_box_float32 = jl_value_t* (*)(float x);
 using PROC_jl_box_float64 = jl_value_t* (*)(double x);
 using PROC_jl_cstr_to_string = jl_value_t* (*)(const char* str);
-using PROC_jl_apply_array_type = jl_value_t* (*)(jl_value_t * type, size_t dim);
-using PROC_jl_alloc_array_1d = jl_array_t* (*)(jl_value_t * atype, size_t nr);
-using PROC_jl_alloc_array_2d = jl_array_t* (*)(jl_value_t * atype, size_t nr, size_t nc);
-using PROC_jl_alloc_array_3d = jl_array_t* (*)(jl_value_t * atype, size_t nr, size_t nc, size_t z);
-using PROC_jl_alloc_array_nd = jl_array_t* (*)(jl_value_t * atype, size_t* dims, size_t ndims);
-using PROC_jl_get_nth_field = jl_value_t* (*)(jl_value_t * v, size_t i);
+using PROC_jl_apply_array_type = jl_value_t* (*)(jl_value_t* type, size_t dim);
+using PROC_jl_alloc_array_1d = jl_array_t* (*)(jl_value_t* atype, size_t nr);
+using PROC_jl_alloc_array_2d = jl_array_t* (*)(jl_value_t* atype, size_t nr, size_t nc);
+using PROC_jl_alloc_array_3d = jl_array_t* (*)(jl_value_t* atype, size_t nr, size_t nc, size_t z);
+using PROC_jl_alloc_array_nd = jl_array_t* (*)(jl_value_t* atype, size_t* dims, size_t ndims);
+using PROC_jl_get_nth_field = jl_value_t* (*)(jl_value_t* v, size_t i);
 //=============================================================================
 bool
 isJuliaLibraryLoaded()
@@ -225,7 +225,7 @@ NLSjl_get_global(jl_module_t* m, jl_sym_t* var)
 int8_t
 NLSjl_unbox_bool(jl_value_t* v)
 {
-    return (int8_t)reinterpret_cast<PROC_jl_unbox_bool>(juliaSymbols["jl_unbox_bool"])(v);
+    return (int8_t) reinterpret_cast<PROC_jl_unbox_bool>(juliaSymbols["jl_unbox_bool"])(v);
 }
 //=============================================================================
 float

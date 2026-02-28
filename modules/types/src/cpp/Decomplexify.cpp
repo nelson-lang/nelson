@@ -31,7 +31,7 @@ decomplexify(const ArrayOf& A)
                     for (indexType k = 0; k < (indexType)spmatSRC->outerSize(); ++k) {
                         for (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator
                                  it(*spmatSRC, k);
-                            it; ++it) {
+                             it; ++it) {
                             spmatDST->coeffRef(it.row(), it.col()) = it.value().real();
                         }
                     }

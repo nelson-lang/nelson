@@ -71,7 +71,7 @@ public:
         y = 0;
         z = 0;
     };
-    point(double X, double Y, double Z) : x(X), y(Y), z(Z) { };
+    point(double X, double Y, double Z) : x(X), y(Y), z(Z) {};
 };
 //=============================================================================
 class Face

@@ -129,10 +129,11 @@ QtWorkspaceBrowser::restorePosition()
     m_tableView->horizontalHeader()->restoreState(headerOrderData);
 
     int sortColumn = settings.value(SETTING_WORKSPACE_BROWSER_HEADER_SORT, 0).toInt();
-    Qt::SortOrder sortOrder = static_cast<Qt::SortOrder>(settings
-            .value(
-                SETTING_WORKSPACE_BROWSER_HEADER_SORT_ORDER, static_cast<int>(Qt::AscendingOrder))
-            .toInt());
+    Qt::SortOrder sortOrder
+        = static_cast<Qt::SortOrder>(settings
+                                         .value(SETTING_WORKSPACE_BROWSER_HEADER_SORT_ORDER,
+                                             static_cast<int>(Qt::AscendingOrder))
+                                         .toInt());
 
     m_tableView->sortByColumn(sortColumn, sortOrder);
 

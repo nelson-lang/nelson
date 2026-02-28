@@ -133,7 +133,7 @@ void
 PathFunctionIndexerManager::clear()
 {
     for (std::vector<PathFunctionIndexer*>::reverse_iterator it = _pathFuncVector.rbegin();
-        it != _pathFuncVector.rend(); ++it) {
+         it != _pathFuncVector.rend(); ++it) {
         PathFunctionIndexer* pf = *it;
         if (pf) {
             delete pf;
@@ -431,7 +431,7 @@ PathFunctionIndexerManager::rehash()
         _userPath->rehash();
     }
     for (std::vector<PathFunctionIndexer*>::reverse_iterator it = _pathFuncVector.rbegin();
-        it != _pathFuncVector.rend(); ++it) {
+         it != _pathFuncVector.rend(); ++it) {
         PathFunctionIndexer* pf = *it;
         if (pf) {
             pf->rehash();
@@ -458,7 +458,7 @@ PathFunctionIndexerManager::rehash(const std::wstring& path)
         }
     }
     for (std::vector<PathFunctionIndexer*>::reverse_iterator it = _pathFuncVector.rbegin();
-        it != _pathFuncVector.rend(); ++it) {
+         it != _pathFuncVector.rend(); ++it) {
         PathFunctionIndexer* pf = *it;
         if (pf) {
             FileSystemWrapper::Path p1 { pf->getPath() }, p2 { path };

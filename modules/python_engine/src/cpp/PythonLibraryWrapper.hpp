@@ -190,8 +190,7 @@ NLSPyBuffer_Release(Py_buffer* view);
 PyObject*
 NLSPyTuple_New(Py_ssize_t size);
 //=============================================================================
-PyObject*
-NLSPyLong_FromSize_t(size_t);
+PyObject* NLSPyLong_FromSize_t(size_t);
 //=============================================================================
 int
 NLSPyTuple_SetItem(PyObject* p, Py_ssize_t pos, PyObject* o);

@@ -212,8 +212,8 @@ DisplayNdCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
         bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
         for (int k = 0;
-            k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
-            k++) {
+             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+             k++) {
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
             if (withColumsHeader) {
@@ -231,11 +231,11 @@ DisplayNdCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
                 io->outputMessage(msg);
             }
             for (indexType i = 0;
-                i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
-                i++) {
+                 i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+                 i++) {
                 for (indexType j = 0; j < colsInThisPage
-                    && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
-                    j++) {
+                     && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+                     j++) {
                     indexType colsPos = k * colsPerPage + j;
                     indexType idx = i + (k * colsPerPage + j) * rows;
                     indexType len = vSize[colsPos];

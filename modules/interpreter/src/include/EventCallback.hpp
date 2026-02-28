@@ -17,9 +17,9 @@ namespace Nelson {
 class NLSINTERPRETER_IMPEXP EventCallback : public CallbackBase
 {
 public:
-    EventCallback() { };
-    EventCallback(const ArrayOf& _callbackAsArrayOf) : CallbackBase(_callbackAsArrayOf) { };
-    ~EventCallback() { };
+    EventCallback() {};
+    EventCallback(const ArrayOf& _callbackAsArrayOf) : CallbackBase(_callbackAsArrayOf) {};
+    ~EventCallback() {};
 };
 //=============================================================================
 }

@@ -297,7 +297,7 @@ MxArraySparseToSparseDoubleArrayOf(const mxArray* pm)
     Eigen::Index n = 0;
     for (Eigen::Index k = 0; k < sm.outerSize() && n < nnz; ++k) {
         for (Eigen::Map<Eigen::SparseMatrix<double, 0, signedIndexType>>::InnerIterator it(sm, k);
-            it; ++it) {
+             it; ++it) {
             if (n < nnz) {
                 i.push_back((SPARSE_INDEX_TYPE)it.row() + 1);
                 j.push_back((SPARSE_INDEX_TYPE)it.col() + 1);
@@ -352,7 +352,7 @@ MxArraySparseToSparseDoubleComplexArrayOf(const mxArray* pm)
         for (Eigen::Index k = 0; k < sm.outerSize() && n < nnz; ++k) {
             for (Eigen::Map<Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>>::InnerIterator
                      it(sm, k);
-                it; ++it) {
+                 it; ++it) {
                 if (n < nnz) {
                     i.push_back((SPARSE_INDEX_TYPE)it.row() + 1);
                     j.push_back((SPARSE_INDEX_TYPE)it.col() + 1);
@@ -398,7 +398,7 @@ MxArraySparseToSparseDoubleComplexArrayOf(const mxArray* pm)
         for (Eigen::Index k = 0; k < sm.outerSize() && n < nnz; ++k) {
             for (Eigen::Map<Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>>::InnerIterator
                      it(sm, k);
-                it; ++it) {
+                 it; ++it) {
                 if (n < nnz) {
                     i.push_back((SPARSE_INDEX_TYPE)it.row() + 1);
                     j.push_back((SPARSE_INDEX_TYPE)it.col() + 1);
@@ -449,7 +449,7 @@ MxArraySparseToSparseLogicalArrayOf(const mxArray* pm)
     Eigen::Index n = 0;
     for (Eigen::Index k = 0; k < sm.outerSize() && n < nnz; ++k) {
         for (Eigen::Map<Eigen::SparseMatrix<logical, 0, signedIndexType>>::InnerIterator it(sm, k);
-            it; ++it) {
+             it; ++it) {
             if (n < nnz) {
                 i.push_back((SPARSE_INDEX_TYPE)it.row() + 1);
                 j.push_back((SPARSE_INDEX_TYPE)it.col() + 1);

@@ -23,14 +23,14 @@ countString(const std::wstring& str, const std::wstring& pattern, bool caseSensi
     int count = 0;
     if (caseSensitive) {
         for (size_t offset = str.find(pattern); offset != std::wstring::npos;
-            offset = str.find(pattern, offset + pattern.length())) {
+             offset = str.find(pattern, offset + pattern.length())) {
             ++count;
         }
     } else {
         std::wstring upperStr = StringHelpers::to_upper_copy(str);
         std::wstring upperPattern = StringHelpers::to_upper_copy(pattern);
         for (size_t offset = upperStr.find(upperPattern); offset != std::wstring::npos;
-            offset = upperStr.find(upperPattern, offset + upperPattern.length())) {
+             offset = upperStr.find(upperPattern, offset + upperPattern.length())) {
             ++count;
         }
     }

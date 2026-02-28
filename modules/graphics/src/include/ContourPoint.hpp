@@ -28,7 +28,7 @@ public:
      * @param a The x-coordinate.
      * @param b The y-coordinate.
      */
-    inline contourPoint(double a, double b) : x(a), y(b) { };
+    inline contourPoint(double a, double b) : x(a), y(b) {};
 };
 //=============================================================================
 typedef std::vector<contourPoint> contourLine; /**< A line segment of a contour */

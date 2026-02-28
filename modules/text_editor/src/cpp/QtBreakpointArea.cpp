@@ -242,7 +242,7 @@ QtBreakpointArea::lineNumberAtPosition(int y) const
     int lineNumber = 1;
 
     for (QTextBlock block = tEditor->document()->begin(); block.isValid();
-        block = block.next(), ++lineNumber) {
+         block = block.next(), ++lineNumber) {
         QTextLayout* layout = block.layout();
         if (layout == nullptr) {
             continue;
@@ -278,7 +278,7 @@ QtBreakpointArea::paintEvent(QPaintEvent* paintEvent)
     const int lineHeight = fontMetrics().height();
 
     for (QTextBlock block = tEditor->document()->begin(); block.isValid();
-        block = block.next(), ++lineNumber) {
+         block = block.next(), ++lineNumber) {
         QTextLayout* layout = block.layout();
         if (layout == nullptr) {
             continue;

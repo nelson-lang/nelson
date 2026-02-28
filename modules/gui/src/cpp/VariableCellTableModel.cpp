@@ -223,9 +223,9 @@ VariableCellTableModel::formatCellForDisplay(const ArrayOf& cellArray) const
         if (cellArray.isScalar() && !cellArray.isSparse()) {
             std::complex<single> val = cellArray.getContentAsSingleComplexScalar();
             return QVariant(QString("%1%2%3i")
-                    .arg(val.real(), 0, 'g', 6)
-                    .arg(val.imag() >= 0 ? "+" : "")
-                    .arg(val.imag(), 0, 'g', 6));
+                                .arg(val.real(), 0, 'g', 6)
+                                .arg(val.imag() >= 0 ? "+" : "")
+                                .arg(val.imag(), 0, 'g', 6));
         }
     } break;
     case NLS_DOUBLE: {
@@ -248,9 +248,9 @@ VariableCellTableModel::formatCellForDisplay(const ArrayOf& cellArray) const
         if (cellArray.isScalar() && !cellArray.isSparse()) {
             std::complex<double> val = cellArray.getContentAsDoubleComplexScalar();
             return QVariant(QString("%1%2%3i")
-                    .arg(val.real(), 0, 'g', 6)
-                    .arg(val.imag() >= 0 ? "+" : "")
-                    .arg(val.imag(), 0, 'g', 6));
+                                .arg(val.real(), 0, 'g', 6)
+                                .arg(val.imag() >= 0 ? "+" : "")
+                                .arg(val.imag(), 0, 'g', 6));
         }
     } break;
     case NLS_CHAR: {
@@ -354,9 +354,9 @@ VariableCellTableModel::formatCellForEdit(const ArrayOf& cellArray) const
         if (cellArray.isScalar()) {
             std::complex<single> val = cellArray.getContentAsSingleComplexScalar();
             return QVariant(QString("%1%2%3i")
-                    .arg(val.real(), 0, 'g', 15)
-                    .arg(val.imag() >= 0 ? "+" : "")
-                    .arg(val.imag(), 0, 'g', 15));
+                                .arg(val.real(), 0, 'g', 15)
+                                .arg(val.imag() >= 0 ? "+" : "")
+                                .arg(val.imag(), 0, 'g', 15));
         }
     } break;
     case NLS_DOUBLE: {
@@ -372,9 +372,9 @@ VariableCellTableModel::formatCellForEdit(const ArrayOf& cellArray) const
         if (cellArray.isScalar()) {
             std::complex<double> val = cellArray.getContentAsDoubleComplexScalar();
             return QVariant(QString("%1%2%3i")
-                    .arg(val.real(), 0, 'g', 15)
-                    .arg(val.imag() >= 0 ? "+" : "")
-                    .arg(val.imag(), 0, 'g', 15));
+                                .arg(val.real(), 0, 'g', 15)
+                                .arg(val.imag() >= 0 ? "+" : "")
+                                .arg(val.imag(), 0, 'g', 15));
         }
     } break;
     case NLS_CHAR: {
@@ -1489,8 +1489,8 @@ VariableCellTableModel::expandDisplayIfNeeded(int row, int col)
         // Resize edit data while preserving existing values
         QVector<QVariant> newEditData(m_rows_display * m_cols_display);
         for (int r = 0;
-            r < std::min(m_rows_display, static_cast<int>(m_editData.size() / m_cols_display));
-            ++r) {
+             r < std::min(m_rows_display, static_cast<int>(m_editData.size() / m_cols_display));
+             ++r) {
             for (int c = 0; c < std::min(m_cols_display, m_cols_display); ++c) {
                 const int oldIdx = r + c * (m_editData.size() / m_cols_display);
                 const int newIdx = r + c * m_rows_display;

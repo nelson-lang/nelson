@@ -545,8 +545,8 @@ VariableStringTableModel::expandDisplayIfNeeded(int row, int col)
         // Resize edit data while preserving existing values
         QVector<QVariant> newEditData(m_rows_display * m_cols_display);
         for (int r = 0;
-            r < std::min(m_rows_display, static_cast<int>(m_editData.size() / m_cols_display));
-            ++r) {
+             r < std::min(m_rows_display, static_cast<int>(m_editData.size() / m_cols_display));
+             ++r) {
             for (int c = 0; c < std::min(m_cols_display, m_cols_display); ++c) {
                 const int oldIdx = r + c * (m_editData.size() / m_cols_display);
                 const int newIdx = r + c * m_rows_display;

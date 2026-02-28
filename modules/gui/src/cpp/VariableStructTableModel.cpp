@@ -781,9 +781,9 @@ VariableStructTableModel::formatStructForDisplay(const ArrayOf& cellArray) const
         if (cellArray.isScalar() && !cellArray.isSparse()) {
             std::complex<single> val = cellArray.getContentAsSingleComplexScalar();
             return QVariant(QString("%1%2%3i")
-                    .arg(val.real(), 0, 'g', 6)
-                    .arg(val.imag() >= 0 ? "+" : "")
-                    .arg(val.imag(), 0, 'g', 6));
+                                .arg(val.real(), 0, 'g', 6)
+                                .arg(val.imag() >= 0 ? "+" : "")
+                                .arg(val.imag(), 0, 'g', 6));
         }
     } break;
     case NLS_DOUBLE: {
@@ -806,9 +806,9 @@ VariableStructTableModel::formatStructForDisplay(const ArrayOf& cellArray) const
         if (cellArray.isScalar() && !cellArray.isSparse()) {
             std::complex<double> val = cellArray.getContentAsDoubleComplexScalar();
             return QVariant(QString("%1%2%3i")
-                    .arg(val.real(), 0, 'g', 6)
-                    .arg(val.imag() >= 0 ? "+" : "")
-                    .arg(val.imag(), 0, 'g', 6));
+                                .arg(val.real(), 0, 'g', 6)
+                                .arg(val.imag() >= 0 ? "+" : "")
+                                .arg(val.imag(), 0, 'g', 6));
         }
     } break;
     case NLS_CHAR: {
@@ -933,9 +933,9 @@ VariableStructTableModel::formatCellForEdit(const ArrayOf& cellArray) const
         if (cellArray.isScalar()) {
             std::complex<single> val = cellArray.getContentAsSingleComplexScalar();
             return QVariant(QString("%1%2%3i")
-                    .arg(val.real(), 0, 'g', 15)
-                    .arg(val.imag() >= 0 ? "+" : "")
-                    .arg(val.imag(), 0, 'g', 15));
+                                .arg(val.real(), 0, 'g', 15)
+                                .arg(val.imag() >= 0 ? "+" : "")
+                                .arg(val.imag(), 0, 'g', 15));
         }
     } break;
     case NLS_DOUBLE: {
@@ -951,9 +951,9 @@ VariableStructTableModel::formatCellForEdit(const ArrayOf& cellArray) const
         if (cellArray.isScalar()) {
             std::complex<double> val = cellArray.getContentAsDoubleComplexScalar();
             return QVariant(QString("%1%2%3i")
-                    .arg(val.real(), 0, 'g', 15)
-                    .arg(val.imag() >= 0 ? "+" : "")
-                    .arg(val.imag(), 0, 'g', 15));
+                                .arg(val.real(), 0, 'g', 15)
+                                .arg(val.imag() >= 0 ? "+" : "")
+                                .arg(val.imag(), 0, 'g', 15));
         }
     } break;
     case NLS_CHAR: {

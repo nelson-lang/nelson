@@ -31,7 +31,7 @@ sparsedouble_uminus(NelsonType dclass, indexType rows, indexType cols, const voi
             dclass, rows, cols, cp);
     for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
         for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(*spMat, k); it;
-            ++it) {
+             ++it) {
             res->coeffRef(it.row(), it.col()) = -it.value();
         }
     }

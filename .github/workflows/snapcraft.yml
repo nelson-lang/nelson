@@ -24,6 +24,13 @@ jobs:
           sudo snap install snapcraft --classic
       - name: Checkout
         uses: actions/checkout@v6
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install just
+        uses: extractions/setup-just@v2
+
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
@@ -66,13 +73,20 @@ jobs:
           sudo snap install core --channel=stable
           sudo snap install snapcraft --classic
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install just
+        uses: extractions/setup-just@v2
+
       - name: Get package version
         uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
       - name: Update version and build
         run: |
-          python $GITHUB_WORKSPACE/tools/update_version/update_version.py
+          just update_version
           NELSON_VERSION=$(grep -oP '"version": "\K[^"]+' package.json)
           echo $NELSON_VERSION
           sudo snapcraft --destructive-mode --verbose

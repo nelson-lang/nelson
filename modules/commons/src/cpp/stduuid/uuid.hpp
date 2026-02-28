@@ -721,8 +721,8 @@ template <typename UniformRandomNumberGenerator> class basic_uuid_random_generat
 public:
     using engine_type = UniformRandomNumberGenerator;
 
-    explicit basic_uuid_random_generator(engine_type& gen) : generator(&gen, [](auto) { }) { }
-    explicit basic_uuid_random_generator(engine_type* gen) : generator(gen, [](auto) { }) { }
+    explicit basic_uuid_random_generator(engine_type& gen) : generator(&gen, [](auto) {}) { }
+    explicit basic_uuid_random_generator(engine_type* gen) : generator(gen, [](auto) {}) { }
 
     [[nodiscard]] uuid
     operator()()
