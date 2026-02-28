@@ -34,6 +34,8 @@ pacman -Syu --noconfirm || { echo "System update failed"; exit 1; }
 # Install package groups
 print_status "Installing development tools"
 install_packages base-devel git gcc binutils glibc inetutils gawk m4 pkg-config cmake make just clang rust
+# clang includes clang-format; nelson-fmt requires major version 18 and will
+# warn if the installed version differs.
 
 # Install libraries and dependencies by category
 print_status "Installing core libraries"

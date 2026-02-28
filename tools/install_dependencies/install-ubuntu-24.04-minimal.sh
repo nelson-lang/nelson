@@ -39,7 +39,7 @@ snap install --classic just
 
 print_status "Installing build tools"
 apt-get install -y build-essential ninja-build autotools-dev libtool automake \
-                   pkg-config clang-format
+                   pkg-config clang-format-18
 
 print_status "Installing Rust toolchain"
 if ! command -v rustup &>/dev/null; then

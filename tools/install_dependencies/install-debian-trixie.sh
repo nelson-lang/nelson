@@ -28,7 +28,7 @@ apt-get upgrade -y
 
 print_status "Installing build tools"
 apt-get install -y build-essential cmake autotools-dev libtool automake \
-                   pkg-config gettext just clang-format
+                   pkg-config gettext just clang-format-18
 
 print_status "Installing Rust toolchain"
 if ! command -v rustup &>/dev/null; then

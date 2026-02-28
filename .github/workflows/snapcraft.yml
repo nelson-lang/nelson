@@ -29,7 +29,7 @@ jobs:
         id: json_version
       - name: Update version and build
         run: |
-          python $GITHUB_WORKSPACE/tools/update_version/update_version.py
+          just update_version
           NELSON_VERSION=$(grep -oP '"version": "\K[^"]+' package.json)
           echo $NELSON_VERSION
           sudo snapcraft --destructive-mode --verbose

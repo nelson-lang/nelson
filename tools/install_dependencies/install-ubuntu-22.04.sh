@@ -47,7 +47,7 @@ apt-get install -y \
     wget \
     ninja-build \
     xvfb \
-    clang-format \
+    clang-format-18 \
     libopenmpi-dev \
     autotools-dev \
     libtool \

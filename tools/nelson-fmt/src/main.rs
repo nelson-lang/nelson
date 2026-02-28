@@ -42,6 +42,11 @@ struct Args {
 /// C/C++ source extensions handled by clang-format.
 const CPP_EXTENSIONS: &[&str] = &["h", "hpp", "hxx", "cpp", "c", "cxx"];
 
+/// Required major version of clang-format.
+/// All platforms **must** use the same major version so that formatting output
+/// is identical regardless of OS.
+const CLANG_FORMAT_MAJOR_VERSION: u32 = 18;
+
 /// Layout of the `clang-format-ignore.json` configuration file that lives
 /// next to `.clang-format` in the project root.
 #[derive(Deserialize, Debug, Default)]
@@ -204,39 +209,79 @@ fn process_file(path: &Path, ext: &str, check: bool, verbose: bool) -> Result<bo
     Ok(true)
 }
 /// Resolve the clang-format binary to use:
-///   - On Windows: try `<root>/tools/clang-format.exe` first, then fall back
-///     to the system PATH.
-///   - On other platforms: use the system-installed `clang-format` from PATH.
+///   1. Try `<root>/tools/clang-format/clang-format[.exe]` (all platforms).
+///   2. Try `clang-format-<MAJOR>` on PATH (e.g. `clang-format-18`).
+///   3. Fall back to `clang-format` on PATH.
 ///
 /// Returns `None` when no usable binary is found.
 fn resolve_clang_format(root: &Path) -> Option<PathBuf> {
-    // On Windows, prefer the local copy shipped in tools/clang-format/
-    if cfg!(windows) {
-        let local = root
-            .join("tools")
-            .join("clang-format")
-            .join("clang-format.exe");
-        if local.is_file() {
-            return Some(local);
-        }
-    }
-
-    // Fall back to PATH
-    let name = if cfg!(windows) {
+    let local_name = if cfg!(windows) {
         "clang-format.exe"
     } else {
         "clang-format"
     };
-    if Command::new(name)
+
+    // 1. Prefer the local copy shipped in tools/clang-format/
+    let local = root.join("tools").join("clang-format").join(local_name);
+    if local.is_file() {
+        return Some(local);
+    }
+
+    // 2. Try version-specific binary on PATH (e.g. clang-format-18)
+    let versioned = format!("clang-format-{}", CLANG_FORMAT_MAJOR_VERSION);
+    if Command::new(&versioned)
         .arg("--version")
         .output()
         .map(|o| o.status.success())
         .unwrap_or(false)
     {
-        return Some(PathBuf::from(name));
+        return Some(PathBuf::from(versioned));
+    }
+
+    // 3. Fall back to unversioned name on PATH
+    if Command::new(local_name)
+        .arg("--version")
+        .output()
+        .map(|o| o.status.success())
+        .unwrap_or(false)
+    {
+        return Some(PathBuf::from(local_name));
     }
 
     None
+}
+
+/// Extract the major version number from `clang-format --version` output.
+/// Typical output: "clang-format version 18.1.3 (…)" or
+/// "Ubuntu clang-format version 18.1.3 (1ubuntu1)"
+fn clang_format_major_version(bin: &Path) -> Option<u32> {
+    let output = Command::new(bin).arg("--version").output().ok()?;
+    let text = String::from_utf8_lossy(&output.stdout);
+    // Look for "version X.Y.Z"
+    let after_version = text.split("version").nth(1)?;
+    let major_str = after_version.trim().split('.').next()?;
+    major_str.trim().parse().ok()
+}
+
+/// Check that the detected clang-format matches `CLANG_FORMAT_MAJOR_VERSION`.
+/// Prints a warning and returns `false` on mismatch.
+fn check_clang_format_version(bin: &Path) -> bool {
+    match clang_format_major_version(bin) {
+        Some(major) if major == CLANG_FORMAT_MAJOR_VERSION => true,
+        Some(major) => {
+            eprintln!(
+                "WARNING: clang-format major version is {} but {} is required. \
+                 Formatting may differ across platforms. \
+                 Please install clang-format {}.",
+                major, CLANG_FORMAT_MAJOR_VERSION, CLANG_FORMAT_MAJOR_VERSION
+            );
+            false
+        }
+        None => {
+            eprintln!("WARNING: could not determine clang-format version");
+            false
+        }
+    }
 }
 /// Collect, then format (or check) all C/C++ files via `clang-format`.
 fn process_cpp_files(
@@ -246,8 +291,7 @@ fn process_cpp_files(
     verbose: bool,
 ) -> Result<(usize, usize)> {
     // Resolve clang-format executable:
-    //   Windows  → prefer <root>/tools/clang-format/clang-format.exe, then PATH
-    //   Others   → system PATH
+    //   All platforms → prefer <root>/tools/clang-format/clang-format[.exe], then PATH
     let clang_format_bin = resolve_clang_format(root);
 
     // Collect matching files
@@ -280,6 +324,9 @@ fn process_cpp_files(
             return Ok((0, 0));
         }
     };
+
+    // Verify the version matches the required major version
+    check_clang_format_version(&clang_format_bin);
 
     // Point clang-format at the project's .clang-format config file
     let style_file = root.join(".clang-format");

@@ -59,7 +59,7 @@ dependencies=(
     julia
     libtiff
     just
-    clang-format
+    llvm@18
     rust
 )
 
@@ -78,6 +78,15 @@ brew link gettext --force
 brew link libomp --force
 brew link giflib --force
 brew link icu4c --force
+
+# Make clang-format-18 available on PATH
+LLVM18_BIN="$(brew --prefix llvm@18)/bin"
+if [ -d "$LLVM18_BIN" ]; then
+    for tool in clang-format clang-format-18; do
+        ln -sf "$LLVM18_BIN/clang-format" "/usr/local/bin/$tool" 2>/dev/null || \
+        ln -sf "$LLVM18_BIN/clang-format" "$(brew --prefix)/bin/$tool" 2>/dev/null || true
+    done
+fi
 
 # Update PATH for gettext
 if ! grep -q '/usr/local/opt/gettext/bin' ~/.zshrc; then

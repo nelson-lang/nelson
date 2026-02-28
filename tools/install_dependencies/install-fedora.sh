@@ -33,8 +33,18 @@ system_utils=(
 # --- Build Tools ---
 build_tools=(
     make libtool gcc gcc-c++ autoconf automake
-    cmake gettext pkg-config clang-tools-extra
+    cmake gettext pkg-config
 )
+
+# --- Clang-format (pinned to major version 18 for consistent formatting) ---
+clang_format_install() {
+    # Try the compat package first (provides clang-format-18 on newer Fedora)
+    if dnf install -y clang18-tools-extra 2>/dev/null; then
+        return
+    fi
+    # Fall back to default clang-tools-extra (check version with nelson-fmt)
+    dnf install -y clang-tools-extra
+}
 
 # --- Rust Toolchain ---
 rust_install() {
@@ -82,6 +92,9 @@ other_libs=(
 # Install all groups
 dnf install -y "${system_utils[@]}"
 dnf install -y "${build_tools[@]}"
+
+print_status "Installing clang-format"
+clang_format_install
 
 print_status "Installing Rust toolchain"
 rust_install
