@@ -9,34 +9,14 @@
 // ==============================================================================
 use anyhow::{Context, Result};
 use clap::Parser;
+use rayon::prelude::*;
 use serde::{Deserialize, Serialize};
+use std::env;
 use std::ffi::OsStr;
 use std::path::{Path, PathBuf};
 use std::process::Command;
-/// Format CMake content by calling the cmake-fmt binary.
-fn format_cmake_file(path: &Path, content: &str) -> String {
-    let output = Command::new("cmake-fmt")
-        .arg("--assume-filename")
-        .arg(path)
-        .arg("-")
-        .stdin(std::process::Stdio::piped())
-        .stdout(std::process::Stdio::piped())
-        .spawn()
-        .and_then(|mut child| {
-            use std::io::Write;
-            if let Some(stdin) = child.stdin.as_mut() {
-                let _ = stdin.write_all(content.as_bytes());
-            }
-            child.wait_with_output()
-        });
-    match output {
-        Ok(out) if out.status.success() => String::from_utf8_lossy(&out.stdout).to_string(),
-        _ => content.to_string(),
-    }
-}
-use walkdir::WalkDir;
-use rayon::prelude::*;
 use toml_edit::Document;
+use walkdir::WalkDir;
 // ===========================================================================
 // CLI
 // ===========================================================================
@@ -65,22 +45,32 @@ struct Args {
 /// C/C++ source extensions handled by clang-format.
 const CPP_EXTENSIONS: &[&str] = &["h", "hpp", "hxx", "cpp", "c", "cxx"];
 
-/// Required major version of clang-format.
-/// All platforms **must** use the same major version so that formatting output
-/// is identical regardless of OS.
-const CLANG_FORMAT_MAJOR_VERSION: u32 = 20;
+/// Default major version of clang-format.
+/// Stored in configuration so that the hard‑coded constant can be removed
+/// once the user has upgraded their repo.  The JSON file lives next to
+/// `.clang-format` and is loaded by `load_clang_format_ignore`.
+const DEFAULT_CLANG_FORMAT_MAJOR_VERSION: u32 = 20;
 
-/// Layout of the `clang-format-ignore.json` configuration file that lives
-/// next to `.clang-format` in the project root.
+/// Layout of the `nelson-format-ignore.json` configuration file that lives
+/// next to `.clang-format` in the project root.  Historically this file only
+/// contained paths to exclude from formatting; it now also allows specifying
+/// the required clang-format major version via
+/// `clangFormatMajorVersion`.
 #[derive(Deserialize, Debug, Default)]
 #[serde(rename_all = "camelCase")]
 struct ClangFormatIgnore {
     #[serde(default)]
     exclude_path_contains: Vec<String>,
+
+    /// If present, overrides `DEFAULT_CLANG_FORMAT_MAJOR_VERSION`.
+    #[serde(default)]
+    clang_format_major_version: Option<u32>,
 }
 
-/// Load the ignore list from `<root>/clang-format-ignore.json`.
-/// Returns a default (empty) ignore list when the file is absent.
+/// Load the formatting configuration from `<root>/nelson-format-ignore.json`.
+/// Returns a default (empty) configuration when the file is absent.  The JSON
+/// may contain both `excludePathContains` and an optional
+/// `clangFormatMajorVersion` field.
 fn load_clang_format_ignore(root: &Path) -> Result<ClangFormatIgnore> {
     let path = root.join("nelson-format-ignore.json");
     if !path.is_file() {
@@ -133,6 +123,74 @@ fn format_json(content: &str) -> Result<Option<String>> {
     Ok(Some(output))
 }
 
+/// Default style passed to `cmake-fmt` when the user doesn't override it.
+/// This mirrors the canonical settings used throughout the Nelson repository
+/// for CMake files.
+const DEFAULT_CMAKE_STYLE: &str = "indent_width=2,max_line_length=80,use_tabs=false";
+
+/// Return the style argument to pass to `cmake-fmt`.
+///
+/// Behaviour is now deterministic: we do **not** search for configuration files
+/// on disk.  Instead, we use a hard‑coded default, and let callers override it
+/// by setting `CMAKE_FMT_STYLE` in the environment.  An empty variable value is
+/// treated the same as being unset (i.e. the default is used).
+fn cmake_style_arg() -> Option<String> {
+    if let Ok(style) = env::var("CMAKE_FMT_STYLE") {
+        if !style.is_empty() {
+            return Some(style);
+        }
+    }
+    Some(DEFAULT_CMAKE_STYLE.to_string())
+}
+
+/// Format CMake content by calling the cmake-fmt binary.
+///
+/// The original behaviour inspected the filesystem for a repository-level
+/// configuration by walking upward from the file path.  That complexity has
+/// been removed: `cmake-fmt` will use its built-in default style unless the
+/// user specifies a different style via the `CMAKE_FMT_STYLE` environment
+/// variable.  Keeping the helper logic here keeps testing simple and avoids
+/// surprises when running `nelson-fmt` from different subdirectories.
+fn format_cmake_file(path: &Path, content: &str, verbose: bool) -> String {
+    // Build argument list explicitly so we can display it before running.
+    let mut args: Vec<String> = Vec::new();
+
+    // style passed to cmake-fmt (if any) comes solely from the environment
+    let style_used: Option<String> = cmake_style_arg();
+    if let Some(ref s) = style_used {
+        args.push("--style".to_string());
+        args.push(s.clone());
+    }
+
+    args.push("--assume-filename".to_string());
+    args.push(path.display().to_string());
+    args.push("-".to_string());
+
+    if verbose {
+        eprintln!("Running: cmake-fmt {}", args.join(" "));
+        if let Some(ref s) = style_used {
+            eprintln!("Using style: {}", s);
+        }
+    }
+
+    let output = Command::new("cmake-fmt")
+        .args(&args)
+        .stdin(std::process::Stdio::piped())
+        .stdout(std::process::Stdio::piped())
+        .spawn()
+        .and_then(|mut child| {
+            use std::io::Write;
+            if let Some(stdin) = child.stdin.as_mut() {
+                let _ = stdin.write_all(content.as_bytes());
+            }
+            child.wait_with_output()
+        });
+    match output {
+        Ok(out) if out.status.success() => String::from_utf8_lossy(&out.stdout).to_string(),
+        _ => content.to_string(),
+    }
+}
+
 /// Format XML content.
 fn format_xml(content: &str) -> String {
     let formatter = xmlformat::Formatter {
@@ -148,15 +206,15 @@ fn format_xml(content: &str) -> String {
             let mut result = String::with_capacity(trimmed.len() + 1);
             result.push_str(trimmed);
             result.push('\n');
-            return result;
-        },
+            result
+        }
         Err(_) => {
             // Fallback: also normalize trailing whitespace for unparseable XML
             let trimmed = content.trim_end();
             let mut result = String::with_capacity(trimmed.len() + 1);
             result.push_str(trimmed);
             result.push('\n');
-            return result;
+            result
         }
     }
 }
@@ -171,9 +229,14 @@ fn format_toml(content: &str) -> String {
 
 /// Format Rust source code using rustfmt.
 fn format_rust_with_rustfmt(path: &Path, content: &str, verbose: bool) -> String {
-    let rustfmt_path = if cfg!(windows) { "rustfmt.exe" } else { "rustfmt" };
+    let rustfmt_path = if cfg!(windows) {
+        "rustfmt.exe"
+    } else {
+        "rustfmt"
+    };
     let output = Command::new(rustfmt_path)
-        .arg("--emit").arg("stdout")
+        .arg("--emit")
+        .arg("stdout")
         .arg(path)
         .output();
     match output {
@@ -185,14 +248,17 @@ fn format_rust_with_rustfmt(path: &Path, content: &str, verbose: bool) -> String
         }
         _ => {
             if verbose {
-                eprintln!("rustfmt not found or failed, using basic_cleanup: {}", path.display());
+                eprintln!(
+                    "rustfmt not found or failed, using basic_cleanup: {}",
+                    path.display()
+                );
             }
             basic_cleanup(content)
         }
     }
 }
 // ===========================================================================
-// Walk helpers
+// Helper utilities
 // ===========================================================================
 /// into them.
 fn is_skipped_dir(entry: &walkdir::DirEntry, ignore: &ClangFormatIgnore) -> bool {
@@ -200,9 +266,10 @@ fn is_skipped_dir(entry: &walkdir::DirEntry, ignore: &ClangFormatIgnore) -> bool
         return false;
     }
     let name = entry.file_name().to_string_lossy();
-    ignore.exclude_path_contains.iter().any(|p| {
-        !p.contains('/') && !p.contains('*') && p == name.as_ref()
-    })
+    ignore
+        .exclude_path_contains
+        .iter()
+        .any(|p| !p.contains('/') && !p.contains('*') && p == name.as_ref())
 }
 /// Determine whether a path is a C/C++ source that should be excluded from
 /// clang-format (e.g. vendored third-party code).
@@ -212,22 +279,23 @@ fn is_cpp_excluded(path: &Path, root: &Path, ignore: &ClangFormatIgnore) -> bool
         .unwrap_or(path)
         .to_string_lossy()
         .replace('\\', "/");
-    ignore
-        .exclude_path_contains
-        .iter()
-        .any(|pattern| {
-            let pat = pattern.replace('\\', "/");
-            if pat.ends_with('/') {
-                relative.starts_with(&pat)
-            } else {
-                relative.contains(&pat)
-            }
-        })
+    ignore.exclude_path_contains.iter().any(|pattern| {
+        let pat = pattern.replace('\\', "/");
+        if pat.ends_with('/') {
+            relative.starts_with(&pat)
+        } else {
+            relative.contains(&pat)
+        }
+    })
 }
 
 /// Determine whether a path should be excluded from formatting for any extension.
 fn is_path_excluded(path: &Path, root: &Path, ignore: &ClangFormatIgnore) -> bool {
-    let relative = path.strip_prefix(root).unwrap_or(path).to_string_lossy().replace('\\', "/");
+    let relative = path
+        .strip_prefix(root)
+        .unwrap_or(path)
+        .to_string_lossy()
+        .replace('\\', "/");
     ignore.exclude_path_contains.iter().any(|pattern| {
         let pat = pattern.replace('\\', "/");
         if pat.ends_with('/') {
@@ -241,7 +309,7 @@ fn is_path_excluded(path: &Path, root: &Path, ignore: &ClangFormatIgnore) -> boo
 /// (JSON / YAML / Markdown / JS / XML-help-doc) and return its logical
 /// extension if so.
 fn standard_file_kind<'a>(path: &'a Path, _root: &Path) -> Option<&'a str> {
-    if path.file_name().map_or(false, |n| n == "CMakeLists.txt") {
+    if path.file_name().is_some_and(|n| n == "CMakeLists.txt") {
         Some("cmake")
     } else {
         if let Some(name) = path.file_name().and_then(|n| n.to_str()) {
@@ -252,7 +320,21 @@ fn standard_file_kind<'a>(path: &'a Path, _root: &Path) -> Option<&'a str> {
         let ext = path.extension()?.to_str()?;
         match ext {
             "json" | "yml" | "yaml" | "md" | "js" | "cmake" => Some(ext),
-            "xml" => Some("xml"),
+            "xml" => {
+                // We only treat XML files as special when they live inside a
+                // help/ directory.  Other XML files (e.g. desktop data files)
+                // are ignored so they don’t trigger formatting.
+                let relative = path
+                    .strip_prefix(_root)
+                    .unwrap_or(path)
+                    .to_string_lossy()
+                    .replace('\\', "/");
+                if relative.contains("/help/") {
+                    Some("xml")
+                } else {
+                    None
+                }
+            }
             _ => None,
         }
     }
@@ -289,8 +371,9 @@ fn process_file(path: &Path, ext: &str, check: bool, verbose: bool) -> Result<bo
     }
 
     // Otherwise, do full formatting
-    let formatted_lf = if path.file_name().map_or(false, |n| n == "CMakeLists.txt") || ext == "cmake" {
-        format_cmake_file(path, &content)
+    let formatted_lf = if path.file_name().is_some_and(|n| n == "CMakeLists.txt") || ext == "cmake"
+    {
+        format_cmake_file(path, &content, verbose)
     } else {
         match ext {
             "json" => match format_json(&content)? {
@@ -341,7 +424,7 @@ fn process_file(path: &Path, ext: &str, check: bool, verbose: bool) -> Result<bo
 ///   3. Fall back to `clang-format` on PATH.
 ///
 /// Returns `None` when no usable binary is found.
-fn resolve_clang_format(root: &Path) -> Option<PathBuf> {
+fn resolve_clang_format(root: &Path, required_major: u32) -> Option<PathBuf> {
     let local_name = if cfg!(windows) {
         "clang-format.exe"
     } else {
@@ -355,7 +438,7 @@ fn resolve_clang_format(root: &Path) -> Option<PathBuf> {
     }
 
     // 2. Try version-specific binary on PATH (e.g. clang-format-18)
-    let versioned = format!("clang-format-{}", CLANG_FORMAT_MAJOR_VERSION);
+    let versioned = format!("clang-format-{}", required_major);
     if Command::new(&versioned)
         .arg("--version")
         .output()
@@ -382,7 +465,11 @@ fn resolve_clang_format(root: &Path) -> Option<PathBuf> {
 /// 1. Try `<root>/tools/cmake-fmt/cmake-fmt[.exe]`
 /// 2. Fall back to `cmake-fmt` on PATH
 fn resolve_cmake_fmt(root: &Path) -> Option<PathBuf> {
-    let local_name = if cfg!(windows) { "cmake-fmt.exe" } else { "cmake-fmt" };
+    let local_name = if cfg!(windows) {
+        "cmake-fmt.exe"
+    } else {
+        "cmake-fmt"
+    };
     let local = root.join("tools").join("cmake-fmt").join(local_name);
     if local.is_file() {
         return Some(local);
@@ -402,7 +489,11 @@ fn resolve_cmake_fmt(root: &Path) -> Option<PathBuf> {
     // running the tool get an automatic experience.  This may take time
     // and requires `cargo` and network access.
     eprintln!("cmake-fmt not found. Attempting `cargo install cmake-fmt`...");
-    match Command::new("cargo").arg("install").arg("cmake-fmt").status() {
+    match Command::new("cargo")
+        .arg("install")
+        .arg("cmake-fmt")
+        .status()
+    {
         Ok(status) if status.success() => {
             // Re-check the binary on PATH
             if Command::new(local_name)
@@ -428,7 +519,12 @@ fn resolve_cmake_fmt(root: &Path) -> Option<PathBuf> {
 }
 
 /// Collect and process CMake files using the cmake-fmt binary.
-fn process_cmake_files(root: &Path, ignore: &ClangFormatIgnore, check: bool, verbose: bool) -> Result<usize> {
+fn process_cmake_files(
+    root: &Path,
+    ignore: &ClangFormatIgnore,
+    check: bool,
+    verbose: bool,
+) -> Result<usize> {
     // Collect matching files
     let mut files: Vec<PathBuf> = Vec::new();
     for entry in WalkDir::new(root)
@@ -442,7 +538,9 @@ fn process_cmake_files(root: &Path, ignore: &ClangFormatIgnore, check: bool, ver
                 if ext == "cmake" && !is_path_excluded(path, root, ignore) {
                     files.push(path.to_path_buf());
                 }
-            } else if path.file_name().map_or(false, |n| n == "CMakeLists.txt") && !is_path_excluded(path, root, ignore) {
+            } else if path.file_name().is_some_and(|n| n == "CMakeLists.txt")
+                && !is_path_excluded(path, root, ignore)
+            {
                 files.push(path.to_path_buf());
             }
         }
@@ -456,18 +554,31 @@ fn process_cmake_files(root: &Path, ignore: &ClangFormatIgnore, check: bool, ver
     let cmake_bin = match resolve_cmake_fmt(root) {
         Some(b) => b,
         None => {
-            eprintln!("WARNING: cmake-fmt not found - skipping {} CMake files", files.len());
+            eprintln!(
+                "WARNING: cmake-fmt not found - skipping {} CMake files",
+                files.len()
+            );
             return Ok(0);
         }
     };
 
+    // determine which style argument (if any) we will pass to cmake-fmt
+    let style_arg: Option<String> = cmake_style_arg();
+
     if verbose {
         eprintln!("Using cmake-fmt: {}", cmake_bin.display());
+        if let Some(ref s) = style_arg {
+            eprintln!("Using style: {}", s);
+        }
     }
 
     if check {
         for chunk in files.chunks(50) {
             let mut cmd = Command::new(&cmake_bin);
+            // pass style argument if we resolved one earlier
+            if let Some(ref s) = style_arg {
+                cmd.arg("--style").arg(s);
+            }
             cmd.arg("--check");
             for file in chunk {
                 if verbose {
@@ -485,6 +596,9 @@ fn process_cmake_files(root: &Path, ignore: &ClangFormatIgnore, check: bool, ver
     } else {
         for chunk in files.chunks(50) {
             let mut cmd = Command::new(&cmake_bin);
+            if let Some(ref s) = style_arg {
+                cmd.arg("--style").arg(s);
+            }
             cmd.arg("-i");
             for file in chunk {
                 if verbose {
@@ -515,17 +629,17 @@ fn clang_format_major_version(bin: &Path) -> Option<u32> {
     major_str.trim().parse().ok()
 }
 
-/// Check that the detected clang-format matches `CLANG_FORMAT_MAJOR_VERSION`.
-/// Prints a warning and returns `false` on mismatch.
-fn check_clang_format_version(bin: &Path) -> bool {
+/// Check that the detected clang-format matches the required major
+/// version.  Prints a warning and returns `false` on mismatch.
+fn check_clang_format_version(bin: &Path, required_major: u32) -> bool {
     match clang_format_major_version(bin) {
-        Some(major) if major == CLANG_FORMAT_MAJOR_VERSION => true,
+        Some(major) if major == required_major => true,
         Some(major) => {
             eprintln!(
                 "WARNING: clang-format major version is {} but {} is required. \
                  Formatting may differ across platforms. \
                  Please install clang-format {}.",
-                major, CLANG_FORMAT_MAJOR_VERSION, CLANG_FORMAT_MAJOR_VERSION
+                major, required_major, required_major
             );
             false
         }
@@ -542,9 +656,15 @@ fn process_cpp_files(
     check: bool,
     verbose: bool,
 ) -> Result<(usize, usize)> {
+    // Determine which major version we require: either the value from
+    // the configuration file or the built‑in default.
+    let required_major = ignore
+        .clang_format_major_version
+        .unwrap_or(DEFAULT_CLANG_FORMAT_MAJOR_VERSION);
+
     // Resolve clang-format executable:
     //   All platforms → prefer <root>/tools/clang-format/clang-format[.exe], then PATH
-    let clang_format_bin = resolve_clang_format(root);
+    let clang_format_bin = resolve_clang_format(root, required_major);
 
     // Collect matching files
     let mut files: Vec<PathBuf> = Vec::new();
@@ -578,7 +698,7 @@ fn process_cpp_files(
     };
 
     // Verify the version matches the required major version
-    check_clang_format_version(&clang_format_bin);
+    check_clang_format_version(&clang_format_bin, required_major);
 
     // Point clang-format at the project's .clang-format config file
     let style_file = root.join(".clang-format");
@@ -605,7 +725,10 @@ fn process_cpp_files(
             if !output.status.success() {
                 let stderr = String::from_utf8_lossy(&output.stderr);
                 // Try to print which files would be reformatted (stderr usually contains this info)
-                eprintln!("clang-format would reformat files in this batch:\n{}", stderr);
+                eprintln!(
+                    "clang-format would reformat files in this batch:\n{}",
+                    stderr
+                );
                 std::process::exit(1);
             }
         }
@@ -654,7 +777,8 @@ fn main() -> Result<()> {
 
     // Use parallel iterator for faster processing
     // Prepare list for non-CMake standard files (we'll process CMake files in a batch later)
-    let results: Vec<_> = entries.par_iter()
+    let results: Vec<_> = entries
+        .par_iter()
         .filter_map(|entry| {
             let path = entry.path();
             if is_path_excluded(path, &root, &ignore) {
@@ -707,7 +831,11 @@ mod tests {
     use super::*;
     use speculoos::prelude::*;
     use std::fs;
+    use std::sync::Mutex;
     use tempfile::TempDir;
+
+    // serialize tests that modify environment variables
+    static ENV_LOCK: Mutex<()> = Mutex::new(());
 
     // -----------------------------------------------------------------------
     // Parallel processing (integration/logic test)
@@ -723,7 +851,8 @@ mod tests {
         fs::write(&file3, "hello\nworld\n").unwrap();
 
         let files = vec![file1.clone(), file2.clone(), file3.clone()];
-        let results: Vec<_> = files.par_iter()
+        let results: Vec<_> = files
+            .par_iter()
             .map(|path| process_file(path, "md", false, false))
             .collect();
         for res in results {
@@ -909,6 +1038,7 @@ mod tests {
         let root = Path::new("/project");
         let ignore = ClangFormatIgnore {
             exclude_path_contains: vec!["third_party".to_string()],
+            clang_format_major_version: None,
         };
         let path = Path::new("/project/modules/third_party/lib.cpp");
         assert_that(&is_cpp_excluded(path, root, &ignore)).is_true();
@@ -919,6 +1049,7 @@ mod tests {
         let root = Path::new("/project");
         let ignore = ClangFormatIgnore {
             exclude_path_contains: vec!["third_party".to_string()],
+            clang_format_major_version: None,
         };
         let path = Path::new("/project/modules/core/main.cpp");
         assert_that(&is_cpp_excluded(path, root, &ignore)).is_false();
@@ -929,6 +1060,7 @@ mod tests {
         let root = Path::new("/project");
         let ignore = ClangFormatIgnore {
             exclude_path_contains: vec!["vendored".to_string(), "generated".to_string()],
+            clang_format_major_version: None,
         };
         let path = Path::new("/project/src/generated/bindings.h");
         assert_that(&is_cpp_excluded(path, root, &ignore)).is_true();
@@ -1022,10 +1154,14 @@ mod tests {
     #[test]
     fn clang_format_ignore_deserializes_from_json() {
         let json = r#"{
-            "excludePathContains": ["vendor/", "third_party/"]
+            "excludePathContains": ["vendor/", "third_party/"],
+            "clangFormatMajorVersion": 42
         }"#;
         let ignore: ClangFormatIgnore = serde_json::from_str(json).unwrap();
         assert_that(&ignore.exclude_path_contains).has_length(2);
+        assert_that(&ignore.clang_format_major_version)
+            .is_some()
+            .is_equal_to(42);
     }
 
     #[test]
@@ -1033,6 +1169,7 @@ mod tests {
         let json = r#"{}"#;
         let ignore: ClangFormatIgnore = serde_json::from_str(json).unwrap();
         assert_that(&ignore.exclude_path_contains).is_empty();
+        assert_that(&ignore.clang_format_major_version).is_none();
     }
 
     // -----------------------------------------------------------------------
@@ -1049,14 +1186,17 @@ mod tests {
     #[test]
     fn load_clang_format_ignore_parses_existing_file() {
         let tmp = TempDir::new().unwrap();
-        let config_path = tmp.path().join("clang-format-ignore.json");
+        let config_path = tmp.path().join("nelson-format-ignore.json");
         fs::write(
             &config_path,
-            r#"{"excludePathContains": ["vendor", "build"]}"#,
+            r#"{ "excludePathContains": ["vendor", "build"], "clangFormatMajorVersion": 99 }"#,
         )
         .unwrap();
         let ignore = load_clang_format_ignore(tmp.path()).unwrap();
         assert_that(&ignore.exclude_path_contains).has_length(2);
+        assert_that(&ignore.clang_format_major_version)
+            .is_some()
+            .is_equal_to(99);
     }
 
     // -----------------------------------------------------------------------
@@ -1171,6 +1311,28 @@ mod tests {
     }
 
     // -----------------------------------------------------------------------
+    // cmake_style_arg helper
+    // -----------------------------------------------------------------------
+
+    #[test]
+    fn cmake_style_arg_defaults_to_builtin() {
+        let _guard = ENV_LOCK.lock().unwrap();
+        std::env::remove_var("CMAKE_FMT_STYLE");
+        assert_that(&cmake_style_arg()).is_equal_to(Some(DEFAULT_CMAKE_STYLE.to_string()));
+        std::env::set_var("CMAKE_FMT_STYLE", "");
+        assert_that(&cmake_style_arg()).is_equal_to(Some(DEFAULT_CMAKE_STYLE.to_string()));
+        std::env::remove_var("CMAKE_FMT_STYLE");
+    }
+
+    #[test]
+    fn cmake_style_arg_uses_env() {
+        let _guard = ENV_LOCK.lock().unwrap();
+        std::env::set_var("CMAKE_FMT_STYLE", "file:.cmake-fmt");
+        assert_that(&cmake_style_arg()).is_equal_to(Some("file:.cmake-fmt".to_string()));
+        std::env::remove_var("CMAKE_FMT_STYLE");
+    }
+
+    // -----------------------------------------------------------------------
     // resolve_clang_format
     // -----------------------------------------------------------------------
 
@@ -1179,7 +1341,7 @@ mod tests {
         let tmp = TempDir::new().unwrap();
         // In a temp dir with no clang-format binary, PATH may still have one,
         // so we just verify the function doesn't panic.
-        let _result = resolve_clang_format(tmp.path());
+        let _result = resolve_clang_format(tmp.path(), DEFAULT_CLANG_FORMAT_MAJOR_VERSION);
         // If clang-format is on PATH, result is Some; otherwise None.
         // Either way, no panic is the key assertion.
     }

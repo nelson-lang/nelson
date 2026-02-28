@@ -1,4 +1,5 @@
 {
+  "clangFormatMajorVersion": 20,
   "excludePathContains": [
     ".git/",
     "node_modules/",

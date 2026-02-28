@@ -16,52 +16,52 @@
 #
 
 if(SNDFILE_LIBRARIES AND SNDFILE_INCLUDE_DIRS)
-	# in cache already
-	set(SNDFILE_FOUND TRUE)
+  # in cache already
+  set(SNDFILE_FOUND TRUE)
 else()
 
-	find_path(SNDFILE_INCLUDE_DIR
-		NAMES
-		sndfile.h
-		PATHS
-		/usr/include
-		/usr/local/include
-		/opt/local/include
-		/sw/include
-	)
+  find_path(SNDFILE_INCLUDE_DIR
+    NAMES
+    sndfile.h
+    PATHS
+    /usr/include
+    /usr/local/include
+    /opt/local/include
+    /sw/include
+  )
 
-	find_library(SNDFILE_LIBRARY
-		NAMES
-		sndfile
-		PATHS
-		/usr/lib
-		/usr/local/lib
-		/opt/local/lib
-		/sw/lib
-	)
+  find_library(SNDFILE_LIBRARY
+    NAMES
+    sndfile
+    PATHS
+    /usr/lib
+    /usr/local/lib
+    /opt/local/lib
+    /sw/lib
+  )
 
-	set(SNDFILE_INCLUDE_DIRS
-		${SNDFILE_INCLUDE_DIR}
-	)
-	set(SNDFILE_LIBRARIES
-		${SNDFILE_LIBRARY}
-	)
+  set(SNDFILE_INCLUDE_DIRS
+    ${SNDFILE_INCLUDE_DIR}
+  )
+  set(SNDFILE_LIBRARIES
+    ${SNDFILE_LIBRARY}
+  )
 
-	if(SNDFILE_INCLUDE_DIRS AND SNDFILE_LIBRARIES)
-		set(SNDFILE_FOUND TRUE)
-	endif()
+  if(SNDFILE_INCLUDE_DIRS AND SNDFILE_LIBRARIES)
+    set(SNDFILE_FOUND TRUE)
+  endif()
 
-	if(SNDFILE_FOUND)
-		if(NOT SndFile_FIND_QUIETLY)
-			message(STATUS "Found libsndfile: ${SNDFILE_LIBRARIES}")
-		endif()
-	else()
-		if(SndFile_FIND_REQUIRED)
-			message(FATAL_ERROR "Could not find libsndfile")
-		endif()
-	endif()
+  if(SNDFILE_FOUND)
+    if(NOT SndFile_FIND_QUIETLY)
+      message(STATUS "Found libsndfile: ${SNDFILE_LIBRARIES}")
+    endif()
+  else()
+    if(SndFile_FIND_REQUIRED)
+      message(FATAL_ERROR "Could not find libsndfile")
+    endif()
+  endif()
 
-	# show the SNDFILE_INCLUDE_DIRS and SNDFILE_LIBRARIES variables only in the advanced view
-	mark_as_advanced(SNDFILE_INCLUDE_DIRS SNDFILE_LIBRARIES)
+  # show the SNDFILE_INCLUDE_DIRS and SNDFILE_LIBRARIES variables only in the advanced view
+  mark_as_advanced(SNDFILE_INCLUDE_DIRS SNDFILE_LIBRARIES)
 
 endif()

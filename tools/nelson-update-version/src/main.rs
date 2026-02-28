@@ -622,8 +622,7 @@ name = "something"
 
         let result = fs::read_to_string(&file).unwrap();
         assert_that(&result.contains("[workspace.package]")).is_true();
-        assert_that(&result.contains("version = \"2.5.3\""))
-            .is_true();
+        assert_that(&result.contains("version = \"2.5.3\"")).is_true();
         // Ensure other sections remain
         assert_that(&result.contains("[package]")).is_true();
     }
