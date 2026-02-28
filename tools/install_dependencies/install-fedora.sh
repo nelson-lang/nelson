@@ -36,16 +36,6 @@ build_tools=(
     cmake gettext pkg-config
 )
 
-# --- Clang-format (pinned to major version 18 for consistent formatting) ---
-clang_format_install() {
-    # Try the compat package first (provides clang-format-18 on newer Fedora)
-    if dnf install -y clang18-tools-extra 2>/dev/null; then
-        return
-    fi
-    # Fall back to default clang-tools-extra (check version with nelson-fmt)
-    dnf install -y clang-tools-extra
-}
-
 # --- Rust Toolchain ---
 rust_install() {
     if ! command -v rustup &>/dev/null; then
@@ -93,8 +83,18 @@ other_libs=(
 dnf install -y "${system_utils[@]}"
 dnf install -y "${build_tools[@]}"
 
-print_status "Installing clang-format"
-clang_format_install
+# Install clang-format-20 (static binary on amd64, fallback to dnf otherwise)
+arch=$(uname -m)
+if [ "$arch" = "x86_64" ]; then
+  print_status "Installing clang-format-20 (static binary)"
+  curl -fsSL -o /usr/local/bin/clang-format-20 \
+    https://github.com/muttleyxd/clang-tools-static-binaries/releases/download/master-796e77c/clang-format-20_linux-amd64
+  chmod +x /usr/local/bin/clang-format-20
+  ln -sf /usr/local/bin/clang-format-20 /usr/local/bin/clang-format
+else
+  print_status "Installing clang-format from dnf"
+  dnf install -y clang-tools-extra
+fi
 
 print_status "Installing Rust toolchain"
 rust_install

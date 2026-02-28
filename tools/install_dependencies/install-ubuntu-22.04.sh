@@ -47,7 +47,7 @@ apt-get install -y \
     wget \
     ninja-build \
     xvfb \
-    clang-format-18 \
+    clang-format-20 \
     libopenmpi-dev \
     autotools-dev \
     libtool \
@@ -96,6 +96,19 @@ apt-get install -y \
     libtbb-dev \
     libgif-dev \
     libtiff-dev
+
+# Install static clang-format-20 on amd64, else fallback to apt
+arch=$(uname -m)
+if [ "$arch" = "x86_64" ]; then
+    print_status "Installing clang-format-20 (static binary)"
+    curl -fsSL -o /usr/local/bin/clang-format-20 \
+        https://github.com/muttleyxd/clang-tools-static-binaries/releases/download/master-796e77c/clang-format-20_linux-amd64
+    chmod +x /usr/local/bin/clang-format-20
+    ln -sf /usr/local/bin/clang-format-20 /usr/local/bin/clang-format
+else
+    print_status "Installing clang-format-20 from apt"
+    apt-get install -y clang-format-20
+fi
 
 # Just 1.33 or higher is required
 print_status "Installing Just"

@@ -89,8 +89,8 @@ Display2dMissing(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
             }
         }
         for (indexType k = 0; k < A.getElementCount()
-             && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
-             ++k) {
+            && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+            ++k) {
             std::wstring msg = L"<missing>";
             io->outputMessage(BLANKS_AT_BOL + msg + L"\n");
         }
@@ -119,8 +119,8 @@ Display2dMissing(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
         bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
 
         for (indexType k = 0;
-             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
-             k++) {
+            k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+            k++) {
 
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
@@ -141,8 +141,8 @@ Display2dMissing(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
                 io->outputMessage(msg);
             }
             for (indexType i = 0;
-                 i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
-                 i++) {
+                i < rows && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+                i++) {
                 for (indexType j = 0; j < colsInThisPage; j++) {
                     indexType colsPos = k * colsPerPage + j;
                     indexType idx = i + (k * colsPerPage + j) * rows;
@@ -201,8 +201,8 @@ DisplayNdMissing(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
         bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
         for (int k = 0;
-             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
-             k++) {
+            k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+            k++) {
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
             if (withColumsHeader) {
@@ -221,8 +221,8 @@ DisplayNdMissing(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
             }
             for (indexType i = 0; i < rows; i++) {
                 for (indexType j = 0; j < colsInThisPage
-                     && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
-                     j++) {
+                    && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+                    j++) {
                     indexType colsPos = k * colsPerPage + j;
                     indexType idx = i + (k * colsPerPage + j) * rows;
                     indexType len = vSize[colsPos];

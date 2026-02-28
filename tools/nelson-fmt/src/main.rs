@@ -45,7 +45,7 @@ const CPP_EXTENSIONS: &[&str] = &["h", "hpp", "hxx", "cpp", "c", "cxx"];
 /// Required major version of clang-format.
 /// All platforms **must** use the same major version so that formatting output
 /// is identical regardless of OS.
-const CLANG_FORMAT_MAJOR_VERSION: u32 = 18;
+const CLANG_FORMAT_MAJOR_VERSION: u32 = 20;
 
 /// Layout of the `clang-format-ignore.json` configuration file that lives
 /// next to `.clang-format` in the project root.

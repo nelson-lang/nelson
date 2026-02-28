@@ -12,10 +12,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install clang-format-18
+      - name: Install clang-format-20
         run: |
-          sudo apt-get update -q
-          sudo apt-get install -y -q clang-format-18
+          curl -fsSL -o /usr/local/bin/clang-format-20 \
+            https://github.com/muttleyxd/clang-tools-static-binaries/releases/download/master-796e77c/clang-format-20_linux-amd64
+          chmod +x /usr/local/bin/clang-format-20
+          ln -sf /usr/local/bin/clang-format-20 /usr/local/bin/clang-format
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable

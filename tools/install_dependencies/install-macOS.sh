@@ -59,7 +59,6 @@ dependencies=(
     julia
     libtiff
     just
-    llvm@18
     rust
 )
 
@@ -72,6 +71,7 @@ for package in "${dependencies[@]}"; do
     fi
 done
 
+
 # Link necessary packages
 print_status "Linking necessary packages"
 brew link gettext --force
@@ -79,19 +79,32 @@ brew link libomp --force
 brew link giflib --force
 brew link icu4c --force
 
-# Make clang-format-18 available on PATH
-LLVM18_BIN="$(brew --prefix llvm@18)/bin"
-if [ -d "$LLVM18_BIN" ]; then
-    for tool in clang-format clang-format-18; do
-        ln -sf "$LLVM18_BIN/clang-format" "/usr/local/bin/$tool" 2>/dev/null || \
-        ln -sf "$LLVM18_BIN/clang-format" "$(brew --prefix)/bin/$tool" 2>/dev/null || true
-    done
-fi
+# Download clang-format-21 static binary for macOS (x86_64)
+print_status "Installing clang-format-21"
+curl -fsSL -o /usr/local/bin/clang-format-21 \
+    https://github.com/muttleyxd/clang-tools-static-binaries/releases/download/master-47a7eb4e/clang-format-21_osx-amd64
+chmod +x /usr/local/bin/clang-format-21
+ln -sf /usr/local/bin/clang-format-21 /usr/local/bin/clang-format
+ln -sf /usr/local/bin/clang-format-21 "$(brew --prefix)/bin/clang-format"
+ln -sf /usr/local/bin/clang-format-21 "$(brew --prefix)/bin/clang-format-21"
 
 # Update PATH for gettext
 if ! grep -q '/usr/local/opt/gettext/bin' ~/.zshrc; then
     echo 'export PATH="/usr/local/opt/gettext/bin:$PATH"' >> ~/.zshrc
     source ~/.zshrc
+fi
+
+# Install static clang-format-20 on arm64
+arch=$(uname -m)
+if [ "$arch" = "arm64" ]; then
+    echo "Installing clang-format-20 (static binary)"
+    curl -fsSL -o /usr/local/bin/clang-format-20 \
+        https://github.com/muttleyxd/clang-tools-static-binaries/releases/download/master-796e77c/clang-format-20_macos-arm-arm64
+    chmod +x /usr/local/bin/clang-format-20
+    ln -sf /usr/local/bin/clang-format-20 /usr/local/bin/clang-format
+else
+    echo "Installing clang-format from brew"
+    brew install clang-format
 fi
 
 print_status "All dependencies have been installed successfully!"

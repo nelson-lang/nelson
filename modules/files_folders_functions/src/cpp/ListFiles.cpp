@@ -43,7 +43,7 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                 if (isDir) {
                     try {
                         for (std::filesystem::recursive_directory_iterator p(branch.native()), end;
-                             p != end; ++p) {
+                            p != end; ++p) {
                             if (!std::regex_match(p->path().filename().wstring(), rmask)) {
                                 continue;
                             }
@@ -68,7 +68,7 @@ ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
                 if (std::filesystem::is_directory(branch.wstring())) {
                     try {
                         for (std::filesystem::directory_iterator p(branch.native()), end; p != end;
-                             ++p) {
+                            ++p) {
                             if (!std::regex_match(p->path().filename().wstring(), rmask)) {
                                 continue;
                             }
@@ -117,7 +117,7 @@ ListFilesWithWildcard(const std::wstring& _mask, bool bSubdirectories)
                 if (isDir) {
                     try {
                         for (std::filesystem::recursive_directory_iterator p(branch.native()), end;
-                             p != end; ++p) {
+                            p != end; ++p) {
                             if (!std::regex_match(p->path().filename().string(), rmask)) {
                                 continue;
                             }
@@ -150,7 +150,7 @@ ListFilesWithWildcard(const std::wstring& _mask, bool bSubdirectories)
                 if (std::filesystem::is_directory(branch.string())) {
                     try {
                         for (std::filesystem::directory_iterator p(branch.native()), end; p != end;
-                             ++p) {
+                            ++p) {
                             if (!std::regex_match(p->path().filename().string(), rmask)) {
                                 continue;
                             }
@@ -223,8 +223,8 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                     try {
                         for (std::filesystem::recursive_directory_iterator
                                  dir_iter(branch.native()),
-                             end;
-                             dir_iter != end; ++dir_iter) {
+                            end;
+                            dir_iter != end; ++dir_iter) {
                             std::filesystem::path current = dir_iter->path();
                             res.push_back(FileInfo(current.wstring()));
                         }
@@ -245,7 +245,7 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
                     }
                     try {
                         for (std::filesystem::directory_iterator dir_iter(directory), end;
-                             dir_iter != end; ++dir_iter) {
+                            dir_iter != end; ++dir_iter) {
                             std::filesystem::path current = dir_iter->path();
                             res.push_back(FileInfo(current.wstring()));
                         }
@@ -334,8 +334,8 @@ ListFiles(const std::wstring& _directory, bool bSubdirectories)
                     try {
                         for (std::filesystem::recursive_directory_iterator
                                  dir_iter(branch.native()),
-                             end;
-                             dir_iter != end; ++dir_iter) {
+                            end;
+                            dir_iter != end; ++dir_iter) {
                             std::filesystem::path current = dir_iter->path();
                             res.push_back(FileInfo(utf8_to_wstring(current.string())));
                         }
@@ -356,7 +356,7 @@ ListFiles(const std::wstring& _directory, bool bSubdirectories)
                     }
                     try {
                         for (std::filesystem::directory_iterator dir_iter(directory), end;
-                             dir_iter != end; ++dir_iter) {
+                            dir_iter != end; ++dir_iter) {
                             std::filesystem::path current = dir_iter->path();
                             res.push_back(FileInfo(utf8_to_wstring(current.string())));
                         }
