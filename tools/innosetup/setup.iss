@@ -24,35 +24,30 @@ AppVersion={#APPLICATION_VERSION}
 VersionInfoVersion={#APPLICATION_VERSION}
 AppMutex={#APPLICATION_NAME}-{#APPLICATION_VERSION}
 AppPublisher={#APPLICATION_PUBLISHER}
+AppCopyright=Copyright (c) 2016-{#CURRENT_YEAR} Allan CORNET
+AppSupportURL=https://nelson-lang.github.io/nelson-website/
+AppUpdatesURL=https://github.com/nelson-lang/nelson/releases
 AppVerName={#FULL_APPLICATION_NAME}
-#ifdef NELSON_WOA64
-DefaultDirName={code:GetDefaultDirName}\{#APPLICATION_NAME}-{#APPLICATION_VERSION} (ARM64 bits)
-DefaultGroupName={#APPLICATION_NAME}-{#APPLICATION_VERSION} (ARM64 bits)
-#else
-#ifdef NELSON_X64
-DefaultDirName={code:GetDefaultDirName}\{#APPLICATION_NAME}-{#APPLICATION_VERSION} (64 bits)
-DefaultGroupName={#APPLICATION_NAME}-{#APPLICATION_VERSION} (64 bits)
-#else
-DefaultDirName={code:GetDefaultDirName}\{#APPLICATION_NAME}-{#APPLICATION_VERSION} (32 bits)
-DefaultGroupName={#APPLICATION_NAME}-{#APPLICATION_VERSION} (32 bits)
-#endif
-#endif
+DefaultDirName={code:GetDefaultDirName}\{#APPLICATION_NAME}-{#APPLICATION_VERSION} ({#ARCH_LABEL})
+DefaultGroupName={#APPLICATION_NAME}-{#APPLICATION_VERSION} ({#ARCH_LABEL})
 UsePreviousAppDir=no
 LicenseFile={#RootPath}lgpl-3.0.md
 OutputDir={#RootPath}
 SetupIconFile={#RootPath}resources/fibonacci.ico
 UninstallDisplayIcon={app}\bin\{#BinPath}\{#APPLICATION_EXE_CLI_NAME}
-Compression=lzma
+UninstallDisplayName={#FULL_APPLICATION_NAME}
+Compression=lzma2/ultra64
 SolidCompression=yes
-#ifdef NELSON_WOA64
-OutputBaseFilename={#APPLICATION_NAME}-{#APPLICATION_VERSION}-ARM64
-#else
-#ifdef NELSON_X64
-OutputBaseFilename={#APPLICATION_NAME}-{#APPLICATION_VERSION}-x86-64
-#else
-OutputBaseFilename={#APPLICATION_NAME}-{#APPLICATION_VERSION}-x86-32
-#endif
-#endif
+OutputBaseFilename={#APPLICATION_NAME}-{#APPLICATION_VERSION}-{#ARCH_SUFFIX}
+;==============================================================================
+; Modern UI settings
+;==============================================================================
 WizardStyle=modern
+WizardResizable=yes
+WizardSizePercent=110
+WizardImageFile={#RootPath}tools\innosetup\wizard_image.bmp
+WizardSmallImageFile={#RootPath}tools\innosetup\wizard_small_image.bmp
+DisableWelcomePage=no
 ChangesAssociations=yes
+SetupLogging=yes
 ;==============================================================================

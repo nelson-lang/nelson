@@ -258,7 +258,7 @@ replaceTexSpecialCharacters(const std::wstring& text)
     StringHelpers::replace_all(modifiedText, L"\\uparrow", L"↑");
     StringHelpers::replace_all(modifiedText, L"\\iota", L"ι");
     StringHelpers::replace_all(modifiedText, L"\\Sigma", L"Σ");
-    StringHelpers::replace_all(modifiedText, L"\\rightarrow", L"→");
+    StringHelpers::replace_all(modifiedText, L"\\rightarrow", L"->");
     StringHelpers::replace_all(modifiedText, L"\\kappa", L"κ");
     StringHelpers::replace_all(modifiedText, L"\\upsilon", L"ϒ");
     StringHelpers::replace_all(modifiedText, L"\\Rightarrow", L"⇒");

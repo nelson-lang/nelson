@@ -52,7 +52,7 @@ function varargout = downsample(varargin)
     leadingDimension = 1;
   end
   
-  % Inline downsampling: permute → reshape to 2-D → select rows → reshape → ipermute
+  % Inline downsampling: permute -> reshape to 2-D -> select rows -> reshape -> ipermute
   actualShape = size(inputArray);
   shapeLength = max(numel(originalShape), numel(actualShape));
   % Pad shape vectors to the same length
