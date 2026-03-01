@@ -26,7 +26,8 @@
       <param_description>a string</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >char</b> converts numerical input into character data by taking the corresponding unicode character for each element.</description>
   <used_function />
   <bibliography />

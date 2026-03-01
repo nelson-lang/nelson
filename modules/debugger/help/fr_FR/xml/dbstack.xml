@@ -3,14 +3,14 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>dbstack</keyword>
-  <short_description>Pile d'appels (call stack).</short_description>
+  <short_description>Pile d&apos;appels (call stack).</short_description>
   <syntax>
     <syntax_item>dbstack</syntax_item>
     <syntax_item>st = dbstack()</syntax_item>
-    <syntax_item>dbstack('-completenames')</syntax_item>
-    <syntax_item>st = dbstack('-completenames')</syntax_item>
-    <syntax_item>dbstack('-completenames', omit)</syntax_item>
-    <syntax_item>st = dbstack('-completenames', omit)</syntax_item>
+    <syntax_item>dbstack(&apos;-completenames&apos;)</syntax_item>
+    <syntax_item>st = dbstack(&apos;-completenames&apos;)</syntax_item>
+    <syntax_item>dbstack(&apos;-completenames&apos;, omit)</syntax_item>
+    <syntax_item>st = dbstack(&apos;-completenames&apos;, omit)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -26,10 +26,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >dbstack</b> affiche les noms de fichiers et les numéros de ligne des appels de fonctions.</p>
-    <p><b
-      >dbstack('-completenames')</b> affiche les chemins de fichiers complets.</p>
+    <p>
+      <b
+      >dbstack(&apos;-completenames&apos;)</b> affiche les chemins de fichiers complets.</p>
   </description>
   <used_function />
   <bibliography />

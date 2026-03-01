@@ -26,35 +26,50 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >writecell</b> écrit un tableau de cellules dans un fichier au format CSV.</p>
-    <p><b
+    <p>
+      <b
       >writecell</b> ne prend pas en charge les matrices creuses (sparse).</p>
-    <p><b
+    <p>
+      <b
       >writecell</b> formate les données numériques en utilisant le format long G.</p>
     <p />
     <p>Arguments Nom-Valeur disponibles</p>
     <p />
     <p>Les paires nom-valeur doivent suivre tous les autres arguments.</p>
-    <p>L'ordre des paires nom-valeur n'a pas d'importance</p>
+    <p>L&apos;ordre des paires nom-valeur n&apos;a pas d&apos;importance</p>
     <p
-    >Les options Delimiter et QuoteStrings ne s'appliquent qu'aux fichiers texte délimités.</p>
+    >Les options Delimiter et QuoteStrings ne s&apos;appliquent qu&apos;aux fichiers texte délimités.</p>
     <p />
-    <p><b>FileType</b>: Specifies the type of output file</p>
-    <p>Syntaxe : <b>'FileType','text'</b>                      </p>
+    <p>
+      <b>FileType</b>: Specifies the type of output file</p>
+    <p>Syntaxe : <b>
+        &apos;FileType&apos;,&apos;text&apos;
+      </b>
+    </p>
     <p>Prend en charge les fichiers texte délimités (.txt, .dat, .csv)</p>
     <p />
-    <p><b>WriteMode</b>: Controls how data is written to the file</p>
-    <p>Syntaxe : <b>'WriteMode', mode</b>                      </p>
+    <p>
+      <b>WriteMode</b>: Controls how data is written to the file</p>
+    <p>Syntaxe : <b>
+        &apos;WriteMode&apos;, mode</b>
+    </p>
     <p>Options :</p>
     <p
-    >'overwrite' (par défaut) - crée un nouveau fichier ou remplace le contenu existant</p>
-    <p>'append' - ajoute les données à la fin du fichier existant</p>
+    >
+      &apos;overwrite&apos; (par défaut) - crée un nouveau fichier ou remplace le contenu existant</p>
+    <p>
+      &apos;append&apos; - ajoute les données à la fin du fichier existant</p>
     <p
-    >Si le fichier cible n'existe pas, un nouveau fichier sera créé quel que soit le mode.</p>
+    >Si le fichier cible n&apos;existe pas, un nouveau fichier sera créé quel que soit le mode.</p>
     <p />
-    <p><b>Delimiter</b>: Defines the character used to separate fields</p>
-    <p>Syntaxe : <b>'Delimiter', delimiter</b></p>
+    <p>
+      <b>Delimiter</b>: Defines the character used to separate fields</p>
+    <p>Syntaxe : <b>
+        &apos;Delimiter&apos;, delimiter</b>
+    </p>
     <p
     >Délimiteurs disponibles : uniquement applicables aux fichiers texte délimités.</p>
     <table>
@@ -68,62 +83,95 @@
       <tbody>
         <tr>
           <td>
-            <code>','</code>
+            <code>
+              &apos;,&apos;
+            </code>
           </td>
           <td>
-            <code>'comma'</code>
+            <code>
+              &apos;comma&apos;
+            </code>
           </td>
           <td>Virgule (par défaut)</td>
         </tr>
         <tr>
           <td>
-            <code>' '</code>
+            <code>
+              &apos;
+              &apos;
+            </code>
           </td>
           <td>
-            <code>'space'</code>
+            <code>
+              &apos;space&apos;
+            </code>
           </td>
           <td>Caractère espace</td>
         </tr>
         <tr>
           <td>
-            <code>'\t'</code>
+            <code>
+              &apos;\t&apos;
+            </code>
           </td>
           <td>
-            <code>'tab'</code>
+            <code>
+              &apos;tab&apos;
+            </code>
           </td>
           <td>Tabulation</td>
         </tr>
         <tr>
           <td>
-            <code>';'</code>
+            <code>
+              &apos;;&apos;
+            </code>
           </td>
           <td>
-            <code>'semi'</code>
+            <code>
+              &apos;semi&apos;
+            </code>
           </td>
           <td>Point-virgule</td>
         </tr>
         <tr>
           <td>
-            <code>'|'</code>
+            <code>
+              &apos;|&apos;
+            </code>
           </td>
           <td>
-            <code>'bar'</code>
+            <code>
+              &apos;bar&apos;
+            </code>
           </td>
           <td>Barre verticale</td>
         </tr>
       </tbody>
     </table>
     <p />
-    <p><b
+    <p>
+      <b
       >QuoteStrings</b> : contrôle le comportement de citation des textes (applicable uniquement aux fichiers texte délimités).</p>
     <p>
-      <b>'QuoteStrings', option</b>
+      <b>
+        &apos;QuoteStrings&apos;, option</b>
     </p>
-    <p>with <b>options</b></p>
-    <p><b
-      >'minimal'</b> (par défaut) : cite uniquement les textes contenant des délimiteurs, des fins de ligne ou des guillemets.</p>
-    <p><b>'all'</b> : cite toutes les variables texte.</p>
-    <p><b>'none'</b> : n'utilise pas de guillemets.</p>
+    <p>with <b>options</b>
+    </p>
+    <p>
+      <b
+      >
+        &apos;minimal&apos;
+      </b> (par défaut) : cite uniquement les textes contenant des délimiteurs, des fins de ligne ou des guillemets.</p>
+    <p>
+      <b>
+        &apos;all&apos;
+      </b> : cite toutes les variables texte.</p>
+    <p>
+      <b>
+        &apos;none&apos;
+      </b> : n&apos;utilise pas de guillemets.</p>
   </description>
   <used_function />
   <bibliography />

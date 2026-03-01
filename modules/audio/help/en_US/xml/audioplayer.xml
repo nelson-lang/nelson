@@ -38,12 +38,15 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >audioplayer</b> returns an audioplayer object to play data on an output device.</p>
     <p>audioplayer object uses global scope and need to be deleted by user.</p>
-    <p><b
+    <p>
+      <b
       >audioplayer</b> can play multichannels data if your sound card supports it.</p>
-    <p><b>Properties of audioplayer</b>:</p>
+    <p>
+      <b>Properties of audioplayer</b>:</p>
     <table>
       <tr>
         <th>Property</th>
@@ -84,7 +87,8 @@
       </tr>
       <tr>
         <td>Running</td>
-        <td>Read-only: 'off' or 'on'</td>
+        <td>Read-only: &apos;off&apos; or &apos;on&apos;
+        </td>
         <td>Status of the audio player.</td>
       </tr>
       <tr>
@@ -122,7 +126,8 @@
       </tr>
       <tr>
         <td>Type</td>
-        <td>Read-only: 'audioplayer'</td>
+        <td>Read-only: &apos;audioplayer&apos;
+        </td>
         <td>Class name identifier for the object.</td>
       </tr>
     </table>

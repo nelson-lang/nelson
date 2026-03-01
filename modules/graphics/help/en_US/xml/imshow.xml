@@ -53,7 +53,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>imshow(img)</b> displays the image <b>im</b>.</p>
+    <p>
+      <b>imshow(img)</b> displays the image <b>im</b>.</p>
   </description>
   <used_function />
   <bibliography />

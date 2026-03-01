@@ -488,7 +488,7 @@ AudiorecorderObject::paRecordCallback(const void* inputBuffer, void* outputBuffe
     if (!inputBuffer) {
         // push zeros
         for (unsigned long i = 0; i < framesPerBuffer * (unsigned long)data->_NumberOfChannels;
-             ++i) {
+            ++i) {
             data->recordBuffer.push_back(0.0f);
         }
         data->recordedFrames += static_cast<uint32_t>(framesPerBuffer);
@@ -508,25 +508,25 @@ AudiorecorderObject::paRecordCallback(const void* inputBuffer, void* outputBuffe
     if (data->inputStreamParameters.sampleFormat == paFloat32) {
         const float* in = static_cast<const float*>(inputBuffer);
         for (unsigned long i = 0; i < framesPerBuffer * (unsigned long)data->_NumberOfChannels;
-             ++i) {
+            ++i) {
             data->recordBuffer.push_back(static_cast<single>(in[i]));
         }
     } else if (data->inputStreamParameters.sampleFormat == paInt16) {
         const int16* in = static_cast<const int16*>(inputBuffer);
         for (unsigned long i = 0; i < framesPerBuffer * (unsigned long)data->_NumberOfChannels;
-             ++i) {
+            ++i) {
             data->recordBuffer.push_back(static_cast<single>(in[i]) / 32768.0f);
         }
     } else if (data->inputStreamParameters.sampleFormat == paInt8) {
         const int8* in = static_cast<const int8*>(inputBuffer);
         for (unsigned long i = 0; i < framesPerBuffer * (unsigned long)data->_NumberOfChannels;
-             ++i) {
+            ++i) {
             data->recordBuffer.push_back(static_cast<single>(in[i]) / 128.0f);
         }
     } else if (data->inputStreamParameters.sampleFormat == paUInt8) {
         const uint8* in = static_cast<const uint8*>(inputBuffer);
         for (unsigned long i = 0; i < framesPerBuffer * (unsigned long)data->_NumberOfChannels;
-             ++i) {
+            ++i) {
             data->recordBuffer.push_back((static_cast<single>(in[i]) - 128.0f) / 128.0f);
         }
     }

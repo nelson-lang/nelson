@@ -159,7 +159,8 @@ TMeanAllComplex(const T* spx, bool omitNaN, indexType elementCount)
     if (omitNaN) {
         double nbNotNaN = 0.;
 #if WITH_OPENMP
-#pragma omp parallel for reduction(+ : sumImag, sumReal, nbNotNaN) if (elementCount > OMP_DEFAULT_THRESHOLD)
+#pragma omp parallel for reduction(                                                                \
+        + : sumImag, sumReal, nbNotNaN) if (elementCount > OMP_DEFAULT_THRESHOLD)
 #endif
         for (ompIndexType i = 0; i < (ompIndexType)elementCount * 2; i = i + 2) {
             if (!std::isnan((double)spx[i]) && !std::isnan((double)spx[i + 1])) {

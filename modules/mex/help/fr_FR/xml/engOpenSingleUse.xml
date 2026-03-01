@@ -6,7 +6,8 @@
   <short_description
   >Démarre une session du moteur Nelson pour un usage unique et non partagé.</short_description>
   <syntax>
-    <syntax_item>#include "engine.h"</syntax_item>
+    <syntax_item>#include &quot;engine.h&quot;
+    </syntax_item>
     <syntax_item
     >Engine *engOpenSingleUse(const char *startcmd, void *dcom, int *retstatus);</syntax_item>
   </syntax>
@@ -28,7 +29,7 @@
     </param_output_item>
     <param_output_item>
       <param_name>retstatus</param_name>
-      <param_description>statut ; cause possible de l'échec.</param_description>
+      <param_description>statut ; cause possible de l&apos;échec.</param_description>
     </param_output_item>
   </param_output>
   <description>

@@ -23,11 +23,12 @@
     <param_output_item>
       <param_name>ce</param_name>
       <param_description
-      >a cell of strings: list of Nelson's keywords.</param_description>
+      >a cell of strings: list of Nelson&apos;s keywords.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>iskeyword</b> returns a list of all Nelson keywords.</p>
+    <p>
+      <b>iskeyword</b> returns a list of all Nelson keywords.</p>
   </description>
   <used_function />
   <bibliography />

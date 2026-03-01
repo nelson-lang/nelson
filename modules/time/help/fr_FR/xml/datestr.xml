@@ -12,7 +12,7 @@
     <syntax_item>dateAsString = datestr(dateAsStringIn)</syntax_item>
     <syntax_item
     >dateAsString = datestr(dateAsStringIn, formatOut, pivotYear)</syntax_item>
-    <syntax_item>dateAsString = datestr(..., 'local')</syntax_item>
+    <syntax_item>dateAsString = datestr(..., &apos;local&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -40,7 +40,9 @@
       >entier : année pivot (par défaut : année actuelle moins 50 ans).</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'local'</param_name>
+      <param_name>
+        &apos;local&apos;
+      </param_name>
       <param_description
       >retourne la date dans la langue du paramétrage régional courant.</param_description>
     </param_input_item>
@@ -53,54 +55,78 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >dateAsString = datestr(dateVector)</b> convertit des vecteurs date en texte représentant les dates et heures correspondantes. Elle renvoie un tableau de caractères avec<b
       >m</b> lignes, où <b>m</b> est le nombre de vecteurs date dans<b
       >dateVector</b>.</p>
-    <p><b
+    <p>
+      <b
       >dateAsString = datestr(dateNumber)</b> convertit des numéros de date série en texte représentant des dates et heures. La sortie est un tableau de caractères avec<b
       >m</b> lignes, où <b>m</b> est le nombre de numéros de date dans<b
       >dateNumber</b>.</p>
-    <p><b
+    <p>
+      <b
       >dateAsString = datestr(..., formatOut)</b> permet de spécifier le format du texte de sortie via<b
-      >formatOut</b>. Vous pouvez utiliser cette option avec n'importe quel des types d'entrée précédents.</p>
-    <p><b
-      >dateAsString = datestr(dateAsStringIn)</b> convertit la chaîne d'entrée <b
+      >formatOut</b>. Vous pouvez utiliser cette option avec n&apos;importe quel des types d&apos;entrée précédents.</p>
+    <p>
+      <b
+      >dateAsString = datestr(dateAsStringIn)</b> convertit la chaîne d&apos;entrée <b
       >dateAsStringIn</b> en un texte au format jour-mois-année heure:minute:seconde. Toutes les dates dans <b
       >dateAsStringIn</b> doivent suivre le même format.</p>
-    <p><b
+    <p>
+      <b
       >dateAsString = datestr(dateAsStringIn, formatOut, pivotYear)</b> convertit <b
       >dateAsStringIn</b> au format spécifié par <b
       >formatOut</b>, en utilisant éventuellement <b
       >pivotYear</b> pour interpréter les années sur deux chiffres.</p>
-    <p><b
-      >dateAsString = datestr(..., 'local')</b> renvoie la date dans la langue du paramètre régional système courant. Si <b
-      >'local'</b> est omis, la langue par défaut est l'anglais américain. L'option <b
-      >'local'</b> peut être utilisée avec toutes les syntaxes précédentes et doit être le dernier argument.</p>
+    <p>
+      <b
+      >dateAsString = datestr(..., &apos;local&apos;)</b> renvoie la date dans la langue du paramètre régional système courant. Si <b
+      >
+        &apos;local&apos;
+      </b> est omis, la langue par défaut est l&apos;anglais américain. L&apos;option <b
+      >
+        &apos;local&apos;
+      </b> peut être utilisée avec toutes les syntaxes précédentes et doit être le dernier argument.</p>
     <p />
     <p>Formats de conversion pris en charge :</p>
-    <p><b>dd-mmm-yyyy HH:MM:SS</b> 10-Mar-2010 16:48:17</p>
-    <p><b>dd-mmm-yyyy</b> 10-Mar-2010</p>
-    <p><b>mm/dd/yyyy</b> 03/10/2010</p>
-    <p><b>mm/dd/yy</b> 03/10/00</p>
-    <p><b>mm/dd</b> 03/10</p>
-    <p><b>mmm.dd,yyyy HH:MM:SS</b> Mar.10,2010 16:48:17</p>
-    <p><b>mmm.dd,yyyy</b> Mar.10,2010</p>
-    <p><b>yyyy-mm-dd HH:MM:SS</b> 2010-03-10 16:48:17</p>
-    <p><b>yyyy-mm-dd</b> 2010-03-10</p>
-    <p><b>yyyy/mm/dd</b> 2000/03/10</p>
-    <p><b>HH:MM:SS</b> 16:48:17</p>
-    <p><b>HH:MM:SS PM</b> 3:48:17 PM</p>
-    <p><b>HH:MM</b> 16:48</p>
-    <p><b>HH:MM PM</b> 3:35 PM</p>
+    <p>
+      <b>dd-mmm-yyyy HH:MM:SS</b> 10-Mar-2010 16:48:17</p>
+    <p>
+      <b>dd-mmm-yyyy</b> 10-Mar-2010</p>
+    <p>
+      <b>mm/dd/yyyy</b> 03/10/2010</p>
+    <p>
+      <b>mm/dd/yy</b> 03/10/00</p>
+    <p>
+      <b>mm/dd</b> 03/10</p>
+    <p>
+      <b>mmm.dd,yyyy HH:MM:SS</b> Mar.10,2010 16:48:17</p>
+    <p>
+      <b>mmm.dd,yyyy</b> Mar.10,2010</p>
+    <p>
+      <b>yyyy-mm-dd HH:MM:SS</b> 2010-03-10 16:48:17</p>
+    <p>
+      <b>yyyy-mm-dd</b> 2010-03-10</p>
+    <p>
+      <b>yyyy/mm/dd</b> 2000/03/10</p>
+    <p>
+      <b>HH:MM:SS</b> 16:48:17</p>
+    <p>
+      <b>HH:MM:SS PM</b> 3:48:17 PM</p>
+    <p>
+      <b>HH:MM</b> 16:48</p>
+    <p>
+      <b>HH:MM PM</b> 3:35 PM</p>
     <p />
-    <p>Si le format n'est pas spécifié, le format par défaut est<b
+    <p>Si le format n&apos;est pas spécifié, le format par défaut est<b
       >dd-mmm-yyyy</b>.</p>
     <p />
     <p
-    >Si un format est spécifié et qu'il n'utilise pas un format prédéfini, le format doit être indiqué comme un vecteur de caractères ou un scalaire string composé d'identifiants symboliques.</p>
+    >Si un format est spécifié et qu&apos;il n&apos;utilise pas un format prédéfini, le format doit être indiqué comme un vecteur de caractères ou un scalaire string composé d&apos;identifiants symboliques.</p>
     <p
-    >Le format du texte d'entrée pour représenter les dates et heures, exprimé comme vecteur de caractères ou scalaire string composé d'identifiants symboliques.</p>
+    >Le format du texte d&apos;entrée pour représenter les dates et heures, exprimé comme vecteur de caractères ou scalaire string composé d&apos;identifiants symboliques.</p>
     <p />
     <table border="1">
       <tr>
@@ -120,7 +146,7 @@
       </tr>
       <tr>
         <td>QQ</td>
-        <td>Trimestre (lettre Q suivie d'un chiffre)</td>
+        <td>Trimestre (lettre Q suivie d&apos;un chiffre)</td>
         <td>Q1</td>
       </tr>
       <tr>
@@ -166,7 +192,7 @@
       <tr>
         <td>HH</td>
         <td
-        >Heure sur deux chiffres (pas de zéro initial lorsque l'identifiant AM ou PM est utilisé)</td>
+        >Heure sur deux chiffres (pas de zéro initial lorsque l&apos;identifiant AM ou PM est utilisé)</td>
         <td>06, 6 AM</td>
       </tr>
       <tr>
@@ -186,7 +212,7 @@
       </tr>
       <tr>
         <td>AM or PM</td>
-        <td>AM ou PM inséré dans le texte représentant l'heure</td>
+        <td>AM ou PM inséré dans le texte représentant l&apos;heure</td>
         <td>17:46:02 PM</td>
       </tr>
     </table>

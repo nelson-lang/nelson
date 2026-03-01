@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >H = keyHash(A)</b> returns a uint64 scalar representing the input array,<b
       >A</b>.</p>
     <p

@@ -21,29 +21,31 @@
     <param_input_item>
       <param_name>err_msg</param_name>
       <param_description
-      >une chaîne contenant le message d'erreur personnalisé à afficher en cas d'échec de l'assertion (optionnel).</param_description>
+      >une chaîne contenant le message d&apos;erreur personnalisé à afficher en cas d&apos;échec de l&apos;assertion (optionnel).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>r</param_name>
       <param_description
-      >une valeur logique : true si l'assertion réussit, false sinon.</param_description>
+      >une valeur logique : true si l&apos;assertion réussit, false sinon.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>msg</param_name>
       <param_description
-      >une chaîne contenant le message d'erreur. Si x == true, alors msg == ''. Si x == false, alors msg contient le message d'échec de l'assertion.</param_description>
+      >une chaîne contenant le message d&apos;erreur. Si x == true, alors msg == &apos;
+        &apos;. Si x == false, alors msg contient le message d&apos;échec de l&apos;assertion.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>assert</b> lève une erreur si la valeur d'entrée est fausse.</p>
+    <p>
+      <b>assert</b> lève une erreur si la valeur d&apos;entrée est fausse.</p>
     <p
-    >Cette fonction lève également une erreur si l'entrée n'est pas une valeur logique, garantissant la sécurité de type.</p>
+    >Cette fonction lève également une erreur si l&apos;entrée n&apos;est pas une valeur logique, garantissant la sécurité de type.</p>
     <p>Lorsque le paramètre optionnel <b
-      >err_msg</b> est fourni, il sera utilisé comme message d'erreur à la place du message par défaut en cas d'échec de l'assertion.</p>
+      >err_msg</b> est fourni, il sera utilisé comme message d&apos;erreur à la place du message par défaut en cas d&apos;échec de l&apos;assertion.</p>
     <p
-    >C'est la fonction d'assertion fondamentale qui sert de base pour tester des conditions dans les programmes et les tests unitaires.</p>
+    >C&apos;est la fonction d&apos;assertion fondamentale qui sert de base pour tester des conditions dans les programmes et les tests unitaires.</p>
   </description>
   <used_function />
   <bibliography />
@@ -51,7 +53,7 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Test d'échec d'assertion avec un message d'erreur personnalisé :</example_item_description>
+      >Test d&apos;échec d&apos;assertion avec un message d&apos;erreur personnalisé :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[try
@@ -63,7 +65,7 @@ end]]></example_item_data>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Test d'assertion réussie :</example_item_description>
+      >Test d&apos;assertion réussie :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[assert(5 > 3);
@@ -72,7 +74,7 @@ disp('Assertion passed: 5 is greater than 3')]]></example_item_data>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Utilisation des valeurs de retour pour gérer les résultats d'assertion :</example_item_description>
+      >Utilisation des valeurs de retour pour gérer les résultats d&apos;assertion :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[r, msg] = assert(false, 'This condition is false');

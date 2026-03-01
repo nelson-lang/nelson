@@ -22,7 +22,7 @@ jobs:
         uses: myrotvorets/info-from-package-json-action@2.0.1
         id: json_version
       - name: Update version
-        run: python3 $GITHUB_WORKSPACE/tools/update_version/update_version.py
+        run: just update_version
       - name: Configure
         run: just config "-DCMAKE_BUILD_TYPE=Release -G \"Unix Makefiles\" ."
       - name: Build

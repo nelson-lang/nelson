@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>qt_verbose</b> affiche ou masque les messages de débogage Qt.</p>
+    <p>
+      <b>qt_verbose</b> affiche ou masque les messages de débogage Qt.</p>
     <p>Cette fonction est utile pour déboguer Qt et Qml.</p>
   </description>
   <used_function />

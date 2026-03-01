@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>buildhelp</keyword>
-  <short_description>Build help of Nelson's modules.</short_description>
+  <short_description>Build help of Nelson&apos;s modules.</short_description>
   <syntax>
     <syntax_item>buildhelp()</syntax_item>
     <syntax_item>buildhelp(module_name)</syntax_item>
@@ -16,7 +16,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>buildhelp</b> generates help files.</p>
+    <p>
+      <b>buildhelp</b> generates help files.</p>
   </description>
   <used_function />
   <bibliography />

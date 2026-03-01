@@ -31,10 +31,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >td = tdigest(compression, X)</b> renvoie une représentation t-digest des éléments du tableau X.</p>
     <p
-    >TDigest est une structure de données pour l'accumulation en ligne précise de statistiques basées sur les rangs telles que les quantiles et les fonctions de distribution cumulées. Elle est particulièrement efficace pour les grands jeux de données et pour estimer des quantiles extrêmes. L'algorithme est décrit en détail dans l'article "Computing Extremely Accurate Quantiles Using t-Digests" de Ted Dunning et Otmar Ertl.</p>
+    >TDigest est une structure de données pour l&apos;accumulation en ligne précise de statistiques basées sur les rangs telles que les quantiles et les fonctions de distribution cumulées. Elle est particulièrement efficace pour les grands jeux de données et pour estimer des quantiles extrêmes. L&apos;algorithme est décrit en détail dans l&apos;article &quot;Computing Extremely Accurate Quantiles Using t-Digests&quot; de Ted Dunning et Otmar Ertl.</p>
     <p>Le t-digest est particulièrement utile pour :</p>
     <ul>
       <li
@@ -48,27 +49,32 @@
     <p
     >Le facteur de compression (100 dans les exemples) contrôle le compromis entre précision et utilisation de la mémoire - des valeurs plus élevées donnent plus de précision mais utilisent plus de mémoire.</p>
     <p
-    >Une fois que vous avez un objet t-digest, vous pouvez ajouter de nouveaux points de données en utilisant l'opérateur<code
+    >Une fois que vous avez un objet t-digest, vous pouvez ajouter de nouveaux points de données en utilisant l&apos;opérateur<code
       >+</code>, et calculer des percentiles ou des quantiles en utilisant les méthodes<code
       >percentile</code>ou<code>quantile</code>.</p>
     <p
-    >Pour plus de détails, consultez l'article original référencé dans la bibliographie.</p>
+    >Pour plus de détails, consultez l&apos;article original référencé dans la bibliographie.</p>
     <p>Méthodes disponibles :</p>
     <ul>
-      <li><b
+      <li>
+        <b
         >percentile(p)</b> : Retourne la/les valeur(s) au(x) percentile(s) donné(s) <code
         >p</code> (dans [0, 100]).</li>
-      <li><b
+      <li>
+        <b
         >quantile(q)</b> : Retourne la/les valeur(s) au(x) quantile(s) donné(s) <code
         >q</code> (dans [0, 1]).</li>
-      <li><b
-        >+</b> : Ajoute de nouveaux points de données à l'objet t-digest.</li>
+      <li>
+        <b
+        >+</b> : Ajoute de nouveaux points de données à l&apos;objet t-digest.</li>
     </ul>
     <p>Propriétés :</p>
     <ul>
-      <li><b
+      <li>
+        <b
         >compression</b> : Le facteur de compression utilisé pour créer le t-digest.</li>
-      <li><b
+      <li>
+        <b
         >totalWeight</b> : Le poids total de tous les centroïdes dans le t-digest.</li>
     </ul>
   </description>

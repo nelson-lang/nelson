@@ -29,12 +29,16 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>S = speye()</b> returns a sparse scalar 1.</p>
-    <p><b
+    <p>
+      <b>S = speye()</b> returns a sparse scalar 1.</p>
+    <p>
+      <b
       >S = speye(n)</b> returns a sparse n-by-n identity matrix, with ones on the main diagonal.</p>
-    <p><b
+    <p>
+      <b
       >S = speye(n, m)</b> returns a sparse n-by-m matrix, with ones on the main diagonal.</p>
-    <p><b>S = speye(sz)</b> returns a matrix with ones on the main diagonal.</p>
+    <p>
+      <b>S = speye(sz)</b> returns a matrix with ones on the main diagonal.</p>
   </description>
   <used_function />
   <bibliography />

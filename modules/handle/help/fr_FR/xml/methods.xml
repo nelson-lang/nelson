@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>methods</keyword>
   <short_description
-  >Renvoie les noms des méthodes d'un objet handle.</short_description>
+  >Renvoie les noms des méthodes d&apos;un objet handle.</short_description>
   <syntax>
     <syntax_item>c = methods(h)</syntax_item>
   </syntax>
@@ -20,7 +20,8 @@
       <param_description>un tableau (cell) de chaînes</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >methods</b> renvoie un tableau de chaînes contenant les noms des méthodes.</description>
   <used_function />
   <bibliography />

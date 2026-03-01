@@ -8,8 +8,8 @@
   <syntax>
     <syntax_item>p = userpath()</syntax_item>
     <syntax_item>userpath(dirname)</syntax_item>
-    <syntax_item>userpath('reset')</syntax_item>
-    <syntax_item>userpath('clear')</syntax_item>
+    <syntax_item>userpath(&apos;reset&apos;)</syntax_item>
+    <syntax_item>userpath(&apos;clear&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -17,12 +17,16 @@
       <param_description>un nom de répertoire existant</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'clear'</param_name>
+      <param_name>
+        &apos;clear&apos;
+      </param_name>
       <param_description
       >supprime le premier répertoire pour les sessions actuelles et suivantes de Nelson.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'reset'</param_name>
+      <param_name>
+        &apos;reset&apos;
+      </param_name>
       <param_description
       >réinitialise le premier répertoire à la valeur par défaut pour votre plateforme.</param_description>
     </param_input_item>
@@ -35,13 +39,14 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >userpath</b> modifie ou affiche le chemin de chargement de l'utilisateur.</p>
+    <p>
+      <b
+      >userpath</b> modifie ou affiche le chemin de chargement de l&apos;utilisateur.</p>
     <p>Par défaut, le répertoire <b>userpath</b> dépend de la plateforme :</p>
     <p>Plateformes Windows : %USERPROFILE%/Documents/Nelson</p>
     <p>Autres plateformes : $home/Documents/Nelson</p>
     <p
-    >Il est possible de forcer userpath en définissant une variable d'environnement : NELSON_USERPATH avec un chemin existant.</p>
+    >Il est possible de forcer userpath en définissant une variable d&apos;environnement : NELSON_USERPATH avec un chemin existant.</p>
   </description>
   <used_function />
   <bibliography />

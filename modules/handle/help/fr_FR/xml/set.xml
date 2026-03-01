@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>set</keyword>
   <short_description
-  >Définit la valeur d'une propriété d'un objet handle.</short_description>
+  >Définit la valeur d&apos;une propriété d&apos;un objet handle.</short_description>
   <syntax>
     <syntax_item>R = set(h, property_name, value)</syntax_item>
   </syntax>
@@ -26,12 +26,12 @@
     <param_output_item>
       <param_name>R</param_name>
       <param_description
-      >propriétés modifiables par l'utilisateur et valeurs possibles pour l'objet identifié par h.</param_description>
+      >propriétés modifiables par l&apos;utilisateur et valeurs possibles pour l&apos;objet identifié par h.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p
-    >Cette routine peut être utilisée pour modifier la valeur d'une propriété spécifiée d'un objet handle.</p>
+    >Cette routine peut être utilisée pour modifier la valeur d&apos;une propriété spécifiée d&apos;un objet handle.</p>
   </description>
   <used_function />
   <bibliography />

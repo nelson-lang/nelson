@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>winter</b> retourne la colormap avec des couleurs d'hiver.</p>
+    <p>
+      <b>winter</b> retourne la colormap avec des couleurs d&apos;hiver.</p>
   </description>
   <used_function />
   <bibliography />

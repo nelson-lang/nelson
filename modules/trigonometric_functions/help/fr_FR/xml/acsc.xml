@@ -19,8 +19,9 @@
       <param_description>une valeur numérique</param_description>
     </param_output_item>
   </param_output>
-  <description><b
-    >acsc</b> calcule la cosécante inverse de l'argument en radians pour chaque élément de <b
+  <description>
+    <b
+    >acsc</b> calcule la cosécante inverse de l&apos;argument en radians pour chaque élément de <b
     >x</b>.</description>
   <used_function />
   <bibliography />

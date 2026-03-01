@@ -7,8 +7,8 @@
   >Computes if matrix is hermitian or skew-hermitian.</short_description>
   <syntax>
     <syntax_item>res = ishermitian(x)</syntax_item>
-    <syntax_item>res = ishermitian(x, 'skew')</syntax_item>
-    <syntax_item>res = ishermitian(x, 'nonskew')</syntax_item>
+    <syntax_item>res = ishermitian(x, &apos;skew&apos;)</syntax_item>
+    <syntax_item>res = ishermitian(x, &apos;nonskew&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -24,7 +24,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >ishermitian(x)</b> computes if matrix is hermitian or skew-hermitian.</p>
     <p
     >A matrix is skew-hermitian if the complex conjugate transpose of the matrix is equal to the negative of the original matrix.</p>

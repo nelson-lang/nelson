@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>properties</keyword>
   <short_description
-  >Renvoie les noms des propriétés d'un objet handle.</short_description>
+  >Renvoie les noms des propriétés d&apos;un objet handle.</short_description>
   <syntax>
     <syntax_item>properties(h)</syntax_item>
     <syntax_item>c = properties(h)</syntax_item>
@@ -21,7 +21,8 @@
       <param_description>un tableau (cell) de chaînes</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >properties</b> renvoie un tableau de chaînes contenant les noms des propriétés.</description>
   <used_function />
   <bibliography />

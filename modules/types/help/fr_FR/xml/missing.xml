@@ -14,8 +14,9 @@
       >une valeur manquante utilisable dans les tableaux et les tables</param_description>
     </param_output_item>
   </param_output>
-  <description><b
-    >missing</b> renvoie une valeur spéciale représentant une donnée manquante (non définie). Lorsqu'elle est assignée dans un tableau ou une table, la valeur <b
+  <description>
+    <b
+    >missing</b> renvoie une valeur spéciale représentant une donnée manquante (non définie). Lorsqu&apos;elle est assignée dans un tableau ou une table, la valeur <b
     >missing</b> est automatiquement convertie en la valeur manquante standard utilisée par le type de données du tableau.      </description>
   <used_function />
   <bibliography />

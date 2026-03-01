@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >isempty</b> returns a logical true if the argument is an empty matrix.</p>
     <p>Any one of its dimensions is zero.</p>
   </description>

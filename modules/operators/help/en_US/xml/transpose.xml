@@ -4,10 +4,11 @@
   <language>en_US</language>
   <keyword>transpose</keyword>
   <short_description
-  >Returns vector or matrix transpose: .' operator.</short_description>
+  >Returns vector or matrix transpose: .&apos; operator.</short_description>
   <syntax>
     <syntax_item>C= transpose(A)</syntax_item>
-    <syntax_item>C = A .'</syntax_item>
+    <syntax_item>C = A .&apos;
+    </syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -22,7 +23,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>C = transpose(A)</b> returns the transpose of A.</p>
+    <p>
+      <b>C = transpose(A)</b> returns the transpose of A.</p>
   </description>
   <used_function />
   <bibliography />

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>nargout</keyword>
   <short_description
-  >Nombre d'arguments de sortie d'une fonction.</short_description>
+  >Nombre d&apos;arguments de sortie d&apos;une fonction.</short_description>
   <syntax>
     <syntax_item>R = nargout()</syntax_item>
     <syntax_item>R = nargout(function_name)</syntax_item>
@@ -24,12 +24,12 @@
     <param_output_item>
       <param_name>R</param_name>
       <param_description
-      >une valeur entière : nombre d'arguments de sortie</param_description>
+      >une valeur entière : nombre d&apos;arguments de sortie</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p
-    >Retourne le nombre d'arguments de sortie demandés par l'appelant d'une fonction.</p>
+    >Retourne le nombre d&apos;arguments de sortie demandés par l&apos;appelant d&apos;une fonction.</p>
   </description>
   <used_function />
   <bibliography />

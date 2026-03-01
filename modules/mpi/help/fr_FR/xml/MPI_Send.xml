@@ -30,8 +30,8 @@
     <p
     >Cette fonction envoie un tableau à un nœud destination sur un communicateur donné avec un tag spécifique.</p>
     <p
-    >Notez qu'un receive correspondant doit être effectué par le nœud de destination.</p>
-    <p>Lance une exception en cas d'erreur.</p>
+    >Notez qu&apos;un receive correspondant doit être effectué par le nœud de destination.</p>
+    <p>Lance une exception en cas d&apos;erreur.</p>
   </description>
   <used_function />
   <bibliography />
@@ -39,7 +39,7 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >mpiexec([modulepath('mpi'), '/examples/MPI_helloworld.m'], 4)</example_item_description>
+      >mpiexec([modulepath(&apos;mpi&apos;), &apos;/examples/MPI_helloworld.m&apos;], 4)</example_item_description>
       <example_item_data
         runnable="false"
       ><![CDATA[if ~MPI_Initialized()

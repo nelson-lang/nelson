@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>logm</keyword>
   <short_description
-  >Calcule le logarithme matriciel d'une matrice carrée.</short_description>
+  >Calcule le logarithme matriciel d&apos;une matrice carrée.</short_description>
   <syntax>
     <syntax_item>res = logm(x)</syntax_item>
   </syntax>
@@ -23,9 +23,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>logm(x)</b> calcule le logarithme matriciel de x.</p>
+    <p>
+      <b>logm(x)</b> calcule le logarithme matriciel de x.</p>
     <p
-    >Le calcul est effectué en bloc-diagonalant d'abord x puis en appliquant une approximation de Pade sur chaque bloc.</p>
+    >Le calcul est effectué en bloc-diagonalant d&apos;abord x puis en appliquant une approximation de Pade sur chaque bloc.</p>
   </description>
   <used_function />
   <bibliography />

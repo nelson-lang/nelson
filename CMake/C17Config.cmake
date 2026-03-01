@@ -44,7 +44,14 @@ endif()
 # ==============================================================================
 # Apple M-series optimizations
 # ==============================================================================
-if(CMAKE_SYSTEM_NAME STREQUAL "Darwin" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
+if(CMAKE_SYSTEM_NAME
+  STREQUAL
+  "Darwin"
+  AND
+  CMAKE_SYSTEM_PROCESSOR
+  STREQUAL
+  "arm64"
+)
   message(STATUS "Enabling Apple M-series optimizations")
   add_compile_options(-march=native)
 endif()
@@ -54,4 +61,3 @@ endif()
 include(CheckSymbolExists)
 check_symbol_exists("fseek64" "stdio.h" HAVE_FSEEK64)
 check_symbol_exists("ftell64" "stdio.h" HAVE_FTELL64)
-# ==============================================================================

@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >tf = isKey(d, key)</b> returns a logical true if the specified key exists in the configured dictionary, and a logical false if it does not.</p>
     <p>If <b>d</b> is an unconfigured dictionary,<b
       >isKey</b> throws an error.</p>

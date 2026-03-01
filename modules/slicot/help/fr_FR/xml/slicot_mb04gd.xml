@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>slicot_mb04gd</keyword>
   <short_description
-  >Factorisation RQ avec pivotement de lignes d'une matrice.</short_description>
+  >Factorisation RQ avec pivotement de lignes d&apos;une matrice.</short_description>
   <syntax>
     <syntax_item
     >[A_OUT, JPVT_OUT, TAU, INFO] = slicot_mb04gd(A_IN, JPVT_IN)</syntax_item>
@@ -43,7 +43,7 @@
   </param_output>
   <description>
     <p
-    >Calculer une factorisation RQ avec pivotement de lignes d'une matrice réelle m-by-n A : P * A = R * Q.</p>
+    >Calculer une factorisation RQ avec pivotement de lignes d&apos;une matrice réelle m-by-n A : P * A = R * Q.</p>
   </description>
   <used_function>MB04GD</used_function>
   <bibliography

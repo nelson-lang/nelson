@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>libpointer_setdatatype</keyword>
-  <short_description>Définit le type d'un handle libpointer</short_description>
+  <short_description>Définit le type d&apos;un handle libpointer</short_description>
   <syntax>
     <syntax_item>h.setdatatype(datatype)</syntax_item>
   </syntax>
@@ -18,7 +18,7 @@
     </param_input_item>
   </param_input>
   <description>
-    <p>Définit le type de données d'un objet libpointer.</p>
+    <p>Définit le type de données d&apos;un objet libpointer.</p>
   </description>
   <used_function />
   <bibliography />

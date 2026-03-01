@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >f = factor(n)</b> retourne un vecteur ligne avec les facteurs premiers de <b
       >n</b>.</p>
     <p>Le vecteur <b>f</b> est du même type de données que <b>n</b>.</p>

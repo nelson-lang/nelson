@@ -177,8 +177,8 @@ KeyHash(Evaluator* eval, const ArrayOf& A)
     auto hashComplex = [&hashValue](const ArrayOf& A) {
         if (A.isSparse()) {
             Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>* spMat
-                = (Eigen::SparseMatrix<std::complex<double>, 0,
-                    signedIndexType>*)(A.getSparseDataPointer());
+                = (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>*)(A
+                        .getSparseDataPointer());
             std::complex<double>* ptrZ = spMat->valuePtr();
             double* ptr = reinterpret_cast<double*>(ptrZ);
             hashValue = hash_combine<double>(hashValue, ptr, A.getElementCount() * 2);

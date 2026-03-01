@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>slicot_mc01td</keyword>
   <short_description
-  >Vérification de la stabilité d'un polynôme réel donné.</short_description>
+  >Vérification de la stabilité d&apos;un polynôme réel donné.</short_description>
   <syntax>
     <syntax_item
     >[DP_OUT, STABLE, NZ, IWARN, INFO] = slicot_mc01td(DICO, DP_IN, P)</syntax_item>
@@ -13,7 +13,7 @@
     <param_input_item>
       <param_name>DICO</param_name>
       <param_description
-      >Indique si le test de stabilité à appliquer à P(x) est en temps continu ou discret : = 'C' : continu ; = 'D' : discret.</param_description>
+      >Indique si le test de stabilité à appliquer à P(x) est en temps continu ou discret : = &apos;C&apos; : continu ; = &apos;D&apos; : discret.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>DP_IN</param_name>
@@ -29,7 +29,7 @@
     <param_output_item>
       <param_name>DP_OUT</param_name>
       <param_description
-      >Si P(DP+1) = 0.0 à l'entrée, alors DP contient l'indice de la plus haute puissance de x pour laquelle P(DP+1) != 0.0.</param_description>
+      >Si P(DP+1) = 0.0 à l&apos;entrée, alors DP contient l&apos;indice de la plus haute puissance de x pour laquelle P(DP+1) != 0.0.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>STABLE</param_name>
@@ -39,23 +39,23 @@
     <param_output_item>
       <param_name>NZ</param_name>
       <param_description
-      >Si INFO = 0, contient le nombre de zéros instables - c.-à-d. le nombre de zéros de P(x) dans le demi-plan droit si DICO = 'C' ou le nombre de zéros de P(x) à l'extérieur du cercle unité si DICO = 'D'.</param_description>
+      >Si INFO = 0, contient le nombre de zéros instables - c.-à-d. le nombre de zéros de P(x) dans le demi-plan droit si DICO = &apos;C&apos; ou le nombre de zéros de P(x) à l&apos;extérieur du cercle unité si DICO = &apos;D&apos;.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>IWARN</param_name>
-      <param_description>= 0 : pas d'avertissement ;</param_description>
+      <param_description>= 0 : pas d&apos;avertissement ;</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>INFO</param_name>
       <param_description
-      >= 0 : sortie réussie ; = 1 : si à l'entrée, P(x) est le polynôme nul ; = 2 : si le polynôme P(x) est très probablement instable.</param_description>
+      >= 0 : sortie réussie ; = 1 : si à l&apos;entrée, P(x) est le polynôme nul ; = 2 : si le polynôme P(x) est très probablement instable.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p
     >Déterminer si un polynôme P(x) à coefficients réels est stable, soit en temps continu, soit en temps discret.</p>
     <p
-    >Un polynôme est dit stable en continu si tous ses zéros se trouvent dans le demi-plan gauche, et stable en discret si tous ses zéros se trouvent à l'intérieur du cercle unité.</p>
+    >Un polynôme est dit stable en continu si tous ses zéros se trouvent dans le demi-plan gauche, et stable en discret si tous ses zéros se trouvent à l&apos;intérieur du cercle unité.</p>
   </description>
   <used_function>MC01TD</used_function>
   <bibliography

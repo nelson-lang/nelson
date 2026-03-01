@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>audioplayer_delete</keyword>
-  <short_description>Supprime l'objet audioplayer.</short_description>
+  <short_description>Supprime l&apos;objet audioplayer.</short_description>
   <syntax>
     <syntax_item>audioplayer_delete(h)</syntax_item>
     <syntax_item>delete(h)</syntax_item>
@@ -15,8 +15,9 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>delete(h)</b> libère l'objet audioplayer.</p>
-    <p>N'oubliez pas de vider h ensuite.</p>
+    <p>
+      <b>delete(h)</b> libère l&apos;objet audioplayer.</p>
+    <p>N&apos;oubliez pas de vider h ensuite.</p>
   </description>
   <used_function />
   <bibliography />

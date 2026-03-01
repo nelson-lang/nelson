@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>QObject_classname</keyword>
   <short_description
-  >Renvoie le nom de classe d'une poignée (handle) QObject.</short_description>
+  >Renvoie le nom de classe d&apos;une poignée (handle) QObject.</short_description>
   <syntax>
     <syntax_item>s = QObject_classname(h)</syntax_item>
   </syntax>
@@ -21,7 +21,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Renvoie le nom de classe d'une poignée (handle) QObject.</p>
+    <p>Renvoie le nom de classe d&apos;une poignée (handle) QObject.</p>
   </description>
   <used_function />
   <bibliography />

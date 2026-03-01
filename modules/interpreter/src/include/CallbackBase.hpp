@@ -24,9 +24,9 @@ protected:
     executeCallbackImpl(Evaluator* eval);
 
 public:
-    CallbackBase() {};
-    CallbackBase(const ArrayOf& _callbackAsArrayOf) : callbackAsArrayOf(_callbackAsArrayOf) {};
-    virtual ~CallbackBase() {};
+    CallbackBase() { };
+    CallbackBase(const ArrayOf& _callbackAsArrayOf) : callbackAsArrayOf(_callbackAsArrayOf) { };
+    virtual ~CallbackBase() { };
 
     bool
     execute(Evaluator* eval)

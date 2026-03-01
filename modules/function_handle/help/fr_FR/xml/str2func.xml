@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>str2func</keyword>
   <short_description
-  >Renvoie un function handle à partir d'une chaîne.</short_description>
+  >Renvoie un function handle à partir d&apos;une chaîne.</short_description>
   <syntax>
     <syntax_item>func_handle = str2func(str)</syntax_item>
   </syntax>
@@ -21,10 +21,13 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>function_handle = str2func(str)</b> renvoie un function handle <b
+    <p>
+      <b>function_handle = str2func(str)</b> renvoie un function handle <b
       >function_handle</b> pour la fonction nommée dans la chaîne <b
-      >str</b>          </p>
-    <p><b>str</b> nom de fonction ou représentation d'une fonction anonyme.</p>
+      >str</b>
+    </p>
+    <p>
+      <b>str</b> nom de fonction ou représentation d&apos;une fonction anonyme.</p>
   </description>
   <used_function />
   <bibliography />

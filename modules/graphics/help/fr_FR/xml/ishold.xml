@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ishold</keyword>
-  <short_description>Obtient l'état actuel du mode hold.</short_description>
+  <short_description>Obtient l&apos;état actuel du mode hold.</short_description>
   <syntax>
     <syntax_item>tf = ishold()</syntax_item>
     <syntax_item>tf = ishold(ax)</syntax_item>
@@ -22,8 +22,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >tf = ishold(ax)</b> retourne l'état du mode hold de l'objet axes spécifié.          </p>
+    <p>
+      <b
+      >tf = ishold(ax)</b> retourne l&apos;état du mode hold de l&apos;objet axes spécifié.          </p>
   </description>
   <used_function />
   <bibliography />

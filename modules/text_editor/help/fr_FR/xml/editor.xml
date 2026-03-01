@@ -3,11 +3,11 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>editor</keyword>
-  <short_description>appelle l'éditeur de texte intégré.</short_description>
+  <short_description>appelle l&apos;éditeur de texte intégré.</short_description>
   <syntax>
     <syntax_item>editor()</syntax_item>
     <syntax_item>editor(filename)</syntax_item>
-    <syntax_item>editor('editor_command', cmd)</syntax_item>
+    <syntax_item>editor(&apos;editor_command&apos;, cmd)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -22,21 +22,24 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >editor</b> ouvre un fichier existant dans l'éditeur intégré de Nelson.</p>
-    <p><b
-      >editor</b> doit être considéré comme interne et il est préférable d'utiliser <b
+    <p>
+      <b
+      >editor</b> ouvre un fichier existant dans l&apos;éditeur intégré de Nelson.</p>
+    <p>
+      <b
+      >editor</b> doit être considéré comme interne et il est préférable d&apos;utiliser <b
       >edit</b>.</p>
     <p>Définir un autre éditeur de texte par défaut : (exemple avec VS Code)</p>
     <p>
-      <code>editor('editor_command', 'code')</code>
+      <code>editor(&apos;editor_command&apos;, &apos;code&apos;)</code>
     </p>
-    <p>Pour restaurer l'éditeur par défaut, utilisez :</p>
+    <p>Pour restaurer l&apos;éditeur par défaut, utilisez :</p>
     <p>
-      <code>editor('editor_command', '')</code>
+      <code>editor(&apos;editor_command&apos;, &apos;
+        &apos;)</code>
     </p>
     <p
-    >Le changement d'éditeur est persistant et sera enregistré dans un fichier de configuration.</p>
+    >Le changement d&apos;éditeur est persistant et sera enregistré dans un fichier de configuration.</p>
   </description>
   <used_function />
   <bibliography />
@@ -71,7 +74,7 @@ editor('editor_command ', '')
     <history_item>
       <history_version>1.10.0</history_version>
       <history_description
-      >Option pour changer l'éditeur de texte par défaut</history_description>
+      >Option pour changer l&apos;éditeur de texte par défaut</history_description>
     </history_item>
   </history>
   <authors>

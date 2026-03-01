@@ -26,7 +26,8 @@
       >an integer value: last sample to play.</param_description>
     </param_input_item>
   </param_input>
-  <description><b
+  <description>
+    <b
     >playblocking</b> plays an audioplayer object until playback is finished.</description>
   <used_function />
   <bibliography />

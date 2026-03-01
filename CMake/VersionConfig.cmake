@@ -35,6 +35,6 @@ if(EXISTS ${CMAKE_SOURCE_DIR}/modules/commons/src/include/Nelson_VERSION.h)
 else()
   configure_file(
     "${CMAKE_SOURCE_DIR}/modules/commons/src/include/Nelson_VERSION.h.in"
-    "${CMAKE_SOURCE_DIR}/modules/commons/src/include/Nelson_VERSION.h")
+    "${CMAKE_SOURCE_DIR}/modules/commons/src/include/Nelson_VERSION.h"
+  )
 endif()
-# ==============================================================================

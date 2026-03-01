@@ -23,7 +23,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >audioinfo</b> retourne une structure avec les informations sur le fichier audio.</p>
     <p>De nombreux formats audio sont supportés comme OGG, FLAC, WAV, RAW.</p>
   </description>

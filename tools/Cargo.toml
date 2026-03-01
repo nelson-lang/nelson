@@ -1,0 +1,5 @@
+# This workspace is now defined in the root Cargo.toml.
+# This file is kept so `cargo` commands run from tools/ still work.
+[workspace]
+members = ["nelson-fmt", "nelson-update-version"]
+resolver = "2"

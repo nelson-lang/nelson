@@ -36,7 +36,7 @@ QtLineNumber::paintEvent(QPaintEvent* paintEvent)
     const int ascent = fontMetrics().ascent() + 1; // height = ascent + descent + 1
     QPainter p(this);
     for (QTextBlock block = tEditor->document()->begin(); block.isValid();
-         block = block.next(), ++lineNumber) {
+        block = block.next(), ++lineNumber) {
         QTextLayout* layout = block.layout();
         const QRectF boundingRect = layout->boundingRect();
         QPointF position = layout->position();

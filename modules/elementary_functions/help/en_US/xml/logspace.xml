@@ -34,7 +34,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>logspace</b> generates an logarithmically spaced vector.</p>
+    <p>
+      <b>logspace</b> generates an logarithmically spaced vector.</p>
   </description>
   <used_function />
   <bibliography />

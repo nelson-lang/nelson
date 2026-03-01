@@ -41,14 +41,16 @@
     <param_output_item>
       <param_name>msg</param_name>
       <param_description
-      >a string containing the error message. If res == true, then msg == ''. If res == false, then msg contains the assertion failure message.</param_description>
+      >a string containing the error message. If res == true, then msg == &apos;
+        &apos;. If res == false, then msg contains the assertion failure message.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >assert_isapprox</b> raises an error if the computed value is not approximately equal to the expected value.</p>
     <p
-    >This function compares two floating point numbers with a specified tolerance, allowing you to check that two numbers are "approximately" equal when exact equality is not suitable due to floating-point precision limitations.</p>
+    >This function compares two floating point numbers with a specified tolerance, allowing you to check that two numbers are &quot;approximately&quot; equal when exact equality is not suitable due to floating-point precision limitations.</p>
     <p
     >The comparison uses relative error calculation to determine if the values are within the specified precision tolerance.</p>
     <p

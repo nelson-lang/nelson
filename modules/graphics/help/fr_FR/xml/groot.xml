@@ -14,20 +14,32 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>groot</b> retourne l'objet racine graphique.</p>
+    <p>
+      <b>groot</b> retourne l&apos;objet racine graphique.</p>
     <p>Propriétés :</p>
-    <p><b>Children</b> : Tableau des objets figure disponibles.</p>
-    <p><b>CurrentFigure</b> : Objet graphique figure courant.</p>
-    <p><b>Parent</b> : tableau vide (pas de parent)</p>
-    <p><b>PointerLocation</b> : Position actuelle du pointeur.</p>
-    <p><b
+    <p>
+      <b>Children</b> : Tableau des objets figure disponibles.</p>
+    <p>
+      <b>CurrentFigure</b> : Objet graphique figure courant.</p>
+    <p>
+      <b>Parent</b> : tableau vide (pas de parent)</p>
+    <p>
+      <b>PointerLocation</b> : Position actuelle du pointeur.</p>
+    <p>
+      <b
       >ScreenDepth</b> : Nombre de bits définissant chaque couleur de pixel.</p>
-    <p><b>ScreenSize</b> : Taille de l'écran principal (vecteur).</p>
-    <p><b
-      >Tag</b> : Identifiant de l'objet : chaîne, vecteur de caractères, '' (par défaut).</p>
-    <p><b>Type</b> : Type 'root'.</p>
-    <p><b>Units</b> : 'pixels'.</p>
-    <p><b>UserData</b> : Données utilisateur : tableau ou [] (par défaut).</p>
+    <p>
+      <b>ScreenSize</b> : Taille de l&apos;écran principal (vecteur).</p>
+    <p>
+      <b
+      >Tag</b> : Identifiant de l&apos;objet : chaîne, vecteur de caractères, &apos;
+      &apos; (par défaut).</p>
+    <p>
+      <b>Type</b> : Type &apos;root&apos;.</p>
+    <p>
+      <b>Units</b> : &apos;pixels&apos;.</p>
+    <p>
+      <b>UserData</b> : Données utilisateur : tableau ou [] (par défaut).</p>
   </description>
   <used_function />
   <bibliography />

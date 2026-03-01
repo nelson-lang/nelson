@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >c = bartlett(m)</b> renvoie une fenêtre de Bartlett symétrique de longueur L.</p>
   </description>
   <examples>

@@ -8,14 +8,14 @@
     <syntax_item>legend()</syntax_item>
     <syntax_item>legend(label1, ..., labelN)</syntax_item>
     <syntax_item>legend(labels)</syntax_item>
-    <syntax_item>legend('off')</syntax_item>
-    <syntax_item>legend('hide')</syntax_item>
-    <syntax_item>legend('show')</syntax_item>
-    <syntax_item>legend('toggle')</syntax_item>
-    <syntax_item>legend('boxon')</syntax_item>
-    <syntax_item>legend('boxoff')</syntax_item>
+    <syntax_item>legend(&apos;off&apos;)</syntax_item>
+    <syntax_item>legend(&apos;hide&apos;)</syntax_item>
+    <syntax_item>legend(&apos;show&apos;)</syntax_item>
+    <syntax_item>legend(&apos;toggle&apos;)</syntax_item>
+    <syntax_item>legend(&apos;boxon&apos;)</syntax_item>
+    <syntax_item>legend(&apos;boxoff&apos;)</syntax_item>
     <syntax_item>legend(ax, ...)</syntax_item>
-    <syntax_item>legend(..., 'Location', lcn)</syntax_item>
+    <syntax_item>legend(..., &apos;Location&apos;, lcn)</syntax_item>
     <syntax_item>legend(..., propertyName, propertyValue)</syntax_item>
     <syntax_item>L = legend(...)</syntax_item>
   </syntax>
@@ -31,27 +31,39 @@
       >cell array of character vectors or string array.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'off'</param_name>
+      <param_name>
+        &apos;off&apos;
+      </param_name>
       <param_description>delete the legend.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'toggle'</param_name>
+      <param_name>
+        &apos;toggle&apos;
+      </param_name>
       <param_description>toggle legend visibility.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'hide'</param_name>
+      <param_name>
+        &apos;hide&apos;
+      </param_name>
       <param_description>hide legend.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'show'</param_name>
+      <param_name>
+        &apos;show&apos;
+      </param_name>
       <param_description>show legend.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'boxon'</param_name>
+      <param_name>
+        &apos;boxon&apos;
+      </param_name>
       <param_description>display box around legend.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'boxoff'</param_name>
+      <param_name>
+        &apos;boxoff&apos;
+      </param_name>
       <param_description>hide box around legend.</param_description>
     </param_input_item>
     <param_input_item>
@@ -61,7 +73,7 @@
     <param_input_item>
       <param_name>lcn</param_name>
       <param_description
-      >Legend location: a string ('NE' default).</param_description>
+      >Legend location: a string (&apos;NE&apos; default).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyName</param_name>
@@ -80,19 +92,28 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>legend</b> creates a legend in the current figure.</p>
+    <p>
+      <b>legend</b> creates a legend in the current figure.</p>
     <p>
       <b>Location for legend on the plot:</b>
     </p>
     <p />
-    <p>'northeast' or 'NE': Top right (default).</p>
-    <p>'north' or 'N': Top center.</p>
-    <p>'south' or 'S': Bottom center.</p>
-    <p>'east' or 'E': Middle right.</p>
-    <p>'west' or 'W': Middle left.</p>
-    <p>'northwest' or 'NW': Top left.</p>
-    <p>'southeast' or 'SE': Bottom right.</p>
-    <p>'southwest' or 'SW': Bottom left.</p>
+    <p>
+      &apos;northeast&apos; or &apos;NE&apos;: Top right (default).</p>
+    <p>
+      &apos;north&apos; or &apos;N&apos;: Top center.</p>
+    <p>
+      &apos;south&apos; or &apos;S&apos;: Bottom center.</p>
+    <p>
+      &apos;east&apos; or &apos;E&apos;: Middle right.</p>
+    <p>
+      &apos;west&apos; or &apos;W&apos;: Middle left.</p>
+    <p>
+      &apos;northwest&apos; or &apos;NW&apos;: Top left.</p>
+    <p>
+      &apos;southeast&apos; or &apos;SE&apos;: Bottom right.</p>
+    <p>
+      &apos;southwest&apos; or &apos;SW&apos;: Bottom left.</p>
   </description>
   <used_function />
   <bibliography />

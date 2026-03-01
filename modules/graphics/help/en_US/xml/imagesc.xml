@@ -9,8 +9,8 @@
     <syntax_item>imagesc()</syntax_item>
     <syntax_item>imagesc(C)</syntax_item>
     <syntax_item>image(X, Y, C)</syntax_item>
-    <syntax_item>imagesc('CData', C)</syntax_item>
-    <syntax_item>imagesc('XData', X, 'YData', Y,'CData', C)</syntax_item>
+    <syntax_item>imagesc(&apos;CData&apos;, C)</syntax_item>
+    <syntax_item>imagesc(&apos;XData&apos;, X, &apos;YData&apos;, Y,&apos;CData&apos;, C)</syntax_item>
     <syntax_item>imagesc(..., propertyName, propertyValue)</syntax_item>
     <syntax_item>imagesc(parent, ...)</syntax_item>
     <syntax_item>go = imagesc(...)</syntax_item>
@@ -51,7 +51,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >imagessc</b> displays C data as an image. This image is colormapped using the colormap for the current figure.</p>
     <p>Properties:</p>
     <table>
@@ -82,7 +83,7 @@
         <td>
           <b>CDataMapping</b>
         </td>
-        <td>Color data mapping method: 'direct' or 'scaled' (default).</td>
+        <td>Color data mapping method: &apos;direct&apos; or &apos;scaled&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -101,13 +102,14 @@
           <b>Tag</b>
         </td>
         <td
-        >Object identifier: string scalar, character vector, '' (default).</td>
+        >Object identifier: string scalar, character vector, &apos;
+          &apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>Type</b>
         </td>
-        <td>Type of graphics object: 'surface'.</td>
+        <td>Type of graphics object: &apos;surface&apos;.</td>
       </tr>
       <tr>
         <td>
@@ -119,7 +121,7 @@
         <td>
           <b>Visible</b>
         </td>
-        <td>State of visibility: 'off' or 'on' (default).</td>
+        <td>State of visibility: &apos;off&apos; or &apos;on&apos; (default).</td>
       </tr>
       <tr>
         <td>

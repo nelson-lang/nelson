@@ -4,10 +4,10 @@
   <language>fr_FR</language>
   <keyword>balance</keyword>
   <short_description
-  >Mise à l'échelle diagonale pour améliorer la précision des valeurs propres.</short_description>
+  >Mise à l&apos;échelle diagonale pour améliorer la précision des valeurs propres.</short_description>
   <syntax>
     <syntax_item>B = balance(A)</syntax_item>
-    <syntax_item>B = balance(A,'noperm')</syntax_item>
+    <syntax_item>B = balance(A,&apos;noperm&apos;)</syntax_item>
     <syntax_item>[T, B] = balance(A)</syntax_item>
     <syntax_item>[S, P, B] = balance(A)</syntax_item>
   </syntax>
@@ -26,11 +26,11 @@
     <param_output_item>
       <param_name>T</param_name>
       <param_description
-      >transformation de similarité : réarrange les éléments d'une matrice diagonale contenant des puissances entières de deux afin de minimiser l'impact des erreurs d'arrondi.</param_description>
+      >transformation de similarité : réarrange les éléments d&apos;une matrice diagonale contenant des puissances entières de deux afin de minimiser l&apos;impact des erreurs d&apos;arrondi.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>S</param_name>
-      <param_description>vecteur d'échelle</param_description>
+      <param_description>vecteur d&apos;échelle</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>P</param_name>
@@ -38,8 +38,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>B = balance(A)</b> retourne la matrice équilibrée <b>B</b>.</p>
-    <p><b>B = balance(A, 'noperm')</b> met à l'échelle <b
+    <p>
+      <b>B = balance(A)</b> retourne la matrice équilibrée <b>B</b>.</p>
+    <p>
+      <b>B = balance(A, &apos;noperm&apos;)</b> met à l&apos;échelle <b
       >A</b> sans permuter ses lignes et colonnes.</p>
   </description>
   <used_function

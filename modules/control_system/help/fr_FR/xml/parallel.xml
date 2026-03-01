@@ -21,7 +21,7 @@
   </param_output>
   <description>
     <p
-    >Connecte deux systèmes en parallèle. Les systèmes doivent être tous deux continus ou discrets et avoir le même temps d'échantillonnage.</p>
+    >Connecte deux systèmes en parallèle. Les systèmes doivent être tous deux continus ou discrets et avoir le même temps d&apos;échantillonnage.</p>
     <p
     >Les gains statiques sont considérés comme neutres et peuvent être définis par des matrices classiques.</p>
   </description>

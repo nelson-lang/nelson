@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>base2dec</keyword>
   <short_description
-  >Convertit un nombre d'une base donnée en décimal.</short_description>
+  >Convertit un nombre d&apos;une base donnée en décimal.</short_description>
   <syntax>
     <syntax_item>D = base2dec(TXT, B)</syntax_item>
   </syntax>
@@ -26,12 +26,14 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>base2dec</b> convertit un nombre d'une base donnée en décimal.</p>
+    <p>
+      <b>base2dec</b> convertit un nombre d&apos;une base donnée en décimal.</p>
     <p>Remarques :</p>
     <p>- <b>dec2base</b> et<b>base2dec</b> sont mutuellement inverses.</p>
     <p
     >- des valeurs sont mises en cache pour accélérer les calculs ultérieurs ; utiliser<b
-      >base2dec('', 2)</b> pour vider le cache.</p>
+      >base2dec(&apos;
+        &apos;, 2)</b> pour vider le cache.</p>
   </description>
   <used_function />
   <bibliography />

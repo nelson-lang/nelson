@@ -10,48 +10,49 @@
 # All optional module names (used for both modules.m and nlsBuildConfig.h)
 # ==============================================================================
 set(_options_modules
-    MEX
-    FFTW
-    SLICOT
-    CONTROL_SYSTEM
-    F2C
-    MPI
-    AUDIO
-    WEBTOOLS
-    FILE_ARCHIVER
-    IPC
-    PARALLEL
-    GRAPHICS
-    QML_ENGINE
-    SIO_CLIENT
-    SIGNAL_PROCESSING
-    VALIDATORS
-    MATIO
-    HDF5
-    HELP_TOOLS
-    TEXT_EDITOR
-    DATA_ANALYSIS
-    DYNAMIC_LINK
-    TESTS_MANAGER
-    IMAGE_PROCESSING
-    JSON
-    XML
-    GUI
-    NIG
-    ASSERT_FUNCTIONS
-    STATISTICS
-    TRIGONOMETRIC_FUNCTIONS
-    POLYNOMIAL_FUNCTIONS
-    LOCALIZATION
-    I18N
-    RANDOM
-    SPECIAL_FUNCTIONS
-    TEXT_COMPLETION
-    CHARACTERS_ENCODING
-    GEOMETRY
-    PYTHON_ENGINE
-    SPREADSHEET
-    JULIA_ENGINE)
+  MEX
+  FFTW
+  SLICOT
+  CONTROL_SYSTEM
+  F2C
+  MPI
+  AUDIO
+  WEBTOOLS
+  FILE_ARCHIVER
+  IPC
+  PARALLEL
+  GRAPHICS
+  QML_ENGINE
+  SIO_CLIENT
+  SIGNAL_PROCESSING
+  VALIDATORS
+  MATIO
+  HDF5
+  HELP_TOOLS
+  TEXT_EDITOR
+  DATA_ANALYSIS
+  DYNAMIC_LINK
+  TESTS_MANAGER
+  IMAGE_PROCESSING
+  JSON
+  XML
+  GUI
+  NIG
+  ASSERT_FUNCTIONS
+  STATISTICS
+  TRIGONOMETRIC_FUNCTIONS
+  POLYNOMIAL_FUNCTIONS
+  LOCALIZATION
+  I18N
+  RANDOM
+  SPECIAL_FUNCTIONS
+  TEXT_COMPLETION
+  CHARACTERS_ENCODING
+  GEOMETRY
+  PYTHON_ENGINE
+  SPREADSHEET
+  JULIA_ENGINE
+)
 # ==============================================================================
 # Generate modules.m (uses "true"/"false" strings)
 # ==============================================================================
@@ -63,15 +64,17 @@ foreach(_mod IN LISTS _options_modules)
   endif()
 endforeach()
 # ==============================================================================
-configure_file("${CMAKE_SOURCE_DIR}/modules/modules.m.in"
-               "${CMAKE_SOURCE_DIR}/modules/modules.m")
+configure_file(
+  "${CMAKE_SOURCE_DIR}/modules/modules.m.in"
+  "${CMAKE_SOURCE_DIR}/modules/modules.m"
+)
 # ==============================================================================
 # Helper: set WITH_X to 0 or 1 from a boolean condition
 # ==============================================================================
-macro(
-  _nelson_bool_to_01
+macro(_nelson_bool_to_01
   _condition
-  _out)
+  _out
+)
   if(${_condition})
     set(${_out} 1)
   else()
@@ -126,5 +129,5 @@ endforeach()
 # ==============================================================================
 configure_file(
   "${CMAKE_SOURCE_DIR}/modules/commons/src/include/nlsBuildConfig.h.in"
-  "${CMAKE_SOURCE_DIR}/modules/commons/src/include/nlsBuildConfig.h")
-# ==============================================================================
+  "${CMAKE_SOURCE_DIR}/modules/commons/src/include/nlsBuildConfig.h"
+)

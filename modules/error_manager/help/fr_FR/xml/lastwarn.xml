@@ -4,14 +4,16 @@
   <language>fr_FR</language>
   <keyword>lastwarn</keyword>
   <short_description
-  >Renvoie le dernier message d'avertissement enregistré.</short_description>
+  >Renvoie le dernier message d&apos;avertissement enregistré.</short_description>
   <syntax>
     <syntax_item>last_message = lastwarn()</syntax_item>
     <syntax_item>[last_message, last_identifier] = lastwarn()</syntax_item>
-    <syntax_item>lastwarn('')</syntax_item>
+    <syntax_item>lastwarn(&apos;
+      &apos;)</syntax_item>
     <syntax_item>lastwarn(new_message)</syntax_item>
     <syntax_item>lastwarn(new_message, new_identifier)</syntax_item>
-    <syntax_item>[last_message, last_identifier] = lastwarn('')</syntax_item>
+    <syntax_item>[last_message, last_identifier] = lastwarn(&apos;
+      &apos;)</syntax_item>
     <syntax_item
     >[last_message, last_identifier] = lastwarn(new_message)</syntax_item>
     <syntax_item
@@ -21,7 +23,7 @@
     <param_output_item>
       <param_name>last_message</param_name>
       <param_description
-      >chaîne : dernier message d'avertissement.</param_description>
+      >chaîne : dernier message d&apos;avertissement.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>last_identifier</param_name>
@@ -29,9 +31,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >last_message = lastwarn()</b> renvoie une chaîne contenant le dernier message d'avertissement.</p>
-    <p><b>lastwarn('')</b> efface le dernier avertissement.</p>
+    <p>
+      <b
+      >last_message = lastwarn()</b> renvoie une chaîne contenant le dernier message d&apos;avertissement.</p>
+    <p>
+      <b>lastwarn(&apos;
+        &apos;)</b> efface le dernier avertissement.</p>
   </description>
   <used_function />
   <bibliography />

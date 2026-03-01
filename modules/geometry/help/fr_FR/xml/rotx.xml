@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>rotx</keyword>
   <short_description
-  >Matrice de transformation 3x3 pour rotation autour de l'axe x</short_description>
+  >Matrice de transformation 3x3 pour rotation autour de l&apos;axe x</short_description>
   <syntax>
     <syntax_item>rm = rotx(angle)</syntax_item>
   </syntax>
@@ -22,8 +22,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >rotx</b> renvoie la matrice de transformation 3x3 correspondant à une rotation autour de l'axe x.</p>
+    <p>
+      <b
+      >rotx</b> renvoie la matrice de transformation 3x3 correspondant à une rotation autour de l&apos;axe x.</p>
   </description>
   <used_function />
   <bibliography

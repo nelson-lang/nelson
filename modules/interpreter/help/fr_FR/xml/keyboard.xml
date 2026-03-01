@@ -4,13 +4,14 @@
   <language>fr_FR</language>
   <keyword>keyboard</keyword>
   <short_description
-  >Arrête l'exécution du script et entre en mode débogage.</short_description>
+  >Arrête l&apos;exécution du script et entre en mode débogage.</short_description>
   <syntax>
     <syntax_item>keyboard()</syntax_item>
   </syntax>
   <description>
-    <p><b
-      >keyboard</b> arrête l'exécution du script et entre en mode débogage. L'invite est modifiée et affiche le niveau de débogage.</p>
+    <p>
+      <b
+      >keyboard</b> arrête l&apos;exécution du script et entre en mode débogage. L&apos;invite est modifiée et affiche le niveau de débogage.</p>
   </description>
   <used_function />
   <bibliography />

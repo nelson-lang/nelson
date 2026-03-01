@@ -15,7 +15,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >removegateway(dyn_lib_path)</b> removes dynamically builtin at runtime.</p>
     <p>The dynamic library loaded must have at least an C entry point<b
       >RemoveGateway</b>.</p>

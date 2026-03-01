@@ -4,7 +4,7 @@
   <language>en_US</language>
   <keyword>buildhelpweb</keyword>
   <short_description
-  >Build help of Nelson's modules for website.</short_description>
+  >Build help of Nelson&apos;s modules for website.</short_description>
   <syntax>
     <syntax_item>buildhelpweb(destination_dir)</syntax_item>
     <syntax_item>buildhelpweb(destination_dir, language)</syntax_item>
@@ -21,7 +21,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>buildhelpweb</b> generates help files for website.</p>
+    <p>
+      <b>buildhelpweb</b> generates help files for website.</p>
     <p>internal function</p>
   </description>
   <used_function />

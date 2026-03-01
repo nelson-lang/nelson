@@ -25,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >h = hour(t)</b> extracts the hour component from each date and time specified in<b
       >t</b>.</p>
     <p>The output<b

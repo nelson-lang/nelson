@@ -25,6 +25,6 @@ public:
         a = 0;
     };
     RGBAColorData(double red, double green, double blue, double alpha)
-        : r(red), g(green), b(blue), a(alpha) {};
+        : r(red), g(green), b(blue), a(alpha) { };
 };
 //=============================================================================

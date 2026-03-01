@@ -32,7 +32,8 @@
       >un booléen : vrai si les deux sont identiques, sinon faux.</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >strncmp</b> compare les n premiers caractères de deux chaînes (sensible à la casse).</description>
   <used_function />
   <bibliography />

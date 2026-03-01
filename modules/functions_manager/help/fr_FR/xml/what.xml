@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >what</b> retourne la liste de toutes les fonctions intégrées et macros disponibles dans la session Nelson actuelle.</p>
   </description>
   <used_function />

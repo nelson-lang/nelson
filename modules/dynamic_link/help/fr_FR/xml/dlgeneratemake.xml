@@ -19,7 +19,7 @@
     <param_input_item>
       <param_name>maketype</param_name>
       <param_description
-      >a string: 'executable' or 'dynamic_library'.</param_description>
+      >a string: &apos;executable&apos; or &apos;dynamic_library&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>destinationdir</param_name>
@@ -53,7 +53,8 @@
     </param_input_item>
     <param_input_item>
       <param_name>build_configuration</param_name>
-      <param_description>a string: 'Debug' or 'Release'</param_description>
+      <param_description>a string: &apos;Debug&apos; or &apos;Release&apos;
+      </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>c_flags</param_name>
@@ -77,9 +78,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >dlgeneratemake</b> génère un makefile adapté à votre environnement pour construire des bibliothèques partagées.</p>
-    <p>Nelson s'appuie sur <b>CMake</b> pour cette tâche.</p>
+    <p>Nelson s&apos;appuie sur <b>CMake</b> pour cette tâche.</p>
   </description>
   <used_function />
   <bibliography />

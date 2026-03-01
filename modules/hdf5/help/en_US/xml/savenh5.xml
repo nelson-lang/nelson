@@ -7,8 +7,8 @@
   <syntax>
     <syntax_item>savenh5(filename)</syntax_item>
     <syntax_item>savenh5(filename, var1, ..., varN)</syntax_item>
-    <syntax_item>savenh5(filename, '-append', ...)</syntax_item>
-    <syntax_item>savenh5(filename, '-nocompression', ...)</syntax_item>
+    <syntax_item>savenh5(filename, &apos;-append&apos;, ...)</syntax_item>
+    <syntax_item>savenh5(filename, &apos;-nocompression&apos;, ...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -18,20 +18,25 @@
     <param_input_item>
       <param_name>var1, ..., varN</param_name>
       <param_description
-      >string: Names of variables to save from Nelson's workspace.</param_description>
+      >string: Names of variables to save from Nelson&apos;s workspace.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-append'</param_name>
+      <param_name>
+        &apos;-append&apos;
+      </param_name>
       <param_description
       >append variables to an existing .nh5 file.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-nocompression'</param_name>
+      <param_name>
+        &apos;-nocompression&apos;
+      </param_name>
       <param_description>disable .nh5 file compression.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b>savenh5</b> save workspace variables to .nh5 file.</p>
+    <p>
+      <b>savenh5</b> save workspace variables to .nh5 file.</p>
     <p>.nh5 file uses hdf5 file as container.</p>
   </description>
   <used_function />

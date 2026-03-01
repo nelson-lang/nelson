@@ -12,20 +12,25 @@
   <param_input>
     <param_input_item>
       <param_name>new_docroot</param_name>
-      <param_description>a string: '', '.', or a URL.</param_description>
+      <param_description>a string: &apos;
+        &apos;, &apos;.&apos;, or a URL.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >docroot</b> retrieves or updates the root directory for Nelson Help.</p>
     <p>When called without an argument,<b
       >docroot</b> returns the current root directory for Nelson Help. By default, it returns the URL of the help website used by Nelson.</p>
     <p>When called with an argument,<b
       >docroot</b> updates the root directory for Nelson Help.</p>
-    <p><b
-      >docroot('')</b> resets the root directory for Nelson Help to the default value.</p>
-    <p><b
-      >docroot('.')</b> uses local help files and the local browser (restores behavior before v1.11.0).</p>
+    <p>
+      <b
+      >docroot(&apos;
+        &apos;)</b> resets the root directory for Nelson Help to the default value.</p>
+    <p>
+      <b
+      >docroot(&apos;.&apos;)</b> uses local help files and the local browser (restores behavior before v1.11.0).</p>
   </description>
   <used_function />
   <bibliography />

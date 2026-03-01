@@ -15,7 +15,7 @@
     <param_input_item>
       <param_name>S</param_name>
       <param_description
-      >Structure with two fields: 'type' and 'subs'.</param_description>
+      >Structure with two fields: &apos;type&apos; and &apos;subs&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B</param_name>
@@ -31,7 +31,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >B = subsasgn(A, S, B)</b> assigns a value to an element of a cell or matrix.</p>
   </description>
   <used_function />

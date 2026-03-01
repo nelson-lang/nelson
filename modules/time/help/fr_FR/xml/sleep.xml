@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>sleep</keyword>
-  <short_description>Met en pause l'exécution du code.</short_description>
+  <short_description>Met en pause l&apos;exécution du code.</short_description>
   <syntax>
     <syntax_item>sleep(sec)</syntax_item>
   </syntax>
@@ -15,8 +15,9 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >sleep</b> met en pause l'exécution de Nelson pendant un nombre spécifié de secondes.</p>
+    <p>
+      <b
+      >sleep</b> met en pause l&apos;exécution de Nelson pendant un nombre spécifié de secondes.</p>
     <p>Une interruption CTRL-C arrête la fonction <b>sleep</b>.</p>
   </description>
   <used_function />

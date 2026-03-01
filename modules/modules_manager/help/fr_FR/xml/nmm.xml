@@ -5,14 +5,14 @@
   <keyword>nmm</keyword>
   <short_description>Gestionnaire de modules Nelson.</short_description>
   <syntax>
-    <syntax_item>st = nmm('list')</syntax_item>
-    <syntax_item>nmm('load', module_name)</syntax_item>
-    <syntax_item>l = nmm('autoload', module_name)</syntax_item>
-    <syntax_item>nmm('autoload', module_name, state)</syntax_item>
-    <syntax_item>nmm('install', git_url)</syntax_item>
-    <syntax_item>nmm('uninstall', module_name)</syntax_item>
+    <syntax_item>st = nmm(&apos;list&apos;)</syntax_item>
+    <syntax_item>nmm(&apos;load&apos;, module_name)</syntax_item>
+    <syntax_item>l = nmm(&apos;autoload&apos;, module_name)</syntax_item>
+    <syntax_item>nmm(&apos;autoload&apos;, module_name, state)</syntax_item>
+    <syntax_item>nmm(&apos;install&apos;, git_url)</syntax_item>
+    <syntax_item>nmm(&apos;uninstall&apos;, module_name)</syntax_item>
     <syntax_item
-    >package_filename = nmm('package', module_name, destination_dir)</syntax_item>
+    >package_filename = nmm(&apos;package&apos;, module_name, destination_dir)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -22,7 +22,7 @@
     <param_input_item>
       <param_name>state</param_name>
       <param_description
-      >logique : true active le chargement automatique du module au démarrage, false désactive l'autoload pour ce module.</param_description>
+      >logique : true active le chargement automatique du module au démarrage, false désactive l&apos;autoload pour ce module.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>git_url</param_name>
@@ -32,7 +32,7 @@
     <param_input_item>
       <param_name>destination_dir</param_name>
       <param_description
-      >chaîne : répertoire de destination existant où l'archive sera créée.</param_description>
+      >chaîne : répertoire de destination existant où l&apos;archive sera créée.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -44,7 +44,7 @@
     <param_output_item>
       <param_name>l</param_name>
       <param_description
-      >logique : état courant de l'autoload.</param_description>
+      >logique : état courant de l&apos;autoload.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>package_filename</param_name>
@@ -52,41 +52,52 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>nmm</b> est le gestionnaire de modules Nelson.</p>
+    <p>
+      <b>nmm</b> est le gestionnaire de modules Nelson.</p>
     <p
-    >Les paquets distribués au format source permettent d'obtenir des paquets optimisés pour votre machine et de disposer de dépôts distribués.</p>
+    >Les paquets distribués au format source permettent d&apos;obtenir des paquets optimisés pour votre machine et de disposer de dépôts distribués.</p>
     <p
     >Les modules installés sont compilés localement et peuvent nécessiter un compilateur C/C++.</p>
     <p />
-    <p><b>st = nmm('list')</b> récupère la liste des modules installés.</p>
+    <p>
+      <b>st = nmm(&apos;list&apos;)</b> récupère la liste des modules installés.</p>
     <p />
-    <p><b>nmm('install', git_url)</b> installe un module distant.</p>
+    <p>
+      <b>nmm(&apos;install&apos;, git_url)</b> installe un module distant.</p>
     <p
-    >Par exemple : 'https://github.com/nelson-lang/module_skeleton_basic.git#v1.0.0'</p>
-    <p>'#v1.0.0' est un<i
+    >Par exemple : &apos;https://github.com/nelson-lang/module_skeleton_basic.git#v1.0.0&apos;
+    </p>
+    <p>
+      &apos;#v1.0.0&apos; est un<i
       >commit-ish</i>: il permet de cloner exactement un commit.</p>
     <p
     >Le commit-ish peut être un tag (version exacte), un sha1 (commit exact) ou un nom de branche.</p>
     <p>Sans commit-ish, la branche master sera utilisée.</p>
     <p />
-    <p><b
-      >nmm('install', filename_nmz)</b> installe un module externe précompilé.</p>
+    <p>
+      <b
+      >nmm(&apos;install&apos;, filename_nmz)</b> installe un module externe précompilé.</p>
     <p />
-    <p><b
-      >nmm('load', module_name)</b> charge un module installé pour la session courante.</p>
+    <p>
+      <b
+      >nmm(&apos;load&apos;, module_name)</b> charge un module installé pour la session courante.</p>
     <p />
-    <p><b
-      >l = nmm('autoload', module_name</b> retourne l'état courant d'autoload pour<b
+    <p>
+      <b
+      >l = nmm(&apos;autoload&apos;, module_name</b> retourne l&apos;état courant d&apos;autoload pour<b
       >module_name</b>.</p>
     <p />
-    <p><b
-      >nmm('autoload', module_name, state)</b> marque un module installé pour être chargé automatiquement au démarrage.</p>
-    <p>Par défaut, les modules sont marqués pour l'autoload.</p>
+    <p>
+      <b
+      >nmm(&apos;autoload&apos;, module_name, state)</b> marque un module installé pour être chargé automatiquement au démarrage.</p>
+    <p>Par défaut, les modules sont marqués pour l&apos;autoload.</p>
     <p />
-    <p><b>nmm('uninstall', module_name)</b> désinstalle un module installé.</p>
+    <p>
+      <b>nmm(&apos;uninstall&apos;, module_name)</b> désinstalle un module installé.</p>
     <p />
-    <p><b
-      >nmm('package', module_name, destination_dir)</b> empaquette un module dans un fichier zip.</p>
+    <p>
+      <b
+      >nmm(&apos;package&apos;, module_name, destination_dir)</b> empaquette un module dans un fichier zip.</p>
     <p />
   </description>
   <used_function />

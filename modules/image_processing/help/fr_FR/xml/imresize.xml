@@ -16,7 +16,7 @@
     <param_input_item>
       <param_name>img</param_name>
       <param_description
-      >Image à redimensionner, spécifiée comme un tableau numérique ou logique de n'importe quelle dimension. L'entrée doit être non-creuse (nonsparse) et les entrées numériques doivent être réelles.</param_description>
+      >Image à redimensionner, spécifiée comme un tableau numérique ou logique de n&apos;importe quelle dimension. L&apos;entrée doit être non-creuse (nonsparse) et les entrées numériques doivent être réelles.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>scale</param_name>
@@ -26,22 +26,22 @@
     <param_input_item>
       <param_name>[numrows numcols]</param_name>
       <param_description
-      >Dimensions en lignes et colonnes de l'image de sortie, spécifiées comme un vecteur à deux éléments de nombres positifs. NaN peut être utilisé pour une dimension afin de préserver le ratio d'aspect.</param_description>
+      >Dimensions en lignes et colonnes de l&apos;image de sortie, spécifiées comme un vecteur à deux éléments de nombres positifs. NaN peut être utilisé pour une dimension afin de préserver le ratio d&apos;aspect.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>X</param_name>
       <param_description
-      >Image indexée à redimensionner, spécifiée comme un tableau numérique réel non-creux d'entiers positifs.</param_description>
+      >Image indexée à redimensionner, spécifiée comme un tableau numérique réel non-creux d&apos;entiers positifs.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>map</param_name>
       <param_description
-      >Colormap associée à l'image indexée X, spécifiée comme une matrice c-by-3 avec des valeurs dans [0,1].</param_description>
+      >Colormap associée à l&apos;image indexée X, spécifiée comme une matrice c-by-3 avec des valeurs dans [0,1].</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>method</param_name>
       <param_description
-      >Méthode d'interpolation (optionnelle, par défaut : 'bicubic') : doit toujours être le dernier paramètre positionnel.</param_description>
+      >Méthode d&apos;interpolation (optionnelle, par défaut : &apos;bicubic&apos;) : doit toujours être le dernier paramètre positionnel.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
@@ -52,52 +52,61 @@
     <param_output_item>
       <param_name>B</param_name>
       <param_description
-      >Image redimensionnée, renvoyée sous forme de tableau numérique ou logique du même type que l'image d'entrée A.</param_description>
+      >Image redimensionnée, renvoyée sous forme de tableau numérique ou logique du même type que l&apos;image d&apos;entrée A.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>Y</param_name>
       <param_description
-      >Image indexée redimensionnée, renvoyée sous forme de tableau numérique du même type que l'image indexée d'entrée X.</param_description>
+      >Image indexée redimensionnée, renvoyée sous forme de tableau numérique du même type que l&apos;image indexée d&apos;entrée X.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>newmap</param_name>
       <param_description
-      >Colormap de l'image indexée redimensionnée Y, renvoyée comme une matrice m-by-3. Par défaut, imresize retourne une nouvelle colormap optimisée. Pour retourner la colormap originale, utilisez l'argument nom-valeur 'Colormap'.</param_description>
+      >Colormap de l&apos;image indexée redimensionnée Y, renvoyée comme une matrice m-by-3. Par défaut, imresize retourne une nouvelle colormap optimisée. Pour retourner la colormap originale, utilisez l&apos;argument nom-valeur &apos;Colormap&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>La fonction <b
-      >imresize</b> redimensionne une image selon un facteur d'échelle ou une taille de sortie spécifiée. Elle prend en charge les images en niveaux de gris, RGB, binaires, ainsi que les images indexées avec colormap.</p>
+      >imresize</b> redimensionne une image selon un facteur d&apos;échelle ou une taille de sortie spécifiée. Elle prend en charge les images en niveaux de gris, RGB, binaires, ainsi que les images indexées avec colormap.</p>
     <p
-    >Pour les images numériques et logiques, la méthode d'interpolation par défaut est 'bicubic'.</p>
+    >Pour les images numériques et logiques, la méthode d&apos;interpolation par défaut est &apos;bicubic&apos;.</p>
     <p
-    >Lors du redimensionnement, imresize applique le facteur d'échelle aux dimensions ligne et colonne sauf si un vecteur à deux éléments est spécifié. Si la taille de sortie n'est pas entière, imresize arrondit vers le haut en utilisant la fonction ceil.</p>
+    >Lors du redimensionnement, imresize applique le facteur d&apos;échelle aux dimensions ligne et colonne sauf si un vecteur à deux éléments est spécifié. Si la taille de sortie n&apos;est pas entière, imresize arrondit vers le haut en utilisant la fonction ceil.</p>
     <p
-    >Pour les images indexées, imresize retourne par défaut l'image redimensionnée et une colormap optimisée. La colormap originale peut être retournée en utilisant l'argument nom-valeur 'Colormap'.</p>
-    <p>Les méthodes d'interpolation prises en charge incluent :</p>
+    >Pour les images indexées, imresize retourne par défaut l&apos;image redimensionnée et une colormap optimisée. La colormap originale peut être retournée en utilisant l&apos;argument nom-valeur &apos;Colormap&apos;.</p>
+    <p>Les méthodes d&apos;interpolation prises en charge incluent :</p>
     <ul>
-      <li>'nearest' : interpolation au plus proche voisin</li>
-      <li>'bilinear' : interpolation bilinéaire</li>
-      <li>'bicubic' : interpolation bicubique</li>
-      <li>'box' : noyau en forme de boîte</li>
-      <li>'lanczos2' : noyau Lanczos-2</li>
-      <li>'lanczos3' : noyau Lanczos-3</li>
+      <li>
+        &apos;nearest&apos; : interpolation au plus proche voisin</li>
+      <li>
+        &apos;bilinear&apos; : interpolation bilinéaire</li>
+      <li>
+        &apos;bicubic&apos; : interpolation bicubique</li>
+      <li>
+        &apos;box&apos; : noyau en forme de boîte</li>
+      <li>
+        &apos;lanczos2&apos; : noyau Lanczos-2</li>
+      <li>
+        &apos;lanczos3&apos; : noyau Lanczos-3</li>
     </ul>
     <p>Paires nom-valeur prises en charge :</p>
     <ul>
-      <li>'Antialiasing' : true/false (par défaut : true)</li>
+      <li>
+        &apos;Antialiasing&apos; : true/false (par défaut : true)</li>
       <li
-      >'Colormap' : 'optimized' (par défaut) ou 'original' (image indexée uniquement)</li>
-      <li>'Dither' : true (par défaut) ou false (image indexée uniquement)</li>
+      >
+        &apos;Colormap&apos; : &apos;optimized&apos; (par défaut) ou &apos;original&apos; (image indexée uniquement)</li>
+      <li>
+        &apos;Dither&apos; : true (par défaut) ou false (image indexée uniquement)</li>
     </ul>
     <p>Limitations :</p>
     <ul>
       <li
-      >L'entrée doit être non-creuse (nonsparse) et réelle pour les images numériques.</li>
+      >L&apos;entrée doit être non-creuse (nonsparse) et réelle pour les images numériques.</li>
       <li
-      >Pour de grands facteurs d'échelle, la taille de l'image de sortie peut être significativement plus grande que l'entrée.</li>
+      >Pour de grands facteurs d&apos;échelle, la taille de l&apos;image de sortie peut être significativement plus grande que l&apos;entrée.</li>
       <li
-      >L'interpolation bicubique peut produire des valeurs de pixels en dehors de la plage d'origine.</li>
+      >L&apos;interpolation bicubique peut produire des valeurs de pixels en dehors de la plage d&apos;origine.</li>
     </ul>
   </description>
   <used_function />

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>isprop</keyword>
   <short_description
-  >Retourne vrai si c'est une propriété d'un objet handle.</short_description>
+  >Retourne vrai si c&apos;est une propriété d&apos;un objet handle.</short_description>
   <syntax>
     <syntax_item>res = isprop(h, propertyname)</syntax_item>
   </syntax>
@@ -24,8 +24,9 @@
       <param_description>un booléen : vrai ou faux</param_description>
     </param_output_item>
   </param_output>
-  <description><b
-    >isprop</b> renvoie vrai si l'argument est un handle valide avec le nom de propriété, et faux sinon.</description>
+  <description>
+    <b
+    >isprop</b> renvoie vrai si l&apos;argument est un handle valide avec le nom de propriété, et faux sinon.</description>
   <used_function />
   <bibliography />
   <see_also>

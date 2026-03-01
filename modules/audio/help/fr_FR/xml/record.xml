@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>record</keyword>
   <short_description
-  >Enregistrer de l'audio dans un objet audiorecorder.</short_description>
+  >Enregistrer de l&apos;audio dans un objet audiorecorder.</short_description>
   <syntax>
     <syntax_item>record(recorderObj)</syntax_item>
     <syntax_item>record(recorderObj, length)</syntax_item>
@@ -19,17 +19,19 @@
     <param_input_item>
       <param_name>length</param_name>
       <param_description
-      >double : durée de l'enregistrement en secondes.</param_description>
+      >double : durée de l&apos;enregistrement en secondes.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >record(recorderObj)</b> démarre l'enregistrement audio à partir d'un périphérique d'entrée en utilisant l'objet <b
+    <p>
+      <b
+      >record(recorderObj)</b> démarre l&apos;enregistrement audio à partir d&apos;un périphérique d&apos;entrée en utilisant l&apos;objet <b
       >audiorecorder</b> spécifié.      </p>
-    <p><b
-      >record(recorderObj, length)</b> enregistre l'audio pendant le nombre de secondes spécifié.      </p>
-    <p>        L'objet <b
-      >audiorecorder</b> définit la fréquence d'échantillonnage, la profondeur en bits et d'autres propriétés de l'enregistrement.      </p>
+    <p>
+      <b
+      >record(recorderObj, length)</b> enregistre l&apos;audio pendant le nombre de secondes spécifié.      </p>
+    <p>        L&apos;objet <b
+      >audiorecorder</b> définit la fréquence d&apos;échantillonnage, la profondeur en bits et d&apos;autres propriétés de l&apos;enregistrement.      </p>
   </description>
   <used_function />
   <bibliography />

@@ -17,11 +17,12 @@
   <param_output>
     <param_output_item>
       <param_name>n</param_name>
-      <param_description>scalaire : nombre d'entrées.</param_description>
+      <param_description>scalaire : nombre d&apos;entrées.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >n = numEntries(d)</b> récupère le nombre de paires clé-valeur stockées dans le dictionnaire.</p>
     <p>Si d est un dictionnaire non configuré, alors numEntries renvoie 0.</p>
   </description>

@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>C = not(A)</b> effectue la négation logique : ~A.</p>
+    <p>
+      <b>C = not(A)</b> effectue la négation logique : ~A.</p>
   </description>
   <used_function />
   <bibliography />

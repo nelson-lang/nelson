@@ -43,7 +43,8 @@
       >a numeric value: Elevation coordinate.</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >cart2pol</b> transforms Cartesian coordinates to polar or cylindrical.</description>
   <used_function />
   <bibliography />

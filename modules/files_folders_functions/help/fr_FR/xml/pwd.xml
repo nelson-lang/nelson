@@ -16,7 +16,8 @@
   </param_output>
   <description>
     <p>Renvoie le répertoire de travail courant.</p>
-    <p><b>pwd()</b> sans argument affiche le répertoire courant.</p>
+    <p>
+      <b>pwd()</b> sans argument affiche le répertoire courant.</p>
     <p />
   </description>
   <used_function />

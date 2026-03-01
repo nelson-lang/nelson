@@ -24,7 +24,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>mustBeText</b> that value is piece of text or raise an error.</p>
+    <p>
+      <b>mustBeText</b> that value is piece of text or raise an error.</p>
   </description>
   <used_function />
   <bibliography />

@@ -15,11 +15,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>outputs1</param_name>
-      <param_description>vecteurs d'index</param_description>
+      <param_description>vecteurs d&apos;index</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>inputs2</param_name>
-      <param_description>vecteurs d'index</param_description>
+      <param_description>vecteurs d&apos;index</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -30,7 +30,7 @@
   </param_output>
   <description>
     <p
-    >Connecte deux systèmes en série. Les systèmes doivent être tous deux continus ou discrets et avoir le même temps d'échantillonnage.</p>
+    >Connecte deux systèmes en série. Les systèmes doivent être tous deux continus ou discrets et avoir le même temps d&apos;échantillonnage.</p>
     <p
     >Les gains statiques sont considérés comme neutres et peuvent être définis par des matrices classiques.</p>
   </description>

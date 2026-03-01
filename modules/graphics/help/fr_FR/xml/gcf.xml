@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>gcf</keyword>
-  <short_description>Récupère l'objet figure courant.</short_description>
+  <short_description>Récupère l&apos;objet figure courant.</short_description>
   <syntax>
     <syntax_item>cf = gcf()</syntax_item>
   </syntax>
@@ -15,8 +15,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>cf = gcf()</b> retourne l'objet figure graphique courant.</p>
-    <p>Si aucune figure n'existe, <b
+    <p>
+      <b>cf = gcf()</b> retourne l&apos;objet figure graphique courant.</p>
+    <p>Si aucune figure n&apos;existe, <b
       >gcf()</b> crée une figure et retourne son objet graphique.</p>
   </description>
   <used_function />

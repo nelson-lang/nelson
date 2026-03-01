@@ -11,8 +11,8 @@
         <p
         >Built for performance and ease of use, Nelson provides a comprehensive suite of mathematical functions, advanced data structures, and powerful visualization tools.</p>
         <p
-        >This documentation serves as your complete reference guide to Nelson's built-in functions, module system, and programming capabilities - from basic mathematical operations to advanced computational tasks.</p>
-     </chapter_description>
+        >This documentation serves as your complete reference guide to Nelson&apos;s built-in functions, module system, and programming capabilities - from basic mathematical operations to advanced computational tasks.</p>
+      </chapter_description>
     </section>
     <section name="Overview" link="homepage.html" />
     <section name="Summary" link="summary.html" />

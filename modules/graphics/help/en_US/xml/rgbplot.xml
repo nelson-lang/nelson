@@ -15,7 +15,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >rgbplot(cmap)</b> plots the R (red), G (green), and B (blue) intensities of the specified<b
       >cmap</b> colormap.</p>
   </description>

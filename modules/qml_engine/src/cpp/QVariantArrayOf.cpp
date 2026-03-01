@@ -102,7 +102,7 @@ canBeConvertedToArrayOf(QVariant Q)
     case QMetaType::Type::QVariantMap: {
         QVariantMap qvariantMap = qvariant_cast<QVariantMap>(Q);
         for (QVariantMap::const_iterator iter = qvariantMap.begin(); iter != qvariantMap.end();
-             ++iter) {
+            ++iter) {
             if (canBeConvertedToArrayOf(iter.value()) == false) {
                 return false;
             }
@@ -453,7 +453,7 @@ QVariantToArrayOf(QVariant Q)
         wstringVector fieldnames;
         ArrayOfVector fieldvalues;
         for (QVariantMap::const_iterator iter = qvariantMap.begin(); iter != qvariantMap.end();
-             ++iter) {
+            ++iter) {
             fieldnames.push_back(QStringTowstring(iter.key()));
             fieldvalues.push_back(QVariantToArrayOf(iter.value()));
         }

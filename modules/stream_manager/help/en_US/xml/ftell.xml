@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >ftell</b> returns the offset of the current byte relative to the beginning of the file associated with the named stream fid.</p>
   </description>
   <used_function />

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>contour</keyword>
-  <short_description>Tracé de contours d'une matrice</short_description>
+  <short_description>Tracé de contours d&apos;une matrice</short_description>
   <syntax>
     <syntax_item>contour(Z)</syntax_item>
     <syntax_item>contour(X, Y, Z)</syntax_item>
@@ -28,7 +28,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>levels</param_name>
-      <param_description
+      <param_description
       >Niveaux de contours : scalaire ou vecteur.</param_description>
     </param_input_item>
     <param_input_item>
@@ -37,7 +37,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>ax</param_name>
-      <param_description
+      <param_description
       >Un objet graphique scalaire : conteneur parent, spécifié comme axes.</param_description>
     </param_input_item>
   </param_input>
@@ -52,13 +52,15 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >contour(Z)</b> génère un tracé de contours représentant les isolignes de la matrice Z. Chaque isoligne correspond à une valeur de hauteur spécifique sur le plan x-y.</p>
-    <p
+    <p
     >              Nelson sélectionne automatiquement les lignes de contour à afficher en fonction des valeurs de Z. Les indices de colonnes et de lignes de Z servent respectivement de coordonnées x et y dans le plan.</p>
-    <p><b
-      >contour(X, Y, Z)</b> permet à l'utilisateur de spécifier les coordonnées x et y correspondant aux valeurs de la matrice Z. Cela permet un contrôle plus précis du positionnement du tracé de contours sur le plan x-y.</p>
-    <p
+    <p>
+      <b
+      >contour(X, Y, Z)</b> permet à l&apos;utilisateur de spécifier les coordonnées x et y correspondant aux valeurs de la matrice Z. Cela permet un contrôle plus précis du positionnement du tracé de contours sur le plan x-y.</p>
+    <p
     >Les matrices X et Y fournissent les coordonnées, tandis que Z contient les valeurs de hauteur pour générer le tracé de contours.</p>
     <p>Paires Nom-Valeur de propriétés :</p>
     <table>
@@ -70,49 +72,49 @@
         <td>
           <b>LevelList</b>
         </td>
-        <td
-        >Les niveaux de contours, spécifiés comme un vecteur de valeurs z, déterminent les hauteurs auxquelles les lignes de contour sont tracées. Par défaut, si non fournis, la fonction contour sélectionne automatiquement ces valeurs pour couvrir l'ensemble des valeurs présentes dans la propriété ZData, assurant une couverture complète de la plage de données. Par défaut : matrice vide.</td>
+        <td
+        >Les niveaux de contours, spécifiés comme un vecteur de valeurs z, déterminent les hauteurs auxquelles les lignes de contour sont tracées. Par défaut, si non fournis, la fonction contour sélectionne automatiquement ces valeurs pour couvrir l&apos;ensemble des valeurs présentes dans la propriété ZData, assurant une couverture complète de la plage de données. Par défaut : matrice vide.</td>
       </tr>
       <tr>
         <td>
           <b>LevelListMode</b>
         </td>
-        <td
-        >Mode de sélection pour LevelList : 'manual' ou 'auto' (par défaut).</td>
+        <td
+        >Mode de sélection pour LevelList : &apos;manual&apos; ou &apos;auto&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>LevelStep</b>
         </td>
-        <td
+        <td
         >Espacement entre les lignes de contour : valeur numérique scalaire ou 0 (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>LevelStepMode</b>
         </td>
-        <td
-        >Mode de sélection pour LevelStep : 'manual' ou 'auto' (par défaut).</td>
+        <td
+        >Mode de sélection pour LevelStep : &apos;manual&apos; ou &apos;auto&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>EdgeColor</b>
         </td>
-        <td
-        >Couleur des lignes de contour : couleur rgb ou 'flat' (par défaut).</td>
+        <td
+        >Couleur des lignes de contour : couleur rgb ou &apos;flat&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>EdgeAlpha</b>
         </td>
-        <td
+        <td
         >Transparence des lignes de contour : scalaire dans [0, 1] ou 1 (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>LineStyle</b>
         </td>
-        <td>Style de ligne : '--', ':', '-.' ou '-' (par défaut).</td>
+        <td>Style de ligne : &apos;--&apos;, &apos;:&apos;, &apos;-.&apos; ou &apos;-&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -148,26 +150,27 @@
         <td>
           <b>XDataMode</b>
         </td>
-        <td>Mode de sélection pour XData : 'manual' ou 'auto' (par défaut).</td>
+        <td>Mode de sélection pour XData : &apos;manual&apos; ou &apos;auto&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>YDataMode</b>
         </td>
-        <td>Mode de sélection pour YData : 'manual' ou 'auto' (par défaut).</td>
+        <td>Mode de sélection pour YData : &apos;manual&apos; ou &apos;auto&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>DisplayName</b>
         </td>
-        <td
-        >Étiquette de légende : vecteur de caractères, chaîne ou '' (par défaut).</td>
+        <td
+        >Étiquette de légende : vecteur de caractères, chaîne ou &apos;
+          &apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>Visible</b>
         </td>
-        <td>État de visibilité : valeur logique on/off, 'on' (par défaut).</td>
+        <td>État de visibilité : valeur logique on/off, &apos;on&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -185,20 +188,21 @@
         <td>
           <b>HandleVisibility</b>
         </td>
-        <td>Visibilité du handle : 'on', 'off'.</td>
+        <td>Visibilité du handle : &apos;on&apos;, &apos;off&apos;.</td>
       </tr>
       <tr>
         <td>
           <b>Type</b>
         </td>
-        <td>Type d'objet graphique : 'contour'.</td>
+        <td>Type d&apos;objet graphique : &apos;contour&apos;.</td>
       </tr>
       <tr>
         <td>
           <b>Tag</b>
         </td>
-        <td
-        >Identifiant de l'objet : vecteur de caractères, chaîne ou '' (par défaut).</td>
+        <td
+        >Identifiant de l&apos;objet : vecteur de caractères, chaîne ou &apos;
+          &apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -210,21 +214,21 @@
         <td>
           <b>CreateFcn</b>
         </td>
-        <td
-        >Callback (fonction, chaîne ou cellule) appelée lors de la création de l'objet. Définir cette propriété sur un composant existant n'a aucun effet.</td>
+        <td
+        >Callback (fonction, chaîne ou cellule) appelée lors de la création de l&apos;objet. Définir cette propriété sur un composant existant n&apos;a aucun effet.</td>
       </tr>
       <tr>
         <td>
           <b>DeleteFcn</b>
         </td>
-        <td
-        >Callback (fonction, chaîne ou cellule) appelée lors de la suppression de l'objet.</td>
+        <td
+        >Callback (fonction, chaîne ou cellule) appelée lors de la suppression de l&apos;objet.</td>
       </tr>
       <tr>
         <td>
           <b>BeingDeleted</b>
         </td>
-        <td>Indique que l'objet est en cours de suppression.</td>
+        <td>Indique que l&apos;objet est en cours de suppression.</td>
       </tr>
     </table>
   </description>
@@ -234,78 +238,78 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[f = figure();
-    subplot(2, 3, 1)
-    x = linspace(-2 * pi, 2 * pi);
-    y = linspace(0, 4 * pi);
-    [X, Y] = meshgrid(x, y);
-    Z = sin(X) + cos(Y);
-    contour(X, Y, Z);
-
-    subplot(2, 3, 2)
-    [X, Y, Z] = peaks;
-    contour(X, Y, Z, 20)
-
-    subplot(2, 3, 3)
-    [X, Y, Z] = peaks;
-    v = [1,1];
-    contour(X, Y, Z, v)
-
-    subplot(2, 3, 4)
-    [X, Y, Z] = peaks;
-    contour(X, Y, Z, '-.')
-
-    subplot(2, 3, 5)
-    Z = peaks;
-    [M, c] = contour(Z);
-    c.LineWidth = 3;
-
-    subplot(2, 3, 6)
-    [theta, r] = meshgrid (linspace (0,2*pi,64), linspace (0,1,64));
-    [X, Y] = pol2cart (theta, r);
-    Z = sin (2*theta) .* (1-r);
-    contour (X, Y, abs (Z), 10);
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+    subplot(2, 3, 1)
+    x = linspace(-2 * pi, 2 * pi);
+    y = linspace(0, 4 * pi);
+    [X, Y] = meshgrid(x, y);
+    Z = sin(X) + cos(Y);
+    contour(X, Y, Z);
+
+    subplot(2, 3, 2)
+    [X, Y, Z] = peaks;
+    contour(X, Y, Z, 20)
+
+    subplot(2, 3, 3)
+    [X, Y, Z] = peaks;
+    v = [1,1];
+    contour(X, Y, Z, v)
+
+    subplot(2, 3, 4)
+    [X, Y, Z] = peaks;
+    contour(X, Y, Z, '-.')
+
+    subplot(2, 3, 5)
+    Z = peaks;
+    [M, c] = contour(Z);
+    c.LineWidth = 3;
+
+    subplot(2, 3, 6)
+    [theta, r] = meshgrid (linspace (0,2*pi,64), linspace (0,1,64));
+    [X, Y] = pol2cart (theta, r);
+    Z = sin (2*theta) .* (1-r);
+    contour (X, Y, abs (Z), 10);
     ]]></example_item_data>
-      <example_item_img
-        src="../../images/contour_1.svg"
-        align="middle"
-        generate="true"
+      <example_item_img
+        src="../../images/contour_1.svg"
+        align="middle"
+        generate="true"
       />
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[
-    rng('default');
-    f = figure();
-    N = 50;
-    contour(1:N, 1:N, rand(N), 5)
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+    rng('default');
+    f = figure();
+    N = 50;
+    contour(1:N, 1:N, rand(N), 5)
     ]]></example_item_data>
-      <example_item_img
-        src="../../images/contour_2.svg"
-        align="middle"
-        generate="true"
+      <example_item_img
+        src="../../images/contour_2.svg"
+        align="middle"
+        generate="true"
       />
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[
-    f = figure();      
-    Z = peaks;
-    Z(:,26) = NaN;
-    contour(Z)
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+    f = figure();
+    Z = peaks;
+    Z(:,26) = NaN;
+    contour(Z)
     ]]></example_item_data>
-      <example_item_img
-        src="../../images/contour_nan.png"
-        align="middle"
-        generate="true"
+      <example_item_img
+        src="../../images/contour_nan.png"
+        align="middle"
+        generate="true"
       />
     </example_item>
   </examples>
@@ -327,7 +331,7 @@
     </history_item>
     <history_item>
       <history_version>1.7.0</history_version>
-      <history_description
+      <history_description
       >CreateFcn, DeleteFcn callback added.</history_description>
     </history_item>
     <history_item>

@@ -6,7 +6,8 @@
   <short_description
   >Détermine la visibilité de la session du moteur Nelson</short_description>
   <syntax>
-    <syntax_item>#include "engine.h"</syntax_item>
+    <syntax_item>#include &quot;engine.h&quot;
+    </syntax_item>
     <syntax_item>int engGetVisible(Engine *ep, bool *value);</syntax_item>
   </syntax>
   <param_input>

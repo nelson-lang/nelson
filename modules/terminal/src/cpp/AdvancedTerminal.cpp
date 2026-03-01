@@ -139,8 +139,7 @@ queryTerminalWidth()
         return static_cast<size_t>(info.srWindow.Right - info.srWindow.Left + 1);
     }
 #else
-    struct winsize ws
-    { };
+    struct winsize ws {};
     if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) != -1 && ws.ws_col > 0) {
         return static_cast<size_t>(ws.ws_col);
     }
@@ -158,8 +157,7 @@ queryTerminalHeight()
         return static_cast<size_t>(info.srWindow.Bottom - info.srWindow.Top + 1);
     }
 #else
-    struct winsize ws
-    { };
+    struct winsize ws {};
     if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) != -1 && ws.ws_row > 0) {
         return static_cast<size_t>(ws.ws_row);
     }

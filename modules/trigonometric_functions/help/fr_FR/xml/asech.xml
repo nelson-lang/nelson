@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>asech</keyword>
   <short_description
-  >Sécante hyperbolique inverse d'un angle en radians.</short_description>
+  >Sécante hyperbolique inverse d&apos;un angle en radians.</short_description>
   <syntax>
     <syntax_item>res = asech(x)</syntax_item>
   </syntax>
@@ -20,8 +20,9 @@
       <param_description>une valeur numérique</param_description>
     </param_output_item>
   </param_output>
-  <description><b
-    >asech</b> calcule la sécante hyperbolique inverse de l'argument en radians pour chaque élément de <b
+  <description>
+    <b
+    >asech</b> calcule la sécante hyperbolique inverse de l&apos;argument en radians pour chaque élément de <b
     >x</b>.</description>
   <used_function />
   <bibliography />

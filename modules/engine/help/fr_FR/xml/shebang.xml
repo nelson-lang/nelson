@@ -4,10 +4,10 @@
   <language>fr_FR</language>
   <keyword>#! shebang</keyword>
   <short_description
-  >Sur Unix/Linux, analyse la première ligne du script comme directive d'interpréteur.</short_description>
+  >Sur Unix/Linux, analyse la première ligne du script comme directive d&apos;interpréteur.</short_description>
   <description>
     <p
-    >Sur Unix, Linux et MacOS, le shebang permet d'exécuter directement un script NelSon.</p>
+    >Sur Unix, Linux et MacOS, le shebang permet d&apos;exécuter directement un script NelSon.</p>
   </description>
   <used_function />
   <bibliography />

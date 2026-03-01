@@ -54,9 +54,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >meshz</b> crée un tracé de surface 3D avec un maillage (wireframe) au-dessus.</p>
-    <p>La fonction prend les mêmes arguments d'entrée que la fonction <b
+    <p>La fonction prend les mêmes arguments d&apos;entrée que la fonction <b
       >mesh</b>.</p>
   </description>
   <used_function />

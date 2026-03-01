@@ -8,8 +8,8 @@
     <p
     >Le module Types fournit des outils pour gérer et inspecter les types de données dans Nelson.</p>
     <p
-    >Il permet aux utilisateurs d'interroger la nature des variables, de distinguer les types numériques, logiques, de chaîne et d'objet, et de travailler avec des types spécialisés tels que les tableaux creux (sparse) ou entiers.</p>
+    >Il permet aux utilisateurs d&apos;interroger la nature des variables, de distinguer les types numériques, logiques, de chaîne et d&apos;objet, et de travailler avec des types spécialisés tels que les tableaux creux (sparse) ou entiers.</p>
     <p
-    >Le module prend également en charge la création d'objets et la validation des noms de variables, contribuant à garantir la sécurité des types et la cohérence des scripts et fonctions.</p>
+    >Le module prend également en charge la création d&apos;objets et la validation des noms de variables, contribuant à garantir la sécurité des types et la cohérence des scripts et fonctions.</p>
   </chapter_description>
 </xmldoc>

@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>uint8</b> converts value to 8-bit unsigned integer type.</p>
+    <p>
+      <b>uint8</b> converts value to 8-bit unsigned integer type.</p>
     <p
     >The value is rounded to the nearest uint8 value on conversion. A value that is above or below the range for an uint8 class is mapped to one of the endpoints of the range [0, 255].</p>
   </description>

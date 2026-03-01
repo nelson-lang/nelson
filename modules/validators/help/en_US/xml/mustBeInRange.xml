@@ -34,12 +34,14 @@
     <param_input_item>
       <param_name>boundflag1</param_name>
       <param_description
-      >'inclusive', 'exclusice', 'exclude-lower' or 'exclude-upper'.</param_description>
+      >
+        &apos;inclusive&apos;, &apos;exclusice&apos;, &apos;exclude-lower&apos; or &apos;exclude-upper&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>boundflag2</param_name>
       <param_description
-      >'inclusive', 'exclusice', 'exclude-lower' or 'exclude-upper'.</param_description>
+      >
+        &apos;inclusive&apos;, &apos;exclusice&apos;, &apos;exclude-lower&apos; or &apos;exclude-upper&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>argPosition</param_name>
@@ -48,7 +50,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >mustBeInRange</b> checks that value is in the specified range or raise an error.</p>
     <p>The only valid combination of the flags is<b>exclude-lower</b> with <b
       >exclude-upper</b>.</p>

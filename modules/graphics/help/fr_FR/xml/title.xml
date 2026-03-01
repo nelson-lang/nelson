@@ -38,9 +38,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>title('text')</b> ajoute un titre aux axes actuels.</p>
+    <p>
+      <b>title(&apos;text&apos;)</b> ajoute un titre aux axes actuels.</p>
     <p>La propriété<b
-      >Visible</b> est héritée du parent si elle n'est pas explicitement définie.          </p>
+      >Visible</b> est héritée du parent si elle n&apos;est pas explicitement définie.          </p>
   </description>
   <used_function />
   <bibliography />
@@ -78,7 +79,7 @@ title('Unicode ドラゴンボールZ(ゼット)', 14);]]></example_item_data>
     <history_item>
       <history_version>1.10.0</history_version>
       <history_description
-      >La propriété Visible est héritée du parent si elle n'est pas explicitement définie.</history_description>
+      >La propriété Visible est héritée du parent si elle n&apos;est pas explicitement définie.</history_description>
     </history_item>
   </history>
   <authors>

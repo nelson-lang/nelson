@@ -32,7 +32,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >t = timeit(f)</b> measures the time elapsed required to run the function specified by the function handle <b
       >f</b>.</p>
     <p>To perform a robust measurement,<b

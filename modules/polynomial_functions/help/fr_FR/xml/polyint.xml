@@ -16,7 +16,7 @@
     <param_input_item>
       <param_name>k</param_name>
       <param_description
-      >scalaire numérique : constante d'intégration</param_description>
+      >scalaire numérique : constante d&apos;intégration</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -27,9 +27,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >polyint</b> renvoie l'intégrale du polynôme représenté par les coefficients de <b
-      >p</b> en utilisant une constante d'intégration <b
+    <p>
+      <b
+      >polyint</b> renvoie l&apos;intégrale du polynôme représenté par les coefficients de <b
+      >p</b> en utilisant une constante d&apos;intégration <b
       >k</b> (0 par défaut).</p>
   </description>
   <examples>

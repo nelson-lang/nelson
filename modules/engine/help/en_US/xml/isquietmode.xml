@@ -15,7 +15,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >isquietmode</b> returns a logical 1 if Nelson started with --quiet option and a logical 0 otherwise.</p>
   </description>
   <used_function />

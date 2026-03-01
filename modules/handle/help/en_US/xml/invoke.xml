@@ -6,9 +6,9 @@
   <short_description>Invoke method on an handle object.</short_description>
   <syntax>
     <syntax_item>R = invoke(h)</syntax_item>
-    <syntax_item>R = invoke(h, 'methodname')</syntax_item>
+    <syntax_item>R = invoke(h, &apos;methodname&apos;)</syntax_item>
     <syntax_item
-    >R = invoke(h, 'methodname', arg1, arg2, ... , argN)</syntax_item>
+    >R = invoke(h, &apos;methodname&apos;, arg1, arg2, ... , argN)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -24,10 +24,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >invoke(h)</b> returns a struct with a list of all callable methods.</p>
-    <p><b
-      >R = invoke(h, 'methodname')</b> calls the method specified by methodname, and returns an output value.</p>
+    <p>
+      <b
+      >R = invoke(h, &apos;methodname&apos;)</b> calls the method specified by methodname, and returns an output value.</p>
   </description>
   <used_function />
   <bibliography />

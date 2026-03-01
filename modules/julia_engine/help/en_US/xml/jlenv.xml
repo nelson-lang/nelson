@@ -7,7 +7,7 @@
   >Change default environment of Julia interpreter.</short_description>
   <syntax>
     <syntax_item>jlenv</syntax_item>
-    <syntax_item>je = jlenv('Version', julia_path)</syntax_item>
+    <syntax_item>je = jlenv(&apos;Version&apos;, julia_path)</syntax_item>
     <syntax_item>je = jlenv(...)</syntax_item>
   </syntax>
   <param_input>
@@ -29,22 +29,38 @@
     <p>The value set by<b>jlenv</b> is persistent across Nelson sessions.</p>
     <p />
     <p>Properties:</p>
-    <p><b>Version</b>: string: Julia version</p>
-    <p><b>Executable</b>: string: Name of Julia executable file</p>
-    <p><b>Library</b>: string: Shared library file</p>
-    <p><b>Home</b>: string: Home folder</p>
-    <p><b
-      >Status</b>: Process status: "NotLoaded" (default), "Loaded", "Terminated"</p>
-    <p><b
-      >ExecutionMode</b>: Execution mode: "InProcess" (default) or "OutOfProcess"</p>
+    <p>
+      <b>Version</b>: string: Julia version</p>
+    <p>
+      <b>Executable</b>: string: Name of Julia executable file</p>
+    <p>
+      <b>Library</b>: string: Shared library file</p>
+    <p>
+      <b>Home</b>: string: Home folder</p>
+    <p>
+      <b
+      >Status</b>: Process status: &quot;NotLoaded&quot; (default), &quot;Loaded&quot;, &quot;Terminated&quot;
+    </p>
+    <p>
+      <b
+      >ExecutionMode</b>: Execution mode: &quot;InProcess&quot; (default) or &quot;OutOfProcess&quot;
+    </p>
     <p />
     <p
     >Use environment variables to force julia environment at each startup (usefull for snapcraft or docker distribution):</p>
     <p />
-    <p><b>__NELSON_JULIA_VERSION__</b>: example "1.11"</p>
-    <p><b>__NELSON_JULIA_EXECUTABLE__</b>: example "/usr/bin/julia"</p>
-    <p><b>__NELSON_JULIA_LIBRARY__</b>: example "libjulia.so"</p>
-    <p><b>__NELSON_JULIA_HOME__</b>: example "/usr"</p>
+    <p>
+      <b>__NELSON_JULIA_VERSION__</b>: example &quot;1.11&quot;
+    </p>
+    <p>
+      <b>__NELSON_JULIA_EXECUTABLE__</b>: example &quot;/usr/bin/julia&quot;
+    </p>
+    <p>
+      <b>__NELSON_JULIA_LIBRARY__</b>: example &quot;libjulia.so&quot;
+    </p>
+    <p>
+      <b>__NELSON_JULIA_HOME__</b>: example &quot;/usr&quot;
+    </p>
     <p>All environment variables must exist and valid to be considered.</p>
     <p />
   </description>

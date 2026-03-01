@@ -26,15 +26,19 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>native2unicode</b> converts an uint8 vector to unicode characters.</p>
-    <p><b
+    <p>
+      <b>native2unicode</b> converts an uint8 vector to unicode characters.</p>
+    <p>
+      <b
       >str = native2unicode(bytes)</b> converts an uint8 vector to unicode characters (using the native character set of the machine).</p>
-    <p><b
+    <p>
+      <b
       >str = native2unicode(bytes, charset)</b> converts an uint8 vector to unicode characters (character set <b
       >charset</b> instead of the native character set).</p>
     <p>List of characters set:<a
         href="https://www.iana.org/assignments/character-sets/character-sets.xhtml"
-      >https://www.iana.org/assignments/character-sets/character-sets.xhtml</a></p>
+      >https://www.iana.org/assignments/character-sets/character-sets.xhtml</a>
+    </p>
   </description>
   <used_function />
   <bibliography>ICU library</bibliography>

@@ -5,47 +5,59 @@
   <keyword>ipc</keyword>
   <short_description>Communicateur inter-processus.</short_description>
   <syntax>
-    <syntax_item>O = ipc(pid, 'eval', cmd)</syntax_item>
-    <syntax_item>B = ipc(pid, 'isvar', name, scope)</syntax_item>
-    <syntax_item>V = ipc(pid, 'get', name)</syntax_item>
-    <syntax_item>V = ipc(pid, 'get', name, scope)</syntax_item>
-    <syntax_item>TF = ipc(pid, 'minimize')</syntax_item>
-    <syntax_item>ipc(pid, 'post', cmd)</syntax_item>
-    <syntax_item>ipc(pid, 'post', cmd, scope)</syntax_item>
-    <syntax_item>ipc(pid, 'put', var, name)</syntax_item>
-    <syntax_item>ipc(pid, 'put', var, name, scope)</syntax_item>
-    <syntax_item>ipc(pid, 'minimize', tf)</syntax_item>
+    <syntax_item>O = ipc(pid, &apos;eval&apos;, cmd)</syntax_item>
+    <syntax_item>B = ipc(pid, &apos;isvar&apos;, name, scope)</syntax_item>
+    <syntax_item>V = ipc(pid, &apos;get&apos;, name)</syntax_item>
+    <syntax_item>V = ipc(pid, &apos;get&apos;, name, scope)</syntax_item>
+    <syntax_item>TF = ipc(pid, &apos;minimize&apos;)</syntax_item>
+    <syntax_item>ipc(pid, &apos;post&apos;, cmd)</syntax_item>
+    <syntax_item>ipc(pid, &apos;post&apos;, cmd, scope)</syntax_item>
+    <syntax_item>ipc(pid, &apos;put&apos;, var, name)</syntax_item>
+    <syntax_item>ipc(pid, &apos;put&apos;, var, name, scope)</syntax_item>
+    <syntax_item>ipc(pid, &apos;minimize&apos;, tf)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>'post'</param_name>
+      <param_name>
+        &apos;post&apos;
+      </param_name>
       <param_description
       >une chaîne : poster une commande à évaluer dans un autre processus Nelson dans le scope de base (non bloquant).</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'eval'</param_name>
+      <param_name>
+        &apos;eval&apos;
+      </param_name>
       <param_description
       >une chaîne : poster une commande à évaluer dans un autre processus Nelson dans le scope de base (bloquant).</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'isvar'</param_name>
+      <param_name>
+        &apos;isvar&apos;
+      </param_name>
       <param_description
       >une chaîne : vérifier si une variable existe dans un autre processus Nelson.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'put'</param_name>
+      <param_name>
+        &apos;put&apos;
+      </param_name>
       <param_description
       >une chaîne : envoyer une variable dans un autre processus Nelson.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'get'</param_name>
+      <param_name>
+        &apos;get&apos;
+      </param_name>
       <param_description
       >une chaîne : récupérer une variable depuis un autre processus Nelson.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'minimize'</param_name>
+      <param_name>
+        &apos;minimize&apos;
+      </param_name>
       <param_description
-      >une chaîne : minimiser la fenêtre principale d'un autre processus Nelson.</param_description>
+      >une chaîne : minimiser la fenêtre principale d&apos;un autre processus Nelson.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -57,7 +69,7 @@
     <param_output_item>
       <param_name>V</param_name>
       <param_description
-      >une variable provenant d'un autre Nelson.</param_description>
+      >une variable provenant d&apos;un autre Nelson.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>TF</param_name>
@@ -67,18 +79,19 @@
     <param_output_item>
       <param_name>O</param_name>
       <param_description
-      >un tableau de caractères : sortie de l'évaluation d'une chaîne.</param_description>
+      >un tableau de caractères : sortie de l&apos;évaluation d&apos;une chaîne.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >ipc</b> permet d'exécuter, récupérer et envoyer des variables entre plusieurs processus Nelson.</p>
+    <p>
+      <b
+      >ipc</b> permet d&apos;exécuter, récupérer et envoyer des variables entre plusieurs processus Nelson.</p>
     <p
     >Tous les types Nelson sérialisables sont pris en charge. Les types non pris en charge seront remplacés par une matrice vide et un avertissement.</p>
     <p>LIMITATION :</p>
     <p
     >La limite pour la taille des données transférées est de 5000x5000 double. Sur une architecture 32 bits, 1024x1024 double.</p>
-    <p>Limitation actuelle afin de limiter l'utilisation mémoire.</p>
+    <p>Limitation actuelle afin de limiter l&apos;utilisation mémoire.</p>
   </description>
   <used_function />
   <bibliography />

@@ -4,22 +4,22 @@
   <language>fr_FR</language>
   <keyword>profile</keyword>
   <short_description
-  >Profiler le temps d'exécution des fonctions Macro.</short_description>
+  >Profiler le temps d&apos;exécution des fonctions Macro.</short_description>
   <syntax>
     <syntax_item>profile on</syntax_item>
     <syntax_item>profile off</syntax_item>
     <syntax_item>profile resume</syntax_item>
     <syntax_item>profile clear</syntax_item>
-    <syntax_item>status = profile('status')</syntax_item>
-    <syntax_item>p = profile('info')</syntax_item>
-    <syntax_item>profile('show', sortOption)</syntax_item>
-    <syntax_item>profile('show', sortOption, nbLines)</syntax_item>
+    <syntax_item>status = profile(&apos;status&apos;)</syntax_item>
+    <syntax_item>p = profile(&apos;info&apos;)</syntax_item>
+    <syntax_item>profile(&apos;show&apos;, sortOption)</syntax_item>
+    <syntax_item>profile(&apos;show&apos;, sortOption, nbLines)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>sortOption</param_name>
       <param_description
-      >chaîne : 'nfl' (par nom fichier ligne), 'line' (par ligne), 'percalls', 'totaltime', 'filename', 'function' ou 'nbcalls'.</param_description>
+      >chaîne : &apos;nfl&apos; (par nom fichier ligne), &apos;line&apos; (par ligne), &apos;percalls&apos;, &apos;totaltime&apos;, &apos;filename&apos;, &apos;function&apos; ou &apos;nbcalls&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>nbLines</param_name>
@@ -29,18 +29,24 @@
   </param_input>
   <description>
     <p
-    >Le profiling permet de mesurer où les fonctions Macro passent leur temps d'exécution.</p>
-    <p><b
-      >s = profile('status')</b> renvoie une structure contenant le statut courant du profiler.</p>
-    <p><b
-      >p = profile('info')</b> renvoie une structure contenant les données de profiling collectées.</p>
-    <p><b>profile('on')</b> démarre le profiler.</p>
-    <p><b
-      >profile('off')</b> arrête le profiler. Les données collectées pourront être récupérées ultérieurement avec<b
-      >p = profile('info')</b>.</p>
-    <p><b>profile('clear')</b> efface les données collectées.</p>
-    <p><b
-      >profile('resume')</b> redémarre et prolonge la collecte des données déjà recueillies.</p>
+    >Le profiling permet de mesurer où les fonctions Macro passent leur temps d&apos;exécution.</p>
+    <p>
+      <b
+      >s = profile(&apos;status&apos;)</b> renvoie une structure contenant le statut courant du profiler.</p>
+    <p>
+      <b
+      >p = profile(&apos;info&apos;)</b> renvoie une structure contenant les données de profiling collectées.</p>
+    <p>
+      <b>profile(&apos;on&apos;)</b> démarre le profiler.</p>
+    <p>
+      <b
+      >profile(&apos;off&apos;)</b> arrête le profiler. Les données collectées pourront être récupérées ultérieurement avec<b
+      >p = profile(&apos;info&apos;)</b>.</p>
+    <p>
+      <b>profile(&apos;clear&apos;)</b> efface les données collectées.</p>
+    <p>
+      <b
+      >profile(&apos;resume&apos;)</b> redémarre et prolonge la collecte des données déjà recueillies.</p>
   </description>
   <used_function />
   <bibliography />

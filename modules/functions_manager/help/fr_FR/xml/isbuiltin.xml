@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>isbuiltin</keyword>
   <short_description
-  >Vérifie l'existence d'une fonction intégrée.</short_description>
+  >Vérifie l&apos;existence d&apos;une fonction intégrée.</short_description>
   <syntax>
     <syntax_item>tf = isbuiltin(name)</syntax_item>
   </syntax>
@@ -23,7 +23,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>isbuiltin</b> vérifie l'existence d'une fonction intégrée.</p>
+    <p>
+      <b>isbuiltin</b> vérifie l&apos;existence d&apos;une fonction intégrée.</p>
   </description>
   <used_function />
   <bibliography />

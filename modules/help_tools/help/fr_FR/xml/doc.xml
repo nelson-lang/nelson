@@ -7,7 +7,7 @@
   <syntax>
     <syntax_item>doc</syntax_item>
     <syntax_item>doc function_name</syntax_item>
-    <syntax_item>doc('function_name')</syntax_item>
+    <syntax_item>doc(&apos;function_name&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -16,9 +16,11 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>doc</b> lance le navigateur d'aide.</p>
-    <p><b
-      >doc('function_name')</b> affiche l'aide de la fonction indiquée par 'function_name'.</p>
+    <p>
+      <b>doc</b> lance le navigateur d&apos;aide.</p>
+    <p>
+      <b
+      >doc(&apos;function_name&apos;)</b> affiche l&apos;aide de la fonction indiquée par &apos;function_name&apos;.</p>
   </description>
   <used_function />
   <bibliography />

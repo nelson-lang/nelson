@@ -15,7 +15,7 @@
     <param_input_item>
       <param_name>option</param_name>
       <param_description
-      >string: 'on', 'off', 'reset', 'out', 'xon', 'yon' or 'toggle'.</param_description>
+      >string: &apos;on&apos;, &apos;off&apos;, &apos;reset&apos;, &apos;out&apos;, &apos;xon&apos;, &apos;yon&apos; or &apos;toggle&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>factor</param_name>
@@ -39,11 +39,12 @@
     >Enable or disable the zoom mode and configure additional basic settings using the zoom function.</p>
     <p
     >Zoom mode is compatible with various charts like line, bar, histogram, and surface charts. These charts typically feature zoom in and zoom out icons on the toolbar to facilitate zooming functionality.</p>
-    <p><b
+    <p>
+      <b
       >zoom option</b> configures the zoom mode for all axes within the current figure.</p>
-    <p>For instance, <b>zoom('on')</b> activates zoom mode,<b
-      >zoom('xon')</b> enables zoom mode exclusively for the x-dimension, while <b
-      >zoom('off')</b> disables zoom mode altogether.</p>
+    <p>For instance, <b>zoom(&apos;on&apos;)</b> activates zoom mode,<b
+      >zoom(&apos;xon&apos;)</b> enables zoom mode exclusively for the x-dimension, while <b
+      >zoom(&apos;off&apos;)</b> disables zoom mode altogether.</p>
     <p
     >Once zoom mode is active, you can adjust the view of axes using the cursor, scroll wheel, or keyboard:</p>
     <p
@@ -54,17 +55,38 @@
     <p />
     <p
     >The zoom mode option can be specified using one of the following values:</p>
-    <p><b
-      >'toggle'</b>: Toggles the zoom mode. If zoom mode is disabled, 'toggle' reverts to the most recently used zoom option of 'on', 'xon', or 'yon'. This option behaves the same as calling zoom without any arguments.</p>
-    <p><b>'xon'</b>: Enables zoom mode for the x-dimension exclusively.</p>
-    <p><b>'yon'</b>: Activates zoom mode for the y-dimension exclusively.</p>
-    <p><b>'on'</b>: Activates zoom mode.</p>
-    <p><b
-      >'off'</b>: Deactivates zoom mode. Note that certain default interactions may persist regardless of the interaction mode.</p>
-    <p><b
-      >'reset'</b>: Establishes the current zoom level as the base zoom level. Once set, subsequent actions like zooming out, double-clicking within the axes, or clicking the <b
+    <p>
+      <b
+      >
+        &apos;toggle&apos;
+      </b>: Toggles the zoom mode. If zoom mode is disabled, &apos;toggle&apos; reverts to the most recently used zoom option of &apos;on&apos;, &apos;xon&apos;, or &apos;yon&apos;. This option behaves the same as calling zoom without any arguments.</p>
+    <p>
+      <b>
+        &apos;xon&apos;
+      </b>: Enables zoom mode for the x-dimension exclusively.</p>
+    <p>
+      <b>
+        &apos;yon&apos;
+      </b>: Activates zoom mode for the y-dimension exclusively.</p>
+    <p>
+      <b>
+        &apos;on&apos;
+      </b>: Activates zoom mode.</p>
+    <p>
+      <b
+      >
+        &apos;off&apos;
+      </b>: Deactivates zoom mode. Note that certain default interactions may persist regardless of the interaction mode.</p>
+    <p>
+      <b
+      >
+        &apos;reset&apos;
+      </b>: Establishes the current zoom level as the base zoom level. Once set, subsequent actions like zooming out, double-clicking within the axes, or clicking the <b
       >Restore View</b> icon on the axes toolbar will revert the axes to this baseline zoom level.</p>
-    <p><b>'out'</b>: Restores the current axes to its baseline zoom level.</p>
+    <p>
+      <b>
+        &apos;out&apos;
+      </b>: Restores the current axes to its baseline zoom level.</p>
   </description>
   <used_function />
   <bibliography />

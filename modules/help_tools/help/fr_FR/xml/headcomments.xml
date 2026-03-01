@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>headcomments</keyword>
   <short_description
-  >Affiche les commentaires d'en-tête d'une fonction Nelson.</short_description>
+  >Affiche les commentaires d&apos;en-tête d&apos;une fonction Nelson.</short_description>
   <syntax>
     <syntax_item>headcomments(function_name)</syntax_item>
     <syntax_item>ce = headcomments(function_name)</syntax_item>
@@ -23,11 +23,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >head_comments</b> affiche les commentaires d'en-tête d'une fonction.</p>
+    <p>
+      <b
+      >head_comments</b> affiche les commentaires d&apos;en-tête d&apos;une fonction.</p>
     <p>Les commentaires sont lus depuis le fichier .m associé.</p>
     <p
-    >Les fonctions prédéfinies de Nelson n'ont pas de commentaires d'en-tête.</p>
+    >Les fonctions prédéfinies de Nelson n&apos;ont pas de commentaires d&apos;en-tête.</p>
   </description>
   <used_function />
   <bibliography />

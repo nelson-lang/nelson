@@ -15,7 +15,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >delete(h)</b> supprime de la mémoire les objets handle référencés par h.</p>
     <p
     >Une fois supprimées, toutes les références aux objets contenus dans h deviennent invalides.</p>

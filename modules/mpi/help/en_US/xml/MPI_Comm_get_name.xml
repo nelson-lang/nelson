@@ -15,7 +15,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >MPI_Comm_get_name(comm)</b> returns the print name from the communicator.</p>
   </description>
   <used_function />

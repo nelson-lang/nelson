@@ -16,7 +16,8 @@
     <param_input_item>
       <param_name>format</param_name>
       <param_description
-      >une chaîne spécifiant le format de date, ou laissez vide ('') pour la détection automatique du format.</param_description>
+      >une chaîne spécifiant le format de date, ou laissez vide (&apos;
+        &apos;) pour la détection automatique du format.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>datestr</param_name>
@@ -42,36 +43,53 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >d = datenum()</b> renvoie le numéro de date série correspondant à la date courante.</p>
-    <p><b
+    <p>
+      <b
       >d = datenum(datevec)</b> convertit un vecteur date en numéro de date série.</p>
-    <p><b>d = datenum(datestr)</b> et<b
+    <p>
+      <b>d = datenum(datestr)</b> et<b
       >d = datenum(datestr, format)</b> convertissent une chaîne en numéro de date série.</p>
     <p />
     <p>Formats de date/heure pris en charge :</p>
-    <p><b>dd-mmm-yyyy HH:MM:SS</b> 10-Mar-2010 16:48:17</p>
-    <p><b>dd-mmm-yyyy</b> 10-Mar-2010</p>
-    <p><b>mm/dd/yyyy</b> 03/10/2010</p>
-    <p><b>mm/dd/yy</b> 03/10/00</p>
-    <p><b>mm/dd</b> 03/10</p>
-    <p><b>mmm.dd,yyyy HH:MM:SS</b> Mar.10,2010 16:48:17</p>
-    <p><b>mmm.dd,yyyy</b> Mar.10,2010</p>
-    <p><b>yyyy-mm-dd HH:MM:SS</b> 2010-03-10 16:48:17</p>
-    <p><b>yyyy-mm-dd</b> 2010-03-10</p>
-    <p><b>yyyy/mm/dd</b> 2000/03/10</p>
-    <p><b>HH:MM:SS</b> 16:48:17</p>
-    <p><b>HH:MM:SS PM</b> 3:48:17 PM</p>
-    <p><b>HH:MM</b> 16:48</p>
-    <p><b>HH:MM PM</b> 3:35 PM</p>
+    <p>
+      <b>dd-mmm-yyyy HH:MM:SS</b> 10-Mar-2010 16:48:17</p>
+    <p>
+      <b>dd-mmm-yyyy</b> 10-Mar-2010</p>
+    <p>
+      <b>mm/dd/yyyy</b> 03/10/2010</p>
+    <p>
+      <b>mm/dd/yy</b> 03/10/00</p>
+    <p>
+      <b>mm/dd</b> 03/10</p>
+    <p>
+      <b>mmm.dd,yyyy HH:MM:SS</b> Mar.10,2010 16:48:17</p>
+    <p>
+      <b>mmm.dd,yyyy</b> Mar.10,2010</p>
+    <p>
+      <b>yyyy-mm-dd HH:MM:SS</b> 2010-03-10 16:48:17</p>
+    <p>
+      <b>yyyy-mm-dd</b> 2010-03-10</p>
+    <p>
+      <b>yyyy/mm/dd</b> 2000/03/10</p>
+    <p>
+      <b>HH:MM:SS</b> 16:48:17</p>
+    <p>
+      <b>HH:MM:SS PM</b> 3:48:17 PM</p>
+    <p>
+      <b>HH:MM</b> 16:48</p>
+    <p>
+      <b>HH:MM PM</b> 3:35 PM</p>
     <p />
-    <p>Si le format n'est pas spécifié, le format par défaut est <b
+    <p>Si le format n&apos;est pas spécifié, le format par défaut est <b
       >dd-mmm-yyyy</b>.</p>
     <p />
     <p
-    >Si un format est spécifié et qu'il n'utilise pas un format prédéfini, le format doit être indiqué comme un vecteur de caractères ou un scalaire string composé d'identifiants symboliques.</p>
+    >Si un format est spécifié et qu&apos;il n&apos;utilise pas un format prédéfini, le format doit être indiqué comme un vecteur de caractères ou un scalaire string composé d&apos;identifiants symboliques.</p>
     <p
-    >Le format du texte d'entrée pour représenter les dates et heures, exprimé comme vecteur de caractères ou scalaire string composé d'identifiants symboliques.</p>
+    >Le format du texte d&apos;entrée pour représenter les dates et heures, exprimé comme vecteur de caractères ou scalaire string composé d&apos;identifiants symboliques.</p>
     <p />
     <table border="1">
       <tr>
@@ -91,7 +109,7 @@
       </tr>
       <tr>
         <td>QQ</td>
-        <td>Trimestre (lettre Q suivie d'un chiffre)</td>
+        <td>Trimestre (lettre Q suivie d&apos;un chiffre)</td>
         <td>Q1</td>
       </tr>
       <tr>
@@ -137,7 +155,7 @@
       <tr>
         <td>HH</td>
         <td
-        >Heure sur deux chiffres (pas de zéro initial lorsque l'identifiant AM ou PM est utilisé)</td>
+        >Heure sur deux chiffres (pas de zéro initial lorsque l&apos;identifiant AM ou PM est utilisé)</td>
         <td>06, 6 AM</td>
       </tr>
       <tr>
@@ -157,7 +175,7 @@
       </tr>
       <tr>
         <td>AM or PM</td>
-        <td>AM ou PM inséré dans le texte représentant l'heure</td>
+        <td>AM ou PM inséré dans le texte représentant l&apos;heure</td>
         <td>17:46:02 PM</td>
       </tr>
     </table>
@@ -196,7 +214,8 @@ d = datenum(["04–Aug-1973 12:01:18"; "04–Aug-1974 11:01:18"])
     <history_item>
       <history_version>1.10.0</history_version>
       <history_description
-      >ajout : format '' signifie essayer de détecter.</history_description>
+      >ajout : format &apos;
+        &apos; signifie essayer de détecter.</history_description>
     </history_item>
   </history>
   <authors>

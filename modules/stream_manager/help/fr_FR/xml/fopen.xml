@@ -13,7 +13,7 @@
     >[fid, msg] = fopen(filename, permission, machinefmt, encoding)</syntax_item>
     <syntax_item
     >[filename, permission, machinefmt, encoding] = fopen(fid)</syntax_item>
-    <syntax_item>fids = fopen('all')</syntax_item>
+    <syntax_item>fids = fopen(&apos;all&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -23,17 +23,19 @@
     <param_input_item>
       <param_name>permission</param_name>
       <param_description
-      >a string: permission applied on file: 'r', 'w', 'a', 'r+', 'a+'</param_description>
+      >a string: permission applied on file: &apos;r&apos;, &apos;w&apos;, &apos;a&apos;, &apos;r+&apos;, &apos;a+&apos;
+      </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>machinefmt</param_name>
       <param_description
-      >a string: machine format applied on file: 'n' or 'native', 'b' or 'ieee-be', 'l' or 'ieee-le', 's' or 'ieee-be.l64', 'a' or 'ieee-le.l64'</param_description>
+      >a string: machine format applied on file: &apos;n&apos; or &apos;native&apos;, &apos;b&apos; or &apos;ieee-be&apos;, &apos;l&apos; or &apos;ieee-le&apos;, &apos;s&apos; or &apos;ieee-be.l64&apos;, &apos;a&apos; or &apos;ieee-le.l64&apos;
+      </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>encoding</param_name>
       <param_description
-      >a string: ccharacter encoding applied on file: 'UTF-8', 'ISO-8859-1', 'windows-1251', 'windows-1252', ...</param_description>
+      >a string: ccharacter encoding applied on file: &apos;UTF-8&apos;, &apos;ISO-8859-1&apos;, &apos;windows-1251&apos;, &apos;windows-1252&apos;, ...</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -45,7 +47,8 @@
     <param_output_item>
       <param_name>msg</param_name>
       <param_description
-      >a string: error message returned by fopen or ''.</param_description>
+      >a string: error message returned by fopen or &apos;
+        &apos;.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>fids</param_name>
@@ -54,10 +57,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>fopen</b> ouvre un fichier dans Nelson.</p>
+    <p>
+      <b>fopen</b> ouvre un fichier dans Nelson.</p>
     <p>Les fonctions <b>fprintf</b>, <b>fgetl</b>, <b>fgets</b>,<b
       >fread</b> et<b
-      >fwrite</b> utilisent l'encodage des caractères défini pour les opérations de lecture/écriture suivantes.</p>
+      >fwrite</b> utilisent l&apos;encodage des caractères défini pour les opérations de lecture/écriture suivantes.</p>
   </description>
   <used_function />
   <bibliography />

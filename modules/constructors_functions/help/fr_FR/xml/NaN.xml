@@ -21,9 +21,11 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>NaN</b> retourne le symbole IEEE NaN (Not a Number).</p>
-    <p><b
-      >NaN</b> est le résultat d'opérations qui ne produisent pas un résultat numérique bien défini.</p>
+    <p>
+      <b>NaN</b> retourne le symbole IEEE NaN (Not a Number).</p>
+    <p>
+      <b
+      >NaN</b> est le résultat d&apos;opérations qui ne produisent pas un résultat numérique bien défini.</p>
     <p>Attention, vous ne devez jamais comparer <b>NaN</b> avec <b
       >NaN</b>, dans ce cas, veuillez utiliser <b>isnan</b>.</p>
   </description>

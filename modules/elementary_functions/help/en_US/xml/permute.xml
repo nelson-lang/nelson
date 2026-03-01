@@ -25,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >permute</b> rearranges the dimensions of an array according to the specified order.</p>
   </description>
   <used_function />

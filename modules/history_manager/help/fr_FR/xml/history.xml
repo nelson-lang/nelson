@@ -3,38 +3,38 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>history</keyword>
-  <short_description>gestionnaire d'historique.</short_description>
+  <short_description>gestionnaire d&apos;historique.</short_description>
   <syntax>
     <syntax_item>history()</syntax_item>
     <syntax_item>c = history()</syntax_item>
-    <syntax_item>s = history('size')</syntax_item>
-    <syntax_item>f = history('filename')</syntax_item>
-    <syntax_item>l = history('enable_save')</syntax_item>
-    <syntax_item>c = history('get')</syntax_item>
-    <syntax_item>history('display')</syntax_item>
-    <syntax_item>history('save')</syntax_item>
-    <syntax_item>history('load')</syntax_item>
-    <syntax_item>history('clear')</syntax_item>
-    <syntax_item>history('duplicated')</syntax_item>
-    <syntax_item>history('saveafter')</syntax_item>
-    <syntax_item>history('removeexit')</syntax_item>
-    <syntax_item>history('size', new_size)</syntax_item>
-    <syntax_item>history('enable_save', true_false)</syntax_item>
-    <syntax_item>history('delete', lines)</syntax_item>
-    <syntax_item>history('append', str)</syntax_item>
-    <syntax_item>history('filename', name)</syntax_item>
-    <syntax_item>history('load', filename_history)</syntax_item>
-    <syntax_item>history('save', filename_history)</syntax_item>
-    <syntax_item>history('duplicated', true_false)</syntax_item>
-    <syntax_item>history('removeexit', true_false)</syntax_item>
-    <syntax_item>history('get', lines)</syntax_item>
-    <syntax_item>history('saveafter', nb_commands)</syntax_item>
+    <syntax_item>s = history(&apos;size&apos;)</syntax_item>
+    <syntax_item>f = history(&apos;filename&apos;)</syntax_item>
+    <syntax_item>l = history(&apos;enable_save&apos;)</syntax_item>
+    <syntax_item>c = history(&apos;get&apos;)</syntax_item>
+    <syntax_item>history(&apos;display&apos;)</syntax_item>
+    <syntax_item>history(&apos;save&apos;)</syntax_item>
+    <syntax_item>history(&apos;load&apos;)</syntax_item>
+    <syntax_item>history(&apos;clear&apos;)</syntax_item>
+    <syntax_item>history(&apos;duplicated&apos;)</syntax_item>
+    <syntax_item>history(&apos;saveafter&apos;)</syntax_item>
+    <syntax_item>history(&apos;removeexit&apos;)</syntax_item>
+    <syntax_item>history(&apos;size&apos;, new_size)</syntax_item>
+    <syntax_item>history(&apos;enable_save&apos;, true_false)</syntax_item>
+    <syntax_item>history(&apos;delete&apos;, lines)</syntax_item>
+    <syntax_item>history(&apos;append&apos;, str)</syntax_item>
+    <syntax_item>history(&apos;filename&apos;, name)</syntax_item>
+    <syntax_item>history(&apos;load&apos;, filename_history)</syntax_item>
+    <syntax_item>history(&apos;save&apos;, filename_history)</syntax_item>
+    <syntax_item>history(&apos;duplicated&apos;, true_false)</syntax_item>
+    <syntax_item>history(&apos;removeexit&apos;, true_false)</syntax_item>
+    <syntax_item>history(&apos;get&apos;, lines)</syntax_item>
+    <syntax_item>history(&apos;saveafter&apos;, nb_commands)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>new_size</param_name>
       <param_description
-      >un entier : nouvelle taille maximale de l'historique.</param_description>
+      >un entier : nouvelle taille maximale de l&apos;historique.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>true_false</param_name>
@@ -52,7 +52,7 @@
     <param_input_item>
       <param_name>name</param_name>
       <param_description
-      >une chaîne : nouveau nom de fichier par défaut pour l'historique</param_description>
+      >une chaîne : nouveau nom de fichier par défaut pour l&apos;historique</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>filename_history</param_name>
@@ -82,54 +82,79 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>history()</b> affiche l'historique actuel de Nelson.</p>
-    <p><b
-      >c = history()</b> renvoie l'historique actuel de Nelson sous forme d'un tableau (cell) de chaînes.</p>
-    <p><b
-      >s = history('size')</b> renvoie la taille maximale de l'historique.</p>
-    <p><b
-      >f = history('filename')</b> renvoie le nom de fichier de l'historique.</p>
-    <p><b
-      >l = history('enable_save')</b> renvoie l'état du gestionnaire d'historique.</p>
-    <p><b
-      >c = history('get')</b> renvoie l'historique actuel de Nelson sous forme d'un tableau (cell) de chaînes.</p>
-    <p><b>history('display')</b> affiche l'historique actuel de Nelson.</p>
-    <p><b>history('save')</b> enregistre le fichier d'historique courant.</p>
-    <p><b>history('load')</b> charge le fichier d'historique courant.</p>
-    <p><b>history('clear')</b> efface l'historique.</p>
-    <p><b
-      >history('duplicated')</b> obtient l'état concernant la sauvegarde des commandes consécutives dupliquées.</p>
-    <p><b
-      >history('saveafter')</b> obtient l'état concernant la sauvegarde de l'historique après N commandes.</p>
-    <p><b
-      >history('removeexit')</b> obtient l'état concernant la non-enregistrement des sorties dans le fichier d'historique.</p>
-    <p><b
-      >history('size', new_size)</b> définit la taille maximale de l'historique avec<b
+    <p>
+      <b>history()</b> affiche l&apos;historique actuel de Nelson.</p>
+    <p>
+      <b
+      >c = history()</b> renvoie l&apos;historique actuel de Nelson sous forme d&apos;un tableau (cell) de chaînes.</p>
+    <p>
+      <b
+      >s = history(&apos;size&apos;)</b> renvoie la taille maximale de l&apos;historique.</p>
+    <p>
+      <b
+      >f = history(&apos;filename&apos;)</b> renvoie le nom de fichier de l&apos;historique.</p>
+    <p>
+      <b
+      >l = history(&apos;enable_save&apos;)</b> renvoie l&apos;état du gestionnaire d&apos;historique.</p>
+    <p>
+      <b
+      >c = history(&apos;get&apos;)</b> renvoie l&apos;historique actuel de Nelson sous forme d&apos;un tableau (cell) de chaînes.</p>
+    <p>
+      <b>history(&apos;display&apos;)</b> affiche l&apos;historique actuel de Nelson.</p>
+    <p>
+      <b>history(&apos;save&apos;)</b> enregistre le fichier d&apos;historique courant.</p>
+    <p>
+      <b>history(&apos;load&apos;)</b> charge le fichier d&apos;historique courant.</p>
+    <p>
+      <b>history(&apos;clear&apos;)</b> efface l&apos;historique.</p>
+    <p>
+      <b
+      >history(&apos;duplicated&apos;)</b> obtient l&apos;état concernant la sauvegarde des commandes consécutives dupliquées.</p>
+    <p>
+      <b
+      >history(&apos;saveafter&apos;)</b> obtient l&apos;état concernant la sauvegarde de l&apos;historique après N commandes.</p>
+    <p>
+      <b
+      >history(&apos;removeexit&apos;)</b> obtient l&apos;état concernant la non-enregistrement des sorties dans le fichier d&apos;historique.</p>
+    <p>
+      <b
+      >history(&apos;size&apos;, new_size)</b> définit la taille maximale de l&apos;historique avec<b
       >new_size</b>.</p>
-    <p><b
-      >history('enable_save', true_false)</b> définit l'état du gestionnaire d'historique : false pour 'off', true pour 'on'.</p>
-    <p><b
-      >history('delete', lines)</b> supprime des lignes par index : un scalaire ou un vecteur 1x2.</p>
-    <p><b>history('append', str)</b> ajoute une commande à l'historique.</p>
-    <p><b
-      >history('filename', name)</b> définit le nom de fichier de l'historique.</p>
-    <p><b
-      >history('load', filename_history)</b> charge un fichier d'historique.</p>
-    <p><b
-      >history('save', filename_history)</b> enregistre un fichier d'historique.</p>
-    <p><b
-      >history('duplicated', true_false)</b> définit l'état concernant les commandes consécutives dupliquées : true supprime les doublons.</p>
-    <p><b
-      >history('removeexit', true_false)</b> définit l'état concernant la non-enregistrement des sorties dans le fichier d'historique.</p>
-    <p><b
-      >history('get', lines)</b> renvoie l'historique actuel de Nelson sous forme d'un tableau (cell) de chaînes par index : un scalaire ou un vecteur 1x2.</p>
-    <p><b
-      >history('saveafter', nb_commands)</b> enregistre le fichier d'historique après que <b
+    <p>
+      <b
+      >history(&apos;enable_save&apos;, true_false)</b> définit l&apos;état du gestionnaire d&apos;historique : false pour &apos;off&apos;, true pour &apos;on&apos;.</p>
+    <p>
+      <b
+      >history(&apos;delete&apos;, lines)</b> supprime des lignes par index : un scalaire ou un vecteur 1x2.</p>
+    <p>
+      <b>history(&apos;append&apos;, str)</b> ajoute une commande à l&apos;historique.</p>
+    <p>
+      <b
+      >history(&apos;filename&apos;, name)</b> définit le nom de fichier de l&apos;historique.</p>
+    <p>
+      <b
+      >history(&apos;load&apos;, filename_history)</b> charge un fichier d&apos;historique.</p>
+    <p>
+      <b
+      >history(&apos;save&apos;, filename_history)</b> enregistre un fichier d&apos;historique.</p>
+    <p>
+      <b
+      >history(&apos;duplicated&apos;, true_false)</b> définit l&apos;état concernant les commandes consécutives dupliquées : true supprime les doublons.</p>
+    <p>
+      <b
+      >history(&apos;removeexit&apos;, true_false)</b> définit l&apos;état concernant la non-enregistrement des sorties dans le fichier d&apos;historique.</p>
+    <p>
+      <b
+      >history(&apos;get&apos;, lines)</b> renvoie l&apos;historique actuel de Nelson sous forme d&apos;un tableau (cell) de chaînes par index : un scalaire ou un vecteur 1x2.</p>
+    <p>
+      <b
+      >history(&apos;saveafter&apos;, nb_commands)</b> enregistre le fichier d&apos;historique après que <b
       >nb_commands</b> instructions aient été ajoutées au fichier.</p>
-    <p><b
-      >Astuces</b> : vous pouvez facilement partager votre fichier d'historique dans le cloud en ajoutant quelques lignes de code dans votre fichier de démarrage utilisateur.</p>
+    <p>
+      <b
+      >Astuces</b> : vous pouvez facilement partager votre fichier d&apos;historique dans le cloud en ajoutant quelques lignes de code dans votre fichier de démarrage utilisateur.</p>
     <p
-    >Si Nelson est lancé avec l'option '--nouserstartup', le fichier d'historique ne sera pas chargé au démarrage et ne sera pas enregistré à la fermeture.</p>
+    >Si Nelson est lancé avec l&apos;option &apos;--nouserstartup&apos;, le fichier d&apos;historique ne sera pas chargé au démarrage et ne sera pas enregistré à la fermeture.</p>
   </description>
   <used_function />
   <bibliography />

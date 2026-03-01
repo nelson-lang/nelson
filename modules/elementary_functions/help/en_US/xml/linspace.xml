@@ -33,7 +33,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>linspace</b> generates an linearly spaced vector.</p>
+    <p>
+      <b>linspace</b> generates an linearly spaced vector.</p>
   </description>
   <used_function />
   <bibliography />

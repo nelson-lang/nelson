@@ -13,7 +13,7 @@
     <param_input_item>
       <param_name>EQUIL</param_name>
       <param_description
-      >= 'S': Perform balancing (scaling); = 'N': Do not perform balancing.</param_description>
+      >= &apos;S&apos;: Perform balancing (scaling); = &apos;N&apos;: Do not perform balancing.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>M</param_name>

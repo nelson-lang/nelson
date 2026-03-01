@@ -18,7 +18,8 @@
     <param_input_item>
       <param_name>state</param_name>
       <param_description
-      >state to wait: 'finished' (default) or 'running'</param_description>
+      >state to wait: &apos;finished&apos; (default) or &apos;running&apos;
+      </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>timeout</param_name>
@@ -34,12 +35,15 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>wait(f)</b> pauses execution until each element of the Future array<b
+    <p>
+      <b>wait(f)</b> pauses execution until each element of the Future array<b
       >f</b> is finished.</p>
-    <p><b
+    <p>
+      <b
       >wait(f, state)</b> pauses execution until each element of the Future array<b
-      >f</b> has its 'State' property set to state.</p>
-    <p><b
+      >f</b> has its &apos;State&apos; property set to state.</p>
+    <p>
+      <b
       >tf = wait(f, state, timeout)</b> pauses execution for a maximum of timeout seconds.</p>
   </description>
   <used_function />

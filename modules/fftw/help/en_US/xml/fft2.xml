@@ -30,7 +30,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>Y = fft2(X)</b> returns the two-dimensional Fourier transform of <b
+    <p>
+      <b>Y = fft2(X)</b> returns the two-dimensional Fourier transform of <b
       >X</b> using a Fast Fourier Transform (FFT) algorithm.</p>
     <p>Optional arguments <b>m</b> and<b
       >n</b> may be used specify the number of rows and columns of <b

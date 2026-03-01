@@ -135,7 +135,7 @@ QtMainWindow::~QtMainWindow()
 //=============================================================================
 QtMainWindow::QtMainWindow(bool minimized)
     : nelsonPath(
-        Nelson::wstringToQString(NelsonConfiguration::getInstance()->getNelsonRootDirectory()))
+          Nelson::wstringToQString(NelsonConfiguration::getInstance()->getNelsonRootDirectory()))
 {
     QWidget* widget = new QWidget;
     setCentralWidget(widget);

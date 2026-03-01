@@ -29,12 +29,12 @@
     <param_input_item>
       <param_name>ax</param_name>
       <param_description
-      >Valeur scalaire d'objet graphique : conteneur parent, spécifié comme                  axes.</param_description>
+      >Valeur scalaire d&apos;objet graphique : conteneur parent, spécifié comme                  axes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyName</param_name>
       <param_description
-      >Chaîne scalaire ou vecteur ligne de caractères. Voir l'aide de 'line' pour la liste des propriétés.</param_description>
+      >Chaîne scalaire ou vecteur ligne de caractères. Voir l&apos;aide de &apos;line&apos; pour la liste des propriétés.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyValue</param_name>
@@ -48,15 +48,19 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>plot(Y)</b> trace les colonnes de <b
+    <p>
+      <b>plot(Y)</b> trace les colonnes de <b
       >Y</b> en fonction de leur indice.</p>
-    <p><b>plot(X, Y)</b> trace la courbe définie par la paire <b>X</b> et <b
+    <p>
+      <b>plot(X, Y)</b> trace la courbe définie par la paire <b>X</b> et <b
       >Y</b>.</p>
-    <p><b
-      >go = plot(...)</b> retourne un vecteur colonne d'objets graphiques de type ligne. </p>
+    <p>
+      <b
+      >go = plot(...)</b> retourne un vecteur colonne d&apos;objets graphiques de type ligne. </p>
     <p />
-    <p><b
-      >LineSpec</b> est une chaîne utilisée pour modifier les caractéristiques de la ligne              et se compose de trois parties optionnelles dans n'importe quel ordre :</p>
+    <p>
+      <b
+      >LineSpec</b> est une chaîne utilisée pour modifier les caractéristiques de la ligne              et se compose de trois parties optionnelles dans n&apos;importe quel ordre :</p>
     <p />
     <p
     >Le SymbolSpec spécifie le symbole à dessiner à chaque point de données :</p>
@@ -67,67 +71,93 @@
       </tr>
       <tr>
         <td>
-          <b>'o'</b>
+          <b>
+            &apos;o&apos;
+          </b>
         </td>
         <td>Symbole cercle</td>
       </tr>
       <tr>
         <td>
-          <b>'x'</b>
+          <b>
+            &apos;x&apos;
+          </b>
         </td>
         <td>Symbole croix</td>
       </tr>
       <tr>
         <td>
-          <b>'+'</b>
+          <b>
+            &apos;+&apos;
+          </b>
         </td>
         <td>Symbole plus</td>
       </tr>
       <tr>
         <td>
-          <b>'*'</b>
+          <b>
+            &apos;*&apos;
+          </b>
         </td>
         <td>Symbole astérisque</td>
       </tr>
       <tr>
         <td>
-          <b>'.'</b>
+          <b>
+            &apos;.&apos;
+          </b>
         </td>
         <td>Symbole point</td>
       </tr>
       <tr>
         <td>
-          <b>'s'</b>
+          <b>
+            &apos;s&apos;
+          </b>
         </td>
         <td>Symbole carré</td>
       </tr>
       <tr>
         <td>
-          <b>'d'</b>
+          <b>
+            &apos;d&apos;
+          </b>
         </td>
         <td>Symbole losange</td>
       </tr>
       <tr>
         <td>
-          <b>'v'</b>
+          <b>
+            &apos;v&apos;
+          </b>
         </td>
         <td>Triangle pointe vers le bas</td>
       </tr>
       <tr>
         <td>
-          <b>'^'</b>
+          <b>
+            &apos;^&apos;
+          </b>
         </td>
         <td>Triangle pointe vers le haut</td>
       </tr>
       <tr>
         <td>
-          <b>'&lt;'</b>
+          <b>
+            &apos;
+            &lt;
+            &apos;
+          </b>
         </td>
         <td>Triangle pointe vers la droite</td>
       </tr>
       <tr>
         <td>
-          <b>'&gt;'</b>
+          <b>
+            &apos;
+            &gt;
+            &apos;
+          </b>
         </td>
         <td>Triangle pointe vers la gauche</td>
       </tr>
@@ -142,25 +172,33 @@
       </tr>
       <tr>
         <td>
-          <b>'-'</b>
+          <b>
+            &apos;-&apos;
+          </b>
         </td>
         <td>Ligne continue</td>
       </tr>
       <tr>
         <td>
-          <b>'--'</b>
+          <b>
+            &apos;--&apos;
+          </b>
         </td>
         <td>Ligne pointillée</td>
       </tr>
       <tr>
         <td>
-          <b>'-.'</b>
+          <b>
+            &apos;-.&apos;
+          </b>
         </td>
         <td>Ligne tiret-point</td>
       </tr>
       <tr>
         <td>
-          <b>':'</b>
+          <b>
+            &apos;:&apos;
+          </b>
         </td>
         <td>Ligne en pointillés</td>
       </tr>
@@ -175,49 +213,63 @@
       </tr>
       <tr>
         <td>
-          <b>'k'</b>
+          <b>
+            &apos;k&apos;
+          </b>
         </td>
         <td>Noir</td>
       </tr>
       <tr>
         <td>
-          <b>'y'</b>
+          <b>
+            &apos;y&apos;
+          </b>
         </td>
         <td>Jaune</td>
       </tr>
       <tr>
         <td>
-          <b>'m'</b>
+          <b>
+            &apos;m&apos;
+          </b>
         </td>
         <td>Magenta</td>
       </tr>
       <tr>
         <td>
-          <b>'c'</b>
+          <b>
+            &apos;c&apos;
+          </b>
         </td>
         <td>Cyan</td>
       </tr>
       <tr>
         <td>
-          <b>'r'</b>
+          <b>
+            &apos;r&apos;
+          </b>
         </td>
         <td>Rouge</td>
       </tr>
       <tr>
         <td>
-          <b>'b'</b>
+          <b>
+            &apos;b&apos;
+          </b>
         </td>
         <td>Bleu</td>
       </tr>
       <tr>
         <td>
-          <b>'g'</b>
+          <b>
+            &apos;g&apos;
+          </b>
         </td>
         <td>Vert</td>
       </tr>
     </table>
     <p />
-    <p>Voir <b>line</b> pour plus d'informations sur les propriétés.</p>
+    <p>Voir <b>line</b> pour plus d&apos;informations sur les propriétés.</p>
   </description>
   <used_function />
   <bibliography />

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>spones</keyword>
   <short_description
-  >Remplace les éléments non nuls d'une matrice sparse par des uns.</short_description>
+  >Remplace les éléments non nuls d&apos;une matrice sparse par des uns.</short_description>
   <syntax>
     <syntax_item>s = spones(S)</syntax_item>
   </syntax>
@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>s = spones(S)</b> retourne une matrice <b
+    <p>
+      <b>s = spones(S)</b> retourne une matrice <b
       >s</b> avec la même structure de sparsité que <b
       >S</b>, mais avec des uns dans les positions non nulles.</p>
   </description>

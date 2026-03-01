@@ -24,7 +24,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >[G, Y] = planerot(X)</b> computes the Givens rotation matrix for the two-element column vector<b
       >X</b>.</p>
   </description>

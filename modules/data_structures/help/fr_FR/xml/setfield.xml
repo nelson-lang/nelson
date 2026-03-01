@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>setfield</keyword>
   <short_description
-  >Définir le contenu d'un champ de structure.</short_description>
+  >Définir le contenu d&apos;un champ de structure.</short_description>
   <syntax>
     <syntax_item>stOut = setfield(stIn, fieldname, fieldvalue)</syntax_item>
     <syntax_item

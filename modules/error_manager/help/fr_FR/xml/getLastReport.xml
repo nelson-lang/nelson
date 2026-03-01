@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>getLastReport</keyword>
   <short_description
-  >Renvoie le dernier message d'erreur formaté enregistré.</short_description>
+  >Renvoie le dernier message d&apos;erreur formaté enregistré.</short_description>
   <syntax>
     <syntax_item>messageText = getLastReport()</syntax_item>
   </syntax>
@@ -12,11 +12,12 @@
     <param_output_item>
       <param_name>messageText</param_name>
       <param_description
-      >un vecteur de caractères : message d'erreur formaté.</param_description>
+      >un vecteur de caractères : message d&apos;erreur formaté.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>getLastReport</b> renvoie le dernier message d'erreur formaté.</p>
+    <p>
+      <b>getLastReport</b> renvoie le dernier message d&apos;erreur formaté.</p>
   </description>
   <used_function />
   <bibliography />

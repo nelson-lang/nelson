@@ -51,7 +51,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >ord2</b> offers a convenient way to obtain either the state-space representation or the transfer function of a second-order system based on its natural frequency and damping factor.</p>
   </description>
   <examples>

@@ -25,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>h5read</b> lit le jeu de données situé à<b
+    <p>
+      <b>h5read</b> lit le jeu de données situé à<b
       >location</b> dans le fichier HDF5.</p>
   </description>
   <used_function />

@@ -15,7 +15,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >rgbplot(cmap)</b> trace les intensités R (rouge), G (vert) et B (bleu) de la palette de couleurs<b
       >cmap</b> spécifiée.</p>
   </description>

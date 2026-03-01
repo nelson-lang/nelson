@@ -289,7 +289,7 @@ end
 
 ### Opérateurs relationnels et logiques
 
-Comparaisons : `>`, `<`, `>=`, `<=`, `==`, `~=`  
+Comparaisons : `>`, `<`, `>=`, `<=`, `==`, `~=`
 Logiques : `&`, `|`, `~` (élément-par-élément) et `&&`, `||` (court-circuit là où supporté)
 
 ---

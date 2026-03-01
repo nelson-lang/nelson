@@ -12,7 +12,7 @@
   <param_input>
     <param_input_item>
       <param_name>scope</param_name>
-      <param_description>a string: 'base' or 'caller'.</param_description>
+      <param_description>a string: &apos;base&apos; or &apos;caller&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>str</param_name>
@@ -27,8 +27,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >eval</b> executes Nelson instructions given in a string in 'base' or 'caller' scope.</p>
+    <p>
+      <b
+      >eval</b> executes Nelson instructions given in a string in &apos;base&apos; or &apos;caller&apos; scope.</p>
   </description>
   <used_function />
   <bibliography />

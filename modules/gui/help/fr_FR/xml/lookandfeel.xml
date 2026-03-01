@@ -4,13 +4,13 @@
   <language>fr_FR</language>
   <keyword>lookandfeel</keyword>
   <short_description
-  >Apparence et comportement (look and feel) de l'application</short_description>
+  >Apparence et comportement (look and feel) de l&apos;application</short_description>
   <syntax>
     <syntax_item>r = lookandfeel()</syntax_item>
-    <syntax_item>ce = lookandfeel('available')</syntax_item>
+    <syntax_item>ce = lookandfeel(&apos;available&apos;)</syntax_item>
     <syntax_item>p = lookandfeel(lf)</syntax_item>
-    <syntax_item>ss = lookandfeel('stylesheet')</syntax_item>
-    <syntax_item>pp = lookandfeel('stylesheet', ss)</syntax_item>
+    <syntax_item>ss = lookandfeel(&apos;stylesheet&apos;)</syntax_item>
+    <syntax_item>pp = lookandfeel(&apos;stylesheet&apos;, ss)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -49,8 +49,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >lookandfeel</b> gère l'apparence et le comportement de l'application Nelson.</p>
+    <p>
+      <b
+      >lookandfeel</b> gère l&apos;apparence et le comportement de l&apos;application Nelson.</p>
   </description>
   <used_function />
   <bibliography />

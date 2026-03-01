@@ -8,7 +8,7 @@
     <syntax_item>copyfile(source, destination)</syntax_item>
     <syntax_item>[status, msg] = copyfile(source, destination)</syntax_item>
     <syntax_item
-    >[status, msg] = copyfile(source, destination, 'f')</syntax_item>
+    >[status, msg] = copyfile(source, destination, &apos;f&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -22,9 +22,11 @@
       >a string: fichier ou répertoire de destination.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'f' or 'F'</param_name>
+      <param_name>
+        &apos;f&apos; or &apos;F&apos;
+      </param_name>
       <param_description
-      >forcer la copie même si la destination n'est pas inscriptible.</param_description>
+      >forcer la copie même si la destination n&apos;est pas inscriptible.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -34,16 +36,18 @@
     </param_output_item>
     <param_output_item>
       <param_name>msg</param_name>
-      <param_description>a string: message d'erreur</param_description>
+      <param_description>a string: message d&apos;erreur</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>copyfile(source, destination)</b> copie le fichier ou le répertoire <b
+    <p>
+      <b>copyfile(source, destination)</b> copie le fichier ou le répertoire <b
       >source</b> (et ses sous-répertoires) vers le fichier ou répertoire <b
       >destination</b>.</p>
     <p>Si <b>source</b> est un répertoire,<b
       >destination</b> ne peut pas être un fichier.</p>
-    <p><b>copyfile</b> remplace les fichiers existants sans avertissement.</p>
+    <p>
+      <b>copyfile</b> remplace les fichiers existants sans avertissement.</p>
   </description>
   <used_function />
   <bibliography />

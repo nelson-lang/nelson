@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>fgets</keyword>
   <short_description
-  >Lire une chaîne depuis un fichier, s'arrêtant après un saut de ligne, la fin du fichier ou après n caractères lus.</short_description>
+  >Lire une chaîne depuis un fichier, s&apos;arrêtant après un saut de ligne, la fin du fichier ou après n caractères lus.</short_description>
   <syntax>
     <syntax_item>res = fgets(f)</syntax_item>
     <syntax_item>res = fgets(f, n)</syntax_item>
@@ -27,10 +27,10 @@
   </param_output>
   <description>
     <p
-    >Lit une chaîne depuis un fichier, s'arrêtant après un saut de ligne, la fin du fichier (EOF) ou après la lecture de n caractères.</p>
-    <p>S'il n'y a plus de caractère à lire, <b>fgets</b> renverra -1.</p>
-    <p>Si n est omis, <b>fgets</b> lit jusqu'au saut de ligne suivant.</p>
-    <p>L'encodage des caractères utilise le paramètre <b>fopen</b>.</p>
+    >Lit une chaîne depuis un fichier, s&apos;arrêtant après un saut de ligne, la fin du fichier (EOF) ou après la lecture de n caractères.</p>
+    <p>S&apos;il n&apos;y a plus de caractère à lire, <b>fgets</b> renverra -1.</p>
+    <p>Si n est omis, <b>fgets</b> lit jusqu&apos;au saut de ligne suivant.</p>
+    <p>L&apos;encodage des caractères utilise le paramètre <b>fopen</b>.</p>
   </description>
   <used_function />
   <bibliography />

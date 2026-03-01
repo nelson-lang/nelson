@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >fix</b> returns an integer matrix made of nearest rounded integers toward zeros.</p>
   </description>
   <used_function />

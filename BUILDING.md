@@ -25,17 +25,16 @@ For the most up-to-date list of dependencies and build configurations, refer to 
 
 ## 🛠️ Code Formatting and Style
 
-To maintain consistent formatting across the codebase, we use **[Prettier](https://prettier.io/)** for `.xml`, `.json`, and `.md` files.
+To maintain consistent formatting across the codebase, we use **[clang-format](https://clang.llvm.org/docs/ClangFormat.html)** for `.xml`, `.json`, and `.md` files.
 
 Continuous integration (CI) ensures all files are properly formatted. To manually check and fix formatting, follow these steps:
 
 ```bash
-npm install
-npm run prettier:check
-npm run prettier
+just format
+just format-check
 ```
 
-Make sure **[Node.js](https://nodejs.org/en)** is installed on your system before running these commands.
+Make sure **[Rust](https://rust-lang.org/)** is installed on your system before running these commands.
 
 ---
 

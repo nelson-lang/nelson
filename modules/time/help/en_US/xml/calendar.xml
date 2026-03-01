@@ -19,12 +19,12 @@
     <param_input_item>
       <param_name>y</param_name>
       <param_description
-      >an integer value: 'year' desired [1400, 9999].</param_description>
+      >an integer value: &apos;year&apos; desired [1400, 9999].</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>m</param_name>
       <param_description
-      >an integer value: 'month' desired [1, 12].</param_description>
+      >an integer value: &apos;month&apos; desired [1, 12].</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -34,7 +34,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>calendar()</b> returns the currently monthly calendar.</p>
+    <p>
+      <b>calendar()</b> returns the currently monthly calendar.</p>
     <p
     >If no output arguments are specified,the calendar is displayed on the screen instead of returning a matrix 6x7.</p>
   </description>

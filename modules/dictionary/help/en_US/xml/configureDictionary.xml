@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >d = configureDictionary(keyType, valueType)</b> initializes an empty dictionary that enforces keys of type <b
       >keyType</b> and values of type <b>valueType</b>.</p>
   </description>

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>damp</keyword>
   <short_description
-  >Fréquence naturelle et rapport d'amortissement.</short_description>
+  >Fréquence naturelle et rapport d&apos;amortissement.</short_description>
   <syntax>
     <syntax_item>[wn, zeta] = damp(sys)</syntax_item>
     <syntax_item>[wn, zeta, p, T] = damp(sys)</syntax_item>
@@ -24,7 +24,7 @@
     <param_output_item>
       <param_name>zeta</param_name>
       <param_description
-      >Rapport d'amortissement de chaque pôle : vecteur.</param_description>
+      >Rapport d&apos;amortissement de chaque pôle : vecteur.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>p</param_name>
@@ -39,7 +39,7 @@
   </param_output>
   <description>
     <p>La fonction <b>damp(sys)</b> fournit les fréquences naturelles (<b
-      >wn</b>) et les rapports d'amortissement (<b
+      >wn</b>) et les rapports d&apos;amortissement (<b
       >zeta</b>) associés aux pôles du système représenté par <b>sys</b>.</p>
   </description>
   <examples>

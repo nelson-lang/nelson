@@ -4,7 +4,7 @@
   <language>en_US</language>
   <keyword>nmm_build_loader</keyword>
   <short_description
-  >helper's function to build main loader.m of an external module</short_description>
+  >helper&apos;s function to build main loader.m of an external module</short_description>
   <syntax>
     <syntax_item
     >nmm_build_loader(module_short_name, module_root_path)</syntax_item>
@@ -12,16 +12,17 @@
   <param_input>
     <param_input_item>
       <param_name>module_short_name</param_name>
-      <param_description>a string: short module's name.</param_description>
+      <param_description>a string: short module&apos;s name.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>module_root_path</param_name>
       <param_description
-      >a string: path of the module named 'module_short_name'.</param_description>
+      >a string: path of the module named &apos;module_short_name&apos;.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >nmm_build_loader</b> generates main loader.m of an external module.</p>
   </description>
   <used_function />

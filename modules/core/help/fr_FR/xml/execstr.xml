@@ -6,8 +6,8 @@
   <short_description>Exécute une chaîne comme commande.</short_description>
   <syntax>
     <syntax_item>execstr(str)</syntax_item>
-    <syntax_item>execstr(str, 'nocatch')</syntax_item>
-    <syntax_item>bSuccess = execstr(str, 'errcatch')</syntax_item>
+    <syntax_item>execstr(str, &apos;nocatch&apos;)</syntax_item>
+    <syntax_item>bSuccess = execstr(str, &apos;errcatch&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -24,7 +24,7 @@
   </param_output>
   <description>
     <p
-    >Exécute la chaîne fournie comme une commande dans l'environnement Nelson.</p>
+    >Exécute la chaîne fournie comme une commande dans l&apos;environnement Nelson.</p>
   </description>
   <used_function />
   <bibliography />
@@ -39,7 +39,7 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Cet exemple échouera et renverra un message d'erreur.</example_item_description>
+      >Cet exemple échouera et renverra un message d&apos;erreur.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[execstr('b = yyyy')]]></example_item_data>
@@ -47,7 +47,7 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Cet exemple échouera et renverra un message d'erreur.</example_item_description>
+      >Cet exemple échouera et renverra un message d&apos;erreur.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[execstr('b = yyyy', 'nocatch')]]></example_item_data>

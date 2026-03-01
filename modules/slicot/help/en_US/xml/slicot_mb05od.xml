@@ -13,7 +13,7 @@
     <param_input_item>
       <param_name>BALANC</param_name>
       <param_description
-      >Specifies whether or not a balancing transformation (done by SLICOT Library routine MB04MD) is required, as follows: = 'N', do not use balancing; = 'S', use balancing (scaling).</param_description>
+      >Specifies whether or not a balancing transformation (done by SLICOT Library routine MB04MD) is required, as follows: = &apos;N&apos;, do not use balancing; = &apos;S&apos;, use balancing (scaling).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>NDIAG</param_name>

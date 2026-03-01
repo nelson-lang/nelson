@@ -28,7 +28,7 @@
     <param_input_item>
       <param_name>parent</param_name>
       <param_description
-      >une valeur d'objet graphique scalaire : conteneur parent, spécifié comme axes.</param_description>
+      >une valeur d&apos;objet graphique scalaire : conteneur parent, spécifié comme axes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>text</param_name>
@@ -52,7 +52,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>text</b> crée du texte.</p>
+    <p>
+      <b>text</b> crée du texte.</p>
     <table>
       <tr>
         <th>Propriété</th>
@@ -94,7 +95,7 @@
         <td>
           <b>FontAngle</b>
         </td>
-        <td>Inclinaison des caractères : 'italic' ou 'normal' (par défaut).</td>
+        <td>Inclinaison des caractères : &apos;italic&apos; ou &apos;normal&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -113,33 +114,33 @@
           <b>FontUnits</b>
         </td>
         <td
-        >Unités de taille de police : 'inches', 'centimeters', 'normalized', 'pixels' ou 'points' (par défaut).</td>
+        >Unités de taille de police : &apos;inches&apos;, &apos;centimeters&apos;, &apos;normalized&apos;, &apos;pixels&apos; ou &apos;points&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>FontWeight</b>
         </td>
-        <td>Épaisseur des caractères : 'bold' ou 'normal' (par défaut).</td>
+        <td>Épaisseur des caractères : &apos;bold&apos; ou &apos;normal&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>HorizontalAlignment</b>
         </td>
         <td
-        >Alignement horizontal du texte par rapport au point de position : 'center', 'right', 'left' (par défaut).</td>
+        >Alignement horizontal du texte par rapport au point de position : &apos;center&apos;, &apos;right&apos;, &apos;left&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>Interpreter</b>
         </td>
-        <td>Interpréteur 'tex' (par défaut) ou 'none'.</td>
+        <td>Interpréteur &apos;tex&apos; (par défaut) ou &apos;none&apos;.</td>
       </tr>
       <tr>
         <td>
           <b>LineStyle</b>
         </td>
         <td
-        >Style de ligne du contour de la boîte : 'none', '--', ':', '-.' ou '-' (par défaut).</td>
+        >Style de ligne du contour de la boîte : &apos;none&apos;, &apos;--&apos;, &apos;:&apos;, &apos;-.&apos; ou &apos;-&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -178,27 +179,29 @@
           <b>String</b>
         </td>
         <td
-        >Texte à afficher : vecteur de caractères, tableau de cellules de vecteurs de caractères, tableau de chaînes, valeur numérique ou '' (par défaut).</td>
+        >Texte à afficher : vecteur de caractères, tableau de cellules de vecteurs de caractères, tableau de chaînes, valeur numérique ou &apos;
+          &apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>Tag</b>
         </td>
         <td
-        >Identifiant d'objet : vecteur de caractères, scalaire de chaîne ou '' (par défaut).</td>
+        >Identifiant d&apos;objet : vecteur de caractères, scalaire de chaîne ou &apos;
+          &apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>Type</b>
         </td>
-        <td>Type d'objet graphique : 'text'.</td>
+        <td>Type d&apos;objet graphique : &apos;text&apos;.</td>
       </tr>
       <tr>
         <td>
           <b>Units</b>
         </td>
         <td
-        >Unités de position et d'étendue : 'normalized', 'inches', 'centimeters', 'characters', 'points', 'pixels' ou 'data' (par défaut).</td>
+        >Unités de position et d&apos;étendue : &apos;normalized&apos;, &apos;inches&apos;, &apos;centimeters&apos;, &apos;characters&apos;, &apos;points&apos;, &apos;pixels&apos; ou &apos;data&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -216,35 +219,37 @@
         <td>
           <b>Visible</b>
         </td>
-        <td>État de visibilité : 'off' ou 'on' (par défaut).</td>
+        <td>État de visibilité : &apos;off&apos; ou &apos;on&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>CreateFcn</b>
         </td>
         <td
-        >Callback (poignée de fonction, chaîne ou cellule) appelée lors de la création de l'objet. Définir cette propriété sur un composant existant n'a aucun effet.</td>
+        >Callback (poignée de fonction, chaîne ou cellule) appelée lors de la création de l&apos;objet. Définir cette propriété sur un composant existant n&apos;a aucun effet.</td>
       </tr>
       <tr>
         <td>
           <b>DeleteFcn</b>
         </td>
         <td
-        >Callback (poignée de fonction, chaîne ou cellule) appelée lors de la suppression de l'objet.</td>
+        >Callback (poignée de fonction, chaîne ou cellule) appelée lors de la suppression de l&apos;objet.</td>
       </tr>
       <tr>
         <td>
           <b>BeingDeleted</b>
         </td>
-        <td>Drapeau indiquant que l'objet est en cours de suppression.</td>
+        <td>Drapeau indiquant que l&apos;objet est en cours de suppression.</td>
       </tr>
     </table>
     <p
-    >Certaines propriétés sont disponibles uniquement pour la compatibilité et n'ont actuellement aucun effet sur le texte.</p>
+    >Certaines propriétés sont disponibles uniquement pour la compatibilité et n&apos;ont actuellement aucun effet sur le texte.</p>
     <p
-    >listes des caractères spéciaux pris en charge par l'interpréteur 'tex' :</p>
-    <p>Exposant : ^{ } 'texte^{exposant}'</p>
-    <p>Indice : _{ } 'texte_{indice}'</p>
+    >listes des caractères spéciaux pris en charge par l&apos;interpréteur &apos;tex&apos; :</p>
+    <p>Exposant : ^{ } &apos;texte^{exposant}&apos;
+    </p>
+    <p>Indice : _{ } &apos;texte_{indice}&apos;
+    </p>
     <p />
     <table style="width:100%">
       <tr>
@@ -393,7 +398,8 @@
       </tr>
       <tr>
         <th>\rightarrow</th>
-        <th>-></th>
+        <th>-&gt;
+        </th>
       </tr>
       <tr>
         <th>\kappa</th>

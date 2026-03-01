@@ -13,17 +13,17 @@
     <param_input_item>
       <param_name>A_IN</param_name>
       <param_description
-      >La partie principale N-by-N de ce tableau doit contenir la matrice de coefficient A de l'équation.</param_description>
+      >La partie principale N-by-N de ce tableau doit contenir la matrice de coefficient A de l&apos;équation.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B_IN</param_name>
       <param_description
-      >La partie principale M-by-M de ce tableau doit contenir la matrice de coefficient B de l'équation.</param_description>
+      >La partie principale M-by-M de ce tableau doit contenir la matrice de coefficient B de l&apos;équation.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>C_IN</param_name>
       <param_description
-      >La partie principale N-by-M de ce tableau doit contenir la matrice de coefficient C de l'équation.</param_description>
+      >La partie principale N-by-M de ce tableau doit contenir la matrice de coefficient C de l&apos;équation.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -35,7 +35,7 @@
     <param_output_item>
       <param_name>B_OUT</param_name>
       <param_description
-      >La partie principale M-by-M de ce tableau contient le facteur de Schur quasi-triangulaire S de la matrice B'.</param_description>
+      >La partie principale M-by-M de ce tableau contient le facteur de Schur quasi-triangulaire S de la matrice B&apos;.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>C_OUT</param_name>
@@ -45,7 +45,7 @@
     <param_output_item>
       <param_name>Z</param_name>
       <param_description
-      >La partie principale M-by-M de ce tableau contient la matrice orthogonale Z utilisée pour transformer B' en forme de Schur réelle supérieure.</param_description>
+      >La partie principale M-by-M de ce tableau contient la matrice orthogonale Z utilisée pour transformer B&apos; en forme de Schur réelle supérieure.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>INFO</param_name>
@@ -54,7 +54,7 @@
   </param_output>
   <description>
     <p
-    >Résoudre pour X l'équation de Sylvester continue AX + XB = C où A, B, C et X sont respectivement des matrices N-by-N, M-by-M, N-by-M et N-by-M générales.</p>
+    >Résoudre pour X l&apos;équation de Sylvester continue AX + XB = C où A, B, C et X sont respectivement des matrices N-by-N, M-by-M, N-by-M et N-by-M générales.</p>
   </description>
   <used_function>SB04MD</used_function>
   <bibliography

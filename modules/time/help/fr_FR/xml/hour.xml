@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>hour</keyword>
   <short_description
-  >Composante heures de la date et de l'heure d'entrée.</short_description>
+  >Composante heures de la date et de l&apos;heure d&apos;entrée.</short_description>
   <syntax>
     <syntax_item>h = hour(t)</syntax_item>
     <syntax_item>h = hour(t, formatIn)</syntax_item>
@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >h = hour(t)</b> extrait la composante heures de chaque date et heure spécifiées dans<b
       >t</b>.</p>
     <p>La sortie <b

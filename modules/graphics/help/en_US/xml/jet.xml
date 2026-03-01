@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>jet</b> returns the colormap with jet colors.</p>
+    <p>
+      <b>jet</b> returns the colormap with jet colors.</p>
   </description>
   <used_function />
   <bibliography />

@@ -10,23 +10,24 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>tableau d'objets indexés</param_description>
+      <param_description>tableau d&apos;objets indexés</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B</param_name>
-      <param_description>structure d'indexation</param_description>
+      <param_description>structure d&apos;indexation</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>B</param_name>
       <param_description
-      >Résultat de l'expression d'indexation</param_description>
+      >Résultat de l&apos;expression d&apos;indexation</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >B = subsref(A, S)</b> est invoqué lors de l'utilisation de la syntaxe <b
+    <p>
+      <b
+      >B = subsref(A, S)</b> est invoqué lors de l&apos;utilisation de la syntaxe <b
       >A(i)</b>, <b>A{i}</b> ou <b>A.i</b> avec un objet <b>A</b>.</p>
   </description>
   <used_function />

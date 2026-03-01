@@ -22,7 +22,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>type</param_name>
-      <param_description>a string: 'double' or 'native'.</param_description>
+      <param_description>a string: &apos;double&apos; or &apos;native&apos;.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -36,12 +36,13 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>audioread</b> reads an audio file.</p>
+    <p>
+      <b>audioread</b> reads an audio file.</p>
     <p
-    >Supported format: 'wav', 'ogg', 'flac', 'mp3', 'caf', 'au', 'aiff'. See <b
+    >Supported format: &apos;wav&apos;, &apos;ogg&apos;, &apos;flac&apos;, &apos;mp3&apos;, &apos;caf&apos;, &apos;au&apos;, &apos;aiff&apos;. See <b
       >audiosupportedformats</b> function to have all supported formats.</p>
     <p>If <b
-      >type</b> is 'native' then audio data depends on the file format (single, double, integers).</p>
+      >type</b> is &apos;native&apos; then audio data depends on the file format (single, double, integers).</p>
   </description>
   <used_function />
   <bibliography />

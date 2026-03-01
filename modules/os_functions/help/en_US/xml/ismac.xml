@@ -16,7 +16,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>ismac</b> checks if it is a MacOs platform.</p>
+    <p>
+      <b>ismac</b> checks if it is a MacOs platform.</p>
   </description>
   <used_function />
   <bibliography />

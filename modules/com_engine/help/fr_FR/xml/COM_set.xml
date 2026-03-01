@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>COM_set</keyword>
   <short_description
-  >Définir la propriété d'un objet ou interface à la valeur spécifiée.</short_description>
+  >Définir la propriété d&apos;un objet ou interface à la valeur spécifiée.</short_description>
   <syntax>
     <syntax_item>set(h, propertyname, value)</syntax_item>
     <syntax_item>COM_set(h, propertyname, value)</syntax_item>
@@ -18,7 +18,7 @@
     <param_input_item>
       <param_name>propertyname</param_name>
       <param_description
-      >une chaîne : le nom de la propriété de l'objet COM.</param_description>
+      >une chaîne : le nom de la propriété de l&apos;objet COM.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>value</param_name>

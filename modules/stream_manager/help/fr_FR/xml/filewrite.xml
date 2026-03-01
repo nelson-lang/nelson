@@ -22,16 +22,17 @@
     <param_input_item>
       <param_name>eol</param_name>
       <param_description
-      >une chaîne : 'native' (par défaut système), 'pc' [(char(13), char(10)], 'unix' [char(10)]</param_description>
+      >une chaîne : &apos;native&apos; (par défaut système), &apos;pc&apos; [(char(13), char(10)], &apos;unix&apos; [char(10)]</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>encoding</param_name>
       <param_description
-      >une chaîne : 'UTF-8' (par défaut), 'ISO-8859-1', 'windows-1251', 'windows-1252', ...</param_description>
+      >une chaîne : &apos;UTF-8&apos; (par défaut), &apos;ISO-8859-1&apos;, &apos;windows-1251&apos;, &apos;windows-1252&apos;, ...</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >filewrite</b> enregistre un tableau de caractères, une cellule de chaînes ou un tableau de chaînes dans un fichier.</p>
     <p>Par défaut, le fichier est enregistré en UTF-8 (sans BOM).</p>
   </description>

@@ -1,7 +1,7 @@
 # Found on http://hg.kvats.net
 #
 # - Try to find libsndfile
-# 
+#
 # Once done this will define
 #
 #  SNDFILE_FOUND - system has libsndfile
@@ -15,29 +15,29 @@
 #  For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 #
 
-if (SNDFILE_LIBRARIES AND SNDFILE_INCLUDE_DIRS)
+if(SNDFILE_LIBRARIES AND SNDFILE_INCLUDE_DIRS)
   # in cache already
   set(SNDFILE_FOUND TRUE)
-else (SNDFILE_LIBRARIES AND SNDFILE_INCLUDE_DIRS)
+else()
 
   find_path(SNDFILE_INCLUDE_DIR
     NAMES
-      sndfile.h
+    sndfile.h
     PATHS
-      /usr/include
-      /usr/local/include
-      /opt/local/include
-      /sw/include
+    /usr/include
+    /usr/local/include
+    /opt/local/include
+    /sw/include
   )
-  
+
   find_library(SNDFILE_LIBRARY
     NAMES
-      sndfile
+    sndfile
     PATHS
-      /usr/lib
-      /usr/local/lib
-      /opt/local/lib
-      /sw/lib
+    /usr/lib
+    /usr/local/lib
+    /opt/local/lib
+    /sw/lib
   )
 
   set(SNDFILE_INCLUDE_DIRS
@@ -47,21 +47,21 @@ else (SNDFILE_LIBRARIES AND SNDFILE_INCLUDE_DIRS)
     ${SNDFILE_LIBRARY}
   )
 
-  if (SNDFILE_INCLUDE_DIRS AND SNDFILE_LIBRARIES)
+  if(SNDFILE_INCLUDE_DIRS AND SNDFILE_LIBRARIES)
     set(SNDFILE_FOUND TRUE)
-  endif (SNDFILE_INCLUDE_DIRS AND SNDFILE_LIBRARIES)
+  endif()
 
-  if (SNDFILE_FOUND)
-    if (NOT SndFile_FIND_QUIETLY)
+  if(SNDFILE_FOUND)
+    if(NOT SndFile_FIND_QUIETLY)
       message(STATUS "Found libsndfile: ${SNDFILE_LIBRARIES}")
-    endif (NOT SndFile_FIND_QUIETLY)
-  else (SNDFILE_FOUND)
-    if (SndFile_FIND_REQUIRED)
+    endif()
+  else()
+    if(SndFile_FIND_REQUIRED)
       message(FATAL_ERROR "Could not find libsndfile")
-    endif (SndFile_FIND_REQUIRED)
-  endif (SNDFILE_FOUND)
+    endif()
+  endif()
 
   # show the SNDFILE_INCLUDE_DIRS and SNDFILE_LIBRARIES variables only in the advanced view
   mark_as_advanced(SNDFILE_INCLUDE_DIRS SNDFILE_LIBRARIES)
 
-endif (SNDFILE_LIBRARIES AND SNDFILE_INCLUDE_DIRS)
+endif()

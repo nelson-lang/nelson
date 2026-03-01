@@ -9,7 +9,7 @@
     <syntax_item>s = svd(M)</syntax_item>
     <syntax_item>[U, S, V] = svd(M)</syntax_item>
     <syntax_item>[U, S, V] = svd(M, 0)</syntax_item>
-    <syntax_item>[U, S, V] = svd(M, 'econ')</syntax_item>
+    <syntax_item>[U, S, V] = svd(M, &apos;econ&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -39,22 +39,37 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >svd</b> calcule la décomposition en valeurs singulières d'une matrice.          </p>
+    <p>
+      <b
+      >svd</b> calcule la décomposition en valeurs singulières d&apos;une matrice.          </p>
     <p>Pour une matrice</p>
     <latex>M</latex>
     <p>de taille</p>
     <latex>m \times n</latex>
     <p>, la SVD est :</p>
     <latex>M = U\Sigma V^T</latex>
-    <p>où :          <ul><li><latex
-          >U</latex> est une matrice unitaire</li><latex>m \times m</latex><p
-        >(vecteurs singuliers gauches)</p><li><latex
-          >\Sigma</latex> est une matrice diagonale</li><latex
-        >m \times n</latex><p
-        >avec des nombres réels non négatifs (valeurs singulières)</p><li><latex
-          >V^T</latex> est une matrice unitaire</li><latex>n \times n</latex><p
-        >(vecteurs singuliers droits)</p></ul>          </p>
+    <p>où :          <ul>
+        <li>
+          <latex
+          >U</latex> est une matrice unitaire</li>
+        <latex>m \times m</latex>
+        <p
+        >(vecteurs singuliers gauches)</p>
+        <li>
+          <latex
+          >\Sigma</latex> est une matrice diagonale</li>
+        <latex
+        >m \times n</latex>
+        <p
+        >avec des nombres réels non négatifs (valeurs singulières)</p>
+        <li>
+          <latex
+          >V^T</latex> est une matrice unitaire</li>
+        <latex>n \times n</latex>
+        <p
+        >(vecteurs singuliers droits)</p>
+      </ul>
+    </p>
     <p>Les valeurs singulières</p>
     <latex>\sigma_i</latex>
     <p>sont arrangées en ordre décroissant :</p>

@@ -12,7 +12,7 @@
     <param_input_item>
       <param_name>scope</param_name>
       <param_description
-      >a string: 'global', 'base', 'caller', 'local'.</param_description>
+      >a string: &apos;global&apos;, &apos;base&apos;, &apos;caller&apos;, &apos;local&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>variable_name</param_name>
@@ -25,7 +25,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >assignin</b> assign value to a variable in a specified variables scope.</p>
   </description>
   <used_function />

@@ -25,16 +25,16 @@
     <param_input_item>
       <param_name>h</param_name>
       <param_description>
-        <p>Handle d'objet contour retourné par <b>contour</b> / <b
+        <p>Handle d&apos;objet contour retourné par <b>contour</b> / <b
           >contourf</b> / <b
-          >contour3</b>. Lorsqu'il est fourni, l'étiquetage utilise les informations attachées à l'objet contour (niveaux et matrice de contour).</p>
+          >contour3</b>. Lorsqu&apos;il est fourni, l&apos;étiquetage utilise les informations attachées à l&apos;objet contour (niveaux et matrice de contour).</p>
       </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>v</param_name>
       <param_description>
         <p
-        >Vecteur des niveaux de contour à étiqueter. Lorsqu'il est fourni, seuls ces niveaux reçoivent des étiquettes.</p>
+        >Vecteur des niveaux de contour à étiqueter. Lorsqu&apos;il est fourni, seuls ces niveaux reçoivent des étiquettes.</p>
       </param_description>
     </param_input_item>
   </param_input>
@@ -50,7 +50,7 @@
       <param_name>tl</param_name>
       <param_description>
         <p
-        >Objets Text et ligne créés lorsque des marqueurs droits sont utilisés (pour l'utilisation de style <b
+        >Objets Text et ligne créés lorsque des marqueurs droits sont utilisés (pour l&apos;utilisation de style <b
           >clabel(C)</b>).</p>
       </param_description>
     </param_output_item>
@@ -62,11 +62,11 @@
       <li>Fournir une matrice de contour <b>C</b> et un objet de contour<b
         >h</b> pour étiqueter le texte tourné le long des lignes de contour.</li>
       <li>Fournir uniquement<b
-        >C</b> pour ajouter des étiquettes droites et des marqueurs '+' aux emplacements de contour.</li>
+        >C</b> pour ajouter des étiquettes droites et des marqueurs &apos;+&apos; aux emplacements de contour.</li>
       <li>Passer un vecteur de niveaux<b
         >v</b> pour étiqueter uniquement des valeurs de contour spécifiques.</li>
       <li
-      >Utiliser des paires Name,Value pour contrôler l'apparence du texte (un sous-ensemble des propriétés Text, plus <b
+      >Utiliser des paires Name,Value pour contrôler l&apos;apparence du texte (un sous-ensemble des propriétés Text, plus <b
         >LabelSpacing</b>).</li>
     </ul>
   </description>

@@ -14,7 +14,7 @@
     <param_input_item>
       <param_name>option</param_name>
       <param_description
-      >Chaîne de caractères : 'on', 'off' ou 'toggle'.</param_description>
+      >Chaîne de caractères : &apos;on&apos;, &apos;off&apos; ou &apos;toggle&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>fig</param_name>
@@ -23,13 +23,14 @@
     <param_input_item>
       <param_name>ax</param_name>
       <param_description
-      >Valeur scalaire d'objet graphique : conteneur parent, spécifié comme axes.</param_description>
+      >Valeur scalaire d&apos;objet graphique : conteneur parent, spécifié comme axes.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p
-    >Utilisez le mode rotation pour faire pivoter de façon interactive la vue 3D des axes lors de l'exploration des données. Activez ou désactivez le mode rotation et configurez des options de base supplémentaires avec la fonction rotate3d.</p>
-    <p><b
+    >Utilisez le mode rotation pour faire pivoter de façon interactive la vue 3D des axes lors de l&apos;exploration des données. Activez ou désactivez le mode rotation et configurez des options de base supplémentaires avec la fonction rotate3d.</p>
+    <p>
+      <b
       >rotate3d option</b> établit le mode rotation pour tous les axes de la figure courante. Par exemple, rotate3d on active le mode rotation, tandis que rotate3d off le désactive.</p>
     <p />
     <p
@@ -37,7 +38,7 @@
     <p />
     <p>Curseur : cliquez et faites glisser dans les axes.</p>
     <p
-    >Clavier : utilisez les flèches droite (->) ou gauche (←) pour ajuster l'azimut, et les flèches haut (↑) ou bas (↓) pour modifier l'élévation.</p>
+    >Clavier : utilisez les flèches droite (-&gt;) ou gauche (←) pour ajuster l&apos;azimut, et les flèches haut (↑) ou bas (↓) pour modifier l&apos;élévation.</p>
   </description>
   <used_function />
   <bibliography />

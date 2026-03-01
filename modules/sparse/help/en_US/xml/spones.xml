@@ -21,9 +21,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>s = spones(S)</b> returns a matrix<b
+    <p>
+      <b>s = spones(S)</b> returns a matrix<b
       >s</b> with the same sparsity structure as<b
-      >S</b>, but with one's in the nonzero positions.</p>
+      >S</b>, but with one&apos;s in the nonzero positions.</p>
   </description>
   <used_function />
   <bibliography />

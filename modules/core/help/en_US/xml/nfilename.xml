@@ -8,8 +8,8 @@
   >Returns the name of the currently executing file.</short_description>
   <syntax>
     <syntax_item>R = nfilename()</syntax_item>
-    <syntax_item>R = nfilename('fullpath')</syntax_item>
-    <syntax_item>R = nfilename('fullpathext')</syntax_item>
+    <syntax_item>R = nfilename(&apos;fullpath&apos;)</syntax_item>
+    <syntax_item>R = nfilename(&apos;fullpathext&apos;)</syntax_item>
   </syntax>
   <param_output>
     <param_output_item>
@@ -19,15 +19,18 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >R = nfilename()</b> returns the name of the currently executing file.</p>
-    <p><b
+    <p>
+      <b
       >nfilename()</b> called from outside an nlf file returns an empty string.</p>
     <p
-    >With the input argument 'fullpathext', the string includes the directory part of the macro filename, and the filename extension.</p>
+    >With the input argument &apos;fullpathext&apos;, the string includes the directory part of the macro filename, and the filename extension.</p>
     <p
-    >With the input argument 'fullpath', the string includes the directory part of the macro filename, but not the extension.</p>
-    <p><b>mfilename</b> is an alias on <b
+    >With the input argument &apos;fullpath&apos;, the string includes the directory part of the macro filename, but not the extension.</p>
+    <p>
+      <b>mfilename</b> is an alias on <b
       >nfilename</b> added for basic script compatibility.</p>
   </description>
   <used_function />

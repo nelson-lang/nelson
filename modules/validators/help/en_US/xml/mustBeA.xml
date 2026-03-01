@@ -28,7 +28,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >mustBeA</b> checks that input value comes from one of specified classes.</p>
   </description>
   <used_function />

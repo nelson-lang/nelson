@@ -7,9 +7,9 @@
   <syntax>
     <syntax_item>exit</syntax_item>
     <syntax_item>exit(status)</syntax_item>
-    <syntax_item>exit('force')</syntax_item>
-    <syntax_item>exit('cancel')</syntax_item>
-    <syntax_item>exit(status, 'force')</syntax_item>
+    <syntax_item>exit(&apos;force&apos;)</syntax_item>
+    <syntax_item>exit(&apos;cancel&apos;)</syntax_item>
+    <syntax_item>exit(status, &apos;force&apos;)</syntax_item>
   </syntax>
   <description>
     <p>This function is equivalent to the <b>quit</b> function.</p>

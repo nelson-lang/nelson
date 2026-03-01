@@ -8,27 +8,27 @@
 #  MATIO_LIBRARIES      - MATIO libraries.
 #  MATIO_INCLUDE_DIRS   - where to find matio.h, etc..
 #  MATIO_VERSION_STRING - version number as a string (e.g.: "1.3.4")
-# 
+#
 #=============================================================================
 # Copyright 2016 Marc Hartung, ZIH TU Dresden (http://www.zih.tu-dresden.de)
 # Copyright 2015 Avtech Scientific <http://avtechscientific.com>
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright
 #   notice, this list of conditions and the following disclaimer.
-# 
+#
 # * Redistributions in binary form must reproduce the above copyright
 #   notice, this list of conditions and the following disclaimer in the
 #   documentation and/or other materials provided with the distribution.
-# 
+#
 # * Neither the names of Kitware, Inc., the Insight Software Consortium,
 #   nor the names of their contributors may be used to endorse or promote
 #   products derived from this software without specific prior written
 #   permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 # "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 # LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -79,7 +79,10 @@ if(MATIO_INCLUDE_DIR)
   if(MATIO_CONFIG_FILE)
 
     # Read and parse MATIO config header file for version number
-    file(STRINGS "${MATIO_INCLUDE_DIR}/${MATIO_CONFIG_FILE}" _matio_HEADER_CONTENTS REGEX "#define MATIO_((MAJOR|MINOR)_VERSION)|(RELEASE_LEVEL) ")
+    file(STRINGS "${MATIO_INCLUDE_DIR}/${MATIO_CONFIG_FILE}"
+      _matio_HEADER_CONTENTS
+      REGEX "#define MATIO_((MAJOR|MINOR)_VERSION)|(RELEASE_LEVEL) "
+    )
 
     foreach(line ${_matio_HEADER_CONTENTS})
       if(line MATCHES "#define ([A-Z_]+) ([0-9]+)")
@@ -90,22 +93,31 @@ if(MATIO_INCLUDE_DIR)
     unset(_matio_HEADER_CONTENTS)
   endif()
 
-  set(MATIO_VERSION_STRING "${MATIO_MAJOR_VERSION}.${MATIO_MINOR_VERSION}.${MATIO_RELEASE_LEVEL}")
-endif ()
+  set(MATIO_VERSION_STRING
+    "${MATIO_MAJOR_VERSION}.${MATIO_MINOR_VERSION}.${MATIO_RELEASE_LEVEL}"
+  )
+endif()
 
-#==================
+# ==================
 
 mark_as_advanced(MATIO_INCLUDE_DIR MATIO_LIBRARY)
 
-# handle the QUIETLY and REQUIRED arguments and set MATIO_FOUND to TRUE if 
+# handle the QUIETLY and REQUIRED arguments and set MATIO_FOUND to TRUE if
 # all listed variables are TRUE
 include(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(MATIO REQUIRED_VARS MATIO_LIBRARY MATIO_INCLUDE_DIR VERSION_VAR MATIO_VERSION_STRING)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(
+  MATIO
+  REQUIRED_VARS
+  MATIO_LIBRARY
+  MATIO_INCLUDE_DIR
+  VERSION_VAR
+  MATIO_VERSION_STRING
+)
 
 if(MATIO_FOUND)
   set(MATIO_LIBRARIES ${MATIO_LIBRARY})
   set(MATIO_INCLUDE_DIRS ${MATIO_INCLUDE_DIR})
-else(MATIO_FOUND)
+else()
   set(MATIO_LIBRARIES)
   set(MATIO_INCLUDE_DIRS)
-endif(MATIO_FOUND)
+endif()

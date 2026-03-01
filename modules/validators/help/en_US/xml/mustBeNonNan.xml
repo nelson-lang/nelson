@@ -23,7 +23,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>mustBeNonNan</b> checks that value is not NaN or raise an error.</p>
+    <p>
+      <b>mustBeNonNan</b> checks that value is not NaN or raise an error.</p>
   </description>
   <used_function />
   <bibliography />

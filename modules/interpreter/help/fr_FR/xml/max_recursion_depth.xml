@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>max_recursion_depth</keyword>
   <short_description
-  >Limite interne du nombre de fois qu'une fonction peut être appelée récursivement.</short_description>
+  >Limite interne du nombre de fois qu&apos;une fonction peut être appelée récursivement.</short_description>
   <syntax>
     <syntax_item>current_val = max_recursion_depth()</syntax_item>
     <syntax_item>previous_val = max_recursion_depth(new_val)</syntax_item>
@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >max_recursion_depth</b> spécifie la profondeur maximale de récursion pour empêcher Nelson de récursiver indéfiniment.</p>
   </description>
   <used_function />

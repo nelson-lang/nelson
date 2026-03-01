@@ -24,7 +24,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >mustBeScalarOrEmpty</b> checks that value is scalar or empty or raise an error.</p>
   </description>
   <used_function />

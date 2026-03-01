@@ -18,7 +18,7 @@
     <param_output_item>
       <param_name>state</param_name>
       <param_description
-      >un logique : true si c'est un mot-clé Nelson.</param_description>
+      >un logique : true si c&apos;est un mot-clé Nelson.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>ce</param_name>
@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>iskeyword</b> renvoie la liste de tous les mots-clés de Nelson.</p>
+    <p>
+      <b>iskeyword</b> renvoie la liste de tous les mots-clés de Nelson.</p>
   </description>
   <used_function />
   <bibliography />

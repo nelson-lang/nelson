@@ -41,16 +41,18 @@
     <param_output_item>
       <param_name>msg</param_name>
       <param_description
-      >une chaîne contenant le message d'erreur. Si res == true, alors msg == ''. Si res == false, alors msg contient le message d'échec de l'assertion.</param_description>
+      >une chaîne contenant le message d&apos;erreur. Si res == true, alors msg == &apos;
+        &apos;. Si res == false, alors msg contient le message d&apos;échec de l&apos;assertion.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >assert_isapprox</b> lève une erreur si la valeur calculée n'est pas approximativement égale à la valeur attendue.</p>
+    <p>
+      <b
+      >assert_isapprox</b> lève une erreur si la valeur calculée n&apos;est pas approximativement égale à la valeur attendue.</p>
     <p
-    >Cette fonction compare deux nombres à virgule flottante avec une tolérance spécifiée, permettant de vérifier que deux nombres sont « approximativement » égaux lorsque l'égalité exacte n'est pas adaptée à cause des limitations de précision des flottants.</p>
+    >Cette fonction compare deux nombres à virgule flottante avec une tolérance spécifiée, permettant de vérifier que deux nombres sont « approximativement » égaux lorsque l&apos;égalité exacte n&apos;est pas adaptée à cause des limitations de précision des flottants.</p>
     <p
-    >La comparaison utilise le calcul de l'erreur relative pour déterminer si les valeurs sont dans la tolérance de précision spécifiée.</p>
+    >La comparaison utilise le calcul de l&apos;erreur relative pour déterminer si les valeurs sont dans la tolérance de précision spécifiée.</p>
     <p
     >Cette fonction est particulièrement utile dans les tests unitaires lors de calculs numériques pouvant comporter de petits arrondis.</p>
   </description>
@@ -60,7 +62,7 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Test d'égalité approximative avec une tolérance de précision suffisante :</example_item_description>
+      >Test d&apos;égalité approximative avec une tolérance de précision suffisante :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[assert_isapprox(1.23456, 1.23457, 1e-5)]]></example_item_data>
@@ -80,7 +82,7 @@ end]]></example_item_data>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Utilisation des valeurs de retour pour gérer les résultats d'assertion :</example_item_description>
+      >Utilisation des valeurs de retour pour gérer les résultats d&apos;assertion :</example_item_description>
       <example_item_data
       ><![CDATA[[r, msg] = assert_isapprox(1.23456, 1.23457, 1e-6);
 assert_isfalse(r);

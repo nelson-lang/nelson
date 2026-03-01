@@ -4,55 +4,65 @@
   <language>fr_FR</language>
   <keyword>save</keyword>
   <short_description
-  >enregistrer des variables de l'espace de travail dans un fichier .nh5 ou .mat</short_description>
+  >enregistrer des variables de l&apos;espace de travail dans un fichier .nh5 ou .mat</short_description>
   <syntax>
     <syntax_item>save(filename)</syntax_item>
     <syntax_item>save(filename, version, var1, ..., varN)</syntax_item>
-    <syntax_item>save(filename, '-append', ...)</syntax_item>
-    <syntax_item>save(filename, '-mat', ...)</syntax_item>
-    <syntax_item>save(filename, '-nh5', ...)</syntax_item>
-    <syntax_item>save(filename, '-nocompression', ...)</syntax_item>
+    <syntax_item>save(filename, &apos;-append&apos;, ...)</syntax_item>
+    <syntax_item>save(filename, &apos;-mat&apos;, ...)</syntax_item>
+    <syntax_item>save(filename, &apos;-nh5&apos;, ...)</syntax_item>
+    <syntax_item>save(filename, &apos;-nocompression&apos;, ...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>filename</param_name>
       <param_description
-      >une chaîne : nom de fichier .nh5 ou .mat. L'extension définit le format utilisé (.mat ou .nh5 par défaut).</param_description>
+      >une chaîne : nom de fichier .nh5 ou .mat. L&apos;extension définit le format utilisé (.mat ou .nh5 par défaut).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>var1, ..., varN</param_name>
       <param_description
-      >chaîne : noms des variables à enregistrer depuis l'espace de travail de Nelson.</param_description>
+      >chaîne : noms des variables à enregistrer depuis l&apos;espace de travail de Nelson.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>version: '-v7.3', '-v7', '-v6', '-v4'</param_name>
+      <param_name>version: &apos;-v7.3&apos;, &apos;-v7&apos;, &apos;-v6&apos;, &apos;-v4&apos;
+      </param_name>
       <param_description
-      >version de fichier mat utilisée ('-v7.3'). Cette option forcera '-mat'.</param_description>
+      >version de fichier mat utilisée (&apos;-v7.3&apos;). Cette option forcera &apos;-mat&apos;.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-mat'</param_name>
+      <param_name>
+        &apos;-mat&apos;
+      </param_name>
       <param_description
-      >force l'enregistrement au format mat (par défaut '-nh5').</param_description>
+      >force l&apos;enregistrement au format mat (par défaut &apos;-nh5&apos;).</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-nh5'</param_name>
+      <param_name>
+        &apos;-nh5&apos;
+      </param_name>
       <param_description
-      >force l'enregistrement au format nh5 (par défaut '-nh5').</param_description>
+      >force l&apos;enregistrement au format nh5 (par défaut &apos;-nh5&apos;).</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-append'</param_name>
+      <param_name>
+        &apos;-append&apos;
+      </param_name>
       <param_description
       >ajoute des variables à un fichier .nh5/.mat existant (uniquement -v7.3).</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-nocompression'</param_name>
+      <param_name>
+        &apos;-nocompression&apos;
+      </param_name>
       <param_description
       >désactive la compression du fichier .nh5/.mat.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >save</b> sauvegarde les variables de l'espace de travail dans un fichier .nh5 ou .mat.</p>
+    <p>
+      <b
+      >save</b> sauvegarde les variables de l&apos;espace de travail dans un fichier .nh5 ou .mat.</p>
   </description>
   <examples>
     <example_item>

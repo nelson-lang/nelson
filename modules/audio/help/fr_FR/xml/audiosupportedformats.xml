@@ -12,11 +12,12 @@
     <param_output_item>
       <param_name>formats</param_name>
       <param_description
-      >tableau de structures avec les noms de champs 'Name', 'Extension', 'Subformats'.</param_description>
+      >tableau de structures avec les noms de champs &apos;Name&apos;, &apos;Extension&apos;, &apos;Subformats&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >audiosupportedformats</b> retourne une structure avec les formats de fichiers audio supportés.</p>
   </description>
   <used_function />

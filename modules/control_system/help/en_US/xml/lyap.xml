@@ -25,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>X = lyap(A, Q)</b> resolves the Lyapunov equation.</p>
+    <p>
+      <b>X = lyap(A, Q)</b> resolves the Lyapunov equation.</p>
   </description>
   <examples>
     <example_item>

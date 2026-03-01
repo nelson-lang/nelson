@@ -26,15 +26,17 @@
     <param_output_item>
       <param_name>res</param_name>
       <param_description
-      >a string: '' si aucune différence détectée.</param_description>
+      >a string: &apos;
+        &apos; si aucune différence détectée.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>msg</param_name>
-      <param_description>a string: message d'erreur</param_description>
+      <param_description>a string: message d&apos;erreur</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >diff_file</b> compare deux fichiers et renvoie le diff au format unified.</p>
     <p>Si les fichiers comparés sont identiques, <b
       >res</b> est une chaîne vide.</p>

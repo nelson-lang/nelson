@@ -25,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>X = dlyap(A, Q)</b> resolves the Discrete-time Lyapunov equation.</p>
+    <p>
+      <b>X = dlyap(A, Q)</b> resolves the Discrete-time Lyapunov equation.</p>
   </description>
   <examples>
     <example_item>

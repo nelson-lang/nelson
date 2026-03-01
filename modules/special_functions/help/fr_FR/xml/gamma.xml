@@ -21,8 +21,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>gamma</b> calcule la fonction gamma.</p>
-    <p>La fonction gamma est définie par l'intégrale :</p>
+    <p>
+      <b>gamma</b> calcule la fonction gamma.</p>
+    <p>La fonction gamma est définie par l&apos;intégrale :</p>
     <latex>\Gamma(z) = \int_0^{\infty} t^{z-1} e^{-t} \, dt</latex>
     <p>pour</p>
     <latex>\text{Re}(z) &gt; 0</latex>
@@ -33,7 +34,8 @@
     <latex>n</latex>
     <p>Propriétés importantes :</p>
     <ul>
-      <li><latex>\Gamma(z+1) = z\Gamma(z)</latex> (relation de récurrence)</li>
+      <li>
+        <latex>\Gamma(z+1) = z\Gamma(z)</latex> (relation de récurrence)</li>
       <li>
         <latex>\Gamma(1/2) = \sqrt{\pi}</latex>
       </li>

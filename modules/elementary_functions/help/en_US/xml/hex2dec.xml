@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>hex2dec</b> converts number in base 16 to decimal.</p>
+    <p>
+      <b>hex2dec</b> converts number in base 16 to decimal.</p>
     <p>Note:</p>
     <p>- <b>hex2dec</b> and<b>dec2hex</b> are inverses of one another.</p>
   </description>

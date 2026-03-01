@@ -56,7 +56,8 @@
       >a cell of strings: raw data without conversion.</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >COM_xlsread</b> read Microsoft Excel spreadsheet file using COM.</description>
   <used_function />
   <bibliography />

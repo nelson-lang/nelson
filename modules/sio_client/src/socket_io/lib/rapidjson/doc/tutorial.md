@@ -83,7 +83,7 @@ JSON number type represents all numeric values. However, C++ needs more specific
 assert(document["i"].IsNumber());
 
 // In this case, IsUint()/IsInt64()/IsUInt64() also return true.
-assert(document["i"].IsInt());          
+assert(document["i"].IsInt());
 printf("i = %d\n", document["i"].GetInt());
 // Alternative (int)document["i"]
 
@@ -138,7 +138,7 @@ And other familiar query functions:
 Similar to array, we can access all object members by iterator:
 
 ~~~~~~~~~~cpp
-static const char* kTypeNames[] = 
+static const char* kTypeNames[] =
     { "Null", "False", "True", "Object", "Array", "String", "Number" };
 
 for (Value::ConstMemberIterator itr = document.MemberBegin();
@@ -457,7 +457,7 @@ Value val(42);                             // some value
 contact.AddMember(key, val, document.GetAllocator());
 ~~~~~~~~~~
 
-For removing members, there are several choices: 
+For removing members, there are several choices:
 
 * `bool RemoveMember(const Ch* name)`: Remove a member by search its name (linear time complexity).
 * `bool RemoveMember(const Value& name)`: same as above but `name` is a Value.

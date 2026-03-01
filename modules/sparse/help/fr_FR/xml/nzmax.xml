@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >nzmax</b> retourne la quantité de stockage allouée pour les éléments non nuls.</p>
   </description>
   <used_function />

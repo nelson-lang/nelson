@@ -22,7 +22,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>x1, ..., xn</param_name>
-      <param_description>arguments d'entrée de la fonction.</param_description>
+      <param_description>arguments d&apos;entrée de la fonction.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -33,8 +33,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >feval</b> appelle la fonction de base ou la fonction intégrée décrite par son nom ou handle de fonction et arguments d'entrée.</p>
+    <p>
+      <b
+      >feval</b> appelle la fonction de base ou la fonction intégrée décrite par son nom ou handle de fonction et arguments d&apos;entrée.</p>
   </description>
   <used_function />
   <bibliography />

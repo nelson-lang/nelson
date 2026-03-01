@@ -7,12 +7,12 @@
   <syntax>
     <syntax_item>R = norm(V)</syntax_item>
     <syntax_item>R = norm(V, p)</syntax_item>
-    <syntax_item>R = norm(V, 'fro')</syntax_item>
+    <syntax_item>R = norm(V, &apos;fro&apos;)</syntax_item>
     <syntax_item>R = norm(M)</syntax_item>
     <syntax_item>R = norm(M, 1)</syntax_item>
     <syntax_item>R = norm(M, 2)</syntax_item>
     <syntax_item>R = norm(M, Inf)</syntax_item>
-    <syntax_item>R = norm(M, 'fro')</syntax_item>
+    <syntax_item>R = norm(M, &apos;fro&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -35,8 +35,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>norm</b> computes the norm of a vector or a matrix.</p>
-    <p>Frobenius norm of M is equal to <b>sqrt (sum (diag (M' * M)))</b> .</p>
+    <p>
+      <b>norm</b> computes the norm of a vector or a matrix.</p>
+    <p>Frobenius norm of M is equal to <b>sqrt (sum (diag (M&apos; * M)))</b> .</p>
   </description>
   <used_function />
   <bibliography />

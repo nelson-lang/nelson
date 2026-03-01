@@ -29,7 +29,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>st = cell2struct(ce, fields)</b> creates a struct from a cell.</p>
+    <p>
+      <b>st = cell2struct(ce, fields)</b> creates a struct from a cell.</p>
   </description>
   <used_function />
   <bibliography />

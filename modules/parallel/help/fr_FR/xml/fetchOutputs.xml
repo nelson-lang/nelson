@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>fetchOutputs</keyword>
   <short_description
-  >Récupérer les résultats d'une fonction s'exécutant dans le pool d'arrière-plan.</short_description>
+  >Récupérer les résultats d&apos;une fonction s&apos;exécutant dans le pool d&apos;arrière-plan.</short_description>
   <syntax>
     <syntax_item>[y1, ... , ym] = fetchOutputs(f)</syntax_item>
   </syntax>
@@ -21,10 +21,13 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>[y1, ... , ym] = fetchOutputs(f)</b> récupère <b
-      >m</b> résultats d'un tableau de <b>Future</b> <b>f</b>.</p>
+    <p>
+      <b>[y1, ... , ym] = fetchOutputs(f)</b> récupère <b
+      >m</b> résultats d&apos;un tableau de <b>Future</b>
+      <b>f</b>.</p>
     <p />
-    <p><b>fetchOutputs</b> attend que la fonction associée à <b
+    <p>
+      <b>fetchOutputs</b> attend que la fonction associée à <b
       >f</b> se termine avant de récupérer les résultats.</p>
     <p>Si <b
       >fetchOutputs</b> est appelé, la propriété Read de chaque élément de <b

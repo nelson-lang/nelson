@@ -7,8 +7,8 @@
   <syntax>
     <syntax_item>str = fileread(filename)</syntax_item>
     <syntax_item>str = fileread(filename, type)</syntax_item>
-    <syntax_item>str = fileread(filename, 'char', eol)</syntax_item>
-    <syntax_item>str = fileread(filename, 'char', eol, encoding)</syntax_item>
+    <syntax_item>str = fileread(filename, &apos;char&apos;, eol)</syntax_item>
+    <syntax_item>str = fileread(filename, &apos;char&apos;, eol, encoding)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -18,17 +18,17 @@
     <param_input_item>
       <param_name>type</param_name>
       <param_description
-      >a string: 'char', 'cell' or 'string'. 'cell' will converts text file to a cell of string. 'string' will converts text file to a string array. 'char' by default.</param_description>
+      >a string: &apos;char&apos;, &apos;cell&apos; or &apos;string&apos;. &apos;cell&apos; will converts text file to a cell of string. &apos;string&apos; will converts text file to a string array. &apos;char&apos; by default.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>eol</param_name>
       <param_description
-      >a string: 'native', 'pc' or 'unix'. Set end of line. 'unix' by default.</param_description>
+      >a string: &apos;native&apos;, &apos;pc&apos; or &apos;unix&apos;. Set end of line. &apos;unix&apos; by default.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>encoding</param_name>
       <param_description
-      >a string: 'UTF-8' (default), 'auto', 'ISO-8859-1', 'windows-1251', 'windows-1252', ...</param_description>
+      >a string: &apos;UTF-8&apos; (default), &apos;auto&apos;, &apos;ISO-8859-1&apos;, &apos;windows-1251&apos;, &apos;windows-1252&apos;, ...</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -39,9 +39,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>fileread</b> read contents of file as text.</p>
+    <p>
+      <b>fileread</b> read contents of file as text.</p>
     <p
-    >if encoding is 'auto', nelson will try to detect best encoding to read contents of file as text.</p>
+    >if encoding is &apos;auto&apos;, nelson will try to detect best encoding to read contents of file as text.</p>
   </description>
   <used_function />
   <bibliography />

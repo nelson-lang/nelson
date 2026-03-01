@@ -10,7 +10,8 @@
     <syntax_item>return</syntax_item>
   </syntax>
   <description>
-    <p><b>return</b> or <b>abort</b> stops current evaluation.</p>
+    <p>
+      <b>return</b> or <b>abort</b> stops current evaluation.</p>
   </description>
   <used_function />
   <bibliography />

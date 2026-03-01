@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>double(V)</b> convertit en type double précision.</p>
+    <p>
+      <b>double(V)</b> convertit en type double précision.</p>
   </description>
   <used_function />
   <bibliography />

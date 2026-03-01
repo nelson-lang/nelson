@@ -17,11 +17,12 @@
   <param_output>
     <param_output_item>
       <param_name>tf</param_name>
-      <param_description>logical: result of 'iscolumn'.</param_description>
+      <param_description>logical: result of &apos;iscolumn&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>iscolumn(V)</b> returns logical<b
+    <p>
+      <b>iscolumn(V)</b> returns logical<b
       >true</b> if size(V) returns [n, 1] with a nonnegative integer value n, and logical<b
       >false</b> otherwise.</p>
   </description>

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>subsindex</keyword>
   <short_description
-  >Convertir un objet en vecteur d'indices.</short_description>
+  >Convertir un objet en vecteur d&apos;indices.</short_description>
   <syntax>
     <syntax_item>r = subsindex(O)</syntax_item>
   </syntax>
@@ -16,7 +16,7 @@
   </param_input>
   <description>
     <p>Si <b>O</b> est un objet alors <b
-      >subsindex</b> est la méthode de surcharge qui permet de convertir cet objet en un vecteur d'indexation valide.</p>
+      >subsindex</b> est la méthode de surcharge qui permet de convertir cet objet en un vecteur d&apos;indexation valide.</p>
   </description>
   <used_function />
   <bibliography />

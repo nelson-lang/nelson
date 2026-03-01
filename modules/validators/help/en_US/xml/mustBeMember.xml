@@ -27,7 +27,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >mustBeMember</b> checks that value is member of an array or issue error.</p>
   </description>
   <used_function />

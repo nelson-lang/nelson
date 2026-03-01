@@ -10,9 +10,11 @@
     <syntax_item>for variable, statements, end</syntax_item>
   </syntax>
   <description>
-    <p><b
+    <p>
+      <b
       >for</b> loop executes a set of statements with an index variable looping through each element in a vector.</p>
-    <p><b>parfor</b> is currently an alias on <b>for</b> keyword.</p>
+    <p>
+      <b>parfor</b> is currently an alias on <b>for</b> keyword.</p>
   </description>
   <used_function />
   <bibliography />

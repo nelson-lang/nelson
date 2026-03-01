@@ -6,9 +6,9 @@
   <short_description>Linear 1-D data interpolation</short_description>
   <syntax>
     <syntax_item>vq = interp1(x, v, xq)</syntax_item>
-    <syntax_item>vq = interp1(x, v, xq, 'linear')</syntax_item>
+    <syntax_item>vq = interp1(x, v, xq, &apos;linear&apos;)</syntax_item>
     <syntax_item>vq = interp1(v, xq)</syntax_item>
-    <syntax_item>vq = interp1(v, xq, 'linear')</syntax_item>
+    <syntax_item>vq = interp1(v, xq, &apos;linear&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -33,7 +33,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >vq = interp1(x, v, xq)</b> returns interpolated values of a 1-D function at specific query points using linear interpolation.</p>
   </description>
   <used_function />

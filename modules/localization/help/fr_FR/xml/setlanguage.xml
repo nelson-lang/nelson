@@ -11,11 +11,12 @@
     <param_input_item>
       <param_name>language</param_name>
       <param_description
-      >une chaîne : 'fr_FR', 'fr_FR' ou d'autres par défaut.</param_description>
+      >une chaîne : &apos;fr_FR&apos;, &apos;fr_FR&apos; ou d&apos;autres par défaut.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >setlanguage</b> modifie la langue utilisée par Nelson et enregistre ce changement pour les exécutions ultérieures de Nelson.</p>
   </description>
   <used_function />

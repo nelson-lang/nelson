@@ -42,7 +42,8 @@
     <p>When you use the <b
       >hist</b> function, it organizes the elements in the vector<b
       >Y</b> into 10 equally spaced containers and provides the count of elements in each container as a row vector.</p>
-    <p><b>hist(Y, x)</b> with a vector<b
+    <p>
+      <b>hist(Y, x)</b> with a vector<b
       >x</b>, the function will return the distribution of values in<b
       >Y</b> among bins determined by the length of <b
       >x</b>, with centers specified by the values in <b>x</b>.</p>

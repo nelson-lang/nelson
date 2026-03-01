@@ -12,7 +12,7 @@
   <param_input>
     <param_input_item>
       <param_name>profile_info</param_name>
-      <param_description>a struct: result of profile('info')</param_description>
+      <param_description>a struct: result of profile(&apos;info&apos;)</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>dirname</param_name>
@@ -21,9 +21,10 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >profsave</b> exports the profiling data into a series of HTML files.</p>
-    <p>The input profile_info is the structure returned by profile('info').</p>
+    <p>The input profile_info is the structure returned by profile(&apos;info&apos;).</p>
     <p>If unspecified, <b>profsave</b> will use the current profile.</p>
   </description>
   <used_function />

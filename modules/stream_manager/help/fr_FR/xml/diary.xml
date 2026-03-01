@@ -3,21 +3,21 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>diary</keyword>
-  <short_description>Journal d'une session.</short_description>
+  <short_description>Journal d&apos;une session.</short_description>
   <syntax>
     <syntax_item>diary()</syntax_item>
     <syntax_item>diary(filename)</syntax_item>
-    <syntax_item>diary('off')</syntax_item>
-    <syntax_item>diary('on')</syntax_item>
-    <syntax_item>onoff = diary('get', 'Diary')</syntax_item>
-    <syntax_item>filename = diary('get', 'DiaryFile')</syntax_item>
-    <syntax_item>diary('set', 'DiaryFile', filename)</syntax_item>
-    <syntax_item>diary('set', 'Diary', onoff)</syntax_item>
+    <syntax_item>diary(&apos;off&apos;)</syntax_item>
+    <syntax_item>diary(&apos;on&apos;)</syntax_item>
+    <syntax_item>onoff = diary(&apos;get&apos;, &apos;Diary&apos;)</syntax_item>
+    <syntax_item>filename = diary(&apos;get&apos;, &apos;DiaryFile&apos;)</syntax_item>
+    <syntax_item>diary(&apos;set&apos;, &apos;DiaryFile&apos;, filename)</syntax_item>
+    <syntax_item>diary(&apos;set&apos;, &apos;Diary&apos;, onoff)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>onoff</param_name>
-      <param_description>une chaîne : 'on' ou 'off'.</param_description>
+      <param_description>une chaîne : &apos;on&apos; ou &apos;off&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>filename</param_name>
@@ -28,7 +28,7 @@
   <param_output>
     <param_output_item>
       <param_name>onoff</param_name>
-      <param_description>une chaîne : 'on' ou 'off'.</param_description>
+      <param_description>une chaîne : &apos;on&apos; ou &apos;off&apos;.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>filename</param_name>
@@ -37,23 +37,32 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >diary</b> crée un journal des entrées clavier et du texte de sortie résultant.</p>
-    <p><b>diary</b> active ou désactive le mode journal.</p>
-    <p><b
-      >diary('off')</b> arrête l'enregistrement de la session dans le fichier journal.</p>
-    <p><b
-      >diary('on')</b> commence l'enregistrement d'une session dans un fichier nommé 'diary' dans le répertoire de travail courant.</p>
-    <p><b
-      >diary('set', 'Diary', onoff)</b> permet de démarrer ou d'arrêter le journal.</p>
-    <p><b
-      >onoff = diary('get', 'Diary')</b> renvoie l'état 'on' ou 'off' du journal.</p>
-    <p><b
+    <p>
+      <b>diary</b> active ou désactive le mode journal.</p>
+    <p>
+      <b
+      >diary(&apos;off&apos;)</b> arrête l&apos;enregistrement de la session dans le fichier journal.</p>
+    <p>
+      <b
+      >diary(&apos;on&apos;)</b> commence l&apos;enregistrement d&apos;une session dans un fichier nommé &apos;diary&apos; dans le répertoire de travail courant.</p>
+    <p>
+      <b
+      >diary(&apos;set&apos;, &apos;Diary&apos;, onoff)</b> permet de démarrer ou d&apos;arrêter le journal.</p>
+    <p>
+      <b
+      >onoff = diary(&apos;get&apos;, &apos;Diary&apos;)</b> renvoie l&apos;état &apos;on&apos; ou &apos;off&apos; du journal.</p>
+    <p>
+      <b
       >diary(filename)</b> enregistre la session dans le fichier nommé filename.</p>
-    <p><b
-      >filename = diary('get', 'DiaryFile')</b> renvoie le nom de fichier utilisé pour le journal.</p>
-    <p><b
-      >diary('set', 'DiaryFile', filename))</b> définit le nom de fichier pour le journal.</p>
+    <p>
+      <b
+      >filename = diary(&apos;get&apos;, &apos;DiaryFile&apos;)</b> renvoie le nom de fichier utilisé pour le journal.</p>
+    <p>
+      <b
+      >diary(&apos;set&apos;, &apos;DiaryFile&apos;, filename))</b> définit le nom de fichier pour le journal.</p>
   </description>
   <used_function />
   <bibliography />

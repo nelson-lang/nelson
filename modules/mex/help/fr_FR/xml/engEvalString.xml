@@ -6,7 +6,8 @@
   <short_description
   >Évalue une expression fournie sous forme de chaîne dans la portée de base</short_description>
   <syntax>
-    <syntax_item>#include "engine.h"</syntax_item>
+    <syntax_item>#include &quot;engine.h&quot;
+    </syntax_item>
     <syntax_item
     >int engEvalString(Engine *ep, const char *string);</syntax_item>
   </syntax>
@@ -29,7 +30,7 @@
   </param_output>
   <description>
     <p
-    >Évalue l'expression fournie sous forme de chaîne dans la portée de base.</p>
+    >Évalue l&apos;expression fournie sous forme de chaîne dans la portée de base.</p>
   </description>
   <used_function />
   <bibliography />

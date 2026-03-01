@@ -16,11 +16,12 @@
   <param_output>
     <param_output_item>
       <param_name>tf</param_name>
-      <param_description>logical: result of 'isrow'.</param_description>
+      <param_description>logical: result of &apos;isrow&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>isrow(V)</b> returns logical<b
+    <p>
+      <b>isrow(V)</b> returns logical<b
       >true</b> if size(V) returns [1, n] with a nonnegative integer value n, and logical<b
       >false</b> otherwise.</p>
   </description>

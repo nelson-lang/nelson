@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>obsv</keyword>
-  <short_description>Observabilité d'un modèle d'état.</short_description>
+  <short_description>Observabilité d&apos;un modèle d&apos;état.</short_description>
   <syntax>
     <syntax_item>Ob = obsv(A, C)</syntax_item>
     <syntax_item>Ob = obsv(sys)</syntax_item>
@@ -11,11 +11,11 @@
   <param_input>
     <param_input_item>
       <param_name>sys</param_name>
-      <param_description>Modèle d'état</param_description>
+      <param_description>Modèle d&apos;état</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>Matrice d'état : matrice Nx par Nx</param_description>
+      <param_description>Matrice d&apos;état : matrice Nx par Nx</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>C</param_name>
@@ -26,20 +26,20 @@
   <param_output>
     <param_output_item>
       <param_name>Ob</param_name>
-      <param_description>Matrice d'observabilité.</param_description>
+      <param_description>Matrice d&apos;observabilité.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>La fonction <b
-      >obsv</b> est conçue pour calculer la matrice d'observabilité des systèmes d'état.</p>
+      >obsv</b> est conçue pour calculer la matrice d&apos;observabilité des systèmes d&apos;état.</p>
     <p>Étant donné une matrice Nx par Nx <b
-      >A</b> représentant la dynamique du système et une matrice Ny par Nx C spécifiant la sortie, l'appel de fonction <b
-      >obsv(A, C)</b> génère la matrice d'observabilité.</p>
+      >A</b> représentant la dynamique du système et une matrice Ny par Nx C spécifiant la sortie, l&apos;appel de fonction <b
+      >obsv(A, C)</b> génère la matrice d&apos;observabilité.</p>
     <p />
     <p
-    >Il est déconseillé d'utiliser le rang de la matrice d'observabilité pour tester l'observabilité en raison d'instabilités numériques.</p>
-    <p>La matrice d'observabilité<b
-      >Ob</b> a tendance à être numériquement singulière pour les systèmes ayant plus de quelques états, rendant l'approche basée sur le rang peu fiable dans de tels cas.</p>
+    >Il est déconseillé d&apos;utiliser le rang de la matrice d&apos;observabilité pour tester l&apos;observabilité en raison d&apos;instabilités numériques.</p>
+    <p>La matrice d&apos;observabilité<b
+      >Ob</b> a tendance à être numériquement singulière pour les systèmes ayant plus de quelques états, rendant l&apos;approche basée sur le rang peu fiable dans de tels cas.</p>
   </description>
   <examples>
     <example_item>

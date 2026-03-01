@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>display</keyword>
   <short_description
-  >Afficher des informations sur une variable ou le résultat d'une expression.</short_description>
+  >Afficher des informations sur une variable ou le résultat d&apos;une expression.</short_description>
   <syntax>
     <syntax_item>display(V)</syntax_item>
     <syntax_item>display(V, name)</syntax_item>
@@ -13,7 +13,7 @@
     <param_input_item>
       <param_name>V</param_name>
       <param_description
-      >Résultat de l'exécution d'une instruction ou d'une expression</param_description>
+      >Résultat de l&apos;exécution d&apos;une instruction ou d&apos;une expression</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>name</param_name>
@@ -22,9 +22,10 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>display(V)</b> affiche des informations sur la variable <b>V</b>.</p>
+    <p>
+      <b>display(V)</b> affiche des informations sur la variable <b>V</b>.</p>
     <p>Nelson appelle la fonction<b
-      >display</b> chaque fois qu'un objet est référencé dans une instruction non terminée par un point-virgule.</p>
+      >display</b> chaque fois qu&apos;un objet est référencé dans une instruction non terminée par un point-virgule.</p>
   </description>
   <used_function />
   <bibliography />

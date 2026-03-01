@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>helpdlg</keyword>
-  <short_description>Crée une boîte de dialogue d'aide.</short_description>
+  <short_description>Crée une boîte de dialogue d&apos;aide.</short_description>
   <syntax>
     <syntax_item>h = helpdlg()</syntax_item>
     <syntax_item>h = helpdlg(text_help)</syntax_item>
     <syntax_item>h = helpdlg(text_help, title)</syntax_item>
-    <syntax_item>h = helpdlg(text_help, title, 'on')</syntax_item>
+    <syntax_item>h = helpdlg(text_help, title, &apos;on&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -29,9 +29,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>helpdlg</b> crée une boîte de dialogue d'aide.</p>
-    <p><b
-      >h = helpdlg(text_help, title, 'on')</b> indique si une boîte de dialogue existante portant le même nom doit être remplacée.</p>
+    <p>
+      <b>helpdlg</b> crée une boîte de dialogue d&apos;aide.</p>
+    <p>
+      <b
+      >h = helpdlg(text_help, title, &apos;on&apos;)</b> indique si une boîte de dialogue existante portant le même nom doit être remplacée.</p>
   </description>
   <used_function />
   <bibliography />

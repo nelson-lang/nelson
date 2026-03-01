@@ -14,18 +14,26 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>getnelsonmode()</b> renvoie le mode courant utilisé par Nelson.</p>
+    <p>
+      <b>getnelsonmode()</b> renvoie le mode courant utilisé par Nelson.</p>
     <p>Les modes possibles sont :</p>
-    <p><b>BASIC_ENGINE</b> : Nelson utilisé comme moteur sans graphisme.</p>
-    <p><b
+    <p>
+      <b>BASIC_ENGINE</b> : Nelson utilisé comme moteur sans graphisme.</p>
+    <p>
+      <b
       >ADVANCED_ENGINE</b> : Nelson utilisé comme moteur avec graphisme/GUI.</p>
-    <p><b>BASIC_TERMINAL</b> : Nelson lancé en terminal sans graphisme.</p>
-    <p><b
+    <p>
+      <b>BASIC_TERMINAL</b> : Nelson lancé en terminal sans graphisme.</p>
+    <p>
+      <b
       >ADVANCED_TERMINAL</b> : Nelson lancé en terminal avec graphisme/GUI.</p>
-    <p><b>BASIC_SIO_CLIENT</b> : Nelson lancé comme client socket IO.</p>
-    <p><b
+    <p>
+      <b>BASIC_SIO_CLIENT</b> : Nelson lancé comme client socket IO.</p>
+    <p>
+      <b
       >ADVANCED_SIO_CLIENT</b> : Nelson lancé comme client socket IO avec graphisme/GUI.</p>
-    <p><b>GUI</b> : Nelson lancé comme application graphique (par défaut).</p>
+    <p>
+      <b>GUI</b> : Nelson lancé comme application graphique (par défaut).</p>
   </description>
   <used_function />
   <bibliography />

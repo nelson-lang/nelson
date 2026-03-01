@@ -29,7 +29,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >series</b> function links two model objects in a sequential manner.</p>
     <p>It is versatile and can accept various types of models.</p>
     <p

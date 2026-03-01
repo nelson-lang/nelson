@@ -43,21 +43,21 @@ public:
         : pid(_pid)
         , commandType(_commandType)
         , serializedCompressedVariable(std::move(compressedData))
-        , fullySerialized(_fullySerialized) {};
+        , fullySerialized(_fullySerialized) { };
     //=============================================================================
     dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType)
-        : pid(_pid), commandType(_commandType) {};
+        : pid(_pid), commandType(_commandType) { };
     //=============================================================================
     dataInterProcessToExchange(
         int _pid, NELSON_INTERPROCESS_COMMAND _commandType, const std::string& content)
-        : pid(_pid), commandType(_commandType), content(std::move(content)) {};
+        : pid(_pid), commandType(_commandType), content(std::move(content)) { };
     //=============================================================================
     dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType, bool value)
-        : pid(_pid), commandType(_commandType), valueAnswer(value) {};
+        : pid(_pid), commandType(_commandType), valueAnswer(value) { };
     //=============================================================================
     dataInterProcessToExchange(
         NELSON_INTERPROCESS_COMMAND _commandType, const std::vector<std::string>& _filenames)
-        : commandType(_commandType), filenames(_filenames) {};
+        : commandType(_commandType), filenames(_filenames) { };
     //=============================================================================
     dataInterProcessToExchange(const std::string& _variableName, const std::string& _scope,
         const std::string& compressedData, bool _fullySerialized)
@@ -65,7 +65,7 @@ public:
         , serializedCompressedVariable(std::move(compressedData))
         , fullySerialized(_fullySerialized)
         , variableName(std::move(_variableName))
-        , scope(std::move(_scope)) {};
+        , scope(std::move(_scope)) { };
     //=============================================================================
     dataInterProcessToExchange(int _pid, NELSON_INTERPROCESS_COMMAND _commandType,
         const std::string& _variableName, const std::string& _scope)
@@ -102,47 +102,47 @@ private:
     void
     serialize(Archive& ar, const unsigned int version)
     {
-        ar& commandType;
+        ar & commandType;
         switch (commandType) {
         case OPEN_FILES:
         case LOAD_FILES:
         case RUN_FILES: {
-            ar& filenames;
+            ar & filenames;
         } break;
         case EVAL: {
-            ar& pid;
-            ar& content;
+            ar & pid;
+            ar & content;
         } break;
         case POST_COMMAND: {
-            ar& content;
-            ar& scope;
+            ar & content;
+            ar & scope;
         } break;
         case EVAL_ANSWER: {
-            ar& content;
+            ar & content;
         } break;
         case PUT: {
-            ar& serializedCompressedVariable;
-            ar& fullySerialized;
-            ar& variableName;
-            ar& scope;
+            ar & serializedCompressedVariable;
+            ar & fullySerialized;
+            ar & variableName;
+            ar & scope;
         } break;
         case GET_ANSWER: {
-            ar& serializedCompressedVariable;
-            ar& fullySerialized;
+            ar & serializedCompressedVariable;
+            ar & fullySerialized;
         } break;
         case GET:
         case IS_VAR: {
-            ar& pid;
-            ar& variableName;
-            ar& scope;
+            ar & pid;
+            ar & variableName;
+            ar & scope;
         } break;
         case IS_MINIMIZED: {
-            ar& pid;
+            ar & pid;
         } break;
         case IS_MINIMIZED_ANSWER:
         case SET_MINIMIZE:
         case IS_VAR_ANSWER: {
-            ar& valueAnswer;
+            ar & valueAnswer;
         } break;
         default: {
         } break;

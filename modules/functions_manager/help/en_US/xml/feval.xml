@@ -33,7 +33,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >function</b> calls the base function or built-in described by its name or function handle and input arguments.</p>
   </description>
   <used_function />

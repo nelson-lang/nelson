@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>COM_methods</keyword>
   <short_description
-  >Retourne les noms des méthodes d'un objet COM.</short_description>
+  >Retourne les noms des méthodes d&apos;un objet COM.</short_description>
   <syntax>
     <syntax_item>l = COM_methods(h)</syntax_item>
     <syntax_item>l = methods(h)</syntax_item>
@@ -21,7 +21,8 @@
       <param_description>une cellule de chaînes.</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >methods</b> retourne une cellule de chaînes avec les noms des méthodes.</description>
   <used_function />
   <bibliography />

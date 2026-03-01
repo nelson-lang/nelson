@@ -23,7 +23,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>type</param_name>
-      <param_description>une chaîne : 'double' ou 'native'.</param_description>
+      <param_description>une chaîne : &apos;double&apos; ou &apos;native&apos;.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -34,16 +34,17 @@
     <param_output_item>
       <param_name>fs</param_name>
       <param_description
-      >une valeur entière : taux d'échantillonnage.</param_description>
+      >une valeur entière : taux d&apos;échantillonnage.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>audioread</b> lit un fichier audio.</p>
+    <p>
+      <b>audioread</b> lit un fichier audio.</p>
     <p
-    >Formats supportés : 'wav', 'ogg', 'flac', 'mp3', 'caf', 'au', 'aiff'. Voir la fonction <b
+    >Formats supportés : &apos;wav&apos;, &apos;ogg&apos;, &apos;flac&apos;, &apos;mp3&apos;, &apos;caf&apos;, &apos;au&apos;, &apos;aiff&apos;. Voir la fonction <b
       >audiosupportedformats</b> pour tous les formats supportés.</p>
     <p>Si <b
-      >type</b> est 'native', les données audio dépendent du format du fichier (single, double, entiers).</p>
+      >type</b> est &apos;native&apos;, les données audio dépendent du format du fichier (single, double, entiers).</p>
   </description>
   <used_function />
   <bibliography />

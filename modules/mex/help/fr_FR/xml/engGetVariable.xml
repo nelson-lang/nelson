@@ -4,9 +4,10 @@
   <language>fr_FR</language>
   <keyword>engGetVariable</keyword>
   <short_description
-  >Copie une variable depuis l'espace de travail du moteur Nelson</short_description>
+  >Copie une variable depuis l&apos;espace de travail du moteur Nelson</short_description>
   <syntax>
-    <syntax_item>#include "engine.h"</syntax_item>
+    <syntax_item>#include &quot;engine.h&quot;
+    </syntax_item>
     <syntax_item
     >mxArray *engGetVariable(Engine *ep, const char *name);</syntax_item>
   </syntax>
@@ -18,18 +19,18 @@
     <param_input_item>
       <param_name>const char *name</param_name>
       <param_description
-      >nom du mxArray dans l'espace de travail de Nelson (portée de base).</param_description>
+      >nom du mxArray dans l&apos;espace de travail de Nelson (portée de base).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>mxArray *</param_name>
       <param_description
-      >Pointeur vers une structure mxArray allouée. N'oubliez pas de libérer la mémoire.</param_description>
+      >Pointeur vers une structure mxArray allouée. N&apos;oubliez pas de libérer la mémoire.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Copie une variable depuis l'espace de travail du moteur Nelson.</p>
+    <p>Copie une variable depuis l&apos;espace de travail du moteur Nelson.</p>
     <p>La limite de taille des données transférées est de 2048 Mo.</p>
   </description>
   <used_function />

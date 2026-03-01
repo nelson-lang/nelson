@@ -23,7 +23,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>head_comments</b> displays the function header comments.</p>
+    <p>
+      <b>head_comments</b> displays the function header comments.</p>
     <p>Comments are read from the associated .m file.</p>
     <p>Nelson predefined functions have no header comments.</p>
   </description>

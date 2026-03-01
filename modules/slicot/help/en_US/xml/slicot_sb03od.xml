@@ -13,44 +13,44 @@
     <param_input_item>
       <param_name>DICO</param_name>
       <param_description
-      >Specifies the type of Lyapunov equation to be solved as follows: = 'C': continuous-time case; 'D': discrete-time case.</param_description>
+      >Specifies the type of Lyapunov equation to be solved as follows: = &apos;C&apos;: continuous-time case; &apos;D&apos;: discrete-time case.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>FACT</param_name>
       <param_description
-      >Specifies whether or not the real Schur factorization of the matrix A is supplied on entry. = 'F': On entry, A and Q contain the factors from the real Schur factorization of the matrix A; = 'N': The Schur factorization of A will be computed and the factors will be stored in A and Q.</param_description>
+      >Specifies whether or not the real Schur factorization of the matrix A is supplied on entry. = &apos;F&apos;: On entry, A and Q contain the factors from the real Schur factorization of the matrix A; = &apos;N&apos;: The Schur factorization of A will be computed and the factors will be stored in A and Q.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>TRANS</param_name>
       <param_description
-      >Specifies the form of op(K) to be used. = 'N': op(K) = K (No transpose); = 'T': op(K) = K**T (Transpose).</param_description>
+      >Specifies the form of op(K) to be used. = &apos;N&apos;: op(K) = K (No transpose); = &apos;T&apos;: op(K) = K**T (Transpose).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>A</param_name>
       <param_description
-      >the leading N-by-N part of this array must contain the matrix A. If FACT = 'F', then A contains an upper quasi-triangular matrix S in Schur canonical form; the elements below the upper Hessenberg part of the array A are not referenced.</param_description>
+      >the leading N-by-N part of this array must contain the matrix A. If FACT = &apos;F&apos;, then A contains an upper quasi-triangular matrix S in Schur canonical form; the elements below the upper Hessenberg part of the array A are not referenced.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Q_IN</param_name>
       <param_description
-      >if FACT = 'F', then the leading N-by-N part of this array must contain the orthogonal matrix Q of the Schur factorization of A. Otherwise, Q need not be set on entry.</param_description>
+      >if FACT = &apos;F&apos;, then the leading N-by-N part of this array must contain the orthogonal matrix Q of the Schur factorization of A. Otherwise, Q need not be set on entry.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B_IN</param_name>
       <param_description
-      >if TRANS = 'N', and dimension (LDB,max(M,N)), if TRANS = 'T'. On entry, if TRANS = 'N', the leading M-by-N part of this array must contain the coefficient matrix B of the equation. On entry, if TRANS = 'T', the leading N-by-M part of this array must contain the coefficient matrix B of the equation.</param_description>
+      >if TRANS = &apos;N&apos;, and dimension (LDB,max(M,N)), if TRANS = &apos;T&apos;. On entry, if TRANS = &apos;N&apos;, the leading M-by-N part of this array must contain the coefficient matrix B of the equation. On entry, if TRANS = &apos;T&apos;, the leading N-by-M part of this array must contain the coefficient matrix B of the equation.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>Q_OUT</param_name>
       <param_description
-      >the leading N-by-N part of this array contains the orthogonal matrix Q of the Schur factorization of A. The contents of array Q is not modified if FACT = 'F'.</param_description>
+      >the leading N-by-N part of this array contains the orthogonal matrix Q of the Schur factorization of A. The contents of array Q is not modified if FACT = &apos;F&apos;.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>B_OUT</param_name>
       <param_description
-      >the leading N-by-N part of this array contains the upper triangular Cholesky factor U of the solution matrix X of the problem, X = op(U)'*op(U). If M = 0 and N &gt; 0, then U is set to zero.</param_description>
+      >the leading N-by-N part of this array contains the upper triangular Cholesky factor U of the solution matrix X of the problem, X = op(U)&apos;*op(U). If M = 0 and N &gt; 0, then U is set to zero.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>SCALE</param_name>
@@ -60,12 +60,12 @@
     <param_output_item>
       <param_name>WR</param_name>
       <param_description
-      >If FACT = 'N', and INFO &gt;= 0 and INFO less than 2, WR contains the real parts of the eigenvalues of A.</param_description>
+      >If FACT = &apos;N&apos;, and INFO &gt;= 0 and INFO less than 2, WR contains the real parts of the eigenvalues of A.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>WI</param_name>
       <param_description
-      >If FACT = 'N', and INFO &gt;= 0 and INFO less than 2, WI contains the imaginary parts of the eigenvalues of A.</param_description>
+      >If FACT = &apos;N&apos;, and INFO &gt;= 0 and INFO less than 2, WI contains the imaginary parts of the eigenvalues of A.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>INFO</param_name>
@@ -74,7 +74,7 @@
   </param_output>
   <description>
     <p
-    >To solve for X = op(U)'*op(U) either the stable non-negative definite continuous-time Lyapunov equation or the convergent non-negative definite discrete-time Lyapunov equation.</p>
+    >To solve for X = op(U)&apos;*op(U) either the stable non-negative definite continuous-time Lyapunov equation or the convergent non-negative definite discrete-time Lyapunov equation.</p>
   </description>
   <used_function>SB03OD</used_function>
   <bibliography

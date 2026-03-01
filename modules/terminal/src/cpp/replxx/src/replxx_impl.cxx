@@ -135,7 +135,7 @@ namespace {
     {
         return (std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now().time_since_epoch())
-                    .count());
+                .count());
     }
 
     class IOModeGuard
@@ -2698,7 +2698,7 @@ Replxx::ReplxxImpl::incremental_history_search(char32_t startChar)
             while (true) {
                 while (dp._direction < 0 ? (lineSearchPos >= 0)
                                          : ((lineSearchPos + dp._searchText.length())
-                                             <= activeHistoryLine.length())) {
+                                               <= activeHistoryLine.length())) {
                     if ((lineSearchPos >= 0)
                         && ((lineSearchPos + dp._searchText.length()) <= activeHistoryLine.length())
                         && std::equal(dp._searchText.begin(), dp._searchText.end(),

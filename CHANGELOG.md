@@ -40,10 +40,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Dedicated Windows Terminal profile installed for the application.
 
+- MacOS packaging as dmg installer (beta)
+
+
 ### Changed
 
 - Reduced interpreter overhead in tight loops.
-
+- Internal tooling refactored: nodejs and python tools for formatting and version updates replaced with Rust-based tools.
+- CMake factorized.
+- Innosetup installer modernized.
 - fmtlib 12.1
 
 ## 1.16.0 - (2025-12-27)
@@ -160,7 +165,7 @@ The certificate represents a significant cost for a volunteer effort - any donat
   - `WindowState` for `Figure` objects.
   - `Units` for `UIControl` objects.
   - `DefaultFigureAlphamap`, `DefaultFigureColormap` as root properties.
-- Support for `nix develop`, providing a reproducible Bash shell preconfigured with Nelson’s build environment.  
+- Support for `nix develop`, providing a reproducible Bash shell preconfigured with Nelson’s build environment.
   See [BUILDING.md](./BUILDING.md) for details.
 - A [`justfile`](https://just.systems/man/en/) to streamline and standardize the build process across platforms.
 - Support for:

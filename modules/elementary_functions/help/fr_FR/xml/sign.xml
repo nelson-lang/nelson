@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>sign</b> find the sign function of a number.</p>
+    <p>
+      <b>sign</b> find the sign function of a number.</p>
     <p>-1 if the corresponding element of M is less than 0.</p>
     <p>0 if the corresponding element of M equals 0.</p>
     <p>1 if the corresponding element of M is greater than 0.</p>

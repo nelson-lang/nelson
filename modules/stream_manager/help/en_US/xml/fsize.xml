@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>fsize</b> returns th size of a file opened by <b>fopen</b>.</p>
+    <p>
+      <b>fsize</b> returns th size of a file opened by <b>fopen</b>.</p>
   </description>
   <used_function />
   <bibliography />

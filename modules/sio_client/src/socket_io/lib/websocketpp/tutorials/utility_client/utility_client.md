@@ -558,8 +558,8 @@ void on_close(client * c, websocketpp::connection_hdl hdl) {
     m_status = "Closed";
     client::connection_ptr con = c->get_con_from_hdl(hdl);
     std::stringstream s;
-    s << "close code: " << con->get_remote_close_code() << " (" 
-      << websocketpp::close::status::get_string(con->get_remote_close_code()) 
+    s << "close code: " << con->get_remote_close_code() << " ("
+      << websocketpp::close::status::get_string(con->get_remote_close_code())
       << "), close reason: " << con->get_remote_close_reason();
     m_error_reason = s.str();
 }
@@ -574,13 +574,13 @@ This method starts by looking up the given connection ID in the connection list.
 ~~~{.cpp}
 void close(int id, websocketpp::close::status::value code) {
     websocketpp::lib::error_code ec;
-    
+
     con_list::iterator metadata_it = m_connection_list.find(id);
     if (metadata_it == m_connection_list.end()) {
         std::cout << "> No connection found with id " << id << std::endl;
         return;
     }
-    
+
     m_endpoint.close(metadata_it->second->get_hdl(), code, "", ec);
     if (ec) {
         std::cout << "> Error initiating close: " << ec.message() << std::endl;
@@ -597,15 +597,15 @@ An entry is also added to the help system to describe how the new command may be
 ~~~{.cpp}
 else if (input.substr(0,5) == "close") {
     std::stringstream ss(input);
-    
+
     std::string cmd;
     int id;
     int close_code = websocketpp::close::status::normal;
     std::string reason;
-    
+
     ss >> cmd >> id >> close_code;
     std::getline(ss,reason);
-    
+
     endpoint.close(id, close_code, reason);
 }
 ~~~
@@ -619,23 +619,23 @@ The destructor for `websocket_endpoint` now stops perpetual mode (so the run thr
 ~~~{.cpp}
 ~websocket_endpoint() {
     m_endpoint.stop_perpetual();
-    
+
     for (con_list::const_iterator it = m_connection_list.begin(); it != m_connection_list.end(); ++it) {
         if (it->second->get_status() != "Open") {
             // Only close open connections
             continue;
         }
-        
+
         std::cout << "> Closing connection " << it->second->get_id() << std::endl;
-        
+
         websocketpp::lib::error_code ec;
         m_endpoint.close(it->second->get_hdl(), websocketpp::close::status::going_away, "", ec);
         if (ec) {
-            std::cout << "> Error closing connection " << it->second->get_id() << ": "  
+            std::cout << "> Error closing connection " << it->second->get_id() << ": "
                       << ec.message() << std::endl;
         }
     }
-    
+
     m_thread->join();
 }
 ~~~
@@ -670,13 +670,13 @@ _Sending and receiving messages_
 This step adds a command to send a message on a given connection and updates the show command to print a transcript of all sent and received messages for that connection.
 
 > ##### Terminology: WebSocket message types (opcodes)
-> WebSocket messages have types indicated by their opcode. The protocol currently specifies two different opcodes for data messages, text and binary. Text messages represent UTF8 text and will be validated as such. Binary messages represent raw binary bytes and are passed through directly with no validation. 
+> WebSocket messages have types indicated by their opcode. The protocol currently specifies two different opcodes for data messages, text and binary. Text messages represent UTF8 text and will be validated as such. Binary messages represent raw binary bytes and are passed through directly with no validation.
 >
 > WebSocket++ provides the values `websocketpp::frame::opcode::text` and `websocketpp::frame::opcode::binary` that can be used to direct how outgoing messages should be sent and to check how incoming messages are formatted.
 
 #### Sending Messages
 
-Messages are sent using `endpoint::send`. This is a thread safe method that may be called from anywhere to queue a message for sending on the specified connection. There are three send overloads for use with different scenarios. 
+Messages are sent using `endpoint::send`. This is a thread safe method that may be called from anywhere to queue a message for sending on the specified connection. There are three send overloads for use with different scenarios.
 
 Each method takes a `connection_hdl` to indicate which connection to send the message on as well as a `frame::opcode::value` to indicate which opcode to label the message as. All overloads are also available with an exception free varient that fills in a a status/error code instead of throwing.
 
@@ -700,19 +700,19 @@ Like the close method, send will start by looking up the given connection ID in 
 ~~~{.cpp}
 void send(int id, std::string message) {
     websocketpp::lib::error_code ec;
-    
+
     con_list::iterator metadata_it = m_connection_list.find(id);
     if (metadata_it == m_connection_list.end()) {
         std::cout << "> No connection found with id " << id << std::endl;
         return;
     }
-    
+
     m_endpoint.send(metadata_it->second->get_hdl(), message, websocketpp::frame::opcode::text, ec);
     if (ec) {
         std::cout << "> Error sending message: " << ec.message() << std::endl;
         return;
     }
-    
+
     metadata_it->second->record_sent_message(message);
 }
 ~~~
@@ -724,14 +724,14 @@ A send option is added to the command loop. It takes a connection ID and a text 
 ~~~{.cpp}
 else if (input.substr(0,4) == "send") {
     std::stringstream ss(input);
-        
+
         std::string cmd;
         int id;
         std::string message = "";
-        
+
         ss >> cmd >> id;
         std::getline(ss,message);
-        
+
         endpoint.send(id, message);
 }
 ~~~

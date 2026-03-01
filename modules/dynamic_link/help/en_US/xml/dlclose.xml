@@ -16,7 +16,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>dlclose(h)</b> or <b>delete(h)</b> releases dllib object.</p>
+    <p>
+      <b>dlclose(h)</b> or <b>delete(h)</b> releases dllib object.</p>
     <p>Do not forget to clear h afterward.</p>
   </description>
   <used_function />

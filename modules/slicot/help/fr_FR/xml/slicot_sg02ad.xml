@@ -13,47 +13,47 @@
     <param_input_item>
       <param_name>DICO</param_name>
       <param_description
-      >Specifies the type of Riccati equation to be solved as follows: = 'C': Equation (1), continuous-time case; = 'D': Equation (2), discrete-time case.</param_description>
+      >Specifies the type of Riccati equation to be solved as follows: = &apos;C&apos;: Equation (1), continuous-time case; = &apos;D&apos;: Equation (2), discrete-time case.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>JOBB</param_name>
       <param_description
-      >Specifies whether or not the matrix G is given, instead of the matrices B and R, as follows: = 'B': B and R are given; = 'G': G is given.</param_description>
+      >Specifies whether or not the matrix G is given, instead of the matrices B and R, as follows: = &apos;B&apos;: B and R are given; = &apos;G&apos;: G is given.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>FACT</param_name>
       <param_description
-      >Specifies whether or not the matrices Q and/or R (if JOBB = 'B') are factored, as follows: = 'N': Not factored, Q and R are given; = 'C': C is given, and Q = C'C; = 'D':  D is given, and R = D'D; = 'B': Both factors C and D are given, Q = C'C, R = D'D.</param_description>
+      >Specifies whether or not the matrices Q and/or R (if JOBB = &apos;B&apos;) are factored, as follows: = &apos;N&apos;: Not factored, Q and R are given; = &apos;C&apos;: C is given, and Q = C&apos;C; = &apos;D&apos;:  D is given, and R = D&apos;D; = &apos;B&apos;: Both factors C and D are given, Q = C&apos;C, R = D&apos;D.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>UPLO</param_name>
       <param_description
-      >If JOBB = 'G', or FACT = 'N', specifies which triangle of the matrices G, or Q and R, is stored, as follows: = 'U': Upper triangle is stored; = 'L': Lower triangle is stored.</param_description>
+      >If JOBB = &apos;G&apos;, or FACT = &apos;N&apos;, specifies which triangle of the matrices G, or Q and R, is stored, as follows: = &apos;U&apos;: Upper triangle is stored; = &apos;L&apos;: Lower triangle is stored.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>JOBL</param_name>
       <param_description
-      >Specifies whether or not the matrix L is zero, as follows: = 'Z': L is zero; = 'N': L is nonzero. JOBL is not used if JOBB = 'G' and JOBL = 'Z' is assumed. SLICOT Library routine SB02MT should be called just before SG02AD, for obtaining the results when JOBB = 'G' and JOBL = 'N'.</param_description>
+      >Specifies whether or not the matrix L is zero, as follows: = &apos;Z&apos;: L is zero; = &apos;N&apos;: L is nonzero. JOBL is not used if JOBB = &apos;G&apos; and JOBL = &apos;Z&apos; is assumed. SLICOT Library routine SB02MT should be called just before SG02AD, for obtaining the results when JOBB = &apos;G&apos; and JOBL = &apos;N&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>SCAL</param_name>
       <param_description
-      >If JOBB = 'B', specifies whether or not a scaling strategy should be used to scale Q, R, and L, as follows: = 'G': General scaling should be used; = 'N': No scaling should be used. SCAL is not used if JOBB = 'G'.</param_description>
+      >If JOBB = &apos;B&apos;, specifies whether or not a scaling strategy should be used to scale Q, R, and L, as follows: = &apos;G&apos;: General scaling should be used; = &apos;N&apos;: No scaling should be used. SCAL is not used if JOBB = &apos;G&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>SORT</param_name>
       <param_description
-      >Specifies which eigenvalues should be obtained in the top of the generalized Schur form, as follows: = 'S': Stable eigenvalues come first; = 'U': Unstable eigenvalues come first.</param_description>
+      >Specifies which eigenvalues should be obtained in the top of the generalized Schur form, as follows: = &apos;S&apos;: Stable eigenvalues come first; = &apos;U&apos;: Unstable eigenvalues come first.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ACC</param_name>
       <param_description
-      >Specifies whether or not iterative refinement should be used to solve the system of algebraic equations giving the solution matrix X, as follows: = 'R': Use iterative refinement; = 'N': Do not use iterative refinement.</param_description>
+      >Specifies whether or not iterative refinement should be used to solve the system of algebraic equations giving the solution matrix X, as follows: = &apos;R&apos;: Use iterative refinement; = &apos;N&apos;: Do not use iterative refinement.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>P</param_name>
       <param_description
-      >The number of system outputs. If FACT = 'C' or 'D' or 'B', P is the number of rows of the matrices C and/or D.</param_description>
+      >The number of system outputs. If FACT = &apos;C&apos; or &apos;D&apos; or &apos;B&apos;, P is the number of rows of the matrices C and/or D.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>A</param_name>
@@ -68,22 +68,22 @@
     <param_input_item>
       <param_name>B</param_name>
       <param_description
-      >If JOBB = 'B', the leading N-by-M part of this array must contain the input matrix B of the system.</param_description>
+      >If JOBB = &apos;B&apos;, the leading N-by-M part of this array must contain the input matrix B of the system.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Q</param_name>
       <param_description
-      >If FACT = 'N' or 'D', the leading N-by-N upper triangular part (if UPLO = 'U') or lower triangular part (if UPLO = 'L') of this array must contain the upper triangular part or lower triangular part, respectively, of the symmetric state weighting matrix Q. The stricly lower triangular part (if UPLO = 'U') or stricly upper triangular part (if UPLO = 'L') is not referenced. If FACT = 'C' or 'B', the leading P-by-N part of this array must contain the output matrix C of the system. If JOBB = 'B' and SCAL = 'G', then Q is modified internally, but is restored on exit.</param_description>
+      >If FACT = &apos;N&apos; or &apos;D&apos;, the leading N-by-N upper triangular part (if UPLO = &apos;U&apos;) or lower triangular part (if UPLO = &apos;L&apos;) of this array must contain the upper triangular part or lower triangular part, respectively, of the symmetric state weighting matrix Q. The stricly lower triangular part (if UPLO = &apos;U&apos;) or stricly upper triangular part (if UPLO = &apos;L&apos;) is not referenced. If FACT = &apos;C&apos; or &apos;B&apos;, the leading P-by-N part of this array must contain the output matrix C of the system. If JOBB = &apos;B&apos; and SCAL = &apos;G&apos;, then Q is modified internally, but is restored on exit.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>R</param_name>
       <param_description
-      >If FACT = 'N' or 'C', the leading M-by-M upper triangular part (if UPLO = 'U') or lower triangular part (if UPLO = 'L') of this array must contain the upper triangular part or lower triangular part, respectively, of the symmetric input weighting matrix R. The stricly lower triangular part (if UPLO = 'U') or stricly upper triangular part (if UPLO = 'L') is not referenced. If FACT = 'D' or 'B', the leading P-by-M part of this array must contain the direct transmission matrix D of the system. If JOBB = 'B' and SCAL = 'G', then R is modified internally, but is restored on exit.</param_description>
+      >If FACT = &apos;N&apos; or &apos;C&apos;, the leading M-by-M upper triangular part (if UPLO = &apos;U&apos;) or lower triangular part (if UPLO = &apos;L&apos;) of this array must contain the upper triangular part or lower triangular part, respectively, of the symmetric input weighting matrix R. The stricly lower triangular part (if UPLO = &apos;U&apos;) or stricly upper triangular part (if UPLO = &apos;L&apos;) is not referenced. If FACT = &apos;D&apos; or &apos;B&apos;, the leading P-by-M part of this array must contain the direct transmission matrix D of the system. If JOBB = &apos;B&apos; and SCAL = &apos;G&apos;, then R is modified internally, but is restored on exit.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>L</param_name>
       <param_description
-      >If JOBL = 'N' and JOBB = 'B', the leading N-by-M part of this array must contain the cross weighting matrix L. If JOBB = 'B' and SCAL = 'G', then L is modified internally, but is restored on exit.</param_description>
+      >If JOBL = &apos;N&apos; and JOBB = &apos;B&apos;, the leading N-by-M part of this array must contain the cross weighting matrix L. If JOBB = &apos;B&apos; and SCAL = &apos;G&apos;, then L is modified internally, but is restored on exit.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>TOL</param_name>
@@ -120,12 +120,12 @@
     <param_output_item>
       <param_name>S</param_name>
       <param_description
-      >The leading 2N-by-2N part of this array contains the ordered real Schur form S of the first matrix in the reduced matrix pencil associated to the optimal problem, corresponding to the scaled Q, R, and L, if JOBB = 'B' and SCAL = 'G'.</param_description>
+      >The leading 2N-by-2N part of this array contains the ordered real Schur form S of the first matrix in the reduced matrix pencil associated to the optimal problem, corresponding to the scaled Q, R, and L, if JOBB = &apos;B&apos; and SCAL = &apos;G&apos;.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>T</param_name>
       <param_description
-      >The leading 2N-by-2N part of this array contains the ordered upper triangular form T of the second matrix in the reduced matrix pencil associated to the optimal problem, corresponding to the scaled Q, R, and L, if JOBB = 'B' and SCAL = 'G'.</param_description>
+      >The leading 2N-by-2N part of this array contains the ordered upper triangular form T of the second matrix in the reduced matrix pencil associated to the optimal problem, corresponding to the scaled Q, R, and L, if JOBB = &apos;B&apos; and SCAL = &apos;G&apos;.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>U</param_name>
@@ -135,7 +135,7 @@
     <param_output_item>
       <param_name>IWARN</param_name>
       <param_description
-      >= 0: no warning; = 1: the computed solution may be inaccurate due to poor scaling or eigenvalues too close to the boundary of the stability domain (the imaginary axis, if DICO = 'C', or the unit circle, if DICO = 'D').</param_description>
+      >= 0: no warning; = 1: the computed solution may be inaccurate due to poor scaling or eigenvalues too close to the boundary of the stability domain (the imaginary axis, if DICO = &apos;C&apos;, or the unit circle, if DICO = &apos;D&apos;).</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>INFO</param_name>

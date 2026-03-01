@@ -8,7 +8,8 @@
     <syntax_item>qml_demos()</syntax_item>
   </syntax>
   <description>
-    <p><b>qml_demos</b> affiche des démonstrations QML pour Nelson.</p>
+    <p>
+      <b>qml_demos</b> affiche des démonstrations QML pour Nelson.</p>
   </description>
   <used_function />
   <bibliography />

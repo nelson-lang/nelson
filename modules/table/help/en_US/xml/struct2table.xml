@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >T = struct2table(S)</b> transforms a structure array into a table, where each field of the input structure is represented as a variable in the resulting table.</p>
     <p
     >If the input is a scalar structure containing 𝑛 fields, each with 𝑚 rows, the output will be an 𝑚×𝑛 table.</p>

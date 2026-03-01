@@ -38,9 +38,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >axes</b> creates axes in the current figure and set it as the current axes.</p>
-    <p><b>axes(cax)</b> set current axes.</p>
+    <p>
+      <b>axes(cax)</b> set current axes.</p>
     <p>Clicking on an axis automatically sets it as the current axes object.</p>
     <p>Properties:</p>
     <table>
@@ -58,7 +60,7 @@
         <td>
           <b>ALimMode</b>
         </td>
-        <td>Selection mode for ALim: 'manual' or 'auto' (default).</td>
+        <td>Selection mode for ALim: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -70,7 +72,7 @@
         <td>
           <b>Box</b>
         </td>
-        <td>Box: 'on' or 'off'.</td>
+        <td>Box: &apos;on&apos; or &apos;off&apos;.</td>
       </tr>
       <tr>
         <td>
@@ -83,7 +85,7 @@
         <td>
           <b>CLimMode</b>
         </td>
-        <td>Selection mode for CLim: 'manual' or 'auto' (default).</td>
+        <td>Selection mode for CLim: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -96,7 +98,7 @@
           <b>CameraPositionMode</b>
         </td>
         <td
-        >Selection mode for CameraPosition: 'manual' or 'auto' (default).</td>
+        >Selection mode for CameraPosition: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -108,7 +110,7 @@
         <td>
           <b>CameraTargetMode</b>
         </td>
-        <td>Selection mode for CameraTarget: 'manual' or 'auto' (default).</td>
+        <td>Selection mode for CameraTarget: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -121,7 +123,7 @@
           <b>CameraUpVectorMode</b>
         </td>
         <td
-        >Selection mode for CameraUpVector: 'manual' or 'auto' (default).</td>
+        >Selection mode for CameraUpVector: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -134,7 +136,7 @@
           <b>CameraViewAngleMode</b>
         </td>
         <td
-        >Selection mode for CameraViewAngle: 'manual' or 'auto' (default).</td>
+        >Selection mode for CameraViewAngle: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -147,7 +149,7 @@
         <td>
           <b>Clipping</b>
         </td>
-        <td>Clipping of objects to axes limits: 'on' (default) or 'off'.</td>
+        <td>Clipping of objects to axes limits: &apos;on&apos; (default) or &apos;off&apos;.</td>
       </tr>
       <tr>
         <td>
@@ -179,13 +181,13 @@
         <td>
           <b>DataAspectRatioMode</b>
         </td>
-        <td>Data aspect ratio mode: 'manual' or 'auto' (default).</td>
+        <td>Data aspect ratio mode: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>FontAngle</b>
         </td>
-        <td>Character slant: 'italic' or 'normal' (default).</td>
+        <td>Character slant: &apos;italic&apos; or &apos;normal&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -204,13 +206,13 @@
           <b>FontUnits</b>
         </td>
         <td
-        >Font size units: 'inches', 'centimeters', 'normalized', 'pixels' or 'points' (default).</td>
+        >Font size units: &apos;inches&apos;, &apos;centimeters&apos;, &apos;normalized&apos;, &apos;pixels&apos; or &apos;points&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>FontWeight</b>
         </td>
-        <td>Character thickness: 'bold' or 'normal' (default).</td>
+        <td>Character thickness: &apos;bold&apos; or &apos;normal&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -231,19 +233,19 @@
           <b>GridLineStyle</b>
         </td>
         <td
-        >Line style for grid lines: '--' , ':', '-.', 'none' or '-' (default).</td>
+        >Line style for grid lines: &apos;--&apos; , &apos;:&apos;, &apos;-.&apos;, &apos;none&apos; or &apos;-&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>HandleVisibility</b>
         </td>
-        <td>Visibility of object handle: 'on' (default) or 'off'.</td>
+        <td>Visibility of object handle: &apos;on&apos; (default) or &apos;off&apos;.</td>
       </tr>
       <tr>
         <td>
           <b>HitTest</b>
         </td>
-        <td>Response to captured mouse clicks: 'on' (default) or 'off'.</td>
+        <td>Response to captured mouse clicks: &apos;on&apos; (default) or &apos;off&apos;.</td>
       </tr>
       <tr>
         <td>
@@ -262,14 +264,14 @@
           <b>Layer</b>
         </td>
         <td
-        >Placement of grid lines and tick marks: 'top' or 'bottom' (default).</td>
+        >Placement of grid lines and tick marks: &apos;top&apos; or &apos;bottom&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>LineStyleOrder</b>
         </td>
         <td
-        >Line style order: character vector, cell array of character vectors, string array or '-' solid line (default).</td>
+        >Line style order: character vector, cell array of character vectors, string array or &apos;-&apos; solid line (default).</td>
       </tr>
       <tr>
         <td>
@@ -289,14 +291,14 @@
           <b>MinorGridLineStyle</b>
         </td>
         <td
-        >Line style for minor grid lines: '-', '--', '-.', 'none' or ':' (default).</td>
+        >Line style for minor grid lines: &apos;-&apos;, &apos;--&apos;, &apos;-.&apos;, &apos;none&apos; or &apos;:&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>NextPlot</b>
         </td>
         <td
-        >Properties to reset: 'add', 'replacechildren', 'replaceall' or 'replace' (default).</td>
+        >Properties to reset: &apos;add&apos;, &apos;replacechildren&apos;, &apos;replaceall&apos; or &apos;replace&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -322,7 +324,7 @@
           <b>PlotBoxAspectRatioMode</b>
         </td>
         <td
-        >Selection mode for PlotBoxAspectRatio: 'manual' or 'auto' (default).</td>
+        >Selection mode for PlotBoxAspectRatio: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -335,45 +337,47 @@
         <td>
           <b>PositionMode</b>
         </td>
-        <td>'manual' or 'auto' (default).</td>
+        <td>
+          &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>Projection</b>
         </td>
         <td
-        >Type of projection onto 2-D screen: 'perspective' or 'orthographic' (default).</td>
+        >Type of projection onto 2-D screen: &apos;perspective&apos; or &apos;orthographic&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>Selected</b>
         </td>
-        <td>Selection state: 'on' or 'off' (default).</td>
+        <td>Selection state: &apos;on&apos; or &apos;off&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>SelectionHighlight</b>
         </td>
-        <td>Display of selection graphics objects: 'on' (default) or 'off'.</td>
+        <td>Display of selection graphics objects: &apos;on&apos; (default) or &apos;off&apos;.</td>
       </tr>
       <tr>
         <td>
           <b>Tag</b>
         </td>
         <td
-        >Object identifier: character vector, string scalar or '' (default).</td>
+        >Object identifier: character vector, string scalar or &apos;
+          &apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>TickDir</b>
         </td>
-        <td>Tick mark direction: 'out', 'both', 'none' or 'in' (default).</td>
+        <td>Tick mark direction: &apos;out&apos;, &apos;both&apos;, &apos;none&apos; or &apos;in&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>TickDirMode</b>
         </td>
-        <td>Selection mode for TickDir: 'manual' or 'auto' (default).</td>
+        <td>Selection mode for TickDir: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -398,14 +402,14 @@
         <td>
           <b>Type</b>
         </td>
-        <td>Type of graphics object: 'axes'.</td>
+        <td>Type of graphics object: &apos;axes&apos;.</td>
       </tr>
       <tr>
         <td>
           <b>Units</b>
         </td>
         <td
-        >Position units: 'inches', 'centimeters', 'points', 'pixels', 'characters' or 'normalized' (default).</td>
+        >Position units: &apos;inches&apos;, &apos;centimeters&apos;, &apos;points&apos;, &apos;pixels&apos;, &apos;characters&apos; or &apos;normalized&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -423,13 +427,13 @@
         <td>
           <b>Visible</b>
         </td>
-        <td>State of visibility: 'on' (default) or 'off'.</td>
+        <td>State of visibility: &apos;on&apos; (default) or &apos;off&apos;.</td>
       </tr>
       <tr>
         <td>
           <b>XAxisLocation</b>
         </td>
-        <td>x-axis location: 'top', 'origin' or 'bottom' (default).</td>
+        <td>x-axis location: &apos;top&apos;, &apos;origin&apos; or &apos;bottom&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -441,13 +445,13 @@
         <td>
           <b>XDir</b>
         </td>
-        <td>x-axis direction: 'reverse' or 'normal' (default).</td>
+        <td>x-axis direction: &apos;reverse&apos; or &apos;normal&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>XGrid</b>
         </td>
-        <td>Grid lines: 'on' or 'off' (default).</td>
+        <td>Grid lines: &apos;on&apos; or &apos;off&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -465,19 +469,19 @@
         <td>
           <b>XLimMode</b>
         </td>
-        <td>Selection mode for axis limits: 'manual' or 'auto' (default).</td>
+        <td>Selection mode for axis limits: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>XMinorGrid</b>
         </td>
-        <td>Minor grid lines: 'on' or 'off' (default).</td>
+        <td>Minor grid lines: &apos;on&apos; or &apos;off&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>XScale</b>
         </td>
-        <td>Scale of values along axis: 'log' or 'linear' (default).</td>
+        <td>Scale of values along axis: &apos;log&apos; or &apos;linear&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -489,25 +493,26 @@
         <td>
           <b>XTickLabel</b>
         </td>
-        <td>Tick labels: cell array of character vectors or '' (default).</td>
+        <td>Tick labels: cell array of character vectors or &apos;
+          &apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>XTickLabelMode</b>
         </td>
-        <td>Selection mode for tick labels: 'manual' or 'auto' (default).</td>
+        <td>Selection mode for tick labels: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>XTickMode</b>
         </td>
-        <td>Selection mode for tick values: 'manual' or 'auto' (default).</td>
+        <td>Selection mode for tick values: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>YAxisLocation</b>
         </td>
-        <td>y-axis location: 'top', 'origin' or 'bottom' (default).</td>
+        <td>y-axis location: &apos;top&apos;, &apos;origin&apos; or &apos;bottom&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -519,13 +524,13 @@
         <td>
           <b>YDir</b>
         </td>
-        <td>y-axis direction: 'reverse' or 'normal' (default).</td>
+        <td>y-axis direction: &apos;reverse&apos; or &apos;normal&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>YGrid</b>
         </td>
-        <td>Grid lines: 'on' or 'off' (default).</td>
+        <td>Grid lines: &apos;on&apos; or &apos;off&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -543,19 +548,19 @@
         <td>
           <b>YLimMode</b>
         </td>
-        <td>Selection mode for axis limits: 'manual' or 'auto' (default).</td>
+        <td>Selection mode for axis limits: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>YMinorGrid</b>
         </td>
-        <td>Minor grid lines: 'on' or 'off' (default).</td>
+        <td>Minor grid lines: &apos;on&apos; or &apos;off&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>YScale</b>
         </td>
-        <td>Scale of values along axis: 'log' or 'linear' (default).</td>
+        <td>Scale of values along axis: &apos;log&apos; or &apos;linear&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -567,19 +572,20 @@
         <td>
           <b>YTickLabel</b>
         </td>
-        <td>Tick labels: cell array of character vectors or '' (default).</td>
+        <td>Tick labels: cell array of character vectors or &apos;
+          &apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>YTickLabelMode</b>
         </td>
-        <td>Selection mode for tick labels: 'manual' or 'auto' (default).</td>
+        <td>Selection mode for tick labels: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>YTickMode</b>
         </td>
-        <td>Selection mode for tick values: 'manual' or 'auto' (default).</td>
+        <td>Selection mode for tick values: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -591,13 +597,13 @@
         <td>
           <b>ZDir</b>
         </td>
-        <td>z-axis direction: 'reverse' or 'normal' (default).</td>
+        <td>z-axis direction: &apos;reverse&apos; or &apos;normal&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>ZGrid</b>
         </td>
-        <td>Grid lines: 'on' or 'off' (default).</td>
+        <td>Grid lines: &apos;on&apos; or &apos;off&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -615,19 +621,19 @@
         <td>
           <b>ZLimMode</b>
         </td>
-        <td>Selection mode for axis limits: 'manual' or 'auto' (default).</td>
+        <td>Selection mode for axis limits: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>ZMinorGrid</b>
         </td>
-        <td>Minor grid lines: 'on' or 'off' (default).</td>
+        <td>Minor grid lines: &apos;on&apos; or &apos;off&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>ZScale</b>
         </td>
-        <td>Scale of values along axis: 'log' or 'linear' (default).</td>
+        <td>Scale of values along axis: &apos;log&apos; or &apos;linear&apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -639,19 +645,20 @@
         <td>
           <b>ZTickLabel</b>
         </td>
-        <td>Tick labels: cell array of character vectors or '' (default).</td>
+        <td>Tick labels: cell array of character vectors or &apos;
+          &apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>ZTickLabelMode</b>
         </td>
-        <td>Selection mode for tick labels: 'manual' or 'auto' (default).</td>
+        <td>Selection mode for tick labels: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>ZTickMode</b>
         </td>
-        <td>Selection mode for tick values: 'manual' or 'auto' (default).</td>
+        <td>Selection mode for tick values: &apos;manual&apos; or &apos;auto&apos; (default).</td>
       </tr>
       <tr>
         <td>

@@ -15,8 +15,9 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>delete(h)</b> libère l'objet audiorecorder.</p>
-    <p>N'oubliez pas de libérer ensuite h.</p>
+    <p>
+      <b>delete(h)</b> libère l&apos;objet audiorecorder.</p>
+    <p>N&apos;oubliez pas de libérer ensuite h.</p>
   </description>
   <used_function />
   <bibliography />

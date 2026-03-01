@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>pole</keyword>
-  <short_description>Pôles d'un système dynamique.</short_description>
+  <short_description>Pôles d&apos;un système dynamique.</short_description>
   <syntax>
     <syntax_item>P = pole(sys)</syntax_item>
   </syntax>
@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>P = pole(sys)</b> renvoie les pôles de <b>sys</b>.</p>
+    <p>
+      <b>P = pole(sys)</b> renvoie les pôles de <b>sys</b>.</p>
   </description>
   <examples>
     <example_item>

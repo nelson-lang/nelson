@@ -7,9 +7,9 @@
   >Plus grand entier consécutif représentable en virgule flottante.</short_description>
   <syntax>
     <syntax_item>R = flintmax()</syntax_item>
-    <syntax_item>R = flintmax('double')</syntax_item>
-    <syntax_item>R = flintmax('single')</syntax_item>
-    <syntax_item>R = flintmax('like', V)</syntax_item>
+    <syntax_item>R = flintmax(&apos;double&apos;)</syntax_item>
+    <syntax_item>R = flintmax(&apos;single&apos;)</syntax_item>
+    <syntax_item>R = flintmax(&apos;like&apos;, V)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -24,7 +24,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >flintmax</b> renvoie le plus grand entier consécutif représentable au format virgule flottante.</p>
   </description>
   <used_function />

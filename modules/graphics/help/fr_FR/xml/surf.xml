@@ -53,12 +53,13 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >surf</b> crée un tracé de surface 3D. Il peut être utilisé pour tracer des données sous forme de matrice ou de fonction de deux variables. </p>
     <p
-    >Vous pouvez personnaliser l'apparence du tracé en utilisant diverses options telles que la couleur, l'éclairage et l'ombrage.</p>
+    >Vous pouvez personnaliser l&apos;apparence du tracé en utilisant diverses options telles que la couleur, l&apos;éclairage et l&apos;ombrage.</p>
     <p
-    >Par exemple, vous pouvez utiliser l'option colormap pour changer la couleur de la surface, et l'option FaceLighting pour modifier l'éclairage de la surface.</p>
+    >Par exemple, vous pouvez utiliser l&apos;option colormap pour changer la couleur de la surface, et l&apos;option FaceLighting pour modifier l&apos;éclairage de la surface.</p>
     <p>Propriétés :</p>
     <table>
       <tr>
@@ -77,7 +78,7 @@
           <b>AlphaDataMapping</b>
         </td>
         <td
-        >Interprétation des valeurs AlphaData : 'direct', 'none' ou 'scaled' (par défaut).</td>
+        >Interprétation des valeurs AlphaData : &apos;direct&apos;, &apos;none&apos; ou &apos;scaled&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -90,7 +91,7 @@
           <b>BackFaceLighting</b>
         </td>
         <td
-        >Éclairage des faces lorsque les normales pointent à l'opposé de la caméra : 'unlit', 'lit' ou 'reverselit' (par défaut).</td>
+        >Éclairage des faces lorsque les normales pointent à l&apos;opposé de la caméra : &apos;unlit&apos;, &apos;lit&apos; ou &apos;reverselit&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -103,13 +104,13 @@
           <b>CDataMapping</b>
         </td>
         <td
-        >Méthode de mappage des couleurs : 'direct', 'scaled' (par défaut).</td>
+        >Méthode de mappage des couleurs : &apos;direct&apos;, &apos;scaled&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>CDataMode</b>
         </td>
-        <td>Mode de sélection pour CData : 'manual', 'auto' (par défaut).</td>
+        <td>Mode de sélection pour CData : &apos;manual&apos;, &apos;auto&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -140,7 +141,7 @@
           <b>EdgeLighting</b>
         </td>
         <td
-        >Effet des objets lumineux sur les arêtes : 'flat', 'gouraud' ou 'none' (par défaut).</td>
+        >Effet des objets lumineux sur les arêtes : &apos;flat&apos;, &apos;gouraud&apos; ou &apos;none&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -159,13 +160,13 @@
           <b>FaceLighting</b>
         </td>
         <td
-        >Effet des objets lumineux sur les faces : 'gouraud', 'none' ou 'flat' (par défaut).</td>
+        >Effet des objets lumineux sur les faces : &apos;gouraud&apos;, &apos;none&apos; ou &apos;flat&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>LineStyle</b>
         </td>
-        <td>Style de ligne : '--', ':', '-.', 'none' ou '-' (par défaut).</td>
+        <td>Style de ligne : &apos;--&apos;, &apos;:&apos;, &apos;-.&apos;, &apos;none&apos; ou &apos;-&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -178,7 +179,9 @@
           <b>Marker</b>
         </td>
         <td
-        >Symbole du marqueur : 'o' (cercle), '+' (plus), '*' (astérisque), '.' (point), 'x' (croix), '_' (ligne horizontale), '|' (ligne verticale), 'square', 'diamond', '^' (triangle vers le haut), 'v' (triangle vers le bas), '' (triangle vers la droite), '' (triangle vers la gauche), 'pentagram', 'hexagram', 'none' (par défaut).</td>
+        >Symbole du marqueur : &apos;o&apos; (cercle), &apos;+&apos; (plus), &apos;*&apos; (astérisque), &apos;.&apos; (point), &apos;x&apos; (croix), &apos;_&apos; (ligne horizontale), &apos;|&apos; (ligne verticale), &apos;square&apos;, &apos;diamond&apos;, &apos;^&apos; (triangle vers le haut), &apos;v&apos; (triangle vers le bas), &apos;
+          &apos; (triangle vers la droite), &apos;
+          &apos; (triangle vers la gauche), &apos;pentagram&apos;, &apos;hexagram&apos;, &apos;none&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -202,7 +205,7 @@
         <td>
           <b>MeshStyle</b>
         </td>
-        <td>Arêtes à afficher : 'row', 'column' ou 'both' (par défaut).</td>
+        <td>Arêtes à afficher : &apos;row&apos;, &apos;column&apos; ou &apos;both&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -233,13 +236,14 @@
           <b>Tag</b>
         </td>
         <td
-        >Identifiant de l'objet : vecteur de caractères, chaîne ou '' (par défaut).</td>
+        >Identifiant de l&apos;objet : vecteur de caractères, chaîne ou &apos;
+          &apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>Type</b>
         </td>
-        <td>Type d'objet graphique : 'surface'.</td>
+        <td>Type d&apos;objet graphique : &apos;surface&apos;.</td>
       </tr>
       <tr>
         <td>
@@ -258,7 +262,7 @@
         <td>
           <b>Visible</b>
         </td>
-        <td>État de visibilité : 'off' ou 'on' (par défaut).</td>
+        <td>État de visibilité : &apos;off&apos; ou &apos;on&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -270,7 +274,7 @@
         <td>
           <b>XDataMode</b>
         </td>
-        <td>Mode de sélection pour XData : 'manual' ou 'auto'.</td>
+        <td>Mode de sélection pour XData : &apos;manual&apos; ou &apos;auto&apos;.</td>
       </tr>
       <tr>
         <td>
@@ -282,7 +286,7 @@
         <td>
           <b>YDataMode</b>
         </td>
-        <td>Mode de sélection pour YData : 'manual' ou 'auto'.</td>
+        <td>Mode de sélection pour YData : &apos;manual&apos; ou &apos;auto&apos;.</td>
       </tr>
       <tr>
         <td>
@@ -295,24 +299,24 @@
           <b>CreateFcn</b>
         </td>
         <td
-        >Callback (fonction, chaîne ou cellule) appelée lors de la création de l'objet. Définir cette propriété sur un composant existant n'a aucun effet.</td>
+        >Callback (fonction, chaîne ou cellule) appelée lors de la création de l&apos;objet. Définir cette propriété sur un composant existant n&apos;a aucun effet.</td>
       </tr>
       <tr>
         <td>
           <b>DeleteFcn</b>
         </td>
         <td
-        >Callback (fonction, chaîne ou cellule) appelée lors de la suppression de l'objet.</td>
+        >Callback (fonction, chaîne ou cellule) appelée lors de la suppression de l&apos;objet.</td>
       </tr>
       <tr>
         <td>
           <b>BeingDeleted</b>
         </td>
-        <td>Indique que l'objet est en cours de suppression.</td>
+        <td>Indique que l&apos;objet est en cours de suppression.</td>
       </tr>
     </table>
     <p
-    >Certaines propriétés sont disponibles uniquement pour compatibilité et n'ont actuellement aucun effet sur la surface.</p>
+    >Certaines propriétés sont disponibles uniquement pour compatibilité et n&apos;ont actuellement aucun effet sur la surface.</p>
   </description>
   <used_function />
   <bibliography />

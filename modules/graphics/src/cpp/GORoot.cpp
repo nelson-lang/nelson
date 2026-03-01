@@ -194,7 +194,7 @@ GORoot::loadDefaultAlphaMap()
 }
 //=============================================================================
 void
-GORoot::paintMe(RenderInterface& gc) {};
+GORoot::paintMe(RenderInterface& gc) { };
 //=============================================================================
 void
 GORoot::refreshScreenPixelsPerInchProperty()

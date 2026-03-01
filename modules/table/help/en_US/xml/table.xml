@@ -42,7 +42,8 @@
     >- Curly braces (T{rows, vars}) to extract an array from specific rows and variables.</p>
     <p>- Parentheses (T(rows, vars)) to return a subset of the table.</p>
     <p />
-    <p><b
+    <p>
+      <b
       >T = table(var1, ..., varN)</b> creates a table from the specified input variables<b
       >var1,...,varN</b>.</p>
     <p
@@ -50,16 +51,18 @@
     <p
     >If the inputs are workspace variables, their names are used as the variable names in the resulting table.</p>
     <p
-    >Otherwise, the table assigns default names in the format 'Var1', 'Var2', and so on, where N is the total number of variables.</p>
+    >Otherwise, the table assigns default names in the format &apos;Var1&apos;, &apos;Var2&apos;, and so on, where N is the total number of variables.</p>
     <p />
-    <p><b
+    <p>
+      <b
       >T = table(..., Name, Value)</b> allows you to specify additional options using one or more name-value pair arguments.</p>
     <p
-    >For instance, you can set custom variable names by using the 'VariableNames' name-value pair.</p>
+    >For instance, you can set custom variable names by using the &apos;VariableNames&apos; name-value pair.</p>
     <p
     >This syntax can be used in combination with any of the input arguments from the previous forms.</p>
     <p />
-    <p><b>T = table()</b> creates an empty table with 0 rows and 0 columns.</p>
+    <p>
+      <b>T = table()</b> creates an empty table with 0 rows and 0 columns.</p>
   </description>
   <used_function />
   <bibliography />

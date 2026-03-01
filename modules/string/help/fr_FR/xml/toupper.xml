@@ -20,7 +20,8 @@
       <param_description>une chaîne en majuscules</param_description>
     </param_output_item>
   </param_output>
-  <description><b>toupper</b> convertit une chaîne en majuscules.</description>
+  <description>
+    <b>toupper</b> convertit une chaîne en majuscules.</description>
   <used_function />
   <bibliography />
   <examples>

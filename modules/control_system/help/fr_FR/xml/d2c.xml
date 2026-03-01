@@ -8,7 +8,7 @@
   <syntax>
     <syntax_item>sysc = d2c(sysd)</syntax_item>
     <syntax_item>sysc = d2c(sysd, method)</syntax_item>
-    <syntax_item>sysc = d2c(sysd, 'prewarp', w0)</syntax_item>
+    <syntax_item>sysc = d2c(sysd, &apos;prewarp&apos;, w0)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -19,7 +19,8 @@
     <param_input_item>
       <param_name>method</param_name>
       <param_description
-      >Méthode de discrétisation : 'zoh', 'tustin', 'prewarp'</param_description>
+      >Méthode de discrétisation : &apos;zoh&apos;, &apos;tustin&apos;, &apos;prewarp&apos;
+      </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>w0</param_name>
@@ -35,7 +36,7 @@
   <description>
     <p>La fonction <b
       >sysc = d2c(sysd)</b> transforme un modèle de système dynamique en temps discret <b
-      >sysd</b> en un modèle en temps continu, en utilisant un maintien d'ordre zéro sur les entrées.</p>
+      >sysd</b> en un modèle en temps continu, en utilisant un maintien d&apos;ordre zéro sur les entrées.</p>
     <p>Par exemple, vous pouvez utiliser <b
       >sysc = d2c(sysd, method)</b> pour définir explicitement la méthode de conversion.</p>
   </description>

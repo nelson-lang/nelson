@@ -6,9 +6,9 @@
   <chapter>Fonctions de localisation</chapter>
   <chapter_description>
     <p
-    >Le module de localisation gère les paramètres de langue et l'internationalisation dans Nelson.</p>
+    >Le module de localisation gère les paramètres de langue et l&apos;internationalisation dans Nelson.</p>
     <p
-    >Il fournit des mécanismes pour interroger les langues disponibles, déterminer la langue actuelle et par défaut, et changer dynamiquement la langue de l'interface.</p>
+    >Il fournit des mécanismes pour interroger les langues disponibles, déterminer la langue actuelle et par défaut, et changer dynamiquement la langue de l&apos;interface.</p>
     <p
     >Ce module garantit que Nelson peut être adapté à différentes préférences linguistiques et régionales, en prenant en charge une expérience utilisateur multilingue.</p>
   </chapter_description>

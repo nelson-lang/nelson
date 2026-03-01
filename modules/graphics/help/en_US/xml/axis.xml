@@ -33,7 +33,8 @@
     <param_input_item>
       <param_name>style</param_name>
       <param_description
-      >'tight', 'equal', 'image', 'square', 'fill', 'vis3d' or 'normal' (default).</param_description>
+      >
+        &apos;tight&apos;, &apos;equal&apos;, &apos;image&apos;, &apos;square&apos;, &apos;fill&apos;, &apos;vis3d&apos; or &apos;normal&apos; (default).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>cax</param_name>
@@ -41,12 +42,14 @@
     </param_input_item>
     <param_input_item>
       <param_name>visibility</param_name>
-      <param_description>'off' or 'on' (default).</param_description>
+      <param_description>
+        &apos;off&apos; or &apos;on&apos; (default).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>mode</param_name>
       <param_description
-      >'manual' (turns off automatic scaling of the axis based on the children of the current axis object) or 'auto' (choose automatically all axis limits) .</param_description>
+      >
+        &apos;manual&apos; (turns off automatic scaling of the axis based on the children of the current axis object) or &apos;auto&apos; (choose automatically all axis limits) .</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -57,7 +60,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>axes</b> set axis limits and appearance.</p>
+    <p>
+      <b>axes</b> set axis limits and appearance.</p>
   </description>
   <used_function />
   <bibliography />

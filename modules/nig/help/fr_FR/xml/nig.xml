@@ -22,7 +22,7 @@
   </param_input>
   <description>
     <p>Avec<b
-      >nig</b>, vous pouvez encapsuler votre code C/FORTRAN dans un ensemble (gateway) et l'utiliser dans Nelson comme des fonctions natives (builtin).</p>
+      >nig</b>, vous pouvez encapsuler votre code C/FORTRAN dans un ensemble (gateway) et l&apos;utiliser dans Nelson comme des fonctions natives (builtin).</p>
   </description>
   <examples>
     <example_item>

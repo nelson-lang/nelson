@@ -32,8 +32,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>vecnorm</b> computes the 2-norm or Euclidean norm of the input array<b
-      >A</b></p>
+    <p>
+      <b>vecnorm</b> computes the 2-norm or Euclidean norm of the input array<b
+      >A</b>
+    </p>
     <p>If <b>A</b> is a vector,<b
       >vecnorm</b> returns the norm of the vector.</p>
     <p>If <b>A</b> is a matrix,<b

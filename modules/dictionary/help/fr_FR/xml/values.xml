@@ -6,7 +6,7 @@
   <short_description>Valeurs du dictionnaire.</short_description>
   <syntax>
     <syntax_item>v = values(d)</syntax_item>
-    <syntax_item>v = values(d, 'cell')</syntax_item>
+    <syntax_item>v = values(d, &apos;cell&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -21,11 +21,13 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >v = values(d)</b> récupère un tableau contenant les valeurs du dictionnaire spécifié,<b
       >d</b>.</p>
-    <p><b
-      >v = values(d, 'cell')</b> renvoie éventuellement les valeurs sous forme de tableau cellulaire.</p>
+    <p>
+      <b
+      >v = values(d, &apos;cell&apos;)</b> renvoie éventuellement les valeurs sous forme de tableau cellulaire.</p>
   </description>
   <used_function />
   <bibliography />

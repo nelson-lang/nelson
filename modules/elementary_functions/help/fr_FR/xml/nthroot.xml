@@ -22,11 +22,12 @@
   <param_output>
     <param_output_item>
       <param_name>Y</param_name>
-      <param_description>result of 'nthroot'.</param_description>
+      <param_description>result of &apos;nthroot&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>𝑌 = nthroot(𝑋, 𝑁)</b> returns the real 𝑛th root of the elements of <b
+    <p>
+      <b>𝑌 = nthroot(𝑋, 𝑁)</b> returns the real 𝑛th root of the elements of <b
       >𝑋</b>.</p>
     <p>Both <b>𝑋</b> and<b
       >𝑁</b> must be real scalars or arrays of the same size. If an element in<b

@@ -11,9 +11,9 @@
     <p
     >Toutes les variables de la table doivent avoir des types de données qui prennent en charge les calculs souhaités (par exemple, types numériques ou logiques).</p>
     <p
-    >Lorsque vous effectuez une opération où un seul opérande est une table, l'autre opérande doit être un tableau numérique ou logique.</p>
+    >Lorsque vous effectuez une opération où un seul opérande est une table, l&apos;autre opérande doit être un tableau numérique ou logique.</p>
     <p
-    >Pour les opérations impliquant deux tables, elles doivent avoir des tailles compatibles (c.-à-d. le même nombre de lignes et de colonnes ou que l'opération ait du sens pour les structures impliquées).</p>
+    >Pour les opérations impliquant deux tables, elles doivent avoir des tailles compatibles (c.-à-d. le même nombre de lignes et de colonnes ou que l&apos;opération ait du sens pour les structures impliquées).</p>
     <p />
     <p
     >Ci-dessous un exemple montrant comment effectuer des calculs sans indexer explicitement la table.</p>

@@ -16,7 +16,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>ispc</b> checks if it is a Windows platform.</p>
+    <p>
+      <b>ispc</b> checks if it is a Windows platform.</p>
   </description>
   <used_function />
   <bibliography />

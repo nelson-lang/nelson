@@ -7,8 +7,8 @@
   >Teste si une matrice est hermitienne ou skew-hermitienne.</short_description>
   <syntax>
     <syntax_item>res = ishermitian(x)</syntax_item>
-    <syntax_item>res = ishermitian(x, 'skew')</syntax_item>
-    <syntax_item>res = ishermitian(x, 'nonskew')</syntax_item>
+    <syntax_item>res = ishermitian(x, &apos;skew&apos;)</syntax_item>
+    <syntax_item>res = ishermitian(x, &apos;nonskew&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -24,10 +24,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >ishermitian(x)</b> teste si une matrice est hermitienne ou skew-hermitienne.</p>
     <p
-    >Une matrice est skew-hermitienne si la transposée conjuguée est égale à l'opposé de la matrice originale.</p>
+    >Une matrice est skew-hermitienne si la transposée conjuguée est égale à l&apos;opposé de la matrice originale.</p>
   </description>
   <used_function />
   <bibliography />

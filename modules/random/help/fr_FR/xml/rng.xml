@@ -5,16 +5,16 @@
   <keyword>rng</keyword>
   <short_description>Générateur de nombres aléatoires.</short_description>
   <syntax>
-    <syntax_item>lst = rng('enginelist')</syntax_item>
-    <syntax_item>rng('default')</syntax_item>
-    <syntax_item>s = rng('default')</syntax_item>
-    <syntax_item>rng('shuffle')</syntax_item>
-    <syntax_item>s = rng('shuffle')</syntax_item>
+    <syntax_item>lst = rng(&apos;enginelist&apos;)</syntax_item>
+    <syntax_item>rng(&apos;default&apos;)</syntax_item>
+    <syntax_item>s = rng(&apos;default&apos;)</syntax_item>
+    <syntax_item>rng(&apos;shuffle&apos;)</syntax_item>
+    <syntax_item>s = rng(&apos;shuffle&apos;)</syntax_item>
     <syntax_item>rng(seed)</syntax_item>
     <syntax_item>s = rng(seed)</syntax_item>
     <syntax_item>rng(seed, generator)</syntax_item>
     <syntax_item>s = rng(seed, generator)</syntax_item>
-    <syntax_item>rng('shuffle', generator)</syntax_item>
+    <syntax_item>rng(&apos;shuffle&apos;, generator)</syntax_item>
     <syntax_item>rng(s)</syntax_item>
   </syntax>
   <param_input>
@@ -26,7 +26,8 @@
     <param_input_item>
       <param_name>generator</param_name>
       <param_description
-      >une chaîne : 'twister', 'twister64', 'simdTwister', 'combRecursive', 'philox', 'laggedfibonacci607'</param_description>
+      >une chaîne : &apos;twister&apos;, &apos;twister64&apos;, &apos;simdTwister&apos;, &apos;combRecursive&apos;, &apos;philox&apos;, &apos;laggedfibonacci607&apos;
+      </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>s</param_name>
@@ -46,32 +47,45 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >lst = rng('enginelist')</b> renvoie la liste des générateurs de nombres aléatoires disponibles.</p>
-    <p><b
-      >rng('default')</b> remet les paramètres du générateur de nombres aléatoires aux valeurs par défaut.</p>
-    <p><b
-      >s = rng('default')</b> remet les paramètres du générateur de nombres aléatoires aux valeurs par défaut et renvoie le générateur précédent sous forme de structure.</p>
-    <p><b
-      >rng('shuffle')</b> remet les paramètres du générateur de nombres aléatoires aux valeurs par défaut.</p>
-    <p><b
-      >s = rng('shuffle')</b> initialise la graine du générateur de nombres aléatoires en fonction de l'heure courante et renvoie le générateur précédent sous forme de structure.          </p>
-    <p><b
-      >rng(seed)</b> initialise la graine du générateur de nombres aléatoires en utilisant l'entier non négatif.</p>
-    <p><b
-      >s = rng(seed)</b> initialise la graine du générateur de nombres aléatoires en utilisant l'entier non négatif et renvoie le générateur précédent sous forme de structure.          </p>
-    <p><b
-      >rng(seed, generator)</b> initialise la graine du générateur de nombres aléatoires en utilisant l'entier non négatif et spécifie également le type de générateur utilisé.</p>
-    <p><b
-      >s = rng(seed, generator)</b> initialise la graine du générateur de nombres aléatoires en utilisant l'entier non négatif, spécifie le type de générateur utilisé et renvoie le générateur précédent sous forme de structure.          </p>
-    <p><b
-      >rng('shuffle', generator)</b> initialise la graine du générateur de nombres aléatoires en fonction de l'heure courante et spécifie également le type de générateur utilisé.</p>
-    <p><b
-      >s = rng('shuffle', generator)</b> initialise la graine du générateur de nombres aléatoires en fonction de l'heure courante, spécifie également le type de générateur utilisé et renvoie le générateur précédent sous forme de structure.          </p>
-    <p><b
+    <p>
+      <b
+      >lst = rng(&apos;enginelist&apos;)</b> renvoie la liste des générateurs de nombres aléatoires disponibles.</p>
+    <p>
+      <b
+      >rng(&apos;default&apos;)</b> remet les paramètres du générateur de nombres aléatoires aux valeurs par défaut.</p>
+    <p>
+      <b
+      >s = rng(&apos;default&apos;)</b> remet les paramètres du générateur de nombres aléatoires aux valeurs par défaut et renvoie le générateur précédent sous forme de structure.</p>
+    <p>
+      <b
+      >rng(&apos;shuffle&apos;)</b> remet les paramètres du générateur de nombres aléatoires aux valeurs par défaut.</p>
+    <p>
+      <b
+      >s = rng(&apos;shuffle&apos;)</b> initialise la graine du générateur de nombres aléatoires en fonction de l&apos;heure courante et renvoie le générateur précédent sous forme de structure.          </p>
+    <p>
+      <b
+      >rng(seed)</b> initialise la graine du générateur de nombres aléatoires en utilisant l&apos;entier non négatif.</p>
+    <p>
+      <b
+      >s = rng(seed)</b> initialise la graine du générateur de nombres aléatoires en utilisant l&apos;entier non négatif et renvoie le générateur précédent sous forme de structure.          </p>
+    <p>
+      <b
+      >rng(seed, generator)</b> initialise la graine du générateur de nombres aléatoires en utilisant l&apos;entier non négatif et spécifie également le type de générateur utilisé.</p>
+    <p>
+      <b
+      >s = rng(seed, generator)</b> initialise la graine du générateur de nombres aléatoires en utilisant l&apos;entier non négatif, spécifie le type de générateur utilisé et renvoie le générateur précédent sous forme de structure.          </p>
+    <p>
+      <b
+      >rng(&apos;shuffle&apos;, generator)</b> initialise la graine du générateur de nombres aléatoires en fonction de l&apos;heure courante et spécifie également le type de générateur utilisé.</p>
+    <p>
+      <b
+      >s = rng(&apos;shuffle&apos;, generator)</b> initialise la graine du générateur de nombres aléatoires en fonction de l&apos;heure courante, spécifie également le type de générateur utilisé et renvoie le générateur précédent sous forme de structure.          </p>
+    <p>
+      <b
       >s = rng</b> renvoie le générateur courant sous forme de structure.          </p>
-    <p><b
-      >rng(s)</b> restaure les paramètres du générateur de nombres aléatoires à partir d'une structure précédente renvoyée par<b
+    <p>
+      <b
+      >rng(s)</b> restaure les paramètres du générateur de nombres aléatoires à partir d&apos;une structure précédente renvoyée par<b
       >s = rng</b>.</p>
     <p />
     <p>Générateurs disponibles :</p>
@@ -82,32 +96,42 @@
         <th>Mot-clé du générateur</th>
       </tr>
       <tr>
-        <td>"twister"</td>
+        <td>
+          &quot;twister&quot;
+        </td>
         <td>Mersenne Twister</td>
         <td>mt19937ar</td>
       </tr>
       <tr>
-        <td>"simdTwister"</td>
+        <td>
+          &quot;simdTwister&quot;
+        </td>
         <td>SIMD-Oriented Fast Mersenne Twister</td>
         <td>dsfmt19937</td>
       </tr>
       <tr>
-        <td>"combRecursive"</td>
+        <td>
+          &quot;combRecursive&quot;
+        </td>
         <td>Combined Multiple Recursive</td>
         <td>mrg32k3a</td>
       </tr>
       <tr>
-        <td>"multFibonacci"</td>
+        <td>
+          &quot;multFibonacci&quot;
+        </td>
         <td>Multiplicative Lagged Fibonacci</td>
         <td>mlfg6331_64</td>
       </tr>
       <tr>
-        <td>"philox"</td>
+        <td>
+          &quot;philox&quot;
+        </td>
         <td>Philox 4x32 generator with 10 rounds</td>
         <td>philox4x32_10</td>
       </tr>
     </table>
-    <p>Le générateur par défaut est "twister".</p>
+    <p>Le générateur par défaut est &quot;twister&quot;.</p>
   </description>
   <used_function />
   <bibliography />

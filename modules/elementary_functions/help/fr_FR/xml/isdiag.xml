@@ -16,11 +16,12 @@
   <param_output>
     <param_output_item>
       <param_name>tf</param_name>
-      <param_description>booléen : résultat de 'isdiag'.</param_description>
+      <param_description>booléen : résultat de &apos;isdiag&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >isdiag</b> renvoie un scalaire booléen si la matrice est diagonale.</p>
   </description>
   <used_function />

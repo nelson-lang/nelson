@@ -20,7 +20,8 @@
       <param_description>a logical: true or false</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >iscell</b> returns a logical 1 if the argument is a cell array and a logical 0 otherwise.</description>
   <used_function />
   <bibliography />

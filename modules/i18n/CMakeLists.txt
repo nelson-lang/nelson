@@ -33,16 +33,7 @@ if(WITHOUT_I18N_MODULE)
             ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include)
-<<<<<<< HEAD
-# ==============================================================================
-  target_link_libraries(${module_library_name} 
-    PRIVATE
-      nlsCharacters_encoding
-      nlsNelson_manager)
-# ==============================================================================
-=======
   target_link_libraries(${module_library_name} PRIVATE nlsCharacters_encoding)
->>>>>>> master
 else()
   target_include_directories(
     ${module_library_name}
@@ -54,26 +45,8 @@ else()
             ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include)
-<<<<<<< HEAD
-# ==============================================================================
-  target_link_libraries(${module_library_name} 
-    PRIVATE
-      nlsCharacters_encoding
-      nlsCommons
-      nlsNelson_manager)
-# ==============================================================================
-endif()
-# ==============================================================================
-if(WITHOUT_I18N_MODULE)
-  file(GLOB I18N_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/no-src/include/*.hpp"
-       "${CMAKE_CURRENT_SOURCE_DIR}/no-src/include/*.h")
-else()
-  file(GLOB I18N_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
-       "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
-=======
   target_link_libraries(${module_library_name} PRIVATE nlsCharacters_encoding
                                                        nlsNelson_manager)
->>>>>>> master
 endif()
 
 file(

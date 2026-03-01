@@ -25,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>T = ismember(A, B)</b> returns an array of logical where the data in<b
+    <p>
+      <b>T = ismember(A, B)</b> returns an array of logical where the data in<b
       >A</b> is found in <b>B</b>.</p>
   </description>
   <used_function />

@@ -16,7 +16,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>MPI_Comm_object(h)</b> creates an MPI_Comm object.</p>
+    <p>
+      <b>MPI_Comm_object(h)</b> creates an MPI_Comm object.</p>
   </description>
   <used_function />
   <bibliography />

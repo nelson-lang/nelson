@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>openvar</keyword>
   <short_description
-  >Ouvre une variable dans l'éditeur de variables</short_description>
+  >Ouvre une variable dans l&apos;éditeur de variables</short_description>
   <syntax>
     <syntax_item>openvar(varname)</syntax_item>
   </syntax>
@@ -16,15 +16,16 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>openvar(varname)</b> ouvre la variable nommée <b
-      >varname</b> dans l'éditeur de variables de Nelson pour inspection et édition graphique.</p>
+    <p>
+      <b>openvar(varname)</b> ouvre la variable nommée <b
+      >varname</b> dans l&apos;éditeur de variables de Nelson pour inspection et édition graphique.</p>
     <p
-    >Toutes les modifications effectuées dans l'éditeur sont appliquées immédiatement dans le workspace.</p>
+    >Toutes les modifications effectuées dans l&apos;éditeur sont appliquées immédiatement dans le workspace.</p>
     <p
-    >L'éditeur de variables supporte les scalaires, vecteurs, matrices, chaînes, cellules, tables et structures. Les tableaux multidimensionnels peuvent être visualisés mais leur édition peut être limitée.</p>
+    >L&apos;éditeur de variables supporte les scalaires, vecteurs, matrices, chaînes, cellules, tables et structures. Les tableaux multidimensionnels peuvent être visualisés mais leur édition peut être limitée.</p>
     <p
     >Vous pouvez également ouvrir une variable en double-cliquant dessus dans le panneau Variables.</p>
-    <p>L'éditeur se synchronise automatiquement avec le workspace courant.</p>
+    <p>L&apos;éditeur se synchronise automatiquement avec le workspace courant.</p>
     <p
     >Contenu éditable : dans les structures (struct), cellules (cell) et tables (table), seuls les éléments scalaires sont éditables.</p>
     <p
@@ -32,7 +33,7 @@
       >Microsoft Excel</b>, <b>LibreOffice Calc</b> et <b
       >OpenOffice Calc</b>.</p>
     <p
-    >Vous pouvez copier des variables depuis l'éditeur de variables et les coller directement dans ces applications, et inversement.</p>
+    >Vous pouvez copier des variables depuis l&apos;éditeur de variables et les coller directement dans ces applications, et inversement.</p>
     <p>
       <img src="../images/openvar.png" align="middle" />
     </p>

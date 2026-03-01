@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>or</keyword>
-  <short_description>Opérateur logique 'OU', |</short_description>
+  <short_description>Opérateur logique &apos;OU&apos;, |</short_description>
   <syntax>
     <syntax_item>C = or(A, B)</syntax_item>
     <syntax_item>C = A | B</syntax_item>
@@ -25,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>C = or(A, B)</b> effectue une opération logique <b>OU</b>.</p>
+    <p>
+      <b>C = or(A, B)</b> effectue une opération logique <b>OU</b>.</p>
   </description>
   <used_function />
   <bibliography />

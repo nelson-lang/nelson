@@ -33,7 +33,7 @@
   <description>
     <p
     >Lit des données au format texte depuis le fichier spécifié par le descripteur fid.</p>
-    <p>L'encodage des caractères utilise le paramètre <b>fopen</b>.</p>
+    <p>L&apos;encodage des caractères utilise le paramètre <b>fopen</b>.</p>
     <table style="width:100%">
       <tr>
         <th>Value type</th>

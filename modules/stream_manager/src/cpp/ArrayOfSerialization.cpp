@@ -27,7 +27,7 @@ eigenSparseToIJV(const Eigen::SparseMatrix<T, 0, signedIndexType>& M, std::vecto
     nzmax = M.data().allocatedSize();
     for (int i = 0; i < M.outerSize(); i++) {
         for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(M, i); it;
-             ++it) {
+            ++it) {
             I.push_back(it.row());
             J.push_back(it.col());
             V.push_back(it.value());

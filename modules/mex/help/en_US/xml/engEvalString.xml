@@ -6,7 +6,8 @@
   <short_description
   >Evaluate expression in string in base scope</short_description>
   <syntax>
-    <syntax_item>#include "engine.h"</syntax_item>
+    <syntax_item>#include &quot;engine.h&quot;
+    </syntax_item>
     <syntax_item
     >int engEvalString(Engine *ep, const char *string);</syntax_item>
   </syntax>

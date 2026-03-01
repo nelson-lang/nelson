@@ -4,20 +4,20 @@
   <language>fr_FR</language>
   <keyword>fftw</keyword>
   <short_description
-  >fonction pour déterminer l'algorithme FFT.</short_description>
+  >fonction pour déterminer l&apos;algorithme FFT.</short_description>
   <syntax>
-    <syntax_item>m = fftw('planner')</syntax_item>
-    <syntax_item>fftw('planner', m)</syntax_item>
-    <syntax_item>w = fftw('dwisdom')</syntax_item>
-    <syntax_item>fftw('dwisdom', w)</syntax_item>
-    <syntax_item>w = fftw('swisdom')</syntax_item>
-    <syntax_item>fftw('swisdom', w)</syntax_item>
+    <syntax_item>m = fftw(&apos;planner&apos;)</syntax_item>
+    <syntax_item>fftw(&apos;planner&apos;, m)</syntax_item>
+    <syntax_item>w = fftw(&apos;dwisdom&apos;)</syntax_item>
+    <syntax_item>fftw(&apos;dwisdom&apos;, w)</syntax_item>
+    <syntax_item>w = fftw(&apos;swisdom&apos;)</syntax_item>
+    <syntax_item>fftw(&apos;swisdom&apos;, w)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>m</param_name>
       <param_description
-      >méthode pour définir les paramètres de la transformée : 'estimate', 'measure', 'patient', 'exhaustive' ou 'hybrid'.</param_description>
+      >méthode pour définir les paramètres de la transformée : &apos;estimate&apos;, &apos;measure&apos;, &apos;patient&apos;, &apos;exhaustive&apos; ou &apos;hybrid&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>w</param_name>
@@ -28,7 +28,7 @@
     <param_output_item>
       <param_name>m</param_name>
       <param_description
-      >méthode : 'estimate', 'measure', 'patient', 'exhaustive' ou 'hybrid'.</param_description>
+      >méthode : &apos;estimate&apos;, &apos;measure&apos;, &apos;patient&apos;, &apos;exhaustive&apos; ou &apos;hybrid&apos;.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>w</param_name>
@@ -36,7 +36,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>La méthode par défaut est 'estimate'.</p>
+    <p>La méthode par défaut est &apos;estimate&apos;.</p>
   </description>
   <used_function />
   <bibliography />

@@ -26,7 +26,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>B = bernsteinMatrix(n, t)</b> constructs a Bernstein matrix<b
+    <p>
+      <b>B = bernsteinMatrix(n, t)</b> constructs a Bernstein matrix<b
       >B</b> with dimensions length(t) - by - (n+1), where t is a vector.</p>
     <p>The Bernstein matrix is also referred to as the Bezier matrix.</p>
     <p

@@ -4,9 +4,12 @@
   <language>en_US</language>
   <keyword>shortcutand</keyword>
   <short_description
-  >Short circuit 'AND' operator, &amp;&amp;</short_description>
+  >Short circuit &apos;AND&apos; operator, &amp;
+    &amp;
+  </short_description>
   <syntax>
-    <syntax_item>C = A &amp;&amp; B</syntax_item>
+    <syntax_item>C = A &amp;
+      &amp; B</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -21,11 +24,14 @@
   <param_output>
     <param_output_item>
       <param_name>C</param_name>
-      <param_description>result of A &amp;&amp; B</param_description>
+      <param_description>result of A &amp;
+        &amp; B</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>C = A &amp;&amp; B</b> performs a logical<b
+    <p>
+      <b>C = A &amp;
+        &amp; B</b> performs a logical<b
       >AND</b> operation, the second operand is evaluated only when the result is not fully determined by the first operand.</p>
   </description>
   <used_function />

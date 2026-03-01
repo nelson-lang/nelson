@@ -4,23 +4,24 @@
   <language>fr_FR</language>
   <keyword>rms</keyword>
   <short_description
-  >Valeur quadratique moyenne (RMS) des éléments d'un tableau.</short_description>
+  >Valeur quadratique moyenne (RMS) des éléments d&apos;un tableau.</short_description>
   <syntax>
     <syntax_item>y = rms(x)</syntax_item>
     <syntax_item>y = rms(x, dim)</syntax_item>
     <syntax_item>y = rms(x, vecdim)</syntax_item>
-    <syntax_item>y = rms(x, 'all')</syntax_item>
+    <syntax_item>y = rms(x, &apos;all&apos;)</syntax_item>
     <syntax_item>y = rms(x, dim, type)</syntax_item>
-    <syntax_item>y = rms(x, 'all', type)</syntax_item>
+    <syntax_item>y = rms(x, &apos;all&apos;, type)</syntax_item>
     <syntax_item>y = rms(x, dim, type, nanflag)</syntax_item>
-    <syntax_item>y = rms(x, 'all', type, nanflag)</syntax_item>
+    <syntax_item>y = rms(x, &apos;all&apos;, type, nanflag)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>x</param_name>
       <param_description
-      >Tableau d'entrée, spécifié comme un vecteur, une matrice ou un tableau multidimensionnel : types single, double, logique, entier <br
-        /></param_description>
+      >Tableau d&apos;entrée, spécifié comme un vecteur, une matrice ou un tableau multidimensionnel : types single, double, logique, entier <br
+        />
+      </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>dim</param_name>
@@ -28,19 +29,23 @@
       >Dimension sur laquelle opérer, spécifiée comme un scalaire entier positif.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'all'</param_name>
+      <param_name>
+        &apos;all&apos;
+      </param_name>
       <param_description
       >Opérer sur tous les éléments de x, en retournant la valeur RMS de tous les éléments.        </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>type</param_name>
       <param_description
-      >Type de données à utiliser dans le calcul : 'double', 'native'</param_description>
+      >Type de données à utiliser dans le calcul : &apos;double&apos;, &apos;native&apos;
+      </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>nanflag</param_name>
       <param_description
-      >Condition de valeur manquante, spécifiée comme : 'includenan', 'includemissing', 'omitnan', 'omitmissing'</param_description>
+      >Condition de valeur manquante, spécifiée comme : &apos;includenan&apos;, &apos;includemissing&apos;, &apos;omitnan&apos;, &apos;omitmissing&apos;
+      </param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -51,23 +56,26 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >rms</b> renvoie la valeur quadratique moyenne (RMS) des éléments du tableau d'entrée.</p>
+    <p>
+      <b
+      >rms</b> renvoie la valeur quadratique moyenne (RMS) des éléments du tableau d&apos;entrée.</p>
     <p>
       <ul>
         <li>Si <b>x</b> est un vecteur, <b>y</b> est un scalaire.</li>
         <li>Si <b>x</b> est une matrice, <b
           >y</b> est un vecteur ligne contenant la valeur RMS pour chaque colonne (par défaut).</li>
         <li>Si <b>x</b> est un tableau multidimensionnel, <b
-          >y</b> contient les valeurs RMS calculées le long de la première dimension du tableau dont la taille n'est pas égale à 1, sauf si une autre dimension est spécifiée.</li>
+          >y</b> contient les valeurs RMS calculées le long de la première dimension du tableau dont la taille n&apos;est pas égale à 1, sauf si une autre dimension est spécifiée.</li>
       </ul>
     </p>
-    <p>La valeur quadratique moyenne d'un tableau x est:          <latex
-      >\mathrm{RMS}(x) = \sqrt{ \frac{1}{N} \sum_{n=1}^{N} |x_n|^2 }</latex>        où la sommation est effectuée le long de la ou des dimensions spécifiées, et N est le nombre d'éléments le long de ces dimensions.      </p>
-    <p><b
-      >Gestion des NaN :</b> Par défaut, les valeurs NaN sont incluses. Utilisez 'omitnan' ou 'omitmissing' pour ignorer les NaN.      </p>
-    <p><b>Gestion du type :</b> Si <b
-      >type</b> est 'native', le calcul et la sortie utilisent la même classe que l'entrée (par exemple, une entrée entière renvoie une sortie entière).      </p>
+    <p>La valeur quadratique moyenne d&apos;un tableau x est:          <latex
+      >\mathrm{RMS}(x) = \sqrt{ \frac{1}{N} \sum_{n=1}^{N} |x_n|^2 }</latex>        où la sommation est effectuée le long de la ou des dimensions spécifiées, et N est le nombre d&apos;éléments le long de ces dimensions.      </p>
+    <p>
+      <b
+      >Gestion des NaN :</b> Par défaut, les valeurs NaN sont incluses. Utilisez &apos;omitnan&apos; ou &apos;omitmissing&apos; pour ignorer les NaN.      </p>
+    <p>
+      <b>Gestion du type :</b> Si <b
+      >type</b> est &apos;native&apos;, le calcul et la sortie utilisent la même classe que l&apos;entrée (par exemple, une entrée entière renvoie une sortie entière).      </p>
   </description>
   <used_function />
   <bibliography />
@@ -75,7 +83,7 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Valeur RMS d'un vecteur</example_item_description>
+      >Valeur RMS d&apos;un vecteur</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[
@@ -88,7 +96,7 @@ y = rms(x)
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Valeurs RMS des colonnes d'une matrice</example_item_description>
+      >Valeurs RMS des colonnes d&apos;une matrice</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[
@@ -100,7 +108,7 @@ y = rms(x)
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Valeurs RMS des lignes d'une matrice</example_item_description>
+      >Valeurs RMS des lignes d&apos;une matrice</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

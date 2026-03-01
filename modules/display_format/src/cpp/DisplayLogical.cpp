@@ -215,8 +215,8 @@ DisplayNdLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
         bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
         for (int k = 0;
-             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
-             k++) {
+            k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+            k++) {
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
             if (withColumsHeader) {
@@ -235,8 +235,8 @@ DisplayNdLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
             }
             for (indexType i = 0; i < rows; i++) {
                 for (indexType j = 0; j < colsInThisPage
-                     && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
-                     j++) {
+                    && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
+                    j++) {
                     indexType idx = i + (k * colsPerPage + j) * rows + offset;
                     std::wstring valueAsString;
                     if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
@@ -304,7 +304,7 @@ Display2dSparseLogical(size_t evaluatorID, Interface* io, const ArrayOf& A,
             break;
         }
         for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k); it;
-             ++it) {
+            ++it) {
             if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
                 break;
             }

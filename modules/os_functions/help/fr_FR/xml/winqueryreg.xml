@@ -6,7 +6,7 @@
   <short_description
   >Lire le registre Windows (Windows seulement).</short_description>
   <syntax>
-    <syntax_item>c = winqueryreg ('name', rootkey, subkey)</syntax_item>
+    <syntax_item>c = winqueryreg (&apos;name&apos;, rootkey, subkey)</syntax_item>
     <syntax_item>v = winqueryreg (rootkey, subkey, value_name)</syntax_item>
     <syntax_item>v = winqueryreg (rootkey, subkey)</syntax_item>
   </syntax>
@@ -35,20 +35,29 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >c = winqueryreg ('name', rootkey, subkey)</b> renvoie une cellule de chaînes contenant les noms des clés dans rootkey\subkey.</p>
-    <p><b
+    <p>
+      <b
+      >c = winqueryreg (&apos;name&apos;, rootkey, subkey)</b> renvoie une cellule de chaînes contenant les noms des clés dans rootkey\subkey.</p>
+    <p>
+      <b
       >v = winqueryreg (rootkey, subkey, value_name)</b> renvoie la valeur associée à value_name dans rootkey\subkey.</p>
     <p>Si la valeur est un entier 32 bits,<b
       >winqueryreg</b> renvoie la valeur en int32. Si la valeur est une chaîne, elle est renvoyée en tant que chaîne.</p>
-    <p><b
-      >v = winqueryreg (rootkey, subkey)</b> renvoie la valeur dans rootkey\subkey qui n'a pas de propriété value name.</p>
+    <p>
+      <b
+      >v = winqueryreg (rootkey, subkey)</b> renvoie la valeur dans rootkey\subkey qui n&apos;a pas de propriété value name.</p>
     <p>Clés racines supportées :</p>
-    <p>'HKEY_CLASSES_ROOT', 'HKCR',</p>
-    <p>'HKEY_CURRENT_USER', 'HKCU',</p>
-    <p>'HKEY_LOCAL_MACHINE', 'HKLM',</p>
-    <p>'HKEY_USERS', 'HKU',</p>
-    <p>'HKEY_CURRENT_CONFIG', 'HKCC'</p>
+    <p>
+      &apos;HKEY_CLASSES_ROOT&apos;, &apos;HKCR&apos;,</p>
+    <p>
+      &apos;HKEY_CURRENT_USER&apos;, &apos;HKCU&apos;,</p>
+    <p>
+      &apos;HKEY_LOCAL_MACHINE&apos;, &apos;HKLM&apos;,</p>
+    <p>
+      &apos;HKEY_USERS&apos;, &apos;HKU&apos;,</p>
+    <p>
+      &apos;HKEY_CURRENT_CONFIG&apos;, &apos;HKCC&apos;
+    </p>
   </description>
   <used_function />
   <bibliography />

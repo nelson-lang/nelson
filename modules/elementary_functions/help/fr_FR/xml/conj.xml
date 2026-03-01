@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>conj</b> renvoie le conjugué complexe.</p>
+    <p>
+      <b>conj</b> renvoie le conjugué complexe.</p>
   </description>
   <used_function />
   <bibliography />

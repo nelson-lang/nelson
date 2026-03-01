@@ -33,7 +33,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >padecoef(T, N)</b> computes the Nth-order Padé Approximation for the continuous-time delay system represented by the exponential term exp(-T*s) and returns it in the form of a transfer function.</p>
   </description>
   <bibliography

@@ -24,7 +24,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>clf</b> efface la figure courante.</p>
+    <p>
+      <b>clf</b> efface la figure courante.</p>
   </description>
   <used_function />
   <bibliography />

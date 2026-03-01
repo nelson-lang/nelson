@@ -7,7 +7,7 @@
   <syntax>
     <syntax_item>T = maxNumCompThreads()</syntax_item>
     <syntax_item>PREVIOUS_T = maxNumCompThreads(T)</syntax_item>
-    <syntax_item>PREVIOUS_T = maxNumCompThreads('automatic')</syntax_item>
+    <syntax_item>PREVIOUS_T = maxNumCompThreads(&apos;automatic&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>

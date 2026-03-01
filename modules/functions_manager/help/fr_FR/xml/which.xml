@@ -7,8 +7,8 @@
   <syntax>
     <syntax_item>which(function_name)</syntax_item>
     <syntax_item>p = which(function_name)</syntax_item>
-    <syntax_item>c = which(function_name, '-all')</syntax_item>
-    <syntax_item>m = which(function_name, '-module')</syntax_item>
+    <syntax_item>c = which(function_name, &apos;-all&apos;)</syntax_item>
+    <syntax_item>m = which(function_name, &apos;-module&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -34,7 +34,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>which</b> retourne le chemin d'une fonction ou d'une intégrée.</p>
+    <p>
+      <b>which</b> retourne le chemin d&apos;une fonction ou d&apos;une intégrée.</p>
   </description>
   <used_function />
   <bibliography />

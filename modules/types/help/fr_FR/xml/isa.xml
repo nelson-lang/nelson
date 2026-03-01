@@ -26,9 +26,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >isa</b> renvoie 1 logique (vrai) si l'argument est un tableau de cellules et 0 logique (faux) sinon.</p>
-    <p>str peut aussi être 'numeric', 'float' ou 'integer' :</p>
+    <p>
+      <b
+      >isa</b> renvoie 1 logique (vrai) si l&apos;argument est un tableau de cellules et 0 logique (faux) sinon.</p>
+    <p>str peut aussi être &apos;numeric&apos;, &apos;float&apos; ou &apos;integer&apos; :</p>
     <p
     >numeric : tableau à virgule flottante ou entier : double, single, int8, uint8, int16, uint16, int32, uint32, int64, uint64</p>
     <p
@@ -36,7 +37,7 @@
     <p
     >integer : tableau entier signé ou non signé : int8, uint8, int16, uint16, int32, uint32, int64, uint64</p>
     <p>Si <b
-      >var</b> est un objet handle, str peut être 'handle' ou le nom de type du handle.</p>
+      >var</b> est un objet handle, str peut être &apos;handle&apos; ou le nom de type du handle.</p>
   </description>
   <used_function />
   <bibliography />

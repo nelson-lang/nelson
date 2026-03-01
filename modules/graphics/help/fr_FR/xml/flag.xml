@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>flag</b> retourne la palette de couleurs flag.</p>
+    <p>
+      <b>flag</b> retourne la palette de couleurs flag.</p>
   </description>
   <used_function />
   <bibliography />

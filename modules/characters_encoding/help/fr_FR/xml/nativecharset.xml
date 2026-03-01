@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>nativecharset</keyword>
   <short_description
-  >Trouve tous les jeux de caractères qui semblent cohérents avec l'entrée</short_description>
+  >Trouve tous les jeux de caractères qui semblent cohérents avec l&apos;entrée</short_description>
   <syntax>
     <syntax_item>ce = nativecharset(bytes)</syntax_item>
   </syntax>
@@ -22,13 +22,15 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >nativecharset</b> trouve tous les jeux de caractères qui semblent cohérents avec l'entrée, retournant une cellule de chaînes avec les résultats.</p>
+    <p>
+      <b
+      >nativecharset</b> trouve tous les jeux de caractères qui semblent cohérents avec l&apos;entrée, retournant une cellule de chaînes avec les résultats.</p>
     <p
     >Les résultats sont ordonnés avec la meilleure correspondance de qualité en premier.</p>
     <p>Liste des jeux de caractères :<a
         href="https://www.iana.org/assignments/character-sets/character-sets.xhtml"
-      >https://www.iana.org/assignments/character-sets/character-sets.xhtml</a></p>
+      >https://www.iana.org/assignments/character-sets/character-sets.xhtml</a>
+    </p>
   </description>
   <used_function />
   <bibliography>ICU library</bibliography>

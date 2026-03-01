@@ -15,32 +15,33 @@
     <param_input_item>
       <param_name>-cli</param_name>
       <param_description
-      >équivalent à l'appel de 'nelson-cli'.</param_description>
+      >équivalent à l&apos;appel de &apos;nelson-cli&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>-adv-cli</param_name>
       <param_description
-      >équivalent à l'appel de 'nelson-adv-cli'.</param_description>
+      >équivalent à l&apos;appel de &apos;nelson-adv-cli&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>-gui</param_name>
       <param_description
-      >équivalent à l'appel de 'nelson-gui'.</param_description>
+      >équivalent à l&apos;appel de &apos;nelson-gui&apos;.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>-e "nelson instructions"</param_name>
+      <param_name>-e &quot;nelson instructions&quot;
+      </param_name>
       <param_description
-      >Si cette option est présente, les instructions Nelson sont exécutées juste après l'exécution du fichier de démarrage. Les options -e et -f sont mutuellement exclusives.</param_description>
+      >Si cette option est présente, les instructions Nelson sont exécutées juste après l&apos;exécution du fichier de démarrage. Les options -e et -f sont mutuellement exclusives.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>-f filename</param_name>
       <param_description
-      >Un script Nelson est exécuté juste après l'exécution du fichier de démarrage. Les options -e et -f sont mutuellement exclusives.</param_description>
+      >Un script Nelson est exécuté juste après l&apos;exécution du fichier de démarrage. Les options -e et -f sont mutuellement exclusives.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>-F filename</param_name>
       <param_description
-      >Si cette option est présente, le script Nelson est exécuté juste après l'exécution du fichier de démarrage dans un processus Nelson existant ou en crée un.</param_description>
+      >Si cette option est présente, le script Nelson est exécuté juste après l&apos;exécution du fichier de démarrage dans un processus Nelson existant ou en crée un.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--help</param_name>
@@ -67,7 +68,7 @@
     <param_input_item>
       <param_name>--nostartup</param_name>
       <param_description
-      >désactive l'exécution du fichier script principal de Nelson au démarrage.</param_description>
+      >désactive l&apos;exécution du fichier script principal de Nelson au démarrage.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--nousermodules</param_name>
@@ -105,26 +106,31 @@
     <param_input_item>
       <param_name>--language lang</param_name>
       <param_description
-      >Si cette option est présente, elle fixe la langue de l'utilisateur. Actuellement, lang peut être : fr_FR fr_FR.</param_description>
+      >Si cette option est présente, elle fixe la langue de l&apos;utilisateur. Actuellement, lang peut être : fr_FR fr_FR.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--quiet</param_name>
       <param_description
-      >Si cette option est présente, aucune bannière ni version n'est affichée.</param_description>
+      >Si cette option est présente, aucune bannière ni version n&apos;est affichée.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >nelson-cli</b> : terminal basique, sans GUI (pas de dépendance au framework GUI), sans historique, sans complétion (encodage ISO Latin).</p>
-    <p><b
+    <p>
+      <b
       >nelson-adv-cli</b> : terminal avancé, console graphique absente, historique et complétion disponibles (support UTF-16).</p>
-    <p><b
+    <p>
+      <b
       >nelson-gui</b> : console graphique, historique et complétion disponibles (support UTF-16).</p>
     <p />
-    <p>Si vous avez installé Nelson sur Windows, la variable d'environnement<b
+    <p>Si vous avez installé Nelson sur Windows, la variable d&apos;environnement<b
       >NELSON_RUNTIME_PATH</b> sera définie.</p>
-    <p>Elle permet d'appeler facilement Nelson <b
-      >"%NELSON_RUNTIME_PATH%\nelson.bat"</b>.</p>
+    <p>Elle permet d&apos;appeler facilement Nelson <b
+      >
+        &quot;%NELSON_RUNTIME_PATH%\nelson.bat&quot;
+      </b>.</p>
   </description>
   <used_function />
   <bibliography />

@@ -25,11 +25,12 @@
   <param_output>
     <param_output_item>
       <param_name>R</param_name>
-      <param_description>résultat de 'circshift'.</param_description>
+      <param_description>résultat de &apos;circshift&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>circshift</b> effectue une rotation circulaire.</p>
+    <p>
+      <b>circshift</b> effectue une rotation circulaire.</p>
   </description>
   <used_function />
   <bibliography />

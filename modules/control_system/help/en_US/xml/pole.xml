@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>P = pole(sys)</b> returns the poles of <b>sys</b>.</p>
+    <p>
+      <b>P = pole(sys)</b> returns the poles of <b>sys</b>.</p>
   </description>
   <examples>
     <example_item>

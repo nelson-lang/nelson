@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>padecoef</keyword>
   <short_description
-  >Calcule l'approximation de Padé des délais temporels.</short_description>
+  >Calcule l&apos;approximation de Padé des délais temporels.</short_description>
   <syntax>
     <syntax_item>[numerator, denominator] = padecoef(T, N)</syntax_item>
     <syntax_item>[numerator, denominator] = padecoef(T)</syntax_item>
@@ -18,24 +18,25 @@
     <param_input_item>
       <param_name>N</param_name>
       <param_description
-      >Ordre de l'approximation : un scalaire réel positif (par défaut N = 1).</param_description>
+      >Ordre de l&apos;approximation : un scalaire réel positif (par défaut N = 1).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>numerator</param_name>
       <param_description
-      >polynômes d'ordre N : vecteur ligne.</param_description>
+      >polynômes d&apos;ordre N : vecteur ligne.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>denominator</param_name>
       <param_description
-      >polynômes d'ordre N : vecteur ligne.</param_description>
+      >polynômes d&apos;ordre N : vecteur ligne.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >padecoef(T, N)</b> calcule l'approximation de Padé d'ordre N pour le système à retard en temps continu représenté par le terme exponentiel exp(-T*s) et le renvoie sous la forme d'une fonction de transfert.</p>
+    <p>
+      <b
+      >padecoef(T, N)</b> calcule l&apos;approximation de Padé d&apos;ordre N pour le système à retard en temps continu représenté par le terme exponentiel exp(-T*s) et le renvoie sous la forme d&apos;une fonction de transfert.</p>
     <p
     >Voir http://en.wikipedia.org/wiki/Pad%C3%A9_approximant et Golub &amp; Van Loan, Matrix Computations pour les détails.</p>
   </description>

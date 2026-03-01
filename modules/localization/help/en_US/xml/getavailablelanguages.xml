@@ -15,7 +15,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >getavailablelanguages</b> returns the list of currently supported languages in Nelson.</p>
   </description>
   <used_function />

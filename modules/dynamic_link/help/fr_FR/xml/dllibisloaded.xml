@@ -29,7 +29,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >dllibisloaded</b> indique si une bibliothèque partagée est déjà chargée.</p>
   </description>
   <used_function />

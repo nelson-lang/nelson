@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>log1p</b> computes log(1 + x) accurately for small values of x.</p>
+    <p>
+      <b>log1p</b> computes log(1 + x) accurately for small values of x.</p>
   </description>
   <used_function />
   <bibliography />

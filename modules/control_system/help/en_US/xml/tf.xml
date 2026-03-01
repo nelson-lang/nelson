@@ -6,7 +6,7 @@
   <short_description>Constructs a transfer function model.</short_description>
   <syntax>
     <syntax_item>sys = tf()</syntax_item>
-    <syntax_item>sys = tf('s')</syntax_item>
+    <syntax_item>sys = tf(&apos;s&apos;)</syntax_item>
     <syntax_item>sys = tf(numerator, denominator)</syntax_item>
     <syntax_item>sys = tf(numerator, denominator, Ts)</syntax_item>
   </syntax>
@@ -39,7 +39,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >sys = tf(numerator, denominator)</b> is used to create a continuous-time transfer function model.</p>
     <p>It is defined by specifying <b>numerator</b> and <b
       >denominator</b> of the transfer function.</p>

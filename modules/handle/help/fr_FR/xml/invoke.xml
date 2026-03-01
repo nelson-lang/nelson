@@ -7,9 +7,9 @@
   >Invoque une méthode sur un objet handle.</short_description>
   <syntax>
     <syntax_item>R = invoke(h)</syntax_item>
-    <syntax_item>R = invoke(h, 'methodname')</syntax_item>
+    <syntax_item>R = invoke(h, &apos;methodname&apos;)</syntax_item>
     <syntax_item
-    >R = invoke(h, 'methodname', arg1, arg2, ... , argN)</syntax_item>
+    >R = invoke(h, &apos;methodname&apos;, arg1, arg2, ... , argN)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -25,10 +25,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >invoke(h)</b> renvoie une structure contenant la liste de toutes les méthodes appelables.</p>
-    <p><b
-      >R = invoke(h, 'methodname')</b> appelle la méthode spécifiée par methodname et renvoie une valeur de sortie.</p>
+    <p>
+      <b
+      >R = invoke(h, &apos;methodname&apos;)</b> appelle la méthode spécifiée par methodname et renvoie une valeur de sortie.</p>
   </description>
   <used_function />
   <bibliography />

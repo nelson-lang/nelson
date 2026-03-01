@@ -30,7 +30,7 @@
     <param_input_item>
       <param_name>html_type</param_name>
       <param_description
-      >a string: 'web' default or 'html' (local)</param_description>
+      >a string: &apos;web&apos; default or &apos;html&apos; (local)</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -40,7 +40,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>xmldoctohelp</b> converts xml Nelson help files to html.</p>
+    <p>
+      <b>xmldoctohelp</b> converts xml Nelson help files to html.</p>
   </description>
   <used_function />
   <bibliography />

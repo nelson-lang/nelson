@@ -6,10 +6,10 @@
   <chapter>Validateurs</chapter>
   <chapter_description>
     <p
-    >Le module Validators fournit des outils pour appliquer des contraintes et vérifier les valeurs d'entrée dans Nelson.</p>
+    >Le module Validators fournit des outils pour appliquer des contraintes et vérifier les valeurs d&apos;entrée dans Nelson.</p>
     <p
-    >Il prend en charge la vérification des types de données, des propriétés numériques, des dimensions des matrices et des vecteurs, la validité des textes, l'existence de fichiers et de dossiers, ainsi que les conditions logiques ou numériques.</p>
+    >Il prend en charge la vérification des types de données, des propriétés numériques, des dimensions des matrices et des vecteurs, la validité des textes, l&apos;existence de fichiers et de dossiers, ainsi que les conditions logiques ou numériques.</p>
     <p
-    >Ce module assure une validation d'entrée robuste, contribuant à prévenir les erreurs, garantir l'exactitude et améliorer la fiabilité des scripts et fonctions.</p>
+    >Ce module assure une validation d&apos;entrée robuste, contribuant à prévenir les erreurs, garantir l&apos;exactitude et améliorer la fiabilité des scripts et fonctions.</p>
   </chapter_description>
 </xmldoc>

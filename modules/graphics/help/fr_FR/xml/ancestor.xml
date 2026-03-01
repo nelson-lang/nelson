@@ -3,10 +3,10 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ancestor</keyword>
-  <short_description>Ancêtre d'un objet graphique.</short_description>
+  <short_description>Ancêtre d&apos;un objet graphique.</short_description>
   <syntax>
     <syntax_item>p = ancestor(h, type)</syntax_item>
-    <syntax_item>p = ancestor(h, type, 'toplevel')</syntax_item>
+    <syntax_item>p = ancestor(h, type, &apos;toplevel&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -19,9 +19,11 @@
       >un vecteur ligne de caractères ou une cellule de chaînes :</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'toplevel'</param_name>
+      <param_name>
+        &apos;toplevel&apos;
+      </param_name>
       <param_description
-      >un vecteur ligne de caractères : retourne le parent le plus haut dans la hiérarchie d'objets qui correspond à la condition.</param_description>
+      >un vecteur ligne de caractères : retourne le parent le plus haut dans la hiérarchie d&apos;objets qui correspond à la condition.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -31,8 +33,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >ancestor</b> retourne le handle de l'ancêtre d'un objet spécifié d'un type donné.</p>
+    <p>
+      <b
+      >ancestor</b> retourne le handle de l&apos;ancêtre d&apos;un objet spécifié d&apos;un type donné.</p>
   </description>
   <used_function />
   <bibliography />

@@ -24,7 +24,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >mustBeValidVariableName</b> checks that value is valid variable name or raise an error.</p>
   </description>
   <used_function />

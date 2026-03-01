@@ -9,7 +9,7 @@
     <syntax_item>R = eye(n)</syntax_item>
     <syntax_item>R = eye(n, m)</syntax_item>
     <syntax_item>R = eye(n, m, ..., z)</syntax_item>
-    <syntax_item>R = eye(n, m, ..., z, 'like', V)</syntax_item>
+    <syntax_item>R = eye(n, m, ..., z, &apos;like&apos;, V)</syntax_item>
     <syntax_item>R = eye(n, m, ..., z, classname)</syntax_item>
   </syntax>
   <param_input>
@@ -23,7 +23,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>eye</b> retourne une matrice identité.</p>
+    <p>
+      <b>eye</b> retourne une matrice identité.</p>
   </description>
   <used_function />
   <bibliography />

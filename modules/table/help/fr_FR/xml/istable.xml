@@ -3,25 +3,26 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>istable</keyword>
-  <short_description>Déterminer si l'entrée est une table.</short_description>
+  <short_description>Déterminer si l&apos;entrée est une table.</short_description>
   <syntax>
     <syntax_item>tf = istable(A)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>Tableau d'entrée.</param_description>
+      <param_description>Tableau d&apos;entrée.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>tf</param_name>
       <param_description
-      >un logique : vrai si c'est une table.</param_description>
+      >un logique : vrai si c&apos;est une table.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>tf = istable(A)</b> renvoie <b>true</b> si <b
+    <p>
+      <b>tf = istable(A)</b> renvoie <b>true</b> si <b
       >A</b> est une table, et <b>false</b> sinon.</p>
   </description>
   <used_function />

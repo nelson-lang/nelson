@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>mustBeNonZero</keyword>
-  <short_description>Vérifie que la valeur n'est pas zéro.</short_description>
+  <short_description>Vérifie que la valeur n&apos;est pas zéro.</short_description>
   <syntax>
     <syntax_item>mustBeNonZero(var)</syntax_item>
     <syntax_item>mustBeNonZero(var, argPosition)</syntax_item>
@@ -23,8 +23,9 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >mustBeNonZero</b> vérifie que la valeur n'est pas zéro ou renvoie une erreur.</p>
+    <p>
+      <b
+      >mustBeNonZero</b> vérifie que la valeur n&apos;est pas zéro ou renvoie une erreur.</p>
   </description>
   <used_function />
   <bibliography />

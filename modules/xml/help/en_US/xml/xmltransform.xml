@@ -41,7 +41,7 @@
     <p
     >This function applies an XSLT transformation to an XML file and saves the result to an output file.</p>
     <p
-    >If the output file already exists and 'overwrite' is set to false, the function will not perform the transformation and will return false.</p>
+    >If the output file already exists and &apos;overwrite&apos; is set to false, the function will not perform the transformation and will return false.</p>
   </description>
   <used_function />
   <bibliography />

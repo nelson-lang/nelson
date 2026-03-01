@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >K = kron(A, B)</b> calcule le produit tensoriel de Kronecker des matrices<b
       >A</b> et <b>B</b>.</p>
     <p>Pour des matrices</p>

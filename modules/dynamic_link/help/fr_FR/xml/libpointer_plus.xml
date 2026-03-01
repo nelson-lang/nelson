@@ -21,7 +21,7 @@
   <description>
     <p>Opérateur plus sur un handle libpointer.</p>
     <p
-    >Le libpointer de sortie n'est valide que tant que le libpointer d'origine existe.</p>
+    >Le libpointer de sortie n&apos;est valide que tant que le libpointer d&apos;origine existe.</p>
   </description>
   <used_function />
   <bibliography />

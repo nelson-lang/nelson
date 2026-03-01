@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>nargin</keyword>
   <short_description
-  >Nombre d'arguments d'entrée d'une fonction.</short_description>
+  >Nombre d&apos;arguments d&apos;entrée d&apos;une fonction.</short_description>
   <syntax>
     <syntax_item>R = nargin()</syntax_item>
     <syntax_item>R = nargin(function_name)</syntax_item>
@@ -24,12 +24,12 @@
     <param_output_item>
       <param_name>R</param_name>
       <param_description
-      >une valeur entière : nombre d'arguments d'entrée</param_description>
+      >une valeur entière : nombre d&apos;arguments d&apos;entrée</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p
-    >Retourne le nombre d'arguments d'entrée fournis à la fonction appelée.</p>
+    >Retourne le nombre d&apos;arguments d&apos;entrée fournis à la fonction appelée.</p>
   </description>
   <used_function />
   <bibliography />

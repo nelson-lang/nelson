@@ -34,7 +34,6 @@
   "nelson:control_system:invalidFrequencyInterval": "Frequency interval must be specified as {wmin, wmax} real.",
   "nelson:control_system:invalidTimeUnit": "TimeUnit property must be a valid time unit.",
   "nelson:control_system:invalidNumeratorDenominatorSizes": "Numerator and Denominator must have compatible sizes.",
-
   "nelson:i18n:messageNotFound": "Message not found for ID: '{0}'.",
   "nelson:internal:typeNotManaged": "Unsupported type.",
   "nelson:io:fileManagerError": "File manager error.",
@@ -189,7 +188,6 @@
   "nelson:validators:mustBeVectorAtPosition": "Invalid input argument at position {0}.\nValue must be a vector.",
   "nelson:validators:mustHaveAtLeastNElementsAtPosition": "Invalid input argument at position {0}. Value must have at least N elements for an N-D array.",
   "nelson:validators:sizeMismatch": "Inputs must have the same size.",
-
   "nelson:validators:unsupportedCombination": "A combination of '{0}' and '{1}' options is not supported.",
   "nelson:validators:mustBeSymmetricMatrixAtPosition": "Invalid input argument at position {0}. Value must be a symmetric matrix.",
   "nelson:runtime:illegalIndexingStructure": "Illegal indexing structure argument: type {0} expected.",

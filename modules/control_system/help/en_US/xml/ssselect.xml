@@ -34,7 +34,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>ssselect</b> extracts subsystem from larger system.</p>
+    <p>
+      <b>ssselect</b> extracts subsystem from larger system.</p>
   </description>
   <examples>
     <example_item>
