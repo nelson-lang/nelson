@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "StringHelpers.hpp"
@@ -126,7 +125,7 @@ DisplayNdChar(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
 
         io->outputMessage(name + L"(:,:");
         for (indexType m = 2; m < dims.getLength(); m++) {
-            io->outputMessage(fmt::sprintf(",%d", static_cast<int>(wdims[m]) + 1));
+            io->outputMessage(fmt::format(",{0:d}", static_cast<int>(wdims[m]) + 1));
         }
         io->outputMessage(L") =\n");
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {

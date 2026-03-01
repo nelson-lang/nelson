@@ -133,13 +133,12 @@ GuiTerminal::outputMessage(const std::wstring& msg)
 {
     QtTerminal* qtterm = getQtTerminalInstance();
     if (qtterm) {
-        std::wstring _msg = msg;
         if (qtterm->isAtPrompt()) {
             qtterm->clearLine();
             qtterm->sendReturnKey();
         }
-        qtterm->outputMessage(_msg);
-        this->diary.writeMessage(_msg);
+        qtterm->outputMessage(msg);
+        this->diary.writeMessage(msg);
     }
 }
 //=============================================================================

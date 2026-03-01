@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "NargOut.hpp"
@@ -29,8 +28,8 @@ NargOut(Evaluator* eval, const std::wstring& functionName)
             return ((MacroFunctionDef*)(fptr))->nargout();
         }
         if (fptr->type() == NLS_MEX_FUNCTION) {
-            std::string msg = fmt::sprintf(
-                _("'%s' does not know how to answer nargin/nargout."), fptr->getName());
+            std::string msg = fmt::format(
+                _("'{0}' does not know how to answer nargin/nargout."), fptr->getName());
             Error(msg);
         }
         return fptr->outputArgCount();

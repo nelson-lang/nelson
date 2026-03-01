@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <random>
@@ -152,7 +151,7 @@ KeyHash(Evaluator* eval, const ArrayOf& A)
         if (ptr) {
             hashValue = hash_combine(hashValue, ptr->keyHash());
         } else {
-            std::string message = fmt::sprintf(_("Unhashable type '%s'."), A.getHandleCategory());
+            std::string message = fmt::format(_("Unhashable type '{0}'."), A.getHandleCategory());
             Error(message);
         }
     };

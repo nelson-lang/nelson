@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "FutureObject.hpp"
@@ -61,8 +60,9 @@ void
 FutureObject::displayOnOneLineEmpty(Interface* io, size_t index)
 {
     std::wstring finishedDateTime = std::wstring(24, L' ');
-    std::wstring message = fmt::sprintf(_W("   %-4d   %-4d   %-10s   %-15s   %-30s   %-30s\n"),
-        index, -1, L"unavailable", finishedDateTime, L"[]", L"");
+    std::wstring message
+        = fmt::format(_W("   {:<4d}   {:<4d}   {:<10}   {:<15}   {:<30}   {:<30}\n"), index, -1,
+            L"unavailable", finishedDateTime, L"[]", L"");
     io->outputMessage(message);
 }
 //=============================================================================
@@ -80,9 +80,9 @@ FutureObject::displayOnOneLine(Interface* io, size_t index)
                 errorString = _exception.getMessage();
             }
         }
-        std::wstring message = fmt::sprintf(_W("   %-4d   %-4d   %-10s   %-15s   %-30s   %-30s\n"),
-            index, this->getID(), this->getStateAsString(), finishedDateTime, this->functionName,
-            errorString);
+        std::wstring message = fmt::format(
+            _W(L"   {:<4d}   {:<4d}   {:<10}   {:<15}   {:<30}   {:<30}\n"), index, this->getID(),
+            this->getStateAsString(), finishedDateTime, this->functionName, errorString);
         io->outputMessage(message);
     }
 }

@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "persistentBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -30,7 +30,7 @@ Nelson::MemoryGateway::persistentBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     for (size_t k = 0; k < argIn.size(); k++) {
         if (!argIn[k].isRowVectorCharacterArray()) {
-            Error(fmt::sprintf(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, k + 1));
+            Error(fmt::format(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, k + 1));
         }
         std::string arg = argIn[k].getContentAsCString();
         if (!IsValidVariableName(arg)) {

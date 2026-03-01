@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "cumulativeFunctionBuiltinHelpers.hpp"
@@ -32,7 +31,7 @@ getCumulativeArgument(const ArrayOfVector& argIn, int pos, bool& withNaN, bool& 
     } else if (wstr == L"forward") {
         reverse = false;
     } else {
-        std::string msg = fmt::sprintf(_("Wrong value for #%d argument."), pos);
+        std::string msg = fmt::format(_("Wrong value for #{0} argument."), pos);
         Error(msg);
     }
 }

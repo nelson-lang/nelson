@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <chrono>
@@ -159,8 +158,8 @@ Calendar::getAsFormatedText()
     unsigned lastdate = firstdate + (dim > 0 ? dim - 1 : 0);
     wstringVector names = getNameOfDays();
     std::wstring msg = getMonthName() + L" " + std::to_wstring(getYear()) + L"\n";
-    std::wstring msg1 = fmt::sprintf(L"%5s %5s %5s %5s %5s %5s %5s\n", names[0], names[1], names[2],
-        names[3], names[4], names[5], names[6]);
+    std::wstring msg1 = fmt::format(L"{0:>5} {1:>5} {2:>5} {3:>5} {4:>5} {5:>5} {6:>5}\n", names[0],
+        names[1], names[2], names[3], names[4], names[5], names[6]);
     size_t nbBlanks = msg1.size() / 2 - msg.size() / 2;
     msg.insert(0, nbBlanks, L' ');
     msg = msg + msg1;
@@ -168,7 +167,7 @@ Calendar::getAsFormatedText()
     uint8 k = 0;
 
     for (unsigned j = 0; j < firstdate; ++j) {
-        msg = msg + fmt::sprintf(L"%5d", 0) + L" ";
+        msg = msg + fmt::format(L"{0:>5}", 0) + L" ";
         if (k == NBR_DAY_IN_A_WEEK - 1) {
             msg = msg + L"\n";
             k = 0;
@@ -177,7 +176,7 @@ Calendar::getAsFormatedText()
         }
     }
     for (unsigned j = firstdate; j <= lastdate; ++j) {
-        msg = msg + fmt::sprintf(L"%5d", int(v)) + L" ";
+        msg = msg + fmt::format(L"{0:>5}", int(v)) + L" ";
         if (k == NBR_DAY_IN_A_WEEK - 1) {
             msg = msg + L"\n";
             k = 0;
@@ -188,7 +187,7 @@ Calendar::getAsFormatedText()
     }
     // trailing blanks to complete 7*6 = 42 cells
     for (unsigned j = lastdate + 1; j < (NBR_DAY_IN_A_WEEK * NBR_WEEK_IN_A_MONTH_MAX); ++j) {
-        msg = msg + fmt::sprintf(L"%5d", 0) + L" ";
+        msg = msg + fmt::format(L"{0:>5}", 0) + L" ";
         if (k == NBR_DAY_IN_A_WEEK - 1) {
             msg = msg + L"\n";
             k = 0;

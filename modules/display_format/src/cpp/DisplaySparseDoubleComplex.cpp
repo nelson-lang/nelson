@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <Eigen/Dense>
@@ -85,8 +84,8 @@ DisplaySparseDoubleComplexScalar(Interface* io, const ArrayOf& A, const std::wst
             c = it.col() + 1;
         }
     }
-    std::wstring formatIndex = _W("(%lu,%lu)");
-    std::wstring indexAsString = fmt::sprintf(formatIndex, (long long)r, (long long)c);
+    std::wstring formatIndex = L"({},{})";
+    std::wstring indexAsString = fmt::format(formatIndex, (long long)r, (long long)c);
     size_t maxLenIndexString = indexAsString.length();
 
     FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
@@ -94,7 +93,7 @@ DisplaySparseDoubleComplexScalar(Interface* io, const ArrayOf& A, const std::wst
     const std::complex<double>* values = spMat->valuePtr();
     std::wstring asStr
         = formatScalarComplexNumber(values[0].real(), values[0].imag(), false, formatInfo);
-    indexAsString = fmt::sprintf(formatIndex, (long long)r, (long long)c);
+    indexAsString = fmt::format(formatIndex, (long long)r, (long long)c);
     std::wstring msg = BLANKS_AT_BOL + centerText(indexAsString, maxLenIndexString) + BLANKS_BETWEEN
         + asStr + L"\n";
     io->outputMessage(msg);
@@ -109,8 +108,8 @@ DisplaySparseDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
     LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     if (A.getNonzeros() == 0) {
-        std::wstring format = _W("All zero sparse: %s");
-        std::wstring msg = fmt::sprintf(format, A.getDimensions().toWideString());
+        std::wstring format = _W("All zero sparse: {0}");
+        std::wstring msg = fmt::format(format, A.getDimensions().toWideString());
         io->outputMessage(BLANKS_AT_BOL + msg + L"\n");
         return;
     }
@@ -129,8 +128,8 @@ DisplaySparseDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
         }
     }
 
-    std::wstring formatIndex = _W("(%lu,%lu)");
-    std::wstring indexAsString = fmt::sprintf(formatIndex, (long long)rMax, (long long)cMax);
+    std::wstring formatIndex = L"({},{})";
+    std::wstring indexAsString = fmt::format(formatIndex, (long long)rMax, (long long)cMax);
     size_t maxLenIndexString = indexAsString.length();
 
     FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
@@ -163,7 +162,7 @@ DisplaySparseDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
             std::wstring asStr = formatElementComplex(value.real(), value.imag(), formatInfo);
 
             std::wstring indexAsString
-                = fmt::sprintf(formatIndex, (long long)(it.row() + 1), (long long)(it.col() + 1));
+                = fmt::format(formatIndex, (long long)(it.row() + 1), (long long)(it.col() + 1));
             buffer.append(BLANKS_AT_BOL);
             buffer.append(
                 centerText(indexAsString, maxLenIndexString) + BLANKS_BETWEEN + asStr + L"\n");

@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <Eigen/Dense>
@@ -205,7 +204,7 @@ DisplayNdLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
 
         io->outputMessage(name + L"(:,:");
         for (indexType m = 2; m < dims.getLength(); m++) {
-            io->outputMessage(fmt::sprintf(",%d", static_cast<int>(wdims[m]) + 1));
+            io->outputMessage(fmt::format(",{0:d}", static_cast<int>(wdims[m]) + 1));
         }
         io->outputMessage(L") =\n");
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
@@ -288,16 +287,16 @@ Display2dSparseLogical(size_t evaluatorID, Interface* io, const ArrayOf& A,
     }
 
     if (A.getNonzeros() == 0) {
-        std::wstring format = _W("All zero sparse: %s");
-        std::wstring msg = fmt::sprintf(format, A.getDimensions().toWideString());
+        std::wstring format = _W("All zero sparse: {0}");
+        std::wstring msg = fmt::format(format, A.getDimensions().toWideString());
         io->outputMessage(BLANKS_AT_BOL + msg + L"\n");
         return;
     }
     Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
         = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
 
-    std::wstring formatIndex = _W("(%lu,%lu)");
-    std::wstring indexAsString = fmt::sprintf(formatIndex, (long long)nbRows, (long long)nbCols);
+    std::wstring formatIndex = L"({},{})";
+    std::wstring indexAsString = fmt::format(formatIndex, (long long)nbRows, (long long)nbCols);
     size_t maxLenIndexString = indexAsString.length();
 
     for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
@@ -324,7 +323,7 @@ Display2dSparseLogical(size_t evaluatorID, Interface* io, const ArrayOf& A,
                 }
             }
             std::wstring indexAsString
-                = fmt::sprintf(formatIndex, (long long)(it.row() + 1), (long long)(it.col() + 1));
+                = fmt::format(formatIndex, (long long)(it.row() + 1), (long long)(it.col() + 1));
             io->outputMessage(BLANKS_AT_BOL + centerText(indexAsString, maxLenIndexString)
                 + BLANKS_BETWEEN + asStr + L"\n");
         }

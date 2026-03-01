@@ -40,10 +40,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Dedicated Windows Terminal profile installed for the application.
 
+- MacOS packaging as dmg installer (beta)
+
+
 ### Changed
 
 - Reduced interpreter overhead in tight loops.
 - Internal tooling refactored: nodejs and python tools for formatting and version updates replaced with Rust-based tools.
+- CMake factorized.
+- Innosetup installer modernized.
+- fmtlib 12.1
 
 ## 1.16.0 - (2025-12-27)
 

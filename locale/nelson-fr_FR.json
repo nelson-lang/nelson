@@ -177,7 +177,6 @@
   "'tdigest' class expected.": "Classe 'tdigest' attendue.",
   "'toplevel' expected as third argumnent.": "'toplevel' attendu comme troisième argument.",
   "'void' not allowed as input type.": "'void' n'est pas autorisé en tant que type d'entrée.",
-  "(%lu,%lu)": "(%lu,%lu)",
   "(possibly empty) argument list after '('": "liste d'arguments (éventuellement vide) après '('",
   "-file must be the first argument.": "-file doit être le premier argument.",
   "2D char array expected.": "Un tableau char 2D est attendu.",

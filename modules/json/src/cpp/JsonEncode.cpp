@@ -9,11 +9,13 @@
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include <iomanip>
 #include <sstream>
 #include <cstring>
+#include <cwchar>
+#include <vector>
 #include "StringHelpers.hpp"
 #include "nlsBuildConfig.h"
 #include "JsonEncode.hpp"
@@ -103,11 +105,11 @@ encode_character(std::wstring& jsonString, wchar_t ch)
         break;
     default: {
         if ((ch > 13) && (ch < 32)) {
-            json_append_string(jsonString, fmt::sprintf(std::wstring(L"\\u%04hx"), ch));
+            jsonString += fmt::format(L"\\u{:04x}", static_cast<unsigned int>(ch));
         } else {
             std::wstring wstr;
             wstr.push_back(ch);
-            json_append_string(jsonString, wstr);
+            jsonString.append(wstr);
         }
     } break;
     }
@@ -207,34 +209,42 @@ jsonEncodeInteger(
     jsonString.reserve(jsonString.size() + elementCount * 20);
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
         for (ompIndexType i = 0; i < elementCount; i++) {
-            json_append_string(jsonString, fmt::sprintf(format, ptr[i]));
+            std::vector<wchar_t> buffer(21);
+            int len = std::swprintf(buffer.data(), buffer.size(), format.c_str(), ptr[i]);
+            jsonString.append(buffer.data(), len);
         }
     } else if (ValueToEncode.is2D()) {
         indexType rows = ValueToEncode.getRows();
         indexType cols = ValueToEncode.getColumns();
         for (int i = 0; i < rows; ++i) {
-            json_append_char(jsonString, '[');
+            json_append_char(jsonString, L'[');
             for (int j = 0; j < cols; ++j) {
-                json_append_string(jsonString, fmt::sprintf(format, ptr[j * rows + i]));
+                std::vector<wchar_t> buffer(21);
+                int len = std::swprintf(
+                    buffer.data(), buffer.size(), format.c_str(), ptr[j * rows + i]);
+                jsonString.append(buffer.data(), len);
             }
             if (StringHelpers::ends_with(jsonString, L",")) {
                 jsonString.pop_back();
             }
-            json_append_string(jsonString, L"],");
+            jsonString.append(L"],");
         }
     } else {
         Dimensions dims = ValueToEncode.getDimensions();
         indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
         indexType ymax = dims.getElementCount() / lastdimlen;
         for (int i = 0; i < ymax; ++i) {
-            json_append_char(jsonString, '[');
+            json_append_char(jsonString, L'[');
             for (int j = 0; j < lastdimlen; ++j) {
-                json_append_string(jsonString, fmt::sprintf(format, ptr[j * ymax + i]));
+                std::vector<wchar_t> buffer(21);
+                int len = std::swprintf(
+                    buffer.data(), buffer.size(), format.c_str(), ptr[j * ymax + i]);
+                jsonString.append(buffer.data(), len);
             }
             if (StringHelpers::ends_with(jsonString, L",")) {
                 jsonString.pop_back();
             }
-            json_append_string(jsonString, L"],");
+            jsonString.append(L"],");
         }
     }
 }

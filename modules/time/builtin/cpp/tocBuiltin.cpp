@@ -9,8 +9,8 @@
 //=============================================================================
 #include <string>
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "tocBuiltin.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -31,7 +31,7 @@ Nelson::TimeGateway::tocBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
         if (Toc(t, r)) {
             ArrayOfVector retval(1);
             if (nLhs == 0) {
-                std::wstring msg = fmt::sprintf(_W("Elapsed time is %f seconds."), r);
+                std::wstring msg = fmt::format(_W("Elapsed time is {0:.6f} seconds."), r);
                 eval->getInterface()->outputMessage(msg + L"\n");
             } else {
                 retval << ArrayOf::doubleConstructor(r);
@@ -50,8 +50,8 @@ Nelson::TimeGateway::tocBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
         if (Toc(eval, r)) {
             ArrayOfVector retval;
             if (nLhs == 0) {
-                std::wstring msg = fmt::sprintf(_W("Elapsed time is %f seconds."), r);
-                eval->getInterface()->outputMessage(msg + L"\n");
+                std::wstring msg = fmt::format(_W("Elapsed time is {0:.6f} seconds."), r) + L"\n";
+                eval->getInterface()->outputMessage(msg);
             } else {
                 retval << ArrayOf::doubleConstructor(r);
             }

@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "JuliaHelpers.hpp"
@@ -76,7 +75,7 @@ jl_value_tRepresentation(jl_value_t* value, bool& fails, int nbRows, int nbColum
         return "";
     }
     jl_value_t* limit_value = NLSjl_eval_string(":limit=>true");
-    std::string displaysize_str = fmt::sprintf(":displaysize=>(%d,%d)", nbColumns, nbRows);
+    std::string displaysize_str = fmt::format(":displaysize=>({0},{1})", nbColumns, nbRows);
     jl_value_t* displaysize_value = NLSjl_eval_string(displaysize_str.c_str());
 
     jl_value_t* io_context = NLSjl_call3(io_context_func, iobuffer, limit_value, displaysize_value);

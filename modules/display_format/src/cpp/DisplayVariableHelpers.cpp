@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <cstring>
@@ -290,13 +289,13 @@ buildHeader(const ArrayOf& A)
             }
             dimensionsForHuman = isEmpty || !isScalar ? L"array" : L"";
             if (isEmpty) {
-                msg = fmt::sprintf(L"  %s %s %s %s %s", dimensions, L"empty", typeAsText,
+                msg = fmt::format(L"  {} {} {} {} {}", dimensions, L"empty", typeAsText,
                     dimensionsForHuman, withPart);
             } else if (isScalar) {
-                msg = fmt::sprintf(L"  %s %s", typeAsText, withPart);
+                msg = fmt::format(L"  {} {}", typeAsText, withPart);
             } else {
-                msg = fmt::sprintf(
-                    L"  %s %s %s %s", dimensions, typeAsText, dimensionsForHuman, withPart);
+                msg = fmt::format(
+                    L"  {} {} {} {}", dimensions, typeAsText, dimensionsForHuman, withPart);
             }
             msg.append(L"\n");
             return msg;
@@ -315,13 +314,13 @@ buildHeader(const ArrayOf& A)
             }
             dimensionsForHuman = isEmpty || !isScalar ? L"array" : L"";
             if (isEmpty) {
-                msg = fmt::sprintf(L"  %s %s %s %s %s", dimensions, L"empty", typeAsText,
+                msg = fmt::format(L"  {} {} {} {} {}", dimensions, L"empty", typeAsText,
                     dimensionsForHuman, withPart);
             } else if (isScalar) {
-                msg = fmt::sprintf(L"  %s %s", typeAsText, withPart);
+                msg = fmt::format(L"  {} {}", typeAsText, withPart);
             } else {
-                msg = fmt::sprintf(
-                    L"  %s %s %s %s", dimensions, typeAsText, dimensionsForHuman, withPart);
+                msg = fmt::format(
+                    L"  {} {} {} {}", dimensions, typeAsText, dimensionsForHuman, withPart);
             }
             msg.append(L"\n");
             return msg;
@@ -339,13 +338,13 @@ buildHeader(const ArrayOf& A)
             }
             dimensionsForHuman = isEmpty || !isScalar ? L"array" : L"";
             if (isEmpty) {
-                msg = fmt::sprintf(L"  %s %s %s %s %s", dimensions, L"empty", typeAsText,
+                msg = fmt::format(L"  {} {} {} {} {}", dimensions, L"empty", typeAsText,
                     dimensionsForHuman, withPart);
             } else if (isScalar) {
-                msg = fmt::sprintf(L"  %s %s", typeAsText, withPart);
+                msg = fmt::format(L"  {} {}", typeAsText, withPart);
             } else {
-                msg = fmt::sprintf(
-                    L"  %s %s %s %s", dimensions, typeAsText, dimensionsForHuman, withPart);
+                msg = fmt::format(
+                    L"  {} {} {} {}", dimensions, typeAsText, dimensionsForHuman, withPart);
             }
             msg.append(L"\n");
             return msg;
@@ -372,10 +371,10 @@ buildHeader(const ArrayOf& A)
         } break;
         }
         if (!A.isEmpty()) {
-            msg = fmt::sprintf(L"  %s %s %s", dimensions, typeAsText, dimensionsForHuman);
+            msg = fmt::format(L"  {} {} {}", dimensions, typeAsText, dimensionsForHuman);
         } else {
             std::wstring empty = _W("empty");
-            msg = fmt::sprintf(L"  %s %s %s %s", dimensions, empty, typeAsText, dimensionsForHuman);
+            msg = fmt::format(L"  {} {} {} {}", dimensions, empty, typeAsText, dimensionsForHuman);
         }
         msg.append(L"\n");
     }
@@ -645,8 +644,8 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
 std::wstring
 lightDescription(const ArrayOf& A, const std::wstring& firstChar, const std::wstring& lastChar)
 {
-    std::wstring format = L"%s%s %s%s";
-    return fmt::sprintf(format, firstChar, A.getDimensions().toWideString(),
+    std::wstring format = L"{}{} {}{}";
+    return fmt::format(format, firstChar, A.getDimensions().toWideString(),
         getClassAsWideString(A, true), lastChar);
 }
 //=============================================================================
@@ -655,9 +654,9 @@ columnsHeader(indexType startCol, indexType endCol)
 {
     std::wstring msg;
     if (startCol == endCol) {
-        msg = fmt::sprintf(_W("  Column %d"), startCol);
+        msg = fmt::format(_W("  Column {0}"), startCol);
     } else {
-        msg = fmt::sprintf(_W("  Columns %d through %d"), startCol, endCol);
+        msg = fmt::format(_W("  Columns {0} through {1}"), startCol, endCol);
     }
     return msg;
 }

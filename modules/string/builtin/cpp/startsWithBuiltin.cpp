@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
+#include <fmt/xchar.h>
 #include "startsWithBuiltin.hpp"
 #include "StringStartsWith.hpp"
 #include "Error.hpp"
@@ -34,7 +34,7 @@ Nelson::StringGateway::startsWithBuiltin(int nLhs, const ArrayOfVector& argIn)
             ArrayOf param3 = argIn[2];
             std::wstring fieldname = param3.getContentAsWideString();
             if (fieldname != L"IgnoreCase") {
-                Error(fmt::sprintf(ERROR_WRONG_ARGUMENT_X_VALUE, 3));
+                Error(fmt::format(ERROR_WRONG_ARGUMENT_X_VALUE, 3));
             }
             ArrayOf param4 = argIn[3];
             logical fieldvalue = param4.getContentAsLogicalScalar();

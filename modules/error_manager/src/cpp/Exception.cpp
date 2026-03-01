@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <iostream>
@@ -224,7 +223,7 @@ Exception::getFormattedErrorMessage() const
                     filename = pf.wstring();
                 }
                 message = message
-                    + fmt::sprintf(_W("at line %5d of \'%s\'\n"), traces[pos].getLine(), filename);
+                    + fmt::format(_W("at line {0:5d} of '{1}'\n"), traces[pos].getLine(), filename);
             }
         }
     }

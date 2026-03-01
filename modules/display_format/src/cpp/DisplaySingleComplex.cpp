@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "DisplaySingleComplex.hpp"
@@ -223,7 +222,7 @@ DisplayNdSingleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
         }
         buffer.append(name + L"(:,:");
         for (indexType m = 2; m < dims.getLength(); m++) {
-            buffer.append(fmt::sprintf(L",%d", static_cast<int>(wdims[m]) + 1));
+            buffer.append(fmt::format(L",{0:d}", static_cast<int>(wdims[m]) + 1));
         }
         buffer.append(L") =\n");
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {

@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "GOScalarDoubleProperty.hpp"
@@ -30,8 +29,8 @@ GOScalarProperty::set(ArrayOf num)
         if (dp[0] >= _minValue && dp[0] <= _maxValue) {
             GOFixedVectorProperty::set(num);
         } else {
-            std::wstring message = fmt::sprintf(
-                _W("Value is out of range %f <= value <= %f."), _minValue, _maxValue);
+            std::wstring message = fmt::format(
+                _W("Value is out of range {0} <= value <= {1}."), _minValue, _maxValue);
             Error(message);
         }
     } else {
@@ -46,8 +45,8 @@ GOScalarProperty::data(double x)
         if (x >= _minValue && x <= _maxValue) {
             at(0) = x;
         } else {
-            std::wstring message = fmt::sprintf(
-                _W("Value is out of range %f <= value <= %f."), _minValue, _maxValue);
+            std::wstring message = fmt::format(
+                _W("Value is out of range {0} <= value <= {1}."), _minValue, _maxValue);
             Error(message);
         }
     } else {

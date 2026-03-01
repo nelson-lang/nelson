@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
-#include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "nlsBuildConfig.h"
@@ -110,7 +109,7 @@ GraphicsObject::findProperty(const std::wstring& name, bool raiseError)
                 }
             }
             std::wstring msg;
-            msg = fmt::sprintf(_W("Unrecognized property '%s' for class '%s'."), name, getType());
+            msg = fmt::format(_W("Unrecognized property '{0}' for class '{1}'."), name, getType());
             if (!proposedName.empty()) {
                 msg = msg + L"\n" + _W("Did you mean:") + L" " + proposedName;
             }
