@@ -8,6 +8,6 @@
 ; LICENCE_BLOCK_END
 ;==============================================================================
 Name: full; Description: {cm:FULL_INSTALL_TYPE};
-Name: custom; Description: {cm:CUSTOM_INSTALL_TYPE};Flags: iscustom;
+Name: custom; Description: {cm:CUSTOM_INSTALL_TYPE}; Flags: iscustom;
 Name: minimal; Description: {cm:MINIMAL_INSTALL_TYPE};
 ;==============================================================================
