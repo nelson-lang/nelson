@@ -11,21 +11,23 @@ set(module_name interpreter)
 set(module_library_name nlsInterpreter)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-if(WITHOUT_FILEWATCHER)
-  file(GLOB INTERPRETER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/operators/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/grammar/*.cpp")
-else()
-  file(GLOB INTERPRETER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/operators/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/FileWatcher/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/grammar/*.cpp")
+set(_src_dirs
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/operators
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/grammar)
+if(NOT WITHOUT_FILEWATCHER)
+  list(
+    APPEND
+    _src_dirs
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/FileWatcher)
 endif()
-list(FILTER INTERPRETER_SRC EXCLUDE REGEX
-     "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
+nelson_module_sources_from_glob(
+  INTERPRETER_SRC
+  DIRS
+  ${_src_dirs})
 # ==============================================================================
 add_library(${module_library_name} ${INTERPRETER_SRC})
-# ==============================================================================
+
 target_include_directories(
   ${module_library_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
@@ -52,38 +54,43 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../linear_algebra/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../profiler/src/include)
-# ==============================================================================
+
 target_link_libraries(
   ${module_library_name}
-  PRIVATE
-    nlsCharacters_encoding
-    nlsCommons
-    nlsDisplay_format
-    nlsError_manager
-    nlsI18n
-    nlsNelson_manager
-    nlsDebugger
-    nlsOperators
-    nlsOs_functions
-    nlsProfiler
-    nlsLinear_algebra
-    nlsElementary_mathematics
-    nlsTypes)
+  PRIVATE nlsCharacters_encoding
+          nlsCommons
+          nlsDisplay_format
+          nlsError_manager
+          nlsI18n
+          nlsNelson_manager
+          nlsDebugger
+          nlsOperators
+          nlsOs_functions
+          nlsProfiler
+          nlsLinear_algebra
+          nlsElementary_mathematics
+          nlsTypes)
 # ==============================================================================
-file(GLOB INTERPRETER_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
-     "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
+file(
+  GLOB
+  INTERPRETER_HEADER
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
 set_target_properties(
   ${module_library_name}
   PROPERTIES VERSION ${Nelson_VERSION}
              SOVERSION ${Nelson_VERSION_MAJOR}
              PUBLIC_HEADER "${INTERPRETER_HEADER}")
 # ==============================================================================
-file(GLOB INTERPRETER_BUILTIN "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
-list(FILTER INTERPRETER_BUILTIN EXCLUDE REGEX
-     "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
+# Builtin library
 # ==============================================================================
+nelson_module_sources_from_glob(
+  INTERPRETER_BUILTIN
+  DIRS
+  ${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp)
+
 add_library(${module_library_builtin_name} ${INTERPRETER_BUILTIN})
-# ==============================================================================
+
 target_include_directories(
   ${module_library_builtin_name}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
@@ -96,66 +103,20 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
-# ==============================================================================
-target_link_libraries(${module_library_builtin_name} 
-  PRIVATE 
-  ${module_library_name}
-  nlsError_manager
-  nlsI18n
-  nlsHandle
-  nlsTypes)
-# ==============================================================================
-file(GLOB INTERPRETER_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
-     "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
-set_target_properties(
+
+target_link_libraries(
   ${module_library_builtin_name}
-  PROPERTIES VERSION ${Nelson_VERSION}
-             SOVERSION ${Nelson_VERSION_MAJOR}
-             PUBLIC_HEADER "${INTERPRETER_HEADER}")
+  PRIVATE ${module_library_name}
+          nlsError_manager
+          nlsI18n
+          nlsHandle
+          nlsTypes)
+
+set_target_properties(
+  ${module_library_builtin_name} PROPERTIES VERSION ${Nelson_VERSION}
+                                            SOVERSION ${Nelson_VERSION_MAJOR})
 # ==============================================================================
-include(GNUInstallDirs)
-# ==============================================================================
-install(
-  TARGETS ${module_library_name}
-  EXPORT ${PROJECT_NAME}-targets
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  PUBLIC_HEADER
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
-# ==============================================================================
-install(
-  TARGETS ${module_library_builtin_name}
-  EXPORT ${PROJECT_NAME}-targets
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  PUBLIC_HEADER
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
-# ==============================================================================
-install(
-  FILES ${CMAKE_CURRENT_SOURCE_DIR}/loader.m
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}")
-install(
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/etc
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.m")
-install(
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.m")
-install(
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/help
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.nhz"
-  PATTERN "xml" EXCLUDE
-  PATTERN "md" EXCLUDE)
-install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.m")
+nelson_install_library(${module_library_name})
+nelson_install_library(${module_library_builtin_name})
+nelson_install_module_data(${module_name})
 # ==============================================================================

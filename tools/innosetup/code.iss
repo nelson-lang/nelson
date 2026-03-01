@@ -35,12 +35,12 @@ begin
   Result := False;
   for j := 1 to ParamCount do
   begin
-      if CompareText(UpperCase(ParamStr(j)), '/VERYSILENT') = 0 then
-      begin
-        Result := True;
-        Break;
-      end;
-      if CompareText(UpperCase(ParamStr(j)), '/SILENT') = 0 then
+    if CompareText(ParamStr(j), '/VERYSILENT') = 0 then
+    begin
+      Result := True;
+      Break;
+    end;
+    if CompareText(ParamStr(j), '/SILENT') = 0 then
     begin
       Result := True;
       Break;
@@ -97,8 +97,8 @@ begin
     result := false;
     if not enableModule then
     begin
-        FileReplaceString(ExpandConstant('{app}') + '\' + 'modules' + '\' + 'modules.m', 
-        '{''' + MODULE_NAME + ''', true', 
+        FileReplaceString(ExpandConstant('{app}') + '\' + 'modules' + '\' + 'modules.m',
+        '{''' + MODULE_NAME + ''', true',
         '{''' + MODULE_NAME + ''', false');
         result := true;
     end;
@@ -112,10 +112,10 @@ end;
 procedure updateModulesList();
 var
   ModulesList: TStringList;
-  I : Integer;
-
-	begin;
-    ModulesList := TStringList.Create;
+  I: Integer;
+begin
+  ModulesList := TStringList.Create;
+  try
     ModulesList.Add(ExpandConstant('{#COMPONENT_PARALLEL}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_MPI}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_DYNAMIC_LINK}'));
@@ -151,64 +151,57 @@ var
     ModulesList.Add(ExpandConstant('{#COMPONENT_HDF5}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_GEOMETRY}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_PYTHON_ENGINE}'));
-      #ifdef WITH_JULIA_ENGINE
-        ModulesList.Add(ExpandConstant('{#COMPONENT_JULIA_ENGINE}'));
-      #else
-        configureModuleFlag('julia_engine', False);
-      #endif    
-      for I := 0 to ModulesList.Count - 1 do
-      begin;
-        configureModule(ModulesList[I], AnsiLowercase(ModulesList[I]));
-      end;
-      ModulesList.Free;
+#ifdef WITH_JULIA_ENGINE
+    ModulesList.Add(ExpandConstant('{#COMPONENT_JULIA_ENGINE}'));
+#else
+    configureModuleFlag('julia_engine', False);
+#endif
+    for I := 0 to ModulesList.Count - 1 do
+    begin
+      configureModule(ModulesList[I], AnsiLowercase(ModulesList[I]));
+    end;
+  finally
+    ModulesList.Free;
+  end;
 
-    configureModule(ExpandConstant('{#COMPONENT_INTERNATIONALIZATION}'), 'localization');
-    configureModule(ExpandConstant('{#COMPONENT_INTERNATIONALIZATION}'), 'characters_encoding');
-
-	end;
+  configureModule(ExpandConstant('{#COMPONENT_INTERNATIONALIZATION}'), 'localization');
+  configureModule(ExpandConstant('{#COMPONENT_INTERNATIONALIZATION}'), 'characters_encoding');
+end;
 //=============================================================================
 procedure AfterNelsonInstall();
-	var
-		LanguageFileName : String;
-		PreferencesDir : String;
-		i : Integer;
-		d : Integer;
-		LanguageFileLines: TArrayOfString;
-    InnosetupLanguage : String;
-    Language : String;
+var
+  LanguageFileName: String;
+  PreferencesDir: String;
+  LanguageFileLines: TArrayOfString;
+  InnosetupLanguage: String;
+  Language: String;
+begin
+  updateModulesList();
 
-	begin
-    updateModulesList();
-    i := 0;
-    setArrayLength(LanguageFileLines, 5);
-    for d := 0 to GetArrayLength(LanguageFileLines)-1 do
-      begin
-        LanguageFileLines[d] := '';
-      end;
-		PreferencesDir := ExpandConstant('{userappdata}') + '\' + 'Nelson' + '\' + ExpandConstant('{#APPLICATION_VERSION}');
-		LanguageFileName := preferencesDir + '\' + 'nelson.conf';
-		if not DirExists(preferencesDir) then
-			begin
-				ForceDirectories(preferencesDir);
-			end;
-		if not FileExists(LanguageFileName) then	 
-			begin
-        InnosetupLanguage := ExpandConstant('{language}');
-
-				Language := 'en_US';
-        if CompareText(InnosetupLanguage, 'english') = 0 then
-          begin
-            Language := 'en_US';
-          end;
-        if CompareText(InnosetupLanguage, 'french') = 0 then
-          begin
-            Language := 'fr_FR';
-          end;
-        LanguageFileLines[i] := '{"language":"' + Language + '"}'; i := i + 1;
-				SaveStringsToFile(LanguageFileName, LanguageFileLines, False);
-			end;
-      AddWindowsTerminalProfile();
-	end;
+  SetArrayLength(LanguageFileLines, 1);
+  PreferencesDir := ExpandConstant('{userappdata}') + '\' + 'Nelson' + '\' + ExpandConstant('{#APPLICATION_VERSION}');
+  LanguageFileName := PreferencesDir + '\' + 'nelson.conf';
+  if not DirExists(PreferencesDir) then
+  begin
+    ForceDirectories(PreferencesDir);
+  end;
+  if not FileExists(LanguageFileName) then
+  begin
+    InnosetupLanguage := ExpandConstant('{language}');
+    Language := 'en_US';
+    if CompareText(InnosetupLanguage, 'english') = 0 then
+    begin
+      Language := 'en_US';
+    end;
+    if CompareText(InnosetupLanguage, 'french') = 0 then
+    begin
+      Language := 'fr_FR';
+    end;
+    LanguageFileLines[0] := '{"language":"' + Language + '"}';
+    SaveStringsToFile(LanguageFileName, LanguageFileLines, False);
+  end;
+  AddWindowsTerminalProfile();
+end;
 //=============================================================================
 Procedure URLLabelOnClick(Sender: TObject);
 var
@@ -222,42 +215,50 @@ var
   URLLabel: TNewStaticText;
   LicenseFileName: string;
   LicenseFilePath: string;
- 
+  VersionLabel: TNewStaticText;
 begin
+  // Website link at bottom of wizard
   URLLabel := TNewStaticText.Create(WizardForm);
-  URLLabel.Caption := 'Nelson''s website';
+  URLLabel.Caption := 'nelson-lang.github.io/nelson-website';
   URLLabel.Cursor := crHand;
   URLLabel.OnClick := @URLLabelOnClick;
   URLLabel.Parent := WizardForm;
-  
   URLLabel.Font.Style := URLLabel.Font.Style + [fsUnderline];
   URLLabel.Font.Color := clBlue;
-  URLLabel.Top := WizardForm.ClientHeight - 1;
-  URLLabel.Left := ScaleX(500);
+  URLLabel.Top := WizardForm.ClientHeight - URLLabel.Height - ScaleY(4);
+  URLLabel.Left := ScaleX(8);
+
+  // Version label at bottom-right
+  VersionLabel := TNewStaticText.Create(WizardForm);
+  VersionLabel.Caption := 'v' + ExpandConstant('{#APPLICATION_VERSION}');
+  VersionLabel.Parent := WizardForm;
+  VersionLabel.Font.Color := clGray;
+  VersionLabel.Font.Size := 7;
+  VersionLabel.Top := WizardForm.ClientHeight - VersionLabel.Height - ScaleY(4);
+  VersionLabel.Left := WizardForm.ClientWidth - VersionLabel.Width - ScaleX(8);
 
   if not IsSilentMode() then
   begin
-      SecondLicensePage :=
-        CreateOutputMsgMemoPage(
-          wpSelectComponents, SetupMessage(msgWizardLicense), SetupMessage(msgLicenseLabel),
-          SetupMessage(msgLicenseLabel3), '');
-
-      SecondLicensePage.RichEditViewer.Height := WizardForm.LicenseMemo.Height;
+    SecondLicensePage :=
+      CreateOutputMsgMemoPage(
+        wpSelectComponents, SetupMessage(msgWizardLicense), SetupMessage(msgLicenseLabel),
+        SetupMessage(msgLicenseLabel3), '');
+    SecondLicensePage.RichEditViewer.Height := WizardForm.LicenseMemo.Height;
 
     LicenseFileName := 'gpl-3.0.md';
     ExtractTemporaryFile(LicenseFileName);
     LicenseFilePath := ExpandConstant('{tmp}\' + LicenseFileName);
     SecondLicensePage.RichEditViewer.Lines.LoadFromFile(LicenseFilePath);
-      DeleteFile(LicenseFilePath);
-    
-      License2AcceptedRadio :=
-        CloneLicenseRadioButton(WizardForm.LicenseAcceptedRadio);
-      License2AcceptedRadio.Top := License2AcceptedRadio.Top + 77;
+    DeleteFile(LicenseFilePath);
 
-      License2NotAcceptedRadio :=
-        CloneLicenseRadioButton(WizardForm.LicenseNotAcceptedRadio);
-      License2NotAcceptedRadio.Top := License2NotAcceptedRadio.Top + 77;
-  
+    License2AcceptedRadio :=
+      CloneLicenseRadioButton(WizardForm.LicenseAcceptedRadio);
+    License2AcceptedRadio.Top := License2AcceptedRadio.Top + 77;
+
+    License2NotAcceptedRadio :=
+      CloneLicenseRadioButton(WizardForm.LicenseNotAcceptedRadio);
+    License2NotAcceptedRadio.Top := License2NotAcceptedRadio.Top + 77;
+
     License2NotAcceptedRadio.Checked := True;
   end;
 end;
@@ -267,9 +268,9 @@ begin
   if not IsSilentMode() then
   begin
     if CurPageID = SecondLicensePage.ID then
-      begin
-        CheckLicense2Accepted(nil);
-      end;
+    begin
+      CheckLicense2Accepted(nil);
+    end;
   end;
 end;
 //=============================================================================
@@ -277,112 +278,108 @@ function ShouldSkipPage(PageID: Integer): Boolean;
 begin
   Result := False;
   if not IsSilentMode() then
-     begin
-      if PageID = SecondLicensePage.ID then
-        begin
-    Result := True;
+  begin
+    if PageID = SecondLicensePage.ID then
+    begin
+      Result := True;
+    end;
+  end;
 end;
-     end;
+//=============================================================================
+function CheckComponentDependency(const RequiredComponent, DependentComponent, ErrorMessageKey: string): Boolean;
+// Returns False (blocking navigation) if DependentComponent is selected but RequiredComponent is not.
+begin
+  Result := True;
+  if (not WizardIsComponentSelected(ExpandConstant(RequiredComponent))) and
+     WizardIsComponentSelected(ExpandConstant(DependentComponent)) then
+  begin
+    SuppressibleMsgBox(CustomMessage(ErrorMessageKey), mbError, MB_OK, MB_OK);
+    Result := False;
+  end;
+end;
+//=============================================================================
+function CheckComponentDependencyMulti(const RequiredComponent: string;
+  const DependentComponents: TStringList; const ErrorMessageKey: string): Boolean;
+// Returns False if any of the DependentComponents is selected but RequiredComponent is not.
+var
+  I: Integer;
+  AnyDependentSelected: Boolean;
+begin
+  Result := True;
+  if WizardIsComponentSelected(ExpandConstant(RequiredComponent)) then Exit;
+  AnyDependentSelected := False;
+  for I := 0 to DependentComponents.Count - 1 do
+  begin
+    if WizardIsComponentSelected(ExpandConstant(DependentComponents[I])) then
+    begin
+      AnyDependentSelected := True;
+      Break;
+    end;
+  end;
+  if AnyDependentSelected then
+  begin
+    SuppressibleMsgBox(CustomMessage(ErrorMessageKey), mbError, MB_OK, MB_OK);
+    Result := False;
+  end;
 end;
 //=============================================================================
 function NextButtonClick(CurPageID: Integer): Boolean;
-  begin
-    Result := true;
-
-    if (CurPageID = wpWelcome) then
-      begin
-          if not Is64BitInstallMode then
-          begin
-    #ifndef NELSON_WOA64
-      
-            if IsWin64() and not IsSilentMode() then
+var
+  GuiDependents: TStringList;
 begin
-                SuppressibleMsgBox(CustomMessage('MESSAGEBOX_X64_VERSION_RECOMMANDED'), mbInformation, MB_OK, MB_OK );
-              end;
-    #endif
-          end;
-      end;
+  Result := True;
 
-    if (CurPageId = wpSelectComponents) then
+  if (CurPageID = wpWelcome) then
+  begin
+    if not Is64BitInstallMode then
+    begin
+#ifndef NELSON_WOA64
+      if IsWin64() and not IsSilentMode() then
       begin
-
-        if ( 
-          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_GUI}') ) = false) and 
-          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_QML_ENGINE}')) = true) or
-          (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_TEXT_EDITOR}')) = true) or 
-          (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_GRAPHICS}')) = true) )) then
-          begin
-              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_GUI_REQUIRED'),
-                mbError, MB_OK, MB_OK );
-            Result := false;
-          end;
-
-        if ( 
-          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_TESTS_MANAGER}') ) = false) and 
-          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_UNIT_TESTS}')) = true))) then
-          begin
-              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_TESTS_MANAGER_REQUIRED'),
-                mbError, MB_OK, MB_OK );
-            Result := false;
-          end;
-
-        if ( 
-          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_DATA_ANALYSIS}') ) = false) and 
-          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_VALIDATORS}')) = true))) then
-          begin
-              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_DATA_ANALYSIS_REQUIRED'),
-                mbError, MB_OK, MB_OK );
-            Result := false;
-          end;
-
-        if ( 
-          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_F2C}') ) = false) and 
-          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_SLICOT}')) = true))) then
-          begin
-              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_F2C_REQUIRED'),
-                mbError, MB_OK, MB_OK );
-            Result := false;
-          end;
-
-        if ( 
-          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_JSON}') ) = false) and 
-          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_WEBTOOLS}')) = true))) then
-          begin
-              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_JSON_REQUIRED'),
-                mbError, MB_OK, MB_OK );
-            Result := false;
-          end;
-
-        if ( 
-          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_HDF5}') ) = false) and 
-          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_MATIO}')) = true))) then
-          begin
-              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_HDF5_REQUIRED'),
-                mbError, MB_OK, MB_OK );
-            Result := false;
-          end;
-
-        if ( 
-          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_SLICOT}') ) = false) and 
-          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_CONTROL_SYSTEM}')) = true))) then
-          begin
-              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_SLICOT_REQUIRED'),
-                mbError, MB_OK, MB_OK );
-            Result := false;
-          end;
-
-        if ( 
-          (WizardIsComponentSelected( ExpandConstant('{#COMPONENT_XML}') ) = false) and 
-          ( (WizardIsComponentSelected(ExpandConstant('{#COMPONENT_HELP_TOOLS}')) = true))) then
-          begin
-              SuppressibleMsgBox( CustomMessage('MESSAGEBOX_XML_REQUIRED'),
-                mbError, MB_OK, MB_OK );
-            Result := false;
-          end;
-
-
+        SuppressibleMsgBox(CustomMessage('MESSAGEBOX_X64_VERSION_RECOMMANDED'), mbInformation, MB_OK, MB_OK);
       end;
+#endif
+    end;
   end;
+
+  if (CurPageID = wpSelectComponents) then
+  begin
+    // GUI is required by QML_ENGINE, TEXT_EDITOR, GRAPHICS
+    GuiDependents := TStringList.Create;
+    try
+      GuiDependents.Add('{#COMPONENT_QML_ENGINE}');
+      GuiDependents.Add('{#COMPONENT_TEXT_EDITOR}');
+      GuiDependents.Add('{#COMPONENT_GRAPHICS}');
+      if not CheckComponentDependencyMulti('{#COMPONENT_GUI}', GuiDependents, 'MESSAGEBOX_GUI_REQUIRED') then
+        Result := False;
+    finally
+      GuiDependents.Free;
+    end;
+
+    // Simple 1-to-1 dependencies
+    if Result then
+      if not CheckComponentDependency('{#COMPONENT_TESTS_MANAGER}', '{#COMPONENT_UNIT_TESTS}', 'MESSAGEBOX_TESTS_MANAGER_REQUIRED') then
+        Result := False;
+    if Result then
+      if not CheckComponentDependency('{#COMPONENT_DATA_ANALYSIS}', '{#COMPONENT_VALIDATORS}', 'MESSAGEBOX_DATA_ANALYSIS_REQUIRED') then
+        Result := False;
+    if Result then
+      if not CheckComponentDependency('{#COMPONENT_F2C}', '{#COMPONENT_SLICOT}', 'MESSAGEBOX_F2C_REQUIRED') then
+        Result := False;
+    if Result then
+      if not CheckComponentDependency('{#COMPONENT_JSON}', '{#COMPONENT_WEBTOOLS}', 'MESSAGEBOX_JSON_REQUIRED') then
+        Result := False;
+    if Result then
+      if not CheckComponentDependency('{#COMPONENT_HDF5}', '{#COMPONENT_MATIO}', 'MESSAGEBOX_HDF5_REQUIRED') then
+        Result := False;
+    if Result then
+      if not CheckComponentDependency('{#COMPONENT_SLICOT}', '{#COMPONENT_CONTROL_SYSTEM}', 'MESSAGEBOX_SLICOT_REQUIRED') then
+        Result := False;
+    if Result then
+      if not CheckComponentDependency('{#COMPONENT_XML}', '{#COMPONENT_HELP_TOOLS}', 'MESSAGEBOX_XML_REQUIRED') then
+        Result := False;
+  end;
+end;
 //=============================================================================
 function GetDefaultDirName(Param: string): string;
 begin
@@ -398,6 +395,7 @@ end;
 //=============================================================================
 function InitializeSetup: Boolean;
 begin
+  Result := True;
 #ifndef NELSON_WOA64
   if IsWin64() and not IsAVX2Supported then
   begin
@@ -406,7 +404,6 @@ begin
     Result := False;
   end;
 #endif
-  Result := True;
 end;
 //=============================================================================
 function AddNelsonProfile(const JsonContent: string): string;
@@ -604,7 +601,6 @@ begin
       WriteFileFromString(SettingsPath, ModifiedContent);
     except
     end;
-  end
-  else
+  end;
 end;
 //=============================================================================

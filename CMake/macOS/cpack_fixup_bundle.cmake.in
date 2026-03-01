@@ -1,0 +1,40 @@
+# ==============================================================================
+# CPack pre-build wrapper for fixup_bundle.cmake
+# ==============================================================================
+# This script is configured at CMake configure time (configure_file) and invoked
+# by CPack via CPACK_PRE_BUILD_SCRIPTS (CMake 3.19+).
+#
+# At that point all install() rules have already been executed, so the full
+# .app bundle tree exists under CPACK_TEMPORARY_INSTALL_DIRECTORY.
+# ==============================================================================
+set(APP_BUNDLE_DIR "${CPACK_TEMPORARY_INSTALL_DIRECTORY}/Nelson.app")
+set(_contents_dir "${APP_BUNDLE_DIR}/Contents")
+
+if(IS_DIRECTORY "${APP_BUNDLE_DIR}")
+  # ==========================================================================
+  # Install the .app bundle skeleton
+  # ==========================================================================
+  # Launcher script → Contents/MacOS/nelson-gui
+  file(MAKE_DIRECTORY "${_contents_dir}/MacOS")
+  file(COPY "@CMAKE_SOURCE_DIR@/CMake/macOS/nelson-gui-launcher.sh"
+    DESTINATION "${_contents_dir}/MacOS"
+    FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+                     GROUP_READ GROUP_EXECUTE
+                     WORLD_READ WORLD_EXECUTE)
+  file(RENAME "${_contents_dir}/MacOS/nelson-gui-launcher.sh"
+              "${_contents_dir}/MacOS/nelson-gui")
+  # Info.plist → Contents/
+  file(COPY "@CMAKE_BINARY_DIR@/Info.plist"
+    DESTINATION "${_contents_dir}")
+  # Icon → Contents/Resources/
+  set(_nelson_icns "@CMAKE_BINARY_DIR@/Nelson.icns")
+  if(EXISTS "${_nelson_icns}")
+    file(COPY "${_nelson_icns}"
+      DESTINATION "${_contents_dir}/Resources")
+  endif()
+
+  message(STATUS "CPack fixup: running bundle fixup on ${APP_BUNDLE_DIR}")
+  include("@CMAKE_SOURCE_DIR@/CMake/macOS/fixup_bundle.cmake")
+else()
+  message(STATUS "CPack fixup: ${APP_BUNDLE_DIR} not found – skipping fixup")
+endif()

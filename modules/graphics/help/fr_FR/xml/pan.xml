@@ -39,7 +39,7 @@
     >Une fois le mode déplacement activé, vous pouvez ajuster la vue des axes avec le curseur ou le clavier :</p>
     <p>Curseur : cliquez et faites glisser le curseur dans les axes.</p>
     <p
-    >Clavier : pour déplacer horizontalement, utilisez les flèches gauche (←) ou droite (→). Pour déplacer verticalement, utilisez les flèches haut (↑) ou bas (↓).</p>
+    >Clavier : pour déplacer horizontalement, utilisez les flèches gauche (←) ou droite (->). Pour déplacer verticalement, utilisez les flèches haut (↑) ou bas (↓).</p>
     <p />
     <p
     >L'option du mode déplacement peut être spécifiée avec l'une des valeurs suivantes :</p>

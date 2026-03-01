@@ -10,12 +10,15 @@
 set(module_name f2c)
 set(module_library_name nlsF2C)
 # ==============================================================================
-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  add_definitions(-D_POSIX_SOURCE)
+if(CMAKE_SYSTEM_NAME
+   STREQUAL
+   "Linux")
+  add_compile_definitions(_POSIX_SOURCE)
 endif()
-add_definitions(-DINTEGER_STAR_8)
-add_definitions(-DNO_My_ctype)
-add_definitions(-DSkip_f2c_Undefs)
+add_compile_definitions(
+  INTEGER_STAR_8
+  NO_My_ctype
+  Skip_f2c_Undefs)
 # ==============================================================================
 file(
   GLOB
@@ -171,6 +174,10 @@ file(
   "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/z_sqrt.c")
 # ==============================================================================
 add_library(${module_library_name} ${F2C_SRC})
+# f2c runtime C sources have no visibility annotations — symbols must be
+# visible so that libraries (e.g. nlsSlicot) linking nlsF2C can resolve them.
+set_target_properties(${module_library_name} PROPERTIES C_VISIBILITY_PRESET
+                                                        default)
 # ==============================================================================
 target_include_directories(
   ${module_library_name}
@@ -189,75 +196,47 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${Boost_INCLUDE_DIRS})
 # ==============================================================================
-target_link_libraries(${module_library_name} 
-  PRIVATE
-    nlsElementary_mathematics
-    nlsError_manager
-    nlsTypes
-    nlsI18n)
+target_link_libraries(
+  ${module_library_name}
+  PRIVATE nlsElementary_mathematics
+          nlsError_manager
+          nlsTypes
+          nlsI18n)
 # ==============================================================================
-file(GLOB F2C_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/c/f2c/*.c")
-# ==============================================================================
-add_executable(nelson_f2c ${F2C_SRC})
-# ==============================================================================
-target_link_libraries(nelson_f2c)
-# ==============================================================================
-file(GLOB F2C_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
-     "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
+file(
+  GLOB
+  F2C_HEADER
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
 set_target_properties(
   ${module_library_name}
   PROPERTIES VERSION ${Nelson_VERSION}
              SOVERSION ${Nelson_VERSION_MAJOR}
              PUBLIC_HEADER "${F2C_HEADER}")
 # ==============================================================================
-include(GNUInstallDirs)
+# f2c executable
+# ==============================================================================
+file(
+  GLOB
+  F2C_EXE_SRC
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/c/f2c/*.c")
+add_executable(nelson_f2c ${F2C_EXE_SRC})
+# ==============================================================================
+target_link_libraries(nelson_f2c)
 # ==============================================================================
 install(
   FILES ${BIN_DIRECTORY}/nelson_f2c
   DESTINATION ${CMAKE_INSTALL_BINDIR}
-  PERMISSIONS WORLD_EXECUTE WORLD_READ OWNER_EXECUTE OWNER_WRITE OWNER_READ)
-install(
-  TARGETS ${module_library_name}
-  EXPORT ${PROJECT_NAME}-targets
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  PUBLIC_HEADER
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
-# ==============================================================================
-install(
-  FILES ${CMAKE_CURRENT_SOURCE_DIR}/loader.m
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}")
-install(
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/etc
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.m")
-install(
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.m")
-install(
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.c")
-install(
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.f")
-install(
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/help
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.nhz"
-  PATTERN "xml" EXCLUDE
-  PATTERN "md" EXCLUDE)
-install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-  FILES_MATCHING
-  PATTERN "*.m")
+  PERMISSIONS
+    WORLD_EXECUTE
+    WORLD_READ
+    OWNER_EXECUTE
+    OWNER_WRITE
+    OWNER_READ)
+nelson_install_library(${module_library_name})
+nelson_install_module_data(
+  ${module_name}
+  EXTRA_TEST_PATTERNS
+  "*.c"
+  "*.f")
 # ==============================================================================

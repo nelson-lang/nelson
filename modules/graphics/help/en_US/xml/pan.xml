@@ -39,7 +39,7 @@
     >Once pan mode is active, you can adjust the view of axes using the cursor, or keyboard:</p>
     <p>Cursor: Click and drag the cursor in the axes.</p>
     <p
-    >Keyboard: To pan horizontally, press the left arrow (←) or the right arrow (→) key. To pan vertically, press the up arrow (↑) or the down arrow (↓) key.</p>
+    >Keyboard: To pan horizontally, press the left arrow (←) or the right arrow (->) key. To pan vertically, press the up arrow (↑) or the down arrow (↓) key.</p>
     <p />
     <p
     >The pan mode option can be specified using one of the following values:</p>

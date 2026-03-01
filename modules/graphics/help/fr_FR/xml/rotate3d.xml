@@ -37,7 +37,7 @@
     <p />
     <p>Curseur : cliquez et faites glisser dans les axes.</p>
     <p
-    >Clavier : utilisez les flèches droite (→) ou gauche (←) pour ajuster l'azimut, et les flèches haut (↑) ou bas (↓) pour modifier l'élévation.</p>
+    >Clavier : utilisez les flèches droite (->) ou gauche (←) pour ajuster l'azimut, et les flèches haut (↑) ou bas (↓) pour modifier l'élévation.</p>
   </description>
   <used_function />
   <bibliography />
