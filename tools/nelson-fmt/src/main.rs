@@ -265,11 +265,32 @@ fn is_skipped_dir(entry: &walkdir::DirEntry, ignore: &ClangFormatIgnore) -> bool
     if !entry.file_type().is_dir() {
         return false;
     }
+
+    // Fast check: patterns that are just single directory names (no `/` or
+    // wildcard) can be matched against the basename alone.  This is the old
+    // behaviour and is useful for things like `"target"` or `"node_modules"`.
     let name = entry.file_name().to_string_lossy();
-    ignore
+    if ignore
         .exclude_path_contains
         .iter()
         .any(|p| !p.contains('/') && !p.contains('*') && p == name.as_ref())
+    {
+        return true;
+    }
+
+    // Additionally, if a pattern contains a slash, it is meant to match a
+    // *path* rather than just a single component.  We normalise the entry
+    // path to forward slashes and perform a substring search.  This allows us
+    // to prune the directory tree early instead of only filtering individual
+    // files later.
+    let path_str = entry.path().to_string_lossy().replace('\\', "/");
+    ignore.exclude_path_contains.iter().any(|pattern| {
+        let pat = pattern.replace('\\', "/");
+        // strip trailing slash so that `foo/bar/` matches `foo/bar/baz` but
+        // also `foo/bar` itself
+        let pat = pat.trim_end_matches('/');
+        !pat.is_empty() && pat.contains('/') && path_str.contains(pat)
+    })
 }
 /// Determine whether a path is a C/C++ source that should be excluded from
 /// clang-format (e.g. vendored third-party code).
@@ -290,12 +311,32 @@ fn is_cpp_excluded(path: &Path, root: &Path, ignore: &ClangFormatIgnore) -> bool
 }
 
 /// Determine whether a path should be excluded from formatting for any extension.
-fn is_path_excluded(path: &Path, root: &Path, ignore: &ClangFormatIgnore) -> bool {
-    let relative = path
+/// Return a normalised representation of `path` relative to `root`.
+///
+/// The caller only needs this for matching against the ignore list, so the
+/// result is a UTF-8 string with forward slashes.  The Windows `\\?\` prefix
+/// (if present) is stripped because the ignore patterns are written relative to
+/// the repository root and never include that noisy prefix.
+fn normalised_relative(path: &Path, root: &Path) -> String {
+    let mut rel = path
         .strip_prefix(root)
         .unwrap_or(path)
         .to_string_lossy()
-        .replace('\\', "/");
+        .into_owned();
+
+    // Remove the `\\?\` prefix which is used by the Windows API for
+    // extended-length paths.  WalkDir may emit entries with this prefix even if
+    // `root` itself does not contain it, causing `strip_prefix` to fail above.
+    if rel.starts_with(r"\\?\") {
+        rel = rel.trim_start_matches(r"\\?\").to_string();
+    }
+
+    rel.replace('\\', "/")
+}
+
+/// Determine whether a path should be excluded from formatting for any extension.
+fn is_path_excluded(path: &Path, root: &Path, ignore: &ClangFormatIgnore) -> bool {
+    let relative = normalised_relative(path, root);
     ignore.exclude_path_contains.iter().any(|pattern| {
         let pat = pattern.replace('\\', "/");
         if pat.ends_with('/') {
@@ -529,7 +570,15 @@ fn process_cmake_files(
     let mut files: Vec<PathBuf> = Vec::new();
     for entry in WalkDir::new(root)
         .into_iter()
-        .filter_entry(|e| !is_skipped_dir(e, ignore))
+        .filter_entry(|e| {
+            if is_skipped_dir(e, ignore) {
+                return false;
+            }
+            if e.file_type().is_dir() && is_path_excluded(e.path(), root, ignore) {
+                return false;
+            }
+            true
+        })
         .filter_map(|e| e.ok())
     {
         let path = entry.path();
@@ -670,7 +719,15 @@ fn process_cpp_files(
     let mut files: Vec<PathBuf> = Vec::new();
     for entry in WalkDir::new(root)
         .into_iter()
-        .filter_entry(|e| !is_skipped_dir(e, ignore))
+        .filter_entry(|e| {
+            if is_skipped_dir(e, ignore) {
+                return false;
+            }
+            if e.file_type().is_dir() && is_path_excluded(e.path(), root, ignore) {
+                return false;
+            }
+            true
+        })
         .filter_map(|e| e.ok())
     {
         let path = entry.path();
@@ -770,7 +827,18 @@ fn main() -> Result<()> {
     // --- Standard files (JSON, YAML, MD, JS, XML help docs) ---------------
     let entries: Vec<_> = WalkDir::new(&root)
         .into_iter()
-        .filter_entry(|e| !is_skipped_dir(e, &ignore))
+        .filter_entry(|e| {
+            // first apply the lightweight name-based skip
+            if is_skipped_dir(e, &ignore) {
+                return false;
+            }
+            // also avoid descending into directories that are excluded by
+            // the ignore list; this handles patterns containing slashes
+            if e.file_type().is_dir() && is_path_excluded(e.path(), &root, &ignore) {
+                return false;
+            }
+            true
+        })
         .filter_map(|e| e.ok())
         .filter(|entry| !entry.file_type().is_dir())
         .collect();
@@ -1072,6 +1140,97 @@ mod tests {
         let ignore = ClangFormatIgnore::default();
         let path = Path::new("/project/src/main.cpp");
         assert_that(&is_cpp_excluded(path, root, &ignore)).is_false();
+    }
+
+    // -----------------------------------------------------------------------
+    // path exclusion helpers
+    // -----------------------------------------------------------------------
+
+    #[test]
+    fn is_path_excluded_matches_subdirectory_pattern() {
+        let root = Path::new("/project");
+        let ignore = ClangFormatIgnore {
+            exclude_path_contains: vec![
+                "modules/sio_client/src/socket_io/".to_string(),
+            ],
+            clang_format_major_version: None,
+        };
+        let path = Path::new(
+            "/project/modules/sio_client/src/socket_io/lib/rapidjson/bin/encodings/utf16be.json",
+        );
+        assert_that(&is_path_excluded(path, root, &ignore)).is_true();
+    }
+
+    #[test]
+    fn is_path_excluded_handles_windows_unc_prefix() {
+        let root = Path::new(r"\\?\D:\project");
+        let ignore = ClangFormatIgnore {
+            exclude_path_contains: vec![
+                "modules/sio_client/src/socket_io/".to_string(),
+            ],
+            clang_format_major_version: None,
+        };
+        let path = Path::new(
+            r"\\?\D:\project\modules\sio_client\src\socket_io\lib\rapidjson\bin\encodings\utf16be.json",
+        );
+        assert_that(&is_path_excluded(path, root, &ignore)).is_true();
+    }
+
+    #[test]
+    fn traversing_ignore_directory_skips_contents() {
+        // build a small temporary tree with an ignored subdirectory
+        let tmp = TempDir::new().unwrap();
+        let root = tmp.path();
+        fs::create_dir_all(
+            root.join("modules/sio_client/src/socket_io/lib/rapidjson/bin/encodings"),
+        )
+        .unwrap();
+        fs::write(
+            root.join("modules/sio_client/src/socket_io/lib/rapidjson/bin/encodings/test.json"),
+            "{}",
+        )
+        .unwrap();
+        fs::write(root.join("other.json"), "{}").unwrap();
+
+        let ignore = ClangFormatIgnore {
+            exclude_path_contains: vec![
+                "modules/sio_client/src/socket_io/".to_string(),
+            ],
+            clang_format_major_version: None,
+        };
+
+        let entries: Vec<_> = WalkDir::new(root)
+            .into_iter()
+            .filter_entry(|e| {
+                if is_skipped_dir(e, &ignore) {
+                    return false;
+                }
+                if e.file_type().is_dir() && is_path_excluded(e.path(), root, &ignore) {
+                    return false;
+                }
+                true
+            })
+            .filter_map(|e| e.ok())
+            .filter(|entry| !entry.file_type().is_dir())
+            .collect();
+
+        let filtered: Vec<_> = entries
+            .iter()
+            .filter_map(|entry| {
+                let path = entry.path();
+                if is_path_excluded(path, root, &ignore) {
+                    return None;
+                }
+                if standard_file_kind(path, root).is_some() {
+                    Some(path.to_path_buf())
+                } else {
+                    None
+                }
+            })
+            .collect();
+
+        assert_eq!(filtered.len(), 1);
+        assert!(filtered[0].ends_with("other.json"));
     }
 
     // -----------------------------------------------------------------------
