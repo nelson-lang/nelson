@@ -3,17 +3,17 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>quit</keyword>
-  <short_description>Ferme l'application Nelson.</short_description>
+  <short_description>Ferme l&apos;application Nelson.</short_description>
   <syntax>
     <syntax_item>quit</syntax_item>
     <syntax_item>quit(status)</syntax_item>
-    <syntax_item>quit('force')</syntax_item>
-    <syntax_item>quit('cancel')</syntax_item>
-    <syntax_item>quit(status, 'force')</syntax_item>
+    <syntax_item>quit(&apos;force&apos;)</syntax_item>
+    <syntax_item>quit(&apos;cancel&apos;)</syntax_item>
+    <syntax_item>quit(status, &apos;force&apos;)</syntax_item>
   </syntax>
   <description>
     <p
-    >Ferme l'application Nelson et termine la session en cours (équivalent de `exit`).</p>
+    >Ferme l&apos;application Nelson et termine la session en cours (équivalent de `exit`).</p>
   </description>
   <used_function />
   <bibliography />

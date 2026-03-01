@@ -131,7 +131,8 @@ IsIntegerFormOpenMP(const T* t, size_t nbElements)
         default: {
             bool result = true;
 #if WITH_OPENMP
-#pragma omp parallel for reduction(&& : result) schedule(static) if (nbElements > OMP_DEFAULT_THRESHOLD)
+#pragma omp parallel for reduction(&& : result)                                                    \
+    schedule(static) if (nbElements > OMP_DEFAULT_THRESHOLD)
 #endif
             for (long long k = 0; k < (long long)nbElements; k++) {
                 if (!IsIntegerForm(t[k])) {
@@ -189,7 +190,8 @@ IsIntegerFormOrNotFiniteOpenMP(const T* t, size_t nbElements)
 {
     if (t != nullptr && nbElements > 0) {
         bool result = true;
-#pragma omp parallel for reduction(&& : result) schedule(static) if (nbElements > OMP_DEFAULT_THRESHOLD)
+#pragma omp parallel for reduction(&& : result)                                                    \
+    schedule(static) if (nbElements > OMP_DEFAULT_THRESHOLD)
         for (long long k = 0; k < (long long)nbElements; k++) {
             if (!IsIntegerFormOrNotFinite(t[k])) {
                 result = false;

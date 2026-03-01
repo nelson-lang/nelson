@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>augstate</keyword>
   <short_description
-  >Ajoute le vecteur d'état au vecteur de sortie.</short_description>
+  >Ajoute le vecteur d&apos;état au vecteur de sortie.</short_description>
   <syntax>
     <syntax_item>sysa = augstate(sys)</syntax_item>
     <syntax_item>[Aa, Ba, Ca, Da] = augstate(A, B, C, D)</syntax_item>
@@ -19,12 +19,12 @@
     <param_output_item>
       <param_name>sysa</param_name>
       <param_description
-      >Modèle d'espace d'état avec états ajoutés aux sorties.</param_description>
+      >Modèle d&apos;espace d&apos;état avec états ajoutés aux sorties.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>La fonction <b
-      >sysa = augstate(sys)</b> ajoute le vecteur d'état aux sorties d'un modèle d'espace d'état.</p>
+      >sysa = augstate(sys)</b> ajoute le vecteur d&apos;état aux sorties d&apos;un modèle d&apos;espace d&apos;état.</p>
   </description>
   <examples>
     <example_item>

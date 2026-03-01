@@ -25,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>complex</b> returns a complex value from real arguments.</p>
+    <p>
+      <b>complex</b> returns a complex value from real arguments.</p>
     <p>With only one input argument,<b
       >complex</b> returns a complex value a + 0*i.</p>
   </description>

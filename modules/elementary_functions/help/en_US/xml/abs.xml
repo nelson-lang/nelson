@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>abs</b> computes the absolute value.</p>
+    <p>
+      <b>abs</b> computes the absolute value.</p>
     <p>If input argument is a complex number,<b
       >abs</b> computes the complex magnitude.</p>
   </description>

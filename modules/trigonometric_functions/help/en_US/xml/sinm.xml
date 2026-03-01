@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>sinm(x)</b> computes the matrix sinus of <b>x</b>.</p>
+    <p>
+      <b>sinm(x)</b> computes the matrix sinus of <b>x</b>.</p>
   </description>
   <used_function />
   <bibliography />

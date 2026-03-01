@@ -113,11 +113,11 @@
       </tr>
       <tr>
         <td>NaN</td>
-        <td>float("nan")</td>
+        <td>float(&quot;nan&quot;)</td>
       </tr>
       <tr>
         <td>Inf</td>
-        <td>float("inf")</td>
+        <td>float(&quot;inf&quot;)</td>
       </tr>
       <tr>
         <td>double (real)</td>
@@ -196,43 +196,43 @@
       </tr>
       <tr>
         <td>double (real)</td>
-        <td>array.array('d')</td>
+        <td>array.array(&apos;d&apos;)</td>
       </tr>
       <tr>
         <td>single (real)</td>
-        <td>array.array('f')</td>
+        <td>array.array(&apos;f&apos;)</td>
       </tr>
       <tr>
         <td>int8</td>
-        <td>array.array('b')</td>
+        <td>array.array(&apos;b&apos;)</td>
       </tr>
       <tr>
         <td>uint8</td>
-        <td>array.array('B')</td>
+        <td>array.array(&apos;B&apos;)</td>
       </tr>
       <tr>
         <td>int16</td>
-        <td>array.array('h')</td>
+        <td>array.array(&apos;h&apos;)</td>
       </tr>
       <tr>
         <td>uint16</td>
-        <td>array.array('H')</td>
+        <td>array.array(&apos;H&apos;)</td>
       </tr>
       <tr>
         <td>int32</td>
-        <td>array.array('i')</td>
+        <td>array.array(&apos;i&apos;)</td>
       </tr>
       <tr>
         <td>uint32</td>
-        <td>array.array('I')</td>
+        <td>array.array(&apos;I&apos;)</td>
       </tr>
       <tr>
         <td>int64</td>
-        <td>array.array('q')</td>
+        <td>array.array(&apos;q&apos;)</td>
       </tr>
       <tr>
         <td>uint64</td>
-        <td>array.array('Q')</td>
+        <td>array.array(&apos;Q&apos;)</td>
       </tr>
       <tr>
         <td>double</td>

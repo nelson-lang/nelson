@@ -7,10 +7,10 @@
   >Checks that value is vector or raise an error.</short_description>
   <syntax>
     <syntax_item>mustBeVector(var)</syntax_item>
-    <syntax_item>mustBeVector(var, 'allow-all-empties')</syntax_item>
+    <syntax_item>mustBeVector(var, &apos;allow-all-empties&apos;)</syntax_item>
     <syntax_item>mustBeVector(var, argPosition)</syntax_item>
     <syntax_item
-    >mustBeVector(var, 'allow-all-empties', argPosition)</syntax_item>
+    >mustBeVector(var, &apos;allow-all-empties&apos;, argPosition)</syntax_item>
     <syntax_item
     >C++: void mustBeVector(const ArrayOfVector&amp; args, bool allowsAllEmpties, int argPosition)</syntax_item>
   </syntax>
@@ -27,7 +27,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>mustBeVector</b> checks that value is vector or raise an error.</p>
+    <p>
+      <b>mustBeVector</b> checks that value is vector or raise an error.</p>
   </description>
   <used_function />
   <bibliography />

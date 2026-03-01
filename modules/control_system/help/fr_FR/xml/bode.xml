@@ -45,14 +45,16 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >bode(sys)</b> generates a Bode plot illustrating the frequency response of a dynamic system model, denoted as <b
-      >sys.</b></p>
+      >sys.</b>
+    </p>
     <p
-    >This plot visually represents the system's response in terms of both magnitude (measured in decibels, dB) and phase (measured in degrees) across varying frequencies.</p>
+    >This plot visually represents the system&apos;s response in terms of both magnitude (measured in decibels, dB) and phase (measured in degrees) across varying frequencies.</p>
     <p
     >The specific frequency points on the plot are automatically determined by <b
-      >bode</b> based on the system's inherent dynamics.</p>
+      >bode</b> based on the system&apos;s inherent dynamics.</p>
   </description>
   <examples>
     <example_item>

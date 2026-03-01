@@ -8,7 +8,7 @@
     <p
     >Le module F2C permet aux utilisateurs de Nelson de convertir des fichiers sources Fortran 77 hérités en code C.</p>
     <p
-    >Cela permet une intégration transparente des routines Fortran plus anciennes dans les flux de travail Nelson, avec le support de la compilation, de l'exécution et de l'interaction avec les variables Nelson.</p>
+    >Cela permet une intégration transparente des routines Fortran plus anciennes dans les flux de travail Nelson, avec le support de la compilation, de l&apos;exécution et de l&apos;interaction avec les variables Nelson.</p>
     <p
     >Il est particulièrement utile pour réutiliser des algorithmes numériques existants ou des bases de code scientifiques héritées dans un environnement Nelson moderne.</p>
   </chapter_description>

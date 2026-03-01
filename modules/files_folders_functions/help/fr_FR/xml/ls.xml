@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ls</keyword>
-  <short_description>Liste le contenu d'un répertoire.</short_description>
+  <short_description>Liste le contenu d&apos;un répertoire.</short_description>
   <syntax>
     <syntax_item>ls</syntax_item>
     <syntax_item>ls(name)</syntax_item>
@@ -25,12 +25,13 @@
     <param_output_item>
       <param_name>res</param_name>
       <param_description
-      >Sur Windows, res est un tableau m-by-n de caractères. Sur Unix, c'est un vecteur de noms séparés par des tabulations et espaces.</param_description>
+      >Sur Windows, res est un tableau m-by-n de caractères. Sur Unix, c&apos;est un vecteur de noms séparés par des tabulations et espaces.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >ls</b> appelle la commande de liste de répertoire native du système d'exploitation - les options disponibles varient selon le système.</p>
+    <p>
+      <b
+      >ls</b> appelle la commande de liste de répertoire native du système d&apos;exploitation - les options disponibles varient selon le système.</p>
   </description>
   <used_function />
   <bibliography />

@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>abyss</b> retourne la palette de couleurs abyss.</p>
+    <p>
+      <b>abyss</b> retourne la palette de couleurs abyss.</p>
   </description>
   <used_function />
   <bibliography />

@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>uint64</b> converts value to 64-bit unsigned integer type.</p>
+    <p>
+      <b>uint64</b> converts value to 64-bit unsigned integer type.</p>
     <p
     >The value is rounded to the nearest uint64 value on conversion. A value that is above or below the range for an uint64 class is mapped to one of the endpoints of the range [0, 18446744073709551616].</p>
     <p
@@ -30,7 +31,7 @@
     <p
     >This default representation can lead to a loss of precision, as floating-point numbers have limited precision.</p>
     <p
-    >To maintain the full precision of these large integer values, it's advisable to explicitly convert each scalar element of the array to the int64 or uint64 data type using the i64 or u64 notation (see example).</p>
+    >To maintain the full precision of these large integer values, it&apos;s advisable to explicitly convert each scalar element of the array to the int64 or uint64 data type using the i64 or u64 notation (see example).</p>
     <p
     >This way, you ensure that the values are stored with their full precision as 64-bit signed or unsigned integers, respectively, rather than as double-precision floating-point numbers.</p>
   </description>

@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>C = cov(M)</b> renvoie la covariance.</p>
+    <p>
+      <b>C = cov(M)</b> renvoie la covariance.</p>
   </description>
   <used_function />
   <bibliography />

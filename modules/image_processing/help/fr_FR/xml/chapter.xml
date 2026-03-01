@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>image_processing</module_name>
-  <chapter>Fonctions de traitement d'image</chapter>
+  <chapter>Fonctions de traitement d&apos;image</chapter>
   <chapter_description>
     <p
     >Le module Image Processing fournit des opérations de base pour manipuler des images, y compris la conversion de format, le redimensionnement et la rotation.</p>

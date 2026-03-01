@@ -13,7 +13,7 @@
     <param_input_item>
       <param_name>JOB</param_name>
       <param_description
-      >Determines whether the values of the parameters RANK and TOL are to be specified by the user or computed by the routine as follows: = 'R': Compute RANK only; = 'T': Compute TOL only; = 'B': Compute both RANK and TOL; = 'N': Compute neither RANK nor TOL.</param_description>
+      >Determines whether the values of the parameters RANK and TOL are to be specified by the user or computed by the routine as follows: = &apos;R&apos;: Compute RANK only; = &apos;T&apos;: Compute TOL only; = &apos;B&apos;: Compute both RANK and TOL; = &apos;N&apos;: Compute neither RANK nor TOL.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>M</param_name>
@@ -33,7 +33,7 @@
     <param_input_item>
       <param_name>RANK_IN</param_name>
       <param_description
-      >if JOB = 'T' or JOB = 'N', then RANK must specify r, the rank of the TLS approximation [A + DA | B + DB].</param_description>
+      >if JOB = &apos;T&apos; or JOB = &apos;N&apos;, then RANK must specify r, the rank of the TLS approximation [A + DA | B + DB].</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>C_IN</param_name>
@@ -50,7 +50,7 @@
     <param_output_item>
       <param_name>RANK_OUT</param_name>
       <param_description
-      >if JOB = 'R' or JOB = 'B', and INFO = 0, then RANK contains the computed (effective) rank of the TLS approximation [A + DA | B + DB].</param_description>
+      >if JOB = &apos;R&apos; or JOB = &apos;B&apos;, and INFO = 0, then RANK contains the computed (effective) rank of the TLS approximation [A + DA | B + DB].</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>C_OUT</param_name>

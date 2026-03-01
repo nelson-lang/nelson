@@ -21,8 +21,9 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >dlgenerateloader</b> génère un fichier 'loader.m' pour charger des bibliothèques dynamiques externes.</p>
+    <p>
+      <b
+      >dlgenerateloader</b> génère un fichier &apos;loader.m&apos; pour charger des bibliothèques dynamiques externes.</p>
   </description>
   <used_function />
   <bibliography />

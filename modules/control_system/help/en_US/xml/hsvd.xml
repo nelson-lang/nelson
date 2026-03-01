@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >hsv = hsvd(sys)</b> calculates the Hankel singular values (hsv) for the dynamic system <b
       >sys</b>.</p>
     <p

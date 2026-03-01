@@ -26,7 +26,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>pinv</b> returns Moore-Penrose Pseudoinverse of matrix A.</p>
+    <p>
+      <b>pinv</b> returns Moore-Penrose Pseudoinverse of matrix A.</p>
   </description>
   <used_function />
   <bibliography />

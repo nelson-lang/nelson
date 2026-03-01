@@ -9,7 +9,7 @@
     <syntax_item>R = ones(n)</syntax_item>
     <syntax_item>R = ones(n, m)</syntax_item>
     <syntax_item>R = ones(n, m, ..., z)</syntax_item>
-    <syntax_item>R = ones(n, m, ..., z, 'like', V)</syntax_item>
+    <syntax_item>R = ones(n, m, ..., z, &apos;like&apos;, V)</syntax_item>
     <syntax_item>R = ones(n, m, ..., z, classname)</syntax_item>
   </syntax>
   <param_input>
@@ -23,7 +23,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>ones</b> returns a matrix made of ones.</p>
+    <p>
+      <b>ones</b> returns a matrix made of ones.</p>
   </description>
   <used_function />
   <bibliography />

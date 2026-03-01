@@ -10,8 +10,8 @@
     <syntax_item>s = whos()</syntax_item>
     <syntax_item>whos(scope)</syntax_item>
     <syntax_item>s = whos(scope)</syntax_item>
-    <syntax_item>whos('-file', filename)</syntax_item>
-    <syntax_item>s = whos('-file', filename)</syntax_item>
+    <syntax_item>whos(&apos;-file&apos;, filename)</syntax_item>
+    <syntax_item>s = whos(&apos;-file&apos;, filename)</syntax_item>
     <syntax_item>whos(... , var1, ..., varN)</syntax_item>
     <syntax_item>s = whos(... , var1, ..., varN)</syntax_item>
   </syntax>
@@ -19,7 +19,7 @@
     <param_input_item>
       <param_name>scope</param_name>
       <param_description
-      >a string: 'global', 'base', 'caller', 'local'.</param_description>
+      >a string: &apos;global&apos;, &apos;base&apos;, &apos;caller&apos;, &apos;local&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>var1, ..., varN</param_name>
@@ -39,7 +39,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >whos</b> displays current variable names in memory or in .nh5 or .mat file.</p>
   </description>
   <used_function />

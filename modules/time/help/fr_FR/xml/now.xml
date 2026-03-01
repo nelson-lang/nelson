@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>now</keyword>
   <short_description
-  >Renvoie la date et l'heure courantes sous forme de numéro de date série.</short_description>
+  >Renvoie la date et l&apos;heure courantes sous forme de numéro de date série.</short_description>
   <syntax>
     <syntax_item>n = now()</syntax_item>
   </syntax>
@@ -15,8 +15,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >now()</b> renvoie la date et l'heure courantes sous forme d'un numéro de date série.</p>
+    <p>
+      <b
+      >now()</b> renvoie la date et l&apos;heure courantes sous forme d&apos;un numéro de date série.</p>
   </description>
   <used_function />
   <bibliography />

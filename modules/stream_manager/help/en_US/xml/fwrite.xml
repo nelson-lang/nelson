@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>fwrite</keyword>
-  <short_description
+  <short_description
   >Write data in binary form to the file specified by the file descriptor fid.</short_description>
   <syntax>
     <syntax_item>count = fwrite(fid, data)</syntax_item>
@@ -32,7 +32,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>arch</param_name>
-      <param_description
+      <param_description
       >a string specifying the data format for the file.</param_description>
     </param_input_item>
   </param_input>
@@ -47,13 +47,16 @@
     </param_output_item>
   </param_output>
   <description>
-    <p
+    <p
     >Write data in binary form to the file specified by the file descriptor fid.</p>
     <p>characters encoding uses <b>fopen</b> parameter.</p>
     <p>supported architecture:</p>
-    <p><b>native</b> , <b>n</b>: format of the current machine.</p>
-    <p><b>ieee-be</b>, <b>b</b>: IEEE big endian.</p>
-    <p><b>ieee-le</b>, <b>l</b>: IEEE little endian.</p>
+    <p>
+      <b>native</b> , <b>n</b>: format of the current machine.</p>
+    <p>
+      <b>ieee-be</b>, <b>b</b>: IEEE big endian.</p>
+    <p>
+      <b>ieee-le</b>, <b>l</b>: IEEE little endian.</p>
     <p>supported precision:</p>
     <p>
       <table border="1" cellpadding="4" cellspacing="0">
@@ -64,71 +67,99 @@
         </tr>
         <tr>
           <td>Logical</td>
-          <td>'logical'</td>
+          <td>
+            &apos;logical&apos;
+          </td>
           <td>platform-dependent</td>
         </tr>
         <tr>
           <td rowspan="2">Floating-point numbers</td>
-          <td>'double', 'real*8', 'float64'</td>
+          <td>
+            &apos;double&apos;, &apos;real*8&apos;, &apos;float64&apos;
+          </td>
           <td>64 (8)</td>
         </tr>
         <tr>
-          <td>'single', 'real*4', 'float32'</td>
+          <td>
+            &apos;single&apos;, &apos;real*4&apos;, &apos;float32&apos;
+          </td>
           <td>32 (4)</td>
         </tr>
         <tr>
           <td rowspan="5">Integers, signed</td>
-          <td>'int'</td>
+          <td>
+            &apos;int&apos;
+          </td>
           <td>32 (4)</td>
         </tr>
         <tr>
-          <td>'int8', 'integer*1', 'schar'</td>
+          <td>
+            &apos;int8&apos;, &apos;integer*1&apos;, &apos;schar&apos;
+          </td>
           <td>8 (1)</td>
         </tr>
         <tr>
-          <td>'int16', 'integer*2'</td>
+          <td>
+            &apos;int16&apos;, &apos;integer*2&apos;
+          </td>
           <td>16 (2)</td>
         </tr>
         <tr>
-          <td>'int32', 'integer*4'</td>
+          <td>
+            &apos;int32&apos;, &apos;integer*4&apos;
+          </td>
           <td>32 (4)</td>
         </tr>
         <tr>
-          <td>'int64', 'integer*8'</td>
+          <td>
+            &apos;int64&apos;, &apos;integer*8&apos;
+          </td>
           <td>64 (8)</td>
         </tr>
         <tr>
           <td rowspan="4">Integers, unsigned</td>
-          <td>'uint8', 'uchar'</td>
+          <td>
+            &apos;uint8&apos;, &apos;uchar&apos;
+          </td>
           <td>8 (1)</td>
         </tr>
         <tr>
-          <td>'uint16'</td>
+          <td>
+            &apos;uint16&apos;
+          </td>
           <td>16 (2)</td>
         </tr>
         <tr>
-          <td>'uint32'</td>
+          <td>
+            &apos;uint32&apos;
+          </td>
           <td>32 (4)</td>
         </tr>
         <tr>
-          <td>'uint64'</td>
+          <td>
+            &apos;uint64&apos;
+          </td>
           <td>64 (8)</td>
         </tr>
         <tr>
           <td rowspan="2">Characters</td>
-          <td>'char', '*char'</td>
+          <td>
+            &apos;char&apos;, &apos;*char&apos;
+          </td>
           <td>depends encoding with fopen.</td>
         </tr>
         <tr>
-          <td>'char*1'</td>
+          <td>
+            &apos;char*1&apos;
+          </td>
           <td>depends encoding with fopen.</td>
         </tr>
       </table>
     </p>
     <p>if <b>fwrite</b> fails, it returns a negative value.</p>
-    <p>if <b
+    <p>if <b
       >fwrite</b> succeeds, it returns the number of elements written successfully.</p>
-    <p>if <b
+    <p>if <b
       >fwrite</b> writes characters, it returns the number of characters written successfully and not the number of elements.</p>
   </description>
   <used_function />
@@ -137,34 +168,34 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[
-A = rand(3,1)
-
-fileID = fopen([tempdir(), 'doubledata.bin'],'w');
-fwrite(fileID, A,'double');
-fclose(fileID);
-
-fileID = fopen([tempdir(), 'doubledata.bin'],'r');
-R = fread(fileID, 'double')
-fclose(fileID);
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+A = rand(3,1)
+
+fileID = fopen([tempdir(), 'doubledata.bin'],'w');
+fwrite(fileID, A,'double');
+fclose(fileID);
+
+fileID = fopen([tempdir(), 'doubledata.bin'],'r');
+R = fread(fileID, 'double')
+fclose(fileID);
 ]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-      ><![CDATA[
-test_string =  'é ö ä ü è ê';
-fid = fopen([tempdir(), 'fwrite_example_char.txt'], 'w','n', 'UTF-8');
-[count, bytes] = fwrite(fid, test_string) % returns 11 and 17
-fclose(fid);
-
-% This is the number of characters written and not the number of bytes. 
-% Each accented character (é, ö, ä, ü, è, ê) = 2 bytes each 
-% Each space = 1 byte
-% Total bytes = 6*2 + 5*1 = 17 bytes
+      <example_item_data
+      ><![CDATA[
+test_string =  'é ö ä ü è ê';
+fid = fopen([tempdir(), 'fwrite_example_char.txt'], 'w','n', 'UTF-8');
+[count, bytes] = fwrite(fid, test_string) % returns 11 and 17
+fclose(fid);
+
+% This is the number of characters written and not the number of bytes.
+% Each accented character (é, ö, ä, ü, è, ê) = 2 bytes each
+% Each space = 1 byte
+% Total bytes = 6*2 + 5*1 = 17 bytes
 ]]></example_item_data>
     </example_item>
   </examples>
@@ -186,7 +217,7 @@ fclose(fid);
     </history_item>
     <history_item>
       <history_version>1.15.0</history_version>
-      <history_description
+      <history_description
       >fwrite returns the number of characters written for character data.</history_description>
     </history_item>
   </history>

@@ -4,16 +4,16 @@
   <language>fr_FR</language>
   <keyword>MException</keyword>
   <short_description
-  >Informations sur l'exception MException.</short_description>
+  >Informations sur l&apos;exception MException.</short_description>
   <syntax>
     <syntax_item>ME = MException(identifier, message)</syntax_item>
-    <syntax_item>ME = MException('last')</syntax_item>
-    <syntax_item>MException('reset')</syntax_item>
+    <syntax_item>ME = MException(&apos;last&apos;)</syntax_item>
+    <syntax_item>MException(&apos;reset&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>identifier</param_name>
-      <param_description>une chaîne : identifiant d'erreur.</param_description>
+      <param_description>une chaîne : identifiant d&apos;erreur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>message</param_name>
@@ -30,9 +30,11 @@
     <p
     >Tout code Nelson qui détecte une erreur et lève une exception construit un objet MException.</p>
     <p
-    >L'identifiant inclut un ou plusieurs champs composants et un champ mnémonique (exemple : 'nelson:matrix:empty').</p>
-    <p><b>ME = MException('last')</b> renvoie la dernière exception.</p>
-    <p><b>MException('reset')</b> efface la dernière exception.</p>
+    >L&apos;identifiant inclut un ou plusieurs champs composants et un champ mnémonique (exemple : &apos;nelson:matrix:empty&apos;).</p>
+    <p>
+      <b>ME = MException(&apos;last&apos;)</b> renvoie la dernière exception.</p>
+    <p>
+      <b>MException(&apos;reset&apos;)</b> efface la dernière exception.</p>
   </description>
   <used_function />
   <bibliography />

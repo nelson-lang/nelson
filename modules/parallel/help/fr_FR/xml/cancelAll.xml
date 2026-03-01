@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>cancelAll</keyword>
   <short_description
-  >Arrêter toutes les fonctions s'exécutant en arrière-plan.</short_description>
+  >Arrêter toutes les fonctions s&apos;exécutant en arrière-plan.</short_description>
   <syntax>
     <syntax_item>cancelAll(fevalQueue)</syntax_item>
   </syntax>
@@ -15,8 +15,9 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >cancelAll(fevalQueue)</b> arrête tous les éléments en cours d'exécution ou en file d'attente du pool d'arrière-plan.</p>
+    <p>
+      <b
+      >cancelAll(fevalQueue)</b> arrête tous les éléments en cours d&apos;exécution ou en file d&apos;attente du pool d&apos;arrière-plan.</p>
   </description>
   <used_function />
   <bibliography />

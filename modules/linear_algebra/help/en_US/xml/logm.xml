@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>expm(x)</b> computes the matrix logarithm of x.</p>
+    <p>
+      <b>expm(x)</b> computes the matrix logarithm of x.</p>
     <p
     >The computation is performed by first block-diagonalizing x and then applying a Pade approximation on each block.</p>
   </description>

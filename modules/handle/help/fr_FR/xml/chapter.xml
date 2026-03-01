@@ -8,7 +8,7 @@
     <p
     >Le module Handle fournit des outils pour créer et manipuler des objets handle dans Nelson.</p>
     <p
-    >Les objets handle sont des références légères vers des structures de données plus volumineuses, permettant une gestion efficace de la mémoire et le partage de données entre différentes parties d'un programme.</p>
+    >Les objets handle sont des références légères vers des structures de données plus volumineuses, permettant une gestion efficace de la mémoire et le partage de données entre différentes parties d&apos;un programme.</p>
     <p
     >Ce module inclut des fonctions pour créer, copier et détruire des objets handle, ainsi que pour gérer leur durée de vie et garantir un nettoyage approprié.</p>
   </chapter_description>

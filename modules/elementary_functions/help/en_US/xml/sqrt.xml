@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>sqrt</b> computes the square root.</p>
+    <p>
+      <b>sqrt</b> computes the square root.</p>
     <p>For real positive numbers:</p>
     <latex>\sqrt{x}</latex>
     <p>For complex numbers <b>z = x + iy</b>:</p>

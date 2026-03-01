@@ -29,8 +29,9 @@
   </param_output>
   <description>
     <p
-    >Il s'agit d'une fonctionnalité avancée pour manipuler des pointeurs C.</p>
-    <p><b>ptr = libpointer()</b> crée un pointeur NULL.</p>
+    >Il s&apos;agit d&apos;une fonctionnalité avancée pour manipuler des pointeurs C.</p>
+    <p>
+      <b>ptr = libpointer()</b> crée un pointeur NULL.</p>
   </description>
   <used_function />
   <bibliography />

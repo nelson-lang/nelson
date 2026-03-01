@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>sky</b> returns the colormap with sky colors.</p>
+    <p>
+      <b>sky</b> returns the colormap with sky colors.</p>
   </description>
   <used_function />
   <bibliography />

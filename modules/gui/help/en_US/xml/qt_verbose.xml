@@ -26,7 +26,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>qt_verbose</b> how/hide Qt debug message.</p>
+    <p>
+      <b>qt_verbose</b> how/hide Qt debug message.</p>
     <p>This function is usefull to debug Qt and Qml.</p>
   </description>
   <used_function />

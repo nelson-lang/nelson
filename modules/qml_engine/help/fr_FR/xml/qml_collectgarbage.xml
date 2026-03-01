@@ -9,7 +9,7 @@
   </syntax>
   <description>
     <p
-    >Le ramasse-miette tentera de récupérer la mémoire en localisant et en détruisant les objets qui ne sont plus accessibles dans l'environnement de script.</p>
+    >Le ramasse-miette tentera de récupérer la mémoire en localisant et en détruisant les objets qui ne sont plus accessibles dans l&apos;environnement de script.</p>
   </description>
   <used_function />
   <bibliography />

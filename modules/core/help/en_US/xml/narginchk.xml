@@ -20,7 +20,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>narginchk</b> checks the number of input arguments of an function.</p>
+    <p>
+      <b>narginchk</b> checks the number of input arguments of an function.</p>
     <p
     >To ensure that a minimum number of arguments is provided, while allowing an unlimited maximum number by setting <b
       >maxArgs</b> to <b>inf</b>. For instance, use <b

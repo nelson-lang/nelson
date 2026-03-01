@@ -17,8 +17,9 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >global</b> déclare une variable comme globale : elle permet d'affecter une valeur à une variable dans une portée de variables spécifiée.</p>
+    <p>
+      <b
+      >global</b> déclare une variable comme globale : elle permet d&apos;affecter une valeur à une variable dans une portée de variables spécifiée.</p>
   </description>
   <used_function />
   <bibliography />

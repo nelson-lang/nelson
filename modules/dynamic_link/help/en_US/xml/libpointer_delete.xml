@@ -15,7 +15,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>delete(h)</b> releases libpointer object.</p>
+    <p>
+      <b>delete(h)</b> releases libpointer object.</p>
     <p>Do not forget to clear h afterward.</p>
   </description>
   <used_function />

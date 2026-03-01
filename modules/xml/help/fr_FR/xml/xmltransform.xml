@@ -14,7 +14,7 @@
     <param_input_item>
       <param_name>xml_file</param_name>
       <param_description
-      >une chaîne : chemin vers le fichier XML d'entrée.</param_description>
+      >une chaîne : chemin vers le fichier XML d&apos;entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>xslt_file</param_name>
@@ -29,7 +29,7 @@
     <param_input_item>
       <param_name>overwrite</param_name>
       <param_description
-      >un logique : vrai pour écraser le fichier de sortie s'il existe (par défaut), faux sinon.</param_description>
+      >un logique : vrai pour écraser le fichier de sortie s&apos;il existe (par défaut), faux sinon.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -43,7 +43,7 @@
     <p
     >Cette fonction applique une transformation XSLT à un fichier XML et enregistre le résultat dans un fichier de sortie.</p>
     <p
-    >Si le fichier de sortie existe déjà et que 'overwrite' est défini sur false, la fonction ne effectuera pas la transformation et renverra false.</p>
+    >Si le fichier de sortie existe déjà et que &apos;overwrite&apos; est défini sur false, la fonction ne effectuera pas la transformation et renverra false.</p>
   </description>
   <used_function />
   <bibliography />

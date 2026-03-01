@@ -22,8 +22,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >fullpath(path)</b> renvoie le chemin absolu à partir d'un chemin relatif.</p>
+    <p>
+      <b
+      >fullpath(path)</b> renvoie le chemin absolu à partir d&apos;un chemin relatif.</p>
   </description>
   <used_function />
   <bibliography />

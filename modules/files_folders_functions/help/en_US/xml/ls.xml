@@ -28,8 +28,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >ls</b> is implemented by calling the native operating system's directory listing command-available options will vary from system to system.</p>
+    <p>
+      <b
+      >ls</b> is implemented by calling the native operating system&apos;s directory listing command-available options will vary from system to system.</p>
   </description>
   <used_function />
   <bibliography />

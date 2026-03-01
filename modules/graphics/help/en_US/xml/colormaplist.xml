@@ -15,7 +15,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>colormaplist</b> returns the available colormaps as an<b>m</b>-by-<b
+    <p>
+      <b>colormaplist</b> returns the available colormaps as an<b>m</b>-by-<b
       >1</b> string array.</p>
   </description>
   <used_function />

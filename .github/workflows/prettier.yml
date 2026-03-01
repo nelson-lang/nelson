@@ -12,14 +12,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22.14"
+      - name: Install clang-format-20
+        run: |
+          curl -fsSL -o /usr/local/bin/clang-format-20 \
+            https://github.com/muttleyxd/clang-tools-static-binaries/releases/download/master-796e77c/clang-format-20_linux-amd64
+          chmod +x /usr/local/bin/clang-format-20
+          ln -sf /usr/local/bin/clang-format-20 /usr/local/bin/clang-format
 
-      - name: npm install
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install just
+        uses: extractions/setup-just@v2
+
+      - name: Check formatting
         run: |
-          npm install
-      - name: npm run prettier:check
-        run: |
-          npm run prettier:check
+          just format-check

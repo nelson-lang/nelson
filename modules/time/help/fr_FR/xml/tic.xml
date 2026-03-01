@@ -17,7 +17,7 @@
   </param_output>
   <description>
     <p>La séquence de commandes<b
-      >tic(); commands ; t = toc()</b> renvoie le nombre de secondes nécessaires à l'exécution des commandes.</p>
+      >tic(); commands ; t = toc()</b> renvoie le nombre de secondes nécessaires à l&apos;exécution des commandes.</p>
     <p>Les appels consécutifs à <b
       >tic</b> écrasent le minuteur interne de tic.</p>
   </description>

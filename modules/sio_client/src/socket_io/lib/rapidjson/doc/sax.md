@@ -67,12 +67,12 @@ struct MyHandler {
     bool Int64(int64_t i) { cout << "Int64(" << i << ")" << endl; return true; }
     bool Uint64(uint64_t u) { cout << "Uint64(" << u << ")" << endl; return true; }
     bool Double(double d) { cout << "Double(" << d << ")" << endl; return true; }
-    bool String(const char* str, SizeType length, bool copy) { 
+    bool String(const char* str, SizeType length, bool copy) {
         cout << "String(" << str << ", " << length << ", " << boolalpha << copy << ")" << endl;
         return true;
     }
     bool StartObject() { cout << "StartObject()" << endl; return true; }
-    bool Key(const char* str, SizeType length, bool copy) { 
+    bool Key(const char* str, SizeType length, bool copy) {
         cout << "Key(" << str << ", " << length << ", " << boolalpha << copy << ")" << endl;
         return true;
     }
@@ -160,7 +160,7 @@ The third template parameter `Allocator` is the allocator type for internal data
 
 ## Parsing {#Parsing}
 
-The one and only one function of `Reader` is to parse JSON. 
+The one and only one function of `Reader` is to parse JSON.
 
 ~~~~~~~~~~cpp
 template <unsigned parseFlags, typename InputStream, typename Handler>
@@ -175,7 +175,7 @@ If an error occurs during parsing, it will return `false`. User can also calls `
 
 # Writer {#Writer}
 
-`Reader` converts (parses) JSON into events. `Writer` does exactly the opposite. It converts events into JSON. 
+`Reader` converts (parses) JSON into events. `Writer` does exactly the opposite. It converts events into JSON.
 
 `Writer` is very easy to use. If your application only need to converts some data into JSON, it may be a good choice to use `Writer` directly, instead of building a `Document` and then stringifying it with a `Writer`.
 
@@ -192,7 +192,7 @@ using namespace std;
 void main() {
     StringBuffer s;
     Writer<StringBuffer> writer(s);
-    
+
     writer.StartObject();
     writer.Key("hello");
     writer.String("world");
@@ -419,7 +419,7 @@ struct CapitalizeFilter {
     bool Int64(int64_t i) { return out_.Int64(i); }
     bool Uint64(uint64_t u) { return out_.Uint64(u); }
     bool Double(double d) { return out_.Double(d); }
-    bool String(const char* str, SizeType length, bool) { 
+    bool String(const char* str, SizeType length, bool) {
         buffer_.clear();
         for (SizeType i = 0; i < length; i++)
             buffer_.push_back(std::toupper(str[i]));

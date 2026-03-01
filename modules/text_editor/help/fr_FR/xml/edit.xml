@@ -21,11 +21,13 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >edit</b> ouvre un nouveau fichier nommé untitled.m dans l'éditeur intégré de Nelson.</p>
-    <p>Si <b>function_name</b> est le nom d'une fonction Nelson définie,<b
-      >edit(function_name)</b> tente d'ouvrir le fichier associé function_name.m.</p>
-    <p><b>edit(dirname)</b> ouvre tous les fichiers .m disponibles dans <b
+    <p>
+      <b
+      >edit</b> ouvre un nouveau fichier nommé untitled.m dans l&apos;éditeur intégré de Nelson.</p>
+    <p>Si <b>function_name</b> est le nom d&apos;une fonction Nelson définie,<b
+      >edit(function_name)</b> tente d&apos;ouvrir le fichier associé function_name.m.</p>
+    <p>
+      <b>edit(dirname)</b> ouvre tous les fichiers .m disponibles dans <b
       >dirname</b>.</p>
   </description>
   <used_function />

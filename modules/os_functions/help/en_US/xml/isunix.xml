@@ -16,7 +16,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>isunix</b> checks if it is a GNU Linux or Unix platform.</p>
+    <p>
+      <b>isunix</b> checks if it is a GNU Linux or Unix platform.</p>
     <p>MacOs platform is also detected as a GNU Linux or Unix platform.</p>
   </description>
   <used_function />

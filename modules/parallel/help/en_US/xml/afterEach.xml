@@ -31,7 +31,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>B = afterEach(F, fcn, n)</b> returns a AfterEachFuture object<b
+    <p>
+      <b>B = afterEach(F, fcn, n)</b> returns a AfterEachFuture object<b
       >B</b>.</p>
     <p>Function<b
       >fcn</b> is automatically runned after each element in the Future array<b

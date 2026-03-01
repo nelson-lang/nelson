@@ -6,8 +6,8 @@
   <short_description>Help for functions in Command Window.</short_description>
   <syntax>
     <syntax_item>help function_name</syntax_item>
-    <syntax_item>help('function_name')</syntax_item>
-    <syntax_item>txt = help('function_name')</syntax_item>
+    <syntax_item>help(&apos;function_name&apos;)</syntax_item>
+    <syntax_item>txt = help(&apos;function_name&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -22,8 +22,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >help('function_name')</b> displays the help text for the functionality specified.</p>
+    <p>
+      <b
+      >help(&apos;function_name&apos;)</b> displays the help text for the functionality specified.</p>
   </description>
   <used_function />
   <bibliography />

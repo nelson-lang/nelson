@@ -6,7 +6,8 @@
   <short_description
   >Register a function to be called when the MEX-file is cleared or when Nelson exits</short_description>
   <syntax>
-    <syntax_item>#include "mex.h"</syntax_item>
+    <syntax_item>#include &quot;mex.h&quot;
+    </syntax_item>
     <syntax_item>int mexAtExit(void (*ExitFcn)(void));</syntax_item>
   </syntax>
   <param_input>
@@ -24,7 +25,8 @@
   </param_output>
   <description>
     <p>Each MEX can register only one active exit subroutine at a time.</p>
-    <p><b
+    <p>
+      <b
       >mexAtExit</b> registers a subroutine to be called just when Nelson is finished or<b
       >clear</b> is called.</p>
   </description>

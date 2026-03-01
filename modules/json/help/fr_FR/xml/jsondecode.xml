@@ -4,10 +4,10 @@
   <language>fr_FR</language>
   <keyword>jsondecode</keyword>
   <short_description
-  >décodage d'une chaîne JSON en objet Nelson.</short_description>
+  >décodage d&apos;une chaîne JSON en objet Nelson.</short_description>
   <syntax>
     <syntax_item>res = jsondecode(json_str)</syntax_item>
-    <syntax_item>res = jsondecode(json_str, '-file')</syntax_item>
+    <syntax_item>res = jsondecode(json_str, &apos;-file&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -15,7 +15,9 @@
       <param_description>une chaîne JSON.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-file'</param_name>
+      <param_name>
+        &apos;-file&apos;
+      </param_name>
       <param_description
       >une chaîne ; le premier argument est le chemin du fichier.</param_description>
     </param_input_item>
@@ -28,8 +30,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >jsondecode</b> convertit les noms de champs d'un objet JSON en noms de champs d'une structure Nelson.</p>
+    <p>
+      <b
+      >jsondecode</b> convertit les noms de champs d&apos;un objet JSON en noms de champs d&apos;une structure Nelson.</p>
   </description>
   <used_function />
   <bibliography>http://www.rfc-editor.org/rfc/rfc7159.txt</bibliography>

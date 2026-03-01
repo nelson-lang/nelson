@@ -24,7 +24,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >C = rem(A, B)</b> computes the remainder of A and B, i.e : A - fix(A ./ B) .* B.</p>
     <p>This function manages also negative values.</p>
     <p>mod(A, 0) = A , whereas rem(A, 0) = NaN.</p>

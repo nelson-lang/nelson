@@ -130,7 +130,7 @@ namespace {
 Replxx::Replxx(
     std::istream& input_stream_, std::ostream& output_stream_, int in_fd_, int out_fd_, int err_fd_)
     : _impl(new Replxx::ReplxxImpl(input_stream_, output_stream_, in_fd_, out_fd_, err_fd_),
-        delete_ReplxxImpl)
+          delete_ReplxxImpl)
 {
 }
 

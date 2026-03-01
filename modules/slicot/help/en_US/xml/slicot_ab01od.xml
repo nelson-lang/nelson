@@ -13,17 +13,17 @@
     <param_input_item>
       <param_name>STAGES</param_name>
       <param_description
-      >Specifies the reduction stage: 'F': Perform the forward stage only; 'B': Perform the backward stage only; 'A': Perform both (all) stages.</param_description>
+      >Specifies the reduction stage: &apos;F&apos;: Perform the forward stage only; &apos;B&apos;: Perform the backward stage only; &apos;A&apos;: Perform both (all) stages.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>JOBU</param_name>
       <param_description
-      >Indicates whether the user wishes to accumulate in a matrix U the state-space transformations: 'N': Do not form U; 'I': U is internally initialized to the unit matrix</param_description>
+      >Indicates whether the user wishes to accumulate in a matrix U the state-space transformations: &apos;N&apos;: Do not form U; &apos;I&apos;: U is internally initialized to the unit matrix</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>JOBV</param_name>
       <param_description
-      >Indicates whether the user wishes to accumulate in a matrix V the input-space transformations: 'N': Do not form V; I':  V is initialized to the unit matrix and the orthogonal transformation matrix V is returned.</param_description>
+      >Indicates whether the user wishes to accumulate in a matrix V the input-space transformations: &apos;N&apos;: Do not form V; I&apos;:  V is initialized to the unit matrix and the orthogonal transformation matrix V is returned.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>A_IN</param_name>
@@ -38,12 +38,12 @@
     <param_input_item>
       <param_name>U_IN</param_name>
       <param_description
-      >If STAGES ~= 'B' or JOBU = 'N', then U need not be set on entry. If STAGES = 'B' and JOBU = 'I', then, on entry, the leading N-by-N part of this array must contain the transformation matrix U that reduced the pair to the orthogonal canonical form.</param_description>
+      >If STAGES ~= &apos;B&apos; or JOBU = &apos;N&apos;, then U need not be set on entry. If STAGES = &apos;B&apos; and JOBU = &apos;I&apos;, then, on entry, the leading N-by-N part of this array must contain the transformation matrix U that reduced the pair to the orthogonal canonical form.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>NCONT_IN</param_name>
       <param_description
-      >The order of the controllable state-space representation. NCONT_IN is input only if STAGES = 'B'.</param_description>
+      >The order of the controllable state-space representation. NCONT_IN is input only if STAGES = &apos;B&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>INDCON_IN</param_name>
@@ -60,37 +60,37 @@
     <param_output_item>
       <param_name>A_OUT</param_name>
       <param_description
-      >On exit, the leading N-by-N part of this array contains the transformed state transition matrix U' * A * U. The leading NCONT-by-NCONT part contains the upper block Hessenberg state matrix Acont in Ac, given by U' * A * U, of a controllable realization for the original system. The elements below the first block-subdiagonal are set to zero.  If STAGES ~='F', the subdiagonal blocks of A are triangularized by RQ factorization, and the annihilated elements are explicitly zeroed.</param_description>
+      >On exit, the leading N-by-N part of this array contains the transformed state transition matrix U&apos; * A * U. The leading NCONT-by-NCONT part contains the upper block Hessenberg state matrix Acont in Ac, given by U&apos; * A * U, of a controllable realization for the original system. The elements below the first block-subdiagonal are set to zero.  If STAGES ~=&apos;F&apos;, the subdiagonal blocks of A are triangularized by RQ factorization, and the annihilated elements are explicitly zeroed.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>B_OUT</param_name>
       <param_description
-      >On exit with STAGES = 'F', the leading N-by-M part of this array contains the transformed input matrix U' * B, with all elements but the first block set to zero. On exit with STAGES ~= 'F', the leading N-by-M part of this array contains the transformed input matrix U' * B * V, with all elements but the first block set to zero and the first block in upper triangular form.</param_description>
+      >On exit with STAGES = &apos;F&apos;, the leading N-by-M part of this array contains the transformed input matrix U&apos; * B, with all elements but the first block set to zero. On exit with STAGES ~= &apos;F&apos;, the leading N-by-M part of this array contains the transformed input matrix U&apos; * B * V, with all elements but the first block set to zero and the first block in upper triangular form.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>U_OUT</param_name>
       <param_description
-      >if JOBU = 'I', the leading N-by-N part of this array contains the transformation matrix U that performed the specified reduction. If JOBU = 'N', the array U is not referenced and can be supplied as a dummy array.</param_description>
+      >if JOBU = &apos;I&apos;, the leading N-by-N part of this array contains the transformation matrix U that performed the specified reduction. If JOBU = &apos;N&apos;, the array U is not referenced and can be supplied as a dummy array.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>V</param_name>
       <param_description
-      >If JOBV = 'I', then the leading M-by-M part of this array contains the transformation matrix V.</param_description>
+      >If JOBV = &apos;I&apos;, then the leading M-by-M part of this array contains the transformation matrix V.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>NCONT_OUT</param_name>
       <param_description
-      > NCONT_OUT is input only if STAGES = 'B'.</param_description>
+      > NCONT_OUT is input only if STAGES = &apos;B&apos;.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>INDCON_OUT</param_name>
       <param_description
-      >INDCON is input only if STAGES = 'B'.</param_description>
+      >INDCON is input only if STAGES = &apos;B&apos;.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>KSTAIR_OUT</param_name>
       <param_description
-      >KSTAIR is input if STAGES = 'B', and output otherwise.</param_description>
+      >KSTAIR is input if STAGES = &apos;B&apos;, and output otherwise.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>INFO</param_name>
@@ -101,7 +101,7 @@
   <description>
     <p
     >To reduce the matrices A and B using (and optionally accumulating) state-space and input-space transformations U and V respectively, such that the pair of matrices</p>
-    <p>Ac = U' * A * U, Bc = U' * B * V</p>
+    <p>Ac = U&apos; * A * U, Bc = U&apos; * B * V</p>
   </description>
   <used_function>AB01OD</used_function>
   <bibliography

@@ -7,7 +7,7 @@
   >Trouver la valeur dans le dictionnaire par clé.</short_description>
   <syntax>
     <syntax_item>value = lookup(d, key)</syntax_item>
-    <syntax_item>value = lookup(d, key, 'FallbackValue', fallback)</syntax_item>
+    <syntax_item>value = lookup(d, key, &apos;FallbackValue&apos;, fallback)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -31,14 +31,18 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >value = lookup(d, key)</b> récupère la valeur associée à la clé donnée dans le dictionnaire d.</p>
-    <p>Si la clé n'existe pas, une erreur est levée.</p>
-    <p><b>value = lookup(d, key)</b> est équivalent à <b>value = d[key]</b>.</p>
-    <p><b
-      >value = lookup(d, key, 'FallbackValue', fallback)</b> spécifie une valeur de secours à renvoyer si la clé n'est pas trouvée dans d.</p>
-    <p><b
-      >lookup</b> ne valide la valeur de secours que si elle est nécessaire. Une erreur n'est levée que si la clé n'est pas trouvée et qu'aucune valeur de secours valide n'est fournie.</p>
+    <p>Si la clé n&apos;existe pas, une erreur est levée.</p>
+    <p>
+      <b>value = lookup(d, key)</b> est équivalent à <b>value = d[key]</b>.</p>
+    <p>
+      <b
+      >value = lookup(d, key, &apos;FallbackValue&apos;, fallback)</b> spécifie une valeur de secours à renvoyer si la clé n&apos;est pas trouvée dans d.</p>
+    <p>
+      <b
+      >lookup</b> ne valide la valeur de secours que si elle est nécessaire. Une erreur n&apos;est levée que si la clé n&apos;est pas trouvée et qu&apos;aucune valeur de secours valide n&apos;est fournie.</p>
   </description>
   <used_function />
   <bibliography />

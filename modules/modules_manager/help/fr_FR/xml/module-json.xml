@@ -9,55 +9,91 @@
     >Un fichier module.json est requis pour chaque module externe de Nelson ; il permet de le gérer facilement avec la fonction <b
       >nmm</b>.</p>
     <p />
-    <p><b
-      >module</b>: identifiant unique (nom court du module, caractères alphanumériques), exemple : "module_skeleton_basic"</p>
-    <p><b
-      >title</b>: nom complet du module (nom convivial), exemple : "Module skeleton basic"</p>
-    <p><b
-      >summary</b>: description sur une ligne, exemple : "Skeleton of a basic nelson package"</p>
-    <p><b
-      >version</b>: numéro de version en utilisant le versionnement sémantique, exemple : "1.0.0"</p>
-    <p><b>platforms</b>: plateformes supportées.</p>
-    <p>"all" pour toutes les plateformes</p>
+    <p>
+      <b
+      >module</b>: identifiant unique (nom court du module, caractères alphanumériques), exemple : &quot;module_skeleton_basic&quot;
+    </p>
+    <p>
+      <b
+      >title</b>: nom complet du module (nom convivial), exemple : &quot;Module skeleton basic&quot;
+    </p>
+    <p>
+      <b
+      >summary</b>: description sur une ligne, exemple : &quot;Skeleton of a basic nelson package&quot;
+    </p>
+    <p>
+      <b
+      >version</b>: numéro de version en utilisant le versionnement sémantique, exemple : &quot;1.0.0&quot;
+    </p>
+    <p>
+      <b>platforms</b>: plateformes supportées.</p>
+    <p>
+      &quot;all&quot; pour toutes les plateformes</p>
     <p>autres plateformes :</p>
-    <p>"win32" : Windows 32 bits</p>
-    <p>"win64" : Windows 64 bits</p>
-    <p>"maci64" : macOS 64 bits</p>
-    <p>"maci32" : macOS 32 bits</p>
-    <p>"glnxa64" : Linux 64 bits</p>
-    <p>"glnxa32" : Linux 32 bits</p>
+    <p>
+      &quot;win32&quot; : Windows 32 bits</p>
+    <p>
+      &quot;win64&quot; : Windows 64 bits</p>
+    <p>
+      &quot;maci64&quot; : macOS 64 bits</p>
+    <p>
+      &quot;maci32&quot; : macOS 32 bits</p>
+    <p>
+      &quot;glnxa64&quot; : Linux 64 bits</p>
+    <p>
+      &quot;glnxa32&quot; : Linux 32 bits</p>
     <p>exemple :<b
-      >["win64", "glnxa64"]</b>, le module ne sera disponible que sur Windows et Linux 64 bits.</p>
-    <p><b
-      >nelson</b>: versions de Nelson supportées, exemple : "&lt;2.0.0" (par défaut)</p>
-    <p><b
+      >[&quot;win64&quot;, &quot;glnxa64&quot;]</b>, le module ne sera disponible que sur Windows et Linux 64 bits.</p>
+    <p>
+      <b
+      >nelson</b>: versions de Nelson supportées, exemple : &quot;
+      &lt;2.0.0&quot; (par défaut)</p>
+    <p>
+      <b
       >builtin</b>: true si le module nécessite un compilateur C/C++, false si le module contient uniquement des macros.</p>
-    <p><b>author</b>: informations sur l'auteur : nom, email et site web</p>
+    <p>
+      <b>author</b>: informations sur l&apos;auteur : nom, email et site web</p>
     <p>Exemple :</p>
     <p>{</p>
-    <p>"name": "Allan CORNET",</p>
-    <p>"email": "nelson.numerical.computation@gmail.com",</p>
-    <p>"url": "https://nelson-lang.github.io/nelson-website/"</p>
+    <p>
+      &quot;name&quot;: &quot;Allan CORNET&quot;,</p>
+    <p>
+      &quot;email&quot;: &quot;nelson.numerical.computation@gmail.com&quot;,</p>
+    <p>
+      &quot;url&quot;: &quot;https://nelson-lang.github.io/nelson-website/&quot;
+    </p>
     <p>}</p>
     <p />
-    <p><b
-      >homepage</b>: page d'accueil du module, exemple "https://github.com/nelson-lang/module_skeleton_basic"</p>
-    <p><b
-      >description</b>: description complète du module, format Markdown supporté, exemple : "nelson's module skeleton (macros only)"</p>
-    <p><b
-      >copyright</b>: description du copyright, exemple : "Copyright © 2019-present Allan              CORNET"</p>
-    <p><b
-      >license</b>: licence sous laquelle la boîte à outils sera publiée, exemple : "BSD" ou "LGPLv2", ...</p>
-    <p><b>keywords</b>: mots-clés décrivant votre module.</p>
+    <p>
+      <b
+      >homepage</b>: page d&apos;accueil du module, exemple &quot;https://github.com/nelson-lang/module_skeleton_basic&quot;
+    </p>
+    <p>
+      <b
+      >description</b>: description complète du module, format Markdown supporté, exemple : &quot;nelson&apos;s module skeleton (macros only)&quot;
+    </p>
+    <p>
+      <b
+      >copyright</b>: description du copyright, exemple : &quot;Copyright © 2019-present Allan              CORNET&quot;
+    </p>
+    <p>
+      <b
+      >license</b>: licence sous laquelle la boîte à outils sera publiée, exemple : &quot;BSD&quot; ou &quot;LGPLv2&quot;, ...</p>
+    <p>
+      <b>keywords</b>: mots-clés décrivant votre module.</p>
     <p>Exemple :</p>
     <p
-    >["interpreter", "scientific-computing", "programming-language", "matrix-functions", "skeleton"]</p>
+    >[&quot;interpreter&quot;, &quot;scientific-computing&quot;, &quot;programming-language&quot;, &quot;matrix-functions&quot;, &quot;skeleton&quot;]</p>
     <p />
-    <p><b
+    <p>
+      <b
       >dependencies</b>: liste des dépendances de modules {} (par défaut) ou paires nom : url</p>
     <p>{</p>
-    <p>"module_a": "https://module_a.git#v1.0.0",</p>
-    <p>"module_b": "https://module_b.git#v1.0.0"</p>
+    <p>
+      &quot;module_a&quot;: &quot;https://module_a.git#v1.0.0&quot;,</p>
+    <p>
+      &quot;module_b&quot;: &quot;https://module_b.git#v1.0.0&quot;
+    </p>
     <p>}</p>
   </description>
   <used_function />

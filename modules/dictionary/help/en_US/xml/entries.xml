@@ -16,7 +16,7 @@
     <param_input_item>
       <param_name>format</param_name>
       <param_description
-      >format: string scalar or character vector: 'cell', 'struct', 'table' (not yet implemented) .</param_description>
+      >format: string scalar or character vector: &apos;cell&apos;, &apos;struct&apos;, &apos;table&apos; (not yet implemented) .</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -26,12 +26,15 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >E = entries(d)</b> retrieves a table containing the key-value pairs from the given dictionary,<b
       >d</b>.</p>
-    <p><b>E = entries(d)</b> currently not implemented.</p>
-    <p><b
-      >E = entries(d, format)</b> specifies the output format as either a table or a structure. For instance, entries(d, "struct") returns a structure containing the key-value pairs of d. This option is useful for data types that are not compatible with tables.</p>
+    <p>
+      <b>E = entries(d)</b> currently not implemented.</p>
+    <p>
+      <b
+      >E = entries(d, format)</b> specifies the output format as either a table or a structure. For instance, entries(d, &quot;struct&quot;) returns a structure containing the key-value pairs of d. This option is useful for data types that are not compatible with tables.</p>
   </description>
   <used_function />
   <bibliography />

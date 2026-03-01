@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>lqe</keyword>
   <short_description
-  >Conception d'un estimateur de Kalman pour systèmes en temps continu.</short_description>
+  >Conception d&apos;un estimateur de Kalman pour systèmes en temps continu.</short_description>
   <syntax>
     <syntax_item>[L, P, E] = lqe(A, G, C, Q, R, N)</syntax_item>
     <syntax_item>[L, P, E] = lqe(A, G, C, Q, R)</syntax_item>
@@ -12,7 +12,7 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>Matrice d'état: matrice n x n.</param_description>
+      <param_description>Matrice d&apos;état: matrice n x n.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>G</param_name>
@@ -27,12 +27,12 @@
     <param_input_item>
       <param_name>Q</param_name>
       <param_description
-      >Matrice de pondération du coût d'état</param_description>
+      >Matrice de pondération du coût d&apos;état</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>R</param_name>
       <param_description
-      >Matrice de pondération du coût d'entrée</param_description>
+      >Matrice de pondération du coût d&apos;entrée</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>N</param_name>
@@ -48,7 +48,7 @@
     <param_output_item>
       <param_name>P</param_name>
       <param_description
-      >Solution de l'équation de Riccati algébrique discrète.</param_description>
+      >Solution de l&apos;équation de Riccati algébrique discrète.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>E</param_name>
@@ -58,7 +58,7 @@
   </param_output>
   <description>
     <p
-    >La fonction calcule le gain optimal de l'estimateur (L), la matrice de covariance d'état (P) et les valeurs propres associées pour un système continu.</p>
+    >La fonction calcule le gain optimal de l&apos;estimateur (L), la matrice de covariance d&apos;état (P) et les valeurs propres associées pour un système continu.</p>
   </description>
   <examples>
     <example_item>

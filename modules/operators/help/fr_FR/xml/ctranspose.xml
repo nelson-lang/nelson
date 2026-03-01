@@ -4,10 +4,12 @@
   <language>fr_FR</language>
   <keyword>ctranspose</keyword>
   <short_description
-  >Renvoie la transposée conjuguée complexe : opérateur '</short_description>
+  >Renvoie la transposée conjuguée complexe : opérateur &apos;
+  </short_description>
   <syntax>
     <syntax_item>C= ctranspose(A)</syntax_item>
-    <syntax_item>C = A'</syntax_item>
+    <syntax_item>C = A&apos;
+    </syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -23,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >C = ctranspose(A)</b> renvoie la transposée conjuguée complexe de A.</p>
   </description>
   <used_function />

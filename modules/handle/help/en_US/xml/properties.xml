@@ -21,7 +21,8 @@
       <param_description>a cell of strings</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >properties</b> returns a cell of strings with properties name.</description>
   <used_function />
   <bibliography />

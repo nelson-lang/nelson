@@ -9,7 +9,7 @@
   </syntax>
   <description>
     <p>La boucle <b
-      >while</b> exécute un ensemble d'instructions tant que la condition de test reste <b
+      >while</b> exécute un ensemble d&apos;instructions tant que la condition de test reste <b
       >true</b>.</p>
   </description>
   <used_function />

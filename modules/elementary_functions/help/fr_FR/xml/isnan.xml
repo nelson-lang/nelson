@@ -16,12 +16,13 @@
   <param_output>
     <param_output_item>
       <param_name>tf</param_name>
-      <param_description>logical: result of 'isnan'.</param_description>
+      <param_description>logical: result of &apos;isnan&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >isnan</b> returns a logical array which is true where elements of M are "Not a Number" values.</p>
+    <p>
+      <b
+      >isnan</b> returns a logical array which is true where elements of M are &quot;Not a Number&quot; values.</p>
   </description>
   <used_function />
   <bibliography />

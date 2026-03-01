@@ -74,10 +74,13 @@
     </table>
     <p />
     <p>Vector and Matrix of Nelson type returned as matrix in Julia.</p>
-    <p><b>cell</b> converted to <b>Array{Any}</b>.</p>
-    <p><b>struct</b> converted to <b>Dict{Any, Any}</b>.</p>
+    <p>
+      <b>cell</b> converted to <b>Array{Any}</b>.</p>
+    <p>
+      <b>struct</b> converted to <b>Dict{Any, Any}</b>.</p>
     <p>matrix of struct converted to <b>Matrix{Dict}</b>.</p>
-    <p><b>dictionary</b> converted to <b>Dict{Any, Any}</b>.</p>
+    <p>
+      <b>dictionary</b> converted to <b>Dict{Any, Any}</b>.</p>
     <p />
     <p
     >Ensure that all data passed between Julia and Nelson adheres to the type mappings described above for smooth conversions.</p>

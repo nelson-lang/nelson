@@ -59,7 +59,7 @@
       <li>Provide a contour matrix <b>C</b> and contour object<b
         >h</b> to label rotated text along contour lines.</li>
       <li>Provide only<b
-        >C</b> to add upright labels and '+' markers at contour locations.</li>
+        >C</b> to add upright labels and &apos;+&apos; markers at contour locations.</li>
       <li>Pass a vector of levels<b
         >v</b> to label only specific contour values.</li>
       <li

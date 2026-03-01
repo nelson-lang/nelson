@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>lin2mu</keyword>
   <short_description
-  >Convertir les données audio d'un signal linéaire vers mu-law.</short_description>
+  >Convertir les données audio d&apos;un signal linéaire vers mu-law.</short_description>
   <syntax>
     <syntax_item>mu = lin2mu(y)</syntax_item>
   </syntax>
@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >mu = lin2mu(y)</b> convertit les données audio du linéaire vers mu-law.</p>
   </description>
   <used_function />

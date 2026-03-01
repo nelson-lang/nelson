@@ -38,7 +38,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>maxk</b> returns the k largest elements of array<b
+    <p>
+      <b>maxk</b> returns the k largest elements of array<b
       >A</b>. When A is a vector, the result is the k largest values from A. When A is a matrix,<b
       >maxk</b> operates along the specified dimension (or the first non-singleton dimension by default) and returns the k largest elements for each slice along that dimension.</p>
     <p>If <b

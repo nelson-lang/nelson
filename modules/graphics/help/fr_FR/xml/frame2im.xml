@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>frame2im</keyword>
   <short_description
-  >Récupère les données d'image d'une image vidéo.</short_description>
+  >Récupère les données d&apos;image d&apos;une image vidéo.</short_description>
   <syntax>
     <syntax_item>RGB = frame2im(F)</syntax_item>
     <syntax_item>[X, map] = frame2im(F)</syntax_item>
@@ -13,7 +13,7 @@
     <param_input_item>
       <param_name>F</param_name>
       <param_description
-      >une structure : image vidéo, représentée comme une structure avec deux champs : cdata : un tableau de uint8 stockant les données de l'image.                          colormap : la palette de couleurs. Ce champ est vide ([]) pour les images truecolor (RGB).                          Une structure d'image vidéo peut être créée avec les fonctions im2frame et getframe.</param_description>
+      >une structure : image vidéo, représentée comme une structure avec deux champs : cdata : un tableau de uint8 stockant les données de l&apos;image.                          colormap : la palette de couleurs. Ce champ est vide ([]) pour les images truecolor (RGB).                          Une structure d&apos;image vidéo peut être créée avec les fonctions im2frame et getframe.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -30,16 +30,18 @@
     <param_output_item>
       <param_name>map</param_name>
       <param_description
-      >Matrice numérique c×3 : palette de couleurs correspondant à l'image indexée X, retournée comme une matrice c×3 avec des valeurs dans l'intervalle [0, 1]. Chaque ligne représente un triplet RGB définissant les composantes rouge, verte et bleue d'une couleur de la palette.</param_description>
+      >Matrice numérique c×3 : palette de couleurs correspondant à l&apos;image indexée X, retournée comme une matrice c×3 avec des valeurs dans l&apos;intervalle [0, 1]. Chaque ligne représente un triplet RGB définissant les composantes rouge, verte et bleue d&apos;une couleur de la palette.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >RGB = frame2im(F)</b> extrait l'image truecolor (RGB) de l'image vidéo <b
+    <p>
+      <b
+      >RGB = frame2im(F)</b> extrait l&apos;image truecolor (RGB) de l&apos;image vidéo <b
       >F</b>.</p>
-    <p><b>[X, map] = frame2im(F)</b> récupère l'image indexée <b
+    <p>
+      <b>[X, map] = frame2im(F)</b> récupère l&apos;image indexée <b
       >X</b> et sa palette de couleurs associée <b
-      >map</b> à partir de l'image vidéo <b>F</b>.</p>
+      >map</b> à partir de l&apos;image vidéo <b>F</b>.</p>
   </description>
   <used_function />
   <bibliography />

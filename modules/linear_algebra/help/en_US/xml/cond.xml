@@ -16,7 +16,7 @@
     <param_input_item>
       <param_name>p</param_name>
       <param_description
-      >norm type: Inf, 'fro', 1, 2 (default)</param_description>
+      >norm type: Inf, &apos;fro&apos;, 1, 2 (default)</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -26,9 +26,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>c = cond(A)</b> returns the 2-norm condition number for inversion.</p>
-    <p><b
-      >c = cond(A, p)</b> returns the p-norm condition number, where p can be 1, 2, Inf, or 'fro'.</p>
+    <p>
+      <b>c = cond(A)</b> returns the 2-norm condition number for inversion.</p>
+    <p>
+      <b
+      >c = cond(A, p)</b> returns the p-norm condition number, where p can be 1, 2, Inf, or &apos;fro&apos;.</p>
   </description>
   <used_function />
   <bibliography />

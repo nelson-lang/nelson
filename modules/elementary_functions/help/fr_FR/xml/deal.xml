@@ -21,10 +21,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >deal</b> réplique les paramètres d'entrée vers les paramètres de sortie correspondants.</p>
+    <p>
+      <b
+      >deal</b> réplique les paramètres d&apos;entrée vers les paramètres de sortie correspondants.</p>
     <p
-    >Si un seul paramètre d'entrée est fourni, sa valeur sera dupliquée pour tous les sorties.</p>
+    >Si un seul paramètre d&apos;entrée est fourni, sa valeur sera dupliquée pour tous les sorties.</p>
   </description>
   <used_function />
   <bibliography />

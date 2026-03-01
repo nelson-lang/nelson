@@ -24,7 +24,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>mustBeLogical</b> checks that value is logical or raise an error.</p>
+    <p>
+      <b>mustBeLogical</b> checks that value is logical or raise an error.</p>
     <p>Empty values are ignored.</p>
   </description>
   <used_function />

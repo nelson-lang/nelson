@@ -40,8 +40,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >xmlchecker</b> est un outil pour vérifier qu'un fichier XML est valide par rapport à un fichier XSD.</p>
+    <p>
+      <b
+      >xmlchecker</b> est un outil pour vérifier qu&apos;un fichier XML est valide par rapport à un fichier XSD.</p>
   </description>
   <used_function />
   <bibliography />

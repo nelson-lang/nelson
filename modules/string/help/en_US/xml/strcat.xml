@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>strcat</b> concatenate strings horizontally.</p>
+    <p>
+      <b>strcat</b> concatenate strings horizontally.</p>
     <p>If all inputs are character arrays, then<b
       >res</b> is a character array.</p>
     <p>If any input is a string array, then the <b

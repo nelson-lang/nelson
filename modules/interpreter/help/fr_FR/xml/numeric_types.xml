@@ -7,7 +7,7 @@
   >À propos des types entiers et à virgule flottante.</short_description>
   <description>
     <p
-    >Dans Nelson, vous pouvez préciser le type de données d'un littéral numérique en utilisant un suffixe ou un spécificateur de type.</p>
+    >Dans Nelson, vous pouvez préciser le type de données d&apos;un littéral numérique en utilisant un suffixe ou un spécificateur de type.</p>
     <p
     >Voici quelques suffixes courants pour spécifier le type des littéraux numériques :</p>
     <table>
@@ -64,11 +64,11 @@
     <p
     >Ces suffixes aident Nelson à inférer le type de données correct pour le littéral.</p>
     <p
-    >Par défaut, Nelson infère automatiquement le type double et vous n'avez pas besoin de spécifier ce suffixe explicitement. exemple : A = 3.14</p>
+    >Par défaut, Nelson infère automatiquement le type double et vous n&apos;avez pas besoin de spécifier ce suffixe explicitement. exemple : A = 3.14</p>
     <p
-    >Sauf si vous avez des besoins spécifiques ou devez dissiper une ambiguïté entre types, vous n'avez souvent pas besoin de préciser explicitement le type des littéraux numériques.</p>
+    >Sauf si vous avez des besoins spécifiques ou devez dissiper une ambiguïté entre types, vous n&apos;avez souvent pas besoin de préciser explicitement le type des littéraux numériques.</p>
     <p
-    >Cependant, lorsque vous créez un tableau numérique de grands entiers dans Nelson, surtout lorsqu'ils dépassent la précision maximale représentable par double (plus grands que flintmax), Nelson stocke par défaut ces valeurs en double précision à virgule flottante.</p>
+    >Cependant, lorsque vous créez un tableau numérique de grands entiers dans Nelson, surtout lorsqu&apos;ils dépassent la précision maximale représentable par double (plus grands que flintmax), Nelson stocke par défaut ces valeurs en double précision à virgule flottante.</p>
   </description>
   <examples>
     <example_item>

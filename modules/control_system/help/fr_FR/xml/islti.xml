@@ -18,7 +18,7 @@
     <param_output_item>
       <param_name>res</param_name>
       <param_description
-      >un booléen : vrai s'il s'agit d'un modèle linéaire.</param_description>
+      >un booléen : vrai s&apos;il s&apos;agit d&apos;un modèle linéaire.</param_description>
     </param_output_item>
   </param_output>
   <description>

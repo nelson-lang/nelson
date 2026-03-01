@@ -8,7 +8,7 @@
 # LICENCE_BLOCK_END
 # ==============================================================================
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  EXECUTE_PROCESS(COMMAND uname -m COMMAND tr -d '\n' OUTPUT_VARIABLE ARCH)
+  execute_process(COMMAND uname -m COMMAND tr -d '\n' OUTPUT_VARIABLE ARCH)
   message("macOS architecture: ${ARCH}")
   set(BIN_DIRECTORY ${PROJECT_BINARY_DIR}/bin/macOS)
   set(CMAKE_OSX_ARCHITECTURES "${ARCH}")
@@ -24,13 +24,26 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   if(NOT DEFINED ENV{IN_NIX_SHELL} AND EXISTS "/usr/local/opt/openblas/lib/")
     link_directories(/usr/local/opt/openblas/lib/)
   endif()
-  if(NOT DEFINED ENV{IN_NIX_SHELL} AND EXISTS "$ENV{HOMEBREW_PREFIX}/opt/openblas/lib/")
+  if(NOT
+    DEFINED
+    ENV{IN_NIX_SHELL}
+    AND
+    EXISTS
+    "$ENV{HOMEBREW_PREFIX}/opt/openblas/lib/"
+  )
     link_directories($ENV{HOMEBREW_PREFIX}/opt/openblas/lib/)
   endif()
 
-  if(NOT DEFINED ENV{IN_NIX_SHELL} AND EXISTS "$ENV{HOMEBREW_PREFIX}/opt/libomp/include")
+  if(NOT
+    DEFINED
+    ENV{IN_NIX_SHELL}
+    AND
+    EXISTS
+    "$ENV{HOMEBREW_PREFIX}/opt/libomp/include"
+  )
     set(OpenMP_CXX_INCLUDE_DIRS $ENV{HOMEBREW_PREFIX}/opt/libomp/include)
-    set(OpenMP_CXX_LIBRARIES $ENV{HOMEBREW_PREFIX}/opt/libomp/lib/libomp${CMAKE_SHARED_LIBRARY_SUFFIX})
+    set(OpenMP_CXX_LIBRARIES
+      $ENV{HOMEBREW_PREFIX}/opt/libomp/lib/libomp${CMAKE_SHARED_LIBRARY_SUFFIX}
+    )
   endif()
 endif()
-# ==============================================================================

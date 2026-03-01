@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>iscom</keyword>
   <short_description
-  >Détermine si l'entrée est un objet COM ou ActiveX.</short_description>
+  >Détermine si l&apos;entrée est un objet COM ou ActiveX.</short_description>
   <syntax>
     <syntax_item>r = iscom(h)</syntax_item>
   </syntax>
@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >r = iscom(h)</b> retourne vrai si le handle h est un objet COM ou Microsoft® ActiveX®. Sinon, il retourne faux.</p>
   </description>
   <used_function />

@@ -289,7 +289,7 @@ end
 
 ### Relational and logical operators
 
-Comparison: `>`, `<`, `>=`, `<=`, `==`, `~=`  
+Comparison: `>`, `<`, `>=`, `<=`, `==`, `~=`
 Logical: `&`, `|`, `~` (element-wise) and `&&`, `||` (short-circuit where supported)
 
 ---

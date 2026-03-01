@@ -26,7 +26,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >s = second(t)</b> extracts the second component from each date and time specified in<b
       >t</b>.</p>
     <p>The output<b

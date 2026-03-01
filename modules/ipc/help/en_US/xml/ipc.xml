@@ -5,47 +5,59 @@
   <keyword>ipc</keyword>
   <short_description>Inter process communicator.</short_description>
   <syntax>
-    <syntax_item>O = ipc(pid, 'eval', cmd)</syntax_item>
-    <syntax_item>B = ipc(pid, 'isvar', name, scope)</syntax_item>
-    <syntax_item>V = ipc(pid, 'get', name)</syntax_item>
-    <syntax_item>V = ipc(pid, 'get', name, scope)</syntax_item>
-    <syntax_item>TF = ipc(pid, 'minimize')</syntax_item>
-    <syntax_item>ipc(pid, 'post', cmd)</syntax_item>
-    <syntax_item>ipc(pid, 'post', cmd, scope)</syntax_item>
-    <syntax_item>ipc(pid, 'put', var, name)</syntax_item>
-    <syntax_item>ipc(pid, 'put', var, name, scope)</syntax_item>
-    <syntax_item>ipc(pid, 'minimize', tf)</syntax_item>
+    <syntax_item>O = ipc(pid, &apos;eval&apos;, cmd)</syntax_item>
+    <syntax_item>B = ipc(pid, &apos;isvar&apos;, name, scope)</syntax_item>
+    <syntax_item>V = ipc(pid, &apos;get&apos;, name)</syntax_item>
+    <syntax_item>V = ipc(pid, &apos;get&apos;, name, scope)</syntax_item>
+    <syntax_item>TF = ipc(pid, &apos;minimize&apos;)</syntax_item>
+    <syntax_item>ipc(pid, &apos;post&apos;, cmd)</syntax_item>
+    <syntax_item>ipc(pid, &apos;post&apos;, cmd, scope)</syntax_item>
+    <syntax_item>ipc(pid, &apos;put&apos;, var, name)</syntax_item>
+    <syntax_item>ipc(pid, &apos;put&apos;, var, name, scope)</syntax_item>
+    <syntax_item>ipc(pid, &apos;minimize&apos;, tf)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>'post'</param_name>
+      <param_name>
+        &apos;post&apos;
+      </param_name>
       <param_description
-      >a string: post a command to evaluate to another nelson's process in base scope (not blocking).</param_description>
+      >a string: post a command to evaluate to another nelson&apos;s process in base scope (not blocking).</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'eval'</param_name>
+      <param_name>
+        &apos;eval&apos;
+      </param_name>
       <param_description
-      >a string: post a command to evaluate to another nelson's process in base scope (blocking).</param_description>
+      >a string: post a command to evaluate to another nelson&apos;s process in base scope (blocking).</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'isvar'</param_name>
+      <param_name>
+        &apos;isvar&apos;
+      </param_name>
       <param_description
-      >a string: check if a variable exists into another nelson's process.</param_description>
+      >a string: check if a variable exists into another nelson&apos;s process.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'put'</param_name>
+      <param_name>
+        &apos;put&apos;
+      </param_name>
       <param_description
-      >a string: send a variable into another nelson's process.</param_description>
+      >a string: send a variable into another nelson&apos;s process.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'get'</param_name>
+      <param_name>
+        &apos;get&apos;
+      </param_name>
       <param_description
-      >a string: get a variable from another nelson's process.</param_description>
+      >a string: get a variable from another nelson&apos;s process.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'minimize'</param_name>
+      <param_name>
+        &apos;minimize&apos;
+      </param_name>
       <param_description
-      >a string: minimize main window from another nelson's process.</param_description>
+      >a string: minimize main window from another nelson&apos;s process.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -69,10 +81,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >ipc</b> allows to execute, get, put variables between multiple nelson's process.</p>
+    <p>
+      <b
+      >ipc</b> allows to execute, get, put variables between multiple nelson&apos;s process.</p>
     <p
-    >All serializable nelson's types are supported. Unsupported types will be replaced by an empty matrix and a warning.</p>
+    >All serializable nelson&apos;s types are supported. Unsupported types will be replaced by an empty matrix and a warning.</p>
     <p>LIMITATION:</p>
     <p
     >The limit for the size of data transferred is 5000x5000 double. On 32 bits architecture, 1024x1024 double.</p>

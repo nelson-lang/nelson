@@ -14,7 +14,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>removemodule</b> supprime un module identifié par son nom court.</p>
+    <p>
+      <b>removemodule</b> supprime un module identifié par son nom court.</p>
     <p
     >Tous les modules du cœur sont protégés et ne peuvent pas être supprimés pendant une session Nelson.</p>
   </description>

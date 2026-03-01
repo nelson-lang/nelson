@@ -8,10 +8,10 @@
   <syntax>
     <syntax_item>save(filename)</syntax_item>
     <syntax_item>save(filename, version, var1, ..., varN)</syntax_item>
-    <syntax_item>save(filename, '-append', ...)</syntax_item>
-    <syntax_item>save(filename, '-mat', ...)</syntax_item>
-    <syntax_item>save(filename, '-nh5', ...)</syntax_item>
-    <syntax_item>save(filename, '-nocompression', ...)</syntax_item>
+    <syntax_item>save(filename, &apos;-append&apos;, ...)</syntax_item>
+    <syntax_item>save(filename, &apos;-mat&apos;, ...)</syntax_item>
+    <syntax_item>save(filename, &apos;-nh5&apos;, ...)</syntax_item>
+    <syntax_item>save(filename, &apos;-nocompression&apos;, ...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -22,35 +22,45 @@
     <param_input_item>
       <param_name>var1, ..., varN</param_name>
       <param_description
-      >string: Names of variables to save from Nelson's workspace.</param_description>
+      >string: Names of variables to save from Nelson&apos;s workspace.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>version: '-v7.3', '-v7', '-v6', '-v4'</param_name>
+      <param_name>version: &apos;-v7.3&apos;, &apos;-v7&apos;, &apos;-v6&apos;, &apos;-v4&apos;
+      </param_name>
       <param_description
-      >mat file version used ('-v7.3'). This option will force '-mat'.</param_description>
+      >mat file version used (&apos;-v7.3&apos;). This option will force &apos;-mat&apos;.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-mat'</param_name>
+      <param_name>
+        &apos;-mat&apos;
+      </param_name>
       <param_description
-      >forces to save as mat file (default '-nh5').</param_description>
+      >forces to save as mat file (default &apos;-nh5&apos;).</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-nh5'</param_name>
+      <param_name>
+        &apos;-nh5&apos;
+      </param_name>
       <param_description
-      >forces to save as nh5 file (default '-nh5').</param_description>
+      >forces to save as nh5 file (default &apos;-nh5&apos;).</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-append'</param_name>
+      <param_name>
+        &apos;-append&apos;
+      </param_name>
       <param_description
       >append variables to an existing .nh5/.mat file (-v7.3 only).</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-nocompression'</param_name>
+      <param_name>
+        &apos;-nocompression&apos;
+      </param_name>
       <param_description>disable .nh5/.mat file compression.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b>save</b> save workspace variables to .nh5 or .mat file.</p>
+    <p>
+      <b>save</b> save workspace variables to .nh5 or .mat file.</p>
   </description>
   <used_function />
   <bibliography />

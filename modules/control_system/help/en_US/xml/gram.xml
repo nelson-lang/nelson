@@ -6,8 +6,8 @@
   <short_description
   >Controllability and observability Gramians.</short_description>
   <syntax>
-    <syntax_item>wc = gram(sys, 'o')</syntax_item>
-    <syntax_item>wc = gram(sys, 'c')</syntax_item>
+    <syntax_item>wc = gram(sys, &apos;o&apos;)</syntax_item>
+    <syntax_item>wc = gram(sys, &apos;c&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>

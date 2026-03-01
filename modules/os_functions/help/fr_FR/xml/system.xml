@@ -16,11 +16,11 @@
     <syntax_item>[status, output, duration] = dos(command)</syntax_item>
     <syntax_item>[status, output, duration] = unix(command)</syntax_item>
     <syntax_item
-    >[status, output, duration] = system(command, '-echo')</syntax_item>
+    >[status, output, duration] = system(command, &apos;-echo&apos;)</syntax_item>
     <syntax_item
-    >[status, output, duration] = dos(command, '-echo')</syntax_item>
+    >[status, output, duration] = dos(command, &apos;-echo&apos;)</syntax_item>
     <syntax_item
-    >[status, output, duration] = unix(command, '-echo')</syntax_item>
+    >[status, output, duration] = unix(command, &apos;-echo&apos;)</syntax_item>
     <syntax_item>[s, outputs, duration] = unix(commands)</syntax_item>
     <syntax_item>[s, outputs, duration] = unix(commands, timeouts)</syntax_item>
   </syntax>
@@ -63,7 +63,7 @@
     <param_output_item>
       <param_name>s</param_name>
       <param_description
-      >une matrice d'entiers : codes de sortie des commandes (mêmes dimensions que commands).</param_description>
+      >une matrice d&apos;entiers : codes de sortie des commandes (mêmes dimensions que commands).</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>output</param_name>
@@ -73,22 +73,24 @@
     <param_output_item>
       <param_name>duration</param_name>
       <param_description
-      >une matrice d'entiers : durée de chaque exécution (millisecondes).</param_description>
+      >une matrice d&apos;entiers : durée de chaque exécution (millisecondes).</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >system</b> envoie une chaîne au système d'exploitation pour exécution. La sortie standard et les erreurs standard de la commande shell sont écrites dans le shell appelant.</p>
-    <p><b
-      >[status, output] = system(command, '-echo')</b> force l'affichage de la sortie dans la fenêtre de commande, même si elle est également assignée à une variable.</p>
+    <p>
+      <b
+      >system</b> envoie une chaîne au système d&apos;exploitation pour exécution. La sortie standard et les erreurs standard de la commande shell sont écrites dans le shell appelant.</p>
+    <p>
+      <b
+      >[status, output] = system(command, &apos;-echo&apos;)</b> force l&apos;affichage de la sortie dans la fenêtre de commande, même si elle est également assignée à une variable.</p>
     <p
     >Les fonctions de rappel (callbacks) ne peuvent pas être appelées tant que la commande <b
-      >system</b> n'est pas terminée.</p>
+      >system</b> n&apos;est pas terminée.</p>
     <p
-    >Nelson convertira les caractères vers l'encodage accepté par votre shell système (ANSI sur Windows par défaut, UTF-8 sur les autres systèmes).</p>
+    >Nelson convertira les caractères vers l&apos;encodage accepté par votre shell système (ANSI sur Windows par défaut, UTF-8 sur les autres systèmes).</p>
     <p>La commande peut être interrompue avec la touche <b
       >CTRL-C</b>. Dans ce cas, le code de retour sera 258 (WAIT_TIMEOUT) sous Windows et 134 sur les autres plateformes (128 + SIGABRT) et la<b
-      >output</b> contiendra 'ABORTED'.</p>
+      >output</b> contiendra &apos;ABORTED&apos;.</p>
     <p>Si la valeur timeout est 0, le timeout est désactivé.</p>
   </description>
   <used_function />

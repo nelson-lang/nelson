@@ -8,14 +8,14 @@
     <syntax_item>legend()</syntax_item>
     <syntax_item>legend(label1, ..., labelN)</syntax_item>
     <syntax_item>legend(labels)</syntax_item>
-    <syntax_item>legend('off')</syntax_item>
-    <syntax_item>legend('hide')</syntax_item>
-    <syntax_item>legend('show')</syntax_item>
-    <syntax_item>legend('toggle')</syntax_item>
-    <syntax_item>legend('boxon')</syntax_item>
-    <syntax_item>legend('boxoff')</syntax_item>
+    <syntax_item>legend(&apos;off&apos;)</syntax_item>
+    <syntax_item>legend(&apos;hide&apos;)</syntax_item>
+    <syntax_item>legend(&apos;show&apos;)</syntax_item>
+    <syntax_item>legend(&apos;toggle&apos;)</syntax_item>
+    <syntax_item>legend(&apos;boxon&apos;)</syntax_item>
+    <syntax_item>legend(&apos;boxoff&apos;)</syntax_item>
     <syntax_item>legend(ax, ...)</syntax_item>
-    <syntax_item>legend(..., 'Location', lcn)</syntax_item>
+    <syntax_item>legend(..., &apos;Location&apos;, lcn)</syntax_item>
     <syntax_item>legend(..., propertyName, propertyValue)</syntax_item>
     <syntax_item>L = legend(...)</syntax_item>
   </syntax>
@@ -31,31 +31,43 @@
       >Cellule de vecteurs de caractères ou tableau de chaînes.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'off'</param_name>
+      <param_name>
+        &apos;off&apos;
+      </param_name>
       <param_description>Supprime la légende.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'toggle'</param_name>
+      <param_name>
+        &apos;toggle&apos;
+      </param_name>
       <param_description
       >Active/désactive la visibilité de la légende.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'hide'</param_name>
+      <param_name>
+        &apos;hide&apos;
+      </param_name>
       <param_description>Masque la légende.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'show'</param_name>
+      <param_name>
+        &apos;show&apos;
+      </param_name>
       <param_description>Affiche la légende.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'boxon'</param_name>
+      <param_name>
+        &apos;boxon&apos;
+      </param_name>
       <param_description
       >Affiche un encadré autour de la légende.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'boxoff'</param_name>
+      <param_name>
+        &apos;boxoff&apos;
+      </param_name>
       <param_description
-      >Masque l'encadré autour de la légende.</param_description>
+      >Masque l&apos;encadré autour de la légende.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ax</param_name>
@@ -64,7 +76,7 @@
     <param_input_item>
       <param_name>lcn</param_name>
       <param_description
-      > Emplacement de la légende : une chaîne ('NE' par défaut).</param_description>
+      > Emplacement de la légende : une chaîne (&apos;NE&apos; par défaut).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyName</param_name>
@@ -83,19 +95,28 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>legend</b> crée une légende dans la figure courante.          </p>
+    <p>
+      <b>legend</b> crée une légende dans la figure courante.          </p>
     <p>
       <b>Emplacement de la légende sur le graphique :</b>
     </p>
     <p />
-    <p>'northeast' ou 'NE' : En haut à droite (par défaut).</p>
-    <p>'north' ou 'N' : En haut au centre.</p>
-    <p>'south' ou 'S' : En bas au centre.</p>
-    <p>'east' ou 'E' : Au milieu à droite.</p>
-    <p>'west' ou 'W' : Au milieu à gauche.</p>
-    <p>'northwest' ou 'NW' : En haut à gauche.</p>
-    <p>'southeast' ou 'SE' : En bas à droite.</p>
-    <p>'southwest' ou 'SW' : En bas à gauche.</p>
+    <p>
+      &apos;northeast&apos; ou &apos;NE&apos; : En haut à droite (par défaut).</p>
+    <p>
+      &apos;north&apos; ou &apos;N&apos; : En haut au centre.</p>
+    <p>
+      &apos;south&apos; ou &apos;S&apos; : En bas au centre.</p>
+    <p>
+      &apos;east&apos; ou &apos;E&apos; : Au milieu à droite.</p>
+    <p>
+      &apos;west&apos; ou &apos;W&apos; : Au milieu à gauche.</p>
+    <p>
+      &apos;northwest&apos; ou &apos;NW&apos; : En haut à gauche.</p>
+    <p>
+      &apos;southeast&apos; ou &apos;SE&apos; : En bas à droite.</p>
+    <p>
+      &apos;southwest&apos; ou &apos;SW&apos; : En bas à gauche.</p>
   </description>
   <used_function />
   <bibliography />

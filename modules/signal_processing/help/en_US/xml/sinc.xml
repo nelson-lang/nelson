@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>c = sinc(m)</b> returns an array<b
+    <p>
+      <b>c = sinc(m)</b> returns an array<b
       >c</b> whose elements are the sinc of the elements of the input: <b
       >m</b>.</p>
     <p>The sinc function (normalized) is defined as:</p>

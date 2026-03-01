@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>A = table2array(T)</b> convertit la table d'entrée <b
+    <p>
+      <b>A = table2array(T)</b> convertit la table d&apos;entrée <b
       >T</b> en un tableau homogène <b>A</b>, où les variables de <b
       >T</b> deviennent les colonnes de <b>A</b>.</p>
     <p>La sortie <b

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>rotz</keyword>
   <short_description
-  >Matrice de transformation 3x3 pour rotation autour de l'axe z</short_description>
+  >Matrice de transformation 3x3 pour rotation autour de l&apos;axe z</short_description>
   <syntax>
     <syntax_item>rm = rotz(angle)</syntax_item>
   </syntax>
@@ -22,8 +22,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >rotz</b> renvoie la matrice de transformation 3x3 correspondant à une rotation autour de l'axe z.</p>
+    <p>
+      <b
+      >rotz</b> renvoie la matrice de transformation 3x3 correspondant à une rotation autour de l&apos;axe z.</p>
   </description>
   <used_function />
   <bibliography

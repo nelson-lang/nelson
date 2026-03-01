@@ -17,11 +17,12 @@
   <param_output>
     <param_output_item>
       <param_name>tf</param_name>
-      <param_description>logique : résultat de 'allfinite'.</param_description>
+      <param_description>logique : résultat de &apos;allfinite&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >allfinite</b> renvoie un scalaire logique valant vrai si tous les éléments de M sont des valeurs finies.</p>
   </description>
   <used_function />

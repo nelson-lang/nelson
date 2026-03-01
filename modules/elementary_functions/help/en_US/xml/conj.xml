@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>conj</b> returns the complex conjugate.</p>
+    <p>
+      <b>conj</b> returns the complex conjugate.</p>
   </description>
   <used_function />
   <bibliography />

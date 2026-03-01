@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>nmm_build_loader</keyword>
   <short_description
-  >fonction d'aide pour générer le loader principal (loader.m) d'un module externe</short_description>
+  >fonction d&apos;aide pour générer le loader principal (loader.m) d&apos;un module externe</short_description>
   <syntax>
     <syntax_item
     >nmm_build_loader(module_short_name, module_root_path)</syntax_item>
@@ -17,12 +17,13 @@
     <param_input_item>
       <param_name>module_root_path</param_name>
       <param_description
-      >chaîne : chemin du module nommé 'module_short_name'.</param_description>
+      >chaîne : chemin du module nommé &apos;module_short_name&apos;.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >nmm_build_loader</b> génère le fichier loader.m principal d'un module externe.</p>
+    <p>
+      <b
+      >nmm_build_loader</b> génère le fichier loader.m principal d&apos;un module externe.</p>
   </description>
   <used_function />
   <bibliography />

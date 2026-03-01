@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>buildhelpmd</keyword>
   <short_description
-  >Génère l'aide des modules de Nelson pour GitBook.</short_description>
+  >Génère l&apos;aide des modules de Nelson pour GitBook.</short_description>
   <syntax>
     <syntax_item>buildhelpmd(dirdest)</syntax_item>
     <syntax_item>buildhelpmd(dirdest, module_name)</syntax_item>
@@ -21,8 +21,9 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >buildhelpmd</b> génère des fichiers d'aide pour GitBook (markdown).</p>
+    <p>
+      <b
+      >buildhelpmd</b> génère des fichiers d&apos;aide pour GitBook (markdown).</p>
   </description>
   <used_function />
   <bibliography />

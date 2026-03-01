@@ -1280,8 +1280,8 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
                         first = false;
                     } else {
                         for (ompIndexType i = 0;
-                             i < (ompIndexType)std::min(limits.size(), child_limits.size());
-                             i += 2) {
+                            i < (ompIndexType)std::min(limits.size(), child_limits.size());
+                            i += 2) {
                             limits[i] = std::min(limits[i], child_limits[i]);
                             limits[i + 1] = std::max(limits[i + 1], child_limits[i + 1]);
                         }
@@ -1302,7 +1302,7 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
                     first = false;
                 } else {
                     for (ompIndexType i = 0;
-                         i < (ompIndexType)std::min(limits.size(), child_limits.size()); i += 2) {
+                        i < (ompIndexType)std::min(limits.size(), child_limits.size()); i += 2) {
                         limits[i] = std::min(limits[i], child_limits[i]);
                         limits[i + 1] = std::max(limits[i + 1], child_limits[i + 1]);
                     }

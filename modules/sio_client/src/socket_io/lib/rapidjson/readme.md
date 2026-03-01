@@ -1,5 +1,5 @@
 ![](doc/logo/rapidjson.png)
-## A fast JSON parser/generator for C++ with both SAX/DOM style API 
+## A fast JSON parser/generator for C++ with both SAX/DOM style API
 
 Copyright (c) 2011-2014 Milo Yip (miloyip@gmail.com)
 

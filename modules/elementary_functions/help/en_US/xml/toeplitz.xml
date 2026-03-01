@@ -27,10 +27,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >T = toeplitz(c, r)</b> returns the Toeplitz matrix whose first row is<b
       >r</b> and first column is <b>c</b>.</p>
-    <p><b>T = toeplitz(c)</b> returns the symmetric Toeplitz matrix.</p>
+    <p>
+      <b>T = toeplitz(c)</b> returns the symmetric Toeplitz matrix.</p>
   </description>
   <used_function />
   <bibliography>https://en.wikipedia.org/wiki/Toeplitz_matrix</bibliography>

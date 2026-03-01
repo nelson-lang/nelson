@@ -4,14 +4,14 @@
   <language>fr_FR</language>
   <keyword>urlencode</keyword>
   <short_description
-  >Remplacer les caractères spéciaux dans les URLs par des séquences d'échappement.</short_description>
+  >Remplacer les caractères spéciaux dans les URLs par des séquences d&apos;échappement.</short_description>
   <syntax>
     <syntax_item>new_url = webread(url)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>url</param_name>
-      <param_description>chaîne : URL d'un service web.</param_description>
+      <param_description>chaîne : URL d&apos;un service web.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -21,9 +21,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >urlencode</b> remplace les caractères spéciaux dans une URL par leurs séquences d'échappement.</p>
-    <p>Par exemple, les espaces doivent être remplacés par '%20'.</p>
+    <p>
+      <b
+      >urlencode</b> remplace les caractères spéciaux dans une URL par leurs séquences d&apos;échappement.</p>
+    <p>Par exemple, les espaces doivent être remplacés par &apos;%20&apos;.</p>
   </description>
   <used_function />
   <bibliography />

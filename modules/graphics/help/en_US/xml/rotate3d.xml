@@ -13,7 +13,7 @@
   <param_input>
     <param_input_item>
       <param_name>option</param_name>
-      <param_description>string: 'on', 'off' or 'toggle'.</param_description>
+      <param_description>string: &apos;on&apos;, &apos;off&apos; or &apos;toggle&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>fig</param_name>
@@ -28,7 +28,8 @@
   <description>
     <p
     >Utilize rotate mode to interactively rotate the 3-D view of the axes for data exploration. Enable or disable rotate mode and configure additional basic options using the rotate3d function.</p>
-    <p><b
+    <p>
+      <b
       >rotate3d option</b> establishes the rotate mode for all axes within the current figure. For instance, rotate3d on activates rotate mode, while rotate3d off deactivates it.</p>
     <p />
     <p
@@ -36,7 +37,7 @@
     <p />
     <p>Cursor: Click and drag within the axes.</p>
     <p
-    >Keyboard: Use the right arrow (->) or left arrow (←) keys to adjust azimuth, and the up arrow (↑) or down arrow (↓) keys to modify elevation.</p>
+    >Keyboard: Use the right arrow (-&gt;) or left arrow (←) keys to adjust azimuth, and the up arrow (↑) or down arrow (↓) keys to modify elevation.</p>
   </description>
   <used_function />
   <bibliography />

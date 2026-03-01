@@ -6,7 +6,7 @@
   <short_description>Display prompt and wait for user input.</short_description>
   <syntax>
     <syntax_item>r = input(prompt_str)</syntax_item>
-    <syntax_item>r = input(prompt_str, 's')</syntax_item>
+    <syntax_item>r = input(prompt_str, &apos;s&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>

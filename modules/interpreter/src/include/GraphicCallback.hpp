@@ -27,14 +27,14 @@ private:
     BUSY_ACTION busyAction = BUSY_ACTION::QUEUE;
 
 public:
-    GraphicCallback() {};
+    GraphicCallback() { };
     GraphicCallback(bool _interruptible, BUSY_ACTION _busyAction, const ArrayOf& _callbackAsArrayOf)
         : CallbackBase(_callbackAsArrayOf)
     {
         interruptible = _interruptible;
         busyAction = _busyAction;
     };
-    ~GraphicCallback() {};
+    ~GraphicCallback() { };
     bool
     isInterruptible() const;
     BUSY_ACTION

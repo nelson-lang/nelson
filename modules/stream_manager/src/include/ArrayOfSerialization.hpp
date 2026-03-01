@@ -64,15 +64,15 @@ private:
     void
     serialize(Archive& ar, const unsigned int version)
     {
-        ar& fullySerialized;
-        ar& nelsonObjectClass;
-        ar& isSparse;
-        ar& dims;
-        ar& fieldnames;
+        ar & fullySerialized;
+        ar & nelsonObjectClass;
+        ar & isSparse;
+        ar & dims;
+        ar & fieldnames;
         if (isSparse) {
-            ar& I;
-            ar& J;
-            ar& nzmax;
+            ar & I;
+            ar & J;
+            ar & nzmax;
         }
         switch ((NelsonType)nelsonObjectClass) {
         case NLS_UNKNOWN:
@@ -83,43 +83,43 @@ private:
         case NLS_CELL_ARRAY:
         case NLS_STRUCT_ARRAY:
         case NLS_STRING_ARRAY: {
-            ar& subArrayOf;
+            ar & subArrayOf;
         } break;
         case NLS_LOGICAL:
         case NLS_UINT8: {
-            ar& asUint8;
+            ar & asUint8;
         } break;
         case NLS_INT8: {
-            ar& asInt8;
+            ar & asInt8;
         } break;
         case NLS_UINT16: {
-            ar& asUint16;
+            ar & asUint16;
         } break;
         case NLS_INT16: {
-            ar& asInt16;
+            ar & asInt16;
         } break;
         case NLS_UINT32: {
-            ar& asUint32;
+            ar & asUint32;
         } break;
         case NLS_INT32: {
-            ar& asInt32;
+            ar & asInt32;
         } break;
         case NLS_UINT64: {
-            ar& asUint64;
+            ar & asUint64;
         } break;
         case NLS_INT64: {
-            ar& asInt64;
+            ar & asInt64;
         } break;
         case NLS_SCOMPLEX:
         case NLS_SINGLE: {
-            ar& asSingle;
+            ar & asSingle;
         } break;
         case NLS_DCOMPLEX:
         case NLS_DOUBLE: {
-            ar& asDouble;
+            ar & asDouble;
         } break;
         case NLS_CHAR: {
-            ar& asCharacter;
+            ar & asCharacter;
         } break;
         }
     }

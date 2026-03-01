@@ -25,7 +25,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>spy(S)</b> plots the sparsity pattern of the sparse matrix<b
+    <p>
+      <b>spy(S)</b> plots the sparsity pattern of the sparse matrix<b
       >S</b>.</p>
   </description>
   <used_function />

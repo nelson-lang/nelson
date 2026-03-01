@@ -4,12 +4,13 @@
   <language>fr_FR</language>
   <keyword>pi</keyword>
   <short_description
-  >Rapport de la circonférence d'un cercle à son diamètre.</short_description>
+  >Rapport de la circonférence d&apos;un cercle à son diamètre.</short_description>
   <syntax>
     <syntax_item>pi</syntax_item>
   </syntax>
   <description>
-    <p><b
+    <p>
+      <b
       >pi</b> retourne le nombre à virgule flottante le plus proche de la valeur de <b
       >π</b>.</p>
   </description>

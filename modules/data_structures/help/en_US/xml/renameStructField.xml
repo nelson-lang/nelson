@@ -33,7 +33,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >renameStructField</b> renames the field names of a struct or struct array.</p>
     <p
     >It supports renaming all field names at once or renaming selected field names individually.</p>

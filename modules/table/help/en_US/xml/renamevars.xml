@@ -31,7 +31,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >TB = renamevars(TA, varsNames, newNames)</b> renames the variables in the table <b
       >TA</b> as specified by<b
       >varsNames</b> and assigns them the new names provided in<b

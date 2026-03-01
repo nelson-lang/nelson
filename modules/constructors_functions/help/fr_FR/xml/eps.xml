@@ -9,8 +9,8 @@
     <syntax_item>eps</syntax_item>
     <syntax_item>eps(n)</syntax_item>
     <syntax_item>eps(n, m)</syntax_item>
-    <syntax_item>eps('double')</syntax_item>
-    <syntax_item>eps('single')</syntax_item>
+    <syntax_item>eps(&apos;double&apos;)</syntax_item>
+    <syntax_item>eps(&apos;single&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -23,7 +23,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >eps</b> retourne la précision machine 2^(-52) pour double et 2^(-23) pour single.</p>
     <p>eps(Inf), eps(-Inf) et eps(NaN) retournent NaN.</p>
   </description>

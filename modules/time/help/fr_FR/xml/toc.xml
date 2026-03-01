@@ -21,16 +21,16 @@
     <param_output_item>
       <param_name>t</param_name>
       <param_description
-      >un double : nombre de secondes écoulées depuis le dernier appel à tic (précision de l'ordre de la milliseconde).</param_description>
+      >un double : nombre de secondes écoulées depuis le dernier appel à tic (précision de l&apos;ordre de la milliseconde).</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>La séquence de commandes <b
-      >tic(); commands ; t = toc() </b> renvoie le nombre de secondes nécessaires à l'exécution des commandes.</p>
+      >tic(); commands ; t = toc() </b> renvoie le nombre de secondes nécessaires à l&apos;exécution des commandes.</p>
     <p
     >Les appels consécutifs à la fonction toc sans argument renvoient le temps écoulé depuis le tic le plus récent.</p>
     <p
-    >Les appels consécutifs à toc avec la même valeur timer_value renvoient le temps écoulé depuis l'appel à tic correspondant à cette valeur.</p>
+    >Les appels consécutifs à toc avec la même valeur timer_value renvoient le temps écoulé depuis l&apos;appel à tic correspondant à cette valeur.</p>
   </description>
   <used_function />
   <bibliography />

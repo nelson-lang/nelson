@@ -88,12 +88,12 @@ haveSameIndexes(Eigen::SparseMatrix<T, 0, signedIndexType>* spMatA,
 
     for (indexType k = 0; k < (indexType)spMatA->outerSize(); ++k) {
         for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(*spMatA, k); it;
-             ++it) {
+            ++it) {
             iA.push_back(it.row());
             jA.push_back(it.col());
         }
         for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(*spMatB, k); it;
-             ++it) {
+            ++it) {
             iB.push_back(it.row());
             jB.push_back(it.col());
         }

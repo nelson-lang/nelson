@@ -28,7 +28,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >uigetdir</b> ouvre une boîte de dialogue pour sélectionner un répertoire.</p>
     <p
     >Si le chemin est incorrect ou non fourni, le répertoire de travail courant sera utilisé.</p>

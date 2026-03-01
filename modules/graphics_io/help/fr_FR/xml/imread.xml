@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>imread</keyword>
   <short_description
-  >Lit une image à partir d'un fichier graphique.</short_description>
+  >Lit une image à partir d&apos;un fichier graphique.</short_description>
   <syntax>
     <syntax_item>A = imread(filename)</syntax_item>
     <syntax_item>[A, map] = imread(filename)</syntax_item>
@@ -20,7 +20,7 @@
   <param_output>
     <param_output_item>
       <param_name>A</param_name>
-      <param_description>Données d'image : tableau.</param_description>
+      <param_description>Données d&apos;image : tableau.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>map</param_name>
@@ -33,8 +33,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >imread</b> lit les données d'image du fichier donné et les charge dans une matrice.</p>
+    <p>
+      <b
+      >imread</b> lit les données d&apos;image du fichier donné et les charge dans une matrice.</p>
     <p />
     <table style="width:100%">
       <tr>

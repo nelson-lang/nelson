@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>esort</keyword>
-  <short_description
+  <short_description
   >Tri et réordonnancement des valeurs propres.</short_description>
   <syntax>
     <syntax_item>s = esort(p)</syntax_item>
@@ -22,21 +22,21 @@
     </param_output_item>
   </param_output>
   <description>
-    <p
+    <p
     >Trie et réordonne les valeurs propres et, éventuellement, leurs vecteurs propres selon des critères spécifiés.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[p = [-2.410 + 5.573i;
--2.410 - 5.573i;
-1.503;         
--0.972;         
--2.590];  
-[s, ndx] = esort(p)    
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[p = [-2.410 + 5.573i;
+-2.410 - 5.573i;
+1.503;
+-0.972;
+-2.590];
+[s, ndx] = esort(p)
   ]]></example_item_data>
     </example_item>
   </examples>

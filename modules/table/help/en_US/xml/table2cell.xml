@@ -6,7 +6,7 @@
   <short_description>Convert table to cell array</short_description>
   <syntax>
     <syntax_item>S = table2cell(T)</syntax_item>
-    <syntax_item>S = table2cell(T, "ToScalar", true)</syntax_item>
+    <syntax_item>S = table2cell(T, &quot;ToScalar&quot;, true)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>C = table2cell(T)</b> converts the table <b>T</b> into a cell array <b
+    <p>
+      <b>C = table2cell(T)</b> converts the table <b>T</b> into a cell array <b
       >C</b>, where each variable in<b
       >T</b> is transformed into a column of cells in <b>C</b>.</p>
     <p>The output <b>C</b> does not include any properties from<b

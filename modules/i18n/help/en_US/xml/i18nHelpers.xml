@@ -6,9 +6,9 @@
   <short_description
   >Internationalization (i18n) utility functions</short_description>
   <syntax>
-    <syntax_item>i18nHelpers('convert', potFile, jsonFile)</syntax_item>
-    <syntax_item>i18nHelpers('merge', jsonFile1, jsonFile2)</syntax_item>
-    <syntax_item>i18nHelpers('sort', jsonFileA, jsonFileB)</syntax_item>
+    <syntax_item>i18nHelpers(&apos;convert&apos;, potFile, jsonFile)</syntax_item>
+    <syntax_item>i18nHelpers(&apos;merge&apos;, jsonFile1, jsonFile2)</syntax_item>
+    <syntax_item>i18nHelpers(&apos;sort&apos;, jsonFileA, jsonFileB)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -43,16 +43,23 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >i18nHelpers</b> provides essential utility functions for managing internationalization files. The main functions include:</p>
     <p>-<b
-      >'convert'</b>: Converts a .po/.pot translation template file into JSON format for easier manipulation.</p>
-    <p>-<b>'merge'</b>: Merges two JSON translation files. The entries from<code
+      >
+        &apos;convert&apos;
+      </b>: Converts a .po/.pot translation template file into JSON format for easier manipulation.</p>
+    <p>-<b>
+        &apos;merge&apos;
+      </b>: Merges two JSON translation files. The entries from<code
       >jsonFile1</code>are added to<code
       >jsonFile2</code>, and entries exclusive to<code
       >jsonFile2</code>are removed.</p>
     <p>-<b
-      >'sort'</b>: Sorts and organizes entries in a JSON translation file.<code
+      >
+        &apos;sort&apos;
+      </b>: Sorts and organizes entries in a JSON translation file.<code
       >jsonFileA</code>and<code
       >jsonFileB</code>may refer to the same file if in-place sorting is desired.</p>
     <p

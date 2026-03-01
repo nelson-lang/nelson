@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>nnz</keyword>
-  <short_description>Retourne le nombre d'éléments non nuls.</short_description>
+  <short_description>Retourne le nombre d&apos;éléments non nuls.</short_description>
   <syntax>
     <syntax_item>v = nnz(M)</syntax_item>
   </syntax>
@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>nnz</b> retourne le nombre d'éléments non nuls dans une matrice.</p>
+    <p>
+      <b>nnz</b> retourne le nombre d&apos;éléments non nuls dans une matrice.</p>
   </description>
   <used_function />
   <bibliography />

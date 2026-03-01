@@ -8,6 +8,6 @@
     <p
     >Le module parallel fournit des outils pour exécuter des calculs de manière asynchrone en arrière-plan, gérer la planification des tâches et récupérer les résultats.</p>
     <p
-    >Il permet aux programmes Nelson d'exécuter des fonctions de manière concurrente, améliorant              l'efficacité et la réactivité en déléguant le travail à des workers en arrière-plan.</p>
+    >Il permet aux programmes Nelson d&apos;exécuter des fonctions de manière concurrente, améliorant              l&apos;efficacité et la réactivité en déléguant le travail à des workers en arrière-plan.</p>
   </chapter_description>
 </xmldoc>

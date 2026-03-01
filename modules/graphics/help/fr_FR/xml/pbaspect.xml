@@ -9,9 +9,9 @@
   <syntax>
     <syntax_item>pbaspect(ratio)</syntax_item>
     <syntax_item>pb = pbaspect()</syntax_item>
-    <syntax_item>pbaspect('auto')</syntax_item>
-    <syntax_item>pbaspect('manual')</syntax_item>
-    <syntax_item>m = pbaspect('mode')</syntax_item>
+    <syntax_item>pbaspect(&apos;auto&apos;)</syntax_item>
+    <syntax_item>pbaspect(&apos;manual&apos;)</syntax_item>
+    <syntax_item>m = pbaspect(&apos;mode&apos;)</syntax_item>
     <syntax_item>pbaspect(ax, ...)</syntax_item>
   </syntax>
   <param_input>
@@ -23,24 +23,30 @@
       </param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'auto'</param_name>
+      <param_name>
+        &apos;auto&apos;
+      </param_name>
       <param_description>
         <p
-        >Définir le mode du rapport d'aspect de la boîte de tracé sur automatique.</p>
+        >Définir le mode du rapport d&apos;aspect de la boîte de tracé sur automatique.</p>
       </param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'manual'</param_name>
+      <param_name>
+        &apos;manual&apos;
+      </param_name>
       <param_description>
         <p
-        >Définir le mode du rapport d'aspect de la boîte de tracé sur manuel.</p>
+        >Définir le mode du rapport d&apos;aspect de la boîte de tracé sur manuel.</p>
       </param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'mode'</param_name>
+      <param_name>
+        &apos;mode&apos;
+      </param_name>
       <param_description>
         <p
-        >Interroger le mode actuel du rapport d'aspect de la boîte de tracé ('auto' ou 'manual').</p>
+        >Interroger le mode actuel du rapport d&apos;aspect de la boîte de tracé (&apos;auto&apos; ou &apos;manual&apos;).</p>
       </param_description>
     </param_input_item>
     <param_input_item>
@@ -55,40 +61,47 @@
       <param_name>pb</param_name>
       <param_description>
         <p
-        >Vecteur à trois éléments représentant le rapport d'aspect actuel de la boîte de tracé.</p>
+        >Vecteur à trois éléments représentant le rapport d&apos;aspect actuel de la boîte de tracé.</p>
       </param_description>
     </param_output_item>
     <param_output_item>
       <param_name>m</param_name>
       <param_description>
         <p
-        >Mode actuel du rapport d'aspect de la boîte de tracé : 'auto' ou 'manual'.</p>
+        >Mode actuel du rapport d&apos;aspect de la boîte de tracé : &apos;auto&apos; ou &apos;manual&apos;.</p>
       </param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >pbaspect</b> contrôle les longueurs relatives des axes x, y et z dans la boîte de tracé.</p>
-    <p><b
-      >pbaspect(ratio)</b> définit le rapport d'aspect de la boîte de tracé pour les axes actuels. <b
-      >ratio</b> est un vecteur à trois éléments de valeurs positives. Par exemple, [3 1 1] signifie que l'axe x est trois fois plus long que les axes y et z.</p>
-    <p><b
-      >pb = pbaspect()</b> renvoie le rapport d'aspect actuel de la boîte de tracé sous forme de vecteur à trois éléments.</p>
-    <p><b
-      >pbaspect('auto')</b> définit le mode du rapport d'aspect de la boîte de tracé sur automatique, permettant aux axes de choisir le rapport.</p>
-    <p><b
-      >pbaspect('manual')</b> définit le mode sur manuel et utilise le rapport stocké dans les axes.</p>
-    <p><b
-      >m = pbaspect('mode')</b> renvoie le mode actuel, soit 'auto' soit 'manual'.</p>
-    <p><b>pbaspect(ax, ...)</b> agit sur les axes spécifiés par <b
+    <p>
+      <b
+      >pbaspect(ratio)</b> définit le rapport d&apos;aspect de la boîte de tracé pour les axes actuels. <b
+      >ratio</b> est un vecteur à trois éléments de valeurs positives. Par exemple, [3 1 1] signifie que l&apos;axe x est trois fois plus long que les axes y et z.</p>
+    <p>
+      <b
+      >pb = pbaspect()</b> renvoie le rapport d&apos;aspect actuel de la boîte de tracé sous forme de vecteur à trois éléments.</p>
+    <p>
+      <b
+      >pbaspect(&apos;auto&apos;)</b> définit le mode du rapport d&apos;aspect de la boîte de tracé sur automatique, permettant aux axes de choisir le rapport.</p>
+    <p>
+      <b
+      >pbaspect(&apos;manual&apos;)</b> définit le mode sur manuel et utilise le rapport stocké dans les axes.</p>
+    <p>
+      <b
+      >m = pbaspect(&apos;mode&apos;)</b> renvoie le mode actuel, soit &apos;auto&apos; soit &apos;manual&apos;.</p>
+    <p>
+      <b>pbaspect(ax, ...)</b> agit sur les axes spécifiés par <b
       >ax</b> au lieu des axes actuels.</p>
     <p
-    >Définir le rapport d'aspect de la boîte de tracé désactive le comportement d'étirement pour remplir les axes.</p>
+    >Définir le rapport d&apos;aspect de la boîte de tracé désactive le comportement d&apos;étirement pour remplir les axes.</p>
   </description>
   <examples>
     <example_item>
       <example_item_description
-      >Utiliser des longueurs d'axes égales</example_item_description>
+      >Utiliser des longueurs d&apos;axes égales</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[
@@ -105,7 +118,7 @@ pbaspect([1 1 1])
     </example_item>
     <example_item>
       <example_item_description
-      >Utiliser des longueurs d'axes différentes</example_item_description>
+      >Utiliser des longueurs d&apos;axes différentes</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[
@@ -123,7 +136,7 @@ disp(pbaspect('mode'))
     </example_item>
     <example_item>
       <example_item_description
-      >Revenir au rapport d'aspect par défaut de la boîte de tracé</example_item_description>
+      >Revenir au rapport d&apos;aspect par défaut de la boîte de tracé</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[
@@ -142,7 +155,7 @@ pbaspect('auto')
     </example_item>
     <example_item>
       <example_item_description
-      >Interroger le rapport d'aspect de la boîte de tracé</example_item_description>
+      >Interroger le rapport d&apos;aspect de la boîte de tracé</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[
@@ -160,7 +173,7 @@ disp(pb)
     </example_item>
     <example_item>
       <example_item_description
-      >Définir le rapport d'aspect de la boîte de tracé pour un objet axes spécifique</example_item_description>
+      >Définir le rapport d&apos;aspect de la boîte de tracé pour un objet axes spécifique</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[

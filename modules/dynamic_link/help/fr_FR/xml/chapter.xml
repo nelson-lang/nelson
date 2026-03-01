@@ -6,11 +6,11 @@
   <chapter>Liens dynamiques</chapter>
   <chapter_description>
     <p
-    >Le module Liens dynamiques permet à Nelson de compiler, charger et appeler du code C/C++ et Fortran à l'exécution.</p>
+    >Le module Liens dynamiques permet à Nelson de compiler, charger et appeler du code C/C++ et Fortran à l&apos;exécution.</p>
     <p
-    >Il prend en charge la génération de gateways, de loaders et la gestion des bibliothèques partagées pour l'intégration de code compilé externe.</p>
+    >Il prend en charge la génération de gateways, de loaders et la gestion des bibliothèques partagées pour l&apos;intégration de code compilé externe.</p>
     <p
-    >Par défaut, Nelson ne détecte pas automatiquement un compilateur C/C++ sous Windows. N'oubliez pas d'exécuter une fois<b
+    >Par défaut, Nelson ne détecte pas automatiquement un compilateur C/C++ sous Windows. N&apos;oubliez pas d&apos;exécuter une fois<b
       >configuremsvc</b> ou <b>configuremingw</b>.</p>
   </chapter_description>
 </xmldoc>

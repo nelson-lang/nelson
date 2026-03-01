@@ -15,10 +15,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >isunicodesupported</b>: returns if current terminal supports Unicode.</p>
     <p
-    >value returned can be overloaded if environment variable 'NELSON_TERM_IS_UNICODE_SUPPORTED' is 'TRUE'</p>
+    >value returned can be overloaded if environment variable &apos;NELSON_TERM_IS_UNICODE_SUPPORTED&apos; is &apos;TRUE&apos;
+    </p>
   </description>
   <used_function />
   <bibliography />

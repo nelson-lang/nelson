@@ -4,13 +4,13 @@
   <language>fr_FR</language>
   <keyword>banner</keyword>
   <short_description
-  >Affiche la bannière d'accueil de Nelson.</short_description>
+  >Affiche la bannière d&apos;accueil de Nelson.</short_description>
   <syntax>
     <syntax_item>banner</syntax_item>
   </syntax>
   <description>
     <p
-    >Affiche la bannière ou le message d'accueil utilisé par l'environnement Nelson.</p>
+    >Affiche la bannière ou le message d&apos;accueil utilisé par l&apos;environnement Nelson.</p>
   </description>
   <used_function />
   <bibliography />

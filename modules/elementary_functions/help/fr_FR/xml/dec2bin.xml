@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>dec2bin</b> converts decimal number to base 2.</p>
+    <p>
+      <b>dec2bin</b> converts decimal number to base 2.</p>
   </description>
   <used_function />
   <bibliography />

@@ -39,7 +39,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >audiorecorder</b> creates an audiorecorder object for recording audio from an input device such as a microphone.</p>
     <p
     >The audiorecorder object provides properties and methods to control audio recording, including pausing, resuming, and defining callbacks.</p>
@@ -47,11 +48,14 @@
       <b>Creation:</b>
     </p>
     <ul>
-      <li><b
+      <li>
+        <b
         >recorder = audiorecorder()</b> creates an audiorecorder object with default properties: SampleRate = 8000, BitsPerSample = 8, NumChannels = 1.</li>
-      <li><b
+      <li>
+        <b
         >recorder = audiorecorder(Fs, nBits, nChannels)</b> sets the sample rate, bits per sample, and number of channels.</li>
-      <li><b
+      <li>
+        <b
         >recorder = audiorecorder(Fs, nBits, nChannels, ID)</b> sets the audio input device to the specified device identifier.</li>
     </ul>
     <p>
@@ -95,7 +99,8 @@
       </tr>
       <tr>
         <td>Running</td>
-        <td>Read-only: 'off' (default) or 'on'</td>
+        <td>Read-only: &apos;off&apos; (default) or &apos;on&apos;
+        </td>
         <td>Status of the audio recorder.</td>
       </tr>
       <tr>
@@ -131,7 +136,8 @@
       </tr>
       <tr>
         <td>Type</td>
-        <td>'audiorecorder' (Read-only)</td>
+        <td>
+          &apos;audiorecorder&apos; (Read-only)</td>
         <td>Class name identifier for the object.</td>
       </tr>
     </table>
@@ -139,16 +145,25 @@
       <b>Object Functions:</b>
     </p>
     <ul>
-      <li><b
+      <li>
+        <b
         >getaudiodata</b> - Store recorded audio signal in numeric array</li>
-      <li><b>getplayer</b> - Create associated audioplayer object</li>
-      <li><b>isrecording</b> - Determine if recording is in progress</li>
-      <li><b>pause</b> - Pause recording</li>
-      <li><b>play</b> - Play audio from audiorecorder object</li>
-      <li><b>record</b> - Record audio to audiorecorder object</li>
-      <li><b>recordblocking</b> - Record audio and block until complete</li>
-      <li><b>resume</b> - Resume recording from paused state</li>
-      <li><b>stop</b> - Stop recording</li>
+      <li>
+        <b>getplayer</b> - Create associated audioplayer object</li>
+      <li>
+        <b>isrecording</b> - Determine if recording is in progress</li>
+      <li>
+        <b>pause</b> - Pause recording</li>
+      <li>
+        <b>play</b> - Play audio from audiorecorder object</li>
+      <li>
+        <b>record</b> - Record audio to audiorecorder object</li>
+      <li>
+        <b>recordblocking</b> - Record audio and block until complete</li>
+      <li>
+        <b>resume</b> - Resume recording from paused state</li>
+      <li>
+        <b>stop</b> - Stop recording</li>
     </ul>
   </description>
   <used_function />

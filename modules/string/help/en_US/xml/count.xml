@@ -7,8 +7,8 @@
   >Computes the number of occurrences of an pattern.</short_description>
   <syntax>
     <syntax_item>nbocc = count(str, pattern)</syntax_item>
-    <syntax_item>nbocc = count(str, pattern,'IgnoreCase', true)</syntax_item>
-    <syntax_item>nbocc = count(str, pattern,'IgnoreCase', false)</syntax_item>
+    <syntax_item>nbocc = count(str, pattern,&apos;IgnoreCase&apos;, true)</syntax_item>
+    <syntax_item>nbocc = count(str, pattern,&apos;IgnoreCase&apos;, false)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -28,7 +28,8 @@
       <param_description>a matrix of integer values.</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >count</b> computes the number of occurrences of an pattern.</description>
   <used_function />
   <bibliography />

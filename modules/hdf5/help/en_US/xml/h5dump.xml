@@ -28,7 +28,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>h5dump</b> dump the content of hdf5 file as text.</p>
+    <p>
+      <b>h5dump</b> dump the content of hdf5 file as text.</p>
   </description>
   <used_function />
   <bibliography />

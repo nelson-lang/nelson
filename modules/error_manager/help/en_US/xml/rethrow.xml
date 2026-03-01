@@ -14,7 +14,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>rethrow(MException)</b> reissues the error specified by<b
+    <p>
+      <b>rethrow(MException)</b> reissues the error specified by<b
       >MException</b>.</p>
   </description>
   <used_function />
@@ -23,14 +24,14 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-      ><![CDATA[
-try 
-  a
-catch ME
-  disp(ME)
-  rethrow(ME)
-end
+      <example_item_data
+      ><![CDATA[
+try
+  a
+catch ME
+  disp(ME)
+  rethrow(ME)
+end
 ]]></example_item_data>
     </example_item>
   </examples>

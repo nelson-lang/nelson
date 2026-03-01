@@ -16,7 +16,9 @@
     </param_input_item>
     <param_input_item>
       <param_name>sz</param_name>
-      <param_description>'one' (default) or 'multiple'</param_description>
+      <param_description>
+        &apos;one&apos; (default) or &apos;multiple&apos;
+      </param_description>
     </param_input_item>
   </param_input>
   <param_output>

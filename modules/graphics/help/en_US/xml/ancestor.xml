@@ -6,7 +6,7 @@
   <short_description>Ancestor of graphics object.</short_description>
   <syntax>
     <syntax_item>p = ancestor(h, type)</syntax_item>
-    <syntax_item>p = ancestor(h, type, 'toplevel')</syntax_item>
+    <syntax_item>p = ancestor(h, type, &apos;toplevel&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -19,7 +19,9 @@
       >a row vector character or cell of strings:</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'toplevel'</param_name>
+      <param_name>
+        &apos;toplevel&apos;
+      </param_name>
       <param_description
       >a row vector character: return the highest parent in the object hierarchy that matches the condition.</param_description>
     </param_input_item>
@@ -31,8 +33,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >ancestor</b> returns the handle of the specified object's ancestor of a given type.</p>
+    <p>
+      <b
+      >ancestor</b> returns the handle of the specified object&apos;s ancestor of a given type.</p>
   </description>
   <used_function />
   <bibliography />

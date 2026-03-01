@@ -21,28 +21,30 @@
     <param_input_item>
       <param_name>err_msg</param_name>
       <param_description
-      >une chaîne contenant le message d'erreur personnalisé à afficher en cas d'échec de l'assertion (optionnel).</param_description>
+      >une chaîne contenant le message d&apos;erreur personnalisé à afficher en cas d&apos;échec de l&apos;assertion (optionnel).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>r</param_name>
       <param_description
-      >une valeur logique : true si l'assertion réussit, false sinon.</param_description>
+      >une valeur logique : true si l&apos;assertion réussit, false sinon.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>msg</param_name>
       <param_description
-      >une chaîne contenant le message d'erreur. Si x == false, alors msg == ''. Si x == true, alors msg contient le message d'échec de l'assertion.</param_description>
+      >une chaîne contenant le message d&apos;erreur. Si x == false, alors msg == &apos;
+        &apos;. Si x == true, alors msg contient le message d&apos;échec de l&apos;assertion.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >assert_isfalse</b> lève une erreur si la valeur d'entrée est vraie.</p>
+    <p>
+      <b
+      >assert_isfalse</b> lève une erreur si la valeur d&apos;entrée est vraie.</p>
     <p
-    >Cette fonction lève également une erreur si l'entrée n'est pas une valeur logique, garantissant la sécurité de type.</p>
+    >Cette fonction lève également une erreur si l&apos;entrée n&apos;est pas une valeur logique, garantissant la sécurité de type.</p>
     <p>Lorsque le paramètre optionnel <b
-      >err_msg</b> est fourni, il sera utilisé comme message d'erreur à la place du message par défaut en cas d'échec de l'assertion.</p>
+      >err_msg</b> est fourni, il sera utilisé comme message d&apos;erreur à la place du message par défaut en cas d&apos;échec de l&apos;assertion.</p>
     <p
     >Cette fonction est utile dans les tests unitaires pour vérifier que des conditions sont fausses ou que des opérations logiques retournent le résultat faux attendu.</p>
   </description>
@@ -52,7 +54,7 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Test qui démontre l'échec de l'assertion (3 n'est pas égal à 4) :</example_item_description>
+      >Test qui démontre l&apos;échec de l&apos;assertion (3 n&apos;est pas égal à 4) :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[assert_isfalse(3 ~= 4)]]></example_item_data>
@@ -76,7 +78,7 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Utilisation des valeurs de retour pour gérer les résultats d'assertion :</example_item_description>
+      >Utilisation des valeurs de retour pour gérer les résultats d&apos;assertion :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[r, msg] = assert_isfalse(false)]]></example_item_data>
@@ -84,7 +86,7 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Test avec un message d'erreur personnalisé :</example_item_description>
+      >Test avec un message d&apos;erreur personnalisé :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[r, msg] = assert_isfalse(3 == 3, 'your error message.');
@@ -95,7 +97,7 @@ end]]></example_item_data>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Exemple montrant la gestion d'erreur lors de l'échec de l'assertion :</example_item_description>
+      >Exemple montrant la gestion d&apos;erreur lors de l&apos;échec de l&apos;assertion :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[try

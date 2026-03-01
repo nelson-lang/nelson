@@ -34,8 +34,9 @@
   <description>
     <p
     >Pour les matrices, la comparaison est effectuée en utilisant la norme de Hilbert-Schmidt (aussi appelée norme de Frobenius L2).</p>
-    <p><b
-      >isapprox</b> gère les nombres complexes. Dans ce cas, les parties réelles des arguments d'entrée sont comparées. Si cela échoue, la fonction renvoie false. Si cela réussit, les parties imaginaires sont comparées.</p>
+    <p>
+      <b
+      >isapprox</b> gère les nombres complexes. Dans ce cas, les parties réelles des arguments d&apos;entrée sont comparées. Si cela échoue, la fonction renvoie false. Si cela réussit, les parties imaginaires sont comparées.</p>
     <p
     >Pour comparer les valeurs, NaN, Inf, -Inf et les autres valeurs sont traités séparément. Comme il est impossible de comparer des NaN entre eux, on compare les indices où NaN apparaît. Pour les valeurs infinies, on compare également les indices où Inf apparaît.</p>
   </description>

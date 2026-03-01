@@ -18,7 +18,7 @@
 
    Yes, it is free under MIT license. It can be used in commercial applications. Please check the details in [license.txt](https://github.com/miloyip/rapidjson/blob/master/license.txt).
 
-5. Is RapidJSON small? What are its dependencies? 
+5. Is RapidJSON small? What are its dependencies?
 
    Yes. A simple executable which parses a JSON and prints its statistics is less than 30KB on Windows.
 
@@ -92,7 +92,7 @@
 
    The parser generates an error when the input JSON contains invalid syntax, or a value can not be represented (a number is too big), or the handler of parsers terminate the parsing. Check [parse error](http://miloyip.github.io/rapidjson/md_doc_dom.html#ParseError) for details.
 
-6. What error information is provided? 
+6. What error information is provided?
 
    The error is stored in `ParseResult`, which includes the error code and offset (number of characters from the beginning of JSON). The error code can be translated into human-readable error message.
 
@@ -110,7 +110,7 @@
 
 ## Reader/Writer (SAX)
 
-1. Why not just `printf` a JSON? Why need a `Writer`? 
+1. Why not just `printf` a JSON? Why need a `Writer`?
 2. Why can't I parse a JSON which is just a number?
 3. Can I pause the parsing process and resume it later?
 

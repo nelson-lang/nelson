@@ -8,8 +8,10 @@
     <syntax_item>break</syntax_item>
   </syntax>
   <description>
-    <p><b>break</b> statement is used to exit a loop prematurely.</p>
-    <p><b>break</b> statement can be used inside a <b>for</b> or a<b
+    <p>
+      <b>break</b> statement is used to exit a loop prematurely.</p>
+    <p>
+      <b>break</b> statement can be used inside a <b>for</b> or a<b
       >while</b> loop.</p>
   </description>
   <used_function />

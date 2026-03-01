@@ -27,16 +27,20 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >unicode2native</b> converts unicode characters to an numeric array.</p>
-    <p><b
+    <p>
+      <b
       >bytes = unicode2native(str)</b> converts unicode characters to an numeric array (the native character set of the machine).</p>
-    <p><b
+    <p>
+      <b
       >bytes = unicode2native(str, charset)</b> converts unicode characters to an numeric array (character set <b
       >charset</b> instead of the native character set).</p>
     <p>List of characters set:<a
         href="http://www.iana.org/assignments/character-sets/character-sets.xhtml"
-      >http://www.iana.org/assignments/character-sets/character-sets.xhtml</a></p>
+      >http://www.iana.org/assignments/character-sets/character-sets.xhtml</a>
+    </p>
   </description>
   <used_function />
   <bibliography>ICU library</bibliography>

@@ -3,16 +3,16 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>continue</keyword>
-  <short_description>continuer l'exécution dans une boucle.</short_description>
+  <short_description>continuer l&apos;exécution dans une boucle.</short_description>
   <syntax>
     <syntax_item>continue</syntax_item>
   </syntax>
   <description>
-    <p>              L'instruction<b
-      >continue</b> peut être utilisée à l'intérieur d'une boucle <b
+    <p>              L&apos;instruction<b
+      >continue</b> peut être utilisée à l&apos;intérieur d&apos;une boucle <b
       >for</b> ou <b>while</b>.</p>
-    <p>L'instruction <b
-      >continue</b> est utilisée pour transférer le contrôle à l'itération suivante d'une boucle.</p>
+    <p>L&apos;instruction <b
+      >continue</b> est utilisée pour transférer le contrôle à l&apos;itération suivante d&apos;une boucle.</p>
   </description>
   <used_function />
   <bibliography />

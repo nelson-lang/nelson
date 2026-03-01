@@ -6,8 +6,8 @@
   <short_description>checks if string ends with pattern.</short_description>
   <syntax>
     <syntax_item>tf = endsWith(str, pattern)</syntax_item>
-    <syntax_item>tf = endsWith(str, pattern,'IgnoreCase', true)</syntax_item>
-    <syntax_item>tf = endsWith(str, pattern,'IgnoreCase', false)</syntax_item>
+    <syntax_item>tf = endsWith(str, pattern,&apos;IgnoreCase&apos;, true)</syntax_item>
+    <syntax_item>tf = endsWith(str, pattern,&apos;IgnoreCase&apos;, false)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>endsWith</b> returns <b>true</b> if <b>str</b> ends with<b
+    <p>
+      <b>endsWith</b> returns <b>true</b> if <b>str</b> ends with<b
       >pattern</b>.</p>
   </description>
   <used_function />

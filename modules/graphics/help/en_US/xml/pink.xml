@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>pink</b> returns the colormap with pink colors.</p>
+    <p>
+      <b>pink</b> returns the colormap with pink colors.</p>
   </description>
   <used_function />
   <bibliography />

@@ -66,7 +66,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >[kalmf, L, P] = kalman(sys, Q, R, N)</b> generates a Kalman filter using the provided plant model <b
       >sys</b> and noise covariance matrices <b>Q</b>, <b>R</b>, and <b
       >N</b>.</p>

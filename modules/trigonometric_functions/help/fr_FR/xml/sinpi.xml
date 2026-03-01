@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>res = sinpi(x)</b> calcule <b>sin(x * pi)</b> précisément.</p>
+    <p>
+      <b>res = sinpi(x)</b> calcule <b>sin(x * pi)</b> précisément.</p>
     <p>Pour les entiers impairs, <b>sinpi(x / 2)</b> vaut +1 ou -1.</p>
     <p>Pour les entiers, <b>sinpi(x)</b> est exactement zéro.</p>
   </description>

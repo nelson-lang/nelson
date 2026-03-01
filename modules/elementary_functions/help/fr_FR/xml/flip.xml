@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>flip</keyword>
-  <short_description>Inverser l'ordre des éléments</short_description>
+  <short_description>Inverser l&apos;ordre des éléments</short_description>
   <syntax>
     <syntax_item>B = flip(A, dim)</syntax_item>
   </syntax>
@@ -24,7 +24,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>flip</b> renvoie un nouveau tableau de <b
+    <p>
+      <b>flip</b> renvoie un nouveau tableau de <b
       >A</b> inversé selon la dimension <b>dim</b>.</p>
   </description>
   <used_function />

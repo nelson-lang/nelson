@@ -6,7 +6,8 @@
   <short_description
   >Spécifie le tampon de caractères pour la sortie de Nelson</short_description>
   <syntax>
-    <syntax_item>#include "engine.h"</syntax_item>
+    <syntax_item>#include &quot;engine.h&quot;
+    </syntax_item>
     <syntax_item>int engOutputBuffer(Engine *ep, char *p, int n);</syntax_item>
   </syntax>
   <param_input>
@@ -34,7 +35,8 @@
   <description>
     <p>Specify char buffer for Nelson output.</p>
     <p>To turn off output buffering in C, use:<b
-      >engOutputBuffer(ep, NULL, 0);</b></p>
+      >engOutputBuffer(ep, NULL, 0);</b>
+    </p>
   </description>
   <used_function />
   <bibliography />

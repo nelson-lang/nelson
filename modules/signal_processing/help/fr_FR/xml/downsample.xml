@@ -14,7 +14,7 @@
     <param_input_item>
       <param_name>X</param_name>
       <param_description
-      >séquence d'entrée. Vecteur ou matrice. Si X est une matrice, les colonnes sont traitées indépendamment par défaut.</param_description>
+      >séquence d&apos;entrée. Vecteur ou matrice. Si X est une matrice, les colonnes sont traitées indépendamment par défaut.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>n</param_name>
@@ -36,16 +36,16 @@
     <param_output_item>
       <param_name>Y</param_name>
       <param_description
-      >résultat sous-échantillonné : éléments de X pris tous les n échantillons en commençant à l'indice (phase + 1) le long de la dimension spécifiée.</param_description>
+      >résultat sous-échantillonné : éléments de X pris tous les n échantillons en commençant à l&apos;indice (phase + 1) le long de la dimension spécifiée.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>La fonction<b
-      >downsample</b> renvoie chaque n-ième échantillon de la séquence d'entrée X, en commençant à l'indice d'échantillon (phase + 1). Par exemple, <b
-      >downsample(X, 2)</b> renvoie les échantillons d'indice impair de X (1,3,5,...). Si X est une matrice, l'opération est appliquée par colonne par défaut, sauf si une dimension est spécifiée.          </p>
+      >downsample</b> renvoie chaque n-ième échantillon de la séquence d&apos;entrée X, en commençant à l&apos;indice d&apos;échantillon (phase + 1). Par exemple, <b
+      >downsample(X, 2)</b> renvoie les échantillons d&apos;indice impair de X (1,3,5,...). Si X est une matrice, l&apos;opération est appliquée par colonne par défaut, sauf si une dimension est spécifiée.          </p>
     <p
-    >              Aucun filtrage anti-repliement n'est effectué ; si vous devez réduire le contenu haute fréquence avant la décimation, envisagez d'utiliser <b
-      >decimate</b> ou d'appliquer d'abord un filtre passe-bas.          </p>
+    >              Aucun filtrage anti-repliement n&apos;est effectué ; si vous devez réduire le contenu haute fréquence avant la décimation, envisagez d&apos;utiliser <b
+      >decimate</b> ou d&apos;appliquer d&apos;abord un filtre passe-bas.          </p>
   </description>
   <examples>
     <example_item>

@@ -20,8 +20,9 @@
       <param_description>un logique : vrai ou faux</param_description>
     </param_output_item>
   </param_output>
-  <description><b
-    >isstruct</b> renvoie 1 logique (vrai) si l'argument est une struct (structure) et 0 logique (faux) sinon.      </description>
+  <description>
+    <b
+    >isstruct</b> renvoie 1 logique (vrai) si l&apos;argument est une struct (structure) et 0 logique (faux) sinon.      </description>
   <used_function />
   <bibliography />
   <examples>

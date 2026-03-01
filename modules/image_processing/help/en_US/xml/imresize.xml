@@ -40,7 +40,7 @@
     <param_input_item>
       <param_name>method</param_name>
       <param_description
-      >Interpolation method (optional, default: 'bicubic'): must be always at last position parameter.</param_description>
+      >Interpolation method (optional, default: &apos;bicubic&apos;): must be always at last position parameter.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
@@ -68,26 +68,35 @@
     <p>The <b
       >imresize</b> function resizes an image by a specified scale factor or to a specified output size. It supports grayscale, RGB, binary images, as well as indexed images with colormaps.</p>
     <p
-    >For numeric and logical images, the default interpolation method is 'bicubic'.</p>
+    >For numeric and logical images, the default interpolation method is &apos;bicubic&apos;.</p>
     <p
     >When resizing, imresize applies the scale factor to both row and column dimensions unless a two-element vector is specified. If the output size is not an integer, imresize rounds up using the ceil function.</p>
     <p
-    >For indexed images, imresize returns the resized image and an optimized colormap by default. The original colormap can be returned using the 'Colormap' name-value argument.</p>
+    >For indexed images, imresize returns the resized image and an optimized colormap by default. The original colormap can be returned using the &apos;Colormap&apos; name-value argument.</p>
     <p>Supported interpolation methods include</p>
     <ul>
-      <li>'nearest': Nearest neighbor interpolation</li>
-      <li>'bilinear': Bilinear interpolation</li>
-      <li>'bicubic': Bicubic interpolation</li>
-      <li>'box': Box-shaped kernel</li>
-      <li>'lanczos2': Lanczos-2 kernel</li>
-      <li>'lanczos3': Lanczos-3 kernel</li>
+      <li>
+        &apos;nearest&apos;: Nearest neighbor interpolation</li>
+      <li>
+        &apos;bilinear&apos;: Bilinear interpolation</li>
+      <li>
+        &apos;bicubic&apos;: Bicubic interpolation</li>
+      <li>
+        &apos;box&apos;: Box-shaped kernel</li>
+      <li>
+        &apos;lanczos2&apos;: Lanczos-2 kernel</li>
+      <li>
+        &apos;lanczos3&apos;: Lanczos-3 kernel</li>
     </ul>
     <p>Supported Pairs Name, Value:</p>
     <ul>
-      <li>'Antialiasing': true/false (default: true)</li>
+      <li>
+        &apos;Antialiasing&apos;: true/false (default: true)</li>
       <li
-      >'Colormap': 'optimized' (default) or 'original' (indexed image only)</li>
-      <li>'Dither': true (default) or false (indexed image only)</li>
+      >
+        &apos;Colormap&apos;: &apos;optimized&apos; (default) or &apos;original&apos; (indexed image only)</li>
+      <li>
+        &apos;Dither&apos;: true (default) or false (indexed image only)</li>
     </ul>
     <p>Limitations:</p>
     <ul>

@@ -16,7 +16,9 @@
     </param_input_item>
     <param_input_item>
       <param_name>sz</param_name>
-      <param_description>'one' (par défaut) ou 'multiple'</param_description>
+      <param_description>
+        &apos;one&apos; (par défaut) ou &apos;multiple&apos;
+      </param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -30,7 +32,7 @@
     <p>La fonction<b
       >validatecolor</b> est une fonction de validation des couleurs qui vérifie si une couleur donnée est valide selon les standards de Nelson.</p>
     <p
-    >Elle prend un argument de couleur en entrée et retourne une erreur si la couleur n'est pas valide.</p>
+    >Elle prend un argument de couleur en entrée et retourne une erreur si la couleur n&apos;est pas valide.</p>
   </description>
   <used_function />
   <bibliography />

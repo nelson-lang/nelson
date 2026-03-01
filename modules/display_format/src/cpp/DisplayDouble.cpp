@@ -111,9 +111,10 @@ Display2dDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
 
     indexType nominalWidth = getNominalWidth(formatInfo);
     sizeType termWidth = io->getTerminalWidth();
-    indexType colsPerPage = (nominalWidth > 0) ? static_cast<indexType>(std::max<single>(
-                                1.0f, floor((termWidth - 1) / (static_cast<single>(nominalWidth)))))
-                                               : 1;
+    indexType colsPerPage = (nominalWidth > 0)
+        ? static_cast<indexType>(
+              std::max<single>(1.0f, floor((termWidth - 1) / (static_cast<single>(nominalWidth)))))
+        : 1;
     indexType pageCount = (colsPerPage > 0)
         ? static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))))
         : 1;

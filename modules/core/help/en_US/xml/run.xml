@@ -6,8 +6,8 @@
   <short_description>Executes a script file (.m).</short_description>
   <syntax>
     <syntax_item>run(script_file)</syntax_item>
-    <syntax_item>run(script_file, 'nocatch')</syntax_item>
-    <syntax_item>bsuccess = run(script_file, 'errcatch')</syntax_item>
+    <syntax_item>run(script_file, &apos;nocatch&apos;)</syntax_item>
+    <syntax_item>bsuccess = run(script_file, &apos;errcatch&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -15,12 +15,16 @@
       <param_description>a string: path of a script</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'nocatch'</param_name>
+      <param_name>
+        &apos;nocatch&apos;
+      </param_name>
       <param_description
       >a string: default option (no error catch)</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'errcatch'</param_name>
+      <param_name>
+        &apos;errcatch&apos;
+      </param_name>
       <param_description>a string: error catched</param_description>
     </param_input_item>
   </param_input>
@@ -32,8 +36,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >run(script_file)</b> executes a Nelson's script file (.m file extension).</p>
+    <p>
+      <b
+      >run(script_file)</b> executes a Nelson&apos;s script file (.m file extension).</p>
   </description>
   <used_function />
   <bibliography />

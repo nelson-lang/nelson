@@ -3,13 +3,13 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>workspace</keyword>
-  <short_description>Explorateur d'espace de travail</short_description>
+  <short_description>Explorateur d&apos;espace de travail</short_description>
   <syntax>
     <syntax_item>workspace</syntax_item>
   </syntax>
   <description>
     <p
-    >L'explorateur d'espace de travail vous permet d'observer et de gérer activement le contenu de l'espace de travail dans Nelson, offrant un accès et un contrôle sur chaque variable ou objet présent.</p>
+    >L&apos;explorateur d&apos;espace de travail vous permet d&apos;observer et de gérer activement le contenu de l&apos;espace de travail dans Nelson, offrant un accès et un contrôle sur chaque variable ou objet présent.</p>
     <p>
       <img src="../images/workspace.png" align="middle" />
     </p>

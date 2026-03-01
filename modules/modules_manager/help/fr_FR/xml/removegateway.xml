@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>removegateway</keyword>
   <short_description
-  >Supprime dynamiquement un builtin au moment de l'exécution.</short_description>
+  >Supprime dynamiquement un builtin au moment de l&apos;exécution.</short_description>
   <syntax>
     <syntax_item>removegateway(dyn_lib_path)</syntax_item>
   </syntax>
@@ -12,17 +12,18 @@
     <param_input_item>
       <param_name>dyn_lib_path</param_name>
       <param_description
-      >chaîne : chemin d'une bibliothèque dynamique préparée pour Nelson.</param_description>
+      >chaîne : chemin d&apos;une bibliothèque dynamique préparée pour Nelson.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >removegateway(dyn_lib_path)</b> supprime dynamiquement un builtin au moment de l'exécution.</p>
+    <p>
+      <b
+      >removegateway(dyn_lib_path)</b> supprime dynamiquement un builtin au moment de l&apos;exécution.</p>
     <p
-    >La bibliothèque dynamique doit fournir au minimum un point d'entrée C nommé<b
+    >La bibliothèque dynamique doit fournir au minimum un point d&apos;entrée C nommé<b
       >RemoveGateway</b>.</p>
     <p
-    >Si la gateway n'était pas chargée, aucune erreur ni avertissement ne sera levé. Si le fichier n'existe pas, une erreur est levée.</p>
+    >Si la gateway n&apos;était pas chargée, aucune erreur ni avertissement ne sera levé. Si le fichier n&apos;existe pas, une erreur est levée.</p>
   </description>
   <used_function />
   <bibliography />

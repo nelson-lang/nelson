@@ -57,7 +57,8 @@
       >une cellule de chaînes : données brutes sans conversion.</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >COM_xlsread</b> lit un fichier de feuille de calcul Microsoft Excel en utilisant COM.</description>
   <used_function />
   <bibliography />

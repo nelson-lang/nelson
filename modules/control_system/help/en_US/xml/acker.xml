@@ -4,7 +4,7 @@
   <language>en_US</language>
   <keyword>acker</keyword>
   <short_description
-  >Pole placement gain selection using Ackermann's formula.</short_description>
+  >Pole placement gain selection using Ackermann&apos;s formula.</short_description>
   <syntax>
     <syntax_item>K = acker(A, B, P)</syntax_item>
   </syntax>
@@ -41,7 +41,7 @@
       >A - B*K</b>, calculated as <b>P = eig(A - B*K)</b>.</p>
     <p />
     <p
-    >It's important to note that this algorithm utilizes Ackermann's formula.</p>
+    >It&apos;s important to note that this algorithm utilizes Ackermann&apos;s formula.</p>
     <p
     >However, users should be aware that this method may not be numerically reliable, particularly for systems of order greater than 10 or for systems that are weakly controllable.</p>
     <p

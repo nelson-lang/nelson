@@ -10,16 +10,16 @@
     <syntax_item>profile off</syntax_item>
     <syntax_item>profile resume</syntax_item>
     <syntax_item>profile clear</syntax_item>
-    <syntax_item>status = profile('status')</syntax_item>
-    <syntax_item>p = profile('info')</syntax_item>
-    <syntax_item>profile('show', sortOption)</syntax_item>
-    <syntax_item>profile('show', sortOption, nbLines)</syntax_item>
+    <syntax_item>status = profile(&apos;status&apos;)</syntax_item>
+    <syntax_item>p = profile(&apos;info&apos;)</syntax_item>
+    <syntax_item>profile(&apos;show&apos;, sortOption)</syntax_item>
+    <syntax_item>profile(&apos;show&apos;, sortOption, nbLines)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>sortOption</param_name>
       <param_description
-      >a string: 'nfl' by name file line, 'line' by line, 'percalls', 'totaltime', 'filename', 'function' or 'nbcalls'.</param_description>
+      >a string: &apos;nfl&apos; by name file line, &apos;line&apos; by line, &apos;percalls&apos;, &apos;totaltime&apos;, &apos;filename&apos;, &apos;function&apos; or &apos;nbcalls&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>nbLines</param_name>
@@ -29,17 +29,23 @@
   </param_input>
   <description>
     <p>Profiling is a way to measure where Macro function spend times.</p>
-    <p><b
-      >s = profile('status')</b> returns a structure with the current status of the profiler.</p>
-    <p><b
-      >p = profile('info')</b> returns a structure with collected profiling data.</p>
-    <p><b>profile('on')</b> starts profiler.</p>
-    <p><b
-      >profile('off')</b> stops profiler. Collected profiling data will be retrieved later with<b
-      >p = profile ('info')</b>.</p>
-    <p><b>profile('clear')</b> clears collected profiling data.</p>
-    <p><b
-      >profile('resume')</b> restarts and continue and extends collected profiling data.</p>
+    <p>
+      <b
+      >s = profile(&apos;status&apos;)</b> returns a structure with the current status of the profiler.</p>
+    <p>
+      <b
+      >p = profile(&apos;info&apos;)</b> returns a structure with collected profiling data.</p>
+    <p>
+      <b>profile(&apos;on&apos;)</b> starts profiler.</p>
+    <p>
+      <b
+      >profile(&apos;off&apos;)</b> stops profiler. Collected profiling data will be retrieved later with<b
+      >p = profile (&apos;info&apos;)</b>.</p>
+    <p>
+      <b>profile(&apos;clear&apos;)</b> clears collected profiling data.</p>
+    <p>
+      <b
+      >profile(&apos;resume&apos;)</b> restarts and continue and extends collected profiling data.</p>
   </description>
   <used_function />
   <bibliography />

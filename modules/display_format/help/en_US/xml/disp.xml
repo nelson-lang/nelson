@@ -14,8 +14,10 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>disp(V)</b> displays the value of the variable <b>V</b>.</p>
-    <p><b>disp</b> uses current<b
+    <p>
+      <b>disp(V)</b> displays the value of the variable <b>V</b>.</p>
+    <p>
+      <b>disp</b> uses current<b
       >format</b> setting to display numeric values.</p>
   </description>
   <used_function />

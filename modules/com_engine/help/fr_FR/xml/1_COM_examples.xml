@@ -4,9 +4,9 @@
   <language>fr_FR</language>
   <keyword>Exemples COM</keyword>
   <short_description
-  >Quelques exemples pour montrer comment utiliser l'interface COM.</short_description>
+  >Quelques exemples pour montrer comment utiliser l&apos;interface COM.</short_description>
   <description>
-    <p>Voir le répertoire <b>[modulepath('com_engine'), '/examples']</b>.</p>
+    <p>Voir le répertoire <b>[modulepath(&apos;com_engine&apos;), &apos;/examples&apos;]</b>.</p>
     <p
     >Interagit avec Internet Explorer, Word, Excel, voix de synthèse, scripts VB ...</p>
   </description>

@@ -150,7 +150,7 @@ FileReadStream bis(fp, readBuffer, sizeof(readBuffer));
 
 EncodedInputStream<UTF16LE<>, FileReadStream> eis(bis);  // wraps bis into eis
 
-Document d; // Document is GenericDocument<UTF8<> > 
+Document d; // Document is GenericDocument<UTF8<> >
 d.ParseStream<0, UTF16LE<> >(eis);  // Parses UTF-16LE file into UTF-8 in memory
 
 fclose(fp);
@@ -165,7 +165,7 @@ fclose(fp);
 #include "rapidjson/encodedstream.h"    // EncodedOutputStream
 #include <cstdio>
 
-Document d;         // Document is GenericDocument<UTF8<> > 
+Document d;         // Document is GenericDocument<UTF8<> >
 // ...
 
 FILE* fp = fopen("output_utf32le.json", "wb"); // non-Windows use "w"
@@ -203,7 +203,7 @@ FileReadStream bis(fp, readBuffer, sizeof(readBuffer));
 
 AutoUTFInputStream<unsigned, FileReadStream> eis(bis);  // wraps bis into eis
 
-Document d;         // Document is GenericDocument<UTF8<> > 
+Document d;         // Document is GenericDocument<UTF8<> >
 d.ParseStream<0, AutoUTF<unsigned> >(eis); // This parses any UTF file into UTF-8 in memory
 
 fclose(fp);
@@ -226,7 +226,7 @@ void WriteJSONFile(FILE* fp, UTFType type, bool putBOM, const Document& d) {
 
     typedef AutoUTFOutputStream<unsigned, FileWriteStream> OutputStream;
     OutputStream eos(bos, type, putBOM);
-    
+
     Writer<OutputStream, UTF8<>, AutoUTF<> > writer;
     d.Accept(writer);
 }
@@ -272,7 +272,7 @@ concept Stream {
 ~~~~~~~~~~
 
 For input stream, they must implement `Peek()`, `Take()` and `Tell()`.
-For output stream, they must implement `Put()` and `Flush()`. 
+For output stream, they must implement `Put()` and `Flush()`.
 There are two special interface, `PutBegin()` and `PutEnd()`, which are only for *in situ* parsing. Normal streams do not implement them. However, if the interface is not needed for a particular stream, it is still need to a dummy implementation, otherwise will generate compilation error.
 
 ## Example: istream wrapper {#ExampleIStreamWrapper}

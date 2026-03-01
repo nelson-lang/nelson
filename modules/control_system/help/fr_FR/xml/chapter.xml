@@ -8,10 +8,10 @@
     <p
     >Le module Système de Contrôle fournit des algorithmes et des outils pour concevoir, analyser et ajuster des systèmes de contrôle linéaires dans Nelson.</p>
     <p
-    >Il prend en charge les modèles d'espace d'état et de fonction de transfert, les transformations de système entre temps continu et discret, et le calcul des pôles, zéros et réponses en fréquence.</p>
+    >Il prend en charge les modèles d&apos;espace d&apos;état et de fonction de transfert, les transformations de système entre temps continu et discret, et le calcul des pôles, zéros et réponses en fréquence.</p>
     <p
-    >Le module comprend également des fonctionnalités pour l'équilibrage des systèmes, l'analyse de contrôlabilité et d'observabilité, la conception de régulateurs et d'estimateurs, et la simulation des réponses des systèmes dynamiques.</p>
+    >Le module comprend également des fonctionnalités pour l&apos;équilibrage des systèmes, l&apos;analyse de contrôlabilité et d&apos;observabilité, la conception de régulateurs et d&apos;estimateurs, et la simulation des réponses des systèmes dynamiques.</p>
     <p
-    >Ces outils permettent une modélisation, une analyse et un contrôle robustes des systèmes dynamiques linéaires pour les applications d'ingénierie et de recherche.</p>
+    >Ces outils permettent une modélisation, une analyse et un contrôle robustes des systèmes dynamiques linéaires pour les applications d&apos;ingénierie et de recherche.</p>
   </chapter_description>
 </xmldoc>

@@ -15,7 +15,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>frewind</b> positionne le pointeur au début du fichier</p>
+    <p>
+      <b>frewind</b> positionne le pointeur au début du fichier</p>
   </description>
   <used_function />
   <bibliography />

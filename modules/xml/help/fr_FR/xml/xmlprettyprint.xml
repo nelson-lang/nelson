@@ -15,12 +15,13 @@
     <param_input_item>
       <param_name>format_space</param_name>
       <param_description
-      >un booléen indiquant s'il faut formater avec des espaces (true) ou non (false).</param_description>
+      >un booléen indiquant s&apos;il faut formater avec des espaces (true) ou non (false).</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >xmlprettyprint</b> formate un fichier XML pour qu'il soit lisible par un humain.</p>
+    <p>
+      <b
+      >xmlprettyprint</b> formate un fichier XML pour qu&apos;il soit lisible par un humain.</p>
   </description>
   <used_function />
   <bibliography />

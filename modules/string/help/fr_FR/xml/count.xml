@@ -4,11 +4,11 @@
   <language>fr_FR</language>
   <keyword>count</keyword>
   <short_description
-  >Calcule le nombre d'occurrences d'un motif.</short_description>
+  >Calcule le nombre d&apos;occurrences d&apos;un motif.</short_description>
   <syntax>
     <syntax_item>nbocc = count(str, pattern)</syntax_item>
-    <syntax_item>nbocc = count(str, pattern,'IgnoreCase', true)</syntax_item>
-    <syntax_item>nbocc = count(str, pattern,'IgnoreCase', false)</syntax_item>
+    <syntax_item>nbocc = count(str, pattern,&apos;IgnoreCase&apos;, true)</syntax_item>
+    <syntax_item>nbocc = count(str, pattern,&apos;IgnoreCase&apos;, false)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -25,11 +25,12 @@
   <param_output>
     <param_output_item>
       <param_name>nbocc</param_name>
-      <param_description>une matrice d'entiers.</param_description>
+      <param_description>une matrice d&apos;entiers.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>count</b> calcule le nombre d'occurrences d'un motif.</p>
+    <p>
+      <b>count</b> calcule le nombre d&apos;occurrences d&apos;un motif.</p>
   </description>
   <used_function />
   <bibliography />

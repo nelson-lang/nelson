@@ -26,7 +26,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>hypot</b> computes the hypothenuse.</p>
+    <p>
+      <b>hypot</b> computes the hypothenuse.</p>
     <p>If one or both inputs is NaN, then <b>hypot</b> returns<b>NaN</b>.</p>
   </description>
   <used_function />

@@ -22,8 +22,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>parula</b> retourne la palette de couleurs Parula.</p>
-    <p><b>parula</b> est la palette de couleurs par défaut.</p>
+    <p>
+      <b>parula</b> retourne la palette de couleurs Parula.</p>
+    <p>
+      <b>parula</b> est la palette de couleurs par défaut.</p>
   </description>
   <used_function />
   <bibliography />

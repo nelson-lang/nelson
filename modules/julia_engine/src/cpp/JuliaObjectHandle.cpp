@@ -389,7 +389,7 @@ JuliaObjectHandle::invokeCastNumericMethod(ArrayOfVector& results)
         }
     }
 
-    std::unordered_map<std::string, ArrayOf (*)(jl_value_t * value, bool& wasConverted)>
+    std::unordered_map<std::string, ArrayOf (*)(jl_value_t* value, bool& wasConverted)>
         TYPES_FUNCTIONS_CONVERTERS = {
             { "SparseMatrixCSC{ComplexF64, Int64}", convertSparseMatrixComplexFloat64ToArrayOf },
             { "SparseMatrixCSC{Float64, Int64}", convertSparseMatrixFloat64ToArrayOf },

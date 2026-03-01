@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>addgateway</keyword>
   <short_description
-  >Ajoute dynamiquement un builtin au moment de l'exécution.</short_description>
+  >Ajoute dynamiquement un builtin au moment de l&apos;exécution.</short_description>
   <syntax>
     <syntax_item>addgateway(dyn_lib_path)</syntax_item>
   </syntax>
@@ -12,14 +12,15 @@
     <param_input_item>
       <param_name>dyn_lib_path</param_name>
       <param_description
-      >chaîne : chemin d'une bibliothèque dynamique préparée pour Nelson.</param_description>
+      >chaîne : chemin d&apos;une bibliothèque dynamique préparée pour Nelson.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >addgateway(dyn_lib_path)</b> ajoute dynamiquement un builtin au moment de l'exécution.</p>
+    <p>
+      <b
+      >addgateway(dyn_lib_path)</b> ajoute dynamiquement un builtin au moment de l&apos;exécution.</p>
     <p
-    >La bibliothèque dynamique chargée doit fournir au minimum un point d'entrée C nommé<b
+    >La bibliothèque dynamique chargée doit fournir au minimum un point d&apos;entrée C nommé<b
       >AddGateway</b>.</p>
     <p
     >Si la gateway est déjà chargée, aucune erreur ni avertissement ne sera levé.</p>

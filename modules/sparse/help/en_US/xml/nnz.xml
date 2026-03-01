@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>nnz</b> returns the number of non zero elements in an matrix.</p>
+    <p>
+      <b>nnz</b> returns the number of non zero elements in an matrix.</p>
   </description>
   <used_function />
   <bibliography />

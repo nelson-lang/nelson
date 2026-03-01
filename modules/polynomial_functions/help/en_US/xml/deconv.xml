@@ -28,7 +28,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>[q, r] = deconv(b, a)</b> performs deconvolution on vector<b
+    <p>
+      <b>[q, r] = deconv(b, a)</b> performs deconvolution on vector<b
       >b</b> by vector <b>a</b> using long division.</p>
     <p>It returns the quotient <b>q</b> and remainder<b>r</b> such that <b
       >b = conv(a, q) + r</b>.</p>

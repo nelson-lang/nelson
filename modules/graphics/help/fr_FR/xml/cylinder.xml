@@ -24,18 +24,19 @@
     </param_input_item>
     <param_input_item>
       <param_name>ax</param_name>
-      <param_description>Axes cibles : objet 'axes'.</param_description>
+      <param_description>Axes cibles : objet &apos;axes&apos;.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>X, Y, Z</param_name>
       <param_description
-      >Coordonnées x, y et z d'un cylindre sans l'afficher.</param_description>
+      >Coordonnées x, y et z d&apos;un cylindre sans l&apos;afficher.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>cylinder</b> crée un cylindre et l'affiche.</p>
+    <p>
+      <b>cylinder</b> crée un cylindre et l&apos;affiche.</p>
   </description>
   <used_function />
   <bibliography />

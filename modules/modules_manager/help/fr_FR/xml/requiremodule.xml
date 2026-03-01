@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>requiremodule</keyword>
   <short_description
-  >Renvoie une erreur si le module n'est pas chargé dans Nelson.</short_description>
+  >Renvoie une erreur si le module n&apos;est pas chargé dans Nelson.</short_description>
   <syntax>
     <syntax_item>requiremodule(module_short_name)</syntax_item>
   </syntax>
@@ -15,8 +15,9 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >requiremodule</b> renvoie une erreur si le module demandé n'est pas chargé.</p>
+    <p>
+      <b
+      >requiremodule</b> renvoie une erreur si le module demandé n&apos;est pas chargé.</p>
     <p
     >Cette fonction est utile pour vérifier une dépendance sur un autre module.</p>
   </description>

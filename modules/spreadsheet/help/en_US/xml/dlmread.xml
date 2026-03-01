@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>dlmread</keyword>
-  <short_description
+  <short_description
   >Read an numeric matrix from a text file file using a delimiter.</short_description>
   <syntax>
     <syntax_item>M = dlmread(filename)</syntax_item>
@@ -18,17 +18,18 @@
     </param_input_item>
     <param_input_item>
       <param_name>delimiter</param_name>
-      <param_description
-      >a string: ',' , '\t', ';' delimiter. default ','</param_description>
+      <param_description
+      >a string: &apos;,&apos; , &apos;\t&apos;, &apos;;&apos; delimiter. default &apos;,&apos;
+      </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>R1, C1</param_name>
-      <param_description
+      <param_description
       >nonnegative integer: offset. default : 0, 0</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>[R1 C1 R2 C2]</param_name>
-      <param_description
+      <param_description
       >nonnegative integer: Starting row offset, starting column offset, ending row offset and ending column offset.</param_description>
     </param_input_item>
   </param_input>
@@ -39,24 +40,29 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >M = dlmread(filename, delimiter, [R1 C1 R2 C2])</b> reads only the data within the range specified by row offsets<b
-      >R1</b> to <b>R2</b> and column offsets <b>C1</b> to <b
-      >C2</b>. Alternatively, you can specify the range using spreadsheet notation, such as 'A1..B6' instead of <b
+    <p>
+      <b
+      >M = dlmread(filename, delimiter, [R1 C1 R2 C2])</b> reads only the data within the range specified by row offsets<b
+      >R1</b> to <b>R2</b> and column offsets <b>C1</b> to <b
+      >C2</b>. Alternatively, you can specify the range using spreadsheet notation, such as &apos;A1..B6&apos; instead of <b
       >[0 0 5 1]</b>.</p>
-    <p><b
-      >M = dlmread(filename, delimiter, R1, C1)</b> starts reading data at the row and column offsets specified by<b
-      >R1</b> and<b
+    <p>
+      <b
+      >M = dlmread(filename, delimiter, R1, C1)</b> starts reading data at the row and column offsets specified by<b
+      >R1</b> and<b
       >C1</b>. For example, R1=0, C1=0 indicates the first value in the file.</p>
-    <p
-    >To set row and column offsets without defining a delimiter, use an empty character as a placeholder, like <b
-      >M = dlmread(filename, '', 3, 1)</b>.</p>
-    <p><b
+    <p
+    >To set row and column offsets without defining a delimiter, use an empty character as a placeholder, like <b
+      >M = dlmread(filename, &apos;
+        &apos;, 3, 1)</b>.</p>
+    <p>
+      <b
       >M = dlmread(filename, delimiter)</b> reads data from the file using the specified delimiter and treats repeated delimiter characters as separate delimiters.</p>
-    <p><b
-      >M = dlmread(filename)</b> reads a numeric data file in ASCII-delimited format into matrix<b
+    <p>
+      <b
+      >M = dlmread(filename)</b> reads a numeric data file in ASCII-delimited format into matrix<b
       >M</b>. The dlmread function automatically detects the delimiter from the file and consolidates consecutive white spaces into a single delimiter.</p>
-    <p>Complex Number Importing:<b
+    <p>Complex Number Importing:<b
       >dlmread</b> reads each complex number as a single unit, storing it in a complex numeric field.</p>
     <p>Valid forms for complex numbers are:</p>
     <p />
@@ -74,7 +80,8 @@
         <td>-2.1j</td>
       </tr>
     </table>
-    <p><b>Note</b>: Whitespace within a complex number is not allowed;<b
+    <p>
+      <b>Note</b>: Whitespace within a complex number is not allowed;<b
       >dlmread</b> interprets any embedded spaces as field delimiters.</p>
   </description>
   <used_function />
@@ -84,25 +91,21 @@
       <example_item_type>nelson</example_item_type>
       <example_item_description />
       <example_item_data>A = [Inf, -Inf, NaN, 3];
-filename = [tempdir(), 'dlmread_example.csv'];
+filename = [tempdir(), &apos;dlmread_example.csv&apos;];
 dlmwrite(filename, A);
-R = dlmread(filename)
-</example_item_data>
+R = dlmread(filename)</example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
+      <example_item_description
       >Read a CSV file with a header</example_item_description>
-      <example_item_data>
-filename = [tempdir(), 'dlmread_example.csv'];    
-filewrite(filename, ['A,B,C,D,E,F',char(10)]);
+      <example_item_data>filename = [tempdir(), &apos;dlmread_example.csv&apos;];
+filewrite(filename, [&apos;A,B,C,D,E,F&apos;,char(10)]);
 A = magic(6);
-dlmwrite(filename, A, '-append');
+dlmwrite(filename, A, &apos;-append&apos;);
 fileread(filename)
-
-R = dlmread(filename, '', 1, 0)
-
-</example_item_data>
+R = dlmread(filename, &apos;
+        &apos;, 1, 0)</example_item_data>
     </example_item>
   </examples>
   <see_also>

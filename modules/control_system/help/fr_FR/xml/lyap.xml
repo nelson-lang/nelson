@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>lyap</keyword>
   <short_description
-  >Solution de l'équation de Lyapunov continue.</short_description>
+  >Solution de l&apos;équation de Lyapunov continue.</short_description>
   <syntax>
     <syntax_item>X = lyap(A, Q)</syntax_item>
   </syntax>
@@ -22,12 +22,12 @@
     <param_output_item>
       <param_name>X</param_name>
       <param_description
-      >matrice : solution de l'équation de Lyapunov.</param_description>
+      >matrice : solution de l&apos;équation de Lyapunov.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p
-    >Résout l'équation de Lyapunov continue A'X + XA = -Q pour X donné A et Q.</p>
+    >Résout l&apos;équation de Lyapunov continue A&apos;X + XA = -Q pour X donné A et Q.</p>
   </description>
   <examples>
     <example_item>

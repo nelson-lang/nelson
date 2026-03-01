@@ -28,7 +28,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>searchenv</b> Searches for a file using environment paths.</p>
+    <p>
+      <b>searchenv</b> Searches for a file using environment paths.</p>
   </description>
   <used_function />
   <bibliography />

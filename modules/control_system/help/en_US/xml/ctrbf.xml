@@ -55,7 +55,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >ctrbf(A, B, C)</b> decomposes the given state-space system, defined by matrices <b
       >A</b>, <b>B</b>, and <b
       >C</b>, into the controllability staircase form.</p>

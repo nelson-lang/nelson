@@ -20,7 +20,8 @@
       <param_description>une valeur numérique</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >asin</b> calcule le sinus inverse en radians pour chaque élément de <b
     >x</b>.</description>
   <used_function />

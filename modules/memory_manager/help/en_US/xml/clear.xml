@@ -57,8 +57,10 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>clear</b> is used to remove variable given by its name.</p>
-    <p><b
+    <p>
+      <b>clear</b> is used to remove variable given by its name.</p>
+    <p>
+      <b
       >clear</b> can also delete handle object if a function handle_TYPE_clear is defined.</p>
   </description>
   <used_function />

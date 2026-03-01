@@ -25,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>polyvalm</b> evaluates matrix polynomial.</p>
+    <p>
+      <b>polyvalm</b> evaluates matrix polynomial.</p>
   </description>
   <examples>
     <example_item>

@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>jet</b> retourne la palette de couleurs jet.</p>
+    <p>
+      <b>jet</b> retourne la palette de couleurs jet.</p>
   </description>
   <used_function />
   <bibliography />

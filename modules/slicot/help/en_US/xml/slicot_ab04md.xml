@@ -13,7 +13,7 @@
     <param_input_item>
       <param_name>TYPE</param_name>
       <param_description
-      >a character: 'D' discrete or 'C' continuous time</param_description>
+      >a character: &apos;D&apos; discrete or &apos;C&apos; continuous time</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ALPHA, BETA</param_name>

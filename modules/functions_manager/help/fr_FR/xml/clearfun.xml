@@ -25,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>clearfun</b> efface une fonction intégrée.</p>
+    <p>
+      <b>clearfun</b> efface une fonction intégrée.</p>
   </description>
   <used_function />
   <bibliography />

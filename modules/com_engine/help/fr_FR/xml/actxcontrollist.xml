@@ -15,7 +15,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >l = actxcontrollist()</b> retourne la liste des contrôles disponibles</p>
   </description>
   <used_function />

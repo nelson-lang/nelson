@@ -29,7 +29,7 @@
     <param_input_item>
       <param_name>D</param_name>
       <param_description
-      >direction : 'first' (par défaut) ou 'last'.</param_description>
+      >direction : &apos;first&apos; (par défaut) ou &apos;last&apos;.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -52,7 +52,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >K = find(M)</b> renvoie un vecteur contenant les indices linéaires de chaque élément non nul de <b
       >M</b>.</p>
   </description>

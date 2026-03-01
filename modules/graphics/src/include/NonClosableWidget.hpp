@@ -15,7 +15,7 @@
 class NonClosableWidget : public QWidget
 {
 public:
-    NonClosableWidget() : QWidget(nullptr, Qt::FramelessWindowHint) {};
+    NonClosableWidget() : QWidget(nullptr, Qt::FramelessWindowHint) { };
     void
     closeEvent(QCloseEvent* ce) override;
 };

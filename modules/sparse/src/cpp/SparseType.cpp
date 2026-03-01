@@ -870,7 +870,7 @@ Eigen_SparseToIJV(const void* cp, indexType*& I, indexType*& J, int& nnz)
         pV = new_with_exception<T>(spMat->nonZeros(), false);
         for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
             for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(*spMat, k);
-                 it; ++it) {
+                it; ++it) {
                 I[q] = it.row() + 1;
                 J[q] = it.col() + 1;
                 pV[q] = it.value();
@@ -907,7 +907,7 @@ Eigen_SparseToIJV(NelsonType dclass, indexType rows, indexType cols, const void*
             for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
                 for (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator it(
                          *spMat, k);
-                     it; ++it) {
+                    it; ++it) {
                     I[q] = it.row() + 1;
                     J[q] = it.col() + 1;
                     pV[l] = it.value().real();
@@ -1133,7 +1133,7 @@ Eigen_DeleteSparseMatrixCols(
             if (spSrc) {
                 for (typename Eigen::SparseMatrix<logical, 0, signedIndexType>::InnerIterator it(
                          *spSrc, j);
-                     it; ++it) {
+                    it; ++it) {
                     tripletList.emplace_back(it.row(), newCol, it.value());
                 }
             }
@@ -1163,7 +1163,7 @@ Eigen_DeleteSparseMatrixCols(
             if (spSrc) {
                 for (typename Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(
                          *spSrc, j);
-                     it; ++it) {
+                    it; ++it) {
                     tripletList.emplace_back(it.row(), newCol, it.value());
                 }
             }
@@ -1193,7 +1193,7 @@ Eigen_DeleteSparseMatrixCols(
             if (spSrc) {
                 for (typename Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator
                          it(*spSrc, j);
-                     it; ++it) {
+                    it; ++it) {
                     doublecomplex v = it.value();
                     if ((v.real() != 0.) || (v.imag() != 0.)) {
                         tripletList.emplace_back(it.row(), newCol, v);
@@ -1258,7 +1258,7 @@ Eigen_DeleteSparseMatrixRows(
             if (spSrc) {
                 for (typename Eigen::SparseMatrix<logical, 0, signedIndexType>::InnerIterator it(
                          *spSrc, j);
-                     it; ++it) {
+                    it; ++it) {
                     indexType r = it.row();
                     signedIndexType nr = rowMap[r];
                     if (nr >= 0) {
@@ -1287,7 +1287,7 @@ Eigen_DeleteSparseMatrixRows(
             if (spSrc) {
                 for (typename Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(
                          *spSrc, j);
-                     it; ++it) {
+                    it; ++it) {
                     indexType r = it.row();
                     signedIndexType nr = rowMap[r];
                     double v = it.value();
@@ -1317,7 +1317,7 @@ Eigen_DeleteSparseMatrixRows(
             if (spSrc) {
                 for (typename Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator
                          it(*spSrc, j);
-                     it; ++it) {
+                    it; ++it) {
                     indexType r = it.row();
                     signedIndexType nr = rowMap[r];
                     doublecomplex v = it.value();
@@ -1572,7 +1572,7 @@ Eigen_TypeConvertSparse(
                 for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
                     for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(
                              *spMat, k);
-                         it; ++it) {
+                        it; ++it) {
                         logical bVal = (it.value() == 0) ? (logical)0 : (logical)1;
                         spMatdest->coeffRef(it.row(), it.col()) = bVal;
                     }
@@ -1596,7 +1596,7 @@ Eigen_TypeConvertSparse(
                 for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
                     for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(
                              *spMat, k);
-                         it; ++it) {
+                        it; ++it) {
                         doublecomplex dVal(it.value(), 0.0);
                         spMatdest->coeffRef(it.row(), it.col()) = dVal;
                     }
@@ -1652,7 +1652,7 @@ Eigen_ReshapeSparseMatrix(
         indexType* pJ = new_with_exception<indexType>(spMat->nonZeros(), false);
         for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
             for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(*spMat, k);
-                 it; ++it) {
+                it; ++it) {
                 pI[q] = it.row() + 1;
                 pJ[q] = it.col() + 1;
                 pV[q] = it.value();

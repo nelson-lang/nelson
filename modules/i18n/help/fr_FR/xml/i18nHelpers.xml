@@ -4,11 +4,11 @@
   <language>fr_FR</language>
   <keyword>i18nHelpers</keyword>
   <short_description
-  >Fonctions utilitaires d'internationalisation (i18n)</short_description>
+  >Fonctions utilitaires d&apos;internationalisation (i18n)</short_description>
   <syntax>
-    <syntax_item>i18nHelpers('convert', potFile, jsonFile)</syntax_item>
-    <syntax_item>i18nHelpers('merge', jsonFile1, jsonFile2)</syntax_item>
-    <syntax_item>i18nHelpers('sort', jsonFileA, jsonFileB)</syntax_item>
+    <syntax_item>i18nHelpers(&apos;convert&apos;, potFile, jsonFile)</syntax_item>
+    <syntax_item>i18nHelpers(&apos;merge&apos;, jsonFile1, jsonFile2)</syntax_item>
+    <syntax_item>i18nHelpers(&apos;sort&apos;, jsonFileA, jsonFileB)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -43,17 +43,24 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
-      >i18nHelpers</b> fournit des fonctions utilitaires essentielles pour gérer les fichiers d'internationalisation. Les fonctions principales incluent :</p>
+    <p>
+      <b
+      >i18nHelpers</b> fournit des fonctions utilitaires essentielles pour gérer les fichiers d&apos;internationalisation. Les fonctions principales incluent :</p>
     <p>-<b
-      >'convert'</b> : Convertit un fichier template .po/.pot en format JSON pour une manipulation simplifiée.</p>
+      >
+        &apos;convert&apos;
+      </b> : Convertit un fichier template .po/.pot en format JSON pour une manipulation simplifiée.</p>
     <p>-<b
-      >'merge'</b> : Fusionne deux fichiers JSON de traduction. Les entrées de<code
+      >
+        &apos;merge&apos;
+      </b> : Fusionne deux fichiers JSON de traduction. Les entrées de<code
       >jsonFile1</code>sont ajoutées à<code
       >jsonFile2</code>, et les entrées exclusives à<code
       >jsonFile2</code>sont supprimées.</p>
     <p>-<b
-      >'sort'</b> : Trie et organise les entrées d'un fichier JSON de traduction. <code
+      >
+        &apos;sort&apos;
+      </b> : Trie et organise les entrées d&apos;un fichier JSON de traduction. <code
       >jsonFileA</code> et <code
       >jsonFileB</code> peuvent référencer le même fichier si un tri en place est souhaité.</p>
     <p

@@ -23,8 +23,9 @@ function(nelson_install_library _target)
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    PUBLIC_HEADER
-      DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/$<TARGET_PROPERTY:${_target},NELSON_MODULE_NAME>)
+    PUBLIC_HEADER DESTINATION
+      ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/$<TARGET_PROPERTY:${_target},NELSON_MODULE_NAME>
+  )
 endfunction()
 # ==============================================================================
 # nelson_install_module_data(<module_name>
@@ -38,7 +39,12 @@ endfunction()
 # directories with their file patterns.
 # ==============================================================================
 function(nelson_install_module_data _module_name)
-  cmake_parse_arguments(ARG "" "" "EXTRA_TEST_PATTERNS;EXTRA_DIRS;EXTRA_DIR_PATTERNS" ${ARGN})
+  cmake_parse_arguments(ARG
+    ""
+    ""
+    "EXTRA_TEST_PATTERNS;EXTRA_DIRS;EXTRA_DIR_PATTERNS"
+    ${ARGN}
+  )
 
   set(_dest "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${_module_name}")
 
@@ -49,40 +55,59 @@ function(nelson_install_module_data _module_name)
 
   # etc/*.m
   if(IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/etc")
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/etc
-            DESTINATION "${_dest}" FILES_MATCHING PATTERN "*.m")
+    install(
+      DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/etc
+      DESTINATION "${_dest}"
+      FILES_MATCHING PATTERN "*.m"
+    )
   endif()
 
   # tests/*.m (always) plus extra patterns
   if(IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/tests")
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
-            DESTINATION "${_dest}" FILES_MATCHING PATTERN "*.m")
+    install(
+      DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
+      DESTINATION "${_dest}"
+      FILES_MATCHING PATTERN "*.m"
+    )
     foreach(_pat IN LISTS ARG_EXTRA_TEST_PATTERNS)
-      install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
-              DESTINATION "${_dest}" FILES_MATCHING PATTERN "${_pat}")
+      install(
+        DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
+        DESTINATION "${_dest}"
+        FILES_MATCHING PATTERN "${_pat}"
+      )
     endforeach()
   endif()
 
   # help/*.nhz  (exclude xml/ and md/)
   if(IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/help")
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/help
-            DESTINATION "${_dest}"
-            FILES_MATCHING PATTERN "*.nhz"
-            PATTERN "xml" EXCLUDE
-            PATTERN "md" EXCLUDE)
+    install(
+      DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/help
+      DESTINATION "${_dest}"
+      FILES_MATCHING
+        PATTERN "*.nhz"
+        PATTERN "xml"
+        EXCLUDE PATTERN "md"
+        EXCLUDE
+    )
   endif()
 
   # functions/*.m
   if(IS_DIRECTORY "${CMAKE_SOURCE_DIR}/modules/${_module_name}/functions")
-    install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${_module_name}/functions
-            DESTINATION "${_dest}" FILES_MATCHING PATTERN "*.m")
+    install(
+      DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${_module_name}/functions
+      DESTINATION "${_dest}"
+      FILES_MATCHING PATTERN "*.m"
+    )
   endif()
 
   # Extra directories: "dirname" -> install with PATTERN "*.*"
   foreach(_dir IN LISTS ARG_EXTRA_DIRS)
     if(IS_DIRECTORY "${CMAKE_SOURCE_DIR}/modules/${_module_name}/${_dir}")
-      install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${_module_name}/${_dir}
-              DESTINATION "${_dest}" FILES_MATCHING PATTERN "*.*")
+      install(
+        DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${_module_name}/${_dir}
+        DESTINATION "${_dest}"
+        FILES_MATCHING PATTERN "*.*"
+      )
     endif()
   endforeach()
 
@@ -96,8 +121,11 @@ function(nelson_install_module_data _module_name)
       string(REPLACE ";" ";" _pats "${_pats_str}")
       foreach(_pat IN LISTS _pats)
         if(IS_DIRECTORY "${CMAKE_SOURCE_DIR}/modules/${_module_name}/${_dir}")
-          install(DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${_module_name}/${_dir}
-                  DESTINATION "${_dest}" FILES_MATCHING PATTERN "${_pat}")
+          install(
+            DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${_module_name}/${_dir}
+            DESTINATION "${_dest}"
+            FILES_MATCHING PATTERN "${_pat}"
+          )
         endif()
       endforeach()
     endif()
@@ -118,8 +146,8 @@ function(nelson_module_sources_from_glob _outvar)
   foreach(_dir IN LISTS ARG_DIRS)
     file(GLOB _cpp "${_dir}/*.cpp")
     file(GLOB _cxx "${_dir}/*.cxx")
-    file(GLOB _cc  "${_dir}/*.cc")
-    file(GLOB _c   "${_dir}/*.c")
+    file(GLOB _cc "${_dir}/*.cc")
+    file(GLOB _c "${_dir}/*.c")
     list(APPEND _all_src ${_cpp} ${_cxx} ${_cc} ${_c})
   endforeach()
   # Always exclude dllMain
@@ -129,4 +157,3 @@ function(nelson_module_sources_from_glob _outvar)
   endforeach()
   set(${_outvar} "${_all_src}" PARENT_SCOPE)
 endfunction()
-# ==============================================================================

@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>c = bartlett(m)</b> an L-point symmetric Bartlett window.</p>
+    <p>
+      <b>c = bartlett(m)</b> an L-point symmetric Bartlett window.</p>
   </description>
   <examples>
     <example_item>

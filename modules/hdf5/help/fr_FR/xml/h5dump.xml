@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>h5dump</keyword>
   <short_description
-  >vide le contenu d'un fichier HDF5 au format texte.</short_description>
+  >vide le contenu d&apos;un fichier HDF5 au format texte.</short_description>
   <syntax>
     <syntax_item>h5dump(filename)</syntax_item>
     <syntax_item>R = h5dump(filename)</syntax_item>
@@ -29,7 +29,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>h5dump</b> affiche le contenu d'un fichier HDF5 au format texte.</p>
+    <p>
+      <b>h5dump</b> affiche le contenu d&apos;un fichier HDF5 au format texte.</p>
   </description>
   <used_function />
   <bibliography />

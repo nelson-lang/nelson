@@ -12,7 +12,7 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >mpiexec([modulepath('mpi'), '/examples/MPI_helloworld.m'], 4)</example_item_description>
+      >mpiexec([modulepath(&apos;mpi&apos;), &apos;/examples/MPI_helloworld.m&apos;], 4)</example_item_description>
       <example_item_data
         runnable="false"
       ><![CDATA[edit([modulepath('mpi'), '/examples/MPI_helloworld.m'])]]></example_item_data>
@@ -20,7 +20,7 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >mpiexec([modulepath('mpi'), '/examples/MPI_simpledemo.m'], 4)</example_item_description>
+      >mpiexec([modulepath(&apos;mpi&apos;), &apos;/examples/MPI_simpledemo.m&apos;], 4)</example_item_description>
       <example_item_data
         runnable="false"
       ><![CDATA[edit([modulepath('mpi'), '/examples/MPI_simpledemo.m'])]]></example_item_data>
@@ -28,7 +28,7 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >mpiexec([modulepath('mpi'), '/examples/MPI_parallel_sum.m'], 40)</example_item_description>
+      >mpiexec([modulepath(&apos;mpi&apos;), &apos;/examples/MPI_parallel_sum.m&apos;], 40)</example_item_description>
       <example_item_data
         runnable="false"
       ><![CDATA[edit([modulepath('mpi'), '/examples/MPI_parallel_sum.m'])]]></example_item_data>

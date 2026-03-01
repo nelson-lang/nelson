@@ -4,25 +4,27 @@
   <language>fr_FR</language>
   <keyword>arrayfun</keyword>
   <short_description
-  >Appliquer une fonction à chaque élément d'un tableau.</short_description>
+  >Appliquer une fonction à chaque élément d&apos;un tableau.</short_description>
   <syntax>
     <syntax_item>B = arrayfun(func, A)</syntax_item>
     <syntax_item>B = arrayfun(func, A1, ..., An)</syntax_item>
-    <syntax_item>B = arrayfun(..., 'UniformOutput', false)</syntax_item>
+    <syntax_item>B = arrayfun(..., &apos;UniformOutput&apos;, false)</syntax_item>
     <syntax_item>[B1, ..., Bm] = arrayfun(...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>func</param_name>
       <param_description
-      >handle de fonction à appliquer à chaque élément. Doit renvoyer un scalaire sauf si 'UniformOutput' est false.</param_description>
+      >handle de fonction à appliquer à chaque élément. Doit renvoyer un scalaire sauf si &apos;UniformOutput&apos; est false.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>A, A1, ..., An</param_name>
-      <param_description>tableaux d'entrée de même taille.</param_description>
+      <param_description>tableaux d&apos;entrée de même taille.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'UniformOutput'</param_name>
+      <param_name>
+        &apos;UniformOutput&apos;
+      </param_name>
       <param_description
       >scalaire logique. Si false, les sorties sont renvoyées dans un tableau cellulaire.</param_description>
     </param_input_item>
@@ -31,19 +33,24 @@
     <param_output_item>
       <param_name>B, B1, ..., Bm</param_name>
       <param_description
-      >sorties de la fonction appliquée élément par élément. Tableau cellulaire si 'UniformOutput' est false.</param_description>
+      >sorties de la fonction appliquée élément par élément. Tableau cellulaire si &apos;UniformOutput&apos; est false.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>arrayfun(func, A)</b> applique la fonction<b
+    <p>
+      <b>arrayfun(func, A)</b> applique la fonction<b
       >func</b> à chaque élément du tableau<b
       >A</b>, et renvoie le résultat dans <b>B</b> avec la même taille que <b
       >A</b>.</p>
-    <p><b>arrayfun(func, A1, ..., An)</b> applique <b
-      >func</b> aux éléments correspondants des tableaux d'entrée. Tous les tableaux doivent avoir la même taille.</p>
-    <p>Utilisez l'option <b>'UniformOutput'</b> à<b
+    <p>
+      <b>arrayfun(func, A1, ..., An)</b> applique <b
+      >func</b> aux éléments correspondants des tableaux d&apos;entrée. Tous les tableaux doivent avoir la même taille.</p>
+    <p>Utilisez l&apos;option <b>
+        &apos;UniformOutput&apos;
+      </b> à<b
       >false</b> pour autoriser des valeurs de sortie qui ne peuvent pas être concaténées dans un seul tableau. Dans ce cas, le résultat est un tableau cellulaire.</p>
-    <p><b
+    <p>
+      <b
       >[B1, ..., Bm] = arrayfun(...)</b> capture plusieurs sorties de la fonction appliquée.</p>
   </description>
   <used_function />

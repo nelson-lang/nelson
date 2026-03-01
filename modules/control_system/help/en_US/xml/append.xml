@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >sys = append(sys1, sys2, ..., sysN)</b> combines the inputs and outputs of models <b
       >sys1</b> through <b
       >sysN</b>, creating an augmented model represented by <b>sys</b>.</p>

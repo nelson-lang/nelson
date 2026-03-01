@@ -18,7 +18,7 @@
     <param_input_item>
       <param_name>fs</param_name>
       <param_description
-      >une valeur double : fréquence d'échantillonnage en Hz.</param_description>
+      >une valeur double : fréquence d&apos;échantillonnage en Hz.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>nbits</param_name>
@@ -38,13 +38,16 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >audioplayer</b> renvoie un objet audioplayer pour lire des données sur un périphérique de sortie.</p>
     <p
-    >L'objet audioplayer utilise une portée globale et doit être supprimé par l'utilisateur.</p>
-    <p><b
+    >L&apos;objet audioplayer utilise une portée globale et doit être supprimé par l&apos;utilisateur.</p>
+    <p>
+      <b
       >audioplayer</b> peut lire des données multicanaux si votre carte son le supporte.</p>
-    <p><b>Propriétés de audioplayer</b> :</p>
+    <p>
+      <b>Propriétés de audioplayer</b> :</p>
     <table>
       <tr>
         <th>Propriété</th>
@@ -55,12 +58,12 @@
         <td>SampleRate</td>
         <td> scalaire positif</td>
         <td
-        >Taux d'échantillonnage en Hz. Défini via Fs lors de la création de l'objet ; ajustable par la suite.</td>
+        >Taux d&apos;échantillonnage en Hz. Défini via Fs lors de la création de l&apos;objet ; ajustable par la suite.</td>
       </tr>
       <tr>
         <td>BitsPerSample</td>
         <td>Lecture seule : 8, 16, 24</td>
-        <td>Bits par échantillon, déterminés par l'argument nBits.</td>
+        <td>Bits par échantillon, déterminés par l&apos;argument nBits.</td>
       </tr>
       <tr>
         <td>NumChannels</td>
@@ -71,41 +74,42 @@
       <tr>
         <td>DeviceID</td>
         <td>Lecture seule : entier</td>
-        <td>Identifiant du périphérique audio fourni via l'argument ID.</td>
+        <td>Identifiant du périphérique audio fourni via l&apos;argument ID.</td>
       </tr>
       <tr>
         <td>CurrentSample</td>
         <td>Lecture seule : entier positif</td>
         <td
-        >Échantillon actuellement en lecture ; lorsqu'il est inactif, le prochain échantillon que play/reprise utilisera.</td>
+        >Échantillon actuellement en lecture ; lorsqu&apos;il est inactif, le prochain échantillon que play/reprise utilisera.</td>
       </tr>
       <tr>
         <td>TotalSamples</td>
         <td>Lecture seule : entier non négatif</td>
-        <td>Nombre total d'échantillons dans les données audio.</td>
+        <td>Nombre total d&apos;échantillons dans les données audio.</td>
       </tr>
       <tr>
         <td>Running</td>
-        <td>Lecture seule : 'off' ou 'on'</td>
+        <td>Lecture seule : &apos;off&apos; ou &apos;on&apos;
+        </td>
         <td>État du lecteur audio.</td>
       </tr>
       <tr>
         <td>StartFcn</td>
         <td>vecteur de caractères ou handle de fonction</td>
         <td
-        >Callback exécuté au début de la lecture ; les premiers arguments sont l'audioplayer et une structure d'événement.</td>
+        >Callback exécuté au début de la lecture ; les premiers arguments sont l&apos;audioplayer et une structure d&apos;événement.</td>
       </tr>
       <tr>
         <td>StopFcn</td>
         <td>vecteur de caractères ou handle de fonction</td>
         <td
-        >Callback exécuté à la fin de la lecture ; les premiers arguments sont l'audioplayer et une structure d'événement.</td>
+        >Callback exécuté à la fin de la lecture ; les premiers arguments sont l&apos;audioplayer et une structure d&apos;événement.</td>
       </tr>
       <tr>
         <td>TimerFcn</td>
         <td>vecteur de caractères ou handle de fonction</td>
         <td
-        >Callback exécuté périodiquement pendant la lecture ; l'intervalle est contrôlé par TimerPeriod.</td>
+        >Callback exécuté périodiquement pendant la lecture ; l&apos;intervalle est contrôlé par TimerPeriod.</td>
       </tr>
       <tr>
         <td>TimerPeriod</td>
@@ -115,18 +119,19 @@
       <tr>
         <td>Tag</td>
         <td>scalaire de chaîne ou vecteur de caractères</td>
-        <td>Étiquette pour l'objet audioplayer.</td>
+        <td>Étiquette pour l&apos;objet audioplayer.</td>
       </tr>
       <tr>
         <td>UserData</td>
         <td>[] (par défaut) ou tout type de données</td>
         <td
-        >Données arbitraires définies par l'utilisateur stockées avec l'objet.</td>
+        >Données arbitraires définies par l&apos;utilisateur stockées avec l&apos;objet.</td>
       </tr>
       <tr>
         <td>Type</td>
-        <td>Lecture seule : 'audioplayer'</td>
-        <td>Identifiant du nom de la classe pour l'objet.</td>
+        <td>Lecture seule : &apos;audioplayer&apos;
+        </td>
+        <td>Identifiant du nom de la classe pour l&apos;objet.</td>
       </tr>
     </table>
   </description>

@@ -32,8 +32,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>replace</b> replaces strings in another.</p>
-    <p><b>replace</b> and <b>strrep</b> replace strings but<b
+    <p>
+      <b>replace</b> replaces strings in another.</p>
+    <p>
+      <b>replace</b> and <b>strrep</b> replace strings but<b
       >replace</b> is recommended.</p>
   </description>
   <used_function />

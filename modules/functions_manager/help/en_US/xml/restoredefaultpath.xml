@@ -9,8 +9,9 @@
     <syntax_item>restoredefaultpath</syntax_item>
   </syntax>
   <description>
-    <p><b
-      >restoredefaultpath</b> restores Nelson's search path to its startup state.</p>
+    <p>
+      <b
+      >restoredefaultpath</b> restores Nelson&apos;s search path to its startup state.</p>
   </description>
   <used_function />
   <bibliography />

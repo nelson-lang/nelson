@@ -39,42 +39,71 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >line(x, y)</b> crée une ligne dans les axes courants avec les vecteurs<b
       >x</b> et <b>y</b>.</p>
-    <p><b
+    <p>
+      <b
       >line(x, y, z)</b> crée une ligne en coordonnées tridimensionnelles.</p>
     <p>Propriétés :</p>
     <p />
-    <p><b>Children</b> [] (actuellement non utilisé).</p>
-    <p><b
+    <p>
+      <b>Children</b> [] (actuellement non utilisé).</p>
+    <p>
+      <b
       >Color</b> Couleur de la ligne : triplet RGB, [0, 0, 0] ou code couleur hexadécimal.</p>
-    <p><b
-      >DisplayName</b> Étiquette de légende : vecteur de caractères ou chaîne scalaire, '' (par défaut).</p>
-    <p><b
-      >LineStyle</b> Style de ligne : '--', ':', '-.', 'none' ou '-' (par défaut).</p>
-    <p><b>LineWidth</b> Largeur de ligne : valeur scalaire positive.</p>
-    <p><b
-      >Marker</b> Symbole de marqueur : 'o' (cercle), '+' (plus), '*' (astérisque), '.' (point), 'x' (croix), '_' (ligne horizontale), '|' (ligne verticale), 'square', 'diamond', '^' (triangle vers le haut), 'v' (triangle vers le bas), '&gt;' (triangle vers la droite), '&lt;' (triangle vers la gauche), 'pentagram', 'hexagram', 'none' (par défaut).</p>
-    <p><b>MarkerEdgeColor</b> Couleur du contour du marqueur : triplet RGB.</p>
-    <p><b
+    <p>
+      <b
+      >DisplayName</b> Étiquette de légende : vecteur de caractères ou chaîne scalaire, &apos;
+      &apos; (par défaut).</p>
+    <p>
+      <b
+      >LineStyle</b> Style de ligne : &apos;--&apos;, &apos;:&apos;, &apos;-.&apos;, &apos;none&apos; ou &apos;-&apos; (par défaut).</p>
+    <p>
+      <b>LineWidth</b> Largeur de ligne : valeur scalaire positive.</p>
+    <p>
+      <b
+      >Marker</b> Symbole de marqueur : &apos;o&apos; (cercle), &apos;+&apos; (plus), &apos;*&apos; (astérisque), &apos;.&apos; (point), &apos;x&apos; (croix), &apos;_&apos; (ligne horizontale), &apos;|&apos; (ligne verticale), &apos;square&apos;, &apos;diamond&apos;, &apos;^&apos; (triangle vers le haut), &apos;v&apos; (triangle vers le bas), &apos;
+      &gt;
+      &apos; (triangle vers la droite), &apos;
+      &lt;
+      &apos; (triangle vers la gauche), &apos;pentagram&apos;, &apos;hexagram&apos;, &apos;none&apos; (par défaut).</p>
+    <p>
+      <b>MarkerEdgeColor</b> Couleur du contour du marqueur : triplet RGB.</p>
+    <p>
+      <b
       >MarkerFaceColor</b> Couleur de remplissage du marqueur : triplet RGB.</p>
-    <p><b>MarkerSize</b> Taille du marqueur : valeur scalaire positive.</p>
-    <p><b>Parent</b> Parent : objet axes graphique.</p>
-    <p><b
-      >Tag</b> Identifiant de l'objet : chaîne scalaire, vecteur de caractères, '' (par défaut).          </p>
-    <p><b>Type</b> Type d'objet graphique : 'line'</p>
-    <p><b>UserData</b> Données utilisateur : tableau, [] (par défaut).</p>
-    <p><b>Visible</b> État de visibilité : 'off' ou 'on' (par défaut).</p>
-    <p><b>XData</b> valeurs x : vecteur, [0 1] (par défaut).</p>
-    <p><b>YData</b> valeurs y : vecteur, [0 1] (par défaut).</p>
-    <p><b>ZData</b> valeurs z : vecteur, [] (par défaut).</p>
-    <p><b
-      >CreateFcn</b> Callback (fonction, chaîne ou cellule) appelée lors de la création de l'objet. Définir cette propriété sur un composant existant n'a aucun effet.</p>
-    <p><b
-      >DeleteFcn</b> Callback (fonction, chaîne ou cellule) appelée lors de la suppression de l'objet.          </p>
+    <p>
+      <b>MarkerSize</b> Taille du marqueur : valeur scalaire positive.</p>
+    <p>
+      <b>Parent</b> Parent : objet axes graphique.</p>
+    <p>
+      <b
+      >Tag</b> Identifiant de l&apos;objet : chaîne scalaire, vecteur de caractères, &apos;
+      &apos; (par défaut).          </p>
+    <p>
+      <b>Type</b> Type d&apos;objet graphique : &apos;line&apos;
+    </p>
+    <p>
+      <b>UserData</b> Données utilisateur : tableau, [] (par défaut).</p>
+    <p>
+      <b>Visible</b> État de visibilité : &apos;off&apos; ou &apos;on&apos; (par défaut).</p>
+    <p>
+      <b>XData</b> valeurs x : vecteur, [0 1] (par défaut).</p>
+    <p>
+      <b>YData</b> valeurs y : vecteur, [0 1] (par défaut).</p>
+    <p>
+      <b>ZData</b> valeurs z : vecteur, [] (par défaut).</p>
+    <p>
+      <b
+      >CreateFcn</b> Callback (fonction, chaîne ou cellule) appelée lors de la création de l&apos;objet. Définir cette propriété sur un composant existant n&apos;a aucun effet.</p>
+    <p>
+      <b
+      >DeleteFcn</b> Callback (fonction, chaîne ou cellule) appelée lors de la suppression de l&apos;objet.          </p>
     <p />
-    <p><b>BeingDeleted</b> Indique que l'objet est en cours de suppression.</p>
+    <p>
+      <b>BeingDeleted</b> Indique que l&apos;objet est en cours de suppression.</p>
   </description>
   <used_function />
   <bibliography />

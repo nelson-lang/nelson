@@ -15,8 +15,9 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>openvar(varname)</b> opens the variable named<b
-      >varname</b> in Nelson's Variable Editor for graphical inspection and editing.</p>
+    <p>
+      <b>openvar(varname)</b> opens the variable named<b
+      >varname</b> in Nelson&apos;s Variable Editor for graphical inspection and editing.</p>
     <p
     >Any changes made to the variable within the editor are immediately applied to the workspace context.</p>
     <p

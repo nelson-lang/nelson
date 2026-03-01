@@ -8,7 +8,7 @@
   <syntax>
     <syntax_item>R = all(M)</syntax_item>
     <syntax_item>R = all(M, dim)</syntax_item>
-    <syntax_item>R = all(M, 'all')</syntax_item>
+    <syntax_item>R = all(M, &apos;all&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -21,7 +21,9 @@
       >a integer value: dimension along it works.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'all'</param_name>
+      <param_name>
+        &apos;all&apos;
+      </param_name>
       <param_description>tests over all elements of M.</param_description>
     </param_input_item>
   </param_input>
@@ -32,7 +34,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >all</b> returns true if all of the elements of a matrix satisfy some condition.</p>
   </description>
   <used_function />

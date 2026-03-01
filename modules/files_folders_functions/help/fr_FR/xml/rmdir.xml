@@ -6,11 +6,11 @@
   <short_description>Supprime un répertoire.</short_description>
   <syntax>
     <syntax_item>rmdir(dirname)</syntax_item>
-    <syntax_item>rmdir(dirname, 's')</syntax_item>
+    <syntax_item>rmdir(dirname, &apos;s&apos;)</syntax_item>
     <syntax_item>res = rmdir(dirname)</syntax_item>
-    <syntax_item>res = rmdir(dirname, 's')</syntax_item>
+    <syntax_item>res = rmdir(dirname, &apos;s&apos;)</syntax_item>
     <syntax_item>[res, msg] = rmdir(dirname)</syntax_item>
-    <syntax_item>[res, msg] = rmdir(dirname, 's')</syntax_item>
+    <syntax_item>[res, msg] = rmdir(dirname, &apos;s&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -19,7 +19,9 @@
       >a string: nom du répertoire à supprimer.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'s'</param_name>
+      <param_name>
+        &apos;s&apos;
+      </param_name>
       <param_description
       >a string: supprime aussi les sous-répertoires.</param_description>
     </param_input_item>
@@ -31,12 +33,14 @@
     </param_output_item>
     <param_output_item>
       <param_name>msg</param_name>
-      <param_description>a string: message d'erreur ou ''.</param_description>
+      <param_description>a string: message d&apos;erreur ou &apos;
+        &apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>res = rmdir(dirname)</b> supprime le répertoire <b>dirname</b>.</p>
-    <p>Si le répertoire n'est pas vide, il faut utiliser l'argument 's'.</p>
+    <p>
+      <b>res = rmdir(dirname)</b> supprime le répertoire <b>dirname</b>.</p>
+    <p>Si le répertoire n&apos;est pas vide, il faut utiliser l&apos;argument &apos;s&apos;.</p>
   </description>
   <used_function />
   <bibliography />

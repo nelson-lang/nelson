@@ -11,11 +11,12 @@
   <param_input>
     <param_input_item>
       <param_name>module_short_name</param_name>
-      <param_description>a string: short module's name.</param_description>
+      <param_description>a string: short module&apos;s name.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >requiremodule</b> returns an error if desired module is not loaded.</p>
     <p>This function is usefull to verify a dependency on another module.</p>
   </description>

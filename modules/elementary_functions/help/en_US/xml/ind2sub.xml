@@ -34,7 +34,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>ind2sub</b> converts linear indices to subscript.</p>
+    <p>
+      <b>ind2sub</b> converts linear indices to subscript.</p>
   </description>
   <used_function />
   <bibliography />

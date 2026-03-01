@@ -48,14 +48,16 @@
     <param_output_item>
       <param_name>buttonname</param_name>
       <param_description
-      >a string: text of the clicked button or ''.</param_description>
+      >a string: text of the clicked button or &apos;
+        &apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >questdlg</b> affiche une question dans une boîte de dialogue et renvoie le texte du bouton activé.</p>
     <p
-    >La boîte de dialogue possède trois boutons par défaut : 'Yes', 'No', 'Cancel', avec 'Yes' comme valeur par défaut.</p>
+    >La boîte de dialogue possède trois boutons par défaut : &apos;Yes&apos;, &apos;No&apos;, &apos;Cancel&apos;, avec &apos;Yes&apos; comme valeur par défaut.</p>
   </description>
   <used_function />
   <bibliography />

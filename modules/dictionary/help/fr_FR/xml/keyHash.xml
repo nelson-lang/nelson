@@ -21,11 +21,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >H = keyHash(A)</b> renvoie un scalaire uint64 représentant le tableau d'entrée, <b
+    <p>
+      <b
+      >H = keyHash(A)</b> renvoie un scalaire uint64 représentant le tableau d&apos;entrée, <b
       >A</b>.</p>
     <p
-    >La fonction keyHash calcule un code de hachage dérivé des caractéristiques de l'entrée.</p>
+    >La fonction keyHash calcule un code de hachage dérivé des caractéristiques de l&apos;entrée.</p>
     <p
     >Pour les classes personnalisées, keyHash peut nécessiter une surcharge pour garantir une équivalence correcte.</p>
   </description>

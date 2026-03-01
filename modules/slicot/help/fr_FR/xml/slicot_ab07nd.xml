@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>slicot_ab07nd</keyword>
-  <short_description>Inverse d'un système linéaire donné.</short_description>
+  <short_description>Inverse d&apos;un système linéaire donné.</short_description>
   <syntax>
     <syntax_item
     >[A_OUT, B_OUT, C_OUT, D_OUT, RCOND, INFO] = slicot_ab07nd(A_IN, B_IN, C_IN, D_IN)</syntax_item>
@@ -12,12 +12,12 @@
     <param_input_item>
       <param_name>A_IN</param_name>
       <param_description
-      >La partie principale N-by-N de ce tableau doit contenir la matrice d'état A du système original.</param_description>
+      >La partie principale N-by-N de ce tableau doit contenir la matrice d&apos;état A du système original.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B_IN</param_name>
       <param_description
-      >La partie principale N-by-M de ce tableau doit contenir la matrice d'entrée B du système original.</param_description>
+      >La partie principale N-by-M de ce tableau doit contenir la matrice d&apos;entrée B du système original.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>C_IN</param_name>
@@ -34,12 +34,12 @@
     <param_output_item>
       <param_name>A_OUT</param_name>
       <param_description
-      >La partie principale N-by-N de ce tableau contient la matrice d'état Ai du système inverse.</param_description>
+      >La partie principale N-by-N de ce tableau contient la matrice d&apos;état Ai du système inverse.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>B_OUT</param_name>
       <param_description
-      >La partie principale N-by-M de ce tableau contient la matrice d'entrée Bi du système inverse.</param_description>
+      >La partie principale N-by-M de ce tableau contient la matrice d&apos;entrée Bi du système inverse.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>C_OUT</param_name>

@@ -24,7 +24,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >mustBeColumn</b> checks that value is a column vector or raise an error.</p>
   </description>
   <used_function />

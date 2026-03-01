@@ -19,12 +19,13 @@
     <param_output_item>
       <param_name>tf</param_name>
       <param_description
-      >un booléen : vrai si c'est un fichier .nh5 valide.</param_description>
+      >un booléen : vrai si c&apos;est un fichier .nh5 valide.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>version</param_name>
       <param_description
-      >un tableau de chaînes : "-v1" ou "" si non défini.</param_description>
+      >un tableau de chaînes : &quot;-v1&quot; ou &quot;
+        &quot; si non défini.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>header</param_name>
@@ -33,7 +34,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >isnh5file</b> vérifie si le nom de fichier correspond à un fichier .nh5 valide.</p>
   </description>
   <used_function />

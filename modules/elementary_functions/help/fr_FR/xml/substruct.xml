@@ -9,12 +9,13 @@
     <syntax_item>S = substruct(type1, subs1, type2, subs2, ...)</syntax_item>
   </syntax>
   <description>
-    <p><b
+    <p>
+      <b
       >S = substruct(type1, subs1, type2, subs2, ...)</b> generates a structure containing fields necessary for an overloaded<b
       >subsref</b> or <b>subsasgn</b> method.</p>
-    <p>Each type char vector is limited to '.', '()', or '{}'.</p>
+    <p>Each type char vector is limited to &apos;.&apos;, &apos;()&apos;, or &apos;{}&apos;.</p>
     <p
-    >The associated subs argument should be a field name (for the '.' type) or a cell array containing index vectors (for the '()' or '{}' types).</p>
+    >The associated subs argument should be a field name (for the &apos;.&apos; type) or a cell array containing index vectors (for the &apos;()&apos; or &apos;{}&apos; types).</p>
   </description>
   <used_function />
   <bibliography />

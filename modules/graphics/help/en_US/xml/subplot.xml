@@ -6,8 +6,8 @@
   <short_description>Create axes in tiled positions.</short_description>
   <syntax>
     <syntax_item>subplot(m, n, p)</syntax_item>
-    <syntax_item>subplot('mnp')</syntax_item>
-    <syntax_item>subplot('Position', pos)</syntax_item>
+    <syntax_item>subplot(&apos;mnp&apos;)</syntax_item>
+    <syntax_item>subplot(&apos;Position&apos;, pos)</syntax_item>
     <syntax_item>ax = subplot(...)</syntax_item>
   </syntax>
   <param_input>
@@ -39,7 +39,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >subplot(n, m, p)</b> divides the current figure into a 2-dimensional grid.</p>
     <p>Each of which can contain a plot of some kind.</p>
   </description>

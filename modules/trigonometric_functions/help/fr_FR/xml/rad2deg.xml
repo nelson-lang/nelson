@@ -21,8 +21,9 @@
       <param_description>une valeur numérique</param_description>
     </param_output_item>
   </param_output>
-  <description><b
-    >d = rad2deg(r)</b> convertit les unités d'angle de radians en degrés pour chaque élément de <b
+  <description>
+    <b
+    >d = rad2deg(r)</b> convertit les unités d&apos;angle de radians en degrés pour chaque élément de <b
     >r</b>.</description>
   <used_function />
   <bibliography />

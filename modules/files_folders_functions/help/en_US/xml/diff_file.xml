@@ -25,7 +25,8 @@
   <param_output>
     <param_output_item>
       <param_name>res</param_name>
-      <param_description>a string: '' if no diff detected.</param_description>
+      <param_description>a string: &apos;
+        &apos; if no diff detected.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>msg</param_name>
@@ -33,7 +34,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >diff_file</b> compares two files and returns diff as unified format.</p>
     <p>if compared files are equals, res is an empty string.</p>
   </description>

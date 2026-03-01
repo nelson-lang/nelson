@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>iscolumn</keyword>
   <short_description
-  >Déterminer si l'entrée est un vecteur colonne.</short_description>
+  >Déterminer si l&apos;entrée est un vecteur colonne.</short_description>
   <syntax>
     <syntax_item>tf = iscolumn(V)</syntax_item>
   </syntax>
@@ -17,11 +17,12 @@
   <param_output>
     <param_output_item>
       <param_name>tf</param_name>
-      <param_description>booléen : résultat de 'iscolumn'.</param_description>
+      <param_description>booléen : résultat de &apos;iscolumn&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>iscolumn(V)</b> renvoie <b
+    <p>
+      <b>iscolumn(V)</b> renvoie <b
       >true</b> si size(V) renvoie [n, 1] avec un entier non négatif n, et <b
       >false</b> sinon.</p>
   </description>

@@ -9,12 +9,12 @@
     <syntax_item>[P, G] = c2d(A, B, Ts)</syntax_item>
     <syntax_item>sysd = c2d(sysc, Ts)</syntax_item>
     <syntax_item>sysd = c2d(sysc, Ts, method)</syntax_item>
-    <syntax_item>sysd = c2d(sysc, Ts, 'prewarp', w0)</syntax_item>
+    <syntax_item>sysd = c2d(sysc, Ts, &apos;prewarp&apos;, w0)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>Matrice d'état : matrice Nx-par-Nx.</param_description>
+      <param_description>Matrice d&apos;état : matrice Nx-par-Nx.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B</param_name>
@@ -24,7 +24,7 @@
     <param_input_item>
       <param_name>Ts</param_name>
       <param_description
-      >Temps d'échantillonnage : scalaire positif.</param_description>
+      >Temps d&apos;échantillonnage : scalaire positif.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>sysc</param_name>
@@ -34,7 +34,8 @@
     <param_input_item>
       <param_name>method</param_name>
       <param_description
-      >Méthode de discrétisation : 'zoh', 'tustin', 'prewarp'</param_description>
+      >Méthode de discrétisation : &apos;zoh&apos;, &apos;tustin&apos;, &apos;prewarp&apos;
+      </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>w0</param_name>
@@ -44,7 +45,7 @@
   <param_output>
     <param_output_item>
       <param_name>P</param_name>
-      <param_description>Matrice de transition d'état (phi)</param_description>
+      <param_description>Matrice de transition d&apos;état (phi)</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>G</param_name>
@@ -59,7 +60,7 @@
   <description>
     <p>La fonction <b
       >sysd = c2d(sysc, Ts)</b> discrétise le modèle dynamique en temps continu <b
-      >sysc</b> en utilisant un maintien d'ordre zéro sur les entrées avec un temps d'échantillonnage de <b
+      >sysc</b> en utilisant un maintien d&apos;ordre zéro sur les entrées avec un temps d&apos;échantillonnage de <b
       >Ts</b>.</p>
     <p>Par exemple, vous pouvez utiliser <b
       >sysd = c2d(sysc, Ts, method)</b> pour spécifier explicitement la méthode de discrétisation.</p>

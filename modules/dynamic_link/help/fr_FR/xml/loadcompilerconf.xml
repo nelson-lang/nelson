@@ -16,16 +16,21 @@
     <param_output_item>
       <param_name>compiler</param_name>
       <param_description
-      >une chaîne : 'msvc', 'mingw', 'unix' ou ''</param_description>
+      >une chaîne : &apos;msvc&apos;, &apos;mingw&apos;, &apos;unix&apos; ou &apos;
+        &apos;
+      </param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >loadcompilerconf</b> renvoie true si un compilateur a été configuré auparavant avec<b
       >configuremsvc</b> ou <b>configuremingw</b>.</p>
-    <p><b
-      >loadcompilerconf</b> renvoie toujours false sur les autres plateformes et 'unix' comme compilateur.</p>
-    <p><b>loadcompilerconf</b> est appelé au démarrage de Nelson.</p>
+    <p>
+      <b
+      >loadcompilerconf</b> renvoie toujours false sur les autres plateformes et &apos;unix&apos; comme compilateur.</p>
+    <p>
+      <b>loadcompilerconf</b> est appelé au démarrage de Nelson.</p>
   </description>
   <used_function />
   <bibliography />

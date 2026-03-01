@@ -29,7 +29,8 @@
   </param_output>
   <description>
     <p>This is an advanced feature to manipulate C pointers.</p>
-    <p><b>ptr = libpointer()</b> creates an NULL pointer.</p>
+    <p>
+      <b>ptr = libpointer()</b> creates an NULL pointer.</p>
   </description>
   <used_function />
   <bibliography />

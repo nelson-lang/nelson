@@ -844,7 +844,7 @@ public:
         std::vector<T> row;
         Converter<T> converter(mConverterParams);
         for (auto itCol = mData.at(dataRowIdx).begin(); itCol != mData.at(dataRowIdx).end();
-             ++itCol) {
+            ++itCol) {
             if (std::distance(mData.at(dataRowIdx).begin(), itCol) > mLabelParams.mRowNameIdx) {
                 T val;
                 converter.ToVal(*itCol, val);
@@ -868,7 +868,7 @@ public:
         std::vector<T> row;
         Converter<T> converter(mConverterParams);
         for (auto itCol = mData.at(dataRowIdx).begin(); itCol != mData.at(dataRowIdx).end();
-             ++itCol) {
+            ++itCol) {
             if (std::distance(mData.at(dataRowIdx).begin(), itCol) > mLabelParams.mRowNameIdx) {
                 T val;
                 pToVal(*itCol, val);

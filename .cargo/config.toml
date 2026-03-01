@@ -1,0 +1,4 @@
+[alias]
+format = "run --release --bin nelson-fmt"
+format-check = "run --release --bin nelson-fmt -- --check"
+update-version = "run --release --bin nelson-update-version --"

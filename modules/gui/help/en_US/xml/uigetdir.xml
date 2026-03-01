@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>uigetdir</b> opens a dialog box for selecting a directory.</p>
+    <p>
+      <b>uigetdir</b> opens a dialog box for selecting a directory.</p>
     <p
     >If path is wrong or not given, the current working directory will be used.</p>
   </description>

@@ -38,7 +38,7 @@
     <p>The Nyquist function,<b
       >nyquist(sys)</b>, generates a graphical representation known as a Nyquist plot, illustrating the frequency response of a dynamic system model represented by sys.</p>
     <p
-    >This plot visualizes both the real and imaginary components of the system's response across varying frequencies.</p>
+    >This plot visualizes both the real and imaginary components of the system&apos;s response across varying frequencies.</p>
     <p
     >The contour depicted by nyquist encompasses both positive and negative frequencies.</p>
     <p

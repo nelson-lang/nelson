@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>cell2struct</keyword>
   <short_description
-  >Créer un struct à partir d'un tableau cellulaire.</short_description>
+  >Créer un struct à partir d&apos;un tableau cellulaire.</short_description>
   <syntax>
     <syntax_item>st = cell2struct(ce, fields)</syntax_item>
     <syntax_item>st = cell2struct(ce, fields, dim)</syntax_item>
@@ -31,8 +31,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >st = cell2struct(ce, fields)</b> crée un struct à partir d'un tableau cellulaire.</p>
+    <p>
+      <b
+      >st = cell2struct(ce, fields)</b> crée un struct à partir d&apos;un tableau cellulaire.</p>
   </description>
   <used_function />
   <bibliography />

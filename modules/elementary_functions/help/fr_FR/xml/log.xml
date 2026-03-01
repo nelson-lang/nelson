@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>log</b> calcule le logarithme naturel.</p>
+    <p>
+      <b>log</b> calcule le logarithme naturel.</p>
     <p>Pour les nombres réels positifs :</p>
     <latex>\ln(x)</latex>
     <p>Pour les nombres complexes <b>z</b> :</p>
@@ -29,7 +30,7 @@
     <latex>|z|</latex>
     <p>est le module et</p>
     <latex>\arg(z)</latex>
-    <p>est l'argument de <b>z</b>.</p>
+    <p>est l&apos;argument de <b>z</b>.</p>
   </description>
   <used_function />
   <bibliography />

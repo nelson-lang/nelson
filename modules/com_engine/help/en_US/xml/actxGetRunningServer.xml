@@ -21,9 +21,11 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >h = actxGetRunningServer(progid)</b> gets a reference to a running instance of the OLE/COM Automation server.</p>
-    <p><b
+    <p>
+      <b
       >progid</b> is the programmatic identifier of the Automation server object and <b
       >h</b> is the handle to the default interface of the server object.</p>
     <p

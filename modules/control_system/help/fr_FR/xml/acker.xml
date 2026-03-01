@@ -4,14 +4,14 @@
   <language>fr_FR</language>
   <keyword>acker</keyword>
   <short_description
-  >Sélection du gain de placement des pôles utilisant la formule d'Ackermann.</short_description>
+  >Sélection du gain de placement des pôles utilisant la formule d&apos;Ackermann.</short_description>
   <syntax>
     <syntax_item>K = acker(A, B, P)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>Matrice d'état : matrice Nx-par-Nx</param_description>
+      <param_description>Matrice d&apos;état : matrice Nx-par-Nx</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B</param_name>
@@ -32,7 +32,7 @@
   </param_output>
   <description>
     <p>La fonction <b>acker</b> calcule la matrice de gain de rétroaction <b
-      >K</b> pour un système à entrée unique décrit par les matrices d'espace d'état <b
+      >K</b> pour un système à entrée unique décrit par les matrices d&apos;espace d&apos;état <b
       >A</b> et <b>B</b>.</p>
     <p>Les pôles en boucle fermée du système sous la loi de rétroaction <b
       >u = -Kx</b> sont déterminés par le vecteur spécifié <b>P</b>, où <b
@@ -42,14 +42,14 @@
       >A - B*K</b>, calculées comme <b>P = eig(A - B*K)</b>.</p>
     <p />
     <p
-    >Il est important de noter que cet algorithme utilise la formule d'Ackermann.</p>
+    >Il est important de noter que cet algorithme utilise la formule d&apos;Ackermann.</p>
     <p
-    >Cependant, les utilisateurs doivent être conscients que cette méthode peut ne pas être numériquement fiable, particulièrement pour les systèmes d'ordre supérieur à 10 ou pour les systèmes faiblement contrôlables.</p>
+    >Cependant, les utilisateurs doivent être conscients que cette méthode peut ne pas être numériquement fiable, particulièrement pour les systèmes d&apos;ordre supérieur à 10 ou pour les systèmes faiblement contrôlables.</p>
     <p
-    >Si l'algorithme rencontre une instabilité numérique ou si les pôles en boucle fermée dévient significativement (plus de 10%) des localisations souhaitées spécifiées dans <b
-      >P</b>, un message d'avertissement est émis pour alerter l'utilisateur sur les problèmes potentiels.</p>
+    >Si l&apos;algorithme rencontre une instabilité numérique ou si les pôles en boucle fermée dévient significativement (plus de 10%) des localisations souhaitées spécifiées dans <b
+      >P</b>, un message d&apos;avertissement est émis pour alerter l&apos;utilisateur sur les problèmes potentiels.</p>
     <p
-    >Les utilisateurs sont invités à faire preuve de prudence et à envisager des méthodes alternatives pour les systèmes d'ordre supérieur ou faiblement contrôlables.</p>
+    >Les utilisateurs sont invités à faire preuve de prudence et à envisager des méthodes alternatives pour les systèmes d&apos;ordre supérieur ou faiblement contrôlables.</p>
   </description>
   <examples>
     <example_item>

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>struct2cell</keyword>
   <short_description
-  >Créer un tableau cellulaire à partir d'une structure.</short_description>
+  >Créer un tableau cellulaire à partir d&apos;une structure.</short_description>
   <syntax>
     <syntax_item>ce = struct2cell(st)</syntax_item>
   </syntax>
@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >ce = struct2cell(st)</b> renvoie un nouveau tableau cellulaire à partir de la structure.</p>
   </description>
   <used_function />

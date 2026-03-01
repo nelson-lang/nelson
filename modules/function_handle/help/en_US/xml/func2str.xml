@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >func_handle = str2func(str)</b> returns a function handle constructed from the string<b
       >str</b>.</p>
   </description>

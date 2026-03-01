@@ -20,9 +20,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>dlopen</b> loads an dynamic library.</p>
-    <p><b>dlopen</b> returns a <b>dllib</b> handle with<b>Path</b> property.</p>
-    <p><b>get</b>, <b>ismethod</b>, <b>isprop</b>, <b>disp</b>,<b>delete</b>, <b
+    <p>
+      <b>dlopen</b> loads an dynamic library.</p>
+    <p>
+      <b>dlopen</b> returns a <b>dllib</b> handle with<b>Path</b> property.</p>
+    <p>
+      <b>get</b>, <b>ismethod</b>, <b>isprop</b>, <b>disp</b>,<b>delete</b>, <b
       >isvalid</b>, <b>used</b>, <b>eq</b>, <b>ne</b>,<b>isequal</b>, <b
       >horzcat</b>, <b>vertcat</b> are overloaded for<b>dllib</b> type.</p>
     <p

@@ -55,7 +55,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >obsvf(A, B, C)</b> decomposes the given state-space system, characterized by matrices <b
       >A</b>, <b>B</b>, and <b
       >C</b>, into the observability staircase form, resulting in transformed matrices <b

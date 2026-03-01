@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>mu = lin2mu(y)</b> converts audio data from linear to mu-law.</p>
+    <p>
+      <b>mu = lin2mu(y)</b> converts audio data from linear to mu-law.</p>
   </description>
   <used_function />
   <bibliography

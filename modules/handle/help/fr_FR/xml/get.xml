@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>get</keyword>
   <short_description
-  >Récupère la valeur d'une propriété d'un objet handle.</short_description>
+  >Récupère la valeur d&apos;une propriété d&apos;un objet handle.</short_description>
   <syntax>
     <syntax_item>R = get(h, property_name)</syntax_item>
   </syntax>
@@ -26,7 +26,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >R = get(h, property_name)</b> renvoie la valeur de la propriété demandée.</p>
   </description>
   <used_function />

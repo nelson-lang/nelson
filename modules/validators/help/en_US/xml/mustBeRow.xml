@@ -24,7 +24,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>mustBeRow</b> checks that value is a row vector or raise an error.</p>
+    <p>
+      <b>mustBeRow</b> checks that value is a row vector or raise an error.</p>
   </description>
   <used_function />
   <bibliography />

@@ -4,17 +4,17 @@
   <language>fr_FR</language>
   <keyword>pyenv</keyword>
   <short_description
-  >Modifier l'environnement par défaut de l'interpréteur Python.</short_description>
+  >Modifier l&apos;environnement par défaut de l&apos;interpréteur Python.</short_description>
   <syntax>
     <syntax_item>pyenv</syntax_item>
-    <syntax_item>pe = pyenv('Version', python_path)</syntax_item>
+    <syntax_item>pe = pyenv(&apos;Version&apos;, python_path)</syntax_item>
     <syntax_item>pe = pyenv(...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>python_path</param_name>
       <param_description
-      >une chaîne ou un vecteur de caractères : nom de l'exécutable Python ou version (sous Windows).</param_description>
+      >une chaîne ou un vecteur de caractères : nom de l&apos;exécutable Python ou version (sous Windows).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -25,32 +25,48 @@
   </param_output>
   <description>
     <p>Utilisez <b
-      >pyenv</b> pour modifier la version par défaut ou le mode d'exécution de l'interpréteur Python, en veillant à ce que ces réglages persistent entre les sessions Nelson.</p>
+      >pyenv</b> pour modifier la version par défaut ou le mode d&apos;exécution de l&apos;interpréteur Python, en veillant à ce que ces réglages persistent entre les sessions Nelson.</p>
     <p>La valeur définie par <b
       >pyenv</b> est persistante entre les sessions Nelson.</p>
     <p />
     <p>Propriétés :</p>
-    <p><b>Version</b> : string : version de Python</p>
-    <p><b>Executable</b> : string : nom de l'exécutable Python</p>
-    <p><b>Library</b> : string : fichier de bibliothèque partagée</p>
-    <p><b>Home</b> : string : dossier home</p>
-    <p><b
-      >Status</b> : statut du processus : "NotLoaded" (par défaut), "Loaded", "Terminated"</p>
-    <p><b
-      >ExecutionMode</b> : mode d'exécution : "InProcess" (par défaut) ou "OutOfProcess"</p>
+    <p>
+      <b>Version</b> : string : version de Python</p>
+    <p>
+      <b>Executable</b> : string : nom de l&apos;exécutable Python</p>
+    <p>
+      <b>Library</b> : string : fichier de bibliothèque partagée</p>
+    <p>
+      <b>Home</b> : string : dossier home</p>
+    <p>
+      <b
+      >Status</b> : statut du processus : &quot;NotLoaded&quot; (par défaut), &quot;Loaded&quot;, &quot;Terminated&quot;
+    </p>
+    <p>
+      <b
+      >ExecutionMode</b> : mode d&apos;exécution : &quot;InProcess&quot; (par défaut) ou &quot;OutOfProcess&quot;
+    </p>
     <p />
     <p
-    >Utilisez des variables d'environnement pour forcer l'environnement Python au démarrage (utile pour snapcraft ou distribution docker) :</p>
+    >Utilisez des variables d&apos;environnement pour forcer l&apos;environnement Python au démarrage (utile pour snapcraft ou distribution docker) :</p>
     <p />
-    <p><b>__NELSON_PYTHON_VERSION__</b> : exemple "3.10"</p>
-    <p><b>__NELSON_PYTHON_EXECUTABLE__</b> : exemple  "/usr/bin/python3"</p>
-    <p><b>__NELSON_PYTHON_LIBRARY__</b> : exemple "libpython3.10.so.1.0"</p>
-    <p><b>__NELSON_PYTHON_HOME__</b> : exemple "/usr"</p>
+    <p>
+      <b>__NELSON_PYTHON_VERSION__</b> : exemple &quot;3.10&quot;
+    </p>
+    <p>
+      <b>__NELSON_PYTHON_EXECUTABLE__</b> : exemple  &quot;/usr/bin/python3&quot;
+    </p>
+    <p>
+      <b>__NELSON_PYTHON_LIBRARY__</b> : exemple &quot;libpython3.10.so.1.0&quot;
+    </p>
+    <p>
+      <b>__NELSON_PYTHON_HOME__</b> : exemple &quot;/usr&quot;
+    </p>
     <p
-    >Toutes les variables d'environnement doivent exister et être valides pour être prises en compte.</p>
+    >Toutes les variables d&apos;environnement doivent exister et être valides pour être prises en compte.</p>
     <p />
     <p>Sous Windows, la fonction<b
-      >pyenv('Version', '3.11')</b> recherche dans le Registre Windows la version de Python associée à la version spécifiée. Elle recherche d'abord dans HKCU, puis dans HKLM si non trouvée.</p>
+      >pyenv(&apos;Version&apos;, &apos;3.11&apos;)</b> recherche dans le Registre Windows la version de Python associée à la version spécifiée. Elle recherche d&apos;abord dans HKCU, puis dans HKLM si non trouvée.</p>
   </description>
   <used_function />
   <bibliography />

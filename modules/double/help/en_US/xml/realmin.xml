@@ -7,8 +7,8 @@
   >Smallest positive floating-point number.</short_description>
   <syntax>
     <syntax_item>R = realmin()</syntax_item>
-    <syntax_item>R = realmin('double')</syntax_item>
-    <syntax_item>R = realmin('single')</syntax_item>
+    <syntax_item>R = realmin(&apos;double&apos;)</syntax_item>
+    <syntax_item>R = realmin(&apos;single&apos;)</syntax_item>
   </syntax>
   <param_output>
     <param_output_item>
@@ -17,7 +17,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>realmin</b> returns smallest positive floating-point number.</p>
+    <p>
+      <b>realmin</b> returns smallest positive floating-point number.</p>
   </description>
   <used_function />
   <bibliography />

@@ -6,18 +6,22 @@
   <short_description
   >charger/libérer la bibliothèque FFTW dynamiquement.</short_description>
   <syntax>
-    <syntax_item>r = FFTWwrapper('load')</syntax_item>
+    <syntax_item>r = FFTWwrapper(&apos;load&apos;)</syntax_item>
     <syntax_item
-    >r = FFTWwrapper('load', fftwlibraryname, fftwflibraryname)</syntax_item>
-    <syntax_item>r = FFTWwrapper('free')</syntax_item>
+    >r = FFTWwrapper(&apos;load&apos;, fftwlibraryname, fftwflibraryname)</syntax_item>
+    <syntax_item>r = FFTWwrapper(&apos;free&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>'load'</param_name>
+      <param_name>
+        &apos;load&apos;
+      </param_name>
       <param_description>charger la bibliothèque FFTW.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'free'</param_name>
+      <param_name>
+        &apos;free&apos;
+      </param_name>
       <param_description>libérer la bibliothèque FFTW.</param_description>
     </param_input_item>
     <param_input_item>
@@ -38,7 +42,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >FFTWwrapper</b> est une fonction interne utilisée pour charger la bibliothèque FFTW dynamiquement.</p>
   </description>
   <used_function />

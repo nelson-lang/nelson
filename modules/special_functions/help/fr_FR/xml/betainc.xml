@@ -12,7 +12,7 @@
     <param_input_item>
       <param_name>X</param_name>
       <param_description
-      >une matrice réelle simple ou double. Elle doit être dans l'intervalle fermé [0, 1].</param_description>
+      >une matrice réelle simple ou double. Elle doit être dans l&apos;intervalle fermé [0, 1].</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Z</param_name>
@@ -27,7 +27,7 @@
     <param_input_item>
       <param_name>tail</param_name>
       <param_description
-      >une chaîne 'upper' ou 'lower' (par défaut).</param_description>
+      >une chaîne &apos;upper&apos; ou &apos;lower&apos; (par défaut).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -36,16 +36,27 @@
       <param_description>résultat de la fonction betainc.</param_description>
     </param_output_item>
   </param_output>
-  <description><p><b
-      >betainc</b> calcule la fonction bêta incomplète (régularisée).          </p><p
-    >La fonction bêta incomplète est définie comme suit :</p><latex
-    >I_x(a,b) = \frac{B(x; a,b)}{B(a,b)} = \frac{1}{B(a,b)} \int_0^x t^{a-1} (1-t)^{b-1} \, dt</latex><p
-    >où</p><latex>B(a,b) = \int_0^1 t^{a-1} (1-t)^{b-1} \, dt</latex><p
-    >est la fonction bêta complète, et :</p><latex
-    >B(a,b) = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}</latex><p
-    >La fonction est normalisée de sorte que</p><latex
+  <description>
+    <p>
+      <b
+      >betainc</b> calcule la fonction bêta incomplète (régularisée).          </p>
+    <p
+    >La fonction bêta incomplète est définie comme suit :</p>
+    <latex
+    >I_x(a,b) = \frac{B(x; a,b)}{B(a,b)} = \frac{1}{B(a,b)} \int_0^x t^{a-1} (1-t)^{b-1} \, dt</latex>
+    <p
+    >où</p>
+    <latex>B(a,b) = \int_0^1 t^{a-1} (1-t)^{b-1} \, dt</latex>
+    <p
+    >est la fonction bêta complète, et :</p>
+    <latex
+    >B(a,b) = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}</latex>
+    <p
+    >La fonction est normalisée de sorte que</p>
+    <latex
     >I_1(a,b) = 1</latex>.          <p
-    >Tous les tableaux doivent avoir la même taille ou n'importe lequel d'entre eux peut être scalaire.</p>            </description>
+    >Tous les tableaux doivent avoir la même taille ou n&apos;importe lequel d&apos;entre eux peut être scalaire.</p>
+  </description>
   <used_function />
   <bibliography />
   <examples>

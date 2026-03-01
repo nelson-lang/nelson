@@ -13,17 +13,17 @@
     <param_input_item>
       <param_name>RGB</param_name>
       <param_description
-      >Tableau numérique m-par-n-par-3 : Image en vraies couleurs, définie comme un tableau numérique m-par-n-par-3. Pour les images de type double, les valeurs doivent être comprises dans l'intervalle [0, 1].</param_description>
+      >Tableau numérique m-par-n-par-3 : Image en vraies couleurs, définie comme un tableau numérique m-par-n-par-3. Pour les images de type double, les valeurs doivent être comprises dans l&apos;intervalle [0, 1].</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>X</param_name>
       <param_description
-      >Matrice m-par-n d'entiers : Image indexée (double ou uint8)</param_description>
+      >Matrice m-par-n d&apos;entiers : Image indexée (double ou uint8)</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>map</param_name>
       <param_description
-      >Matrice numérique c-par-3 : Palette de couleurs associée à l'image indexée X, définie comme une matrice numérique c-par-3 avec des valeurs comprises entre [0, 1]. Chaque ligne de la matrice représente un triplet RGB, spécifiant les composantes rouge, verte et bleue d'une couleur de la palette.</param_description>
+      >Matrice numérique c-par-3 : Palette de couleurs associée à l&apos;image indexée X, définie comme une matrice numérique c-par-3 avec des valeurs comprises entre [0, 1]. Chaque ligne de la matrice représente un triplet RGB, spécifiant les composantes rouge, verte et bleue d&apos;une couleur de la palette.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -34,12 +34,15 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>F = im2frame(RGB)</b> convertit l'image en vraies couleurs <b
+    <p>
+      <b>F = im2frame(RGB)</b> convertit l&apos;image en vraies couleurs <b
       >RGB</b> en une image de film <b>F</b>.          </p>
-    <p><b>F = im2frame(X, map)</b> convertit l'image indexée <b
+    <p>
+      <b>F = im2frame(X, map)</b> convertit l&apos;image indexée <b
       >X</b> ainsi que sa palette de couleurs <b>map</b> en une image de film<b
       >F</b>.</p>
-    <p><b>F = im2frame(X)</b> convertit l'image indexée <b
+    <p>
+      <b>F = im2frame(X)</b> convertit l&apos;image indexée <b
       >X</b> en une image de film <b
       >F</b>, en utilisant la palette de couleurs courante.          </p>
   </description>

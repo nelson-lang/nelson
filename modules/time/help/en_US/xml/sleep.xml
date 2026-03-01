@@ -15,7 +15,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >sleep</b> stops Nelson processing any instruction for a speficied number of seconds.</p>
     <p>CTRL-C interruption stops <b>sleep</b>.</p>
   </description>

@@ -200,7 +200,7 @@ GOImage::getAlphaMap(indexType rows, indexType cols)
     std::vector<double> alphaout;
     alphaout.reserve(rows * cols);
     std::vector<double> amap(((GraphicsObject*)getParentFigure())
-                                 ->findVectorDoubleProperty(GO_ALPHA_MAP_PROPERTY_NAME_STR));
+            ->findVectorDoubleProperty(GO_ALPHA_MAP_PROPERTY_NAME_STR));
     indexType amaplen((indexType)amap.size());
     GOAxis* ap(getParentAxis());
     std::vector<double> alim(

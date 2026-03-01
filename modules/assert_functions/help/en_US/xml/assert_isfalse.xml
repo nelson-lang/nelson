@@ -33,11 +33,13 @@
     <param_output_item>
       <param_name>msg</param_name>
       <param_description
-      >a string containing the error message. If x == false, then msg == ''. If x == true, then msg contains the assertion failure message.</param_description>
+      >a string containing the error message. If x == false, then msg == &apos;
+        &apos;. If x == true, then msg contains the assertion failure message.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>assert_isfalse</b> raises an error if the input value is true.</p>
+    <p>
+      <b>assert_isfalse</b> raises an error if the input value is true.</p>
     <p
     >This function also raises an error if the input is not a logical value, ensuring type safety.</p>
     <p>When the optional <b

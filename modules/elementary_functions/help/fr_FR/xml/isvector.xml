@@ -16,11 +16,12 @@
   <param_output>
     <param_output_item>
       <param_name>tf</param_name>
-      <param_description>logical: result of 'isvector'.</param_description>
+      <param_description>logical: result of &apos;isvector&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>isvector</b> returns an scalar logical if entry is an vector.</p>
+    <p>
+      <b>isvector</b> returns an scalar logical if entry is an vector.</p>
   </description>
   <used_function />
   <bibliography />

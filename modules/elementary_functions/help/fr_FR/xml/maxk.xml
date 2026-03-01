@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>maxk</keyword>
-  <short_description>k plus grands éléments d'un tableau</short_description>
+  <short_description>k plus grands éléments d&apos;un tableau</short_description>
   <syntax>
     <syntax_item>B = maxk(A, k)</syntax_item>
     <syntax_item>[B, I] = maxk(A, k)</syntax_item>
@@ -39,11 +39,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>maxk</b> retourne les k plus grands éléments du tableau <b
+    <p>
+      <b>maxk</b> retourne les k plus grands éléments du tableau <b
       >A</b>. Lorsque A est un vecteur, le résultat est les k plus grandes valeurs de A.              Lorsque A est une matrice, <b
       >maxk</b> opère le long de la dimension spécifiée (ou la première dimension non singleton par défaut) et retourne les k plus grands éléments pour chaque tranche le long de cette dimension.          </p>
     <p>              Si <b
-      >k</b> est plus grand que le nombre d'éléments disponibles le long de la dimension d'opération, tous les éléments sont retournés (triés par ordre décroissant).              Lorsqu'il est appelé comme <b
+      >k</b> est plus grand que le nombre d&apos;éléments disponibles le long de la dimension d&apos;opération, tous les éléments sont retournés (triés par ordre décroissant).              Lorsqu&apos;il est appelé comme <b
       >[B, I] = maxk(A, k)</b>,<b
       >I</b> contient les indices des éléments retournés par rapport à <b
       >A</b>.</p>

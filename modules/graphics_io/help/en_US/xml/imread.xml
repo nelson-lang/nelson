@@ -31,7 +31,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>imread</b> reads the image data from the given file into a matrix.</p>
+    <p>
+      <b>imread</b> reads the image data from the given file into a matrix.</p>
     <p />
     <table style="width:100%">
       <tr>

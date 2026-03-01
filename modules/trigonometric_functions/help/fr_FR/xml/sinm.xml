@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>sinm</keyword>
   <short_description
-  >Calcule le sinus matriciel d'une matrice carrée.</short_description>
+  >Calcule le sinus matriciel d&apos;une matrice carrée.</short_description>
   <syntax>
     <syntax_item>res = sinm(x)</syntax_item>
   </syntax>
@@ -23,7 +23,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>sinm(x)</b> calcule le sinus matriciel de <b>x</b>.</p>
+    <p>
+      <b>sinm(x)</b> calcule le sinus matriciel de <b>x</b>.</p>
   </description>
   <used_function />
   <bibliography />

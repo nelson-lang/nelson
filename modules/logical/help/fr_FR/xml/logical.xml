@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>logical</b> convertit une valeur numérique en type logique.</p>
+    <p>
+      <b>logical</b> convertit une valeur numérique en type logique.</p>
     <p
     >Une valeur non nulle est convertie en true et les zéros sont convertis en false.</p>
     <p>Les nombres complexes retournent une erreur.</p>

@@ -6,8 +6,8 @@
   <chapter>Profiling tools</chapter>
   <chapter_description>
     <p
-    >Le module Profiler de Nelson fournit des fonctions pour mesurer et analyser les performances d'exécution du code.</p>
+    >Le module Profiler de Nelson fournit des fonctions pour mesurer et analyser les performances d&apos;exécution du code.</p>
     <p
-    >Il aide les utilisateurs à identifier les goulots d'étranglement, optimiser les parties lentes des programmes et améliorer l'efficacité globale.</p>
+    >Il aide les utilisateurs à identifier les goulots d&apos;étranglement, optimiser les parties lentes des programmes et améliorer l&apos;efficacité globale.</p>
   </chapter_description>
 </xmldoc>

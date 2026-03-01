@@ -34,7 +34,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >builtin</b> calls the base built-in described by its name or function handle and input arguments.</p>
   </description>
   <used_function />

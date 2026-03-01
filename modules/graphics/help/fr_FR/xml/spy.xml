@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>spy</keyword>
   <short_description
-  >Visualiser le motif de parcimonie d'une matrice.</short_description>
+  >Visualiser le motif de parcimonie d&apos;une matrice.</short_description>
   <syntax>
     <syntax_item>spy(S)</syntax_item>
     <syntax_item>spy(S, LineSpec)</syntax_item>
@@ -26,7 +26,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>spy(S)</b> trace le motif de parcimonie de la matrice creuse <b
+    <p>
+      <b>spy(S)</b> trace le motif de parcimonie de la matrice creuse <b
       >S</b>.</p>
   </description>
   <used_function />

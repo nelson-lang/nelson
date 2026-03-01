@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>det</keyword>
-  <short_description>Déterminant d'une matrice.</short_description>
+  <short_description>Déterminant d&apos;une matrice.</short_description>
   <syntax>
     <syntax_item>res = det(x)</syntax_item>
   </syntax>
@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>res = det(x)</b> retourne le déterminant de la matrice carrée x.</p>
+    <p>
+      <b>res = det(x)</b> retourne le déterminant de la matrice carrée x.</p>
   </description>
   <used_function />
   <bibliography />

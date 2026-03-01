@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>acquirevar</keyword>
   <short_description
-  >Récupère la valeur d'une variable depuis une portée de variables spécifiée.</short_description>
+  >Récupère la valeur d&apos;une variable depuis une portée de variables spécifiée.</short_description>
   <syntax>
     <syntax_item>value = acquirevar(scope, variable_name)</syntax_item>
   </syntax>
@@ -12,7 +12,7 @@
     <param_input_item>
       <param_name>scope</param_name>
       <param_description
-      >une chaîne : 'global', 'base', 'caller', 'local'.</param_description>
+      >une chaîne : &apos;global&apos;, &apos;base&apos;, &apos;caller&apos;, &apos;local&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>variable_name</param_name>
@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >acquirevar</b> cherche un symbole dans une portée spécifique et copie sa valeur dans la portée courante.</p>
   </description>
   <used_function />

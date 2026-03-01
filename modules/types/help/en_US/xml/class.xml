@@ -31,27 +31,59 @@
     <param_output_item>
       <param_name>obj</param_name>
       <param_description
-      >an object of type 'strname' based on struct 'st'</param_description>
+      >an object of type &apos;strname&apos; based on struct &apos;st&apos;
+      </param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>name = class(var)</b> returns the class of var variable.</p>
+    <p>
+      <b>name = class(var)</b> returns the class of var variable.</p>
     <p>Standard classes are:</p>
-    <p>'cell'</p>
-    <p>'struct'</p>
-    <p>'single'</p>
-    <p>'double'</p>
-    <p>'logical'</p>
-    <p>'char'</p>
-    <p>'int8'</p>
-    <p>'int16'</p>
-    <p>'int32'</p>
-    <p>'int64'</p>
-    <p>'uint8'</p>
-    <p>'uint16'</p>
-    <p>'uint32'</p>
-    <p>'uint64'</p>
-    <p>'function_handle'</p>
+    <p>
+      &apos;cell&apos;
+    </p>
+    <p>
+      &apos;struct&apos;
+    </p>
+    <p>
+      &apos;single&apos;
+    </p>
+    <p>
+      &apos;double&apos;
+    </p>
+    <p>
+      &apos;logical&apos;
+    </p>
+    <p>
+      &apos;char&apos;
+    </p>
+    <p>
+      &apos;int8&apos;
+    </p>
+    <p>
+      &apos;int16&apos;
+    </p>
+    <p>
+      &apos;int32&apos;
+    </p>
+    <p>
+      &apos;int64&apos;
+    </p>
+    <p>
+      &apos;uint8&apos;
+    </p>
+    <p>
+      &apos;uint16&apos;
+    </p>
+    <p>
+      &apos;uint32&apos;
+    </p>
+    <p>
+      &apos;uint64&apos;
+    </p>
+    <p>
+      &apos;function_handle&apos;
+    </p>
   </description>
   <used_function />
   <bibliography />

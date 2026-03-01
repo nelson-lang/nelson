@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>cosm</keyword>
   <short_description
-  >Calcule le cosinus matriciel d'une matrice carrée.</short_description>
+  >Calcule le cosinus matriciel d&apos;une matrice carrée.</short_description>
   <syntax>
     <syntax_item>res = cosm(x)</syntax_item>
   </syntax>
@@ -23,7 +23,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>cosm(x)</b> calcule le cosinus matriciel de <b>x</b>.</p>
+    <p>
+      <b>cosm(x)</b> calcule le cosinus matriciel de <b>x</b>.</p>
   </description>
   <used_function />
   <bibliography />

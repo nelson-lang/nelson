@@ -50,9 +50,9 @@ public:
         return ref_count;
     }
     virtual void
-    registerProperties() {};
+    registerProperties() { };
     virtual void
-    updateState() {};
+    updateState() { };
     virtual std::vector<double>
     getLimits()
     {

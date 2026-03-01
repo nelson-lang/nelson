@@ -37,7 +37,7 @@
   <description>
     <p>Crée un répertoire nommé<b>dirname</b> dans le répertoire parent.</p>
     <p
-    >Si aucun répertoire parent n'est précisé, le répertoire de travail actuel est utilisé.</p>
+    >Si aucun répertoire parent n&apos;est précisé, le répertoire de travail actuel est utilisé.</p>
     <p>Si le répertoire est créé ou existe déjà, <b
       >status</b> vaut true, sinon false.</p>
   </description>

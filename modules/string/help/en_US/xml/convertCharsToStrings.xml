@@ -34,7 +34,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>convertCharsToStrings</b> converts chars arrays to string arrays.</p>
+    <p>
+      <b>convertCharsToStrings</b> converts chars arrays to string arrays.</p>
   </description>
   <used_function />
   <bibliography />

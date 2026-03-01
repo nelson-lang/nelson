@@ -19,8 +19,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >what</b> returns the list of all builtin and macro available in current Nelson's session.</p>
+    <p>
+      <b
+      >what</b> returns the list of all builtin and macro available in current Nelson&apos;s session.</p>
   </description>
   <used_function />
   <bibliography />

@@ -110,9 +110,10 @@ Display2dDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
     }
     indexType nominalWidth = getNominalWidth(formatInfo);
     sizeType termWidth = io->getTerminalWidth();
-    indexType colsPerPage = (nominalWidth > 0) ? static_cast<indexType>(std::max<single>(
-                                1.0f, floor((termWidth - 1) / (static_cast<single>(nominalWidth)))))
-                                               : 1;
+    indexType colsPerPage = (nominalWidth > 0)
+        ? static_cast<indexType>(
+              std::max<single>(1.0f, floor((termWidth - 1) / (static_cast<single>(nominalWidth)))))
+        : 1;
 
     indexType pageCount = (colsPerPage > 0)
         ? static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))))
@@ -229,9 +230,10 @@ DisplayNdDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
         if (isLoose) {
             buffer.append(L"\n");
         }
-        indexType colsPerPage = (nominalWidth > 0) ? static_cast<indexType>(std::max<single>(1.0f,
-                                    floor((termWidth - 1) / (static_cast<single>(nominalWidth)))))
-                                                   : 1;
+        indexType colsPerPage = (nominalWidth > 0)
+            ? static_cast<indexType>(std::max<single>(
+                  1.0f, floor((termWidth - 1) / (static_cast<single>(nominalWidth)))))
+            : 1;
         int pageCount = (colsPerPage > 0)
             ? static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))))
             : 1;

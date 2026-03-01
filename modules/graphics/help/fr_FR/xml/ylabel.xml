@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ylabel</keyword>
-  <short_description>Étiquette de l'axe des y.</short_description>
+  <short_description>Étiquette de l&apos;axe des y.</short_description>
   <syntax>
     <syntax_item>ylabel(text)</syntax_item>
     <syntax_item>ylabel(ax, text)</syntax_item>
@@ -19,7 +19,7 @@
     <param_input_item>
       <param_name>ax</param_name>
       <param_description
-      >une valeur scalaire d'objet graphique : conteneur parent, spécifié comme un axes.</param_description>
+      >une valeur scalaire d&apos;objet graphique : conteneur parent, spécifié comme un axes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyName</param_name>
@@ -38,7 +38,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>ylabel('text')</b> étiquette l'axe des y des axes actuels.</p>
+    <p>
+      <b>ylabel(&apos;text&apos;)</b> étiquette l&apos;axe des y des axes actuels.</p>
   </description>
   <used_function />
   <bibliography />

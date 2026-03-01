@@ -19,11 +19,12 @@
     <param_output_item>
       <param_name>len</param_name>
       <param_description
-      >une matrice d'entiers : longueurs des chaînes.</param_description>
+      >une matrice d&apos;entiers : longueurs des chaînes.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>strlength</b> renvoie la longueur des chaînes.</p>
+    <p>
+      <b>strlength</b> renvoie la longueur des chaînes.</p>
   </description>
   <used_function />
   <bibliography />

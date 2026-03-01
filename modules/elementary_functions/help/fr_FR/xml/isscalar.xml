@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>isscalar</keyword>
-  <short_description>Tester si l'entrée est un scalaire</short_description>
+  <short_description>Tester si l&apos;entrée est un scalaire</short_description>
   <syntax>
     <syntax_item>TF = iscalar(A)</syntax_item>
   </syntax>
@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>isscalar</b> renvoie <b>TRUE</b> si l'entrée est un scalaire.</p>
+    <p>
+      <b>isscalar</b> renvoie <b>TRUE</b> si l&apos;entrée est un scalaire.</p>
   </description>
   <used_function />
   <bibliography />

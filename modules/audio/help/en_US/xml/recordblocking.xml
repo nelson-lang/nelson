@@ -22,7 +22,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >recordblocking(recorderObj, length)</b> records audio from an input device for the specified number of seconds. This method does not return control until recording completes.      </p>
     <p>The <b
       >audiorecorder</b> object defines the sample rate, bit depth, and other properties of the recording.      </p>

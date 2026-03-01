@@ -27,12 +27,13 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >pyargs(Name, Value, ...)</b> génère un ou plusieurs arguments nommés pour les fonctions Python.</p>
     <p
     >En Python, un argument nommé (keyword argument) est une valeur associée à un identifiant.</p>
     <p>Veillez à positionner<b
-      >pyargs</b> comme dernier argument lors de l'appel d'une fonction Python.</p>
+      >pyargs</b> comme dernier argument lors de l&apos;appel d&apos;une fonction Python.</p>
   </description>
   <used_function />
   <bibliography />

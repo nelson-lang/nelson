@@ -25,10 +25,7 @@ extern "C"
 
     extern unsigned char cmark_strbuf__initbuf[];
 
-#define CMARK_BUF_INIT(mem)                                                                        \
-    {                                                                                              \
-        mem, cmark_strbuf__initbuf, 0, 0                                                           \
-    }
+#define CMARK_BUF_INIT(mem) { mem, cmark_strbuf__initbuf, 0, 0 }
 
     /**
      * Initialize a cmark_strbuf structure.

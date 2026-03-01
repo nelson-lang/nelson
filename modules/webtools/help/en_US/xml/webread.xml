@@ -4,7 +4,7 @@
   <language>en_US</language>
   <keyword>webread</keyword>
   <short_description
-  >Read data from RESTful web service to Nelson's variable</short_description>
+  >Read data from RESTful web service to Nelson&apos;s variable</short_description>
   <syntax>
     <syntax_item>var = webread(url)</syntax_item>
     <syntax_item
@@ -33,7 +33,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>webread()</b> reads content from the web to nelson's variable.</p>
+    <p>
+      <b>webread()</b> reads content from the web to nelson&apos;s variable.</p>
   </description>
   <used_function />
   <bibliography />

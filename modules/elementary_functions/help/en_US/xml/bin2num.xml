@@ -4,7 +4,7 @@
   <language>en_US</language>
   <keyword>bin2num</keyword>
   <short_description
-  >Convert two's complement binary string to number.</short_description>
+  >Convert two&apos;s complement binary string to number.</short_description>
   <syntax>
     <syntax_item>R = bin2num(M)</syntax_item>
   </syntax>
@@ -22,7 +22,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>bin2num</b> converts binary character arry to a numeric array.</p>
+    <p>
+      <b>bin2num</b> converts binary character arry to a numeric array.</p>
     <p>Note:</p>
     <p> - <b
       >num2bin</b> always returns the binary representations in a column</p>

@@ -28,7 +28,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >mustBeLessThan</b> checks that value is less than another value or issue error.</p>
   </description>
   <used_function />

@@ -26,12 +26,12 @@
     <param_input_item>
       <param_name>icon</param_name>
       <param_description
-      >a string: 'none', 'error', 'help', 'warn' or 'question'.</param_description>
+      >a string: &apos;none&apos;, &apos;error&apos;, &apos;help&apos;, &apos;warn&apos; or &apos;question&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>mode</param_name>
       <param_description
-      >a string: 'modal', 'on' or 'nonmodal'.</param_description>
+      >a string: &apos;modal&apos;, &apos;on&apos; or &apos;nonmodal&apos;.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -41,10 +41,13 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>msgbox</b> creates an message dialog box.</p>
-    <p><b>msgbox</b> crée une boîte de dialogue de message.</p>
-    <p><b
-      >h = msgbox(message, title, 'on')</b> indique si une boîte de dialogue existante portant le même nom doit être remplacée.</p>
+    <p>
+      <b>msgbox</b> creates an message dialog box.</p>
+    <p>
+      <b>msgbox</b> crée une boîte de dialogue de message.</p>
+    <p>
+      <b
+      >h = msgbox(message, title, &apos;on&apos;)</b> indique si une boîte de dialogue existante portant le même nom doit être remplacée.</p>
   </description>
   <used_function />
   <bibliography />

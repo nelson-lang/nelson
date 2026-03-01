@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >R = corrcoef(M)</b> returns the matrix of correlation coefficients for<b
       >M</b>, where the columns of <b
       >M</b> represent random variables and the rows represent observations.</p>

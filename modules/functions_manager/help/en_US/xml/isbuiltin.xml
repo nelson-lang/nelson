@@ -20,7 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>isbuiltin</b> checks for the existence of a builtin.</p>
+    <p>
+      <b>isbuiltin</b> checks for the existence of a builtin.</p>
   </description>
   <used_function />
   <bibliography />

@@ -13,12 +13,12 @@
     <param_input_item>
       <param_name>JOBX</param_name>
       <param_description
-      >Specifies whether or not the transformations are accumulated, as follows: = 'N': The transformations are not accumulated; = 'U': The transformations are accumulated in X (the given matrix X is updated)</param_description>
+      >Specifies whether or not the transformations are accumulated, as follows: = &apos;N&apos;: The transformations are not accumulated; = &apos;U&apos;: The transformations are accumulated in X (the given matrix X is updated)</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>SORT</param_name>
       <param_description
-      >Specifies whether or not the diagonal blocks of the real Schur form are reordered, as follows: = 'N': The diagonal blocks are not reordered; = 'S': The diagonal blocks are reordered before each step of reduction, so that clustered eigenvalues appear in the same block; = 'C': The diagonal blocks are not reordered, but the "closest-neighbour" strategy is used instead of the standard "closest to the mean" strategy. = 'B': The diagonal blocks are reordered before each step of reduction, and the "closest-neighbour" strategy is used.</param_description>
+      >Specifies whether or not the diagonal blocks of the real Schur form are reordered, as follows: = &apos;N&apos;: The diagonal blocks are not reordered; = &apos;S&apos;: The diagonal blocks are reordered before each step of reduction, so that clustered eigenvalues appear in the same block; = &apos;C&apos;: The diagonal blocks are not reordered, but the &quot;closest-neighbour&quot; strategy is used instead of the standard &quot;closest to the mean&quot; strategy. = &apos;B&apos;: The diagonal blocks are reordered before each step of reduction, and the &quot;closest-neighbour&quot; strategy is used.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>PMAX</param_name>
@@ -33,7 +33,7 @@
     <param_input_item>
       <param_name>X_IN</param_name>
       <param_description
-      >if JOBX = 'U', the leading N-by-N part of this array must contain a given matrix X.</param_description>
+      >if JOBX = &apos;U&apos;, the leading N-by-N part of this array must contain a given matrix X.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>TOL</param_name>
@@ -50,7 +50,7 @@
     <param_output_item>
       <param_name>X_OUT</param_name>
       <param_description
-      >if JOBX = 'U', the leading N-by-N part of this array contains the product of the given matrix X and the transformation matrix that reduced A to block-diagonal form. The transformation matrix is itself a product of non-orthogonal similarity transformations having elements with magnitude less than or equal to PMAX. If JOBX = 'N', this array is not referenced</param_description>
+      >if JOBX = &apos;U&apos;, the leading N-by-N part of this array contains the product of the given matrix X and the transformation matrix that reduced A to block-diagonal form. The transformation matrix is itself a product of non-orthogonal similarity transformations having elements with magnitude less than or equal to PMAX. If JOBX = &apos;N&apos;, this array is not referenced</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>NBLCKS</param_name>

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>newplot</keyword>
   <short_description
-  >Préparer la création d'un nouveau graphique.</short_description>
+  >Préparer la création d&apos;un nouveau graphique.</short_description>
   <syntax>
     <syntax_item>go = newplot()</syntax_item>
     <syntax_item>go = newplot(ax)</syntax_item>
@@ -23,7 +23,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >newplot</b> prépare une figure et des axes pour les commandes graphiques.          </p>
   </description>
   <used_function />

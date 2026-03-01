@@ -15,7 +15,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >w = waitforbuttonpress()</b> pauses the execution of code until the user interacts with the current figure by either clicking a mouse button or pressing a key.</p>
   </description>
   <used_function />

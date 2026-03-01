@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>minute</keyword>
   <short_description
-  >Composante minutes de la date et de l'heure d'entrée.</short_description>
+  >Composante minutes de la date et de l&apos;heure d&apos;entrée.</short_description>
   <syntax>
     <syntax_item>m = minute(t)</syntax_item>
     <syntax_item>m = minute(t, formatIn)</syntax_item>
@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >m = minute(t)</b> extracts the minute component from each date and time specified in<b
       >t</b>.</p>
     <p>The output<b

@@ -7,8 +7,8 @@
   <syntax>
     <syntax_item>savemat(filename)</syntax_item>
     <syntax_item>savemat(filename, version, var1, ..., varN)</syntax_item>
-    <syntax_item>savemat(filename, '-append', ...)</syntax_item>
-    <syntax_item>savemat(filename, '-nocompression', ...)</syntax_item>
+    <syntax_item>savemat(filename, &apos;-append&apos;, ...)</syntax_item>
+    <syntax_item>savemat(filename, &apos;-nocompression&apos;, ...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -18,35 +18,46 @@
     <param_input_item>
       <param_name>var1, ..., varN</param_name>
       <param_description
-      >string: Names of variables to save from Nelson's workspace.</param_description>
+      >string: Names of variables to save from Nelson&apos;s workspace.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-v7.3'</param_name>
+      <param_name>
+        &apos;-v7.3&apos;
+      </param_name>
       <param_description>default mat file used.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-v7'</param_name>
+      <param_name>
+        &apos;-v7&apos;
+      </param_name>
       <param_description
       >mat file version 7 used as output format.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-v6', '-v4'</param_name>
+      <param_name>
+        &apos;-v6&apos;, &apos;-v4&apos;
+      </param_name>
       <param_description
       >mat file version 6 or 4 used as output format.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-append'</param_name>
+      <param_name>
+        &apos;-append&apos;
+      </param_name>
       <param_description
       >append variables to an existing .mat file (-v7.3 only).</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>'-nocompression'</param_name>
+      <param_name>
+        &apos;-nocompression&apos;
+      </param_name>
       <param_description>disable .mat file compression.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b>savemat</b> save workspace variables to .mat file.</p>
-    <p>Nelson's data types are converted into the Mat file equivalents.</p>
+    <p>
+      <b>savemat</b> save workspace variables to .mat file.</p>
+    <p>Nelson&apos;s data types are converted into the Mat file equivalents.</p>
   </description>
   <used_function />
   <bibliography

@@ -12,22 +12,23 @@
   <param_input>
     <param_input_item>
       <param_name>str</param_name>
-      <param_description>a string: 'on' or 'off'.</param_description>
+      <param_description>a string: &apos;on&apos; or &apos;off&apos;.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>str</param_name>
-      <param_description>a string: 'on' or 'off'.</param_description>
+      <param_description>a string: &apos;on&apos; or &apos;off&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>beep</b> produces a beep sound.</p>
-    <p>If the optional argument is 'off', the beep sound is disabled.</p>
-    <p>If the optional argument is 'on', the beep sound is enabled.</p>
+    <p>
+      <b>beep</b> produces a beep sound.</p>
+    <p>If the optional argument is &apos;off&apos;, the beep sound is disabled.</p>
+    <p>If the optional argument is &apos;on&apos;, the beep sound is enabled.</p>
     <p>If no argument is provided, the current state is toggled.</p>
     <p
-    >If an output argument is provided, the current state ('on' or 'off') is returned.</p>
+    >If an output argument is provided, the current state (&apos;on&apos; or &apos;off&apos;) is returned.</p>
   </description>
   <used_function />
   <bibliography />

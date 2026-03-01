@@ -63,9 +63,9 @@
     <p
     >These suffixes help the Nelson infer the correct data type for the literal.</p>
     <p
-    >Nelson automatically infer data type by default as double and you don't need to specify this suffixe explicitly. example: A = 3.14</p>
+    >Nelson automatically infer data type by default as double and you don&apos;t need to specify this suffixe explicitly. example: A = 3.14</p>
     <p
-    >Unless you have specific requirements or need to disambiguate between data types, you often don't need to explicitly specify the type of numeric literals.</p>
+    >Unless you have specific requirements or need to disambiguate between data types, you often don&apos;t need to explicitly specify the type of numeric literals.</p>
     <p
     >But when you create a numeric array of large integers in Nelson, especially when they exceed the maximum precision representable by double (larger than flintmax), Nelson initially stores these values as double-precision floating-point numbers by default.</p>
   </description>

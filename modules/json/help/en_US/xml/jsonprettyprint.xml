@@ -21,7 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >jsonprettyprint</b> formats a JSON text string to be human readable.</p>
   </description>
   <used_function />

@@ -16,7 +16,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >C = dlgetnelsonlibraries()</b> renvoie un tableau de cellules contenant les chemins des répertoires de bibliothèques utilisés par les modules Nelson.</p>
     <p
     >Ces chemins sont utilisés en interne pour le développement des modules et les processus de compilation.</p>

@@ -7,7 +7,7 @@
   >Diagonal scaling to improve eigenvalue accuracy.</short_description>
   <syntax>
     <syntax_item>B = balance(A)</syntax_item>
-    <syntax_item>B = balance(A,'noperm')</syntax_item>
+    <syntax_item>B = balance(A,&apos;noperm&apos;)</syntax_item>
     <syntax_item>[T, B] = balance(A)</syntax_item>
     <syntax_item>[S, P, B] = balance(A)</syntax_item>
   </syntax>
@@ -38,8 +38,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>B = balance(A)</b> returns the balanced matrix <b>B</b>.</p>
-    <p><b>B = balance(A, 'noperm')</b> scales<b
+    <p>
+      <b>B = balance(A)</b> returns the balanced matrix <b>B</b>.</p>
+    <p>
+      <b>B = balance(A, &apos;noperm&apos;)</b> scales<b
       >A</b> without permuting its rows and columns.</p>
   </description>
   <used_function

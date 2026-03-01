@@ -53,16 +53,20 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>surf</b> and<b
+    <p>
+      <b>surf</b> and<b
       >surface</b> functions are both used to create 3D surface plots, but there are some slight differences between the two.</p>
-    <p><b
+    <p>
+      <b
       >surf</b> function is used to plot a surface defined by a function of two variables, or by a set of scattered data points.</p>
     <p
     >It requires three input arguments: X, Y, and Z. X and Y define the coordinates of the data points, and Z defines the height of the surface at each point.</p>
-    <p><b
+    <p>
+      <b
       >surf</b> function also provides additional options for customizing the appearance of the plot, such as lighting and color.</p>
     <p />
-    <p><b
+    <p>
+      <b
       >surface</b> function is used to plot a surface defined by a matrix of data. It requires three input arguments: X, Y, and Z. X and Y define the coordinates of the data points, and Z is a matrix that defines the height of the surface at each point.</p>
     <p
     >The size of Z must match the size of X and Y. The surface function also provides additional options for customizing the appearance of the plot, such as lighting and color.</p>

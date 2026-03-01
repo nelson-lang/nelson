@@ -46,10 +46,10 @@ in the installer and test system.
   method of sleeping. Should work on windows now. Thank you Meir Yanovich for
   reporting.
 - Compatibility: Updated permessage-deflate support to reflect that the zlib
-  library does not actually support a sliding window size of 256 bits. 
+  library does not actually support a sliding window size of 256 bits.
   WebSocket++ will no longer negotiate 256 bit deflate windows. If the user
   of the library tries to request a 256 bit window a 512 bit window will be
-  specified instead (This was the previous behavior). #596 #653 Thank you 
+  specified instead (This was the previous behavior). #596 #653 Thank you
   Vinnie Falco and Gianfranco Costamagna for reporting.
 - Compatibility: Better error handling and logging in cases where extension
   requests parse correctly but negotiation fails.
@@ -77,21 +77,21 @@ in the installer and test system.
   Thank you Johann Bauer for reporting and a patch. #727
 - Bug: Store loggers in shared pointers to avoid crashes related to connections
   trying to write logs entries after their respective endpoint has been
-  deallocated. Thank you Thalhammer for reporting and Jupp Müller for the 
+  deallocated. Thank you Thalhammer for reporting and Jupp Müller for the
   patch. #539 #501
 - Bug: Change default listen backlog from 0 to `socket_base::max_connections`.
   #549. Thank you derwassi and zwelab for reporting and na1pir for providing
   access to hardware to debug the issue.
 - Bug: Fix a crash in the accept loop when `get_connection` fails. #551 Thank you
   Walter Gray for a patch.
-- Bug/Documentation: Fix incorrect example code that used 
+- Bug/Documentation: Fix incorrect example code that used
   `websocketpp::lib::error_code` instead of `websocketpp::exception`. Thank you
   heretic13 for reporting
 - Bug: Fix uninitialized shared pointer in Asio transport test suite. #647
   Thank you Alex Korotkin for reporting and a patch.
 - Bug: Fix a thread safety issue in the permessage-deflate extension that
   caused message corruption when sending compressed messages from a different
-  thread than the main I/O thread. #615 Thank you KyleNyenhuis and Pieter De 
+  thread than the main I/O thread. #615 Thank you KyleNyenhuis and Pieter De
   Gendt for reporting and a patch.
 - Bug: Fix an undefined behavior issue performing a 64 bit wide shift on a 64
   bit value. #636 Thank you Gregor Jasny for reporting and a patch
@@ -99,14 +99,14 @@ in the installer and test system.
   chronoxor and Guillaume Egles for reporting and patches.
 
 0.7.0 - 2016-02-22
-- MINOR BREAKING SOCKET POLICY CHANGE: Asio transport socket policy method 
+- MINOR BREAKING SOCKET POLICY CHANGE: Asio transport socket policy method
   `cancel_socket` will now return `lib::asio::error_code` instead of `void`.
   Custom Asio transport socket policies will need to be updated accordingly.
   This does not affect anyone using the bundled socket policies.
 - Feature: Basic support for the permessage-deflate extension. #344
 - Feature: Allow accessing the local endpoint when using the Asio transport.
   This allows inspection of the address and port in cases where they are chosen
-  by the operating system rather than the user. Thank you Andreas Weis and 
+  by the operating system rather than the user. Thank you Andreas Weis and
   Muzahid Hussain for reporting and related code. #458
 - Feature: Add support for subprotocols in Hybi00. Thank you Lukas Obermann
   for reporting and a patch. #518
@@ -118,10 +118,10 @@ in the installer and test system.
 - Improvement: Major refactoring to bundled CMake build system. CMake can now be
   used to build all of the examples and the test suite. Thank you Thijs Wenker
   for a significant portion of this code. #378, #435, #449
-- Improvement: In build environments where `lib::error_code` and 
-  `lib::asio::error_code` match (such as using `boost::asio` with 
+- Improvement: In build environments where `lib::error_code` and
+  `lib::asio::error_code` match (such as using `boost::asio` with
   `boost::system_error` or standalone asio with `std::system_error`, transport
-  errors are passed through natively rather than being reported as a translated 
+  errors are passed through natively rather than being reported as a translated
   `pass_through` error type.
 - Improvement: Add a `get_transport_error` method to Asio transport connections
   to allow retrieving a machine readable native transport error.
@@ -135,20 +135,20 @@ in the installer and test system.
 - Documentation: Adds an example demonstrating the use of external `io_service`
 - Documentation: Adds a simple `echo_client` example.
 - Documentation: Begins migration of the web based user manual into Doxygen.
-- Bug: Fix memory leak when `init_asio` produces an error. #454 Thank you Mark 
+- Bug: Fix memory leak when `init_asio` produces an error. #454 Thank you Mark
   Grimes for reporting and fixing.
-- Bug: Fix crash when processing a specially crafted HTTP header. Thank you Eli 
+- Bug: Fix crash when processing a specially crafted HTTP header. Thank you Eli
   Fidler for reporting, test cases, and a patch. #456
 - Bug: Fix an issue where standalone Asio builds that use TLS would not compile
   due to lingering boost code. #448 Thank you mjsp for reporting
 - Bug: Fix an issue where canceling a socket could throw an exception on some
   older Windows XP platforms. It now prints an appropriate set of log messages
   instead. Thank you Thijs Wenker for reporting and researching solutions. #460
-- Bug: Fix an issue where deferred HTTP connections that start sending a very 
+- Bug: Fix an issue where deferred HTTP connections that start sending a very
   long response before their HTTP handler ends would result in a second set of
   HTTP headers being injected into the output. Thank you Kevin Smith for
   reporting and providing test case details. #443
-- Bug: Fix an issue where the wrong type of strand was being created. Thank you 
+- Bug: Fix an issue where the wrong type of strand was being created. Thank you
   Bastien Brunnenstein for reporting and a patch. #462
 - Bug: Fix an issue where TLS includes were broken for Asio Standalone builds.
   Thank you giachi and Bastien Brunnenstein for reporting. #491
@@ -158,11 +158,11 @@ in the installer and test system.
   this optimization without global state and the associated locks. The locks
   perform worse. Thank you Xavier Gibert for reporting, test cases, and code.
   Fixes #490.
-- Bug: Fix a heap buffer overflow when checking very short URIs. Thank you 
+- Bug: Fix a heap buffer overflow when checking very short URIs. Thank you
   Xavier Gibert for reporting and a patch #524
 - Compatibility: Fixes a number of build & config issues on Visual Studio 2015
 - Compatibility: Removes non-standards compliant masking behavior. #395, #469
-- Compatibility: Replace deprecated use of `auto_ptr` on systems where 
+- Compatibility: Replace deprecated use of `auto_ptr` on systems where
   `unique_ptr` is available.
 
 0.6.0 - 2015-06-02
@@ -172,20 +172,20 @@ in the installer and test system.
   that can be added to any existing custom transport policy to fulfill this
   requirement. This does not affect anyone using the bundled transports or
   configs.
-- MINOR BREAKING SOCKET POLICY CHANGE: Custom asio transport socket policies 
+- MINOR BREAKING SOCKET POLICY CHANGE: Custom asio transport socket policies
   will now be required to include a new method `void set_uri(uri_ptr u)`. Like
-  with the transport layer, an implementation is not required. This does not 
+  with the transport layer, an implementation is not required. This does not
   affect anyone using the bundled socket policies.
-- MINOR BREAKING DEPENDENCY CHANGE: When using Boost versions greater than or 
-  equal to 1.49 in C++03 mode, `libboost-chrono` is needed now instead of 
+- MINOR BREAKING DEPENDENCY CHANGE: When using Boost versions greater than or
+  equal to 1.49 in C++03 mode, `libboost-chrono` is needed now instead of
   `libboost-date_time`. Users with C++11 compilers or using Boost versions 1.48
   and earlier are not affected. Note: This change affects the bundled unit test
   suite.
 - Feature: WebSocket++ Asio transport policy can now be used with the standalone
-  version of Asio (1.8.0+) when a C++11 compiler and standard library are 
+  version of Asio (1.8.0+) when a C++11 compiler and standard library are
   present. This means that it is possible now to use WebSocket++'s Asio
   transport entirely without Boost. Thank you Robert Seiler for proof of concept
-  code that was used as a guide for this implementation. Fixes #324 
+  code that was used as a guide for this implementation. Fixes #324
 - Feature: Adds a vectored/scatter-gather write handler to the iostream
   transport.
 - Feature: Adds the ability to defer sending an HTTP response until sometime
@@ -194,11 +194,11 @@ in the installer and test system.
   network thread. references #425
 - Improvement: `echo_server_tls` has been update to demonstrate how to configure
   it for Mozilla's recommended intermediate and modern TLS security profiles.
-- Improvement: `endpoint::set_timer` now uses a steady clock provided by 
+- Improvement: `endpoint::set_timer` now uses a steady clock provided by
   `boost::chrono` or `std::chrono` where available instead of the non-monotonic
   system clock. Thank you breyed for reporting. fixes #241
 - Improvement: Outgoing TLS connections to servers using the SNI extension to
-  choose a certificate will now work. Thank you moozzyk for reporting. 
+  choose a certificate will now work. Thank you moozzyk for reporting.
   Fixes #400
 - Improvement: Removes an unnecessary mutex lock in `get_con_from_hdl`.
 - Cleanup: Asio transport policy has been refactored to remove many Boost

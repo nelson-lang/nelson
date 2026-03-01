@@ -26,7 +26,8 @@
       <param_description>une valeur numérique</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >atan2</b> calcule la tangente inverse à quatre quadrants.</description>
   <used_function />
   <bibliography />

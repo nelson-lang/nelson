@@ -7,19 +7,19 @@
   >Personnalisation des opérateurs et fonctions</short_description>
   <description>
     <p
-    >Dans divers scénarios, vous pouvez avoir besoin de modifier le comportement des opérateurs et fonctions de Nelson lorsqu'ils opèrent sur des objets ou des types de              base.</p>
+    >Dans divers scénarios, vous pouvez avoir besoin de modifier le comportement des opérateurs et fonctions de Nelson lorsqu&apos;ils opèrent sur des objets ou des types de              base.</p>
     <p
-    >Cette personnalisation peut être réalisée en surchargeant les fonctions concernées, leur              permettant de gérer différents types et nombres d'arguments d'entrée et d'exécuter l'opération appropriée pour l'objet de plus haute priorité.</p>
+    >Cette personnalisation peut être réalisée en surchargeant les fonctions concernées, leur              permettant de gérer différents types et nombres d&apos;arguments d&apos;entrée et d&apos;exécuter l&apos;opération appropriée pour l&apos;objet de plus haute priorité.</p>
     <p />
     <p>Surcharge des opérateurs :</p>
     <p />
     <p
-    >Chaque opérateur intégré correspond à un nom de fonction spécifique (par exemple, l'opérateur <b
+    >Chaque opérateur intégré correspond à un nom de fonction spécifique (par exemple, l&apos;opérateur <b
       >-</b> est associé à la fonction minus.m).</p>
     <p
-    >Vous pouvez surcharger n'importe quel opérateur en créant un fichier M avec le nom approprié dans le répertoire de la classe.</p>
+    >Vous pouvez surcharger n&apos;importe quel opérateur en créant un fichier M avec le nom approprié dans le répertoire de la classe.</p>
     <p>Par exemple, si <b>A</b> ou <b>B</b> est un objet de type <b
-      >classname</b>, l'expression <b
+      >classname</b>, l&apos;expression <b
       >A              - B</b> déclenche un appel à la fonction <b
       >@classname/minus.m</b>, si elle existe.</p>
     <p>Lorsque <b>A</b> et <b
@@ -146,16 +146,18 @@
       </tr>
       <tr>
         <td>Transposée conjuguée</td>
-        <td>a'</td>
+        <td>a&apos;
+        </td>
         <td>ctranspose(a)</td>
       </tr>
       <tr>
         <td>Transposée matricielle</td>
-        <td>a.'</td>
+        <td>a.&apos;
+        </td>
         <td>transpose(a)</td>
       </tr>
       <tr>
-        <td>Méthode d'affichage</td>
+        <td>Méthode d&apos;affichage</td>
         <td>sortie fenêtre de commandes</td>
         <td>display(a)</td>
       </tr>
@@ -192,7 +194,7 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description
-      >Surcharger l'opérateur minus pour double</example_item_description>
+      >Surcharger l&apos;opérateur minus pour double</example_item_description>
       <example_item_data
         runnable="false"
       ><![CDATA[% save in @double directory, as minus.m

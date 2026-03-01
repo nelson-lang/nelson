@@ -16,7 +16,7 @@ RapidJSON supports various encodings. It can also validate the encodings of JSON
 
 # Unicode {#Unicode}
 From [Unicode's official website](http://www.unicode.org/standard/WhatIsUnicode.html):
-> Unicode provides a unique number for every character, 
+> Unicode provides a unique number for every character,
 > no matter what the platform,
 > no matter what the program,
 > no matter what the language.
@@ -31,7 +31,7 @@ There are various encodings for storing Unicode code points. These are called Un
 * UTF-16: 16-bit variable-width encoding. It maps a code point to 1–2 16-bit code units (i.e., 2–4 bytes).
 * UTF-32: 32-bit fixed-width encoding. It directly maps a code point to a single 32-bit code unit (i.e. 4 bytes).
 
-For UTF-16 and UTF-32, the byte order (endianness) does matter. Within computer memory, they are often stored in the computer's endianness. However, when it is stored in file or transferred over network, we need to state the byte order of the byte sequence, either little-endian (LE) or big-endian (BE). 
+For UTF-16 and UTF-32, the byte order (endianness) does matter. Within computer memory, they are often stored in the computer's endianness. However, when it is stored in file or transferred over network, we need to state the byte order of the byte sequence, either little-endian (LE) or big-endian (BE).
 
 RapidJSON provide these encodings via the structs in `rapidjson/encodings.h`:
 

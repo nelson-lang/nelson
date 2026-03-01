@@ -20,8 +20,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >S = std(M)</b> renvoie l'écart type des éléments de M le long de la première dimension du tableau dont la taille n'est pas égale à 1.</p>
+    <p>
+      <b
+      >S = std(M)</b> renvoie l&apos;écart type des éléments de M le long de la première dimension du tableau dont la taille n&apos;est pas égale à 1.</p>
   </description>
   <used_function />
   <bibliography />

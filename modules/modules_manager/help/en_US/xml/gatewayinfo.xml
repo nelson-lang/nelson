@@ -27,7 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >[gateway_name, builtin_list] = gatewayinfo(dyn_lib_path)</b> get information about an gateway.</p>
     <p>The dynamic library must have at least an C entry point<b
       >GetGatewayInfo</b>.</p>

@@ -25,7 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>C = rdivide(A, B)</b> performs right division operation: A ./* B.</p>
+    <p>
+      <b>C = rdivide(A, B)</b> performs right division operation: A ./* B.</p>
   </description>
   <used_function />
   <bibliography />

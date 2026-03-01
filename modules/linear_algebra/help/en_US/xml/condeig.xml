@@ -23,7 +23,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b
+    <p>
+      <b
       >C = condeig(A)</b> returns a vector of condition numbers for the eigenvalues of <b
       >A</b>.</p>
   </description>

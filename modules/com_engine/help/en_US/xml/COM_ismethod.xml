@@ -26,7 +26,8 @@
       <param_description>a logical.</param_description>
     </param_output_item>
   </param_output>
-  <description><b
+  <description>
+    <b
     >r = ismethod(h, methodname)</b> returns true if the specified name is a method of the COM object h. Otherwise, it returns false.</description>
   <used_function />
   <bibliography />

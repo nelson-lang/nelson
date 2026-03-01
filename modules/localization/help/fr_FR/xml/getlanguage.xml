@@ -15,7 +15,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>getlanguage</b> renvoie la langue courante utilisée dans Nelson.</p>
+    <p>
+      <b>getlanguage</b> renvoie la langue courante utilisée dans Nelson.</p>
   </description>
   <used_function />
   <bibliography />

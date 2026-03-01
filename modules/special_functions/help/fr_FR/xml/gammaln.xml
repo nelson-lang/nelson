@@ -26,7 +26,7 @@
       >A</b>, exprimé comme <b>gammaln(A) = log(gamma(A))</b>.</p>
     <p>Il est important de noter que A doit être un nombre réel non négatif.</p>
     <p
-    >L'utilisation de gammaln aide à prévenir les problèmes potentiels de sous-débordement et de débordement qui pourraient survenir si l'on calculait directement<b
+    >L&apos;utilisation de gammaln aide à prévenir les problèmes potentiels de sous-débordement et de débordement qui pourraient survenir si l&apos;on calculait directement<b
       >log(gamma(A))</b>.</p>
   </description>
   <used_function />

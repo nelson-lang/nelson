@@ -24,7 +24,8 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b
+    <p>
+      <b
       >mustBeNonnegative</b> checks that value is nonnegative or raise an error.</p>
   </description>
   <used_function />

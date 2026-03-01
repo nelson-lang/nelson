@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>COM_get</keyword>
   <short_description
-  >Obtenir la valeur d'une propriété depuis l'interface COM.</short_description>
+  >Obtenir la valeur d&apos;une propriété depuis l&apos;interface COM.</short_description>
   <syntax>
     <syntax_item>v = get(h, propertyname)</syntax_item>
     <syntax_item>v = COM_get(h, propertyname)</syntax_item>
@@ -18,7 +18,7 @@
     <param_input_item>
       <param_name>propertyname</param_name>
       <param_description
-      >une chaîne : le nom de la propriété de l'objet COM.</param_description>
+      >une chaîne : le nom de la propriété de l&apos;objet COM.</param_description>
     </param_input_item>
   </param_input>
   <param_output>

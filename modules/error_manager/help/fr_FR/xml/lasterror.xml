@@ -4,23 +4,26 @@
   <language>fr_FR</language>
   <keyword>lasterror</keyword>
   <short_description
-  >Renvoie le dernier message d'erreur enregistré.</short_description>
+  >Renvoie le dernier message d&apos;erreur enregistré.</short_description>
   <syntax>
     <syntax_item>last_err = lasterror()</syntax_item>
-    <syntax_item>lasterror('reset')</syntax_item>
+    <syntax_item>lasterror(&apos;reset&apos;)</syntax_item>
     <syntax_item>lasterror(error_struct)</syntax_item>
   </syntax>
   <param_output>
     <param_output_item>
       <param_name>last_err</param_name>
-      <param_description>structure du message d'erreur.</param_description>
+      <param_description>structure du message d&apos;erreur.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b
-      >l = lasterror()</b> renvoie une structure contenant le dernier message d'erreur et les informations associées.</p>
-    <p><b>lasterror('reset')</b> efface la dernière erreur.</p>
-    <p><b>lasterror(error_struct)</b> définit la dernière erreur.</p>
+    <p>
+      <b
+      >l = lasterror()</b> renvoie une structure contenant le dernier message d&apos;erreur et les informations associées.</p>
+    <p>
+      <b>lasterror(&apos;reset&apos;)</b> efface la dernière erreur.</p>
+    <p>
+      <b>lasterror(error_struct)</b> définit la dernière erreur.</p>
   </description>
   <used_function />
   <bibliography />

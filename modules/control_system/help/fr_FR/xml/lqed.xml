@@ -4,14 +4,14 @@
   <language>fr_FR</language>
   <keyword>lqed</keyword>
   <short_description
-  >Calcule l'estimateur de Kalman discret basé sur un critère de coût continu.</short_description>
+  >Calcule l&apos;estimateur de Kalman discret basé sur un critère de coût continu.</short_description>
   <syntax>
     <syntax_item>[L, P, Z, E] = LQED(A, G, C, Q, R, Ts)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>Matrice d'état : matrice n x n.</param_description>
+      <param_description>Matrice d&apos;état : matrice n x n.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>G</param_name>
@@ -26,12 +26,12 @@
     <param_input_item>
       <param_name>Q</param_name>
       <param_description
-      >Matrice de pondération des coûts d'état</param_description>
+      >Matrice de pondération des coûts d&apos;état</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>R</param_name>
       <param_description
-      >Matrice de pondération des coûts d'entrée</param_description>
+      >Matrice de pondération des coûts d&apos;entrée</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>N</param_name>
@@ -40,7 +40,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>Ts</param_name>
-      <param_description>temps d'échantillonnage : scalaire.</param_description>
+      <param_description>temps d&apos;échantillonnage : scalaire.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -51,7 +51,7 @@
     <param_output_item>
       <param_name>P</param_name>
       <param_description
-      >Solution de l'équation de Riccati algébrique discrète.</param_description>
+      >Solution de l&apos;équation de Riccati algébrique discrète.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>E</param_name>
@@ -60,12 +60,12 @@
     </param_output_item>
     <param_output_item>
       <param_name>Z</param_name>
-      <param_description>Pôles de l'estimateur discret</param_description>
+      <param_description>Pôles de l&apos;estimateur discret</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p
-    >La fonction détermine la configuration discrète de l'estimateur de Kalman à partir d'un coût quadratique continu pour le bruit de processus et de mesure.</p>
+    >La fonction détermine la configuration discrète de l&apos;estimateur de Kalman à partir d&apos;un coût quadratique continu pour le bruit de processus et de mesure.</p>
   </description>
   <examples>
     <example_item>
