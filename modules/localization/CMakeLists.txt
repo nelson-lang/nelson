@@ -47,6 +47,7 @@ else()
     ${module_library_name}
     PRIVATE nlsCharacters_encoding
             nlsNelson_manager
+            nlsModules_manager
             nlsI18n)
 endif()
 # ==============================================================================

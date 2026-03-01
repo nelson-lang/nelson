@@ -39,6 +39,7 @@ target_link_libraries(
   PRIVATE nlsConstructors_functions
           nlsError_manager
           nlsNelson_manager
+          nlsCharacters_encoding
           nlsI18n
           nlsOperators
           nlsTypes

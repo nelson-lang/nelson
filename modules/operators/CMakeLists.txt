@@ -42,6 +42,7 @@ target_link_libraries(
   PRIVATE nlsElementary_mathematics
           nlsError_manager
           nlsNelson_manager
+          nlsCharacters_encoding
           nlsI18n
           nlsTypes
           nlsSparse
@@ -76,6 +77,7 @@ target_link_libraries(
   PRIVATE ${module_library_name}
           nlsError_manager
           nlsI18n
+          nlsCharacters_encoding
           nlsInterpreter
           nlsLinear_algebra
           nlsTypes)

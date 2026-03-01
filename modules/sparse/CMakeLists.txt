@@ -38,6 +38,7 @@ target_link_libraries(
   ${module_library_name}
   PRIVATE nlsError_manager
           nlsI18n
+          nlsCharacters_encoding
           nlsTypes)
 # ==============================================================================
 # Builtin library

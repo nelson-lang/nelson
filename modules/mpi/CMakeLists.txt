@@ -40,6 +40,7 @@ target_link_libraries(
   PRIVATE nlsError_manager
           nlsI18n
           nlsInterpreter
+          nlsCharacters_encoding
           nlsSparse
           nlsTypes
           ${MPI_C_LIBRARIES})

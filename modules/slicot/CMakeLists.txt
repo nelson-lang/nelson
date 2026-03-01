@@ -118,6 +118,7 @@ target_link_libraries(
   PRIVATE ${module_library_name}
           nlsError_manager
           nlsI18n
+          nlsCharacters_encoding
           nlsInterpreter
           nlsTypes)
 # ==============================================================================

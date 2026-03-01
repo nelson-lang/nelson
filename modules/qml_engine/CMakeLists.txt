@@ -82,6 +82,7 @@ target_link_libraries(
           nlsError_manager
           nlsHandle
           nlsI18n
+          nlsCharacters_encoding
           nlsInterpreter
           nlsTypes)
 # ==============================================================================
