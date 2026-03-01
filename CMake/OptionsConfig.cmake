@@ -7,7 +7,9 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
-list(APPEND without_module
+# All optional module names (used for both modules.m and nlsBuildConfig.h)
+# ==============================================================================
+set(_options_modules
   MEX
   FFTW
   SLICOT
@@ -51,80 +53,80 @@ list(APPEND without_module
   SPREADSHEET
   JULIA_ENGINE
 )
-
-foreach(mod ${without_module})
-  if(WITHOUT_${mod}_MODULE)
-    set(WITH_${mod}_MODULE "false")
+# ==============================================================================
+# Generate modules.m (uses "true"/"false" strings)
+# ==============================================================================
+foreach(_mod IN LISTS _options_modules)
+  if(WITHOUT_${_mod}_MODULE)
+    set(WITH_${_mod}_MODULE "false")
   else()
-    set(WITH_${mod}_MODULE "true")
+    set(WITH_${_mod}_MODULE "true")
   endif()
 endforeach()
-
+# ==============================================================================
 configure_file(
   "${CMAKE_SOURCE_DIR}/modules/modules.m.in"
   "${CMAKE_SOURCE_DIR}/modules/modules.m"
 )
 # ==============================================================================
-if(GIF_FOUND)
-  set(WITH_GIF 1)
-else()
-  set(WITH_GIF 0)
-endif()
+# Helper: set WITH_X to 0 or 1 from a boolean condition
 # ==============================================================================
-if(TIFF_FOUND)
-  set(WITH_TIFF 1)
-else()
-  set(WITH_TIFF 0)
-endif()
+macro(_nelson_bool_to_01
+  _condition
+  _out
+)
+  if(${_condition})
+    set(${_out} 1)
+  else()
+    set(${_out} 0)
+  endif()
+endmacro()
 # ==============================================================================
+_nelson_bool_to_01(GIF_FOUND WITH_GIF)
+_nelson_bool_to_01(TIFF_FOUND WITH_TIFF)
+_nelson_bool_to_01(TAGLIB_FOUND WITH_TAGLIB)
+# ==============================================================================
+# Invert WITHOUT_* -> WITH_*
 if(WITHOUT_OPENMP)
   set(WITH_OPENMP 0)
 else()
   set(WITH_OPENMP 1)
 endif()
-# ==============================================================================
 if(WITHOUT_TBB)
   set(WITH_TBB 0)
 else()
   set(WITH_TBB 1)
 endif()
-# ==============================================================================
 if(WITHOUT_LIBGIT2)
   set(WITH_LIBGIT2 0)
 else()
   set(WITH_LIBGIT2 1)
 endif()
-# ==============================================================================
 if(WITHOUT_LIBCURL)
   set(WITH_LIBCURL 0)
 else()
   set(WITH_LIBCURL 1)
 endif()
-# ==============================================================================
 if(WITHOUT_FILEWATCHER)
   set(WITH_FILE_WATCHER 0)
 else()
   set(WITH_FILE_WATCHER 1)
 endif()
 # ==============================================================================
-if(TAGLIB_FOUND)
-  set(WITH_TAGLIB 1)
-else()
-  set(WITH_TAGLIB 0)
-endif()
+# Generate nlsBuildConfig.h (uses 0/1 integers)
 # ==============================================================================
 include(GNUInstallDirs)
 set(NLS_LIBRARY_PATH_PREFIX ${CMAKE_INSTALL_LIBDIR})
 set(NLS_RUNTIME_PATH_PREFIX ${CMAKE_INSTALL_BINDIR})
 # ==============================================================================
-foreach(mod ${without_module})
-  if(WITHOUT_${mod}_MODULE)
-    set(WITH_${mod}_MODULE 0)
+foreach(_mod IN LISTS _options_modules)
+  if(WITHOUT_${_mod}_MODULE)
+    set(WITH_${_mod}_MODULE 0)
   else()
-    set(WITH_${mod}_MODULE 1)
+    set(WITH_${_mod}_MODULE 1)
   endif()
 endforeach()
-
+# ==============================================================================
 configure_file(
   "${CMAKE_SOURCE_DIR}/modules/commons/src/include/nlsBuildConfig.h.in"
   "${CMAKE_SOURCE_DIR}/modules/commons/src/include/nlsBuildConfig.h"

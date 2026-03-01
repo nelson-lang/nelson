@@ -21,43 +21,39 @@
 #define APPLICATION_EXE_CLI_NAME "Nelson-cli.exe"
 #define APPLICATION_EXE_ADV_CLI_NAME "Nelson-adv-cli.exe"
 #define APPLICATION_PUBLISHER "Nelson numerical software (Allan CORNET)"
-#if defined(NELSON_X64) || defined(NELSON_WOA64)
-#define FULL_APPLICATION_NAME APPLICATION_NAME + "-" + APPLICATION_VERSION + " (64 bits)"
-#else
-#define FULL_APPLICATION_NAME APPLICATION_NAME + "-" + APPLICATION_VERSION + " (32 bits)"
-#endif
+;==============================================================================
+; Architecture-specific defines (single source of truth)
+;==============================================================================
 #if defined(NELSON_WOA64)
-    #ifdef NELSON_DEBUG
-        #define BOOST_TARGET  "vc145-mt-gd-a64-1_89"
-    #else
-        #define BOOST_TARGET  "vc145-mt-a64-1_89"
-    #endif
+  #define ARCH_LABEL "ARM64 bits"
+  #define ARCH_SUFFIX "ARM64"
+  #define BinPath "ARM64"
+  #define BOOST_COMPILER "vc145"
+  #define BOOST_ARCH "a64"
+#elif defined(NELSON_X64)
+  #define ARCH_LABEL "64 bits"
+  #define ARCH_SUFFIX "x86-64"
+  #define BinPath "x64"
+  #define BOOST_COMPILER "vc143"
+  #define BOOST_ARCH "x64"
 #else
-#if defined(NELSON_X64)
+  #define ARCH_LABEL "32 bits"
+  #define ARCH_SUFFIX "x86-32"
+  #define BinPath "win32"
+  #define BOOST_COMPILER "vc143"
+  #define BOOST_ARCH "x32"
+#endif
+;==============================================================================
+#define FULL_APPLICATION_NAME APPLICATION_NAME + "-" + APPLICATION_VERSION + " (" + ARCH_LABEL + ")"
+;==============================================================================
+#define BOOST_VERSION "1_89"
 #ifdef NELSON_DEBUG
-#define BOOST_TARGET  "vc143-mt-gd-x64-1_89"
+  #define BOOST_TARGET BOOST_COMPILER + "-mt-gd-" + BOOST_ARCH + "-" + BOOST_VERSION
 #else
-#define BOOST_TARGET  "vc143-mt-x64-1_89"
-#endif
-#else
-#ifdef NELSON_DEBUG
-#define BOOST_TARGET  "vc143-mt-gd-x32-1_89"
-#else
-#define BOOST_TARGET  "vc143-mt-x32-1_89"
-#endif
-#endif
+  #define BOOST_TARGET BOOST_COMPILER + "-mt-" + BOOST_ARCH + "-" + BOOST_VERSION
 #endif
 ;==============================================================================
 #define RootPath "../../"
-#if defined(NELSON_WOA64)
-    #define BinPath "ARM64"
-#else
-    #if defined(NELSON_X64)
-        #define BinPath "x64"
-    #else
-        #define BinPath "win32"
-    #endif
-#endif    
 ;==============================================================================
 [Setup]
 #include "setup.iss"

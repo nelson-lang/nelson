@@ -10,23 +10,23 @@
 #define MODULE_NAME "fftw"
 ;==============================================================================
 #ifdef NELSON_WOA64
-Source: {#RootPath}bin\{#BinPath}\libfftw3f.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_FFTW} 
-Source: {#RootPath}bin\{#BinPath}\libfftw3.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_FFTW}
+Source: {#RootPath}bin\{#BinPath}\libfftw3f.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_FFTW}
+Source: {#RootPath}bin\{#BinPath}\libfftw3.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_FFTW}
 #else
-Source: {#RootPath}bin\{#BinPath}\mkl\libfftw3f-3.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_CPU_OPTIMIZATION} and {#COMPONENT_FFTW} 
-Source: {#RootPath}bin\{#BinPath}\mkl\libfftw3-3.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_CPU_OPTIMIZATION} and {#COMPONENT_FFTW}
+Source: {#RootPath}bin\{#BinPath}\mkl\libfftw3f-3.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_CPU_OPTIMIZATION} and {#COMPONENT_FFTW}
+Source: {#RootPath}bin\{#BinPath}\mkl\libfftw3-3.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_CPU_OPTIMIZATION} and {#COMPONENT_FFTW}
 #endif
 ;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\libnlsFftw.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_FFTW}
-Source: {#RootPath}bin\{#BinPath}\libnlsFftw_builtin.dll; DestDir: {app}\bin\{#BinPath}\; Components: {#COMPONENT_FFTW}
+Source: {#RootPath}bin\{#BinPath}\libnlsFftw.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_FFTW}
+Source: {#RootPath}bin\{#BinPath}\libnlsFftw_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_FFTW}
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\; Components: {#COMPONENT_FFTW}
-Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\; Components: {#COMPONENT_FFTW}
-Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\; Components: {#COMPONENT_FFTW}
+Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;Components: {#COMPONENT_FFTW}
+Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_FFTW}
+Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_FFTW}
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\; Components: {#COMPONENT_FFTW}
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_FFTW}
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs; Components: {#COMPONENT_FFTW} and {#COMPONENT_HELP_FILES};
+Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_FFTW} and {#COMPONENT_HELP_FILES};
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs; Components: {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_FFTW} and {#COMPONENT_UNIT_TESTS};
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_FFTW} and {#COMPONENT_UNIT_TESTS};
 ;==============================================================================

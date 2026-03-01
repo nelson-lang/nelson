@@ -3,13 +3,17 @@
 # ==============================================================================
 # This file is part of Nelson.
 # =============================================================================
-# LICENCE_BLOCK_BEGIN SPDX-License-Identifier: LGPL-3.0-or-later
+# LICENCE_BLOCK_BEGIN
+# SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
 set(CPACK_PACKAGE_VENDOR "Allan CORNET")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
-  "Nelson is a matrix/array programming language providing a powerful open computing environment for engineering and scientific applications using modern C/C++ libraries (Boost, Eigen, ...) and other state-of-the-art numerical libraries."
+  "Nelson is a matrix/array programming language providing a powerful open\
+ computing environment for engineering and scientific applications using\
+ modern C/C++ libraries (Boost, Eigen, ...) and other state-of-the-art\
+ numerical libraries."
 )
 set(CPACK_PACKAGE_VERSION_MAJOR ${Nelson_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${Nelson_VERSION_MINOR})
@@ -19,7 +23,12 @@ set(CPACK_PACKAGE_VERSION
 )
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "Nelson-${CPACK_PACKAGE_VERSION}")
 set(CPACK_PACKAGE_CONTACT "nelson.numerical.computation@gmail.com")
-
+set(CPACK_PACKAGE_HOMEPAGE_URL "https://nelson-lang.github.io/nelson-website/")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/lgpl-3.0.md")
+set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.md")
+# ==============================================================================
+# Target triple for package filename
+# ==============================================================================
 if(DEFINED CMAKE_CXX_COMPILER_TARGET)
   set(TARGET_TRIPLE "${CMAKE_CXX_COMPILER_TARGET}")
 elseif(DEFINED CMAKE_SYSTEM_TARGET)
@@ -27,15 +36,83 @@ elseif(DEFINED CMAKE_SYSTEM_TARGET)
 else()
   set(TARGET_TRIPLE "${CMAKE_SYSTEM_PROCESSOR}")
 endif()
-
+# ==============================================================================
+# Platform-specific CPack configuration
+# ==============================================================================
 if(UNIX)
   if(APPLE)
-    message(STATUS "Package not managed. Contributions are welcome.")
-    set(CPACK_GENERATOR "TGZ")
+    # ========================================================================
+    # macOS – DragNDrop (.dmg) packaging
+    # ========================================================================
+    set(CPACK_GENERATOR "DragNDrop")
     set(CPACK_PACKAGE_FILE_NAME
-      "nelson-Darwin-${TARGET_TRIPLE}-v${CPACK_PACKAGE_VERSION}"
+      "Nelson-${CPACK_PACKAGE_VERSION}-macOS-${TARGET_TRIPLE}"
     )
+    # -- DMG settings
+    set(CPACK_DMG_VOLUME_NAME "Nelson ${CPACK_PACKAGE_VERSION}")
+    set(CPACK_DMG_FORMAT "UDBZ") # bzip2 compressed
+    set(CPACK_DMG_DS_STORE_SETUP_SCRIPT
+      "${CMAKE_SOURCE_DIR}/CMake/macOS/DMGSetup.scpt"
+    )
+    # -- Generate .icns from the project PNG icon (only on macOS)
+    set(_nelson_icns "${CMAKE_BINARY_DIR}/Nelson.icns")
+    set(_nelson_source_png
+      "${CMAKE_SOURCE_DIR}/desktop/icons/hicolor/512x512/apps/nelson.png"
+    )
+    if(NOT EXISTS "${_nelson_source_png}")
+      set(_nelson_source_png "${CMAKE_SOURCE_DIR}/resources/fibonacci.png")
+    endif()
+    add_custom_command(
+      OUTPUT "${_nelson_icns}"
+      COMMAND ${CMAKE_COMMAND} -DSOURCE_PNG=${_nelson_source_png}
+        -DOUTPUT_ICNS=${_nelson_icns} -P
+        ${CMAKE_SOURCE_DIR}/CMake/macOS/generate_icns.cmake
+      DEPENDS "${_nelson_source_png}"
+      COMMENT "Generating Nelson.icns for macOS packaging"
+      VERBATIM
+    )
+    add_custom_target(nelson_icns ALL DEPENDS "${_nelson_icns}")
+    # -- DMG background image (static, checked into the repo)
+    set(CPACK_DMG_BACKGROUND_IMAGE
+      "${CMAKE_SOURCE_DIR}/CMake/macOS/dmg_background.png"
+    )
+    # -- Configure Info.plist
+    configure_file(
+      "${CMAKE_SOURCE_DIR}/CMake/macOS/Info.plist.in"
+      "${CMAKE_BINARY_DIR}/Info.plist"
+      @ONLY
+    )
+    # -- .app bundle skeleton (launcher, Info.plist, icon) is installed
+    #    in cpack_fixup_bundle.cmake.in at CPack time only, so that
+    #    "cmake --install ." works without requiring bundle paths.
+    #
+    # Application content goes into Contents/Resources
+    # (the normal install rules already install into CMAKE_INSTALL_PREFIX;
+    #  we set CPACK_PACKAGING_INSTALL_PREFIX so the install tree ends up
+    #  inside the .app bundle's Resources directory.)
+    set(CPACK_PACKAGING_INSTALL_PREFIX "/Nelson.app/Contents/Resources")
+    set(CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE ON)
+    # -- Symlink to /Applications in the DMG root (standard macOS convention)
+    set(CPACK_DMG_DISABLE_APPLICATIONS_SYMLINK OFF)
+    # -- Configure the CPack pre-build fixup script.
+    #    CPACK_PRE_BUILD_SCRIPTS runs after all install rules have been
+    #    executed but before CPack creates the package.  At that point
+    #    the variable CPACK_TEMPORARY_INSTALL_DIRECTORY is available
+    #    and the full .app bundle tree exists in the staging area.
+    configure_file(
+      "${CMAKE_SOURCE_DIR}/CMake/macOS/cpack_fixup_bundle.cmake.in"
+      "${CMAKE_BINARY_DIR}/cpack_fixup_bundle.cmake"
+      @ONLY
+    )
+    list(APPEND CPACK_PRE_BUILD_SCRIPTS
+      "${CMAKE_BINARY_DIR}/cpack_fixup_bundle.cmake"
+    )
+    message(STATUS "macOS DMG packaging enabled (DragNDrop)")
+    message(STATUS "  Run: cmake --build . -- package")
   else()
+    # ========================================================================
+    # Linux / other UNIX
+    # ========================================================================
     set(CPACK_GENERATOR "TGZ")
     set(CPACK_PACKAGE_FILE_NAME
       "nelson-Unknown-${TARGET_TRIPLE}-v${CPACK_PACKAGE_VERSION}"
@@ -53,7 +130,7 @@ if(UNIX)
       endif()
     endif()
 
-    if(NOT ${CMAKE_VERSION} VERSION_LESS "3.20.0" AND UBUNTU_FOUND)
+    if(UBUNTU_FOUND)
       execute_process(
         COMMAND lsb_release -rs
         OUTPUT_VARIABLE UBUNTU_VERSION
@@ -69,9 +146,10 @@ if(UNIX)
       )
       if(UBUNTU_VERSION VERSION_EQUAL "24.04")
         set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "cmake")
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS "libfftw3-bin")
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS "libfftw3-double3")
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS "libfftw3-single3")
+        # NOTE: libfftw3-bin, libfftw3-double3, libfftw3-single3 are separate deps
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "libfftw3-bin, libfftw3-double3, libfftw3-single3"
+        )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libopenblas0"
         )
@@ -364,10 +442,21 @@ if(UNIX)
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libtiff6"
         )
-
       endif()
-      if(UBUNTU_VERSION VERSION_EQUAL "20.04")
-        message(STATUS "Package not managed. Contributions are welcome.")
+
+      if(NOT
+        UBUNTU_VERSION
+        VERSION_EQUAL
+        "24.04"
+        AND
+        NOT
+        UBUNTU_VERSION
+        VERSION_EQUAL
+        "22.04"
+      )
+        message(STATUS
+          "Ubuntu ${UBUNTU_VERSION}: DEB dependency list not available, using TGZ."
+        )
         set(CPACK_GENERATOR "TGZ")
         set(CPACK_PACKAGE_FILE_NAME
           "nelson-Ubuntu-${UBUNTU_VERSION}-${TARGET_TRIPLE}-v${CPACK_PACKAGE_VERSION}"
@@ -375,8 +464,8 @@ if(UNIX)
       endif()
     endif()
 
-    if(DEBIAN_FOUND)
-      message(STATUS "Package not managed. Contributions are welcome.")
+    if(DEBIAN_FOUND AND NOT UBUNTU_FOUND)
+      message(STATUS "Debian detected – packaging as TGZ.")
       set(CPACK_GENERATOR "TGZ")
       set(CPACK_PACKAGE_FILE_NAME
         "nelson-Debian-${TARGET_TRIPLE}-v${CPACK_PACKAGE_VERSION}"
@@ -384,7 +473,8 @@ if(UNIX)
     endif()
   endif()
 else()
-  message(STATUS "Package not managed. Contributions are welcome.")
+  # Non-UNIX (should not normally be reached on Linux/macOS builds)
+  message(STATUS "Non-UNIX platform – packaging as ZIP.")
   set(CPACK_GENERATOR "ZIP")
   set(CPACK_PACKAGE_FILE_NAME
     "nelson-Unknown-${TARGET_TRIPLE}-v${CPACK_PACKAGE_VERSION}"

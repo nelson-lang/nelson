@@ -13,7 +13,7 @@
   <param_input>
     <param_input_item>
       <param_name>option</param_name>
-      <param_description
+      <param_description
       >Chaîne de caractères : &apos;on&apos;, &apos;off&apos;, &apos;out&apos;, &apos;xon&apos;, &apos;yon&apos; ou &apos;toggle&apos;.</param_description>
     </param_input_item>
     <param_input_item>
@@ -22,50 +22,40 @@
     </param_input_item>
     <param_input_item>
       <param_name>ax</param_name>
-      <param_description
+      <param_description
       >Valeur scalaire d&apos;objet graphique : conteneur parent, spécifié comme axes.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p
+    <p
     >Utilisez le mode déplacement (pan) pour ajuster dynamiquement les limites des axes lors de l&apos;exploration interactive des données.</p>
-    <p
+    <p
     >Activez ou désactivez le mode déplacement et configurez des options de base supplémentaires avec la fonction pan.</p>
-    <p
+    <p
     >Le mode déplacement est compatible avec divers graphiques comme les courbes, barres, histogrammes et surfaces. Ces graphiques disposent généralement d&apos;une icône de déplacement dans la barre d&apos;outils pour faciliter cette fonctionnalité.</p>
     <p>
-      <b
+      <b
       >pan option</b> configure le mode déplacement pour tous les axes de la figure courante.</p>
-    <p
+    <p
     >Une fois le mode déplacement activé, vous pouvez ajuster la vue des axes avec le curseur ou le clavier :</p>
     <p>Curseur : cliquez et faites glisser le curseur dans les axes.</p>
-    <p
-    >Clavier : pour déplacer horizontalement, utilisez les flèches gauche (←) ou droite (→). Pour déplacer verticalement, utilisez les flèches haut (↑) ou bas (↓).</p>
+    <p
+    >Clavier : pour déplacer horizontalement, utilisez les flèches gauche (←) ou droite (-&gt;). Pour déplacer verticalement, utilisez les flèches haut (↑) ou bas (↓).</p>
     <p />
-    <p
+    <p
     >L&apos;option du mode déplacement peut être spécifiée avec l&apos;une des valeurs suivantes :</p>
     <p>
-      <b
-      >
-        &apos;toggle&apos;
-      </b> : Bascule le mode déplacement. Si le mode est désactivé, &apos;toggle&apos; revient à la dernière option utilisée parmi &apos;on&apos;, &apos;xon&apos; ou &apos;yon&apos;. Ce comportement est identique à l&apos;appel de pan sans argument.</p>
+      <b
+      >&apos;toggle&apos;</b> : Bascule le mode déplacement. Si le mode est désactivé, &apos;toggle&apos; revient à la dernière option utilisée parmi &apos;on&apos;, &apos;xon&apos; ou &apos;yon&apos;. Ce comportement est identique à l&apos;appel de pan sans argument.</p>
     <p>
-      <b>
-        &apos;xon&apos;
-      </b> : Active le mode déplacement uniquement sur l&apos;axe x.</p>
+      <b>&apos;xon&apos;</b> : Active le mode déplacement uniquement sur l&apos;axe x.</p>
     <p>
-      <b>
-        &apos;yon&apos;
-      </b> : Active le mode déplacement uniquement sur l&apos;axe y.</p>
+      <b>&apos;yon&apos;</b> : Active le mode déplacement uniquement sur l&apos;axe y.</p>
     <p>
-      <b>
-        &apos;on&apos;
-      </b> : Active le mode déplacement.</p>
+      <b>&apos;on&apos;</b> : Active le mode déplacement.</p>
     <p>
-      <b
-      >
-        &apos;off&apos;
-      </b> : Désactive le mode déplacement. Certaines interactions par défaut peuvent persister quel que soit le mode d&apos;interaction.</p>
+      <b
+      >&apos;off&apos;</b> : Désactive le mode déplacement. Certaines interactions par défaut peuvent persister quel que soit le mode d&apos;interaction.</p>
   </description>
   <used_function />
   <bibliography />
@@ -73,10 +63,10 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[surf(peaks)
-pan on
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[surf(peaks)
+pan on
 ]]></example_item_data>
     </example_item>
   </examples>

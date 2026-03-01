@@ -17,45 +17,46 @@ if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
 endif()
 # ==============================================================================
 if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
-  add_definitions(-DMZ_ZIP_NO_ENCRYPTION)
-  add_definitions(-DZLIB_COMPAT)
-  add_definitions(-DHAVE_ZLIB)
-  if(HAVE_STDINT_H)
-    add_definitions(-DHAVE_STDINT_H)
-  endif()
-  if(HAVE_INTTYPES_H)
-    add_definitions(-DHAVE_INTTYPES_H)
-  endif()
-endif()
-# ==============================================================================
-if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
+  set(_minizip_dir "${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip")
   file(
     GLOB
+    _minizip_srcs
+    "${_minizip_dir}/mz_compat.c"
+    "${_minizip_dir}/mz_crypt.c"
+    "${_minizip_dir}/mz_os.c"
+    "${_minizip_dir}/mz_os_posix.c"
+    "${_minizip_dir}/mz_strm_os_posix.c"
+    "${_minizip_dir}/mz_strm.c"
+    "${_minizip_dir}/mz_strm_buf.c"
+    "${_minizip_dir}/mz_strm_mem.c"
+    "${_minizip_dir}/mz_strm_split.c"
+    "${_minizip_dir}/mz_strm_zlib.c"
+    "${_minizip_dir}/mz_zip.c")
+  nelson_module_sources_from_glob(
     FILE_ARCHIVER_SRC
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip/mz_compat.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip/mz_crypt.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip/mz_os.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip/mz_os_posix.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip/mz_strm_os_posix.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip/mz_strm.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip/mz_strm_buf.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip/mz_strm_mem.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip/mz_strm_split.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip/mz_strm_zlib.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip/mz_zip.c")
-
-  list(FILTER FILE_ARCHIVER_SRC EXCLUDE REGEX
-       "${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/dllMain.cpp")
+    DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp)
+  list(
+    APPEND
+    FILE_ARCHIVER_SRC
+    ${_minizip_srcs})
 else()
-  file(GLOB FILE_ARCHIVER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp/*.cpp")
-  list(FILTER FILE_ARCHIVER_SRC EXCLUDE REGEX
-       "${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp/dllMain.cpp")
+  nelson_module_sources_from_glob(
+    FILE_ARCHIVER_SRC
+    DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/no-src/cpp)
 endif()
-# ==============================================================================
+
 add_library(${module_library_name} ${FILE_ARCHIVER_SRC})
-# ==============================================================================
+
 if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
+  target_compile_definitions(
+    ${module_library_name}
+    PRIVATE MZ_ZIP_NO_ENCRYPTION
+            ZLIB_COMPAT
+            HAVE_ZLIB
+            $<$<BOOL:${HAVE_STDINT_H}>:HAVE_STDINT_H>
+            $<$<BOOL:${HAVE_INTTYPES_H}>:HAVE_INTTYPES_H>)
   target_include_directories(
     ${module_library_name}
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
@@ -70,115 +71,55 @@ if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
             ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip)
-# ==============================================================================
-  target_link_libraries(${module_library_name} 
-    PRIVATE
-      nlsCharacters_encoding
-      nlsCommons
-      nlsError_manager
-      nlsI18n
-      ${ZLIB_LIBRARIES})
-# ==============================================================================
+            ${_minizip_dir})
+  target_link_libraries(
+    ${module_library_name}
+    PRIVATE nlsCharacters_encoding
+            nlsCommons
+            nlsError_manager
+            nlsI18n
+            ${ZLIB_LIBRARIES})
 else()
   target_include_directories(
     ${module_library_name}
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/no-src/include>
-           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/no-src/include)
-# ==============================================================================
-  target_link_libraries(${module_library_name})
-# ==============================================================================
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
 endif()
 # ==============================================================================
+nelson_install_library(${module_library_name})
+# ==============================================================================
 if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
-  file(GLOB FILE_ARCHIVER_BUILTIN
-       "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/*.cpp")
-  list(FILTER FILE_ARCHIVER_BUILTIN EXCLUDE REGEX
-       "${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/dllMain.cpp")
-  # ==============================================================================
+  nelson_module_sources_from_glob(
+    FILE_ARCHIVER_BUILTIN
+    DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp)
+
   add_library(${module_library_builtin_name} ${FILE_ARCHIVER_BUILTIN})
+
   target_include_directories(
     ${module_library_builtin_name}
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/builtin/include>
-           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>)
-  target_include_directories(
-    ${module_library_builtin_name}
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/builtin/include
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+           $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-            
             ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include)
+
   target_link_libraries(
     ${module_library_builtin_name}
-    PRIVATE
-      ${module_library_name}
-      nlsError_manager
-      nlsI18n
-      nlsInterpreter
-      nlsTypes)
-endif()
-# ==============================================================================
-include(GNUInstallDirs)
-# ==============================================================================
-install(
-  TARGETS ${module_library_name}
-  EXPORT ${PROJECT_NAME}-targets
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  PUBLIC_HEADER
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
-# ==============================================================================
-if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
-  install(
-    TARGETS ${module_library_builtin_name}
-    EXPORT ${PROJECT_NAME}-targets
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    PUBLIC_HEADER
-      DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${module_name})
-  # ==============================================================================
-  install(
-    FILES ${CMAKE_CURRENT_SOURCE_DIR}/loader.m
-    DESTINATION
-      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}")
-  install(
-    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/etc
-    DESTINATION
-      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-    FILES_MATCHING
-    PATTERN "*.m")
-  install(
-    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
-    DESTINATION
-      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-    FILES_MATCHING
-    PATTERN "*.m")
-  install(
-    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
-    DESTINATION
-      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-    FILES_MATCHING
-    PATTERN "*.zip")
-  install(
-    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/help
-    DESTINATION
-      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-    FILES_MATCHING
-    PATTERN "*.nhz"
-    PATTERN "xml" EXCLUDE
-    PATTERN "md" EXCLUDE)
-  install(
-    DIRECTORY ${CMAKE_SOURCE_DIR}/modules/${module_name}/functions
-    DESTINATION
-      "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}"
-    FILES_MATCHING
-    PATTERN "*.m")
+    PRIVATE ${module_library_name}
+            nlsError_manager
+            nlsI18n
+            nlsInterpreter
+            nlsTypes)
+
+  nelson_install_library(${module_library_builtin_name})
+  nelson_install_module_data(
+    ${module_name}
+    EXTRA_TEST_PATTERNS
+    "*.zip")
 endif()
 # ==============================================================================

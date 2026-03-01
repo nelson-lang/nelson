@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>mat2str</keyword>
-  <short_description>Conversion matrice → chaîne.</short_description>
+  <short_description>Conversion matrice -&gt; chaîne.</short_description>
   <syntax>
     <syntax_item>res = mat2str(M)</syntax_item>
     <syntax_item>res = mat2str(M, &apos;class&apos;)</syntax_item>
@@ -12,7 +12,7 @@
   <param_input>
     <param_input_item>
       <param_name>M</param_name>
-      <param_description
+      <param_description
       >une matrice 2D numérique ou logique.</param_description>
     </param_input_item>
     <param_input_item>
@@ -29,8 +29,8 @@
   <description>
     <p>
       <b>mat2str</b> convertit une matrice en chaîne.</p>
-    <p
-    >Cette chaîne peut être utilisée pour reconstruire la matrice d&apos;origine avec la fonction <b
+    <p
+    >Cette chaîne peut être utilisée pour reconstruire la matrice d&apos;origine avec la fonction <b
       >execstr</b>.</p>
   </description>
   <used_function />
@@ -39,13 +39,13 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[R = mat2str(pi)
-R = mat2str(pi, 'class')
-R = mat2str(pi, 4)
-R = mat2str(pi + i, 'class')
-execstr(['RB = ', R])
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[R = mat2str(pi)
+R = mat2str(pi, 'class')
+R = mat2str(pi, 4)
+R = mat2str(pi + i, 'class')
+execstr(['RB = ', R])
 ]]></example_item_data>
     </example_item>
   </examples>

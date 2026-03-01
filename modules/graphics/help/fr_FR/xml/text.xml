@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>text</keyword>
-  <short_description
+  <short_description
   >crée des descriptions textuelles pour les points de données.</short_description>
   <syntax>
     <syntax_item>text(x, y, txt)</syntax_item>
@@ -27,17 +27,17 @@
     </param_input_item>
     <param_input_item>
       <param_name>parent</param_name>
-      <param_description
+      <param_description
       >une valeur d&apos;objet graphique scalaire : conteneur parent, spécifié comme axes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>text</param_name>
-      <param_description
+      <param_description
       >Texte à afficher : vecteur de caractères, scalaire de chaîne, tableau de chaînes ou tableau de cellules.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyName</param_name>
-      <param_description
+      <param_description
       >une chaîne scalaire ou un vecteur de caractères ligne.</param_description>
     </param_input_item>
     <param_input_item>
@@ -75,7 +75,7 @@
         <td>
           <b>Color</b>
         </td>
-        <td
+        <td
         >Couleur du texte : triplet RGB, [0 0 0] (par défaut) ou code couleur hexadécimal.</td>
       </tr>
       <tr>
@@ -88,7 +88,7 @@
         <td>
           <b>Extent</b>
         </td>
-        <td
+        <td
         >Taille et position du rectangle qui entoure le texte : vecteur à quatre éléments.</td>
       </tr>
       <tr>
@@ -113,7 +113,7 @@
         <td>
           <b>FontUnits</b>
         </td>
-        <td
+        <td
         >Unités de taille de police : &apos;inches&apos;, &apos;centimeters&apos;, &apos;normalized&apos;, &apos;pixels&apos; ou &apos;points&apos; (par défaut).</td>
       </tr>
       <tr>
@@ -126,7 +126,7 @@
         <td>
           <b>HorizontalAlignment</b>
         </td>
-        <td
+        <td
         >Alignement horizontal du texte par rapport au point de position : &apos;center&apos;, &apos;right&apos;, &apos;left&apos; (par défaut).</td>
       </tr>
       <tr>
@@ -139,7 +139,7 @@
         <td>
           <b>LineStyle</b>
         </td>
-        <td
+        <td
         >Style de ligne du contour de la boîte : &apos;none&apos;, &apos;--&apos;, &apos;:&apos;, &apos;-.&apos; ou &apos;-&apos; (par défaut).</td>
       </tr>
       <tr>
@@ -152,7 +152,7 @@
         <td>
           <b>Margin</b>
         </td>
-        <td
+        <td
         >Espace autour du texte dans la boîte de texte : valeur numérique scalaire.</td>
       </tr>
       <tr>
@@ -165,7 +165,7 @@
         <td>
           <b>Position</b>
         </td>
-        <td
+        <td
         >Position du texte : vecteur à deux éléments de forme [x y] ou vecteur à trois éléments de forme [x y z].</td>
       </tr>
       <tr>
@@ -178,17 +178,15 @@
         <td>
           <b>String</b>
         </td>
-        <td
-        >Texte à afficher : vecteur de caractères, tableau de cellules de vecteurs de caractères, tableau de chaînes, valeur numérique ou &apos;
-          &apos; (par défaut).</td>
+        <td
+        >Texte à afficher : vecteur de caractères, tableau de cellules de vecteurs de caractères, tableau de chaînes, valeur numérique ou &apos;&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
           <b>Tag</b>
         </td>
-        <td
-        >Identifiant d&apos;objet : vecteur de caractères, scalaire de chaîne ou &apos;
-          &apos; (par défaut).</td>
+        <td
+        >Identifiant d&apos;objet : vecteur de caractères, scalaire de chaîne ou &apos;&apos; (par défaut).</td>
       </tr>
       <tr>
         <td>
@@ -200,7 +198,7 @@
         <td>
           <b>Units</b>
         </td>
-        <td
+        <td
         >Unités de position et d&apos;étendue : &apos;normalized&apos;, &apos;inches&apos;, &apos;centimeters&apos;, &apos;characters&apos;, &apos;points&apos;, &apos;pixels&apos; ou &apos;data&apos; (par défaut).</td>
       </tr>
       <tr>
@@ -225,14 +223,14 @@
         <td>
           <b>CreateFcn</b>
         </td>
-        <td
+        <td
         >Callback (poignée de fonction, chaîne ou cellule) appelée lors de la création de l&apos;objet. Définir cette propriété sur un composant existant n&apos;a aucun effet.</td>
       </tr>
       <tr>
         <td>
           <b>DeleteFcn</b>
         </td>
-        <td
+        <td
         >Callback (poignée de fonction, chaîne ou cellule) appelée lors de la suppression de l&apos;objet.</td>
       </tr>
       <tr>
@@ -242,14 +240,12 @@
         <td>Drapeau indiquant que l&apos;objet est en cours de suppression.</td>
       </tr>
     </table>
-    <p
+    <p
     >Certaines propriétés sont disponibles uniquement pour la compatibilité et n&apos;ont actuellement aucun effet sur le texte.</p>
-    <p
+    <p
     >listes des caractères spéciaux pris en charge par l&apos;interpréteur &apos;tex&apos; :</p>
-    <p>Exposant : ^{ } &apos;texte^{exposant}&apos;
-    </p>
-    <p>Indice : _{ } &apos;texte_{indice}&apos;
-    </p>
+    <p>Exposant : ^{ } &apos;texte^{exposant}&apos;</p>
+    <p>Indice : _{ } &apos;texte_{indice}&apos;</p>
     <p />
     <table style="width:100%">
       <tr>
@@ -398,7 +394,7 @@
       </tr>
       <tr>
         <th>\rightarrow</th>
-        <th>→</th>
+        <th>-&gt;</th>
       </tr>
       <tr>
         <th>\kappa</th>
@@ -672,62 +668,62 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[f = figure(1)
-t = text(0.5, 0.5, 'text here');
-s = t.FontSize;
-t.FontSize = 12;
-t.Color = 'red';
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure(1)
+t = text(0.5, 0.5, 'text here');
+s = t.FontSize;
+t.FontSize = 12;
+t.Color = 'red';
 ]]></example_item_data>
-      <example_item_img
-        src="../../images/text_1.svg"
-        align="middle"
-        generate="true"
+      <example_item_img
+        src="../../images/text_1.svg"
+        align="middle"
+        generate="true"
       />
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[figure();
-ha = {'left', 'center', 'right'};
-va = {'bottom', 'middle', 'top'};
-color = {'red', 'green', 'blue'};
-x = [0.25 0.5 0.75];
-y = x;
-for t = 0:45:359;
-  for nh = 1:numel (ha)
-    for nv = 1:numel (va)
-      text (x(nh), y(nv), 'Nelson', ...
-      'Rotation', t, ...
-      'HorizontalAlignment', ha{nh}, ...
-      'VerticalAlignment', va{nv}, ...
-      'Color', color{nv});
-    end
-  end
-end
-axis([0 1 0 1]);
-title (_('Text alignment and rotation (0:45:360 degrees)'));
-xlabel(_('Horizontal alignment'));
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[figure();
+ha = {'left', 'center', 'right'};
+va = {'bottom', 'middle', 'top'};
+color = {'red', 'green', 'blue'};
+x = [0.25 0.5 0.75];
+y = x;
+for t = 0:45:359;
+  for nh = 1:numel (ha)
+    for nv = 1:numel (va)
+      text (x(nh), y(nv), 'Nelson', ...
+      'Rotation', t, ...
+      'HorizontalAlignment', ha{nh}, ...
+      'VerticalAlignment', va{nv}, ...
+      'Color', color{nv});
+    end
+  end
+end
+axis([0 1 0 1]);
+title (_('Text alignment and rotation (0:45:360 degrees)'));
+xlabel(_('Horizontal alignment'));
 ylabel (_('Vertical alignment'));]]></example_item_data>
-      <example_item_img
-        src="../images/text_2.svg"
-        align="middle"
-        generate="true"
+      <example_item_img
+        src="../images/text_2.svg"
+        align="middle"
+        generate="true"
       />
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[figure();
-h1 = text(0.5, 0.5, 'Nelson \copyright')
-h1.String
-% Nelson est entièrement unicode, donc
-h2 = text(0.5, 0.3, 'OU Nelson ©')
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[figure();
+h1 = text(0.5, 0.5, 'Nelson \copyright')
+h1.String
+% Nelson est entièrement unicode, donc
+h2 = text(0.5, 0.3, 'OU Nelson ©')
 h2.String]]></example_item_data>
     </example_item>
   </examples>
@@ -743,7 +739,7 @@ h2.String]]></example_item_data>
     </history_item>
     <history_item>
       <history_version>1.7.0</history_version>
-      <history_description
+      <history_description
       >Callbacks CreateFcn, DeleteFcn ajoutés.</history_description>
     </history_item>
     <history_item>
