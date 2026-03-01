@@ -70,6 +70,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
+          ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
 
 target_link_libraries(
@@ -80,6 +81,7 @@ target_link_libraries(
           nlsNelson_manager
           nlsI18n
           nlsInterpreter
+          nlsCharacters_encoding
           nlsTypes)
 # ==============================================================================
 nelson_install_library(${module_library_name})

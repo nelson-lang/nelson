@@ -131,8 +131,8 @@ generateProfileIndexHtml(const std::wstring& htmlFilename,
         file << "<tr>" << std::endl;
         file << "<td><a href = \"" << file_x_html << "\">" << filename
              << "</a></td><td align=\"right\">" << nbCalls << "</td><td align=\"right\">"
-             << timeToString(totalTime) << "</td>"
-             << "<td>" << toStringWithPrecision(coverage, 2) << "</td>" << std::endl;
+             << timeToString(totalTime) << "</td>" << "<td>" << toStringWithPrecision(coverage, 2)
+             << "</td>" << std::endl;
         file << "</tr>" << std::endl;
         file << std::endl;
     }
@@ -242,8 +242,7 @@ sectionCoverage(std::ofstream& file, std::tuple<int, int, int, int, int, double>
     file << "<td style = \"padding-left:10px;padding-right:10px;\">"
          << _("Coverage (did run/can run)") << "</td>" << std::endl;
     file << "<td style = \"padding-left:10px;padding-right:10px;\">"
-         << toStringWithPrecision(std::get<5>(coverage), 2) << " %"
-         << "</td>" << std::endl;
+         << toStringWithPrecision(std::get<5>(coverage), 2) << " %" << "</td>" << std::endl;
     file << "</tr>" << std::endl;
 
     file << "</tbody></table>" << std::endl;
@@ -350,18 +349,12 @@ generateProfileFileHtml(const std::wstring& srcFilename, const stringVector& fun
 
     file << "<body bgcolor=#F8F8F8>" << std::endl;
     file << "<div>" << std::endl;
-    file << "<a href=\""
-         << "./"
-         << "index.html"
-         << "\">"
-         << "home"
-         << "</a>" << std::endl;
+    file << "<a href=\"" << "./" << "index.html" << "\">" << "home" << "</a>" << std::endl;
     file << "</div>" << std::endl;
     file << "<p></p>" << std::endl;
     file << "<p>" << _("File") << ": " << wstring_to_utf8(srcFilename) << " (" << _("Calls") << ": "
          << std::to_string(nbCalls) << ", " << _("Time") << ": " << timeToString(totalTime) << " s"
-         << ")"
-         << "</p>" << std::endl;
+         << ")" << "</p>" << std::endl;
     file << "<p></p>" << std::endl;
 
     sectionMostTimeWasSpent(file, fiveSlowerLines);
@@ -381,12 +374,7 @@ generateProfileFileHtml(const std::wstring& srcFilename, const stringVector& fun
          << std::endl;
     file << "<p></p>" << std::endl;
     file << "<div>" << std::endl;
-    file << "<a href=\""
-         << "./"
-         << "index.html"
-         << "\">"
-         << "home"
-         << "</a>" << std::endl;
+    file << "<a href=\"" << "./" << "index.html" << "\">" << "home" << "</a>" << std::endl;
     file << "</div>" << std::endl;
 
     file << "<p></p>" << std::endl;

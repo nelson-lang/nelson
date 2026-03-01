@@ -433,11 +433,7 @@ CreateIndexJson(const std::vector<SectionInfo>& sections, const std::filesystem:
 
         outFile << "  {\n"
                 << "    \"title\": \"" << escapedSectionName << "\",\n"
-                << "    \"url\": \""
-                << "/"
-                << "./"
-                << "index.html"
-                << "\",\n"
+                << "    \"url\": \"" << "/" << "./" << "index.html" << "\",\n"
                 << "    \"path\": \"sections/" << moduleName << "\",\n"
                 << "    \"content\": \"" << escapedChapterDesc << "\"\n"
                 << "  }";
@@ -508,10 +504,7 @@ CreateIndexJs(const std::vector<SectionInfo>& sections, const std::filesystem::p
 
         outFile << "  {\n"
                 << "    \"title\": \"" << escapedSectionName << "\",\n"
-                << "    \"url\": \""
-                << "./" << moduleName << "/"
-                << "index.html"
-                << "\",\n"
+                << "    \"url\": \"" << "./" << moduleName << "/" << "index.html" << "\",\n"
                 << "    \"path\": \"sections/" << moduleName << "\",\n"
                 << "    \"content\": \"" << escapedChapterDesc << "\"\n"
                 << "  }";

@@ -296,8 +296,7 @@ WhosMatioFile(
                        << _class[i];
                 bool first = true;
                 if (_global[i]) {
-                    ssLine << "  "
-                           << "global";
+                    ssLine << "  " << "global";
                     first = false;
                 }
                 if (_persistent[i]) {
