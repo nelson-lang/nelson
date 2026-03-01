@@ -46,16 +46,26 @@
     >L&apos;option du mode déplacement peut être spécifiée avec l&apos;une des valeurs suivantes :</p>
     <p>
       <b
-      >&apos;toggle&apos;</b> : Bascule le mode déplacement. Si le mode est désactivé, &apos;toggle&apos; revient à la dernière option utilisée parmi &apos;on&apos;, &apos;xon&apos; ou &apos;yon&apos;. Ce comportement est identique à l&apos;appel de pan sans argument.</p>
+      >
+        &apos;toggle&apos;
+      </b> : Bascule le mode déplacement. Si le mode est désactivé, &apos;toggle&apos; revient à la dernière option utilisée parmi &apos;on&apos;, &apos;xon&apos; ou &apos;yon&apos;. Ce comportement est identique à l&apos;appel de pan sans argument.</p>
     <p>
-      <b>&apos;xon&apos;</b> : Active le mode déplacement uniquement sur l&apos;axe x.</p>
+      <b>
+        &apos;xon&apos;
+      </b> : Active le mode déplacement uniquement sur l&apos;axe x.</p>
     <p>
-      <b>&apos;yon&apos;</b> : Active le mode déplacement uniquement sur l&apos;axe y.</p>
+      <b>
+        &apos;yon&apos;
+      </b> : Active le mode déplacement uniquement sur l&apos;axe y.</p>
     <p>
-      <b>&apos;on&apos;</b> : Active le mode déplacement.</p>
+      <b>
+        &apos;on&apos;
+      </b> : Active le mode déplacement.</p>
     <p>
       <b
-      >&apos;off&apos;</b> : Désactive le mode déplacement. Certaines interactions par défaut peuvent persister quel que soit le mode d&apos;interaction.</p>
+      >
+        &apos;off&apos;
+      </b> : Désactive le mode déplacement. Certaines interactions par défaut peuvent persister quel que soit le mode d&apos;interaction.</p>
   </description>
   <used_function />
   <bibliography />

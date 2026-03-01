@@ -133,7 +133,8 @@
         <td>
           <b>Interpreter</b>
         </td>
-        <td>&apos;tex&apos; (default) interpreter or &apos;none&apos;.</td>
+        <td>
+          &apos;tex&apos; (default) interpreter or &apos;none&apos;.</td>
       </tr>
       <tr>
         <td>
@@ -178,14 +179,16 @@
           <b>String</b>
         </td>
         <td
-        >Text to display: character vector, cell array of character vectors, string array, numeric value or &apos;&apos; (default).</td>
+        >Text to display: character vector, cell array of character vectors, string array, numeric value or &apos;
+          &apos; (default).</td>
       </tr>
       <tr>
         <td>
           <b>Tag</b>
         </td>
         <td
-        >Object identifier: character vector, string scalar or &apos;&apos; (default).</td>
+        >Object identifier: character vector, string scalar or &apos;
+          &apos; (default).</td>
       </tr>
       <tr>
         <td>
@@ -242,8 +245,10 @@
     <p
     >Some properties are available only for compatibility and have currently no effect on the text.</p>
     <p>lists of the supported special characters for the &apos;tex&apos; interpreter:</p>
-    <p>Superscript: ^{ } &apos;text^{superscript}&apos;</p>
-    <p>Subscript: _{ } &apos;text_{subscript}&apos;</p>
+    <p>Superscript: ^{ } &apos;text^{superscript}&apos;
+    </p>
+    <p>Subscript: _{ } &apos;text_{subscript}&apos;
+    </p>
     <p />
     <table style="width:100%">
       <tr>
@@ -392,7 +397,8 @@
       </tr>
       <tr>
         <th>\rightarrow</th>
-        <th>-&gt;</th>
+        <th>-&gt;
+        </th>
       </tr>
       <tr>
         <th>\kappa</th>

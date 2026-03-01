@@ -46,16 +46,26 @@
     >The pan mode option can be specified using one of the following values:</p>
     <p>
       <b
-      >&apos;toggle&apos;</b>: Toggles the pan mode. If pan mode is disabled, &apos;toggle&apos; reverts to the most recently used pan option of &apos;on&apos;, &apos;xon&apos;, or &apos;yon&apos;. This option behaves the same as calling pan without any arguments.</p>
+      >
+        &apos;toggle&apos;
+      </b>: Toggles the pan mode. If pan mode is disabled, &apos;toggle&apos; reverts to the most recently used pan option of &apos;on&apos;, &apos;xon&apos;, or &apos;yon&apos;. This option behaves the same as calling pan without any arguments.</p>
     <p>
-      <b>&apos;xon&apos;</b>: Enables pan mode for the x-dimension exclusively.</p>
+      <b>
+        &apos;xon&apos;
+      </b>: Enables pan mode for the x-dimension exclusively.</p>
     <p>
-      <b>&apos;yon&apos;</b>: Activates pan mode for the y-dimension exclusively.</p>
+      <b>
+        &apos;yon&apos;
+      </b>: Activates pan mode for the y-dimension exclusively.</p>
     <p>
-      <b>&apos;on&apos;</b>: Activates pan mode.</p>
+      <b>
+        &apos;on&apos;
+      </b>: Activates pan mode.</p>
     <p>
       <b
-      >&apos;off&apos;</b>: Deactivates pan mode. Note that certain default interactions may persist regardless of the interaction mode.</p>
+      >
+        &apos;off&apos;
+      </b>: Deactivates pan mode. Note that certain default interactions may persist regardless of the interaction mode.</p>
   </description>
   <used_function />
   <bibliography />
