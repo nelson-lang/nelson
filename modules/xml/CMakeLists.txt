@@ -34,16 +34,14 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
-          ${LIBXML2_INCLUDE_DIR}
-          ${LIBXSLT_INCLUDE_DIR})
+          ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include)
 
 target_link_libraries(
   ${module_library_name}
   PRIVATE nlsCharacters_encoding
           nlsI18n
-          ${LIBXML2_LIBRARIES}
-          ${LIBXSLT_LIBRARIES})
+          LibXml2::LibXml2
+          LibXslt::LibXslt)
 if(NOT WITHOUT_TBB AND TBB_FOUND)
   target_link_libraries(${module_library_name} PRIVATE ${TBB_LIBRARY})
 endif()
