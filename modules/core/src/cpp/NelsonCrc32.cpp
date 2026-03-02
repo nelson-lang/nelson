@@ -38,6 +38,7 @@ private:
             table[i] = c;
         }
     }
+
 public:
     CRC32() : crc(0xFFFFFFFF) { generateTable(); }
     void
