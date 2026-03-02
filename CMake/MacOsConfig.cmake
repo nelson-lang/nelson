@@ -45,5 +45,20 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set(OpenMP_CXX_LIBRARIES
       $ENV{HOMEBREW_PREFIX}/opt/libomp/lib/libomp${CMAKE_SHARED_LIBRARY_SUFFIX}
     )
+    # Force find_package(OpenMP) to use Homebrew's libomp package copy.
+    # OpenBLAS also links against this copy; using a different libomp
+    # (e.g. the one shipped by llvm at /opt/homebrew/lib/libomp.dylib)
+    # causes "OMP: Error #15: already initialized" because dyld loads
+    # both copies (they have different install names).
+    set(OpenMP_C_FLAGS "-Xclang -fopenmp" CACHE STRING "C compiler flags for OpenMP" FORCE)
+    set(OpenMP_CXX_FLAGS "-Xclang -fopenmp" CACHE STRING "CXX compiler flags for OpenMP" FORCE)
+    set(OpenMP_C_LIB_NAMES "libomp" CACHE STRING "C compiler libraries for OpenMP" FORCE)
+    set(OpenMP_CXX_LIB_NAMES "libomp" CACHE STRING "CXX compiler libraries for OpenMP" FORCE)
+    set(OpenMP_libomp_LIBRARY
+      "$ENV{HOMEBREW_PREFIX}/opt/libomp/lib/libomp${CMAKE_SHARED_LIBRARY_SUFFIX}"
+      CACHE FILEPATH "Path to libomp" FORCE
+    )
+    set(OpenMP_C_INCLUDE_DIR "$ENV{HOMEBREW_PREFIX}/opt/libomp/include" CACHE PATH "OpenMP C include dir" FORCE)
+    set(OpenMP_CXX_INCLUDE_DIR "$ENV{HOMEBREW_PREFIX}/opt/libomp/include" CACHE PATH "OpenMP CXX include dir" FORCE)
   endif()
 endif()
