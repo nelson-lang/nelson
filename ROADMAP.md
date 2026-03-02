@@ -24,7 +24,7 @@ Please file issues on this repository if you have questions, concerns, or sugges
 - Bug resolution and ongoing maintenance
 - Native package development/support
   - ArchLinux (DONE v1.3.0)
-  - macOS
+  - macOS  (DONE v1.17.0)
   - Fedora (DONE v1.14.0)
   - NixOS (DONE v1.11.0)
   - Ubuntu 24.04 ARM64 (DONE v1.11.0)

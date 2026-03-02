@@ -70,6 +70,10 @@ if test -d "/usr/local/opt/qt5/bin"; then
     export PATH=/usr/local/opt/qt5/bin:$PATH
 fi
 #==============================================================================
+if test -d "/Applications/CMake.app/Contents/bin"; then
+    export PATH=/Applications/CMake.app/Contents/bin:$PATH
+fi
+#==============================================================================
 if test -d "$HOMEBREW_PREFIX/lib"; then
     export LD_LIBRARY_PATH="$HOMEBREW_PREFIX/lib:$LD_LIBRARY_PATH"
     # $HOMEBREW_PREFIX/lib must not be in DYLD_LIBRARY_PATH on Macos with Qt

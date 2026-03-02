@@ -22,6 +22,10 @@
       <b>MacOS X:</b>
     </p>
     <p>- XCode C/C++ compilers.</p>
+    <p>If you use macOS, the CMake dmg must be installed from <a href="https://cmake.org/download/">https://cmake.org/download/</a>.</p>
+    <p>XCode must be installed <b>using the command:</b>
+      <code>xcode-select --install</code>
+    </p>
   </description>
   <see_also>
     <see_also_item>

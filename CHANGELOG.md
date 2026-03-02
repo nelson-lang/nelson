@@ -40,7 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Dedicated Windows Terminal profile installed for the application.
 
-- MacOS packaging as dmg installer (beta)
+- MacOS packaging as dmg installer.
 
 
 ### Changed
