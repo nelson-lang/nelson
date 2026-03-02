@@ -891,6 +891,70 @@ Terminal::jump_cursor(int xPos_, int yOffset_)
 #endif
 }
 
+#if defined(_WIN32)
+bool
+Terminal::is_at_beginning_of_the_line(void)
+{
+    CONSOLE_SCREEN_BUFFER_INFO inf;
+    HANDLE consoleOut(
+        _consoleOut != INVALID_HANDLE_VALUE ? _consoleOut : GetStdHandle(STD_OUTPUT_HANDLE));
+    if (!GetConsoleScreenBufferInfo(consoleOut, &inf)) {
+        return false;
+    }
+    return (inf.dwCursorPosition.X == 0);
+}
+#else
+bool
+Terminal::is_at_beginning_of_the_line(void)
+{
+    // Request cursor position report (DSR) and parse response: ESC [ row ; col R
+    const char request[] = "\033[6n";
+    write8(request, sizeof(request) - 1);
+
+    fd_set rfds;
+    struct timeval tv;
+    tv.tv_sec = 0;
+    tv.tv_usec = 200000; // 200 ms
+
+    std::string resp;
+    int fd = _in_fd;
+    char buf[32];
+
+    while (true) {
+        FD_ZERO(&rfds);
+        FD_SET(fd, &rfds);
+        int ret = select(fd + 1, &rfds, nullptr, nullptr, &tv);
+        if (ret <= 0) {
+            break; // timeout or error
+        }
+        ssize_t n = read(fd, buf, sizeof(buf));
+        if (n <= 0) {
+            break;
+        }
+        resp.append(buf, buf + n);
+        if (resp.find('R') != std::string::npos) {
+            break;
+        }
+        // small additional delay for more data
+        tv.tv_sec = 0;
+        tv.tv_usec = 50000; // 50ms
+    }
+
+    size_t p1 = resp.find('[');
+    size_t p2 = resp.find('R');
+    if (p1 == std::string::npos || p2 == std::string::npos || p2 <= p1) {
+        return false;
+    }
+    std::string inside = resp.substr(p1 + 1, p2 - p1 - 1);
+    size_t sep = inside.find(';');
+    if (sep == std::string::npos) {
+        return false;
+    }
+    int col = atoi(inside.c_str() + sep + 1);
+    return (col == 1); // DSR is 1-based
+}
+#endif
+
 #ifdef _WIN32
 void
 Terminal::set_cursor_visible(bool visible_)
