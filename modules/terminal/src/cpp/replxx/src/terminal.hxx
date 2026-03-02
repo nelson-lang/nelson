@@ -89,6 +89,8 @@ public:
     jump_cursor(int, int);
     void
     set_cursor_visible(bool);
+    bool
+    is_at_beginning_of_the_line(void);
 #ifndef _WIN32
     int
     read_verbatim(char32_t*, int);
