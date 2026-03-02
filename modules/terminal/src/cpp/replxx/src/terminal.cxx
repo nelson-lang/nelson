@@ -433,7 +433,7 @@ char32_t
 Terminal::read_char(void)
 {
     char32_t c(0);
-#ifdef _WIN32
+#if defined(_MSC_VER)
     INPUT_RECORD rec;
     DWORD count;
     char32_t modifierKeys = 0;
@@ -643,7 +643,7 @@ Terminal::read_char(void)
 Terminal::EVENT_TYPE
 Terminal::wait_for_input(int long timeout_)
 {
-#ifdef _WIN32
+#if defined(_MSC_VER)
     std::array<HANDLE, 2> handles = { _consoleIn, _interrupt };
     auto const timeoutEnabled(timeout_ >= 0);
     auto const timeoutBudget(
@@ -815,7 +815,7 @@ Terminal::wait_for_input(int long timeout_)
 void
 Terminal::notify_event(EVENT_TYPE eventType_)
 {
-#ifdef _WIN32
+#if defined(_MSC_VER)
     _events.push_back(eventType_);
     SetEvent(_interrupt);
 #else
@@ -832,7 +832,7 @@ Terminal::notify_event(EVENT_TYPE eventType_)
 void
 Terminal::clear_screen(CLEAR_SCREEN clearScreen_)
 {
-#ifdef _WIN32
+#if defined(_MSC_VER)
     if (_autoEscape) {
 #endif
         if (clearScreen_ == CLEAR_SCREEN::WHOLE) {
@@ -843,7 +843,7 @@ Terminal::clear_screen(CLEAR_SCREEN clearScreen_)
             static_cast<void>(write(_out_fd, clearCode, sizeof(clearCode) - 1) >= 0);
         }
         return;
-#ifdef _WIN32
+#if defined(_MSC_VER)
     }
     COORD coord = { 0, 0 };
     CONSOLE_SCREEN_BUFFER_INFO inf;
@@ -872,7 +872,7 @@ Terminal::clear_screen(CLEAR_SCREEN clearScreen_)
 void
 Terminal::jump_cursor(int xPos_, int yOffset_)
 {
-#ifdef _WIN32
+#if defined(_MSC_VER)
     CONSOLE_SCREEN_BUFFER_INFO inf;
     GetConsoleScreenBufferInfo(_consoleOut, &inf);
     inf.dwCursorPosition.X = xPos_;
@@ -891,10 +891,11 @@ Terminal::jump_cursor(int xPos_, int yOffset_)
 #endif
 }
 
-#if defined(_WIN32)
 bool
 Terminal::is_at_beginning_of_the_line(void)
 {
+#if defined(_MSC_VER)
+
     CONSOLE_SCREEN_BUFFER_INFO inf;
     HANDLE consoleOut(
         _consoleOut != INVALID_HANDLE_VALUE ? _consoleOut : GetStdHandle(STD_OUTPUT_HANDLE));
@@ -902,11 +903,7 @@ Terminal::is_at_beginning_of_the_line(void)
         return false;
     }
     return (inf.dwCursorPosition.X == 0);
-}
 #else
-bool
-Terminal::is_at_beginning_of_the_line(void)
-{
     // Request cursor position report (DSR) and parse response: ESC [ row ; col R
     const char request[] = "\033[6n";
     write8(request, sizeof(request) - 1);
@@ -952,90 +949,23 @@ Terminal::is_at_beginning_of_the_line(void)
     }
     int col = atoi(inside.c_str() + sep + 1);
     return (col == 1); // DSR is 1-based
-}
 #endif
+}
 
-#ifdef _WIN32
 void
 Terminal::set_cursor_visible(bool visible_)
 {
+#if defined(_MSC_VER)
     CONSOLE_CURSOR_INFO cursorInfo;
     GetConsoleCursorInfo(_consoleOut, &cursorInfo);
     cursorInfo.bVisible = visible_;
     SetConsoleCursorInfo(_consoleOut, &cursorInfo);
     return;
-}
-#if defined(_WIN32)
-bool
-Terminal::is_at_beginning_of_the_line(void)
-{
-    CONSOLE_SCREEN_BUFFER_INFO inf;
-    HANDLE consoleOut(
-        _consoleOut != INVALID_HANDLE_VALUE ? _consoleOut : GetStdHandle(STD_OUTPUT_HANDLE));
-    if (!GetConsoleScreenBufferInfo(consoleOut, &inf)) {
-        return false;
-    }
-    return (inf.dwCursorPosition.X == 0);
-}
 #else
-bool
-Terminal::is_at_beginning_of_the_line(void)
-{
-    // Request cursor position report (DSR) and parse response: ESC [ row ; col R
-    const char request[] = "\033[6n";
-    write8(request, sizeof(request) - 1);
-
-    fd_set rfds;
-    struct timeval tv;
-    tv.tv_sec = 0;
-    tv.tv_usec = 200000; // 200 ms
-
-    std::string resp;
-    int fd = _in_fd;
-    char buf[32];
-
-    while (true) {
-        FD_ZERO(&rfds);
-        FD_SET(fd, &rfds);
-        int ret = select(fd + 1, &rfds, nullptr, nullptr, &tv);
-        if (ret <= 0) {
-            break; // timeout or error
-        }
-        ssize_t n = read(fd, buf, sizeof(buf));
-        if (n <= 0) {
-            break;
-        }
-        resp.append(buf, buf + n);
-        if (resp.find('R') != std::string::npos) {
-            break;
-        }
-        // small additional delay for more data
-        tv.tv_sec = 0;
-        tv.tv_usec = 50000; // 50ms
-    }
-
-    size_t p1 = resp.find('[');
-    size_t p2 = resp.find('R');
-    if (p1 == std::string::npos || p2 == std::string::npos || p2 <= p1) {
-        return false;
-    }
-    std::string inside = resp.substr(p1 + 1, p2 - p1 - 1);
-    size_t sep = inside.find(';');
-    if (sep == std::string::npos) {
-        return false;
-    }
-    int col = atoi(inside.c_str() + sep + 1);
-    return (col == 1); // DSR is 1-based
-}
 #endif
-#else
-void
-Terminal::set_cursor_visible(bool)
-{
 }
-#endif
 
-#ifndef _WIN32
+#if not defined(_MSC_VER)
 int
 Terminal::read_verbatim(char32_t* buffer_, int size_)
 {
@@ -1068,5 +998,4 @@ Terminal::install_window_change_handler(void)
     return 0;
 }
 #endif
-
 }
