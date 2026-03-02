@@ -163,7 +163,8 @@ fixFormatNonFinite(std::wstring& s)
 
     if (a == L'n' && b == L'a' && c == L'n') {
         s[tail] = L'N';
-        // 'a' stays, 'n' stays — only first char changes
+        s[tail + 2] = L'N';
+        // 'a' stays
         return;
     }
     if (a == L'i' && b == L'n' && c == L'f') {

@@ -17,15 +17,17 @@ namespace Nelson {
 static inline double
 getScaleFactorWithAmplitude(double max_amplitude, double maxval)
 {
+    if (max_amplitude == 0.0) {
+        return 1.0;
+    }
     int commonLogarithm = (int)log10(std::abs(max_amplitude));
     if (commonLogarithm == 1) {
-        return 1;
+        return 1.0;
     }
-
-    if (::pow(double(10.0), std::abs(commonLogarithm)) >= maxval) {
-        return commonLogarithm;
+    if (::pow(10.0, std::abs(commonLogarithm)) >= maxval) {
+        return (double)commonLogarithm;
     }
-    return (double)(1.0);
+    return 1.0;
 }
 //=============================================================================
 template <class T>
