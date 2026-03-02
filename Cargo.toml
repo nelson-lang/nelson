@@ -4,3 +4,13 @@ resolver = "2"
 
 [workspace.package]
 version = "1.16.0"
+
+[workspace.dependencies]
+speculoos = "0.13"
+tempfile = "3"
+clap = { version = "4", features = ["derive"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+walkdir = "2"
+anyhow = "1"
+
