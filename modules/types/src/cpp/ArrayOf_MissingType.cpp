@@ -37,10 +37,8 @@ ArrayOf::missingScalarConstructor()
 {
     Dimensions dim;
     dim.makeScalar();
-    double* data
-        = static_cast<double*>(allocateArrayOf(NLS_MISSING_ARRAY, 1, stringVector(), false));
-    *data = std::nan("");
-    return ArrayOf(NLS_MISSING_ARRAY, dim, data);
+    double val = std::nan("");
+    return ArrayOf(NLS_MISSING_ARRAY, dim, static_cast<const void*>(&val), sizeof(double));
 }
 //=============================================================================
 } // namespace Nelson

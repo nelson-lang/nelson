@@ -470,6 +470,11 @@ ArrayOf::ArrayOf(
     dp = new Data(type, dims, data, sparse, fnames);
 }
 //=============================================================================
+ArrayOf::ArrayOf(NelsonType type, const Dimensions& dims, const void* scalarData, size_t dataSize)
+{
+    dp = new Data(type, dims, scalarData, dataSize);
+}
+//=============================================================================
 ArrayOf::ArrayOf(NelsonType type) { dp = new Data(type, Dimensions(0, 0), nullptr); }
 //=============================================================================
 /**

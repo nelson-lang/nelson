@@ -161,22 +161,32 @@ Evaluator::ifStatement(AbstractSyntaxTreePtr t)
             }
         }
     }
+
+    // Early return if condition is true - avoids checking elseOrElseIf unnecessarily
+    if (conditionedStatement(t)) {
+        return;
+    }
+
     AbstractSyntaxTreePtr elseOrElseIf = t->right;
-    if (!conditionedStatement(t)) {
-        if (elseOrElseIf != nullptr && elseOrElseIf->opNum == OP_ELSEIFBLOCK) {
-            AbstractSyntaxTreePtr s = elseOrElseIf->down;
-            while (s != nullptr) {
-                if (conditionedStatement(s)) {
-                    return;
-                }
-                s = s->right;
+    if (elseOrElseIf == nullptr) {
+        return;
+    }
+
+    if (elseOrElseIf->opNum == OP_ELSEIFBLOCK) {
+        AbstractSyntaxTreePtr s = elseOrElseIf->down;
+        while (s != nullptr) {
+            if (conditionedStatement(s)) {
+                return;
             }
-            elseOrElseIf = elseOrElseIf->right;
+            s = s->right;
         }
-        if (elseOrElseIf != nullptr) {
-            block(elseOrElseIf);
+        elseOrElseIf = elseOrElseIf->right;
+        if (elseOrElseIf == nullptr) {
+            return;
         }
     }
+
+    block(elseOrElseIf);
 }
 //=============================================================================
 //!

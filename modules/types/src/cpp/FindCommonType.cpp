@@ -277,13 +277,18 @@ FindCommonTypeRelationalOperators(const ArrayOfVector& args, NelsonType& commonT
 {
     commonType = NLS_UNKNOWN;
     typeName = NLS_UNKNOWN_STR;
-    ArrayOf A(args[0]);
-    ArrayOf B(args[1]);
+
+    // Use const references instead of copies
+    const ArrayOf& A = args[0];
+    const ArrayOf& B = args[1];
+
+    // Cache type queries to avoid multiple method calls
     NelsonType Aclass = A.getDataClass();
     NelsonType Bclass = B.getDataClass();
     isSparse = A.isSparse() || B.isSparse();
     isComplex = A.isComplex() || B.isComplex();
 
+    // Early return for same types (most common case)
     if ((Aclass == Bclass) && (Aclass <= NLS_CHAR)) {
         commonType = Aclass;
         typeName = ClassToString(commonType);
@@ -292,15 +297,20 @@ FindCommonTypeRelationalOperators(const ArrayOfVector& args, NelsonType& commonT
         }
         return true;
     }
-    // The output class is now the dominant class remaining:
-    if (isObject(A)) {
+
+    // Check if types are objects (inlined to avoid function call overhead)
+    bool AisObject = (Aclass >= NLS_CLASS_ARRAY);
+    bool BisObject = (Bclass >= NLS_CLASS_ARRAY);
+
+    // Handle A being an object
+    if (AisObject) {
         if (Aclass == NLS_HANDLE) {
+            commonType = NLS_HANDLE;
             if (A.isEmpty()) {
                 typeName = NLS_HANDLE_STR;
             } else {
                 typeName = A.getHandleCategory();
             }
-            commonType = NLS_HANDLE;
             return true;
         }
         if (Aclass == NLS_GO_HANDLE) {
@@ -315,14 +325,16 @@ FindCommonTypeRelationalOperators(const ArrayOfVector& args, NelsonType& commonT
         }
         return false;
     }
-    if (isObject(B)) {
+
+    // Handle B being an object
+    if (BisObject) {
         if (Bclass == NLS_HANDLE) {
+            commonType = NLS_HANDLE;
             if (B.isEmpty()) {
                 typeName = NLS_HANDLE_STR;
             } else {
                 typeName = B.getHandleCategory();
             }
-            commonType = NLS_HANDLE;
             return true;
         }
         if (Bclass == NLS_GO_HANDLE) {
@@ -338,17 +350,17 @@ FindCommonTypeRelationalOperators(const ArrayOfVector& args, NelsonType& commonT
         return false;
     }
 
-    if (A.isIntegerType() && B.isIntegerType()) {
-        if (Aclass > Bclass) {
-            commonType = Aclass;
-        } else {
-            commonType = Bclass;
-        }
+    // Check for integer types (cache the result)
+    bool AisInteger = A.isIntegerType();
+    bool BisInteger = B.isIntegerType();
+
+    if (AisInteger && BisInteger) {
+        commonType = (Aclass > Bclass) ? Aclass : Bclass;
         typeName = ClassToString(commonType);
         return true;
     }
 
-    // An integer or double mixed with a complex is promoted to a dcomplex type
+    // Handle complex type promotion
     if ((Aclass == NLS_SCOMPLEX) && ((Bclass == NLS_DOUBLE) || (Bclass < NLS_SINGLE))) {
         Bclass = NLS_DCOMPLEX;
     }
@@ -356,49 +368,33 @@ FindCommonTypeRelationalOperators(const ArrayOfVector& args, NelsonType& commonT
         Aclass = NLS_DCOMPLEX;
     }
 
-    bool isDoubleTypeA = Aclass == NLS_DOUBLE || Aclass == NLS_DCOMPLEX;
-    bool isDoubleTypeB = Bclass == NLS_DOUBLE || Bclass == NLS_DCOMPLEX;
+    // Check double and single types (use bitwise OR for efficiency)
+    bool isDoubleType = (Aclass == NLS_DOUBLE || Aclass == NLS_DCOMPLEX || Bclass == NLS_DOUBLE
+        || Bclass == NLS_DCOMPLEX);
+    bool isSingleType = (Aclass == NLS_SINGLE || Aclass == NLS_SCOMPLEX || Bclass == NLS_SINGLE
+        || Bclass == NLS_SCOMPLEX);
 
-    if (isDoubleTypeA) {
+    if (isDoubleType) {
         commonType = NLS_DOUBLE;
         typeName = NLS_DOUBLE_STR;
         return true;
     }
-    if (isDoubleTypeB) {
-        commonType = NLS_DOUBLE;
-        typeName = NLS_DOUBLE_STR;
-        return true;
-    }
 
-    bool isSingleTypeA = Aclass == NLS_SINGLE || Aclass == NLS_SCOMPLEX;
-    bool isSingleTypeB = Bclass == NLS_SINGLE || Bclass == NLS_SCOMPLEX;
-
-    if (isSingleTypeA) {
-        commonType = NLS_SINGLE;
-        typeName = NLS_SINGLE_STR;
-        return true;
-    }
-    if (isSingleTypeB) {
+    if (isSingleType) {
         commonType = NLS_SINGLE;
         typeName = NLS_SINGLE_STR;
         return true;
     }
 
+    // Determine the dominant type
     if (Aclass > Bclass) {
         commonType = Aclass;
-        if (Aclass < NLS_CLASS_ARRAY) {
-            typeName = ClassToString(Aclass);
-        } else {
-            typeName = ClassName(A);
-        }
+        typeName = (Aclass < NLS_CLASS_ARRAY) ? ClassToString(Aclass) : ClassName(A);
     } else {
         commonType = Bclass;
-        if (Bclass < NLS_CLASS_ARRAY) {
-            typeName = ClassToString(Bclass);
-        } else {
-            typeName = ClassName(B);
-        }
+        typeName = (Bclass < NLS_CLASS_ARRAY) ? ClassToString(Bclass) : ClassName(B);
     }
+
     return (commonType != NLS_UNKNOWN);
 }
 //=============================================================================

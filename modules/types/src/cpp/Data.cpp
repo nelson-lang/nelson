@@ -10,6 +10,7 @@
 //=============================================================================
 #include <utility>
 #include <atomic>
+#include <cstring>
 //=============================================================================
 #include "Data.hpp"
 #include "SparseDynamicFunctions.hpp"
@@ -17,9 +18,22 @@
 namespace Nelson {
 //=============================================================================
 Data::Data(NelsonType aClass, const Dimensions& dims, void* s, bool sparseflag, stringVector fields)
-    : cp(s), owners(1), dimensions(dims), fieldNames(std::move(fields)), dataClass(aClass)
+    : cp(s)
+    , owners(1)
+    , dimensions(dims)
+    , fieldNames(std::move(fields))
+    , dataClass(aClass)
+    , isInline(false)
 {
     sparse = sparseflag;
+    refreshDimensionCache();
+}
+//=============================================================================
+Data::Data(NelsonType aClass, const Dimensions& dims, const void* scalarData, size_t dataSize)
+    : owners(1), dimensions(dims), dataClass(aClass), sparse(false), isInline(true)
+{
+    std::memcpy(inlineBuffer, scalarData, dataSize);
+    cp = inlineBuffer;
     refreshDimensionCache();
 }
 //=============================================================================
@@ -39,6 +53,7 @@ Data::putData(
     if ((owners.load() <= 1)) {
         freeDataBlock();
         cp = s;
+        isInline = false;
         dataClass = aClass;
         dimensions = dims;
         fieldNames = fields;
@@ -133,6 +148,11 @@ Data::numberOfOwners() const
 void
 Data::freeDataBlock()
 {
+    if (isInline) {
+        cp = nullptr;
+        isInline = false;
+        return;
+    }
     if (cp) {
         switch (dataClass) {
         case NLS_MISSING_ARRAY: {

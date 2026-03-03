@@ -13,6 +13,7 @@
 #include "ArrayOf.hpp"
 #include "nlsTypes_exports.h"
 #include <atomic>
+#include <cstring>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -38,6 +39,17 @@ private:
      * Sparsity flag - true if we are a sparse array.
      */
     bool sparse;
+    /**
+     * Flag indicating if data is stored in the inline buffer
+     * (small buffer optimization for scalars).
+     */
+    bool isInline;
+    /**
+     * Inline buffer for small scalar data (avoids heap allocation).
+     * Large enough for a double complex (2 * sizeof(double) = 16 bytes).
+     */
+    static constexpr size_t INLINE_BUFFER_SIZE = 2 * sizeof(double);
+    alignas(double) unsigned char inlineBuffer[INLINE_BUFFER_SIZE];
     /**
      * Pointer to the data block.
      */
@@ -66,6 +78,12 @@ private:
      */
     Data(NelsonType aClass, const Dimensions& dims, void* s, bool sparseflag = false,
         stringVector fields = stringVector());
+    /**
+     * Construct a Data object with inline scalar data.
+     * The data is copied into the internal inline buffer,
+     * avoiding a separate heap allocation.
+     */
+    Data(NelsonType aClass, const Dimensions& dims, const void* scalarData, size_t dataSize);
     /**
      * The destructor.  Calls freeDataBlock member function.
      */

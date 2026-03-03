@@ -60,9 +60,7 @@ ArrayOf::singleConstructor(float aval)
 {
     Dimensions dim;
     dim.makeScalar();
-    float* data = static_cast<float*>(allocateArrayOf(NLS_SINGLE, 1, stringVector(), false));
-    *data = aval;
-    return ArrayOf(NLS_SINGLE, dim, data);
+    return ArrayOf(NLS_SINGLE, dim, static_cast<const void*>(&aval), sizeof(float));
 }
 //=============================================================================
 ArrayOf
@@ -106,10 +104,8 @@ ArrayOf::complexConstructor(float aval, float bval)
 {
     Dimensions dim;
     dim.makeScalar();
-    float* data = static_cast<float*>(allocateArrayOf(NLS_SCOMPLEX, 1, stringVector(), false));
-    data[0] = aval;
-    data[1] = bval;
-    return ArrayOf(NLS_SCOMPLEX, dim, data);
+    float data[2] = { aval, bval };
+    return ArrayOf(NLS_SCOMPLEX, dim, static_cast<const void*>(data), sizeof(data));
 }
 //=============================================================================
 single
