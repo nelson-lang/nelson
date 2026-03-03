@@ -89,6 +89,13 @@ class NLSINTERPRETER_IMPEXP Evaluator
      * The interface for I/O
      */
     Interface* io;
+    /**
+     * The default (interactive) interface, saved at construction.
+     * Used to restore interactive I/O during debug sessions
+     * when the current interface has been temporarily replaced
+     * (e.g., by evalc).
+     */
+    Interface* defaultInterface = nullptr;
 
     int exitCode = 0;
 
@@ -318,6 +325,8 @@ public:
     setInterface(Interface* _io);
     Interface*
     getInterface();
+    Interface*
+    getDefaultInterface();
     /**
      * Process an AST to form an lvalue in an assignment statement.
      * The AST looks like:
