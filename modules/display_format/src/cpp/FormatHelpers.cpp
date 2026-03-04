@@ -150,6 +150,29 @@ formatIntegerReal(T val, const FormatDisplayInformation& formatInfo)
     return fmt::format(formatInfo.formatReal, (long int)val);
 }
 //=============================================================================
+static void
+fixFormatNonFinite(std::wstring& s)
+{
+    // nan/inf always land at the tail of a formatted float string
+    // e.g. "   nan", "  -inf" — no need to scan, just index from end
+    if (s.size() < 3) {
+        return;
+    }
+    const size_t tail = s.size() - 3;
+    wchar_t a = s[tail], b = s[tail + 1], c = s[tail + 2];
+
+    if (a == L'n' && b == L'a' && c == L'n') {
+        s[tail] = L'N';
+        s[tail + 2] = L'N';
+        // 'a' stays
+        return;
+    }
+    if (a == L'i' && b == L'n' && c == L'f') {
+        s[tail] = L'I';
+        // 'n', 'f' stay — only first char changes
+    }
+}
+//=============================================================================
 template <class T>
 static std::wstring
 formatReal(T val, const FormatDisplayInformation& formatInfo)
@@ -166,14 +189,12 @@ formatReal(T val, const FormatDisplayInformation& formatInfo)
             double divisor = getScaleDivisor(formatInfo.scaleFactor);
             result = fmt::format(formatInfo.formatReal, val / divisor);
         } else {
-            bool haveDecimals = formatInfo.decimalsReal != 0;
-            if (haveDecimals) {
-                result = fmt::format(formatInfo.formatReal, val);
-            } else {
-                result = fmt::format(formatInfo.formatReal, val);
-            }
+            result = fmt::format(formatInfo.formatReal, val);
         }
     }
+#ifdef __APPLE__
+    fixFormatNonFinite(result);
+#endif
     return result;
 }
 //=============================================================================
@@ -392,6 +413,9 @@ formatElementT(T val, const FormatDisplayInformation& formatInfo)
         }
     } break;
     }
+#ifdef __APPLE__
+    fixFormatNonFinite(result);
+#endif
     return result;
 }
 //=============================================================================

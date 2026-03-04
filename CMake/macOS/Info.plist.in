@@ -45,6 +45,10 @@
   <key>LSMinimumSystemVersion</key>
   <string>11.0</string>
 
+  <!-- ─── Prevent Rosetta translation on Apple Silicon ─── -->
+  <key>LSRequiresNativeExecution</key>
+  <true/>
+
   <!-- ─── Appearance ─── -->
   <key>NSHighResolutionCapable</key>
   <true/>

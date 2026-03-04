@@ -54,6 +54,7 @@ Evaluator::Evaluator(Context* aContext, Interface* aInterface, bool haveEventsLo
     depth = 0;
     _haveEventsLoop = haveEventsLoop;
     io = aInterface;
+    defaultInterface = aInterface;
     InCLI = false;
     bpActive = false;
     clearStacks();
@@ -204,6 +205,13 @@ Interface*
 Evaluator::getInterface()
 {
     return io;
+}
+//======================================================================
+// Returns the default (interactive) interface.
+Interface*
+Evaluator::getDefaultInterface()
+{
+    return defaultInterface ? defaultInterface : io;
 }
 //=============================================================================
 // Returns the ID of the evaluator.
@@ -605,7 +613,19 @@ Evaluator::debugCLI()
     if (haveEventsLoop()) {
         ProcessEventsDynamicFunctionWithoutWait();
     }
+    // If the current interface is not the default (interactive) one
+    // (e.g., during evalc), temporarily restore the interactive interface
+    // so that the debug CLI can read user input.
+    Interface* savedIO = nullptr;
+    if (io != defaultInterface && defaultInterface != nullptr) {
+        savedIO = io;
+        io = defaultInterface;
+    }
     evalCLI();
+    // Restore the previous interface after the debug session
+    if (savedIO != nullptr) {
+        io = savedIO;
+    }
     // After evalCLI() returns, check if debug mode should be exited:
     // - If a debug command set bpActive to false, keep it false
     // - If script finished without active breakpoint, exit debug mode

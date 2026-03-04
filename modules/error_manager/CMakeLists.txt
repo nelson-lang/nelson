@@ -85,4 +85,8 @@ target_link_libraries(
 nelson_install_library(${module_library_name})
 nelson_install_library(${module_library_builtin_name})
 nelson_install_module_data(${module_name})
+nelson_install_module_data(
+  ${module_name}
+  EXTRA_DIR_PATTERNS
+  "i18n/:*.json")
 # ==============================================================================

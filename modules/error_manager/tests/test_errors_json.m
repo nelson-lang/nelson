@@ -7,18 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--ENGLISH IMPOSED-->
-%=============================================================================
-S = getLastReport();
-assert_isequal(S, '');
-%=============================================================================
-execstr('a','errcatch');
-S = getLastReport();
-REF = '
-Error in execstr
-Undefined variable or function: a.
-
-at line    15 of ''test_getLastReport.m''
-';
-assert_isequal(S, REF);
+jsonPath = [modulepath('error_manager'), '/i18n/en_US/errors.json'];
+assert_istrue(isfile(jsonPath));
+st = jsondecode(jsonPath, '-file');
+fieldnames = fieldnames(st);
+for i = 1:numel(fieldnames)
+    fieldname = fieldnames{i};
+    assert_isfalse(isempty(st.(fieldname)));
+end
 %=============================================================================

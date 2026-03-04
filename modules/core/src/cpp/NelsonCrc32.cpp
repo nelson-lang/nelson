@@ -9,6 +9,7 @@
 //=============================================================================
 #include <sstream>
 #include <fstream>
+#include <iomanip>
 #include <cstdint>
 #include "NelsonCrc32.hpp"
 #include "characters_encoding.hpp"
@@ -22,7 +23,6 @@ private:
     static constexpr uint32_t POLYNOMIAL = 0xEDB88320;
     uint32_t table[256];
     uint32_t crc;
-
     void
     generateTable()
     {
@@ -41,7 +41,6 @@ private:
 
 public:
     CRC32() : crc(0xFFFFFFFF) { generateTable(); }
-
     void
     process_bytes(const void* buffer, size_t byte_count)
     {
@@ -50,13 +49,11 @@ public:
             crc = table[(crc ^ data[i]) & 0xFF] ^ (crc >> 8);
         }
     }
-
     uint32_t
     checksum() const
     {
         return crc ^ 0xFFFFFFFF;
     }
-
     void
     reset()
     {
@@ -71,8 +68,8 @@ computeStringToCrc32(const std::wstring& str)
     CRC32 crc;
     crc.process_bytes(utf8str.data(), utf8str.size());
     std::stringstream ss;
-    ss << std::hex << crc.checksum();
-    return utf8_to_wstring(StringHelpers::to_upper_copy(ss.str()));
+    ss << std::uppercase << std::hex << std::setw(8) << std::setfill('0') << crc.checksum();
+    return utf8_to_wstring(ss.str());
 }
 //=============================================================================
 #ifndef PRIVATE_BUFFER_SIZE
@@ -97,8 +94,8 @@ computeFileToCrc32(const std::wstring& filename)
         } while (ifs);
         ifs.close();
         std::stringstream ss;
-        ss << std::hex << crc.checksum();
-        res = utf8_to_wstring(StringHelpers::to_upper_copy(ss.str()));
+        ss << std::uppercase << std::hex << std::setw(8) << std::setfill('0') << crc.checksum();
+        res = utf8_to_wstring(ss.str());
     }
     return res;
 }

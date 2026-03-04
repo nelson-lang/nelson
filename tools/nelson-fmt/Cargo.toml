@@ -17,16 +17,16 @@ license = "LGPL-3.0-or-later"
 publish = false
 
 [dependencies]
-clap = { version = "4", features = ["derive"] }
-serde = { version = "1", features = ["derive"] }
-serde_json = { version = "1", features = ["preserve_order"] }
-walkdir = "2"
-anyhow = "1"
+clap = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+rust-yaml = "0.0.5"
+walkdir = { workspace = true }
+anyhow = { workspace = true }
 xmlformat = "1.2.1"
 toml_edit = "*"
-cmake-fmt = "0.7.2"
 rayon = "1"
 
 [dev-dependencies]
-speculoos = "0.13"
-tempfile = "3"
+speculoos = { workspace = true }
+tempfile = { workspace = true }

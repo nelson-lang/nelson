@@ -253,13 +253,16 @@ Evaluator::stepBreakpointExists(const Breakpoint& bp)
 bool
 Evaluator::onBreakpoint(AbstractSyntaxTreePtr t)
 {
+    if (breakpoints.empty() && !bpActive) {
+        return false;
+    }
     std::string currentFunctionName = context->getCurrentScope()->getName();
     // Fast path: if we are in step-next mode and the line changed, break immediately
     if (bpActive && stepMode && stepBreakpoint.has_value() && stepBreakpoint->stepNext) {
         const Breakpoint& sb = *stepBreakpoint;
-        std::wstring sbFile = sb.filename;
+        const std::wstring& sbFile = sb.filename;
         if (!sbFile.empty() && filenamesMatch(sbFile, context->getCurrentScope()->getFilename())) {
-            std::string currentFunction = context->getCurrentScope()->getName();
+            const std::string& currentFunction = context->getCurrentScope()->getName();
             // For step-over: ONLY break in the same function (no depth check to avoid confusion)
             bool inSameFunction = !sb.functionName.empty() && sb.functionName == currentFunction;
             bool shouldBreak = sb.stepInto || inSameFunction;

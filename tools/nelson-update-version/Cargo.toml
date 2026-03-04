@@ -17,14 +17,14 @@ license = "LGPL-3.0-or-later"
 publish = false
 
 [dependencies]
-clap = { version = "4", features = ["derive"] }
-serde = "1"
-serde_json = { version = "1", features = ["preserve_order"] }
-walkdir = "2"
+clap = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+walkdir = { workspace = true }
 regex = "1"
-anyhow = "1"
+anyhow = { workspace = true }
 chrono = "0.4"
 
 [dev-dependencies]
-speculoos = "0.11"
-tempfile = "3"
+speculoos = { workspace = true }
+tempfile = { workspace = true }

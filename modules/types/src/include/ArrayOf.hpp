@@ -161,6 +161,10 @@ public:
     ArrayOf(NelsonType, const Dimensions&, void*, bool sparse = false,
         const stringVector& = stringVector());
     /**
+     * Create a scalar ArrayOf with inline data (no heap allocation for payload).
+     */
+    ArrayOf(NelsonType type, const Dimensions& dims, const void* scalarData, size_t dataSize);
+    /**
      * Destructor - free the data object.
      */
     ~ArrayOf();

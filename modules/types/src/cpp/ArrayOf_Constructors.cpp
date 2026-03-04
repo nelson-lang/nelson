@@ -117,7 +117,7 @@ ArrayOf
 ArrayOf::emptyCell(const Dimensions& dim)
 {
     if (dim.getElementCount() == 0) {
-        return ArrayOf(NLS_CELL_ARRAY, dim, nullptr, false);
+        return ArrayOf(NLS_CELL_ARRAY, dim, (void*)nullptr, false);
     }
     raiseError(L"Nelson:types:ERROR_INVALID_DIMENSIONS", ERROR_INVALID_DIMENSIONS);
     return {};
@@ -127,7 +127,7 @@ ArrayOf
 ArrayOf::emptyConstructor(const Dimensions& dim, bool bIsSparse)
 {
     if (dim.getElementCount() == 0) {
-        return ArrayOf(NLS_DOUBLE, dim, nullptr, bIsSparse);
+        return ArrayOf(NLS_DOUBLE, dim, (void*)nullptr, bIsSparse);
     }
     raiseError(L"Nelson:types:ERROR_INVALID_DIMENSIONS", ERROR_INVALID_DIMENSIONS);
 
@@ -139,7 +139,7 @@ ArrayOf::emptyConstructor(indexType m, indexType n, bool bIsSparse)
 {
     if (((m == 0) && (n == 0)) || ((m == 0) && (n != 0)) || ((m != 0) && (n == 0))) {
         Dimensions dim(m, n);
-        return ArrayOf(NLS_DOUBLE, dim, nullptr, bIsSparse);
+        return ArrayOf(NLS_DOUBLE, dim, (void*)nullptr, bIsSparse);
     }
     raiseError(L"Nelson:types:ERROR_INVALID_DIMENSIONS", ERROR_INVALID_DIMENSIONS);
 

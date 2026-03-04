@@ -64,8 +64,19 @@ find_program(MACDEPLOYQT
 
 if(MACDEPLOYQT)
   message(STATUS "Running macdeployqt: ${MACDEPLOYQT}")
+
+  # Tell macdeployqt where to find QML source files so it discovers which
+  # QML modules (QtQuick.Controls, QtQuick.Window, QtQuick.Layouts, …) need
+  # to be bundled.  Without -qmldir, macdeployqt does NOT copy QML plugins.
+  set(_qmldir_args "")
+  set(_qml_scan_dir "${RESOURCES_DIR}/share/Nelson/modules")
+  if(IS_DIRECTORY "${_qml_scan_dir}")
+    list(APPEND _qmldir_args "-qmldir=${_qml_scan_dir}")
+    message(STATUS "  macdeployqt -qmldir: ${_qml_scan_dir}")
+  endif()
+
   execute_process(
-    COMMAND "${MACDEPLOYQT}" "${APP_BUNDLE_DIR}" -verbose=1
+    COMMAND "${MACDEPLOYQT}" "${APP_BUNDLE_DIR}" -verbose=1 ${_qmldir_args}
     RESULT_VARIABLE _mqt_rc
     OUTPUT_VARIABLE _mqt_out
     ERROR_VARIABLE _mqt_err
@@ -96,7 +107,7 @@ endif()
 set(_exe_bin_dir "${RESOURCES_DIR}/bin")
 if(IS_DIRECTORY "${_exe_bin_dir}")
   file(WRITE "${_exe_bin_dir}/qt.conf"
-    "[Paths]\nPrefix = ../..\nPlugins = PlugIns\n"
+    "[Paths]\nPrefix = ../..\nPlugins = PlugIns\nQml2Imports = Resources/qml\n"
   )
   message(STATUS "Wrote qt.conf in ${_exe_bin_dir}")
 endif()
@@ -174,7 +185,85 @@ foreach(_dlib IN LISTS _dlopen_lib_names)
 endforeach()
 
 # ==============================================================================
-# Step 1c: Resolve system library shadowing conflicts
+# Step 1c: Bundle Qt QML modules (fallback if macdeployqt missed them)
+# ==============================================================================
+# macdeployqt should have handled QML modules when given -qmldir, but some
+# versions or configurations may miss modules.  Ensure the essential QML
+# modules used by Nelson's qml_engine are present in the bundle.
+
+set(_qml_dest_dir "${RESOURCES_DIR}/qml")
+
+# Locate the Qt QML root directory
+set(_qt_qml_root "")
+foreach(_qml_search
+  "$ENV{HOMEBREW_PREFIX}/share/qt/qml"
+  "/opt/homebrew/share/qt/qml"
+  "/usr/local/share/qt/qml"
+  "$ENV{QTDIR}/qml"
+  "$ENV{CONDA_PREFIX}/share/qt6/qml"
+)
+  if(_qml_search AND IS_DIRECTORY "${_qml_search}")
+    set(_qt_qml_root "${_qml_search}")
+    break()
+  endif()
+endforeach()
+
+if(NOT _qt_qml_root)
+  # Try to infer from macdeployqt location
+  if(MACDEPLOYQT)
+    get_filename_component(_mqt_bindir "${MACDEPLOYQT}" DIRECTORY)
+    get_filename_component(_mqt_prefix "${_mqt_bindir}" DIRECTORY)
+    if(IS_DIRECTORY "${_mqt_prefix}/share/qt/qml")
+      set(_qt_qml_root "${_mqt_prefix}/share/qt/qml")
+    elseif(IS_DIRECTORY "${_mqt_prefix}/qml")
+      set(_qt_qml_root "${_mqt_prefix}/qml")
+    endif()
+  endif()
+endif()
+
+if(_qt_qml_root)
+  message(STATUS "Qt QML root: ${_qt_qml_root}")
+
+  # Modules required by Nelson's qml_engine
+  set(_required_qml_modules
+    "QtQuick"
+    "QtQuick/Controls"
+    "QtQuick/Controls/Basic"
+    "QtQuick/Controls/macOS"
+    "QtQuick/Controls/impl"
+    "QtQuick/Layouts"
+    "QtQuick/Templates"
+    "QtQuick/Window"
+    "QtQuick/Dialogs"
+    "QtQuick/Particles"
+    "QtQuick/NativeStyle"
+    "QtQml"
+    "QtQml/WorkerScript"
+  )
+
+  foreach(_qmod IN LISTS _required_qml_modules)
+    set(_src_mod "${_qt_qml_root}/${_qmod}")
+    set(_dst_mod "${_qml_dest_dir}/${_qmod}")
+    if(IS_DIRECTORY "${_src_mod}" AND NOT IS_DIRECTORY "${_dst_mod}")
+      message(STATUS "  Bundling QML module: ${_qmod}")
+      file(COPY "${_src_mod}/" DESTINATION "${_dst_mod}")
+    endif()
+  endforeach()
+else()
+  message(WARNING
+    "Qt QML root not found – QML modules not bundled. "
+    "QtQuick.Controls, QtQuick.Window, etc. may be unavailable at runtime."
+  )
+endif()
+
+# Also write a qt.conf in Contents/Resources/ (macdeployqt creates one here;
+# this ensures it always has the correct QmlImports line).
+file(WRITE "${RESOURCES_DIR}/qt.conf"
+  "[Paths]\nPrefix = ..\nPlugins = PlugIns\nQml2Imports = Resources/qml\n"
+)
+
+# ==============================================================================
+# Step 1d: Resolve system library shadowing conflicts
 # ==============================================================================
 # macdeployqt may bundle Homebrew libraries whose filename matches a system
 # library but whose ABI is INCOMPATIBLE.  The main case is GNU libiconv

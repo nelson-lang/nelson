@@ -169,7 +169,12 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
 
     uint64 tic = 0;
     try {
-        insertLocalFunctions(context);
+        // Only insert local functions on first entry (they don't change during recursion).
+        if (recursionDepth == 1) {
+            insertLocalFunctions(context);
+        } else if (this->nextFunction != nullptr || this->prevFunction != nullptr) {
+            insertLocalFunctions(context);
+        }
         setInputArgumentNames(context, inputs);
         bindInputs(context, inputs);
         context->getCurrentScope()->setNargOut(nargout);
@@ -202,12 +207,15 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
 
         outputs = prepareOutputs(context, nargout);
 
-        onCleanup(eval);
-
+        if (!cleanupTasks.empty()) {
+            onCleanup(eval);
+        }
         context->popScope();
         eval->callstack.popDebug();
     } catch (const Exception&) {
-        onCleanup(eval);
+        if (!cleanupTasks.empty()) {
+            onCleanup(eval);
+        }
         if (recursionDepth == 1 && tic != 0) {
             internalProfileFunction stack
                 = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
@@ -283,12 +291,26 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
 ArrayOfVector
 MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
-    lock();
-    updateCode();
-    if (isScript) {
-        return evaluateMScript(eval, inputs, nargout);
+    // Skip lock/updateCode on recursive calls � code cannot change mid-recursion.
+    static thread_local int evaluateFunctionDepth = 0;
+    if (evaluateFunctionDepth == 0) {
+        lock();
+        updateCode();
     }
-    return evaluateMFunction(eval, inputs, nargout);
+    ++evaluateFunctionDepth;
+    ArrayOfVector result;
+    try {
+        if (isScript) {
+            result = evaluateMScript(eval, inputs, nargout);
+        } else {
+            result = evaluateMFunction(eval, inputs, nargout);
+        }
+    } catch (...) {
+        --evaluateFunctionDepth;
+        throw;
+    }
+    --evaluateFunctionDepth;
+    return result;
 }
 //=============================================================================
 std::string

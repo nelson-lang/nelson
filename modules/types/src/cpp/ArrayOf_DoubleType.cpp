@@ -53,9 +53,7 @@ ArrayOf::isNdArrayDoubleType(bool realOnly) const
 ArrayOf
 ArrayOf::doubleConstructor(double aval)
 {
-    double* data = static_cast<double*>(allocateArrayOf(NLS_DOUBLE, 1, stringVector(), false));
-    *data = aval;
-    return ArrayOf(NLS_DOUBLE, Dimensions(1, 1), data);
+    return ArrayOf(NLS_DOUBLE, Dimensions(1, 1), static_cast<const void*>(&aval), sizeof(double));
 }
 //=============================================================================
 ArrayOf
@@ -95,10 +93,8 @@ ArrayOf::doubleMatrix2dConstructor(indexType m, indexType n)
 ArrayOf
 ArrayOf::dcomplexConstructor(double aval, double bval)
 {
-    double* data = static_cast<double*>(allocateArrayOf(NLS_DCOMPLEX, 1, stringVector(), false));
-    data[0] = aval;
-    data[1] = bval;
-    return ArrayOf(NLS_DCOMPLEX, Dimensions(1, 1), data);
+    double data[2] = { aval, bval };
+    return ArrayOf(NLS_DCOMPLEX, Dimensions(1, 1), static_cast<const void*>(data), sizeof(data));
 }
 //=============================================================================
 std::vector<double>

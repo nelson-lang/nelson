@@ -22,6 +22,10 @@
       <b>MacOS X :</b>
     </p>
     <p>- Les compilateurs C/C++ d&apos;Xcode.</p>
+    <p>Si vous utilisez macOS, le dmg de CMake doit être installé depuis <a href="https://cmake.org/download/">https://cmake.org/download/</a>.</p>
+    <p>XCode doit être installé <b>en utilisant la commande :</b>
+      <code>xcode-select --install</code>
+    </p>
   </description>
   <see_also>
     <see_also_item>
