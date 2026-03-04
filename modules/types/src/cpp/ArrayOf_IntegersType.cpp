@@ -24,9 +24,7 @@ scalarConstructor(NelsonType type, T value)
 {
     Dimensions dim;
     dim.makeScalar();
-    T* data = static_cast<T*>(ArrayOf::allocateArrayOf(type, 1, stringVector(), false));
-    *data = value;
-    return ArrayOf(type, dim, data);
+    return ArrayOf(type, dim, static_cast<const void*>(&value), sizeof(T));
 }
 //=============================================================================
 template <typename T>
@@ -329,19 +327,19 @@ ArrayOf::integerRangeConstructor(indexType minval, indexType stepsize, indexType
     if (stepsize == 0) {
         Cdim[0] = 1;
         Cdim[1] = 0;
-        return ArrayOf(classC, Cdim, nullptr, false);
+        return ArrayOf(classC, Cdim, (void*)nullptr, false);
     }
     if (minval < maxval) {
         if (stepsize < 0) {
             Cdim[0] = 1;
             Cdim[1] = 0;
-            return ArrayOf(classC, Cdim, nullptr, false);
+            return ArrayOf(classC, Cdim, (void*)nullptr, false);
         }
     }
     if (minval > maxval) {
         Cdim[0] = 0;
         Cdim[1] = 1;
-        return ArrayOf(classC, Cdim, nullptr, false);
+        return ArrayOf(classC, Cdim, (void*)nullptr, false);
     }
     auto dn = static_cast<double>((((maxval - minval) / stepsize) + 1));
 #ifdef NLS_INDEX_TYPE_64
