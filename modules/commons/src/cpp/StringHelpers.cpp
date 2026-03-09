@@ -179,6 +179,18 @@ replace_all(T& str, const T& from, const T& to, size_t npos)
         return;
     }
 
+    // ⚡ Bolt: This implementation is optimized to avoid multiple memory
+    // reallocations when the replacement string is longer than the search string.
+    //
+    // How it works:
+    // 1. Find all occurrences of `from` and store their positions.
+    // 2. If no occurrences are found, we return early.
+    // 3. Pre-calculate the final size of the string and reserve memory for it once.
+    // 4. Build the new string in a single pass, appending the parts of the
+    //    original string and the replacement string.
+    //
+    // This approach is significantly faster because it avoids the overhead of
+    // repeated memory allocations and string modifications.
     std::vector<size_t> positions;
     size_t pos = str.find(from, 0);
     while (pos != npos) {
@@ -523,7 +535,7 @@ erase_first(std::string& input, const std::string& search)
 void
 erase_first(std::wstring& input, const std::wstring& search)
 {
-    erase_first<std::wstring>(input, search, std::string::npos);
+    erase_first<std::wstring>(input, search, std::wstring::npos);
 }
 //=============================================================================
 std::string
