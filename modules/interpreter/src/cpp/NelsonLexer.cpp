@@ -1421,8 +1421,8 @@ yylexScreen(LexerContext& lexerContext)
                 if ((nextChar != '\0') && (nextChar != ']') && (nextChar != '}')
                     && (nextChar != ')') && (nextChar != ';') && (nextChar != ',')) {
                     if ((nextChar == '(') || (nextChar == '+') || (nextChar == '-')
-                        || (nextChar == '~') || (nextChar == '[') || (nextChar == '{')
-                        || (nextChar == '\'') || ((isalnum(nextChar)) != 0)
+                        || ((nextChar == '~') && (nextPtr[1] != '=')) || (nextChar == '[')
+                        || (nextChar == '{') || (nextChar == '\'') || ((isalnum(nextChar)) != 0)
                         || ((nextChar == '.') && ((_isDigit(nextPtr[1])) != 0))) {
                         nextStartsExpression = true;
                     } else if (!hasContinuation && (strncmp(nextPtr, "...", 3) == 0)) {

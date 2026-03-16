@@ -42,7 +42,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - MacOS packaging as dmg installer.
 
-
 ### Changed
 
 - Reduced interpreter overhead in tight loops.
@@ -50,6 +49,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CMake factorized.
 - Innosetup installer modernized.
 - fmtlib 12.1
+
+### Fixed
+
+- [#1547](https://github.com/nelson-lang/nelson/issues/1547): Parsing of ~= operator with spaces was not working correctly, causing it to be misinterpreted as a matrix row separator.
+
 
 ## 1.16.0 - (2025-12-27)
 
