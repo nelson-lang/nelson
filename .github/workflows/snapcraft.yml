@@ -37,7 +37,7 @@ jobs:
         sudo snapcraft --destructive-mode --verbose
     - name: Copy artifacts
       run: mkdir artifacts && mv ./*_amd64.snap artifacts
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: nelson-github-action-artifacts-snapcraft-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
         path: artifacts/
@@ -82,7 +82,7 @@ jobs:
         sudo snapcraft --destructive-mode --verbose
     - name: Copy artifacts
       run: mkdir artifacts && mv ./*_arm64.snap artifacts
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: nelson-github-action-artifacts-snapcraft-arm64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
         path: artifacts/
