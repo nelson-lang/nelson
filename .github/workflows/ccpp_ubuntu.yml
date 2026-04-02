@@ -30,7 +30,7 @@ jobs:
           fi
 
       - name: Get package version
-        uses: myrotvorets/info-from-package-json-action@2.0.1
+        uses: myrotvorets/info-from-package-json-action@v2.0.2
         id: json_version
 
       - name: Update version

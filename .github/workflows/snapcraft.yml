@@ -27,7 +27,7 @@ jobs:
     - name: Install just
       uses: extractions/setup-just@v2
     - name: Get package version
-      uses: myrotvorets/info-from-package-json-action@2.0.1
+      uses: myrotvorets/info-from-package-json-action@v2.0.2
       id: json_version
     - name: Update version and build
       run: |
@@ -72,7 +72,7 @@ jobs:
     - name: Install just
       uses: extractions/setup-just@v2
     - name: Get package version
-      uses: myrotvorets/info-from-package-json-action@2.0.1
+      uses: myrotvorets/info-from-package-json-action@v2.0.2
       id: json_version
     - name: Update version and build
       run: |
