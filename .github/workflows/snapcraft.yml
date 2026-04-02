@@ -25,7 +25,7 @@ jobs:
     - name: Install Rust
       uses: dtolnay/rust-toolchain@stable
     - name: Install just
-      uses: extractions/setup-just@v2
+      uses: extractions/setup-just@v3
     - name: Get package version
       uses: myrotvorets/info-from-package-json-action@v2.0.2
       id: json_version
@@ -70,7 +70,7 @@ jobs:
     - name: Install Rust
       uses: dtolnay/rust-toolchain@stable
     - name: Install just
-      uses: extractions/setup-just@v2
+      uses: extractions/setup-just@v3
     - name: Get package version
       uses: myrotvorets/info-from-package-json-action@v2.0.2
       id: json_version
