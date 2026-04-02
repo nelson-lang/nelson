@@ -34,7 +34,7 @@ jobs:
       - name: Copy artifacts
         run: mkdir artifacts && mv nelson-*.deb artifacts
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: nelson-github-action-artifacts-minimal-linux-ubuntu-24-04-amd64-${{steps.json_version.outputs.packageVersion}}.${{ github.sha }}
           path: artifacts/

@@ -64,7 +64,7 @@ jobs:
           "C:/Program Files/7-Zip/7z" a -tzip -mx7 %GITHUB_WORKSPACE%/artifacts/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%-arm64-workspace.zip %GITHUB_WORKSPACE% -xr!Release\
       - name: Copy installer in artifacts directory
         run: move "%GITHUB_WORKSPACE%\Nelson-*.exe" "%GITHUB_WORKSPACE%\artifacts\"
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: nelson-installer-windows-arm64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
           path: artifacts/
@@ -107,7 +107,7 @@ jobs:
           set NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
           set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
           "c:/install/Nelson ${{ needs.Windows_woa64.outputs.version }}.%GITHUB_RUN_NUMBER%/bin/ARM64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ needs.Windows_woa64.outputs.version }}.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.m"
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: nelson-github-action-artifacts-windows-arm64-${{ needs.Windows_woa64.outputs.version }}.${{ github.run_number }}
           path: artifacts/
@@ -180,7 +180,7 @@ jobs:
           "C:/Program Files/7-Zip/7z" a -tzip -mx7 %GITHUB_WORKSPACE%/artifacts/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%-x86-64-workspace.zip %GITHUB_WORKSPACE% -xr!Release\
       - name: Copy installer in artifacts directory
         run: move "%GITHUB_WORKSPACE%\Nelson-*.exe" "%GITHUB_WORKSPACE%\artifacts\"
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: nelson-installer-windows-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
           path: artifacts/
@@ -231,7 +231,7 @@ jobs:
           set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
           set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
           "c:/install/Nelson ${{ needs.Windows_win64.outputs.version }}.%GITHUB_RUN_NUMBER%/bin/x64/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ needs.Windows_win64.outputs.version }}.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.m"
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: nelson-github-action-artifacts-windows-amd64-${{ needs.Windows_win64.outputs.version }}.${{ github.run_number }}
           path: artifacts/
@@ -306,7 +306,7 @@ jobs:
           "C:/Program Files/7-Zip/7z" a -tzip -mx7 %GITHUB_WORKSPACE%/artifacts/Nelson-${{ steps.json_version.outputs.packageVersion }}.%GITHUB_RUN_NUMBER%-x86-32-workspace.zip %GITHUB_WORKSPACE% -xr!Release\
       - name: Copy installer in artifacts directory
         run: move "%GITHUB_WORKSPACE%\Nelson-*.exe" "%GITHUB_WORKSPACE%\artifacts\"
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: nelson-installer-windows-win32-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
           path: artifacts/
@@ -356,7 +356,7 @@ jobs:
           set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
           set TESTS_RESULT_DIR=%GITHUB_WORKSPACE%/artifacts
           "c:/install/Nelson ${{ needs.Windows_win32.outputs.version }}.%GITHUB_RUN_NUMBER%/bin/win32/nelson-cli" --noipc --quiet -f "c:/install/Nelson ${{ needs.Windows_win32.outputs.version }}.%GITHUB_RUN_NUMBER%/tools/tests_all/runtests_all.m"
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: nelson-github-action-artifacts-windows-win32-${{ needs.Windows_win32.outputs.version }}.${{ github.run_number }}
           path: artifacts/
