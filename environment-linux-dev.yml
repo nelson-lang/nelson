@@ -19,7 +19,7 @@ dependencies:
   - openmpi
   - openmpi-mpicc
   - openmpi-mpicxx
-  - libmatio
+  - libmatio=1.5.26
   - hdf5
   - portaudio
   - libgit2
