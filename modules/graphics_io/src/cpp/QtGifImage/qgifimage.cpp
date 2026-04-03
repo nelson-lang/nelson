@@ -248,7 +248,7 @@ QGifImagePrivate::load(QIODevice* device)
 bool
 QGifImagePrivate::save(QIODevice* device, Qt::ImageConversionFlags flags) const
 {
-    int error;
+    int error = 0;
     GifFileType* gifFile = EGifOpen(device, writeToIODevice, &error);
     if (!gifFile) {
         qWarning("%s", GifErrorString(error));
@@ -325,8 +325,11 @@ QGifImagePrivate::save(QIODevice* device, Qt::ImageConversionFlags flags) const
 
         EGifGCBToSavedExtension(&gcbBlock, gifFile, idx);
     }
-
+#if GIFLIB_MAJOR >= 6
+    EGifSpew(gifFile, &error);
+#else
     EGifSpew(gifFile);
+#endif
     return true;
 }
 
