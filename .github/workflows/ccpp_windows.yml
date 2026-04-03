@@ -83,7 +83,7 @@ jobs:
       #   with:
       #     arch: "arm64"
       - name: Download artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: nelson-installer-windows-arm64-${{ needs.Windows_woa64.outputs.version }}.${{ github.run_number }}
       - name: Install Nelson with installer
@@ -205,7 +205,7 @@ jobs:
           C:/install/MSMpiSetup.exe -unattend -minimal
         shell: powershell
       - name: Download artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: nelson-installer-windows-amd64-${{ needs.Windows_win64.outputs.version }}.${{ github.run_number }}
       - name: Install Nelson with installer
@@ -330,7 +330,7 @@ jobs:
           C:/install/MSMpiSetup.exe -unattend -minimal
         shell: powershell
       - name: Download artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: nelson-installer-windows-win32-${{ needs.Windows_win32.outputs.version }}.${{ github.run_number }}
       - name: Install Nelson with installer
