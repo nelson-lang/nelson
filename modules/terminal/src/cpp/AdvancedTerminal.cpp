@@ -191,6 +191,38 @@ injectNewlineIntoInput()
 #endif
 }
 //=============================================================================
+static void
+writeStdoutUtf8(const std::string& msg)
+{
+#ifdef _WIN32
+    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (handle != nullptr && handle != INVALID_HANDLE_VALUE) {
+        std::wstring wide = utf8_to_wstring(msg);
+        DWORD written = 0;
+        WriteConsoleW(handle, wide.c_str(), static_cast<DWORD>(wide.size()), &written, nullptr);
+        return;
+    }
+#endif
+    std::cout << msg;
+    std::cout.flush();
+}
+//=============================================================================
+static void
+writeStderrUtf8(const std::string& msg)
+{
+#ifdef _WIN32
+    HANDLE handle = GetStdHandle(STD_ERROR_HANDLE);
+    if (handle != nullptr && handle != INVALID_HANDLE_VALUE) {
+        std::wstring wide = utf8_to_wstring(msg);
+        DWORD written = 0;
+        WriteConsoleW(handle, wide.c_str(), static_cast<DWORD>(wide.size()), &written, nullptr);
+        return;
+    }
+#endif
+    std::cerr << msg;
+    std::cerr.flush();
+}
+//=============================================================================
 } // namespace
 //=============================================================================
 std::wstring
@@ -207,6 +239,7 @@ AdvancedTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
         atPrompt = false;
         return L"\n";
     }
+
     const char* line = repl->input(promptUtf8);
     if (line == nullptr || line[0] == 0) {
         atPrompt = false;
@@ -272,19 +305,19 @@ AdvancedTerminal::getTerminalHeight()
 void
 AdvancedTerminal::outputMessage(const std::wstring& msg)
 {
-    outputMessage(wstring_to_utf8(msg));
+    std::string _msg = wstring_to_utf8(msg);
+    if (atPrompt) {
+        writeStdoutUtf8("\n");
+        atPrompt = false;
+    }
+
+    outputMessage(_msg);
 }
 //=============================================================================
 void
 AdvancedTerminal::outputMessage(const std::string& msg)
 {
-    if (atPrompt) {
-        std::cout << "\n";
-
-        atPrompt = false;
-    }
-    std::cout << msg;
-    std::cout.flush();
+    writeStdoutUtf8(msg);
     this->diary.writeMessage(msg);
 }
 //=============================================================================
@@ -298,11 +331,10 @@ void
 AdvancedTerminal::errorMessage(const std::string& msg)
 {
     if (atPrompt) {
-        std::cout << "\n";
+        writeStdoutUtf8("\n");
         atPrompt = false;
     }
-    std::cerr << msg;
-    std::cerr.flush();
+    writeStderrUtf8(msg);
     this->diary.writeMessage(msg);
 }
 //=============================================================================
@@ -316,11 +348,11 @@ void
 AdvancedTerminal::warningMessage(const std::string& msg)
 {
     if (atPrompt) {
-        std::cout << "\n";
+        writeStdoutUtf8("\n");
         atPrompt = false;
     }
-    std::cout << msg;
-    std::cout.flush();
+    writeStdoutUtf8(msg);
+    this->diary.writeMessage(msg);
 }
 //=============================================================================
 void

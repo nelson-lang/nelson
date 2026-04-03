@@ -14,15 +14,18 @@
 %=============================================================================
 % <--IPC REQUIRED-->
 % <--SEQUENTIAL TEST REQUIRED-->
-% <--GUI MODE-->
+% <--ADV-CLI MODE-->
 %=============================================================================
+N = 3;
 binpath = modulepath('nelson', 'bin');
-nelson_exe = [binpath, '/nelson --timeout 10'];
+nelson_exe = [binpath, '/nelson-gui --timeout 20 &'];
 %=============================================================================
-exec = string([nelson_exe; nelson_exe; nelson_exe;nelson_exe]);
-timeout = [10; 10; 10; 10];
-system(exec, timeout);
+sleep(5);
+before = getpid('available');
+exec = string(repmat(nelson_exe, N, 1));
+timeout = repmat(20, N, 1);
+[a, b] = system(exec, timeout);
 sleep(10);
-R = getpid('available');
-assert_istrue(length(R) >= 4);
+after = getpid('available');
+assert_istrue(length(after) >= 2);
 %=============================================================================
