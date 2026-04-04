@@ -22,7 +22,7 @@ jobs:
         run: sudo $GITHUB_WORKSPACE/tools/install_dependencies/install-ubuntu-24.04-minimal.sh
 
       - name: Get package version
-        uses: myrotvorets/info-from-package-json-action@v2.0.2
+        uses: jaywcjlove/github-action-package@v2.1.0
         id: json_version
 
       - name: Update version
@@ -42,5 +42,5 @@ jobs:
 
       - uses: actions/upload-artifact@v7
         with:
-          name: nelson-github-action-artifacts-minimal-linux-ubuntu-24-04-amd64-${{steps.json_version.outputs.packageVersion}}.${{ github.sha }}
+          name: nelson-github-action-artifacts-minimal-linux-ubuntu-24-04-amd64-${{steps.json_version.outputs.version}}.${{ github.sha }}
           path: artifacts/

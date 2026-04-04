@@ -1,7 +1,4 @@
 name: "macOS Build"
-concurrency:
-  group: nelson-${{ github.ref }}
-  cancel-in-progress: true
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
@@ -58,7 +55,7 @@ jobs:
           version: "6.4.2"
 
       - name: Get package version
-        uses: myrotvorets/info-from-package-json-action@v2.0.2
+        uses: jaywcjlove/github-action-package@v2.1.0
         id: json_version
 
       - name: Update version
@@ -110,5 +107,5 @@ jobs:
 
       - uses: actions/upload-artifact@v7
         with:
-          name: nelson-github-action-artifacts-${{ matrix.config.name }}-${{ matrix.config.arch }}-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
+          name: nelson-github-action-artifacts-${{ matrix.config.name }}-${{ matrix.config.arch }}-${{ steps.json_version.outputs.version }}.${{ github.run_number }}
           path: artifacts/
