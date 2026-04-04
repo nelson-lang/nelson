@@ -52,6 +52,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- [#1564](https://github.com/nelson-lang/nelson/issues/1564): Regression: modifying copy unexpectedly alters original array.
+
 - [#1547](https://github.com/nelson-lang/nelson/issues/1547): Parsing of ~= operator with spaces was not working correctly, causing it to be misinterpreted as a matrix row separator.
 
 

@@ -1,6 +1,6 @@
 name: Micromamba CI
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: micromamba-${{ github.workflow }}-${{ github.ref }}-${{ github.head_ref }}
   cancel-in-progress: true
 
 on: [push]

@@ -621,8 +621,8 @@ ArrayOf::setNDimSubset(ArrayOfVector& index, ArrayOf& rightData)
             Error(_W("Size mismatch in assignment A(I1,I2,...,In) = B."));
         }
         myDims = dp->dimensions;
-        // Get a writable data pointer
-        void* qp = (void*)getDataPointer();
+        // Get a writable data pointer (also ensures copy-on-write)
+        void* qp = getReadWriteDataPointer();
         indexType outDimsInt[maxDims];
         indexType srcDimsInt[maxDims];
         for (indexType i = 0; i < L; i++) {

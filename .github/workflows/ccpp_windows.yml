@@ -1,7 +1,10 @@
 name: "Windows Build"
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: nelson-${{ github.ref }}
   cancel-in-progress: true
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
 on:
   workflow_call:

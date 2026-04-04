@@ -1,7 +1,10 @@
 name: Minimal Build
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: minimal-${{ github.workflow }}-${{ github.ref }}-${{ github.head_ref }}
   cancel-in-progress: true
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
 on: [push]
 
