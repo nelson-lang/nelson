@@ -5,6 +5,12 @@ env:
 
 on:
   workflow_call:
+    inputs:
+      run_macos_tests:
+        description: "Run macOS tests job"
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   build:
@@ -108,4 +114,103 @@ jobs:
       - uses: actions/upload-artifact@v7
         with:
           name: nelson-github-action-artifacts-${{ matrix.config.name }}-${{ matrix.config.arch }}-${{ steps.json_version.outputs.version }}.${{ github.run_number }}
+          path: artifacts/
+
+  macos_tests:
+    name: macOS Tests - ${{ matrix.config.name }}
+    if: ${{ inputs.run_macos_tests }}
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: Tahoe (26)
+            runner: macos-26
+            arch: arm64
+          - name: Sequoia (15)
+            runner: macos-15
+            arch: arm64
+          - name: Sequoia (15) intel
+            runner: macos-15-intel
+            arch: x86_64
+          - name: Sonoma (14)
+            runner: macos-14
+            arch: arm64
+    runs-on: ${{ matrix.config.runner }}
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: artifacts
+
+      - id: find_dmg
+        name: Find DMG
+        run: |
+          DMG=$(find "$GITHUB_WORKSPACE/artifacts" -type f -name 'Nelson-*.dmg' -print -quit)
+          if [ -z "$DMG" ]; then
+            echo "No DMG found in $GITHUB_WORKSPACE/artifacts"
+            ls -R "$GITHUB_WORKSPACE/artifacts" || true
+            exit 1
+          fi
+          echo "dmg_path=$DMG" >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - id: mount_and_copy
+        name: Mount DMG and copy
+        run: |
+          MOUNT_DIR=$(mktemp -d)
+          hdiutil attach "${{ steps.find_dmg.outputs.dmg_path }}" -nobrowse -mountpoint "$MOUNT_DIR"
+          INSTALL_DIR="$GITHUB_WORKSPACE/install/Nelson-${{ matrix.config.arch }}.${{ github.run_number }}"
+          mkdir -p "$INSTALL_DIR"
+          APP=$(find "$MOUNT_DIR" -maxdepth 2 -name '*.app' -print -quit)
+          if [ -n "$APP" ]; then
+            cp -R "$APP" "$INSTALL_DIR/"
+            APP_BUNDLE=$(basename "$APP")
+            CLI_PATH="$INSTALL_DIR/$APP_BUNDLE/Contents/MacOS/nelson-cli"
+          else
+            cp -R "$MOUNT_DIR"/* "$INSTALL_DIR/"
+            CLI_PATH=$(find "$INSTALL_DIR" -type f -name 'nelson-cli' -print -quit)
+          fi
+          hdiutil detach "$MOUNT_DIR"
+          echo "cli_path=$CLI_PATH" >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - name: Benchs
+        run: |
+          CLI="${{ steps.mount_and_copy.outputs.cli_path }}"
+          if [ -z "$CLI" ] || [ ! -x "$CLI" ]; then
+            echo "CLI not found or not executable: $CLI"
+            exit 1
+          fi
+          export NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
+          export TESTS_RESULT_DIR=$GITHUB_WORKSPACE/artifacts
+          BENCH_SCRIPT=$(find "$GITHUB_WORKSPACE/install" -type f -name 'runbenchmark_all.m' -print -quit)
+          if [ -n "$BENCH_SCRIPT" ]; then
+            "$CLI" --noipc --quiet -f "$BENCH_SCRIPT"
+          else
+            echo "No bench script found"
+          fi
+        shell: bash
+
+      - name: Tests
+        run: |
+          CLI="${{ steps.mount_and_copy.outputs.cli_path }}"
+          export NELSON_TERM_IS_UNICODE_SUPPORTED=TRUE
+          export TESTS_RESULT_DIR=$GITHUB_WORKSPACE/artifacts
+          TEST_SCRIPT=$(find "$GITHUB_WORKSPACE/install" -type f -name 'runtests_all.m' -print -quit)
+          if [ -n "$TEST_SCRIPT" ]; then
+            "$CLI" --noipc --quiet -f "$TEST_SCRIPT"
+          else
+            echo "No test script found"
+          fi
+        shell: bash
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: nelson-github-action-artifacts-${{ matrix.config.name }}-${{ matrix.config.arch }}.${{ github.run_number }}
           path: artifacts/
