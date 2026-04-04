@@ -1,7 +1,7 @@
 name: "C/C++ CI"
 
 concurrency:
-  group: nelson-${{ github.ref }}
+  group: nelson-${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 
 on: [push]

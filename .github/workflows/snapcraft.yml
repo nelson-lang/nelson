@@ -32,7 +32,7 @@ jobs:
     - name: Install just
       uses: extractions/setup-just@v3
     - name: Get package version
-      uses: myrotvorets/info-from-package-json-action@v2.0.2
+      uses: jaywcjlove/github-action-package@v2.1.0
       id: json_version
     - name: Update version and build
       run: |
@@ -44,7 +44,7 @@ jobs:
       run: mkdir artifacts && mv ./*_amd64.snap artifacts
     - uses: actions/upload-artifact@v7
       with:
-        name: nelson-github-action-artifacts-snapcraft-amd64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
+        name: nelson-github-action-artifacts-snapcraft-amd64-${{ steps.json_version.outputs.version }}.${{ github.run_number }}
         path: artifacts/
     - name: Install snap
       run: |
@@ -77,7 +77,7 @@ jobs:
     - name: Install just
       uses: extractions/setup-just@v3
     - name: Get package version
-      uses: myrotvorets/info-from-package-json-action@v2.0.2
+      uses: jaywcjlove/github-action-package@v2.1.0
       id: json_version
     - name: Update version and build
       run: |
@@ -89,7 +89,7 @@ jobs:
       run: mkdir artifacts && mv ./*_arm64.snap artifacts
     - uses: actions/upload-artifact@v7
       with:
-        name: nelson-github-action-artifacts-snapcraft-arm64-${{ steps.json_version.outputs.packageVersion }}.${{ github.run_number }}
+        name: nelson-github-action-artifacts-snapcraft-arm64-${{ steps.json_version.outputs.version }}.${{ github.run_number }}
         path: artifacts/
     - name: Install snap
       run: |
