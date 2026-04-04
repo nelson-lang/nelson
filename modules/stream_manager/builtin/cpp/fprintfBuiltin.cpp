@@ -82,14 +82,17 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             FILE* filepointer = static_cast<FILE*>(f->getFilePointer());
             if (filepointer) {
                 std::wstring encoding = f->getEncoding();
+                // Convert wide string to UTF-8 bytes and write raw bytes to the file.
+                std::string data = wstring_to_utf8(result);
                 if (encoding == L"UTF-8") {
-                    fwprintf(filepointer, L"%ls", result.c_str());
-                    len = result.length();
+                    // Write raw UTF-8 bytes to file.
+                    size_t written = fwrite(data.c_str(), 1, data.size(), filepointer);
+                    len = (size_t)written;
                 } else {
-                    std::string data = wstring_to_utf8(result);
-                    if (utf8ToCharsetConverter(data, data, wstring_to_utf8(encoding))) {
-                        fprintf(filepointer, "%s", data.c_str());
-                        len = data.length();
+                    std::string converted = data;
+                    if (utf8ToCharsetConverter(converted, converted, wstring_to_utf8(encoding))) {
+                        size_t written = fwrite(converted.c_str(), 1, converted.size(), filepointer);
+                        len = (size_t)written;
                     } else {
                         Error(_W("Cannot use encoding: ") + encoding);
                     }
