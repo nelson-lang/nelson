@@ -4,20 +4,51 @@ concurrency:
   group: nelson-${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
+  check_pr:
+    runs-on: ubuntu-latest
+    outputs:
+      has_pr: ${{ steps.check_pr.outputs.result }}
+    steps:
+      - id: check_pr
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const event = context.eventName;
+            if (event === 'pull_request') return true;
+            const branch = (context.ref || '').replace('refs/heads/','');
+            if (branch === 'master' || branch === 'main') return true;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const { data: pulls } = await github.rest.pulls.list({ owner, repo, head: `${owner}:${branch}`, state: 'open' });
+            return pulls.length > 0;
+
   macOS:
+    needs: check_pr
     uses: ./.github/workflows/ccpp_macos.yml
+    with:
+      minimal: ${{ !(needs.check_pr.outputs.has_pr == 'true' || needs.check_pr.outputs.has_pr == true) }}
 
   Ubuntu:
+    needs: check_pr
     uses: ./.github/workflows/ccpp_ubuntu.yml
+    with:
+      minimal: ${{ !(needs.check_pr.outputs.has_pr == 'true' || needs.check_pr.outputs.has_pr == true) }}
 
   Windows:
+    needs: check_pr
     uses: ./.github/workflows/ccpp_windows.yml
+    with:
+      minimal: ${{ !(needs.check_pr.outputs.has_pr == 'true' || needs.check_pr.outputs.has_pr == true) }}
 
   ArchLinux:
+    needs: check_pr
+    if: ${{ needs.check_pr.outputs.has_pr == 'true' }}
     uses: ./.github/workflows/ccpp_archlinux.yml
 
   Fedora:
+    needs: check_pr
+    if: ${{ needs.check_pr.outputs.has_pr == 'true' }}
     uses: ./.github/workflows/ccpp_fedora.yml

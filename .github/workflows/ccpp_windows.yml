@@ -5,9 +5,15 @@ env:
 
 on:
   workflow_call:
+    inputs:
+      minimal:
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   Windows_woa64:
+    if: ${{ inputs.minimal != true && inputs.minimal != 'true' }}
     name: Windows on ARM 64 bits
     runs-on: windows-11-arm
     defaults:
@@ -73,6 +79,7 @@ jobs:
           path: artifacts/
 
   Windows_woa64_tests:
+    if: ${{ inputs.minimal != true && inputs.minimal != 'true' }}
     name: Windows on ARM 64 bits - Tests
     needs: Windows_woa64
     runs-on: windows-11-arm
@@ -242,6 +249,7 @@ jobs:
   # This job is for 32 bits Windows (officially not supported)
   # It is kept for historical reasons and to be able to build the 32 bits version
   Windows_win32:
+    if: ${{ inputs.minimal != true && inputs.minimal != 'true' }}
     name: Windows 32 bits
     runs-on: windows-2025
     defaults:
@@ -317,6 +325,7 @@ jobs:
   # This job is for 32 bits Windows (officially not supported)
   # It is kept for historical reasons and to be able to build the 32 bits version
   Windows_win32_tests:
+    if: ${{ inputs.minimal != true && inputs.minimal != 'true' }}
     name: Windows 32 bits - Tests
     needs: Windows_win32
     runs-on: windows-2025

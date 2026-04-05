@@ -4,14 +4,19 @@ env:
 
 on:
   workflow_call:
+    inputs:
+      minimal:
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   build:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04]
-        arch: [amd64, arm64]
+        os: ${{ fromJson((inputs.minimal == true || inputs.minimal == 'true') && '["ubuntu-24.04"]' || '["ubuntu-22.04","ubuntu-24.04"]') }}
+        arch: ${{ fromJson((inputs.minimal == true || inputs.minimal == 'true') && '["amd64"]' || '["amd64","arm64"]') }}
         exclude:
           - os: ubuntu-22.04
             arch: arm64 # skip unsupported combo
