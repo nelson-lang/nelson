@@ -120,6 +120,7 @@ void
 createNelsonPalette()
 {
     isQtDarkMode = detectDarkMode();
+    NelsonConfiguration::getInstance()->setDarkMode(isQtDarkMode);
     if (isQtDarkMode) {
         changeToDarkTheme();
     } else {
