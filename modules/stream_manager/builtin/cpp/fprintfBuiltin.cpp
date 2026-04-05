@@ -91,7 +91,8 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                 } else {
                     std::string converted = data;
                     if (utf8ToCharsetConverter(converted, converted, wstring_to_utf8(encoding))) {
-                        size_t written = fwrite(converted.c_str(), 1, converted.size(), filepointer);
+                        size_t written
+                            = fwrite(converted.c_str(), 1, converted.size(), filepointer);
                         len = (size_t)written;
                     } else {
                         Error(_W("Cannot use encoding: ") + encoding);
