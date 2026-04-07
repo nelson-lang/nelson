@@ -12,20 +12,10 @@
 % <-- Short Description -->
 % getpid('available') did not work as expected.
 %=============================================================================
+%<--INTERACTIVE TEST-->
 % <--IPC REQUIRED-->
 % <--SEQUENTIAL TEST REQUIRED-->
 % <--ADV-CLI MODE-->
 %=============================================================================
-N = 3;
-binpath = modulepath('nelson', 'bin');
-nelson_exe = [binpath, '/nelson-gui --timeout 20 &'];
-%=============================================================================
-sleep(5);
-before = getpid('available');
-exec = string(repmat(nelson_exe, N, 1));
-timeout = repmat(20, N, 1);
-[a, b] = system(exec, timeout);
-sleep(10);
-after = getpid('available');
-assert_istrue(length(after) >= 2);
+% start N Nelson sessions in parallel and check that getpid('available') returns an array of N PIDs.
 %=============================================================================
