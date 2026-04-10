@@ -13,7 +13,7 @@ jobs:
       has_pr: ${{ steps.check_pr.outputs.result }}
     steps:
       - id: check_pr
-        uses: actions/github-script@v6
+        uses: actions/github-script@v9
         with:
           script: |
             const event = context.eventName;
