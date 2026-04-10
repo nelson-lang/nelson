@@ -30,7 +30,7 @@ jobs:
     - name: Install Rust
       uses: dtolnay/rust-toolchain@stable
     - name: Install just
-      uses: extractions/setup-just@v3
+      uses: extractions/setup-just@v4
     - name: Get package version
       uses: jaywcjlove/github-action-package@v2.1.0
       id: json_version
@@ -75,7 +75,7 @@ jobs:
     - name: Install Rust
       uses: dtolnay/rust-toolchain@stable
     - name: Install just
-      uses: extractions/setup-just@v3
+      uses: extractions/setup-just@v4
     - name: Get package version
       uses: jaywcjlove/github-action-package@v2.1.0
       id: json_version
