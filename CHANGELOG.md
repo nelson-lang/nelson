@@ -42,6 +42,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - MacOS packaging as dmg installer.
 
+- Qt 6.11.0 support.
+
 ### Changed
 
 - Reduced interpreter overhead in tight loops.

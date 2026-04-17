@@ -152,7 +152,9 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.Tool"] = Qt::Tool;
     mapConstants[L"Qt.ToolTip"] = Qt::ToolTip;
     mapConstants[L"Qt.SplashScreen"] = Qt::SplashScreen;
+#if QT_VERSION < QT_VERSION_CHECK(6, 11, 0)
     mapConstants[L"Qt.Desktop"] = Qt::Desktop;
+#endif
     mapConstants[L"Qt.SubWindow"] = Qt::SubWindow;
     mapConstants[L"Qt.ForeignWindow"] = Qt::ForeignWindow;
     mapConstants[L"Qt.CoverWindow"] = Qt::CoverWindow;
