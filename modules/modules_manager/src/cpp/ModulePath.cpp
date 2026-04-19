@@ -67,8 +67,11 @@ ModulePath(const std::wstring& moduleshortname, MODULEPATH_OPTION option)
     if (!ModulesManager::Instance().findModule(moduleshortname, moduleRootPath)) {
         Error(_W("invalid module name."));
     }
+    FileSystemWrapper::Path pathNelsonModules
+        = NelsonConfiguration::getInstance()->getNelsonModulesDirectory();
+    FileSystemWrapper::Path pathModuleRootPath = moduleRootPath;
     bool isNelsonInternalModule = isInternalModule(
-        moduleRootPath, NelsonConfiguration::getInstance()->getNelsonModulesDirectory());
+        pathModuleRootPath.generic_wstring(), pathNelsonModules.generic_wstring());
     FileSystemWrapper::Path p;
     switch (option) {
     case Nelson::GET_BINARY_PATH: {
