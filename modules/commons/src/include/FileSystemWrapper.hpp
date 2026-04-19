@@ -10,11 +10,14 @@
 #pragma once
 //=============================================================================
 #ifdef _MSC_VER
+#pragma warning(push)
 #pragma warning(disable : 4251)
 #endif
 //=============================================================================
 #include <filesystem>
+#include <string>
 #include <ctime>
+//=============================================================================
 #include "nlsCommons_exports.h"
 //=============================================================================
 namespace nfs = std::filesystem;
@@ -23,82 +26,52 @@ namespace Nelson::FileSystemWrapper {
 //=============================================================================
 class NLSCOMMONS_IMPEXP Path
 {
-    //=============================================================================
 private:
-    //=============================================================================
-    static auto
-    getUniqueID();
-    //=============================================================================
-    static std::wstring
-    normalizeDriveLetter(const std::wstring& path, bool& isDrive);
-    //=============================================================================
 #ifdef _MSC_VER
     std::wstring nativePath;
 #else
     std::string nativePath;
 #endif
-    //=============================================================================
-    static Path
-    removeLastSeparator(const Path& p);
-    //=============================================================================
-    Path&
-    assign(Path const& p);
-    //=============================================================================
-    Path&
-    concat(Path const& p);
-    //=============================================================================
-    Path&
-    concat(const std::wstring& s);
-    //=============================================================================
-    Path&
-    concat(const std::string& s);
-    //=============================================================================
 
 public:
-    //=============================================================================
     Path() = default;
-    explicit Path(Path const& p) = default;
-    //=============================================================================
+    Path(const std::string& p);
     Path(const std::wstring& p);
-    //=============================================================================
-    explicit Path(const std::string& p);
-    //=============================================================================
+    Path(const Path&) = default;
+    Path(Path&&) noexcept = default;
     Path&
-    operator=(Path& p);
-    //=============================================================================
+    operator=(const Path&)
+        = default;
     Path&
-    operator=(Path const& p);
-    //=============================================================================
+    operator=(Path&&) noexcept
+        = default;
+
+    Path&
+    operator=(const std::string& p);
     Path&
     operator=(const std::wstring& p);
-    //=============================================================================
+
+    // operators
     Path
-    operator=(const std::string& p);
-    //=============================================================================
+    operator/(const Path& p2) const;
+    Path
+    operator/(const std::string& p2) const;
+    Path
+    operator/(const std::wstring& p2) const;
+
+    Path&
+    operator/=(const Path& p);
+    Path&
+    operator/=(const std::string& s);
+    Path&
+    operator/=(const std::wstring& s);
+
     Path&
     operator+=(const std::string& s);
-    //=============================================================================
     Path&
     operator+=(const std::wstring& s);
-    //=============================================================================
-    Path
-    operator/=(Path const& p);
-    //=============================================================================
-    Path
-    operator/=(const std::wstring& s);
-    //=============================================================================
-    Path
-    operator/=(const std::string& s);
-    //=============================================================================
-    Path
-    operator/(const Path& p2);
-    //=============================================================================
-    Path
-    operator/(const std::string& p2);
-    //=============================================================================
-    Path
-    operator/(const std::wstring& p2);
-    //=============================================================================
+
+    // access
 #ifdef _MSC_VER
     std::wstring
     native() const;
@@ -106,215 +79,181 @@ public:
     std::string
     native() const;
 #endif
-    //=============================================================================
-    bool
-    has_filename() const;
-    //=============================================================================
-    bool
-    has_extension() const;
-    //=============================================================================
-    Path
-    extension() const;
-    //=============================================================================
-    std::wstring
-    wstring() const;
-    //=============================================================================
+
     std::string
     string() const;
-    //=============================================================================
     std::wstring
-    generic_wstring() const;
-    //=============================================================================
+    wstring() const;
     std::string
     generic_string() const;
-    //=============================================================================
+    std::wstring
+    generic_wstring() const;
     Path
     generic_path() const;
-    //=============================================================================
+
+    // helpers
+    bool
+    empty() const;
+    bool
+    is_absolute() const;
+    bool
+    has_filename() const;
+    bool
+    has_extension() const;
+
     Path
     filename() const;
-    //=============================================================================
     Path
     parent_path() const;
-    //=============================================================================
     Path
     stem() const;
-    //=============================================================================
     Path
-    replace_extension(Path const& new_extension = Path());
-    //=============================================================================
+    extension() const;
+    Path
+    lexically_normal() const;
+
+    Path
+    getFinalPathname() const;
+
     bool
-    has_parent_path();
-    //=============================================================================
-    bool
-    exists(std::string& errorMessage) const;
-    //=============================================================================
+    has_parent_path() const;
+
+    Path
+    replace_extension() const;
+    Path
+    replace_extension(const Path& p) const;
+
+    Path
+    lexically_relative(const Path& p) const;
+
+    // filesystem
     bool
     exists() const;
-    //=============================================================================
     static bool
-    exists(Path const& p);
-    //=============================================================================
-    static bool
-    is_directory(const std::wstring& path, bool& permissionDenied);
-    //=============================================================================
-    static bool
-    is_directory(const Path& path, bool& permissionDenied);
-    //=============================================================================
-    static bool
-    is_directory(const std::wstring& path);
-    //=============================================================================
-    static bool
-    is_directory(const Path& path);
-    //=============================================================================
+    exists(const Path& p);
+
     bool
     is_directory() const;
-    //=============================================================================
+    static bool
+    is_directory(const Path& p);
+    static bool
+    is_directory(const std::wstring& p);
+    static bool
+    is_directory(const std::wstring& p, bool& permissionDenied);
+
     bool
     is_regular_file() const;
-    //=============================================================================
     static bool
-    is_regular_file(const Path& filePath, bool& permissionDenied);
-    //=============================================================================
-    static bool
-    is_regular_file(const std::wstring& filePath, bool& permissionDenied);
-    //=============================================================================
-    static bool
-    is_regular_file(const Path& filePath);
-    //=============================================================================
-    static bool
-    is_regular_file(const std::wstring& filePath);
-    //=============================================================================
-    static Path
-    canonical(Path const& p1, std::string& errorMessage);
-    //=============================================================================
-    static bool
-    equivalent(Path const& p1, Path const& p2, std::string& errorMessage);
-    //=============================================================================
-    static bool
-    equivalent(Path const& p1, Path const& p2);
-    //=============================================================================
-    static bool
-    remove(Path const& p, std::string& errorMessage);
-    //=============================================================================
-    static bool
-    remove(Path const& p);
-    //=============================================================================
-    static bool
-    remove(const std::wstring& p);
-    //=============================================================================
-    static bool
-    remove(const std::string& p);
-    //=============================================================================
-    static bool
-    remove_all(Path const& p, std::string& errorMessage);
-    //=============================================================================
-    static bool
-    remove_all(Path const& p);
-    //=============================================================================
-    bool
-    is_absolute();
-    //=============================================================================
-    static Path
-    absolute(Path const& p, std::string& errorMessage);
-    //=============================================================================
-    static Path
-    absolute(Path const& p);
-    //=============================================================================
-    static bool
-    copy_file(Path const& p1, Path const& p2, std::string& errorMessage);
-    //=============================================================================
-    static bool
-    copy_file(Path const& p1, Path const& p2);
-    //=============================================================================
-    static bool
-    copy(Path const& from, Path const& to, std::string& errorMessage);
-    //=============================================================================
-    static bool
-    copy(Path const& from, Path const& to);
-    //=============================================================================
-    static bool
-    create_directories(const Path& p, std::string& errorMessage);
-    //=============================================================================
-    static bool
-    create_directories(const Path& p, bool& permissionDenied);
-    //=============================================================================
-    static bool
-    create_directories(const Path& p);
-    //=============================================================================
-    static bool
-    create_directories(const std::wstring& wstr);
-    //=============================================================================
-    static bool
-    create_directory(const Path& p, bool& permissionDenied);
-    //=============================================================================
-    static bool
-    create_directory(const Path& p, std::string& errorMessage);
-    //=============================================================================
-    static bool
-    create_directory(const Path& p);
-    //=============================================================================
-    static uintmax_t
-    file_size(const Path& p, std::string& errorMessage);
-    //=============================================================================
-    static uintmax_t
-    file_size(const Path& p);
-    //=============================================================================
-    static std::time_t
-    last_write_time(const Path& p, std::string& errorMessage);
-    //=============================================================================
-    static std::time_t
-    last_write_time(const Path& p);
-    //=============================================================================
-    Path
-    lexically_normal();
-    //=============================================================================
-    Path
-    lexically_relative(const Path& p);
-    //=============================================================================
-    Path
-    normalize();
-    //=============================================================================
-    static std::wstring
-    normalize(const std::wstring& path);
-    //=============================================================================
-    static std::string
-    normalize(const std::string& path);
-    //=============================================================================
+    is_regular_file(const Path& p);
+
     static Path
     current_path();
-    //=============================================================================
     static void
-    current_path(Path const& p, std::string& errorMessage);
-    //=============================================================================
-    static void
-    current_path(Path const& p);
-    //=============================================================================
-    static void
-    current_path(const std::wstring& wstr);
-    //=============================================================================
-    Path
-    parent_path();
-    //=============================================================================
+    current_path(const Path& p);
+
     static Path
     temp_directory_path();
-    //=============================================================================
+    static Path
+    canonical(const Path& p);
+    static Path
+    canonical(const Path& p, std::string& errorMessage);
+
+    static Path
+    absolute(const Path& p);
+    static Path
+    absolute(const Path& p, std::string& errorMessage);
+
+    static bool
+    create_directories(const Path& p, std::string& errorMessage);
+    static bool
+    create_directories(const Path& p, bool& permissionDenied);
+    static bool
+    create_directories(const Path& p);
+    static bool
+    create_directories(const std::wstring& wstr);
+    static bool
+    create_directory(const Path& p, bool& permissionDenied);
+    static bool
+    create_directory(const Path& p, std::string& errorMessage);
+    static bool
+    create_directory(const Path& p);
+
+    static bool
+    copy_file(const Path& from, const Path& to);
+    static bool
+    copy_file(const Path& from, const Path& to, std::string& errorMessage);
+    static bool
+    copy(const Path& from, const Path& to);
+    static bool
+    copy(const Path& from, const Path& to, std::string& errorMessage);
+
+    static bool
+    remove(const Path& p);
+    static bool
+    remove(const Path& p, std::string& errorMessage);
+    static bool
+    remove(const std::string& p);
+    static bool
+    remove(const std::wstring& p);
+
+    static bool
+    remove_all(const Path& p);
+    static bool
+    remove_all(const Path& p, std::string& errorMessage);
+
+    static uintmax_t
+    file_size(const Path& p);
+    static uintmax_t
+    file_size(const Path& p, std::string& errorMessage);
+    static bool
+    equivalent(const Path& p1, const Path& p2);
+
     static Path
     unique_path();
-    //=============================================================================
+
     static std::wstring
     getFinalPathname(const std::wstring& path);
-    //=============================================================================
+
     Path
     getFinalPathname();
-    //=============================================================================
+
+    static Path
+    removeLastSeparator(const Path& p);
+
+    static std::string
+    normalize(const std::string& path);
+    static std::wstring
+    normalize(const std::wstring& path);
+    static std::wstring
+    normalizeDriveLetter(const std::wstring& path, bool& isDrive);
+
+    static std::time_t
+    last_write_time(const Path& p, std::string& errorMessage);
+
     static bool
-    updateFilePermissionsToWrite(const Path& filePath);
-    //=============================================================================
+    updateFilePermissionsToWrite(const Path& p);
     static bool
-    updateFilePermissionsToWrite(const std::wstring& folderName);
-    //=============================================================================
+    updateFilePermissionsToWrite(const std::wstring& p);
+
+    static bool
+    is_directory(const Path& p, bool& permissionDenied);
+    static bool
+    is_regular_file(const Path& p, bool& permissionDenied);
+    static bool
+    is_regular_file(const std::wstring& p, bool& permissionDenied);
+
+    static bool
+    current_path(const Path& p, std::string& errorMessage);
+    static bool
+    current_path(const std::wstring& p, std::string& errorMessage);
+
+    static auto
+    getUniqueID();
 };
 //=============================================================================
 }
+//=============================================================================
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 //=============================================================================
