@@ -89,7 +89,7 @@ jobs:
     timeout-minutes: 60
 
     steps:
-      # - uses: julia-actions/setup-julia@v3.0.0
+      # - uses: julia-actions/setup-julia@v3.0.1
       #   with:
       #     arch: "arm64"
       - name: Download artifacts
@@ -143,7 +143,7 @@ jobs:
         run: choco install InnoSetup
       - name: Install Just
         run: choco install just
-      - uses: julia-actions/setup-julia@v3.0.0
+      - uses: julia-actions/setup-julia@v3.0.1
         with:
           arch: "x64"
       - name: Install MS-MPI
@@ -205,7 +205,7 @@ jobs:
     timeout-minutes: 60
 
     steps:
-      - uses: julia-actions/setup-julia@v3.0.0
+      - uses: julia-actions/setup-julia@v3.0.1
         with:
           arch: "x64"
       - name: Install MS-MPI
@@ -266,7 +266,7 @@ jobs:
         with:
           python-version: "3.14"
           architecture: "x86"
-      - uses: julia-actions/setup-julia@v3.0.0
+      - uses: julia-actions/setup-julia@v3.0.1
         with:
           arch: "x86"
       - name: Install Inno-setup
