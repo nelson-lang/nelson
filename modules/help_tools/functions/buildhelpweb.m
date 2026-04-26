@@ -37,6 +37,9 @@ function buildhelpweb(varargin)
     main_help_file = [nelsonroot() '/modules/main/help/' nelsonappid() '.modules.main.help.' lang_used '.nhz'];
   end
   unzip(main_help_file, dirdest);
+  if ~isdir([dirdest, '/main'])
+    error(sprintf(_('Directory expected: %s'), [dirdest, '/main']));
+  end
   d = dir([dirdest, '/main/*.*']);
   for k = 1:length(d)
     if ~d(k).isdir
