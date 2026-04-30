@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- function argument validation using `arguments ... end` blocks
+  - Support for validation functions (e.g., `mustBeNumeric`, `mustBeMember`)
+  - Default values for optional positional and name-value arguments
+  - Separate validation blocks for input and output arguments
+  - Improved error messages for invalid function arguments
+
 - Debugger Support
 
   - Full breakpoint management with commands: `dbstop`, `dbstep`, `dbcont`, `dbquit`, `dbclear`, `dbdown`, `dbup`, `dbstatus`.

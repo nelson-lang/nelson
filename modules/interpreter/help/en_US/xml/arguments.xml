@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>arguments</keyword>
+  <short_description>function argument validation block.</short_description>
+  <syntax>
+    <syntax_item>arguments, argSpecs, end</syntax_item>
+    <syntax_item>arguments (Input), argSpecs, end</syntax_item>
+    <syntax_item>arguments (Repeating), argSpecs, end</syntax_item>
+    <syntax_item>arguments (Output), argSpecs, end</syntax_item>
+    <syntax_item>arguments (Output,Repeating), argSpec, end</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>arguments ... end</b> declares input arguments for a function.
+      The block is optional.
+      If one or more <b>arguments</b> blocks are included, they must all appear before the first executable line of the function.
+      A block with no qualifier is treated as an input block.</p>
+    <p>Each argument declaration follows this form:</p>
+    <p>
+      <tt>argName (dimensions) class {validators} = defaultValue</tt>
+    </p>
+    <p>
+      <b>(dimensions)</b> — Input size specified as a comma-separated list of integers or colons,
+      e.g. <tt>(1,1)</tt>, <tt>(1,:)</tt>, or <tt>(3,5,2)</tt>.
+      A colon allows any length in that dimension.
+      The input must match the declared dimensions exactly, or be compatible with them
+      (for example a column vector is compatible with <tt>(1,:)</tt> and is reshaped automatically).
+      Expressions are not allowed inside dimensions.</p>
+    <p>
+      <b>class</b> — A single class name such as <tt>double</tt>, <tt>char</tt>, or <tt>string</tt>.
+      The value is converted to that class when possible.
+      If omitted, any class is accepted.</p>
+    <p>
+      <b>{validators}</b> — A comma-separated list of validation functions enclosed in braces,
+      e.g. <tt>{mustBeNumeric, mustBeReal}</tt>.
+      Validation functions throw an error when the condition is not met; unlike class, they never modify the argument value.</p>
+    <p>
+      <b>= defaultValue</b> — An expression that provides a default value and makes the argument optional.
+      The expression may reference previously declared arguments.
+      Optional arguments must be positioned after all required arguments in the function signature and in the <b>arguments</b> block.</p>
+    <p>
+      <b>arguments (Repeating) ... end</b> declares repeating input arguments.
+      A function may contain only one repeating input block.
+      Nelson creates a cell array for each repeating argument containing all values passed for that argument.
+      If the function also has name-value arguments, those must be declared in a separate <b>arguments</b> block after the repeating block.</p>
+    <p>
+      <b>arguments (Output) ... end</b> declares output arguments.
+      Output blocks must appear after all input blocks but before the first executable line of the function.
+      When both input and output blocks are present, using the explicit <b>(Input)</b> and <b>(Output)</b> qualifiers is recommended for readability.
+      Output arguments cannot define default values, and validation functions applied to an output argument cannot reference other output arguments.</p>
+    <p>
+      <b>arguments (Output,Repeating) ... end</b> declares a single repeating output argument.
+      At most one repeating output argument is allowed per function.<tt>varargout</tt> may appear in a repeating output block only when it is the sole output argument.</p>
+    <p>      For name-value arguments, use <tt>nv.name</tt> notation in the <b>arguments</b> block,
+      where <tt>nv</tt> matches the structure name used in the function signature.</p>
+    <p>
+      <b>arguments</b> blocks cannot be used in nested functions, abstract methods, or handle class destructor methods.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Restrict size and type of an input argument. A column vector is accepted because it is compatible with size (1,:) and is reshaped automatically.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+function [m, s] = twoStats(x)
+  arguments
+    x (1,:) {mustBeNumeric}
+  end
+  m = mean(x, 'all');
+  s = std(x, 1, 'all');
+end
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Optional argument with a default value derived from a previously declared argument.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+function c = myMul(a, b, c)
+  arguments
+    a uint32
+    b uint32
+    c uint32 = a .* b
+  end
+end
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use validation functions to restrict argument values. The method argument is optional and defaults to &apos;linear&apos;.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+function r = myInterp(x, method)
+  arguments
+    x (1,:) double {mustBeNumeric, mustBeReal}
+    method (1,:) char {mustBeMember(method, {'linear', 'nearest'})} = 'linear'
+  end
+  r = {x, method};
+end
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Declare optional name-value arguments using a structure. Both options.LineStyle and options.LineWidth have default values, so they are optional.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+function myRectangle(X, Y, options)
+  arguments
+    X double
+    Y double
+    options.LineStyle (1,1) string = "-"
+    options.LineWidth (1,1) {mustBeNumeric} = 1
+  end
+  % Function code
+end
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Declare repeating input arguments. Nelson creates a cell array for each repeating argument.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+function fRepeat(x, y, style)
+  arguments (Repeating)
+    x (1,:) double
+    y (1,:) double
+    style {mustBeMember(style, {'--', ':'})}
+  end
+  z = reshape([x; y; style], 1, []);
+  if ~isempty(z)
+    plot(z{:});
+  end
+end
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Validate both input and output arguments using separate blocks.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+function out = myFunction(A, B, C)
+  arguments (Input)
+    A (1,1) string
+    B (1,:) double
+    C (2,2) cell
+  end
+  arguments (Output)
+    out (1,:) double
+  end
+  out = B;
+end
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Repeating input and output arguments with validation. Restricts both inputs and outputs to row vectors.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+function vectorSum = repeatSum(a, b)
+  arguments (Input,Repeating)
+    a (1,:)
+    b (1,:)
+  end
+  arguments (Output,Repeating)
+    vectorSum (1,:)
+  end
+  n = numel(a);
+  vectorSum{n} = a{n} + b{n};
+  for i = 1:n-1
+    vectorSum{i} = a{i} + b{i};
+  end
+end
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${interpreter}function">function</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}iskeyword">iskeyword</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

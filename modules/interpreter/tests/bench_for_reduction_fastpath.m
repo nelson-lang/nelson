@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--RELEASE ONLY-->
+%=============================================================================
 % Bench: measure reduction fast-path vs fallback
 N = 2e6;
 fprintf('bench_for_reduction_fastpath: N=%d\n', int32(N));

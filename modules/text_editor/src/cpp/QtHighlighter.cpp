@@ -26,6 +26,8 @@ Highlighter::Highlighter(QTextDocument* parent) : QSyntaxHighlighter(parent)
     for (auto& k : keywordsVector) {
         keywordPatterns << wstringToQString(L"\\b" + k + L"\\b");
     }
+    // "arguments" is a contextual keyword not in the parser keyword table
+    keywordPatterns << QStringLiteral("\\barguments\\b");
     foreach (const QString& pattern, keywordPatterns) {
         rule.pattern = QRegularExpression(pattern);
         rule.format = keywordFormat;
