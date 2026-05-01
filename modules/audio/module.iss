@@ -22,7 +22,11 @@ Source: {#RootPath}bin\{#BinPath}\vorbisenc.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\vorbisfile.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\portaudio.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
+;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\tag.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
+#if defined(NELSON_WOA64)
+Source: {#RootPath}bin\{#BinPath}\z.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
+#endif
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsAudio.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
 Source: {#RootPath}bin\{#BinPath}\libnlsAudio_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
