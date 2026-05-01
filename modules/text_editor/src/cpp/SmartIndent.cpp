@@ -82,7 +82,7 @@ stripLine(QString line)
 int
 computeIndexIncrement(QString a)
 {
-    QString keywordIn("\\b(if|for|function|try|while|switch)\\b");
+    QString keywordIn("\\b(if|for|function|try|while|switch|arguments)\\b");
     QString keywordOut("\\b(end|endfunction)\\b");
     return countMatches(a, keywordIn) - countMatches(a, keywordOut);
 }

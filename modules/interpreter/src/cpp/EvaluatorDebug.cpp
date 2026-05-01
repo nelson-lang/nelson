@@ -602,6 +602,107 @@ getMultilineCommentLines(const std::wstring& source)
     return commentLines;
 }
 //=============================================================================
+// Returns line numbers that are inside arguments...end blocks in the source.
+// These lines contain generated validation code in the rewritten buffer and
+// should not be direct breakpoint targets; breakpoints are forwarded past the block.
+static std::set<size_t>
+getArgumentsBlockLines(const std::wstring& sourceFilePath)
+{
+    std::set<size_t> blockLines;
+    FILE* fp = nullptr;
+#ifdef _MSC_VER
+    fp = _wfopen(sourceFilePath.c_str(), L"rb");
+#else
+    fp = fopen(wstring_to_utf8(sourceFilePath).c_str(), "rb");
+#endif
+    if (!fp) {
+        return blockLines;
+    }
+    fseek(fp, 0, SEEK_END);
+    long fileSize = ftell(fp);
+    fseek(fp, 0, SEEK_SET);
+    if (fileSize <= 0) {
+        fclose(fp);
+        return blockLines;
+    }
+    std::string content(static_cast<size_t>(fileSize), '\0');
+    fread(&content[0], 1, static_cast<size_t>(fileSize), fp);
+    fclose(fp);
+
+    // Simple line-by-line scan for arguments...end blocks
+    bool inArgBlock = false;
+    size_t lineNum = 1;
+    size_t pos = 0;
+    while (pos <= content.size()) {
+        // Find end of current line
+        size_t eol = content.find('\n', pos);
+        std::string rawLine
+            = (eol == std::string::npos) ? content.substr(pos) : content.substr(pos, eol - pos);
+        if (!rawLine.empty() && rawLine.back() == '\r') {
+            rawLine.pop_back();
+        }
+
+        // Strip leading whitespace and inline comments for keyword detection
+        size_t i = 0;
+        while (i < rawLine.size() && (rawLine[i] == ' ' || rawLine[i] == '\t')) {
+            i++;
+        }
+        std::string trimmed = rawLine.substr(i);
+        // Strip trailing comment
+        {
+            char delim = '\0';
+            size_t j = 0;
+            while (j < trimmed.size()) {
+                char ch = trimmed[j];
+                if (delim != '\0') {
+                    if (ch == delim) {
+                        if (j + 1 < trimmed.size() && trimmed[j + 1] == delim) {
+                            j += 2;
+                            continue;
+                        }
+                        delim = '\0';
+                    }
+                } else if (ch == '\'' || ch == '"') {
+                    delim = ch;
+                } else if (ch == '%') {
+                    trimmed = trimmed.substr(0, j);
+                    break;
+                }
+                j++;
+            }
+            // trim trailing whitespace
+            while (!trimmed.empty() && (trimmed.back() == ' ' || trimmed.back() == '\t')) {
+                trimmed.pop_back();
+            }
+        }
+
+        if (!inArgBlock) {
+            // Detect start of arguments block (not "arguments Output" detection needed here,
+            // both input and output blocks are non-breakpointable)
+            if (trimmed == "arguments"
+                || (trimmed.size() > 9 && trimmed.substr(0, 9) == "arguments"
+                    && (trimmed[9] == ' ' || trimmed[9] == '('))) {
+                inArgBlock = true;
+                blockLines.insert(lineNum); // the "arguments" keyword line itself
+            }
+        } else {
+            if (trimmed == "end" || trimmed == "endfunction") {
+                blockLines.insert(lineNum); // the "end" line
+                inArgBlock = false;
+            } else {
+                blockLines.insert(lineNum);
+            }
+        }
+
+        if (eol == std::string::npos) {
+            break;
+        }
+        pos = eol + 1;
+        lineNum++;
+    }
+    return blockLines;
+}
+//=============================================================================
 bool
 Evaluator::adjustBreakpointLine(const std::wstring& filename, size_t requestedLine,
     size_t& adjustedLine, std::wstring& errorMessage)
@@ -748,6 +849,34 @@ Evaluator::adjustBreakpointLine(const std::wstring& filename, size_t requestedLi
         if (commentLines.count(lineToCheck)) {
             errorMessage = _W("Cannot set breakpoint inside multiline comment block");
             return false;
+        }
+    }
+
+    // Skip lines that are inside arguments...end blocks in the original source.
+    // Those lines map to generated validation code that should not be breakpoint targets.
+    {
+        // Resolve the source file path: prefer the function's own filename if available.
+        std::wstring sourceFilePath = mainFunctionName;
+        FunctionDef* lookupDef = nullptr;
+        std::string asFnName2 = wstring_to_utf8(functionName);
+        if (lookupFunction(asFnName2, lookupDef) && lookupDef != nullptr) {
+            std::wstring fn = lookupDef->getFilename();
+            if (!fn.empty()) {
+                sourceFilePath = fn;
+            }
+        }
+        if (sourceFilePath.empty()) {
+            sourceFilePath = mainFunctionName;
+        }
+        std::set<size_t> argBlockLines = getArgumentsBlockLines(sourceFilePath);
+        if (!argBlockLines.empty() && argBlockLines.count(lineToCheck)) {
+            // Find the line just after the end of this arguments block
+            size_t candidate = lineToCheck + 1;
+            size_t maxTry = maxLinesInFile > 0 ? maxLinesInFile : 10000;
+            while (candidate <= maxTry && argBlockLines.count(candidate)) {
+                candidate++;
+            }
+            lineToCheck = candidate;
         }
     }
 

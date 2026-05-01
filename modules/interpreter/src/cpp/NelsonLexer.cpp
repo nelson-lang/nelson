@@ -17,8 +17,11 @@
 #include <cwctype>
 #include <cctype>
 #include <cstdio>
+#include <string>
+#include <cstring>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <vector>
 //=============================================================================
 #define WS 999
 #define YYSTYPE Nelson::ParseRHS
@@ -614,9 +617,7 @@ convertIdentifierToNamedArgument(LexerContext& lexerContext, const char* ident, 
 void
 lexUntermCharacterArray(LexerContext& lexerContext)
 {
-    char stringval[IDENTIFIER_LENGTH_MAX + 1];
-    char* strptr;
-    strptr = stringval;
+    std::string stringval;
     while (isWhitespace(lexerContext) != 0) {
         ;
     }
@@ -625,10 +626,9 @@ lexUntermCharacterArray(LexerContext& lexerContext)
         return;
     }
     while (testCharacterArrayTerm(lexerContext) == 0) {
-        *strptr++ = currentChar(lexerContext);
+        stringval.push_back(currentChar(lexerContext));
         discardChar(lexerContext);
     }
-    *strptr++ = '\0';
     setTokenType(lexerContext, CHARACTER);
     lexerContext.tokenValue.isToken = false;
     lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
@@ -642,9 +642,7 @@ lexUntermCharacterArray(LexerContext& lexerContext)
 void
 lexString(LexerContext& lexerContext)
 {
-    char stringval[IDENTIFIER_LENGTH_MAX + 1];
-    memset(stringval, 0, IDENTIFIER_LENGTH_MAX + 1);
-    char* strptr = stringval;
+    std::string stringval;
     discardChar(lexerContext);
     int curchar = currentChar(lexerContext);
     char ch = lexerContext.datap[1];
@@ -653,7 +651,7 @@ lexString(LexerContext& lexerContext)
         if ((currentChar(lexerContext) == '"') && (ch == '"')) {
             discardChar(lexerContext);
         }
-        *strptr++ = curchar;
+        stringval.push_back(static_cast<char>(curchar));
         discardChar(lexerContext);
         curchar = currentChar(lexerContext);
         if (strlen(lexerContext.datap) > 1) {
@@ -666,7 +664,6 @@ lexString(LexerContext& lexerContext)
         LexerException(lexerContext, _("unterminated string"));
     }
     discardChar(lexerContext);
-    *strptr++ = '\0';
     setTokenType(lexerContext, STRING);
     lexerContext.tokenValue.isToken = false;
     lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
@@ -676,9 +673,7 @@ lexString(LexerContext& lexerContext)
 void
 lexCharacterArray(LexerContext& lexerContext)
 {
-    char stringval[IDENTIFIER_LENGTH_MAX + 1];
-    memset(stringval, 0, IDENTIFIER_LENGTH_MAX + 1);
-    char* strptr = stringval;
+    std::string stringval;
     discardChar(lexerContext);
     int curchar = currentChar(lexerContext);
     char ch = lexerContext.datap[1];
@@ -687,7 +682,7 @@ lexCharacterArray(LexerContext& lexerContext)
         if ((currentChar(lexerContext) == '\'') && (ch == '\'')) {
             discardChar(lexerContext);
         }
-        *strptr++ = curchar;
+        stringval.push_back(static_cast<char>(curchar));
         discardChar(lexerContext);
         curchar = currentChar(lexerContext);
         if (strlen(lexerContext.datap) > 1) {
@@ -700,7 +695,6 @@ lexCharacterArray(LexerContext& lexerContext)
         LexerException(lexerContext, _("unterminated character array"));
     }
     discardChar(lexerContext);
-    *strptr++ = '\0';
     setTokenType(lexerContext, CHARACTER);
     lexerContext.tokenValue.isToken = false;
     lexerContext.tokenValue.v.p = AbstractSyntaxTree::createNode(
@@ -1138,6 +1132,485 @@ fetchMultilineComment(LexerContext& lexerContext)
     // The inMultilineComment flag will signal this to lexCheckForMoreInput
 }
 //=============================================================================
+static std::string
+trimLexerString(const std::string& text)
+{
+    size_t first = 0;
+    while (first < text.size() && std::isspace(static_cast<unsigned char>(text[first]))) {
+        first++;
+    }
+    size_t last = text.size();
+    while (last > first && std::isspace(static_cast<unsigned char>(text[last - 1]))) {
+        last--;
+    }
+    return text.substr(first, last - first);
+}
+//=============================================================================
+static bool
+startsWithLexerString(const std::string& text, const std::string& prefix)
+{
+    return text.compare(0, prefix.size(), prefix) == 0;
+}
+//=============================================================================
+static bool
+isIdentifierLexerChar(char ch)
+{
+    return std::isalnum(static_cast<unsigned char>(ch)) || ch == '_';
+}
+//=============================================================================
+static size_t
+findTopLevelChar(const std::string& text, char needle)
+{
+    int parenDepth = 0;
+    int braceDepth = 0;
+    int bracketDepth = 0;
+    char stringDelimiter = '\0';
+    size_t k = 0;
+    while (k < text.size()) {
+        const char ch = text[k];
+        if (stringDelimiter != '\0') {
+            if (ch == stringDelimiter) {
+                if ((k + 1) < text.size() && text[k + 1] == stringDelimiter) {
+                    k += 2; // escaped delimiter ("" or '')
+                    continue;
+                } else {
+                    stringDelimiter = '\0';
+                    k++;
+                    continue;
+                }
+            }
+            k++;
+            continue;
+        }
+        if (ch == '\'' || ch == '"') {
+            stringDelimiter = ch;
+            k++;
+            continue;
+        }
+        if (ch == '(') {
+            parenDepth++;
+        } else if (ch == ')' && parenDepth > 0) {
+            parenDepth--;
+        } else if (ch == '{') {
+            braceDepth++;
+        } else if (ch == '}' && braceDepth > 0) {
+            braceDepth--;
+        } else if (ch == '[') {
+            bracketDepth++;
+        } else if (ch == ']' && bracketDepth > 0) {
+            bracketDepth--;
+        } else if (ch == needle && parenDepth == 0 && braceDepth == 0 && bracketDepth == 0) {
+            return k;
+        }
+        k++;
+    }
+    return std::string::npos;
+}
+//=============================================================================
+static std::vector<std::string>
+splitTopLevelCommaList(const std::string& text)
+{
+    std::vector<std::string> parts;
+    size_t start = 0;
+    for (;;) {
+        const std::string remaining = text.substr(start);
+        const size_t comma = findTopLevelChar(remaining, ',');
+        if (comma == std::string::npos) {
+            std::string part = trimLexerString(remaining);
+            if (!part.empty()) {
+                parts.push_back(part);
+            }
+            break;
+        }
+        std::string part = trimLexerString(remaining.substr(0, comma));
+        if (!part.empty()) {
+            parts.push_back(part);
+        }
+        start += comma + 1;
+    }
+    return parts;
+}
+//=============================================================================
+static std::string
+singleLineGeneratedCode(const std::string& text)
+{
+    std::string result;
+    result.reserve(text.size());
+    bool previousWasSpace = false;
+    for (const char ch : text) {
+        if (ch == '\r' || ch == '\n') {
+            if (!previousWasSpace) {
+                result.push_back(' ');
+                previousWasSpace = true;
+            }
+            continue;
+        }
+        result.push_back(ch);
+        previousWasSpace = std::isspace(static_cast<unsigned char>(ch)) != 0;
+    }
+    return trimLexerString(result);
+}
+//=============================================================================
+static std::string
+stripLineComment(const std::string& line)
+{
+    char stringDelimiter = '\0';
+    size_t k = 0;
+    while (k < line.size()) {
+        const char ch = line[k];
+        if (stringDelimiter != '\0') {
+            if (ch == stringDelimiter) {
+                if ((k + 1) < line.size() && line[k + 1] == stringDelimiter) {
+                    k += 2; // escaped delimiter
+                    continue;
+                } else {
+                    stringDelimiter = '\0';
+                    k++;
+                    continue;
+                }
+            }
+            k++;
+            continue;
+        }
+        if (ch == '\'' || ch == '"') {
+            stringDelimiter = ch;
+            k++;
+            continue;
+        }
+        if (ch == '%') {
+            return line.substr(0, k);
+        }
+        k++;
+    }
+    return line;
+}
+//=============================================================================
+static std::string
+sizeValidationCode(const std::string& name, const std::string& sizeSpec)
+{
+    if (sizeSpec.empty()) {
+        return {};
+    }
+    const std::string inner = trimLexerString(sizeSpec.substr(1, sizeSpec.size() - 2));
+    std::vector<std::string> dims = splitTopLevelCommaList(inner);
+    if (dims.size() == 2) {
+        const std::string first = trimLexerString(dims[0]);
+        const std::string second = trimLexerString(dims[1]);
+        if (first == "1" && second == "1") {
+            return "if ~isequal(size(" + name
+                + "), [1, 1]); error(_('Value must match declared argument size.')); end;\n";
+        }
+        if (first == "1" && second == ":") {
+            return "if size(" + name + ", 2) == 1 && size(" + name + ", 1) > 1; " + name + " = "
+                + name + "'; end;\nmustBeRow(" + name + ");\n";
+        }
+        if (first == ":" && second == "1") {
+            return "if size(" + name + ", 1) == 1 && size(" + name + ", 2) > 1; " + name + " = "
+                + name + "'; end;\nmustBeColumn(" + name + ");\n";
+        }
+        if (first != ":" && second != ":") {
+            return "if isequal(size(" + name + "), [1, 1]) && ~isequal([" + first + ", " + second
+                + "], [1, 1]); " + name + " = repmat(" + name + ", " + first + ", " + second
+                + "); end;\nif ~isequal(size(" + name + "), [" + first + ", " + second
+                + "]); error(_('Value must match declared argument size.')); end;\n";
+        }
+    }
+    return {};
+}
+//=============================================================================
+static std::string
+rewriteArgumentDeclaration(const std::string& sourceLine, int position)
+{
+    std::string line = trimLexerString(stripLineComment(sourceLine));
+    if (line.empty()) {
+        return {};
+    }
+
+    size_t cursor = 0;
+    if (!(std::isalpha(static_cast<unsigned char>(line[cursor])) || line[cursor] == '_')) {
+        return "% " + sourceLine + "\n";
+    }
+    cursor++;
+    while (cursor < line.size() && isIdentifierLexerChar(line[cursor])) {
+        cursor++;
+    }
+    const std::string name = line.substr(0, cursor);
+    std::string rest = trimLexerString(line.substr(cursor));
+
+    const size_t defaultPos = findTopLevelChar(rest, '=');
+    std::string defaultValue;
+    if (defaultPos != std::string::npos) {
+        defaultValue = trimLexerString(rest.substr(defaultPos + 1));
+        rest = trimLexerString(rest.substr(0, defaultPos));
+    }
+
+    std::string sizeSpec;
+    if (!rest.empty() && rest[0] == '(') {
+        int depth = 0;
+        size_t end = std::string::npos;
+        for (size_t k = 0; k < rest.size(); k++) {
+            if (rest[k] == '(') {
+                depth++;
+            } else if (rest[k] == ')') {
+                depth--;
+                if (depth == 0) {
+                    end = k;
+                    break;
+                }
+            }
+        }
+        if (end != std::string::npos) {
+            sizeSpec = rest.substr(0, end + 1);
+            rest = trimLexerString(rest.substr(end + 1));
+        }
+    }
+
+    std::string validators;
+    const size_t validatorsStart = rest.find('{');
+    if (validatorsStart != std::string::npos) {
+        const size_t validatorsEnd = rest.rfind('}');
+        if (validatorsEnd != std::string::npos && validatorsEnd > validatorsStart) {
+            validators = rest.substr(validatorsStart + 1, validatorsEnd - validatorsStart - 1);
+            rest = trimLexerString(rest.substr(0, validatorsStart));
+        }
+    }
+    const std::string className = trimLexerString(rest);
+
+    std::string generated;
+    if (defaultValue.empty()) {
+        generated += "if nargin < " + std::to_string(position)
+            + "; error(_('Wrong number of input arguments.')); end;\n";
+    } else {
+        if (defaultValue.find("nargin") != std::string::npos) {
+            generated += "if nargin < " + std::to_string(position)
+                + "; error(_('Function nargin is not allowed in arguments block default "
+                  "values.')); end;\n";
+        } else {
+            generated += "if nargin < " + std::to_string(position) + "; " + name + " = "
+                + defaultValue + "; end;\n";
+        }
+    }
+    if (!className.empty()) {
+        generated += "if ~isa(" + name + ", '" + className + "'); " + name + " = " + className + "("
+            + name + "); end;\n";
+    }
+    generated += sizeValidationCode(name, sizeSpec);
+    for (const auto& validator : splitTopLevelCommaList(validators)) {
+        if (validator.find('(') == std::string::npos) {
+            generated += validator + "(" + name + ");\n";
+        } else {
+            generated += validator + ";\n";
+        }
+    }
+    return singleLineGeneratedCode(generated) + "\n";
+}
+//=============================================================================
+static std::string
+rewriteOutputArgumentDeclaration(const std::string& sourceLine)
+{
+    std::string line = trimLexerString(stripLineComment(sourceLine));
+    if (line.empty()) {
+        return {};
+    }
+
+    size_t cursor = 0;
+    if (!(std::isalpha(static_cast<unsigned char>(line[cursor])) || line[cursor] == '_')) {
+        return {};
+    }
+    cursor++;
+    while (cursor < line.size() && isIdentifierLexerChar(line[cursor])) {
+        cursor++;
+    }
+    const std::string name = line.substr(0, cursor);
+    std::string rest = trimLexerString(line.substr(cursor));
+
+    std::string sizeSpec;
+    if (!rest.empty() && rest[0] == '(') {
+        int depth = 0;
+        size_t end = std::string::npos;
+        for (size_t k = 0; k < rest.size(); k++) {
+            if (rest[k] == '(') {
+                depth++;
+            } else if (rest[k] == ')') {
+                depth--;
+                if (depth == 0) {
+                    end = k;
+                    break;
+                }
+            }
+        }
+        if (end != std::string::npos) {
+            sizeSpec = rest.substr(0, end + 1);
+            rest = trimLexerString(rest.substr(end + 1));
+        }
+    }
+
+    std::string validators;
+    const size_t validatorsStart = rest.find('{');
+    if (validatorsStart != std::string::npos) {
+        const size_t validatorsEnd = rest.rfind('}');
+        if (validatorsEnd != std::string::npos && validatorsEnd > validatorsStart) {
+            validators = rest.substr(validatorsStart + 1, validatorsEnd - validatorsStart - 1);
+            rest = trimLexerString(rest.substr(0, validatorsStart));
+        }
+    }
+    const std::string className = trimLexerString(rest);
+
+    std::string generated;
+    if (!className.empty()) {
+        generated += "if ~isa(" + name + ", '" + className + "'); " + name + " = " + className + "("
+            + name + "); end;\n";
+    }
+    generated += sizeValidationCode(name, sizeSpec);
+    for (const auto& validator : splitTopLevelCommaList(validators)) {
+        if (validator.find('(') == std::string::npos) {
+            generated += validator + "(" + name + ");\n";
+        } else {
+            generated += validator + ";\n";
+        }
+    }
+    if (generated.empty()) {
+        return {};
+    }
+    return singleLineGeneratedCode("try;\n" + generated
+        + "catch;\n__nelson_output_validation_error = lasterror();\nerror(['Invalid output ''"
+        + name + "''. ', __nelson_output_validation_error.message]);\nend;\n");
+}
+//=============================================================================
+static bool
+isArgumentsBlockStart(const std::string& trimmed)
+{
+    return trimmed == "arguments" || startsWithLexerString(trimmed, "arguments ")
+        || startsWithLexerString(trimmed, "arguments(");
+}
+//=============================================================================
+static bool
+isOutputArgumentsBlockStart(const std::string& trimmed)
+{
+    return startsWithLexerString(trimmed, "arguments")
+        && trimmed.find("Output") != std::string::npos;
+}
+//=============================================================================
+static bool
+isFunctionBlockStart(const std::string& trimmed)
+{
+    return trimmed == "function" || startsWithLexerString(trimmed, "function ");
+}
+//=============================================================================
+static bool
+isControlBlockStart(const std::string& trimmed)
+{
+    return trimmed == "if" || startsWithLexerString(trimmed, "if ")
+        || startsWithLexerString(trimmed, "if(") || trimmed == "for"
+        || startsWithLexerString(trimmed, "for ") || startsWithLexerString(trimmed, "for(")
+        || trimmed == "while" || startsWithLexerString(trimmed, "while ")
+        || startsWithLexerString(trimmed, "while(") || trimmed == "switch"
+        || startsWithLexerString(trimmed, "switch ") || startsWithLexerString(trimmed, "switch(")
+        || trimmed == "try" || startsWithLexerString(trimmed, "try ");
+}
+//=============================================================================
+static bool
+isBlockEnd(const std::string& trimmed)
+{
+    return trimmed == "end" || trimmed == "endfunction";
+}
+//=============================================================================
+static std::string
+rewriteArgumentsBlocks(const std::string& buffer)
+{
+    std::string output;
+    size_t start = 0;
+    bool inArgumentsBlock = false;
+    bool isOutputArgumentsBlock = false;
+    bool skipArgumentsBlock = false;
+    int argumentPosition = 1;
+    std::vector<bool> blockStack;
+    std::vector<bool> functionSawOutputArgumentsBlock;
+    std::vector<std::string> functionOutputValidations;
+    while (start < buffer.size()) {
+        size_t end = buffer.find('\n', start);
+        std::string line;
+        if (end == std::string::npos) {
+            line = buffer.substr(start);
+            start = buffer.size();
+        } else {
+            line = buffer.substr(start, end - start);
+            start = end + 1;
+        }
+        if (!line.empty() && line.back() == '\r') {
+            line.pop_back();
+        }
+
+        const std::string trimmed = trimLexerString(stripLineComment(line));
+        if (!inArgumentsBlock && isArgumentsBlockStart(trimmed)) {
+            inArgumentsBlock = true;
+            isOutputArgumentsBlock = isOutputArgumentsBlockStart(trimmed);
+            skipArgumentsBlock = false;
+            if (!isOutputArgumentsBlock && !functionSawOutputArgumentsBlock.empty()
+                && functionSawOutputArgumentsBlock.back()) {
+                output += "error(_('arguments (Input) block must appear before arguments (Output) "
+                          "block.')); ";
+                skipArgumentsBlock = true;
+            }
+            if (isOutputArgumentsBlock && !functionSawOutputArgumentsBlock.empty()) {
+                functionSawOutputArgumentsBlock.back() = true;
+            }
+            argumentPosition = 1;
+            output += "% " + line + "\n";
+            continue;
+        }
+        if (inArgumentsBlock) {
+            if (trimmed == "end") {
+                inArgumentsBlock = false;
+                isOutputArgumentsBlock = false;
+                skipArgumentsBlock = false;
+                output += "% " + line + "\n";
+                continue;
+            }
+            if (skipArgumentsBlock) {
+                output += "% " + line + "\n";
+                continue;
+            }
+            if (isOutputArgumentsBlock) {
+                if (!functionOutputValidations.empty()) {
+                    const std::string validation = rewriteOutputArgumentDeclaration(line);
+                    if (!validation.empty()) {
+                        functionOutputValidations.back() += validation + " ";
+                    }
+                }
+                output += "% " + line + "\n";
+                continue;
+            }
+            output += rewriteArgumentDeclaration(line, argumentPosition);
+            if (!trimmed.empty()) {
+                argumentPosition++;
+            }
+            continue;
+        }
+        if (isFunctionBlockStart(trimmed)) {
+            blockStack.push_back(true);
+            functionSawOutputArgumentsBlock.push_back(false);
+            functionOutputValidations.push_back({});
+        } else if (isControlBlockStart(trimmed)) {
+            blockStack.push_back(false);
+        } else if (isBlockEnd(trimmed) && !blockStack.empty()) {
+            const bool closesFunction = blockStack.back();
+            blockStack.pop_back();
+            if (closesFunction) {
+                if (!functionOutputValidations.empty()) {
+                    output += functionOutputValidations.back();
+                    functionOutputValidations.pop_back();
+                }
+                if (!functionSawOutputArgumentsBlock.empty()) {
+                    functionSawOutputArgumentsBlock.pop_back();
+                }
+            }
+        }
+        output += line + "\n";
+    }
+    return output;
+}
+//=============================================================================
 inline void
 completeContinuation(LexerContext& lexerContext)
 {
@@ -1485,6 +1958,7 @@ namespace Nelson {
 void
 setLexBuffer(LexerContext& lexerContext, const std::string& buffer)
 {
+    const std::string rewrittenBuffer = rewriteArgumentsBlocks(buffer);
     lexerContext.continuationCount = 0;
     lexerContext.bracketStackSize = 0;
     lexerContext.inBlock = 0;
@@ -1499,10 +1973,12 @@ setLexBuffer(LexerContext& lexerContext, const std::string& buffer)
     lexerContext.inDebugCommand = false;
     lexerContext.inMultilineComment = false;
     clearTextBufferLexer(lexerContext);
-    lexerContext.textbuffer = static_cast<char*>(calloc(buffer.length() + 1, sizeof(char)));
+    lexerContext.textbuffer
+        = static_cast<char*>(calloc(rewrittenBuffer.length() + 1, sizeof(char)));
     lexerContext.datap = lexerContext.textbuffer;
     if (lexerContext.textbuffer != nullptr) {
-        strcpy(lexerContext.textbuffer, buffer.c_str());
+        memcpy(lexerContext.textbuffer, rewrittenBuffer.c_str(), rewrittenBuffer.length());
+        lexerContext.textbuffer[rewrittenBuffer.length()] = '\0';
     }
     lexerContext.linestart = lexerContext.datap;
     lexerContext.lineNumber = 0;
@@ -1539,13 +2015,17 @@ setLexFile(LexerContext& lexerContext, FILE* fp)
     lexerContext.previousToken = 0;
     size_t cpos = (size_t)st.st_size;
     clearTextBufferLexer(lexerContext);
-    // Allocate enough for the text, an extra newline, and null
-    lexerContext.textbuffer = static_cast<char*>(calloc((size_t)(cpos + 2), sizeof(char)));
+    std::string fileContent;
+    fileContent.resize(cpos);
+    size_t n = cpos == 0 ? 0 : fread(&fileContent[0], sizeof(char), cpos, fp);
+    fileContent.resize(n);
+    fileContent.push_back('\n');
+    const std::string rewrittenBuffer = rewriteArgumentsBlocks(fileContent);
+    lexerContext.textbuffer
+        = static_cast<char*>(calloc(rewrittenBuffer.length() + 1, sizeof(char)));
     if (lexerContext.textbuffer != nullptr) {
         lexerContext.datap = lexerContext.textbuffer;
-        size_t n = fread(lexerContext.textbuffer, sizeof(char), cpos, fp);
-        lexerContext.textbuffer[n] = '\n';
-        lexerContext.textbuffer[n + 1] = 0;
+        strcpy(lexerContext.textbuffer, rewrittenBuffer.c_str());
         lexerContext.linestart = lexerContext.datap;
     }
 }
