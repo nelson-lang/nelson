@@ -483,29 +483,6 @@ Evaluator::checkStepOutAfterFunctionReturn(AbstractSyntaxTreePtr t)
                 breakpoints.erase(it);
                 return true;
             }
-        } else if (it->stepMode && it->stepNext && !it->stepInto) {
-            // Step-next should break when returning to the original function from a subfunction
-            // Check if we're back in the function where stepping started
-            bool inTargetFunction
-                = !it->functionName.empty() && (it->functionName == currentFunctionName);
-            // Only break when at the same or deeper depth - never when shallower
-            // If we're shallower, we've left the function entirely and shouldn't break here
-            bool atValidDepth = (it->targetDepth > 0) && (currentCallStackSize >= it->targetDepth);
-
-            if (inTargetFunction && atValidDepth) {
-                // Store breakpoint info before removing
-                Breakpoint matchedBp;
-                matchedBp.filename = filename;
-                matchedBp.functionName = currentFunctionName;
-                matchedBp.line = currentLine;
-                matchedBp.maxLines = maxLine;
-                matchedBp.enabled = true;
-                matchedBp.stepMode = false;
-                stepBreakpoint = matchedBp;
-                // Remove the consumed step-next breakpoint
-                breakpoints.erase(it);
-                return true;
-            }
         }
     }
     return false;
