@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <language>en_US</language>
+  <keyword>surf</keyword>
+  <short_description>Surface plot test page.</short_description>
+  <syntax>
+    <syntax_item>surf(X)</syntax_item>
+  </syntax>
+  <description>
+    <p>Creates a surface plot for nested documentation tests. See <link linkend="mesh">mesh</link>.</p>
+  </description>
+  <see_also>
+    <see_also_item>
+      <link linkend="mesh">mesh</link>
+    </see_also_item>
+  </see_also>
+</xmldoc>

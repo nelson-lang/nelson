@@ -18,7 +18,8 @@ namespace Nelson {
 NLSXML_IMPEXP bool
 XmlTransform(const std::wstring& xmlfile, const std::wstring& xslfile,
     const std::wstring& outputfile, bool overwrite, DOCUMENT_OUTPUT documentOutput,
-    std::wstring& errorMessage);
+    std::wstring& errorMessage, const std::wstring& rootOutputDirectory = L"",
+    const std::wstring& canonicalLink = L"");
 //=============================================================================
 }
 //=============================================================================

@@ -117,6 +117,17 @@
         >`&lt;link linkend=&quot;{module}name&quot;
           &gt;`</code>for module-qualified references; otherwise use plain names.</li>
     </ol>
+    <p>
+      <b>Subchapter support</b> — Nelson&apos;s help system supports nested subchapters. To add one:</p>
+    <ol>
+      <li>Create a subdirectory under your module help XML folder (for example <code>plots</code>).</li>
+      <li>In that directory add a `chapter.xml` file containing at least <code>`&lt;language&gt;`</code> and <code>`&lt;chapter&gt;`</code>, and an optional <code>`&lt;chapter_description&gt;`</code>.</li>
+      <li>Place topic XML files (for example <code>mesh.xml</code>) inside the subdirectory; topic files use the usual elements such as <code>`&lt;keyword&gt;`</code> and <code>`&lt;short_description&gt;`</code>.</li>
+      <li>Link to nested pages using slash-separated paths: same-module links use <code>`&lt;link linkend=&quot;plots/mesh&quot;
+          &gt;mesh&lt;/link&gt;`</code>, cross-module links use <code>`&lt;link linkend=&quot;{module}plots/mesh&quot;
+          &gt;mesh&lt;/link&gt;`</code>.</li>
+    </ol>
+    <p>The <code>buildhelp</code> tool and XSLT resolve these paths and will generate nested HTML pages (for example <code>plots/mesh.html</code>).</p>
   </description>
   <examples>
     <example_item>
@@ -131,6 +142,20 @@ x = rand(1,10);
 [y, info] = myfunc(x);
 disp(info);
       ]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_description>Subchapter example (chapter.xml)</example_item_description>
+      <example_item_data
+        language="xml"
+      ><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <language>en_US</language>
+  <chapter>Plots</chapter>
+  <chapter_description>
+    <p>Plotting functions grouped in a subchapter.</p>
+  </chapter_description>
+</xmldoc>
+]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_description
@@ -165,6 +190,10 @@ saveas(gcf(), [tempdir(),'example_plot.svg']);
     <history_item>
       <history_version>1.15.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>added subchapter support</history_description>
     </history_item>
   </history>
   <authors>

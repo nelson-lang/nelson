@@ -14,29 +14,24 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:output method="html" encoding="UTF-8" indent="yes" doctype-public="-//W3C//DTD HTML 4.01//EN"/>
 
-  <!-- Suppress output for these tags -->
   <xsl:template match="main_title|subtitle|version|brief_description"/>
 
   <xsl:template match="/help_summary">
-        <html>
-        <xsl:attribute name="lang">
-            <xsl:choose>
-                <!-- en_US or zh_CN style -->
-                <xsl:when test="contains(xmldoc/language, '_')">
-                    <xsl:value-of select="substring-before(xmldoc/language, '_')"/>
-                </xsl:when>
-                <!-- en-US style -->
-                <xsl:when test="contains(xmldoc/language, '-')">
-                    <xsl:value-of select="substring-before(xmldoc/language, '-')"/>
-                </xsl:when>
-                <!-- bare language code like "en" or "fr" -->
-                <xsl:when test="normalize-space(xmldoc/language)">
-                    <xsl:value-of select="xmldoc/language"/>
-                </xsl:when>
-                <!-- default -->
-                <xsl:otherwise>en</xsl:otherwise>
-            </xsl:choose>
-        </xsl:attribute>
+    <html>
+      <xsl:attribute name="lang">
+        <xsl:choose>
+          <xsl:when test="contains(xmldoc/language, '_')">
+            <xsl:value-of select="substring-before(xmldoc/language, '_')"/>
+          </xsl:when>
+          <xsl:when test="contains(xmldoc/language, '-')">
+            <xsl:value-of select="substring-before(xmldoc/language, '-')"/>
+          </xsl:when>
+          <xsl:when test="normalize-space(xmldoc/language)">
+            <xsl:value-of select="xmldoc/language"/>
+          </xsl:when>
+          <xsl:otherwise>en</xsl:otherwise>
+        </xsl:choose>
+      </xsl:attribute>
       <head>
         <title>Nelson Table of Contents</title>
         <link rel="stylesheet" href="nelson_common.css"/>
@@ -48,10 +43,10 @@
             var isVisible = ul.style.display !== 'none';
             if (isVisible) {
               ul.style.display = 'none';
-              if (arrow) { arrow.innerHTML = '▸'; }
+              if (arrow) { arrow.innerHTML = '&#x25B8;'; }
             } else {
               ul.style.display = 'block';
-              if (arrow) { arrow.innerHTML = '▾'; }
+              if (arrow) { arrow.innerHTML = '&#x25BE;'; }
             }
           }
         </script>
@@ -65,7 +60,6 @@
   </xsl:template>
 
   <xsl:template match="section">
-    <!-- Only render if toc_visibility attribute is not 'false' -->
     <xsl:if test="not(@toc_visibility) or @toc_visibility != 'false'">
       <xsl:choose>
         <xsl:when test="@link">
@@ -77,27 +71,41 @@
         </xsl:when>
         <xsl:otherwise>
           <div class="section">
-            <xsl:choose>
-              <xsl:when test="keyword">
-                <div class="section-title clickable" style="font-size: 1em;" onclick="toggleTocList(this)">
-                  <!-- start collapsed: arrow shows collapsed glyph, list hidden -->
-                  <span class="arrow">▸</span>
-                  <xsl:value-of select="@name"/>
-                </div>
-                <ul class="toc-list" style="display:none;">
-                  <xsl:apply-templates select="keyword"/>
-                </ul>
-              </xsl:when>
-              <xsl:otherwise>
-                <div class="section-title" style="font-size: 1em;">
-                  <span class="arrow" style="visibility:hidden;">&#x25BE;</span>
-                  <xsl:value-of select="@name"/>
-                </div>
-              </xsl:otherwise>
-            </xsl:choose>
+            <div class="section-title clickable" style="font-size: 1em;" onclick="toggleTocList(this)">
+              <span class="arrow">&#x25B8;</span>
+              <xsl:value-of select="@name"/>
+            </div>
+            <ul class="toc-list" style="display:none;">
+              <xsl:apply-templates select="section" mode="nested"/>
+              <xsl:apply-templates select="keyword"/>
+            </ul>
           </div>
         </xsl:otherwise>
       </xsl:choose>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="section" mode="nested">
+    <xsl:if test="not(@toc_visibility) or @toc_visibility != 'false'">
+      <li class="toc-entry">
+        <xsl:choose>
+          <xsl:when test="@link">
+            <a class="toc-link" href="{@link}" target="contentFrame">
+              <xsl:value-of select="@name"/>
+            </a>
+          </xsl:when>
+          <xsl:otherwise>
+            <div class="section-title clickable" style="font-size: 0.95em;" onclick="toggleTocList(this)">
+              <span class="arrow">&#x25B8;</span>
+              <xsl:value-of select="@name"/>
+            </div>
+            <ul class="toc-list" style="display:none;">
+              <xsl:apply-templates select="section" mode="nested"/>
+              <xsl:apply-templates select="keyword"/>
+            </ul>
+          </xsl:otherwise>
+        </xsl:choose>
+      </li>
     </xsl:if>
   </xsl:template>
 
@@ -106,5 +114,4 @@
       <a class="toc-link" href="{ @link }" target="contentFrame"><xsl:value-of select="@name"/></a>
     </li>
   </xsl:template>
-
 </xsl:stylesheet>

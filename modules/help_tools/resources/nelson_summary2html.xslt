@@ -101,6 +101,11 @@
             <xsl:apply-templates select="chapter_description"/>
           </div>
         </xsl:if>
+        <xsl:if test="section">
+          <div style="margin-left:18px;">
+            <xsl:apply-templates select="section"/>
+          </div>
+        </xsl:if>
         <ul class="toc-list">
           <xsl:apply-templates select="keyword"/>
         </ul>

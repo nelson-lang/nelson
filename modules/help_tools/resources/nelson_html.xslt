@@ -14,6 +14,7 @@
     <xsl:output method="html" encoding="UTF-8" indent="yes" doctype-public="-//W3C//DTD HTML 4.01//EN"/>
 
     <xsl:template match="/">
+    <xsl:variable name="rootpath" select="/*/@rootpath"/>
     <!-- Nelson Documentation XSLT Stylesheet -->
     <html>
         <xsl:attribute name="lang">
@@ -46,9 +47,9 @@
                     <xsl:otherwise>Documentation</xsl:otherwise>
                 </xsl:choose>
             </title>
-            <link rel="stylesheet" href="highlight.css"/>
-            <link rel="stylesheet" href="nelson_common.css"/>
-            <script src="nelson_help.js"></script>
+            <link rel="stylesheet" href="{$rootpath}highlight.css"/>
+            <link rel="stylesheet" href="{$rootpath}nelson_common.css"/>
+            <script src="{$rootpath}nelson_help.js"></script>
 
             <!-- Add dark/light prefers-color-scheme rules to make chapter descriptions readable on both themes -->
             <style>
@@ -65,7 +66,7 @@
         </head>
         <body>
             <!-- Help Summary Button at top left -->
-            <a href="./index.html" class="home-summary-link">
+            <a href="{$rootpath}index.html" class="home-summary-link">
                 <button class="home-summary-btn" aria-label="Back to help index">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 12L12 3l9 9"/>
@@ -379,7 +380,7 @@
                     <xsl:for-each select="see_also/see_also_item">
                         <a class="see-also-link">
                           <xsl:attribute name="href">
-                            <xsl:value-of select="ext:replace(link/@linkend)"/>
+                            <xsl:value-of select="/*/@rootpath"/><xsl:value-of select="ext:replace(link/@linkend)"/>
                           </xsl:attribute>
                           <xsl:value-of select="link"/>
                         </a>
@@ -451,6 +452,7 @@
 <!-- Render inline <link> as an HTML anchor using linkend -->
 <xsl:template match="link">
     <xsl:variable name="linkend" select="@linkend"/>
+    <xsl:variable name="rootpath" select="/*/@rootpath"/>
     <xsl:variable name="module">
         <xsl:if test="contains($linkend, '{') and contains($linkend, '}')">
             <xsl:value-of select="substring-before(substring-after($linkend, '{'), '}')"/>
@@ -470,10 +472,10 @@
         <xsl:attribute name="href">
             <xsl:choose>
                 <xsl:when test="string-length($module) &gt; 0">
-                    <xsl:text>../</xsl:text><xsl:value-of select="$module"/><xsl:text>/</xsl:text><xsl:value-of select="$function"/><xsl:text>.html</xsl:text>
+                    <xsl:value-of select="$rootpath"/><xsl:text>../</xsl:text><xsl:value-of select="$module"/><xsl:text>/</xsl:text><xsl:value-of select="$function"/><xsl:text>.html</xsl:text>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:value-of select="$function"/><xsl:text>.html</xsl:text>
+                    <xsl:value-of select="$rootpath"/><xsl:value-of select="$function"/><xsl:text>.html</xsl:text>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:attribute>

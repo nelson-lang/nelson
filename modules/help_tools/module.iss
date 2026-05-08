@@ -42,5 +42,8 @@ Source: {#RootPath}modules\{#MODULE_NAME}\help\*.json; DestDir: {app}\modules\{#
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_HELP_TOOLS} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\xml\*.xml; DestDir: {app}\modules\{#MODULE_NAME}\tests\xml; Flags: recursesubdirs;Components: {#COMPONENT_HELP_TOOLS} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\xml_nested\*.xml; DestDir: {app}\modules\{#MODULE_NAME}\tests\xml_nested; Flags: recursesubdirs;Components: {#COMPONENT_HELP_TOOLS} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\xml_nested_no_chapter\*.xml; DestDir: {app}\modules\{#MODULE_NAME}\tests\xml_nested_no_chapter; Flags: recursesubdirs;Components: {#COMPONENT_HELP_TOOLS} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\xml_nested_alias_collision\*.xml; DestDir: {app}\modules\{#MODULE_NAME}\tests\xml_nested_alias_collision; Flags: recursesubdirs;Components: {#COMPONENT_HELP_TOOLS} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\md\*.md; DestDir: {app}\modules\{#MODULE_NAME}\tests\md; Flags: recursesubdirs;Components: {#COMPONENT_HELP_TOOLS} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
 ;==============================================================================

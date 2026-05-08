@@ -41,6 +41,10 @@ buildhelp('core');]]></example_item_data>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
     </history_item>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>gestion des sous-chapitres ajoutée</history_description>
+    </history_item>
   </history>
   <authors>
     <author_item>Allan CORNET</author_item>

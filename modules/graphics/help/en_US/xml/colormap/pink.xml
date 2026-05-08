@@ -2,22 +2,28 @@
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
-  <keyword>colormaplist</keyword>
-  <short_description>Provide list of colormaps.</short_description>
+  <keyword>pink</keyword>
+  <short_description>Pink colormap array.</short_description>
   <syntax>
-    <syntax_item>colormaps = colormaplist()</syntax_item>
+    <syntax_item>c = pink</syntax_item>
+    <syntax_item>c = pink(m)</syntax_item>
   </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>m</param_name>
+      <param_description
+      >a scalar integer value: Number of colors (256 as default value).</param_description>
+    </param_input_item>
+  </param_input>
   <param_output>
     <param_output_item>
-      <param_name>colormaps</param_name>
-      <param_description
-      >String vector of colormaps sorted in ascending order.</param_description>
+      <param_name>c</param_name>
+      <param_description>Pink colormap array.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>colormaplist</b> returns the available colormaps as an<b>m</b>-by-<b
-      >1</b> string array.</p>
+      <b>pink</b> returns the colormap with pink colors.</p>
   </description>
   <used_function />
   <bibliography />
@@ -27,15 +33,11 @@
       <example_item_description />
       <example_item_data
         runnable="adv-cli"
-      ><![CDATA[f = figure('Position', [100, 100, 600, 400], 'Resize', 'off');
-ax = axes('Position', [0.1, 0.2, 0.6, 0.7]);
-surf(ax, peaks);
-cmaps = colormaplist;
-listbox = uicontrol('Style', 'listbox', 'Position', [450, 100, 100, 200], 'String', cmaps);
-listbox.Callback = @(src, void) colormap(ax, cmaps(src.Value));
-]]></example_item_data>
+      ><![CDATA[f = figure();
+surf(peaks);
+colormap('pink');]]></example_item_data>
       <example_item_img
-        src="../images/colormaplist.svg"
+        src="../../../images/pink.svg"
         align="middle"
         generate="true"
       />
@@ -48,7 +50,7 @@ listbox.Callback = @(src, void) colormap(ax, cmaps(src.Value));
   </see_also>
   <history>
     <history_item>
-      <history_version>1.14.0</history_version>
+      <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
   </history>

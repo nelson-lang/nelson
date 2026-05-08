@@ -8,22 +8,26 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocToc.hpp"
-#include "XmlTransform.hpp"
-#include <filesystem>
-#include <libxml/parser.h>
-#include <libxml/xpathInternals.h>
-#include <libxml/xmlerror.h>
-#include <fstream>
-#include "characters_encoding.hpp"
 #include "StringHelpers.hpp"
+#include "XmlTransform.hpp"
+#include "characters_encoding.hpp"
+#include <filesystem>
+#include <fstream>
+#include <libxml/parser.h>
+#include <libxml/xmlerror.h>
+#include <libxml/xpathInternals.h>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static std::string
-assembleToc(const std::vector<XMLDOCFILES>& xmlDocFiles, DOCUMENT_OUTPUT outputDocumentType);
+assembleToc(const std::vector<XmlDocSection>& xmlDocFiles, DOCUMENT_OUTPUT outputDocumentType);
+//=============================================================================
+static void
+appendSection(xmlNodePtr rootNode, const XmlDocSection& section,
+    const std::wstring& destinationFileExtension);
 //=============================================================================
 bool
-XmlDocToc(const std::wstring& destinationDirectory, std::vector<XMLDOCFILES>& xmlDocFiles,
+XmlDocToc(const std::wstring& destinationDirectory, std::vector<XmlDocSection>& xmlDocFiles,
     const std::wstring& xsltFilename, DOCUMENT_OUTPUT outputDocumentType,
     std::wstring& errorMessage)
 {
@@ -31,7 +35,6 @@ XmlDocToc(const std::wstring& destinationDirectory, std::vector<XMLDOCFILES>& xm
 
     std::string tocContent = assembleToc(xmlDocFiles, outputDocumentType);
 
-    // Generate XML TOC as requested
     std::wstring outputXmlFile = destinationDirectory + L"/table_of_contents.xml";
     std::wstring destinationFile = destinationDirectory + L"/table_of_contents.html";
 
@@ -51,59 +54,47 @@ XmlDocToc(const std::wstring& destinationDirectory, std::vector<XMLDOCFILES>& xm
     out << tocContent;
     out.close();
 
-    if (!XmlTransform(
-            outputXmlFile, xsltFilename, destinationFile, true, outputDocumentType, errorMessage)) {
+    if (!XmlTransform(outputXmlFile, xsltFilename, destinationFile, true, outputDocumentType,
+            errorMessage, destinationDirectory)) {
         return false;
     }
     return true;
 }
 //=============================================================================
-std::string
-assembleToc(const std::vector<XMLDOCFILES>& xmlDocFiles, DOCUMENT_OUTPUT outputDocumentType)
+static std::wstring
+getDestinationFileExtension(DOCUMENT_OUTPUT outputDocumentType)
 {
-    std::wstring destinationFileExtension;
     switch (outputDocumentType) {
     case DOCUMENT_OUTPUT::HTML_WEB:
-        destinationFileExtension = L".html";
-        break;
+        return L".html";
     case DOCUMENT_OUTPUT::MARKDOWN:
-        destinationFileExtension = L".md";
-        break;
+        return L".md";
     default:
-        destinationFileExtension = L".html";
-        break;
+        return L".html";
     }
+}
+//=============================================================================
+static bool
+hasVisibleContent(const XmlDocSection& section)
+{
+    return !section.pages.empty() || !section.children.empty();
+}
+//=============================================================================
+static std::string
+assembleToc(const std::vector<XmlDocSection>& xmlDocFiles, DOCUMENT_OUTPUT outputDocumentType)
+{
+    std::wstring destinationFileExtension = getDestinationFileExtension(outputDocumentType);
 
     xmlDocPtr doc = xmlNewDoc(BAD_CAST "1.0");
-    xmlNodePtr root_node = xmlNewNode(nullptr, BAD_CAST "toc");
-    xmlDocSetRootElement(doc, root_node);
+    xmlNodePtr rootNode = xmlNewNode(nullptr, BAD_CAST "toc");
+    xmlDocSetRootElement(doc, rootNode);
 
     for (const auto& xmlDocFile : xmlDocFiles) {
-        std::wstring chapterTitle = std::get<2>(xmlDocFile);
-        std::vector<XMLDOCFILE> docFiles = std::get<4>(xmlDocFile);
-        if (docFiles.empty()) {
-            continue;
-        }
-
-        xmlNodePtr section_node = xmlNewChild(root_node, nullptr, BAD_CAST "section", nullptr);
-        xmlNewProp(section_node, BAD_CAST "name", BAD_CAST wstring_to_utf8(chapterTitle).c_str());
-
-        for (const auto& doc : docFiles) {
-            std::vector<std::string> keywordAndAlias = std::get<0>(doc);
-            std::string shortDescription = std::get<1>(doc);
-            std::wstring xmlFilename = std::get<2>(doc);
-            StringHelpers::replace_last(xmlFilename, L".xml", destinationFileExtension);
-            for (const auto& keyword : keywordAndAlias) {
-                xmlNodePtr keyword_node
-                    = xmlNewChild(section_node, nullptr, BAD_CAST "keyword", nullptr);
-                xmlNewProp(keyword_node, BAD_CAST "name", BAD_CAST keyword.c_str());
-                xmlNewProp(
-                    keyword_node, BAD_CAST "link", BAD_CAST wstring_to_utf8(xmlFilename).c_str());
-            }
+        if (hasVisibleContent(xmlDocFile)) {
+            appendSection(rootNode, xmlDocFile, destinationFileExtension);
         }
     }
 
-    // Serialize XML to string
     xmlChar* xmlbuff = nullptr;
     int buffersize = 0;
     xmlDocDumpFormatMemoryEnc(doc, &xmlbuff, &buffersize, "UTF-8", 1);
@@ -116,5 +107,37 @@ assembleToc(const std::vector<XMLDOCFILES>& xmlDocFiles, DOCUMENT_OUTPUT outputD
     return result;
 }
 //=============================================================================
+static std::wstring
+outputRelativeFilename(const XmlDocPage& page, const std::wstring& destinationFileExtension)
+{
+    std::wstring filename = page.relativeFilename;
+    StringHelpers::replace_last(filename, L".xml", destinationFileExtension);
+    return filename;
 }
+//=============================================================================
+static void
+appendSection(xmlNodePtr parentNode, const XmlDocSection& section,
+    const std::wstring& destinationFileExtension)
+{
+    xmlNodePtr sectionNode = xmlNewChild(parentNode, nullptr, BAD_CAST "section", nullptr);
+    xmlNewProp(
+        sectionNode, BAD_CAST "name", BAD_CAST wstring_to_utf8(section.chapterTitle).c_str());
+
+    for (const auto& page : section.pages) {
+        std::wstring xmlFilename = outputRelativeFilename(page, destinationFileExtension);
+        for (const auto& keyword : page.keywordAndAlias) {
+            xmlNodePtr keywordNode = xmlNewChild(sectionNode, nullptr, BAD_CAST "keyword", nullptr);
+            xmlNewProp(keywordNode, BAD_CAST "name", BAD_CAST keyword.c_str());
+            xmlNewProp(keywordNode, BAD_CAST "link", BAD_CAST wstring_to_utf8(xmlFilename).c_str());
+        }
+    }
+
+    for (const auto& child : section.children) {
+        if (hasVisibleContent(child)) {
+            appendSection(sectionNode, child, destinationFileExtension);
+        }
+    }
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

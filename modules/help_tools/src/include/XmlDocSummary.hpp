@@ -17,7 +17,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-XmlDocTocSummary(const std::wstring& destinationDirectory, std::vector<XMLDOCFILES>& xmlDocFiles,
+XmlDocTocSummary(const std::wstring& destinationDirectory, std::vector<XmlDocSection>& xmlDocFiles,
     const std::wstring& xsltTocFilename, const std::wstring& xsltSummaryFilename,
     DOCUMENT_OUTPUT outputDocumentType, std::wstring& errorMessage);
 //=============================================================================

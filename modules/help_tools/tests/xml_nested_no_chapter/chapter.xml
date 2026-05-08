@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <language>en_US</language>
+  <module_name>nested_help</module_name>
+  <chapter>Broken Nested Help Module</chapter>
+  <chapter_description>
+    <p>Root chapter for a missing subchapter metadata test.</p>
+  </chapter_description>
+</xmldoc>

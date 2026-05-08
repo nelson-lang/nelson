@@ -134,10 +134,42 @@ ext_copy_img(xmlXPathParserContextPtr ctxt, int nargs)
     xmlFree(srcAttr);
 }
 //=============================================================================
+static std::string
+getRelativePrefixToRoot(const std::wstring& outputfile, const std::wstring& rootOutputDirectory)
+{
+    if (rootOutputDirectory.empty()) {
+        return std::string();
+    }
+
+    std::error_code ec;
+    std::filesystem::path outputDirectory
+        = std::filesystem::absolute(std::filesystem::path(outputfile).parent_path(), ec);
+    if (ec) {
+        return std::string();
+    }
+    std::filesystem::path rootDirectory
+        = std::filesystem::absolute(std::filesystem::path(rootOutputDirectory), ec);
+    if (ec) {
+        return std::string();
+    }
+
+    std::filesystem::path relativeToRoot
+        = std::filesystem::relative(rootDirectory, outputDirectory, ec);
+    if (ec || relativeToRoot == L".") {
+        return std::string();
+    }
+    std::string prefix = relativeToRoot.generic_string();
+    if (!prefix.empty() && prefix.back() != '/') {
+        prefix += '/';
+    }
+    return prefix;
+}
+//=============================================================================
 bool
 XmlTransform(const std::wstring& xmlfile, const std::wstring& xslfile,
     const std::wstring& outputfile, bool overwrite, DOCUMENT_OUTPUT documentOutput,
-    std::wstring& errorMessage)
+    std::wstring& errorMessage, const std::wstring& rootOutputDirectory,
+    const std::wstring& canonicalLink)
 {
     // Initialize libxml/libxslt once and register extension functions once
     static std::once_flag s_init_flag;
@@ -195,6 +227,10 @@ XmlTransform(const std::wstring& xmlfile, const std::wstring& xslfile,
     xmlSetProp(xmlDocGetRootElement(doc), BAD_CAST "outputdir", BAD_CAST outputDir.c_str());
     xmlSetProp(xmlDocGetRootElement(doc), BAD_CAST "xmlfilename",
         BAD_CAST wstring_to_utf8(xmlfile).c_str());
+    std::string rootPath = getRelativePrefixToRoot(outputfile, rootOutputDirectory);
+    xmlSetProp(xmlDocGetRootElement(doc), BAD_CAST "rootpath", BAD_CAST rootPath.c_str());
+    xmlSetProp(xmlDocGetRootElement(doc), BAD_CAST "canonical_link",
+        BAD_CAST wstring_to_utf8(canonicalLink).c_str());
 
     xmlDocPtr result = xsltApplyStylesheet(style, doc, NULL);
     if (!result) {

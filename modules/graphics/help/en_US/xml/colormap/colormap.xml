@@ -48,7 +48,7 @@ imagesc(Z);
 colormap('summer')
 ]]></example_item_data>
       <example_item_img
-        src="../../images/colormap_1.svg"
+        src="../../../images/colormap_1.svg"
         align="middle"
         generate="true"
       />
@@ -65,7 +65,7 @@ Z = exp(-(x .^ 2 + y .^ 2) / 0.4);
 imagesc(Z);
 colormap('gray')]]></example_item_data>
       <example_item_img
-        src="../../images/colormap_2.svg"
+        src="../../../images/colormap_2.svg"
         align="middle"
         generate="true"
       />
@@ -89,7 +89,7 @@ map = [0 0 0.3;
     0 0 1.0];
 colormap(map)]]></example_item_data>
       <example_item_img
-        src="../../images/colormap_3.svg"
+        src="../../../images/colormap_3.svg"
         align="middle"
         generate="true"
       />

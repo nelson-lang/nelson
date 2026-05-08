@@ -10,10 +10,27 @@
 function tf = need_to_be_generated(md_filename, html_filename)
   tf = true;
   html_file_info = dir(html_filename);
-  md_file_info = dir(md_filename);
-  if isempty(html_file_info.datenum) || isempty(md_file_info.datenum)
+  if isempty(html_file_info.datenum)
     return
   end
-  tf = md_file_info.datenum > html_file_info.datenum;
+  if isdir(md_filename)
+    files = dir([md_filename, '/*.xml'], '-s');
+    if isempty(files)
+      return
+    end
+    latest = files(1).datenum;
+    for k = 2:length(files)
+      if files(k).datenum > latest
+        latest = files(k).datenum;
+      end
+    end
+    tf = latest > html_file_info.datenum;
+  else
+    md_file_info = dir(md_filename);
+    if isempty(md_file_info.datenum)
+      return
+    end
+    tf = md_file_info.datenum > html_file_info.datenum;
+  end
 end
 %=============================================================================

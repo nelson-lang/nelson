@@ -97,6 +97,9 @@ nelson_install_module_data(
   ${module_name}
   EXTRA_DIR_PATTERNS
   "tests/xml:*.xml"
+  "tests/xml_nested:*.xml"
+  "tests/xml_nested_no_chapter:*.xml"
+  "tests/xml_nested_alias_collision:*.xml"
   "tests/md:*.md"
   "resources:*.*"
   "templates:*.xml")

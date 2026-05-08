@@ -214,6 +214,7 @@
       <xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text>](</xsl:text>
       <!-- Extract module and function name from linkend -->
       <xsl:variable name="linkend" select="@linkend"/>
+      <xsl:variable name="rootpath" select="/*/@rootpath"/>
       <xsl:variable name="module">
         <xsl:choose>
           <xsl:when test="contains($linkend, '${') and contains($linkend, '}')">
@@ -238,10 +239,10 @@
       <!-- Create the proper relative path with module reference -->
       <xsl:choose>
         <xsl:when test="string-length($module) > 0">
-          <xsl:text>../</xsl:text><xsl:value-of select="$module"/><xsl:text>/</xsl:text><xsl:value-of select="$function"/>
+          <xsl:value-of select="$rootpath"/><xsl:text>../</xsl:text><xsl:value-of select="$module"/><xsl:text>/</xsl:text><xsl:value-of select="$function"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="$function"/>
+          <xsl:value-of select="$rootpath"/><xsl:value-of select="$function"/>
         </xsl:otherwise>
       </xsl:choose>
       <xsl:text>.md)</xsl:text>
@@ -350,6 +351,7 @@
   <!-- Render inline <link> elements in markdown -->
   <xsl:template match="link">
     <xsl:variable name="linkend" select="@linkend"/>
+    <xsl:variable name="rootpath" select="/*/@rootpath"/>
     <xsl:variable name="module">
       <xsl:choose>
         <xsl:when test="contains($linkend, '${') and contains($linkend, '}')">
@@ -373,10 +375,10 @@
     <xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text>](</xsl:text>
     <xsl:choose>
       <xsl:when test="string-length($module) &gt; 0">
-        <xsl:text>../</xsl:text><xsl:value-of select="$module"/><xsl:text>/</xsl:text><xsl:value-of select="$function"/>
+        <xsl:value-of select="$rootpath"/><xsl:text>../</xsl:text><xsl:value-of select="$module"/><xsl:text>/</xsl:text><xsl:value-of select="$function"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:value-of select="$function"/>
+        <xsl:value-of select="$rootpath"/><xsl:value-of select="$function"/>
       </xsl:otherwise>
     </xsl:choose>
     <xsl:text>.md)</xsl:text>

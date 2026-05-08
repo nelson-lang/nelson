@@ -9,24 +9,33 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "Types.hpp"
 #include <string>
 #include <vector>
-#include <tuple>
-#include "Types.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// keywordAndAlias, short description, xml file
-using XMLDOCFILE = std::tuple<std::vector<std::string>, std::string, std::wstring>;
-// directory, module name, chapter title, vector of XMLDOCFILE
-using XMLDOCFILES = std::tuple<std::wstring, // directory
-    std::wstring, // module name
-    std::wstring, // chapter title
-    std::string, // chapter description
-    std::vector<XMLDOCFILE>>;
+struct XmlDocPage
+{
+    std::vector<std::string> keywordAndAlias;
+    std::string shortDescription;
+    std::wstring absoluteFilename;
+    std::wstring relativeFilename;
+};
+//=============================================================================
+struct XmlDocSection
+{
+    std::wstring directory;
+    std::wstring relativeDirectory;
+    std::wstring moduleName;
+    std::wstring chapterTitle;
+    std::string chapterDescription;
+    std::vector<XmlDocPage> pages;
+    std::vector<XmlDocSection> children;
+};
 //=============================================================================
 bool
-xmlDocListOfFiles(const wstringVector& xmlDirectories, std::vector<XMLDOCFILES>& xmlDocFiles,
+xmlDocListOfFiles(const wstringVector& xmlDirectories, std::vector<XmlDocSection>& xmlDocFiles,
     std::string& language, std::wstring& errorMessage);
 //=============================================================================
 }

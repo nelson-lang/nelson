@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Separate validation blocks for input and output arguments
   - Improved error messages for invalid function arguments
 
+- help engine extending to manage subchapters.
+
 - Debugger Support
 
   - Full breakpoint management with commands: `dbstop`, `dbstep`, `dbcont`, `dbquit`, `dbclear`, `dbdown`, `dbup`, `dbstatus`.

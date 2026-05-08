@@ -21,9 +21,9 @@ function varargout = xmldocchecker(varargin)
                 for lang = getavailablelanguages()'
                     help_path = [modules_path, module_name, '/help/', lang{1}, '/xml/'];
                     if isdir(help_path)
-                        xmlfiles = dir([help_path, '*.xml']);
+                        xmlfiles = dir([help_path, '/*.xml'], '-s');
                         for j = 1:length(xmlfiles)
-                            xmlfile = [help_path, xmlfiles(j).name];
+                            xmlfile = [xmlfiles(j).folder, '/', xmlfiles(j).name];
                             switch nargout()
                             case 0
                                 try
@@ -83,6 +83,53 @@ function varargout = xmldocchecker(varargin)
     end
 
     xmldocfilename = varargin{1};
+    if isdir(xmldocfilename)
+        xmlfiles = dir([xmldocfilename, '/*.xml'], '-s');
+        for j = 1:length(xmlfiles)
+            xmlfile = [xmlfiles(j).folder, '/', xmlfiles(j).name];
+            switch nargout()
+            case 0
+                xmldocchecker(xmlfile);
+            case 1
+                state = xmldocchecker(xmlfile);
+                if ~state
+                    varargout{1} = state;
+                    return
+                end
+            case 2
+                [state, errors_detected] = xmldocchecker(xmlfile);
+                if ~state
+                    varargout{1} = state;
+                    varargout{2} = errors_detected;
+                    return
+                end
+            case 3
+                [state, errors_detected, warnings_detected] = xmldocchecker(xmlfile);
+                if ~state
+                    varargout{1} = state;
+                    varargout{2} = errors_detected;
+                    varargout{3} = warnings_detected;
+                    return
+                end
+            end
+        end
+        switch nargout()
+            case 0
+                varargout = {};
+            case 1
+                varargout{1} = true;
+            case 2
+                varargout{1} = true;
+                varargout{2} = {};
+            case 3
+                varargout{1} = true;
+                varargout{2} = {};
+                varargout{3} = {};
+            otherwise
+                varargout = {};
+        end
+        return;
+    end
     % Check if the file exists
     if ~isfile(xmldocfilename)
         error('File not found: %s', xmldocfilename);
