@@ -53,10 +53,10 @@ R = diff(X)]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${linear_algebra}sum">sum</link>
+      <link linkend="${data_analysis}sum">sum</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${linear_algebra}prod">prod</link>
+      <link linkend="${data_analysis}prod">prod</link>
     </see_also_item>
   </see_also>
   <history>

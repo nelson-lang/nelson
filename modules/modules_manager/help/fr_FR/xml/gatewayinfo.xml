@@ -50,10 +50,10 @@
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${dynamic_link}addgateway">addgateway</link>
+      <link linkend="${modules_manager}addgateway">addgateway</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${dynamic_link}removegateway">removegateway</link>
+      <link linkend="${modules_manager}removegateway">removegateway</link>
     </see_also_item>
   </see_also>
   <history>

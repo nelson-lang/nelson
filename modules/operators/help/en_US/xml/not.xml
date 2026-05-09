@@ -41,10 +41,10 @@
       <link linkend="${operators}or">or</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${logical}any">any</link>
+      <link linkend="${operators}any">any</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${logical}all">all</link>
+      <link linkend="${operators}all">all</link>
     </see_also_item>
   </see_also>
   <history>

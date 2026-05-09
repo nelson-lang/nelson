@@ -147,7 +147,7 @@ title('Resized Image');]]></example_item_data>
       <link linkend="${image_processing}imrotate">imrotate</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${image_processing}imshow">imshow</link>
+      <link linkend="${graphics}imshow">imshow</link>
     </see_also_item>
   </see_also>
   <history>

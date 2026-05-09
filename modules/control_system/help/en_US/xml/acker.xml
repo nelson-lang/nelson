@@ -64,7 +64,7 @@ K = acker(A, B, P)]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${control_system}place">place</link>
+      <link linkend="${control_system}cloop">cloop</link>
     </see_also_item>
   </see_also>
   <history>

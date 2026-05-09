@@ -60,7 +60,7 @@ R = cumsum(M, 'reverse')]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${data_analysis}ndims">ndims</link>
+      <link linkend="${elementary_functions}ndims">ndims</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${data_analysis}sum">sum</link>

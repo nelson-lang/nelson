@@ -68,7 +68,7 @@ A3 = 1:11;
       <link linkend="${data_structures}cell">cell</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${data_structures}struc">struct</link>
+      <link linkend="${data_structures}struct">struct</link>
     </see_also_item>
   </see_also>
   <history>

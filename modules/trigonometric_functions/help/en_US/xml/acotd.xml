@@ -36,10 +36,10 @@
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${trigonometric}acot">acot</link>
+      <link linkend="${trigonometric_functions}acot">acot</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${trigonometric}acoth">acoth</link>
+      <link linkend="${trigonometric_functions}acoth">acoth</link>
     </see_also_item>
   </see_also>
   <history>

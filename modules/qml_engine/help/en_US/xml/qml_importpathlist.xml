@@ -32,8 +32,8 @@
   <see_also>
     <see_also_item>
       <link
-        linkend="${qml_engine}qml_addimportpathlist"
-      >qml_addimportpathlist</link>
+        linkend="${qml_engine}qml_addimportpath"
+      >qml_addimportpath</link>
     </see_also_item>
   </see_also>
   <history>

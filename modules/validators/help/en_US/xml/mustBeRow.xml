@@ -42,7 +42,7 @@ mustBeRow([1; 1])]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${types}isrow">isrow</link>
+      <link linkend="${elementary_functions}isrow">isrow</link>
     </see_also_item>
   </see_also>
   <history>

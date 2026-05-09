@@ -14,6 +14,7 @@
 #include "xmldocbuildBuiltin.hpp"
 #include "docrootBuiltin.hpp"
 #include "xmldocmergesummaryBuiltin.hpp"
+#include "__xmldoclinkchecker__Builtin.hpp"
 #include "__xmldocgenerateimages__Builtin.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -27,6 +28,8 @@ static const nlsGateway gateway[] = {
     { "docroot", (ptrBuiltin)Nelson::HelpToolsGateway::docrootBuiltin, 1, 1 },
     { "xmldocmergesummary", (ptrBuiltin)Nelson::HelpToolsGateway::xmldocmergesummaryBuiltin, -1,
         2 },
+    { "__xmldoclinkchecker__", (ptrBuiltin)Nelson::HelpToolsGateway::__xmldoclinkchecker__Builtin,
+        2, 3 },
     { "headcomments", (ptrBuiltin)Nelson::HelpToolsGateway::headcommentsBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "__xmldocgenerateimages__",

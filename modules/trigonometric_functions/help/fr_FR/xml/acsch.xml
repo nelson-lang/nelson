@@ -37,10 +37,10 @@ R = acsch(X)]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${trigonometric}csch">csch</link>
+      <link linkend="${trigonometric_functions}csch">csch</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${trigonometric}sinh">sinh</link>
+      <link linkend="${trigonometric_functions}sinh">sinh</link>
     </see_also_item>
   </see_also>
   <history>

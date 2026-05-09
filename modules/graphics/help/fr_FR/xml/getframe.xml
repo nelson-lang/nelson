@@ -78,7 +78,7 @@ imshow(F2.cdata)
       <link linkend="${graphics}imshow">imshow</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${graphics}imwrite">imwrite</link>
+      <link linkend="${graphics_io}imwrite">imwrite</link>
     </see_also_item>
   </see_also>
   <history>

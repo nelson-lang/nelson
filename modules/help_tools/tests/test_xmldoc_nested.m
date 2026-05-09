@@ -28,7 +28,7 @@ assert_istrue(isfile([destination_html, '/mesh.html']));
 toc = fileread([destination_html, '/help_toc_summary.xml']);
 assert_istrue(contains(toc, 'link="plots/surf.html"'));
 assert_istrue(contains(toc, 'link="plots/advanced/mesh.html"'));
-toc_html = fileread([destination_html, '/help_toc.html']);
+toc_html = fileread([destination_html, '/index.html']);
 plots_position = strfind(toc_html, 'Plots');
 rootplot_position = strfind(toc_html, 'rootplot');
 assert_istrue(plots_position(1) < rootplot_position(1));

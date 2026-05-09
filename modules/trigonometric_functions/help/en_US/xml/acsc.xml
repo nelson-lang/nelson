@@ -37,10 +37,10 @@ R = acsc(0.5)]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${trigonometric}cscd">cscd</link>
+      <link linkend="${trigonometric_functions}cscd">cscd</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${trigonometric}csc">csc</link>
+      <link linkend="${trigonometric_functions}csc">csc</link>
     </see_also_item>
   </see_also>
   <history>

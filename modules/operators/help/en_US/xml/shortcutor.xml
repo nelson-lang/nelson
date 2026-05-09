@@ -53,7 +53,7 @@ C = A || B
       </link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${operators}xor">xor</link>
+      <link linkend="${logical}xor">xor</link>
     </see_also_item>
   </see_also>
   <history>

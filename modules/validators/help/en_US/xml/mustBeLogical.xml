@@ -43,7 +43,7 @@ mustBeLogical([true false])]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${elementary_functions}isempty">isempty</link>
+      <link linkend="${types}isempty">isempty</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${types}islogical">islogical</link>

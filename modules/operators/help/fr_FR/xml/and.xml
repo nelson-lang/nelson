@@ -52,10 +52,10 @@ C == D]]></example_item_data>
       <link linkend="${logical}xor">xor</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${logical}all">all</link>
+      <link linkend="${operators}all">all</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${logical}any">any</link>
+      <link linkend="${operators}any">any</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${operators}not">not</link>

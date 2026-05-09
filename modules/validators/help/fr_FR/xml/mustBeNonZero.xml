@@ -47,7 +47,7 @@ mustBeNonZero(0)
       <link linkend="${types}isempty">isempty</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${elementary_functions}eq">eq</link>
+      <link linkend="${operators}eq">eq</link>
     </see_also_item>
   </see_also>
   <history>

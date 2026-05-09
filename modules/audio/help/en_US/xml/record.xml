@@ -61,7 +61,7 @@ play(myVoice);
       <link linkend="${audio}recordblocking">recordblocking</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${audio}pause">pause</link>
+      <link linkend="${audio}audiorecorder_pause">pause</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${audio}resume">resume</link>

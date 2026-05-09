@@ -69,7 +69,7 @@ R = sscanf(str,'%f',[2 2])]]></example_item_data>
       <link linkend="${stream_manager}fscanf">fscanf</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${stream_manager}sprintf">sprintf</link>
+      <link linkend="${string}sprintf">sprintf</link>
     </see_also_item>
   </see_also>
   <history>

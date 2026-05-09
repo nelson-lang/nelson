@@ -43,7 +43,7 @@ mustBeNonmissing(["hello" string(NaN)])
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${elementary_functions}ismissing">ismissing</link>
+      <link linkend="${data_analysis}ismissing">ismissing</link>
     </see_also_item>
   </see_also>
   <history>

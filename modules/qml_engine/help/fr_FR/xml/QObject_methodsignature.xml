@@ -41,11 +41,11 @@ QObject_methodsignature(h, 'setVisible')]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${qml_engine}QObject_invoke">QObject_invoke (invoke)</link>
+      <link linkend="${handle}invoke">QObject_invoke (invoke)</link>
     </see_also_item>
     <see_also_item>
       <link
-        linkend="${qml_engine}QObject_methods"
+        linkend="${handle}methods"
       >QObject_methods (methods)</link>
     </see_also_item>
   </see_also>

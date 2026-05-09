@@ -71,7 +71,7 @@ res = isa(B, 'cell')]]></example_item_data>
       <link linkend="${types}class">class</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${integer}isinteger">isinteger</link>
+      <link linkend="${types}isinteger">isinteger</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${types}isnumeric">isnumeric</link>

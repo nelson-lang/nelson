@@ -119,7 +119,7 @@ class(c)]]></example_item_data>
       <link linkend="${types}isa">isa</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${integer}isdouble">isdouble</link>
+      <link linkend="${types}isdouble">isdouble</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${types}isfloat">isfloat</link>

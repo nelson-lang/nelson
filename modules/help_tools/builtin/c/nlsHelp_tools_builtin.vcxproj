@@ -279,6 +279,7 @@
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\xmldocmergesummaryBuiltin.cpp" />
     <ClCompile Include="..\cpp\__xmldocgenerateimages__Builtin.cpp" />
+    <ClCompile Include="..\cpp\__xmldoclinkchecker__Builtin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
@@ -326,6 +327,7 @@
     <ClInclude Include="..\include\xmldocbuildBuiltin.hpp" />
     <ClInclude Include="..\include\xmldocmergesummaryBuiltin.hpp" />
     <ClInclude Include="..\include\__xmldocgenerateimages__Builtin.hpp" />
+    <ClInclude Include="..\include\__xmldoclinkchecker__Builtin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />

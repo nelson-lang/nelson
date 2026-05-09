@@ -37,7 +37,7 @@ y = atand(x)]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${trigonometric}tand">tand</link>
+      <link linkend="${trigonometric_functions}tand">tand</link>
     </see_also_item>
   </see_also>
   <history>

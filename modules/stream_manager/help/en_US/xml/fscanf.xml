@@ -135,7 +135,7 @@ R
       <link linkend="${stream_manager}fprintf">fprintf</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${stream_manager}dlmwrite">dlmwrite</link>
+      <link linkend="${spreadsheet}dlmwrite">dlmwrite</link>
     </see_also_item>
   </see_also>
   <history>

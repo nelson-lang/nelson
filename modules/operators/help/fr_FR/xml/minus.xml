@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>minus</keyword>
-  <short_description>Soustraction, opérateur -</short_description>
+  <short_description>Subtraction, - operator</short_description>
   <syntax>
     <syntax_item>C = minus(A, B)</syntax_item>
     <syntax_item>C = A - B</syntax_item>
@@ -11,22 +11,22 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>une variable</param_description>
+      <param_description>a variable</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B</param_name>
-      <param_description>une variable</param_description>
+      <param_description>a variable</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>C</param_name>
-      <param_description>résultat de A - B</param_description>
+      <param_description>result of A - B</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>C = minus(A, B)</b> effectue la soustraction A - B.</p>
+      <b>C = minus(A, B)</b> performs subtraction A - B variables.</p>
   </description>
   <used_function />
   <bibliography />

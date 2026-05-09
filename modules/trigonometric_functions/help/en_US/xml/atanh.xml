@@ -38,7 +38,7 @@ res = atanh(A)]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${trigonometric}tanh">tanh</link>
+      <link linkend="${trigonometric_functions}tanh">tanh</link>
     </see_also_item>
   </see_also>
   <history>

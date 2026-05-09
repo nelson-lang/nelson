@@ -100,6 +100,7 @@ nelson_install_module_data(
   "tests/xml_nested:*.xml"
   "tests/xml_nested_no_chapter:*.xml"
   "tests/xml_nested_alias_collision:*.xml"
+  "tests/xml_linkchecker:*.xml"
   "tests/md:*.md"
   "resources:*.*"
   "templates:*.xml")

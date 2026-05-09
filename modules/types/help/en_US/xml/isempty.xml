@@ -58,7 +58,7 @@ res = isempty(C)]]></example_item_data>
       <link linkend="${types}class">class</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${integer}isstruct">isstruct</link>
+      <link linkend="${types}isstruct">isstruct</link>
     </see_also_item>
   </see_also>
   <history>
