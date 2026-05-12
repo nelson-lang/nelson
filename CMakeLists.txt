@@ -9,10 +9,12 @@
 # ==============================================================================
 cmake_minimum_required(VERSION 3.16)
 # ==============================================================================
-if(CMAKE_SYSTEM_NAME
-   STREQUAL
-   "Windows")
-  message(SEND_ERROR "On Windows, please use the Visual Studio solution.")
+# Set CMake policies early for compatibility with newer CMake versions
+if(POLICY CMP0144)
+  cmake_policy(SET CMP0144 NEW)
+endif()
+if(POLICY CMP0167)
+  cmake_policy(SET CMP0167 OLD)
 endif()
 # ==============================================================================
 set(Nelson_VERSION_MAJOR_DEFAULT 1)
@@ -29,6 +31,27 @@ project(
     ${Nelson_VERSION_MAJOR}.${Nelson_VERSION_MINOR}.${Nelson_VERSION_MAINTENANCE}
   DESCRIPTION "Nelson programming language"
   LANGUAGES C CXX)
+# ==============================================================================
+# Windows-specific setup for dependency discovery
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  # Set Boost environment variables for better discovery
+  set(_THIRDPARTY_PLATFORM "x64")
+  if(CMAKE_GENERATOR_PLATFORM STREQUAL "ARM64" OR CMAKE_VS_PLATFORM_NAME STREQUAL "ARM64")
+    set(_THIRDPARTY_PLATFORM "arm64")
+  elseif(CMAKE_GENERATOR_PLATFORM STREQUAL "Win32" OR CMAKE_VS_PLATFORM_NAME STREQUAL "Win32")
+    set(_THIRDPARTY_PLATFORM "win32")
+  endif()
+  set(_THIRDPARTY_ROOT "${CMAKE_SOURCE_DIR}/../nelson-thirdparty-${_THIRDPARTY_PLATFORM}")
+  if(EXISTS "${_THIRDPARTY_ROOT}/boost")
+    set(ENV{BOOST_ROOT} "${_THIRDPARTY_ROOT}/boost")
+  endif()
+endif()
+# ==============================================================================
+if(CMAKE_SYSTEM_NAME
+   STREQUAL
+   "Windows")
+  include(WindowsConfig)
+endif()
 # ==============================================================================
 set(DOMAIN_NAME "io.github.nelson_lang")
 set(NELSON_APP_ID "${DOMAIN_NAME}.${PROJECT_NAME}")
@@ -186,6 +209,30 @@ foreach(_mod IN LISTS NELSON_OPTIONAL_MODULES)
     "Disable ${_mod} module"
     OFF)
 endforeach()
+
+option(
+  NELSON_ALLOW_MPI_ON_WINDOWS_ARM64
+  "Allow MPI module on Windows ARM64 (disabled by default)"
+  OFF)
+
+if(WIN32
+   AND (CMAKE_VS_PLATFORM_NAME STREQUAL "ARM64"
+        OR CMAKE_SYSTEM_PROCESSOR MATCHES "^(ARM64|arm64|AARCH64|aarch64)$")
+)
+  if(NOT NELSON_ALLOW_MPI_ON_WINDOWS_ARM64)
+    set(
+      WITHOUT_MPI_MODULE
+      ON
+      CACHE BOOL
+            "Disable MPI module"
+            FORCE)
+    message(STATUS "Windows ARM64 detected: MPI module disabled by default.")
+    message(
+      STATUS
+        "Use -DNELSON_ALLOW_MPI_ON_WINDOWS_ARM64=ON to allow enabling MPI manually."
+    )
+  endif()
+endif()
 # ==============================================================================
 # Minimal build: disable everything optional
 # ==============================================================================
@@ -297,26 +344,32 @@ endif()
 # Third-party dependencies
 # ==============================================================================
 # -- Eigen3
-find_package(
-  Eigen3
-  3.3
-  QUIET
-  NO_MODULE)
-if(NOT Eigen3_FOUND)
-  find_package(Eigen3 REQUIRED)
-endif()
-if(TARGET Eigen3::Eigen)
-  message(STATUS "Found Eigen3 target: Eigen3::Eigen")
-  get_target_property(
+if(WIN32
+   AND DEFINED EIGEN3_INCLUDE_DIR
+   AND EXISTS "${EIGEN3_INCLUDE_DIR}/Eigen/Core")
+  message(STATUS "Found Eigen3 include directory from Windows third-party root.")
+else()
+  find_package(
+    Eigen3
+    3.3
+    QUIET
+    NO_MODULE)
+  if(NOT Eigen3_FOUND)
+    find_package(Eigen3 REQUIRED)
+  endif()
+  if(TARGET Eigen3::Eigen)
+    message(STATUS "Found Eigen3 target: Eigen3::Eigen")
+    get_target_property(
+      EIGEN3_INCLUDE_DIR
+      Eigen3::Eigen
+      INTERFACE_INCLUDE_DIRECTORIES)
+  elseif(
+    NOT
+    DEFINED
     EIGEN3_INCLUDE_DIR
-    Eigen3::Eigen
-    INTERFACE_INCLUDE_DIRECTORIES)
-elseif(
-  NOT
-  DEFINED
-  EIGEN3_INCLUDE_DIR
-  AND DEFINED EIGEN3_INCLUDE_DIRS)
-  set(EIGEN3_INCLUDE_DIR ${EIGEN3_INCLUDE_DIRS})
+    AND DEFINED EIGEN3_INCLUDE_DIRS)
+    set(EIGEN3_INCLUDE_DIR ${EIGEN3_INCLUDE_DIRS})
+  endif()
 endif()
 message(STATUS "Eigen3 include directory: ${EIGEN3_INCLUDE_DIR}")
 # ==============================================================================
@@ -347,21 +400,38 @@ if(NOT WITHOUT_GRAPHICS_MODULE)
 endif()
 # ==============================================================================
 # -- pkg-config
-find_package(PkgConfig REQUIRED)
+if(WIN32)
+  find_package(PkgConfig QUIET)
+else()
+  find_package(PkgConfig REQUIRED)
+endif()
 # ==============================================================================
 # -- Boost
-find_package(
-  Boost
-  1.71.0
-  REQUIRED
-  CONFIG
-  COMPONENTS serialization
-             filesystem
-             thread
-             chrono
-             regex
-             date_time
-             iostreams)
+set(Boost_NO_WARN_NEW_VERSIONS ON)
+if(WIN32)
+  find_package(
+    Boost
+    1.71.0
+    REQUIRED
+    COMPONENTS serialization
+           filesystem
+           thread
+           chrono
+           date_time
+           iostreams)
+else()
+  find_package(
+    Boost
+    1.71.0
+    REQUIRED
+    CONFIG
+    COMPONENTS serialization
+           filesystem
+           thread
+           chrono
+           date_time
+           iostreams)
+endif()
 # ==============================================================================
 # -- XML
 if(NOT WITHOUT_XML_MODULE)
@@ -390,42 +460,57 @@ if(NOT WITHOUT_XML_MODULE)
 endif()
 # ==============================================================================
 # -- BLAS / LAPACK
-find_package(MKL)
-find_package(OpenBLAS)
-find_package(BLAS)
-find_package(LAPACK)
-find_package(LAPACKE)
-if(MKL_FOUND)
-  set(NELSON_BLAS_LAPACKX_LIBRARIES ${MKL_LIBRARIES})
-elseif(OpenBLAS_FOUND)
-  if(CMAKE_SYSTEM_NAME
-     STREQUAL
-     "Linux")
-    if(NOT LAPACKE_FOUND)
-      message(SEND_ERROR "LAPACKE Library required.")
-    endif()
-    set(NELSON_BLAS_LAPACKX_LIBRARIES ${OpenBLAS_LIB} ${LAPACKE_LIBRARIES})
-  else()
-    if(FORCE_LIBGFORTRAN_LINK)
-      set(NELSON_BLAS_LAPACKX_LIBRARIES ${OpenBLAS_LIB} -lgfortran)
-    else()
-      set(NELSON_BLAS_LAPACKX_LIBRARIES ${OpenBLAS_LIB})
-    endif()
+if(WIN32
+   AND (CMAKE_VS_PLATFORM_NAME STREQUAL "ARM64"
+        OR CMAKE_SYSTEM_PROCESSOR MATCHES "^(ARM64|arm64|AARCH64|aarch64)$")
+)
+  set(_nelson_openblas_arm64_lib
+      "${CMAKE_SOURCE_DIR}/../nelson-thirdparty-arm64/openblas/lib/libnlsblaslapack.lib")
+  if(NOT EXISTS "${_nelson_openblas_arm64_lib}")
+    message(SEND_ERROR
+      "Windows ARM64 OpenBLAS wrapper not found: ${_nelson_openblas_arm64_lib}")
   endif()
+  set(NELSON_BLAS_LAPACKX_LIBRARIES "${_nelson_openblas_arm64_lib}")
 else()
-  if(NOT BLAS_FOUND)
-    message(SEND_ERROR "BLAS Library required.")
+  find_package(MKL)
+  if(MKL_FOUND)
+    set(NELSON_BLAS_LAPACKX_LIBRARIES ${MKL_LIBRARIES})
+  else()
+    find_package(OpenBLAS)
+    find_package(BLAS)
+    find_package(LAPACK)
+    find_package(LAPACKE)
+    if(OpenBLAS_FOUND)
+      if(CMAKE_SYSTEM_NAME
+         STREQUAL
+         "Linux")
+        if(NOT LAPACKE_FOUND)
+          message(SEND_ERROR "LAPACKE Library required.")
+        endif()
+        set(NELSON_BLAS_LAPACKX_LIBRARIES ${OpenBLAS_LIB} ${LAPACKE_LIBRARIES})
+      else()
+        if(FORCE_LIBGFORTRAN_LINK)
+          set(NELSON_BLAS_LAPACKX_LIBRARIES ${OpenBLAS_LIB} -lgfortran)
+        else()
+          set(NELSON_BLAS_LAPACKX_LIBRARIES ${OpenBLAS_LIB})
+        endif()
+      endif()
+    else()
+      if(NOT BLAS_FOUND)
+        message(SEND_ERROR "BLAS Library required.")
+      endif()
+      if(NOT LAPACK_FOUND)
+        message(SEND_ERROR "LAPACK Library required.")
+      endif()
+      if(NOT LAPACKE_FOUND)
+        message(SEND_ERROR "LAPACKE Library required.")
+      endif()
+      set(NELSON_BLAS_LAPACKX_LIBRARIES
+          ${BLAS_LIBRARIES}
+          ${LAPACK_LIBRARIES}
+          ${LAPACKE_LIBRARIES})
+    endif()
   endif()
-  if(NOT LAPACK_FOUND)
-    message(SEND_ERROR "LAPACK Library required.")
-  endif()
-  if(NOT LAPACKE_FOUND)
-    message(SEND_ERROR "LAPACKE Library required.")
-  endif()
-  set(NELSON_BLAS_LAPACKX_LIBRARIES
-      ${BLAS_LIBRARIES}
-      ${LAPACK_LIBRARIES}
-      ${LAPACKE_LIBRARIES})
 endif()
 message(
   STATUS "NELSON_BLAS_LAPACKX_LIBRARIES: ${NELSON_BLAS_LAPACKX_LIBRARIES}")
@@ -511,8 +596,6 @@ include(OptionsConfig)
 # ==============================================================================
 # Boost compile definitions
 # ==============================================================================
-add_compile_definitions(BOOST_ALL_NO_LIB BOOST_ALL_DYN_LINK)
-# ==============================================================================
 # Output directories (development build)
 # ==============================================================================
 set(INSTALL_DIRECTORY "${CMAKE_INSTALL_PREFIX}Nelson-${Nelson_VERSION}")
@@ -520,14 +603,20 @@ if(CMAKE_SYSTEM_NAME
    STREQUAL
    "Darwin")
   set(LIBRARY_OUTPUT "Nelson-${Nelson_VERSION}/bin/macOS/")
+elseif(CMAKE_SYSTEM_NAME
+       STREQUAL
+       "Windows")
+  set(LIBRARY_OUTPUT "Nelson-${Nelson_VERSION}/bin/${NELSON_WINDOWS_PLATFORM_NAME}/")
 else()
   set(LIBRARY_OUTPUT "Nelson-${Nelson_VERSION}/bin/linux/")
 endif()
 set(ROOT_OUTPUT "Nelson-${Nelson_VERSION}/")
 
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BIN_DIRECTORY})
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${BIN_DIRECTORY})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN_DIRECTORY})
+if(NOT WIN32)
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BIN_DIRECTORY})
+  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${BIN_DIRECTORY})
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN_DIRECTORY})
+endif()
 # ==============================================================================
 # Packaging
 # ==============================================================================

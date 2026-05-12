@@ -17,6 +17,42 @@ include(GNUInstallDirs)
 # Standard install rule for a Nelson library target.
 # ==============================================================================
 function(nelson_install_library _target)
+  if(WIN32)
+    set(_nelson_export_macro "${_target}")
+    string(REGEX
+      REPLACE
+      "^no-"
+      ""
+      _nelson_export_macro
+      "${_nelson_export_macro}"
+    )
+    string(TOUPPER "${_nelson_export_macro}" _nelson_export_macro)
+    string(REPLACE "-" "_" _nelson_export_macro "${_nelson_export_macro}")
+    set(_nelson_export_macro "${_nelson_export_macro}_EXPORTS")
+
+    target_compile_definitions(${_target} PRIVATE ${_nelson_export_macro})
+    set_target_properties(${_target}
+      PROPERTIES
+        PREFIX "lib"
+        IMPORT_PREFIX "lib"
+    )
+
+    # Add the module's existing resources.rc (version info) to the DLL.
+    if(_target MATCHES "_builtin$")
+      set(_nelson_rc "${CMAKE_CURRENT_SOURCE_DIR}/builtin/c/resources.rc")
+    else()
+      set(_nelson_rc "${CMAKE_CURRENT_SOURCE_DIR}/src/c/resources.rc")
+    endif()
+    if(EXISTS "${_nelson_rc}")
+      target_sources(${_target} PRIVATE "${_nelson_rc}")
+    endif()
+  endif()
+
+  # Track builtin targets so executable targets can depend on them
+  if(_target MATCHES "_builtin$")
+    set_property(GLOBAL APPEND PROPERTY NELSON_ALL_BUILTIN_TARGETS ${_target})
+  endif()
+
   install(
     TARGETS ${_target}
     EXPORT ${PROJECT_NAME}-targets

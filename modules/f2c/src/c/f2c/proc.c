@@ -25,6 +25,7 @@ use or performance of this software.
 #include "names.h"
 #include "output.h"
 #include "p1defs.h"
+#include <stdint.h>
 
 /* round a up to the nearest multiple of b:
 
@@ -311,7 +312,7 @@ entry_goto(FILE *outfile)
     next_tab(outfile);
     while(e = e->entnextp)
         nice_printf(outfile, "case %d: goto %s;\n", ++k,
-                    user_label((long)(extsymtab - e->entryname - 1)));
+                    user_label((ftnint)(intptr_t)(extsymtab - e->entryname - 1)));
     nice_printf(outfile, "}\n\n");
     prev_tab(outfile);
 }
@@ -444,7 +445,7 @@ enddcl(Void)
     {
         for(cp = earlylabs = revchain(earlylabs); cp; cp = cp->nextp)
         {
-            p1_label((long)cp->datap);
+            p1_label((long)(intptr_t)cp->datap);
         }
         frchain(&earlylabs);
     }
@@ -1247,7 +1248,7 @@ copy_data(chainp list)
         if (namep -> vdim)
         {
             nd = namep -> vdim -> ndim;
-            size = sizeof(int) + (3 + 2 * nd) * sizeof (expptr);
+            size = sizeof(struct Dimblock) + 2*sizeof(expptr)*(nd-1);
             dp = (struct Dimblock *) ckalloc (size);
             cpn(size, (char *)namep->vdim, (char *)dp);
             namep -> vdim = dp;
@@ -1890,7 +1891,7 @@ setbound(register Namep v, int nd, struct Dims *dims)
         return;
     }
     v->vdim = p = (struct Dimblock *)
-                  ckalloc( sizeof(int) + (3+2*nd)*sizeof(expptr) );
+                  ckalloc( sizeof(struct Dimblock) + 2*sizeof(expptr)*(nd-1) );
     p->ndim = nd--;
     p->nelt = ICON(1);
     doin_setbound = 1;

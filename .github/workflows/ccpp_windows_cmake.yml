@@ -1,0 +1,87 @@
+name: "Windows CMake Build"
+
+on:
+  workflow_call:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'CMakeLists.txt'
+      - 'CMake/**'
+      - 'modules/**/CMakeLists.txt'
+      - '.github/workflows/ccpp_windows_cmake.yml'
+  pull_request:
+    paths:
+      - 'CMakeLists.txt'
+      - 'CMake/**'
+      - 'modules/**/CMakeLists.txt'
+      - '.github/workflows/ccpp_windows_cmake.yml'
+
+jobs:
+  cmake_windows:
+    name: "Windows CMake ${{ matrix.platform }}"
+    runs-on: ${{ matrix.runner }}
+    defaults:
+      run:
+        shell: pwsh
+    timeout-minutes: 120
+
+    strategy:
+      matrix:
+        include:
+          - platform: x64
+            runner: windows-2025
+            justfile_target: win64
+            bin_dir: x64
+          - platform: Win32
+            runner: windows-2025
+            justfile_target: win32
+            bin_dir: Win32
+          - platform: ARM64
+            runner: windows-11-arm
+            justfile_target: arm64
+            bin_dir: ARM64
+
+    steps:
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v3
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install dependencies
+        run: |
+          choco install just -y
+          just -f justfile.win install_dependencies::${{ matrix.justfile_target }} remove-debug
+
+      - name: Configure CMake (${{ matrix.platform }})
+        run: |
+          just -f justfile.win cmake_config::${{ matrix.justfile_target }}
+        shell: pwsh
+
+      - name: Build CMake (${{ matrix.platform }})
+        run: |
+          just -f justfile.win cmake_build::${{ matrix.justfile_target }}
+        shell: pwsh
+
+      - name: Verify executables exist (${{ matrix.platform }})
+        run: |
+          $WarningPreference = 'SilentlyContinue'
+          $ProgressPreference = 'SilentlyContinue'
+          $bin_dir = "bin\${{ matrix.bin_dir }}"
+          $executables = @(
+            "$bin_dir\nelson-cli.exe",
+            "$bin_dir\nelson-gui.exe",
+            "$bin_dir\nelson-adv-cli.exe",
+            "$bin_dir\nelson-sio-cli.exe"
+          )
+          foreach ($exe in $executables) {
+            if (Test-Path -LiteralPath $exe) {
+              Write-Host "[OK] Found: $exe"
+            } else {
+              Write-Host "[ERROR] Missing: $exe"
+              exit 1
+            }
+          }
+        shell: pwsh

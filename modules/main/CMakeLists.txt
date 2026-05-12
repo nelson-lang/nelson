@@ -9,16 +9,37 @@
 # ==============================================================================
 set(module_name main)
 # ==============================================================================
+set(_main_common_sources
+    "${CMAKE_CURRENT_SOURCE_DIR}/commons/NelsonRunner.cpp")
+if(WIN32)
+  list(APPEND _main_common_sources
+       "${CMAKE_CURRENT_SOURCE_DIR}/commons/StartNelsonDynamicFunction.cpp")
+endif()
+
+function(_nelson_configure_main_executable _target _output_name)
+  if(WIN32)
+    set_target_properties(${_target} PROPERTIES OUTPUT_NAME "${_output_name}")
+    target_link_options(${_target} PRIVATE /STACK:62914560)
+  endif()
+endfunction()
+# ==============================================================================
 file(
   GLOB
   MAINCLI_SRC
   "${CMAKE_CURRENT_SOURCE_DIR}/nelson_cli/*.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/commons/NelsonRunner.cpp")
+  ${_main_common_sources})
 
 add_executable(nelson-cli-exec ${MAINCLI_SRC})
+_nelson_configure_main_executable(nelson-cli-exec nelson-cli)
 target_include_directories(
   nelson-cli-exec PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
                           ${CMAKE_CURRENT_SOURCE_DIR}/commons)
+if(WIN32)
+  set(_nelson_cli_rc "${CMAKE_CURRENT_SOURCE_DIR}/nelson_cli/resource.rc")
+  if(EXISTS "${_nelson_cli_rc}")
+    target_sources(nelson-cli-exec PRIVATE "${_nelson_cli_rc}")
+  endif()
+endif()
 
 if(NOT WITHOUT_HELP_TOOLS_MODULE)
   set(HELP_TOOLS_LIBRARIES nlsHelp_tools nlsHelp_tools_builtin)
@@ -38,12 +59,19 @@ if(NOT WITHOUT_GUI_MODULE)
     GLOB
     MAINADVCLI_SRC
     "${CMAKE_CURRENT_SOURCE_DIR}/nelson_adv_cli/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/commons/NelsonRunner.cpp")
+    ${_main_common_sources})
   add_executable(nelson-adv-cli-exec ${MAINADVCLI_SRC})
+  _nelson_configure_main_executable(nelson-adv-cli-exec nelson-adv-cli)
   target_include_directories(
     nelson-adv-cli-exec
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/commons)
+  if(WIN32)
+    set(_nelson_adv_cli_rc "${CMAKE_CURRENT_SOURCE_DIR}/nelson_adv_cli/resource.rc")
+    if(EXISTS "${_nelson_adv_cli_rc}")
+      target_sources(nelson-adv-cli-exec PRIVATE "${_nelson_adv_cli_rc}")
+    endif()
+  endif()
   target_link_libraries(nelson-adv-cli-exec PRIVATE nlsEngine)
 endif()
 # ==============================================================================
@@ -52,11 +80,22 @@ if(NOT WITHOUT_GUI_MODULE)
     GLOB
     MAINGUI_SRC
     "${CMAKE_CURRENT_SOURCE_DIR}/nelson_gui/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/commons/NelsonRunner.cpp")
-  add_executable(nelson-gui-exec ${MAINGUI_SRC})
+    ${_main_common_sources})
+  if(WIN32)
+    add_executable(nelson-gui-exec WIN32 ${MAINGUI_SRC})
+  else()
+    add_executable(nelson-gui-exec ${MAINGUI_SRC})
+  endif()
+  _nelson_configure_main_executable(nelson-gui-exec nelson-gui)
   target_include_directories(
     nelson-gui-exec PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
                             ${CMAKE_CURRENT_SOURCE_DIR}/commons)
+  if(WIN32)
+    set(_nelson_gui_rc "${CMAKE_CURRENT_SOURCE_DIR}/nelson_gui/resource.rc")
+    if(EXISTS "${_nelson_gui_rc}")
+      target_sources(nelson-gui-exec PRIVATE "${_nelson_gui_rc}")
+    endif()
+  endif()
   target_link_libraries(nelson-gui-exec PRIVATE nlsEngine)
 endif()
 # ==============================================================================
@@ -65,12 +104,19 @@ if(NOT WITHOUT_SIO_CLIENT_MODULE)
     GLOB
     MAINSIOCLI_SRC
     "${CMAKE_CURRENT_SOURCE_DIR}/nelson_sio_cli/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/commons/NelsonRunner.cpp")
+    ${_main_common_sources})
   add_executable(nelson-sio-cli-exec ${MAINSIOCLI_SRC})
+  _nelson_configure_main_executable(nelson-sio-cli-exec nelson-sio-cli)
   target_include_directories(
     nelson-sio-cli-exec
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
             ${CMAKE_CURRENT_SOURCE_DIR}/commons)
+  if(WIN32)
+    set(_nelson_sio_cli_rc "${CMAKE_CURRENT_SOURCE_DIR}/nelson_sio_cli/resource.rc")
+    if(EXISTS "${_nelson_sio_cli_rc}")
+      target_sources(nelson-sio-cli-exec PRIVATE "${_nelson_sio_cli_rc}")
+    endif()
+  endif()
   target_link_libraries(nelson-sio-cli-exec PRIVATE nlsEngine)
 endif()
 # ==============================================================================
@@ -129,6 +175,16 @@ add_custom_target(
   Name ALL
   COMMAND ${BUILD_ALL_LOCALIZATION_ACTION}
   DEPENDS ${executableList})
+# ==============================================================================
+# Ensure all builtin DLLs are built when building any executable target.
+# The builtin libraries are loaded at runtime via AddGateway (not linked), so
+# they are not automatically pulled in by the linker dependency chain.
+get_property(_nelson_all_builtins GLOBAL PROPERTY NELSON_ALL_BUILTIN_TARGETS)
+if(_nelson_all_builtins)
+  foreach(_exec IN LISTS executableList)
+    add_dependencies(${_exec} ${_nelson_all_builtins})
+  endforeach()
+endif()
 # ==============================================================================
 if(NOT WITHOUT_LOCALIZATION_MODULE)
   add_custom_target(

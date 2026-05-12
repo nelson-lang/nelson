@@ -97,7 +97,8 @@ set_tmp_names(Void)
     sortfname = p1_bakfile + k;
     {
 #ifdef MSDOS
-        char buf[64], *s, *t;
+        char *buf, *s, *t;
+        buf = (char *)ckalloc(k + 2);
         if (!*tmpdir || *tmpdir == '.' && !tmpdir[1])
         {
             t = "";
@@ -155,7 +156,7 @@ c_name(char *s, int ft)
     int c;
     b = s0 = s;
     while(c = *s++)
-        if (c == '/')
+        if (c == '/' || c == '\\')
         {
             b = s;
         }

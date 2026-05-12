@@ -53,7 +53,7 @@ endif()
 # ==============================================================================
 find_package(
   Qt${QT_VERSION_MAJOR}
-  5.15 REQUIRED
+  5.15 QUIET REQUIRED
   COMPONENTS ${QtPackagesRequired}
 )
 message(STATUS "Qt${QT_VERSION_MAJOR} detected and used.")

@@ -41,6 +41,7 @@ use or performance of this software.
 #include "output.h"
 #include "names.h"
 #include "iob.h"
+#include <stdint.h>
 
 int c_output_line_length = DEF_C_LINE_LENGTH;
 
@@ -394,7 +395,9 @@ do_p1_name_pointer(FILE *infile)
 {
     Namep namep = (Namep) NULL;
     int status;
-    status = p1getd (infile, (long *) &namep);
+    long long tmp = 0;
+    status = fscanf (infile, "%lld", &tmp);
+    namep = (Namep)(intptr_t)tmp;
     if (status == EOF)
     {
         err ("do_p1_name_pointer:  Missing pointer at end of file\n");
@@ -2513,7 +2516,11 @@ p1get_const(FILE *infile, int type, struct Constblock **resultp)
             result->vstg = 1;
             break;
         case TYCHAR:
-            status = fscanf(infile, "%lx", resultp);
+            {
+                unsigned long long _ptr_val = 0;
+                status = fscanf(infile, "%llx", &_ptr_val);
+                *resultp = (struct Constblock *)(uintptr_t)_ptr_val;
+            }
             break;
         default:
             erri ("p1get_const:  bad constant type '%d'", type);

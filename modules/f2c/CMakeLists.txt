@@ -15,6 +15,10 @@ if(CMAKE_SYSTEM_NAME
    "Linux")
   add_compile_definitions(_POSIX_SOURCE)
 endif()
+if(WIN32)
+  add_compile_definitions(MSDOS)
+  add_compile_definitions(NO_ISATTY)
+endif()
 add_compile_definitions(
   INTEGER_STAR_8
   NO_My_ctype
@@ -173,7 +177,13 @@ file(
   "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/z_sin.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/z_sqrt.c")
 # ==============================================================================
-add_library(${module_library_name} ${F2C_SRC})
+# Build f2c runtime as a static library on Windows to ensure a .lib
+# is produced for downstream linking.
+if(WIN32)
+  add_library(${module_library_name} STATIC ${F2C_SRC})
+else()
+  add_library(${module_library_name} ${F2C_SRC})
+endif()
 # f2c runtime C sources have no visibility annotations — symbols must be
 # visible so that libraries (e.g. nlsSlicot) linking nlsF2C can resolve them.
 set_target_properties(${module_library_name} PROPERTIES C_VISIBILITY_PRESET
@@ -223,6 +233,13 @@ file(
 add_executable(nelson_f2c ${F2C_EXE_SRC})
 # ==============================================================================
 target_link_libraries(nelson_f2c)
+# Ensure Windows builds for x64/ARM64 use the same Win32 code paths as
+# the historical VCXPROJ: define `WIN32` (and keep MSDOS/NO_ISATTY) for
+# the `nelson_f2c` target so generated projects compile the same codepaths
+# even when targeting x64 or ARM64 with MSVC.
+if(WIN32)
+  target_compile_definitions(nelson_f2c PRIVATE MSDOS NO_ISATTY WIN32)
+endif()
 # ==============================================================================
 install(
   FILES ${BIN_DIRECTORY}/nelson_f2c

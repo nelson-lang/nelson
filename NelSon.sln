@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.1.32421.90
+# Visual Studio Version 18
+VisualStudioVersion = 18.5.11723.231 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NelSon-gui", "modules\main\nelson_gui\NelSon-gui.vcxproj", "{F34BD496-D9B3-4C25-A9E9-C91EB3E35C12}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -1538,18 +1538,18 @@ Global
 		{334358E4-25EA-402E-B3E4-52D4DADDE077}.Release|Win32.Build.0 = Release|Win32
 		{334358E4-25EA-402E-B3E4-52D4DADDE077}.Release|x64.ActiveCfg = Release|x64
 		{334358E4-25EA-402E-B3E4-52D4DADDE077}.Release|x64.Build.0 = Release|x64
-		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Debug|ARM64.ActiveCfg = Debug|Win32
-		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Debug|ARM64.Build.0 = Debug|Win32
+		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Debug|ARM64.Build.0 = Debug|ARM64
 		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Debug|Win32.ActiveCfg = Debug|Win32
 		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Debug|Win32.Build.0 = Debug|Win32
-		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Debug|x64.ActiveCfg = Debug|Win32
-		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Debug|x64.Build.0 = Debug|Win32
-		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Release|ARM64.ActiveCfg = Release|Win32
-		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Release|ARM64.Build.0 = Release|Win32
+		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Debug|x64.ActiveCfg = Debug|x64
+		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Debug|x64.Build.0 = Debug|x64
+		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Release|ARM64.ActiveCfg = Release|ARM64
+		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Release|ARM64.Build.0 = Release|ARM64
 		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Release|Win32.ActiveCfg = Release|Win32
 		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Release|Win32.Build.0 = Release|Win32
-		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Release|x64.ActiveCfg = Release|Win32
-		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Release|x64.Build.0 = Release|Win32
+		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Release|x64.ActiveCfg = Release|x64
+		{336285AB-DE2E-4A21-9439-D9763AEDBFDF}.Release|x64.Build.0 = Release|x64
 		{A510477A-3415-4E46-8C98-8579823ADF91}.Debug|ARM64.ActiveCfg = Debug|ARM64
 		{A510477A-3415-4E46-8C98-8579823ADF91}.Debug|ARM64.Build.0 = Debug|ARM64
 		{A510477A-3415-4E46-8C98-8579823ADF91}.Debug|Win32.ActiveCfg = Debug|Win32

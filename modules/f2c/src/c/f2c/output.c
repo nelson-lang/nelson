@@ -24,6 +24,7 @@ use or performance of this software.
 #include "defs.h"
 #include "names.h"
 #include "output.h"
+#include <stdint.h>
 
 #ifndef TRUE
 #define TRUE 1
@@ -1623,7 +1624,7 @@ bad:
             value = value->nextp, k++)
     {
         nice_printf (outfile, "case %d: goto %s;\n", k,
-                     user_label((long)value->datap));
+                     user_label((ftnint)(intptr_t)value->datap));
     } /* for value */
     prev_tab (outfile);
     nice_printf (outfile, "}\n");
