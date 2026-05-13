@@ -37,7 +37,7 @@ res = acoth(A)]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${trigonometric}coth">coth</link>
+      <link linkend="${trigonometric_functions}coth">coth</link>
     </see_also_item>
   </see_also>
   <history>

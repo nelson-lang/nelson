@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>xmldoclinkchecker</keyword>
+  <short_description>Checks unresolved cross-references in Nelson help XML files.</short_description>
+  <syntax>
+    <syntax_item>xmldoclinkchecker()</syntax_item>
+    <syntax_item>xmldoclinkchecker(xmldocfilename)</syntax_item>
+    <syntax_item>xmldoclinkchecker(xmldocdirectory)</syntax_item>
+    <syntax_item>[state, errors_detected, warnings_detected] = xmldoclinkchecker(target)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>target</param_name>
+      <param_description>a string: XML file or directory to check.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>state</param_name>
+      <param_description>a logical: true if all references are resolved, false otherwise.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>errors_detected</param_name>
+      <param_description>a cell array of strings: unresolved link references and related errors.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>warnings_detected</param_name>
+      <param_description>a cell array of strings: warnings detected during validation.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>xmldoclinkchecker</b> validates <code>
+        &lt;link linkend=&quot;...&quot;/&gt;
+      </code> references used in Nelson help XML pages.</p>
+    <p>It checks references in a single XML file, a directory tree, or all installed module help XML files when called without arguments.</p>
+    <p>This function is useful to detect broken cross-references before building HTML/Markdown help outputs.</p>
+    <p>The link target uses the XML page file name without the <code>.xml</code> extension, optionally prefixed with a module name such as <code>${dynamic_link}havecompiler</code>.</p>
+  </description>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Check links in one help XML file.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[[state, errors_detected] = xmldoclinkchecker([modulepath('help_tools'), '/help/en_US/xml/xmldocchecker.xml'])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Check all links in a module help XML directory.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[xmldoclinkchecker([modulepath('help_tools'), '/help/en_US/xml'])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${help_tools}xmldocchecker">xmldocchecker</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${help_tools}xmldocbuild">xmldocbuild</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${help_tools}buildhelp">buildhelp</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

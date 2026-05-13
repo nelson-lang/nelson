@@ -44,7 +44,7 @@
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${linear_algebra}norm">norm</link>
+      <link linkend="${elementary_functions}norm">norm</link>
     </see_also_item>
   </see_also>
   <history>

@@ -45,7 +45,7 @@ R2 = isfinite(X)]]></example_item_data>
       <link linkend="${elementary_functions}isnan">isnan</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${elementary_functions}all">all</link>
+      <link linkend="${operators}all">all</link>
     </see_also_item>
   </see_also>
   <history>

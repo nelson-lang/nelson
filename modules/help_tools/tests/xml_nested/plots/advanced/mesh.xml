@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <language>en_US</language>
+  <keyword>mesh</keyword>
+  <short_description>Mesh plot test page.</short_description>
+  <syntax>
+    <syntax_item>mesh(X)</syntax_item>
+  </syntax>
+  <description>
+    <p>Creates a mesh plot for second-level nested documentation tests.</p>
+  </description>
+</xmldoc>

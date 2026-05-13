@@ -55,7 +55,7 @@ clear pTextToSpeech]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${com_engine}actxGetRunningSrv">actxGetRunningSrv</link>
+      <link linkend="${com_engine}actxGetRunningServer">actxGetRunningServer</link>
     </see_also_item>
   </see_also>
   <history>

@@ -123,6 +123,17 @@
         >`&lt;link linkend=&quot;{module}name&quot;
           &gt;`</code>pour les références qualifiées par module ; sinon, utilisez des noms simples.</li>
     </ol>
+    <p>
+      <b>Prise en charge des sous-chapitres</b> - Le système d&apos;aide de Nelson prend en charge les sous-chapitres imbriqués. Pour en ajouter un :</p>
+    <ol>
+      <li>Créez un sous-répertoire dans le dossier d&apos;aide XML de votre module (par exemple <code>plots</code>).</li>
+      <li>Dans ce répertoire, ajoutez un <code>chapter.xml</code> contenant au minimum <code>`&lt;language&gt;`</code> et <code>`&lt;chapter&gt;`</code>, et éventuellement <code>`&lt;chapter_description&gt;`</code>.</li>
+      <li>Placez les fichiers de sujet XML (par exemple <code>mesh.xml</code>) dans le sous-répertoire ; les fichiers de sujet utilisent les éléments habituels comme <code>`&lt;keyword&gt;`</code> et <code>`&lt;short_description&gt;`</code>.</li>
+      <li>Liez les pages imbriquées en utilisant des chemins séparés par des slash : pour des liens dans le même module utilisez <code>`&lt;link linkend=&quot;plots/mesh&quot;
+          &gt;mesh&lt;/link&gt;`</code>, pour des liens inter-modules utilisez <code>`&lt;link linkend=&quot;{module}plots/mesh&quot;
+          &gt;mesh&lt;/link&gt;`</code>.</li>
+    </ol>
+    <p>L&apos;outil <code>buildhelp</code> et le XSLT résolvent ces chemins et généreront des pages HTML imbriquées (par exemple <code>plots/mesh.html</code>).</p>
   </description>
   <examples>
     <example_item>
@@ -137,6 +148,20 @@ x = rand(1,10);
 [y, info] = myfunc(x);
 disp(info);
       ]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_description>Exemple de sous-chapitre (chapter.xml)</example_item_description>
+      <example_item_data
+        language="xml"
+      ><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <language>en_US</language>
+  <chapter>Plots</chapter>
+  <chapter_description>
+    <p>Plotting functions grouped in a subchapter.</p>
+  </chapter_description>
+</xmldoc>
+]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_description
@@ -171,6 +196,10 @@ saveas(gcf(), [tempdir(),'example_plot.svg']);
     <history_item>
       <history_version>1.15.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>ajout du support des sous-chapitres</history_description>
     </history_item>
   </history>
   <authors>

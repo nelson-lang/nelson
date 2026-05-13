@@ -18,9 +18,8 @@ function build_help_from_path(module, module_path, lang, dirdest, package)
     end
     if isdir(src)
       destination_path = [dirdest, '/', module];
-      chapter_src_xml = [src, '/chapter.xml'];
       chapter_dest_xml = [destination_path, '/help_toc_summary.xml'];
-      if ( package || ~isdir(destination_path) || need_to_be_generated(chapter_src_xml, chapter_dest_xml));
+      if ( package || ~isdir(destination_path) || need_to_be_generated(src, chapter_dest_xml));
         mkdir(destination_path);
         [status, msg] = xmldoctohtml(src, destination_path, module, true);
         if ~status

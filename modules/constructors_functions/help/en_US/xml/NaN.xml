@@ -53,7 +53,7 @@ isnan(NaN)]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${types}isnan">isnan</link>
+      <link linkend="${elementary_functions}isnan">isnan</link>
     </see_also_item>
   </see_also>
   <history>

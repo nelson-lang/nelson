@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Separate validation blocks for input and output arguments
   - Improved error messages for invalid function arguments
 
+- help engine extending to manage subchapters.
+
+- `xmldoclinkchecker` Checks unresolved cross-references in Nelson help XML files.
+
 - Debugger Support
 
   - Full breakpoint management with commands: `dbstop`, `dbstep`, `dbcont`, `dbquit`, `dbclear`, `dbdown`, `dbup`, `dbstatus`.
@@ -62,12 +66,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [#1567](https://github.com/nelson-lang/nelson/issues/1567): UTF-16LE output despite encoding='UTF-8' in fprintf builtin (Windows).
 
-
 - [#1564](https://github.com/nelson-lang/nelson/issues/1564): Regression: modifying copy unexpectedly alters original array.
 
 - [#1550](https://github.com/nelson-lang/nelson/issues/1550): getpid('available') did not work as expected.
 
 - [#1547](https://github.com/nelson-lang/nelson/issues/1547): Parsing of ~= operator with spaces was not working correctly, causing it to be misinterpreted as a matrix row separator.
+
+- unresolved cross-references in Nelson help XML files.
 
 ## 1.16.0 - (2025-12-27)
 

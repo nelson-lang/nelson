@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>graphics</module_name>
+  <chapter>Colormap functions</chapter>
+  <chapter_description>
+    <p
+    >functions for creating, customizing, and managing colormaps used in visualizations.</p>
+  </chapter_description>
+</xmldoc>

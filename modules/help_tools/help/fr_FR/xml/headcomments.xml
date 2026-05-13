@@ -57,7 +57,7 @@
       <link linkend="${gui}inserthtml">inserthtml</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${function_manager}which">which</link>
+      <link linkend="${functions_manager}which">which</link>
     </see_also_item>
   </see_also>
   <history>

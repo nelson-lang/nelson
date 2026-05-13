@@ -43,7 +43,7 @@ mustBeMatrix(ones(3, 2, 4))]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${types}ismatrix">ismatrix</link>
+      <link linkend="${elementary_functions}ismatrix">ismatrix</link>
     </see_also_item>
   </see_also>
   <history>

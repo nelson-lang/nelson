@@ -35,18 +35,22 @@ function varargout = buildhelpjson(varargin)
     for m = modules_help_list(:)'
       xml_module_path = [nelsonroot() '/modules/' m{1}, '/help/', lang{1}, '/xml/'];
       if isdir(xml_module_path)
-        xml_files = dir([xml_module_path, '*.xml']);
+        xml_files = dir([xml_module_path, '/*.xml'], '-s');
         if isempty(xml_files)
           continue;
         end
         msg = sprintf(_('help "%s" (%s) generated.'), m{1}, lang{1});
         fprintf(['   ', msg, '\n']);
         for f = xml_files'
-          if ~(ismacro(f.name(1:end-4)) || isbuiltin(f.name(1:end-4)))
+          if strcmp(f.name, 'chapter.xml')
             continue;
           end
-          xml_filename = [xml_module_path, f.name];
-          json_filename = [temp_dir, '/', m{1}, '_', lang{1}, '_', f.name(1:end-4), '.json'];
+          basename = f.name(1:end-4);
+          if ~(ismacro(basename) || isbuiltin(basename))
+            continue;
+          end
+          xml_filename = [f.folder, '/', f.name];
+          json_filename = [temp_dir, '/', m{1}, '_', lang{1}, '_', basename, '.json'];
           xmltransform(xml_filename, nelson_json_xslt, json_filename);
           st = jsondecode(json_filename, '-file');
           names = fieldnames(st);
@@ -59,7 +63,7 @@ function varargout = buildhelpjson(varargin)
               main_st.(alias{1}) = st;
             end
           end
-          main_st.(f.name(1:end-4)) = st;
+          main_st.(basename) = st;
         end
       end
     end

@@ -57,7 +57,7 @@ res = isstruct(C)]]></example_item_data>
       <link linkend="${types}isa">isa</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${integer}struct">struct</link>
+      <link linkend="${data_structures}struct">struct</link>
     </see_also_item>
   </see_also>
   <history>

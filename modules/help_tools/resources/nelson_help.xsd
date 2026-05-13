@@ -369,6 +369,23 @@
   </xs:complexType>
 
   <!-- Top-level help summary used by summary files -->
+  <xs:complexType name="HelpSummaryKeywordType">
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="link" type="xs:string" use="required"/>
+    <xs:attribute name="description" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="HelpSummarySectionType">
+    <xs:sequence>
+      <xs:element name="chapter_description" type="DescriptionType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="keyword" type="HelpSummaryKeywordType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="section" type="HelpSummarySectionType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="optional"/>
+    <xs:attribute name="link" type="xs:string" use="optional"/>
+    <xs:attribute name="toc_visibility" type="xs:string" use="optional"/>
+  </xs:complexType>
+
   <xs:element name="help_summary">
     <xs:complexType>
       <xs:sequence>
@@ -381,16 +398,7 @@
           <xs:complexType>
             <xs:sequence>
               <xs:element name="module" type="xs:string" minOccurs="0" maxOccurs="1"/>
-              <xs:element name="section" minOccurs="0" maxOccurs="unbounded">
-                <xs:complexType>
-                  <xs:sequence>
-                    <xs:element name="chapter_description" type="DescriptionType" minOccurs="0" maxOccurs="1"/>
-                  </xs:sequence>
-                  <xs:attribute name="name" type="xs:string" use="optional"/>
-                  <xs:attribute name="link" type="xs:string" use="optional"/>
-                  <xs:attribute name="toc_visibility" type="xs:string" use="optional"/>
-                </xs:complexType>
-              </xs:element>
+              <xs:element name="section" type="HelpSummarySectionType" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
           </xs:complexType>
         </xs:element>

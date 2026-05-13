@@ -76,7 +76,7 @@ res = class(C)]]></example_item_data>
       <link linkend="${integer}intmin">intmin</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${type}class">class</link>
+      <link linkend="${types}class">class</link>
     </see_also_item>
   </see_also>
   <history>

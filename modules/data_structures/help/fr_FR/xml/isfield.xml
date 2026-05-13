@@ -58,7 +58,7 @@ isfield(S,{ 1, 'nel'; 2, 'son'})]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${types}fieldnames">fieldnames</link>
+      <link linkend="${data_structures}fieldnames">fieldnames</link>
     </see_also_item>
   </see_also>
   <history>

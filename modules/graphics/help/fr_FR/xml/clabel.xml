@@ -141,12 +141,6 @@ clabel(C)]]></example_item_data>
     <see_also_item>
       <link linkend="${graphics}contour">contour</link>
     </see_also_item>
-    <see_also_item>
-      <link linkend="${graphics}contourf">contourf</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${graphics}contourf">contourc</link>
-    </see_also_item>
   </see_also>
   <history>
     <history_item>

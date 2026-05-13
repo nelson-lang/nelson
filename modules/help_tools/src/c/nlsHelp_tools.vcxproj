@@ -313,6 +313,7 @@
     <ClCompile Include="..\cpp\Markdown.cpp" />
     <ClCompile Include="..\cpp\XmdDocGeneratesImages.cpp" />
     <ClCompile Include="..\cpp\XmlDocBuild.cpp" />
+    <ClCompile Include="..\cpp\XmlDocLinkChecker.cpp" />
     <ClCompile Include="..\cpp\XmlDocListOfFiles.cpp" />
     <ClCompile Include="..\cpp\XmlDocMergeSummary.cpp" />
     <ClCompile Include="..\cpp\XmlDocSummary.cpp" />
@@ -347,7 +348,9 @@
     <ClInclude Include="..\include\nlsHelp_tools_exports.h" />
     <ClInclude Include="..\include\XmlDocBuild.hpp" />
     <ClInclude Include="..\include\XmlDocGenerateImages.hpp" />
+    <ClInclude Include="..\include\XmlDocLinkChecker.hpp" />
     <ClInclude Include="..\include\XmlDocListOfFiles.hpp" />
+    <ClInclude Include="..\include\XmlDocMakeSummary.hpp" />
     <ClInclude Include="..\include\XmlDocMergeSummary.hpp" />
     <ClInclude Include="..\include\XmlDocSummary.hpp" />
     <ClInclude Include="..\include\XmlDocToc.hpp" />

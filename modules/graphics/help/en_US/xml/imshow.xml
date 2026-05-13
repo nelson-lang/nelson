@@ -73,7 +73,7 @@ h = imshow(filename);
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${graphics}imread">imread</link>
+      <link linkend="${graphics_io}imread">imread</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${graphics}image">image</link>

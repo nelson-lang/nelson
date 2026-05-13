@@ -64,10 +64,10 @@ res = isdouble(A)]]></example_item_data>
       <link linkend="${types}isa">isa</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${integer}single">single</link>
+      <link linkend="${single}single">single</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${integer}double">double</link>
+      <link linkend="${double}double">double</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${types}isfloat">isfloat</link>

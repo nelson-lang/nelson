@@ -19,22 +19,22 @@
       A block with no qualifier is treated as an input block.</p>
     <p>Each argument declaration follows this form:</p>
     <p>
-      <tt>argName (dimensions) class {validators} = defaultValue</tt>
+      <code>argName (dimensions) class {validators} = defaultValue</code>
     </p>
     <p>
       <b>(dimensions)</b> — Input size specified as a comma-separated list of integers or colons,
-      e.g. <tt>(1,1)</tt>, <tt>(1,:)</tt>, or <tt>(3,5,2)</tt>.
+      e.g. <code>(1,1)</code>, <code>(1,:)</code>, or <code>(3,5,2)</code>.
       A colon allows any length in that dimension.
       The input must match the declared dimensions exactly, or be compatible with them
-      (for example a column vector is compatible with <tt>(1,:)</tt> and is reshaped automatically).
+      (for example a column vector is compatible with <code>(1,:)</code> and is reshaped automatically).
       Expressions are not allowed inside dimensions.</p>
     <p>
-      <b>class</b> — A single class name such as <tt>double</tt>, <tt>char</tt>, or <tt>string</tt>.
+      <b>class</b> — A single class name such as <code>double</code>, <code>char</code>, or <code>string</code>.
       The value is converted to that class when possible.
       If omitted, any class is accepted.</p>
     <p>
       <b>{validators}</b> — A comma-separated list of validation functions enclosed in braces,
-      e.g. <tt>{mustBeNumeric, mustBeReal}</tt>.
+      e.g. <code>{mustBeNumeric, mustBeReal}</code>.
       Validation functions throw an error when the condition is not met; unlike class, they never modify the argument value.</p>
     <p>
       <b>= defaultValue</b> — An expression that provides a default value and makes the argument optional.
@@ -52,9 +52,9 @@
       Output arguments cannot define default values, and validation functions applied to an output argument cannot reference other output arguments.</p>
     <p>
       <b>arguments (Output,Repeating) ... end</b> declares a single repeating output argument.
-      At most one repeating output argument is allowed per function.<tt>varargout</tt> may appear in a repeating output block only when it is the sole output argument.</p>
-    <p>      For name-value arguments, use <tt>nv.name</tt> notation in the <b>arguments</b> block,
-      where <tt>nv</tt> matches the structure name used in the function signature.</p>
+      At most one repeating output argument is allowed per function.<code>varargout</code> may appear in a repeating output block only when it is the sole output argument.</p>
+    <p>      For name-value arguments, use <code>nv.name</code> notation in the <b>arguments</b> block,
+      where <code>nv</code> matches the structure name used in the function signature.</p>
     <p>
       <b>arguments</b> blocks cannot be used in nested functions, abstract methods, or handle class destructor methods.</p>
   </description>

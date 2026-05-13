@@ -38,7 +38,7 @@ R = isvector(A(:,1))]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${elementary_functions}isempty">isempty</link>
+      <link linkend="${types}isempty">isempty</link>
     </see_also_item>
   </see_also>
   <history>

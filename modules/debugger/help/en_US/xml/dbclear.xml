@@ -75,9 +75,6 @@ dbstatus
     <see_also_item>
       <link linkend="${debugger}dbstack">dbstack</link>
     </see_also_item>
-    <see_also_item>
-      <link linkend="${debugger}filemarker">filemarker</link>
-    </see_also_item>
   </see_also>
   <history>
     <history_item>

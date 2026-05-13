@@ -48,7 +48,7 @@ T = ismember(["a","b","f"], ["b", "f", "c"])
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${operators}sort">sort</link>
+      <link linkend="${data_analysis}sort">sort</link>
     </see_also_item>
   </see_also>
   <history>

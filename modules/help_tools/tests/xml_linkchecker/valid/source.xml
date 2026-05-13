@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<help>
+  <keyword>source</keyword>
+  <short_description>Source page.</short_description>
+  <see_also>
+    <see_also_item>
+      <link linkend="target">target</link>
+    </see_also_item>
+  </see_also>
+</help>

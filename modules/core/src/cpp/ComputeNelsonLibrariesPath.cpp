@@ -32,7 +32,13 @@ ComputeNelsonLibrariesPath(std::wstring& errorMessage)
         }
     }
     FileSystemWrapper::Path libraryPath;
-    std::wstring currentLibraryName = CORE_MODULE_NAME + get_dynamic_library_extensionW();
+    // build current library name safely to avoid using operator+ with temporaries
+    std::wstring ext = get_dynamic_library_extensionW();
+    if (ext.empty()) {
+        errorMessage = _W("Cannot determine dynamic library extension.");
+        return false;
+    }
+    std::wstring currentLibraryName = std::wstring(CORE_MODULE_NAME) + ext;
     libraryPath = get_dynamic_library_pathW(currentLibraryName);
     if (FileSystemWrapper::Path::is_directory(libraryPath)) {
         NelsonConfiguration::getInstance()->setNelsonLibraryDirectory(

@@ -48,7 +48,7 @@ C == D]]></example_item_data>
       <link linkend="${operators}and">and</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${operators}xor">xor</link>
+      <link linkend="${logical}xor">xor</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${operators}all">all</link>

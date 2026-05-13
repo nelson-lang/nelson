@@ -18,7 +18,7 @@
   <bibliography />
   <see_also>
     <see_also_item>
-      <link linkend="${gui}historybrowser">historybrowser</link>
+      <link linkend="${gui}commandhistory">commandhistory</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${gui}workspace">workspace</link>

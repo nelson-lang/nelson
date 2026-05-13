@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <language>en_US</language>
+  <keyword>foo_nested</keyword>
+  <short_description>Nested foo page with colliding alias.</short_description>
+</xmldoc>

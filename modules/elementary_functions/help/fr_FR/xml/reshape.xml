@@ -52,7 +52,7 @@ M2 = reshape(M1, 5, [], 4)
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${elementary_functions}colon">colon</link>
+      <link linkend="${operators}colon">colon</link>
     </see_also_item>
   </see_also>
   <history>

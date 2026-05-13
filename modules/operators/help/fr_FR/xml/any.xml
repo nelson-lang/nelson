@@ -52,7 +52,7 @@ any([33, 22; 11, 0], 2)]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${logical}all">all</link>
+      <link linkend="${operators}all">all</link>
     </see_also_item>
   </see_also>
   <history>

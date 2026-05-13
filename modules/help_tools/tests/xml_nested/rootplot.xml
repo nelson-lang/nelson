@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <language>en_US</language>
+  <keyword>rootplot</keyword>
+  <short_description>Root-level plot test page.</short_description>
+  <syntax>
+    <syntax_item>rootplot(X)</syntax_item>
+  </syntax>
+  <description>
+    <p>Creates a root-level plot page for nested documentation ordering tests.</p>
+  </description>
+</xmldoc>

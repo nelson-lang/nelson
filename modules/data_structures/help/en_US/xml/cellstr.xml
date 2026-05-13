@@ -51,7 +51,7 @@
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${types}iscellstr">iscellstr</link>
+      <link linkend="${data_structures}iscellstr">iscellstr</link>
     </see_also_item>
   </see_also>
   <history>

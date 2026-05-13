@@ -19,22 +19,22 @@
       Un bloc sans qualificateur est traité comme un bloc d&apos;entrée.</p>
     <p>Chaque déclaration d&apos;argument suit cette forme :</p>
     <p>
-      <tt>argName (dimensions) class {validators} = defaultValue</tt>
+      <code>argName (dimensions) class {validators} = defaultValue</code>
     </p>
     <p>
       <b>(dimensions)</b> — Taille de l&apos;entrée spécifiée sous forme de liste séparée par des virgules d&apos;entiers ou de deux-points,
-      par exemple <tt>(1,1)</tt>, <tt>(1,:)</tt>, ou <tt>(3,5,2)</tt>.
+      par exemple <code>(1,1)</code>, <code>(1,:)</code>, ou <code>(3,5,2)</code>.
       Un deux-points permet n&apos;importe quelle longueur dans cette dimension.
       L&apos;entrée doit correspondre exactement aux dimensions déclarées, ou être compatible avec elles
-      (par exemple, un vecteur colonne est compatible avec <tt>(1,:)</tt> et est automatiquement redimensionné).
+      (par exemple, un vecteur colonne est compatible avec <code>(1,:)</code> et est automatiquement redimensionné).
       Les expressions ne sont pas autorisées dans les dimensions.</p>
     <p>
-      <b>class</b> — Un nom de classe unique tel que <tt>double</tt>, <tt>char</tt>, ou <tt>string</tt>.
+      <b>class</b> — Un nom de classe unique tel que <code>double</code>, <code>char</code>, ou <code>string</code>.
       La valeur est convertie en cette classe lorsque cela est possible.
       Si omis, toute classe est acceptée.</p>
     <p>
       <b>{validators}</b> — Une liste séparée par des virgules de fonctions de validation, entourée d&apos;accolades ,
-      par exemple <tt>{mustBeNumeric, mustBeReal}</tt>.
+      par exemple <code>{mustBeNumeric, mustBeReal}</code>.
       Les fonctions de validation génèrent une erreur lorsque la condition n&apos;est pas remplie ; contrairement à la classe, elles ne modifient jamais la valeur de l&apos;argument.</p>
     <p>
       <b>= defaultValue</b> — Une expression qui fournit une valeur par défaut et rend l&apos;argument optionnel.
@@ -52,9 +52,9 @@
       Les arguments de sortie ne peuvent pas définir de valeurs par défaut, et les fonctions de validation appliquées à un argument de sortie ne peuvent pas faire référence à d&apos;autres arguments de sortie.</p>
     <p>
       <b>arguments (Output,Repeating) ... end</b> déclare un seul argument de sortie répétitif.
-      Au maximum un argument de sortie répétitif est autorisé par fonction.<tt>varargout</tt> peut apparaître dans un bloc de sortie répétitif uniquement lorsqu&apos;il est le seul argument de sortie.</p>
-    <p>      Pour les arguments nom-valeur, utilisez la notation <tt>nv.name</tt> dans le bloc <b>arguments</b>,
-      où <tt>nv</tt> correspond au nom de la structure utilisé dans la signature de la fonction.</p>
+      Au maximum un argument de sortie répétitif est autorisé par fonction.<code>varargout</code> peut apparaître dans un bloc de sortie répétitif uniquement lorsqu&apos;il est le seul argument de sortie.</p>
+    <p>      Pour les arguments nom-valeur, utilisez la notation <code>nv.name</code> dans le bloc <b>arguments</b>,
+      où <code>nv</code> correspond au nom de la structure utilisé dans la signature de la fonction.</p>
     <p>      Les blocs <b>arguments</b> ne peuvent pas être utilisés dans les fonctions imbriquées, les méthodes abstraites ou les méthodes destructrices de classes handle.</p>
   </description>
   <used_function />

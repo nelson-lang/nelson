@@ -47,7 +47,7 @@
   <bibliography />
   <see_also>
     <see_also_item>
-      <link linkend="${mpi}MPI_IProbe">MPI_IProbe</link>
+      <link linkend="${mpi}MPI_Iprobe">MPI_IProbe</link>
     </see_also_item>
   </see_also>
   <history>

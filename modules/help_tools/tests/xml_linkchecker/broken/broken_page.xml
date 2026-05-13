@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<help>
+  <keyword>broken_page</keyword>
+  <short_description>Broken source page.</short_description>
+  <body>
+    <p>See <link linkend="missing_target">missing target</link>.</p>
+  </body>
+</help>
