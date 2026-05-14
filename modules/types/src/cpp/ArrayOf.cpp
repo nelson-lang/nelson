@@ -78,7 +78,7 @@ ArrayOf::copyObject(const ArrayOf& copy)
     }
 }
 //=============================================================================
-inline void
+void
 ArrayOf::deleteContents()
 {
     if (dp) {

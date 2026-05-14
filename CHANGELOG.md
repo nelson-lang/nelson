@@ -66,6 +66,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- [#1567](https://github.com/nelson-lang/nelson/issues/1585): Memory leak during scalar assignments in tight/nested loops after scalar inline-data optimization.
+
 - [#1567](https://github.com/nelson-lang/nelson/issues/1567): UTF-16LE output despite encoding='UTF-8' in fprintf builtin (Windows).
 
 - [#1564](https://github.com/nelson-lang/nelson/issues/1564): Regression: modifying copy unexpectedly alters original array.

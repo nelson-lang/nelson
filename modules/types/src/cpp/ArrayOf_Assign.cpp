@@ -792,6 +792,7 @@ ArrayOf::setVectorSubset(ArrayOf& index, ArrayOf& rightData)
             if (myDims.getElementCount() != rightData.getElementCount()) {
                 Error(_("Assignment A(:) = B requires A and B to be the same size"));
             }
+            deleteContents();
             dp = rightData.dp->getCopy();
             reshape(myDims);
             return;
@@ -929,9 +930,7 @@ ArrayOf::setValue(const ArrayOf& value)
     if (this == &value) {
         return;
     }
-    if (dp && (dp->deleteCopy() <= 1)) {
-        dp->freeDataBlock();
-    }
+    deleteContents();
     dp = value.dp->getCopy();
 }
 //=============================================================================

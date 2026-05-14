@@ -35,7 +35,7 @@ solveSVDDecompositionReal(NelsonType destinationClass, const ArrayOf& matA, cons
         ptrC, outDim.getRows(), outDim.getColumns());
 
     Eigen::JacobiSVD<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> svd(
-        matAz, Eigen::ComputeFullU | Eigen::ComputeFullV);
+        matAz, Eigen::ComputeThinU | Eigen::ComputeThinV);
     matCz = svd.solve(matBz);
     return res;
 }
