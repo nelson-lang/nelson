@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>regexp</keyword>
+  <short_description>Recherche par expression reguliere.</short_description>
+  <syntax>
+    <syntax_item>startIndex = regexp(str, expression)</syntax_item>
+    <syntax_item>[startIndex, endIndex] = regexp(str, expression)</syntax_item>
+    <syntax_item>out = regexp(str, expression, outkey)</syntax_item>
+    <syntax_item>[out1, ..., outN] = regexp(str, expression, outkey1, ..., outkeyN)</syntax_item>
+    <syntax_item>out = regexp(..., option)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>str</param_name>
+      <param_description>vecteur de caracteres, tableau de chaines ou cellule de vecteurs de caracteres.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>expression</param_name>
+      <param_description>expression reguliere.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>outkey</param_name>
+      <param_description>
+        &apos;start&apos;, &apos;end&apos;, &apos;tokenExtents&apos;, &apos;match&apos;, &apos;tokens&apos;, &apos;names&apos; ou &apos;split&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>option</param_name>
+      <param_description>
+        &apos;once&apos;, &apos;ignorecase&apos;, &apos;matchcase&apos;, &apos;emptymatch&apos;, &apos;dotexceptnewline&apos;, &apos;lineanchors&apos; ou &apos;forceCellOutput&apos;.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>out</param_name>
+      <param_description>indices, correspondances, jetons, structures de jetons nommes ou texte decoupe.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>regexp</b> recherche du texte avec des expressions regulieres compatibles PCRE.</p>
+    <p>Une expression reguliere decrit un motif plutot qu&apos;une chaine litterale. Elle est utile lorsque le texte peut varier, par exemple pour reconnaitre des identifiants, des dates, des adresses email, des nombres, des balises ou plusieurs orthographes voisines.</p>
+    <p>La demarche habituelle consiste a reperer les parties caracteristiques du texte, a traduire chaque partie en syntaxe d&apos;expression reguliere, puis a appeler <b>regexp</b> avec la cle de sortie adaptee.</p>
+    <p>Par defaut, <b>regexp</b> renvoie les indices de debut, bases sur 1, de toutes les correspondances sans recouvrement. La recherche reprend apres la fin de la correspondance precedente. L&apos;option <b>
+        &apos;once&apos;
+      </b> arrete la recherche apres la premiere correspondance.</p>
+    <p>Metacaracteres courants :</p>
+    <table style="width:100%">
+      <tr>
+        <th>Motif</th>
+        <th>Signification</th>
+        <th>Exemple</th>
+      </tr>
+      <tr>
+        <td>.</td>
+        <td>n&apos;importe quel caractere</td>
+        <td>
+          <b>
+            &apos;a.c&apos;
+          </b> reconnait <b>
+            &apos;abc&apos;
+          </b> et <b>
+            &apos;axc&apos;
+          </b>
+        </td>
+      </tr>
+      <tr>
+        <td>[abc]</td>
+        <td>un caractere parmi un ensemble</td>
+        <td>
+          <b>
+            &apos;[ch]at&apos;
+          </b> reconnait <b>
+            &apos;cat&apos;
+          </b> ou <b>
+            &apos;hat&apos;
+          </b>
+        </td>
+      </tr>
+      <tr>
+        <td>[^abc]</td>
+        <td>un caractere absent de l&apos;ensemble</td>
+        <td>
+          <b>
+            &apos;[^0-9]&apos;
+          </b> reconnait un caractere qui n&apos;est pas un chiffre</td>
+      </tr>
+      <tr>
+        <td>[a-z]</td>
+        <td>un caractere dans une plage</td>
+        <td>
+          <b>
+            &apos;[A-Z]+&apos;
+          </b> reconnait des lettres majuscules</td>
+      </tr>
+      <tr>
+        <td>\w, \W</td>
+        <td>caractere de mot ou caractere qui n&apos;est pas de mot</td>
+        <td>
+          <b>
+            &apos;\w+&apos;
+          </b> reconnait des mots et des identifiants</td>
+      </tr>
+      <tr>
+        <td>\d, \D</td>
+        <td>chiffre ou non-chiffre</td>
+        <td>
+          <b>
+            &apos;\d{4}&apos;
+          </b> reconnait quatre chiffres</td>
+      </tr>
+      <tr>
+        <td>\s, \S</td>
+        <td>espace blanc ou caractere non blanc</td>
+        <td>
+          <b>
+            &apos;\w+\s+\w+&apos;
+          </b> reconnait deux mots separes par des espaces</td>
+      </tr>
+    </table>
+    <p>Les quantificateurs indiquent combien de fois l&apos;expression precedente peut apparaitre.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Motif</th>
+        <th>Signification</th>
+      </tr>
+      <tr>
+        <td>expr*</td>
+        <td>zero fois ou plus</td>
+      </tr>
+      <tr>
+        <td>expr+</td>
+        <td>une fois ou plus</td>
+      </tr>
+      <tr>
+        <td>expr?</td>
+        <td>zero ou une fois</td>
+      </tr>
+      <tr>
+        <td>expr{m,n}</td>
+        <td>au moins <b>m</b> fois et au plus <b>n</b> fois</td>
+      </tr>
+      <tr>
+        <td>expr{m,}</td>
+        <td>au moins <b>m</b> fois</td>
+      </tr>
+      <tr>
+        <td>expr{n}</td>
+        <td>exactement <b>n</b> fois</td>
+      </tr>
+    </table>
+    <p>Les quantificateurs sont avides par defaut. Ajoutez <b>?</b> apres un quantificateur pour une correspondance minimale, par exemple <b>
+        &apos;.*?&apos;
+      </b>. Ajoutez <b>+</b> apres un quantificateur pour une correspondance possessive, par exemple <b>
+        &apos;.*+&apos;
+      </b>.</p>
+    <p>Les groupes controlent les jetons et les alternatives.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Motif</th>
+        <th>Signification</th>
+      </tr>
+      <tr>
+        <td>(expr)</td>
+        <td>groupe et capture un jeton</td>
+      </tr>
+      <tr>
+        <td>(?:expr)</td>
+        <td>groupe sans capturer de jeton</td>
+      </tr>
+      <tr>
+        <td>(?&lt;nom&gt;expr)</td>
+        <td>capture un jeton nomme</td>
+      </tr>
+      <tr>
+        <td>(expr1|expr2)</td>
+        <td>reconnait l&apos;une des deux expressions</td>
+      </tr>
+      <tr>
+        <td>\1, \2, ...</td>
+        <td>reconnait le meme texte qu&apos;un jeton deja capture</td>
+      </tr>
+    </table>
+    <p>Les ancres et assertions reconnaissent des positions plutot que des caracteres.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Motif</th>
+        <th>Signification</th>
+      </tr>
+      <tr>
+        <td>^, $</td>
+        <td>debut et fin du texte, ou debut et fin de ligne avec <b>
+            &apos;lineanchors&apos;
+          </b>
+        </td>
+      </tr>
+      <tr>
+        <td>\&lt;, \&gt;
+        </td>
+        <td>debut et fin d&apos;un mot</td>
+      </tr>
+      <tr>
+        <td>\b, \B</td>
+        <td>frontiere de mot ou absence de frontiere de mot</td>
+      </tr>
+      <tr>
+        <td>(?=expr), (?!expr)</td>
+        <td>anticipation positive ou negative</td>
+      </tr>
+      <tr>
+        <td>(?&lt;=expr), (?&lt;!expr)</td>
+        <td>retour arriere positif ou negatif</td>
+      </tr>
+    </table>
+    <p>Utilisez <b>
+        &apos;ignorecase&apos;
+      </b> pour ignorer la casse, <b>
+        &apos;dotexceptnewline&apos;
+      </b> pour que <b>.</b> ne reconnaisse pas les retours a la ligne, <b>
+        &apos;lineanchors&apos;
+      </b> pour appliquer <b>^</b> et <b>$</b> ligne par ligne, et <b>
+        &apos;forceCellOutput&apos;
+      </b> pour forcer les resultats scalaires dans des cellules.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Trouver les indices de debut et le texte reconnu.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+regexp('bat cat coat', 'c[aeiou]+t')
+regexp('She sells sea shells.', '[Ss]h.', 'match')
+regexp('01/11/2000', '(?<month>\d+)/(?<day>\d+)/(?<year>\d+)', 'names')
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Reconnaitre plusieurs unites de vitesse avec une seule expression.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+txt = ['The train traveled at 250 kilometers per hour ', ...
+       'and the car traveled at 120 km/h.'];
+pattern = 'k(ilo)?m(eters)?(/|\sper\s)h(r|our)?';
+regexp(txt, pattern, 'match')
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Extraire des adresses email depuis une cellule de texte.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+contacts = {'Harry  hparker@hmail.com'; ...
+            'Janice jan_stephens@horizon.net'; ...
+            'Jason  jason_blake@mymail.com'};
+email = '[a-z_]+@[a-z]+\.(com|net)';
+regexp(contacts, email, 'match')
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser des jetons, des jetons nommes et le decoupage.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+regexp('3.14', '(\d+)\.(\d+)', 'tokens', 'once')
+regexp('color: blue', '(?<key>\w+):\s*(?<value>\w+)', 'names')
+regexp('one, two; three', '[,;]\s*', 'split')
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${string}regexpi">regexpi</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${string}regexprep">regexprep</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${string}regexptranslate">regexptranslate</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -47,6 +47,7 @@ dependencies=(
     libsndfile
     taglib
     libgit2
+    pcre2
     hdf5
     libmatio
     eigen

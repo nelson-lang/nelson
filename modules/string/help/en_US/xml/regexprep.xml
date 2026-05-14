@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>regexprep</keyword>
+  <short_description>Replace text using regular expression.</short_description>
+  <syntax>
+    <syntax_item>newStr = regexprep(str, expression, replace)</syntax_item>
+    <syntax_item>newStr = regexprep(..., option)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>str</param_name>
+      <param_description>a character vector, string array, or cell array of character vectors.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>expression</param_name>
+      <param_description>a regular expression.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>replace</param_name>
+      <param_description>replacement text. Token references such as $1 and $&amp; are supported.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>option</param_name>
+      <param_description>
+        &apos;once&apos;, an occurrence number, &apos;ignorecase&apos;, &apos;preservecase&apos;, and other regular expression options.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>newStr</param_name>
+      <param_description>text after replacement.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>regexprep</b> replaces text matched by a regular expression. Replacement text can reference ordinal and named tokens.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[
+regexprep('a1 b2', '(\w)(\d)', '$2-$1')
+regexprep('My flowers may bloom in May', 'M(\w+)y', 'April', 'preservecase')
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${string}regexp">regexp</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${string}regexptranslate">regexptranslate</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

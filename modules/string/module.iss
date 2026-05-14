@@ -9,6 +9,9 @@
 ;==============================================================================
 #define MODULE_NAME "string"
 ;==============================================================================
+Source: {#RootPath}bin\{#BinPath}\pcre16.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\pcre32.dll; DestDir: {app}\bin\{#BinPath}\;
+;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsString.dll; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\libnlsString_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================

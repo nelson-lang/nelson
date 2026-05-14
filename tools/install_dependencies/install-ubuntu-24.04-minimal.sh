@@ -63,7 +63,8 @@ else
 fi
 
 print_status "Installing system dependencies"
-apt-get install -y apt-transport-https ca-certificates gnupg software-properties-common wget 
+apt-get install -y apt-transport-https ca-certificates gnupg software-properties-common wget \
+                   libpcre2-dev
 
 print_status "Installing math libraries"
 apt-get install -y  liblapack-dev liblapacke-dev libeigen3-dev

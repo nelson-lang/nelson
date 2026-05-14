@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>regexptranslate</keyword>
+  <short_description>Traduit du texte en expression reguliere.</short_description>
+  <syntax>
+    <syntax_item>newStr = regexptranslate(op, str)</syntax_item>
+    <syntax_item>newStr = regexptranslate(&apos;flexible&apos;, str, expression)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>op</param_name>
+      <param_description>
+        &apos;escape&apos;, &apos;wildcard&apos; ou &apos;flexible&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>str</param_name>
+      <param_description>texte a traduire.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>newStr</param_name>
+      <param_description>texte traduit.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>regexptranslate</b> echappe les caracteres speciaux ou traduit les jokers en syntaxe d&apos;expression reguliere.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[
+regexptranslate('escape', 'a+b*c?.m')
+regexptranslate('wildcard', '*.m')
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${string}regexp">regexp</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${string}regexprep">regexprep</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

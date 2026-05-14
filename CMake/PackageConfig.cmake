@@ -217,6 +217,9 @@ if(UNIX)
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libportaudio2 (>= 19.6.0)"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libpcre2-32-0"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6core6 (>= 6.4.2)"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
@@ -363,6 +366,9 @@ if(UNIX)
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libportaudio2 (>= 19+svn20101113)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libpcre2-32-0"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6core6 (>= 6.2.0)"
