@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>findobj</keyword>
+  <short_description>Find graphics objects with specific properties.</short_description>
+  <syntax>
+    <syntax_item>h = findobj()</syntax_item>
+    <syntax_item>h = findobj(prop, value)</syntax_item>
+    <syntax_item>h = findobj(objhandles, prop, value)</syntax_item>
+    <syntax_item>h = findobj(objhandles, &apos;flat&apos;, ...)</syntax_item>
+    <syntax_item>h = findobj(objhandles, &apos;-depth&apos;, d, ...)</syntax_item>
+    <syntax_item>h = findobj(..., &apos;-property&apos;, prop)</syntax_item>
+    <syntax_item>h = findobj(..., &apos;-regexp&apos;, prop, expr)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>objhandles</param_name>
+      <param_description>graphics object or array of graphics objects to search from.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>prop</param_name>
+      <param_description>property name as a character vector or scalar string.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>value</param_name>
+      <param_description>property value to match.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>d</param_name>
+      <param_description>nonnegative integer search depth, or Inf.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>expr</param_name>
+      <param_description>regular expression used to match a character property value.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>column array of matching graphics objects.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>findobj</b> searches the graphics object hierarchy from the root object or from the supplied graphics objects. Objects whose <b>HandleVisibility</b> property is <b>
+        &apos;off&apos;
+      </b>, and their descendants, are not returned.</p>
+    <p>Property predicates can be combined with <b>
+        &apos;-and&apos;
+      </b>, <b>
+        &apos;-or&apos;
+      </b>, <b>
+        &apos;-xor&apos;
+      </b>, and <b>
+        &apos;-not&apos;
+      </b>. Use cell arrays to group expressions.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[close all
+plot(rand(5))
+h = findobj('Type', 'line')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[close all
+plot(1:10, 'Tag', 'linear')
+h = findobj('-regexp', 'Tag', 'lin')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[close all
+plot(1:10, 'Tag', 'linear')
+hold on
+plot((1:10).^2, 'Tag', 'quadratic')
+h = findobj('Type', 'line', '-and', '-not', {'Tag', 'linear'})]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}groot">groot</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}gcf">gcf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}gca">gca</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}isgraphics">isgraphics</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}get">get</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}set">set</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -276,6 +276,7 @@
     <ClCompile Include="..\cpp\GOConstructorHelpers.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\figureBuiltin.cpp" />
+    <ClCompile Include="..\cpp\findobjBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\gcaBuiltin.cpp" />
     <ClCompile Include="..\cpp\gcfBuiltin.cpp" />
@@ -350,6 +351,7 @@
     <ClInclude Include="..\include\closeBuiltin.hpp" />
     <ClInclude Include="..\include\drawnowBuiltin.hpp" />
     <ClInclude Include="..\include\figureBuiltin.hpp" />
+    <ClInclude Include="..\include\findobjBuiltin.hpp" />
     <ClInclude Include="..\include\gcaBuiltin.hpp" />
     <ClInclude Include="..\include\gcfBuiltin.hpp" />
     <ClInclude Include="..\include\__getframe__Builtin.hpp" />
