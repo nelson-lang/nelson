@@ -24,14 +24,25 @@ if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
     "${_minizip_dir}/mz_compat.c"
     "${_minizip_dir}/mz_crypt.c"
     "${_minizip_dir}/mz_os.c"
-    "${_minizip_dir}/mz_os_posix.c"
-    "${_minizip_dir}/mz_strm_os_posix.c"
     "${_minizip_dir}/mz_strm.c"
     "${_minizip_dir}/mz_strm_buf.c"
     "${_minizip_dir}/mz_strm_mem.c"
     "${_minizip_dir}/mz_strm_split.c"
     "${_minizip_dir}/mz_strm_zlib.c"
     "${_minizip_dir}/mz_zip.c")
+  if(WIN32)
+    list(
+      APPEND
+      _minizip_srcs
+      "${_minizip_dir}/mz_os_win32.c"
+      "${_minizip_dir}/mz_strm_os_win32.c")
+  else()
+    list(
+      APPEND
+      _minizip_srcs
+      "${_minizip_dir}/mz_os_posix.c"
+      "${_minizip_dir}/mz_strm_os_posix.c")
+  endif()
   nelson_module_sources_from_glob(
     FILE_ARCHIVER_SRC
     DIRS

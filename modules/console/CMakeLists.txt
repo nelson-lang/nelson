@@ -27,9 +27,13 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
+      ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+      ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+      ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include)
 
 target_link_libraries(${module_library_name} PRIVATE nlsInterpreter)
+# Ensure console links to common and nelson-manager libraries required by console code
+target_link_libraries(${module_library_name} PRIVATE nlsCommons nlsNelson_manager)
 # ==============================================================================
 # Builtin library
 # ==============================================================================
@@ -49,7 +53,9 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include)
+      ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+      ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+      ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include)
 
 target_link_libraries(
   ${module_library_builtin_name}
@@ -57,7 +63,9 @@ target_link_libraries(
           nlsTypes
           nlsInterpreter
           nlsI18n
-          nlsError_manager)
+          nlsError_manager
+          nlsCommons
+          nlsNelson_manager)
 # ==============================================================================
 nelson_install_library(${module_library_name})
 nelson_install_library(${module_library_builtin_name})

@@ -34,6 +34,7 @@ use or performance of this software.
 #include "p1defs.h"
 #include "output.h"
 #include "names.h"
+#include <stdint.h>
 
 /** XXXX **/
 #define __cplusplus
@@ -102,7 +103,7 @@ Namep namep;
 p1_name(Namep namep)
 #endif
 {
-    p1putd (P1_NAME_POINTER, (long) namep);
+    fprintf(pass1_file, "%d: %lld\n", P1_NAME_POINTER, (long long)(intptr_t)namep);
     namep->visused = 1;
 } /* p1_name */
 
@@ -220,8 +221,8 @@ p1_const(register Constp cp)
                 erri("p1_const:  bad vleng '%d'\n", (int) vleng);
             }
             else
-                fprintf(pass1_file, "%d: %d %lx\n", P1_CONST, type,
-                        cpexpr((expptr)cp));
+                fprintf(pass1_file, "%d: %d %llx\n", P1_CONST, type,
+                        (unsigned long long)(uintptr_t)cpexpr((expptr)cp));
             break;
         default:
             erri ("p1_const:  bad constant type '%d'", type);
@@ -370,7 +371,7 @@ p1_label(long lab)
 {
     if (parstate < INDATA)
     {
-        earlylabs = mkchain((char *)lab, earlylabs);
+        earlylabs = mkchain((char *)(intptr_t)lab, earlylabs);
     }
     else
     {

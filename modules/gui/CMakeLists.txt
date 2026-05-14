@@ -16,7 +16,10 @@ set(CMAKE_AUTOMOC ON)
 nelson_module_sources_from_glob(
   GUI_SRC
   DIRS
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp)
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
+  EXCLUDE
+  "moc_.*\\.cpp$"
+  "qrc_.*\\.cpp$")
 
 add_library(${module_library_name} ${GUI_SRC})
 

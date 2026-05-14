@@ -4,6 +4,8 @@ set quiet := true
 
 mod install_dependencies 'just/install_dependencies_windows.just'
 mod build 'just/build_windows.just'
+mod cmake_config 'just/cmake_config_windows.just'
+mod cmake_build 'just/cmake_build_windows.just'
 mod setup_python 'just/setup_python_windows.just'
 mod setup_julia 'just/setup_julia_windows.just'
 mod build_help 'just/build_help_windows.just'

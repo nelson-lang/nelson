@@ -14,6 +14,17 @@ set(module_library_builtin_name ${module_library_name}_builtin)
 if(NOT WITH_LIBCURL AND NOT WITH_LIBGIT2)
   return()
 endif()
+
+# Support both legacy and singular Findlibgit2 variable names.
+set(_nelson_libgit2_include_dirs
+    ${LIBGIT2_INCLUDE_DIRS}
+    ${LIBGIT2_INCLUDE_DIR})
+list(REMOVE_DUPLICATES _nelson_libgit2_include_dirs)
+
+set(_nelson_libgit2_link_libs
+    ${LIBGIT2_LIBRARIES}
+    ${LIBGIT2_LIBRARY})
+list(REMOVE_DUPLICATES _nelson_libgit2_link_libs)
 # ==============================================================================
 file(
   GLOB
@@ -68,7 +79,7 @@ target_include_directories(
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE $<$<BOOL:${WITH_LIBCURL}>:${CURL_INCLUDE_DIRS}>
-          $<$<BOOL:${WITH_LIBGIT2}>:${LIBGIT2_INCLUDE_DIRS}>
+     $<$<BOOL:${WITH_LIBGIT2}>:${_nelson_libgit2_include_dirs}>
           ${CMAKE_CURRENT_SOURCE_DIR}/src/c
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
@@ -94,7 +105,7 @@ target_link_libraries(
           nlsNelson_manager
           nlsTypes
           $<$<BOOL:${WITH_LIBCURL}>:${CURL_LIBRARIES}>
-          $<$<BOOL:${WITH_LIBGIT2}>:${LIBGIT2_LIBRARIES}>)
+      $<$<BOOL:${WITH_LIBGIT2}>:${_nelson_libgit2_link_libs}>)
 # ==============================================================================
 # Builtin library
 # ==============================================================================

@@ -7,7 +7,11 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
-if("${CMAKE_BINARY_DIR}" STREQUAL "${CMAKE_SOURCE_DIR}")
+if(WIN32)
+  message(STATUS
+    "Windows build: using source tree assets and explicit bin output directory."
+  )
+elseif("${CMAKE_BINARY_DIR}" STREQUAL "${CMAKE_SOURCE_DIR}")
   message(STATUS "Build in sources tree.")
 else()
   message(STATUS "Build in binaries tree.")

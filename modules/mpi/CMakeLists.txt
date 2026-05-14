@@ -10,6 +10,25 @@
 set(module_name mpi)
 set(module_library_name nlsMpi)
 set(module_library_builtin_name ${module_library_name}_builtin)
+
+# Support both legacy and modern FindMPI variables/targets.
+set(_nelson_mpi_include_dirs
+    ${MPI_INCLUDE_PATH}
+    ${MPI_INCLUDE_DIRS}
+    ${MPI_C_INCLUDE_DIRS}
+    ${MPI_CXX_INCLUDE_DIRS})
+list(REMOVE_DUPLICATES _nelson_mpi_include_dirs)
+
+set(_nelson_mpi_link_libs
+    ${MPI_C_LIBRARIES}
+    ${MPI_CXX_LIBRARIES}
+    ${MPI_LIBRARIES})
+if(TARGET MPI::MPI_CXX)
+  list(APPEND _nelson_mpi_link_libs MPI::MPI_CXX)
+elseif(TARGET MPI::MPI_C)
+  list(APPEND _nelson_mpi_link_libs MPI::MPI_C)
+endif()
+list(REMOVE_DUPLICATES _nelson_mpi_link_libs)
 # ==============================================================================
 nelson_module_sources_from_glob(
   MPI_SRC
@@ -33,7 +52,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../function_handle/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../files_folders_functions/src/include
-          ${MPI_INCLUDE_PATH})
+          ${_nelson_mpi_include_dirs})
 
 target_link_libraries(
   ${module_library_name}
@@ -42,7 +61,7 @@ target_link_libraries(
           nlsInterpreter
           nlsSparse
           nlsTypes
-          ${MPI_C_LIBRARIES})
+      ${_nelson_mpi_link_libs})
 # ==============================================================================
 # Builtin library
 # ==============================================================================
@@ -68,7 +87,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../handle/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
-          ${MPI_INCLUDE_PATH})
+          ${_nelson_mpi_include_dirs})
 
 target_link_libraries(
   ${module_library_builtin_name}
@@ -80,7 +99,7 @@ target_link_libraries(
           nlsI18n
           nlsInterpreter
           nlsTypes
-          ${MPI_C_LIBRARIES})
+          ${_nelson_mpi_link_libs})
 # ==============================================================================
 nelson_install_library(${module_library_name})
 nelson_install_library(${module_library_builtin_name})
