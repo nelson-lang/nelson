@@ -46,6 +46,7 @@
 #include "validatecolorBuiltin.hpp"
 #include "waitforbuttonpressBuiltin.hpp"
 #include "waitforBuiltin.hpp"
+#include "findobjBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -132,6 +133,7 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN },
     { "waitfor", (ptrBuiltin)Nelson::GraphicsGateway::waitforBuiltin, 0, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "findobj", (ptrBuiltin)Nelson::GraphicsGateway::findobjBuiltin, 1, -1, CPP_BUILTIN },
 };
 //=============================================================================
 static bool

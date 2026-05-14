@@ -323,6 +323,7 @@
     <ClInclude Include="..\include\ContourPoint.hpp" />
     <ClInclude Include="..\include\DrawNow.hpp" />
     <ClInclude Include="..\include\EqGraphicsObjects.hpp" />
+    <ClInclude Include="..\include\FindObj.hpp" />
     <ClInclude Include="..\include\GetFrame.hpp" />
     <ClInclude Include="..\include\GOAlignHorizProperty.hpp" />
     <ClInclude Include="..\include\GOAlignVertProperty.hpp" />
@@ -415,6 +416,7 @@
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\DrawNow.cpp" />
     <ClCompile Include="..\cpp\EqGraphicsObjects.cpp" />
+    <ClCompile Include="..\cpp\FindObj.cpp" />
     <ClCompile Include="..\cpp\GetFrame.cpp" />
     <ClCompile Include="..\cpp\GOAlignHorizProperty.cpp" />
     <ClCompile Include="..\cpp\GOAlignVertProperty.cpp" />

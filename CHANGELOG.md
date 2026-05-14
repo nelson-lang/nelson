@@ -48,6 +48,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added support for multi-line comments in the interpreter, editor, debugger, and headcomments.
 
+- [#813](https://github.com/nelson-lang/nelson/issues/813): `findobj` Find graphics objects with specific properties.
+
 - Dedicated Windows Terminal profile installed for the application.
 
 - MacOS packaging as dmg installer.
@@ -69,13 +71,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#1567](https://github.com/nelson-lang/nelson/issues/1585): Memory leak during scalar assignments in tight/nested loops after scalar inline-data optimization.
 
 - [#1567](https://github.com/nelson-lang/nelson/issues/1567): UTF-16LE output despite encoding='UTF-8' in fprintf builtin (Windows).
-
 - [#1564](https://github.com/nelson-lang/nelson/issues/1564): Regression: modifying copy unexpectedly alters original array.
-
 - [#1550](https://github.com/nelson-lang/nelson/issues/1550): getpid('available') did not work as expected.
-
 - [#1547](https://github.com/nelson-lang/nelson/issues/1547): Parsing of ~= operator with spaces was not working correctly, causing it to be misinterpreted as a matrix row separator.
-
 - unresolved cross-references in Nelson help XML files.
 
 ## 1.16.0 - (2025-12-27)
