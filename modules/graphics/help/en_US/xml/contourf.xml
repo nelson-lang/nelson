@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>contourf</keyword>
+  <short_description>Filled contour plot of matrix</short_description>
+  <syntax>
+    <syntax_item>contourf(Z)</syntax_item>
+    <syntax_item>contourf(X, Y, Z)</syntax_item>
+    <syntax_item>contourf(..., levels)</syntax_item>
+    <syntax_item>contourf(..., LineSpec)</syntax_item>
+    <syntax_item>contourf(ax, ...)</syntax_item>
+    <syntax_item>M = contourf(...)</syntax_item>
+    <syntax_item>[M, h] = contourf(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>x-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>y-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>z-coordinates: numeric matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>levels</param_name>
+      <param_description>Contour levels: scalar count, vector of levels, or [k k] for one level.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineSpec</param_name>
+      <param_description>Line style and color.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Parent axes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>M</param_name>
+      <param_description>Contour matrix.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>Contour graphics object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>contourf</b> draws filled contour bands for the values in <b>Z</b>. The returned contour matrix matches the object&apos;s <b>ContourMatrix</b> property.</p>
+    <p>The contour object supports line, fill, transparency, label, and contour-level properties including <b>FaceColor</b>, <b>FaceAlpha</b>, <b>ShowText</b>, <b>LabelColor</b>, <b>LabelSpacing</b>, <b>LabelFormat</b>, <b>TextList</b>, <b>TextStep</b>, and <b>ZLocation</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_description>Draw filled contours.</example_item_description>
+      <example_item_data runnable="adv-cli" language="matlab"><![CDATA[figure();
+[X,Y,Z] = peaks(40);
+[M,h] = contourf(X,Y,Z,10);
+h.FaceAlpha = 0.75;]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_description>Draw filled contours.</example_item_description>
+      <example_item_data runnable="adv-cli" language="matlab"><![CDATA[x = linspace(-2*pi, 2*pi, 100);
+y = linspace(-2*pi, 2*pi, 100);
+[X, Y] = meshgrid(x, y);
+Z = sin(X) .* cos(Y);
+figure;
+contourf(X, Y, Z, 20);
+colorbar;
+title('Demo contourf');
+xlabel('X');
+ylabel('Y');
+colormap parula;]]></example_item_data>
+      <example_item_img
+        src="../../images/contourf.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}contour">contour</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}contourc">contourc</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}contour3">contour3</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}clabel">clabel</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

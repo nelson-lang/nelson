@@ -83,6 +83,15 @@ C.LineWidth = 3;]]></example_item_data>
       <link linkend="${graphics}contour">contour</link>
     </see_also_item>
     <see_also_item>
+      <link linkend="${graphics}contourc">contourc</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}contourf">contourf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}clabel">clabel</link>
+    </see_also_item>
+    <see_also_item>
       <link linkend="${graphics}surf">surf</link>
     </see_also_item>
     <see_also_item>

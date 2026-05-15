@@ -58,3 +58,10 @@ ax = axes('Parent',fig);
 C_only = contour(ax, X, Y, Z); % returns contour matrix when assigned
 t8 = clabel(Cmat, h, 'Visible', 'off');
 %=============================================================================
+fig = figure();
+ax = axes('Parent',fig);
+[Cfilled, hfilled] = contourf(ax, X, Y, Z, 5, 'ShowText', 'on');
+t9 = clabel([], hfilled);
+assert_isequal(class(t9), 'graphics_object');
+assert_isequal(Cfilled, hfilled.ContourMatrix);
+%=============================================================================

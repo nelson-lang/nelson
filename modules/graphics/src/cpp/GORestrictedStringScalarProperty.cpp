@@ -7,10 +7,29 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <cerrno>
+#include <cwchar>
+#include <cwctype>
 #include "GORestrictedStringScalarProperty.hpp"
 #include "GOPropertyValues.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static bool
+parseWideDouble(const std::wstring& str, double& value)
+{
+    const wchar_t* begin = str.c_str();
+    wchar_t* end = nullptr;
+    errno = 0;
+    value = wcstod(begin, &end);
+    if (end == begin || errno == ERANGE) {
+        return false;
+    }
+    while (*end != L'\0' && iswspace(*end)) {
+        ++end;
+    }
+    return *end == L'\0';
+}
 //=============================================================================
 double
 GORestrictedStringScalarProperty::scalar()
@@ -39,13 +58,15 @@ GORestrictedStringScalarProperty::set(ArrayOf arg)
     GOGenericProperty::set(arg);
     if (arg.isRowVectorCharacterArray() || (arg.isStringArray() && arg.isScalar())) {
         std::wstring str = arg.getContentAsWideString();
-        try {
-            double num = wcstod(str.c_str(), nullptr);
+        double num = 0;
+        if (parseWideDouble(str, num)) {
+            data(GO_PROPERTY_VALUE_SCALAR_STR);
             _scalar = num;
-        } catch (const std::invalid_argument&) {
+        } else {
             GORestrictedStringProperty::set(arg);
         }
     } else {
+        data(GO_PROPERTY_VALUE_SCALAR_STR);
         _scalar = arg.getContentAsDoubleScalar();
     }
 }
