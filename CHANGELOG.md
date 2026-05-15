@@ -50,6 +50,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [#813](https://github.com/nelson-lang/nelson/issues/813): `findobj` Find graphics objects with specific properties.
 
+- `contourf`, `contourc`, Filled contour plot of matrix.
+
 - Dedicated Windows Terminal profile installed for the application.
 
 - help engine extending to manage subchapters.

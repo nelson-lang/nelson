@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>contourc</keyword>
+  <short_description>Contour matrix computation</short_description>
+  <syntax>
+    <syntax_item>M = contourc(Z)</syntax_item>
+    <syntax_item>M = contourc(X, Y, Z)</syntax_item>
+    <syntax_item>M = contourc(..., levels)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>x-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>y-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>z-coordinates: numeric matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>levels</param_name>
+      <param_description>Contour levels: scalar count, vector of levels, or [k k] for one level.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>M</param_name>
+      <param_description>Two-row contour matrix.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>contourc</b> computes the contour matrix used by contour plotting functions without creating axes, figures, or graphics objects.</p>
+    <p>Each contour segment starts with a header column. The first row contains the contour level and the second row contains the number of points in that segment. The following columns contain x and y point coordinates.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_description>Compute contour lines for a matrix.</example_item_description>
+      <example_item_data runnable="cli" language="matlab"><![CDATA[Z = peaks(20);
+M = contourc(Z, 5)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}contour">contour</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}contourf">contourf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}contour3">contour3</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

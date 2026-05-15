@@ -301,6 +301,7 @@
     <ClCompile Include="..\cpp\waitforBuiltin.cpp" />
     <ClCompile Include="..\cpp\waitforbuttonpressBuiltin.cpp" />
     <ClCompile Include="..\cpp\__contour__Builtin.cpp" />
+    <ClCompile Include="..\cpp\__contourc__Builtin.cpp" />
     <ClCompile Include="..\cpp\__hggroup__Builtin.cpp" />
     <ClCompile Include="..\cpp\__image__Builtin.cpp" />
     <ClCompile Include="..\cpp\__line__Builtin.cpp" />
@@ -380,6 +381,7 @@
     <ClInclude Include="..\include\waitforBuiltin.hpp" />
     <ClInclude Include="..\include\waitforbuttonpressBuiltin.hpp" />
     <ClInclude Include="..\include\__contour__Builtin.hpp" />
+    <ClInclude Include="..\include\__contourc__Builtin.hpp" />
     <ClInclude Include="..\include\__hggroup__Builtin.hpp" />
     <ClInclude Include="..\include\__image__Builtin.hpp" />
     <ClInclude Include="..\include\__line__Builtin.hpp" />

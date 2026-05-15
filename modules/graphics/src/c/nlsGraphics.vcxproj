@@ -320,6 +320,7 @@
     <ClInclude Include="..\include\BaseFigureQt.hpp" />
     <ClInclude Include="..\include\CloseFigure.hpp" />
     <ClInclude Include="..\include\ColoredPoint.hpp" />
+    <ClInclude Include="..\include\ContourGenerator.hpp" />
     <ClInclude Include="..\include\ContourPoint.hpp" />
     <ClInclude Include="..\include\DrawNow.hpp" />
     <ClInclude Include="..\include\EqGraphicsObjects.hpp" />
@@ -404,6 +405,7 @@
     <ClInclude Include="..\include\GOVectorThreeDoubleProperty.hpp" />
     <ClInclude Include="..\include\GOVectorTwoDoubleProperty.hpp" />
     <ClInclude Include="..\include\GOWindow.hpp" />
+    <ClInclude Include="..\include\GOZLocationProperty.hpp" />
     <ClInclude Include="..\include\GraphicsObject.hpp" />
     <ClInclude Include="..\include\GraphicsObjectDisplay.hpp" />
     <ClInclude Include="..\include\nlsGraphics_exports.h" />
@@ -416,6 +418,7 @@
     <ClCompile Include="..\cpp\BaseFigureQt.cpp" />
     <ClCompile Include="..\cpp\CallExportGraphicsGui.cpp" />
     <ClCompile Include="..\cpp\CloseFigure.cpp" />
+    <ClCompile Include="..\cpp\ContourGenerator.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\DrawNow.cpp" />
     <ClCompile Include="..\cpp\EqGraphicsObjects.cpp" />
@@ -499,6 +502,7 @@
     <ClCompile Include="..\cpp\GOVectorTwoDoubleProperty.cpp" />
     <ClCompile Include="..\cpp\GOWindow.cpp" />
     <ClCompile Include="..\cpp\GOWindowStateProperty.cpp" />
+    <ClCompile Include="..\cpp\GOZLocationProperty.cpp" />
     <ClCompile Include="..\cpp\GraphicsObject.cpp" />
     <ClCompile Include="..\cpp\GraphicsObjectDisplay.cpp" />
     <ClCompile Include="..\cpp\IsValidGraphicsProperty.cpp" />

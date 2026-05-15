@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>contourc</keyword>
+  <short_description>Calcul de matrice de contours</short_description>
+  <syntax>
+    <syntax_item>M = contourc(Z)</syntax_item>
+    <syntax_item>M = contourc(X, Y, Z)</syntax_item>
+    <syntax_item>M = contourc(..., levels)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>Coordonnees x : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>Coordonnees y : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>Coordonnees z : matrice numerique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>levels</param_name>
+      <param_description>Niveaux de contours : nombre de niveaux, vecteur de niveaux ou [k k] pour un seul niveau.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>M</param_name>
+      <param_description>Matrice de contours a deux lignes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>contourc</b> calcule la matrice de contours utilisee par les fonctions de trace, sans creer de figure, d&apos;axes ou d&apos;objet graphique.</p>
+    <p>Chaque segment commence par une colonne d&apos;en-tete. La premiere ligne contient le niveau et la deuxieme le nombre de points. Les colonnes suivantes contiennent les coordonnees x et y.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_description>Calculer les contours d&apos;une matrice.</example_item_description>
+      <example_item_data runnable="cli" language="matlab"><![CDATA[Z = peaks(20);
+M = contourc(Z, 5)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}contour">contour</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}contourf">contourf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}contour3">contour3</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

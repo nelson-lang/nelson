@@ -15,77 +15,12 @@ function varargout = contour(varargin)
   % contour(..., LineSpec)
   % M = contour(...)
   % [M, c] = contour(...)
-  inputArguments = convertStringToCharArgs(varargin);
-  if nargin == 0
-    error(_('Wrong number of input arguments.'));
-  end
-  ax = [];
-  if ((length(inputArguments{1})==1) && isgraphics(inputArguments{1},'axes'))
-    ax = inputArguments{1};
-    inputArguments = inputArguments(2:end);
-  else
+  [ax, contourProperties] = parseContourArguments(varargin, false);
+  if isempty(ax)
     ax = newplot();
   end
   axes(ax);
-  
-  if (length(inputArguments) == 0)
-    error(_('Wrong number of input arguments.'));
-  end
-  % contour(..., LineSpec)
-  [ps, cs, ms, msg] = colstyle(inputArguments{end}, 'plot', false);
-  propertiesList = struct();    
-  r = isempty(msg);
-  if (r)
-    inputArguments(end) = [];
-    propertiesList.LineStyle = ps;
-    if isempty(cs)
-      propertiesList.EdgeColor = 'flat';
-    else
-      propertiesList.EdgeColor = cs;
-    end
-  end
-  
-  if (length(inputArguments) == 1)
-    propertiesList.ZData = inputArguments{1};
-    inputArguments = {};
-  end
-  if (length(inputArguments) == 2)
-    if (numel(inputArguments{2}) == 1)
-      propertiesList.ZData = inputArguments{1};
-      zMin = min(propertiesList.ZData, [], 'all');
-      zMax = max(propertiesList.ZData, [], 'all');
-      propertiesList.LevelList = linspace(zMin, zMax, inputArguments{2});
-    else
-      propertiesList.ZData = inputArguments{1};
-      propertiesList.LevelList = inputArguments{2};
-    end
-    inputArguments = {};
-  end
-  if (length(inputArguments) == 3)
-    propertiesList.XData = inputArguments{1};
-    propertiesList.YData = inputArguments{2};
-    propertiesList.ZData = inputArguments{3};
-    inputArguments = {};
-  end
-  if (length(inputArguments) >= 4)
-    propertiesList.XData = inputArguments{1};
-    propertiesList.YData = inputArguments{2};
-    propertiesList.ZData = inputArguments{3};
-    if (numel(inputArguments{4}) == 1)
-      zMin = min(propertiesList.ZData(:));
-      zMax = max(propertiesList.ZData(:));
-      propertiesList.LevelList = linspace(zMin, zMax, inputArguments{4});
-    else
-      propertiesList.LevelList = inputArguments{4};
-    end
-    if length(inputArguments) > 4
-      inputArguments = inputArguments(5:end);
-    else
-      inputArguments = {};
-    end
-  end
-  contourProperties = reshape([fieldnames(propertiesList)'; struct2cell(propertiesList)'], 1, []);
-  contourProperties = [contourProperties, inputArguments];
+
   h = __contour__(contourProperties{:});
   axes(ax);
   if (strcmp(ax.XLimMode, 'auto') && strcmp(ax.YLimMode, 'auto'))

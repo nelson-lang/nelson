@@ -842,6 +842,11 @@ RenderQt::drawPatch(const FaceList& faces, double lineWidth, const std::wstring&
     if (faces.size() == 0) {
         return;
     }
+    bool noEdges = (lineStyle == GO_PROPERTY_VALUE_NONE_STR) || (lineWidth <= 0.);
+    bool antialiasing = pnt->testRenderHint(QPainter::Antialiasing);
+    if (noEdges && antialiasing) {
+        pnt->setRenderHint(QPainter::Antialiasing, false);
+    }
 
     const size_t kMaxVertices = 1000000;
     size_t reserveSize
@@ -866,7 +871,11 @@ RenderQt::drawPatch(const FaceList& faces, double lineWidth, const std::wstring&
                 QColor((int)(face.vertexcolors[0].r * 255), (int)(face.vertexcolors[0].g * 255),
                     (int)(face.vertexcolors[0].b * 255), (int)(face.vertexcolors[0].a * 255)));
         }
-        if (face.EdgeColorMode == ColorMode::ColorSpec) {
+        if (noEdges || face.EdgeColorMode == ColorMode::None) {
+            QPen pen(pnt->pen());
+            pen.setStyle(Qt::NoPen);
+            pnt->setPen(pen);
+        } else if (face.EdgeColorMode == ColorMode::ColorSpec) {
             QPen pen((QColor((int)(face.EdgeColor.r * 255), (int)(face.EdgeColor.g * 255),
                 (int)(face.EdgeColor.b * 255), (int)(face.EdgeColor.a * 255))));
             pen.setWidthF(lineWidth);
@@ -908,6 +917,9 @@ RenderQt::drawPatch(const FaceList& faces, double lineWidth, const std::wstring&
         if (sub.size() >= 3) {
             pnt->drawPolygon(sub);
         }
+    }
+    if (noEdges && antialiasing) {
+        pnt->setRenderHint(QPainter::Antialiasing, true);
     }
 }
 //=============================================================================

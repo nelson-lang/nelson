@@ -104,4 +104,6 @@
 #define GO_PROPERTY_VALUE_ROWMAJOR_STR L"rowmajor"
 #define GO_PROPERTY_VALUE_COLUMNMAJOR_STR L"columnmajor"
 #define GO_PROPERTY_VALUE_TILED_LAYOUT_STR L"tiledlayout"
+#define GO_PROPERTY_VALUE_ZMAX_STR L"zmax"
+#define GO_PROPERTY_VALUE_ZMIN_STR L"zmin"
 //=============================================================================

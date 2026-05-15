@@ -16,6 +16,7 @@
 #include "__image__Builtin.hpp"
 #include "__patch__Builtin.hpp"
 #include "__contour__Builtin.hpp"
+#include "__contourc__Builtin.hpp"
 #include "__view__Builtin.hpp"
 #include "__hggroup__Builtin.hpp"
 #include "__zoom__Builtin.hpp"
@@ -70,6 +71,8 @@ static const nlsGateway gateway[] = {
     { "__patch__", (ptrBuiltin)Nelson::GraphicsGateway::__patch__Builtin, -1, 1, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },
     { "__contour__", (ptrBuiltin)Nelson::GraphicsGateway::__contour__Builtin, -1, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { "__contourc__", (ptrBuiltin)Nelson::GraphicsGateway::__contourc__Builtin, 1, 4, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },
     { "__hggroup__", (ptrBuiltin)Nelson::GraphicsGateway::__hggroup__Builtin, -1, 1, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },
