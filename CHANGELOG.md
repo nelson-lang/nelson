@@ -48,6 +48,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added support for multi-line comments in the interpreter, editor, debugger, and headcomments.
 
+- `regexp`, `regexpi`, `regexprep`,  `regextranslate`: regexp functions added.
+
 - [#813](https://github.com/nelson-lang/nelson/issues/813): `findobj` Find graphics objects with specific properties.
 
 - Dedicated Windows Terminal profile installed for the application.

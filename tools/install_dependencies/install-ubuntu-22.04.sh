@@ -74,6 +74,7 @@ apt-get install -y \
     zlib1g-dev \
     libcurl4-openssl-dev \
     libgit2-dev \
+    libpcre2-dev \
     libboost-all-dev \
     libeigen3-dev \
     libhdf5-dev \

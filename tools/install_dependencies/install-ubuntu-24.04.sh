@@ -64,7 +64,7 @@ fi
 print_status "Installing system dependencies"
 apt-get install -y apt-transport-https ca-certificates gnupg software-properties-common wget \
                    xvfb zlib1g-dev libffi-dev libicu-dev libxml2-dev libxslt1-dev libsqlite3-dev \
-                   libgl-dev libcurl4-openssl-dev libgit2-dev libtbb-dev
+                   libgl-dev libcurl4-openssl-dev libgit2-dev libtbb-dev libpcre2-dev
 
 print_status "Installing math libraries"
 apt-get install -y libopenblas-openmp-dev liblapack-dev liblapacke-dev libfftw3-dev \

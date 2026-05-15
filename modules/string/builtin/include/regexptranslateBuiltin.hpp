@@ -7,26 +7,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+#pragma once
 //=============================================================================
-#ifdef _MSC_VER
-#pragma comment(lib, "pcre16.lib")
-#endif
+#include "ArrayOf.hpp"
 //=============================================================================
-int WINAPI
-DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
-{
-    switch (reason) {
-    case DLL_PROCESS_ATTACH:
-        break;
-    case DLL_PROCESS_DETACH:
-        break;
-    case DLL_THREAD_ATTACH:
-        break;
-    case DLL_THREAD_DETACH:
-        break;
-    }
-    return 1;
-}
+namespace Nelson::StringGateway {
+//=============================================================================
+ArrayOfVector
+regexptranslateBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+} // namespace Nelson::StringGateway
 //=============================================================================

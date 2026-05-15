@@ -44,6 +44,9 @@
 #include "isletterBuiltin.hpp"
 #include "joinBuiltin.hpp"
 #include "strjustBuiltin.hpp"
+#include "regexpBuiltin.hpp"
+#include "regexprepBuiltin.hpp"
+#include "regexptranslateBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -63,6 +66,13 @@ static const nlsGateway gateway[] = {
     { "toupper", (ptrBuiltin)Nelson::StringGateway::toupperBuiltin, 1, 1 },
     { "upper", (ptrBuiltin)Nelson::StringGateway::toupperBuiltin, 1, 1 },
     { "strfind", (ptrBuiltin)Nelson::StringGateway::strfindBuiltin, 1, 2 },
+    { "regexp", (ptrBuiltin)Nelson::StringGateway::regexpBuiltin, -1, -2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "regexpi", (ptrBuiltin)Nelson::StringGateway::regexpiBuiltin, -1, -2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "regexprep", (ptrBuiltin)Nelson::StringGateway::regexprepBuiltin, 1, -3,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "regexptranslate", (ptrBuiltin)Nelson::StringGateway::regexptranslateBuiltin, 1, -2 },
     { "int2str", (ptrBuiltin)Nelson::StringGateway::int2strBuiltin, 1, 1 },
     { "num2str", (ptrBuiltin)Nelson::StringGateway::num2strBuiltin, 1, 2 },
     { "str2double", (ptrBuiltin)Nelson::StringGateway::str2doubleBuiltin, 1, 1 },

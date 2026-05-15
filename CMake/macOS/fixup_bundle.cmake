@@ -126,9 +126,12 @@ set(_dlopen_lib_names
 # Search paths for dlopen-loaded libraries
 set(_dlopen_search_paths
   "$ENV{HOMEBREW_PREFIX}/lib"
+  "$ENV{HOMEBREW_PREFIX}/opt/pcre2/lib"
   "$ENV{CONDA_PREFIX}/lib"
   "/opt/homebrew/lib"
+  "/opt/homebrew/opt/pcre2/lib"
   "/usr/local/lib"
+  "/usr/local/opt/pcre2/lib"
 )
 
 foreach(_dlib IN LISTS _dlopen_lib_names)
@@ -461,8 +464,11 @@ foreach(_sp
   IN
   ITEMS
   "$ENV{HOMEBREW_PREFIX}/lib"
+  "$ENV{HOMEBREW_PREFIX}/opt/pcre2/lib"
   "/opt/homebrew/lib"
+  "/opt/homebrew/opt/pcre2/lib"
   "/usr/local/lib"
+  "/usr/local/opt/pcre2/lib"
   "$ENV{CONDA_PREFIX}/lib"
 )
   if(_sp AND IS_DIRECTORY "${_sp}")

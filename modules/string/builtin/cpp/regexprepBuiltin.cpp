@@ -7,26 +7,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+#include "regexprepBuiltin.hpp"
+#include "RegularExpression.hpp"
 //=============================================================================
-#ifdef _MSC_VER
-#pragma comment(lib, "pcre16.lib")
-#endif
+using namespace Nelson;
 //=============================================================================
-int WINAPI
-DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)
+ArrayOfVector
+Nelson::StringGateway::regexprepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    switch (reason) {
-    case DLL_PROCESS_ATTACH:
-        break;
-    case DLL_PROCESS_DETACH:
-        break;
-    case DLL_THREAD_ATTACH:
-        break;
-    case DLL_THREAD_DETACH:
-        break;
-    }
-    return 1;
+    return RegexPrepBuiltin(eval, nLhs, argIn);
 }
 //=============================================================================

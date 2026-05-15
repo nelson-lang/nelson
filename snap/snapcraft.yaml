@@ -117,6 +117,7 @@ parts:
       - zlib1g-dev
       - libcurl4-openssl-dev
       - libgit2-dev
+      - libpcre2-dev
       - libeigen3-dev
       - libmatio-dev
       - libboost-all-dev
@@ -176,6 +177,7 @@ parts:
       - libicu74
       - libcurl4
       - libgit2-1.7
+      - libpcre2-32-0
       - libgif7
       - libmatio11
       - libqt6concurrent6

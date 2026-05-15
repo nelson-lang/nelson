@@ -49,7 +49,7 @@ fi
 
 # Install libraries and dependencies by category
 print_status "Installing core libraries"
-install_packages boost-libs boost libffi icu zlib curl libgit2
+install_packages boost-libs boost libffi icu zlib curl libgit2 pcre2
 
 # Install Qt dependencies
 print_status "Installing Qt dependencies"
