@@ -9,31 +9,37 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "GOGenericProperty.hpp"
-#include "ArrayOf.hpp"
 #include "nlsGraphics_exports.h"
+#include "GraphicsObject.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class NLSGRAPHICS_IMPEXP GOArrayOfProperty : public GOGenericProperty
+// Lightweight sub-object corresponding to ax.Layout in MATLAB.
+// Holds the tile placement info for an axes or other object inside a
+// TiledChartLayout.  Exposed to Nelson as ax.Layout.Tile and
+// ax.Layout.TileSpan.
+class NLSGRAPHICS_IMPEXP GOLayoutOptions : public GraphicsObject
 {
-protected:
-    ArrayOf _data;
-
 public:
-    GOArrayOfProperty() : _data(ArrayOf::emptyConstructor()) { }
-    ~GOArrayOfProperty() override = default;
-    ArrayOf
-    get() override;
-    void
-    set(ArrayOf m) override;
-    ArrayOf
-    data();
-    void
-    data(const ArrayOf& m);
+    GOLayoutOptions();
+    ~GOLayoutOptions() override = default;
+
     std::wstring
-    toWideString() override;
+    getType() override;
+
+    void
+    registerProperties() override;
+
+    void
+    updateState() override
+    {
+    }
+
+    void
+    paintMe(RenderInterface& /*gc*/) override
+    {
+    }
 };
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

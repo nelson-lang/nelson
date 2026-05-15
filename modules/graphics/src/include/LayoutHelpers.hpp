@@ -9,31 +9,14 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "GOGenericProperty.hpp"
-#include "ArrayOf.hpp"
 #include "nlsGraphics_exports.h"
+#include "GOAxis.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class NLSGRAPHICS_IMPEXP GOArrayOfProperty : public GOGenericProperty
-{
-protected:
-    ArrayOf _data;
-
-public:
-    GOArrayOfProperty() : _data(ArrayOf::emptyConstructor()) { }
-    ~GOArrayOfProperty() override = default;
-    ArrayOf
-    get() override;
-    void
-    set(ArrayOf m) override;
-    ArrayOf
-    data();
-    void
-    data(const ArrayOf& m);
-    std::wstring
-    toWideString() override;
-};
+NLSGRAPHICS_IMPEXP void
+setLayoutOptions(GOAxis* ax, int64 axHandle, int tileNum, int spanRows, int spanCols,
+    const std::wstring& edgeTile);
 //=============================================================================
-};
+}
 //=============================================================================

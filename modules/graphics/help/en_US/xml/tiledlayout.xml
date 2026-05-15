@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>tiledlayout</keyword>
+  <short_description>Create tiled chart layout.</short_description>
+  <syntax>
+    <syntax_item>t = tiledlayout</syntax_item>
+    <syntax_item>t = tiledlayout(m, n)</syntax_item>
+    <syntax_item>t = tiledlayout(arrangement)</syntax_item>
+    <syntax_item>t = tiledlayout(parent, ...)</syntax_item>
+    <syntax_item>t = tiledlayout(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>m</param_name>
+      <param_description>Number of tile rows: positive integer.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>Number of tile columns: positive integer.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>arrangement</param_name>
+      <param_description>
+        &apos;flow&apos; or &apos;vertical&apos; or &apos;horizontal&apos;: automatic arrangement mode.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>Parent figure handle.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>Property name: &apos;TileSpacing&apos;, &apos;Padding&apos;, &apos;TileIndexing&apos;, or other layout property.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Property value corresponding to the property name.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>t</param_name>
+      <param_description>TiledChartLayout graphics object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>tiledlayout</b> creates a tiled chart layout in the current figure for displaying multiple plots in a grid arrangement.</p>
+    <p>
+      <b>tiledlayout</b> with no input arguments creates a flow layout.</p>
+    <p>
+      <b>tiledlayout(m, n)</b> creates a layout with m rows and n columns of tiles.</p>
+    <p>
+      <b>tiledlayout(&apos;flow&apos;)</b> creates a layout that automatically adjusts the grid as axes are added. <b>tiledlayout(&apos;vertical&apos;)</b> stacks axes from top to bottom, and <b>tiledlayout(&apos;horizontal&apos;)</b> stacks axes from left to right.</p>
+    <p>Use <b>nexttile</b> to create axes within the layout.</p>
+    <p>Properties:</p>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>
+          <b>GridSize</b>
+        </td>
+        <td>[m, n] grid dimensions. This property can be set only while the layout is empty; setting it manually changes TileArrangement to &apos;fixed&apos;.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>TileArrangement</b>
+        </td>
+        <td>Read-only arrangement: &apos;fixed&apos;, &apos;flow&apos;, &apos;vertical&apos;, or &apos;horizontal&apos;.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>TileSpacing</b>
+        </td>
+        <td>Spacing between tiles: &apos;loose&apos;, &apos;compact&apos;, &apos;tight&apos;, or &apos;none&apos;. The legacy value &apos;normal&apos; is accepted as &apos;loose&apos;.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Padding</b>
+        </td>
+        <td>Padding around the layout: &apos;loose&apos;, &apos;compact&apos;, or &apos;tight&apos;. The legacy value &apos;normal&apos; is accepted as &apos;loose&apos;, and &apos;none&apos; is accepted as &apos;tight&apos;.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>TileIndexing</b>
+        </td>
+        <td>Tile numbering order: &apos;rowmajor&apos; or &apos;columnmajor&apos;.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Title</b>, <b>Subtitle</b>, <b>XLabel</b>, <b>YLabel</b>
+        </td>
+        <td>Layout-owned text objects used by title, xlabel, and ylabel.</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>2-by-2 tiled layout</example_item_description>
+      <example_item_data><![CDATA[t = tiledlayout(2, 2);
+ax1 = nexttile;
+plot(ax1, 1:10, (1:10).^2);
+ax2 = nexttile;
+plot(ax2, 1:10, sqrt(1:10));
+t.TileSpacing = 'compact';
+]]></example_item_data>
+      <example_item_img
+        src="../../images/tiledlayout.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="nexttile">nexttile</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="tilenum">tilenum</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="tilerowcol">tilerowcol</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="subplot">subplot</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

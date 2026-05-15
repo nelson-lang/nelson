@@ -146,10 +146,16 @@ GOImage::updateState()
 {
     GOAxis* ax = getParentAxis();
     GOFigure* fig = getParentFigure();
-    if (hasChanged(GO_C_DATA_PROPERTY_NAME_STR) || ax->hasChanged(GO_C_LIM_PROPERTY_NAME_STR)
-        || fig->hasChanged(GO_COLOR_MAP_PROPERTY_NAME_STR)
-        || ax->hasChanged(GO_COLOR_MAP_PROPERTY_NAME_STR)
-        || hasChanged(GO_C_DATA_MAPPING_PROPERTY_NAME_STR)) {
+    bool updateImage = hasChanged(GO_C_DATA_PROPERTY_NAME_STR)
+        || hasChanged(GO_C_DATA_MAPPING_PROPERTY_NAME_STR);
+    if (ax) {
+        updateImage = updateImage || ax->hasChanged(GO_C_LIM_PROPERTY_NAME_STR)
+            || ax->hasChanged(GO_COLOR_MAP_PROPERTY_NAME_STR);
+    }
+    if (fig) {
+        updateImage = updateImage || fig->hasChanged(GO_COLOR_MAP_PROPERTY_NAME_STR);
+    }
+    if (updateImage) {
         updateCAlphadata();
         limitsDirty = true;
     }
@@ -185,8 +191,14 @@ GOImage::paintMe(RenderInterface& gc)
     GOTwoVectorProperty* xp = (GOTwoVectorProperty*)findProperty(GO_X_DATA_PROPERTY_NAME_STR);
     GOTwoVectorProperty* yp = (GOTwoVectorProperty*)findProperty(GO_Y_DATA_PROPERTY_NAME_STR);
     GOAxis* ax = getParentAxis();
+    if (!ax || !xp || !yp) {
+        return;
+    }
     GOTwoVectorProperty* xLim = (GOTwoVectorProperty*)ax->findProperty(GO_X_LIM_PROPERTY_NAME_STR);
     GOTwoVectorProperty* yLim = (GOTwoVectorProperty*)ax->findProperty(GO_Y_LIM_PROPERTY_NAME_STR);
+    if (!xLim || !yLim) {
+        return;
+    }
     bool xFlip = (ax->stringCheck(GO_X_DIR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_REVERSE_STR));
     bool yFlip = (ax->stringCheck(GO_Y_DIR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_REVERSE_STR));
     gc.drawImage(xp->data(), yp->data(), xLim->data(), yLim->data(), xFlip, yFlip, img);
@@ -196,17 +208,30 @@ std::vector<double>
 GOImage::getAlphaMap(indexType rows, indexType cols)
 {
     GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_ALPHA_DATA_PROPERTY_NAME_STR);
+    if (!hp) {
+        return std::vector<double>(rows * cols, 1.0);
+    }
     std::vector<double> alphain(hp->data());
     std::vector<double> alphaout;
     alphaout.reserve(rows * cols);
-    std::vector<double> amap(((GraphicsObject*)getParentFigure())
-            ->findVectorDoubleProperty(GO_ALPHA_MAP_PROPERTY_NAME_STR));
+    GOFigure* fig = getParentFigure();
+    GOAxis* ap = getParentAxis();
+    if (!fig || !ap) {
+        return std::vector<double>(rows * cols, 1.0);
+    }
+    std::vector<double> amap(
+        ((GraphicsObject*)fig)->findVectorDoubleProperty(GO_ALPHA_MAP_PROPERTY_NAME_STR));
     indexType amaplen((indexType)amap.size());
-    GOAxis* ap(getParentAxis());
     std::vector<double> alim(
         ((GraphicsObject*)ap)->findVectorDoubleProperty(GO_A_LIM_PROPERTY_NAME_STR));
+    if (alim.size() < 2) {
+        alim = { 0.0, 1.0 };
+    }
     double alim_min(std::min(alim[0], alim[1]));
     double alim_max(std::max(alim[0], alim[1]));
+    if (amaplen == 0) {
+        return std::vector<double>(rows * cols, 1.0);
+    }
     int increment;
     if (alphain.size() == 0) {
         for (indexType i = 0; i < rows * cols; i++) {
@@ -234,6 +259,13 @@ GOImage::getAlphaMap(indexType rows, indexType cols)
         }
     } else {
         alphaout.resize(rows * cols);
+        if (!(alim_max > alim_min)) {
+            OMP_PARALLEL_FOR_LOOP(rows * cols)
+            for (indexType i = 0; i < rows * cols; i++) {
+                alphaout[i] = amap[0];
+            }
+            return alphaout;
+        }
         OMP_PARALLEL_FOR_LOOP(rows * cols)
         for (indexType i = 0; i < rows * cols; i++) {
             indexType ndx = (indexType)alphain[i * increment] - 1;
@@ -251,10 +283,16 @@ GOImage::RGBExpandImage(const double* dp, indexType rows, indexType cols, bool f
 {
     double* ret = new double[rows * cols * 3];
     GOAxis* ap(getParentAxis());
+    if (!ap) {
+        return ret;
+    }
     std::vector<double> cmap(
         ((GraphicsObject*)ap)->findVectorDoubleProperty(GO_COLOR_MAP_PROPERTY_NAME_STR));
     std::vector<double> clim(
         ((GraphicsObject*)ap)->findVectorDoubleProperty(GO_C_LIM_PROPERTY_NAME_STR));
+    if (clim.size() < 2) {
+        return ret;
+    }
     double clim_min(std::min(clim[0], clim[1]));
     double clim_max(std::max(clim[0], clim[1]));
     if (std::fabs(clim_min - clim_max) < std::numeric_limits<double>::epsilon()) {

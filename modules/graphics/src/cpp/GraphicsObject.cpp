@@ -123,7 +123,7 @@ GraphicsObject::findProperty(const std::wstring& name, bool raiseError)
 void
 GraphicsObject::setGoProperty(const std::wstring& name, int64 value)
 {
-    GOGObjectsProperty* hp = static_cast<GOGObjectsProperty*>(findProperty(name));
+    GOGObjectsProperty* hp = static_cast<GOGObjectsProperty*>(findProperty(name, false));
     if (hp) {
         std::vector<int64> newval;
         newval.push_back(value);
@@ -135,22 +135,32 @@ GOAxis*
 GraphicsObject::getParentAxis()
 {
     GOGObjectsProperty* parent
-        = static_cast<GOGObjectsProperty*>(findProperty(GO_PARENT_PROPERTY_NAME_STR));
-    if (parent->data().empty()) {
+        = static_cast<GOGObjectsProperty*>(findProperty(GO_PARENT_PROPERTY_NAME_STR, false));
+    if (!parent || parent->data().empty()) {
         return nullptr;
     }
-    unsigned parent_handle = parent->data()[0];
-    GraphicsObject* fp = findGraphicsObject(parent_handle);
+    int64 parent_handle = parent->data()[0];
+    if (parent_handle < HANDLE_OFFSET_OBJECT) {
+        return nullptr;
+    }
+    GraphicsObject* fp = findGraphicsObject(parent_handle, false);
+    if (!fp) {
+        return nullptr;
+    }
     GOStringProperty* name
         = static_cast<GOStringProperty*>(fp->findProperty(GO_TYPE_PROPERTY_NAME_STR));
     if (!name) {
         return nullptr;
     }
     if (name->isEqual(GO_PROPERTY_VALUE_HGGROUP_STR)) {
-        GOGObjectsProperty* hgGroupParent
-            = static_cast<GOGObjectsProperty*>(fp->findProperty(GO_PARENT_PROPERTY_NAME_STR));
-        if (hgGroupParent) {
-            fp = findGraphicsObject(hgGroupParent->data()[0]);
+        GOGObjectsProperty* hgGroupParent = static_cast<GOGObjectsProperty*>(
+            fp->findProperty(GO_PARENT_PROPERTY_NAME_STR, false));
+        if (hgGroupParent && !hgGroupParent->data().empty()
+            && hgGroupParent->data()[0] >= HANDLE_OFFSET_OBJECT) {
+            fp = findGraphicsObject(hgGroupParent->data()[0], false);
+            if (!fp) {
+                return nullptr;
+            }
             name = static_cast<GOStringProperty*>(fp->findProperty(GO_TYPE_PROPERTY_NAME_STR));
             if (!name) {
                 return nullptr;
@@ -166,22 +176,25 @@ GraphicsObject::getParentAxis()
 GOFigure*
 GraphicsObject::getParentFigure()
 {
-    GOAxis* hp = nullptr;
-    if (stringCheck(GO_TYPE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AXES_STR)) {
-        hp = static_cast<GOAxis*>(this);
-    } else {
-        hp = getParentAxis();
+    GraphicsObject* current = this;
+    int guard = 0;
+    while (current && guard < 64) {
+        GOGObjectsProperty* parent = static_cast<GOGObjectsProperty*>(
+            current->findProperty(GO_PARENT_PROPERTY_NAME_STR, false));
+        if (!parent || parent->data().empty()) {
+            return nullptr;
+        }
+        int64 parent_handle = parent->data()[0];
+        if (parent_handle == HANDLE_ROOT_OBJECT || parent_handle == 0) {
+            return nullptr;
+        }
+        if (parent_handle < HANDLE_OFFSET_OBJECT) {
+            return findGOFigure(parent_handle);
+        }
+        current = findGraphicsObject(parent_handle, false);
+        ++guard;
     }
-    if (!hp) {
-        return nullptr;
-    }
-    GOGObjectsProperty* parent
-        = static_cast<GOGObjectsProperty*>(hp->findProperty(GO_PARENT_PROPERTY_NAME_STR));
-    if (!parent || parent->data().empty()) {
-        return nullptr;
-    }
-    unsigned parent_handle = parent->data()[0];
-    return findGOFigure(parent_handle);
+    return nullptr;
 }
 //=============================================================================
 std::wstring

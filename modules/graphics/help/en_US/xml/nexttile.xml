@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nexttile</keyword>
+  <short_description>Create axes in tiled chart layout.</short_description>
+  <syntax>
+    <syntax_item>ax = nexttile</syntax_item>
+    <syntax_item>ax = nexttile(span)</syntax_item>
+    <syntax_item>ax = nexttile(tilenum)</syntax_item>
+    <syntax_item>ax = nexttile(tilenum, span)</syntax_item>
+    <syntax_item>ax = nexttile(edge)</syntax_item>
+    <syntax_item>ax = nexttile(t, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description>TiledChartLayout object.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tilenum</param_name>
+      <param_description>Tile position: positive integer index or edge location string (&apos;north&apos;, &apos;south&apos;, &apos;east&apos;, &apos;west&apos;).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>span</param_name>
+      <param_description>Span of the axes: [r, c] where r is number of rows and c is number of columns to span.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ax</param_name>
+      <param_description>Axes graphics object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>nexttile</b> creates an axes in the next available tile of the current tiled layout. If no layout exists, one is created automatically.</p>
+    <p>
+      <b>nexttile(tilenum)</b> creates or returns existing axes at the specified tile number. If the selected tile is the upper-left tile of an existing spanned axes, that axes is returned. If the selected tile is in the middle of a span, the old axes is replaced.</p>
+    <p>
+      <b>nexttile(span)</b> creates axes spanning multiple tiles, specified as [rows, cols], using the first empty region that can contain the span.</p>
+    <p>
+      <b>nexttile(tilenum, span)</b> returns an existing axes only when it occupies exactly the requested tile region; otherwise overlapping axes are replaced.</p>
+    <p>
+      <b>nexttile(&apos;north&apos;)</b>, <b>nexttile(&apos;south&apos;)</b>, <b>nexttile(&apos;east&apos;)</b>, and <b>nexttile(&apos;west&apos;)</b> create or return one-tile-thick edge axes around the central grid.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create a 2-by-2 layout and fill tiles</example_item_description>
+      <example_item_data><![CDATA[t = tiledlayout(2, 2);
+for k = 1:4
+  ax = nexttile;
+  plot(ax, rand(1, 10));
+end
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="tiledlayout">tiledlayout</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="tilenum">tilenum</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="tilerowcol">tilerowcol</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

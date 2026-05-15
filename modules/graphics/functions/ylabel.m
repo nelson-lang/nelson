@@ -13,7 +13,21 @@ function varargout = ylabel(varargin)
     error(_('ylabel needs at least one argument.'));
   end
   inputArguments = convertStringToCharArgs(varargin);
-  if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
+  if (isscalar(inputArguments{1}) && isgraphics(inputArguments{1}, 'tiledlayout'))
+    t = inputArguments{1};
+    inputArguments = inputArguments(2:end);
+    h = t.YLabel;
+    set(h, 'String', inputArguments{1}, ...
+    'HorizontalAlignment', 'center', ...
+    'VerticalAlignment', 'bottom', ...
+    'Position', [0, 0.5, 0], ...
+    'Rotation', 90, ...
+    inputArguments{2:end});
+    if nargout == 1
+      varargout{1} = h;
+    end
+    return;
+  elseif (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
     ax = inputArguments{1};
     inputArguments = inputArguments(2:end);
   else

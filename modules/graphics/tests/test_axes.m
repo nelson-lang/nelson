@@ -64,6 +64,7 @@ REF = {'ALim';
 'HitTest';
 'Interruptible';
 'Layer';
+'Layout';
 'LineStyleOrder';
 'LineStyleOrderIndex';
 'LineWidth';

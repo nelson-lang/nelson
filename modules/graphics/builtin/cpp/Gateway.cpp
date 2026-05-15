@@ -47,6 +47,10 @@
 #include "waitforbuttonpressBuiltin.hpp"
 #include "waitforBuiltin.hpp"
 #include "findobjBuiltin.hpp"
+#include "tiledlayoutBuiltin.hpp"
+#include "nexttileBuiltin.hpp"
+#include "tilenumBuiltin.hpp"
+#include "tilerowcolBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -134,6 +138,10 @@ static const nlsGateway gateway[] = {
     { "waitfor", (ptrBuiltin)Nelson::GraphicsGateway::waitforBuiltin, 0, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "findobj", (ptrBuiltin)Nelson::GraphicsGateway::findobjBuiltin, 1, -1, CPP_BUILTIN },
+    { "tiledlayout", (ptrBuiltin)Nelson::GraphicsGateway::tiledlayoutBuiltin, 1, 0, CPP_BUILTIN },
+    { "nexttile", (ptrBuiltin)Nelson::GraphicsGateway::nexttileBuiltin, 1, 0, CPP_BUILTIN },
+    { "tilenum", (ptrBuiltin)Nelson::GraphicsGateway::tilenumBuiltin, 1, 1, CPP_BUILTIN },
+    { "tilerowcol", (ptrBuiltin)Nelson::GraphicsGateway::tilerowcolBuiltin, 2, 1, CPP_BUILTIN },
 };
 //=============================================================================
 static bool

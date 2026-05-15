@@ -161,6 +161,9 @@ getTicksInner(double amin, double amax, bool isLog, int requestedCounts)
             astep *= 2.0;
             nsteps = arange / astep;
         }
+        if (nsteps > 1.0 && nsteps <= 2.5) {
+            astep /= 2.0;
+        }
         if (nsteps <= 1) {
             astep /= 5.0;
         }
@@ -272,6 +275,9 @@ getTicksOuter(double amin, double amax, bool isLog, int requestedCounts)
         if (nsteps > 5) {
             astep *= 2.0;
             nsteps = arange / astep;
+        }
+        if (nsteps > 1.0 && nsteps <= 2.5) {
+            astep /= 2.0;
         }
         if (nsteps <= 1) {
             astep /= 5.0;

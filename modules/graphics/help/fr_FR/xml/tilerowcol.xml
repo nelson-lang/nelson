@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tilerowcol</keyword>
+  <short_description>Obtenir les indices ligne et colonne à partir d&apos;un numéro de tuile ou d&apos;un objet graphique.</short_description>
+  <syntax>
+    <syntax_item>[row, col] = tilerowcol(t, tilenum)</syntax_item>
+    <syntax_item>[row, col] = tilerowcol(obj)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description>Objet TiledChartLayout.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tilenum</param_name>
+      <param_description>Numéro de tuile : entier positif ou tableau.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>Objet graphique (axes) créé par nexttile.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>row</param_name>
+      <param_description>Indice de ligne : entier positif, ou NaN pour les tuiles invalides ou de bord.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>col</param_name>
+      <param_description>Indice de colonne : entier positif, ou NaN pour les tuiles invalides ou de bord.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>tilerowcol(t, tilenum)</b> retourne les indices de ligne et de colonne pour le numéro de tuile donné dans la disposition TiledChartLayout t.</p>
+    <p>
+      <b>tilerowcol(obj)</b> retourne la ligne et la colonne de la tuile occupée par l&apos;objet axes obj.</p>
+    <p>Retourne NaN pour les numéros de tuile hors limites ou pour les axes de tuile de bord.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Obtenir la ligne et la colonne à partir du numéro de tuile</example_item_description>
+      <example_item_data><![CDATA[t = tiledlayout(2, 3);
+[row, col] = tilerowcol(t, 4)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="tiledlayout">tiledlayout</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="nexttile">nexttile</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="tilenum">tilenum</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

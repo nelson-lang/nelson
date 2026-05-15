@@ -293,6 +293,10 @@
     <ClCompile Include="..\cpp\isgraphicsBuiltin.cpp" />
     <ClCompile Include="..\cpp\isValidGraphicsPropertyBuiltin.cpp" />
     <ClCompile Include="..\cpp\refreshBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tiledlayoutBuiltin.cpp" />
+    <ClCompile Include="..\cpp\nexttileBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tilenumBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tilerowcolBuiltin.cpp" />
     <ClCompile Include="..\cpp\validatecolorBuiltin.cpp" />
     <ClCompile Include="..\cpp\waitforBuiltin.cpp" />
     <ClCompile Include="..\cpp\waitforbuttonpressBuiltin.cpp" />
@@ -368,6 +372,10 @@
     <ClInclude Include="..\include\isgraphicsBuiltin.hpp" />
     <ClInclude Include="..\include\isValidGraphicsPropertyBuiltin.hpp" />
     <ClInclude Include="..\include\refreshBuiltin.hpp" />
+    <ClInclude Include="..\include\tiledlayoutBuiltin.hpp" />
+    <ClInclude Include="..\include\nexttileBuiltin.hpp" />
+    <ClInclude Include="..\include\tilenumBuiltin.hpp" />
+    <ClInclude Include="..\include\tilerowcolBuiltin.hpp" />
     <ClInclude Include="..\include\validatecolorBuiltin.hpp" />
     <ClInclude Include="..\include\waitforBuiltin.hpp" />
     <ClInclude Include="..\include\waitforbuttonpressBuiltin.hpp" />

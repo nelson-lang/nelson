@@ -15,10 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Separate validation blocks for input and output arguments
   - Improved error messages for invalid function arguments
 
-- help engine extending to manage subchapters.
-
-- `xmldoclinkchecker` Checks unresolved cross-references in Nelson help XML files.
-
 - Debugger Support
 
   - Full breakpoint management with commands: `dbstop`, `dbstep`, `dbcont`, `dbquit`, `dbclear`, `dbdown`, `dbup`, `dbstatus`.
@@ -50,9 +46,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `regexp`, `regexpi`, `regexprep`,  `regextranslate`: regexp functions added.
 
+- `tiledlayout`, `nexttile`, `tilenum`, `tilerowcol` layout management.
+
 - [#813](https://github.com/nelson-lang/nelson/issues/813): `findobj` Find graphics objects with specific properties.
 
 - Dedicated Windows Terminal profile installed for the application.
+
+- help engine extending to manage subchapters.
+
+- `xmldoclinkchecker` Checks unresolved cross-references in Nelson help XML files.
 
 - MacOS packaging as dmg installer.
 
@@ -70,8 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- [#1567](https://github.com/nelson-lang/nelson/issues/1585): Memory leak during scalar assignments in tight/nested loops after scalar inline-data optimization.
-
+- [#1585](https://github.com/nelson-lang/nelson/issues/1585): Memory leak during scalar assignments in tight/nested loops after scalar inline-data optimization.
 - [#1567](https://github.com/nelson-lang/nelson/issues/1567): UTF-16LE output despite encoding='UTF-8' in fprintf builtin (Windows).
 - [#1564](https://github.com/nelson-lang/nelson/issues/1564): Regression: modifying copy unexpectedly alters original array.
 - [#1550](https://github.com/nelson-lang/nelson/issues/1550): getpid('available') did not work as expected.
